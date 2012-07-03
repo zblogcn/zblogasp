@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<plugin>
+<id>ThemeSapper</id>
+<name>Theme Sapper</name>
+<url>http://bbs.rainbowsoft.org/thread-19258-1-2.html</url>
+<note>提供了编辑主题信息, 安全删除主题, 导入导出主题, 在线安装升级主题等功能.</note>
+<type>inline</type>
+<path>main.asp</path>
+<include>include.asp</include>
+<level>1</level>
+<author>
+	<name>haphic</name>
+	<url>http://haphic.com/</url>
+	<email>haphic@gmail.com</email>
+</author>
+<version>1.2.8</version>
+<adapted>Z-Blog 1.8</adapted>
+<pubdate>2007-12-15</pubdate>
+<modified>2009-4-1</modified>
+</plugin>
