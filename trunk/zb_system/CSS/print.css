@@ -1,0 +1,259 @@
+﻿/*--------------------------全--局-------------------------------*/
+body{
+	margin:0;
+	padding:0;
+	background:#D3D3D3;
+	color:#000000;
+	font-size:12px;
+}
+a{
+	color: black;
+	text-decoration: none;
+}
+a:link {
+	color: black;
+	text-decoration: underline;
+}
+a:visited {
+	color: black;
+	text-decoration: underline;
+}
+
+ul{
+	list-style-type:none;
+	list-style-position : outside;
+	margin:0 0 0 0;
+	padding:0 0 0 0;
+	word-break:break-all;
+}
+li{
+	margin:0 0 0 0;
+	padding:0 0 0 0;
+}
+p{
+	margin:0 0 0 0;
+	padding:0 0 0 0;
+	word-break:break-all;
+}
+img{
+	border:0;
+}
+
+/*---------------------------------------------------------------*/
+#divAll{
+	width:640px;
+	margin:0 auto;
+	padding:0
+}
+
+#divPage{
+	width:100%;
+	margin:0;
+	padding:0;
+}
+
+#divMiddle{
+	width:100%;
+	margin:0;
+	padding:0;
+}
+
+#divTop{
+	width:100%;
+	margin:0 auto;
+	padding:0 0 10px 0;
+	border-bottom:3px double black;
+}
+
+#divNavBar{
+	display:none;
+}
+
+#divSidebar{
+	display:none;
+}
+
+#divMain{
+	width:94%;
+	margin:20px 3% 20px 3%;
+	padding:0;
+}
+
+#divBottom{
+	border-top:3px double black;
+	width:100%;
+	margin:0 auto;
+	padding:10px 0 0 0;
+}
+
+/*---------------------------------------------------------------*/
+
+
+div.post {
+	width:100%;
+	margin:10px 0 10px 0;
+	padding:0 0 0 0;
+	text-align:left;
+}
+
+div.post-nav{
+	display:none;
+}
+
+div.post .post-title{
+	width:100%;
+	margin:5px 0 5px 0;
+	padding:5px 0 5px 0;
+	font-size:16px;
+}
+div.post .post-date{
+	width:100%;
+	margin:5px 0 5px 0;
+	padding:0 0 0 0;
+	font-size:12px;
+	text-align:right;
+}
+
+div.post .post-footer{
+	width:100%;
+	margin:5px 0 5px 0;
+	padding:0 0 0 0;
+	font-size:12px;
+	text-align:right;
+}
+
+div.post div.post-body{
+	width:100%;
+	margin:5px 0 5px 0;
+	padding:5px 0 5px 0;
+	font-size:13px;
+	word-break:break-all;
+	text-align:left;
+	line-height:150%;
+	border-top: 1px solid black;
+	border-bottom: 1px solid black;
+}
+
+div.post-body img{
+	padding:4px 4px 4px 4px;
+	border:0;
+	clear : both;
+	float : none;
+}
+
+div.post-body p{
+	margin:10px 0 15px 0;
+	padding:0;
+}
+div.post-body p.img{
+	margin:0;
+	padding:0;
+	text-align:center;
+}
+div.post-body p.inscript{
+	margin:0;
+	padding:0;
+	padding-right:20px;
+	text-align:right;
+}
+div.post-body p.code{
+	padding:5px;
+	border:1px dotted black;
+}
+
+div.post-body h1{
+	color: #000000;
+	margin:0;
+	padding:0;
+	font-size:16px;
+	text-align:center;
+}
+div.post-body h2{
+	color: #000000;
+	margin:0;
+	padding:0;
+	font-size:14px;
+	text-align:center;
+}
+div.post-body h3{
+	color: #000000;
+	margin:0;
+	padding:0;
+	font-size:13px;
+	text-align:center;
+}
+div.post-body h4{
+	color: #000000;
+	margin:0;
+	padding:0;
+	font-size:12px;
+	text-align:center;
+}
+div.post-body h5{
+	color: #000000;
+	margin:0;
+	padding:0;
+	font-size:11px;
+	text-align:center;
+}
+div.post-body h6{
+	color: #000000;
+	margin:0;
+	padding:0;
+	font-size:10px;
+	text-align:center;
+}
+
+/*---------------------------------------------------------------*/
+#BlogTitle{
+	font-size:24px;
+	text-align:center;
+}
+#BlogSubTitle{
+	display:none;
+}
+#BlogPowerBy{
+	font-size:12px;
+}
+#BlogCopyRight{
+	font-size:12px;
+}
+
+
+
+
+/*---------------------------------------------------------------*/
+#divCommentPost {
+	display:none;
+}
+
+
+
+
+/*---------------------------------------------------------------*/
+ul.msg{
+	width:100%;
+	margin:0 0 10px 0;
+	padding:0;
+	text-align:left;
+	list-style-position : outside;
+	border:1px solid silver;
+}
+ul.msg img{
+	display:none;
+}
+ul.msg li{
+	padding:5px;
+}
+li.msgname{
+	border-bottom:1px solid black;
+}
+li.tbname{
+	border-bottom:1px solid black;
+}
+li.msgurl{
+	text-align:right;
+}
+li.msgtime{
+	text-align:right;
+}
