@@ -1,92 +1,334 @@
 <%
 '///////////////////////////////////////////////////////////////////////////////
 '//              Z-Blog
-'// 作    者:    朱煊(zx.asd)&(sipo)
+'// 作    者:    朱煊(zx.asd)&(sipo)&(月上之木)
 '// 版权所有:    RainbowSoft Studio
 '// 技术支持:    rainbowsoft@163.com
 '// 程序名称:    
 '// 程序版本:    
-'// 单元名称:    c_function_wap.asp
-'// 开始时间:    2006-3-19
-'// 最后修改:    2007-1-24
+'// 单元名称:    c_system_wap.asp
+'// 开始时间:    2006-03-19
+'// 最后修改:    2011-08-03
 '// 备    注:    WAP函数模块
 '///////////////////////////////////////////////////////////////////////////////
 
 
 
-Function WapDelArt()
-	Response.Write WapTitle(ZC_MSG063)
-	call DelArticle(Request.QueryString("id"))
-	Call MakeBlogReBuild_Core()
-	Response.Write "<a href="""&unescape(Request.QueryString("url"))&""">"&ZC_MSG065&"</a><br/>"
-	'Response.Write "<a href="""&WapLoginStr&"&amp;act=BlogReBuild"">"&ZC_MSG072&"</a><br/>"
-End Function
-
-Function WapDelCom()
-	Response.Write WapTitle(ZC_MSG063)
-	Call MakeBlogReBuild_Core()
-	call DelComment(Request.QueryString("id"),Request.QueryString("log_id"))
-	Response.Write "<a href="""&unescape(Request.QueryString("url"))&""">"&ZC_MSG065&"</a><br/>"
-	'Response.Write "<a href="""&WapLoginStr&"&amp;act=BlogReBuild"">"&ZC_MSG072&"</a><br/>"
-End Function
-
-Function WapPostArt()
-	Response.Write WapTitle(ZC_MSG168)
-	Call MakeBlogReBuild_Core()
-	call PostArticle_WAP
-	'Response.Write "<a href="""&WapLoginStr&"&amp;act=BlogReBuild"">"&ZC_MSG072&"</a><br/>"
+'*********************************************************
+' 目的：    主页
+'*********************************************************
+Function WapMain()
+		
+		Response.Write WapExport(Request("page"),Request("cate"),Request("auth"),Request("date"),Request("tags"),ZC_DISPLAY_MODE_ALL)
+		Response.Write WapExportBar(Request("page"),intPageCount,Request("cate"),Request("auth"),Request("date"),Request("tags"),Request("q"))
+		
+		WapNav()
+				
 End Function
 
 
-Function PostArticle_WAP()
+'*********************************************************
+' 目的：    搜索
+'*********************************************************
+Function WapSearch()
 
-	Dim s
-	Dim objRegExp
-
-	If Request.Form("edtID")<>"0" Then
-		Dim objTestArticle
-		Set objTestArticle=New TArticle
-		If objTestArticle.LoadInfobyID(Request.Form("edtID")) Then
-			If Not((objTestArticle.AuthorID=BlogUser.ID) Or (CheckRights("Root")=True)) Then Exit Function
-		Else
-			Call ShowError(9)
+		Response.Write WapExport(Request("page"),Request("cate"),Request("auth"),Request("date"),Request("tags"),ZC_DISPLAY_MODE_SEARCH)
+		Response.Write WapExportBar(Request("page"),intPageCount,Request("cate"),Request("auth"),Request("date"),Request("tags"),Request("q"))
+		
+		WapNav()
+				
+End Function
+'*********************************************************
+' 目的：    导航
+'*********************************************************
+Function WapNav()
+		Response.Write "<div class=""t2""></div>"		
+		Response.Write "<div id=""nav"">"
+		If BlogUser.Level>3 Then		
+		Response.Write "<a  accesskey=""0""  href="""&WapUrlStr&"?act=Login"">"&ZC_MSG009&"</a><b>|</b>"
+		End If		
+		Response.Write "<a  accesskey=""7""  href="""&WapUrlStr&"?act=Com"">"&ZC_MSG027&"</a><b>|</b>"		
+'		Response.Write "<p>5 <a  accesskey=""5""  href="""&WapUrlStr&"?act=Prev"">"&ZC_MSG032&"</a></p>"
+		If Not ZC_DISPLAY_CATE_ALL_WAP Then
+		Response.Write "8 <a  accesskey=""6""  href="""&WapUrlStr&"?act=Cate"">"&ZC_MSG214&"</a><b>|</b>"
+		End If 
+'		Response.Write "<p>7 <a  accesskey=""7""  href="""&WapUrlStr&"?act=Stat"">"&ZC_MSG029&"</a></p>"	
+		If BlogUser.Level<=3 Then
+		Response.Write "<a  accesskey=""8""  href="""&WapUrlStr&"?act=AddArt"">"&ZC_MSG168&"</a><b>|</b>"	
 		End If
-	End If
+'		Response.Write "<p>9 <a  accesskey=""9""  href="""&WapUrlStr&""">"&ZC_MSG213&"</a></p>"
+		Response.Write "<a  accesskey=""*""  href="""&ZC_BLOG_HOST&""">电脑版</a>"		
+		Response.Write "</div><div class=""adm"">" &WapCheckLogin
+		Response.Write "</div>"
+End Function
 
-	Dim objArticle
-	Set objArticle=New TArticle
-	objArticle.ID=Request.Form("edtID")
-	objArticle.CateID=Request.Form("edtCateID")
-	objArticle.AuthorID=Request.Form("edtAuthorID")
-	objArticle.Level=Request.Form("edtLevel")
-	objArticle.PostTime=Request.Form("edtYear") & "-" & Request.Form("edtMonth") & "-" & Request.Form("edtDay") & " " &  Request.Form("edtTime")
-	objArticle.Title=Request.Form("edtTitle")
-	objArticle.Tag=ParseTag(Request.Form("edtTag"))
-	objArticle.Alias=Request.Form("edtAlias")
-	objArticle.Istop=Request.Form("edtIstop")
 
-	objArticle.Intro=Request.Form("txaIntro")
+'*********************************************************
+' 目的：    查看分类
+'*********************************************************
+Function WapCate()
+	Dim Category
+	Response.Write WapTitle(ZC_MSG214,"")
+	Response.Write "<ul>"
+		For Each Category in Categorys
+			If IsObject(Category) Then
+				Response.Write "<li>"&Category.ID&".<a href="""&WapUrlStr&"?act=Main&amp;cate="&Category.ID&""">"&TransferHTML(Category.Name,"[html-format]")&"</a>("&Category.Count&")</li>"
+			End If
+		Next
+	Response.Write "</ul>"	
+	WapNav()	
+End Function
 
-	objArticle.Content=Request.Form("txaContent")
 
-	If objArticle.Post Then
-		Call BuildArticle(objArticle.ID,True,True)
-		Call MakeBlogReBuild_Core()
-		PostArticle_WAP=True
+'*********************************************************
+' 目的：    最新发表
+'*********************************************************
+Function WapPrev()
+	Response.Write  WapTitle(ZC_MSG032,"")
+	Response.Write  "<ul>" & LoadFromFile(BlogPath & "/INCLUDE/previous.asp","utf-8") & "</ul>"
+	WapNav()
+End Function
+
+
+'*********************************************************
+' 目的：    查看站点统计
+'*********************************************************
+Function WapStat()
+	Response.Write  WapTitle(ZC_MSG026,"")
+	Response.Write  "<ul>" & LoadFromFile(BlogPath & "/INCLUDE/statistics.asp","utf-8") & "</ul>"
+	WapNav()
+End Function
+
+
+'*********************************************************
+' 目的：    查看标题-页头
+'*********************************************************
+Public Function WapTitle(strCom,strBrowserTitle)
+
+	If strBrowserTitle="" Then strBrowserTitle=strCom
+
+	WapTitle = "<title>" &strBrowserTitle& "</title>"&vbCrLf
+	WapTitle = WapTitle & "</head>"&vbCrLf
+	WapTitle = WapTitle & "<body>"&vbCrLf
+	WapTitle = WapTitle & "<h1>"&ZC_BLOG_TITLE&"</h1>"
+	If ZC_DISPLAY_CATE_ALL_WAP Then 
+		Dim Category
+		WapTitle = WapTitle & "<div class=""h"">"
+		    WapTitle = WapTitle & "<a href="""&WapUrlStr&""">"&ZC_MSG213&"</a><b>|</b>"
+			For Each Category in Categorys
+				If IsObject(Category) Then
+					WapTitle = WapTitle & "<a href="""&WapUrlStr&"?act=Main&amp;cate="&Category.ID&""">"&TransferHTML(Category.Name,"[html-format]")&"</a><b>|</b>"
+				End If
+			Next
+		WapTitle = Left(WapTitle, Len(WapTitle)-8) & "</div>"	
+	End If 
+
+	If IsEmpty(Request.QueryString("act")) Then 
+	WapTitle = WapTitle & "<form action="""&WapUrlStr&""" method=""get"">"
+    WapTitle = WapTitle & "    <div class=""srh"">"
+	WapTitle = WapTitle & "	<input type=""hidden"" name=""act"" value=""Search"">"
+    WapTitle = WapTitle & "    <input type=""text"" class=""i"" name=""q"" value="""" id=""q"">"
+    WapTitle = WapTitle & "   <input type=""submit"" name=""submit"" value=""搜"">"
+    WapTitle = WapTitle & "    </div>"
+	WapTitle = WapTitle & "</form>"
+	End If 
+
+	If strCom<>"" Then WapTitle = WapTitle & "<h2 class=""t1"">"&strCom&"</h2>"
+
+End Function
+
+
+
+'*********************************************************
+' 目的：    Wap页面地址
+'*********************************************************
+Function WapUrlStr()
+   WapUrlStr=ZC_BLOG_HOST&ZC_FILENAME_WAP
+End Function
+
+
+
+
+'*********************************************************
+' 目的：    登录页面
+'*********************************************************
+Function WapLogin()
+	Dim User,Password
+
+	User=Request.Form("username")
+	Password=Request.Form("password")
+	Call CheckParameter(User,"sql",Empty)
+	Call CheckParameter(Password,"sql",Empty)
+
+	If IsEmpty(User) OR IsEmpty(Password) Then
+		Response.Write WapTitle(ZC_MSG009,"")
+		Response.Write "    <form method=""post"" action="""&WapUrlStr&"?act=Login""> "
+		Response.Write "	<p>"&ZC_MSG001&"：<input type=""text"" name=""username"" size=""12"" value="""" /></p>"
+		Response.Write "	<p>"&ZC_MSG002&"：<input type=""password"" name=""password"" size=""12"" value="""" /></p>"
+		Response.Write "	<p><input name=""btnSumbit"" type=""submit"" value="""&ZC_MSG087&"""/> </p> "
+		Response.Write "	</form> "
+	Else
+		Response.Cookies("password")=md5(Password)
+		Response.Cookies("password").Expires=Date+365
+		session(ZC_BLOG_CLSID&"password")=md5(Password)
+		Response.Cookies("username")=User
+		Response.Cookies("username").Expires=Date+365
+		session(ZC_BLOG_CLSID&"username")=User
+		
+
+		If BlogUser.Verify=False Then
+			Call ShowError(8)
+		Else
+			Response.Write WapMain()
+		End If
+
 	End If
 
 End Function
 
 
+
+'*********************************************************
+' 目的：    检查登录
+'*********************************************************
+Function WapCheckLogin()
+	Dim username,password,s
+		username=Request.Form("username")
+		password=Request.Form("password")
+	If (Not IsEmpty(Request.Cookies("username"))) And (Not IsEmpty(Request.Cookies("password"))) Then
+		username=Request.Cookies("username")
+		password=Request.Cookies("password")
+		session(ZC_BLOG_CLSID&"username")=username
+		session(ZC_BLOG_CLSID&"password")=password
+	ElseIf (Not IsEmpty(session(ZC_BLOG_CLSID&"username"))) And (Not IsEmpty(session(ZC_BLOG_CLSID&"password"))) Then
+		username=session(ZC_BLOG_CLSID&"username")
+		password=session(ZC_BLOG_CLSID&"password")
+		Request.Cookies("username")=username
+		Request.Cookies("password")=password
+	End If
+
+	BlogUser.LoginType="Self"
+	BlogUser.Password=password
+	BlogUser.Name=username
+	BlogUser.Verify
+
+
+
+	s=BlogUser.Name&" "&ZVA_User_Level_Name(BlogUser.Level)&""
+	If BlogUser.ID<>0 Then
+		s=s&" <a href="""&WapUrlStr&"?act=Logout"">"&ZC_MSG020&"</a>"
+	Else
+		s=""
+	End If
+
+	If s<>"" Then 
+		WapCheckLogin=s
+	Else
+		WapCheckLogin=""
+	End If
+		   
+End Function
+
+
+
+'*********************************************************
+' 目的：    退出登录
+'*********************************************************
+Function WapLogout()
+
+	Response.Cookies("username")=""
+	Response.Cookies("password")=""
+	session(ZC_BLOG_CLSID&"password")=""    
+	session(ZC_BLOG_CLSID&"username")=""
+	Response.Cookies("username")=Empty
+	Response.Cookies("password")=Empty
+	session(ZC_BLOG_CLSID&"password")=Empty    
+	session(ZC_BLOG_CLSID&"username")=Empty
+	
+	Response.Write WapTitle(ZC_MSG020,"")
+	Response.Redirect Request.ServerVariables("Http_Referer")
+
+End Function
+
+
+
+'*********************************************************
+' 目的：    版权声明
+'*********************************************************
+Function WapCopyRight()
+
+	WapCopyRight=vbsunescape(Request.Cookies("username"))
+
+End Function
+
+
+
+
+'*********************************************************
+' 目的：    删除文章
+'*********************************************************
+Function WapDelArt()
+	Dim ID,T
+	ID=Request.QueryString("id")
+	T=Request.QueryString("t")
+	Response.Write WapTitle(ZC_MSG063&ZC_MSG048&" › "&T,"")
+	'加入确认
+	If Request.QueryString("con")="Y" Then 
+		If DelArticle(Request.QueryString("id")) Then
+			Call MakeBlogReBuild_Core()
+			Response.Write "<p class=""n"">"&ZC_MSG266&"</p>"	
+			Response.Write "<p class=""s""><a href="""&WapUrlStr&""">"&ZC_MSG213&"</a></p>"
+		End if 
+	Else 
+		Dim strYUrl
+		strYUrl=WapUrlStr &"?act=DelArt&amp;id="&ID&"&amp;con=Y"
+		Response.Write "<p class=""s""><a href="""&strYUrl&""">确定</a> | <a href=""javascript:history.go(-1)"">取消</a></p>"
+	End If 	
+
+End Function
+
+
+
+'*********************************************************
+' 目的：    删除评论
+'*********************************************************
+Function WapDelCom()
+    Dim ID,LOG_ID
+	ID=Request.QueryString("id")
+	LOG_ID=Request.QueryString("log_id")
+	Response.Write WapTitle(ZC_MSG063&ZC_MSG013,"")
+	'加入确认
+	If Request.QueryString("con")="Y" Then 
+		Call DelComment(ID,LOG_ID)
+	'	Call MakeBlogReBuild_Core()
+		Response.Write "<p class=""n"">"&ZC_MSG266&"</p>"	
+		Response.Write "<p class=""s""><a href=""javascript:history.go(-2)"">"&ZC_MSG065&"</a></p>"
+	Else 
+		Dim strYUrl
+		strYUrl=WapUrlStr &"?act=DelCom&amp;id="&ID&"&amp;log_id="&LOG_ID&"&amp;con=Y"
+		Response.Write "<p class=""s""><a href="""&strYUrl&""">确定</a> | <a href=""javascript:history.go(-1)"">取消</a></p>"
+	End If 
+End Function
+
+
+
+
+'*********************************************************
+' 目的：    新建文章（编辑）
+'*********************************************************
 Function WapEdtArt()
 
 	Dim Log_ID
 
-	Response.Write WapTitle(ZC_MSG168)
+	Response.Write WapTitle(ZC_MSG168,"")
 
-	Response.Write ZC_MSG060&":<input emptyok=""false"" name=""edtTitle"" size=""15"" maxlength=""100"" value="""" /><br/>"
-
-	Response.Write ZC_MSG012&":<select name=""edtCateID"">"
+	Response.Write "<form method=""post""  action="""&WapUrlStr&"?act=PostArt&amp;inpId="&Log_ID&""" >"
+	Response.Write "<input type=""hidden"" name=""edtID"" value=""0"">"
+	Response.Write "<select name=""edtAuthorID"" style=""display:none"">"
+	Response.Write "<option value="""&BlogUser.ID&""">"&TransferHTML(BlogUser.Name,"[html-format]")&"</option>"
+	Response.Write "</select>"	
+	Response.Write "<p>"&ZC_MSG060&"：<input type=""text"" name=""edtTitle""  class=""i"" value=""""/></p>"
+	Response.Write "<p>"&ZC_MSG012&"：<select name=""edtCateID"">"
 		GetCategory()
 		Dim Category
 		For Each Category in Categorys
@@ -94,121 +336,121 @@ Function WapEdtArt()
 				Response.Write "<option value="""&Category.ID&""">"&TransferHTML(Category.Name,"[html-format]")&"</option>"
 			End If
 		Next
-	Response.Write "</select><br/>"
+	Response.Write "</select> ｜ "
 
-	Response.Write ZC_MSG003&":<select name=""edtAuthorID"">"
-	Response.Write "<option value="""&BlogUser.ID&""">"&TransferHTML(BlogUser.Name,"[html-format]")&"</option>"
-	Response.Write "</select><br/>"
-
-	Response.Write ZC_MSG061&"<select name=""edtLevel"">"
+	Response.Write "<select name=""edtLevel"">"
 		Dim i
 		For i=Ubound(ZVA_Article_Level_Name) to 1 step -1
 			Response.Write "<option value="""& i &""">"& ZVA_Article_Level_Name(i) &"</option>"
 		Next
-	Response.Write "</select><br/>"
+	Response.Write "</select></p>"
 
-	Response.Write ZC_MSG062&":<input emptyok=""false"" name=""edtYear"" size=""10"" value="""&Year(GetTime(now()))&""" />-<input name=""edtMonth"" size=""10"" value="""&Month(GetTime(now()))&""" />-<input name=""edtDay""  size=""10"" value="""&Day(GetTime(now()))&""" />-<input name=""edtTime"" size=""12"" value="""& Hour(GetTime(now()))&":"&Minute(GetTime(now()))&":"&Second(GetTime(now()))&""" /><br/>"
-	Response.Write ZC_MSG138&":<input emptyok=""true"" name=""edtTag"" size=""15"" maxlength=""100"" value="""" /><br/>"
+	Response.Write "<input type=""hidden"" name=""edtYear"" value="""&Year(GetTime(now()))&""" /><input name=""edtMonth"" type=""hidden"" value="""&Month(GetTime(now()))&""" /><input name=""edtDay"" type=""hidden"" value="""&Day(GetTime(now()))&""" /><input name=""edtTime"" type=""hidden"" value="""& Hour(GetTime(now()))&":"&Minute(GetTime(now()))&":"&Second(GetTime(now()))&""" />"
+	
+	Response.Write "<p>"&ZC_MSG138&"：<input name=""edtTag""  class=""i""  maxlength=""100"" value="""" /></p>"
 
-	Response.Write ZC_MSG147&":<input emptyok=""true"" size=""10"" name=""edtAlias"" maxlength=""100"" value="""" />."&ZC_STATIC_TYPE&"<br/>"
+	Response.Write "<p>"&ZC_MSG147&"：<input name=""edtAlias"" class=""i""  maxlength=""100"" value="""" /></p>"
+	Response.Write "<p>"&ZC_MSG055&"："
+	Response.Write "<textarea   name=""txaContent""  class=""i"" maxlength=""5000""  rows=""3""></textarea></p>"
+	Response.Write "<input  name=""txaIntro"" type=""hidden""  value="""" />"
+	Response.Write "<p><input  type=""submit"" value="&ZC_MSG087&" /><span class=""stamp""><a href=""javascript:history.go(-1)"">"&ZC_MSG065&"</a></span></p>"
 
-	Response.Write ZC_MSG055&":<input emptyok=""false"" name=""txaContent"" size=""20"" maxlength=""5000"" value="""" /><br/>"
-	Response.Write ZC_MSG016&":<input emptyok=""true"" name=""txaIntro"" size=""20"" maxlength=""1000"" value="""" /><br/>"
-	Response.Write "<anchor>["&ZC_MSG087&"]<go href="""&WapLoginStr&"&amp;act=PostArt&amp;inpId="&Log_ID&""" method=""post"">"
-	Response.Write " <postfield name=""edtID"" value=""0"" />"
-	Response.Write " <postfield name=""edtTitle"" value=""$(edtTitle:n)"" />"
-	Response.Write " <postfield name=""edtAuthorID"" value=""$(edtAuthorID:n)"" />"
-	Response.Write " <postfield name=""edtLevel"" value=""$(edtLevel:n)"" />"
-	Response.Write " <postfield name=""edtYear"" value=""$(edtYear:n)"" />"
-	Response.Write " <postfield name=""edtMonth"" value=""$(edtMonth:n)"" />"
-	Response.Write " <postfield name=""edtDay"" value=""$(edtDay:n)"" />"
-	Response.Write " <postfield name=""edtTime"" value=""$(edtTime:n)"" />"
-	Response.Write " <postfield name=""edtTag"" value=""$(edtTag:n)"" />"
-	Response.Write " <postfield name=""edtAlias"" value=""$(edtAlias:n)"" />"
-	Response.Write " <postfield name=""edtCateID"" value=""$(edtCateID:n)"" />"
-	Response.Write " <postfield name=""txaContent"" value=""$(txaContent:n)"" />"
-	Response.Write " <postfield name=""txaIntro"" value=""$(txaIntro:n)"" />"
-
-	Response.Write "</go>"
-	Response.Write "</anchor>"
+	Response.Write "</form>"
+	
 End Function
 
 
-Function WapCate()
-	Dim Category
-	Response.Write WapTitle(ZC_MSG214)
-		For Each Category in Categorys
-			If IsObject(Category) Then
-				Response.Write Category.ID&",<a href="""&WapLoginStr&"&amp;act=Main&amp;cate="&Category.ID&""">"&TransferHTML(Category.Name,"[html-format]")&"("&Category.Count&")</a><br/>"
-			End If
-		Next
+'*********************************************************
+' 目的：    文章发表
+'*********************************************************
+Function WapPostArt()
+	If PostArticle() Then
+		Call MakeBlogReBuild_Core()
+		Response.Write "<p class=""n"">"&ZC_MSG266&"</p>"	
+		Call WapMain()
+	End If
 End Function
 
-Function WapStat()
-	Response.Write WapTitle(ZC_MSG029)
-	Response.Write  Replace(Replace(LoadFromFile(BlogPath & "zb_users/INCLUDE/statistics.asp","utf-8"),"<li>",""),"</li>","<br/>")
-End Function
 
+
+
+'*********************************************************
+' 目的：    添加评论（编辑）
+'*********************************************************
 Function WapAddCom(PostType)
 
 	If ZC_WAPCOMMENT_ENABLE=False Then Call ShowError(40): Exit Function
 	
 	Dim log_ID,Author,Content,Email,HomePage
 	log_ID=Request("inpId")
-	Author=Request.Form("inpName")
-	Content=Request.Form("inpArticle")
-	Email=Request.Form("inpEmail")
-	HomePage=Request.Form("inpHomePage")
+'	Author=Request.Form("inpName")
+'	Content=Request.Form("inpArticle")
+'	Email=Request.Form("inpEmail")
+'	HomePage=Request.Form("inpHomePage")
 
 	Call CheckParameter(log_ID,"int",0)
 	If log_ID=0 Then Call ShowError(3): Exit Function
 
-	Response.Write WapTitle(ZC_MSG211)
+	Dim Article
+	If log_ID<>0 Then
+		Set Article=New TArticle
+		If Article.LoadInfoByID(log_ID) Then
+			If Article.Level=1 Then Response.Write WapTitle(ZVA_Article_Level_Name(1),"")&ZVA_ErrorMsg(9):Exit Function
+			If Article.Level=2 Then
+				If Not CheckRights("Root") Then
+					If (Article.AuthorID<>BlogUser.ID) Then Response.Write WapTitle(ZVA_Article_Level_Name(2),"")&ZVA_ErrorMsg(6):Exit Function
+				End If
+			End If
+		End If
+	End If
 
-    'Response.Write "<input type=""hidden"" name=""inpId"" id=""inpId"" value="""&Log_ID&""" />"
-  
+	Response.Write WapTitle(Article.Title &" › "& ZC_MSG211,"")
+
     If PostType<>0 Then
-    Response.Write ZVA_ErrorMsg(PostType)&"<br/>"
+    Response.Write "<p class=""n"">"&ZVA_ErrorMsg(PostType)&"</p>"
 	End If
 	
-	If PostType=31 Then
-	Response.Write ZC_MSG001&"*:<input type=""text"" emptyok=""false"" name=""inpName"" size=""12"" value="""&BlogUser.Name&""" maxlength="""&ZC_USERNAME_MAX&"""/><br/>"
+	Response.Write "	<form  method=""post"" action="""&WapUrlStr&"?act=PostCom&amp;inpId="&Log_ID&""" > "
+	If (PostType<>31) And (BlogUser.Level<=3) Then
+		Response.Write "	<p>"&ZC_MSG001&"："&BlogUser.Name&"<input  type=""hidden"" name=""inpName"" value="""&BlogUser.Name&""" maxlength="""&ZC_USERNAME_MAX&"""/></p>"
+		Response.Write "	<input type=""hidden"" name=""inpEmail"" value="""&BlogUser.Email&""" maxlength="""&ZC_EMAIL_MAX&"""  /> "
+		Response.Write "	<input type=""hidden"" name=""inpHomePage"" value="""&BlogUser.HomePage&""" maxlength="""&ZC_HOMEPAGE_MAX&"""  />"	
 	Else
-	Response.Write ZC_MSG001&"*:<input type=""text"" emptyok=""false"" name=""inpName"" size=""12"" value="""&Author&""" maxlength="""&ZC_USERNAME_MAX&"""/><br/>"
-	End If
+		Response.Write "	<p>"&ZC_MSG001&"：<input type=""text"" name=""inpName"" value="""" maxlength="""&ZC_USERNAME_MAX&"""/></p>"
+		If PostType=6 Then
+		Response.Write "	<p>"&ZC_MSG002&"：<input type=""password""  name=""inpPass""  value="""" maxlength="""&ZC_PASSWORD_MAX&"""/></p>"
+		End If
+		If Request("m")="Y" Then 
+			Response.Write "	<p>网站：<input type=""text"" name=""inpHomePage"" value="""" maxlength="""&ZC_HOMEPAGE_MAX&"""  /></p> "			
+			Response.Write "	<p>"&ZC_MSG053&"：<input type=""text"" name=""inpEmail"" value="""" maxlength="""&ZC_EMAIL_MAX&"""  /></p> "
 
-	If PostType=6 Then
-	Response.Write ZC_MSG002&":<input type=""password"" emptyok=""false"" name=""inpPass"" size=""12"" value="""" maxlength="""&ZC_PASSWORD_MAX&"""/><br/>"
+		Else 
+			Response.Write "	<p><a class=""a"" href="""&WapUrlStr&"?act=AddCom&amp;inpId="&log_ID&"&amp;m=Y"">更多选项</a></p>"
+		End If 
+		Response.Write "	<input type=""hidden"" name=""inpEmail"" value="""" maxlength="""&ZC_EMAIL_MAX&"""  /></p> "
+		Response.Write "	<input type=""hidden"" name=""inpHomePage"" value="""" maxlength="""&ZC_HOMEPAGE_MAX&"""  /></p> "
 	End If
-
-	Response.Write ZC_MSG053&":<input type=""text"" emptyok=""true"" name=""inpEmail"" size=""12"" value="""&Email&""" maxlength="""&ZC_EMAIL_MAX&"""/><br/>"
-	Response.Write ZC_MSG054&":<input type=""text"" emptyok=""true"" name=""inpHomePage"" size=""12"" value="""&HomePage&""" maxlength="""&ZC_HOMEPAGE_MAX&""" /><br/>"
-	Response.Write ZC_MSG055&"*("&ZC_MSG055&":1000):<br/><input type=""text"" emptyok=""false"" name=""inpArticle"" size=""20"" maxlength="""&ZC_CONTENT_MAX&""" value="""&Content&"""></input><br/>"
-	
-	Response.Write "<anchor title=""post"">["&ZC_MSG087&"]"
-	Response.Write "<go href="""&WapLoginStr&"&amp;act=PostCom&amp;inpId="&Log_ID&""" method=""post"">"
-	Response.Write "<postfield name=""username"" value=""$(inpName:n)"" />"
-	If PostType=6 Then
-	Response.Write "<postfield name=""password"" value=""$(inpPass:n)"" />"
-	End If
-	Response.Write "<postfield name=""email"" value=""$(inpEmail:n)"" />"
-	Response.Write "<postfield name=""url"" value=""$(inpHomePage:n)"" />"
-	Response.Write "<postfield name=""content"" value=""$(inpArticle:n)"" />"
-	Response.Write "</go></anchor><br/>"
+	Response.Write "	<p><textarea name=""txaArticle"" class=""i"" maxlength="""&ZC_CONTENT_MAX&""" rows=""3"" ></textarea></p> "
+	Response.Write "	<p><input name=""btnSumbit"" type=""submit"" value="""&ZC_MSG087&"""/> <span class=""stamp""><a href=""javascript:history.go(-1)"">"&ZC_MSG065&"</a></span></p> "
+	Response.Write "	</form> "
 	
 End Function
 
 
+
+'*********************************************************
+' 目的：    评论发表
+'*********************************************************
 Function WapPostCom()
 
 	If ZC_WAPCOMMENT_ENABLE=False Then Call ShowError(40): Exit Function
 
-	If Not IsEmpty(Request.Form("password")) Then
-	Response.Cookies("password")=md5(Request.Form("password"))
-	session(ZC_BLOG_CLSID&"password")=md5(Request.Form("password"))
-    Response.Cookies("username")=Request.Form("username")
-	session(ZC_BLOG_CLSID&"username")=Request.Form("username")
-	Call WapCheckLogin
+	If Not IsEmpty(Request.Form("inpPass")) Then
+		Response.Cookies("password")=md5(Request.Form("inpPass"))
+		session(ZC_BLOG_CLSID&"password")=md5(Request.Form("inpPass"))
+	    Response.Cookies("username")=Request.Form("inpName")
+		session(ZC_BLOG_CLSID&"username")=Request.Form("inpName")
+		Call WapCheckLogin
 	End IF
 
 	Dim objComment
@@ -219,13 +461,17 @@ Function WapPostCom()
 
 	objComment.log_ID=Request("inpID")
 	objComment.AuthorID=BlogUser.ID
-	objComment.Author=Request.Form("username")
-	objComment.Content=Request.Form("content")
-	objComment.Email=Request.Form("email")
-	objComment.HomePage=Request.Form("url")
+	objComment.Author=Request.Form("inpName")
+	objComment.Content=Request.Form("txaArticle")
+	objComment.Email=Request.Form("inpEmail")
+	objComment.HomePage=Request.Form("inpHomePage")
 
 	If Not CheckRegExp(objComment.Author,"[username]") Then Call  WapAddCom(15) :Exit Function
 	
+	IF Len(objComment.Content)=0 Or Len(objComment.Content)>ZC_CONTENT_MAX Then
+		Call  WapAddCom(46) :Exit Function
+	End If
+
 	IF Len(objComment.Email)>0 Then
 		If Not CheckRegExp(objComment.Email,"[email]") Then Call  WapAddCom(29) :Exit Function
 	End If
@@ -234,8 +480,6 @@ Function WapPostCom()
 		If InStr(objComment.HomePage,"http")=0 Then objComment.HomePage="http://" & objComment.HomePage
 		If Not CheckRegExp(objComment.HomePage,"[homepage]") Then Call WapAddCom(30) :Exit Function
 	End If
-
-	IF Len(objComment.Content)>ZC_CONTENT_MAX Then Call WapAddCom(46) :Exit Function
 
 	Dim objUser
 	
@@ -291,68 +535,23 @@ Function WapPostCom()
 		End If
 	End if
 
-	Response.Write WapTitle(ZC_MSG211)
-    Response.Write "<a href="""&WapLoginStr&"&amp;act=View&amp;id="&objComment.log_ID&""">"&ZC_MSG065&ZC_MSG048&"</a><br/>"
+	Response.Write WapTitle(ZC_MSG211,"")&"<p class=""n"">"&ZC_MSG266&"</p>"
 
+
+    Response.Write "<a href="""&WapUrlStr&"?act=View&amp;id="&objComment.log_ID&""">"&ZC_MSG065&ZC_MSG048&"</a>"
+	Response.Redirect WapUrlStr &"?act=Com&id="&objComment.log_ID
+'   Response.Write " | <a href="""&WapUrlStr&"?act=Com&amp;id="&objComment.log_ID&""">"&ZC_MSG212&"</a>"
 
 	Set objComment=Nothing
 
 	
 End Function
 
-Function WapLogin()
-	Dim User,Password
 
-	User=Request.Form("username")
-	Password=Request.Form("password")
-	Call CheckParameter(User,"sql",Empty)
-	Call CheckParameter(Password,"sql",Empty)
 
-	If IsEmpty(User) OR IsEmpty(Password) Then
-	Response.Write WapTitle(ZC_MSG009)
-	Response.Write ZC_MSG001&":<input type=""text"" name=""username"" size=""12"" value="""" /><br/>"
-	Response.Write ZC_MSG002&":<input type=""password"" name=""password"" size=""12"" value="""" /><br/>"
-	Response.Write "<anchor title=""post"">["&ZC_MSG087&"]<go href="""&ZC_FILENAME_WAP&"?act=Login"" method=""post""><postfield name=""username"" value=""$(username:n)"" /><postfield name=""password"" value=""$(password:n)"" /></go></anchor><br/>"
-	Else
-		Response.Cookies("password")=md5(Password)
-		session(ZC_BLOG_CLSID&"password")=md5(Password)
-		Response.Cookies("username")=User
-		session(ZC_BLOG_CLSID&"username")=User
-
-		If BlogUser.Verify=False Then
-			Call ShowError(8)
-		Else
-			Response.Write WapTitle(ZC_MSG009)
-		End If
-
-	End If
-
-End Function
-
-Function WapMenu()
-
-        Response.Write WapTitle(ZC_BLOG_TITLE)
-		Response.Write "<a href="""&WapLoginStr&"&amp;act=Login"">"&ZC_MSG009&"</a><br/>"
-		Response.Write "<a href="""&WapLoginStr&"&amp;act=Com"">"&ZC_MSG027&"</a><br/>"
-		Response.Write "<a href="""&WapLoginStr&"&amp;act=Main"">"&ZC_MSG032&"</a><br/>"
-		Response.Write "<a href="""&WapLoginStr&"&amp;act=Cate"">"&ZC_MSG214&"</a><br/>"
-		Response.Write "<a href="""&WapLoginStr&"&amp;act=Stat"">"&ZC_MSG029&"</a><br/>"	
-		If BlogUser.Level<=3 Then
-		Response.Write "<a href="""&WapLoginStr&"&amp;act=AddArt"">"&ZC_MSG168&"</a><br/>"	
-		'Response.Write "<a href="""&WapLoginStr&"&amp;act=BlogReBuild"">"&ZC_MSG072&"</a><br/>"
-		End If
-
-End Function
-
-Function WapMain()
-
-        Response.Write WapTitle(ZC_BLOG_TITLE)
-
-		Response.Write WapExport(Request("page"),Request("cate"),Request("auth"),Request("date"),Request("tags"),ZC_DISPLAY_MODE_ALL)
-		Response.Write WapExportBar(Request("page"),intPageCount,Request("cate"),Request("auth"),Request("date"),Request("tags"))
-
-End Function
-
+'*********************************************************
+' 目的：    查看评论
+'*********************************************************
 Function WapCom()
 
         Dim i,CurrentPage,log_ID
@@ -362,14 +561,15 @@ Function WapCom()
 		Call CheckParameter(CurrentPage,"int",1)
 		Call CheckParameter(log_ID,"int",0)
 		
+		
 		Dim Article
 		If log_ID<>0 Then
 			Set Article=New TArticle
 			If Article.LoadInfoByID(log_ID) Then
-				If Article.Level=1 Then Response.Write WapTitle(ZVA_Article_Level_Name(1))&ZVA_ErrorMsg(9):Exit Function
+				If Article.Level=1 Then Response.Write WapTitle(ZVA_Article_Level_Name(1),"")&ZVA_ErrorMsg(9):Exit Function
 				If Article.Level=2 Then
 					If Not CheckRights("Root") Then
-						If (Article.AuthorID<>BlogUser.ID) Then Response.Write WapTitle(ZVA_Article_Level_Name(2))&ZVA_ErrorMsg(6):Exit Function
+						If (Article.AuthorID<>BlogUser.ID) Then Response.Write WapTitle(ZVA_Article_Level_Name(2),"")&ZVA_ErrorMsg(6):Exit Function
 					End If
 				End If
 			End If
@@ -382,36 +582,35 @@ Function WapCom()
 		objRS.ActiveConnection=objConn
 		If log_ID=0 Then 
 		objRS.Source="SELECT blog_Comment.* , blog_Article.log_ID, blog_Article.log_Title FROM blog_Comment INNER JOIN blog_Article ON blog_Comment.log_ID = blog_Article.log_ID ORDER BY blog_Comment.comm_PostTime DESC"
-		Response.Write WapTitle(ZC_MSG027)&ZC_MSG027&"<br/><br/>"
+		Response.Write WapTitle(ZC_MSG027,"")
 		Else
 		objRS.Source="SELECT blog_Comment.* , blog_Article.log_ID, blog_Article.log_Title FROM blog_Comment INNER JOIN blog_Article ON blog_Comment.log_ID = blog_Article.log_ID WHERE blog_Comment.log_ID="&log_ID&" ORDER BY blog_Comment.comm_PostTime DESC"
-		Response.Write WapTitle(Article.Title&"-"&ZC_MSG013)&Article.Title&"<br/><br/>"
+'		Response.Write WapTitle("<a href="""& WapUrlStr &"?act=View&amp;id="& Article.id &""">"& Article.title &"</a>›"&ZC_MSG013)
+		Response.Write WapTitle(Article.title&"›"&ZC_MSG013,"")
 		End If
 		objRS.Open()
 
 		If (Not objRS.bof) And (Not objRS.eof) Then
-		
+		Response.Write "<ul>"		
 		Dim strCTemplate,ComRecordCount
-		strCTemplate=GetTemplate("TEMPLATE_WAP_ARTICLE_COMMENT")
+		strCTemplate=Application(ZC_BLOG_CLSID & "TEMPLATE_WAP_ARTICLE_COMMENT")
 		
 
 			objRS.PageSize = ZC_COMMENT_COUNT_WAP
 			intPageCount=objRS.PageCount
 			ComRecordCount=objRS.RecordCount
 			objRS.AbsolutePage = CurrentPage
-			
 
 			For i=1 To objRS.PageSize
-					
 					Dim objComment
 					Set objComment=New TComment
-					If objComment.LoadInfoByArray(Array(objRS("comm_ID"),objRS("log_ID"),objRS("comm_AuthorID"),objRS("comm_Author"),objRS("comm_Content"),objRS("comm_Email"),objRS("comm_HomePage"),objRS("comm_PostTime"),objRS("comm_IP"),objRS("comm_Agent"))) Then
+					If objComment.LoadInfoByArray(Array(objRS("comm_ID"),objRS("log_ID"),objRS("comm_AuthorID"),objRS("comm_Author"),objRS("comm_Content"),objRS("comm_Email"),objRS("comm_HomePage"),objRS("comm_PostTime"),objRS("comm_IP"),objRS("comm_Agent"),"","","",objRs("comm_Meta"),objRS("comm_ParentID"))) Then
 					Dim strC_Count
 					strC_Count=ComRecordCount-((CurrentPage-1)*ZC_COMMENT_COUNT_WAP+i)+1
 
 					ReDim Preserve aryStrC(i)
 					aryStrC(i)=strCTemplate
-					aryStrC(i)=Replace(aryStrC(i),"<#ZC_FILENAME_WAP#>",ZC_FILENAME_WAP)
+					aryStrC(i)=Replace(aryStrC(i),"<#ZC_FILENAME_WAP#>",WapUrlStr)
 					aryStrC(i)=Replace(aryStrC(i),"<#article/id#>",objRS("log_ID"))
 					aryStrC(i)=Replace(aryStrC(i),"<#article/title#>",objRS("log_Title"))
 					aryStrC(i)=Replace(aryStrC(i),"<#article/comment/id#>",objComment.ID)
@@ -425,7 +624,6 @@ Function WapCom()
 					aryStrC(i)=Replace(aryStrC(i),"<#article/comment/firstcontact#>",objComment.FirstContact)
 				    
 					If BlogUser.Level<=3 Then
-						aryStrC(i)=Replace(aryStrC(i),"<#url#>",Escape(ZC_BLOG_HOST&ZC_FILENAME_WAP&"?mode=WAP&amp;"&Replace(Request.QueryString,"&","&amp;")))
 						aryStrC(i)=Replace(aryStrC(i),"<#adbegin#>","")
 						aryStrC(i)=Replace(aryStrC(i),"<#adend#>","")
 					Else
@@ -438,10 +636,10 @@ Function WapCom()
 					End If
 				
 					Dim aryTemplateTagsName,aryTemplateTagsValue
-
-					aryTemplateTagsName=TemplateTagsName
-					aryTemplateTagsValue=TemplateTagsValue
-
+					Application.Lock
+					aryTemplateTagsName=Application(ZC_BLOG_CLSID & "TemplateTagsName")
+					aryTemplateTagsValue=Application(ZC_BLOG_CLSID & "TemplateTagsValue")
+					Application.UnLock
 
 					aryTemplateTagsName(0)="BlogTitle"
 					aryTemplateTagsValue(0)=ZC_BLOG_TITLE
@@ -462,7 +660,12 @@ Function WapCom()
 			Next
 
 		Else
-
+			Response.Write "<span class=""t"">"& ZC_MSG256
+			If ZC_WAPCOMMENT_ENABLE Then 
+				Response.Write " | <a href="""& WapUrlStr &"?act=AddCom&amp;inpId="&log_ID&""">"&ZC_MSG211&"</a></span>"
+			Else 
+				Response.Write "</span>"
+			End If 
 			Exit Function
 
 		End If
@@ -472,28 +675,62 @@ Function WapCom()
 		
 		Dim strC
 		strC=Join(aryStrC)
-		
+
+		Dim a,b
 		Dim PageBar
-		PageBar="<a href="""&WapLoginStr&"&amp;act=Com&amp;id="&log_ID&"&amp;Page=1"">[&lt;&lt;]</a>"
-			
-		For i=CurrentPage-Cint(ZC_COMMENT_PAGEBAR_COUNT_WAP/2) to CurrentPage+Cint(ZC_COMMENT_PAGEBAR_COUNT_WAP/2) 
+		PageBar=""
 		
-		If i>0 and i<=intPageCount Then
-			If i=CurrentPage Then
-			PageBar=PageBar&"<a href="""&WapLoginStr&"&amp;act=Com&amp;id="&log_ID&"&amp;Page="&i&""">[["&i&"]]</a>"
+		If ZC_DISPLAY_PAGEBAR_ALL_WAP Then
+			If intPageCount>ZC_PAGEBAR_COUNT_WAP Then
+				a=CurrentPage-Cint((ZC_COMMENT_PAGEBAR_COUNT_WAP-1)/2)
+				b=CurrentPage+ZC_COMMENT_PAGEBAR_COUNT_WAP-Cint((ZC_COMMENT_PAGEBAR_COUNT_WAP-1)/2)-1
+				If a<=1 Then 
+					a=1:b=ZC_COMMENT_PAGEBAR_COUNT_WAP
+				End If
+				If b>=intPageCount Then 
+					b=intPageCount:a=intPageCount-ZC_COMMENT_PAGEBAR_COUNT_WAP+1
+				End If
 			Else
-			PageBar=PageBar&"<a href="""&WapLoginStr&"&amp;act=Com&amp;id="&log_ID&"&amp;Page="&i&""">["&i&"]</a>"
+				a=1:b=intPageCount
 			End If
-		End If
+			PageBar=" <a href="""&WapUrlStr&"?act=Com&amp;id="&log_ID&"&amp;Page=1"">[&lt;]</a> "			
+			For i=a to b 		
+				If i=CurrentPage Then
+				PageBar=PageBar&" "&i&" "
+				Else
+				PageBar=PageBar&" <a href="""&WapUrlStr&"?act=Com&amp;id="&log_ID&"&amp;Page="&i&""">["&i&"]</a> "
+				End If
+			Next
+			PageBar=PageBar&" <a href="""&WapUrlStr&"?act=Com&amp;id="&log_ID&"&amp;Page="&intPageCount&""">[&gt;]</a> "
+		Else 
+			If CurrentPage>1 Then
+				If CurrentPage<intPageCount Then
+					PageBar=PageBar&"<a href="""&WapUrlStr&"?act=Com&amp;id="&log_ID&"&amp;Page="&CurrentPage+1&""">下一页</a> | "
+				End If
+				PageBar=PageBar&"<a href="""&WapUrlStr&"?act=Com&amp;id="&log_ID&"&amp;Page="&CurrentPage-1&""">上一页</a> | "&CurrentPage&"/"&intPageCount
+			ElseIf  (CurrentPage mod intPageCount)<>0 Then
+				If PageBar<>"" Then PageBar=PageBar&" | "
+				PageBar=PageBar&"<a href="""&WapUrlStr&"?act=Com&amp;id="&log_ID&"&amp;Page="&CurrentPage+1&""">下一页</a> | "&CurrentPage&"/"&intPageCount
+			Else
+				PageBar=""
+			End If
+		End If 
 
-		Next
+		strC=strC&"</ul><div class=""a"">"&PageBar&"</div>"
 
-		PageBar=PageBar&"<a href="""&WapLoginStr&"&amp;act=Com&amp;id="&log_ID&"&amp;Page="&intPageCount&""">[&gt;&gt;]</a>"
+		If log_ID<>0 Then strC=strC&"<p class=""t""><a href="""& WapUrlStr &"?act=AddCom&amp;inpId="&log_ID&""">"&ZC_MSG211&"</a></p>"
 		
-		Response.Write strC&PageBar
+		Response.Write strC
+
+		WapNav()
 
 End Function
 
+
+
+'*********************************************************
+' 目的：    查看文章
+'*********************************************************
 Function WapView()
 	Dim Article,ZC_SINGLE_START,CurrentPage,i,log_ID
 	CurrentPage=Request.QueryString("page")
@@ -507,46 +744,51 @@ Function WapView()
 	If Article.LoadInfoByID(log_ID) Then
 			'If BlogUser.Level>
 
-			If Article.Level=1 Then Response.Write WapTitle(ZVA_Article_Level_Name(1))&ZVA_ErrorMsg(9):Exit Function
+			If Article.Level=1 Then Response.Write WapTitle(ZVA_Article_Level_Name(1),"")&ZVA_ErrorMsg(9):Exit Function
 			If Article.Level=2 Then
 				If Not CheckRights("Root") Then
-					If (Article.AuthorID<>BlogUser.ID) Then Response.Write WapTitle(ZVA_Article_Level_Name(2))&ZVA_ErrorMsg(6):Exit Function
+					If (Article.AuthorID<>BlogUser.ID) Then Response.Write WapTitle(ZVA_Article_Level_Name(2),"")&ZVA_ErrorMsg(6):Exit Function
 				End If
 			End If
 
-	        Response.Write WapTitle(Article.Title)
+	        Response.Write WapTitle(Article.Title,"")
 			Dim ArticleContent,PageCount,PageBar
-			ArticleContent=TransferHTML(TransferHTML(UBBCode(Article.Content,"[face][link][autolink][font][code][image][typeset][media][flash][key][upload]"),"[html-japan][vbCrlf][upload]"),"[wapnohtml]")
-			
-			PageCount = Int(Len(ArticleContent)/ZC_SINGLE_SIZE_WAP) + 1
-			ZC_SINGLE_START=Cint((CurrentPage-1)*ZC_SINGLE_SIZE_WAP+1)
-			If ZC_SINGLE_START<1 Then ZC_SINGLE_START=1
-			ArticleContent=Mid(ArticleContent,ZC_SINGLE_START,ZC_SINGLE_SIZE_WAP)
-			ArticleContent=TransferHTML(ArticleContent,"[html-format][wapnohtml][nbsp-br]")
+			ArticleContent=Article.Content
+			If ZC_DISPLAY_MODE_ALL_WAP Then 
+				ArticleContent=TransferHTML(UBBCode(ArticleContent,"[face][link][autolink][font][code][image][typeset][media][flash][key][upload]"),"[html-japan][vbCrlf][upload]")
+				ArticleContent=TransferHTML(ArticleContent,"[closehtml]")
+			Else 
+				PageCount = Int(Len(ArticleContent)/ZC_SINGLE_SIZE_WAP) + 1
+				ZC_SINGLE_START=Cint((CurrentPage-1)*ZC_SINGLE_SIZE_WAP+1)
+				If ZC_SINGLE_START<1 Then ZC_SINGLE_START=1
+				ArticleContent=TransferHTML(ArticleContent,"[html-format][wapnohtml][nbsp-br]")
+				ArticleContent=Mid(ArticleContent,ZC_SINGLE_START,ZC_SINGLE_SIZE_WAP)
+				ArticleContent=TransferHTML(ArticleContent,"[closehtml]")
 
-		    PageBar="<br/><a href="""&WapLoginStr&"&amp;act=View&amp;id="&log_ID&"&amp;Page=1"">[&lt;&lt;]</a>"
-			
-			For i=CurrentPage-Cint(ZC_SINGLE_PAGEBAR_COUNT_WAP/2) to CurrentPage+Cint(ZC_SINGLE_PAGEBAR_COUNT_WAP/2)
-			
-			If i>0 and i<=PageCount Then
-				If i=CurrentPage Then
-				PageBar=PageBar&"<a href="""&WapLoginStr&"&amp;act=View&amp;id="&log_ID&"&amp;Page="&i&""">[["&i&"]]</a>"
+				If CurrentPage>1 Then
+					PageBar="<a href="""&WapUrlStr&"?act=View&amp;id="&log_ID&"&amp;Page="&CurrentPage-1&""">&laquo;上一页</a>"
+					If CurrentPage<PageCount Then
+						PageBar=PageBar&" | <a ref="""&WapUrlStr&"?act=View&amp;id="&log_ID&"&amp;Page="&CurrentPage+1&""">下一页&raquo;</a>"
+					End IF
+				ElseIf  CurrentPage<PageCount Then
+					If PageBar<>"" Then PageBar=PageBar&" | "
+					PageBar=PageBar&"<a href="""&WapUrlStr&"?act=View&amp;id="&log_ID&"&amp;Page="&CurrentPage+1&""">下一页&raquo;</a>"
 				Else
-				PageBar=PageBar&"<a href="""&WapLoginStr&"&amp;act=View&amp;id="&log_ID&"&amp;Page="&i&""">["&i&"]</a>"
-				End If
-			End If
-			Next
-			PageBar=PageBar&"<a href="""&WapLoginStr&"&amp;act=View&amp;id="&log_ID&"&amp;Page="&PageCount&""">[&gt;&gt;]</a>"
-			ArticleContent=ArticleContent&PageBar
-
+					PageBar=""
+				End If			
+				
+				ArticleContent=ArticleContent&"<p>"&PageBar&"</p>"
+			End If 
 
 			If Article.Export(ZC_DISPLAY_MODE_ALL) Then
 			    Article.template_Wap="wap_single"
 				Article.Build
 				Article.htmlWAP=Replace(Article.htmlWAP,"<#article/PageContent#>",ArticleContent)
-				Article.htmlWAP=Replace(Article.htmlWAP,"<#ZC_FILENAME_WAP#>",ZC_FILENAME_WAP)
+				Article.htmlWAP=Replace(Article.htmlWAP,"<#ZC_FILENAME_WAP#>",WapUrlStr)
+				Article.htmlWAP=Replace(Article.htmlWAP,"<#template:article_mutuality#>",WapRelateList(Article.ID,Article.Tag))
+
 			    If BlogUser.Level<=3 Then
-					Article.htmlWAP=Replace(Article.htmlWAP,"<#url#>",Escape(ZC_BLOG_HOST&ZC_FILENAME_WAP&"?mode=WAP&amp;"&Replace(Request.QueryString,"&","&amp;")))
+	
 					Article.htmlWAP=Replace(Article.htmlWAP,"<#adbegin#>","")
 					Article.htmlWAP=Replace(Article.htmlWAP,"<#adend#>","")
 				Else
@@ -565,35 +807,164 @@ Function WapView()
 
 End Function
 
+
+
+
+'*********************************************************
+' 目的：    相关文章
+'*********************************************************
+Function WapRelateList(intID,strTag)
+	If (intID=0) Or Not WAP_MUTUALITY Then Exit Function
+	If strTag<>"" Then
+
+	Dim strCC_Count,strCC_ID,strCC_Name,strCC_Url,strCC_PostTime,strCC_Title
+	Dim strCC
+	Dim i
+	Dim j
+	Dim objRS
+	Dim strSQL
+
+	Dim intRelatedpostinfeed_limit
+	Dim strRelatedpostinfeed_before
+	Dim strRelatedpostinfeed_after
+	Dim strRelatedpostinfeed_layout
+
+	intRelatedpostinfeed_limit = WAP_MUTUALITY_LIMIT
+	strRelatedpostinfeed_before = WAP_MUTUALITY_BEFORE
+	strRelatedpostinfeed_after = WAP_MUTUALITY_AFTER
+	strRelatedpostinfeed_layout = WAP_MUTUALITY_LAYOUT
+
+'	Call Add_Action_Plugin("Action_Plugin_System_Initialize","Call Wap_addMutualityTemplate()")
+
+	Dim strOutput
+	strOutput=""
+
+	Set objRS=Server.CreateObject("ADODB.Recordset")
+
+	strSQL="SELECT top 10  [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Level],[log_AuthorID],[log_PostTime],[log_Url] FROM [blog_Article] WHERE ([log_Level]>2) AND [log_ID]<>"& intID &" "
+
+	strSQL = strSQL & " AND ("
+
+	Dim aryTAGs
+	strTag=Replace(strTag,"}","")
+	aryTAGs=Split(strTag,"{")
+
+	                    For j = LBound(aryTAGs) To UBound(aryTAGs)
+	                            If aryTAGs(j)<>"" Then
+	                                    strSQL = strSQL & "([log_Tag] Like '%{"&aryTAGs(j)&"}%')"
+	                                    If j=UBound(aryTAGs) Then Exit For
+	                                    If aryTAGs(j)<>"" Then strSQL = strSQL & " OR "
+	                            End If
+	                    Next
+
+	strSQL = strSQL & ")"
+	strSQL = strSQL + " ORDER BY [log_PostTime] DESC "
+
+	Set objRS=Server.CreateObject("ADODB.Recordset")
+	objRS.CursorType = adOpenKeyset
+	objRS.LockType = adLockReadOnly
+	objRS.ActiveConnection=objConn
+	objRS.Source=strSQL
+	objRS.Open()
+	If (Not objRS.bof) And (Not objRS.eof) Then
+  
+		For i=1 To intRelatedpostinfeed_limit '相关文章数目
+		Dim objArticle
+		Set objArticle=New TArticle
+		If objArticle.LoadInfoByArray(Array(objRS("log_ID"),objRS("log_Tag"),objRS("log_CateID"),objRS("log_Title"),"","",objRS("log_Level"),objRS("log_AuthorID"),objRS("log_PostTime"),"","","",objRS("log_Url"),"",objRs("log_Template"),objRs("log_FullUrl"),objRs("log_Meta"))) Then
+
+		    strCC_Count=strCC_Count+1
+		    strCC_ID=objArticle.ID
+		    strCC_Url=objArticle.Url
+		    strCC_PostTime=FormatDateTime(objArticle.PostTime,vbLongDate)
+		    strCC_Title=objArticle.Title
+
+			strCC=strRelatedpostinfeed_layout
+
+		    strCC=Replace(strCC,"%article_id%",strCC_ID)    
+		    strCC=Replace(strCC,"%article_url%",WapUrlStr& "?act=View&id="&strCC_ID)  
+		    strCC=Replace(strCC,"%article_time%",strCC_PostTime) 
+		    strCC=Replace(strCC,"%article_title%",strCC_Title) 
+			
+			strOutput=strOutput & strCC
+
+		end if
+
+		Set objArticle=nothing
+		objRS.MoveNext
+		If objRS.eof Then Exit For
+		Next
+
+	End if
+
+	objRS.Close()
+	Set objRS=Nothing
+	End If
+
+	If strOutput<>"" then
+		WapRelateList= strRelatedpostinfeed_before + strOutput + strRelatedpostinfeed_after
+	Else
+		WapRelateList = ""
+	End If
+	
+End Function
+
+
+
+
+'*********************************************************
+' 目的：    查看文章列表
+'*********************************************************
 Function WapExport(intPage,intCateId,intAuthorId,dtmYearMonth,strTagsName,intType)
 
-		Dim i,j
+		Dim i,j,s,intWapCount
 		Dim objRS
 		Dim objArticle
+		Dim q,Search
 
 		Call CheckParameter(intPage,"int",1)
 		Call CheckParameter(intCateId,"int",Empty)
 		Call CheckParameter(intAuthorId,"int",Empty)
 		Call CheckParameter(dtmYearMonth,"dtm",Empty)
-		
+
+		'添加搜索
+		If intType=ZC_DISPLAY_MODE_SEARCH Then 
+			q=TransferHTML(Request("q"),"[nohtml]")
+			q=Trim(q)
+			If Len(q)=0 Then Search=True:Exit Function
+		'过滤SQL
+			q=FilterSQL(q)
+			intWapCount = ZC_SEARCH_COUNT
+		Else 
+			intWapCount = ZC_DISPLAY_COUNT_WAP
+		End If 
+
+
 		Dim Title
-		Title=ZC_BLOG_SUBTITLE
+		Title=""
 
 		Set objRS=Server.CreateObject("ADODB.Recordset")
 		objRS.CursorType = adOpenKeyset
 		objRS.LockType = adLockReadOnly
 		objRS.ActiveConnection=objConn
-		objRS.Source="SELECT [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_IsTop] FROM [blog_Article] WHERE ([log_ID]>0) AND ([log_Level]>1)"
+		objRS.Source="SELECT [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_IsTop],[log_Template],[log_FullUrl],[log_Meta] FROM [blog_Article] WHERE ([log_ID]>0) AND ([log_Level]>1)"
+
+
+		'添加搜索
+		If intType=ZC_DISPLAY_MODE_SEARCH Then
+		objRS.Source="SELECT [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_IsTop],[log_Template],[log_FullUrl],[log_Meta] FROM [blog_Article] WHERE ([log_ID]>0) AND ([log_Level]>2)"
+		objRS.Source=objRS.Source & "AND(( [log_Title] like '%"&q&"%') OR ([log_Intro] LIKE '%"&q&"%') OR ([log_Content] LIKE '%"&q&"%'))"
+		End If 
 
 		If Not IsEmpty(intCateId) Then
 			objRS.Source=objRS.Source & "AND([log_CateID]="&intCateId&")"
-			On Error Resume Next
+			'On Error Resume Next
 			Title=Categorys(intCateId).Name
 			Err.Clear
 		End if
 		If Not IsEmpty(intAuthorId) Then
 			objRS.Source=objRS.Source & "AND([log_AuthorID]="&intAuthorId&")"
-			On Error Resume Next
+			'On Error Resume Next
 			Title=Users(intAuthorId).Name
 			Err.Clear
 		End if
@@ -626,7 +997,7 @@ Function WapExport(intPage,intCateId,intAuthorId,dtmYearMonth,strTagsName,intTyp
 			Title=Year(dtmYearMonth) & " " & ZVA_Month(Month(dtmYearMonth))
 		End If
 		If Not IsEmpty(strTagsName) Then
-			On Error Resume Next
+			'On Error Resume Next
 			Dim Tag
 			For Each Tag in Tags
 				If IsObject(Tag) Then
@@ -639,18 +1010,30 @@ Function WapExport(intPage,intCateId,intAuthorId,dtmYearMonth,strTagsName,intTyp
 			Title=strTagsName
 		End If
 
+
+		Dim strDTitle
+		If Title="" Then strDTitle=ZC_BLOG_TITLE
+
 		objRS.Source=objRS.Source & "ORDER BY [log_PostTime] DESC,[log_ID] DESC"
 		objRS.Open()
 
+		'添加搜索
+		If intType=ZC_DISPLAY_MODE_SEARCH Then
+		s=Replace(Replace(ZC_MSG086,"%s","<b>" & TransferHTML(Replace(q,Chr(39)&Chr(39),Chr(39),1,-1,0),"[html-format]") & "</b>",vbTextCompare,1),"%s","<b>" & objRS.RecordCount & "</b>",1,-1,0)
+		strDTitle=ZC_MSG158
+		Title=s
+		End If 
+
 		If (Not objRS.bof) And (Not objRS.eof) Then
-			objRS.PageSize = ZC_DISPLAY_COUNT_WAP
+			objRS.PageSize = intWapCount
 			intPageCount=objRS.PageCount
 			objRS.AbsolutePage = intPage
 
 			For i = 1 To objRS.PageSize
 
 				ReDim Preserve aryArticleList(i)
-
+'Response.Write objRS.Source'
+'Response.end
 				Set objArticle=New TArticle
 				If objArticle.LoadInfoByArray(Array(objRS(0),objRS(1),objRS(2),objRS(3),objRS(4),objRS(5),objRS(6),objRS(7),objRS(8),objRS(9),objRS(10),objRS(11),objRS(12),objRS(13),objRS(14),objRS(15),objRS(16))) Then
 					If objArticle.Export(intType)= True Then
@@ -665,7 +1048,7 @@ Function WapExport(intPage,intCateId,intAuthorId,dtmYearMonth,strTagsName,intTyp
 			Next
 
 		Else
-
+			WapExport= WapTitle(Title,strDTitle) &"<p class=""t"">"& ZC_MSG256 &"</p>"
 			Exit Function
 
 		End If
@@ -685,9 +1068,10 @@ Function WapExport(intPage,intCateId,intAuthorId,dtmYearMonth,strTagsName,intTyp
 		
 
 		Dim aryTemplateTagsName,aryTemplateTagsValue
-
-		aryTemplateTagsName=TemplateTagsName
-		aryTemplateTagsValue=TemplateTagsValue
+		Application.Lock
+		aryTemplateTagsName=Application(ZC_BLOG_CLSID & "TemplateTagsName")
+		aryTemplateTagsValue=Application(ZC_BLOG_CLSID & "TemplateTagsValue")
+		Application.UnLock
 
 		aryTemplateTagsName(0)="BlogTitle"
 		aryTemplateTagsValue(0)=Title
@@ -698,10 +1082,8 @@ Function WapExport(intPage,intCateId,intAuthorId,dtmYearMonth,strTagsName,intTyp
 			Template_Article_Multi=Replace(Template_Article_Multi,"<#" & aryTemplateTagsName(i) & "#>",aryTemplateTagsValue(i))
 		Next
 
-		Template_Article_Multi=Replace(Template_Article_Multi,"<#ZC_FILENAME_WAP#>",ZC_FILENAME_WAP)
+		Template_Article_Multi=Replace(Template_Article_Multi,"<#ZC_FILENAME_WAP#>",WapUrlStr)
 		If BlogUser.Level<=3 Then
-			Template_Article_Multi=Replace(Template_Article_Multi,"<#url#>",Escape(ZC_BLOG_HOST&ZC_FILENAME_WAP&"?mode=WAP&amp;"&Replace(Request.QueryString,"&","&amp;")))
-
 			Template_Article_Multi=Replace(Template_Article_Multi,"<#adbegin#>","")
 			Template_Article_Multi=Replace(Template_Article_Multi,"<#adend#>","")
 		Else
@@ -712,162 +1094,99 @@ Function WapExport(intPage,intCateId,intAuthorId,dtmYearMonth,strTagsName,intTyp
 			objRegExp.Pattern="<#adbegin#>(.+)<#adend#>"
 			Template_Article_Multi= objRegExp.Replace(Template_Article_Multi,"")
 		End If
+		
+		WapExport= WapTitle(Title,strDTitle) & "<ul>"&Template_Article_Multi&"</ul>"
+
+End Function
 
 
-		WapExport=Template_Article_Multi
-
-	End Function
-
-	Function WapExportBar(intNowPage,intAllPage,intCateId,intAuthorId,dtmYearMonth,strTagsName)
+'*********************************************************
+' 目的：    列表分页
+'*********************************************************
+Function WapExportBar(intNowPage,intAllPage,intCateId,intAuthorId,dtmYearMonth,strTagsName,strQuestion)
 
 		Dim i
-		Dim s
+		Dim a,b,c
 		Dim t
-		Dim strPageBar
+		Dim strPageBar,Template_PageBar
 
 
+		Call CheckParameter(intNowPage,"int",1)
 
-		If Not IsEmpty(intCateId) Then t=t & "cate=" & intCateId & "&amp;"
-		If Not IsEmpty(dtmYearMonth) Then t=t & "date=" & Year(dtmYearMonth) & "-" & Month(dtmYearMonth) & "&amp;"
-		If Not IsEmpty(intAuthorId) Then t=t & "auth=" & intAuthorId & "&amp;"
-		If Not (strTagsName="") Then t=t & "tags=" & Server.URLEncode(strTagsName) & "&amp;"
-		If intAllPage>0 Then
-			Dim a,b
-
-			s=""&WapLoginStr&"&amp;act=Main&amp;"& t &"page=1"
+		t=t & "?"
 		
-			strPageBar="<a href=""<#pagebar/page/url#>"">[<#pagebar/page/number#>]</a>"
+		If Not IsEmpty(intCateId) Then t=t & "act=Main&amp;cate=" & intCateId & "&amp;"
+		If Not IsEmpty(dtmYearMonth) Then t=t & "act=Main&amp;date=" & Year(dtmYearMonth) & "-" & Month(dtmYearMonth) & "&amp;"
+		If Not IsEmpty(intAuthorId) Then t=t & "act=Main&amp;auth=" & intAuthorId & "&amp;"
+		If Not (strTagsName="") Then t=t & "act=Main&amp;tags=" & Server.URLEncode(strTagsName) & "&amp;"
+		If Not (strQuestion="") Then t=t & "act=Search&amp;q=" & Server.URLEncode(strQuestion) & "&amp;"
 
-			strPageBar=Replace(strPageBar,"<#pagebar/page/url#>",s)
-			strPageBar=Replace(strPageBar,"<#pagebar/page/number#>","&lt;&lt;")
-			Dim Template_PageBar
-			Template_PageBar=Template_PageBar & strPageBar
-
-			If intAllPage>ZC_PAGEBAR_COUNT_WAP Then
-				a=intNowPage
-				b=intNowPage+ZC_PAGEBAR_COUNT_WAP
-				If a>ZC_PAGEBAR_COUNT_WAP Then a=a-1:b=b-1
-				If b>intAllPage Then b=intAllPage:a=intAllPage-ZC_PAGEBAR_COUNT_WAP
-			Else
-				a=1:b=intAllPage
-			End If
-			For i=a to b
-				If i>0 Then
-
-					s=""&WapLoginStr&"&amp;act=Main&amp;"& t &"page="& i
-
-					strPageBar="<a href=""<#pagebar/page/url#>"">[<#pagebar/page/number#>]</a>"
-					strPageBar=Replace(strPageBar,"<#pagebar/page/url#>",s)
-					strPageBar=Replace(strPageBar,"<#pagebar/page/number#>",i)
-					Template_PageBar=Template_PageBar & strPageBar
+		
+		If intAllPage>0 Then			
+			If ZC_DISPLAY_PAGEBAR_ALL_WAP  Then	
+				If intAllPage>ZC_PAGEBAR_COUNT_WAP Then
+					a=intNowPage-Cint((ZC_PAGEBAR_COUNT_WAP-1)/2)
+					b=intNowPage+ZC_PAGEBAR_COUNT_WAP-Cint((ZC_PAGEBAR_COUNT_WAP-1)/2)-1
+					If a<=1 Then 
+						a=1:b=ZC_PAGEBAR_COUNT_WAP
+					End If
+					If b>=intAllPage Then 
+						b=intAllPage:a=intAllPage-ZC_PAGEBAR_COUNT_WAP+1
+					End If
+				Else
+					a=1:b=intAllPage
 				End If
-			Next
-
-			s=""&WapLoginStr&"&amp;act=Main&amp;"& t &"page="& intAllPage
-
-			strPageBar="<a href=""<#pagebar/page/url#>"">[<#pagebar/page/number#>]</a>"
-			strPageBar=Replace(strPageBar,"<#pagebar/page/url#>",s)
-			strPageBar=Replace(strPageBar,"<#pagebar/page/number#>","&gt;&gt;")
-			Template_PageBar=Template_PageBar & strPageBar
-			
-			Dim Template_PageBar_Previous
-			If intNowPage=1 Then
-				Template_PageBar_Previous=""
-			Else
-				Template_PageBar_Previous="<a href="""&WapLoginStr&"&amp;act=Main&amp;"& t &"page="& intNowPage-1 &""">"&ZC_MSG156&"</a>"
-
-			End If
-
-			Dim Template_PageBar_Next
-			If intNowPage=intAllPage Then
-				Template_PageBar_Next=""
-			Else
-				Template_PageBar_Next="<a href="""&WapLoginStr&"&amp;act=Main&amp;"& t &"page="& intNowPage+1 &""">"&ZC_MSG155&"</a>"
-			End If
-
+				strPageBar=" <a href="""&WapUrlStr & t &"page=1"">[&lt;]</a> "			
+				For i=a to b 		
+					If i=intNowPage Then
+					strPageBar=strPageBar&" "&i&" "
+					Else
+					strPageBar=strPageBar&" <a href="""&WapUrlStr& t &"page="&i&""">["&i&"]</a> "
+					End If
+				Next
+				strPageBar=strPageBar&" <a href="""&WapUrlStr& t &"page="&intPageCount&""">[&gt;]</a> "
+				Template_PageBar="<p>"  & strPageBar & "</p>"	
+			Else 
+				If intNowPage>1 Then
+					If intNowPage<intAllPage Then
+						strPageBar=strPageBar&"<a href="""&WapUrlStr& t &"page="& intNowPage+1 &""">下一页</a> | "
+					End If
+					strPageBar=strPageBar&"<a href="""&WapUrlStr& t &"page="&intNowPage-1&""">上一页</a> | "&intNowPage&"/"&intAllPage
+				ElseIf  (intNowPage mod intPageCount)<>0 Then
+					If strPageBar<>"" Then strPageBar=strPageBar&" | "
+					strPageBar=strPageBar&"<a href="""&WapUrlStr& t &"page="&intNowPage+1&""">下一页</a> | "&intNowPage&"/"&intAllPage
+				Else
+					strPageBar=""
+				End If
+				Template_PageBar="<p>" & strPageBar & "</p>"
+			End If 
 		End If
 
 		WapExportBar=Template_PageBar
 
-	End Function
+End Function
 
-	Public Function WapTitle(Str)
-	WapTitle="<card title="""&Str&""" id=""card1"">"&vbnewline&"<p>"&WapCheckLogin&"</p><p>"&vbnewline
-	End Function
 
-	Public Function WapError()
-		dim ID
-		ID=Request("id")
-		If Not IsNumeric(ID) Then
+
+
+'*********************************************************
+' 目的：    查看错误
+'*********************************************************
+Public Function WapError()
+	Dim ID
+	ID=Request.QueryString("id")
+	If Not IsNumeric(ID) Then
 		ID=0
-		ElseIf CINT(ID)>Ubound(ZVA_ErrorMsg) Or CINT(ID)<0 Then
+	ElseIf CINT(ID)>Ubound(ZVA_ErrorMsg) Or CINT(ID)<0 Then
 		ID=0
-		End If
-		Response.Write WapTitle(ZVA_ErrorMsg(ID))&ZVA_ErrorMsg(ID)
-	End Function
+	End If
+	Response.Write WapTitle(ZVA_ErrorMsg(ID),"") & "<p class=""n"">"&ZVA_ErrorMsg(ID)&" <span class=""stamp""><a href=""javascript:history.go(-1)"">"&ZC_MSG065&"</a></span></p>"
+End Function
 
-   Function WapLoginStr()
-	   WapLoginStr=ZC_BLOG_HOST&ZC_FILENAME_WAP&"?mode=WAP"
-	End Function
- 
- Function WapCheckLogin()
-	Dim username,password,s
-		username=Request.Form("username")
-		 password=Request.Form("password")
-	   If (Not IsEmpty(Request.Cookies("username"))) And (Not IsEmpty(Request.Cookies("password"))) Then
-	   username=Request.Cookies("username")
-	   password=Request.Cookies("password")
-	   session(ZC_BLOG_CLSID&"username")=username
-	   session(ZC_BLOG_CLSID&"password")=password
-	   ElseIf (Not IsEmpty(session(ZC_BLOG_CLSID&"username"))) And (Not IsEmpty(session(ZC_BLOG_CLSID&"password"))) Then
-	   username=session(ZC_BLOG_CLSID&"username")
-	   password=session(ZC_BLOG_CLSID&"password")
-	   Request.Cookies("username")=username
-	   Request.Cookies("password")=password
-	   End If
+'*********************************************************
 
-	   BlogUser.LoginType="Self"
-	   BlogUser.Password=password
-	   BlogUser.Name=username
-       BlogUser.Verify
-
-	   
-	   
-	    s=BlogUser.Name&" "&ZVA_User_Level_Name(BlogUser.Level)&""
-		If BlogUser.ID<>0 Then
-		s=s&" <a href="""&WapLoginStr&"&amp;act=Logout&amp;url="&Escape(ZC_BLOG_HOST&ZC_FILENAME_WAP&"?mode=WAP&amp;"&Replace(Request.QueryString,"&","&amp;"))&""">"&ZC_MSG020&"</a><br/><br/>"
-		End If
-
-		WapCheckLogin=s
-	   
- End Function
-
- Function WapCopyRight()
-
-	 WapCopyRight=vbsunescape(Request.Cookies("username"))
-	
- End Function
-
- Function WapLogout()
-
-    Response.Write WapTitle(ZC_MSG020)
-
-	Response.Cookies("username")=""
- 	Response.Cookies("password")=""
-	session(ZC_BLOG_CLSID&"password")=""    
-	session(ZC_BLOG_CLSID&"username")=""
-	Response.Cookies("username")=Empty
- 	Response.Cookies("password")=Empty
-	session(ZC_BLOG_CLSID&"password")=Empty    
-	session(ZC_BLOG_CLSID&"username")=Empty
-
-    Response.Write "<a href="""&unescape(Request.QueryString("url"))&""">"&ZC_MSG065&"</a><br/>"
-
- End Function
-
-
- Function ShowError_WAP(id)
- 	Response.Redirect ZC_BLOG_HOST&ZC_FILENAME_WAP&"?act=Err&id="&id
- End Function
+Function ShowError_WAP(id)
+	Response.Redirect WapUrlStr&"?act=Err&id="&id
+End Function
 
 %>
