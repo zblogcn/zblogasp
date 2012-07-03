@@ -77,8 +77,6 @@ Select Case Request.QueryString("act")
 	Case "TagMng" Call ExportTagList(Request.QueryString("page"))
 	Case "PlugInMng" Call ExportPluginMng()
 	Case "SiteInfo" Call ExportSiteInfo()
-	Case "SiteFileMng" Call ExportSiteFileList(Request.QueryString("path"),Request.QueryString("opath"))
-	Case "SiteFileEdt" Call ExportSiteFileEdit(Request.QueryString("path"),Request.QueryString("opath"))
 	Case "AskFileReBuild" Call ExportFileReBuildAsk()
 	Case "ThemeMng" Call ExportThemeMng()
 
