@@ -552,16 +552,6 @@ Function GetRights(strAction)
 			GetRights=4
 		Case "SiteInfo"
 			GetRights=4
-		Case "SiteFileMng"
-			GetRights=1
-		Case "SiteFileEdt"
-			GetRights=1
-		'Case "SiteFileFnd"
-		'	GetRights=1
-		Case "SiteFilePst"
-			GetRights=1
-		Case "SiteFileDel"
-			GetRights=1
 		'Case "Update"
 		'	GetRights=1
 		Case "ThemeMng"
