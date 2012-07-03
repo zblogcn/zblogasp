@@ -1,0 +1,86 @@
+/* 干预后台背景, ~ 如 asd 不改后台背景就别动这段~ */
+/* div.Header{color:#FFFFFF;background-color:#AFB9CF;} */
+div.Header a{font-size:15px;}
+body {background-color:#F8F8F6;}
+div.SubMenu span.m-now a{background-color:#F8F8F6;border-bottom:3px solid #F8F8F6;}
+div#divMain2 {line-height:120%;}
+#edit{background-color:#FFFFFF;clear:both;}
+div.theme-other{background-color:#FFFFFF;}
+
+
+/*---------------------------------------------------------------*/
+/* 定义选择主题页样式 */
+/*---------------------------------------------------------------*/
+.themePanel {width:222px;height:316px;float:left;margin:4px;padding:2px;line-height:120%;background-color:#EDF5FB;border:1px dotted #91ADBF;}
+.themePanel img{clear:both;padding:5px;background-color:#ffffff;border:1px solid #91ADBF;}
+.themePanel table{width:92%;margin:0 10px;padding:0 5px;border-collapse: collapse;border:none;background:#ffffff;}
+.themePanel td{border:none;margin:0;padding:2px;vertical-align:top;}
+
+.themePanel .delicon {margin:0;padding:2px;height:16px;float:right;}
+.themePanel .delicon font{visibility:hidden;}
+.themePanel .delicon a {margin:0;padding:0 2px;font-size:16px;background:url("delete.gif") no-repeat center;text-decoration: none;}
+.themePanel .delicon a:hover {background:url("delete-a.gif") no-repeat center;}
+
+.themePanel .epticon {margin:0;padding:2px;height:16px;float:right;}
+.themePanel .epticon font{visibility:hidden;}
+.themePanel .epticon a {margin:0;padding:0 2px;font-size:16px;background:url("export.gif") no-repeat center;text-decoration: none;}
+.themePanel .epticon a:hover {background:url("export-a.gif") no-repeat center;}
+
+.themePanel .edticon {margin:0;padding:2px;height:16px;float:right;}
+.themePanel .edticon font{visibility:hidden;}
+.themePanel .edticon a {margin:0;padding:0 2px;font-size:16px;background:url("edit.gif") no-repeat center;text-decoration: none;}
+.themePanel .edticon a:hover {background:url("edit-a.gif") no-repeat center;}
+
+.themePanel .inficon {margin:0;padding:2px;height:16px;float:right;}
+.themePanel .inficon font{visibility:hidden;}
+.themePanel .inficon a {margin:0;padding:0 5px;font-size:16px;background:url("info.gif") no-repeat center;text-decoration: none;}
+.themePanel .inficon a:hover {background:url("info-a.gif") no-repeat center;}
+
+.themePanel .updicon {margin:0;padding:2px;height:16px;float:right;}
+.themePanel .updicon font{visibility:hidden;}
+.themePanel .updicon a {margin:0;padding:0 5px;font-size:16px;background:url("update.gif") no-repeat center;text-decoration: none;}
+.themePanel .updicon a:hover {background:url("update-a.gif") no-repeat center;}
+
+.themePanel .updinfo {margin:0;padding:2px 0 2px 5px;font-size:12px;float:left;}
+/*---------------------------------------------------------------*/
+/* 选择主题页样式定义完毕 */
+/*---------------------------------------------------------------*/
+
+/*---------------------------------------------------------------*/
+/* 定义主题细节页样式 */
+/*---------------------------------------------------------------*/
+.themeDetail{margin:10px 20px;padding:5px;line-height:120%;}
+.themeDetail img{float:right;margin:0 0 10px 10px;padding:5px;border:1px solid #91ADBF;}
+/*---------------------------------------------------------------*/
+/* 主题细节页样式定义完毕 */
+/*---------------------------------------------------------------*/
+
+/*---------------------------------------------------------------*/
+/* 定义主机备份 ZTI 文件管理页 */
+.ztiMng td{padding:5px;}
+
+.ztiMng .delicon {margin:0;padding:0;height:15px;}
+.ztiMng .delicon a {color:red;font-weight:bold;text-decoration: none;}
+.ztiMng .delicon a:hover {color:Pink;}
+
+.ztiMng .dowicon {margin:0;padding:0;height:15px;}
+.ztiMng .dowicon a {color:blue;font-weight:bold;text-decoration: none;}
+.ztiMng .dowicon a:hover {color:DeepSkyBlue;}
+
+.ztiMng .rsticon {margin:0;padding:0;height:15px;}
+.ztiMng .rsticon a {color:green;font-weight:bold;text-decoration: none;}
+.ztiMng .rsticon a:hover {color:Lime;}
+/*---------------------------------------------------------------*/
+/* 主机备份 ZTI 文件管理页定义完毕 */
+/*---------------------------------------------------------------*/
+
+
+/* 其它细节 */
+#loading, #loading2, #loading3 {position:absolute;top:1px;right:1px;height:15px;width:380px;margin:0;padding:5px 10px;background:#8B0000;color:#FFFFFF;font-size:12px;}
+#loading a, #loading2 a, #loading3 a {color:white;}
+.status-box{clear:both;margin:10px 0;padding:6px 10px;background:white;border:1px solid #91ADBF;}
+.download-box{margin:10px 0;padding:15px 36px;background:#FFFFFF url("download.gif") no-repeat 6px 9px;border:1px solid #91ADBF;}
+
+.notice {color:red;}.notice a{color:red;}.notice a:hover{color:#FF7F50;}
+.allright {color:green;}.allright a{color:green;}.allright a:hover{color:#FF7F50;}
+.somehow {color:blue;}.somehow a{color:blue;}.somehow a:hover{color:#FF7F50;}

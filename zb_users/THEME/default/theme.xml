@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<theme version="0.1">
+<id>default</id>
+<name>Default主题</name>
+<url></url>
+<note>Z-Blog的默认主题</note>
+<author>
+<name>zx.asd</name>
+<url>http://www.zdevo.com/</url>
+<email>null@null.com</email>
+</author>
+<source>
+<name>zx.asd</name>
+<url>http://www.zdevo.com/</url>
+<email>null@null.com</email>
+</source>
+<plugin>
+<name></name>
+<note></note>
+<type></type>
+<path></path>
+<include></include>
+<level></level>
+</plugin>
+<adapted>Z-Blog 1.8</adapted>
+<version>1.0</version>
+<pubdate>2005-2-18</pubdate>
+<modified>2007-7-15</modified>
+<description><![CDATA[Z-Blog的默认主题，论坛样式区的所有的样式均适合于该主题模板。]]></description>
+</theme>
