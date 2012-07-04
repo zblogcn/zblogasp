@@ -2886,12 +2886,12 @@ End Function
 '**************************************************<
 '类型:filter
 '名称:Filter_Plugin_TComment_Post
-'参数:ID,log_ID,AuthorID,Author,Content,Email,HomePage,PostTime,IP,Agent,ParentID
+'参数:ID,log_ID,AuthorID,Author,Content,Email,HomePage,PostTime,IP,Agent,ParentID,ParentCount
 '说明:
 '调用:
 '**************************************************>
 Dim sFilter_Plugin_TComment_Post
-Function Filter_Plugin_TComment_Post(ByRef ID,ByRef log_ID,ByRef AuthorID,ByRef Author,ByRef Content,ByRef Email,ByRef HomePage,ByRef PostTime,ByRef IP,ByRef Agent,ByRef Reply,ByRef LastReplyIP,ByRef LastReplyTime,ByRef MetaString,ByRef ParentID)
+Function Filter_Plugin_TComment_Post(ByRef ID,ByRef log_ID,ByRef AuthorID,ByRef Author,ByRef Content,ByRef Email,ByRef HomePage,ByRef PostTime,ByRef IP,ByRef Agent,ByRef Reply,ByRef LastReplyIP,ByRef LastReplyTime,ByRef MetaString,ByRef ParentID,ByRef ParentCount)
 
 	Dim s,i
 
@@ -2912,12 +2912,12 @@ End Function
 '**************************************************<
 '类型:filter
 '名称:Filter_Plugin_TComment_LoadInfoByArray
-'参数:ID,log_ID,AuthorID,Author,Content,Email,HomePage,PostTime,IP,Agent,ParentID
+'参数:ID,log_ID,AuthorID,Author,Content,Email,HomePage,PostTime,IP,Agent,ParentID,ParentCount
 '说明:
 '调用:
 '**************************************************>
 Dim sFilter_Plugin_TComment_LoadInfoByArray
-Function Filter_Plugin_TComment_LoadInfoByArray(ByRef ID,ByRef log_ID,ByRef AuthorID,ByRef Author,ByRef Content,ByRef Email,ByRef HomePage,ByRef PostTime,ByRef IP,ByRef Agent,ByRef Reply,ByRef LastReplyIP,ByRef LastReplyTime,ByRef MetaString,ByRef ParentID)
+Function Filter_Plugin_TComment_LoadInfoByArray(ByRef ID,ByRef log_ID,ByRef AuthorID,ByRef Author,ByRef Content,ByRef Email,ByRef HomePage,ByRef PostTime,ByRef IP,ByRef Agent,ByRef Reply,ByRef LastReplyIP,ByRef LastReplyTime,ByRef MetaString,ByRef ParentID,ByRef ParentCount)
 
 	Dim s,i
 
@@ -2938,12 +2938,12 @@ End Function
 '**************************************************<
 '类型:filter
 '名称:Filter_Plugin_TComment_Del
-'参数:ID,log_ID,AuthorID,Author,Content,Email,HomePage,PostTime,IP,Agent,ParentID
+'参数:ID,log_ID,AuthorID,Author,Content,Email,HomePage,PostTime,IP,Agent,ParentID,ParentCount
 '说明:
 '调用:
 '**************************************************>
 Dim sFilter_Plugin_TComment_Del
-Function Filter_Plugin_TComment_Del(ByRef ID,ByRef log_ID,ByRef AuthorID,ByRef Author,ByRef Content,ByRef Email,ByRef HomePage,ByRef PostTime,ByRef IP,ByRef Agent,ByRef Reply,ByRef LastReplyIP,ByRef LastReplyTime,ByRef MetaString,ByRef ParentID)
+Function Filter_Plugin_TComment_Del(ByRef ID,ByRef log_ID,ByRef AuthorID,ByRef Author,ByRef Content,ByRef Email,ByRef HomePage,ByRef PostTime,ByRef IP,ByRef Agent,ByRef Reply,ByRef LastReplyIP,ByRef LastReplyTime,ByRef MetaString,ByRef ParentID,ByRef ParentCount)
 
 	Dim s,i
 
@@ -2964,12 +2964,12 @@ End Function
 '**************************************************<
 '类型:filter
 '名称:Filter_Plugin_TComment_LoadInfoByID
-'参数:ID,log_ID,AuthorID,Author,Content,Email,HomePage,PostTime,IP,Agent,ParentID
+'参数:ID,log_ID,AuthorID,Author,Content,Email,HomePage,PostTime,IP,Agent,ParentID,ParentCount
 '说明:
 '调用:
 '**************************************************>
 Dim sFilter_Plugin_TComment_LoadInfoByID
-Function Filter_Plugin_TComment_LoadInfoByID(ByRef ID,ByRef log_ID,ByRef AuthorID,ByRef Author,ByRef Content,ByRef Email,ByRef HomePage,ByRef PostTime,ByRef IP,ByRef Agent,ByRef Reply,ByRef LastReplyIP,ByRef LastReplyTime,ByRef MetaString,ByRef ParentID)
+Function Filter_Plugin_TComment_LoadInfoByID(ByRef ID,ByRef log_ID,ByRef AuthorID,ByRef Author,ByRef Content,ByRef Email,ByRef HomePage,ByRef PostTime,ByRef IP,ByRef Agent,ByRef Reply,ByRef LastReplyIP,ByRef LastReplyTime,ByRef MetaString,ByRef ParentID,ByRef ParentCount)
 
 	Dim s,i
 

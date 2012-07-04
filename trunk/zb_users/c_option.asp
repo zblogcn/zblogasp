@@ -151,7 +151,7 @@ Const ZC_SINGLE_SIZE_WAP=1000
 Const ZC_SINGLE_PAGEBAR_COUNT_WAP=5
 Const ZC_COMMENT_PAGEBAR_COUNT_WAP=5
 Const ZC_FILENAME_WAP="wap.asp"
-Const ZC_WAPCOMMENT_ENABLE=False
+Const ZC_WAPCOMMENT_ENABLE=True
 
 '--------------------------------------------------------------------
 
@@ -166,7 +166,7 @@ Const ZC_UPLOAD_DIRECTORY="upload"
 Const ZC_BLOG_LANGUAGE="zh-CN"
 '--------------------------------------------------------------------
 
-
+Const ZC_MAXFLOOR=4
 
 %>
 <!-- #include file="c_custom.asp" -->

@@ -527,14 +527,25 @@ Function PostComment(strKey)
 	inpEmail=Request.Form("inpEmail")
 	inpHomePage=Request.Form("inpHomePage")
 	inpParentID=Request.Form("inpParentID")
+	
 	If Len(inpArticle)=0 Or Len(inpArticle)>ZC_CONTENT_MAX Then
 		Call  ShowError(46)
 	End If
 
 	Dim objComment
 	Dim objArticle
+	Dim tmpCount
 
 	Set objComment=New TComment
+	'If clng(inpParentID)>0 Then
+'		objComment.LoadInfoById(inpParentID)'
+'		If objComment.ParentCount>ZC_MAXFL'OOR Then Exit Function'
+'		tmpCount= objComment.ParentCount
+'		Set objComment=Nothing	
+'		Set  objComment=New TComment
+'	Else
+		tmpCount=-1
+'	End If
 	objComment.log_ID=inpID
 	objComment.AuthorID=BlogUser.ID
 	objComment.Author=inpName
@@ -542,6 +553,8 @@ Function PostComment(strKey)
 	objComment.Email=inpEmail
 	objComment.HomePage=inpHomePage
 	objComment.ParentID=inpParentID
+	objComment.ParentCount=tmpCount+1
+
 
 	'接口
 	Call Filter_Plugin_PostComment_Core(objComment)
@@ -670,11 +683,22 @@ Function RevertComment(strKey,intRevertCommentID)
 	inpEmail=Request.Form("inpEmail")
 	inpHomePage=Request.Form("inpHomePage")
 	inpParentID=intRevertCommentID
+
 	If Len(inpArticle)=0 Or Len(inpArticle)>ZC_CONTENT_MAX Then
 		Call  ShowError(46)
 	End If
-
+	Dim tmpCount
 	Set objComment=New TComment
+	If clng(inpParentID)>0 Then
+		objComment.LoadInfoById(inpParentID)
+		If objComment.ParentCount+1>ZC_MAXFLOOR Then Response.Write "超出层数":Exit Function
+		tmpCount= objComment.ParentCount
+		Set objComment=Nothing	
+		Set  objComment=New TComment
+	Else
+		tmpCount=-1
+	End If
+	
 	objComment.log_ID=inpID
 	objComment.AuthorID=BlogUser.ID
 	objComment.Author=inpName
@@ -682,6 +706,8 @@ Function RevertComment(strKey,intRevertCommentID)
 	objComment.Email=inpEmail
 	objComment.HomePage=inpHomePage
 	objComment.ParentID=inpParentID
+	objComment.ParentCount=tmpCount+1
+
 '	If objComment.LoadInfoByID(intRevertCommentID)=True Then
 '
 '		If BlogUser.ID=0 Then
