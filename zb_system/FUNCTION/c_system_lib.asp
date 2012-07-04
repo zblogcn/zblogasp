@@ -815,7 +815,7 @@ Class TArticle
 			objRS.CursorType = adOpenKeyset
 			objRS.LockType = adLockReadOnly
 			objRS.ActiveConnection=objConn
-			objRS.Source="SELECT [comm_ID],[log_ID],[comm_AuthorID],[comm_Author],[comm_Content],[comm_Email],[comm_HomePage],[comm_PostTime],[comm_IP],[comm_Agent],[comm_Reply],[comm_LastReplyIP],[comm_LastReplyTime],[comm_Meta],[comm_ParentID] FROM [blog_Comment] WHERE [blog_Comment].[log_ID]=" & ID &" UNION ALL SELECT [tb_ID],[log_ID],'',[tb_Title],[tb_Excerpt],[tb_Blog],[tb_URL],[tb_PostTime],[tb_IP],[tb_Agent],'','','',[tb_Meta],'' from [blog_TrackBack] WHERE [blog_TrackBack].[log_ID]="& ID & " ORDER BY [comm_ID],[comm_PostTime]"
+			objRS.Source="SELECT [comm_ID],[log_ID],[comm_AuthorID],[comm_Author],[comm_Content],[comm_Email],[comm_HomePage],[comm_PostTime],[comm_IP],[comm_Agent],[comm_Reply],[comm_LastReplyIP],[comm_LastReplyTime],[comm_Meta],[comm_ParentID],[comm_ParentCount] FROM [blog_Comment] WHERE ([blog_Comment].[log_ID]=" & ID &" AND [blog_Comment].[comm_ParentID]=0) UNION ALL SELECT [tb_ID],[log_ID],'',[tb_Title],[tb_Excerpt],[tb_Blog],[tb_URL],[tb_PostTime],[tb_IP],[tb_Agent],'','','',[tb_Meta],'' ,'' from [blog_TrackBack] WHERE [blog_TrackBack].[log_ID]="& ID & " ORDER BY [comm_ID],[comm_PostTime]"
 
 			objRS.Open()
 
@@ -829,9 +829,9 @@ Class TArticle
 
 						Set objComment=New TComment
 
-						objComment.LoadInfoByArray(Array(objRS("comm_ID"),objRS("log_ID"),objRS("comm_AuthorID"),objRS("comm_Author"),objRS("comm_Content"),objRS("comm_Email"),objRS("comm_HomePage"),objRS("comm_PostTime"),"","",objRS("comm_Reply"),"","","",objRS("comm_Meta"),objRS("comm_ParentID")))
+						objComment.LoadInfoByArray(Array(objRS("comm_ID"),objRS("log_ID"),objRS("comm_AuthorID"),objRS("comm_Author"),objRS("comm_Content"),objRS("comm_Email"),objRS("comm_HomePage"),objRS("comm_PostTime"),"","",objRS("comm_Reply"),"","","",objRS("comm_Meta"),objRS("comm_ParentID"),objRS("comm_ParentCount")))
 
-						strC_Count=strC_Count+1
+						If objRs("comm_ParentID")=0 Then strC_Count=strC_Count+1
 
 						strC=GetTemplate("TEMPLATE_B_ARTICLE_COMMENT")
 
@@ -2674,6 +2674,7 @@ Class TComment
 	Public ID
 	Public log_ID
 	Public ParentID
+	Public ParentCount
 	
 	Public AuthorID
 	Public Author
@@ -2745,7 +2746,7 @@ Class TComment
 
 	Public Function Post()
 
-		Call Filter_Plugin_TComment_Post(ID,log_ID,AuthorID,Author,Content,Email,HomePage,PostTime,IP,Agent,Reply,LastReplyIP,LastReplyTime,MetaString,ParentID)
+		Call Filter_Plugin_TComment_Post(ID,log_ID,AuthorID,Author,Content,Email,HomePage,PostTime,IP,Agent,Reply,LastReplyIP,LastReplyTime,MetaString,ParentID,ParentCount)
 		If IP="" Then
 			IP=Request.ServerVariables("REMOTE_ADDR")
 			Agent=Request.ServerVariables("HTTP_USER_AGENT")
@@ -2759,6 +2760,8 @@ Class TComment
 		Call CheckParameter(AuthorID,"int",0)
 		Call CheckParameter(PostTime,"dtm",GetTime(Now()))
 		Call CheckParameter(ParentID,"int",0)
+		Call CheckParameter(ParentCount,"int",0)
+		If ParentCount>ZC_MAXFLOOR Then Exit Function
 		If ParentID="" Then ParentID=0
 		Author=FilterSQL(Author)
 		Content=FilterSQL(Content)
@@ -2817,7 +2820,7 @@ Class TComment
 		End If
 
 		If ID=0 Then
-			objConn.Execute("INSERT INTO [blog_Comment]([log_ID],[comm_AuthorID],[comm_Author],[comm_Content],[comm_Email],[comm_HomePage],[comm_IP],[comm_PostTime],[comm_Agent],[comm_Reply],[comm_LastReplyIP],[comm_LastReplyTime],[comm_Meta],[comm_ParentID]) VALUES ("&log_ID&","&AuthorID&",'"&Author&"','"&Content&"','"&Email&"','"&HomePage&"','"&IP&"','"&PostTime&"','"&Agent&"','"&Reply&"','"&LastReplyIP&"','"&LastReplyTime&"','"&MetaString&"','"&ParentID&"')")
+			objConn.Execute("INSERT INTO [blog_Comment]([log_ID],[comm_AuthorID],[comm_Author],[comm_Content],[comm_Email],[comm_HomePage],[comm_IP],[comm_PostTime],[comm_Agent],[comm_Reply],[comm_LastReplyIP],[comm_LastReplyTime],[comm_Meta],[comm_ParentID],[comm_ParentCount]) VALUES ("&log_ID&","&AuthorID&",'"&Author&"','"&Content&"','"&Email&"','"&HomePage&"','"&IP&"','"&PostTime&"','"&Agent&"','"&Reply&"','"&LastReplyIP&"','"&LastReplyTime&"','"&MetaString&"','"&ParentID&"','"&ParentCount&"')")
 			Set objRS=objConn.Execute("SELECT MAX([comm_ID]) FROM [blog_Comment]")
 			If (Not objRS.bof) And (Not objRS.eof) Then
 				ID=objRS(0)
@@ -2834,7 +2837,7 @@ Class TComment
 
 	Public Function Del()
 
-		Call Filter_Plugin_TComment_Del(ID,log_ID,AuthorID,Author,Content,Email,HomePage,PostTime,IP,Agent,Reply,LastReplyIP,LastReplyTime,MetaString,ParentID)
+		Call Filter_Plugin_TComment_Del(ID,log_ID,AuthorID,Author,Content,Email,HomePage,PostTime,IP,Agent,Reply,LastReplyIP,LastReplyTime,MetaString,ParentID,ParentCount)
 
 		Call CheckParameter(ID,"int",0)
 		If (ID=0) Then Del=False:Exit Function
@@ -2848,7 +2851,7 @@ Class TComment
 		Call CheckParameter(comm_ID,"int",0)
 
 		Dim objRS
-		Set objRS=objConn.Execute("SELECT [comm_ID],[log_ID],[comm_AuthorID],[comm_Author],[comm_Content],[comm_Email],[comm_HomePage],[comm_PostTime],[comm_IP],[comm_Agent],[comm_Reply],[comm_LastReplyIP],[comm_LastReplyTime],[comm_Meta],[comm_ParentID] FROM [blog_Comment] WHERE [comm_ID]=" & comm_ID)
+		Set objRS=objConn.Execute("SELECT [comm_ID],[log_ID],[comm_AuthorID],[comm_Author],[comm_Content],[comm_Email],[comm_HomePage],[comm_PostTime],[comm_IP],[comm_Agent],[comm_Reply],[comm_LastReplyIP],[comm_LastReplyTime],[comm_Meta],[comm_ParentID],[comm_ParentCount] FROM [blog_Comment] WHERE [comm_ID]=" & comm_ID)
 
 		If (Not objRS.bof) And (Not objRS.eof) Then
 
@@ -2867,6 +2870,7 @@ Class TComment
 			LastReplyTime=objRS("comm_LastReplyTime")
 			MetaString=objRS("comm_Meta")
 			ParentID=objRS("comm_ParentID")
+			ParentCount=objRS("comm_ParentCount")
 
 			LoadInfoByID=True
 
@@ -2877,7 +2881,7 @@ Class TComment
 
 		If IsNull(HomePage) Then HomePage=""
 
-		Call Filter_Plugin_TComment_LoadInfoByID(ID,log_ID,AuthorID,Author,Content,Email,HomePage,PostTime,IP,Agent,Reply,LastReplyIP,LastReplyTime,MetaString,ParentID)
+		Call Filter_Plugin_TComment_LoadInfoByID(ID,log_ID,AuthorID,Author,Content,Email,HomePage,PostTime,IP,Agent,Reply,LastReplyIP,LastReplyTime,MetaString,ParentID,ParentCount)
 
 	End Function
 
@@ -2899,20 +2903,20 @@ Class TComment
 			LastReplyIP=aryCommInfo(11)
 			LastReplyTime=aryCommInfo(12)
 			MetaString=aryCommInfo(13)
-			ParentID=aryCommInfo(14)
+			ParentID=aryCommInfo(15)
+			ParentCount=aryCommInfo(16)
 		End If
 
 		If IsNull(HomePage) Then HomePage=""
 
 		LoadInfoByArray=True
 
-		Call Filter_Plugin_TComment_LoadInfoByArray(ID,log_ID,AuthorID,Author,Content,Email,HomePage,PostTime,IP,Agent,Reply,LastReplyIP,LastReplyTime,MetaString,ParentID)
+		Call Filter_Plugin_TComment_LoadInfoByArray(ID,log_ID,AuthorID,Author,Content,Email,HomePage,PostTime,IP,Agent,Reply,LastReplyIP,LastReplyTime,MetaString,ParentID,ParentCount)
 
 	End Function
 
 'Mark2 MakeTemplate
 	Public Function MakeTemplate(strC,isChild)
-
 		Dim html,i,j,template
 		html=strC
 		template=GetTemplate("TEMPLATE_B_ARTICLE_COMMENTREV")
@@ -2920,23 +2924,13 @@ Class TComment
 		'plugin node
 		Call Filter_Plugin_TComment_MakeTemplate_Template(html)
 		Dim ChildTemplate
-		Set ChildTemplate=New TComment
-		ChildTemplate.LoadInfoById(ID)
 		Dim aryTemplateTagsName()
 		Dim aryTemplateTagsValue()
-		ParentID=ChildTemplate.ParentID
-		
 		ReDim aryTemplateTagsName(13)
 		ReDim aryTemplateTagsValue(13)
-		Dim intCount
-		If ParentID="" Then ParentID=0
 		If ParentID>0 Then
 			If isChild=False Then MakeTemplate="":Exit Function
-			intCount=1
-		Else
-			intCount=Count
 		End If
-		
 		aryTemplateTagsName(  1)="article/comment/id"
 		aryTemplateTagsValue( 1)=ID
 		aryTemplateTagsName(  2)="article/comment/name"
@@ -2952,6 +2946,7 @@ Class TComment
 		aryTemplateTagsName(  7)="article/comment/content"
 		aryTemplateTagsValue( 7)=HtmlContent
 		aryTemplateTagsName(  8)="article/comment/count"
+		aryTemplateTagsValue(  8)=Count
 		aryTemplateTagsName(  9)="article/comment/authorid"
 		aryTemplateTagsValue( 9)=AuthorID
 		aryTemplateTagsName( 10)="article/comment/firstcontact"
@@ -2963,18 +2958,18 @@ Class TComment
 		aryTemplateTagsName( 13)="article/comment/rev"
 		aryTemplateTagsValue(13)=""
 		Dim objRS
-		Set objRS=objConn.Execute("SELECT [comm_ID],[log_ID],[comm_AuthorID],[comm_Author],[comm_Content],[comm_Email],[comm_HomePage],[comm_PostTime],[comm_IP],[comm_Agent],[comm_Reply],[comm_LastReplyIP],[comm_LastReplyTime],[comm_Meta],[comm_ParentID] FROM [blog_Comment] WHERE [comm_ParentID]=" & ID)
+		Set objRS=objConn.Execute("SELECT [comm_ID],[log_ID],[comm_AuthorID],[comm_Author],[comm_Content],[comm_Email],[comm_HomePage],[comm_PostTime],[comm_IP],[comm_Agent],[comm_Reply],[comm_LastReplyIP],[comm_LastReplyTime],[comm_Meta],[comm_ParentID],[comm_ParentCount] FROM [blog_Comment] WHERE [comm_ParentID]=" & ID)
+		Set ChildTemplate=New TComment
+		Dim intCount
+		intCount=0
 		Do Until objRS.bof Or objRS.eof
-			intCount=intCount+1
 			If ChildTemplate.LoadInfoById(objRS("comm_ID"))=True Then
+				intCount=intCount+1
+				ChildTemplate.Count=intCount
 				aryTemplateTagsValue(13)=aryTemplateTagsValue(13)&ChildTemplate.MakeTemplate(template,True)
 			End If
 			objRS.movenext
 		Loop
-		If ParentID=0 Then
-			intCount=Count
-		End If
-		aryTemplateTagsValue(  8)=intCount
 
 		'plugin node
 		Call Filter_Plugin_TComment_MakeTemplate_TemplateTags(aryTemplateTagsName,aryTemplateTagsValue)
@@ -4262,7 +4257,7 @@ Class TGuestBook
 		objRS.CursorType = adOpenKeyset
 		objRS.LockType = adLockReadOnly
 		objRS.ActiveConnection=objConn
-		objRS.Source="SELECT [comm_ID],[log_ID],[comm_AuthorID],[comm_Author],[comm_Content],[comm_Email],[comm_HomePage],[comm_PostTime],[comm_IP],[comm_Agent],[comm_Meta],[comm_ParentID] FROM [blog_Comment] WHERE [blog_Comment].[log_ID]=0 ORDER BY [comm_PostTime] DESC"
+		objRS.Source="SELECT [comm_ID],[log_ID],[comm_AuthorID],[comm_Author],[comm_Content],[comm_Email],[comm_HomePage],[comm_PostTime],[comm_IP],[comm_Agent],[comm_Meta],[comm_ParentID] FROM [blog_Comment] WHERE ([blog_Comment].[log_ID]=0 AND [blog_Comment].[comm_ParentID]=0) ORDER BY [comm_PostTime] DESC"
 
 		objRS.Open()
 
