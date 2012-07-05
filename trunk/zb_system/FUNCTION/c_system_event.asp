@@ -232,28 +232,7 @@ Function PostArticle()
 	objArticle.Intro=Request.Form("txaIntro")
 
 	Select Case LCase(Request.QueryString("type"))
-	Case "htmlarea"
-		objArticle.Content=Request.Form("ta")
-
-		If objArticle.Intro="" Then
-			s=objArticle.Content
-			If Len(s)>ZC_TB_EXCERPT_MAX Then
-				i=InStr(s,vbCrlf)
-				If i>0 Then
-					t=Split(s,vblf)
-					s=""
-					For k=LBound(t) To UBound(t)
-						s=s & t(k)
-						If Len(s)>ZC_TB_EXCERPT_MAX Then Exit For
-					Next
-					s=Replace(s,vbCr,vbCrlf)
-				End If
-				s=s & ZC_MSG305
-			End If
-			s=TransferHTML(s,"[closehtml]")
-			objArticle.Intro=s
-		End If
-	Case "tinymce"
+	Case "ueditor"
 		objArticle.Content=Request.Form("txaContent")
 		If objArticle.Intro="" Then
 			s=objArticle.Content
@@ -273,82 +252,6 @@ Function PostArticle()
 			s=TransferHTML(s,"[closehtml]")
 			objArticle.Intro=s
 		End If
-		objArticle.Content=Replace(objArticle.Content,vbCrLf,"")
-		objArticle.Content=Replace(objArticle.Content,vbLf,"")
-		objArticle.Intro=Replace(objArticle.Intro,vbCrLf,"")
-		objArticle.Intro=Replace(objArticle.Intro,vbLf,"")
-	Case "fckeditor"
-		objArticle.Content=Request.Form("txaContent")
-		If objArticle.Intro="" Then
-			s=objArticle.Content
-			If Len(s)>ZC_TB_EXCERPT_MAX Then
-				i=InStr(s,vbCrlf)
-				If i>0 Then
-					t=Split(s,vblf)
-					s=""
-					For k=LBound(t) To UBound(t)
-						s=s & t(k)
-						If Len(s)>ZC_TB_EXCERPT_MAX Then Exit For
-					Next
-					s=Replace(s,vbCr,vbCrlf)
-				End If
-				s=s & ZC_MSG305
-			End If
-			s=TransferHTML(s,"[closehtml]")
-			objArticle.Intro=s
-		End If
-		objArticle.Content=Replace(objArticle.Content,vbCrLf,"")
-		objArticle.Content=Replace(objArticle.Content,vbLf,"")
-		objArticle.Intro=Replace(objArticle.Intro,vbCrLf,"")
-		objArticle.Intro=Replace(objArticle.Intro,vbLf,"")
-	Case "ewebeditor"
-		objArticle.Content=Request.Form("txaContent")
-		If objArticle.Intro="" Then
-			s=objArticle.Content
-			If Len(s)>ZC_TB_EXCERPT_MAX Then
-				i=InStr(s,vbCrlf)
-				If i>0 Then
-					t=Split(s,vblf)
-					s=""
-					For k=LBound(t) To UBound(t)
-						s=s & t(k)
-						If Len(s)>ZC_TB_EXCERPT_MAX Then Exit For
-					Next
-					s=Replace(s,vbCr,vbCrlf)
-				End If
-				s=s & ZC_MSG305
-			End If
-			s=TransferHTML(s,"[closehtml]")
-			objArticle.Intro=s
-		End If
-		objArticle.Content=Replace(objArticle.Content,vbCrLf,"")
-		objArticle.Content=Replace(objArticle.Content,vbLf,"")
-		objArticle.Intro=Replace(objArticle.Intro,vbCrLf,"")
-		objArticle.Intro=Replace(objArticle.Intro,vbLf,"")
-	Case "widgeditor"
-		objArticle.Content=Request.Form("txaContent")
-		If objArticle.Intro="" Then
-			s=objArticle.Content
-			If Len(s)>ZC_TB_EXCERPT_MAX Then
-				i=InStr(s,vbCrlf)
-				If i>0 Then
-					t=Split(s,vblf)
-					s=""
-					For k=LBound(t) To UBound(t)
-						s=s & t(k)
-						If Len(s)>ZC_TB_EXCERPT_MAX Then Exit For
-					Next
-					s=Replace(s,vbCr,vbCrlf)
-				End If
-				s=s & ZC_MSG305
-			End If
-			s=TransferHTML(s,"[closehtml]")
-			objArticle.Intro=s
-		End If
-		objArticle.Content=Replace(objArticle.Content,vbCrLf,"")
-		objArticle.Content=Replace(objArticle.Content,vbLf,"")
-		objArticle.Intro=Replace(objArticle.Intro,vbCrLf,"")
-		objArticle.Intro=Replace(objArticle.Intro,vbLf,"")
 	Case Else
 		objArticle.Content=Request.Form("txaContent")
 		If objArticle.Intro="" Then
