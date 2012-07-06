@@ -128,7 +128,7 @@ Function UploadFile(bolAutoName,bolReload)
 		Response.Write "<script language=""Javascript"">try{parent.document.getElementById('mce_editor_0').contentWindow.document.getElementsByTagName('body')[0].innerHTML+='"&strFileName&"'}catch(e){}</script>"
 		'edit_ewebeditor
 		Response.Write "<script language=""Javascript"">try{parent.document.getElementById('eWebEditor1').contentWindow.document.getElementsByTagName('body')[0].innerHTML+='"&strFileName&"'}catch(e){}</script>"
-
+		
 		Response.Write "</body></html>"
 
 		'If bolReload=True Then Response.End
@@ -535,7 +535,7 @@ Function DelComment(intID,intLog_ID)
 		Else
 			If Not ((objComment.log_ID=0) And (CheckRights("GuestBookMng")=True)) Then Exit Function
 		End If
-
+		DelChild objComment.ID
 		If objComment.Del Then
 			If objComment.log_ID>0 Then
 				Call BuildArticle(objComment.log_ID,False,True)
@@ -683,12 +683,33 @@ End Function
 '*********************************************************
 Function SaveComment(intID,intLog_ID)
 
-	Dim objComment
+	Dim objComment,objComment2
 	Dim objArticle
-
+	Dim inpParentID,tmpCount
+	inpParentID=clng( Request.Form("intRepComment"))
+	
 	Set objComment=New TComment
-	If objComment.LoadInfoByID(intID)=True Then
+	Set objComment2=New TComment
+	
 
+	
+	If objComment.LoadInfoByID(intID)=True Then
+	if inpParentID>0 And inpParentID<>clng(intID) then
+		If objComment2.LoadInfoByID(inpParentID)=True Then
+			If objComment2.ParentCount+1>ZC_MAXFLOOR Then Call SetBlogHint_Custom("x 超出了层数！"):SaveComment=True:Exit Function
+			tmpCount=objComment2.ParentCount
+			If objComment2.log_ID=cLng(intLog_ID) then
+				objComment.ParentID=inpParentID
+				objComment.ParentCount=tmpCount+1
+			Else
+				Call SetBlogHint_Custom("x 父评论和子评论不在同一篇文章!")
+				SaveComment=True
+				Exit Function
+			End If
+		End If
+	else	
+		If  inpParentID<>clng(intID) then objComment.parentid=0
+	end if
 		objComment.log_ID=intLog_ID
 		objComment.Author=Request.Form("inpName")
 		objComment.Email=Request.Form("inpEmail")
@@ -697,7 +718,7 @@ Function SaveComment(intID,intLog_ID)
 		objComment.Reply=Request.Form("txaReply")
 
 	End If
-
+	Set objComment2=Nothing
 	If objComment.log_ID>0 Then
 		Set objArticle=New TArticle
 		If objArticle.LoadInfoByID(objComment.log_ID) Then
@@ -1789,7 +1810,7 @@ End Function
 ' 目的：
 '*********************************************************
 Function DelCommentBatch()
-
+	On Error Resume Next
 	Dim i,j
 	Dim s,t
 	Dim aryArticle()
@@ -1803,7 +1824,7 @@ Function DelCommentBatch()
 
 	Dim objComment
 	Dim objArticle
-
+	Dim objRs
 
 	For i=0 To UBound(t)-1
 		Set objComment=New TComment
@@ -1829,7 +1850,9 @@ Function DelCommentBatch()
 				If Not((objComment.log_ID=0) And (CheckRights("GuestBookMng")=True)) Then Exit Function
 			End If
 
+			DelChild objComment.ID
 			objComment.Del
+
 		End If
 		Set objComment=Nothing
 	Next
@@ -1847,9 +1870,24 @@ Function DelCommentBatch()
 
 End Function
 '*********************************************************
+'*********************************************************
+' 目的：
+'*********************************************************
+Function DelChild(ID)
+	Dim objRs,tmpParentID,tmpID
+	Set objRs=objConn.Execute("SELECT comm_ParentID,comm_ID FROM [blog_Comment] WHERE comm_ParentID="&ID)
+	Do Until objRS.bof Or objRS.eof
+		tmpParentID=clng(objRs("comm_ParentID"))
+		tmpID=clng(objRs("comm_ID"))
 
-
-
+		If tmpParentID>0 Then
+			DelChild(tmpID)
+		End If
+		objConn.Execute "DELETE FROM [blog_Comment] WHERE comm_ID="&tmpID
+		objRS.MoveNext
+	Loop
+End Function
+'*********************************************************
 
 '*********************************************************
 ' 目的：
