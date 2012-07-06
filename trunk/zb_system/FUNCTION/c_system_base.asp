@@ -1550,7 +1550,6 @@ End Function
 ' 目的：    按照CustomDirectory指示创建相应的目录
 '*********************************************************
 Sub CreatDirectoryByCustomDirectory(strCustomDirectory)
-
 	On Error Resume Next
 
 	Dim s

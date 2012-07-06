@@ -802,7 +802,6 @@ Class TArticle
 		Next
 
 		If CommNums + TrackBackNums > 0 Then
-
 			Dim strC_Count,strC,strT_Count,strT
 
 			Dim objComment
@@ -811,12 +810,12 @@ Class TArticle
 			Dim i
 
 			Dim objRS
+			strC_Count=0
 			Set objRS=Server.CreateObject("ADODB.Recordset")
 			objRS.CursorType = adOpenKeyset
 			objRS.LockType = adLockReadOnly
 			objRS.ActiveConnection=objConn
 			objRS.Source="SELECT [comm_ID],[log_ID],[comm_AuthorID],[comm_Author],[comm_Content],[comm_Email],[comm_HomePage],[comm_PostTime],[comm_IP],[comm_Agent],[comm_Reply],[comm_LastReplyIP],[comm_LastReplyTime],[comm_Meta],[comm_ParentID],[comm_ParentCount] FROM [blog_Comment] WHERE ([blog_Comment].[log_ID]=" & ID &" AND [blog_Comment].[comm_ParentID]=0) UNION ALL SELECT [tb_ID],[log_ID],'',[tb_Title],[tb_Excerpt],[tb_Blog],[tb_URL],[tb_PostTime],[tb_IP],[tb_Agent],'','','',[tb_Meta],'' ,'' from [blog_TrackBack] WHERE [blog_TrackBack].[log_ID]="& ID & " ORDER BY [comm_ID],[comm_PostTime]"
-
 			objRS.Open()
 
 			If (not objRS.bof) And (not objRS.eof) Then
@@ -828,14 +827,14 @@ Class TArticle
 					If IsNumeric(objRS("comm_AuthorID")) Then
 
 						Set objComment=New TComment
-
 						objComment.LoadInfoByArray(Array(objRS("comm_ID"),objRS("log_ID"),objRS("comm_AuthorID"),objRS("comm_Author"),objRS("comm_Content"),objRS("comm_Email"),objRS("comm_HomePage"),objRS("comm_PostTime"),"","",objRS("comm_Reply"),"","","",objRS("comm_Meta"),objRS("comm_ParentID"),objRS("comm_ParentCount")))
 
 						If objRs("comm_ParentID")=0 Then strC_Count=strC_Count+1
 
 						strC=GetTemplate("TEMPLATE_B_ARTICLE_COMMENT")
-
+'Mark3
 						objComment.Count=strC_Count
+						
 						strC=objComment.MakeTemplate(strC,False)
 
 						If ZC_COMMENT_REVERSE_ORDER_EXPORT=True Then
@@ -4239,25 +4238,13 @@ Class TGuestBook
 		If ZC_COMMENT_VERIFY_ENABLE=True Then
 			Template_Article_Commentpost_Verify=GetTemplate("TEMPLATE_B_ARTICLE_COMMENTPOST-VERIFY")
 		End If
-
 		Dim objRS
+		strC_Count=0
 		Set objRS=Server.CreateObject("ADODB.Recordset")
 		objRS.CursorType = adOpenKeyset
 		objRS.LockType = adLockReadOnly
 		objRS.ActiveConnection=objConn
-		objRS.Source=""
-		objRS.Open("SELECT COUNT([comm_ID])AS allComment FROM [blog_Comment] WHERE [blog_Comment].[log_ID]=0")
-		If (Not objRS.bof) And (Not objRS.eof) Then
-			strC_Count=objRS("allComment")
-		End If
-		objRS.Close
-		Set objRS=Nothing
-
-		Set objRS=Server.CreateObject("ADODB.Recordset")
-		objRS.CursorType = adOpenKeyset
-		objRS.LockType = adLockReadOnly
-		objRS.ActiveConnection=objConn
-		objRS.Source="SELECT [comm_ID],[log_ID],[comm_AuthorID],[comm_Author],[comm_Content],[comm_Email],[comm_HomePage],[comm_PostTime],[comm_IP],[comm_Agent],[comm_Meta],[comm_ParentID] FROM [blog_Comment] WHERE ([blog_Comment].[log_ID]=0 AND [blog_Comment].[comm_ParentID]=0) ORDER BY [comm_PostTime] DESC"
+		objRS.Source="SELECT [comm_ID],[log_ID],[comm_AuthorID],[comm_Author],[comm_Content],[comm_Email],[comm_HomePage],[comm_PostTime],[comm_IP],[comm_Agent],[comm_Meta],[comm_ParentID],[comm_ParentCount] FROM [blog_Comment] WHERE ([blog_Comment].[log_ID]=0 AND [blog_Comment].[comm_ParentID]=0) ORDER BY [comm_PostTime] ASC"
 
 		objRS.Open()
 
@@ -4271,11 +4258,13 @@ Class TGuestBook
 
 				Set objComment=New TComment
 
-				objComment.LoadInfoByArray(Array(objRS("comm_ID"),objRS("log_ID"),objRS("comm_AuthorID"),objRS("comm_Author"),objRS("comm_Content"),objRS("comm_Email"),objRS("comm_HomePage"),objRS("comm_PostTime"),"","","","","",objRS("comm_ParentID")))
+				objComment.LoadInfoByArray(Array(objRS("comm_ID"),objRS("log_ID"),objRS("comm_AuthorID"),objRS("comm_Author"),objRS("comm_Content"),objRS("comm_Email"),objRS("comm_HomePage"),objRS("comm_PostTime"),"","","","","","","",objRS("comm_ParentID"),objRs("comm_ParentCount")))
 
 				strC=GetTemplate("TEMPLATE_B_ARTICLE_COMMENT")
-
-				objComment.Count=strC_Count-i-(ZC_MSG_COUNT * (intPage-1))+1
+				
+				If objRs("comm_ParentID")=0 Then strC_Count=strC_Count+1
+'mark4
+				objComment.Count=strC_Count
 				strC=objComment.MakeTemplate(strC,False)
 
 				If ZC_COMMENT_REVERSE_ORDER_EXPORT=True Then

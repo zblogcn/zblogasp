@@ -117,10 +117,9 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG047
 	<script language="JavaScript" src="../script/jquery.textarearesizer.compressed.js" type="text/javascript"></script>
     <script type="text/javascript">
 		var loaded=false;	 
-		window.UEDITOR_HOME_URL = "<%=ZC_BLOG_HOST%>zb_system/admin/ueditor/";
     </script>
-    <script type="text/javascript" charset="utf-8" src="ueditor/editor_config.js"></script>
-    <script type="text/javascript" charset="utf-8" src="ueditor/editor_all.js"></script>
+    <script type="text/javascript" charset="utf-8" src="ueditor/editor_config.asp"></script>
+    <script type="text/javascript" charset="utf-8" src="ueditor/editor_all_min.js"></script>
 
 	<title><%=BlogTitle%></title>
 </head>

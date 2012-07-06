@@ -361,10 +361,11 @@ Function ExportCommentList(intPage,intContent)
 	Response.Write "</p></form>"
 
 	Response.Write "<table border=""1"" width=""100%"" cellspacing=""1"" cellpadding=""1"">"
-	Response.Write "<tr><td width='5%'>"& ZC_MSG076 &"</td><td width='14%'>"& ZC_MSG001 &"</td><td>"& ZC_MSG055 &"</td><td width='12%'>"& ZC_MSG080 &"</td><td width='15%'>"& ZC_MSG075 &"</td><td width='6%'></td><td width='6%'></td><td width='5%'  align='center'><a href='' onclick='BatchSelectAll();return false'>"& ZC_MSG229 &"</a></td></tr>"'
+	Response.Write "<tr><td width='5%'>"& ZC_MSG076 &"</td><td width=""5%"">回复评论ID</td><td width='14%'>"& ZC_MSG001 &"</td><td>"& ZC_MSG055 &"</td><td width=""12%"">留言文章</td><td width='12%'>"& ZC_MSG080 &"</td><td width='15%'>"& ZC_MSG075 &"</td><td width='6%'></td><td width='6%'></td><td width='5%'  align='center'><a href='' onclick='BatchSelectAll();return false'>"& ZC_MSG229 &"</a></td></tr>"'
 
 	objRS.Open("SELECT * FROM [blog_Comment] "& strSQL &" ORDER BY [comm_ID] DESC")
-
+	Dim objArticle
+	Set objArticle=New TArticle
 
 	objRS.PageSize=ZC_MANAGE_COUNT
 	If objRS.PageCount>0 Then objRS.AbsolutePage = intPage
@@ -376,6 +377,7 @@ Function ExportCommentList(intPage,intContent)
 
 			Response.Write "<tr>"
 			Response.Write "<td>" & objRS("comm_ID") & "</td>"
+			Response.Write "<td>"&objRs("comm_ParentID")&"</td>"
 			If Trim(objRS("comm_Email"))="" Then
 			Response.Write "<td>"& objRS("comm_Author") & "</td>"
 			Else
@@ -389,7 +391,8 @@ Function ExportCommentList(intPage,intContent)
 			'End If
 
 			Response.Write "<td><a id=""mylink"&objRS("comm_ID")&""" href=""$div"&objRS("comm_ID")&"tip?width=320"" class=""betterTip"" title=""正文"">" & Left(objRS("comm_Content"),20) & "...</a><div id=""div"&objRS("comm_ID")&"tip"" style=""display:none;"">"& objRS("comm_Content") &"</div></td>"
-
+			objArticle.LoadInfoById objRs("log_ID")
+			Response.Write "<td><a href="""&objArticle.URL&"#cmt"&objRS("comm_ID")&""" target=""_blank"">"&objArticle.title&"</a></td>"
 			Response.Write "<td>" & objRS("comm_IP") & "</td>"
 			Response.Write "<td>" & objRS("comm_PostTime") & "</td>"
 			Response.Write "<td align=""center""><a href=""../cmd.asp?act=CommentEdt&id=" & objRS("comm_ID") & "&log_id="& objRS("log_ID") &""">["& ZC_MSG078 &"]</a></td>"
@@ -401,7 +404,7 @@ Function ExportCommentList(intPage,intContent)
 			If objRS.eof Then Exit For
 
 		Next
-
+	Set objArticle=Nothing
 	End If
 
 	Response.Write "</table>"

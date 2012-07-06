@@ -4222,4 +4222,68 @@ Dim sAction_Plugin_Tags_End
 '**************************************************>
 Dim Response_Plugin_AdminLeft_Plugin
 Response_Plugin_AdminLeft_Plugin=""
+
+
+'以下为uEditor的所有接口：
+Dim Action_Plugin_UEditor_FileUpload_Begin()
+ReDim Action_Plugin_UEditor_FileUpload_Begin(0)
+Dim bAction_Plugin_UEditor_FileUpload_Begin
+Dim sAction_Plugin_UEditor_FileUpload_Begin
+
+Dim Action_Plugin_UEditor_FileUpload_End()
+ReDim Action_Plugin_UEditor_FileUpload_End(0)
+Dim bAction_Plugin_UEditor_FileUpload_End
+Dim sAction_Plugin_UEditor_FileUpload_End
+
+Dim Action_Plugin_UEditor_imageManager_Begin()
+ReDim Action_Plugin_UEditor_imageManager_Begin(0)
+Dim bAction_Plugin_UEditor_imageManager_Begin
+Dim sAction_Plugin_UEditor_imageManager_Begin
+
+Dim Action_Plugin_UEditor_imageManager_End()
+ReDim Action_Plugin_UEditor_imageManager_End(0)
+Dim bAction_Plugin_UEditor_imageManager_End
+Dim sAction_Plugin_UEditor_imageManager_End
+
+Dim Action_Plugin_UEditor_config_Begin()
+ReDim Action_Plugin_UEditor_config_Begin(0)
+Dim bAction_Plugin_UEditor_config_Begin
+Dim sAction_Plugin_UEditor_config_Begin
+
+Dim Action_Plugin_UEditor_config_End()
+ReDim Action_Plugin_UEditor_config_End(0)
+Dim bAction_Plugin_UEditor_config_End
+Dim sAction_Plugin_UEditor_config_End
+
+Dim Action_Plugin_UEditor_getRemoteImage_Begin()
+ReDim Action_Plugin_UEditor_getRemoteImage_Begin(0)
+Dim bAction_Plugin_UEditor_getRemoteImage_Begin
+Dim sAction_Plugin_UEditor_getRemoteImage_Begin
+
+Dim Action_Plugin_UEditor_getRemoteImage_End()
+ReDim Action_Plugin_UEditor_getRemoteImage_End(0)
+Dim bAction_Plugin_UEditor_getRemoteImage_End
+Dim sAction_Plugin_UEditor_getRemoteImage_End
+
+Dim Action_Plugin_UEditor_getmovie_Begin()
+ReDim Action_Plugin_UEditor_getmovie_Begin(0)
+Dim bAction_Plugin_UEditor_getmovie_Begin
+Dim sAction_Plugin_UEditor_getmovie_Begin
+
+Dim Action_Plugin_UEditor_getmovie_End()
+ReDim Action_Plugin_UEditor_getmovie_End(0)
+Dim bAction_Plugin_UEditor_getmovie_End
+Dim sAction_Plugin_UEditor_getmovie_End
+
+Dim Action_Plugin_UEditor_getcontent_Begin()
+ReDim Action_Plugin_UEditor_getcontent_Begin(0)
+Dim bAction_Plugin_UEditor_getcontent_Begin
+Dim sAction_Plugin_UEditor_getcontent_Begin
+
+Dim Action_Plugin_UEditor_getcontent_End()
+ReDim Action_Plugin_UEditor_getcontent_End(0)
+Dim bAction_Plugin_UEditor_getcontent_End
+Dim sAction_Plugin_UEditor_getcontent_End
+
+
 %>

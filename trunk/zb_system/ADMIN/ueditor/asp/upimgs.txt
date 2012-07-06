@@ -1,0 +1,1 @@
+{'url':'../upload/images/20120619175756265626.jpgue_separate_ue../upload/images/20120619175749734973.jpgue_separate_ue../upload/images/20120619175795389538.jpg','tip':'远程图片抓取成功！','srcUrl':'http://www.tzs.cn/Files/tzf1.jpgue_separate_uehttp://www.tzs.cn/Files/tzf2.jpgue_separate_uehttp://www.tzs.cn/Files/tzs1.jpg'}
