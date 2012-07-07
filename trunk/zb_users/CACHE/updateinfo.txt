@@ -1,9 +1,0 @@
-﻿﻿<p><a href="http://blog.rainbowsoft.org/2010/04/27/63/" target="_blank"><b>Z-Blog 1.8 Walle Build 100427 发布 (2010-4-27)</b></a></p>
-
-<p><a href="http://blog.rainbowsoft.org/2009/08/05/61/" target="_blank">Rainbowsoft.org网站访问故障及恢复通告 (2009-8-5)</a></p>
-
-
-<p><a href="http://www.dutory.com/blog/archives/9.aspx" target="_blank"><b>由RainbowSoft Studio开发的 Dutory 0.3 Gromit (build 3498.15822) 发布 (2009-7-30)</b></a></p>
-
-
-<p><a href="http://blog.rainbowsoft.org/2009/07/26/60/" target="_blank">Z-Blog管理员密码重置工具发布 (2009-7-26)</a></p>
