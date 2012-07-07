@@ -52,9 +52,9 @@ Class TCategory
 
 		Url = ZC_BLOG_HOST & "catalog.asp?"& "cate=" & ID
 
-		If CheckPluginState("STACentre") Then
-			Dim objCate : Set objCate=New STACentre_Categorys : If objCate.LoadInfoByID(ID) Then Url=objCate.Url : Set objCate=Nothing
-		End If
+		'If CheckPluginState("STACentre") Then
+		'	'Dim objCate : Set objCate=New STACentre_Categorys : If objCate.LoadInfoByID(ID) Then Url=objCate.Url : Set objCate=Nothing
+		'End If
 
 		Call Filter_Plugin_TCategory_Url(Url)
 
@@ -566,12 +566,6 @@ Class TArticle
 			If bAction_Plugin_TArticle_Export_Begin=True Then Exit Function
 		Next
 
-		'Call Export_CMTandTB
-		'Call Export_Mutuality
-		'Call Export_NavBar
-		'Call Export_CommentPost
-		'Call Export_Tag
-
 		Call Export_Tag
 		Call Export_CMTandTB
 		Call Export_CommentPost
@@ -719,15 +713,19 @@ Class TArticle
 
 		aryTemplateTagsName(43)="article/staticname"
 		aryTemplateTagsValue(43)=StaticName
-		aryTemplateTagsName(44)="article/tagtoname"
-		aryTemplateTagsValue(44)=TagToName
-		aryTemplateTagsName(45)="article/firsttagintro"
-		aryTemplateTagsValue(45)=FirstTagIntro
+		aryTemplateTagsName(44)="article/category/staticname"
+		aryTemplateTagsValue(44)=""'Categorys(CateID).StaticName
+		aryTemplateTagsName(45)="article/author/staticname"
+		aryTemplateTagsValue(45)=""'Users(AuthorID).StaticName
+		aryTemplateTagsName(46)="article/tagtoname"
+		aryTemplateTagsValue(46)=TagToName
+		aryTemplateTagsName(47)="article/firsttagintro"
+		aryTemplateTagsValue(47)=FirstTagIntro
 
-		aryTemplateTagsName(46)="article/posttime/monthnameabbr"
-		aryTemplateTagsValue(46)=ZVA_Month_Abbr(Month(PostTime))
-		aryTemplateTagsName(47)="article/posttime/weekdaynameabbr"
-		aryTemplateTagsValue(47)=ZVA_Week_Abbr(Weekday(PostTime))
+		aryTemplateTagsName(48)="article/posttime/monthnameabbr"
+		aryTemplateTagsValue(48)=ZVA_Month_Abbr(Month(PostTime))
+		aryTemplateTagsName(49)="article/posttime/weekdaynameabbr"
+		aryTemplateTagsValue(49)=ZVA_Week_Abbr(Weekday(PostTime))
 
 
 		Call Filter_Plugin_TArticle_Export_TemplateTags(aryTemplateTagsName,aryTemplateTagsValue)
@@ -815,7 +813,7 @@ Class TArticle
 			objRS.CursorType = adOpenKeyset
 			objRS.LockType = adLockReadOnly
 			objRS.ActiveConnection=objConn
-			objRS.Source="SELECT [comm_ID],[log_ID],[comm_AuthorID],[comm_Author],[comm_Content],[comm_Email],[comm_HomePage],[comm_PostTime],[comm_IP],[comm_Agent],[comm_Reply],[comm_LastReplyIP],[comm_LastReplyTime],[comm_Meta],[comm_ParentID],[comm_ParentCount] FROM [blog_Comment] WHERE ([blog_Comment].[log_ID]=" & ID &" AND [blog_Comment].[comm_ParentID]=0) UNION ALL SELECT [tb_ID],[log_ID],'',[tb_Title],[tb_Excerpt],[tb_Blog],[tb_URL],[tb_PostTime],[tb_IP],[tb_Agent],'','','',[tb_Meta],'' ,'' from [blog_TrackBack] WHERE [blog_TrackBack].[log_ID]="& ID & " ORDER BY [comm_ID],[comm_PostTime]"
+			objRS.Source="SELECT [comm_ID],[log_ID],[comm_AuthorID],[comm_Author],[comm_Content],[comm_Email],[comm_HomePage],[comm_PostTime],[comm_IP],[comm_Agent],[comm_Reply],[comm_LastReplyIP],[comm_LastReplyTime],[comm_ParentID],[comm_ParentCount],[comm_Meta] FROM [blog_Comment] WHERE ([blog_Comment].[log_ID]=" & ID &" AND [blog_Comment].[comm_ParentID]=0) UNION ALL SELECT [tb_ID],[log_ID],'',[tb_Title],[tb_Excerpt],[tb_Blog],[tb_URL],[tb_PostTime],[tb_IP],[tb_Agent],'','','',[tb_Meta],'' ,'' from [blog_TrackBack] WHERE [blog_TrackBack].[log_ID]="& ID & " ORDER BY [comm_ID],[comm_PostTime]"
 			objRS.Open()
 
 			If (not objRS.bof) And (not objRS.eof) Then
@@ -827,7 +825,7 @@ Class TArticle
 					If IsNumeric(objRS("comm_AuthorID")) Then
 
 						Set objComment=New TComment
-						objComment.LoadInfoByArray(Array(objRS("comm_ID"),objRS("log_ID"),objRS("comm_AuthorID"),objRS("comm_Author"),objRS("comm_Content"),objRS("comm_Email"),objRS("comm_HomePage"),objRS("comm_PostTime"),"","",objRS("comm_Reply"),"","","",objRS("comm_Meta"),objRS("comm_ParentID"),objRS("comm_ParentCount")))
+						objComment.LoadInfoByArray(Array(objRS("comm_ID"),objRS("log_ID"),objRS("comm_AuthorID"),objRS("comm_Author"),objRS("comm_Content"),objRS("comm_Email"),objRS("comm_HomePage"),objRS("comm_PostTime"),"","",objRS("comm_Reply"),"","",objRS("comm_ParentID"),objRS("comm_ParentCount"),objRS("comm_Meta")))
 
 						If objRs("comm_ParentID")=0 Then strC_Count=strC_Count+1
 
@@ -2098,7 +2096,11 @@ Class TArticleList
 
 		objRS.Source="SELECT [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_Meta] FROM [blog_Article] WHERE ([log_ID]>0) AND ([log_Level]>2)"
 
-		objRS.Source=objRS.Source & "AND( (InStr(1,LCase([log_Title]),LCase('"&strQuestion&"'),0)<>0) OR (InStr(1,LCase([log_Intro]),LCase('"&strQuestion&"'),0)<>0) OR (InStr(1,LCase([log_Content]),LCase('"&strQuestion&"'),0)<>0) )"
+		If ZC_MSSQL=False Then
+			objRS.Source=objRS.Source & "AND( (InStr(1,LCase([log_Title]),LCase('"&strQuestion&"'),0)<>0) OR (InStr(1,LCase([log_Intro]),LCase('"&strQuestion&"'),0)<>0) OR (InStr(1,LCase([log_Content]),LCase('"&strQuestion&"'),0)<>0) )"
+		Else
+			objRS.Source=objRS.Source & "AND( (CHARINDEX('"&strQuestion&"',[log_Title])<>0) OR (CHARINDEX('"&strQuestion&"',[log_Intro])<>0) OR (CHARINDEX('"&strQuestion&"',[log_Content])<>0) )"
+		End If
 
 		objRS.Source=objRS.Source & "ORDER BY [log_PostTime] DESC,[log_ID] DESC"
 
@@ -2312,9 +2314,9 @@ Class TUser
 
 		Url = ZC_BLOG_HOST & "catalog.asp?"& "auth=" & ID
 
-		If CheckPluginState("STACentre") Then
-			Dim objAuth : Set objAuth=New STACentre_Authors : If objAuth.LoadInfoByID(ID) Then Url=objAuth.Url : Set objAuth=Nothing
-		End If
+		'If CheckPluginState("STACentre") Then
+		'	'Dim objAuth : Set objAuth=New STACentre_Authors : If objAuth.LoadInfoByID(ID) Then Url=objAuth.Url : Set objAuth=Nothing
+		'End If
 
 		Call Filter_Plugin_TUser_Url(Url)
 
@@ -2744,7 +2746,7 @@ Class TComment
 
 	Public Function Post()
 
-		Call Filter_Plugin_TComment_Post(ID,log_ID,AuthorID,Author,Content,Email,HomePage,PostTime,IP,Agent,Reply,LastReplyIP,LastReplyTime,MetaString,ParentID,ParentCount)
+		Call Filter_Plugin_TComment_Post(ID,log_ID,AuthorID,Author,Content,Email,HomePage,PostTime,IP,Agent,Reply,LastReplyIP,LastReplyTime,ParentID,ParentCount,MetaString)
 		If IP="" Then
 			IP=Request.ServerVariables("REMOTE_ADDR")
 			Agent=Request.ServerVariables("HTTP_USER_AGENT")
@@ -2818,14 +2820,14 @@ Class TComment
 		End If
 
 		If ID=0 Then
-			objConn.Execute("INSERT INTO [blog_Comment]([log_ID],[comm_AuthorID],[comm_Author],[comm_Content],[comm_Email],[comm_HomePage],[comm_IP],[comm_PostTime],[comm_Agent],[comm_Reply],[comm_LastReplyIP],[comm_LastReplyTime],[comm_Meta],[comm_ParentID],[comm_ParentCount]) VALUES ("&log_ID&","&AuthorID&",'"&Author&"','"&Content&"','"&Email&"','"&HomePage&"','"&IP&"','"&PostTime&"','"&Agent&"','"&Reply&"','"&LastReplyIP&"','"&LastReplyTime&"','"&MetaString&"','"&ParentID&"','"&ParentCount&"')")
+			objConn.Execute("INSERT INTO [blog_Comment]([log_ID],[comm_AuthorID],[comm_Author],[comm_Content],[comm_Email],[comm_HomePage],[comm_IP],[comm_PostTime],[comm_Agent],[comm_Reply],[comm_LastReplyIP],[comm_LastReplyTime],[comm_ParentID],[comm_ParentCount],[comm_Meta]) VALUES ("&log_ID&","&AuthorID&",'"&Author&"','"&Content&"','"&Email&"','"&HomePage&"','"&IP&"','"&PostTime&"','"&Agent&"','"&Reply&"','"&LastReplyIP&"','"&LastReplyTime&"','"&ParentID&"','"&ParentCount&"','"&MetaString&"')")
 			Set objRS=objConn.Execute("SELECT MAX([comm_ID]) FROM [blog_Comment]")
 			If (Not objRS.bof) And (Not objRS.eof) Then
 				ID=objRS(0)
 			End If
 			Set objRS=Nothing
 		Else
-			objConn.Execute("UPDATE [blog_Comment] SET [log_ID]="&log_ID&", [comm_AuthorID]="&AuthorID&",[comm_Author]='"&Author&"',[comm_Content]='"&Content&"',[comm_Email]='"&Email&"',[comm_HomePage]='"&HomePage&"',[comm_IP]='"&IP&"',[comm_PostTime]='"&PostTime&"',[comm_Agent]='"&Agent&"',[comm_Reply]='"&Reply&"',[comm_LastReplyIP]='"&LastReplyIP&"',[comm_LastReplyTime]='"&LastReplyTime&"',[comm_Meta]='"&MetaString&"',[comm_ParentID]='"&ParentID&"' WHERE [comm_ID] =" & ID)
+			objConn.Execute("UPDATE [blog_Comment] SET [log_ID]="&log_ID&", [comm_AuthorID]="&AuthorID&",[comm_Author]='"&Author&"',[comm_Content]='"&Content&"',[comm_Email]='"&Email&"',[comm_HomePage]='"&HomePage&"',[comm_IP]='"&IP&"',[comm_PostTime]='"&PostTime&"',[comm_Agent]='"&Agent&"',[comm_Reply]='"&Reply&"',[comm_LastReplyIP]='"&LastReplyIP&"',[comm_LastReplyTime]='"&LastReplyTime&"',[comm_ParentID]='"&ParentID&"',[comm_Meta]='"&MetaString&"' WHERE [comm_ID] =" & ID)
 		End If
 
 		Post=True
@@ -2835,7 +2837,7 @@ Class TComment
 
 	Public Function Del()
 
-		Call Filter_Plugin_TComment_Del(ID,log_ID,AuthorID,Author,Content,Email,HomePage,PostTime,IP,Agent,Reply,LastReplyIP,LastReplyTime,MetaString,ParentID,ParentCount)
+		Call Filter_Plugin_TComment_Del(ID,log_ID,AuthorID,Author,Content,Email,HomePage,PostTime,IP,Agent,Reply,LastReplyIP,LastReplyTime,ParentID,ParentCount,MetaString)
 
 		Call CheckParameter(ID,"int",0)
 		If (ID=0) Then Del=False:Exit Function
@@ -2849,7 +2851,7 @@ Class TComment
 		Call CheckParameter(comm_ID,"int",0)
 
 		Dim objRS
-		Set objRS=objConn.Execute("SELECT [comm_ID],[log_ID],[comm_AuthorID],[comm_Author],[comm_Content],[comm_Email],[comm_HomePage],[comm_PostTime],[comm_IP],[comm_Agent],[comm_Reply],[comm_LastReplyIP],[comm_LastReplyTime],[comm_Meta],[comm_ParentID],[comm_ParentCount] FROM [blog_Comment] WHERE [comm_ID]=" & comm_ID)
+		Set objRS=objConn.Execute("SELECT [comm_ID],[log_ID],[comm_AuthorID],[comm_Author],[comm_Content],[comm_Email],[comm_HomePage],[comm_PostTime],[comm_IP],[comm_Agent],[comm_Reply],[comm_LastReplyIP],[comm_LastReplyTime],[comm_ParentID],[comm_ParentCount],[comm_Meta] FROM [blog_Comment] WHERE [comm_ID]=" & comm_ID)
 
 		If (Not objRS.bof) And (Not objRS.eof) Then
 
@@ -2866,9 +2868,9 @@ Class TComment
 			Reply=objRS("comm_Reply")
 			LastReplyIP=objRS("comm_LastReplyIP")
 			LastReplyTime=objRS("comm_LastReplyTime")
-			MetaString=objRS("comm_Meta")
 			ParentID=objRS("comm_ParentID")
 			ParentCount=objRS("comm_ParentCount")
+			MetaString=objRS("comm_Meta")
 
 			LoadInfoByID=True
 
@@ -2879,7 +2881,7 @@ Class TComment
 
 		If IsNull(HomePage) Then HomePage=""
 
-		Call Filter_Plugin_TComment_LoadInfoByID(ID,log_ID,AuthorID,Author,Content,Email,HomePage,PostTime,IP,Agent,Reply,LastReplyIP,LastReplyTime,MetaString,ParentID,ParentCount)
+		Call Filter_Plugin_TComment_LoadInfoByID(ID,log_ID,AuthorID,Author,Content,Email,HomePage,PostTime,IP,Agent,Reply,LastReplyIP,LastReplyTime,ParentID,ParentCount,MetaString)
 
 	End Function
 
@@ -2900,16 +2902,17 @@ Class TComment
 			Reply=aryCommInfo(10)
 			LastReplyIP=aryCommInfo(11)
 			LastReplyTime=aryCommInfo(12)
-			MetaString=aryCommInfo(13)
-			ParentID=aryCommInfo(15)
-			ParentCount=aryCommInfo(16)
+			ParentID=aryCommInfo(13)
+			ParentCount=aryCommInfo(14)
+			MetaString=aryCommInfo(15)
+
 		End If
 
 		If IsNull(HomePage) Then HomePage=""
 
 		LoadInfoByArray=True
 
-		Call Filter_Plugin_TComment_LoadInfoByArray(ID,log_ID,AuthorID,Author,Content,Email,HomePage,PostTime,IP,Agent,Reply,LastReplyIP,LastReplyTime,MetaString,ParentID,ParentCount)
+		Call Filter_Plugin_TComment_LoadInfoByArray(ID,log_ID,AuthorID,Author,Content,Email,HomePage,PostTime,IP,Agent,Reply,LastReplyIP,LastReplyTime,ParentID,ParentCount,MetaString)
 
 	End Function
 
@@ -2944,7 +2947,7 @@ Class TComment
 		aryTemplateTagsName(  7)="article/comment/content"
 		aryTemplateTagsValue( 7)=HtmlContent
 		aryTemplateTagsName(  8)="article/comment/count"
-		aryTemplateTagsValue(  8)=Count
+		aryTemplateTagsValue( 8)=Count
 		aryTemplateTagsName(  9)="article/comment/authorid"
 		aryTemplateTagsValue( 9)=AuthorID
 		aryTemplateTagsName( 10)="article/comment/firstcontact"
@@ -2956,7 +2959,7 @@ Class TComment
 		aryTemplateTagsName( 13)="article/comment/rev"
 		aryTemplateTagsValue(13)=""
 		Dim objRS
-		Set objRS=objConn.Execute("SELECT [comm_ID],[log_ID],[comm_AuthorID],[comm_Author],[comm_Content],[comm_Email],[comm_HomePage],[comm_PostTime],[comm_IP],[comm_Agent],[comm_Reply],[comm_LastReplyIP],[comm_LastReplyTime],[comm_Meta],[comm_ParentID],[comm_ParentCount] FROM [blog_Comment] WHERE [comm_ParentID]=" & ID)
+		Set objRS=objConn.Execute("SELECT [comm_ID],[log_ID],[comm_AuthorID],[comm_Author],[comm_Content],[comm_Email],[comm_HomePage],[comm_PostTime],[comm_IP],[comm_Agent],[comm_Reply],[comm_LastReplyIP],[comm_LastReplyTime],[comm_ParentID],[comm_ParentCount],[comm_Meta] FROM [blog_Comment] WHERE [comm_ParentID]=" & ID)
 		Set ChildTemplate=New TComment
 		Dim intCount
 		intCount=0
@@ -3625,9 +3628,9 @@ Class TTag
 
 		Url = ZC_BLOG_HOST & "catalog.asp?"& "tags=" & Server.URLEncode(Name)
 
-		If CheckPluginState("STACentre") Then
-			Dim objTag : Set objTag=New STACentre_Tags : If objTag.LoadInfoById(ID) Then Url=objTag.Url : Set objTag=Nothing
-		End If
+		'If CheckPluginState("STACentre") Then
+		'	'Dim objTag : Set objTag=New STACentre_Tags : If objTag.LoadInfoById(ID) Then Url=objTag.Url : Set objTag=Nothing
+		'End If
 
 		Call Filter_Plugin_TTag_Url(Url)
 	End Property

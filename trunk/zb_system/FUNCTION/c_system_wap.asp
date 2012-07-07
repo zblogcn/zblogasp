@@ -604,7 +604,7 @@ Function WapCom()
 			For i=1 To objRS.PageSize
 					Dim objComment
 					Set objComment=New TComment
-					If objComment.LoadInfoByArray(Array(objRS("comm_ID"),objRS("log_ID"),objRS("comm_AuthorID"),objRS("comm_Author"),objRS("comm_Content"),objRS("comm_Email"),objRS("comm_HomePage"),objRS("comm_PostTime"),objRS("comm_IP"),objRS("comm_Agent"),"","","",objRs("comm_Meta"),objRS("comm_ParentID"))) Then
+					If objComment.LoadInfoByArray(Array(objRS("comm_ID"),objRS("log_ID"),objRS("comm_AuthorID"),objRS("comm_Author"),objRS("comm_Content"),objRS("comm_Email"),objRS("comm_HomePage"),objRS("comm_PostTime"),objRS("comm_IP"),objRS("comm_Agent"),"","","",objRS("comm_ParentID"),objRS("comm_ParentCount"),objRs("comm_Meta"))) Then
 					Dim strC_Count
 					strC_Count=ComRecordCount-((CurrentPage-1)*ZC_COMMENT_COUNT_WAP+i)+1
 
