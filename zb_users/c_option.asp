@@ -137,7 +137,7 @@ Const ZC_GUESTBOOK_CONTENT="欢迎给我留言。"
 Const ZC_UPDATE_INFO_URL="http://update.rainbowsoft.org/info/"
 
 
-Const ZC_USING_PLUGIN_LIST="STACentre|FileManage|PluginSapper"
+Const ZC_USING_PLUGIN_LIST="FileManage|STACentre"
 
 
 
