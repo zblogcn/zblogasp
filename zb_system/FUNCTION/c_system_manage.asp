@@ -650,12 +650,12 @@ Function ExportFileList(intPage)
 			Dim User:For Each User in Users:If IsObject(User) Then:If User.ID=objRS("ul_AuthorID") Then:Response.Write "<td>" & User.Name & "</td>":End If:End If:Next
 			If IsNull(objRS("ul_DirByTime"))=False And objRS("ul_DirByTime")<>"" Then
 				If CBool(objRS("ul_DirByTime"))=True Then
-					Response.Write "<td><a href='../"& ZC_UPLOAD_DIRECTORY &"/"&Year(objRS("ul_PostTime")) & "/" & Month(objRS("ul_PostTime")) & "/"&objRS("ul_FileName")&"' target='_blank'>"&Year(objRS("ul_PostTime")) & "/" & Month(objRS("ul_PostTime")) & "/" &objRS("ul_FileName")&"</a></td>"
+					Response.Write "<td><a href='../../zb_users/"& ZC_UPLOAD_DIRECTORY &"/"&Year(objRS("ul_PostTime")) & "/" & Month(objRS("ul_PostTime")) & "/"&objRS("ul_FileName")&"' target='_blank'>"&Year(objRS("ul_PostTime")) & "/" & Month(objRS("ul_PostTime")) & "/" &objRS("ul_FileName")&"</a></td>"
 				Else
-					Response.Write "<td><a href='../"& ZC_UPLOAD_DIRECTORY &"/"&objRS("ul_FileName")&"' target='_blank'>"&objRS("ul_FileName")&"</a></td>"
+					Response.Write "<td><a href='../../zb_users/"& ZC_UPLOAD_DIRECTORY &"/"&objRS("ul_FileName")&"' target='_blank'>"&objRS("ul_FileName")&"</a></td>"
 				End If
 			Else
-				Response.Write "<td><a href='../"& ZC_UPLOAD_DIRECTORY &"/"&objRS("ul_FileName")&"' target='_blank'>"&objRS("ul_FileName")&"</a></td>"
+				Response.Write "<td><a href='../../zb_users/"& ZC_UPLOAD_DIRECTORY &"/"&objRS("ul_FileName")&"' target='_blank'>"&objRS("ul_FileName")&"</a></td>"
 			End If
 
 			Response.Write "<td>"&objRS("ul_FileSize")&"</td><td>"&objRS("ul_PostTime")&"</td>"

@@ -19,7 +19,13 @@
 <% Response.Buffer=True %>
 <% Response.ContentType="application/x-javascript" %>
 <!-- #include file="../../zb_users/c_option.asp" -->
+
 <% Response.Clear %>
+<%=LoadFromFile(Server.MapPath("../admin/ueditor/third-party/SyntaxHighlighter/shCore.js"),"utf-8")%>
+
+document.write("<link rel='stylesheet' type='text/css' href='<%=ZC_BLOG_HOST%>/zb_system/ADMIN/ueditor/third-party/SyntaxHighlighter/shCoreDefault.css'");
+SyntaxHighlighter.all();
+
 var str00="<%=ZC_BLOG_HOST%>";
 var str01="<%=ZC_MSG033%>";
 var str02="<%=ZC_MSG034%>";
@@ -49,3 +55,28 @@ try{
 }catch(e){};
 
 });
+
+<%
+Function LoadFromFile(strFullName,strCharset)
+
+	On Error Resume Next
+
+	Dim objStream
+
+	Set objStream = Server.CreateObject("ADODB.Stream")
+	With objStream
+	.Type = adTypeText
+	.Mode = adModeReadWrite
+	.Open
+	.Charset = strCharset
+	.Position = objStream.Size
+	.LoadFromFile strFullName
+	LoadFromFile=.ReadText
+	.Close
+	End With
+	Set objStream = Nothing
+
+	Err.Clear
+
+End Function
+%>

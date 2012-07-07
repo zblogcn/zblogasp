@@ -431,7 +431,7 @@ Class TArticle
 	End Property
 
 	Public Property Get HtmlContent
-		HtmlContent=TransferHTML(UBBCode(Content,"[face][link][email][autolink][font][code][image][typeset][media][flash][key]"),"[html-japan][vbCrlf][upload]")
+		HtmlContent=TransferHTML(UBBCode(Content,"[face][link][email][autolink][font][code][image][typeset][media][flash][key]"),"[html-japan][upload]")
 	End Property
 
 	Public Property Get HtmlTitle
@@ -439,7 +439,7 @@ Class TArticle
 	End Property
 
 	Public Property Get HtmlIntro
-		HtmlIntro=TransferHTML(UBBCode(Intro,"[face][link][email][autolink][font][code][image][typeset][media][flash][key]"),"[html-japan][vbCrlf][upload]")
+		HtmlIntro=TransferHTML(UBBCode(Intro,"[face][link][email][autolink][font][code][image][typeset][media][flash][key]"),"[html-japan][upload]")
 	End Property
 
 	Public Property Get HtmlUrl
@@ -1127,7 +1127,6 @@ Class TArticle
 
 		TemplateName=UCase(FilterSQL(TemplateName))
 		If TemplateName="SINGLE" Then TemplateName=""
-
 		If ID=0 Then
 			objConn.Execute("INSERT INTO [blog_Article]([log_CateID],[log_AuthorID],[log_Level],[log_Title],[log_Intro],[log_Content],[log_PostTime],[log_IP],[log_Tag],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_Meta]) VALUES ("&CateID&","&AuthorID&","&Level&",'"&Title&"','"&Intro&"','"&Content&"','"&PostTime&"','"&IP&"','"&Tag&"','"&Alias&"',"&CInt(Istop)&",'"&TemplateName&"','"&FullUrl&"','"&MetaString&"')")
 			Dim objRS

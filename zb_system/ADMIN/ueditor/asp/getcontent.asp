@@ -25,5 +25,5 @@ For Each sAction_Plugin_getcontent_End in Action_Plugin_getcontent_End
 	If Not IsEmpty(sAction_Plugin_getcontent_End) Then Call Execute(sAction_Plugin_getcontent_End)
 Next
 	Response.Write strResponse
-
+Call System_Terminate()
 %>

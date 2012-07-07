@@ -1569,7 +1569,7 @@ Sub CreatDirectoryByCustomDirectory(strCustomDirectory)
 	j=0
 	For i=LBound(t) To UBound(t)
 		If (IsEmpty(t(i))=False) And (t(i)<>"") Then
-			If j=0 And LCase(Left(t(i),3))="zb_" Then Exit For
+			'If j=0 And LCase(Left(t(i),3))="zb_" Then Exit For
 			s=s & t(i) & "\"
 			If (fso.FolderExists(fldr)=False) Then
 				Call fso.CreateFolder(s)
