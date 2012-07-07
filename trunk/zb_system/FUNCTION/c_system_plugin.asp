@@ -409,14 +409,14 @@ Dim sAction_Plugin_Edit_Comment_Begin
 
 '**************************************************<
 '类型:action
-'名称:Action_Plugin_Edit_Fckeditor_Begin
+'名称:Action_Plugin_Edit_UEditor_Begin
 '参数:无
 '说明:
 '**************************************************>
-Dim Action_Plugin_Edit_Fckeditor_Begin()
-ReDim Action_Plugin_Edit_Fckeditor_Begin(0)
-Dim bAction_Plugin_Edit_Fckeditor_Begin
-Dim sAction_Plugin_Edit_Fckeditor_Begin
+Dim Action_Plugin_Edit_UEditor_Begin()
+ReDim Action_Plugin_Edit_UEditor_Begin(0)
+Dim bAction_Plugin_Edit_UEditor_Begin
+Dim sAction_Plugin_Edit_UEditor_Begin
 
 
 '**************************************************<
