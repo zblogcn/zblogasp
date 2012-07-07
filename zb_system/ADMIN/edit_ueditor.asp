@@ -28,8 +28,8 @@
 Call System_Initialize()
 
 'plugin node
-For Each sAction_Plugin_Edit_Fckeditor_Begin in Action_Plugin_Edit_Fckeditor_Begin
-	If Not IsEmpty(sAction_Plugin_Edit_Fckeditor_Begin) Then Call Execute(sAction_Plugin_Edit_Fckeditor_Begin)
+For Each sAction_Plugin_Edit_ueditor_Begin in Action_Plugin_Edit_ueditor_Begin
+	If Not IsEmpty(sAction_Plugin_Edit_ueditor_Begin) Then Call Execute(sAction_Plugin_Edit_ueditor_Begin)
 Next
 
 '检查非法链接
@@ -114,6 +114,7 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG047
 	<link rel="stylesheet" href="../CSS/jquery.bettertip.css" type="text/css" media="screen">
 	<script language="JavaScript" src="../script/jquery.bettertip.pack.js" type="text/javascript"></script>
 	<script language="JavaScript" src="../script/jquery.tagto.js" type="text/javascript"></script>
+	<script language="JavaScript" type="text/javascript">var loaded=false;</script>
 
     <script type="text/javascript" charset="utf-8" src="ueditor/editor_config.asp"></script>
     <script type="text/javascript" charset="utf-8" src="ueditor/editor_all_min.js"></script>
@@ -288,14 +289,14 @@ End If
 <div id="divContent" style="clear:both;">
 <p><%=ZC_MSG055%>:(<span id="timemsg"></span><span id="msg2"></span><span id="msg"></span><SCRIPT LANGUAGE="JavaScript" src="c_autosaverjs.asp?act=edit&type=ueditor"></SCRIPT>)<br/></p>
 
-<textarea id="ueditor"><%=EditArticle.Content%></textarea>
+<textarea id="ueditor" name="txaContent"><%=EditArticle.Content%></textarea>
 	
 </div>
 <p></p>
-<div id="divAutoIntro" class="anti_normal" style="display:<%If EditArticle.ID=0 And EditArticle.Intro="" Then Response.Write "block" Else Response.Write "none"%>;" onClick="this.style.display='none';document.getElementById('divIntro').style.display='block';AutoIntro();"><p><a title="<%=ZC_MSG297%>" href="javascript:AutoIntro()">[<%=ZC_MSG310%>]</a></p></div>
+<div id="divAutoIntro" class="anti_normal" style="display:<%If EditArticle.ID=0 And EditArticle.Intro="" Then Response.Write "block" Else Response.Write "none"%>;" onClick="try{this.style.display='none';document.getElementById('divIntro').style.display='block';AutoIntro();}catch(e){}"><p><a title="<%=ZC_MSG297%>" href="javascript:AutoIntro()">[<%=ZC_MSG310%>]</a></p></div>
 <div id="divIntro" style="display:<%If EditArticle.Intro="" Then Response.Write "none" Else Response.Write "block"%>;">
 <p><%=ZC_MSG016%>:<a title="<%=ZC_MSG297%>" href="javascript:AutoIntro()">[<%=ZC_MSG310%>]</a></p>
-<textarea id="ueditor2"><%=EditArticle.Intro%></textarea>
+<textarea id="ueditor2" name="txaIntro"><%=EditArticle.Intro%></textarea>
 
 	
 </div>
@@ -317,15 +318,10 @@ End If
 	editor.render('ueditor');
 
     var editor2 = new baidu.editor.ui.Editor({
-        //这里可以选择自己需要的工具按钮名称,此处仅选择如下五个
         toolbars:[['FullScreen', 'Source', 'Undo', 'Redo']],
-        //focus时自动清空初始化时的内容
         autoClearinitialContent:true,
-        //关闭字数统计
         wordCount:false,
-        //关闭elementPath
         elementPathEnabled:false
-        //更多其他参数，请参考editor_config.js中的配置项
     });
 
 	editor2.render('ueditor2');
@@ -339,16 +335,16 @@ End If
 	var str10="<%=ZC_MSG115%>";
 	var str11="<%=ZC_MSG116%>";
 	var str12="<%=ZC_MSG117%>";
-/*
+
 	function checkArticleInfo(){
-		document.getElementById("edit").action="../cmd.asp?act=ArticlePst&type=fckeditor";
+		document.getElementById("edit").action="../cmd.asp?act=ArticlePst&type=ueditor";
 
 		if(document.getElementById("edtCateID").value==0){
 			alert(str10);
 			return false
 		}
 
-		if(!FCKeditorAPI.GetInstance('txaContent').GetHTML()){
+		if(!editor.getContent()){
 			alert(str11);
 			return false
 		}
@@ -379,19 +375,13 @@ End If
 	}
 
 	function AutoIntro() {
-		//FCKeditorAPI.GetInstance('txaIntro').SetHTML(FCKeditorAPI.GetInstance('txaContent').GetHTML().replace(/<[^>]+>/g, "").substring(0,200));     //FCK会自动处理未闭合的标签，我们不用多管它。要是标签被切了一半显示出来了自己编辑下就好。
-
-		CKEDITOR.instances.txaIntro.setData( CKEDITOR.instances.txaContent.getData().replace(/<[^>]+>/g, "").substring(0,200) );
+		editor2.setContent(editor.getContent().replace(/<[^>]+>/g, "").substring(0,200) )
 	}
 
 	function Advanced(){
 		$("div.normal").css("display","block");
 		$("div.anti_normal").css("display","none");
-	}*/
-
-
-
-
+	}
 
 
 </script>
