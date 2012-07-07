@@ -67,8 +67,8 @@ If Err.Number=0 Then
 	EditArticle.Intro=TransferHTML(EditArticle.Intro,"[html-japan]")
 
 	EditArticle.Title=TransferHTML(EditArticle.Title,"[html-format]")
-	EditArticle.Content=TransferHTML(EditArticle.Content,"[textarea]")
-	EditArticle.Intro=TransferHTML(EditArticle.Intro,"[textarea]")
+	'EditArticle.Content=TransferHTML(EditArticle.Content,"[textarea]")
+	'EditArticle.Intro=TransferHTML(EditArticle.Intro,"[textarea]")
 
 Else
 
@@ -114,10 +114,7 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG047
 	<link rel="stylesheet" href="../CSS/jquery.bettertip.css" type="text/css" media="screen">
 	<script language="JavaScript" src="../script/jquery.bettertip.pack.js" type="text/javascript"></script>
 	<script language="JavaScript" src="../script/jquery.tagto.js" type="text/javascript"></script>
-	<script language="JavaScript" src="../script/jquery.textarearesizer.compressed.js" type="text/javascript"></script>
-    <script type="text/javascript">
-		var loaded=false;	 
-    </script>
+
     <script type="text/javascript" charset="utf-8" src="ueditor/editor_config.asp"></script>
     <script type="text/javascript" charset="utf-8" src="ueditor/editor_all_min.js"></script>
 
@@ -199,7 +196,7 @@ If Err.Number=0 Then
 %>
 	</select><input type="hidden" name="edtAuthorID" id="edtAuthorID" value="<%=EditArticle.AuthorID%>">
 
-	&nbsp;<%=ZC_MSG138%>:<input type="text" style="width:313px;" name="edtTag" id="edtTag" value="<%=TransferHTML(EditArticle.TagToName,"[html-format]")%>"> <a href="" style="cursor:pointer;" onClick="if(document.getElementById('ulTag').style.display=='none'){document.getElementById('ulTag').style.display='block';if(loaded==false){$.getScript('edit_fckeditor.asp?type=tags<%if EditArticle.id<>0  then response.write "&id="&EditArticle.ID%>');loaded=true;}}else{document.getElementById('ulTag').style.display='none'};return false;"><%=ZC_MSG139%><span style="font-size: 1.5em; vertical-align: -1px;"></span></a>
+	&nbsp;<%=ZC_MSG138%>:<input type="text" style="width:313px;" name="edtTag" id="edtTag" value="<%=TransferHTML(EditArticle.TagToName,"[html-format]")%>"> <a href="" style="cursor:pointer;" onClick="if(document.getElementById('ulTag').style.display=='none'){document.getElementById('ulTag').style.display='block';if(loaded==false){$.getScript('edit_ueditor.asp?type=tags<%if EditArticle.id<>0  then response.write "&id="&EditArticle.ID%>');loaded=true;}}else{document.getElementById('ulTag').style.display='none'};return false;"><%=ZC_MSG139%><span style="font-size: 1.5em; vertical-align: -1px;"></span></a>
 	<ul id="ulTag" style="display:none;">
     <span id="ajaxtags"><%=ZC_MSG326%></span>
 
@@ -289,21 +286,18 @@ End If
 <%End If%>
 </div>
 <div id="divContent" style="clear:both;">
-<p><%=ZC_MSG055%>:(<span id="timemsg"></span><span id="msg2"></span><span id="msg"></span><SCRIPT LANGUAGE="JavaScript" src="c_autosaverjs.asp?act=edit&type=fckeditor"></SCRIPT>)<br/>
-<script type="text/plain" id="ueditor">
-<%=EditArticle.Content%>
-</script>
+<p><%=ZC_MSG055%>:(<span id="timemsg"></span><span id="msg2"></span><span id="msg"></span><SCRIPT LANGUAGE="JavaScript" src="c_autosaverjs.asp?act=edit&type=ueditor"></SCRIPT>)<br/></p>
 
-	</p>
+<textarea id="ueditor"><%=EditArticle.Content%></textarea>
+	
 </div>
-
+<p></p>
 <div id="divAutoIntro" class="anti_normal" style="display:<%If EditArticle.ID=0 And EditArticle.Intro="" Then Response.Write "block" Else Response.Write "none"%>;" onClick="this.style.display='none';document.getElementById('divIntro').style.display='block';AutoIntro();"><p><a title="<%=ZC_MSG297%>" href="javascript:AutoIntro()">[<%=ZC_MSG310%>]</a></p></div>
 <div id="divIntro" style="display:<%If EditArticle.Intro="" Then Response.Write "none" Else Response.Write "block"%>;">
-<!-- <div id="divIntro"> -->
-<script type="text/plain" id="ueditor2">
-<%=EditArticle.Intro%>
-</script>
-	</p>
+<p><%=ZC_MSG016%>:<a title="<%=ZC_MSG297%>" href="javascript:AutoIntro()">[<%=ZC_MSG310%>]</a></p>
+<textarea id="ueditor2"><%=EditArticle.Intro%></textarea>
+
+	
 </div>
 <%
 If Response_Plugin_Edit_Form2<>"" Then
@@ -320,13 +314,25 @@ End If
 			</div>
 <script type="text/javascript">
 	var editor = new baidu.editor.ui.Editor();
+	editor.render('ueditor');
+
+    var editor2 = new baidu.editor.ui.Editor({
+        //这里可以选择自己需要的工具按钮名称,此处仅选择如下五个
+        toolbars:[['FullScreen', 'Source', 'Undo', 'Redo']],
+        //focus时自动清空初始化时的内容
+        autoClearinitialContent:true,
+        //关闭字数统计
+        wordCount:false,
+        //关闭elementPath
+        elementPathEnabled:false
+        //更多其他参数，请参考editor_config.js中的配置项
+    });
+
+	editor2.render('ueditor2');
+
 
 	$(document).ready(function(){
-		editor.render('ueditor');
-	    editor.addListener("selectionchange",function(){var state = ue.queryCommandState("source");var btndiv = document.getElementById("btns");if(btndiv){if(state){btndiv.style.display = "none";}else{btndiv.style.display = "";}}});
 	});
-  //  editor.render('ueditor2');
-   // editor.addListener("selectionchange",function(){var state = editor.queryCommandState("source");var btndiv = document.getElementById("btns");if(btndiv){if(state){btndiv.style.display = "none";}else{btndiv.style.display = "";}}});
 
 
 
