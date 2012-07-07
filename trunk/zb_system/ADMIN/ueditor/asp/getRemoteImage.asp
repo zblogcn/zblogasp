@@ -25,5 +25,5 @@ For Each sAction_Plugin_getremoteimage_End in Action_Plugin_getremoteimage_End
 	If Not IsEmpty(sAction_Plugin_getremoteimage_End) Then Call Execute(sAction_Plugin_getremoteimage_End)
 Next
 	Response.Write strResponse
-
+	Call System_Terminate()
 %>

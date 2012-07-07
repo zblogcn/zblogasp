@@ -171,7 +171,6 @@
     dr.Open
     upfile_5xSoft_Stream.position=FileStart-1
     upfile_5xSoft_Stream.copyto dr,FileSize
-	Response.AddHeader  "a",BlogPath & "zb_users/"& strUPLOADDIR &"/" & FileName
 	
     dr.SaveToFile FullPath,2
     dr.Close

@@ -20,19 +20,19 @@ For Each sAction_Plugin_getmovie_Begin in Action_Plugin_getmovie_Begin
 Next
 	Dim strResponse
 	'strResponse="此功能(getmovie.asp)系统默认不开放，请安装必要插件。"
+	Dim key,type2
+	key=Trim(Request.Form("searchKey"))
+	type2=Trim(Request.Form("videoType"))
+	strResponse=gethtml("http://api.tudou.com/v3/gw?method=item.search&appKey=myKey&format=json&kw="&key&"&pageNo=1&pageSize=20&channelId="&type2&"&inDays=7&media=v&sort=s")
 
 For Each sAction_Plugin_getmovie_End in Action_Plugin_getmovie_End
 	If Not IsEmpty(sAction_Plugin_getmovie_End) Then Call Execute(sAction_Plugin_getmovie_End)
 Next
 	Response.Write strResponse
-
+Call System_Terminate()
 %>
 
 <%
-Dim key,type2
-key=Trim(Request.Form("searchKey"))
-type2=Trim(Request.Form("videoType"))
-response.Write gethtml("http://api.tudou.com/v3/gw?method=item.search&appKey=myKey&format=json&kw="&key&"&pageNo=1&pageSize=20&channelId="&type2&"&inDays=7&media=v&sort=s")
 
 
 

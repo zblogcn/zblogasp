@@ -204,6 +204,7 @@ Function PostArticle()
 	Dim s,i,t,k
 	Dim strTag
 
+
 	If Request.Form("edtID")<>"0" Then
 		Dim objTestArticle
 		Set objTestArticle=New TArticle
