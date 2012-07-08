@@ -813,7 +813,7 @@ Class TArticle
 			objRS.CursorType = adOpenKeyset
 			objRS.LockType = adLockReadOnly
 			objRS.ActiveConnection=objConn
-			objRS.Source="SELECT [comm_ID],[log_ID],[comm_AuthorID],[comm_Author],[comm_Content],[comm_Email],[comm_HomePage],[comm_PostTime],[comm_IP],[comm_Agent],[comm_Reply],[comm_LastReplyIP],[comm_LastReplyTime],[comm_ParentID],[comm_ParentCount],[comm_Meta] FROM [blog_Comment] WHERE ([blog_Comment].[log_ID]=" & ID &" AND [blog_Comment].[comm_ParentID]=0) UNION ALL SELECT [tb_ID],[log_ID],'',[tb_Title],[tb_Excerpt],[tb_Blog],[tb_URL],[tb_PostTime],[tb_IP],[tb_Agent],'','','',[tb_Meta],'' ,'' from [blog_TrackBack] WHERE [blog_TrackBack].[log_ID]="& ID & " ORDER BY [comm_ID],[comm_PostTime]"
+			objRS.Source="SELECT [comm_ID],[log_ID],[comm_AuthorID],[comm_Author],[comm_Content],[comm_Email],[comm_HomePage],[comm_PostTime],[comm_IP],[comm_Agent],[comm_Reply],[comm_LastReplyIP],[comm_LastReplyTime],[comm_ParentID],[comm_ParentCount],[comm_Meta] FROM [blog_Comment] WHERE ([blog_Comment].[log_ID]=" & ID &" AND [blog_Comment].[comm_ParentID]=0) UNION ALL SELECT [tb_ID],[log_ID],'',[tb_Title],[tb_Excerpt],[tb_Blog],[tb_URL],[tb_PostTime],[tb_IP],[tb_Agent],'','','','' ,'',[tb_Meta] from [blog_TrackBack] WHERE [blog_TrackBack].[log_ID]="& ID & " ORDER BY [comm_ID],[comm_PostTime]"
 			objRS.Open()
 
 			If (not objRS.bof) And (not objRS.eof) Then

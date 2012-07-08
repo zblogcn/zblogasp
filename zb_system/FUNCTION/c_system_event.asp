@@ -556,7 +556,7 @@ End Function
 
 
 
-
+'EventMark4
 '*********************************************************
 ' 目的：    Revert Comment
 '*********************************************************
@@ -595,12 +595,12 @@ Function RevertComment(strKey,intRevertCommentID)
 	Set objComment=New TComment
 	If clng(inpParentID)>0 Then
 		objComment.LoadInfoById(inpParentID)
-		If objComment.ParentCount+1>ZC_MAXFLOOR Then Response.Write "超出层数":Exit Function
+		If objComment.ParentCount>ZC_MAXFLOOR-2 Then Call ShowError(52)
 		tmpCount= objComment.ParentCount
 		Set objComment=Nothing	
 		Set  objComment=New TComment
 	Else
-		tmpCount=-1
+		Call ShowError(53)
 	End If
 	
 	objComment.log_ID=inpID
@@ -612,28 +612,6 @@ Function RevertComment(strKey,intRevertCommentID)
 	objComment.ParentID=inpParentID
 	objComment.ParentCount=tmpCount+1
 
-'	If objComment.LoadInfoByID(intRevertCommentID)=True Then
-'
-'		If BlogUser.ID=0 Then
-'			If ZC_GUEST_REVERT_COMMENT_ENABLE=False Then Call ShowError(47)
-'			Dim objUser
-'			For Each objUser in Users
-'				If IsObject(objUser) Then
-'					If (UCase(objUser.Name)=UCase(inpName)) Then Call ShowError(31)
-'				End If
-'			Next
-'		Else
-'			inpName=BlogUser.Name
-''		End If
-'
-'		objComment.Content=TransferHTML(objComment.Content,"[anti-html-format]") '& "[REVERT="& Replace(Replace(ZC_MSG264,"%s",inpName,1,1),"%s",GetTime(Now()),1,1) '&"]"&inpArticle&"[/REVERT]"
-'		
-'		objComment.Reply=objComment.Reply & "[REVERT="& Replace(Replace(ZC_MSG264,"%s",inpName,1,1),"%s",GetTime(Now()),1,1) &"]"&inpArticle&"[/REVERT]"
-'		objComment.LastReplyIP=Request.ServerVariables("REMOTE_ADDR")
-'		objComment.LastReplyTime=GetTime(Now())
-'		
-'	End If
-
 	If objComment.log_ID>0 Then
 		Set objArticle=New TArticle
 		If objArticle.LoadInfoByID(objComment.log_ID) Then
@@ -643,9 +621,7 @@ Function RevertComment(strKey,intRevertCommentID)
 			Call ShowError(9)
 		End If
 		Set objArticle=Nothing
-		'objComment.PostTime=GetTime(Now())
 	Else
-		'If BlogUser.ID=0 Then Call ShowError(45)
 		If Not (strKey=Left(MD5(ZC_BLOG_HOST & ZC_BLOG_CLSID & CStr(0) & CStr(Day(GetTime(Now())))),8)) Then Call ShowError(43)
 	End If
 
@@ -666,6 +642,7 @@ Function RevertComment(strKey,intRevertCommentID)
 	End if
 
 	If IsEmpty(Request.Form("inpAjax"))=False Then
+		objComment.LoadInfoById objComment.ParentID
 		Call ReturnAjaxComment(objComment)
 		Call ClearGlobeCache
 		Call LoadGlobeCache
@@ -762,7 +739,7 @@ Function ReturnAjaxComment_Plugin(aryTemplateTagsName,aryTemplateTagsValue)
 	ReturnAjaxComment_aryTemplateTagsName=aryTemplateTagsName
 	ReturnAjaxComment_aryTemplateTagsValue=aryTemplateTagsValue
 End Function
-
+'Mark5
 Function ReturnAjaxComment(objComment)
 
 	Dim i,j
@@ -800,9 +777,8 @@ Function ReturnAjaxComment(objComment)
 
 	Dim strC
 	strC=GetTemplate("TEMPLATE_B_ARTICLE_COMMENT")
-
-	objComment.Count=i
-	strC=objComment.MakeTemplate(strC,False)
+	objComment.Count=objComment.Count+1
+	strC=objComment.MakeTemplate(strC,True)
 
 	strC=Replace(strC,"<#ZC_BLOG_HOST#>",ZC_BLOG_HOST)
 
@@ -821,12 +797,13 @@ Function ReturnAjaxComment(objComment)
 	j=UBound(ReturnAjaxComment_aryTemplateTagsName)
 	For i=1 to j
 		strC = Replace(strC,"<#" & ReturnAjaxComment_aryTemplateTagsName(i) & "#>", ReturnAjaxComment_aryTemplateTagsValue(i))
+
 	Next
 
 	strC= Replace(strC,vbCrLf,"")
 	strC= Replace(strC,vbLf,"")
 	strC= Replace(strC,vbTab,"")
-
+	Call SETBLOGHINT_CUSTOM(STRC)
 	Response.Write strC
 
 	ReturnAjaxComment=True
