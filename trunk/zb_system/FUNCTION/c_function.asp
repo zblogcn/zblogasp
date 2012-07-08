@@ -1318,7 +1318,7 @@ Function URLEncodeForAntiSpam(strUrl)
 	For i =1 To Len(strUrl)
 		s=s & Mid(strUrl,i,1) & CStr(Int((10 * Rnd)))
 	Next
-	URLEncodeForAntiSpam=ZC_BLOG_HOST & "function/c_urlredirect.asp?url=" & Server.URLEncode(s)
+	URLEncodeForAntiSpam=ZC_BLOG_HOST & "../zb_system/function/c_urlredirect.asp?url=" & Server.URLEncode(s)
 
 End Function
 '*********************************************************
