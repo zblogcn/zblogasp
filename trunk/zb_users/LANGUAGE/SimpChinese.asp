@@ -401,7 +401,7 @@ ZVA_Week_Abbr(7)="Sat"
 
 '自定义错误信息
 
-Dim ZVA_ErrorMsg(51)
+Dim ZVA_ErrorMsg(53)
 
 ZVA_ErrorMsg(0)="未知错误"
 ZVA_ErrorMsg(1)="未知命令"
@@ -455,4 +455,6 @@ ZVA_ErrorMsg(48)="插件未启用，请在管理界面启用"
 ZVA_ErrorMsg(49)="该分类下有子分类, 删除失败"
 ZVA_ErrorMsg(50)="指定的父分类不存在"
 ZVA_ErrorMsg(51)="子分类下不能再包含分类"
+ZVA_ErrorMsg(52)="超过博客设置的最大回复层数"
+ZVA_ErrorMsg(53)="要回复的评论不存在"
 %>
