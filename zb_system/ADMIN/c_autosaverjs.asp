@@ -95,12 +95,10 @@ Function ExportAutoSaveJS()
 	'//////////////
 	Response.Write "  function init(){"
 	If Request.QueryString("type")="normal" Then Response.Write "init_edit();return postForm.value;"
-	If Request.QueryString("type")="htmlarea" Then Response.Write "init_htmlarea();return postForm.innerHTML;"
 	If Request.QueryString("type")="ueditor" Then Response.Write "init_ueditor();return editor.getContent();"
 	Response.Write "  }"
 	Response.Write "  function restore(obj){"
 	If Request.QueryString("type")="normal" Then Response.Write "init_edit();postForm.value=obj;"
-	If Request.QueryString("type")="htmlarea" Then Response.Write "init_htmlarea();postForm.innerHTML=obj;"
 	If Request.QueryString("type")="ueditor" Then Response.Write "init_ueditor();return editor.setContent(obj);"
 
 	Response.Write "  }"
