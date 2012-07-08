@@ -318,10 +318,12 @@ End If
 	editor.render('ueditor');
 
     var editor2 = new baidu.editor.ui.Editor({
-        toolbars:[['FullScreen', 'Source', 'Undo', 'Redo']],
+        toolbars:[['Source', 'Undo', 'Redo']],
         autoClearinitialContent:true,
         wordCount:false,
-        elementPathEnabled:false
+        elementPathEnabled:false,
+		autoFloatEnabled:false,
+		autoHeightEnabled:false
     });
 
 	editor2.render('ueditor2');
