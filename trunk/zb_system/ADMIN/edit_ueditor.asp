@@ -319,7 +319,7 @@ End If
 
     var editor2 = new baidu.editor.ui.Editor({
         toolbars:[['Source', 'Undo', 'Redo']],
-        autoClearinitialContent:true,
+        autoClearinitialContent:false,
         wordCount:false,
         elementPathEnabled:false,
 		autoFloatEnabled:false,
