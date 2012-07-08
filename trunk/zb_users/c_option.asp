@@ -170,4 +170,3 @@ Const ZC_MAXFLOOR=4
 
 %>
 <!-- #include file="c_custom.asp" -->
-<!-- #include file="../zb_system/function/c_codepage.asp" -->

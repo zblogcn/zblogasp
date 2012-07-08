@@ -101,7 +101,7 @@ If Request.QueryString("type")="tags" Then
 End If
 Err.Clear
 
-BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG047
+BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & IIf(Request.QueryString("type")="Page",ZC_MSG329,ZC_MSG047)
 
 %><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<%=ZC_BLOG_LANGUAGE%>" lang="<%=ZC_BLOG_LANGUAGE%>">
@@ -123,7 +123,7 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG047
 </head>
 <body>
 <div id="divMain">
-<div class="Header"><%=ZC_MSG047%></div>
+<div class="Header"><%=IIf(Request.QueryString("type")="Page",ZC_MSG329,ZC_MSG047)%></div>
 <%
 	Response.Write "<div class=""SubMenu"">" & Response_Plugin_ArticleEdt_SubMenu & "</div>"
 %>
@@ -280,12 +280,13 @@ End If
 %>
 
 
-<div id="divFileSnd">
+<!-- <div id="divFileSnd">
 <%If CheckRights("FileSnd") Then%>
 	<p id="filesnd"><iframe frameborder="0" height="56" marginheight="0" marginwidth="0" scrolling="no" width="100%" src="../cmd.asp?act=FileSnd"></iframe></p>
 <%Else%>
 <%End If%>
-</div>
+</div> -->
+
 <div id="divContent" style="clear:both;">
 <p><%=ZC_MSG055%>:(<span id="timemsg"></span><span id="msg2"></span><span id="msg"></span><SCRIPT LANGUAGE="JavaScript" src="c_autosaverjs.asp?act=edit&type=ueditor"></SCRIPT>)<br/></p>
 
@@ -314,38 +315,39 @@ End If
 
 			</div>
 <script type="text/javascript">
-	var editor = new baidu.editor.ui.Editor();
-	editor.render('ueditor');
-
-    var editor2 = new baidu.editor.ui.Editor({
-        toolbars:[['Source', 'Undo', 'Redo']],
-        autoClearinitialContent:false,
-        wordCount:false,
-        elementPathEnabled:false,
-		autoFloatEnabled:false,
-		autoHeightEnabled:false
-    });
-
-	editor2.render('ueditor2');
-
 
 	$(document).ready(function(){
+
+		var editor = new baidu.editor.ui.Editor();
+		editor.render('ueditor');
+
+		var editor2 = new baidu.editor.ui.Editor({
+			toolbars:[['Source', 'Undo', 'Redo']],
+			autoClearinitialContent:false,
+			wordCount:false,
+			elementPathEnabled:false,
+			autoFloatEnabled:false,
+			autoHeightEnabled:false,
+			minFrameHeight:200
+		});
+
+		editor2.render('ueditor2');
+
 	});
-
-
 
 	var str10="<%=ZC_MSG115%>";
 	var str11="<%=ZC_MSG116%>";
 	var str12="<%=ZC_MSG117%>";
 
 	function checkArticleInfo(){
-		document.getElementById("edit").action="../cmd.asp?act=ArticlePst&type=ueditor";
+		document.getElementById("edit").action="../cmd.asp?act=ArticlePst&webedit=ueditor<%=IIF(Request.QueryString("type")="Page","&type=Page","")%>";
 
+<%If Request.QueryString("type")="" Then%>
 		if(document.getElementById("edtCateID").value==0){
 			alert(str10);
 			return false
 		}
-
+<%End If%>
 		if(!editor.getContent()){
 			alert(str11);
 			return false

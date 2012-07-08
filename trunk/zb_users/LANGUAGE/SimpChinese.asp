@@ -328,6 +328,11 @@ Const ZC_MSG323="不存在子分类"
 Const ZC_MSG324="指定模板"
 Const ZC_MSG325="默认模板"
 Const ZC_MSG326="正在获取中，请稍候。"
+Const ZC_MSG327="页面管理"
+Const ZC_MSG328="新建页面"
+Const ZC_MSG329="页面编辑"
+
+
 
 
 Dim ZVA_Article_Level_Name(4)

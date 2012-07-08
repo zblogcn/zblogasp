@@ -374,7 +374,12 @@ Function ArticleMng
 		If bAction_Plugin_ArticleMng_Begin=True Then Exit Function
 	Next
 
+	If Request.QueryString("type")="Page" Then
+		Response.Redirect "admin/admin.asp?act=ArticleMng&type=Page&page=" & Request.QueryString("id")
+	End If
+
 	Response.Redirect "admin/admin.asp?act=ArticleMng&page=" & Request.QueryString("id")
+
 End Function
 
 Function ArticleEdt
@@ -391,11 +396,11 @@ Function ArticleEdt
 		Response.Redirect "admin/edit_catalog.asp"
 	End If
 
-	If Request.QueryString("type")<>"" Then
+	If Request.QueryString("webedit")<>"" Then
 		If IsEmpty(Request.QueryString("id"))=False Then
-			Response.Redirect "admin/edit_"& ZC_BLOG_WEBEDIT &".asp?id="& Request.QueryString("id")
+			Response.Redirect "admin/edit_"& ZC_BLOG_WEBEDIT &".asp?id="& Request.QueryString("id") & IIf(Request.QueryString("type")="Page","&type=Page","")
 		Else
-			Response.Redirect "admin/edit_"& ZC_BLOG_WEBEDIT &".asp"
+			Response.Redirect "admin/edit_"& ZC_BLOG_WEBEDIT &".asp" & IIf(Request.QueryString("type")="Page","?type=Page","")
 		End If
 	Else
 		If IsEmpty(Request.QueryString("id"))=False Then
@@ -424,7 +429,11 @@ Function ArticlePst
 			If bAction_Plugin_ArticlePst_Succeed=True Then Exit Function
 		Next
 
-		Response.Redirect "cmd.asp?act=ArticleMng"
+		If Request.QueryString("type")="Page" Then
+			Response.Redirect "cmd.asp?act=ArticleMng&type=Page"
+		Else
+			Response.Redirect "cmd.asp?act=ArticleMng"
+		End If
 	Else
 		Call ShowError(11)
 	End If
@@ -448,7 +457,11 @@ Function ArticleDel
 			If bAction_Plugin_ArticleDel_Succeed=True Then Exit Function
 		Next
 
-		Response.Redirect "cmd.asp?act=ArticleMng"
+		If Request.QueryString("type")="Page" Then
+			Response.Redirect "cmd.asp?act=ArticleMng&type=Page"
+		Else
+			Response.Redirect "cmd.asp?act=ArticleMng"
+		End If
 	Else
 		Call ShowError(11)
 	End If

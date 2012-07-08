@@ -71,9 +71,7 @@ End Function
 '*********************************************************
 Function ExportArticleList(intPage,intCate,intLevel,intTitle)
 
-Call Add_Response_Plugin("Response_Plugin_ArticleMng_SubMenu",MakeSubMenu(ZC_MSG168 & "(" & ZC_MSG100 & ")","../cmd.asp?act=ArticleEdt&type=" & ZC_BLOG_WEBEDIT,"m-left",False))
-
-Call Add_Response_Plugin("Response_Plugin_ArticleMng_SubMenu",MakeSubMenu(ZC_MSG168 & "(" & ZC_MSG101 & ")","../cmd.asp?act=ArticleEdt","m-left",False))
+Call Add_Response_Plugin("Response_Plugin_ArticleMng_SubMenu",MakeSubMenu(ZC_MSG168 & "","../cmd.asp?act=ArticleEdt&webedit=" & ZC_BLOG_WEBEDIT,"m-left",False))
 
 	Dim i
 	Dim objRS
@@ -138,7 +136,7 @@ Call Add_Response_Plugin("Response_Plugin_ArticleMng_SubMenu",MakeSubMenu(ZC_MSG
 	objRS.ActiveConnection=objConn
 	objRS.Source=""
 
-	strSQL="WHERE ([log_Level]>0) AND (1=1) "
+	strSQL="WHERE ([log_CateID]>0) AND ([log_Level]>0) AND (1=1) "
 
 	If CheckRights("Root")=False Then strSQL= strSQL & "AND [log_AuthorID] = " & BlogUser.ID
 
@@ -160,7 +158,7 @@ Call Add_Response_Plugin("Response_Plugin_ArticleMng_SubMenu",MakeSubMenu(ZC_MSG
 	End If
 
 	Response.Write "<table border=""1"" width=""100%"" cellspacing=""1"" cellpadding=""1"">"
-	Response.Write "<tr><td>"& ZC_MSG076 &"</td><td>"& ZC_MSG012 &"</td><td>"& ZC_MSG003 &"</td><td>"& ZC_MSG075 &"</td><td>"& ZC_MSG060 &"</td><td></td><td></td><td></td></tr>"
+	Response.Write "<tr><td>"& ZC_MSG076 &"</td><td>"& ZC_MSG012 &"</td><td>"& ZC_MSG003 &"</td><td>"& ZC_MSG075 &"</td><td>"& ZC_MSG060 &"</td><td></td><td></td></tr>"
 
 	objRS.Open("SELECT * FROM [blog_Article] "& strSQL &" ORDER BY [log_PostTime] DESC")
 	objRS.PageSize=ZC_MANAGE_COUNT
@@ -210,8 +208,7 @@ Call Add_Response_Plugin("Response_Plugin_ArticleMng_SubMenu",MakeSubMenu(ZC_MSG
 			Else
 				Response.Write "<td><a href=""../view.asp?id=" & objRS("log_ID") & """ title="""& Replace(objRS("log_Title"),"""","") &""" target=""_blank"">" & objRS("log_Title") & "</a></td>"
 			End If
-			Response.Write "<td align=""center""><a href=""../cmd.asp?act=ArticleEdt&type="& ZC_BLOG_WEBEDIT &"&id=" & objRS("log_ID") & """>[" & ZC_MSG100 & "]</a></td>"
-			Response.Write "<td align=""center""><a href=""../cmd.asp?act=ArticleEdt&id=" & objRS("log_ID") & """>[" & ZC_MSG101 & "]</a></td>"
+			Response.Write "<td align=""center""><a href=""../cmd.asp?act=ArticleEdt&webedit="& ZC_BLOG_WEBEDIT &"&id=" & objRS("log_ID") & """>[" & ZC_MSG100 & "]</a></td>"
 			Response.Write "<td align=""center""><a onclick='return window.confirm("""& ZC_MSG058 &""");' href=""../cmd.asp?act=ArticleDel&id=" & objRS("log_ID") & """>[" & ZC_MSG063 & "]</a></td>"
 			Response.Write "</tr>"
 
@@ -224,10 +221,6 @@ Call Add_Response_Plugin("Response_Plugin_ArticleMng_SubMenu",MakeSubMenu(ZC_MSG
 
 	Response.Write "</table>"
 
-	'For i=1 to objRS.PageCount
-	'	strPage=strPage &"<a href='../admin/admin.asp?act=ArticleMng&amp;page="& i &"&cate="&ReQuest("cate")&"&level="&ReQuest("level")&"&title="&Escape(ReQuest("title"))&"'>["& Replace(ZC_MSG036,"%s",i) &"]</a> "
-	'Next
-
 	strPage=ExportPageBar(intPage,intPageAll,ZC_PAGEBAR_COUNT,"../admin/admin.asp?act=ArticleMng&amp;cate="&ReQuest("cate")&"&amp;level="&ReQuest("level")&"&amp;title="&Escape(ReQuest("title")) & "&amp;page=")
 
 	Response.Write "<hr/>" & ZC_MSG042 & ": " & strPage
@@ -239,6 +232,160 @@ Call Add_Response_Plugin("Response_Plugin_ArticleMng_SubMenu",MakeSubMenu(ZC_MSG
 	Set objRS=Nothing
 
 	ExportArticleList=True
+
+End Function
+'*********************************************************
+
+
+
+
+'*********************************************************
+' 目的：    Manager SinglePages
+'*********************************************************
+Function ExportPageList(intPage,intCate,intLevel,intTitle)
+
+Call Add_Response_Plugin("Response_Plugin_ArticleMng_SubMenu",MakeSubMenu(ZC_MSG328 & "","../cmd.asp?act=ArticleEdt&type=Page&webedit=" & ZC_BLOG_WEBEDIT,"m-left",False))
+
+	Dim i
+	Dim objRS
+	Dim strSQL
+	Dim strPage
+	Dim intPageAll
+
+	Call CheckParameter(intPage,"int",1)
+	Call CheckParameter(intCate,"int",-1)
+	Call CheckParameter(intLevel,"int",-1)
+	Call CheckParameter(intTitle,"sql",-1)
+	intTitle=vbsunescape(intTitle)
+	intTitle=FilterSQL(intTitle)
+
+	Response.Write "<div class=""Header"">" & ZC_MSG067 & "</div>"
+	Response.Write "<div class=""SubMenu"">" & Response_Plugin_ArticleMng_SubMenu & "</div>"
+	Response.Write "<div id=""divMain2"">"
+
+	Call GetBlogHint()
+
+	Response.Write "<form id=""edit"" method=""post"" enctype=""application/x-www-form-urlencoded"" action=""../admin/admin.asp?act=ArticleMng&type=Page"">"
+
+	Response.Write "<p>"&ZC_MSG158&":</p><p>"
+
+	Response.Write ZC_MSG012&" <select class=""edit"" size=""1"" id=""cate"" name=""cate"" style=""width:100px;"" ><option value=""-1"">"&ZC_MSG157&"</option> "
+
+	Dim aryCateInOrder : aryCateInOrder=GetCategoryOrder()
+	Dim m,n
+	If IsArray(aryCateInOrder) Then
+	For m=0 To Ubound(aryCateInOrder)
+		If Categorys(aryCateInOrder(m)).ParentID=0 Then
+			Response.Write "<option value="""&Categorys(aryCateInOrder(m)).ID&""">"&TransferHTML( Categorys(aryCateInOrder(m)).Name,"[html-format]")&"</option>"
+
+			For n=0 To UBound(aryCateInOrder)
+				If Categorys(aryCateInOrder(n)).ParentID=Categorys(aryCateInOrder(m)).ID Then
+					Response.Write "<option value="""&Categorys(aryCateInOrder(n)).ID&""">&nbsp;┄ "&TransferHTML( Categorys(aryCateInOrder(n)).Name,"[html-format]")&"</option>"
+				End If
+			Next
+		End If
+	Next
+	End If
+	Response.Write "</select> "
+
+	Response.Write ZC_MSG061&" <select class=""edit"" size=""1"" id=""level"" name=""level"" style=""width:80px;"" ><option value=""-1"">"&ZC_MSG157&"</option> "
+
+	For i=LBound(ZVA_Article_Level_Name)+1 to Ubound(ZVA_Article_Level_Name)
+			Response.Write "<option value="""&i&""" "
+			Response.Write ">"&ZVA_Article_Level_Name(i)&"</option>"
+	Next
+	Response.Write "</select>"
+
+	Response.Write " "&ZC_MSG224&" <input id=""title"" name=""title"" style=""width:150px;"" type=""text"" value="""" /> "
+	Response.Write "<input type=""submit"" class=""button"" value="""&ZC_MSG087&""">"
+
+	Response.Write "</p></form>"
+
+
+
+	Set objRS=Server.CreateObject("ADODB.Recordset")
+	objRS.CursorType = adOpenKeyset
+	objRS.LockType = adLockReadOnly
+	objRS.ActiveConnection=objConn
+	objRS.Source=""
+
+	strSQL="WHERE ([log_CateID]=0) AND ([log_Level]>0) AND (1=1) "
+
+	If CheckRights("Root")=False Then strSQL= strSQL & "AND [log_AuthorID] = " & BlogUser.ID
+
+	If intCate<>-1 Then
+		Dim strSubCateID : strSubCateID=Join(GetSubCateID(intCate,True),",")
+		strSQL= strSQL & " AND [log_CateID] IN (" & strSubCateID & ")"
+	End If
+
+	If intLevel<>-1 Then
+		strSQL= strSQL & " AND [log_Level] = " & intLevel
+	End If
+
+	If intTitle<>"-1" Then
+		If ZC_MSSQL=False Then
+			strSQL = strSQL & "AND ( (InStr(1,LCase([log_Title]),LCase('" & intTitle &"'),0)<>0) OR (InStr(1,LCase([log_Intro]),LCase('" & intTitle &"'),0)<>0) OR (InStr(1,LCase([log_Content]),LCase('" & intTitle &"'),0)<>0) )"
+		Else
+			strSQL = strSQL & "AND ( (CHARINDEX('" & intTitle &"',[log_Title]))<>0) OR (CHARINDEX('" & intTitle &"',[log_Intro])<>0) OR (CHARINDEX('" & intTitle &"',[log_Content])<>0) )"
+		End If
+	End If
+
+	Response.Write "<table border=""1"" width=""100%"" cellspacing=""1"" cellpadding=""1"">"
+	Response.Write "<tr><td>"& ZC_MSG076 &"</td><td>"& ZC_MSG003 &"</td><td>"& ZC_MSG075 &"</td><td>"& ZC_MSG060 &"</td><td></td><td></td></tr>"
+
+	objRS.Open("SELECT * FROM [blog_Article] "& strSQL &" ORDER BY [log_PostTime] DESC")
+	objRS.PageSize=ZC_MANAGE_COUNT
+	If objRS.PageCount>0 Then objRS.AbsolutePage = intPage
+	intPageAll=objRS.PageCount
+
+	If (Not objRS.bof) And (Not objRS.eof) Then
+
+		For i=1 to objRS.PageSize
+
+			Response.Write "<tr>"
+
+			Response.Write "<td>" & objRS("log_ID") & "</td>"
+
+			Dim User
+			For Each User in Users
+				If IsObject(User) Then
+					If User.ID=objRS("log_AuthorID") Then
+						Response.Write "<td>" & User.Name & "</td>"
+					End If
+				End If
+			Next
+
+			'Response.Write "<td>" & ZVA_Article_Level_Name(objRS("log_Level")) & "</td>"
+			Response.Write "<td>" & FormatDateTime(objRS("log_PostTime"),vbShortDate) & "</td>"
+			If Len(objRS("log_Title"))>14 Then
+				Response.Write "<td><a href=""../view.asp?id=" & objRS("log_ID") & """ title="""& Replace(objRS("log_Title"),"""","") &""" target=""_blank"">" & Left(objRS("log_Title"),14) & "..." & "</a></td>"
+			Else
+				Response.Write "<td><a href=""../view.asp?id=" & objRS("log_ID") & """ title="""& Replace(objRS("log_Title"),"""","") &""" target=""_blank"">" & objRS("log_Title") & "</a></td>"
+			End If
+			Response.Write "<td align=""center""><a href=""../cmd.asp?act=ArticleEdt&type=Page&webedit="& ZC_BLOG_WEBEDIT &"&id=" & objRS("log_ID") & """>[" & ZC_MSG100 & "]</a></td>"
+			Response.Write "<td align=""center""><a onclick='return window.confirm("""& ZC_MSG058 &""");' href=""../cmd.asp?act=ArticleDel&type=Page&id=" & objRS("log_ID") & """>[" & ZC_MSG063 & "]</a></td>"
+			Response.Write "</tr>"
+
+			objRS.MoveNext
+			If objRS.eof Then Exit For
+
+		Next
+
+	End If
+
+	Response.Write "</table>"
+
+	strPage=ExportPageBar(intPage,intPageAll,ZC_PAGEBAR_COUNT,"../admin/admin.asp?act=ArticleMng&amp;cate="&ReQuest("cate")&"&amp;level="&ReQuest("level")&"&amp;title="&Escape(ReQuest("title")) & "&amp;page=")
+
+	Response.Write "<hr/>" & ZC_MSG042 & ": " & strPage
+	Response.Write "</div>"
+
+	Response.Write "<script>ActiveLeftMenu(""aPageMng"");</script>"
+
+	objRS.Close
+	Set objRS=Nothing
+
+	ExportPageList=True
 
 End Function
 '*********************************************************
