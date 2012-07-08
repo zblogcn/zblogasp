@@ -2929,6 +2929,7 @@ Class TComment
 		Dim aryTemplateTagsValue()
 		ReDim aryTemplateTagsName(13)
 		ReDim aryTemplateTagsValue(13)
+		If ParentID="" Then ParentID=0
 		If ParentID>0 Then
 			If isChild=False Then MakeTemplate="":Exit Function
 		End If

@@ -1174,7 +1174,7 @@ Function ListUser_Rights()
 	Dim strAction
 	Dim aryAction
 
-	strAction="login|verify|logout|admin|cmt|tb|vrs|BlogReBuild|FileReBuild|ArticleMng|ArticleEdt|ArticlePst|ArticleDel|CategoryMng|CategoryPst|CategoryDel|CommentMng|CommentDel|CommentRev|TrackBackMng|TrackBackDel|TrackBackSnd|UserMng|UserEdt|UserCrt|UserDel|FileMng|FileUpload|FileDel|Search|TagMng|TagEdt|TagPst|TagDel|SettingMng|SettingSav|PlugInMng|rss|SiteFileMng|SiteFileEdt|SiteFilePst|SiteFileDel|Root"
+	strAction="login|verify|logout|admin|cmt|tb|vrs|BlogReBuild|FileReBuild|ArticleMng|ArticleEdt|ArticlePst|ArticleDel|CategoryMng|CategoryPst|CategoryDel|CommentMng|CommentDel|CommentRev|TrackBackMng|TrackBackDel|TrackBackSnd|UserMng|UserEdt|UserCrt|UserDel|FileMng|FileUpload|FileDel|Search|TagMng|TagEdt|TagPst|TagDel|SettingMng|SettingSav|PlugInMng|rss|Root"
 
 	aryAction=Split(strAction, "|")
 
@@ -1189,7 +1189,6 @@ Function ListUser_Rights()
 	Response.Write ZC_MSG249 & ":" & ZVA_User_Level_Name(BLogUser.Level) & "<br/><br/>"
 
 	For i=LBound(aryAction) To UBound(aryAction)
-
 		If Not CheckRights(aryAction(i)) Then s=Replace(s,"%s",":<font color=Red>fail</font>"&"<br/><br/>",1,1) Else s=Replace(s,"%s",":<font color=green>ok</font>"&"<br/><br/>",1,1)
 
 	Next
