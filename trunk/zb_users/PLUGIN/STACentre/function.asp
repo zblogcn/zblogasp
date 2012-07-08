@@ -403,7 +403,7 @@ Class STACentre_Authors
 	Public PageContent
 
 	Private Property Get sType
-		sType="Authors"
+		sType="authors"
 	End Property
 
 	Private Property Get Enable
@@ -515,7 +515,7 @@ Class STACentre_Archives
 	Public PageContent
 
 	Private Property Get sType
-		sType="Archives"
+		sType="archives"
 	End Property
 
 	Private Property Get Enable

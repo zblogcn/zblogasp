@@ -274,6 +274,7 @@ Function GetCategory()
 	Dim arySingleData()
 
 	Erase Categorys
+	ReDim Categorys(0)
 
 	Dim objRS
 
@@ -320,6 +321,7 @@ Function GetUser()
 	Dim arySingleData()
 
 	Erase Users
+	ReDim Users(0)
 
 	Dim objRS
 
@@ -367,6 +369,7 @@ Function GetTags()
 	Dim arySingleData()
 
 	Erase Tags
+	ReDim Tags(0)
 
 	Dim objRS
 
@@ -660,6 +663,7 @@ Function GetCategoryOrder()
 	Set objRS=Nothing
 
 	If i>0 Then GetCategoryOrder=aryCateInOrder
+	If i=0 Then GetCategoryOrder=Array()
 
 	Erase aryCateInOrder
 
