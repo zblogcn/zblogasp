@@ -2150,7 +2150,7 @@ Function BlogReBuild_Catalogs()
 	Dim i,j
 	For i=0 To Ubound(aryCateInOrder)
 		If Categorys(aryCateInOrder(i)).ParentID=0 Then
-			strCatalog=strCatalog & "<li class=""li-parecate""><span class=""feed-icon""><a href="""& Categorys(aryCateInOrder(i)).RssUrl &""" target=""_blank""><img title=""rss"" width=""20"" height=""12"" src="""&ZC_BLOG_HOST&"IMAGE/LOGO/rss.png"" border=""0"" alt=""rss"" /></a>&nbsp;</span><a href="""& Categorys(aryCateInOrder(i)).Url & """>"+Categorys(aryCateInOrder(i)).Name + "<span class=""article-nums""> (" & Categorys(aryCateInOrder(i)).Count & ")</span>" +"</a></li>"
+			strCatalog=strCatalog & "<li class=""li-parecate""><span class=""feed-icon""><a href="""& Categorys(aryCateInOrder(i)).RssUrl &""" target=""_blank""><img title=""rss"" width=""20"" height=""12"" src="""&ZC_BLOG_HOST&"zb_system/image/logo/rss.png"" border=""0"" alt=""rss"" /></a>&nbsp;</span><a href="""& Categorys(aryCateInOrder(i)).Url & """>"+Categorys(aryCateInOrder(i)).Name + "<span class=""article-nums""> (" & Categorys(aryCateInOrder(i)).Count & ")</span>" +"</a></li>"
 
 			bolHasSubCate=False
 			For j=0 To UBound(aryCateInOrder)
@@ -2159,7 +2159,7 @@ Function BlogReBuild_Catalogs()
 			If bolHasSubCate Then strCatalog=strCatalog & "<li class=""li-subcates""><ul class=""ul-subcates"">"
 			For j=0 To UBound(aryCateInOrder)
 				If Categorys(aryCateInOrder(j)).ParentID=Categorys(aryCateInOrder(i)).ID Then
-					strCatalog=strCatalog & "<li class=""li-subcate""><span class=""feed-icon""><a href="""& Categorys(aryCateInOrder(j)).RssUrl &""" target=""_blank""><img title=""rss"" width=""20"" height=""12"" src="""&ZC_BLOG_HOST&"IMAGE/LOGO/rss.png"" border=""0"" alt=""rss"" /></a>&nbsp;</span><a href="""& Categorys(aryCateInOrder(j)).Url & """>"+Categorys(aryCateInOrder(j)).Name + "<span class=""article-nums""> (" & Categorys(aryCateInOrder(j)).Count & ")</span>" +"</a></li>"
+					strCatalog=strCatalog & "<li class=""li-subcate""><span class=""feed-icon""><a href="""& Categorys(aryCateInOrder(j)).RssUrl &""" target=""_blank""><img title=""rss"" width=""20"" height=""12"" src="""&ZC_BLOG_HOST&"zb_system/image/logo/rss.png"" border=""0"" alt=""rss"" /></a>&nbsp;</span><a href="""& Categorys(aryCateInOrder(j)).Url & """>"+Categorys(aryCateInOrder(j)).Name + "<span class=""article-nums""> (" & Categorys(aryCateInOrder(j)).Count & ")</span>" +"</a></li>"
 				End If
 			Next
 			If bolHasSubCate Then strCatalog=strCatalog & "</ul></li>"
