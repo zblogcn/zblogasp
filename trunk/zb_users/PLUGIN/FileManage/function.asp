@@ -392,7 +392,6 @@ Function FileManage_PostSiteFile(tpath)
 			Set objGetFile=objFSO.getfile(FilePath) 
 			If left(lcase(objGetFile.name),10)="global.asa" Then isOK=False
 			If Instr(LCase(objGetFile.Path),fxxxPath)=0 Then isOK=False
-			Response.write fxxxpath
 		Else
 			If Instr(lcase(FilePath),"global.asa")>0 Then isOK=False
 	End If
@@ -402,7 +401,7 @@ Function FileManage_PostSiteFile(tpath)
 	If IsEmpty(txaContent) Then txaContent=Null
 	If Not IsNull(tpath) Then
 		If Not IsNull(txaContent) Then
-			Call SaveToFile(tpath,txaContent,"utf-8",False)
+				Call SaveToFile(FilePath,txaContent,"utf-8",False)
 			If Err.Number=0 Then
 				Call SetBlogHint(True,True,Empty)
 			Else

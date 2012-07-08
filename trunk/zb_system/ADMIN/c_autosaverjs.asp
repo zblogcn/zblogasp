@@ -74,12 +74,12 @@ Function SaveContent()
 		.Charset = "utf-8"
 		.Position = objStream.Size
 		.WriteText=BytesToBstr(Request.BinaryRead(Request.TotalBytes),"UTF-8")
-		.SaveToFile Server.MapPath("../CACHE/"&ZC_AUTOSAVE_FILENAME),2
+		.SaveToFile Server.MapPath("../../ZB_USERS/CACHE/"&ZC_AUTOSAVE_FILENAME),2
 		.Close
 		End With
 		Set objStream = NoThing
 		If Err.Number=0 then
-		Response.Write "<span style="""">&nbsp;"&formatdatetime(now,4)&":"&Right("0"&second(now),2)&"<a href="""&ZC_BLOG_HOST&"CACHE/"&ZC_AUTOSAVE_FILENAME&""" target=""_blank"" style=""text-decoration: none;"">"&ZC_MSG258&"</a>&nbsp;</span>"
+		Response.Write "<span style="""">&nbsp;"&formatdatetime(now,4)&":"&Right("0"&second(now),2)&"<a href="""&ZC_BLOG_HOST&"zb_users/CACHE/"&ZC_AUTOSAVE_FILENAME&""" target=""_blank"" style=""text-decoration: none;"">"&ZC_MSG258&"</a>&nbsp;</span>"
 		Else
 		Response.Write "<span style="""">&nbsp;"&formatdatetime(now,4)&""&ZC_MSG257&"&nbsp;"&Err.Number&Err.description&"</span>"
 		End If
@@ -95,55 +95,29 @@ Function ExportAutoSaveJS()
 	'//////////////
 	Response.Write "  function init(){"
 	If Request.QueryString("type")="normal" Then Response.Write "init_edit();return postForm.value;"
-	If Request.QueryString("type")="widgeditor" Then Response.Write "init_widgeditor();return postForm.innerHTML;"
-	If Request.QueryString("type")="fckeditor" Then Response.Write "init_fckeditor();return CKEDITOR.instances.txaContent.getData();"
 	If Request.QueryString("type")="htmlarea" Then Response.Write "init_htmlarea();return postForm.innerHTML;"
-	If Request.QueryString("type")="tinymce" Then Response.Write "init_tinymce();return postForm.innerHTML;"
-	If Request.QueryString("type")="ewebeditor" Then Response.Write "init_ewebeditor();return postForm.innerHTML;"
+	If Request.QueryString("type")="ueditor" Then Response.Write "init_ueditor();return editor.getContent();"
 	Response.Write "  }"
 	Response.Write "  function restore(obj){"
 	If Request.QueryString("type")="normal" Then Response.Write "init_edit();postForm.value=obj;"
-	If Request.QueryString("type")="widgeditor" Then Response.Write "init_widgeditor();postForm.innerHTML=obj;"
-	If Request.QueryString("type")="fckeditor" Then Response.Write "init_fckeditor();CKEDITOR.instances.txaContent.setData(obj);"
 	If Request.QueryString("type")="htmlarea" Then Response.Write "init_htmlarea();postForm.innerHTML=obj;"
-	If Request.QueryString("type")="tinymce" Then Response.Write "init_tinymce();postForm.innerHTML=obj;"
-	If Request.QueryString("type")="ewebeditor" Then Response.Write "init_ewebeditor();postForm.innerHTML=obj;"
+	If Request.QueryString("type")="ueditor" Then Response.Write "init_ueditor();return editor.setContent(obj);"
+
 	Response.Write "  }"
 	'/////////////
 	Response.Write "  var AutoSaveTime=60;"
-	Response.Write "  var FileName="""&ZC_BLOG_HOST&"CACHE/"&ZC_AUTOSAVE_FILENAME&""";"
+	Response.Write "  var FileName="""&ZC_BLOG_HOST&"zb_users/CACHE/"&ZC_AUTOSAVE_FILENAME&""";"
 	Response.Write "  var postForm = null; "
 	Response.Write "  var msg = null; "
 	Response.Write "  function init_edit(){"
 	Response.Write "  postForm = document.edit.txaContent;"
 	Response.Write "  msg = document.getElementById(""msg"");"
 	Response.Write "  }"
-	'/////////////
-	Response.Write "  function init_widgeditor(){"
-	Response.Write "  postForm =document.getElementById('txaContentWidgIframe').contentWindow.document.getElementsByTagName('body')[0];"
+	Response.Write "  function init_ueditor(){"
 	Response.Write "  msg = document.getElementById(""msg"");"
+	Response.Write "  postForm = document.edit.ueditor;"
 	Response.Write "  }"
 	'/////////////
-	Response.Write "  function init_fckeditor(){"
-	Response.Write "  postForm ='fckeditor';"
-	Response.Write "  msg = document.getElementById(""msg"");"
-	Response.Write "  }"
-	'/////////////
-	Response.Write "  function init_htmlarea(){"
-	Response.Write "  postForm =document.getElementById('ta').parentNode.getElementsByTagName('iframe')[0].contentWindow.document.getElementsByTagName('body')[0];"
-	Response.Write "  msg = document.getElementById(""msg"");"
-	Response.Write "  }"
-	'/////////////
-	Response.Write "  function init_tinymce(){"
-	Response.Write "  postForm =document.getElementById('mce_editor_0').contentWindow.document.getElementsByTagName('body')[0];"
-	Response.Write "  msg = document.getElementById(""msg"");"
-	Response.Write "  }"
-	'/////////////
-	Response.Write "  function init_ewebeditor(){"
-	Response.Write "  postForm =document.getElementById('eWebEditor1').contentWindow.document.getElementsByTagName('body')[0];"
-	Response.Write "  msg = document.getElementById(""msg"");"
-	Response.Write "  }"
-
 	'/////////////
 	Response.Write "var ti=AutoSaveTime;"
 	Response.Write "function savedraft()"
