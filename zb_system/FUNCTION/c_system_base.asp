@@ -299,6 +299,7 @@ Function GetCategory()
 			Set Categorys(aryAllData(0,i))=New TCategory
 			Categorys(aryAllData(0,i)).LoadInfoByArray(Array(aryAllData(0,i),aryAllData(1,i),aryAllData(2,i),aryAllData(3,i),aryAllData(4,i),aryAllData(5,i),aryAllData(6,i),aryAllData(7,i),aryAllData(8,i)))
 		Next
+		Set Categorys(0)=New TCategory
 
 	End If
 
@@ -776,7 +777,7 @@ Function MakeCalendar(dtmYearMonth)
 	objRS.LockType = adLockReadOnly
 	objRS.ActiveConnection=objConn
 	objRS.Source=""
-	objRS.Open("select [log_ID],[log_CateID],[log_AuthorID],[log_Level],[log_PostTime],[log_Url],[log_Istop] from [blog_Article] where ([log_Level]>2) And ([log_PostTime] BETWEEN "& ZC_SQL_POUND_KEY &y&"-"&m&"-1"& ZC_SQL_POUND_KEY &" AND "& ZC_SQL_POUND_KEY &ny&"-"&nm&"-1"& ZC_SQL_POUND_KEY &")")
+	objRS.Open("select [log_ID],[log_CateID],[log_AuthorID],[log_Level],[log_PostTime],[log_Url],[log_Istop] from [blog_Article] where ([log_CateID]>0) And ([log_Level]>2) And ([log_PostTime] BETWEEN "& ZC_SQL_POUND_KEY &y&"-"&m&"-1"& ZC_SQL_POUND_KEY &" AND "& ZC_SQL_POUND_KEY &ny&"-"&nm&"-1"& ZC_SQL_POUND_KEY &")")
 
 	If (Not objRS.bof) And (Not objRS.eof) Then
 		For i=1 To objRS.RecordCount
@@ -1028,7 +1029,7 @@ Function LoadGlobeCache()
 	a=0
 	b=20
 	c=1
-	d=320
+	d=327
 	e=0
 	a2=0
 	a3=0
@@ -1947,7 +1948,7 @@ Function BuildAllCache()
 	objRS.ActiveConnection=objConn
 	objRS.Source=""
 
-	objRS.Open("SELECT [log_ID] FROM [blog_Article] WHERE ([log_Level]>1) AND ([log_Istop]=0) ORDER BY [log_PostTime] DESC")
+	objRS.Open("SELECT [log_ID] FROM [blog_Article] WHERE ([log_CateID]>0) And ([log_Level]>1) AND ([log_Istop]=0) ORDER BY [log_PostTime] DESC")
 
 	If (Not objRS.bof) And (Not objRS.eof) Then
 
@@ -1976,7 +1977,7 @@ Function BuildAllCache()
 
 
 
-	objRS.Open("SELECT [log_ID] FROM [blog_Article] WHERE ([log_Level]>1) AND ([log_Istop]<>0) ORDER BY [log_PostTime] DESC")
+	objRS.Open("SELECT [log_ID] FROM [blog_Article] WHERE ([log_CateID]>0) And ([log_Level]>1) AND ([log_Istop]<>0) ORDER BY [log_PostTime] DESC")
 
 	If (Not objRS.bof) And (Not objRS.eof) Then
 
@@ -2065,7 +2066,7 @@ Function BlogReBuild_Archives()
 
 	'Archives
 	Dim strArchives
-	Set objRS=objConn.Execute("SELECT * FROM [blog_Article] WHERE ([log_Level]>1) ORDER BY [log_PostTime] DESC")
+	Set objRS=objConn.Execute("SELECT * FROM [blog_Article] WHERE ([log_CateID]>0) And ([log_Level]>1) ORDER BY [log_PostTime] DESC")
 	If (Not objRS.bof) And (Not objRS.eof) Then
 		Dim dtmYM()
 		i=0
@@ -2091,7 +2092,7 @@ Function BlogReBuild_Archives()
 			n=Month(dtmYM(i))+1
 			IF n>12 Then l=l+1:n=1
 
-			Set objRS=objConn.Execute("SELECT COUNT([log_ID]) FROM [blog_Article] WHERE ([log_Level]>1) AND [log_PostTime] BETWEEN "& ZC_SQL_POUND_KEY & Year(dtmYM(i)) &"-"& Month(dtmYM(i)) &"-1"& ZC_SQL_POUND_KEY &" AND "& ZC_SQL_POUND_KEY & l &"-"& n &"-1" & ZC_SQL_POUND_KEY)
+			Set objRS=objConn.Execute("SELECT COUNT([log_ID]) FROM [blog_Article] WHERE ([log_CateID]>0) And ([log_Level]>1) AND [log_PostTime] BETWEEN "& ZC_SQL_POUND_KEY & Year(dtmYM(i)) &"-"& Month(dtmYM(i)) &"-1"& ZC_SQL_POUND_KEY &" AND "& ZC_SQL_POUND_KEY & l &"-"& n &"-1" & ZC_SQL_POUND_KEY)
 
 			If (Not objRS.bof) And (Not objRS.eof) Then
 				If CheckPluginState("STACentre") Then
@@ -2205,7 +2206,7 @@ Function BlogReBuild_Categorys()
 
 		If IsObject(Category) Then
 
-			Set objRS=objConn.Execute("SELECT [log_ID] FROM [blog_Article] WHERE ([log_ID]>0) AND ([log_Level]>1) AND ([log_CateID]="&Category.ID&") ORDER BY [log_PostTime] DESC")
+			Set objRS=objConn.Execute("SELECT [log_ID] FROM [blog_Article] WHERE ([log_CateID]>0) And ([log_ID]>0) AND ([log_Level]>1) AND ([log_CateID]="&Category.ID&") ORDER BY [log_PostTime] DESC")
 
 			If (Not objRS.bof) And (Not objRS.eof) Then
 				For i=1 to ZC_PREVIOUS_COUNT
@@ -2338,7 +2339,7 @@ Function BlogReBuild_Previous()
 
 	'Previous
 	Dim strPrevious
-	Set objRS=objConn.Execute("SELECT [log_ID] FROM [blog_Article] WHERE ([log_ID]>0) AND ([log_Level]>1) ORDER BY [log_PostTime] DESC")
+	Set objRS=objConn.Execute("SELECT [log_ID] FROM [blog_Article] WHERE ([log_CateID]>0) And ([log_ID]>0) AND ([log_Level]>1) ORDER BY [log_PostTime] DESC")
 
 	If (Not objRS.bof) And (Not objRS.eof) Then
 		For i=1 to ZC_PREVIOUS_COUNT
@@ -2648,7 +2649,7 @@ Function ExportRSS()
 
 			Dim i
 			Dim objRS
-			Set objRS=objConn.Execute("SELECT [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_Meta] FROM [blog_Article] WHERE ([log_ID]>0) AND ([log_Level]>2) ORDER BY [log_PostTime] DESC")
+			Set objRS=objConn.Execute("SELECT [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_Meta] FROM [blog_Article] WHERE ([log_CateID]>0) And ([log_ID]>0) AND ([log_Level]>2) ORDER BY [log_PostTime] DESC")
 
 			If (Not objRS.bof) And (Not objRS.eof) Then
 				For i=1 to ZC_RSS2_COUNT
@@ -2731,7 +2732,7 @@ Function ExportATOM()
 
 	Dim i
 	Dim objRS
-	Set objRS=objConn.Execute("SELECT [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],NULL,[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_Meta] FROM [blog_Article] WHERE ([log_ID]>0) AND ([log_Level]>2) ORDER BY [log_PostTime] DESC")
+	Set objRS=objConn.Execute("SELECT [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],NULL,[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_Meta] FROM [blog_Article] WHERE ([log_CateID]>0) And ([log_ID]>0) AND ([log_Level]>2) ORDER BY [log_PostTime] DESC")
 
 	If (Not objRS.bof) And (Not objRS.eof) Then
 		For i=1 to ZC_RSS2_COUNT
@@ -2830,12 +2831,12 @@ Function BuildArticle(intID,bolBuildNavigate,bolBuildCategory)
 		If (bolBuildNavigate=True) And (ZC_USE_NAVIGATE_ARTICLE=True) Then
 
 			Dim objRS
-			Set objRS=objConn.Execute("SELECT TOP 1 [log_ID] FROM [blog_Article] WHERE ([log_Level]>2) AND ([log_PostTime]<" & ZC_SQL_POUND_KEY & objArticle.PostTime & ZC_SQL_POUND_KEY &") ORDER BY [log_PostTime] DESC")
+			Set objRS=objConn.Execute("SELECT TOP 1 [log_ID] FROM [blog_Article] WHERE ([log_CateID]>0) And ([log_Level]>2) AND ([log_PostTime]<" & ZC_SQL_POUND_KEY & objArticle.PostTime & ZC_SQL_POUND_KEY &") ORDER BY [log_PostTime] DESC")
 			If (Not objRS.bof) And (Not objRS.eof) Then
 				Call BuildArticle(objRS("log_ID"),False,False)
 			End If
 			Set objRS=Nothing
-			Set objRS=objConn.Execute("SELECT TOP 1 [log_ID] FROM [blog_Article] WHERE ([log_Level]>2) AND ([log_PostTime]>" & ZC_SQL_POUND_KEY & objArticle.PostTime & ZC_SQL_POUND_KEY &") ORDER BY [log_PostTime] ASC")
+			Set objRS=objConn.Execute("SELECT TOP 1 [log_ID] FROM [blog_Article] WHERE ([log_CateID]>0) And ([log_Level]>2) AND ([log_PostTime]>" & ZC_SQL_POUND_KEY & objArticle.PostTime & ZC_SQL_POUND_KEY &") ORDER BY [log_PostTime] ASC")
 			If (Not objRS.bof) And (Not objRS.eof) Then
 				Call BuildArticle(objRS("log_ID"),False,False)
 			End If

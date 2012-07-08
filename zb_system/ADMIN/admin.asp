@@ -68,7 +68,12 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG046
 
 Select Case Request.QueryString("act")
 
-	Case "ArticleMng" Call ExportArticleList(Request.QueryString("page"),Request("cate"),Request("level"),Escape(Request("title")))
+	Case "ArticleMng"
+		If Request.QueryString("type")="Page" Then
+		Call ExportPageList(Request.QueryString("page"),Request("cate"),Request("level"),Escape(Request("title")))
+		Else
+		Call ExportArticleList(Request.QueryString("page"),Request("cate"),Request("level"),Escape(Request("title")))
+		End If
 	Case "CategoryMng" Call ExportCategoryList(Request.QueryString("page"))
 	Case "CommentMng" Call ExportCommentList(Request.QueryString("page"),Request("intContent"))
 	Case "TrackBackMng" Call ExportTrackBackList(Request.QueryString("page"))

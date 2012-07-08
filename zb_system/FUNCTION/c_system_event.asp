@@ -232,48 +232,27 @@ Function PostArticle()
 
 	objArticle.Intro=Request.Form("txaIntro")
 
-	Select Case LCase(Request.QueryString("type"))
-	Case "ueditor"
-		objArticle.Content=Request.Form("txaContent")
-		If objArticle.Intro="" Then
-			s=objArticle.Content
-			If Len(s)>ZC_TB_EXCERPT_MAX Then
-				i=InStr(s,vbCrlf)
-				If i>0 Then
-					t=Split(s,vblf)
-					s=""
-					For k=LBound(t) To UBound(t)
-						s=s & t(k)
-						If Len(s)>ZC_TB_EXCERPT_MAX Then Exit For
-					Next
-					s=Replace(s,vbCr,vbCrlf)
-				End If
-				s=s & ZC_MSG305
+
+	objArticle.Content=Request.Form("txaContent")
+	If objArticle.Intro="" Then
+		s=objArticle.Content
+		If Len(s)>ZC_TB_EXCERPT_MAX Then
+			i=InStr(s,vbCrlf)
+			If i>0 Then
+				t=Split(s,vblf)
+				s=""
+				For k=LBound(t) To UBound(t)
+					s=s & t(k)
+					If Len(s)>ZC_TB_EXCERPT_MAX Then Exit For
+				Next
+				s=Replace(s,vbCr,vbCrlf)
 			End If
-			s=TransferHTML(s,"[closehtml]")
-			objArticle.Intro=s
+			s=s & ZC_MSG305
 		End If
-	Case Else
-		objArticle.Content=Request.Form("txaContent")
-		If objArticle.Intro="" Then
-			s=objArticle.Content
-			If Len(s)>ZC_TB_EXCERPT_MAX Then
-				i=InStr(s,vbCrlf)
-				If i>0 Then
-					t=Split(s,vblf)
-					s=""
-					For k=LBound(t) To UBound(t)
-						s=s & t(k)
-						If Len(s)>ZC_TB_EXCERPT_MAX Then Exit For
-					Next
-					s=Replace(s,vbCr,vbCrlf)
-				End If
-				s=s & ZC_MSG305
-			End If
-			s=TransferHTML(s,"[closehtml]")
-			objArticle.Intro=s
-		End If
-	End Select
+		s=TransferHTML(s,"[closehtml]")
+		objArticle.Intro=s
+	End If
+
 
 	'接口
 	Call Filter_Plugin_PostArticle_Core(objArticle)
@@ -328,12 +307,12 @@ Function DelArticle(intID)
 
 		Dim objNavArticle
 		Dim objRS
-		Set objRS=objConn.Execute("SELECT TOP 1 [log_ID] FROM [blog_Article] WHERE ([log_Level]>2) AND ([log_PostTime]<" & ZC_SQL_POUND_KEY & objArticle.PostTime & ZC_SQL_POUND_KEY &") ORDER BY [log_PostTime] DESC")
+		Set objRS=objConn.Execute("SELECT TOP 1 [log_ID] FROM [blog_Article] WHERE ([log_CateID]>0) And ([log_Level]>2) AND ([log_PostTime]<" & ZC_SQL_POUND_KEY & objArticle.PostTime & ZC_SQL_POUND_KEY &") ORDER BY [log_PostTime] DESC")
 		If (Not objRS.bof) And (Not objRS.eof) Then
 			Call BuildArticle(objRS("log_ID"),False,False)
 		End If
 		Set objRS=Nothing
-		Set objRS=objConn.Execute("SELECT TOP 1 [log_ID] FROM [blog_Article] WHERE ([log_Level]>2) AND ([log_PostTime]>" & ZC_SQL_POUND_KEY & objArticle.PostTime & ZC_SQL_POUND_KEY &") ORDER BY [log_PostTime] ASC")
+		Set objRS=objConn.Execute("SELECT TOP 1 [log_ID] FROM [blog_Article] WHERE ([log_CateID]>0) And ([log_Level]>2) AND ([log_PostTime]>" & ZC_SQL_POUND_KEY & objArticle.PostTime & ZC_SQL_POUND_KEY &") ORDER BY [log_PostTime] ASC")
 		If (Not objRS.bof) And (Not objRS.eof) Then
 			Call BuildArticle(objRS("log_ID"),False,False)
 		End If

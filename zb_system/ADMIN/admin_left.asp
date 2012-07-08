@@ -50,10 +50,11 @@ function changeButtonColor(btnNow){
 <body>
 <p class="button1" style="cursor:pointer;"><a onclick='changeButtonColor(this)' href="../../" target="_top"><%=ZC_MSG065%></a></p>
 <p class="button" ><a name="aSiteInfo" onclick='return changeButtonColor(this)' href="../cmd.asp?act=SiteInfo" target="main"><%=ZC_MSG245%></a></p>
-<p class="button1"><a name="aArticleEdt" onclick='return changeButtonColor(this)' href="../cmd.asp?act=ArticleEdt&type=<%=ZC_BLOG_WEBEDIT%>" target="main"><%=ZC_MSG168%></a><!-- <p class="button1"><a onclick='return changeButtonColor(this)' href="../cmd.asp?act=BlogReBuild" target="main"><%=ZC_MSG072%></a></p> --></p>
+<p class="button1"><a name="aArticleEdt" onclick='return changeButtonColor(this)' href="../cmd.asp?act=ArticleEdt&webedit=<%=ZC_BLOG_WEBEDIT%>" target="main"><%=ZC_MSG168%></a><!-- <p class="button1"><a onclick='return changeButtonColor(this)' href="../cmd.asp?act=BlogReBuild" target="main"><%=ZC_MSG072%></a></p> --></p>
 <p class="button1"><a name="aAskFileReBuild" onclick='return changeButtonColor(this)' href="../cmd.asp?act=AskFileReBuild" target="main"><%=ZC_MSG073%></a></p>
 <div style="height:5px;"> </div>
 <p class="button1"><a name="aArticleMng" onclick='return changeButtonColor(this)' href="../cmd.asp?act=ArticleMng" target="main"><%=ZC_MSG067%></a></p>
+<p class="button1"><a name="aPageMng" onclick='return changeButtonColor(this)' href="../cmd.asp?act=ArticleMng&type=Page" target="main"><%=ZC_MSG327%></a></p>
 <p class="button1"><a name="aCategoryMng" onclick='return changeButtonColor(this)' href="../cmd.asp?act=CategoryMng" target="main"><%=ZC_MSG066%></a></p>
 <p class="button1"><a name="aTagMng" onclick='return changeButtonColor(this)' href="../cmd.asp?act=TagMng" target="main"><%=ZC_MSG141%></a></p>
 <p class="button1"><a name="aCommentMng" onclick='return changeButtonColor(this)' href="../cmd.asp?act=CommentMng" target="main"><%=ZC_MSG068%></a></p>

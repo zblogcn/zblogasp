@@ -1401,6 +1401,7 @@ End Function
 Function IIf(ByVal expr,ByVal  truepart,ByVal  falsepart)
 	If expr=True Then
 		IIf=truepart
+		Exit Function
 	Else
 		IIf=falsepart
 	End If
