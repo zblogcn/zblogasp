@@ -1,4 +1,6 @@
-﻿file:{%blogpath%}tags\啊哈\default.html
+﻿file:{%blogpath%}archives\jul-2012.html
+file:{%blogpath%}tags\111\default.html
+file:{%blogpath%}tags\啊哈\default.html
 fldr:{%blogpath%}tags\啊哈
 file:{%blogpath%}categorys\1\3\3.html
 fldr:{%blogpath%}categorys\1\3
