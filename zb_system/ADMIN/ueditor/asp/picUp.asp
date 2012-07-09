@@ -1,4 +1,4 @@
-﻿<!--#include file="up_inc.asp"-->
+<!--#include file="up_inc.asp"-->
 <!-- #include file="..\..\..\..\zb_users\c_option.asp" -->
 <!-- #include file="..\..\..\function\c_function.asp" -->
 <!-- #include file="..\..\..\function\c_function_md5.asp" -->
@@ -39,10 +39,10 @@ Dim Path
 Path=Replace(BlogPath & "zb_users\"& strUPLOADDIR &"\" & upload.form("edtFileLoad_Name")	,"\","/")
 Dim s
 FileName=ZC_BLOG_HOST&"zb_users\"& strUPLOADDIR &"\" & upload.form("edtFileLoad_Name")
-s=upload.Save("edtFileLoad",1)
+s=upload.Save("edtFileLoad",0)
 objConn.Execute("INSERT INTO [blog_UpLoad]([ul_AuthorID],[ul_FileSize],[ul_FileName],[ul_PostTime],[ul_FileIntro],[ul_DirByTime]) VALUES ("& BlogUser.ID &",'"& upload.form("edtFileLoad_Size") &"','"& upload.form("edtFileLoad") &"','"& PostTime &"','Attatment',"&CInt(ZC_UPLOAD_DIRBYMONTH)&")")
 SetBlogHint_Custom "{'state':'"& upload.Error2Info("edtFileLoad") & "','url':'"& Replace(FileName,"\","/") &"','fileType':'"&upload.form("edtFileLoad_Ext")&"'}"
-response.Write "{'state':'"& upload.Error2Info("edtFileLoad") & "','url':'"& upload.form("edtFileLoad_Name") &"','fileType':'"&upload.form("edtFileLoad_Ext")&"','original':'"& upload.form("edtFileLoad_Name")&"'}"
+response.Write "{'state':'"& upload.Error2Info("edtFileLoad") & "','url':'"& upload.form("edtFileLoad") &"','fileType':'"&upload.form("edtFileLoad_Ext")&"'}"
 
 	
 For Each sAction_Plugin_uEditor_FileUpload_End in Action_Plugin_uEditor_FileUpload_End
