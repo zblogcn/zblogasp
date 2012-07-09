@@ -8,6 +8,7 @@
 Response.ContentType="application/x-javascript"
 %>
 <%
+Call ActivePlugin()
 For Each sAction_Plugin_UEditor_config_Begin in Action_Plugin_UEditor_config_Begin
 	If Not IsEmpty(sAction_Plugin_UEditor_config_Begin) Then Call Execute(sAction_Plugin_UEditor_config_Begin)
 Next

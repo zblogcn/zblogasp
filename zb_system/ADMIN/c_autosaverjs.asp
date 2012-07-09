@@ -25,6 +25,7 @@
 <!-- #include file="../function/c_system_plugin.asp" -->
 <!-- #include file="../../zb_users/plugin/p_config.asp" -->
 <%
+Response.ContentType="application/x-javascript"
 Call System_Initialize()
 
 Public ZC_AUTOSAVE_FILENAME
