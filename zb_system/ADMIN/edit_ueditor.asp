@@ -114,10 +114,10 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & IIf(Request.QueryString("type")="Page",ZC_
 	<link rel="stylesheet" href="../CSS/jquery.bettertip.css" type="text/css" media="screen">
 	<script language="JavaScript" src="../script/jquery.bettertip.pack.js" type="text/javascript"></script>
 	<script language="JavaScript" src="../script/jquery.tagto.js" type="text/javascript"></script>
-	<script language="JavaScript" type="text/javascript">var loaded=false;</script>
 
     <script type="text/javascript" charset="utf-8" src="ueditor/editor_config.asp"></script>
     <script type="text/javascript" charset="utf-8" src="ueditor/editor_all_min.js"></script>
+	<script language="JavaScript" type="text/javascript">var loaded=false;var editor = new baidu.editor.ui.Editor();</script>
 
 	<title><%=BlogTitle%></title>
 </head>
@@ -147,6 +147,7 @@ Err.Clear
 <%
 Err.Clear
 On Error Resume Next
+If Request.QueryString("type")<>"Page" Then
 BlogTitle=EditArticle.Tag
 
 If Err.Number=0 Then
@@ -173,7 +174,13 @@ If Err.Number=0 Then
 	Next
 %>
 	</select><input type="hidden" name="edtCateID" id="edtCateID" value="<%=EditArticle.CateID%>">
-	&nbsp;<%=ZC_MSG003%>:<select style="width:100px;" class="edit" size="1" id="cmbUser" onChange="edtAuthorID.value=this.options[this.selectedIndex].value"><option value="0"></option>
+	
+ <%
+ End If
+ Else
+%><input type="hidden" name="edtCateID" id="edtCateID" value="0"><%
+End If
+%>&nbsp;<%=ZC_MSG003%>:<select style="width:100px;" class="edit" size="1" id="cmbUser" onChange="edtAuthorID.value=this.options[this.selectedIndex].value"><option value="0"></option>
 <%
 	GetUser()
 	Dim User
@@ -194,10 +201,12 @@ If Err.Number=0 Then
 			End If
 		End If
 	Next
+
 %>
 	</select><input type="hidden" name="edtAuthorID" id="edtAuthorID" value="<%=EditArticle.AuthorID%>">
-
-	&nbsp;<%=ZC_MSG138%>:<input type="text" style="width:313px;" name="edtTag" id="edtTag" value="<%=TransferHTML(EditArticle.TagToName,"[html-format]")%>"> <a href="" style="cursor:pointer;" onClick="if(document.getElementById('ulTag').style.display=='none'){document.getElementById('ulTag').style.display='block';if(loaded==false){$.getScript('edit_ueditor.asp?type=tags<%if EditArticle.id<>0  then response.write "&id="&EditArticle.ID%>');loaded=true;}}else{document.getElementById('ulTag').style.display='none'};return false;"><%=ZC_MSG139%><span style="font-size: 1.5em; vertical-align: -1px;"></span></a>
+<%
+If Request.QueryString("type")<>"Page" Then
+	%>&nbsp;<%=ZC_MSG138%>:<input type="text" style="width:313px;" name="edtTag" id="edtTag" value="<%=TransferHTML(EditArticle.TagToName,"[html-format]")%>"> <a href="" style="cursor:pointer;" onClick="if(document.getElementById('ulTag').style.display=='none'){document.getElementById('ulTag').style.display='block';if(loaded==false){$.getScript('edit_ueditor.asp?type=tags<%if EditArticle.id<>0  then response.write "&id="&EditArticle.ID%>');loaded=true;}}else{document.getElementById('ulTag').style.display='none'};return false;"><%=ZC_MSG139%><span style="font-size: 1.5em; vertical-align: -1px;"></span></a>
 	<ul id="ulTag" style="display:none;">
     <span id="ajaxtags"><%=ZC_MSG326%></span>
 
@@ -214,7 +223,7 @@ Err.Clear
 	For Each ArticleLevel in ZVA_Article_Level_Name
 		Response.Write "<option value="""& i &""" "
 		If EditArticle.Level=i Then Response.Write "selected=""selected"""
-		Response.Write ">"& ZVA_Article_Level_Name(i) &"</option>"
+		Response.Write ">"& Replace(ZVA_Article_Level_Name(i),ZC_MSG048,ZC_MSG330) &"</option>"
 		i=i+1
 	Next
 %>
@@ -223,8 +232,9 @@ Err.Clear
 Err.Clear
 On Error Resume Next
 BlogTitle=EditArticle.Istop
-
+If Request.QueryString("type")<>"Page" Then
 If Err.Number=0 Then
+
 %>
 &nbsp;<%=ZC_MSG051%>
 <%If EditArticle.Istop Then%>
@@ -233,6 +243,10 @@ If Err.Number=0 Then
 <input type="checkbox" name="edtIstop" id="edtIstop" value="True"/>
 <%End If%>
 <%
+
+End If
+Else
+%><input type="hidden" name="edtIstop" id="edtIstop" value=""/><%
 End If
 Err.Clear
 %>
@@ -318,7 +332,6 @@ End If
 
 	$(document).ready(function(){
 
-		var editor = new baidu.editor.ui.Editor();
 		editor.render('ueditor');
 
 		var editor2 = new baidu.editor.ui.Editor({

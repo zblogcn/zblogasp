@@ -775,14 +775,14 @@ Function ReturnAjaxComment(objComment)
 
 	j=UBound(ReturnAjaxComment_aryTemplateTagsName)
 	For i=1 to j
-		strC = Replace(strC,"<#" & ReturnAjaxComment_aryTemplateTagsName(i) & "#>", ReturnAjaxComment_aryTemplateTagsValue(i))
-
+		If IsNull(ReturnAjaxComment_aryTemplateTagsValue(i))=False Then
+			strC = Replace(strC,"<#" & ReturnAjaxComment_aryTemplateTagsName(i) & "#>", ReturnAjaxComment_aryTemplateTagsValue(i))
+		End If
 	Next
 
 	strC= Replace(strC,vbCrLf,"")
 	strC= Replace(strC,vbLf,"")
 	strC= Replace(strC,vbTab,"")
-	Call SETBLOGHINT_CUSTOM(STRC)
 	Response.Write strC
 
 	ReturnAjaxComment=True

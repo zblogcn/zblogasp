@@ -732,12 +732,21 @@ Class TArticle
 
 		j=UBound(aryTemplateTagsName)
 		For i=1 to j
-			Template_Article_Istop=Replace(Template_Article_Istop,"<#" & aryTemplateTagsName(i) & "#>",aryTemplateTagsValue(i))
-			Template_Article_Multi=Replace(Template_Article_Multi,"<#" & aryTemplateTagsName(i) & "#>",aryTemplateTagsValue(i))
-			Template_Article_Single=Replace(Template_Article_Single,"<#" & aryTemplateTagsName(i) & "#>",aryTemplateTagsValue(i))
-			Template_Article_Multi_WAP = Replace(Template_Article_Multi_WAP,"<#" & aryTemplateTagsName(i) & "#>", aryTemplateTagsValue(i))
-			Template_Article_Single_WAP = Replace(Template_Article_Single_WAP,"<#" & aryTemplateTagsName(i) & "#>", aryTemplateTagsValue(i))
-			Ftemplate = Replace(Ftemplate,"<#" & aryTemplateTagsName(i) & "#>", aryTemplateTagsValue(i))
+			If IsNull(aryTemplateTagsValue(i))=False Then
+				Template_Article_Istop=Replace(Template_Article_Istop,"<#" & aryTemplateTagsName(i) & "#>",aryTemplateTagsValue(i))
+				Template_Article_Multi=Replace(Template_Article_Multi,"<#" & aryTemplateTagsName(i) & "#>",aryTemplateTagsValue(i))
+				Template_Article_Single=Replace(Template_Article_Single,"<#" & aryTemplateTagsName(i) & "#>",aryTemplateTagsValue(i))
+				Template_Article_Multi_WAP = Replace(Template_Article_Multi_WAP,"<#" & aryTemplateTagsName(i) & "#>", aryTemplateTagsValue(i))
+				Template_Article_Single_WAP = Replace(Template_Article_Single_WAP,"<#" & aryTemplateTagsName(i) & "#>", aryTemplateTagsValue(i))
+				Ftemplate = Replace(Ftemplate,"<#" & aryTemplateTagsName(i) & "#>", aryTemplateTagsValue(i))
+			Else
+				Template_Article_Istop=Replace(Template_Article_Istop,"<#" & aryTemplateTagsName(i) & "#>","")
+				Template_Article_Multi=Replace(Template_Article_Multi,"<#" & aryTemplateTagsName(i) & "#>","")
+				Template_Article_Single=Replace(Template_Article_Single,"<#" & aryTemplateTagsName(i) & "#>","")
+				Template_Article_Multi_WAP = Replace(Template_Article_Multi_WAP,"<#" & aryTemplateTagsName(i) & "#>", "")
+				Template_Article_Single_WAP = Replace(Template_Article_Single_WAP,"<#" & aryTemplateTagsName(i) & "#>", "")
+				Ftemplate = Replace(Ftemplate,"<#" & aryTemplateTagsName(i) & "#>", "")
+			End If
 		Next
 
 		If intType=ZC_DISPLAY_MODE_SEARCH Then
@@ -894,7 +903,7 @@ Class TArticle
 		Next
 
 
-		If ZC_USE_NAVIGATE_ARTICLE=False Then
+		If ZC_USE_NAVIGATE_ARTICLE=False Or CateID=0 Then
 
 			Template_Article_Navbar_L=""
 			Template_Article_Navbar_R=""
@@ -922,9 +931,8 @@ Class TArticle
 				strUrl=objNavArticle.Url
 			End If
 			Set objNavArticle=Nothing
-
 			s=GetTemplate("TEMPLATE_B_ARTICLE_NVABAR_L")
-
+			
 			s=Replace(s,"<#article/nav_l/url#>",strUrl)
 			s=Replace(s,"<#article/nav_l/name#>",strName)
 
@@ -1126,7 +1134,7 @@ Class TArticle
 		TemplateName=UCase(FilterSQL(TemplateName))
 		If TemplateName="SINGLE" Then TemplateName=""
 		If ID=0 Then
-			objConn.Execute("INSERT INTO [blog_Article]([log_CateID],[log_AuthorID],[log_Level],[log_Title],[log_Intro],[log_Content],[log_PostTime],[log_IP],[log_Tag],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_Meta]) VALUES ("&CateID&","&AuthorID&","&Level&",'"&Title&"','"&Intro&"','"&Content&"','"&PostTime&"','"&IP&"','"&Tag&"','"&Alias&"',"&CInt(Istop)&",'"&TemplateName&"','"&FullUrl&"','"&MetaString&"')")
+			objConn.Execute("INSERT INTO [blog_Article]([log_CateID],[log_AuthorID],[log_Level],[log_Title],[log_Intro],[log_Content],[log_PostTime],[log_IP],[log_Tag],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_ViewNums],[log_Meta]) VALUES ("&CateID&","&AuthorID&","&Level&",'"&Title&"','"&Intro&"','"&Content&"','"&PostTime&"','"&IP&"','"&Tag&"','"&Alias&"',"&CInt(Istop)&",'"&TemplateName&"','"&FullUrl&"',0,'"&MetaString&"')")
 			Dim objRS
 			Set objRS=objConn.Execute("SELECT MAX([log_ID]) FROM [blog_Article]")
 			If (Not objRS.bof) And (Not objRS.eof) Then
@@ -3812,7 +3820,11 @@ Class TTag
 
 		j=UBound(aryTemplateTagsName)
 		For i=1 to j
-			html=Replace(html,"<#" & aryTemplateTagsName(i) & "#>",aryTemplateTagsValue(i))
+			If IsNull(aryTemplateTagsValue(i))=False Then
+				html=Replace(html,"<#" & aryTemplateTagsName(i) & "#>",aryTemplateTagsValue(i))
+			Else
+				html=Replace(html,"<#" & aryTemplateTagsName(i) & "#>","")
+			End If
 		Next
 
 		MakeTemplate=html

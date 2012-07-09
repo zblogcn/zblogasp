@@ -267,7 +267,7 @@ Call Add_Response_Plugin("Response_Plugin_ArticleMng_SubMenu",MakeSubMenu(ZC_MSG
 
 	Response.Write "<form id=""edit"" method=""post"" enctype=""application/x-www-form-urlencoded"" action=""../admin/admin.asp?act=ArticleMng&type=Page"">"
 
-	Response.Write "<p>"&ZC_MSG158&":</p><p>"
+	Response.Write "<p>"&REPLACE(ZC_MSG158,ZC_MSG048,ZC_MSG330)&":</p><p>"
 
 	Response.Write ZC_MSG012&" <select class=""edit"" size=""1"" id=""cate"" name=""cate"" style=""width:100px;"" ><option value=""-1"">"&ZC_MSG157&"</option> "
 
@@ -292,7 +292,7 @@ Call Add_Response_Plugin("Response_Plugin_ArticleMng_SubMenu",MakeSubMenu(ZC_MSG
 
 	For i=LBound(ZVA_Article_Level_Name)+1 to Ubound(ZVA_Article_Level_Name)
 			Response.Write "<option value="""&i&""" "
-			Response.Write ">"&ZVA_Article_Level_Name(i)&"</option>"
+			Response.Write ">"&Replace(ZVA_Article_Level_Name(i),ZC_MSG048,ZC_MSG330) &"</option>"
 	Next
 	Response.Write "</select>"
 

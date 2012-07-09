@@ -6,7 +6,7 @@
 Function FileManage_GetSize(FileSize)
 	For Each sAction_Plugin_FileManage_GetSize_Begin in Action_Plugin_FileManage_GetSize_Begin
 		If Not IsEmpty(sAction_Plugin_FileManage_GetSize_Begin) Then Call Execute(sAction_Plugin_FileManage_GetSize_Begin)
-			Next
+	Next
 	
 	Dim b,m
 	b=filesize:m="B"
@@ -18,7 +18,7 @@ Function FileManage_GetSize(FileSize)
 
 	For Each sAction_Plugin_FileManage_GetSize_End in Action_Plugin_FileManage_GetSize_End
 		If Not IsEmpty(sAction_Plugin_FileManage_GetSize_End) Then Call Execute(sAction_Plugin_FileManage_GetSize_End)
-			Next
+	Next
 End Function
 
 '*********************************************************
@@ -27,7 +27,7 @@ End Function
 Function FileManage_GetTypeIco(FileName)
 	For Each sAction_Plugin_FileManage_GetTypeIco_Begin in Action_Plugin_FileManage_GetTypeIco_Begin
 		If Not IsEmpty(sAction_Plugin_FileManage_GetTypeIco_Begin) Then Call Execute(sAction_Plugin_FileManage_GetTypeIco_Begin)
-			Next
+	Next
 	
 	Dim aryFn
 	aryFn=Split(FileName,".")
@@ -54,7 +54,7 @@ Function FileManage_GetTypeIco(FileName)
 
 	For Each sAction_Plugin_FileManage_GetTypeIco_End in Action_Plugin_FileManage_GetTypeIco_End
 		If Not IsEmpty(sAction_Plugin_FileManage_GetTypeIco_End) Then Call Execute(sAction_Plugin_FileManage_GetTypeIco_End)
-			Next
+	Next
 End Function
 
 '*********************************************************
@@ -63,7 +63,7 @@ End Function
 Function FileManage_ExportSiteFileList(path,opath)
 	For Each sAction_Plugin_FileManage_ExportSiteFileList_Begin in Action_Plugin_FileManage_ExportSiteFileList_Begin
 		If Not IsEmpty(sAction_Plugin_FileManage_ExportSiteFileList_Begin) Then Call Execute(sAction_Plugin_FileManage_ExportSiteFileList_Begin)
-			Next
+	Next
 	
 
 	'On Error Resume Next
@@ -121,7 +121,7 @@ Function FileManage_ExportSiteFileList(path,opath)
 
 	For Each sAction_Plugin_FileManage_ExportSiteFileList_End in Action_Plugin_FileManage_ExportSiteFileList_End
 		If Not IsEmpty(sAction_Plugin_FileManage_ExportSiteFileList_End) Then Call Execute(sAction_Plugin_FileManage_ExportSiteFileList_End)
-			Next
+	Next
 End Function
 
 
@@ -135,26 +135,25 @@ End Function
 Function FileManage_ExportSiteFileEdit(tpath,opath)
 	For Each sAction_Plugin_FileManage_ExportSiteFileEdit_Begin in Action_Plugin_FileManage_ExportSiteFileEdit_Begin
 		If Not IsEmpty(sAction_Plugin_FileManage_ExportSiteFileEdit_Begin) Then Call Execute(sAction_Plugin_FileManage_ExportSiteFileEdit_Begin)
-			Next
+	Next
 	
 
 	Dim Del,txaContent
 
 
-	dim chkg
-	chkg=lcase(BlogPath & unEscape(tpath))
-	if instr(chkg,"global.asa") Then
-		Response.Write  "<p>当前文件:" & chkg & "</p><p>对不起，为了您的其他程序的安全，您只能修改Z-Blog文件夹内的文件，同时也不允许修改Global.asa和Global.asax。</p><p><a href='main.asp?act=SiteFileMng&path="&Server.URLEncode(oPath)&"'>点击这里返回</a></p></div>" :Response.end
-	End If
-	Call GetBlogHint()
-
+	'dim chkg
+	'chkg=lcase(BlogPath & unEscape(tpath))
+	'if instr(chkg,"global.asa") Then
+	'	Response.Write  "<p>当前文件:" & chkg & "</p><p>对不起，为了您的其他程序的安全，您只能修改Z-Blog文件夹内的文件，同时也不允许修改Global.asa和Global.asax。</p><p><a href='main.asp?act=SiteFileMng&path="&Server.URLEncode(oPath)&"'>点击这里返回</a></p></div>" :Response.end
+	'End If
 	If IsEmpty(txaContent) Then txaContent=Null
 
 		
 	If Not IsNull(tpath) Then
 
 		Response.Write "<form id=""edit"" name=""edit"" method=""post"" action=""main.asp?act=SiteFilePst&path="&Server.URLEncode(tpath)&"&opath="&Server.URLEncode(opath)&""">" & vbCrlf
-		Response.Write "<p><br/>文件路径及文件名: <a href=""javascript:void(0)"" onclick=""path.readOnly='';this.style.display='none';path.focus()"">修改文件名</a><INPUT TYPE=""text"" Value="""&unEscape(tpath)&""" style=""width:100%"" name=""path"" id=""path"" readonly></p>"
+		
+		Response.Write "<p><br/>文件路径及文件名: <!--<a href=""javascript:void(0)"" onclick=""path.readOnly='';this.style.display='none';path.focus()"">修改文件名</a>--><INPUT TYPE=""text"" Value="""&unEscape(tpath)&""" style=""width:100%"" name=""path"" id=""path"" ></p>"
 		Response.Write "<p><textarea class=""resizable"" style=""height:300px;width:100%"" name=""txaContent"" id=""txaContent"">"&TransferHTML(LoadFromFile(BlogPath & unEscape(tpath),"utf-8"),"[textarea]")&"</textarea></p>" & vbCrlf
 		Response.Write "<hr/>"
 		Response.Write "<p><input class=""button"" type=""submit"" value="""&ZC_MSG087&""" id=""btnPost""/><input class=""button"" type=""button"" value=""撤销修改，返回""  onclick=""history.go(-1)""/></p>" & vbCrlf
@@ -168,7 +167,7 @@ Function FileManage_ExportSiteFileEdit(tpath,opath)
 
 	For Each sAction_Plugin_FileManage_ExportSiteFileEdit_End in Action_Plugin_FileManage_ExportSiteFileEdit_End
 		If Not IsEmpty(sAction_Plugin_FileManage_ExportSiteFileEdit_End) Then Call Execute(sAction_Plugin_FileManage_ExportSiteFileEdit_End)
-			Next
+	Next
 End Function
 
 '*********************************************************
@@ -177,7 +176,7 @@ End Function
 Function FileManage_DeleteSiteFile(tpath)
 	For Each sAction_Plugin_FileManage_DeleteSiteFile_Begin in Action_Plugin_FileManage_DeleteSiteFile_Begin
 		If Not IsEmpty(sAction_Plugin_FileManage_DeleteSiteFile_Begin) Then Call Execute(sAction_Plugin_FileManage_DeleteSiteFile_Begin)
-			Next
+	Next
 	
 	On Error Resume Next
 	If DelSiteFile(Request.QueryString("path")) Then
@@ -189,7 +188,7 @@ Function FileManage_DeleteSiteFile(tpath)
 
 	For Each sAction_Plugin_FileManage_DeleteSiteFile_End in Action_Plugin_FileManage_DeleteSiteFile_End
 		If Not IsEmpty(sAction_Plugin_FileManage_DeleteSiteFile_End) Then Call Execute(sAction_Plugin_FileManage_DeleteSiteFile_End)
-			Next
+	Next
 End Function
 
 '*********************************************************
@@ -198,7 +197,7 @@ End Function
 Function FileManage_DownloadFile(ByVal tpath)
 	For Each sAction_Plugin_FileManage_DownloadFile_Begin in Action_Plugin_FileManage_DownloadFile_Begin
 		If Not IsEmpty(sAction_Plugin_FileManage_DownloadFile_Begin) Then Call Execute(sAction_Plugin_FileManage_DownloadFile_Begin)
-			Next
+	Next
 	
 	On Error Resume Next
 	Dim filePath,isOK,i,fxxxPath
@@ -236,7 +235,7 @@ Function FileManage_DownloadFile(ByVal tpath)
 
 	For Each sAction_Plugin_FileManage_DownloadFile_End in Action_Plugin_FileManage_DownloadFile_End
 		If Not IsEmpty(sAction_Plugin_FileManage_DownloadFile_End) Then Call Execute(sAction_Plugin_FileManage_DownloadFile_End)
-			Next
+	Next
 End Function
 
 '*********************************************************
@@ -245,7 +244,7 @@ End Function
 Function FileManage_RenameFile(tpath,newname)
 	For Each sAction_Plugin_FileManage_RenameFile_Begin in Action_Plugin_FileManage_RenameFile_Begin
 		If Not IsEmpty(sAction_Plugin_FileManage_RenameFile_Begin) Then Call Execute(sAction_Plugin_FileManage_RenameFile_Begin)
-			Next
+	Next
 	  
 	On Error Resume Next
 	Dim filePath,isOK,i,fxxxPath
@@ -255,7 +254,7 @@ Function FileManage_RenameFile(tpath,newname)
 	 else
 		filePath=fxxxPath & tpath
 	 end if
-	 filepath=replace(filepath,"\/","\")
+	 filepath=replace(replace(filepath,"\/","\"),"\\","\")
 	Dim objFSO,objGetFile,objADO
 	Set objFSO=Server.CreateObject("Scripting.FileSystemObject") 
 	Set objGetFile=objFSO.getfile(FilePath) 
@@ -276,7 +275,7 @@ Function FileManage_RenameFile(tpath,newname)
 
 	For Each sAction_Plugin_FileManage_RenameFile_End in Action_Plugin_FileManage_RenameFile_End
 		If Not IsEmpty(sAction_Plugin_FileManage_RenameFile_End) Then Call Execute(sAction_Plugin_FileManage_RenameFile_End)
-			Next
+	Next
 End Function
 
 '*********************************************************
@@ -285,7 +284,7 @@ End Function
 Function FileManage_CheckFolder(folder)
 	For Each sAction_Plugin_FileManage_CheckFolder_Begin in Action_Plugin_FileManage_CheckFolder_Begin
 		If Not IsEmpty(sAction_Plugin_FileManage_CheckFolder_Begin) Then Call Execute(sAction_Plugin_FileManage_CheckFolder_Begin)
-			Next
+	Next
 	
 	FileManage_CheckFolder=False
 	dim sptzsx,xhf,t1,t2,t3
@@ -302,7 +301,7 @@ Function FileManage_CheckFolder(folder)
 
 	For Each sAction_Plugin_FileManage_CheckFolder_End in Action_Plugin_FileManage_CheckFolder_End
 		If Not IsEmpty(sAction_Plugin_FileManage_CheckFolder_End) Then Call Execute(sAction_Plugin_FileManage_CheckFolder_End)
-			Next
+	Next
 End Function
 
 '*********************************************************
@@ -311,7 +310,7 @@ End Function
 Function FileManage_ExportSiteUpload(path)
 	For Each sAction_Plugin_FileManage_ExportSiteUpload_Begin in Action_Plugin_FileManage_ExportSiteUpload_Begin
 		If Not IsEmpty(sAction_Plugin_FileManage_ExportSiteUpload_Begin) Then Call Execute(sAction_Plugin_FileManage_ExportSiteUpload_Begin)
-			Next
+	Next
 	
 	dim filePath
 	Response.Write "<form border=""1"" name=""edit"" id=""edit"" method=""post"" enctype=""multipart/form-data"" action=""main.asp?act=SiteFileUpload"">"
@@ -327,7 +326,7 @@ Function FileManage_ExportSiteUpload(path)
 
 	For Each sAction_Plugin_FileManage_ExportSiteUpload_End in Action_Plugin_FileManage_ExportSiteUpload_End
 		If Not IsEmpty(sAction_Plugin_FileManage_ExportSiteUpload_End) Then Call Execute(sAction_Plugin_FileManage_ExportSiteUpload_End)
-			Next
+	Next
 End Function
 
 '*********************************************************
@@ -345,7 +344,7 @@ Function FileManage_Upload()
 	tpath=objUpload.Form("path")
 	For Each sAction_Plugin_FileManage_Upload_Begin in Action_Plugin_FileManage_Upload_Begin
 		If Not IsEmpty(sAction_Plugin_FileManage_Upload_Begin) Then Call Execute(sAction_Plugin_FileManage_Upload_Begin)
-			Next
+	Next
 	
 	Dim isOK
 	isOK=True
@@ -365,7 +364,7 @@ Function FileManage_Upload()
 
 	For Each sAction_Plugin_FileManage_Upload_End in Action_Plugin_FileManage_Upload_End
 		If Not IsEmpty(sAction_Plugin_FileManage_Upload_End) Then Call Execute(sAction_Plugin_FileManage_Upload_End)
-			Next
+	Next
 End Function
 
 '*********************************************************
@@ -374,7 +373,7 @@ End Function
 Function FileManage_PostSiteFile(tpath)
 	For Each sAction_Plugin_FileManage_PostSiteFile_Begin in Action_Plugin_FileManage_PostSiteFile_Begin
 		If Not IsEmpty(sAction_Plugin_FileManage_PostSiteFile_Begin) Then Call Execute(sAction_Plugin_FileManage_PostSiteFile_Begin)
-			Next
+	Next
 	
 	'On Error Resume Next
 	Dim filePath,isOK,i,fxxxPath
@@ -384,7 +383,8 @@ Function FileManage_PostSiteFile(tpath)
 	 else
 		filePath=fxxxPath & tpath
 	 end if
-	 filepath=replace(filepath,"\/","\")
+
+	 filepath=replace(replace(filepath,"\/","\"),"\\","\")
 	Dim objFSO,objGetFile,objADO
 	Set objFSO=Server.CreateObject("Scripting.FileSystemObject") 
 	IsOK=True
@@ -414,7 +414,7 @@ Function FileManage_PostSiteFile(tpath)
 
 	For Each sAction_Plugin_FileManage_PostSiteFile_End in Action_Plugin_FileManage_PostSiteFile_End
 		If Not IsEmpty(sAction_Plugin_FileManage_PostSiteFile_End) Then Call Execute(sAction_Plugin_FileManage_PostSiteFile_End)
-			Next
+	Next
 End Function
 
 '*********************************************************
@@ -423,7 +423,7 @@ End Function
 Function FileManage_CreateFolder(tpath)
 	For Each sAction_Plugin_FileManage_CreateFolder_Begin in Action_Plugin_FileManage_CreateFolder_Begin
 		If Not IsEmpty(sAction_Plugin_FileManage_CreateFolder_Begin) Then Call Execute(sAction_Plugin_FileManage_CreateFolder_Begin)
-			Next
+	Next
 	
 	On Error Resume Next
 	Dim filePath,isOK,i,fxxxPath
@@ -433,7 +433,7 @@ Function FileManage_CreateFolder(tpath)
 		filePath=fxxxPath & tpath
 	 end if
 	 '创建文件夹时不对是否为zblog之外文件夹判断
-	 filepath=replace(filepath,"\/","\")
+	 filepath=replace(replace(filepath,"\/","\"),"\\","\")
 	Dim objFSO,objGetFile,objADO
 	Set objFSO=Server.CreateObject("Scripting.FileSystemObject") 
 	objFSO.CreateFolder tpath
@@ -447,7 +447,7 @@ Function FileManage_CreateFolder(tpath)
 
 	For Each sAction_Plugin_FileManage_CreateFolder_End in Action_Plugin_FileManage_CreateFolder_End
 		If Not IsEmpty(sAction_Plugin_FileManage_CreateFolder_End) Then Call Execute(sAction_Plugin_FileManage_CreateFolder_End)
-			Next
+	Next
 End Function
 
 
@@ -887,7 +887,7 @@ Class FileManage_UpLoadClass
 		lngValue=0
 		for i = lenb(bin) to 1 step -1
 			lngValue = lngValue *256 + Ascb(midb(bin,i,1))
-		next
+	Next
 		BinVal2=lngValue
 	End Function
 
@@ -896,7 +896,7 @@ Class FileManage_UpLoadClass
 		lngValue=0
 		for i = 1 to lenb(bin)
 			lngValue = lngValue *256 + Ascb(midb(bin,i,1))
-		next
+	Next
 		Bin2Val=lngValue
 	End Function
 
@@ -916,7 +916,7 @@ Class FileManage_UpLoadClass
 		ret = 0 
 		for i = 1 to Len(str)
 			ret = ret * base + Cint(Mid(str, i, 1))
-		next
+	Next
 		Str2Num = ret
 	End Function
 

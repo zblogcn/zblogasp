@@ -224,12 +224,14 @@ Class STACentre_Categorys
 				Set ArtList=New TArticleList
 				ArtList.LoadCache
 				ArtList.template="CATALOG"
-				If ArtList.ExportByMixed(Empty,ID,Empty,Empty,Empty,ZC_DISPLAY_MODE_ALL) Then
-					ArtList.Build
-					PageContent=ArtList.html
-					LoadInfoByID=True
+				If ID<>0 Then
+					If ArtList.ExportByMixed(Empty,ID,Empty,Empty,Empty,ZC_DISPLAY_MODE_ALL) Then
+						ArtList.Build
+						PageContent=ArtList.html
+						LoadInfoByID=True
+					End If
+					Set ArtList=Nothing
 				End If
-				Set ArtList=Nothing
 			End If
 		End If
 	End Function
