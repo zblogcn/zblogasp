@@ -37,12 +37,12 @@ Next
 			If CheckRegExp(objRS("ul_FileName"),".+?\.jp[e]?g|.+?\.gif|.+?\.png|.+?\.bmp|.+?\.tif[f]?")=True Then
 				If IsNull(objRS("ul_DirByTime"))=False And objRS("ul_DirByTime")<>"" Then
 					If CBool(objRS("ul_DirByTime"))=True Then
-						Response.Write "../../../../zb_users/"& ZC_UPLOAD_DIRECTORY &"/"&Year(objRS("ul_PostTime")) & "/" & Month(objRS("ul_PostTime")) & "/"&objRS("ul_FileName")&"ue_separate_ue"
+						Response.Write "zb_users/"& ZC_UPLOAD_DIRECTORY &"/"&Year(objRS("ul_PostTime")) & "/" & Month(objRS("ul_PostTime")) & "/"&objRS("ul_FileName")&"ue_separate_ue"
 					Else
-						Response.Write "../../../../zb_users/"& ZC_UPLOAD_DIRECTORY &"/"&objRS("ul_FileName")&"ue_separate_ue"
+						Response.Write "zb_users/"& ZC_UPLOAD_DIRECTORY &"/"&objRS("ul_FileName")&"ue_separate_ue"
 					End If
 				Else
-					Response.Write "../../../../zb_users/"& ZC_UPLOAD_DIRECTORY &"/"&objRS("ul_FileName")&"'ue_separate_ue"
+					Response.Write "/zb_users/"& ZC_UPLOAD_DIRECTORY &"/"&objRS("ul_FileName")&"'ue_separate_ue"
 				End If
 			End If
 			objRS.MoveNext
