@@ -2340,19 +2340,26 @@ Class TUser
 
 	Private FLoginType
 	Public Property Let LoginType(strLoginType)
-		If (strLoginType="Form") Or (strLoginType="QueryString") Or (strLoginType="Self") Then
 			FLoginType=strLoginType
-		Else
-			FLoginType="Cookies"
-		End If
 	End Property
 	Public Property Get LoginType
-		If IsEmpty(FLoginType)=True Then
-			LoginType="Cookies"
-		Else
 			LoginType = FLoginType
-		End If
 	End Property
+
+
+	Public Function GetMixPassword(md5password)
+
+		Dim objRS
+		Set objRS=objConn.Execute("SELECT [mem_Guid] FROM [blog_Member] WHERE [mem_Name]='"&Name & "'" )
+		If (Not objRS.Bof) And (Not objRS.Eof) Then
+			GetMixPassword=MD5(md5password & objRS("mem_Guid"))
+		End If
+
+		objRS.Close
+		Set objRS=Nothing
+
+	End Function
+
 
 	Public Function Verify()
 		Dim strUserName
@@ -2394,7 +2401,19 @@ Class TUser
 		Dim objRS
 		Set objRS=objConn.Execute("SELECT [mem_ID],[mem_Level],[mem_Password],[mem_Guid] FROM [blog_Member] WHERE [mem_Name]='"&strUserName & "'" )
 		If (Not objRS.Bof) And (Not objRS.Eof) Then
-			If StrComp(MD5(strPassWord & objRS("mem_Guid")),objRS("mem_Password"))=0 Then
+
+				'Response.Write "###" & strPassWord & "###" & "!!!" & objRS("mem_Guid") & "!!!"
+
+			If LoginType<>"Cookies" Then
+				strPassWord=MD5(strPassWord & objRS("mem_Guid"))
+				'Response.Write strPassWord
+			End If
+
+			'Response.Write strPassWord
+			'Response.End
+
+
+			If StrComp(strPassWord,objRS("mem_Password"))=0 Then
 
 				ID=objRS("mem_ID")
 				LoadInfobyID(ID)
@@ -2664,6 +2683,8 @@ Class TUser
 		QQ=""
 		HomePage=""
 		Intro=""
+
+		LoginType="Cookies"
 
 		Set Meta=New TMeta
 

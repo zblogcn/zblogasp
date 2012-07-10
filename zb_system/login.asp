@@ -55,7 +55,9 @@ Call CheckReference("")
 		<td colspan="2" align="center"><br/><input class="button" type="submit" value="<%=ZC_MSG260%>" id="btnPost"></td>
 	</tr>
 </table>
-
+<input type="hidden" name="username" id="username" value="">
+<input type="hidden" name="password" id="password" value="">
+<input type="hidden" name="savedate" id="savedate" value="">
 </form>
 
 <script language="JavaScript" type="text/javascript">
@@ -92,6 +94,9 @@ document.getElementById("btnPost").onclick=function(){
 	SetCookie("password",strPassWord,strSaveDate);
 
 	document.getElementById("frmLogin").action="cmd.asp?act=verify"
+	document.getElementById("username").value=strUserName
+	document.getElementById("password").value=strPassWord
+	document.getElementById("savedate").value=strSaveDate
 
 }
 

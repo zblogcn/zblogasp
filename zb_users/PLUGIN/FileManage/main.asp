@@ -9,7 +9,6 @@
 <% Response.Charset="UTF-8" %>
 <!-- #include file="../../c_option.asp" -->
 <!-- #include file="../../../ZB_SYSTEM/function/c_function.asp" -->
-<!-- #include file="../../../ZB_SYSTEM/function/c_function_md5.asp" -->
 <!-- #include file="../../../ZB_SYSTEM/function/c_system_lib.asp" -->
 <!-- #include file="../../../ZB_SYSTEM/function/c_system_base.asp" -->
 <!-- #include file="../../../ZB_SYSTEM/function/c_system_plugin.asp" -->

@@ -12,7 +12,6 @@
 <!-- #include file="../c_option.asp" -->
 <!-- #include file="../c_option_wap.asp" -->
 <!-- #include file="../function/c_function.asp" -->
-<!-- #include file="../function/c_function_md5.asp" -->
 <!-- #include file="../function/c_system_lib.asp" -->
 <!-- #include file="../function/c_system_base.asp" -->
 <!-- #include file="../function/c_system_event.asp" -->
