@@ -2575,7 +2575,7 @@ Class TUser
 		Call CheckParameter(Level,"int",0)
 
 		Dim Guid
-		Guid=GetGuid()
+		Guid=RndGuid()
 		If (Level<>4) Then Call ShowError(16)
 		If (Name="") Then Call ShowError(7)
 		If Len(Name) >ZC_USERNAME_MAX Then Call ShowError(7)
