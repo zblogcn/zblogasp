@@ -1452,13 +1452,13 @@ Function RndGuid()
 
 	Dim i,s
 
-	Const c="123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	Const c="123456789ABCDEF"
 
 	Randomize
 
 	For i=1 To 32 
 
-		s=s & Mid(c,Int(Rnd*35)+1,1)
+		s=s & Mid(c,Int(Rnd*15)+1,1)
 
 		If i=8 Then s=s & "-"
 		If i=12 Then s=s & "-"
