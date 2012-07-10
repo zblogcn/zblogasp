@@ -2335,7 +2335,7 @@ Class TUser
 	End Property
 
 	Public Property Get RssUrl
-		RssUrl = ZC_BLOG_HOST & "sydication.asp?user=" & ID
+		RssUrl = ZC_BLOG_HOST & "feed.asp?user=" & ID
 	End Property
 
 	Private FLoginType
@@ -3675,7 +3675,7 @@ Class TTag
 	End Property
 
 	Public Property Get RssUrl
-		RssUrl = ZC_BLOG_HOST & "sydication.asp?tags=" & ID
+		RssUrl = ZC_BLOG_HOST & "feed.asp?tags=" & ID
 	End Property
 
 	Public Function Post()

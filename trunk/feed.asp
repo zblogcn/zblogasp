@@ -56,10 +56,10 @@ ElseIf Not IsEmpty(Request.QueryString("cmt")) Then
 	Call ExportRSSbyCmt(Request.QueryString("cmt"))
 ElseIf Not IsEmpty(Request.QueryString("gb")) Then
 	Call ExportRSSbyGuestBook()
-ElseIf Not IsEmpty(Request.QueryString("atom")) Then
-	Call ExportATOM()
-	Response.ContentType = "text/xml"
-	Response.Write LoadFromFile(BlogPath & "rss.xml" ,"utf-8")
+'ElseIf Not IsEmpty(Request.QueryString("atom")) Then
+'	Call ExportATOM()
+'	Response.ContentType = "text/xml"
+'	Response.Write LoadFromFile(BlogPath & "rss.xml" ,"utf-8")
 Else
 	Response.ContentType = "text/xml"
 	Response.Write LoadFromFile(BlogPath & "rss.xml" ,"utf-8")
