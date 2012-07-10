@@ -22,8 +22,6 @@
 <!-- #include file="zb_system/function/c_system_lib.asp" -->
 <!-- #include file="zb_system/function/c_system_base.asp" -->
 <!-- #include file="zb_system/function/c_system_event.asp" -->
-<!-- #include file="zb_system/function/rss_lib.asp" -->
-<!-- #include file="zb_system/function/atom_lib.asp" -->
 <!-- #include file="zb_system/function/c_system_plugin.asp" -->
 <!-- #include file="zb_users/plugin/p_config.asp" -->
 <%

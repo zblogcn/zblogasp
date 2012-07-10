@@ -1,4 +1,8 @@
-﻿file:{%blogpath%}archives\june-2012\default.html
+﻿fldr:{%blogpath%}archives\july-2012
+file:{%blogpath%}authors\zblogger\default.html
+fldr:{%blogpath%}authors\zblogger
+fldr:{%blogpath%}categorys\1
+file:{%blogpath%}archives\june-2012\default.html
 fldr:{%blogpath%}archives\june-2012
 file:{%blogpath%}archives\july-2012\default.html
 file:{%blogpath%}authors\1234\default.html

@@ -24,8 +24,6 @@
 <!-- #include file="../function/c_system_event.asp" -->
 <!-- #include file="../function/c_system_plugin.asp" -->
 <!-- #include file="../plugin/p_config.asp" -->
-<!-- #include file="../function/rss_lib.asp" -->
-<!-- #include file="../function/atom_lib.asp" -->
 <%
 '/////////////////////////////////////////////////////////////////////////////////////////
 '*********************************************************
