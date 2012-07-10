@@ -647,10 +647,10 @@ Function SaveComment(intID,intLog_ID)
 	
 	Set objComment=New TComment
 	Set objComment2=New TComment
-	
 
-	
-	If objComment.LoadInfoByID(intID)=True Then
+
+objComment.LoadInfoByID intID	
+'	If objComment.LoadInfoByID(intID)=True Then
 	if inpParentID>0 And inpParentID<>clng(intID) then
 		If objComment2.LoadInfoByID(inpParentID)=True Then
 			If objComment2.ParentCount+1>ZC_MAXFLOOR Then Call SetBlogHint_Custom("x 超出了层数！"):SaveComment=True:Exit Function
@@ -667,6 +667,7 @@ Function SaveComment(intID,intLog_ID)
 	else	
 		If  inpParentID<>clng(intID) then objComment.parentid=0
 	end if
+
 		objComment.log_ID=intLog_ID
 		objComment.Author=Request.Form("inpName")
 		objComment.Email=Request.Form("inpEmail")
@@ -674,7 +675,7 @@ Function SaveComment(intID,intLog_ID)
 		objComment.Content=Request.Form("txaArticle") '& vbCrlf  & Replace(Replace(ZC_MSG273,"%s",BlogUser.Name,1,1),"%s",GetTime(Now()),1,1)
 		objComment.Reply=Request.Form("txaReply")
 
-	End If
+	'End If
 	Set objComment2=Nothing
 	If objComment.log_ID>0 Then
 		Set objArticle=New TArticle
