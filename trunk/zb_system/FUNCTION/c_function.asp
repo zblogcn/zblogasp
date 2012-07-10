@@ -1442,31 +1442,40 @@ Function CheckMobile()
 End Function 
 '*********************************************************
 
-'*********************************************************
-' 目的：    unescape
-' 输入：    
-' 输入：    要替换的字符
-' 返回：    
-'*********************************************************
-%>
-<script language="javascript" runat="server">
 
-	function vbsunescape(source){
-		return unescape(source);
-	}
-	function getGUID(){
-		var guid = "";
-		for (var i = 1; i <= 32; i++){
-			var n = Math.floor(Math.random() * 16.0).toString(16);
-			guid += n;
-			if ((i == 8) || (i == 12) || (i == 16) || (i == 20))
-			guid += "-";
-		}
-		guid += "";
-		return guid.toUpperCase();
-	}
-</script>
-<%
+
+
+'*********************************************************
+' 目的：   
+'*********************************************************
+Function RndGuid()
+
+	Dim i,s
+
+	Const c="123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
+	Randomize
+
+	For i=1 To 32 
+
+		s=s & Mid(c,Int(Rnd*35)+1,1)
+
+		If i=8 Then s=s & "-"
+		If i=12 Then s=s & "-"
+		If i=16 Then s=s & "-"
+		If i=20 Then s=s & "-"
+
+	Next
+
+	RndGuid=s
+
+End Function 
+'*********************************************************
+
+
+
+
+'*********************************************************
 ' Derived from the RSA Data Security, Inc. MD5 Message-Digest Algorithm,
 ' as set out in the memo RFC1321.
 '
@@ -1848,4 +1857,32 @@ Public Function MD5(sMessage)
     
     MD5 = LCase(WordToHex(a) & WordToHex(b) & WordToHex(c) & WordToHex(d))
 End Function
+'*********************************************************
+
+
+
+
+'*********************************************************
+' 目的：    unescape
+' 输入：    
+' 输入：    要替换的字符
+' 返回：    
+'*********************************************************
 %>
+<script language="javascript" runat="server">
+
+	function vbsunescape(source){
+		return unescape(source);
+	}
+	function getGUID(){
+		var guid = "";
+		for (var i = 1; i <= 32; i++){
+			var n = Math.floor(Math.random() * 16.0).toString(16);
+			guid += n;
+			if ((i == 8) || (i == 12) || (i == 16) || (i == 20))
+			guid += "-";
+		}
+		guid += "";
+		return guid.toUpperCase();
+	}
+</script>

@@ -19,7 +19,6 @@
 <% Response.Buffer=True %>
 <!-- #include file="../../zb_users/c_option.asp" -->
 <!-- #include file="c_function.asp" -->
-<!-- #include file="c_function_md5.asp" -->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<%=ZC_BLOG_LANGUAGE%>" lang="<%=ZC_BLOG_LANGUAGE%>">
 <head>
