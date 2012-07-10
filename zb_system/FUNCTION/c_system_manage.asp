@@ -470,6 +470,7 @@ End Function
 ' 目的：    Manager Comments
 '*********************************************************
 Function ExportCommentList(intPage,intContent)
+Call Add_Response_Plugin("Response_Plugin_CommentMng_SubMenu",MakeSubMenu(ZC_MSG211 & "","../cmd.asp?act=CommentEdt","m-left",False))
 
 	Dim i
 	Dim objRS
@@ -512,7 +513,7 @@ Function ExportCommentList(intPage,intContent)
 	Response.Write "</p></form>"
 
 	Response.Write "<table border=""1"" width=""100%"" cellspacing=""1"" cellpadding=""1"">"
-	Response.Write "<tr><td width='5%'>"& ZC_MSG076 &"</td><td width=""5%"">回复评论ID</td><td width='14%'>"& ZC_MSG001 &"</td><td>"& ZC_MSG055 &"</td><td width=""12%"">留言文章</td><td width='12%'>"& ZC_MSG080 &"</td><td width='15%'>"& ZC_MSG075 &"</td><td width='6%'></td><td width='6%'></td><td width='5%'  align='center'><a href='' onclick='BatchSelectAll();return false'>"& ZC_MSG229 &"</a></td></tr>"'
+	Response.Write "<tr><td width='5%'>"& ZC_MSG076 &"</td><td width=""5%"">"&ZC_MSG331&"</td><td width='14%'>"& ZC_MSG001 &"</td><td>"& ZC_MSG055 &"</td><td width=""12%"">"&ZC_MSG332&"</td><td width='12%'>"& ZC_MSG080 &"</td><td width='15%'>"& ZC_MSG075 &"</td><td width='6%'></td><td width='6%'></td><td width='6%'><td width='5%'  align='center'><a href='' onclick='BatchSelectAll();return false'>"& ZC_MSG229 &"</a></td></tr>"'
 
 	objRS.Open("SELECT * FROM [blog_Comment] "& strSQL &" ORDER BY [comm_ID] DESC")
 	Dim objArticle
@@ -546,8 +547,9 @@ Function ExportCommentList(intPage,intContent)
 			Response.Write "<td><a href="""&objArticle.URL&"#cmt"&objRS("comm_ID")&""" target=""_blank"">"&objArticle.title&"</a></td>"
 			Response.Write "<td>" & objRS("comm_IP") & "</td>"
 			Response.Write "<td>" & objRS("comm_PostTime") & "</td>"
-			Response.Write "<td align=""center""><a href=""../cmd.asp?act=CommentEdt&id=" & objRS("comm_ID") & "&log_id="& objRS("log_ID") &""">["& ZC_MSG078 &"]</a></td>"
-			Response.Write "<td align=""center""><a href=""../cmd.asp?act=CommentDel&id=" & objRS("comm_ID") & "&log_id="& objRS("log_ID") &""" onclick='return window.confirm("""& ZC_MSG058 &""");'>["& ZC_MSG063 &"]</a></td>"
+			Response.Write "<td align=""center""><a href=""../cmd.asp?act=CommentEdt&revid="&objRs("comm_ID")&"&log_id="& objRS("log_ID") &""">["&ZC_MSG333&"]</a></td>"
+			Response.Write "<td align=""center""><a href=""../cmd.asp?act=CommentEdt&id=" & objRS("comm_ID") & "&log_id="& objRS("log_ID") &"&revid="& objRS("comm_ParentID") &""">["& ZC_MSG078 &"]</a></td>"
+			Response.Write "<td align=""center""><a href=""../cmd.asp?act=CommentDel&id=" & objRS("comm_ID") & "&log_id="& objRS("log_ID")  &"&revid="& objRS("comm_ParentID") &""" onclick='return window.confirm("""& ZC_MSG058 &""");'>["& ZC_MSG063 &"]</a></td>"
 			Response.Write "<td align=""center"" ><input type=""checkbox"" name=""edtDel"" id=""edtDel"" value="""&objRS("comm_ID")&"""/></td>"
 			Response.Write "</tr>"
 

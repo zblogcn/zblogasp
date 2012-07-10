@@ -647,7 +647,7 @@ Function CommentEdt
 		If bAction_Plugin_CommentEdt_Begin=True Then Exit Function
 	Next
 
-	Response.Redirect "admin/edit_comment.asp?id="& Request.QueryString("id") & "&log_id="& Request.QueryString("log_id") 
+	Response.Redirect "admin/edit_comment.asp?id="& Request.QueryString("id") & "&log_id="& Request.QueryString("log_id")  & "&revid=" & Request.QueryString("revid")
 
 End Function
 

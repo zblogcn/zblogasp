@@ -41,10 +41,18 @@ If Not CheckRights("CommentEdt") Then Call ShowError(6)
 Dim EditComment
 Set EditComment=New TComment
 
-If Not IsEmpty(Request.QueryString("id")) Then
+If Not  (IsEmpty(Request.QueryString("id")) Or Request.QueryString("id")="") Then
 
 	If EditComment.LoadInfoByID(Request.QueryString("id"))=False Then Call ShowError(12)
-
+Else
+	If Not  (IsEmpty(Request.QueryString("revid")) Or Request.QueryString("revid")="") Then
+		EditComment.ParentID=Trim(Request.QueryString("revid"))
+		EditComment.log_ID=Trim(Request.QueryString("log_id"))
+		EditComment.ID=0
+		EditComment.Author=BlogUser.Name
+		EditComment.EMail=BlogUser.Email
+		EditComment.HomePage=BlogUser.HomePage
+	End If
 End If
 
 
