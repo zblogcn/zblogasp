@@ -2402,16 +2402,9 @@ Class TUser
 		Set objRS=objConn.Execute("SELECT [mem_ID],[mem_Level],[mem_Password],[mem_Guid] FROM [blog_Member] WHERE [mem_Name]='"&strUserName & "'" )
 		If (Not objRS.Bof) And (Not objRS.Eof) Then
 
-				'Response.Write "###" & strPassWord & "###" & "!!!" & objRS("mem_Guid") & "!!!"
-
 			If LoginType<>"Cookies" Then
 				strPassWord=MD5(strPassWord & objRS("mem_Guid"))
-				'Response.Write strPassWord
 			End If
-
-			'Response.Write strPassWord
-			'Response.End
-
 
 			If StrComp(strPassWord,objRS("mem_Password"))=0 Then
 
@@ -2500,7 +2493,7 @@ Class TUser
 		Call CheckParameter(ID,"int",0)
 		Call CheckParameter(Level,"int",0)
 		Dim Guid
-		Guid=getGUID()
+		Guid=RndGuid()
 		If ((Level<1) Or (Level>5)) Then Call ShowError(16)
 		If (Name="") Then Call ShowError(7)
 		If Len(Name) >ZC_USERNAME_MAX Then Call ShowError(7)
