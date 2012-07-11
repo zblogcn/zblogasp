@@ -1,4 +1,4 @@
-<%@ CODEPAGE=65001 %>
+﻿<%@ CODEPAGE=65001 %>
 <%
 '///////////////////////////////////////////////////////////////////////////////
 '//              Z-Blog 
@@ -117,7 +117,18 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & IIf(Request.QueryString("type")="Page",ZC_
 
     <script type="text/javascript" charset="utf-8" src="ueditor/editor_config.asp"></script>
     <script type="text/javascript" charset="utf-8" src="ueditor/editor_all_min.js"></script>
-	<script language="JavaScript" type="text/javascript">var loaded=false;var editor = new baidu.editor.ui.Editor();</script>
+	<script language="JavaScript" type="text/javascript">
+var loaded=false;
+var editor = new baidu.editor.ui.Editor();
+var editor2 = new baidu.editor.ui.Editor({
+	toolbars:[['Source', 'Undo', 'Redo']],
+	autoClearinitialContent:false,
+	wordCount:false,
+	elementPathEnabled:false,
+	autoFloatEnabled:false,
+	autoHeightEnabled:false,
+	minFrameHeight:200
+});</script>
 
 	<title><%=BlogTitle%></title>
 </head>
@@ -338,17 +349,6 @@ End If
 	$(document).ready(function(){
 
 		editor.render('ueditor');
-
-		var editor2 = new baidu.editor.ui.Editor({
-			toolbars:[['Source', 'Undo', 'Redo']],
-			autoClearinitialContent:false,
-			wordCount:false,
-			elementPathEnabled:false,
-			autoFloatEnabled:false,
-			autoHeightEnabled:false,
-			minFrameHeight:200
-		});
-
 		editor2.render('ueditor2');
 
 	});
