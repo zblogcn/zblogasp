@@ -420,7 +420,7 @@ body.login{
 	margin:0;
 	padding:5px;
 }
-#frmLogin img,input{
+#frmLogin input,#frmLogin img{
 	margin:0;
 	padding:0;
 	vertical-align:bottom;
