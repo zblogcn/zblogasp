@@ -32,25 +32,26 @@ For Each sAction_Plugin_Guestbook_Begin in Action_Plugin_Guestbook_Begin
 	If Not IsEmpty(sAction_Plugin_Guestbook_Begin) Then Call Execute(sAction_Plugin_Guestbook_Begin)
 Next
 
-Dim GuestBook
-Set GuestBook=New TGuestBook
+Dim Page
+Set Page=New TArticle
 
-Dim s
-s=GetTemplate("TEMPLATE_GUESTBOOK")
+If Page.LoadInfoByID(ZC_GUESTBOOK_ID) Then
 
-If s="" Then
-	GuestBook.template="SINGLE"
-Else
-	GuestBook.template="GUESTBOOK"
+	If Page.Level=1 Then Call ShowError(9)
+	If Page.Level=2 Then
+		If Not CheckRights("Root") Then
+			If (Article.AuthorID<>BlogUser.ID) Then Call ShowError(6)
+		End If
+	End If
+
+	Page.template="SINGLE"
+	If Page.Export(ZC_DISPLAY_MODE_ALL)= True Then
+		Page.Build
+		Response.Write Page.html
+	End If
+
 End If
 
-If GuestBook.Export(Request.QueryString("page")) Then
-
-	GuestBook.Build
-
-	Response.Write GuestBook.html
-
-End If
 
 'plugin node
 For Each sAction_Plugin_Guestbook_End in Action_Plugin_Guestbook_End

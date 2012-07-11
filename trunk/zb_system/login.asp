@@ -94,7 +94,7 @@ document.getElementById("btnPost").onclick=function(){
 	SetCookie("password",strPassWord,strSaveDate);
 
 	document.getElementById("frmLogin").action="cmd.asp?act=verify"
-	document.getElementById("username").value=strUserName
+	document.getElementById("username").value=unescape(strUserName);
 	document.getElementById("password").value=strPassWord
 	document.getElementById("savedate").value=strSaveDate
 

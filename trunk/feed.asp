@@ -96,12 +96,12 @@ Function ExportRSSbyCate(CateID)
 
 				Dim i
 
-				Set objRS=objConn.Execute("SELECT [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_Istop],[log_Template],[log_Meta] FROM [blog_Article] WHERE ([log_ID]>0) AND ([log_Level]>2) AND ([log_CateID]="&CateID&") ORDER BY [log_PostTime] DESC")
+				Set objRS=objConn.Execute("SELECT [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_IsAnonymous],[log_Meta] FROM [blog_Article] WHERE ([log_ID]>0) AND ([log_Level]>2) AND ([log_CateID]="&CateID&") ORDER BY [log_PostTime] DESC")
 
 				If (Not objRS.bof) And (Not objRS.eof) Then
 				For i=1 to ZC_RSS2_COUNT
 					Set objArticle=New TArticle
-					If objArticle.LoadInfoByArray(Array(objRS("log_ID"),objRS("log_Tag"),objRS("log_CateID"),objRS("log_Title"),objRS("log_Intro"),objRS("log_Content"),objRS("log_Level"),objRS("log_AuthorID"),objRS("log_PostTime"),objRS("log_CommNums"),objRS("log_ViewNums"),objRS("log_TrackBackNums"),objRS("log_Url"),objRS("log_Istop"),objRS("log_Template"),objRS("log_Meta"))) Then
+					If objArticle.LoadInfoByArray(Array(objRS(0),objRS(1),objRS(2),objRS(3),objRS(4),objRS(5),objRS(6),objRS(7),objRS(8),objRS(9),objRS(10),objRS(11),objRS(12),objRS(13),objRS(14),objRS(15),objRS(16),objRS(17))) Then
 
 						If ZC_RSS_EXPORT_WHOLE Then
 						.AddItem objArticle.HtmlTitle,Users(objArticle.AuthorID).Email & " (" & Users(objArticle.AuthorID).Name & ")",objArticle.HtmlUrl,objArticle.PostTime,objArticle.HtmlUrl,objArticle.HtmlContent,Categorys(objArticle.CateID).HtmlName,objArticle.CommentUrl,objArticle.WfwComment,objArticle.WfwCommentRss,objArticle.TrackBackUrl
@@ -157,12 +157,12 @@ Function ExportRSSbyUser(UserID)
 
 				Dim i
 
-				Set objRS=objConn.Execute("SELECT [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_Istop],[log_Template],[log_Meta] FROM [blog_Article] WHERE ([log_ID]>0) AND ([log_Level]>2) AND ([log_AuthorID]="&UserID&") ORDER BY [log_PostTime] DESC")
+				Set objRS=objConn.Execute("SELECT [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_IsAnonymous],[log_Meta] FROM [blog_Article] WHERE ([log_ID]>0) AND ([log_Level]>2) AND ([log_AuthorID]="&UserID&") ORDER BY [log_PostTime] DESC")
 
 				If (Not objRS.bof) And (Not objRS.eof) Then
 				For i=1 to ZC_RSS2_COUNT
 					Set objArticle=New TArticle
-					If objArticle.LoadInfoByArray(Array(objRS("log_ID"),objRS("log_Tag"),objRS("log_CateID"),objRS("log_Title"),objRS("log_Intro"),objRS("log_Content"),objRS("log_Level"),objRS("log_AuthorID"),objRS("log_PostTime"),objRS("log_CommNums"),objRS("log_ViewNums"),objRS("log_TrackBackNums"),objRS("log_Url"),objRS("log_Istop"),objRS("log_Template"),objRS("log_Meta"))) Then
+					If objArticle.LoadInfoByArray(Array(objRS(0),objRS(1),objRS(2),objRS(3),objRS(4),objRS(5),objRS(6),objRS(7),objRS(8),objRS(9),objRS(10),objRS(11),objRS(12),objRS(13),objRS(14),objRS(15),objRS(16),objRS(17))) Then
 
 						If ZC_RSS_EXPORT_WHOLE Then
 						.AddItem objArticle.HtmlTitle,Users(objArticle.AuthorID).Email & " (" & Users(objArticle.AuthorID).Name & ")",objArticle.HtmlUrl,objArticle.PostTime,objArticle.HtmlUrl,objArticle.HtmlContent,Categorys(objArticle.CateID).HtmlName,objArticle.CommentUrl,objArticle.WfwComment,objArticle.WfwCommentRss,objArticle.TrackBackUrl
@@ -216,12 +216,12 @@ Function ExportRSSbyDate(YearMonth)
 
 				Dim i
 
-				Set objRS=objConn.Execute("SELECT [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_Istop],[log_Template],[log_Meta] FROM [blog_Article] WHERE ([log_ID]>0) AND ([log_Level]>2) AND (Year([log_PostTime])="&Year(YearMonth)&") AND (Month([log_PostTime])="&Month(YearMonth)&") ORDER BY [log_PostTime] DESC")
+				Set objRS=objConn.Execute("SELECT [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_IsAnonymous],[log_Meta] FROM [blog_Article] WHERE ([log_ID]>0) AND ([log_Level]>2) AND (Year([log_PostTime])="&Year(YearMonth)&") AND (Month([log_PostTime])="&Month(YearMonth)&") ORDER BY [log_PostTime] DESC")
 
 				If (Not objRS.bof) And (Not objRS.eof) Then
 				Do While Not objRS.eof
 					Set objArticle=New TArticle
-					If objArticle.LoadInfoByArray(Array(objRS("log_ID"),objRS("log_Tag"),objRS("log_CateID"),objRS("log_Title"),objRS("log_Intro"),objRS("log_Content"),objRS("log_Level"),objRS("log_AuthorID"),objRS("log_PostTime"),objRS("log_CommNums"),objRS("log_ViewNums"),objRS("log_TrackBackNums"),objRS("log_Url"),objRS("log_Istop"),objRS("log_Template"),objRS("log_Meta"))) Then
+					If objArticle.LoadInfoByArray(Array(objRS(0),objRS(1),objRS(2),objRS(3),objRS(4),objRS(5),objRS(6),objRS(7),objRS(8),objRS(9),objRS(10),objRS(11),objRS(12),objRS(13),objRS(14),objRS(15),objRS(16),objRS(17))) Then
 
 						If ZC_RSS_EXPORT_WHOLE Then
 						.AddItem objArticle.HtmlTitle,Users(objArticle.AuthorID).Email & " (" & Users(objArticle.AuthorID).Name & ")",objArticle.HtmlUrl,objArticle.PostTime,objArticle.HtmlUrl,objArticle.HtmlContent,Categorys(objArticle.CateID).HtmlName,objArticle.CommentUrl,objArticle.WfwComment,objArticle.WfwCommentRss,objArticle.TrackBackUrl
@@ -277,12 +277,12 @@ Function ExportRSSbyTags(TagsID)
 
 				Dim i
 
-				Set objRS=objConn.Execute("SELECT [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_Istop],[log_Template],[log_Meta] FROM [blog_Article] WHERE ([log_ID]>0) AND ([log_Level]>2) AND ([log_Tag] LIKE '%{"&TagsID&"}%') ORDER BY [log_PostTime] DESC")
+				Set objRS=objConn.Execute("SELECT [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_IsAnonymous],[log_Meta] FROM [blog_Article] WHERE ([log_ID]>0) AND ([log_Level]>2) AND ([log_Tag] LIKE '%{"&TagsID&"}%') ORDER BY [log_PostTime] DESC")
 
 				If (Not objRS.bof) And (Not objRS.eof) Then
 				For i=1 to ZC_RSS2_COUNT
 					Set objArticle=New TArticle
-					If objArticle.LoadInfoByArray(Array(objRS("log_ID"),objRS("log_Tag"),objRS("log_CateID"),objRS("log_Title"),objRS("log_Intro"),objRS("log_Content"),objRS("log_Level"),objRS("log_AuthorID"),objRS("log_PostTime"),objRS("log_CommNums"),objRS("log_ViewNums"),objRS("log_TrackBackNums"),objRS("log_Url"),objRS("log_Istop"),objRS("log_Template"),objRS("log_Meta"))) Then
+					If objArticle.LoadInfoByArray(Array(objRS(0),objRS(1),objRS(2),objRS(3),objRS(4),objRS(5),objRS(6),objRS(7),objRS(8),objRS(9),objRS(10),objRS(11),objRS(12),objRS(13),objRS(14),objRS(15),objRS(16),objRS(17))) Then
 
 						If ZC_RSS_EXPORT_WHOLE Then
 						.AddItem objArticle.HtmlTitle,Users(objArticle.AuthorID).Email & " (" & Users(objArticle.AuthorID).Name & ")",objArticle.HtmlUrl,objArticle.PostTime,objArticle.HtmlUrl,objArticle.HtmlContent,Categorys(objArticle.CateID).HtmlName,objArticle.CommentUrl,objArticle.WfwComment,objArticle.WfwCommentRss,objArticle.TrackBackUrl

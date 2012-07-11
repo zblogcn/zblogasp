@@ -499,6 +499,7 @@ Function UpdateDateBase()
 		objConn.execute("ALTER TABLE [blog_Article] ADD COLUMN [log_Delate] int DEFAULT 0")
 		objConn.execute("ALTER TABLE [blog_Article] ADD COLUMN [log_Template] VARCHAR(255) default """"")
 		objConn.execute("ALTER TABLE [blog_Article] ADD COLUMN [log_FullUrl] VARCHAR(255) default """"")
+		objConn.execute("ALTER TABLE [blog_Article] ADD COLUMN [log_IsAnonymous] YESNO DEFAULT FALSE")
 		objConn.execute("ALTER TABLE [blog_Article] ADD COLUMN [log_Meta] text default """"")
 	End If
 
@@ -588,7 +589,7 @@ objConn.Open "Provider=Microsoft.Jet.OLEDB.4.0;Data Source="&Server.MapPath("zbl
 
 objConn.execute("CREATE TABLE [blog_Tag] (tag_ID AutoIncrement primary key,tag_Name VARCHAR(255) default """",tag_Intro text default """",tag_ParentID int default 0,tag_URL VARCHAR(255) default """",tag_Order int default 0,tag_Count int default 0,tag_Template VARCHAR(255) default """",tag_Meta text default """")")
 
-objConn.execute("CREATE TABLE [blog_Article] (log_ID AutoIncrement primary key,log_CateID int default 0,log_AuthorID int default 0,log_Level int default 0,log_Url VARCHAR(255) default """",log_Title VARCHAR(255) default """",log_Intro text default """",log_Content text default """",log_IP VARCHAR(15) default """",log_PostTime datetime default now(),log_CommNums int default 0,log_ViewNums int default 0,log_TrackBackNums int default 0,log_Tag VARCHAR(255) default """",log_IsTop YESNO DEFAULT 0,log_Yea int default 0,log_Nay int default 0,log_Delate int default 0,log_Template VARCHAR(255) default """",log_FullUrl VARCHAR(255) default """",log_Meta text default """")")
+objConn.execute("CREATE TABLE [blog_Article] (log_ID AutoIncrement primary key,log_CateID int default 0,log_AuthorID int default 0,log_Level int default 0,log_Url VARCHAR(255) default """",log_Title VARCHAR(255) default """",log_Intro text default """",log_Content text default """",log_IP VARCHAR(15) default """",log_PostTime datetime default now(),log_CommNums int default 0,log_ViewNums int default 0,log_TrackBackNums int default 0,log_Tag VARCHAR(255) default """",log_IsTop YESNO DEFAULT 0,log_Yea int default 0,log_Nay int default 0,log_Delate int default 0,log_Template VARCHAR(255) default """",log_FullUrl VARCHAR(255) default """",log_IsAnonymous YESNO DEFAULT FALSE,log_Meta text default """")")
 
 objConn.execute("CREATE TABLE [blog_Category] (cate_ID AutoIncrement primary key,cate_Name VARCHAR(50) default """",cate_Order int default 0,cate_Intro VARCHAR(255) default """",cate_Count int default 0,cate_URL VARCHAR(255) default """",cate_ParentID int default 0,cate_Template VARCHAR(255) default """",cate_Meta text default """")")
 
@@ -622,7 +623,7 @@ objConn.Open "Provider=SqlOLEDB;Data Source=(local)\SQLEXPRESS;Initial Catalog=z
 
 objConn.execute("CREATE TABLE [blog_Tag] (tag_ID int identity(1,1) not null primary key,tag_Name nvarchar(255) default '',tag_Intro ntext default '',tag_ParentID int default 0,tag_URL nvarchar(255) default '',tag_Order int default 0,tag_Count int default 0,tag_Template nvarchar(255) default '',tag_Meta ntext default '')")
 
-objConn.execute("CREATE TABLE [blog_Article] (log_ID int identity(1,1) not null primary key,log_CateID int default 0,log_AuthorID int default 0,log_Level int default 0,log_Url nvarchar(255) default '',log_Title nvarchar(255) default '',log_Intro ntext default '',log_Content ntext default '',log_IP nvarchar(15) default '',log_PostTime datetime default getdate(),log_CommNums int default 0,log_ViewNums int default 0,log_TrackBackNums int default 0,log_Tag nvarchar(255) default '',log_IsTop bit DEFAULT 0,log_Yea int default 0,log_Nay int default 0,log_Delate int default 0,log_Template nvarchar(255) default '',log_FullUrl nvarchar(255) default '',log_Meta ntext default '')")
+objConn.execute("CREATE TABLE [blog_Article] (log_ID int identity(1,1) not null primary key,log_CateID int default 0,log_AuthorID int default 0,log_Level int default 0,log_Url nvarchar(255) default '',log_Title nvarchar(255) default '',log_Intro ntext default '',log_Content ntext default '',log_IP nvarchar(15) default '',log_PostTime datetime default getdate(),log_CommNums int default 0,log_ViewNums int default 0,log_TrackBackNums int default 0,log_Tag nvarchar(255) default '',log_IsTop bit DEFAULT 0,log_Yea int default 0,log_Nay int default 0,log_Delate int default 0,log_Template nvarchar(255) default '',log_FullUrl nvarchar(255) default '',log_IsAnonymous bit DEFAULT 0,log_Meta ntext default '')")
 
 objConn.execute("CREATE TABLE [blog_Category] (cate_ID int identity(1,1) not null primary key,cate_Name nvarchar(50) default '',cate_Order int default 0,cate_Intro nvarchar(255) default '',cate_Count int default 0,cate_URL nvarchar(255) default '',cate_ParentID int default 0,cate_Template nvarchar(255) default '',cate_Meta ntext default '')")
 

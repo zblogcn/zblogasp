@@ -87,17 +87,6 @@ Sub System_Initialize()
 		End If
 	End If
 
-	Dim strTemplateModified
-	Application.Lock
-	strTemplateModified=Application(ZC_BLOG_CLSID & "TEMPLATEMODIFIED")
-	Application.UnLock
-	If IsEmpty(strTemplateModified)=False Then
-		If LCase(CStr(strTemplateModified))<>LCase(CStr(CheckTemplateModified)) Then
-			Call ClearGlobeCache()
-			Call LoadGlobeCache()
-		End If
-	End If
-
 	'plugin node
 	bAction_Plugin_System_Initialize_Succeed=False
 	For Each sAction_Plugin_System_Initialize_Succeed in Action_Plugin_System_Initialize_Succeed
@@ -299,9 +288,9 @@ Function GetCategory()
 			Set Categorys(aryAllData(0,i))=New TCategory
 			Categorys(aryAllData(0,i)).LoadInfoByArray(Array(aryAllData(0,i),aryAllData(1,i),aryAllData(2,i),aryAllData(3,i),aryAllData(4,i),aryAllData(5,i),aryAllData(6,i),aryAllData(7,i),aryAllData(8,i)))
 		Next
-		Set Categorys(0)=New TCategory
-
 	End If
+
+	Set Categorys(0)=New TCategory
 
 	GetCategory=True
 
@@ -351,6 +340,8 @@ Function GetUser()
 
 	End If
 
+	Set Users(0)=New TUser
+
 	Getuser=True
 
 End Function
@@ -395,6 +386,8 @@ Function GetTags()
 		Next
 
 	End If
+
+	Set Tags(0)=New TTag
 
 	GetTags=True
 
@@ -553,7 +546,7 @@ Function GetRights(strAction)
 		Case "SettingSav"
 			GetRights=1
 		Case "PlugInMng"
-			GetRights=4
+			GetRights=2
 		Case "SiteInfo"
 			GetRights=4
 		'Case "Update"
@@ -777,7 +770,7 @@ Function MakeCalendar(dtmYearMonth)
 	objRS.LockType = adLockReadOnly
 	objRS.ActiveConnection=objConn
 	objRS.Source=""
-	objRS.Open("select [log_ID],[log_CateID],[log_AuthorID],[log_Level],[log_PostTime],[log_Url],[log_Istop] from [blog_Article] where ([log_CateID]>0) And ([log_Level]>2) And ([log_PostTime] BETWEEN "& ZC_SQL_POUND_KEY &y&"-"&m&"-1"& ZC_SQL_POUND_KEY &" AND "& ZC_SQL_POUND_KEY &ny&"-"&nm&"-1"& ZC_SQL_POUND_KEY &")")
+	objRS.Open("select [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_IsAnonymous],[log_Meta] from [blog_Article] where ([log_CateID]>0) And ([log_Level]>2) And ([log_PostTime] BETWEEN "& ZC_SQL_POUND_KEY &y&"-"&m&"-1"& ZC_SQL_POUND_KEY &" AND "& ZC_SQL_POUND_KEY &ny&"-"&nm&"-1"& ZC_SQL_POUND_KEY &")")
 
 	If (Not objRS.bof) And (Not objRS.eof) Then
 		For i=1 To objRS.RecordCount
@@ -785,7 +778,7 @@ Function MakeCalendar(dtmYearMonth)
 			aryDateLink(j)=True
 			aryDateID(j)=objRS("log_ID")
 			Set aryDateArticle(j)=New TArticle
-			aryDateArticle(j).LoadInfobyArray Array(objRS("log_ID"),"",objRS("log_CateID"),"","","",objRS("log_Level"),objRS("log_AuthorID"),objRS("log_PostTime"),"","","",objRS("log_Url"),"","","","")
+			aryDateArticle(j).LoadInfobyArray Array(objRS(0),objRS(1),objRS(2),objRS(3),objRS(4),objRS(5),objRS(6),objRS(7),objRS(8),objRS(9),objRS(10),objRS(11),objRS(12),objRS(13),objRS(14),objRS(15),objRS(16),objRS(17))
 			objRS.MoveNext
 			If objRS.eof Then Exit For
 		Next
@@ -2649,12 +2642,12 @@ Function ExportRSS()
 
 			Dim i
 			Dim objRS
-			Set objRS=objConn.Execute("SELECT [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_Meta] FROM [blog_Article] WHERE ([log_CateID]>0) And ([log_ID]>0) AND ([log_Level]>2) ORDER BY [log_PostTime] DESC")
+			Set objRS=objConn.Execute("SELECT [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_IsAnonymous],[log_Meta] FROM [blog_Article] WHERE ([log_CateID]>0) And ([log_ID]>0) AND ([log_Level]>2) ORDER BY [log_PostTime] DESC")
 
 			If (Not objRS.bof) And (Not objRS.eof) Then
 				For i=1 to ZC_RSS2_COUNT
 					Set objArticle=New TArticle
-					If objArticle.LoadInfoByArray(Array(objRS("log_ID"),objRS("log_Tag"),objRS("log_CateID"),objRS("log_Title"),objRS("log_Intro"),objRS("log_Content"),objRS("log_Level"),objRS("log_AuthorID"),objRS("log_PostTime"),objRS("log_CommNums"),objRS("log_ViewNums"),objRS("log_TrackBackNums"),objRS("log_Url"),objRS("log_Istop"),objRS("log_Template"),objRS("log_FullUrl"),objRS("log_Meta"))) Then
+					If objArticle.LoadInfoByArray(Array(objRS(0),objRS(1),objRS(2),objRS(3),objRS(4),objRS(5),objRS(6),objRS(7),objRS(8),objRS(9),objRS(10),objRS(11),objRS(12),objRS(13),objRS(14),objRS(15),objRS(16),objRS(17))) Then
 
 					If ZC_RSS_EXPORT_WHOLE Then
 					.AddItem objArticle.HtmlTitle,Users(objArticle.AuthorID).Email & " (" & Users(objArticle.AuthorID).Name & ")",objArticle.HtmlUrl,objArticle.PostTime,objArticle.HtmlUrl,objArticle.HtmlContent,Categorys(objArticle.CateID).HtmlName,objArticle.CommentUrl,objArticle.WfwComment,objArticle.WfwCommentRss,objArticle.TrackBackUrl
