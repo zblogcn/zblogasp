@@ -239,7 +239,7 @@ Function PostArticle()
 	objArticle.TemplateName=Request.Form("edtTemplate")
 
 	objArticle.Intro=Request.Form("txaIntro")
-
+	objArticle.AutoList=Request.Form("edtAutoList")
 
 	objArticle.Content=Request.Form("txaContent")
 	If objArticle.Intro="" Then
@@ -661,13 +661,13 @@ objComment.LoadInfoByID intID
 '	If objComment.LoadInfoByID(intID)=True Then
 	if inpParentID>0 And inpParentID<>clng(intID) then
 		If objComment2.LoadInfoByID(inpParentID)=True Then
-			If objComment2.ParentCount+1>ZC_MAXFLOOR Then Call SetBlogHint_Custom("x 超出了层数！"):SaveComment=True:Exit Function
+			If objComment2.ParentCount+1>ZC_MAXFLOOR Then Call SetBlogHint_Custom(ZC_MSG335):SaveComment=True:Exit Function
 			tmpCount=objComment2.ParentCount
 			If objComment2.log_ID=cLng(intLog_ID) then
 				objComment.ParentID=inpParentID
 				objComment.ParentCount=tmpCount+1
 			Else
-				Call SetBlogHint_Custom("x 父评论和子评论不在同一篇文章!")
+				Call SetBlogHint_Custom(ZC_MSG336)
 				SaveComment=True
 				Exit Function
 			End If

@@ -212,6 +212,11 @@ If Request.QueryString("type")<>"Page" Then
 
 	&nbsp;&nbsp;(<%=ZC_MSG296%>)</ul></p>
 <%
+Else
+%>
+<input name="edtAutoList" id="edtAutoList" type="checkbox" value="True" checked="checked"/><label for="edtAutoList">自动加入导航条</label>
+
+<%
 End If
 Err.Clear
 %>

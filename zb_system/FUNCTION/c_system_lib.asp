@@ -262,6 +262,7 @@ Class TArticle
 	Public FullUrl
 	Public Meta
 	Public TemplateName
+	Public AutoList
 
 	Public Property Get MetaString
 		MetaString=Meta.SaveString
@@ -350,9 +351,14 @@ Class TArticle
 		If Level<=2 Then
 			Url = ZC_BLOG_HOST & "view.asp?id=" & ID
 		Else
-			Url = ZC_BLOG_HOST & Directory & FileName
-			If ZC_CUSTOM_DIRECTORY_ENABLE And ZC_CUSTOM_DIRECTORY_ANONYMOUS Then
-				Url = ZC_BLOG_HOST & Directory
+		'Mark0.0
+			If CateID=0 Then
+				Url = ZC_BLOG_HOST & Left(FileName,Len(FileName)-Len("."&ZC_STATIC_TYPE)) & "\"
+			Else
+				Url = ZC_BLOG_HOST & Directory & FileName
+				If ZC_CUSTOM_DIRECTORY_ENABLE And ZC_CUSTOM_DIRECTORY_ANONYMOUS Then
+					Url = ZC_BLOG_HOST & Directory
+				End If				
 			End If
 		End If
 
@@ -1144,7 +1150,22 @@ Class TArticle
 		Else
 			objConn.Execute("UPDATE [blog_Article] SET [log_CateID]="&CateID&",[log_AuthorID]="&AuthorID&",[log_Level]="&Level&",[log_Title]='"&Title&"',[log_Intro]='"&Intro&"',[log_Content]='"&Content&"',[log_PostTime]='"&PostTime&"',[log_IP]='"&IP&"',[log_Tag]='"&Tag&"',[log_Url]='"&Alias&"',[log_Istop]="&CInt(Istop)&",[log_Template]='"&TemplateName&"',[log_FullUrl]='"&FullUrl&"',[log_Meta]='"&MetaString&"' WHERE [log_ID] =" & ID)
 		End If
+		If AutoList="True" Then
+					Dim oReg,strNBar
+					Set oReg=New RegExp
+					oReg.Global=True
+					oReg.IgnoreCase=True
+					oReg.Pattern="<li.+?pageid=[""']?" & id & "[""']?.+?</li>"
+					strNBar=LoadFromFile(BlogPath & "/ZB_USERS/INCLUDE/navbar.asp","utf-8")
+					If oReg.Test(strNBar) Then
+						Call SaveToFile(BlogPath & "/ZB_USERS/INCLUDE/navbar.asp",oReg.Replace(strNBar,"<li pageid="""&id&"""><a href="""&Replace(Url,ZC_BLOG_HOST,"<%=ZC_BLOG_HOST%"&">")&""">"&Title&"</a></li>"),"utf-8",False)
+					Else
+						Call SaveToFile(BlogPath & "/ZB_USERS/INCLUDE/navbar.asp",strNBar & vbCrlf & "<li pageid="""&id&"""><a href="""&Replace(Url,ZC_BLOG_HOST,"<%=ZC_BLOG_HOST%"&">")&""">"&Title&"</a></li>","utf-8",False)
+					End If
+					Set oReg=Nothing
+					Call SetBlogHint(Empty,Empty,True)
 
+			End If
 		Post=True
 
 	End Function
@@ -1159,6 +1180,10 @@ Class TArticle
 		Set fso = CreateObject("Scripting.FileSystemObject")
 		If fso.FileExists(BlogPath & Directory & FileName) Then
 			Set TxtFile = fso.GetFile(BlogPath & Directory & FileName)
+			TxtFile.Delete
+		End If
+		If fso.FileExists(BlogPath & Left(FileName,Len(FileName)-Len("."&ZC_STATIC_TYPE)) & "\") Then
+			Set TxtFile = fso.GetFile(BlogPath &  Left(FileName,Len(FileName)-Len("."&ZC_STATIC_TYPE)) & "\default.asp")
 			TxtFile.Delete
 		End If
 		Set fso=Nothing
@@ -1189,7 +1214,15 @@ Class TArticle
 		objConn.Execute("DELETE FROM [blog_Article] WHERE [log_ID] =" & ID)
 		objConn.Execute("DELETE FROM [blog_Comment] WHERE [log_ID] =" & ID)
 		objConn.Execute("DELETE FROM [blog_TrackBack] WHERE [log_ID] =" & ID)
-
+		If CateID=0 Then
+			Dim oReg
+			Set oReg=New RegExp
+			oReg.Global=True
+			oReg.IgnoreCase=True
+			oReg.Pattern="<li.+?pageid=[""']?" & id & "[""']?.+?</li>"
+			Call SaveToFile(BlogPath & "/ZB_USERS/INCLUDE/navbar.asp",oReg.Replace(LoadFromFile(BlogPath & "/ZB_USERS/INCLUDE/navbar.asp","utf-8"),""),"utf-8",False)
+			Set oReg=Nothing
+		EnD If
 		Del=True
 
 	End Function
@@ -1289,16 +1322,22 @@ Class TArticle
 		Dim objStream
 
 		html=TransferHTML(html,"[no-asp]")
-		If ZC_STATIC_TYPE="asp" Then
-			html="<"&"%@ CODEPAGE=65001 %"&">" & html
-		End If
+		If CateID>0 Then
+			If ZC_STATIC_TYPE="asp" Then
+				html="<"&"%@ CODEPAGE=65001 %"&">" & html
+			End If
+	
+			If ZC_CUSTOM_DIRECTORY_ENABLE=True Then
+				Call CreatDirectoryByCustomDirectory(Directory)
+			End If
+	
+			Call SaveToFile(BlogPath & Directory & FileName,html,"utf-8",False)
+		eLsE
+			Call CreatDirectoryByCustomDirectory( Left(FileName,Len(FileName)-Len("."&ZC_STATIC_TYPE)))
+			Call SaveToFile(BlogPath &  Left(FileName,Len(FileName)-Len("."&ZC_STATIC_TYPE)) & "\default.asp",Replace(LoadFromFile(BlogPath & "\ZB_SYSTEM\function\c_templatepage.asp","utf-8"),"<#MyId#>",Id),"utf-8",False)
 
-		If ZC_CUSTOM_DIRECTORY_ENABLE=True Then
-			Call CreatDirectoryByCustomDirectory(Directory)
-		End If
 
-		Call SaveToFile(BlogPath & Directory & FileName,html,"utf-8",False)
-
+		End iF
 		Save=True
 
 	End Function
