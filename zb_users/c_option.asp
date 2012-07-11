@@ -1,4 +1,5 @@
 ﻿<%
+Response.CodePage=65001
 '///////////////////////////////////////////////////////////////////////////////
 '//              Z-Blog
 '// 作    者:    朱煊(zx.asd)
@@ -137,7 +138,7 @@ Const ZC_GUESTBOOK_CONTENT="欢迎给我留言。"
 Const ZC_UPDATE_INFO_URL="http://update.rainbowsoft.org/info/"
 
 
-Const ZC_USING_PLUGIN_LIST="FileManage|STACentre"
+Const ZC_USING_PLUGIN_LIST="STACentre|FileManage|PluginSapper"
 
 
 
