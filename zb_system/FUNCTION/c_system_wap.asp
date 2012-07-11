@@ -841,7 +841,7 @@ Function WapRelateList(intID,strTag)
 
 	Set objRS=Server.CreateObject("ADODB.Recordset")
 
-	strSQL="SELECT top 10  [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Level],[log_AuthorID],[log_PostTime],[log_Url] FROM [blog_Article] WHERE ([log_Level]>2) AND [log_ID]<>"& intID &" "
+	strSQL="SELECT top 10 [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_IsAnonymous],[log_Meta] FROM [blog_Article] WHERE ([log_Level]>2) AND [log_ID]<>"& intID &" "
 
 	strSQL = strSQL & " AND ("
 
@@ -871,7 +871,7 @@ Function WapRelateList(intID,strTag)
 		For i=1 To intRelatedpostinfeed_limit '相关文章数目
 		Dim objArticle
 		Set objArticle=New TArticle
-		If objArticle.LoadInfoByArray(Array(objRS("log_ID"),objRS("log_Tag"),objRS("log_CateID"),objRS("log_Title"),"","",objRS("log_Level"),objRS("log_AuthorID"),objRS("log_PostTime"),"","","",objRS("log_Url"),"",objRs("log_Template"),objRs("log_FullUrl"),objRs("log_Meta"))) Then
+		If objArticle.LoadInfoByArray(Array(objRS(0),objRS(1),objRS(2),objRS(3),objRS(4),objRS(5),objRS(6),objRS(7),objRS(8),objRS(9),objRS(10),objRS(11),objRS(12),objRS(13),objRS(14),objRS(15),objRS(16),objRS(17))) Then
 
 		    strCC_Count=strCC_Count+1
 		    strCC_ID=objArticle.ID
@@ -947,12 +947,12 @@ Function WapExport(intPage,intCateId,intAuthorId,dtmYearMonth,strTagsName,intTyp
 		objRS.CursorType = adOpenKeyset
 		objRS.LockType = adLockReadOnly
 		objRS.ActiveConnection=objConn
-		objRS.Source="SELECT [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_IsTop],[log_Template],[log_FullUrl],[log_Meta] FROM [blog_Article] WHERE ([log_ID]>0) AND ([log_Level]>1)"
+		objRS.Source="SELECT [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_IsAnonymous],[log_Meta] FROM [blog_Article] WHERE ([log_ID]>0) AND ([log_Level]>1)"
 
 
 		'添加搜索
 		If intType=ZC_DISPLAY_MODE_SEARCH Then
-		objRS.Source="SELECT [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_IsTop],[log_Template],[log_FullUrl],[log_Meta] FROM [blog_Article] WHERE ([log_ID]>0) AND ([log_Level]>2)"
+		objRS.Source="SELECT [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_IsAnonymous],[log_Meta] FROM [blog_Article] WHERE ([log_ID]>0) AND ([log_Level]>2)"
 		objRS.Source=objRS.Source & "AND(( [log_Title] like '%"&q&"%') OR ([log_Intro] LIKE '%"&q&"%') OR ([log_Content] LIKE '%"&q&"%'))"
 		End If 
 
@@ -1035,7 +1035,7 @@ Function WapExport(intPage,intCateId,intAuthorId,dtmYearMonth,strTagsName,intTyp
 'Response.Write objRS.Source'
 'Response.end
 				Set objArticle=New TArticle
-				If objArticle.LoadInfoByArray(Array(objRS(0),objRS(1),objRS(2),objRS(3),objRS(4),objRS(5),objRS(6),objRS(7),objRS(8),objRS(9),objRS(10),objRS(11),objRS(12),objRS(13),objRS(14),objRS(15),objRS(16))) Then
+				If objArticle.LoadInfoByArray(Array(objRS(0),objRS(1),objRS(2),objRS(3),objRS(4),objRS(5),objRS(6),objRS(7),objRS(8),objRS(9),objRS(10),objRS(11),objRS(12),objRS(13),objRS(14),objRS(15),objRS(16),objRS(17))) Then
 					If objArticle.Export(intType)= True Then
 						aryArticleList(i)=objArticle.Template_Article_Multi_WAP
 					End If

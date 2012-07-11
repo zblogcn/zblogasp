@@ -363,39 +363,46 @@ select.full{
 body.login{
 	margin:0;
 	padding:0;
-	background-color:#EDF5FB;
 	float:left;
 }
 #frmLogin{
 	position:absolute;
 	left: 50%;
-	top: 50%;
+	top: 42%;
 	margin: -150px 0px 0px -200px;
 	padding:0;
 	overflow:hidden;
 	width:400px;
 	height:300px;
-	background-color:white;
-	border:1px solid #527b9a;
+	background-color:#EDF5FB;
+	border:0px solid #527b9a;
 }
 #frmLogin ul{
 	margin:0;
 }
 #frmLogin h3{
-	padding:10px 0 5px 0;
-	margin:1px 1px 25px 1px;
+	padding:12px 0 8px 0;
+	margin:0px 0px 25px 0px;
 	text-align:center;
-	color:black;
+	color:white;
 	background:#87b6d9;
+	font-size:20px;
 }
 #frmLogin select{
-	width:225px;
+	width:222px;
 }
+
 #frmLogin input{
 	width:220px;
+	height:20px;
 }
+#frmLogin #btnPost{
+	width:180px;
+	height:24px;
+}
+
 #frmLogin #edtCheckOut{
-	width:140px;
+	width:152px;
 }
 #frmLogin li{
 	margin:5px 0 15px 0;
@@ -412,6 +419,11 @@ body.login{
 	border:0;
 	margin:0;
 	padding:5px;
+}
+#frmLogin img,input{
+	margin:0;
+	padding:0;
+	vertical-align:bottom;
 }
 
 

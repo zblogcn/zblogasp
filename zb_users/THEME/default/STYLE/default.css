@@ -56,7 +56,7 @@ img{
 	padding:0 6px 0 6px;
 	text-align:left;
 	float:left;
-	background:url("../style/default/bg.gif") repeat-y center;
+	background:url("default/bg.gif") repeat-y center;
 }
 
 #divMiddle{
@@ -74,7 +74,7 @@ img{
 	text-align:left;
 	float:left;
 	height:140px;
-	background:#1D99D3 url("../style/default/technet-body.png") repeat-x 0 0px;
+	background:#1D99D3 url("default/technet-body.png") repeat-x 0 0px;
 	border-bottom:0px solid #909090;
 }
 
@@ -101,7 +101,7 @@ img{
 	text-align:center;
 	float:left;
 	height:80px;
-	background:url("../style/default/bottom.png") repeat-x 0 0;
+	background:url("default/bottom.png") repeat-x 0 0;
 	border-top:1px solid #D0D0D0;
 }
 
@@ -134,7 +134,7 @@ div.function li{
 	font-size:12px;
 	margin:0 0 0 0;
 	padding:2px 0 1px 15px;
-	background:url("../style/default/pointblue.gif") no-repeat 3px 4px;
+	background:url("default/pointblue.gif") no-repeat 3px 4px;
 }
 div.function li ul{
 	margin:0 0 0 0;
@@ -172,7 +172,7 @@ div.function li ul{
 }
 
 div.function li span.feed-icon a{
-	background:url("../style/default/feed.png") no-repeat 0 3px;
+	background:url("default/feed.png") no-repeat 0 3px;
 	margin:0 0 0 0;
 	padding:0 0 0 0;
 	font-size:14px;
@@ -226,7 +226,7 @@ div.post .post-title{
 	margin:0 0 0 0;
 	font-size:18px;
 	color: #284259;
-	background:#f5f5f5 url("../style/default/title-bg.gif") no-repeat 8px 6px;
+	background:#f5f5f5 url("default/title-bg.gif") no-repeat 8px 6px;
 	border-bottom:1px solid #e0e0e0;
 }
 
@@ -277,7 +277,7 @@ div.post div.post-body{
 
 div.post-body div.media a{
 	padding-left:16px;
-	background:#FBFBFB url("../style/default/media.gif") no-repeat 0 center;
+	background:#FBFBFB url("default/media.gif") no-repeat 0 center;
 }
 
 div.post-body img{
@@ -396,7 +396,7 @@ div.post-body h6{
 p.posttop {
 	margin:10px 0 0 0;
 	padding:3px 0 2px 12px;
-	background: url("../style/default/pointblue.gif") no-repeat 0 center;
+	background: url("default/pointblue.gif") no-repeat 0 center;
 }
 p.postbottom {
 	margin:0 0 10px 0;
@@ -454,40 +454,40 @@ textarea.text {
 	float:left;
 }
 #divCalendar div.month1{
-	background:url("../style/default/month1.gif") no-repeat center 10px;
+	background:url("default/month1.gif") no-repeat center 10px;
 }
 #divCalendar div.month2{
-	background:url("../style/default/month2.gif") no-repeat center 10px;
+	background:url("default/month2.gif") no-repeat center 10px;
 }
 #divCalendar div.month3{
-	background:url("../style/default/month3.gif") no-repeat center 10px;
+	background:url("default/month3.gif") no-repeat center 10px;
 }
 #divCalendar div.month4{
-	background:url("../style/default/month4.gif") no-repeat center 10px;
+	background:url("default/month4.gif") no-repeat center 10px;
 }
 #divCalendar div.month5{
-	background:url("../style/default/month5.gif") no-repeat center 10px;;
+	background:url("default/month5.gif") no-repeat center 10px;;
 }
 #divCalendar div.month6{
-	background:url("../style/default/month6.gif") no-repeat center 10px;
+	background:url("default/month6.gif") no-repeat center 10px;
 }
 #divCalendar div.month7{
-	background:url("../style/default/month7.gif") no-repeat center 10px;
+	background:url("default/month7.gif") no-repeat center 10px;
 }
 #divCalendar div.month8{
-	background:url("../style/default/month8.gif") no-repeat center 10px;
+	background:url("default/month8.gif") no-repeat center 10px;
 }
 #divCalendar div.month9{
-	background:url("../style/default/month9.gif") no-repeat center 10px;
+	background:url("default/month9.gif") no-repeat center 10px;
 }
 #divCalendar div.month10{
-	background:url("../style/default/month10.gif") no-repeat center 10px;
+	background:url("default/month10.gif") no-repeat center 10px;
 }
 #divCalendar div.month11{
-	background:url("../style/default/month11.gif") no-repeat center 10px;
+	background:url("default/month11.gif") no-repeat center 10px;
 }
 #divCalendar div.month12{
-	background:url("../style/default/month12.gif") no-repeat center 10px;
+	background:url("default/month12.gif") no-repeat center 10px;
 }
 
 p.w{
@@ -531,7 +531,7 @@ p.yd{
 	vertical-align :middle;
 	font-weight:bolder;
 	color:#6090c0;
-	background: url("../style/default/links_r.gif") no-repeat 1px 1px;
+	background: url("default/links_r.gif") no-repeat 1px 1px;
 }
 p.nd{
 	float:left;
@@ -598,7 +598,7 @@ li.msgtime{
 }
 ul.trackback li.tbname{
 	border-bottom:none;
-	background: url("../style/default/pointblue.gif") no-repeat 0 center;
+	background: url("default/pointblue.gif") no-repeat 0 center;
 	padding:3px 0 2px 12px;
 	margin:0px;
 }
@@ -609,7 +609,7 @@ ul.mutuality{
 	margin:5px 0 10px 10px;
 }
 ul.mutuality li.tbname{
-	background: url("../style/default/pointblue.gif") no-repeat 0 center;
+	background: url("default/pointblue.gif") no-repeat 0 center;
 	padding:3px 0 2px 12px;
 	margin:0px;
 	border:none;
@@ -637,7 +637,7 @@ li.msgarticle div.quote-title{
 	float:left;
 	width:928px;
 	border-bottom:1px solid #D0D0D0;
-	background:url("../style/default/navbg.gif") repeat-x 0 0;
+	background:url("default/navbg.gif") repeat-x 0 0;
 	height:32px;
 }
 
@@ -656,7 +656,7 @@ li.msgarticle div.quote-title{
 	margin:0 0 0 0;
 	font-size:14px;
 	line-height:14px;
-	background:url("../style/default/navbgx2.gif") no-repeat right 0;
+	background:url("default/navbgx2.gif") no-repeat right 0;
 }
 
 #divNavBar a{

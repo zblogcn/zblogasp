@@ -388,7 +388,7 @@ Function ArticleEdt
 	Next
 
 	On Error Resume Next
-	If (Ubound(Categorys)=0) Then 
+	If (Request.QueryString("type")<>"Page") And (Ubound(Categorys)=0) Then 
 		Call SetBlogHint_Custom(ZC_MSG294)
 		Response.Redirect "admin/edit_catalog.asp"
 	End If
@@ -399,12 +399,12 @@ Function ArticleEdt
 		Else
 			Response.Redirect "admin/edit_"& ZC_BLOG_WEBEDIT &".asp" & IIf(Request.QueryString("type")="Page","?type=Page","")
 		End If
-	Else
-		If IsEmpty(Request.QueryString("id"))=False Then
-			Response.Redirect "admin/edit.asp?id="& Request.QueryString("id")
-		Else
-			Response.Redirect "admin/edit.asp"
-		End If
+	'Else
+	'	If IsEmpty(Request.QueryString("id"))=False Then
+	'		Response.Redirect "admin/edit.asp?id="& Request.QueryString("id")
+	'	Else
+	'		Response.Redirect "admin/edit.asp"
+	'	End If
 	End If
 End Function
 

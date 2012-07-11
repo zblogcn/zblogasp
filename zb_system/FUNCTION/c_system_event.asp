@@ -25,14 +25,20 @@ Public Function Login()
 	If CheckVerifyNumber(Request.Form("edtCheckOut"))=False Then Call ShowError(38)
 
 	BlogUser.LoginType="Form"
-	Login=BlogUser.Verify
+	
+	If BlogUser.Verify=True Then
 
-	'Response.Cookies("username")=""
-	Response.Cookies("password")=BlogUser.GetMixPassWord(Request.Form("password"))
-	Response.Cookies("password").Expires = DateAdd("d", Request.Form("savedate"), now)
-	Response.Cookies("password").Path = "/"
+		Response.Cookies("password")=BlogUser.GetMixPassWord(Request.Form("password"))
+		Response.Cookies("password").Expires = DateAdd("d", Request.Form("savedate"), now)
+		Response.Cookies("password").Path = "/"
 
+		Login=True
 
+	End If
+
+	Response.Cookies("username")=escape(Request.Form("username"))
+	Response.Cookies("username").Expires = DateAdd("d", Request.Form("savedate"), now)
+	Response.Cookies("username").Path = "/"
 
 End Function
 '*********************************************************

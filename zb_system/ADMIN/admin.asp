@@ -44,6 +44,20 @@ If Not CheckRights(strAct) Then Call ShowError(6)
 
 BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG046
 
+
+'检查模板的更新,如有更新要重新加载
+Dim strTemplateModified
+Application.Lock
+strTemplateModified=Application(ZC_BLOG_CLSID & "TEMPLATEMODIFIED")
+Application.UnLock
+If IsEmpty(strTemplateModified)=False Then
+	If LCase(CStr(strTemplateModified))<>LCase(CStr(CheckTemplateModified)) Then
+		Call ClearGlobeCache()
+		Call LoadGlobeCache()
+	End If
+End If
+
+
 %><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<%=ZC_BLOG_LANGUAGE%>" lang="<%=ZC_BLOG_LANGUAGE%>">
 <head>

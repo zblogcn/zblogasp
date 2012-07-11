@@ -1,4 +1,6 @@
-﻿fldr:{%blogpath%}archives\july-2012
+﻿file:{%blogpath%}authors\中国\default.html
+fldr:{%blogpath%}authors\中国
+fldr:{%blogpath%}archives\july-2012
 file:{%blogpath%}authors\zblogger\default.html
 fldr:{%blogpath%}authors\zblogger
 fldr:{%blogpath%}categorys\1
