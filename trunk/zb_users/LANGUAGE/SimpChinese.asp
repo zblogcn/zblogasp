@@ -335,8 +335,9 @@ Const ZC_MSG330="页面"
 Const ZC_MSG331="回复评论ID"
 Const ZC_MSG332="留言文章"
 Const ZC_MSG333="回复"
-
-
+Const ZC_MSG334="‼ 提示:您一旦添加\修改\删除此处页面，建议您文件重建一次。"
+Const ZC_MSG335="x 超出了层数！"
+Const ZC_MSG336="x 父评论和子评论不在同一篇文章!"
 
 Dim ZVA_Article_Level_Name(4)
 ZVA_Article_Level_Name(1)="草稿文章"

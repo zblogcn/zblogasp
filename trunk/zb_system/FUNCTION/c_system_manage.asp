@@ -243,7 +243,7 @@ End Function
 ' 目的：    Manager SinglePages
 '*********************************************************
 Function ExportPageList(intPage,intCate,intLevel,intTitle)
-
+'Call SetBlogHint_Custom(ZC_MSG334)
 Call Add_Response_Plugin("Response_Plugin_ArticleMng_SubMenu",MakeSubMenu(ZC_MSG328 & "","../cmd.asp?act=ArticleEdt&type=Page&webedit=" & ZC_BLOG_WEBEDIT,"m-left",False))
 
 	Dim i
