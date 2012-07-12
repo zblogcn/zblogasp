@@ -2665,7 +2665,7 @@ Function ExportRSS()
 		.AddChannelAttribute "description",TransferHTML(ZC_BLOG_SUBTITLE,"[html-format]")
 		.AddChannelAttribute "generator","RainbowSoft Studio Z-Blog " & ZC_BLOG_VERSION
 		.AddChannelAttribute "language",ZC_BLOG_LANGUAGE
-		.AddChannelAttribute "copyright",TransferHTML(ZC_BLOG_COPYRIGHT,"[nohtml][html-format]")
+		'.AddChannelAttribute "copyright",TransferHTML(ZC_BLOG_COPYRIGHT,"[nohtml][html-format]")
 		.AddChannelAttribute "pubDate",GetTime(Now())
 
 			Dim i
