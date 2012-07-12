@@ -4187,9 +4187,9 @@ Class TNewRss2Export
 		'objXMLdoc.insertBefore objPI, objXMLdoc.childNodes(0)
 		'Set objPI = Nothing
 
-		Set objPI = objXMLdoc.createProcessingInstruction("xml-stylesheet","type=""text/xsl"" href=""zb_system/css/rss.xslt""")
-		objXMLdoc.insertBefore objPI, objXMLdoc.childNodes(0)
-		Set objPI = Nothing
+		'Set objPI = objXMLdoc.createProcessingInstruction("xml-stylesheet","type=""text/xsl"" href=""zb_system/css/rss.xslt""")
+		'objXMLdoc.insertBefore objPI, objXMLdoc.childNodes(0)
+		'Set objPI = Nothing
 
 		Set objPI = objXMLdoc.createProcessingInstruction("xml","version=""1.0"" encoding=""UTF-8"" standalone=""yes""")
 		objXMLdoc.insertBefore objPI, objXMLdoc.childNodes(0)
