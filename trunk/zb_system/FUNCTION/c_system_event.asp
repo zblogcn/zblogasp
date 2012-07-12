@@ -218,6 +218,8 @@ Function PostArticle()
 	Dim s,i,t,k
 	Dim strTag
 
+	GetCategory()
+	GetUser()
 
 	If Request.Form("edtID")<>"0" Then
 		Dim objTestArticle
@@ -294,6 +296,9 @@ Function DelArticle(intID)
 
 	Dim strTag
 
+	GetCategory()
+	GetUser()
+
 	If intID<>"" Then
 		Dim objTestArticle
 		Set objTestArticle=New TArticle
@@ -319,18 +324,18 @@ Function DelArticle(intID)
 
 		Call BlogReBuild_Comments
 
-		Dim objNavArticle
-		Dim objRS
-		Set objRS=objConn.Execute("SELECT TOP 1 [log_ID] FROM [blog_Article] WHERE ([log_CateID]>0) And ([log_Level]>2) AND ([log_PostTime]<" & ZC_SQL_POUND_KEY & objArticle.PostTime & ZC_SQL_POUND_KEY &") ORDER BY [log_PostTime] DESC")
-		If (Not objRS.bof) And (Not objRS.eof) Then
-			Call BuildArticle(objRS("log_ID"),False,False)
-		End If
-		Set objRS=Nothing
-		Set objRS=objConn.Execute("SELECT TOP 1 [log_ID] FROM [blog_Article] WHERE ([log_CateID]>0) And ([log_Level]>2) AND ([log_PostTime]>" & ZC_SQL_POUND_KEY & objArticle.PostTime & ZC_SQL_POUND_KEY &") ORDER BY [log_PostTime] ASC")
-		If (Not objRS.bof) And (Not objRS.eof) Then
-			Call BuildArticle(objRS("log_ID"),False,False)
-		End If
-		Set objRS=Nothing
+		'Dim objNavArticle
+		'Dim objRS
+		'Set objRS=objConn.Execute("SELECT TOP 1 [log_ID] FROM [blog_Article] WHERE ([log_CateID]>0) And ([log_Level]>2) AND ([log_PostTime]<" & ZC_SQL_POUND_KEY & objArticle.PostTime & ZC_SQL_POUND_KEY &") ORDER BY [log_PostTime] DESC")
+		'If (Not objRS.bof) And (Not objRS.eof) Then
+		'	Call BuildArticle(objRS("log_ID"),False,False)
+		'End If
+		'Set objRS=Nothing
+		'Set objRS=objConn.Execute("SELECT TOP 1 [log_ID] FROM [blog_Article] WHERE ([log_CateID]>0) And ([log_Level]>2) AND ([log_PostTime]>" & ZC_SQL_POUND_KEY & objArticle.PostTime & ZC_SQL_POUND_KEY &") ORDER BY [log_PostTime] ASC")
+		'If (Not objRS.bof) And (Not objRS.eof) Then
+		'	Call BuildArticle(objRS("log_ID"),False,False)
+		'End If
+		'Set objRS=Nothing
 
 	End If
 
@@ -347,6 +352,8 @@ End Function
 ' 目的：    Post Category
 '*********************************************************
 Function PostCategory()
+
+	GetCategory()
 
 	Dim objCategory
 	Set objCategory=New TCategory
@@ -382,6 +389,8 @@ End Function
 '*********************************************************
 Function DelCategory(intID)
 
+	GetCategory()
+
 	Dim objCategory
 	Set objCategory=New TCategory
 
@@ -403,6 +412,9 @@ End Function
 ' 目的：    Post Comment
 '*********************************************************
 Function PostComment(strKey)
+
+	Call GetCategory()
+	Call GetUser()
 
 	If IsEmpty(Request.Form("inpAjax"))=False Then
 		ShowError_Custom="Call RespondError(id,ZVA_ErrorMsg(id)):Response.End"
@@ -509,6 +521,9 @@ End Function
 '*********************************************************
 Function DelComment(intID,intLog_ID)
 
+	Call GetCategory()
+	Call GetUser()
+
 	Dim objComment
 	Dim objArticle
 
@@ -554,6 +569,9 @@ End Function
 ' 目的：    Revert Comment
 '*********************************************************
 Function RevertComment(strKey,intRevertCommentID)
+
+	Call GetCategory()
+	Call GetUser()
 
 	If IsEmpty(Request.Form("inpAjax"))=False Then
 		ShowError_Custom="Call RespondError(id,ZVA_ErrorMsg(id)):Response.End"
@@ -653,6 +671,9 @@ End Function
 ' 目的：    Save Comment
 '*********************************************************
 Function SaveComment(intID,intLog_ID)
+
+	Call GetCategory()
+	Call GetUser()
 
 	Dim objComment,objComment2
 	Dim objArticle
@@ -942,6 +963,9 @@ End Function
 ' 目的：    Edit User
 '*********************************************************
 Function EditUser()
+
+	GetUser()
+
 	Dim objUser
 	Set objUser=New TUser
 	objUser.ID=Request.Form("edtID")
@@ -974,6 +998,8 @@ End Function
 ' 目的：    Del User
 '*********************************************************
 Function DelUser(intID)
+
+	GetUser()
 
 	Dim objRS
 	Dim objUser
@@ -1049,6 +1075,9 @@ Function MakeFileReBuild()
 		If Not IsEmpty(sAction_Plugin_MakeFileReBuild_Begin) Then Call Execute(sAction_Plugin_MakeFileReBuild_Begin)
 		If bAction_Plugin_MakeFileReBuild_Begin=True Then Exit Function
 	Next
+
+	GetCategory()
+	GetUser()
 
 	Dim intPage
 	Dim intAllTime
@@ -1611,6 +1640,8 @@ End Function
 '*********************************************************
 Function PostTag()
 
+	GetTags()
+
 	Dim objTag
 	Set objTag=New TTag
 	objTag.ID=Request.Form("edtID")
@@ -1640,6 +1671,8 @@ End Function
 ' 目的：    Del Tag
 '*********************************************************
 Function DelTag(intID)
+
+	GetTags()
 
 	Dim objTag
 	Set objTag=New TTag

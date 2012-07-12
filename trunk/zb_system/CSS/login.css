@@ -1,0 +1,117 @@
+*{
+	font-size:14px;
+}
+
+body{
+	margin:0;
+	padding:0;
+	color: #000000;
+	background:#FFFFFF;
+	font-family:"宋体","黑体";
+}
+h1,h2,h3,h4,h5,h6{
+	padding:0;
+	margin:0;
+}
+a{
+	text-decoration: none;
+}
+a:link {
+	color:#1b5c8c;
+	text-decoration: none;
+}
+a:visited {
+	color:#1b5c8c;
+	text-decoration: none;
+}
+a:hover {
+	color:#FF7F50;
+	text-decoration: underline;
+}
+a:active {
+	color:#FF7F50;
+	text-decoration: underline;
+}
+p{
+	margin:0;
+	padding:5px;
+}
+img{
+	border:0;
+}
+
+
+
+
+body.login{
+	margin:0;
+	padding:0;
+	float:left;
+}
+#frmLogin{
+	position:absolute;
+	left: 50%;
+	top: 42%;
+	margin: -150px 0px 0px -200px;
+	padding:0;
+	overflow:hidden;
+	width:400px;
+	height:300px;
+	background-color:#EDF5FB;
+	border:0px solid #527b9a;
+	border-radius: 20px 20px 0px 0px; 
+}
+#frmLogin ul{
+	margin:0;
+}
+#frmLogin h3{
+	padding:12px 0 8px 0;
+	margin:0px 0px 25px 0px;
+	text-align:center;
+	color:white;
+	background:#87b6d9;
+	font-size:20px;
+	border-radius: 20px 20px 0px 0px; 
+}
+#frmLogin select{
+	width:223px;
+	height:22px;
+}
+
+#frmLogin input{
+	width:220px;
+	height:18px;
+}
+#frmLogin #btnPost{
+	width:120px;
+	height:28px;
+}
+
+#frmLogin #edtCheckOut{
+	width:150px;
+}
+#frmLogin li{
+	margin:5px 0 15px 0;
+	padding:0 20px 0 20px;
+	list-style-type:none;
+	text-align:center;
+}
+#frmLogin table {
+	border-collapse:separate;
+	border:0;
+	background:none;
+}
+#frmLogin td{
+	border:0;
+	margin:0;
+	padding:5px 0px 5px 5px;
+}
+#frmLogin input,#frmLogin img{
+	margin:0;
+	padding:0;
+	vertical-align:bottom;
+}
+
+#frmLogin #imgValidcode{
+	border:1px solid gray;
+}

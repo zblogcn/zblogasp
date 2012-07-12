@@ -70,10 +70,10 @@ Sub System_Initialize()
 	Set BlogUser =New TUser
 	BlogUser.Verify()
 
-	Call GetCategory()
-	Call GetUser()
-	Call GetTags()
-	Call GetKeyWords()
+	'Call GetCategory()
+	'Call GetUser()
+	'Call GetTags()
+	'Call GetKeyWords()
 
 	Call LoadGlobeCache()
 
@@ -255,7 +255,12 @@ End Function
 '*********************************************************
 ' 目的：    分类读取
 '*********************************************************
+'IsRunGetCategory默认为false,如果运行过一次GetCategory则为True,之后再GetCategory则不执行
+Dim IsRunGetCategory
+IsRunGetCategory=False
 Function GetCategory()
+
+	If IsRunGetCategory=True Then Exit Function
 
 	Dim i,j,k,l
 
@@ -292,6 +297,8 @@ Function GetCategory()
 
 	Set Categorys(0)=New TCategory
 
+	IsRunGetCategory=True
+
 	GetCategory=True
 
 End Function
@@ -303,7 +310,11 @@ End Function
 '*********************************************************
 ' 目的：    用户读取
 '*********************************************************
+Dim IsRunGetUser
+IsRunGetUser=False
 Function GetUser()
+
+	If IsRunGetUser=True Then Exit Function
 
 	Dim i,j,k,l
 
@@ -342,6 +353,8 @@ Function GetUser()
 
 	Set Users(0)=New TUser
 
+	IsRunGetUser=True
+
 	Getuser=True
 
 End Function
@@ -353,7 +366,11 @@ End Function
 '*********************************************************
 ' 目的：    Tags读取
 '*********************************************************
+Dim IsRunGetTags
+IsRunGetTags=False
 Function GetTags()
+
+	If IsRunGetTags=True Then Exit Function
 
 	Dim i,j,k,l
 
@@ -388,6 +405,8 @@ Function GetTags()
 	End If
 
 	Set Tags(0)=New TTag
+
+	IsRunGetTags=True
 
 	GetTags=True
 
@@ -1299,6 +1318,8 @@ Function ParseTag(strTag)
 	strTag=Replace(strTag,vbCrlf,",")
 	t=Split(strTag,",")
 
+	If strTag="" Then ParseTag="":Exit Function
+
 	For i=LBound(t) To UBound(t)
 		t(i)=Trim(t(i))
 	Next
@@ -2132,6 +2153,8 @@ Function BlogReBuild_Catalogs()
 		If bAction_Plugin_BlogReBuild_Catalogs_Begin=True Then Exit Function
 	Next
 
+	GetCategory()
+
 	Dim objRS
 	Dim objStream
 
@@ -2185,6 +2208,7 @@ Function BlogReBuild_Categorys()
 		If bAction_Plugin_BlogReBuild_Categorys_Begin=True Then Exit Function
 	Next
 
+	GetCategory()
 
 	Dim objRS
 	Dim objStream
@@ -2243,6 +2267,8 @@ Function BlogReBuild_Authors()
 		If bAction_Plugin_BlogReBuild_Authors_Begin=True Then Exit Function
 	Next
 
+	GetUser
+
 	Dim objRS
 	Dim objStream
 
@@ -2278,6 +2304,8 @@ Function BlogReBuild_Tags()
 		If Not IsEmpty(sAction_Plugin_BlogReBuild_Tags_Begin) Then Call Execute(sAction_Plugin_BlogReBuild_Tags_Begin)
 		If bAction_Plugin_BlogReBuild_Tags_Begin=True Then Exit Function
 	Next
+
+	Call GetTags()
 
 	Dim objRS
 	Dim objStream
@@ -2597,10 +2625,10 @@ Function BlogReBuild_Statistics()
 	Call SaveToFile(BlogPath & "zb_users/include/statistics.asp",strStatistics,"utf-8",False)
 
 
-	Call GetCategory()
-	Call GetUser()
-	Call GetTags()
-	Call GetKeyWords()
+	'Call GetCategory()
+	'Call GetUser()
+	'Call GetTags()
+	'Call GetKeyWords()
 
 	BlogReBuild_Statistics=True
 
