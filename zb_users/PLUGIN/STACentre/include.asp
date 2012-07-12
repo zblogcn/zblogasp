@@ -61,7 +61,7 @@ Function STACentre_BuildPageByArticleEdt(ByRef objArticle)
 
 End Function
 
-Function STACentre_BuildPageByArticleDel(ByRef ID,ByRef Tag,ByRef CateID,ByRef Title,ByRef Intro,ByRef Content,ByRef Level,ByRef AuthorID,ByRef PostTime,ByRef CommNums,ByRef ViewNums,ByRef TrackBackNums,ByRef Alias,ByRef Istop,ByRef TemplateName,ByRef MetaString)
+Function STACentre_BuildPageByArticleDel(ByRef ID,ByRef Tag,ByRef CateID,ByRef Title,ByRef Intro,ByRef Content,ByRef Level,ByRef AuthorID,ByRef PostTime,ByRef CommNums,ByRef ViewNums,ByRef TrackBackNums,ByRef Alias,ByRef Istop,ByRef TemplateName,ByRef FullUrl,ByRef IsAnonymous,ByRef MetaString)
 
 	Call STACentre_BuildPageByCateID(cateID,True)
 	Call STACentre_BuildPageByTagCode(Tag,True)

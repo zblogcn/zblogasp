@@ -32,9 +32,36 @@ For Each sAction_Plugin_View_Begin in Action_Plugin_View_Begin
 	If Not IsEmpty(sAction_Plugin_View_Begin) Then Call Execute(sAction_Plugin_View_Begin)
 Next
 
-
+Dim objRS
 Dim Article
 Set Article=New TArticle
+
+
+'nvap
+If IsEmpty(Request.QueryString("navp"))=False Then
+
+	If Article.LoadInfoByID(Request.QueryString("navp")) Then
+		Set objRS=objConn.Execute("SELECT TOP 1 [log_FullUrl] FROM [blog_Article] WHERE ([log_Level]>2) AND ([log_PostTime]<" & ZC_SQL_POUND_KEY & Article.PostTime & ZC_SQL_POUND_KEY &") ORDER BY [log_PostTime] DESC")
+		If (Not objRS.bof) And (Not objRS.eof) Then
+			Response.Redirect objRS("log_FullUrl")
+		End If
+	End If
+
+End If
+
+'nvan
+If IsEmpty(Request.QueryString("navn"))=False Then
+
+	If Article.LoadInfoByID(Request.QueryString("navn")) Then
+		Set objRS=objConn.Execute("SELECT TOP 1 [log_FullUrl] FROM [blog_Article] WHERE ([log_Level]>2) AND ([log_PostTime]>" & ZC_SQL_POUND_KEY & Article.PostTime & ZC_SQL_POUND_KEY &") ORDER BY [log_PostTime] ASC")
+		If (Not objRS.bof) And (Not objRS.eof) Then
+			Response.Redirect objRS("log_FullUrl")
+		End If
+	End If
+
+End If
+
+
 
 If Article.LoadInfoByID(Request.QueryString("id")) Then
 

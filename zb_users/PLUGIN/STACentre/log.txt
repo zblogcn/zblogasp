@@ -1,4 +1,9 @@
-﻿file:{%blogpath%}authors\中国\default.html
+﻿file:{%blogpath%}tags\1000e80e-b013-dbe4-bcc8-074b99d73f35\default.html
+file:{%blogpath%}categorys\4\default.html
+fldr:{%blogpath%}categorys\4
+file:{%blogpath%}categorys\2\default.html
+fldr:{%blogpath%}categorys\2
+file:{%blogpath%}authors\中国\default.html
 fldr:{%blogpath%}authors\中国
 fldr:{%blogpath%}archives\july-2012
 file:{%blogpath%}authors\zblogger\default.html

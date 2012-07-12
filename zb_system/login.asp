@@ -26,13 +26,13 @@ Call CheckReference("")
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta http-equiv="Content-Language" content="<%=ZC_BLOG_LANGUAGE%>" />
-	<link rel="stylesheet" rev="stylesheet" href="CSS/admin.css" type="text/css" media="screen" />
+	<link rel="stylesheet" rev="stylesheet" href="CSS/login.css" type="text/css" media="screen" />
 	<script language="JavaScript" src="SCRIPT/common.js" type="text/javascript"></script>
 	<script language="JavaScript" src="SCRIPT/md5.js" type="text/javascript"></script>
 	<title><%=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG009%></title>
 </head>
 <body class="login">
-<form id="frmLogin" method="post">
+<form id="frmLogin" method="post" action="">
 <h3>Z-Blog <%=ZC_MSG009%></h3>
 <table border="0" width="100%" cellspacing="5" cellpadding="5">
 	<tr>
@@ -45,19 +45,19 @@ Call CheckReference("")
 	</tr>
 	<tr>
 		<td align="right"><%=ZC_MSG004%>: </td>
-		<td><select size="1" value="0" id="cmbSave" onchange="edtSaveDate.value=this.options[this.selectedIndex].value"><option selected="selected" value=""><%=ZC_MSG005%></option><option value="1"><%=ZC_MSG006%></option><option value="30"><%=ZC_MSG007%></option><option value="365"><%=ZC_MSG008%></option></select><input type="hidden" id="edtSaveDate" name="edtSaveDate" value="1" /></td>
+		<td><select size="1" id="cmbSave" onchange="edtSaveDate.value=this.options[this.selectedIndex].value"><option selected="selected" value=""><%=ZC_MSG005%></option><option value="1"><%=ZC_MSG006%></option><option value="30"><%=ZC_MSG007%></option><option value="365"><%=ZC_MSG008%></option></select><input type="hidden" id="edtSaveDate" name="edtSaveDate" value="1" /></td>
 	</tr>
 	<tr>
 		<td align="right"><%=ZC_MSG089%>: </td>
-		<td><input type="text" id="edtCheckOut" name="edtCheckOut" size="10" /> <img style="border:1px solid black" src="function/c_validcode.asp?name=loginvalid" height="<%=ZC_VERIFYCODE_HEIGHT%>" width="<%=ZC_VERIFYCODE_WIDTH%>" alt="" title=""/></td>
+		<td><input type="text" id="edtCheckOut" name="edtCheckOut" size="10" /> <img id="imgValidcode" src="function/c_validcode.asp?name=loginvalid" height="<%=ZC_VERIFYCODE_HEIGHT%>" width="<%=ZC_VERIFYCODE_WIDTH%>" alt="" title=""/></td>
 	</tr>
 	<tr>
-		<td colspan="2" align="center"><br/><input class="button" type="submit" value="<%=ZC_MSG260%>" id="btnPost"></td>
+		<td colspan="2" align="center"><br/><input class="button" type="submit" value="<%=ZC_MSG260%>" id="btnPost" /></td>
 	</tr>
 </table>
-<input type="hidden" name="username" id="username" value="">
-<input type="hidden" name="password" id="password" value="">
-<input type="hidden" name="savedate" id="savedate" value="">
+<input type="hidden" name="username" id="username" value="" />
+<input type="hidden" name="password" id="password" value="" />
+<input type="hidden" name="savedate" id="savedate" value="" />
 </form>
 
 <script language="JavaScript" type="text/javascript">
@@ -80,8 +80,9 @@ document.getElementById("btnPost").onclick=function(){
 	var strUserName=document.getElementById("edtUserName").value;
 	var strPassWord=document.getElementById("edtPassWord").value;
 	var strSaveDate=document.getElementById("edtSaveDate").value
+	var strCheckOut=document.getElementById("edtCheckOut").value
 
-	if((strUserName=="")||(strPassWord=="")){
+	if((strUserName=="")||(strPassWord=="")||(strCheckOut=="")){
 		alert("<%=ZC_MSG010%>");
 		return false;
 	}
@@ -106,7 +107,7 @@ $(document).ready(function(){
 		var objImageValid=$("img[src='function/c_validcode.asp?name=loginvalid']");
 		objImageValid.css("cursor","pointer");
 		objImageValid.click( function() {
-				objImageValid.attr("src","function/c_validcode.asp?name=loginvalid"+"&random="+Math.random());
+			objImageValid.attr("src","function/c_validcode.asp?name=loginvalid"+"&amp;random="+Math.random());
 		} );
 	}
 });

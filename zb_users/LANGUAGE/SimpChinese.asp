@@ -11,7 +11,7 @@ Const ZC_MSG006="保存1天"
 Const ZC_MSG007="保存1月"
 Const ZC_MSG008="保存1年"
 Const ZC_MSG009="管理登录"
-Const ZC_MSG010="用户名,密码不能为空"
+Const ZC_MSG010="用户名,密码,验证码不能为空"
 Const ZC_MSG011="发布"
 Const ZC_MSG012="分类"
 Const ZC_MSG013="评论"
@@ -338,6 +338,12 @@ Const ZC_MSG333="回复"
 Const ZC_MSG334="‼ 提示:您一旦添加\修改\删除此处页面，建议您文件重建一次。"
 Const ZC_MSG335="x 超出了层数！"
 Const ZC_MSG336="x 父评论和子评论不在同一篇文章!"
+Const ZC_MSG337="上一篇"
+Const ZC_MSG338="下一篇"
+
+
+
+
 
 Dim ZVA_Article_Level_Name(4)
 ZVA_Article_Level_Name(1)="草稿文章"

@@ -38,6 +38,9 @@ Call CheckReference("")
 '检查权限
 If Not CheckRights("ArticleEdt") Then Call ShowError(6)
 
+GetCategory()
+GetUser()
+
 Dim EditArticle
 
 Set EditArticle=New TArticle
