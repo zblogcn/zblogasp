@@ -5,7 +5,7 @@
 '///////////////////////////////////////////////////////////////////////////////
 %>
 <% Option Explicit %>
-<% On Error Resume Next %>
+<% 'On Error Resume Next %>
 <% Response.Charset="UTF-8" %>
 <!-- #include file="../../c_option.asp" -->
 <!-- #include file="../../../ZB_SYSTEM/function/c_function.asp" -->
@@ -46,6 +46,9 @@ Call SetBlogHint_Custom("‼ 提示:错误的编辑或删除系统文件会导�
 <meta http-equiv="Content-Language" content="<%=ZC_BLOG_LANGUAGE%>" />
 <link rel="stylesheet" rev="stylesheet" href="../../../ZB_SYSTEM/CSS/admin.css" type="text/css" media="screen" />
 <script language="JavaScript" src="../../../ZB_SYSTEM/script/common.js" type="text/javascript"></script>
+<script language="JavaScript" src="../../../ZB_SYSTEM/admin/ueditor/third-party/codemirror2.15/codemirror.js" type="text/javascript"></script>
+<link rel="stylesheet" href="../../../ZB_SYSTEM/admin/ueditor/third-party/codemirror2.15/codemirror.css"/>
+
 <title><%=BlogTitle%></title>
 </head>
 <body>

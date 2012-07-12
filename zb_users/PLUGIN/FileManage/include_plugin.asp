@@ -131,5 +131,13 @@ ReDim Action_Plugin_FileManage_GetSize_End(0)
 Dim bAction_Plugin_FileManage_GetSize_End
 Dim sAction_Plugin_FileManage_GetSize_End
 
+Dim Action_Plugin_FileManage_ExportInformation_Begin()
+ReDim Action_Plugin_FileManage_ExportInformation_Begin(0)
+Dim bAction_Plugin_FileManage_ExportInformation_Begin
+Dim sAction_Plugin_FileManage_ExportInformation_Begin
 
+Dim Action_Plugin_FileManage_ExportInformation_End()
+ReDim Action_Plugin_FileManage_ExportInformation_End(0)
+Dim bAction_Plugin_FileManage_ExportInformation_End
+Dim sAction_Plugin_FileManage_ExportInformation_End
 %>

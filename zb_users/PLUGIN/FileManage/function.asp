@@ -42,7 +42,7 @@ Function FileManage_GetTypeIco(FileName)
 		Case "exe","com" Tag="exe"
 		Case "dll","ocx","sys","db" Tag="dll"
 		Case "bat","cmd" Tag="bat"
-		Case "asp","php","jsp","js","css","inc","asa","asax","aspx","mhtml","shtml"  Tag="code"
+		Case "asp","php","jsp","js","css","inc","asa","asax","aspx","mhtml","shtml","py"  Tag="code"
 		Case "jpg","jpeg","gif","bmp","png","tiff" Tag="img"
 		Case "htm","html","xml"  Tag="htm"
 		Case "rar","zip","7z","gz"  Tag="rar"
@@ -56,7 +56,161 @@ Function FileManage_GetTypeIco(FileName)
 		If Not IsEmpty(sAction_Plugin_FileManage_GetTypeIco_End) Then Call Execute(sAction_Plugin_FileManage_GetTypeIco_End)
 	Next
 End Function
+'*********************************************************
+' 目的：    输出注释
+'*********************************************************
 
+Function FileManage_ExportInformation(foldername,path)
+	For Each sAction_Plugin_FileManage_ExportInformation_Begin in Action_Plugin_FileManage_ExportInformation_Begin
+		If Not IsEmpty(sAction_Plugin_FileManage_ExportInformation_Begin) Then Call Execute(sAction_Plugin_FileManage_ExportInformation_Begin)
+	Next
+
+	Dim z,k,l,n
+	n=""
+	z=LCase(foldername)
+	k=LCase(path)
+	l=lcase(blogpath)
+	if k=l then
+		select case z
+			case "zb_system" n="Z-Blog系统核心文件"
+			case "zb_users" n="Z-Blog用户配置文件夹"
+			case "zb_install" n="Z-Blog安装文件夹"
+			case lcase(ZC_STATIC_DIRECTORY) n="静态文件存放文件夹"
+			case "catalog.asp" n="文章列表"
+			case "default.asp" n="首页"
+			case "feed.asp" n="RSS订阅"
+			case "search.asp" n="搜索"
+			case "tags.asp" n="Tags列表"
+			case "wap.asp" n="Wap"
+		end select
+	elseif k=l & "\zb_system" then
+		select case z
+			case "admin" n="Z-Blog系统管理文件"
+			case "css" n="Z-Blog后台CSS存放文件夹"
+			case "function" n="Z-Blog核心文件"
+			case "image" n="Z-Blog后台图片存放文件夹"
+			case "script" n="Z-Blog脚本存放文件夹"
+			case "wap" n="Z-Blog Wap存放文件夹"
+			case "xml-rpc" n="Z-Blog Xml-Rpc存放文件夹"
+		end select
+	elseif k=l & "\zb_users" then
+		select case z
+			case "cache" n="Z-Blog缓存文件夹"
+			case "data" n="Z-Blog数据库存放文件夹"
+			case "include" n="Z-Blog引用文件夹"
+			case "language" n="Z-Blog Language Pack"
+			case "plugin" n="Z-Blog 插件文件夹"
+			case "theme" n="Z-Blog 主题存放文件夹"
+			case lcase(ZC_UPLOAD_DIRECTORY) n="上传文件存放文件夹"
+			case "c_custom.asp" n="用户配置文件"
+			case "c_option.asp" n="网站设置文件"
+			case "c_option_wap.asp" n="Wap设置文件"
+		end select
+	elseif k=l &  "\zb_users\include" then
+		select case z
+			case "link.asp" n="友链"
+			case "favorite.asp" n="收藏"
+			case "navbar.asp" n="导航栏"
+			case "misc.asp" n="图标汇总"
+		end select
+	elseif k=l &  "\zb_users\data" then
+			if CheckRegExp(z,".+?mdb|.+?asp") then n="可能是Z-Blog数据库"
+	elseif k=l & "\zb_users\theme\" & lcase(ZC_BLOG_THEME) then 
+		select case z
+			case "include" n="引用"
+			case "plugin" n="主题自带插件"
+			case "source" n="主题CSS"
+			case "style" n="主题CSS"
+			case lcase(ZC_TEMPLATE_DIRECTORY) n="主题模板"
+		end select
+	elseif k=l & "\zb_users\theme\"&lcase(zc_blog_theme)&"\"&lcase(ZC_TEMPLATE_DIRECTORY) then
+		z=split(z,".")(0)
+		select case z
+			case "b_article-istop" n= "首页置顶文章模板"
+			case "b_article-multi" n= "首页摘要文章模板"
+			case "b_article-single" n= "日志页文章模板"
+			case "b_article-guestbook" n= "留言页正文模板"
+			case "b_article_comment" n= "每条评论内容显示模板"
+			case "b_article_commentpost-verify" n= "评论验证码显示样式"
+			case "b_article_commentpost" n= "评论发表框模板"
+			case "b_article_mutuality" n= "每条相关文章显示模板"
+			case "b_article_nvabar_l" n= "“上一篇”日志链接"
+			case "b_article_nvabar_r" n= "“下一篇”日志链接"
+			case "b_article_tag" n="Tag显示样式"
+			case "b_pagebar" n="分页条模板"
+			case "catalog" n="分类页整页模板"
+			case "default" n="首页整页模板"
+			case "search" n="搜索页整页模板"
+			case "single" n="日志页整页模板"
+			case "tags" n="标签页整页模板"
+			case "guestbook" n="留言页整页模板"
+		end select
+	elseif k=l &"\zb_system\admin" then
+		select case z
+			case "admin.asp" n="管理页"
+			case "admin_default.asp" n="主面板"
+			case "admin_left.asp" n="左侧面板"
+			case "admin_top.asp" n="后台头文件"
+			case "c_autosaverjs.asp" n="自动保存"
+			case "c_updateinfo.asp" n="得到最新消息"
+			case "edit_catalog.asp" n="编辑分类页"
+			case "edit_comment.asp" n="编辑评论页"
+			case "edit_link.asp" n="链接管理页"
+			case "edit_setting.asp" n="网站设置页"
+			case "edit_tag.asp" n="Tag修改页"
+			case "edit_ueditor.asp" n="新建文章页"
+			case "edit_user.asp" n="用户编辑页"
+			case "ueditor" n="Ueditor主文件"
+		end select
+	elseif k=l & "\zb_system\admin\ueditor" then
+		select case z
+			case "asp" n="uEditor ASP后台"
+			case "dialogs" n="uEditor 对话框"
+			case "themes" n="uEditor 主题"
+			case "third-party" n="第三方组件"
+			case "editor_all_min.js" n="uEditor"
+			case "editor_config.asp" n="uEditor配置"
+		end select
+	elseif k=l & "\zb_system\admin\ueditor\asp" then
+		select case z
+			case "fileup.asp" n="文件上传"
+			case "getcontent.asp" n="得到内容"
+			case "getmovie.asp" n="视频搜索"
+			case "getremoteimage.asp" n="下载远程图片"
+			case "imagemanager.asp" n="图片管理"
+			case "picup.asp" n="图片上传"
+			case "up_inc.asp" n="风声无组件上传"
+		end select
+	elseif k=l & "\zb_system\function" then
+		select case z
+			case "c_error.asp" n="Z-Blog错误处理"
+			case "c_function.asp" n="Z-Blog一般函数"
+			case "c_html_js.asp" n="访问计数等JS调用"
+			case "c_html_js_add.asp" n="动态JS调用文件"
+			case "c_system_base.asp" n="Z-Blog基础"
+			case "c_system_event.asp" n="Z-Blog事件"
+			case "c_system_lib.asp" n="Z-Blog 数据库访问类"
+			case "c_system_manage.asp" n="Z-Blog 后台管理文件"
+			case "c_system_plugin.asp" n="Z-Blog 插件支持文件"
+			case "c_system_wap.asp" n="Z-Blog Wap支持文件"
+			case "c_urlredirect.asp" n="Z-Blog 加密Url跳转页"
+			case "c_validcode.asp" n="Z-Blog验证码"
+		end select
+	elseif k=l & "\zb_system\wap" then
+		select case z
+			case "default.asp" n="Wap首页"
+			case "index.asp" n="Wap首页"
+			case "style" n="WapCSS"
+			case "wap_article-multi.html" n="Wap模板-文章"
+			case "wap_article_comment.html" n="Wap模板-评论"
+			case "wap_single.html" n="Wap模板-文章页或列表页"
+		end select
+	end if
+	For Each sAction_Plugin_FileManage_ExportInformation_End in Action_Plugin_FileManage_ExportInformation_End
+		If Not IsEmpty(sAction_Plugin_FileManage_ExportInformation_End) Then Call Execute(sAction_Plugin_FileManage_ExportInformation_End)
+	Next
+	FileManage_ExportInformation=n
+End Function
 '*********************************************************
 ' 目的：    输出文件列表
 '*********************************************************
@@ -79,7 +233,10 @@ Function FileManage_ExportSiteFileList(path,opath)
 	  else
 	  path=BlogPath
 	  end if
-
+	dim backfolder
+	backfolder=split(path,"\")
+	redim preserve backfolder(ubound(backfolder)-1)
+	backfolder=join(backfolder,"\")
 	  if FileManage_CheckFolder(path) Then Response.Write  "<p>当前路径:" & path & "</p><p>对不起，为了您的其他程序的安全，您只能修改Z-Blog文件夹内的文件，同时也不允许修改Global.asa和Global.asax。</p><p><a href='main.asp?act=SiteFileMng&path="&Server.URLEncode(BlogPath)&"'>点击这里返回</a></p></div>" :Response.end
 	set f=server.createobject("scripting.filesystemobject")
 
@@ -88,20 +245,20 @@ Function FileManage_ExportSiteFileList(path,opath)
 	set fold=f.getfolder(path)
 
 	Response.write"<table width=""100%"" border=""0"">"
-	Response.write "<tr><td colspan=""4""><a href='main.asp?act=SiteFileMng&path="&Server.URLEncode(path&"\..")&"' title='"&ZC_MSG239&"'><img src=""ico\up.png""/></a>"
+	Response.write "<tr><td colspan=""5""><a href='main.asp?act=SiteFileMng&path="&Server.URLEncode(backfolder)&"' title='"&ZC_MSG239&"'><img src=""ico\up.png""/></a>"
 	Response.write "&nbsp;&nbsp;<a href='javascript:void(0)' onclick='window.open(""main.asp?act=SiteFileUploadShow&path="&Server.URLEncode(fpath)&"&opath="& Server.URLEncode(path) &""",""Detail"",""Scrollbars=no,Toolbar=no,Location=no,Direction=no,Resizeable=no,height=165px,width=780px"")' title=""上传""><img src=""ico\upload.png""/></a>"
-	Response.Write "&nbsp;&nbsp;<a href='main.asp?act=SiteCreateFolder' onmousedown=""var str=prompt('请输入文件夹名');if(str!=null){this.href+='&path='+encodeURIComponent('"&Replace(Replace(path,"\","\\"),"""","\""")&"'+str);this.click()}else{return false}"" title='新建文件夹'><img src='ico\cfolder.png'/></a><span style=""float:right""><a href=""main.asp?act=Help"" title=""帮助""><img src=""ico\hlp.png""/></a></span>"
+	Response.Write "&nbsp;&nbsp;<a href='main.asp?act=SiteCreateFolder' onmousedown=""var str=prompt('请输入文件夹名');if(str!=null){this.href+='&path='+encodeURIComponent('"&Replace(Replace(path,"\","\\"),"""","\""")&"'+'\\'+str);this.click()}else{return false}"" title='新建文件夹'><img src='ico\cfolder.png'/></a><span style=""float:right""><a href=""main.asp?act=Help"" title=""帮助""><img src=""ico\hlp.png""/></a></span>"
 	Response.Write "&nbsp;&nbsp;<a href=""main.asp?act=SiteFileEdt&path="&Server.URLEncode(path) &""" title=""创建文件""><img src=""ico\newfile.png""/></a></td></tr>"
-	Response.write "<tr><td width=""20%"">文件名</td><td width=""10%"">修改时间</td><td width=""8%"">大小</td><td>操作</td>"
+	Response.write "<tr><td width=""20%"">文件名</td><td width=""10%"">修改时间</td><td width=""8%"">大小</td><td width=""10%"">注释</td><td>操作</td></tr>"
 	for each item in fold.subfolders
 		jpath=replace(path,"\","\\")
 		Response.write "<tr height=18><td><img width=""11"" height=""11""src='ico/fld.png' />&nbsp;<a href='main.asp?act=SiteFileMng&path="&Server.URLEncode(path&"\"&item.name)&"&opath='>"&item.name&"</a>"
-		Response.write"</td><td>"&item.datelastmodified&"</td><td></td><td></td></tr>"
+		Response.write"</td><td>"&item.datelastmodified&"</td><td></td><td>"&FileManage_ExportInformation(item.name,path)&"</td><td></td></tr>"
 	next
 	for each item in fold.files
 	fpath=replace(path&"/"&item.name,BlogPath,"")
 	fpath=replace(fpath,"\","/")
-	Response.write "<tr><td>"&FileManage_GetTypeIco(item.name)&"&nbsp;<a href=""javascript:;"" title='"&ZC_MSG261&":"&item.datelastmodified&";"&ZC_MSG238&":"&clng(item.size/1024)&"k'>"&item.name&"</a></td><td>"&item.datelastmodified&"</td><td>"&FileManage_GetSize(item.size)&"</td><td>"
+	Response.write "<tr><td>"&FileManage_GetTypeIco(item.name)&"&nbsp;<a href=""javascript:;"" title='"&ZC_MSG261&":"&item.datelastmodified&";"&ZC_MSG238&":"&clng(item.size/1024)&"k'>"&item.name&"</a></td><td>"&item.datelastmodified&"</td><td>"&FileManage_GetSize(item.size)&"</td><td>"&FileManage_ExportInformation(item.name,path)&"</td><td>"
 	Response.write"<a href=""main.asp?act=SiteFileEdt&path="&Server.URLEncode(fpath)&"&opath="& Server.URLEncode(path) &""" title=""["&ZC_MSG078&"]""><img src=""ico\edit.png"" width=""11"" height=""11""/></a>"
 	Response.Write "&nbsp;&nbsp;<a href=""main.asp?act=SiteFileDownload&path="&Server.URLEncode(fpath)&"&opath="& Server.URLEncode(path) &""" target=""_blank"" title=""[下载]""><img src=""ico\download.png"" width=""11"" height=""11""/></a>"
 	Response.Write "&nbsp;&nbsp;<a href=""main.asp?act=SiteFileDel&path="&Server.URLEncode(fpath)&"&opath="& Server.URLEncode(path) &""" onclick='return window.confirm("""&ZC_MSG058&""");' title=""["&ZC_MSG063&"]""><img src=""ico\del.png"" width=""11"" height=""11""/></a>"
@@ -158,7 +315,15 @@ Function FileManage_ExportSiteFileEdit(tpath,opath)
 		Response.Write "<hr/>"
 		Response.Write "<p><input class=""button"" type=""submit"" value="""&ZC_MSG087&""" id=""btnPost""/><input class=""button"" type=""button"" value=""撤销修改，返回""  onclick=""history.go(-1)""/></p>" & vbCrlf
 		Response.Write "</form>" & vbCrlf
-
+    	Response.Write "<script>var editor = CodeMirror.fromTextArea(document.getElementById(""txaContent""), {mode: {"
+		If CheckRegExp(tpath,".+?html?|.+?xml") Then
+			Response.Write 	"name: ""xml"","
+		ElseIf CheckRegExp(tpath,".+?js(on)?") Then
+			Response.Write  "name: ""javascript"","
+		ElseIf CheckRegExp(tpath,".+?css") Then
+			Response.Write  "name: ""css"","
+		End If
+		Response.write " alignCDATA: true},lineNumbers: true}); </script>"
 	End If
 
 
@@ -184,7 +349,7 @@ Function FileManage_DeleteSiteFile(tpath)
 	Else
 		Call SetBlogHint_Custom("<font color='red'>出现错误" & Hex(Err.Number) & "，描述为" & Err.Description & "，操作没有生效。</font>")
 	End If
-	Response.Write "<script type=""text/javascript"">location.href=""main.asp?act=SiteFileMng" & "&opath=" & Replace(Request.QueryString("opath"),"\","\\")&"""</script>"
+	Response.Write "<script type=""text/javascript"">location.href=""main.asp?act=SiteFileMng" & "&path=" & Replace(Request.QueryString("opath"),"\","\\")&"""</script>"
 
 	For Each sAction_Plugin_FileManage_DeleteSiteFile_End in Action_Plugin_FileManage_DeleteSiteFile_End
 		If Not IsEmpty(sAction_Plugin_FileManage_DeleteSiteFile_End) Then Call Execute(sAction_Plugin_FileManage_DeleteSiteFile_End)
@@ -269,7 +434,7 @@ Function FileManage_RenameFile(tpath,newname)
 		Call SetBlogHint_Custom("<font color='red'>出现错误" & Hex(Err.Number) & "，描述为" & Err.Description & "，操作没有生效。</font>")
 	End If
 	
-	Response.Write "<script type=""text/javascript"">location.href=""main.asp?act=SiteFileMng" & "&opath=" & Replace(Request.QueryString("opath"),"\","\\")&"""</script>"
+	Response.Write "<script type=""text/javascript"">location.href=""main.asp?act=SiteFileMng" & "&path=" & Replace(Request.QueryString("opath"),"\","\\")&"""</script>"
 	Set objGetFile=Nothing 
 	Set objFSO=Nothing 
 
@@ -345,11 +510,10 @@ Function FileManage_Upload()
 	For Each sAction_Plugin_FileManage_Upload_Begin in Action_Plugin_FileManage_Upload_Begin
 		If Not IsEmpty(sAction_Plugin_FileManage_Upload_Begin) Then Call Execute(sAction_Plugin_FileManage_Upload_Begin)
 	Next
-	
 	Dim isOK
 	isOK=True
 	If FileManage_CheckFolder(tpath) Then isOK=False
-	If objUpload.Form("edtFileLoad")="" Then isOK=False
+'	If objUpload.Form("edtFileLoad")="" Then isOK=False
 	If Left(LCase(objUpload.Form("edtFileLoad")),10)="global.asa" Then isOK=False
 	If isOK=False Then Response.Write "<script>alert('不能上传Global.asa和Global.asax，也不能往Z-Blog以外的文件夹上传文件。同时上传时最大文件大小不能超过200K，否则可能会被IIS限制。');window.close()</script>":Response.End
 	objUpload.SavePath=tpath
@@ -409,7 +573,7 @@ Function FileManage_PostSiteFile(tpath)
 			FileManage_PostSiteFile=True
 		End IF
 	End If
-	Response.Write "<script type=""text/javascript"">location.href=""main.asp?act=SiteFileMng" & "&opath=" & Replace(Request.QueryString("opath"),"\","\\")&"""</script>"
+	Response.Write "<script type=""text/javascript"">location.href=""main.asp?act=SiteFileMng" & "&path=" & Replace(Request.QueryString("opath"),"\","\\")&"""</script>"
 
 
 	For Each sAction_Plugin_FileManage_PostSiteFile_End in Action_Plugin_FileManage_PostSiteFile_End
@@ -424,7 +588,7 @@ Function FileManage_CreateFolder(tpath)
 	For Each sAction_Plugin_FileManage_CreateFolder_Begin in Action_Plugin_FileManage_CreateFolder_Begin
 		If Not IsEmpty(sAction_Plugin_FileManage_CreateFolder_Begin) Then Call Execute(sAction_Plugin_FileManage_CreateFolder_Begin)
 	Next
-	
+
 	On Error Resume Next
 	Dim filePath,isOK,i,fxxxPath
 	 if instr(tpath,":")>0 then
@@ -442,8 +606,7 @@ Function FileManage_CreateFolder(tpath)
 	Else
 		Call SetBlogHint_Custom("<font color='red'>出现错误" & Hex(Err.Number) & "，描述为" & Err.Description & "，操作没有生效。</font>")	End If
 	Set objFSO=nothing
-	Response.Write "<script type=""text/javascript"">location.href=""main.asp?act=SiteFileMng" & "&opath=" & Replace(Request.QueryString("opath"),"\","\\")&"""</script>"
-
+	Response.Write "<script type=""text/javascript"">location.href=""main.asp?act=SiteFileMng" & "&path=" & Replace(tpath,"\","\\")&"""</script>"
 
 	For Each sAction_Plugin_FileManage_CreateFolder_End in Action_Plugin_FileManage_CreateFolder_End
 		If Not IsEmpty(sAction_Plugin_FileManage_CreateFolder_End) Then Call Execute(sAction_Plugin_FileManage_CreateFolder_End)
