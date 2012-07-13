@@ -2,16 +2,16 @@
 
 '自定义信息
 
-Const ZC_MSG001="名称"
+Const ZC_MSG001="用户名"
 Const ZC_MSG002="密码"
 Const ZC_MSG003="用户"
-Const ZC_MSG004="保存"
+Const ZC_MSG004="记住我的登录信息"
 Const ZC_MSG005="不保存"
 Const ZC_MSG006="保存1天"
 Const ZC_MSG007="保存1月"
 Const ZC_MSG008="保存1年"
 Const ZC_MSG009="管理登录"
-Const ZC_MSG010="用户名,密码,验证码不能为空"
+Const ZC_MSG010="用户名,密码不能为空"
 Const ZC_MSG011="发布"
 Const ZC_MSG012="分类"
 Const ZC_MSG013="评论"

@@ -22,7 +22,7 @@
 '*********************************************************
 Public Function Login()
 
-	If CheckVerifyNumber(Request.Form("edtCheckOut"))=False Then Call ShowError(38)
+	'If CheckVerifyNumber(Request.Form("edtCheckOut"))=False Then Call ShowError(38)
 
 	BlogUser.LoginType="Form"
 	
