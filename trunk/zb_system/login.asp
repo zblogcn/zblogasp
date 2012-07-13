@@ -99,7 +99,6 @@ $(document).ready(function(){
 
 $("#chkRemember").click(function(){
 	$("#savedate").attr("value",$("#chkRemember").attr("checked")==true?30:0);
-	alert($("#savedate").attr("value"))
 })
 
 </script>
