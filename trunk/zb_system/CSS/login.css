@@ -1,117 +1,33 @@
-*{
-	font-size:14px;
-}
+/*  
+作者：新鲜人
+地址：http://www.htmlit.com.cn
+邮箱：u2lei@yahoo.com.cn
+     xinxr@msn.com
+*/
+@charset "utf-8";
 
-body{
-	margin:0;
-	padding:0;
-	color: #000000;
-	background:#FFFFFF;
-	font-family:"宋体","黑体";
-}
-h1,h2,h3,h4,h5,h6{
-	padding:0;
-	margin:0;
-}
-a{
-	text-decoration: none;
-}
-a:link {
-	color:#1b5c8c;
-	text-decoration: none;
-}
-a:visited {
-	color:#1b5c8c;
-	text-decoration: none;
-}
-a:hover {
-	color:#FF7F50;
-	text-decoration: underline;
-}
-a:active {
-	color:#FF7F50;
-	text-decoration: underline;
-}
-p{
-	margin:0;
-	padding:5px;
-}
-img{
-	border:0;
-}
+body{ padding:0;margin:0;font-family:"宋体", Arial, Helvetica, sans-serif;background:#FFFFFF;color:#444444;font-size: 12px;line-height: 20px;}
+* { font-size:14px ;padding:0; margin:0;}
+div, h1, h2, h3, h4, p, form, ul, label, input, textarea, img, span{margin:0; padding:0;}
+table{border-collapse:collapse;}
+a { text-decoration: none;color: #444444;}
+a:hover { color:#d60000;}
+ul { padding:0; margin:0;}
+li { list-style-type: none;}
+.clear { clear: both;}
+img { border: none;}
 
-
-
-
-body.login{
-	margin:0;
-	padding:0;
-	float:left;
-}
-#frmLogin{
-	position:absolute;
-	left: 50%;
-	top: 42%;
-	margin: -150px 0px 0px -200px;
-	padding:0;
-	overflow:hidden;
-	width:400px;
-	height:300px;
-	background-color:#EDF5FB;
-	border:0px solid #527b9a;
-	border-radius: 20px 20px 0px 0px; 
-}
-#frmLogin ul{
-	margin:0;
-}
-#frmLogin h3{
-	padding:12px 0 8px 0;
-	margin:0px 0px 25px 0px;
-	text-align:center;
-	color:white;
-	background:#87b6d9;
-	font-size:20px;
-	border-radius: 20px 20px 0px 0px; 
-}
-#frmLogin select{
-	width:223px;
-	height:22px;
-}
-
-#frmLogin input{
-	width:220px;
-	height:18px;
-}
-#frmLogin #btnPost{
-	width:120px;
-	height:28px;
-}
-
-#frmLogin #edtCheckOut{
-	width:150px;
-}
-#frmLogin li{
-	margin:5px 0 15px 0;
-	padding:0 20px 0 20px;
-	list-style-type:none;
-	text-align:center;
-}
-#frmLogin table {
-	border-collapse:separate;
-	border:0;
-	background:none;
-}
-#frmLogin td{
-	border:0;
-	margin:0;
-	padding:5px 0px 5px 5px;
-}
-#frmLogin input,#frmLogin img{
-	margin:0;
-	padding:0;
-	vertical-align:bottom;
-}
-
-#frmLogin #imgValidcode{
-	border:1px solid gray;
-}
+/*=======================================================*/
+.bg {position:absolute;top:0;left:0;z-index:-1000;height:258px;width:100%;background:#3a6ea5;}
+#wrapper {width:900px;padding:0; margin:0 auto;}
+.logo { width:200px; height:70px; margin:170px auto 60px auto;}
+input { float:left;vertical-align:middle;}
+.login { width:530px; height:100px; margin:0 auto; padding-left:30px;}
+.login dl { height:50px;}
+.login dd { width:260px; float:left;}
+dd.checkbox { padding-left:60px; width:210px;text-align :left;}
+label { line-height:30px; float:left;vertical-align:text-bottom;padding:0 5px 0 5px;}
+input[type="checkbox"]{margin:8px 0 0 0;padding:0;}
+#edtUserName, #edtPassWord { float:left; width:170px; height:25px; padding:0 5px; line-height:27px; }
+dd.submit { width:220px; }
+.button { float:right;color:#FFFFFF; font-size:14px; width:60px; height:26px; background:#3a6ea5; border:1px solid gray;}
