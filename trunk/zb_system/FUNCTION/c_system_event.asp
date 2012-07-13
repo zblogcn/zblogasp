@@ -29,7 +29,9 @@ Public Function Login()
 	If BlogUser.Verify=True Then
 
 		Response.Cookies("password")=BlogUser.GetMixPassWord(Request.Form("password"))
-		Response.Cookies("password").Expires = DateAdd("d", Request.Form("savedate"), now)
+		If Request.Form("savedate")<>0 Then
+			Response.Cookies("password").Expires = DateAdd("d", Request.Form("savedate"), now)
+		End If
 		Response.Cookies("password").Path = "/"
 
 		Login=True
@@ -37,7 +39,9 @@ Public Function Login()
 	End If
 
 	Response.Cookies("username")=escape(Request.Form("username"))
-	Response.Cookies("username").Expires = DateAdd("d", Request.Form("savedate"), now)
+	If Request.Form("savedate")<>0 Then
+		Response.Cookies("username").Expires = DateAdd("d", Request.Form("savedate"), now)
+	End If
 	Response.Cookies("username").Path = "/"
 
 End Function
