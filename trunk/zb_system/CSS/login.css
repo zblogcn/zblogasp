@@ -21,6 +21,7 @@ img { border: none;}
 .bg {position:absolute;top:0;left:0;z-index:-1000;height:258px;width:100%;background:#3a6ea5;}
 #wrapper {width:900px;padding:0; margin:0 auto;}
 .logo { width:200px; height:70px; margin:170px auto 60px auto;}
+.logo img{width:200px;height:70px; background:url("../IMAGE/ADMIN/logo.png");}
 input { float:left;vertical-align:middle;}
 .login { width:530px; height:100px; margin:0 auto; padding-left:30px;}
 .login dl { height:50px;}
