@@ -21,7 +21,7 @@ img { border: none;}
 .bg {position:absolute;top:0;left:0;z-index:-1000;height:258px;width:100%;background:#3a6ea5;}
 #wrapper {width:900px;padding:0; margin:0 auto;}
 .logo { width:200px; height:70px; margin:170px auto 60px auto;}
-.logo img{width:200px;height:70px; background:url("../IMAGE/ADMIN/logo.png");}
+.logo img{width:200px;height:70px; background:url("../image/admin/logo.png");}
 input { float:left;vertical-align:middle;}
 .login { width:530px; height:100px; margin:0 auto; padding-left:30px;}
 .login dl { height:50px;}
@@ -31,4 +31,4 @@ label { line-height:30px; float:left;vertical-align:text-bottom;padding:0 5px 0 
 input[type="checkbox"]{margin:8px 0 0 0;padding:0;}
 #edtUserName, #edtPassWord { float:left; width:170px; height:25px; padding:0 5px; line-height:27px; }
 dd.submit { width:220px; }
-.button { float:right;color:#FFFFFF; font-size:14px; width:60px; height:26px; background:#3a6ea5; border:1px solid gray;}
+.button { float:right;color:#FFFFFF; font-size:14px; width:70px; height:32px; background:#3a6ea5; border:1px solid gray;cursor: pointer;}
