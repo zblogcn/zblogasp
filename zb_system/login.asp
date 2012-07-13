@@ -33,7 +33,7 @@
 <body>
 <div class="bg"></div>
 <div id="wrapper">
-  <div class="logo"><img src="image/admin/logo.png" title="Z-Blog<%=ZC_MSG009%>" alt="Z-Blog<%=ZC_MSG009%>"/></div>
+  <div class="logo"><img src="image/admin/none.gif" title="Z-Blog<%=ZC_MSG009%>" alt="Z-Blog<%=ZC_MSG009%>"/></div>
   <div class="login">
     <form id="frmLogin" method="post" action="">
     <dl>
