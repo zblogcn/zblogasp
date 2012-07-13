@@ -415,6 +415,7 @@ Function PostComment(strKey)
 
 	Call GetCategory()
 	Call GetUser()
+	Call GetTags()
 
 	If IsEmpty(Request.Form("inpAjax"))=False Then
 		ShowError_Custom="Call RespondError(id,ZVA_ErrorMsg(id)):Response.End"
@@ -523,6 +524,7 @@ Function DelComment(intID,intLog_ID)
 
 	Call GetCategory()
 	Call GetUser()
+	Call GetTags()
 
 	Dim objComment
 	Dim objArticle
@@ -572,6 +574,7 @@ Function RevertComment(strKey,intRevertCommentID)
 
 	Call GetCategory()
 	Call GetUser()
+	Call GetTags()
 
 	If IsEmpty(Request.Form("inpAjax"))=False Then
 		ShowError_Custom="Call RespondError(id,ZVA_ErrorMsg(id)):Response.End"
@@ -674,6 +677,7 @@ Function SaveComment(intID,intLog_ID)
 
 	Call GetCategory()
 	Call GetUser()
+	Call GetTags()
 
 	Dim objComment,objComment2
 	Dim objArticle
@@ -760,6 +764,7 @@ Function ReturnAjaxComment(objComment)
 	Dim i,j
 	i=0
 	Dim objArticle
+	Call GetTags()
 
 	If objComment.log_ID>0 Then
 		'Filter_Plugin_TArticle_Export_TemplateTags
