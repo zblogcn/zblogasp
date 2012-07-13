@@ -47,7 +47,7 @@ Call SetBlogHint_Custom("‼ 提示:错误的编辑或删除系统文件会导�
 <link rel="stylesheet" rev="stylesheet" href="../../../ZB_SYSTEM/CSS/admin.css" type="text/css" media="screen" />
 <script language="JavaScript" src="../../../ZB_SYSTEM/script/common.js" type="text/javascript"></script>
 <script language="JavaScript" src="../../../ZB_SYSTEM/admin/ueditor/third-party/codemirror2.15/codemirror.js" type="text/javascript"></script>
-<link rel="stylesheet" href="../../../ZB_SYSTEM/admin/ueditor/third-party/codemirror2.15/codemirror.css"/>
+<%If FileManage_CodeMirror=True Then%><link rel="stylesheet" href="../../../ZB_SYSTEM/admin/ueditor/third-party/codemirror2.15/codemirror.css"/><%End If%>
 
 <title><%=BlogTitle%></title>
 </head>

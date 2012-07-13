@@ -140,4 +140,16 @@ Dim Action_Plugin_FileManage_ExportInformation_End()
 ReDim Action_Plugin_FileManage_ExportInformation_End(0)
 Dim bAction_Plugin_FileManage_ExportInformation_End
 Dim sAction_Plugin_FileManage_ExportInformation_End
+
+Dim Action_Plugin_FileManage_ExportInformation_NotFound()
+ReDim Action_Plugin_FileManage_ExportInformation_NotFound(0)
+Dim bAction_Plugin_FileManage_ExportInformation_NotFound
+Dim sAction_Plugin_FileManage_ExportInformation_NotFound
+
+Dim Action_Plugin_FileManage_GetTypeIco_NotFound()
+Redim Action_Plugin_FileManage_GetTypeIco_NotFound(0)
+Dim bAction_Plugin_FileManage_GetTypeIco_NotFound
+Dim sAction_Plugin_FileManage_GetTypeIco_NotFound
+
+
 %>

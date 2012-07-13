@@ -48,7 +48,15 @@ Function FileManage_GetTypeIco(FileName)
 		Case "rar","zip","7z","gz"  Tag="rar"
 		Case "mdb" Tag="mdb"
 
-		Case Else  Tag="no"
+		Case Else  		
+			Dim strFound
+			For Each sAction_Plugin_FileManage_GetTypeIco_NotFound in Action_Plugin_FileManage_GetTypeIco_NotFound
+				If Not IsEmpty(sAction_Plugin_FileManage_GetTypeIco_NotFound) Then
+					sAction_Plugin_FileManage_GetTypeIco_NotFound=Replace(Replace(sAction_Plugin_FileManage_ExportInformation_NotFound,"{path}",replace(path,"""","""""")),"{f}",replace(foldername,"""",""""""))
+					Execute "strFound="&sAction_Plugin_FileManage_GetTypeIco_NotFound&vbcrlf&"if strFound<>"""" then Tag=strfound"
+				End If
+			Next
+			If Tag="" Then Tag="no"
 	End Select
 	FileManage_GetTypeIco=Replace(ImgTag,"{tag}",tag)
 
@@ -205,6 +213,14 @@ Function FileManage_ExportInformation(foldername,path)
 			case "wap_article_comment.html" n="Wap模板-评论"
 			case "wap_single.html" n="Wap模板-文章页或列表页"
 		end select
+	else
+		Dim strFound
+		For Each sAction_Plugin_FileManage_ExportInformation_NotFound in Action_Plugin_FileManage_ExportInformation_NotFound
+			If Not IsEmpty(sAction_Plugin_FileManage_ExportInformation_NotFound) Then
+				sAction_Plugin_FileManage_ExportInformation_NotFound=Replace(Replace(sAction_Plugin_FileManage_ExportInformation_NotFound,"{path}",replace(path,"""","""""")),"{f}",replace(foldername,"""",""""""))
+				Execute "strFound="&sAction_Plugin_FileManage_ExportInformation_NotFound&vbcrlf&"if strFound<>"""" then n=strfound"
+			End If
+		Next
 	end if
 	For Each sAction_Plugin_FileManage_ExportInformation_End in Action_Plugin_FileManage_ExportInformation_End
 		If Not IsEmpty(sAction_Plugin_FileManage_ExportInformation_End) Then Call Execute(sAction_Plugin_FileManage_ExportInformation_End)
@@ -315,15 +331,17 @@ Function FileManage_ExportSiteFileEdit(tpath,opath)
 		Response.Write "<hr/>"
 		Response.Write "<p><input class=""button"" type=""submit"" value="""&ZC_MSG087&""" id=""btnPost""/><input class=""button"" type=""button"" value=""撤销修改，返回""  onclick=""history.go(-1)""/></p>" & vbCrlf
 		Response.Write "</form>" & vbCrlf
+		If FileManage_CodeMirror Then
     	Response.Write "<script>var editor = CodeMirror.fromTextArea(document.getElementById(""txaContent""), {mode: {"
-		If CheckRegExp(tpath,".+?html?|.+?xml") Then
-			Response.Write 	"name: ""xml"","
-		ElseIf CheckRegExp(tpath,".+?js(on)?") Then
-			Response.Write  "name: ""javascript"","
-		ElseIf CheckRegExp(tpath,".+?css") Then
-			Response.Write  "name: ""css"","
+			If CheckRegExp(tpath,".+?html?|.+?xml") Then
+				Response.Write 	"name: ""xml"","
+			ElseIf CheckRegExp(tpath,".+?js(on)?") Then
+				Response.Write  "name: ""javascript"","
+			ElseIf CheckRegExp(tpath,".+?css") Then
+				Response.Write  "name: ""css"","
+			End If
+			Response.write " alignCDATA: true},lineNumbers: true}); </script>"
 		End If
-		Response.write " alignCDATA: true},lineNumbers: true}); </script>"
 	End If
 
 
@@ -616,95 +634,107 @@ End Function
 
 
 Function FileManage_Help
-	%>
-    	<style>
-		ol {line-height:220%;}
-		ol li {margin:0 0 0 -18px;text-decoration: none;}
-		b {color:Navy;font-weight:Normal;text-decoration: underline;}
-		p {line-height:160%;}
-	</style>
-    <p>您正在使用的插件，是由ZSXSOFT制作的强化Z-Blog文件管理的插件。
-    </p>
-<ol>
-  <li>插件拥有功能：上传、下载、重命名、删除、编辑、新增文件、新建文件夹；</li>
-  <li>由于用户误操作而对网站造成任何损害（包括但不限于Z-Blog无法打开、数据被破坏等），插件原作者已经尽到提醒责任，没有解决问题的义务。</li>
-  <li>由于批量删除文件（夹）、重命名文件夹过于危险，所以没有开放；</li>
-  <li>为了保证您的服务器安全，插件有如下限制：
-    <ol>
-      <li>不允许修改Global.asa和Global.asax以防止全站挂马</li>
-      <li>不允许任何对Z-Blog以外的文件（夹）操作。</li>
-    </ol>
-  </li>
-  <li>Ico文件夹内部分图标来自Microsoft Corporation、Adobe Software、RARLAB。</li>
-  <li>插件接口以及注意事项如下：
-    <ol>
-      <li>Action类接口（使用方法请参见<a href="http://wiki.rainbowsoft.org/doku.php?id=plugin:api:action">Z-Wik</a>i）
-        <ol>
-          <li>            Action_Plugin_FileManage_Initialize         当文件管理页面加载时被触发</li>
-          <li>Action_Plugin_FileManage_Terminate 当文件管理页面加载完毕后被触发</li>
-          <li>Action_Plugin_FileManage_ExportSiteFileList_Begin 当加载文件列表时被触发</li>
-          <li>Action_Plugin_FileManage_ExportSiteFileList_End 当加载文件列表结束后被触发</li>
-          <li>Action_Plugin_FileManage_GetTypeIco_Begin 当得到文件图标时被触发</li>
-          <li>Action_Plugin_FileManage_GetTypeIco_End 当文件图标获取完毕后被触发</li>
-          <li>Action_Plugin_FileManage_ExportSiteFileEdit_Begin 当加载编辑器时被触发</li>
-          <li>Action_Plugin_FileManage_ExportSiteFileEdit_End 当加载编辑器完毕后被触发</li>
-          <li>Action_Plugin_FileManage_DeleteSiteFile_Begin 当删除文件时被触发</li>
-          <li>Action_Plugin_FileManage_DeleteSiteFile_End 当删除完毕后被触发</li>
-          <li>Action_Plugin_FileManage_DownloadFile_Begin 当下载文件时被触发</li>
-          <li>Action_Plugin_FileManage_DownloadFile_End 当下载文件后被触发</li>
-          <li>Action_Plugin_FileManage_RenameFile_Begin 当改名时被触发</li>
-          <li>Action_Plugin_FileManage_RenameFile_End 当改名后被触发</li>
-          <li>Action_Plugin_FileManage_CheckFolder_Begin 当验证文件夹是否在Z-Blog文件内前被触发</li>
-          <li>Action_Plugin_FileManage_CheckFolder_End 当验证完毕后被触发</li>
-          <li>Action_Plugin_FileManage_ExportSiteUpload_Begin 当加载上传页面时被触发</li>
-          <li>Action_Plugin_FileManage_ExportSiteUpload_End 当加载上传页面完毕后被触发</li>
-          <li>Action_Plugin_FileManage_Upload_Begin 当上传开始时被触发</li>
-          <li>Action_Plugin_FileManage_Upload_End 当上传完毕后被触发</li>
-          <li>Action_Plugin_FileManage_PostSiteFile_Begin 当文件保存时被触发</li>
-          <li>Action_Plugin_FileManage_PostSiteFile_End 当文件保存后被触发</li>
-          <li>Action_Plugin_FileManage_CreateFolder_Begin 当创建文件夹时被触发</li>
-          <li>Action_Plugin_FileManage_CreateFolder_End 当创建文件夹后被触发</li>
-          <li>Action_Plugin_FileManage_GetSize_Begin 当得到文件大小时被触发</li>
-          <li>Action_Plugin_FileManage_GetSize_End 当得到文件大小后被触发<br />
-          </li>
-        </ol>
-      </li>
-      <li>当使用本插件时，  Action_Plugin_SiteFileEdt、  Action_Plugin_SiteFilePst 、  Action_Plugin_SiteFileDel  、  Action_Plugin_SiteFileMng的Begin和End共8个接口被替代，不再使用。</li>
-      <li>Response_Plugin_SiteFileMng_SubMenu可正常使用，但插件不支持Response_Plugin_SiteFileEdt_SubMenu接口</li>
-    </ol>
-  </li>
-  </ol>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-  </div>
-</div>
-<script>
+	Response.Write "<style>"
+	Response.Write "ol {"
+	Response.Write "	line-height: 220%;"
+	Response.Write "}"
+	Response.Write "ol li {"
+	Response.Write "	margin: 0 0 0 -18px;"
+	Response.Write "	text-decoration: none;"
+	Response.Write "}"
+	Response.Write "b {"
+	Response.Write "	color: Navy;"
+	Response.Write "	font-weight: Normal;"
+	Response.Write "	text-decoration: underline;"
+	Response.Write "}"
+	Response.Write "p {"
+	Response.Write "	line-height: 160%;"
+	Response.Write "}"
+	Response.Write "</style>"
+	Response.Write "<p>您正在使用的插件，是由ZSXSOFT制作的强化Z-Blog文件管理的插件。 可以点击这里<a href=""javascript:history.go(-1)"">退回上一页</a></p>"
+	Response.Write "<ol>"
+	Response.Write "  <li>插件拥有功能：上传、下载、重命名、删除、编辑、新增文件、新建文件夹；</li>"
+	Response.Write "  <li>由于用户误操作而对网站造成任何损害（包括但不限于Z-Blog无法打开、数据被破坏等），插件原作者已经尽到提醒责任，没有解决问题的义务。</li>"
+	Response.Write "  <li>由于批量删除文件（夹）、重命名文件夹过于危险，所以没有开放；</li>"
+	Response.Write "  <li>为了保证您的服务器安全，插件有如下限制："
+	Response.Write "    <ol>"
+	Response.Write "      <li>不允许修改Global.asa和Global.asax以防止全站挂马</li>"
+	Response.Write "      <li>不允许任何对Z-Blog以外的文件（夹）操作。</li>"
+	Response.Write "    </ol>"
+	Response.Write "  </li>"
+	Response.Write "  <li>Ico文件夹内部分图标来自Microsoft Corporation、Adobe Software、RARLAB。</li>"
+	Response.Write "  <li>插件接口以及注意事项如下："
+	Response.Write "    <ol>"
+	Response.Write "      <li>Action类接口（使用方法请参见<a href=""http://wiki.rainbowsoft.org/doku.php?id=plugin:api:action"">Z-Wik</a>i）"
+	Response.Write "        <ol>"
+	Response.Write "          <li> Action_Plugin_FileManage_Initialize         当文件管理页面加载时被触发</li>"
+	Response.Write "          <li>Action_Plugin_FileManage_Terminate 当文件管理页面加载完毕后被触发</li>"
+	Response.Write "          <li>Action_Plugin_FileManage_ExportSiteFileList_Begin 当加载文件列表时被触发</li>"
+	Response.Write "          <li>Action_Plugin_FileManage_ExportSiteFileList_End 当加载文件列表结束后被触发</li>"
+	Response.Write "          <li>Action_Plugin_FileManage_GetTypeIco_Begin 当得到文件图标时被触发</li>"
+	Response.Write "          <li>Action_Plugin_FileManage_GetTypeIco_End 当文件图标获取完毕后被触发</li>"
+	Response.Write "          <li><font color=""red"">*</font>Action_Plugin_FileManage_GetTypeIco_NotFound 当未找到图标时触发<ol><li>该接口声明方式为Call Add_Action_Plugin(""Action_Plugin_FileManage_GetTypeIco_NotFound"",""函数名(""""{f}"""")，其中{f}为文件名</li><li>使用该接口必须使用函数（Function），不可使用过程（Sub）。</li></ol></li>"
+	Response.Write "          <li>Action_Plugin_FileManage_ExportSiteFileEdit_Begin 当加载编辑器时被触发</li>"
+	Response.Write "          <li>Action_Plugin_FileManage_ExportSiteFileEdit_End 当加载编辑器完毕后被触发</li>"
+	Response.Write "          <li>Action_Plugin_FileManage_DeleteSiteFile_Begin 当删除文件时被触发</li>"
+	Response.Write "          <li>Action_Plugin_FileManage_DeleteSiteFile_End 当删除完毕后被触发</li>"
+	Response.Write "          <li>Action_Plugin_FileManage_DownloadFile_Begin 当下载文件时被触发</li>"
+	Response.Write "          <li>Action_Plugin_FileManage_DownloadFile_End 当下载文件后被触发</li>"
+	Response.Write "          <li>Action_Plugin_FileManage_RenameFile_Begin 当改名时被触发</li>"
+	Response.Write "          <li>Action_Plugin_FileManage_RenameFile_End 当改名后被触发</li>"
+	Response.Write "          <li>Action_Plugin_FileManage_CheckFolder_Begin 当验证文件夹是否在Z-Blog文件内前被触发</li>"
+	Response.Write "          <li>Action_Plugin_FileManage_CheckFolder_End 当验证完毕后被触发</li>"
+	Response.Write "          <li>Action_Plugin_FileManage_ExportSiteUpload_Begin 当加载上传页面时被触发</li>"
+	Response.Write "          <li>Action_Plugin_FileManage_ExportSiteUpload_End 当加载上传页面完毕后被触发</li>"
+	Response.Write "          <li>Action_Plugin_FileManage_Upload_Begin 当上传开始时被触发</li>"
+	Response.Write "          <li>Action_Plugin_FileManage_Upload_End 当上传完毕后被触发</li>"
+	Response.Write "          <li>Action_Plugin_FileManage_PostSiteFile_Begin 当文件保存时被触发</li>"
+	Response.Write "          <li>Action_Plugin_FileManage_PostSiteFile_End 当文件保存后被触发</li>"
+	Response.Write "          <li>Action_Plugin_FileManage_CreateFolder_Begin 当创建文件夹时被触发</li>"
+	Response.Write "          <li>Action_Plugin_FileManage_CreateFolder_End 当创建文件夹后被触发</li>"
+	Response.Write "          <li>Action_Plugin_FileManage_GetSize_Begin 当得到文件大小时被触发</li>"
+	Response.Write "          <li>Action_Plugin_FileManage_GetSize_End 当得到文件大小后被触发</li>"
+	Response.Write "          <li>Action_Plugin_FileManage_ExportInformation_Begin 当得到注释时被触发</li>"
+	Response.Write "          <li>Action_Plugin_FileManage_ExportInformation_End 当得到注释后被触发</li>"
+	Response.Write "          <li><font color=""red"">*</font>Action_Plugin_FileManage_ExportInformation_NotFound 当未找到注释时触发<ol><li>该接口声明方式为Call Add_Action_Plugin(""Action_Plugin_FileManage_ExportInformation_NotFound"",""函数名(""""{path}"""",""""{f}"""")"")，其中{path}为当前目录,{f}为文件名</li><li>使用该接口必须使用函数（Function），不可使用过程（Sub）。可参阅FileManage\include.asp</li></ol></li>"
 
-	//斑马线
-	var tables=document.getElementsByTagName("ol");
-	var b=false;
-	for (var j = 0; j < tables.length; j++){
-
-		var cells = tables[j].getElementsByTagName("li");
-
-		for (var i = 0; i < cells.length; i++){
-			if(b){
-				cells[i].style.color="#333366";
-				cells[i].style.background="#F1F4F7";
-				b=false;
-			}
-			else{
-				cells[i].style.color="#666699";
-				cells[i].style.background="#FFFFFF";
-				b=true;
-			};
-		};
-	}
-
-document.close();
-
-</script>
-<%
+	Response.Write "        </ol>"
+	Response.Write "      </li>"
+	Response.Write "      <li>当使用本插件时，  Action_Plugin_SiteFileEdt、  Action_Plugin_SiteFilePst 、  Action_Plugin_SiteFileDel  、  Action_Plugin_SiteFileMng的Begin和End共8个接口被替代，不再使用。</li>"
+	Response.Write "      <li>Response_Plugin_SiteFileMng_SubMenu可正常使用，但插件不支持Response_Plugin_SiteFileEdt_SubMenu接口</li>"
+	Response.Write "    </ol>"
+	Response.Write "  </li>"
+	Response.Write "</ol>"
+	Response.Write "<p>&nbsp;</p>"
+	Response.Write "<p>&nbsp;</p>"
+	Response.Write "</div>"
+	Response.Write "</div>"
+	Response.Write "<script>"
+	Response.Write ""
+	Response.Write "	"
+	Response.Write "	var tables=document.getElementsByTagName(""ol"");"
+	Response.Write "	var b=false;"
+	Response.Write "	for (var j = 0; j < tables.length; j++){"
+	Response.Write ""
+	Response.Write "		var cells = tables[j].getElementsByTagName(""li"");"
+	Response.Write ""
+	Response.Write "		for (var i = 0; i < cells.length; i++){"
+	Response.Write "			if(b){"
+	Response.Write "				cells[i].style.color=""#333366"";"
+	Response.Write "				cells[i].style.background=""#F1F4F7"";"
+	Response.Write "				b=false;"
+	Response.Write "			}"
+	Response.Write "			else{"
+	Response.Write "				cells[i].style.color=""#666699"";"
+	Response.Write "				cells[i].style.background=""#FFFFFF"";"
+	Response.Write "				b=true;"
+	Response.Write "			};"
+	Response.Write "		};"
+	Response.Write "	}"
+	Response.Write ""
+	Response.Write "document.close();"
+	Response.Write ""
+	Response.Write "</script>"
 End Function
 
 %>
