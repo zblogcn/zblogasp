@@ -26,7 +26,9 @@
 <%
 
 Call System_Initialize()
-
+Call GetTags
+Call GetUser
+Call GetCategory
 'plugin node
 For Each sAction_Plugin_View_Begin in Action_Plugin_View_Begin
 	If Not IsEmpty(sAction_Plugin_View_Begin) Then Call Execute(sAction_Plugin_View_Begin)
