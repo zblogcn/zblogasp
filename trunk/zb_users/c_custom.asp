@@ -3,10 +3,10 @@
 Const ZC_DATABASE_PATH="zb_users/data/#%20768d53283c63b13403f0.mdb"
 Const ZC_BLOG_HOST="http://localhost/"
 Const ZC_MSSQL=True
-Const ZC_MSSQL_DATABASE="zb2"
+Const ZC_MSSQL_DATABASE="zb"
 Const ZC_MSSQL_USERNAME="sa"
 Const ZC_MSSQL_PASSWORD=""
-Const ZC_MSSQL_SERVER="192.168.1.142"
+Const ZC_MSSQL_SERVER="(local)\SQLEXPRESS"
 '--------------------------------------------------------------------
 Const ZC_BLOG_TITLE="Your Blog"
 Const ZC_BLOG_SUBTITLE="Good Luck To You!"
