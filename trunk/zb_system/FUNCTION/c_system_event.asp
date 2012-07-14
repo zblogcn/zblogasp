@@ -278,8 +278,7 @@ Function PostArticle()
 	Call Filter_Plugin_PostArticle_Core(objArticle)
 
 	If objArticle.Post Then
-		Call ScanTagCount(strTag)
-		Call ScanTagCount(objArticle.Tag)
+		Call ScanTagCount(strTag & objArticle.Tag)
 		Call BuildArticle(objArticle.ID,True,True)
 		PostArticle=True
 		Call Filter_Plugin_PostArticle_Succeed(objArticle)
@@ -2287,6 +2286,9 @@ Function ScanTagCount(strTags)
 	Dim objRS,j,k
 
 	If strTags<>"" Then
+
+		Call GetTagsbyTagIDList(strTags)
+
 		s=strTags
 		s=Replace(s,"}","")
 		t=Split(s,"{")
