@@ -2785,7 +2785,6 @@ End Function
 Function GetTagsbyTagIDList(strTags)
 'strTags={1}{2}{3}{4}
 
-
 strTags=Trim(FilterSQL(strTags))
 
 If strTags="" Then Exit Function
