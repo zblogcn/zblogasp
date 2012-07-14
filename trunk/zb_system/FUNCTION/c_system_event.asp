@@ -278,8 +278,10 @@ Function PostArticle()
 	Call Filter_Plugin_PostArticle_Core(objArticle)
 
 	If objArticle.Post Then
-		Call ScanTagCount(strTag)
+		'Call ScanTagCount(strTag)
 		Call ScanTagCount(objArticle.Tag)
+		'REsponse.Write strTag + objArticle.Tag
+		'Response.End
 		Call BuildArticle(objArticle.ID,True,True)
 		PostArticle=True
 		Call Filter_Plugin_PostArticle_Succeed(objArticle)
@@ -320,26 +322,11 @@ Function DelArticle(intID)
 
 	If objArticle.LoadInfoByID(intID) Then
 
-		Call ScanTagCount(objArticle.Tag)
-
 		If objArticle.Del Then DelArticle=True
 
 		Call ScanTagCount(strTag)
 
 		Call BlogReBuild_Comments
-
-		'Dim objNavArticle
-		'Dim objRS
-		'Set objRS=objConn.Execute("SELECT TOP 1 [log_ID] FROM [blog_Article] WHERE ([log_CateID]>0) And ([log_Level]>2) AND ([log_PostTime]<" & ZC_SQL_POUND_KEY & objArticle.PostTime & ZC_SQL_POUND_KEY &") ORDER BY [log_PostTime] DESC")
-		'If (Not objRS.bof) And (Not objRS.eof) Then
-		'	Call BuildArticle(objRS("log_ID"),False,False)
-		'End If
-		'Set objRS=Nothing
-		'Set objRS=objConn.Execute("SELECT TOP 1 [log_ID] FROM [blog_Article] WHERE ([log_CateID]>0) And ([log_Level]>2) AND ([log_PostTime]>" & ZC_SQL_POUND_KEY & objArticle.PostTime & ZC_SQL_POUND_KEY &") ORDER BY [log_PostTime] ASC")
-		'If (Not objRS.bof) And (Not objRS.eof) Then
-		'	Call BuildArticle(objRS("log_ID"),False,False)
-		'End If
-		'Set objRS=Nothing
 
 	End If
 
@@ -2302,9 +2289,7 @@ End Function
 ' 目的：
 '*********************************************************
 Function ScanTagCount(strTags)
-
-	On Error Resume Next
-
+'strTags="{1}{2}{3}{4}{5}"
 	Dim t,i,s
 	Dim objRS,j,k
 
@@ -2314,15 +2299,18 @@ Function ScanTagCount(strTags)
 		t=Split(s,"{")
 
 		For i=LBound(t) To UBound(t)
+
 			If t(i)<>"" Then
-				k=Tags(t(i)).ID
 
-				Set objRS=objConn.Execute("SELECT COUNT([log_ID]) FROM [blog_Article] WHERE [log_Level]>1 AND [log_Tag] LIKE '%{" & k & "}%'")
-				j=objRS(0)
-				objConn.Execute("UPDATE [blog_Tag] SET [tag_Count]="&j&" WHERE [tag_ID] =" & k)
-				Set objRS=Nothing
-
+				If IsObject(Tags(t(i))) Then
+					k=Tags(t(i)).ID
+					Set objRS=objConn.Execute("SELECT COUNT([log_ID]) FROM [blog_Article] WHERE [log_Level]>1 AND [log_Tag] LIKE '%{" & k & "}%'")
+					j=objRS(0)
+					objConn.Execute("UPDATE [blog_Tag] SET [tag_Count]="&j&" WHERE [tag_ID] =" & k)
+					Set objRS=Nothing
+				End If
 			End If
+
 		Next
 
 		s=Join(t,",")
@@ -2330,8 +2318,6 @@ Function ScanTagCount(strTags)
 
 		strTags=s
 	End If
-
-	Err.Clear
 
 End Function
 '*********************************************************

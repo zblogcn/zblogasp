@@ -782,7 +782,6 @@ Class TArticle
 		Dim t,i,s,j
 
 		If Tag<>"" Then
-
 			Tag=Replace(Tag,"}","")
 			t=Split(Tag,"{")
 
@@ -1101,9 +1100,10 @@ Class TArticle
 		Intro=TransferHTML(Intro,"[anti-zc_blog_host]")
 		Content=TransferHTML(Content,"[anti-zc_blog_host]")
 
-
 		Alias=TransferHTML(Alias,"[filename]")
 		Alias=FilterSQL(Alias)
+
+		If ID>0 Then FullUrl=Url
 
 		'检查“别名”是否有重名
 		If Alias<>"" Then
@@ -1120,8 +1120,6 @@ Class TArticle
 		If Len(Content)=0 Then Post=False:Exit Function
 		If Len(Intro)=0 Then Intro=Left(Content,ZC_TB_EXCERPT_MAX) & "..."
 
-		If Len(FullUrl)>255 Then FullUrl=Left(FullUrl,255)
-
 		TemplateName=UCase(FilterSQL(TemplateName))
 		If TemplateName="SINGLE" Then TemplateName=""
 		If ID=0 Then
@@ -1130,6 +1128,9 @@ Class TArticle
 			Set objRS=objConn.Execute("SELECT MAX([log_ID]) FROM [blog_Article]")
 			If (Not objRS.bof) And (Not objRS.eof) Then
 				ID=objRS(0)
+				FullUrl=Url
+				If Len(FullUrl)>255 Then FullUrl=Left(FullUrl,255)
+				objConn.Execute("UPDATE [blog_Article] SET [log_FullUrl]='"&FullUrl&"' WHERE [log_ID] =" & ID)
 			End If
 			Set objRS=Nothing
 		Else
@@ -1574,7 +1575,7 @@ Class TArticleList
 			Title=Year(dtmYearMonth) & " " & ZVA_Month(Month(dtmYearMonth))
 		End If
 		If Not IsEmpty(strTagsName) Then
-			GetTags()
+			GetTagsbyTagNameList(strTagsName)
 			Dim Tag
 			For Each Tag in Tags
 				If IsObject(Tag) Then
@@ -1917,7 +1918,7 @@ Class TArticleList
 		End If
 
 		If Not IsEmpty(strTagsName) Then
-				GetTags()
+				GetTagsbyTagNameList(strTagsName)
 				Dim Tag
 				For Each Tag in Tags
 						If IsObject(Tag) Then
@@ -1942,9 +1943,11 @@ Class TArticleList
 		End If
 
 		objRS.Source=objRS.Source & "ORDER BY [log_PostTime] DESC,[log_ID] DESC"
+
 		objRS.Open()
 
 		If (Not objRS.bof) And (Not objRS.eof) Then
+
 			objRS.PageSize = ZC_DISPLAY_COUNT
 			intPageCount=objRS.PageCount
 			objRS.AbsolutePage = intPage
@@ -4233,9 +4236,94 @@ End Class
 '*********************************************************
 Class TMeta
 
-'@猪: 关于分隔用的字符串请重新考虑下:
-'1. {name|a:123|b:345} by 月木
-'2. 在存储时过滤掉可能引起 Split 出错的字符串.
+     Dim Base64EncMap(63)
+     Dim Base64DecMap(127)
+
+     '初始化函数
+     PUBLIC SUB initCodecs()
+          ' 初始化变量
+          dim max, idx
+             max = len("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/")
+          for idx = 0 to max - 1
+               Base64EncMap(idx) = mid("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/", idx + 1, 1)
+          next
+          for idx = 0 to max - 1
+               Base64DecMap(ASC(Base64EncMap(idx))) = idx
+          next
+     END SUB
+
+     'Base64加密函数
+     PUBLIC FUNCTION base64Encode(plain)
+          if len(plain) = 0 then
+               base64Encode = ""
+               exit function
+          end if
+          dim ret, ndx, by3, first, second, third
+          by3 = (len(plain) \ 3) * 3
+          ndx = 1
+          do while ndx <= by3
+               first = asc(mid(plain, ndx+0, 1))
+               second = asc(mid(plain, ndx+1, 1))
+               third = asc(mid(plain, ndx+2, 1))
+               ret = ret & Base64EncMap( (first \ 4) AND 63 )
+               ret = ret & Base64EncMap( ((first * 16) AND 48) + ((second \ 16) AND 15 ) )
+               ret = ret & Base64EncMap( ((second * 4) AND 60) + ((third \ 64) AND 3 ) )
+               ret = ret & Base64EncMap( third AND 63)
+               ndx = ndx + 3
+          loop
+          if by3 < len(plain) then
+               first = asc(mid(plain, ndx+0, 1))
+               ret = ret & Base64EncMap( (first \ 4) AND 63 )
+               if (len(plain) MOD 3 ) = 2 then
+                    second = asc(mid(plain, ndx+1, 1))
+                    ret = ret & Base64EncMap( ((first * 16) AND 48) + ((second \ 16) AND 15 ) )
+                    ret = ret & Base64EncMap( ((second * 4) AND 60) )
+               else
+                    ret = ret & Base64EncMap( (first * 16) AND 48)
+                    ret = ret '& "="
+               end if
+               ret = ret '& "="
+          end if
+          base64Encode = ret
+     END FUNCTION
+
+     'Base64解密函数
+     PUBLIC FUNCTION base64Decode(scrambled)
+          if len(scrambled) = 0 then
+               base64Decode = ""
+               exit function
+          end if
+          dim realLen
+          realLen = len(scrambled)
+          do while mid(scrambled, realLen, 1) = "="
+               realLen = realLen - 1
+          loop
+          dim ret, ndx, by4, first, second, third, fourth
+          ret = ""
+          by4 = (realLen \ 4) * 4
+          ndx = 1
+          do while ndx <= by4
+               first = Base64DecMap(asc(mid(scrambled, ndx+0, 1)))
+               second = Base64DecMap(asc(mid(scrambled, ndx+1, 1)))
+               third = Base64DecMap(asc(mid(scrambled, ndx+2, 1)))
+               fourth = Base64DecMap(asc(mid(scrambled, ndx+3, 1)))
+               ret = ret & chr( ((first * 4) AND 255) +   ((second \ 16) AND 3))
+               ret = ret & chr( ((second * 16) AND 255) + ((third \ 4) AND 15))
+               ret = ret & chr( ((third * 64) AND 255) + (fourth AND 63))
+               ndx = ndx + 4
+          loop
+          if ndx < realLen then
+               first = Base64DecMap(asc(mid(scrambled, ndx+0, 1)))
+               second = Base64DecMap(asc(mid(scrambled, ndx+1, 1)))
+               ret = ret & chr( ((first * 4) AND 255) +   ((second \ 16) AND 3))
+               if realLen MOD 4 = 3 then
+                    third = Base64DecMap(asc(mid(scrambled,ndx+2,1)))
+                    ret = ret & chr( ((second * 16) AND 255) + ((third \ 4) AND 15))
+               end if
+          end if
+          base64Decode = ret
+     END FUNCTION
+
 
 	Dim meta_split_string_1
 	Dim meta_split_string_2
@@ -4277,7 +4365,7 @@ Class TMeta
 		Call Load(s)
 	End Property
 
-	Public Function Load(s)
+	Private Function Load(s)
 
 		If IsNull(s)=True Then Exit Function
 		If IsEmpty(s)=True Then Exit Function
@@ -4301,7 +4389,7 @@ Class TMeta
 	End Function
 
 
-	Public Function LoadByArray(n,v)
+	Private Function LoadByArray(n,v)
 
 		Dim i
 		ReDim Names(UBound(n))
@@ -4316,13 +4404,20 @@ Class TMeta
 
 	Public Function SetValue(name,value)
 
-		name=LCase(name)
+		name=Trim(name)
+
+		If IsEmpty(name) Or IsNull(name) Then Exit Function
+
+		name=Replace(name,meta_split_string_1,"")
+		name=Replace(name,meta_split_string_2,"")
+
+		If IsNull(value)=True Then value=""
 
 		Dim n,i
 		i=0
 		For Each n In names
-			If n=name Then
-				values(i)=value
+			If LCase(n)=LCase(name) Then
+				values(i)=base64Encode(CStr(value))
 				Exit function
 			End If
 			i=i+1
@@ -4333,8 +4428,8 @@ Class TMeta
 		ReDim Preserve Names(i+1)
 		ReDim Preserve Values(i+1)
 
-		Names(i+1)=LCase(name)
-		Values(i+1)=value
+		Names(i+1)=name
+		Values(i+1)=base64Encode(CStr(value))
 
 	End Function
 
@@ -4343,8 +4438,8 @@ Class TMeta
 		Dim n,i
 		i=0
 		For Each n In names
-			If n=name Then
-				GetValue = values(i)
+			If LCase(n)=LCase(name) Then
+				GetValue = base64Decode(values(i))
 				Exit function
 			End If
 			i=i+1
@@ -4386,14 +4481,18 @@ Class TMeta
 	End Function
 
 	Private Sub Class_Initialize()
+
 		ReDim Names(0)
 		ReDim Values(0)
 
 		ReDim Names(-1)
 		ReDim Values(-1)
 
-		meta_split_string_1=Chr(12) & Chr(9) & Chr(10) & Chr(13) & Chr(10) & Chr(12)
-		meta_split_string_2=Chr(12) & Chr(13)&  Chr(10) & Chr(9) & Chr(10) & Chr(12)
+		meta_split_string_1=","
+		meta_split_string_2=":"
+
+		Call initCodecs
+
 	End Sub
 
 End Class
