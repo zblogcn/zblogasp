@@ -29,6 +29,7 @@ Class TCategory
 	Public Count
 	Public Alias
 	Public ParentID
+	Public FullUrl
 	Public Meta
 	Public TemplateName
 
@@ -75,7 +76,7 @@ Class TCategory
 
 	Public Function Post()
 
-		Call Filter_Plugin_TCategory_Post(ID,Name,Intro,Order,Count,ParentID,Alias,TemplateName,MetaString)
+		Call Filter_Plugin_TCategory_Post(ID,Name,Intro,Order,Count,ParentID,Alias,TemplateName,FullUrl,MetaString)
 
 		Call CheckParameter(ID,"int",0)
 		Call CheckParameter(Order,"int",0)
@@ -103,7 +104,7 @@ Class TCategory
 				End If
 			End If
 
-			objConn.Execute("INSERT INTO [blog_Category]([cate_Name],[cate_Order],[cate_Intro],[cate_ParentID],[cate_Url],[cate_Template],[cate_Meta]) VALUES ('"&Name&"',"&Order&",'"&Intro&"',"&ParentID&",'"&Alias&"','"&TemplateName&"','"&MetaString&"')")
+			objConn.Execute("INSERT INTO [blog_Category]([cate_Name],[cate_Order],[cate_Intro],[cate_ParentID],[cate_Url],[cate_FullUrl],[cate_Template],[cate_Meta]) VALUES ('"&Name&"',"&Order&",'"&Intro&"',"&ParentID&",'"&Alias&"','"&TemplateName&"','"&FullUrl&"','"&MetaString&"')")
 
 			Dim objRS
 			Set objRS=objConn.Execute("SELECT MAX([cate_ID]) FROM [blog_Category]")
@@ -114,7 +115,7 @@ Class TCategory
 
 			If ParentID=ID Then
 				ParentID=0
-				objConn.Execute("UPDATE [blog_Category] set [cate_Name]='"&Name&"',[cate_Order]="&Order&",[cate_Intro]='"&Intro&"',[cate_ParentID]="&ParentID&",[cate_Url]='"&Alias&"',[cate_Template]='"&TemplateName&"',[cate_Meta]='"&MetaString&"' WHERE [cate_ID] =" & ID)
+				objConn.Execute("UPDATE [blog_Category] set [cate_Name]='"&Name&"',[cate_Order]="&Order&",[cate_Intro]='"&Intro&"',[cate_ParentID]="&ParentID&",[cate_Url]='"&Alias&"',[cate_Template]='"&TemplateName&"',[cate_FullUrl]='"&FullUrl&"',[cate_Meta]='"&MetaString&"' WHERE [cate_ID] =" & ID)
 			End If
 
 		Else
@@ -136,12 +137,12 @@ Class TCategory
 				Set objRS=Nothing
 			End If
 
-			objConn.Execute("UPDATE [blog_Category] set [cate_Name]='"&Name&"',[cate_Order]="&Order&",[cate_Intro]='"&Intro&"',[cate_ParentID]="&ParentID&",[cate_Url]='"&Alias&"',[cate_Template]='"&TemplateName&"',[cate_Meta]='"&MetaString&"' WHERE [cate_ID] =" & ID)
+			objConn.Execute("UPDATE [blog_Category] set [cate_Name]='"&Name&"',[cate_Order]="&Order&",[cate_Intro]='"&Intro&"',[cate_ParentID]="&ParentID&",[cate_Url]='"&Alias&"',[cate_Template]='"&TemplateName&"',[cate_FullUrl]='"&FullUrl&"',[cate_Meta]='"&MetaString&"' WHERE [cate_ID] =" & ID)
 
 		End If
 
-		'修复父分类为自身的情况
-		'objConn.Execute("UPDATE [blog_Category] set [cate_ParentID]=0,[cate_Meta]='"&MetaString&"' WHERE [cate_ID] = [cate_ParentID]")
+		FullUrl=Replace(Url,ZC_BLOG_HOST,"<#ZC_BLOG_HOST#>")
+		objConn.Execute("UPDATE [blog_Category] SET [cate_FullUrl]='"&FullUrl&"' WHERE [cate_ID] =" & ID)
 
 		Post=True
 
@@ -153,7 +154,7 @@ Class TCategory
 		Call CheckParameter(cate_ID,"int",0)
 
 		Dim objRS
-		Set objRS=objConn.Execute("SELECT [cate_ID],[cate_Name],[cate_Intro],[cate_Order],[cate_Count],[cate_ParentID],[cate_Url],[cate_Template],[cate_Meta] FROM [blog_Category] WHERE [cate_ID]=" & cate_ID)
+		Set objRS=objConn.Execute("SELECT [cate_ID],[cate_Name],[cate_Intro],[cate_Order],[cate_Count],[cate_ParentID],[cate_Url],[cate_Template],[cate_FullUrl],[cate_Meta] FROM [blog_Category] WHERE [cate_ID]=" & cate_ID)
 
 		If (Not objRS.bof) And (Not objRS.eof) Then
 
@@ -165,6 +166,7 @@ Class TCategory
 			ParentID=objRS("cate_ParentID")
 			Intro=objRS("cate_Intro")
 			TemplateName=objRS("cate_Template")
+			FullUrl=objRS("cate_FullUrl")
 			MetaString=objRS("cate_Meta")
 			LoadInfoByID=True
 
@@ -173,7 +175,7 @@ Class TCategory
 		objRS.Close
 		Set objRS=Nothing
 
-		Call Filter_Plugin_TCategory_LoadInfoByID(ID,Name,Intro,Order,Count,ParentID,Alias,TemplateName,MetaString)
+		Call Filter_Plugin_TCategory_LoadInfoByID(ID,Name,Intro,Order,Count,ParentID,Alias,TemplateName,FullUrl,MetaString)
 
 	End Function
 
@@ -189,19 +191,20 @@ Class TCategory
 			ParentID=aryCateInfo(5)
 			Alias=aryCateInfo(6)
 			TemplateName=aryCateInfo(7)
-			MetaString=aryCateInfo(8)
+			FullUrl=aryCateInfo(8)
+			MetaString=aryCateInfo(9)
 		End If
 
 		LoadInfoByArray=True
 
-		Call Filter_Plugin_TCategory_LoadInfoByArray(ID,Name,Intro,Order,Count,ParentID,Alias,TemplateName,MetaString)
+		Call Filter_Plugin_TCategory_LoadInfoByArray(ID,Name,Intro,Order,Count,ParentID,Alias,TemplateName,FullUrl,MetaString)
 
 	End Function
 
 
 	Public Function Del()
 
-		Call Filter_Plugin_TCategory_Del(ID,Name,Intro,Order,Count,ParentID,Alias,TemplateName,MetaString)
+		Call Filter_Plugin_TCategory_Del(ID,Name,Intro,Order,Count,ParentID,Alias,TemplateName,FullUrl,MetaString)
 
 		Call CheckParameter(ID,"int",0)
 		If (ID=0) Then Del=False:Exit Function
@@ -287,6 +290,12 @@ Class TArticle
 	Public Template_Article_Istop
 	Public Template_Article_Search
 
+	Private Disable_Export_Tag
+	Private Disable_Export_CMTandTB
+	Private Disable_Export_CommentPost
+	Private Disable_Export_Mutuality
+	Private Disable_Export_NavBar
+
 	Public html
 	Public htmlWAP
 	Public Template_Article_Multi_WAP
@@ -295,28 +304,37 @@ Class TArticle
 	Private Ftemplate_Wap
 	Private Ftemplate
 
-	Public Property Let template(strFileName)
+	Public Property Let Template(strFileName)
 		Ftemplate=GetTemplate("TEMPLATE_" & strFileName)
 	End Property
-	Public Property Get template
-		If TemplateName<>"" Then
-			Dim s
-			s=GetTemplate("TEMPLATE_" &TemplateName)
-			If s<>"" Then
-				template = s
-			Else
-				template = Ftemplate
-			End If
+	Public Property Get Template
+		If Ftemplate<>"" Then
+			Template = Ftemplate
+			Exit Property
 		Else
-			template = Ftemplate
+			If TemplateName<>"" Then
+				Dim s
+				s=GetTemplate("TEMPLATE_" &TemplateName)
+				If s<>"" Then
+					Ftemplate = s
+				Else
+					Ftemplate=GetTemplate("TEMPLATE_SINGLE")
+				End If
+			Else
+				Ftemplate=GetTemplate("TEMPLATE_SINGLE")
+			End If
+			Template = Ftemplate
 		End If
 	End Property
 
-	Public Property Let template_Wap(strFileName)
-		Ftemplate=GetTemplate("TEMPLATE_" & strFileName)
+	Public Property Let Template_Wap(strFileName)
+		Ftemplate_Wap=GetTemplate("TEMPLATE_" & strFileName)
 	End Property
-	Public Property Get template_Wap
-		template_Wap = Ftemplate_Wap
+	Public Property Get Template_Wap
+		If Ftemplate_Wap="" Then
+			Ftemplate_Wap=GetTemplate("TEMPLATE_WAP_SINGLE")
+		End If
+		Template_Wap = Ftemplate_Wap
 	End Property
 
 	Private FDirectory
@@ -570,6 +588,9 @@ Class TArticle
 			If bAction_Plugin_TArticle_Export_Begin=True Then Exit Function
 		Next
 
+		html=Template
+		htmlWAP=Template_WAP
+
 		Call Export_Tag
 		Call Export_CMTandTB
 		Call Export_CommentPost
@@ -583,7 +604,9 @@ Class TArticle
 		Template_Article_Single_WAP =GetTemplate("TEMPLATE_WAP_SINGLE")
 
 		'plugin node
-		Call Filter_Plugin_TArticle_Export_Template(Ftemplate,Template_Article_Single,Template_Article_Multi,Template_Article_Istop,Template_Article_Multi_WAP,Template_Article_Single_WAP)
+		Call Filter_Plugin_TArticle_Export_Template(html,Template_Article_Single,Template_Article_Multi,Template_Article_Istop)
+		Call Filter_Plugin_TArticle_WAP_Export_Template(htmlWAP,Template_Article_Multi_WAP,Template_Article_Single_WAP)
+
 		'plugin node
 		Call Filter_Plugin_TArticle_Export_Template_Sub(Template_Article_Comment,Template_Article_Trackback,Template_Article_Tag,Template_Article_Commentpost,Template_Article_Navbar_L,Template_Article_Navbar_R,Template_Article_Mutuality)
 
@@ -597,14 +620,6 @@ Class TArticle
 
 		Template_Article_Multi=Replace(Template_Article_Multi,"<#template:article_tag#>",Template_Article_Tag)
 		Template_Article_Istop=Replace(Template_Article_Istop,"<#template:article_tag#>",Template_Article_Tag)
-
-		Ftemplate=Replace(Ftemplate,"<#template:article_trackback#>",Template_Article_Trackback)
-		Ftemplate=Replace(Ftemplate,"<#template:article_comment#>",Template_Article_Comment)
-		Ftemplate=Replace(Ftemplate,"<#template:article_commentpost#>",Template_Article_Commentpost)
-		Ftemplate=Replace(Ftemplate,"<#template:article_tag#>",Template_Article_Tag)
-		Ftemplate=Replace(Ftemplate,"<#template:article_navbar_l#>",Template_Article_Navbar_L)
-		Ftemplate=Replace(Ftemplate,"<#template:article_navbar_r#>",Template_Article_Navbar_R)
-		Ftemplate=Replace(Ftemplate,"<#template:article_mutuality#>",Template_Article_Mutuality)
 
 		Dim aryTemplateTagsName()
 		Dim aryTemplateTagsValue()
@@ -742,20 +757,16 @@ Class TArticle
 				Template_Article_Single=Replace(Template_Article_Single,"<#" & aryTemplateTagsName(i) & "#>",aryTemplateTagsValue(i))
 				Template_Article_Multi_WAP = Replace(Template_Article_Multi_WAP,"<#" & aryTemplateTagsName(i) & "#>", aryTemplateTagsValue(i))
 				Template_Article_Single_WAP = Replace(Template_Article_Single_WAP,"<#" & aryTemplateTagsName(i) & "#>", aryTemplateTagsValue(i))
-				Ftemplate = Replace(Ftemplate,"<#" & aryTemplateTagsName(i) & "#>", aryTemplateTagsValue(i))
-			Else
-				Template_Article_Istop=Replace(Template_Article_Istop,"<#" & aryTemplateTagsName(i) & "#>","")
-				Template_Article_Multi=Replace(Template_Article_Multi,"<#" & aryTemplateTagsName(i) & "#>","")
-				Template_Article_Single=Replace(Template_Article_Single,"<#" & aryTemplateTagsName(i) & "#>","")
-				Template_Article_Multi_WAP = Replace(Template_Article_Multi_WAP,"<#" & aryTemplateTagsName(i) & "#>", "")
-				Template_Article_Single_WAP = Replace(Template_Article_Single_WAP,"<#" & aryTemplateTagsName(i) & "#>", "")
-				Ftemplate = Replace(Ftemplate,"<#" & aryTemplateTagsName(i) & "#>", "")
+				html = Replace(html,"<#" & aryTemplateTagsName(i) & "#>", aryTemplateTagsValue(i))
+				htmlWAP = Replace(htmlWAP,"<#" & aryTemplateTagsName(i) & "#>", aryTemplateTagsValue(i))
 			End If
 		Next
 
 		If intType=ZC_DISPLAY_MODE_SEARCH Then
 			Template_Article_Search=Template_Article_Multi
 		End If
+
+		html=Replace(html,"<#template:article-single#>",Template_Article_Single)
 
 		Export=True
 
@@ -770,6 +781,8 @@ Class TArticle
 
 
 	Public Function Export_Tag
+
+		If Disable_Export_Tag=True Then Exit Function
 
 		'plugin node
 		bAction_Plugin_TArticle_Export_Tag_Begin=False
@@ -803,6 +816,8 @@ Class TArticle
 
 
 	Function Export_CMTandTB()
+
+		If Disable_Export_CMTandTB=True Then Exit Function
 
 		'plugin node
 		bAction_Plugin_TArticle_Export_CMTandTB_Begin=False
@@ -898,6 +913,8 @@ Class TArticle
 
 	Function Export_NavBar()
 
+		If Disable_Export_NavBar=True Then Exit Function
+
 		'plugin node
 		bAction_Plugin_TArticle_Export_NavBar_Begin=False
 		For Each sAction_Plugin_TArticle_Export_NavBar_Begin in Action_Plugin_TArticle_Export_NavBar_Begin
@@ -958,6 +975,8 @@ Class TArticle
 
 	Function Export_CommentPost()
 
+		If Disable_Export_CommentPost=True Then Exit Function
+
 		'plugin node
 		bAction_Plugin_TArticle_Export_CommentPost_Begin=False
 		For Each sAction_Plugin_TArticle_Export_CommentPost_Begin in Action_Plugin_TArticle_Export_CommentPost_Begin
@@ -980,6 +999,8 @@ Class TArticle
 
 	'相关文章的生成
 	Function Export_Mutuality()
+
+		If Disable_Export_Mutuality=True Then Exit Function
 
 		'plugin node
 		bAction_Plugin_TArticle_Export_Mutuality_Begin=False
@@ -1250,14 +1271,7 @@ Class TArticle
 
 		Dim i,j
 
-		htmlWAP = Template_Article_Single_WAP
-
-		If IsEmpty(html) Then html=template
-
 		Call Filter_Plugin_TArticle_Build_Template(html,htmlWAP)
-		Call Filter_Plugin_TArticle_Build_Template_Sub(Template_Article_Single)
-
-		html=Replace(html,"<#template:article-single#>",Template_Article_Single)
 
 		aryTemplateTagsName=TemplateTagsName
 		aryTemplateTagsValue=TemplateTagsValue
@@ -1266,7 +1280,6 @@ Class TArticle
 		aryTemplateTagsValue(0)=HtmlTitle
 
 		Call Filter_Plugin_TArticle_Build_TemplateTags(aryTemplateTagsName,aryTemplateTagsValue)
-
 
 		j=UBound(aryTemplateTagsName)
 
@@ -1301,7 +1314,7 @@ Class TArticle
 
 	Function SetVar(TemplateTag,TemplateValue)
 
-		If IsEmpty(html) Then html=template
+		If IsEmpty(html) Then html=Template
 
 		html=Replace(html,"<#" & TemplateTag & "#>",TemplateValue)
 
@@ -1425,13 +1438,17 @@ Class TArticleList
 
 	Public html
 
-
 	Private Ftemplate
-	Public Property Let template(strFileName)
+	Public Property Let Template(strFileName)
 		Ftemplate=GetTemplate("TEMPLATE_" & strFileName)
 	End Property
-	Public Property Get template
-		template = Ftemplate
+	Public Property Get Template
+		If Ftemplate="" Then
+			Ftemplate=GetTemplate("TEMPLATE_CATALOG")
+		End If
+
+		Template = Ftemplate
+
 	End Property
 
 
@@ -1460,6 +1477,11 @@ Class TArticleList
 			If Not IsEmpty(sAction_Plugin_TArticleList_Export_Begin) Then Call Execute(sAction_Plugin_TArticleList_Export_Begin)
 			If bAction_Plugin_TArticleList_Export_Begin=True Then Exit Function
 		Next
+
+		Call Add_Action_Plugin("Action_Plugin_TArticle_Export_Begin","Disable_Export_Tag=False:Disable_Export_CMTandTB=True:Disable_Export_CommentPost=True:Disable_Export_Mutuality=True:Disable_Export_NavBar=True:")
+
+
+		html=Template
 
 		'plugin node
 		Call Filter_Plugin_TArticleList_Export(intPage,intCateId,intAuthorId,dtmYearMonth,strTagsName,intType)
@@ -1519,7 +1541,6 @@ Class TArticleList
 		objRS.Source="SELECT [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_IsAnonymous],[log_Meta] FROM [blog_Article] WHERE ([log_CateID]>0) And ([log_ID]>0) AND ([log_Istop]=0) AND ([log_Level]>1)"
 
 		If Not IsEmpty(intCateId) Then
-			GetCategory()
 			Dim strSubCateID : strSubCateID=Join(GetSubCateID(intCateId,True),",")
 			objRS.Source=objRS.Source & "AND([log_CateID]IN("&strSubCateID&"))"
 			If CheckCateByID(intCateId) Then
@@ -1527,12 +1548,11 @@ Class TArticleList
 				TemplateTags_ArticleList_Category_ID=Categorys(intCateId).ID
 				If Categorys(intCateId).TemplateName<>"" Then
 					Categorys(intCateId).html=GetTemplate("TEMPLATE_" & Categorys(intCateId).TemplateName)
-					If Categorys(intCateId).html<>"" Then template=Categorys(intCateId).TemplateName
+					If Categorys(intCateId).html<>"" Then Template=Categorys(intCateId).TemplateName
 				End If
 			End If
 		End if
 		If Not IsEmpty(intAuthorId) Then
-			GetUser()
 			objRS.Source=objRS.Source & "AND([log_AuthorID]="&intAuthorId&")"
 			If CheckAuthorByID(intAuthorId) Then
 				Title=TransferHTML(Users(intAuthorId).Name,"[html-format]")
@@ -1587,13 +1607,16 @@ Class TArticleList
 						Title=Server.HTMLEncode(strTagsName)
 						If Tag.TemplateName<>"" Then
 							Tag.html=GetTemplate("TEMPLATE_" & Tag.TemplateName)
-							If Tag.html<>"" Then template=Tag.TemplateName
+							If Tag.html<>"" Then Template=Tag.TemplateName
 						End If
 					End If
 				End If
 			Next
 			'Err.Clear
 		End If
+
+		Call GetCategory()
+		Call GetUser()
 
 		objRS.Source=objRS.Source & "ORDER BY [log_PostTime] DESC,[log_ID] DESC"
 		objRS.Open()
@@ -1611,6 +1634,7 @@ Class TArticleList
 
 				Set objArticle=New TArticle
 				If objArticle.LoadInfoByArray(Array(objRS(0),objRS(1),objRS(2),objRS(3),objRS(4),objRS(5),objRS(6),objRS(7),objRS(8),objRS(9),objRS(10),objRS(11),objRS(12),objRS(13),objRS(14),objRS(15),objRS(16),objRS(17))) Then
+					Call GetTagsbyTagIDList(objArticle.Tag)
 					If objArticle.Export(intType)= True Then
 						aryArticleList(i)=objArticle.Template_Article_Multi
 					End If
@@ -1654,6 +1678,8 @@ Class TArticleList
 			If Not IsEmpty(sAction_Plugin_TArticleList_ExportByCache_Begin) Then Call Execute(sAction_Plugin_TArticleList_ExportByCache_Begin)
 			If bAction_Plugin_TArticleList_ExportByCache_Begin=True Then Exit Function
 		Next
+
+		html=Template
 
 		'plugin node
 		Call Filter_Plugin_TArticleList_ExportByCache(intPage,intCateId,intAuthorId,dtmYearMonth,strTagsName,intType)
@@ -1791,6 +1817,8 @@ Class TArticleList
 			If bAction_Plugin_TArticleList_ExportByMixed_Begin=True Then Exit Function
 		Next
 
+		html=Template
+
 		'plugin node
 		Call Filter_Plugin_TArticleList_ExportByMixed(intPage,intCateId,intAuthorId,dtmYearMonth,strTagsName,intType)
 
@@ -1870,7 +1898,7 @@ Class TArticleList
 				TemplateTags_ArticleList_Category_ID=Categorys(intCateId).ID
 				If Categorys(intCateId).TemplateName<>"" Then
 					Categorys(intCateId).html=GetTemplate("TEMPLATE_" & Categorys(intCateId).TemplateName)
-					If Categorys(intCateId).html<>"" Then template=Categorys(intCateId).TemplateName
+					If Categorys(intCateId).html<>"" Then Template=Categorys(intCateId).TemplateName
 				End If
 			End If
 		End if
@@ -1933,7 +1961,7 @@ Class TArticleList
 										TemplateTags_ArticleList_Tags_ID=Tag.ID
 										If Tag.TemplateName<>"" Then
 											Tag.html=GetTemplate("TEMPLATE_" & Tag.TemplateName)
-											If Tag.html<>"" Then template=Tag.TemplateName
+											If Tag.html<>"" Then Template=Tag.TemplateName
 										End If
 								End If
 								Next'Tag_i
@@ -2006,8 +2034,6 @@ Class TArticleList
 		Dim aryTemplateSubValue()
 
 		Dim i,j
-
-		If IsEmpty(html) Then html=template
 
 		'plugin node
 		Call Filter_Plugin_TArticleList_Build_Template(html)
@@ -2096,7 +2122,7 @@ Class TArticleList
 
 	Function SetVar(TemplateTag,TemplateValue)
 
-		If IsEmpty(html) Then html=template
+		If IsEmpty(html) Then html=Template
 
 		html=Replace(html,"<#" & TemplateTag & "#>",TemplateValue)
 
@@ -2976,10 +3002,10 @@ Class TComment
 
 'Mark2 MakeTemplate
 	Public Function MakeTemplate(strC,isChild)
-		Dim html,i,j,template
+		Dim html,i,j,Template
 		html=strC
-		template=GetTemplate("TEMPLATE_B_ARTICLE_COMMENTREV")
-		if template="" then template=strc
+		Template=GetTemplate("TEMPLATE_B_ARTICLE_COMMENTREV")
+		if Template="" then Template=strc
 		'plugin node
 		Call Filter_Plugin_TComment_MakeTemplate_Template(html)
 		Dim ChildTemplate
@@ -3026,7 +3052,7 @@ Class TComment
 			If ChildTemplate.LoadInfoById(objRS("comm_ID"))=True Then
 				intCount=intCount+1
 				ChildTemplate.Count=intCount
-				aryTemplateTagsValue(13)=aryTemplateTagsValue(13)&ChildTemplate.MakeTemplate(template,True)
+				aryTemplateTagsValue(13)=aryTemplateTagsValue(13)&ChildTemplate.MakeTemplate(Template,True)
 			End If
 			objRS.movenext
 		Loop
@@ -3660,7 +3686,7 @@ Class TTag
 	Public Count
 	Public Alias
 	Public ParentID
-
+	Public FullUrl
 	Public Meta
 	Public TemplateName
 
@@ -3713,7 +3739,7 @@ Class TTag
 
 	Public Function Post()
 
-		Call Filter_Plugin_TTag_Post(ID,Name,Intro,Order,Count,ParentID,Alias,TemplateName,MetaString)
+		Call Filter_Plugin_TTag_Post(ID,Name,Intro,Order,Count,ParentID,Alias,TemplateName,FullUrl,MetaString)
 
 		Call CheckParameter(ID,"int",0)
 		Call CheckParameter(Order,"int",0)
@@ -3742,6 +3768,9 @@ Class TTag
 			objConn.Execute("UPDATE [blog_Tag] SET [tag_Name]='"&Name&"',[tag_Order]="&Order&",[tag_Intro]='"&Intro&"',[tag_ParentID]="&ParentID&",[tag_URL]='"&Alias&"',[tag_Template]='"&TemplateName&"',[tag_Meta]='"&MetaString&"' WHERE [tag_ID] =" & ID)
 		End If
 
+		FullUrl=Replace(Url,ZC_BLOG_HOST,"<#ZC_BLOG_HOST#>")
+		objConn.Execute("UPDATE [blog_Tag] SET [tag_FullUrl]='"&FullUrl&"' WHERE [tag_ID] =" & ID)
+
 		Post=True
 
 	End Function
@@ -3752,7 +3781,7 @@ Class TTag
 		Call CheckParameter(tag_ID,"int",0)
 
 		Dim objRS
-		Set objRS=objConn.Execute("SELECT [tag_ID],[tag_Name],[tag_Intro],[tag_Order],[tag_Count],[tag_ParentID],[tag_URL],[tag_Template],[tag_Meta] FROM [blog_Tag] WHERE [tag_ID]=" & tag_ID)
+		Set objRS=objConn.Execute("SELECT [tag_ID],[tag_Name],[tag_Intro],[tag_Order],[tag_Count],[tag_ParentID],[tag_URL],[tag_Template],[tag_FullUrl],[tag_Meta] FROM [blog_Tag] WHERE [tag_ID]=" & tag_ID)
 
 		If (Not objRS.bof) And (Not objRS.eof) Then
 
@@ -3764,6 +3793,7 @@ Class TTag
 			ParentID=objRS("tag_ParentID")
 			Alias=objRS("tag_URL")
 			TemplateName=objRS("tag_Template")
+			FullUrl=objRS("tag_FullUrl")
 			MetaString=objRS("tag_Meta")
 
 			LoadInfoByID=True
@@ -3775,7 +3805,7 @@ Class TTag
 
 		If IsNull(Intro) Then Intro=""
 
-		Call Filter_Plugin_TTag_LoadInfoByID(ID,Name,Intro,Order,Count,ParentID,Alias,TemplateName,MetaString)
+		Call Filter_Plugin_TTag_LoadInfoByID(ID,Name,Intro,Order,Count,ParentID,Alias,TemplateName,FullUrl,MetaString)
 
 	End Function
 
@@ -3790,7 +3820,8 @@ Class TTag
 			ParentID=aryTagInfo(5)
 			Alias=aryTagInfo(6)
 			TemplateName=aryTagInfo(7)
-			MetaString=aryTagInfo(8)
+			FullUrl=aryTagInfo(8)
+			MetaString=aryTagInfo(9)
 		End If
 
 		If IsNull(Intro) Then Intro=""
@@ -3798,15 +3829,14 @@ Class TTag
 
 		LoadInfoByArray=True
 
-
-		Call Filter_Plugin_TTag_LoadInfoByArray(ID,Name,Intro,Order,Count,ParentID,Alias,TemplateName,MetaString)
+		Call Filter_Plugin_TTag_LoadInfoByArray(ID,Name,Intro,Order,Count,ParentID,Alias,TemplateName,FullUrl,MetaString)
 
 	End Function
 
 
 	Public Function Del()
 
-		Call Filter_Plugin_TTag_Del(ID,Name,Intro,Order,Count,ParentID,Alias,TemplateName,MetaString)
+		Call Filter_Plugin_TTag_Del(ID,Name,Intro,Order,Count,ParentID,Alias,TemplateName,FullUrl,MetaString)
 
 		Call CheckParameter(ID,"int",0)
 		If (ID=0) Then Del=False:Exit Function

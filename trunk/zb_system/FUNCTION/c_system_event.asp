@@ -467,8 +467,6 @@ Function PostComment(strKey)
 			If objArticle.Level<4 Then Call ShowError(44)
 		End If
 		Set objArticle=Nothing
-	Else
-		If Not (strKey=Left(MD5(ZC_BLOG_HOST & ZC_BLOG_CLSID & CStr(0) & CStr(Day(GetTime(Now())))),8)) Then Call ShowError(43)
 	End If
 
 	Dim objUser
@@ -479,12 +477,10 @@ Function PostComment(strKey)
 	Next
 
 	If objComment.Post Then
-		If objComment.log_ID>0 Then
-			Call BuildArticle(objComment.log_ID,False,True)
-			BlogReBuild_Comments
-		Else
-			BlogReBuild_GuestComments
-		End If
+
+		Call BuildArticle(objComment.log_ID,False,True)
+		BlogReBuild_Comments
+
 		PostComment=True
 		Call Filter_Plugin_PostComment_Succeed(objComment)
 
@@ -529,17 +525,13 @@ Function DelComment(intID,intLog_ID)
 				Call ShowError(9)
 			End If
 			Set objTestArticle=Nothing
-		Else
-			If Not ((objComment.log_ID=0) And (CheckRights("GuestBookMng")=True)) Then Exit Function
 		End If
 		DelChild objComment.ID
 		If objComment.Del Then
-			If objComment.log_ID>0 Then
-				Call BuildArticle(objComment.log_ID,False,True)
-				BlogReBuild_Comments
-			Else
-				BlogReBuild_GuestComments
-			End If
+
+			Call BuildArticle(objComment.log_ID,False,True)
+			BlogReBuild_Comments
+
 			DelComment=True
 		End If
 
@@ -620,20 +612,15 @@ Function RevertComment(strKey,intRevertCommentID)
 			Call ShowError(9)
 		End If
 		Set objArticle=Nothing
-	Else
-		If Not (strKey=Left(MD5(ZC_BLOG_HOST & ZC_BLOG_CLSID & CStr(0) & CStr(Day(GetTime(Now())))),8)) Then Call ShowError(43)
 	End If
 
 	'接口
 	Call Filter_Plugin_PostComment_Core(objComment)
 
 	If objComment.Post Then
-		If objComment.log_ID>0 Then
-			Call BuildArticle(objComment.log_ID,False,False)
-			BlogReBuild_Comments
-		Else
-			BlogReBuild_GuestComments
-		End If
+
+		Call BuildArticle(objComment.log_ID,False,False)
+		BlogReBuild_Comments
 
 		RevertComment=True
 
@@ -700,23 +687,19 @@ objComment.LoadInfoByID intID
 
 	'End If
 	Set objComment2=Nothing
+
 	If objComment.log_ID>0 Then
 		Set objArticle=New TArticle
 		If objArticle.LoadInfoByID(objComment.log_ID) Then
 			If Not ((objArticle.AuthorID=BlogUser.ID) Or (objComment.AuthorID=BlogUser.ID) Or (CheckRights("Root")=True)) Then Exit Function
 		End If
 		Set objArticle=Nothing
-	Else
-		If Not ((objComment.log_ID=0) And (CheckRights("GuestBookMng")=True)) Then Exit Function
 	End If
 
 	If objComment.Post Then
-		If objComment.log_ID>0 Then
-			Call BuildArticle(objComment.log_ID,False,False)
-			BlogReBuild_Comments
-		Else
-			BlogReBuild_GuestComments
-		End If
+
+		Call BuildArticle(objComment.log_ID,False,False)
+		BlogReBuild_Comments
 
 		SaveComment=True
 
@@ -1857,7 +1840,7 @@ Function DelCommentBatch()
 	Next
 
 	BlogReBuild_Comments
-	BlogReBuild_GuestComments
+
 	DelCommentBatch=True
 
 End Function
