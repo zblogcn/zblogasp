@@ -2804,7 +2804,6 @@ Next
 
 s=Left(s,Len(s)-2)
 
-Response.Write s
 
 Dim objRS
 Dim objTag
