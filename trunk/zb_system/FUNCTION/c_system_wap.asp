@@ -742,7 +742,9 @@ Function WapView()
 
 	Set Article=New TArticle
 	If Article.LoadInfoByID(log_ID) Then
+
 			Call GetTagsbyTagIDList(Article.Tag)
+			Article.Template="WAP_SINGLE"
 
 			If Article.Level=1 Then Response.Write WapTitle(ZVA_Article_Level_Name(1),"")&ZVA_ErrorMsg(9):Exit Function
 			If Article.Level=2 Then
@@ -781,25 +783,24 @@ Function WapView()
 			End If 
 
 			If Article.Export(ZC_DISPLAY_MODE_ALL) Then
-			    'Article.template_Wap="wap_single"
 				Article.Build
-				Article.htmlWAP=Replace(Article.htmlWAP,"<#article/PageContent#>",ArticleContent)
-				Article.htmlWAP=Replace(Article.htmlWAP,"<#ZC_FILENAME_WAP#>",WapUrlStr)
-				Article.htmlWAP=Replace(Article.htmlWAP,"<#template:article_mutuality#>",WapRelateList(Article.ID,Article.Tag))
+				Article.html=Replace(Article.html,"<#article/PageContent#>",ArticleContent)
+				Article.html=Replace(Article.html,"<#ZC_FILENAME_WAP#>",WapUrlStr)
+				Article.html=Replace(Article.html,"<#template:article_mutuality#>",WapRelateList(Article.ID,Article.Tag))
 
 			    If BlogUser.Level<=3 Then
 	
-					Article.htmlWAP=Replace(Article.htmlWAP,"<#adbegin#>","")
-					Article.htmlWAP=Replace(Article.htmlWAP,"<#adend#>","")
+					Article.html=Replace(Article.html,"<#adbegin#>","")
+					Article.html=Replace(Article.html,"<#adend#>","")
 				Else
 					Dim objRegExp
 					Set objRegExp=New RegExp
 					objRegExp.IgnoreCase =True
 					objRegExp.Global=True
 					objRegExp.Pattern="<#adbegin#>(.+)<#adend#>"
-					Article.htmlWAP= objRegExp.Replace(Article.htmlWAP,"")
+					Article.html= objRegExp.Replace(Article.html,"")
 				End If
-				Response.Write Article.htmlWAP
+				Response.Write Article.html
 			End If
 			
 	End If
@@ -1035,9 +1036,10 @@ Function WapExport(intPage,intCateId,intAuthorId,dtmYearMonth,strTagsName,intTyp
 
 				Set objArticle=New TArticle
 				If objArticle.LoadInfoByArray(Array(objRS(0),objRS(1),objRS(2),objRS(3),objRS(4),objRS(5),objRS(6),objRS(7),objRS(8),objRS(9),objRS(10),objRS(11),objRS(12),objRS(13),objRS(14),objRS(15),objRS(16),objRS(17))) Then
+					objArticle.Template="WAP_ARTICLE-MULTI"
 					Call GetTagsbyTagIDList(objArticle.Tag)
 					If objArticle.Export(intType)= True Then
-						aryArticleList(i)=objArticle.Template_Article_Multi_WAP
+						aryArticleList(i)=objArticle.html
 					End If
 				End If
 				Set objArticle=Nothing
