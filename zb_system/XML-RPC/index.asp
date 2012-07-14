@@ -510,7 +510,6 @@ Call System_Initialize()
 
 Call GetCategory()
 Call GetUser()
-Call GetTags()
 
 Dim strXmlCall
 Dim objXmlFile

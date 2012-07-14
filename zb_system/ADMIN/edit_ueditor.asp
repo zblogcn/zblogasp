@@ -52,6 +52,30 @@ If Not IsEmpty(Request.QueryString("id")) Then
 				Call ShowError(6)
 			End If
 		End If
+
+		'ajax tags
+
+		If Request.QueryString("type")="tags" Then
+			Response.Write "$(""#ajaxtags"").html("""
+			Dim objRS
+			Set objRS=objConn.Execute("SELECT [tag_ID] FROM [blog_Tag] ORDER BY [tag_Name] ASC")
+			If (Not objRS.bof) And (Not objRS.eof) Then
+				Do While Not objRS.eof
+					If InStr(EditArticle.Tag,"{"& objRS("tag_ID") & "}")>0 Then
+						Response.Write "<a href='#' class='selected'>"& TransferHTML(Tags(objRS("tag_ID")).Name,"[html-format]") &"</a> "
+					Else
+						Response.Write "<a href='#'>"& TransferHTML(Tags(objRS("tag_ID")).Name,"[html-format]") &"</a> "
+					End If
+					objRS.MoveNext
+				Loop
+			End If
+			objRS.Close
+			Set objRS=Nothing
+			Response.Write """);$(""#ulTag"").tagTo(""#edtTag"");"
+			Response.End
+		End If
+
+
 	Else
 		Call ShowError(9)
 	End If
@@ -59,50 +83,16 @@ Else
 	EditArticle.AuthorID=BlogUser.ID
 End If
 
-	On Error Resume Next
 BlogTitle=EditArticle.HtmlUrl
 EditArticle.Content=UBBCode(EditArticle.Content,"[link][email][font][code][face][image][flash][typeset][media][autolink][key][link-antispam]")
 
-If Err.Number=0 Then
+EditArticle.Title=TransferHTML(EditArticle.Title,"[html-japan]")
+EditArticle.Content=TransferHTML(EditArticle.Content,"[html-japan]")
+EditArticle.Intro=TransferHTML(EditArticle.Intro,"[html-japan]")
 
-	EditArticle.Title=TransferHTML(EditArticle.Title,"[html-japan]")
-	EditArticle.Content=TransferHTML(EditArticle.Content,"[html-japan]")
-	EditArticle.Intro=TransferHTML(EditArticle.Intro,"[html-japan]")
+EditArticle.Title=TransferHTML(EditArticle.Title,"[html-format]")
 
-	EditArticle.Title=TransferHTML(EditArticle.Title,"[html-format]")
-	'EditArticle.Content=TransferHTML(EditArticle.Content,"[textarea]")
-	'EditArticle.Intro=TransferHTML(EditArticle.Intro,"[textarea]")
-
-Else
-
-	GetCategory()
-	GetUser()
-
-	EditArticle.Title=EditArticle.Title
-	EditArticle.Content=TransferHTML(EditArticle.Content,"[&]")
-	EditArticle.Intro=TransferHTML(EditArticle.Intro,"[&]")
-
-End If
-If Request.QueryString("type")="tags" Then
-	Response.Write "$(""#ajaxtags"").html("""
-	Dim objRS
-	Set objRS=objConn.Execute("SELECT [tag_ID] FROM [blog_Tag] ORDER BY [tag_Name] ASC")
-	If (Not objRS.bof) And (Not objRS.eof) Then
-		Do While Not objRS.eof
-			If InStr(EditArticle.Tag,"{"& objRS("tag_ID") & "}")>0 Then
-				Response.Write "<a href='#' class='selected'>"& TransferHTML(Tags(objRS("tag_ID")).Name,"[html-format]") &"</a> "
-			Else
-				Response.Write "<a href='#'>"& TransferHTML(Tags(objRS("tag_ID")).Name,"[html-format]") &"</a> "
-			End If
-			objRS.MoveNext
-		Loop
-	End If
-	objRS.Close
-	Set objRS=Nothing
-	Response.Write """);$(""#ulTag"").tagTo(""#edtTag"");"
-	Response.End
-End If
-Err.Clear
+Call GetTagsbyTagIDList(EditArticle.Tag)
 
 BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & IIf(Request.QueryString("type")="Page",ZC_MSG329,ZC_MSG047)
 
@@ -143,7 +133,7 @@ var editor2 = new baidu.editor.ui.Editor({
 %>
 <div class="form">
 <% Call GetBlogHint() %>
-<div id="divClick" style="display:none;"><a href="#" onClick="document.getElementById('divClick').style.display='none';document.getElementById('divAdv').style.display='block';document.getElementById('divFileSnd').style.display='block';document.getElementById('divIntro').style.display='block';Advanced();return false;"><%=GetSettingFormNameWithDefault("ZC_MSG316","Advanced Option&gt;&gt;")%><span style="font-size: 1.5em; vertical-align: -1px;">»</span></a></div>
+
 <form id="edit" name="edit" method="post">
 	<input type="hidden" name="edtID" id="edtID" value="<%=EditArticle.ID%>">
 	<p><%=ZC_MSG060%>:<input type="text" name="edtTitle" id="edtTitle" style="width:367px;"  onblur="if(this.value=='') this.value='<%=ZC_MSG099%>'" onFocus="if(this.value=='<%=ZC_MSG099%>') this.value=''" value="<%=EditArticle.Title%>" />
@@ -219,12 +209,11 @@ End If
 %>
 	</select><input type="hidden" name="edtAuthorID" id="edtAuthorID" value="<%=EditArticle.AuthorID%>">
 <%
-If Request.QueryString("type")<>"Page" Then
-	%>&nbsp;<%=ZC_MSG138%>:<input type="text" style="width:313px;" name="edtTag" id="edtTag" value="<%=TransferHTML(EditArticle.TagToName,"[html-format]")%>"> <a href="" style="cursor:pointer;" onClick="if(document.getElementById('ulTag').style.display=='none'){document.getElementById('ulTag').style.display='block';if(loaded==false){$.getScript('edit_ueditor.asp?type=tags<%if EditArticle.id<>0  then response.write "&id="&EditArticle.ID%>');loaded=true;}}else{document.getElementById('ulTag').style.display='none'};return false;"><%=ZC_MSG139%><span style="font-size: 1.5em; vertical-align: -1px;"></span></a>
-	<ul id="ulTag" style="display:none;">
-    <span id="ajaxtags"><%=ZC_MSG326%></span>
+If Request.QueryString("type")<>"Page" Then %>
 
-	&nbsp;&nbsp;(<%=ZC_MSG296%>)</ul></p>
+&nbsp;<%=ZC_MSG138%>:<input type="text" style="width:313px;" name="edtTag" id="edtTag" value="<%=TransferHTML(EditArticle.TagToName,"[html-format]")%>"> <a href="" style="cursor:pointer;" onClick="if(document.getElementById('ulTag').style.display=='none'){document.getElementById('ulTag').style.display='block';if(loaded==false){$.getScript('edit_ueditor.asp?type=tags<%if EditArticle.id<>0  then response.write "&id="&EditArticle.ID%>');loaded=true;}}else{document.getElementById('ulTag').style.display='none'};return false;"><%=ZC_MSG139%><span style="font-size: 1.5em; vertical-align: -1px;"></span></a>
+
+<ul id="ulTag" style="display:none;"><span id="ajaxtags"><%=ZC_MSG326%></span>&nbsp;&nbsp;(<%=ZC_MSG296%>)</ul></p>
 <%
 Else
 %>

@@ -31,8 +31,9 @@ StarTime = Timer()
 Dim Categorys()
 Dim Users()
 Dim Tags()
-Dim KeyWords
-
+ReDim Categorys(0)
+ReDim Users(0)
+ReDim Tags(0)
 
 Dim PluginName()
 Dim PluginActiveFunction()
@@ -1316,15 +1317,17 @@ Function ParseTag(strTag)
 	strTag=Replace(strTag,"，",vbCrlf)
 	strTag=TransferHTML(strTag,"[normalname]")
 	strTag=Replace(strTag,vbCrlf,",")
-	t=Split(strTag,",")
 
 	If strTag="" Then ParseTag="":Exit Function
+
+	t=Split(strTag,",")
+
+	Call GetTagsbyTagNameList(strTag)
 
 	For i=LBound(t) To UBound(t)
 		t(i)=Trim(t(i))
 	Next
 
-	GetTags()
 	For i=LBound(t) To UBound(t)
 
 		b=False
@@ -1343,13 +1346,15 @@ Function ParseTag(strTag)
 			objTag.Name=t(i)
 			objTag.Order=0
 			objTag.Intro=""
-			objTag.Post
+			If objTag.Post Then
+				ReDim Preserve Tags(objTag.ID)
+				Set Tags(objTag.ID)=objTag
+			End If
 			Set objTag=Nothing
 		End If
 
 	Next
 
-	GetTags()
 	For i=LBound(t) To UBound(t)
 		For Each Tag in Tags
 			If IsObject(Tag) Then
@@ -2163,18 +2168,20 @@ Function BlogReBuild_Catalogs()
 	'Catalogs
 	Dim strCatalog,bolHasSubCate
 
-	Dim aryCateInOrder : aryCateInOrder=GetCategoryOrder()
+	Dim aryCateInOrder 
+	aryCateInOrder=GetCategoryOrder()
+
 	Dim i,j
-	For i=0 To Ubound(aryCateInOrder)
+	For i=Lbound(aryCateInOrder) To Ubound(aryCateInOrder)-1
 		If Categorys(aryCateInOrder(i)).ParentID=0 Then
 			strCatalog=strCatalog & "<li class=""li-parecate""><span class=""feed-icon""><a href="""& Categorys(aryCateInOrder(i)).RssUrl &""" target=""_blank""><img title=""rss"" width=""20"" height=""12"" src="""&ZC_BLOG_HOST&"zb_system/image/logo/rss.png"" border=""0"" alt=""rss"" /></a>&nbsp;</span><a href="""& Categorys(aryCateInOrder(i)).Url & """>"+Categorys(aryCateInOrder(i)).Name + "<span class=""article-nums""> (" & Categorys(aryCateInOrder(i)).Count & ")</span>" +"</a></li>"
 
 			bolHasSubCate=False
-			For j=0 To UBound(aryCateInOrder)
+			For j=Lbound(aryCateInOrder) To UBound(aryCateInOrder)-1
 				If Categorys(aryCateInOrder(j)).ParentID=Categorys(aryCateInOrder(i)).ID Then bolHasSubCate=True
 			Next
 			If bolHasSubCate Then strCatalog=strCatalog & "<li class=""li-subcates""><ul class=""ul-subcates"">"
-			For j=0 To UBound(aryCateInOrder)
+			For j=Lbound(aryCateInOrder) To UBound(aryCateInOrder)-1
 				If Categorys(aryCateInOrder(j)).ParentID=Categorys(aryCateInOrder(i)).ID Then
 					strCatalog=strCatalog & "<li class=""li-subcate""><span class=""feed-icon""><a href="""& Categorys(aryCateInOrder(j)).RssUrl &""" target=""_blank""><img title=""rss"" width=""20"" height=""12"" src="""&ZC_BLOG_HOST&"zb_system/image/logo/rss.png"" border=""0"" alt=""rss"" /></a>&nbsp;</span><a href="""& Categorys(aryCateInOrder(j)).Url & """>"+Categorys(aryCateInOrder(j)).Name + "<span class=""article-nums""> (" & Categorys(aryCateInOrder(j)).Count & ")</span>" +"</a></li>"
 				End If
@@ -2305,8 +2312,6 @@ Function BlogReBuild_Tags()
 		If bAction_Plugin_BlogReBuild_Tags_Begin=True Then Exit Function
 	Next
 
-	Call GetTags()
-
 	Dim objRS
 	Dim objStream
 
@@ -2320,8 +2325,8 @@ Function BlogReBuild_Tags()
 	Set objRS=objConn.Execute("SELECT * FROM [blog_Tag] ORDER BY [tag_Count] DESC,[tag_ID] ASC")
 	If (Not objRS.bof) And (Not objRS.eof) Then
 		Do While Not objRS.eof
-			If j=i Then Exit Do
-			strTag=strTag & "<li><a href="""& Tags(objRS("tag_ID")).Url & """>"+Tags(objRS("tag_ID")).Name + " <span class=""tag-count"">(" & Tags(objRS("tag_ID")).Count & ")</span>" +"</a></li>"
+			If j=i Then Exit Do'objRS("tag_FullUrl")
+			strTag=strTag & "<li><a href="""& ZC_BLOG_HOST & "catalog.asp?"& "tags=" & Server.URLEncode(objRS("tag_Name")) & """>"+objRS("tag_Name") + " <span class=""tag-count"">(" & objRS("tag_Count") & ")</span>" +"</a></li>"
 			objRS.MoveNext
 			j=j+1
 		Loop
@@ -2624,12 +2629,6 @@ Function BlogReBuild_Statistics()
 
 	Call SaveToFile(BlogPath & "zb_users/include/statistics.asp",strStatistics,"utf-8",False)
 
-
-	'Call GetCategory()
-	'Call GetUser()
-	'Call GetTags()
-	'Call GetKeyWords()
-
 	BlogReBuild_Statistics=True
 
 End Function
@@ -2756,6 +2755,7 @@ Function BuildArticle(intID,bolBuildNavigate,bolBuildCategory)
 	Set objArticle=New TArticle
 
 	If objArticle.LoadInfoByID(intID) Then
+		Call GetTagsbyTagIDList(objArticle.Tag)
 		objArticle.Statistic
 		objArticle.template="SINGLE"
 		If objArticle.Export(ZC_DISPLAY_MODE_ALL) Then
@@ -2768,12 +2768,12 @@ Function BuildArticle(intID,bolBuildNavigate,bolBuildCategory)
 		If (bolBuildNavigate=True) And (ZC_USE_NAVIGATE_ARTICLE=True) Then
 
 			Dim objRS
-			Set objRS=objConn.Execute("SELECT TOP 1 [log_ID] FROM [blog_Article] WHERE ([log_CateID]>0) And ([log_Level]>2) AND ([log_PostTime]<" & ZC_SQL_POUND_KEY & objArticle.PostTime & ZC_SQL_POUND_KEY &") ORDER BY [log_PostTime] DESC")
+			Set objRS=objConn.Execute("SELECT TOP 1 [log_ID] FROM [blog_Article] WHERE ([log_Level]>2) AND ([log_CateID]<>0) AND ([log_PostTime]<" & ZC_SQL_POUND_KEY & objArticle.PostTime & ZC_SQL_POUND_KEY &") ORDER BY [log_PostTime] DESC")
 			If (Not objRS.bof) And (Not objRS.eof) Then
 				Call BuildArticle(objRS("log_ID"),False,False)
 			End If
 			Set objRS=Nothing
-			Set objRS=objConn.Execute("SELECT TOP 1 [log_ID] FROM [blog_Article] WHERE ([log_CateID]>0) And ([log_Level]>2) AND ([log_PostTime]>" & ZC_SQL_POUND_KEY & objArticle.PostTime & ZC_SQL_POUND_KEY &") ORDER BY [log_PostTime] ASC")
+			Set objRS=objConn.Execute("SELECT TOP 1 [log_ID] FROM [blog_Article] WHERE ([log_Level]>2) AND ([log_CateID]<>0) AND ([log_PostTime]>" & ZC_SQL_POUND_KEY & objArticle.PostTime & ZC_SQL_POUND_KEY &") ORDER BY [log_PostTime] ASC")
 			If (Not objRS.bof) And (Not objRS.eof) Then
 				Call BuildArticle(objRS("log_ID"),False,False)
 			End If
@@ -2786,6 +2786,124 @@ Function BuildArticle(intID,bolBuildNavigate,bolBuildCategory)
 	End If
 
 	Set objArticle=Nothing
+
+End Function
+'*********************************************************
+
+
+
+
+'*********************************************************
+' 目的：    GetTagsbyTagIDList
+'*********************************************************
+Function GetTagsbyTagIDList(strTags)
+'strTags={1}{2}{3}{4}
+
+strTags=FilterSQL(strTags)
+
+If strTags="" Then Exit Function
+
+Dim s,t,i
+strTags=Left(strTags,Len(strTags)-1)
+strTags=Right(strTags,Len(strTags)-1)
+t=Split(strTags,"}{")
+
+For i=LBound(t) To UBound(t)
+	s=s & "([tag_ID]="&t(i)&") Or"
+Next
+
+s=Left(s,Len(s)-2)
+
+Dim objRS
+Dim objTag
+
+Set objRS=objConn.Execute("SELECT [tag_ID],[tag_Name] FROM [blog_Tag] WHERE (" & s & ")")
+
+If (Not objRS.bof) And (Not objRS.eof) Then
+
+
+	Do While Not objRS.eof
+
+		Set objTag=New TTag
+		objTag.ID=objRS("tag_ID")
+		objTag.Name=objRS("tag_Name")
+
+		If UBound(Tags)<objTag.ID Then
+			ReDim Preserve Tags(objTag.ID)
+		End If
+
+		Set Tags(objTag.ID)=objTag
+
+		Set objTag=Nothing
+
+		objRS.MoveNext
+	Loop
+
+End If
+
+objRS.Close
+Set objRS=Nothing
+
+GetTagsbyTagIDList=True
+
+End Function
+'*********************************************************
+
+
+
+
+'*********************************************************
+' 目的：    GetTagsbyTagNameList
+'*********************************************************
+Function GetTagsbyTagNameList(strTags)
+'strTags=a,b,c,d,e,f,g
+
+Set Tags(0)=New TTag
+
+strTags=FilterSQL(strTags)
+
+If strTags="" Then Exit Function
+
+Dim s,t,i
+t=Split(strTags,",")
+
+For i=LBound(t) To UBound(t)
+	s=s & "([tag_Name]='"&t(i)&"') Or"
+Next
+
+s=Left(s,Len(s)-2)
+
+Dim objRS
+Dim objTag
+
+Set objRS=objConn.Execute("SELECT [tag_ID],[tag_Name] FROM [blog_Tag] WHERE (" & s & ")")
+
+If (Not objRS.bof) And (Not objRS.eof) Then
+
+
+	Do While Not objRS.eof
+
+		Set objTag=New TTag
+		objTag.ID=objRS("tag_ID")
+		objTag.Name=objRS("tag_Name")
+
+		If UBound(Tags)<objTag.ID Then
+			ReDim Preserve Tags(objTag.ID)
+		End If
+
+		Set Tags(objTag.ID)=objTag
+
+		Set objTag=Nothing
+
+		objRS.MoveNext
+	Loop
+
+End If
+
+objRS.Close
+Set objRS=Nothing
+
+GetTagsbyTagNameList=True
 
 End Function
 '*********************************************************

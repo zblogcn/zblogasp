@@ -26,9 +26,7 @@
 <%
 
 Call System_Initialize()
-Call GetTags
-Call GetUser
-Call GetCategory
+
 'plugin node
 For Each sAction_Plugin_View_Begin in Action_Plugin_View_Begin
 	If Not IsEmpty(sAction_Plugin_View_Begin) Then Call Execute(sAction_Plugin_View_Begin)
@@ -43,9 +41,11 @@ Set Article=New TArticle
 If IsEmpty(Request.QueryString("navp"))=False Then
 
 	If Article.LoadInfoByID(Request.QueryString("navp")) Then
-		Set objRS=objConn.Execute("SELECT TOP 1 [log_FullUrl] FROM [blog_Article] WHERE ([log_Level]>2) AND ([log_PostTime]<" & ZC_SQL_POUND_KEY & Article.PostTime & ZC_SQL_POUND_KEY &") ORDER BY [log_PostTime] DESC")
+		Set objRS=objConn.Execute("SELECT TOP 1 [log_FullUrl] FROM [blog_Article] WHERE ([log_Level]>2) AND ([log_CateID]<>0) AND ([log_PostTime]<" & ZC_SQL_POUND_KEY & Article.PostTime & ZC_SQL_POUND_KEY &") ORDER BY [log_PostTime] DESC")
 		If (Not objRS.bof) And (Not objRS.eof) Then
 			Response.Redirect objRS("log_FullUrl")
+		Else
+			Response.Redirect ZC_BLOG_HOST
 		End If
 	End If
 
@@ -55,17 +55,22 @@ End If
 If IsEmpty(Request.QueryString("navn"))=False Then
 
 	If Article.LoadInfoByID(Request.QueryString("navn")) Then
-		Set objRS=objConn.Execute("SELECT TOP 1 [log_FullUrl] FROM [blog_Article] WHERE ([log_Level]>2) AND ([log_PostTime]>" & ZC_SQL_POUND_KEY & Article.PostTime & ZC_SQL_POUND_KEY &") ORDER BY [log_PostTime] ASC")
+		Set objRS=objConn.Execute("SELECT TOP 1 [log_FullUrl] FROM [blog_Article] WHERE ([log_Level]>2) AND ([log_CateID]<>0) AND ([log_PostTime]>" & ZC_SQL_POUND_KEY & Article.PostTime & ZC_SQL_POUND_KEY &") ORDER BY [log_PostTime] ASC")
 		If (Not objRS.bof) And (Not objRS.eof) Then
 			Response.Redirect objRS("log_FullUrl")
+		Else
+			Response.Redirect ZC_BLOG_HOST
 		End If
 	End If
 
 End If
 
-
+Call GetCategory
+Call GetUser
 
 If Article.LoadInfoByID(Request.QueryString("id")) Then
+
+	GetTagsbyTagIDList Article.Tag
 
 	If Article.Level=1 Then Call ShowError(9)
 	If Article.Level=2 Then
