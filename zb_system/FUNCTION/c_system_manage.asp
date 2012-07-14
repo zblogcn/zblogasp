@@ -153,7 +153,7 @@ Call Add_Response_Plugin("Response_Plugin_ArticleMng_SubMenu",MakeSubMenu(ZC_MSG
 		If ZC_MSSQL=False Then
 			strSQL = strSQL & "AND ( (InStr(1,LCase([log_Title]),LCase('" & intTitle &"'),0)<>0) OR (InStr(1,LCase([log_Intro]),LCase('" & intTitle &"'),0)<>0) OR (InStr(1,LCase([log_Content]),LCase('" & intTitle &"'),0)<>0) )"
 		Else
-			strSQL = strSQL & "AND ( (CHARINDEX('" & intTitle &"',[log_Title]))<>0) OR (CHARINDEX('" & intTitle &"',[log_Intro])<>0) OR (CHARINDEX('" & intTitle &"',[log_Content])<>0) )"
+			strSQL = strSQL & "AND ( (CHARINDEX('" & intTitle &"',[log_Title]))<>0) OR (CHARINDEX('" & intTitle &"',[log_Intro])<>0) OR (CHARINDEX('" & intTitle &"',[log_Content])<>0) "
 		End If
 	End If
 
