@@ -297,13 +297,8 @@ Class TArticle
 	Private Disable_Export_NavBar
 
 	Public html
-	Public htmlWAP
-	Public Template_Article_Multi_WAP
-	Public Template_Article_Single_WAP
 
-	Private Ftemplate_Wap
 	Private Ftemplate
-
 	Public Property Let Template(strFileName)
 		Ftemplate=GetTemplate("TEMPLATE_" & strFileName)
 	End Property
@@ -327,15 +322,6 @@ Class TArticle
 		End If
 	End Property
 
-	Public Property Let Template_Wap(strFileName)
-		Ftemplate_Wap=GetTemplate("TEMPLATE_" & strFileName)
-	End Property
-	Public Property Get Template_Wap
-		If Ftemplate_Wap="" Then
-			Ftemplate_Wap=GetTemplate("TEMPLATE_WAP_SINGLE")
-		End If
-		Template_Wap = Ftemplate_Wap
-	End Property
 
 	Private FDirectory
 	Public Property Let Directory(strDirectory)
@@ -588,8 +574,7 @@ Class TArticle
 			If bAction_Plugin_TArticle_Export_Begin=True Then Exit Function
 		Next
 
-		html=Template
-		htmlWAP=Template_WAP
+		If IsEmpty(html)=True Then html=Template
 
 		Call Export_Tag
 		Call Export_CMTandTB
@@ -600,12 +585,9 @@ Class TArticle
 		Template_Article_Single=GetTemplate("TEMPLATE_B_ARTICLE-SINGLE")
 		Template_Article_Multi=GetTemplate("TEMPLATE_B_ARTICLE-MULTI")
 		Template_Article_Istop=GetTemplate("TEMPLATE_B_ARTICLE-ISTOP")
-		Template_Article_Multi_WAP=GetTemplate("TEMPLATE_WAP_ARTICLE-MULTI")
-		Template_Article_Single_WAP =GetTemplate("TEMPLATE_WAP_SINGLE")
 
 		'plugin node
 		Call Filter_Plugin_TArticle_Export_Template(html,Template_Article_Single,Template_Article_Multi,Template_Article_Istop)
-		Call Filter_Plugin_TArticle_WAP_Export_Template(htmlWAP,Template_Article_Multi_WAP,Template_Article_Single_WAP)
 
 		'plugin node
 		Call Filter_Plugin_TArticle_Export_Template_Sub(Template_Article_Comment,Template_Article_Trackback,Template_Article_Tag,Template_Article_Commentpost,Template_Article_Navbar_L,Template_Article_Navbar_R,Template_Article_Mutuality)
@@ -755,10 +737,7 @@ Class TArticle
 				Template_Article_Istop=Replace(Template_Article_Istop,"<#" & aryTemplateTagsName(i) & "#>",aryTemplateTagsValue(i))
 				Template_Article_Multi=Replace(Template_Article_Multi,"<#" & aryTemplateTagsName(i) & "#>",aryTemplateTagsValue(i))
 				Template_Article_Single=Replace(Template_Article_Single,"<#" & aryTemplateTagsName(i) & "#>",aryTemplateTagsValue(i))
-				Template_Article_Multi_WAP = Replace(Template_Article_Multi_WAP,"<#" & aryTemplateTagsName(i) & "#>", aryTemplateTagsValue(i))
-				Template_Article_Single_WAP = Replace(Template_Article_Single_WAP,"<#" & aryTemplateTagsName(i) & "#>", aryTemplateTagsValue(i))
 				html = Replace(html,"<#" & aryTemplateTagsName(i) & "#>", aryTemplateTagsValue(i))
-				htmlWAP = Replace(htmlWAP,"<#" & aryTemplateTagsName(i) & "#>", aryTemplateTagsValue(i))
 			End If
 		Next
 
@@ -1271,7 +1250,7 @@ Class TArticle
 
 		Dim i,j
 
-		Call Filter_Plugin_TArticle_Build_Template(html,htmlWAP)
+		Call Filter_Plugin_TArticle_Build_Template(html)
 
 		aryTemplateTagsName=TemplateTagsName
 		aryTemplateTagsValue=TemplateTagsValue
@@ -1302,10 +1281,8 @@ Class TArticle
 
 		For i=1 to j
 			html=Replace(html,"<#" & aryTemplateTagsName(i) & "#>",aryTemplateTagsValue(i))
-			htmlWAP = Replace(htmlWAP, "<#" & aryTemplateTagsName(i) & "#>", aryTemplateTagsValue(i))
 		Next
 		html=Replace(html,"<#" & aryTemplateTagsName(0) & "#>",aryTemplateTagsValue(0))
-		htmlWAP = Replace(htmlWAP, "<#" & aryTemplateTagsName(0) & "#>", aryTemplateTagsValue(0))
 
 		Build=True
 
@@ -1385,7 +1362,6 @@ Class TArticle
 		Title=ZC_MSG099
 		IP=Request.Servervariables("REMOTE_ADDR")
 
-		Ftemplate_Wap=Empty
 		Ftemplate=Empty
 
 		Set Meta=New TMeta
@@ -1481,7 +1457,7 @@ Class TArticleList
 		Call Add_Action_Plugin("Action_Plugin_TArticle_Export_Begin","Disable_Export_Tag=False:Disable_Export_CMTandTB=True:Disable_Export_CommentPost=True:Disable_Export_Mutuality=True:Disable_Export_NavBar=True:")
 
 
-		html=Template
+		If IsEmpty(html)=True Then html=Template
 
 		'plugin node
 		Call Filter_Plugin_TArticleList_Export(intPage,intCateId,intAuthorId,dtmYearMonth,strTagsName,intType)
@@ -1679,7 +1655,7 @@ Class TArticleList
 			If bAction_Plugin_TArticleList_ExportByCache_Begin=True Then Exit Function
 		Next
 
-		html=Template
+		If IsEmpty(html)=True Then html=Template
 
 		'plugin node
 		Call Filter_Plugin_TArticleList_ExportByCache(intPage,intCateId,intAuthorId,dtmYearMonth,strTagsName,intType)
@@ -1817,7 +1793,7 @@ Class TArticleList
 			If bAction_Plugin_TArticleList_ExportByMixed_Begin=True Then Exit Function
 		Next
 
-		html=Template
+		If IsEmpty(html)=True Then html=Template
 
 		'plugin node
 		Call Filter_Plugin_TArticleList_ExportByMixed(intPage,intCateId,intAuthorId,dtmYearMonth,strTagsName,intType)

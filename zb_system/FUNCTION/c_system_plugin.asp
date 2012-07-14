@@ -2262,32 +2262,6 @@ End Function
 
 '**************************************************<
 '类型:filter
-'名称:Filter_Plugin_TArticle_WAP_Export_Template
-'参数:htmlWAP,Template_Article_Multi_WAP,Template_Article_Single_WAP
-'说明:
-'调用:
-'**************************************************>
-Dim sFilter_Plugin_TArticle_WAP_Export_Template
-Function Filter_Plugin_TArticle_WAP_Export_Template(ByRef htmlWAP,ByRef Template_Article_Multi_WAP,ByRef Template_Article_Single_WAP)
-
-	Dim s,i
-
-	If sFilter_Plugin_TArticle_WAP_Export_Template="" Then Exit Function
-
-	s=Split(sFilter_Plugin_TArticle_WAP_Export_Template,"|")
-
-	For i=0 To UBound(s)-1
-		Call Execute(s(i) & " "& "htmlWAP,Template_Article_Multi_WAP,Template_Article_Single_WAP")
-	Next
-
-End Function
-
-
-
-
-
-'**************************************************<
-'类型:filter
 '名称:Filter_Plugin_TArticle_Export_Template_Sub
 '参数:Template_Article_Comment,Template_Article_Trackback,Template_Article_Tag,Template_Article_Commentpost,Template_Article_Navbar_L,Template_Article_Navbar_R,Template_Article_Mutuality
 '说明:
@@ -2372,7 +2346,7 @@ End Function
 '调用:
 '**************************************************>
 Dim sFilter_Plugin_TArticle_Build_Template
-Function Filter_Plugin_TArticle_Build_Template(ByRef html,ByRef wapHtml)
+Function Filter_Plugin_TArticle_Build_Template(ByRef html)
 
 	Dim s,i
 
@@ -2381,7 +2355,7 @@ Function Filter_Plugin_TArticle_Build_Template(ByRef html,ByRef wapHtml)
 	s=Split(sFilter_Plugin_TArticle_Build_Template,"|")
 
 	For i=0 To UBound(s)-1
-		Call Execute(s(i) & " " & "html,wapHtml")
+		Call Execute(s(i) & " " & "html")
 	Next
 
 End Function
