@@ -2,9 +2,9 @@
 
 '自定义信息
 
-Const ZC_MSG001="用户名"
+Const ZC_MSG001="名称"
 Const ZC_MSG002="密码"
-Const ZC_MSG003="用户"
+Const ZC_MSG003="用户名"
 Const ZC_MSG004="记住我的登录信息"
 Const ZC_MSG005="不保存"
 Const ZC_MSG006="保存1天"

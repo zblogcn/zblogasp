@@ -742,7 +742,7 @@ Function WapView()
 
 	Set Article=New TArticle
 	If Article.LoadInfoByID(log_ID) Then
-			'If BlogUser.Level>
+			Call GetTagsbyTagIDList(Article.Tag)
 
 			If Article.Level=1 Then Response.Write WapTitle(ZVA_Article_Level_Name(1),"")&ZVA_ErrorMsg(9):Exit Function
 			If Article.Level=2 Then
@@ -781,7 +781,7 @@ Function WapView()
 			End If 
 
 			If Article.Export(ZC_DISPLAY_MODE_ALL) Then
-			    Article.template_Wap="wap_single"
+			    'Article.template_Wap="wap_single"
 				Article.Build
 				Article.htmlWAP=Replace(Article.htmlWAP,"<#article/PageContent#>",ArticleContent)
 				Article.htmlWAP=Replace(Article.htmlWAP,"<#ZC_FILENAME_WAP#>",WapUrlStr)
@@ -1032,10 +1032,10 @@ Function WapExport(intPage,intCateId,intAuthorId,dtmYearMonth,strTagsName,intTyp
 			For i = 1 To objRS.PageSize
 
 				ReDim Preserve aryArticleList(i)
-'Response.Write objRS.Source'
-'Response.end
+
 				Set objArticle=New TArticle
 				If objArticle.LoadInfoByArray(Array(objRS(0),objRS(1),objRS(2),objRS(3),objRS(4),objRS(5),objRS(6),objRS(7),objRS(8),objRS(9),objRS(10),objRS(11),objRS(12),objRS(13),objRS(14),objRS(15),objRS(16),objRS(17))) Then
+					Call GetTagsbyTagIDList(objArticle.Tag)
 					If objArticle.Export(intType)= True Then
 						aryArticleList(i)=objArticle.Template_Article_Multi_WAP
 					End If

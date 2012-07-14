@@ -172,7 +172,6 @@ div.function li ul{
 }
 
 div.function li span.feed-icon a{
-	background:url("default/feed.png") no-repeat 0 3px;
 	margin:0 0 0 0;
 	padding:0 0 0 0;
 	font-size:14px;
@@ -180,9 +179,6 @@ div.function li span.feed-icon a{
 	width:12px;
 }
 div.function li span.feed-icon img{
-	height:12px;
-	width:9px;
-	visibility:hidden;
 	margin:0;
 	padding:0;
 }

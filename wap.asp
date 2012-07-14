@@ -35,6 +35,10 @@
 <link rel="stylesheet" href="<%=ZC_BLOG_HOST%>zb_system/wap/style/wap.css" type="text/css" media="screen" charset="utf-8" />
 <%
 Call System_Initialize()
+
+Call GetCategory()
+Call GetUser()
+
 PubLic intPageCount
 	Select Case Request.QueryString("act")
 		Case "View"

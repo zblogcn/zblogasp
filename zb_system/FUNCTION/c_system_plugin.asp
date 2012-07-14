@@ -2238,12 +2238,12 @@ End Function
 '**************************************************<
 '类型:filter
 '名称:Filter_Plugin_TArticle_Export_Template
-'参数:Ftemplate,,Template_Article_Single,Template_Article_Multi, Template_Article_Istop,Template_Article_Multi_WAP,Template_Article_Single_WAP
+'参数:html,Template_Article_Single,Template_Article_Multi,Template_Article_Istop
 '说明:
 '调用:
 '**************************************************>
 Dim sFilter_Plugin_TArticle_Export_Template
-Function Filter_Plugin_TArticle_Export_Template(ByRef Ftemplate,ByRef Template_Article_Single,ByRef Template_Article_Multi,ByRef Template_Article_Istop,ByRef Template_Article_Multi_WAP,ByRef Template_Article_Single_WAP)
+Function Filter_Plugin_TArticle_Export_Template(ByRef html,ByRef Template_Article_Single,ByRef Template_Article_Multi,ByRef Template_Article_Istop)
 
 	Dim s,i
 
@@ -2252,7 +2252,32 @@ Function Filter_Plugin_TArticle_Export_Template(ByRef Ftemplate,ByRef Template_A
 	s=Split(sFilter_Plugin_TArticle_Export_Template,"|")
 
 	For i=0 To UBound(s)-1
-		Call Execute(s(i) & " "& "Ftemplate,Template_Article_Single,Template_Article_Multi,Template_Article_Istop,Template_Article_Multi_WAP,Template_Article_Single_WAP")
+		Call Execute(s(i) & " "& "html,Template_Article_Single,Template_Article_Multi,Template_Article_Istop")
+	Next
+
+End Function
+
+
+
+
+'**************************************************<
+'类型:filter
+'名称:Filter_Plugin_TArticle_WAP_Export_Template
+'参数:htmlWAP,Template_Article_Multi_WAP,Template_Article_Single_WAP
+'说明:
+'调用:
+'**************************************************>
+Dim sFilter_Plugin_TArticle_WAP_Export_Template
+Function Filter_Plugin_TArticle_WAP_Export_Template(ByRef htmlWAP,ByRef Template_Article_Multi_WAP,ByRef Template_Article_Single_WAP)
+
+	Dim s,i
+
+	If sFilter_Plugin_TArticle_WAP_Export_Template="" Then Exit Function
+
+	s=Split(sFilter_Plugin_TArticle_WAP_Export_Template,"|")
+
+	For i=0 To UBound(s)-1
+		Call Execute(s(i) & " "& "htmlWAP,Template_Article_Multi_WAP,Template_Article_Single_WAP")
 	Next
 
 End Function
@@ -2361,31 +2386,6 @@ Function Filter_Plugin_TArticle_Build_Template(ByRef html,ByRef wapHtml)
 
 End Function
 
-
-
-
-
-'**************************************************<
-'类型:filter
-'名称:Filter_Plugin_TArticle_Build_Template_Sub
-'参数:Template_Article_Single
-'说明:
-'调用:
-'**************************************************>
-Dim sFilter_Plugin_TArticle_Build_Template_Sub
-Function Filter_Plugin_TArticle_Build_Template_Sub(ByRef Template_Article_Single)
-
-	Dim s,i
-
-	If sFilter_Plugin_TArticle_Build_Template_Sub="" Then Exit Function
-
-	s=Split(sFilter_Plugin_TArticle_Build_Template_Sub,"|")
-
-	For i=0 To UBound(s)-1
-		Call Execute(s(i) & " " & "Template_Article_Single")
-	Next
-
-End Function
 
 
 
@@ -2555,7 +2555,7 @@ End Function
 '调用:
 '**************************************************>
 Dim sFilter_Plugin_TCategory_Post
-Function Filter_Plugin_TCategory_Post(ByRef ID,ByRef Name,ByRef Intro,ByRef Order,ByRef Count,ByRef ParentID,ByRef Alias,ByRef TemplateName,ByRef MetaString)
+Function Filter_Plugin_TCategory_Post(ByRef ID,ByRef Name,ByRef Intro,ByRef Order,ByRef Count,ByRef ParentID,ByRef Alias,ByRef TemplateName,ByRef FullUrl,ByRef MetaString)
 
 	Dim s,i
 
@@ -2564,7 +2564,7 @@ Function Filter_Plugin_TCategory_Post(ByRef ID,ByRef Name,ByRef Intro,ByRef Orde
 	s=Split(sFilter_Plugin_TCategory_Post,"|")
 
 	For i=0 To UBound(s)-1
-		Call Execute(s(i) & " " & "ID,Name,Intro,Order,Count,ParentID,Alias,TemplateName,MetaString")
+		Call Execute(s(i) & " " & "ID,Name,Intro,Order,Count,ParentID,Alias,TemplateName,FullUrl,MetaString")
 	Next
 
 End Function
@@ -2581,7 +2581,7 @@ End Function
 '调用:
 '**************************************************>
 Dim sFilter_Plugin_TCategory_LoadInfoByID
-Function Filter_Plugin_TCategory_LoadInfoByID(ByRef ID,ByRef Name,ByRef Intro,ByRef Order,ByRef Count,ByRef ParentID,ByRef Alias,ByRef TemplateName,ByRef MetaString)
+Function Filter_Plugin_TCategory_LoadInfoByID(ByRef ID,ByRef Name,ByRef Intro,ByRef Order,ByRef Count,ByRef ParentID,ByRef Alias,ByRef TemplateName,ByRef FullUrl,ByRef MetaString)
 
 	Dim s,i
 
@@ -2590,7 +2590,7 @@ Function Filter_Plugin_TCategory_LoadInfoByID(ByRef ID,ByRef Name,ByRef Intro,By
 	s=Split(sFilter_Plugin_TCategory_LoadInfoByID,"|")
 
 	For i=0 To UBound(s)-1
-		Call Execute(s(i) & " " & "ID,Name,Intro,Order,Count,ParentID,Alias,TemplateName,MetaString")
+		Call Execute(s(i) & " " & "ID,Name,Intro,Order,Count,ParentID,Alias,TemplateName,FullUrl,MetaString")
 	Next
 
 End Function
@@ -2607,7 +2607,7 @@ End Function
 '调用:
 '**************************************************>
 Dim sFilter_Plugin_TCategory_LoadInfoByArray
-Function Filter_Plugin_TCategory_LoadInfoByArray(ByRef ID,ByRef Name,ByRef Intro,ByRef Order,ByRef Count,ByRef ParentID,ByRef Alias,ByRef TemplateName,ByRef MetaString)
+Function Filter_Plugin_TCategory_LoadInfoByArray(ByRef ID,ByRef Name,ByRef Intro,ByRef Order,ByRef Count,ByRef ParentID,ByRef Alias,ByRef TemplateName,ByRef FullUrl,ByRef MetaString)
 
 	Dim s,i
 
@@ -2616,7 +2616,7 @@ Function Filter_Plugin_TCategory_LoadInfoByArray(ByRef ID,ByRef Name,ByRef Intro
 	s=Split(sFilter_Plugin_TCategory_LoadInfoByArray,"|")
 
 	For i=0 To UBound(s)-1
-		Call Execute(s(i) & " " & "ID,Name,Intro,Order,Count,ParentID,Alias,TemplateName,MetaString")
+		Call Execute(s(i) & " " & "ID,Name,Intro,Order,Count,ParentID,Alias,TemplateName,FullUrl,MetaString")
 	Next
 
 End Function
@@ -2632,7 +2632,7 @@ End Function
 '调用:
 '**************************************************>
 Dim sFilter_Plugin_TCategory_Del
-Function Filter_Plugin_TCategory_Del(ByRef ID,ByRef Name,ByRef Intro,ByRef Order,ByRef Count,ByRef ParentID,ByRef Alias,ByRef TemplateName,ByRef MetaString)
+Function Filter_Plugin_TCategory_Del(ByRef ID,ByRef Name,ByRef Intro,ByRef Order,ByRef Count,ByRef ParentID,ByRef Alias,ByRef TemplateName,ByRef FullUrl,ByRef MetaString)
 
 	Dim s,i
 
@@ -2641,7 +2641,7 @@ Function Filter_Plugin_TCategory_Del(ByRef ID,ByRef Name,ByRef Intro,ByRef Order
 	s=Split(sFilter_Plugin_TCategory_Del,"|")
 
 	For i=0 To UBound(s)-1
-		Call Execute(s(i) & " " & "ID,Name,Intro,Order,Count,ParentID,Alias,TemplateName,MetaString")
+		Call Execute(s(i) & " " & "ID,Name,Intro,Order,Count,ParentID,Alias,TemplateName,FullUrl,MetaString")
 	Next
 
 End Function
@@ -3203,7 +3203,7 @@ End Function
 '调用:
 '**************************************************>
 Dim sFilter_Plugin_TTag_Post
-Function Filter_Plugin_TTag_Post(ByRef ID,ByRef Name,ByRef Intro,ByRef Order,ByRef Count,ByRef ParentID,ByRef Alias,ByRef TemplateName,ByRef MetaString)
+Function Filter_Plugin_TTag_Post(ByRef ID,ByRef Name,ByRef Intro,ByRef Order,ByRef Count,ByRef ParentID,ByRef Alias,ByRef TemplateName,ByRef FullUrl,ByRef MetaString)
 
 	Dim s,i
 
@@ -3212,7 +3212,7 @@ Function Filter_Plugin_TTag_Post(ByRef ID,ByRef Name,ByRef Intro,ByRef Order,ByR
 	s=Split(sFilter_Plugin_TTag_Post,"|")
 
 	For i=0 To UBound(s)-1
-		Call Execute(s(i) & " " & "ID,Name,Intro,Order,Count,ParentID,Alias,TemplateName,MetaString")
+		Call Execute(s(i) & " " & "ID,Name,Intro,Order,Count,ParentID,Alias,TemplateName,FullUrl,MetaString")
 	Next
 
 End Function
@@ -3229,7 +3229,7 @@ End Function
 '调用:
 '**************************************************>
 Dim sFilter_Plugin_TTag_LoadInfoByArray
-Function Filter_Plugin_TTag_LoadInfoByArray(ByRef ID,ByRef Name,ByRef Intro,ByRef Order,ByRef Count,ByRef ParentID,ByRef Alias,ByRef TemplateName,ByRef MetaString)
+Function Filter_Plugin_TTag_LoadInfoByArray(ByRef ID,ByRef Name,ByRef Intro,ByRef Order,ByRef Count,ByRef ParentID,ByRef Alias,ByRef TemplateName,ByRef FullUrl,ByRef MetaString)
 
 	Dim s,i
 
@@ -3238,7 +3238,7 @@ Function Filter_Plugin_TTag_LoadInfoByArray(ByRef ID,ByRef Name,ByRef Intro,ByRe
 	s=Split(sFilter_Plugin_TTag_LoadInfoByArray,"|")
 
 	For i=0 To UBound(s)-1
-		Call Execute(s(i) & " " & "ID,Name,Intro,Order,Count,ParentID,Alias,TemplateName,MetaString")
+		Call Execute(s(i) & " " & "ID,Name,Intro,Order,Count,ParentID,Alias,TemplateName,FullUrl,MetaString")
 	Next
 
 End Function
@@ -3255,7 +3255,7 @@ End Function
 '调用:
 '**************************************************>
 Dim sFilter_Plugin_TTag_Del
-Function Filter_Plugin_TTag_Del(ByRef ID,ByRef Name,ByRef Intro,ByRef Order,ByRef Count,ByRef ParentID,ByRef Alias,ByRef TemplateName,ByRef MetaString)
+Function Filter_Plugin_TTag_Del(ByRef ID,ByRef Name,ByRef Intro,ByRef Order,ByRef Count,ByRef ParentID,ByRef Alias,ByRef TemplateName,ByRef FullUrl,ByRef MetaString)
 
 	Dim s,i
 
@@ -3264,7 +3264,7 @@ Function Filter_Plugin_TTag_Del(ByRef ID,ByRef Name,ByRef Intro,ByRef Order,ByRe
 	s=Split(sFilter_Plugin_TTag_Del,"|")
 
 	For i=0 To UBound(s)-1
-		Call Execute(s(i) & " " & "ID,Name,Intro,Order,Count,ParentID,Alias,TemplateName,MetaString")
+		Call Execute(s(i) & " " & "ID,Name,Intro,Order,Count,ParentID,Alias,TemplateName,FullUrl,MetaString")
 	Next
 
 End Function
@@ -3281,7 +3281,7 @@ End Function
 '调用:
 '**************************************************>
 Dim sFilter_Plugin_TTag_LoadInfoByID
-Function Filter_Plugin_TTag_LoadInfoByID(ByRef ID,ByRef Name,ByRef Intro,ByRef Order,ByRef Count,ByRef ParentID,ByRef Alias,ByRef TemplateName,ByRef MetaString)
+Function Filter_Plugin_TTag_LoadInfoByID(ByRef ID,ByRef Name,ByRef Intro,ByRef Order,ByRef Count,ByRef ParentID,ByRef Alias,ByRef TemplateName,ByRef FullUrl,ByRef MetaString)
 
 	Dim s,i
 
@@ -3290,7 +3290,7 @@ Function Filter_Plugin_TTag_LoadInfoByID(ByRef ID,ByRef Name,ByRef Intro,ByRef O
 	s=Split(sFilter_Plugin_TTag_LoadInfoByID,"|")
 
 	For i=0 To UBound(s)-1
-		Call Execute(s(i) & " " & "ID,Name,Intro,Order,Count,ParentID,Alias,TemplateName,MetaString")
+		Call Execute(s(i) & " " & "ID,Name,Intro,Order,Count,ParentID,Alias,TemplateName,FullUrl,MetaString")
 	Next
 
 End Function
@@ -3861,6 +3861,8 @@ Response_Plugin_Edit_Form2=""
 
 
 
+
+
 '**************************************************<
 '类型:action
 '名称:Action_Plugin_BuildAllCache_Begin
@@ -4193,7 +4195,7 @@ End Function
 '类型:action
 '名称:Action_Plugin_Tags_Begin
 '参数:无
-'说明:
+'说明:tags.asp
 '**************************************************>
 Dim Action_Plugin_Tags_Begin()
 ReDim Action_Plugin_Tags_Begin(0)
@@ -4206,7 +4208,7 @@ Dim sAction_Plugin_Tags_Begin
 '类型:action
 '名称:Action_Plugin_Tags_End
 '参数:无
-'说明:
+'说明:tags.asp
 '**************************************************>
 Dim Action_Plugin_Tags_End()
 ReDim Action_Plugin_Tags_End(0)

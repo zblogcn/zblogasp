@@ -64,8 +64,7 @@ Sub System_Initialize()
 	Call GetReallyDirectory()
 
 	If OpenConnect()=False Then
-		If Err.Number<>0 Then Err.Clear
-		Call ShowError(4)
+		If Err.Number<>0 Then Call ShowError(4)
 	End If
 
 	Set BlogUser =New TUser
@@ -95,8 +94,7 @@ Sub System_Initialize()
 		If bAction_Plugin_System_Initialize_Succeed=True Then Exit Sub
 	Next
 
-	'If Err.Number<>0 Then Call ShowError(10)
-	Err.Clear
+	If Err.Number<>0 Then Call ShowError(10)
 
 End Sub
 '*********************************************************
@@ -281,7 +279,7 @@ Function GetCategory()
 	objRS.Close
 	Set objRS=Nothing
 
-	Set objRS=objConn.Execute("SELECT [cate_ID],[cate_Name],[cate_Intro],[cate_Order],[cate_Count],[cate_ParentID],[cate_URL],[cate_Template],[cate_Meta] FROM [blog_Category] ORDER BY [cate_ID] ASC")
+	Set objRS=objConn.Execute("SELECT [cate_ID],[cate_Name],[cate_Intro],[cate_Order],[cate_Count],[cate_ParentID],[cate_URL],[cate_Template],[cate_FullUrl],[cate_Meta] FROM [blog_Category] ORDER BY [cate_ID] ASC")
 	If (Not objRS.bof) And (Not objRS.eof) Then
 
 		aryAllData=objRS.GetRows(objRS.RecordCount)
@@ -292,7 +290,7 @@ Function GetCategory()
 		l=UBound(aryAllData,2)
 		For i=0 To l
 			Set Categorys(aryAllData(0,i))=New TCategory
-			Categorys(aryAllData(0,i)).LoadInfoByArray(Array(aryAllData(0,i),aryAllData(1,i),aryAllData(2,i),aryAllData(3,i),aryAllData(4,i),aryAllData(5,i),aryAllData(6,i),aryAllData(7,i),aryAllData(8,i)))
+			Categorys(aryAllData(0,i)).LoadInfoByArray(Array(aryAllData(0,i),aryAllData(1,i),aryAllData(2,i),aryAllData(3,i),aryAllData(4,i),aryAllData(5,i),aryAllData(6,i),aryAllData(7,i),aryAllData(8,i),aryAllData(9,i)))
 		Next
 	End If
 
@@ -389,7 +387,7 @@ Function GetTags()
 		ReDim Tags(i)
 	End If
 
-	Set objRS=objConn.Execute("SELECT [tag_ID],[tag_Name],[tag_Intro],[tag_Order],[tag_Count],[tag_ParentID],[tag_URL],[tag_Template],[tag_Meta] FROM [blog_Tag] ORDER BY [tag_ID] ASC")
+	Set objRS=objConn.Execute("SELECT [tag_ID],[tag_Name],[tag_Intro],[tag_Order],[tag_Count],[tag_ParentID],[tag_URL],[tag_Template],[tag_FullUrl],[tag_Meta] FROM [blog_Tag] ORDER BY [tag_ID] ASC")
 	If (Not objRS.bof) And (Not objRS.eof) Then
 
 		aryAllData=objRS.GetRows(objRS.RecordCount)
@@ -400,7 +398,7 @@ Function GetTags()
 		l=UBound(aryAllData,2)
 		For i=0 To l
 			Set Tags(aryAllData(0,i))=New TTag
-			Tags(aryAllData(0,i)).LoadInfoByArray(Array(aryAllData(0,i),aryAllData(1,i),aryAllData(2,i),aryAllData(3,i),aryAllData(4,i),aryAllData(5,i),aryAllData(6,i),aryAllData(7,i),aryAllData(8,i)))
+			Tags(aryAllData(0,i)).LoadInfoByArray(Array(aryAllData(0,i),aryAllData(1,i),aryAllData(2,i),aryAllData(3,i),aryAllData(4,i),aryAllData(5,i),aryAllData(6,i),aryAllData(7,i),aryAllData(8,i),aryAllData(9,i)))
 		Next
 
 	End If
@@ -668,9 +666,9 @@ Function GetCategoryOrder()
 
 	objRS.Open("SELECT * FROM [blog_Category] ORDER BY [cate_Order] ASC,[cate_ID] ASC")
 	Do While Not objRS.eof
+		i=i+1
 		ReDim Preserve aryCateInOrder(i)
 		aryCateInOrder(i)=objRS("cate_ID")
-		i=i+1
 		objRS.MoveNext
 	Loop
 	objRS.Close
@@ -1642,8 +1640,6 @@ End Function
 '*********************************************************
 Function RegisterPlugin(strPluginName,strPluginActiveFunction)
 
-	'On Error Resume Next
-
 	Dim i
 	i=UBound(PluginName)
 
@@ -1652,8 +1648,6 @@ Function RegisterPlugin(strPluginName,strPluginActiveFunction)
 
 	PluginName(i)=strPluginName
 	PluginActiveFunction(i)=strPluginActiveFunction
-
-	'Err.Clear
 
 End Function
 '*********************************************************
@@ -1815,7 +1809,7 @@ Function GetSettingFormNameWithDefault(s,d)
 	Call Execute("x=" & s)
 	GetSettingFormNameWithDefault=x
 	If Err.Number<>0 Then
-	GetSettingFormNameWithDefault=d
+		GetSettingFormNameWithDefault=d
 	End If
 	Err.Clear
 End Function
@@ -1834,7 +1828,7 @@ Function GetNameFormTheme(s)
 	Set objXmlFile=Server.CreateObject("Microsoft.XMLDOM")
 	objXmlFile.async = False
 	objXmlFile.ValidateOnParse=False
-	objXmlFile.load(BlogPath & "zb_users\" & "theme" & "/" & s & "/" & "theme.xml")
+	objXmlFile.load(BlogPath & "zb_users\" & "theme" & "\" & s & "\" & "theme.xml")
 	If objXmlFile.readyState=4 Then
 		If objXmlFile.parseError.errorCode <> 0 Then
 		Else
@@ -1871,8 +1865,6 @@ Function MakeBlogReBuild_Core()
 
 	BlogReBuild_Comments
 
-	BlogReBuild_GuestComments
-
 	BlogReBuild_TrackBacks
 
 	BlogReBuild_Catalogs
@@ -1888,8 +1880,6 @@ Function MakeBlogReBuild_Core()
 	BuildAllCache
 
 	ExportRSS
-
-	'ExportATOM
 
 	Call ClearGlobeCache()
 	Call LoadGlobeCache()
@@ -2157,23 +2147,26 @@ Function BlogReBuild_Catalogs()
 	Dim aryCateInOrder 
 	aryCateInOrder=GetCategoryOrder()
 
-	Dim i,j
-	For i=Lbound(aryCateInOrder) To Ubound(aryCateInOrder)-1
-		If Categorys(aryCateInOrder(i)).ParentID=0 Then
-			strCatalog=strCatalog & "<li class=""li-parecate""><span class=""feed-icon""><a href="""& Categorys(aryCateInOrder(i)).RssUrl &""" target=""_blank""><img title=""rss"" width=""20"" height=""12"" src="""&ZC_BLOG_HOST&"zb_system/image/logo/rss.png"" border=""0"" alt=""rss"" /></a>&nbsp;</span><a href="""& Categorys(aryCateInOrder(i)).Url & """>"+Categorys(aryCateInOrder(i)).Name + "<span class=""article-nums""> (" & Categorys(aryCateInOrder(i)).Count & ")</span>" +"</a></li>"
 
-			bolHasSubCate=False
-			For j=Lbound(aryCateInOrder) To UBound(aryCateInOrder)-1
-				If Categorys(aryCateInOrder(j)).ParentID=Categorys(aryCateInOrder(i)).ID Then bolHasSubCate=True
-			Next
-			If bolHasSubCate Then strCatalog=strCatalog & "<li class=""li-subcates""><ul class=""ul-subcates"">"
-			For j=Lbound(aryCateInOrder) To UBound(aryCateInOrder)-1
-				If Categorys(aryCateInOrder(j)).ParentID=Categorys(aryCateInOrder(i)).ID Then
-					strCatalog=strCatalog & "<li class=""li-subcate""><span class=""feed-icon""><a href="""& Categorys(aryCateInOrder(j)).RssUrl &""" target=""_blank""><img title=""rss"" width=""20"" height=""12"" src="""&ZC_BLOG_HOST&"zb_system/image/logo/rss.png"" border=""0"" alt=""rss"" /></a>&nbsp;</span><a href="""& Categorys(aryCateInOrder(j)).Url & """>"+Categorys(aryCateInOrder(j)).Name + "<span class=""article-nums""> (" & Categorys(aryCateInOrder(j)).Count & ")</span>" +"</a></li>"
-				End If
-			Next
-			If bolHasSubCate Then strCatalog=strCatalog & "</ul></li>"
-		End If
+	Dim i,j
+	For i=Lbound(aryCateInOrder)+1 To Ubound(aryCateInOrder)
+
+			If Categorys(aryCateInOrder(i)).ParentID=0 Then
+				strCatalog=strCatalog & "<li class=""li-parecate""><span class=""feed-icon""><a href="""& Categorys(aryCateInOrder(i)).RssUrl &""" target=""_blank""><img title=""rss"" width=""20"" height=""12"" src="""&ZC_BLOG_HOST&"zb_system/image/logo/rss.png"" border=""0"" alt=""rss"" /></a>&nbsp;</span><a href="""& Categorys(aryCateInOrder(i)).Url & """>"+Categorys(aryCateInOrder(i)).Name + "<span class=""article-nums""> (" & Categorys(aryCateInOrder(i)).Count & ")</span>" +"</a></li>"
+
+				bolHasSubCate=False
+				For j=Lbound(aryCateInOrder) To UBound(aryCateInOrder)-1
+					If Categorys(aryCateInOrder(j)).ParentID=Categorys(aryCateInOrder(i)).ID Then bolHasSubCate=True
+				Next
+				If bolHasSubCate Then strCatalog=strCatalog & "<li class=""li-subcates""><ul class=""ul-subcates"">"
+				For j=Lbound(aryCateInOrder) To UBound(aryCateInOrder)-1
+					If Categorys(aryCateInOrder(j)).ParentID=Categorys(aryCateInOrder(i)).ID Then
+						strCatalog=strCatalog & "<li class=""li-subcate""><span class=""feed-icon""><a href="""& Categorys(aryCateInOrder(j)).RssUrl &""" target=""_blank""><img title=""rss"" width=""20"" height=""12"" src="""&ZC_BLOG_HOST&"zb_system/image/logo/rss.png"" border=""0"" alt=""rss"" /></a>&nbsp;</span><a href="""& Categorys(aryCateInOrder(j)).Url & """>"+Categorys(aryCateInOrder(j)).Name + "<span class=""article-nums""> (" & Categorys(aryCateInOrder(j)).Count & ")</span>" +"</a></li>"
+					End If
+				Next
+				If bolHasSubCate Then strCatalog=strCatalog & "</ul></li>"
+			End If
+
 	Next
 
 
@@ -2442,35 +2435,6 @@ Function BlogReBuild_GuestComments()
 		If bAction_Plugin_BlogReBuild_GuestComments_Begin=True Then Exit Function
 	Next
 
-	Dim objRS
-	Dim objStream
-	Dim objArticle
-
-	'Comments
-	Dim strComments
-
-	Dim s
-	Dim i
-	Set objRS=objConn.Execute("SELECT [log_ID],[comm_ID],[comm_Content],[comm_PostTime],[comm_Author] FROM [blog_Comment] WHERE [log_ID]=0 ORDER BY [comm_ID] DESC")
-	If (Not objRS.bof) And (Not objRS.eof) Then
-		For i=1 to ZC_MSG_COUNT
-			s=objRS("comm_Content")
-			s=Replace(s,vbCrlf,"")
-			If (len(s)>ZC_RECENT_COMMENT_WORD_MAX) And (ZC_RECENT_COMMENT_WORD_MAX>(Len(ZC_MSG305)+1)) Then s=Left(s,ZC_RECENT_COMMENT_WORD_MAX-(Len(ZC_MSG305)+1))&ZC_MSG305
-
-			strComments=strComments & "<li><a href="""& ZC_BLOG_HOST & "guestbook.asp" & "#cmt" & objRS("comm_ID") & """ title=""" & objRS("comm_PostTime") & " post by " & objRS("comm_Author") & """>"+s+"</a></li>"
-
-			objRS.MoveNext
-			If objRS.eof Then Exit For
-		Next
-	End If
-	objRS.close
-	Set objRS=Nothing
-
-	strComments=TransferHTML(strComments,"[no-asp]")
-
-	Call SaveToFile(BlogPath & "zb_users/include/guestcomments.asp",strComments,"utf-8",True)
-
 	BlogReBuild_GuestComments=True
 
 End Function
@@ -2713,19 +2677,6 @@ End Function
 '*********************************************************
 Function BuildCategory(intPage,intCateId,intAuthorId,dtmYearMonth,strTagsName,intType,strDirectory,strFileName)
 
-'	Dim ArtList
-'	Set ArtList=New TArticleList
-'	ArtList.LoadCache
-'	ArtList.template="CATALOG"
-
-'	If ArtList.ExportByMixed(intPage,intCateId,intAuthorId,dtmYearMonth,strTagsName,intType) Then
-'		ArtList.FileName=strFileName
-'		ArtList.Directory=strDirectory
-'		ArtList.Build
-'		ArtList.Save
-'	End If
-'	Set ArtList=Nothing
-
 End Function
 '*********************************************************
 
@@ -2743,7 +2694,6 @@ Function BuildArticle(intID,bolBuildNavigate,bolBuildCategory)
 	If objArticle.LoadInfoByID(intID) Then
 		Call GetTagsbyTagIDList(objArticle.Tag)
 		objArticle.Statistic
-		objArticle.template="SINGLE"
 		If objArticle.Export(ZC_DISPLAY_MODE_ALL) Then
 			objArticle.SaveCache
 			objArticle.Build
@@ -2807,7 +2757,7 @@ s=Left(s,Len(s)-2)
 Dim objRS
 Dim objTag
 
-Set objRS=objConn.Execute("SELECT [tag_ID],[tag_Name],[tag_Intro],[tag_Order],[tag_Count],[tag_ParentID],[tag_URL],[tag_Template],[tag_Meta] FROM [blog_Tag] WHERE (" & s & ")")
+Set objRS=objConn.Execute("SELECT [tag_ID],[tag_Name],[tag_Intro],[tag_Order],[tag_Count],[tag_ParentID],[tag_URL],[tag_Template],[tag_FullUrl],[tag_Meta] FROM [blog_Tag] WHERE (" & s & ")")
 
 If (Not objRS.bof) And (Not objRS.eof) Then
 
@@ -2815,7 +2765,7 @@ If (Not objRS.bof) And (Not objRS.eof) Then
 	Do While Not objRS.eof
 
 		Set objTag=New TTag
-		Call objTag.LoadInfoByArray(Array(objRS(0),objRS(1),objRS(2),objRS(3),objRS(4),objRS(5),objRS(6),objRS(7),objRS(8)))
+		Call objTag.LoadInfoByArray(Array(objRS(0),objRS(1),objRS(2),objRS(3),objRS(4),objRS(5),objRS(6),objRS(7),objRS(8),objRS(9)))
 
 		If UBound(Tags)<objTag.ID Then
 			ReDim Preserve Tags(objTag.ID)
@@ -2867,7 +2817,7 @@ s=Left(s,Len(s)-2)
 Dim objRS
 Dim objTag
 
-Set objRS=objConn.Execute("SELECT [tag_ID],[tag_Name],[tag_Intro],[tag_Order],[tag_Count],[tag_ParentID],[tag_URL],[tag_Template],[tag_Meta] FROM [blog_Tag] WHERE (" & s & ")")
+Set objRS=objConn.Execute("SELECT [tag_ID],[tag_Name],[tag_Intro],[tag_Order],[tag_Count],[tag_ParentID],[tag_URL],[tag_Template],[tag_FullUrl],[tag_Meta] FROM [blog_Tag] WHERE (" & s & ")")
 
 If (Not objRS.bof) And (Not objRS.eof) Then
 
@@ -2875,7 +2825,7 @@ If (Not objRS.bof) And (Not objRS.eof) Then
 	Do While Not objRS.eof
 
 		Set objTag=New TTag
-		Call objTag.LoadInfoByArray(Array(objRS(0),objRS(1),objRS(2),objRS(3),objRS(4),objRS(5),objRS(6),objRS(7),objRS(8)))
+		Call objTag.LoadInfoByArray(Array(objRS(0),objRS(1),objRS(2),objRS(3),objRS(4),objRS(5),objRS(6),objRS(7),objRS(8),objRS(9)))
 
 		If UBound(Tags)<objTag.ID Then
 			ReDim Preserve Tags(objTag.ID)

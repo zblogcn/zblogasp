@@ -1,3 +1,0 @@
-﻿<%
-Response.Redirect "../../wap.asp"
-%>

@@ -79,7 +79,6 @@ If Article.LoadInfoByID(Request.QueryString("id")) Then
 		End If
 	End If
 
-	Article.template="SINGLE"
 	If Article.Export(ZC_DISPLAY_MODE_ALL)= True Then
 		Article.Build
 		Response.Write Article.html

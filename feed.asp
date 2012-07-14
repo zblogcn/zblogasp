@@ -14,7 +14,7 @@
 '///////////////////////////////////////////////////////////////////////////////
 %>
 <% Option Explicit %>
-<% On Error Resume Next %>
+<% 'On Error Resume Next %>
 <% Response.Charset="UTF-8" %>
 <% Response.Buffer=True %>
 <!-- #include file="zb_users/c_option.asp" -->
@@ -54,12 +54,6 @@ ElseIf Not IsEmpty(Request.QueryString("date")) Then
 	Call ExportRSSbyDate(Request.QueryString("date"))
 ElseIf Not IsEmpty(Request.QueryString("cmt")) Then
 	Call ExportRSSbyCmt(Request.QueryString("cmt"))
-ElseIf Not IsEmpty(Request.QueryString("gb")) Then
-	Call ExportRSSbyGuestBook()
-'ElseIf Not IsEmpty(Request.QueryString("atom")) Then
-'	Call ExportATOM()
-'	Response.ContentType = "text/xml"
-'	Response.Write LoadFromFile(BlogPath & "rss.xml" ,"utf-8")
 Else
 	Response.ContentType = "text/xml"
 	Response.Write LoadFromFile(BlogPath & "rss.xml" ,"utf-8")
@@ -71,10 +65,13 @@ End If
 '/////////////////////////////////////////////////////////////////////////////////
 Function ExportRSSbyCate(CateID)
 
+	Call GetCategory()
+	Call GetUser()
+
 	Dim Rss2Export
 	Dim objArticle
 
-	Set Rss2Export = New TRss2Export
+	Set Rss2Export = New TNewRss2Export
 
 	With Rss2Export
 
@@ -132,10 +129,13 @@ End Function
 
 Function ExportRSSbyUser(UserID)
 
+	Call GetCategory()
+	Call GetUser()
+
 	Dim Rss2Export
 	Dim objArticle
 
-	Set Rss2Export = New TRss2Export
+	Set Rss2Export = New TNewRss2Export
 
 	With Rss2Export
 
@@ -193,10 +193,13 @@ End Function
 
 Function ExportRSSbyDate(YearMonth)
 
+	Call GetCategory()
+	Call GetUser()
+
 	Dim Rss2Export
 	Dim objArticle
 
-	Set Rss2Export = New TRss2Export
+	Set Rss2Export = New TNewRss2Export
 
 	With Rss2Export
 
@@ -252,10 +255,15 @@ End Function
 
 Function ExportRSSbyTags(TagsID)
 
+	Call GetCategory()
+	Call GetUser()
+	Call GetTagsbyTagIDList("{"&TagsID&"}")
+
+
 	Dim Rss2Export
 	Dim objArticle
 
-	Set Rss2Export = New TRss2Export
+	Set Rss2Export = New TNewRss2Export
 
 	With Rss2Export
 
@@ -311,100 +319,25 @@ End Function
 
 
 
-Function ExportRSSbyGuestBook()
-
-	Dim Rss2Export
-	Dim objArticle
-
-	Set Rss2Export = New TRss2Export
-
-	With Rss2Export
-
-		.TimeZone=ZC_TIME_ZONE
-
-		.AddChannelAttribute "title",TransferHTML(ZC_BLOG_TITLE & "-" & ZC_MSG275,"[html-format]")
-		.AddChannelAttribute "link",ZC_BLOG_HOST & "guestbook.asp"
-		.AddChannelAttribute "description",TransferHTML(ZC_BLOG_SUBTITLE,"[html-format]")
-		.AddChannelAttribute "generator","Z-Blog " & ZC_BLOG_VERSION
-		.AddChannelAttribute "language",ZC_BLOG_LANGUAGE
-		.AddChannelAttribute "pubDate",Now
-
-		Dim objRS
-		Dim objComment
-		Set objRS=objConn.Execute("SELECT TOP " & ZC_RSS2_COUNT & " * FROM [blog_Comment] WHERE ([comm_ID]>0) AND ([log_ID]=0) ORDER BY [comm_PostTime] DESC")
-
-		Do While Not objRS.eof
-
-			Set objComment=New TComment
-			If objComment.LoadInfoByArray(Array(objRS("comm_ID"),objRS("log_ID"),objRS("comm_AuthorID"),objRS("comm_Author"),objRS("comm_Content"),objRS("comm_Email"),objRS("comm_HomePage"),objRS("comm_PostTime"),objRS("comm_IP"),objRS("comm_Agent"))) Then
-				.AddItem objComment.Author & " Re:"&ZC_MSG275,objComment.Email & " (" & objComment.Author & ")",ZC_BLOG_HOST & "guestbook.asp" & "#cmt" & objComment.ID,objComment.PostTime,ZC_BLOG_HOST & "guestbook.asp" & "#cmt" & objComment.ID,objComment.HtmlContent,"","","","",""
-			End If
-			Set objComment=Nothing
-
-			objRS.MoveNext
-
-		Loop
-
-		objRS.close
-		Set objRS=Nothing
-
-		Set objArticle=Nothing
-
-	End With
-
-	Rss2Export.Execute
-
-	Set Rss2Export = Nothing
-
-End Function
-
-
-
-
 Function ExportRSSbyCmt(intID)
+
+	Call GetCategory()
+	Call GetUser()
 
 	Dim Rss2Export
 	Dim objArticle
 	Dim objRS
 	Dim objComment
 
-	Set Rss2Export = New TRss2Export
+	Set Rss2Export = New TNewRss2Export
 
 	With Rss2Export
 
 		Call CheckParameter(intID,"int",0)
 
 		Set objArticle=New TArticle
-		If intID = 0 Then
 
-		.TimeZone=ZC_TIME_ZONE
-
-		.AddChannelAttribute "title",TransferHTML(ZC_BLOG_TITLE & "-" & ZC_MSG027,"[html-format]")
-		.AddChannelAttribute "link",ZC_BLOG_HOST
-		.AddChannelAttribute "description",TransferHTML(ZC_BLOG_SUBTITLE,"[html-format]")
-		.AddChannelAttribute "generator","Z-Blog " & ZC_BLOG_VERSION
-		.AddChannelAttribute "language",ZC_BLOG_LANGUAGE
-		.AddChannelAttribute "pubDate",Now
-
-
-			Set objRS=objConn.Execute("SELECT TOP " & ZC_RSS2_COUNT & " * FROM [blog_Comment] WHERE ([comm_ID]>0) AND ([log_ID]>0) ORDER BY [comm_PostTime] DESC")
-
-			Do While Not objRS.eof
-
-				Set objComment=New TComment
-				If objComment.LoadInfoByArray(Array(objRS("comm_ID"),objRS("log_ID"),objRS("comm_AuthorID"),objRS("comm_Author"),objRS("comm_Content"),objRS("comm_Email"),objRS("comm_HomePage"),objRS("comm_PostTime"),objRS("comm_IP"),objRS("comm_Agent"))) And objArticle.LoadInfoByID(objRS("log_ID")) Then
-					.AddItem objComment.Author & " Re:"&objArticle.HtmlTitle,objComment.Email & " (" & objComment.Author & ")",objArticle.HtmlUrl & "#cmt" & objComment.ID,objComment.PostTime,objArticle.HtmlUrl & "#cmt" & objComment.ID,objComment.HtmlContent,"","","","",""
-				End If
-				Set objComment=Nothing
-
-				objRS.MoveNext
-
-			Loop
-
-			objRS.close
-			Set objRS=Nothing
-
-		ElseIf objArticle.LoadInfoByID(intID) Then
+		If objArticle.LoadInfoByID(intID) Then
 
 		.TimeZone=ZC_TIME_ZONE
 
