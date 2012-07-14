@@ -2799,25 +2799,32 @@ End Function
 Function GetTagsbyTagIDList(strTags)
 'strTags={1}{2}{3}{4}
 
-strTags=FilterSQL(strTags)
+Response.Write strTags
+
+strTags=Trim(FilterSQL(strTags))
 
 If strTags="" Then Exit Function
+If strTags="{}" Then Exit Function
+
 
 Dim s,t,i
-strTags=Left(strTags,Len(strTags)-1)
-strTags=Right(strTags,Len(strTags)-1)
-t=Split(strTags,"}{")
+strTags=Replace(strTags,"}","")
+t=Split(strTags,"{")
 
 For i=LBound(t) To UBound(t)
-	s=s & "([tag_ID]="&t(i)&") Or"
+	If Trim(t(i))<>"" Then
+		s=s & "([tag_ID]="&t(i)&") Or"
+	End If
 Next
 
 s=Left(s,Len(s)-2)
 
+Response.Write s
+
 Dim objRS
 Dim objTag
 
-Set objRS=objConn.Execute("SELECT [tag_ID],[tag_Name] FROM [blog_Tag] WHERE (" & s & ")")
+Set objRS=objConn.Execute("SELECT [tag_ID],[tag_Name],[tag_Intro],[tag_Order],[tag_Count],[tag_ParentID],[tag_URL],[tag_Template],[tag_Meta] FROM [blog_Tag] WHERE (" & s & ")")
 
 If (Not objRS.bof) And (Not objRS.eof) Then
 
@@ -2825,8 +2832,7 @@ If (Not objRS.bof) And (Not objRS.eof) Then
 	Do While Not objRS.eof
 
 		Set objTag=New TTag
-		objTag.ID=objRS("tag_ID")
-		objTag.Name=objRS("tag_Name")
+		Call objTag.LoadInfoByArray(Array(objRS(0),objRS(1),objRS(2),objRS(3),objRS(4),objRS(5),objRS(6),objRS(7),objRS(8)))
 
 		If UBound(Tags)<objTag.ID Then
 			ReDim Preserve Tags(objTag.ID)
@@ -2860,7 +2866,7 @@ Function GetTagsbyTagNameList(strTags)
 
 Set Tags(0)=New TTag
 
-strTags=FilterSQL(strTags)
+strTags=Trim(FilterSQL(strTags))
 
 If strTags="" Then Exit Function
 
@@ -2868,7 +2874,9 @@ Dim s,t,i
 t=Split(strTags,",")
 
 For i=LBound(t) To UBound(t)
-	s=s & "([tag_Name]='"&t(i)&"') Or"
+	If Trim(t(i))<>"" Then
+		s=s & "([tag_Name]='"&t(i)&"') Or"
+	End If
 Next
 
 s=Left(s,Len(s)-2)
@@ -2876,7 +2884,7 @@ s=Left(s,Len(s)-2)
 Dim objRS
 Dim objTag
 
-Set objRS=objConn.Execute("SELECT [tag_ID],[tag_Name] FROM [blog_Tag] WHERE (" & s & ")")
+Set objRS=objConn.Execute("SELECT [tag_ID],[tag_Name],[tag_Intro],[tag_Order],[tag_Count],[tag_ParentID],[tag_URL],[tag_Template],[tag_Meta] FROM [blog_Tag] WHERE (" & s & ")")
 
 If (Not objRS.bof) And (Not objRS.eof) Then
 
@@ -2884,8 +2892,7 @@ If (Not objRS.bof) And (Not objRS.eof) Then
 	Do While Not objRS.eof
 
 		Set objTag=New TTag
-		objTag.ID=objRS("tag_ID")
-		objTag.Name=objRS("tag_Name")
+		Call objTag.LoadInfoByArray(Array(objRS(0),objRS(1),objRS(2),objRS(3),objRS(4),objRS(5),objRS(6),objRS(7),objRS(8)))
 
 		If UBound(Tags)<objTag.ID Then
 			ReDim Preserve Tags(objTag.ID)

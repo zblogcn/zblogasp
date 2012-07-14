@@ -278,10 +278,8 @@ Function PostArticle()
 	Call Filter_Plugin_PostArticle_Core(objArticle)
 
 	If objArticle.Post Then
-		'Call ScanTagCount(strTag)
+		Call ScanTagCount(strTag)
 		Call ScanTagCount(objArticle.Tag)
-		'REsponse.Write strTag + objArticle.Tag
-		'Response.End
 		Call BuildArticle(objArticle.ID,True,True)
 		PostArticle=True
 		Call Filter_Plugin_PostArticle_Succeed(objArticle)
@@ -406,7 +404,6 @@ Function PostComment(strKey)
 
 	Call GetCategory()
 	Call GetUser()
-	Call GetTags()
 
 	If IsEmpty(Request.Form("inpAjax"))=False Then
 		ShowError_Custom="Call RespondError(id,ZVA_ErrorMsg(id)):Response.End"
@@ -515,7 +512,6 @@ Function DelComment(intID,intLog_ID)
 
 	Call GetCategory()
 	Call GetUser()
-	Call GetTags()
 
 	Dim objComment
 	Dim objArticle
@@ -565,7 +561,6 @@ Function RevertComment(strKey,intRevertCommentID)
 
 	Call GetCategory()
 	Call GetUser()
-	Call GetTags()
 
 	If IsEmpty(Request.Form("inpAjax"))=False Then
 		ShowError_Custom="Call RespondError(id,ZVA_ErrorMsg(id)):Response.End"
@@ -668,7 +663,6 @@ Function SaveComment(intID,intLog_ID)
 
 	Call GetCategory()
 	Call GetUser()
-	Call GetTags()
 
 	Dim objComment,objComment2
 	Dim objArticle
@@ -755,7 +749,6 @@ Function ReturnAjaxComment(objComment)
 	Dim i,j
 	i=0
 	Dim objArticle
-	Call GetTags()
 
 	If objComment.log_ID>0 Then
 		'Filter_Plugin_TArticle_Export_TemplateTags
@@ -1636,8 +1629,6 @@ End Function
 '*********************************************************
 Function PostTag()
 
-	GetTags()
-
 	Dim objTag
 	Set objTag=New TTag
 	objTag.ID=Request.Form("edtID")
@@ -1651,6 +1642,7 @@ Function PostTag()
 	Call Filter_Plugin_PostTag_Core(objTag)
 
 	If objTag.Post Then
+		Call GetTagsbyTagIDList("{"&objTag.ID&"}")
 		Call ScanTagCount("{"&objTag.ID&"}")
 		PostTag=True
 		Call Filter_Plugin_PostTag_Succeed(objTag)
@@ -1668,11 +1660,12 @@ End Function
 '*********************************************************
 Function DelTag(intID)
 
-	GetTags()
-
 	Dim objTag
 	Set objTag=New TTag
 	objTag.ID=intID
+
+	Call GetTagsbyTagIDList("{"&objTag.ID&"}")
+
 	If objTag.Del Then DelTag=True
 	Set objTag=Nothing
 
