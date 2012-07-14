@@ -1789,20 +1789,6 @@ Function Add_Response_Plugin(plugname,parameter)
 End Function
 '*********************************************************
 
-Function Add_AdminLeft_Plugin(Name,Url)
-	Response_Plugin_AdminLeft_Plugin=Response_Plugin_AdminLeft_Plugin&name&chr(1)&url&"|"
-End Function
-
-Function Add_AdminLeft_Plugin_Custom(Data)
-	Response_Plugin_AdminLeft_Plugin=Response_Plugin_AdminLeft_Plugin&Replace(Replace(Data,"'","'"),chr(1),"")&"|"
-End Function
-
-Sub AdminLeft_Export
-	Response.Write "var leftstr='"&Response_Plugin_AdminLeft_Plugin&"';var leftary=leftstr.split(""|"");var spt=String.fromCharCode(1);var objleft=parent.frames[""list""].document.getElementById(""plugin"");"
-	Response.Write"for(var i=0;i<leftary.length;i++){if(leftary[i]!=""""){if(leftary[i].indexOf(spt)>0){objleft.innerHTML+="
-	Response.Write "'<p class=""button1""><a name=""a'+leftary[i].split(spt)[0]+'"" onclick=""return changeButtonColor(this)""  href=""'+leftary[i].split(spt)[1]+'"" target=""main"">'+leftary[i].split(spt)[0]+'</a></p>' "
-	Response.Write "}}}"
-End Sub
 
 '*********************************************************
 ' 目的：GetSettingFormName
@@ -2799,7 +2785,6 @@ End Function
 Function GetTagsbyTagIDList(strTags)
 'strTags={1}{2}{3}{4}
 
-Response.Write strTags
 
 strTags=Trim(FilterSQL(strTags))
 
