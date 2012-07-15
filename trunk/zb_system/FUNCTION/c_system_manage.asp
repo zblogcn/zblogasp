@@ -101,7 +101,7 @@ Call Add_Response_Plugin("Response_Plugin_ArticleMng_SubMenu",MakeSubMenu(ZC_MSG
 	Dim aryCateInOrder : aryCateInOrder=GetCategoryOrder()
 	Dim m,n
 	If IsArray(aryCateInOrder) Then
-	For m=0 To Ubound(aryCateInOrder)
+	For m=LBound(aryCateInOrder)+1 To Ubound(aryCateInOrder)
 		If Categorys(aryCateInOrder(m)).ParentID=0 Then
 			Response.Write "<option value="""&Categorys(aryCateInOrder(m)).ID&""">"&TransferHTML( Categorys(aryCateInOrder(m)).Name,"[html-format]")&"</option>"
 
@@ -274,7 +274,7 @@ Call Add_Response_Plugin("Response_Plugin_ArticleMng_SubMenu",MakeSubMenu(ZC_MSG
 	Dim aryCateInOrder : aryCateInOrder=GetCategoryOrder()
 	Dim m,n
 	If IsArray(aryCateInOrder) Then
-	For m=0 To Ubound(aryCateInOrder)
+	For m=LBound(aryCateInOrder)+1 To Ubound(aryCateInOrder)
 		If Categorys(aryCateInOrder(m)).ParentID=0 Then
 			Response.Write "<option value="""&Categorys(aryCateInOrder(m)).ID&""">"&TransferHTML( Categorys(aryCateInOrder(m)).Name,"[html-format]")&"</option>"
 
@@ -421,11 +421,11 @@ Function ExportCategoryList(intPage)
 	aryCateInOrder=GetCategoryOrder()
 
 	If IsArray(aryCateInOrder) Then
-	For i=0 To Ubound(aryCateInOrder)
+	For i=LBound(aryCateInOrder)+1 To Ubound(aryCateInOrder)
 
 		If Categorys(aryCateInOrder(i)).ParentID=0 Then
 
-			Response.Write "<tr><td align=""center"">┬</td>"
+			Response.Write "<tr><td align=""center""><img width=""16"" src=""../image/admin/folder.png"" /></td>"
 			Response.Write "<td>" & Categorys(aryCateInOrder(i)).ID & "</td>"
 			Response.Write "<td>" & Categorys(aryCateInOrder(i)).Order & "</td>"
 			Response.Write "<td><a href=""../catalog.asp?cate="& Categorys(aryCateInOrder(i)).ID &"""  target=""_blank"">" & Categorys(aryCateInOrder(i)).Name & "</a></td>"
@@ -437,7 +437,7 @@ Function ExportCategoryList(intPage)
 			For j=0 To UBound(aryCateInOrder)
 
 				If Categorys(aryCateInOrder(j)).ParentID=Categorys(aryCateInOrder(i)).ID Then
-					Response.Write "<tr><td align=""center"">├</td>"
+					Response.Write "<tr><td align=""center""><img width=""16"" src=""../image/admin/arrow_turn_right.png"" /></td>"
 					Response.Write "<td>" & Categorys(aryCateInOrder(j)).ID & "</td>"
 					Response.Write "<td>" & Categorys(aryCateInOrder(j)).Order & "</td>"
 					Response.Write "<td><a href=""../../catalog.asp?cate="& Categorys(aryCateInOrder(j)).ID &"""  target=""_blank"">&nbsp;┄&nbsp;" & Categorys(aryCateInOrder(j)).Name & "</a></td>"

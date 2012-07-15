@@ -524,6 +524,7 @@ Function UpdateDateBase()
 		objConn.execute("ALTER TABLE [blog_Comment] ADD COLUMN [comm_Ratting] int DEFAULT 0")
 		objConn.execute("ALTER TABLE [blog_Comment] ADD COLUMN [comm_ParentID] int DEFAULT 0")
 		objConn.execute("ALTER TABLE [blog_Comment] ADD COLUMN [comm_ParentCount] int DEFAULT 0")
+		objConn.execute("ALTER TABLE [blog_Comment] ADD COLUMN [comm_IsCheck] YESNO DEFAULT FALSE")
 		objConn.execute("ALTER TABLE [blog_Comment] ADD COLUMN [comm_Meta] text default """"")
 
 		objConn.execute("UPDATE [blog_Comment] SET [comm_ParentID]=0")
@@ -595,7 +596,7 @@ objConn.execute("CREATE TABLE [blog_Article] (log_ID AutoIncrement primary key,l
 
 objConn.execute("CREATE TABLE [blog_Category] (cate_ID AutoIncrement primary key,cate_Name VARCHAR(50) default """",cate_Order int default 0,cate_Intro VARCHAR(255) default """",cate_Count int default 0,cate_URL VARCHAR(255) default """",cate_ParentID int default 0,cate_Template VARCHAR(255) default """",cate_FullUrl VARCHAR(255) default """",cate_Meta text default """")")
 
-objConn.execute("CREATE TABLE [blog_Comment] (comm_ID AutoIncrement primary key,log_ID int default 0,comm_AuthorID int default 0,comm_Author VARCHAR(20) default """",comm_Content text default """",comm_Email VARCHAR(50) default """",comm_HomePage VARCHAR(255) default """",comm_PostTime datetime default now(),comm_IP VARCHAR(15) default """",comm_Agent text default """",comm_Reply text default """",comm_LastReplyIP VARCHAR(15) default """",comm_LastReplyTime datetime default now(),comm_Yea int default 0,comm_Nay int default 0,comm_Ratting int default 0,comm_ParentID int default 0,comm_ParentCount int default 0,comm_Meta text default """")")
+objConn.execute("CREATE TABLE [blog_Comment] (comm_ID AutoIncrement primary key,log_ID int default 0,comm_AuthorID int default 0,comm_Author VARCHAR(20) default """",comm_Content text default """",comm_Email VARCHAR(50) default """",comm_HomePage VARCHAR(255) default """",comm_PostTime datetime default now(),comm_IP VARCHAR(15) default """",comm_Agent text default """",comm_Reply text default """",comm_LastReplyIP VARCHAR(15) default """",comm_LastReplyTime datetime default now(),comm_Yea int default 0,comm_Nay int default 0,comm_Ratting int default 0,comm_ParentID int default 0,comm_ParentCount int default 0,comm_IsCheck YESNO DEFAULT FALSE,comm_Meta text default """")")
 
 objConn.execute("CREATE TABLE [blog_TrackBack] (tb_ID AutoIncrement primary key,log_ID int default 0,tb_URL VARCHAR(255) default """",tb_Title VARCHAR(100) default """",tb_Blog VARCHAR(50) default """",tb_Excerpt text default """",tb_PostTime datetime default now(),tb_IP VARCHAR(15) default """",tb_Agent text default """",tb_Meta text default """")")
 
@@ -629,7 +630,7 @@ objConn.execute("CREATE TABLE [blog_Article] (log_ID int identity(1,1) not null 
 
 objConn.execute("CREATE TABLE [blog_Category] (cate_ID int identity(1,1) not null primary key,cate_Name nvarchar(50) default '',cate_Order int default 0,cate_Intro nvarchar(255) default '',cate_Count int default 0,cate_URL nvarchar(255) default '',cate_ParentID int default 0,cate_Template nvarchar(255) default '',cate_FullUrl nvarchar(255) default '',cate_Meta ntext default '')")
 
-objConn.execute("CREATE TABLE [blog_Comment] (comm_ID int identity(1,1) not null primary key,log_ID int default 0,comm_AuthorID int default 0,comm_Author nvarchar(20) default '',comm_Content ntext default '',comm_Email nvarchar(50) default '',comm_HomePage nvarchar(255) default '',comm_PostTime datetime default getdate(),comm_IP nvarchar(15) default '',comm_Agent ntext default '',comm_Reply ntext default '',comm_LastReplyIP nvarchar(15) default '',comm_LastReplyTime datetime default getdate(),comm_Yea int default 0,comm_Nay int default 0,comm_Ratting int default 0,comm_ParentID int default 0,comm_ParentCount int default 0,comm_Meta ntext default '')")
+objConn.execute("CREATE TABLE [blog_Comment] (comm_ID int identity(1,1) not null primary key,log_ID int default 0,comm_AuthorID int default 0,comm_Author nvarchar(20) default '',comm_Content ntext default '',comm_Email nvarchar(50) default '',comm_HomePage nvarchar(255) default '',comm_PostTime datetime default getdate(),comm_IP nvarchar(15) default '',comm_Agent ntext default '',comm_Reply ntext default '',comm_LastReplyIP nvarchar(15) default '',comm_LastReplyTime datetime default getdate(),comm_Yea int default 0,comm_Nay int default 0,comm_Ratting int default 0,comm_ParentID int default 0,comm_ParentCount int default 0,comm_IsCheck bit default 0,comm_Meta ntext default '')")
 
 objConn.execute("CREATE TABLE [blog_TrackBack] (tb_ID int identity(1,1) not null primary key,log_ID int default 0,tb_URL nvarchar(255) default '',tb_Title nvarchar(100) default '',tb_Blog nvarchar(50) default '',tb_Excerpt ntext default '',tb_PostTime datetime default getdate(),tb_IP nvarchar(15) default '',tb_Agent ntext default '',tb_Meta ntext default '')")
 

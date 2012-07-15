@@ -161,7 +161,7 @@ If Err.Number=0 Then
 	'GetCategory()
 	Dim aryCateInOrder : aryCateInOrder=GetCategoryOrder()
 	Dim m,n
-	For m=0 To Ubound(aryCateInOrder)
+	For m=LBound(aryCateInOrder)+1 To Ubound(aryCateInOrder)
 		If Categorys(aryCateInOrder(m)).ParentID=0 Then
 			Response.Write "<option value="""&Categorys(aryCateInOrder(m)).ID&""" "
 			If EditArticle.CateID=Categorys(aryCateInOrder(m)).ID Then Response.Write "selected=""selected"""

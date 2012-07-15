@@ -1,14 +1,4 @@
-﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<#ZC_BLOG_LANGUAGE#>" lang="<#ZC_BLOG_LANGUAGE#>">
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-	<meta http-equiv="Content-Language" content="<#ZC_BLOG_LANGUAGE#>" />
-	<title><#ZC_BLOG_TITLE#><#ZC_MSG044#><#BlogTitle#></title>
-	<meta name="generator" content="Z-Blog <#ZC_BLOG_VERSION#>" />
-	<link rel="stylesheet" rev="stylesheet" href="<#ZC_BLOG_HOST#>zb_users/theme/<#ZC_BLOG_THEME#>/source/style.css.asp" type="text/css" media="screen" />
-	<link rel="alternate" type="application/rss+xml" href="<#ZC_BLOG_HOST#>feed.asp?cmt=<#article/id#>" title="Comments Feed for <#article/title#>" />
-	<script src="<#ZC_BLOG_HOST#>zb_system/script/common.js" type="text/javascript"></script>
-	<script src="<#ZC_BLOG_HOST#>zb_system/function/c_html_js_add.asp" type="text/javascript"></script>
+﻿<#TEMPLATE_HEADER#>
 </head>
 <body class="single">
 <div id="divAll">
@@ -29,33 +19,8 @@
 		</div>
 		<div id="divSidebar">
 
-<div class="function" id="divCalendar">
-<h3><#ZC_MSG050#></h3>
-<#CACHE_INCLUDE_CALENDAR#>
-</div>
-
-<div class="function" id="divComments">
-<h3><#ZC_MSG027#></h3>
-<ul id="ulComments">
-<#CACHE_INCLUDE_COMMENTS#>
-</ul>
-</div>
-
-<div class="function" id="divPrevious">
-<h3><#ZC_MSG032#></h3>
-<ul id="ulPrevious">
-<#CACHE_INCLUDE_PREVIOUS#>
-</ul>
-</div>
+<#TEMPLATE_SIDEBAR#>
 
 		</div>
-		<div id="divBottom">
-			<h3 id="BlogPowerBy">Powered By <a href="http://www.rainbowsoft.org/" title="RainbowSoft Studio Z-Blog" target="_blank">Z-Blog <#ZC_BLOG_VERSION#></a></h3>
-			<h2 id="BlogCopyRight"><#ZC_BLOG_COPYRIGHT#></h2>
-		</div>
-	</div>
-	</div>
-</div>
-</body>
-</html>
+<#TEMPLATE_FOOTER#>
 <!-- <#BLOG_CREATE_TIME#> -->

@@ -819,7 +819,7 @@ Class TArticle
 			objRS.CursorType = adOpenKeyset
 			objRS.LockType = adLockReadOnly
 			objRS.ActiveConnection=objConn
-			objRS.Source="SELECT [comm_ID],[log_ID],[comm_AuthorID],[comm_Author],[comm_Content],[comm_Email],[comm_HomePage],[comm_PostTime],[comm_IP],[comm_Agent],[comm_Reply],[comm_LastReplyIP],[comm_LastReplyTime],[comm_ParentID],[comm_ParentCount],[comm_Meta] FROM [blog_Comment] WHERE ([blog_Comment].[log_ID]=" & ID &" AND [blog_Comment].[comm_ParentID]=0) UNION ALL SELECT [tb_ID],[log_ID],'',[tb_Title],[tb_Excerpt],[tb_Blog],[tb_URL],[tb_PostTime],[tb_IP],[tb_Agent],'','','','' ,'',[tb_Meta] from [blog_TrackBack] WHERE [blog_TrackBack].[log_ID]="& ID & " ORDER BY [comm_ID],[comm_PostTime]"
+			objRS.Source="SELECT [comm_ID],[log_ID],[comm_AuthorID],[comm_Author],[comm_Content],[comm_Email],[comm_HomePage],[comm_PostTime],[comm_IP],[comm_Agent],[comm_Reply],[comm_LastReplyIP],[comm_LastReplyTime],[comm_ParentID],[comm_ParentCount],[comm_IsCheck],[comm_Meta] FROM [blog_Comment] WHERE ([blog_Comment].[log_ID]=" & ID &" AND [blog_Comment].[comm_ParentID]=0) UNION ALL SELECT [tb_ID],[log_ID],'',[tb_Title],[tb_Excerpt],[tb_Blog],[tb_URL],[tb_PostTime],[tb_IP],[tb_Agent],'','','','' ,'','',[tb_Meta] from [blog_TrackBack] WHERE [blog_TrackBack].[log_ID]="& ID & " ORDER BY [comm_ID],[comm_PostTime]"
 			objRS.Open()
 
 			If (not objRS.bof) And (not objRS.eof) Then
@@ -831,7 +831,7 @@ Class TArticle
 					If IsNumeric(objRS("comm_AuthorID")) Then
 
 						Set objComment=New TComment
-						objComment.LoadInfoByArray(Array(objRS("comm_ID"),objRS("log_ID"),objRS("comm_AuthorID"),objRS("comm_Author"),objRS("comm_Content"),objRS("comm_Email"),objRS("comm_HomePage"),objRS("comm_PostTime"),"","",objRS("comm_Reply"),"","",objRS("comm_ParentID"),objRS("comm_ParentCount"),objRS("comm_Meta")))
+						objComment.LoadInfoByArray(Array(objRS("comm_ID"),objRS("log_ID"),objRS("comm_AuthorID"),objRS("comm_Author"),objRS("comm_Content"),objRS("comm_Email"),objRS("comm_HomePage"),objRS("comm_PostTime"),objRS("comm_IP"),objRS("comm_Agent"),objRS("comm_Reply"),objRS("comm_LastReplyIP"),objRS("comm_LastReplyTime"),objRS("comm_ParentID"),objRS("comm_ParentCount"),objRS("comm_IsCheck"),objRs("comm_Meta")))
 
 						If objRs("comm_ParentID")=0 Then strC_Count=strC_Count+1
 
@@ -2751,6 +2751,7 @@ Class TComment
 	Public LastReplyTime
 
 	Public Count
+	Public IsCheck
 	Public Meta
 
 	Public Property Get MetaString
@@ -2806,7 +2807,7 @@ Class TComment
 
 	Public Function Post()
 
-		Call Filter_Plugin_TComment_Post(ID,log_ID,AuthorID,Author,Content,Email,HomePage,PostTime,IP,Agent,Reply,LastReplyIP,LastReplyTime,ParentID,ParentCount,MetaString)
+		Call Filter_Plugin_TComment_Post(ID,log_ID,AuthorID,Author,Content,Email,HomePage,PostTime,IP,Agent,Reply,LastReplyIP,LastReplyTime,ParentID,ParentCount,IsCheck,MetaString)
 		If IP="" Then
 			IP=Request.ServerVariables("REMOTE_ADDR")
 			Agent=Request.ServerVariables("HTTP_USER_AGENT")
@@ -2821,6 +2822,7 @@ Class TComment
 		Call CheckParameter(PostTime,"dtm",GetTime(Now()))
 		Call CheckParameter(ParentID,"int",0)
 		Call CheckParameter(ParentCount,"int",0)
+		Call CheckParameter(IsCheck,"bool",False)
 		If ParentCount>ZC_MAXFLOOR Then Exit Function
 		If ParentID="" Then ParentID=0
 		Author=FilterSQL(Author)
@@ -2880,14 +2882,14 @@ Class TComment
 		End If
 
 		If ID=0 Then
-			objConn.Execute("INSERT INTO [blog_Comment]([log_ID],[comm_AuthorID],[comm_Author],[comm_Content],[comm_Email],[comm_HomePage],[comm_IP],[comm_PostTime],[comm_Agent],[comm_Reply],[comm_LastReplyIP],[comm_LastReplyTime],[comm_ParentID],[comm_ParentCount],[comm_Meta]) VALUES ("&log_ID&","&AuthorID&",'"&Author&"','"&Content&"','"&Email&"','"&HomePage&"','"&IP&"','"&PostTime&"','"&Agent&"','"&Reply&"','"&LastReplyIP&"','"&LastReplyTime&"','"&ParentID&"','"&ParentCount&"','"&MetaString&"')")
+			objConn.Execute("INSERT INTO [blog_Comment]([log_ID],[comm_AuthorID],[comm_Author],[comm_Content],[comm_Email],[comm_HomePage],[comm_IP],[comm_PostTime],[comm_Agent],[comm_Reply],[comm_LastReplyIP],[comm_LastReplyTime],[comm_ParentID],[comm_ParentCount],[comm_IsCheck],[comm_Meta]) VALUES ("&log_ID&","&AuthorID&",'"&Author&"','"&Content&"','"&Email&"','"&HomePage&"','"&IP&"','"&PostTime&"','"&Agent&"','"&Reply&"','"&LastReplyIP&"','"&LastReplyTime&"','"&ParentID&"','"&ParentCount&"',"&CInt(IsCheck)&",'"&MetaString&"')")
 			Set objRS=objConn.Execute("SELECT MAX([comm_ID]) FROM [blog_Comment]")
 			If (Not objRS.bof) And (Not objRS.eof) Then
 				ID=objRS(0)
 			End If
 			Set objRS=Nothing
 		Else
-			objConn.Execute("UPDATE [blog_Comment] SET [log_ID]="&log_ID&", [comm_AuthorID]="&AuthorID&",[comm_Author]='"&Author&"',[comm_Content]='"&Content&"',[comm_Email]='"&Email&"',[comm_HomePage]='"&HomePage&"',[comm_IP]='"&IP&"',[comm_PostTime]='"&PostTime&"',[comm_Agent]='"&Agent&"',[comm_Reply]='"&Reply&"',[comm_LastReplyIP]='"&LastReplyIP&"',[comm_LastReplyTime]='"&LastReplyTime&"',[comm_ParentID]='"&ParentID&"',[comm_Meta]='"&MetaString&"' WHERE [comm_ID] =" & ID)
+			objConn.Execute("UPDATE [blog_Comment] SET [log_ID]="&log_ID&", [comm_AuthorID]="&AuthorID&",[comm_Author]='"&Author&"',[comm_Content]='"&Content&"',[comm_Email]='"&Email&"',[comm_HomePage]='"&HomePage&"',[comm_IP]='"&IP&"',[comm_PostTime]='"&PostTime&"',[comm_Agent]='"&Agent&"',[comm_Reply]='"&Reply&"',[comm_LastReplyIP]='"&LastReplyIP&"',[comm_LastReplyTime]='"&LastReplyTime&"',[comm_ParentID]='"&ParentID&"',[comm_IsCheck]="&CInt(IsCheck)&",[comm_Meta]='"&MetaString&"' WHERE [comm_ID] =" & ID)
 		End If
 
 		Post=True
@@ -2897,7 +2899,7 @@ Class TComment
 
 	Public Function Del()
 
-		Call Filter_Plugin_TComment_Del(ID,log_ID,AuthorID,Author,Content,Email,HomePage,PostTime,IP,Agent,Reply,LastReplyIP,LastReplyTime,ParentID,ParentCount,MetaString)
+		Call Filter_Plugin_TComment_Del(ID,log_ID,AuthorID,Author,Content,Email,HomePage,PostTime,IP,Agent,Reply,LastReplyIP,LastReplyTime,ParentID,ParentCount,IsCheck,MetaString)
 
 		Call CheckParameter(ID,"int",0)
 		If (ID=0) Then Del=False:Exit Function
@@ -2911,7 +2913,7 @@ Class TComment
 		Call CheckParameter(comm_ID,"int",0)
 
 		Dim objRS
-		Set objRS=objConn.Execute("SELECT [comm_ID],[log_ID],[comm_AuthorID],[comm_Author],[comm_Content],[comm_Email],[comm_HomePage],[comm_PostTime],[comm_IP],[comm_Agent],[comm_Reply],[comm_LastReplyIP],[comm_LastReplyTime],[comm_ParentID],[comm_ParentCount],[comm_Meta] FROM [blog_Comment] WHERE [comm_ID]=" & comm_ID)
+		Set objRS=objConn.Execute("SELECT [comm_ID],[log_ID],[comm_AuthorID],[comm_Author],[comm_Content],[comm_Email],[comm_HomePage],[comm_PostTime],[comm_IP],[comm_Agent],[comm_Reply],[comm_LastReplyIP],[comm_LastReplyTime],[comm_ParentID],[comm_ParentCount],[comm_IsCheck],[comm_Meta] FROM [blog_Comment] WHERE [comm_ID]=" & comm_ID)
 
 		If (Not objRS.bof) And (Not objRS.eof) Then
 
@@ -2930,6 +2932,7 @@ Class TComment
 			LastReplyTime=objRS("comm_LastReplyTime")
 			ParentID=objRS("comm_ParentID")
 			ParentCount=objRS("comm_ParentCount")
+			IsCheck=objRS("comm_IsCheck")
 			MetaString=objRS("comm_Meta")
 
 			LoadInfoByID=True
@@ -2941,7 +2944,7 @@ Class TComment
 
 		If IsNull(HomePage) Then HomePage=""
 
-		Call Filter_Plugin_TComment_LoadInfoByID(ID,log_ID,AuthorID,Author,Content,Email,HomePage,PostTime,IP,Agent,Reply,LastReplyIP,LastReplyTime,ParentID,ParentCount,MetaString)
+		Call Filter_Plugin_TComment_LoadInfoByID(ID,log_ID,AuthorID,Author,Content,Email,HomePage,PostTime,IP,Agent,Reply,LastReplyIP,LastReplyTime,ParentID,ParentCount,IsCheck,MetaString)
 
 	End Function
 
@@ -2964,7 +2967,8 @@ Class TComment
 			LastReplyTime=aryCommInfo(12)
 			ParentID=aryCommInfo(13)
 			ParentCount=aryCommInfo(14)
-			MetaString=aryCommInfo(15)
+			IsCheck=aryCommInfo(15)
+			MetaString=aryCommInfo(16)
 
 		End If
 
@@ -2972,7 +2976,7 @@ Class TComment
 
 		LoadInfoByArray=True
 
-		Call Filter_Plugin_TComment_LoadInfoByArray(ID,log_ID,AuthorID,Author,Content,Email,HomePage,PostTime,IP,Agent,Reply,LastReplyIP,LastReplyTime,ParentID,ParentCount,MetaString)
+		Call Filter_Plugin_TComment_LoadInfoByArray(ID,log_ID,AuthorID,Author,Content,Email,HomePage,PostTime,IP,Agent,Reply,LastReplyIP,LastReplyTime,ParentID,ParentCount,IsCheck,MetaString)
 
 	End Function
 
