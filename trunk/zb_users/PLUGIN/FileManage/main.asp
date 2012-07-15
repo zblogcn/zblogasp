@@ -77,6 +77,7 @@ Call SetBlogHint_Custom("‼ 提示:错误的编辑或删除系统文件会导�
 		Case "SiteFilePst" Call FileManage_PostSiteFile(Request.Form("path"))
 		Case "SiteCreateFolder" Call FileManage_CreateFolder(strPath)
 		Case "Help" Call FileManage_Help
+		Case "ThemeEditor" Response.Redirect "?act=SiteFileMng&path="&server.URLEncode(blogpath&"\zb_users\theme\"&zc_blog_theme)
 		Case Else Response.Write "未知的命令"
 	End Select
 	%>

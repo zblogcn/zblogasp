@@ -66,7 +66,7 @@ function changeButtonColor(btnNow){
 <p class="button1"><a name="aPlugInMng" onclick='return changeButtonColor(this)' href="../cmd.asp?act=PlugInMng" target="main"><%=ZC_MSG107%></a></p>
 <p class="button1"><a name="aUserMng" onclick='return changeButtonColor(this)' href="../cmd.asp?act=UserMng" target="main"><%=ZC_MSG070%></a></p>
 <p class="button1"><a name="aLinkMng" onclick='return changeButtonColor(this)' href="../cmd.asp?act=LinkMng" target="main"><%=ZC_MSG298%></a></p>
-<p class="button1"><a name="aSiteFileMng" onclick='return changeButtonColor(this)' href="../cmd.asp?act=SiteFileMng" target="main"><%=ZC_MSG210%></a></p>
+<p class="button1"><a name="aSiteFileMng" onclick='return changeButtonColor(this)' href="../../ZB_Users/PLUGIN/FileManage/main.asp" target="main"><%=ZC_MSG210%></a></p>
 <div style="height:5px;"> </div>
 <div id="plugin">
 </div>

@@ -79,6 +79,7 @@ Function FileManage_ExportInformation(foldername,path)
 	k=LCase(path)
 	l=lcase(blogpath)
 	if k=l then
+	
 		select case z
 			case "zb_system" n="Z-Blog系统核心文件"
 			case "zb_users" n="Z-Blog用户配置文件夹"
@@ -104,7 +105,7 @@ Function FileManage_ExportInformation(foldername,path)
 	elseif k=l & "\zb_users" then
 		select case z
 			case "cache" n="Z-Blog缓存文件夹"
-			case "data" n="Z-Blog数据库存放文件夹"
+			case "data" n="Z-Blog Access数据库"
 			case "include" n="Z-Blog引用文件夹"
 			case "language" n="Z-Blog Language Pack"
 			case "plugin" n="Z-Blog 插件文件夹"
@@ -139,6 +140,7 @@ Function FileManage_ExportInformation(foldername,path)
 			case "b_article-single" n= "日志页文章模板"
 			case "b_article-guestbook" n= "留言页正文模板"
 			case "b_article_comment" n= "每条评论内容显示模板"
+			case "b_article_commentrev" n="回复的评论显示模板"
 			case "b_article_commentpost-verify" n= "评论验证码显示样式"
 			case "b_article_commentpost" n= "评论发表框模板"
 			case "b_article_mutuality" n= "每条相关文章显示模板"
@@ -152,7 +154,10 @@ Function FileManage_ExportInformation(foldername,path)
 			case "single" n="日志页整页模板"
 			case "tags" n="标签页整页模板"
 			case "guestbook" n="留言页整页模板"
+			case else n="自建非默认模板"
 		end select
+	elseif k=l & "\zb_users\theme\"&lcase(zc_blog_theme)&"\include" then
+		n="<#TEMPLATE_INCLUDE_"&ucasE(split(z,".")(0))&"#>"
 	elseif k=l &"\zb_system\admin" then
 		select case z
 			case "admin.asp" n="管理页"
@@ -213,6 +218,7 @@ Function FileManage_ExportInformation(foldername,path)
 			case "wap_article_comment.html" n="Wap模板-评论"
 			case "wap_single.html" n="Wap模板-文章页或列表页"
 		end select
+	
 	else
 		Dim strFound
 		For Each sAction_Plugin_FileManage_ExportInformation_NotFound in Action_Plugin_FileManage_ExportInformation_NotFound
@@ -257,7 +263,10 @@ Function FileManage_ExportSiteFileList(path,opath)
 	set f=server.createobject("scripting.filesystemobject")
 
 
+
 	response.write "<p>"&ZC_MSG240&":"&path&"</p>"
+		if lcase(path)=lcase(blogpath)&"\zb_system" then call response.write("<p><font color=""red"">注意！您正在使用的Z-Blog版本为"&ZC_BLOG_VERSION&"，修改系统文件请小心！</font></p>")
+
 	set fold=f.getfolder(path)
 
 	Response.write"<table width=""100%"" border=""0"">"
@@ -312,7 +321,8 @@ Function FileManage_ExportSiteFileEdit(tpath,opath)
 	
 
 	Dim Del,txaContent
-
+	Dim ct
+	ct=TransferHTML(LoadFromFile(BlogPath & unEscape(tpath),"utf-8"),"[textarea]")
 
 	'dim chkg
 	'chkg=lcase(BlogPath & unEscape(tpath))
@@ -327,13 +337,13 @@ Function FileManage_ExportSiteFileEdit(tpath,opath)
 		Response.Write "<form id=""edit"" name=""edit"" method=""post"" action=""main.asp?act=SiteFilePst&path="&Server.URLEncode(tpath)&"&opath="&Server.URLEncode(opath)&""">" & vbCrlf
 		
 		Response.Write "<p><br/>文件路径及文件名: <!--<a href=""javascript:void(0)"" onclick=""path.readOnly='';this.style.display='none';path.focus()"">修改文件名</a>--><INPUT TYPE=""text"" Value="""&unEscape(tpath)&""" style=""width:100%"" name=""path"" id=""path"" ></p>"
-		Response.Write "<p><textarea class=""resizable"" style=""height:300px;width:100%"" name=""txaContent"" id=""txaContent"">"&TransferHTML(LoadFromFile(BlogPath & unEscape(tpath),"utf-8"),"[textarea]")&"</textarea></p>" & vbCrlf
+		Response.Write "<p><textarea class=""resizable"" style=""height:300px;width:100%"" name=""txaContent"" id=""txaContent"">"&ct&"</textarea></p>" & vbCrlf
 		Response.Write "<hr/>"
 		Response.Write "<p><input class=""button"" type=""submit"" value="""&ZC_MSG087&""" id=""btnPost""/><input class=""button"" type=""button"" value=""撤销修改，返回""  onclick=""history.go(-1)""/></p>" & vbCrlf
 		Response.Write "</form>" & vbCrlf
 		If FileManage_CodeMirror Then
     	Response.Write "<script>var editor = CodeMirror.fromTextArea(document.getElementById(""txaContent""), {mode: {"
-			If CheckRegExp(tpath,".+?html?|.+?xml") Then
+			If CheckRegExp(tpath,".+?html?|.+?xml") Or ct="" Then
 				Response.Write 	"name: ""xml"","
 			ElseIf CheckRegExp(tpath,".+?js(on)?") Then
 				Response.Write  "name: ""javascript"","
