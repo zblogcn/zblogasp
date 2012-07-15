@@ -1030,6 +1030,14 @@ Function LoadGlobeCache()
 			aryTemplatesContent(3+i)=strContent
 		Next
 
+		'在模板文件中先替换当前模版内的文件标签
+		For i=1 To UBound(aryTemplatesName)
+			For j=1 to UBound(aryTemplatesName)
+				aryTemplatesContent(i)=Replace(aryTemplatesContent(i),"<#"+aryTemplatesName(j)+"#>",aryTemplatesContent(j))
+			Next
+		Next
+
+
 	End If
 
 	'加载标签
@@ -2134,7 +2142,9 @@ Function BlogReBuild_Catalogs()
 		If bAction_Plugin_BlogReBuild_Catalogs_Begin=True Then Exit Function
 	Next
 
+	IsRunGetCategory=False
 	GetCategory()
+
 
 	Dim objRS
 	Dim objStream
@@ -2150,6 +2160,7 @@ Function BlogReBuild_Catalogs()
 
 	Dim i,j
 	For i=Lbound(aryCateInOrder)+1 To Ubound(aryCateInOrder)
+Response.Write aryCateInOrder(i) & "<br/>"
 
 			If Categorys(aryCateInOrder(i)).ParentID=0 Then
 				strCatalog=strCatalog & "<li class=""li-parecate""><span class=""feed-icon""><a href="""& Categorys(aryCateInOrder(i)).RssUrl &""" target=""_blank""><img title=""rss"" width=""20"" height=""12"" src="""&ZC_BLOG_HOST&"zb_system/image/logo/rss.png"" border=""0"" alt=""rss"" /></a>&nbsp;</span><a href="""& Categorys(aryCateInOrder(i)).Url & """>"+Categorys(aryCateInOrder(i)).Name + "<span class=""article-nums""> (" & Categorys(aryCateInOrder(i)).Count & ")</span>" +"</a></li>"
@@ -2563,15 +2574,9 @@ Function BlogReBuild_Statistics()
 	End If
 	objRS.Close
 
-	objRS.Open("SELECT COUNT([comm_ID])AS allComment FROM [blog_Comment] WHERE [log_ID]=0")
-	If (Not objRS.bof) And (Not objRS.eof) Then
-		strStatistics=strStatistics & "<li>"& ZC_MSG284 &":" & objRS("allComment") & "</li>"
-	End If
-	objRS.Close
 
 	strStatistics=strStatistics & "<li>"& ZC_MSG306 &":" & GetNameFormTheme(ZC_BLOG_THEME) & "</li>"
 	strStatistics=strStatistics & "<li>"& ZC_MSG083 &":" & ZC_BLOG_CSS & "</li>"
-	'strStatistics=strStatistics & "<li>"& ZC_MSG084 &":" & ZC_BLOG_LANGUAGE & "</li>"
 
 	Set objRS=Nothing
 

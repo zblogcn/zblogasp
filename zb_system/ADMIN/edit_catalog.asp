@@ -40,6 +40,9 @@ Call CheckReference("")
 '检查权限
 If Not CheckRights("CategoryEdt") Then Call ShowError(6)
 
+GetCategory()
+GetUser()
+
 Dim EditCategory
 Set EditCategory=New TCategory
 
@@ -94,7 +97,7 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG066
 		Dim aryCateInOrder,i
 		aryCateInOrder=GetCategoryOrder()
 		If IsArray(aryCateInOrder) Then
-			For i=0 To Ubound(aryCateInOrder)
+			For i=LBound(aryCateInOrder)+1 To Ubound(aryCateInOrder)
 				If Categorys(aryCateInOrder(i)).ParentID=0 And Categorys(aryCateInOrder(i)).ID<>EditCategory.ID Then
 					Response.Write "<option value="""&Categorys(aryCateInOrder(i)).ID&""" "
 					If Categorys(aryCateInOrder(i)).ID=EditCategory.ParentID Then Response.Write "selected=""selected"" "

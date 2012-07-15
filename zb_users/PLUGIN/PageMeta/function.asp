@@ -34,7 +34,7 @@ Function PageMeta_ExportArticleList(intPage,intCate,intLevel,intTitle)
 	Dim aryCateInOrder : aryCateInOrder=GetCategoryOrder()
 	Dim m,n
 	If IsArray(aryCateInOrder) Then
-	For m=0 To Ubound(aryCateInOrder)
+	For m=LBound(aryCateInOrder)+1 To Ubound(aryCateInOrder)
 		If Categorys(aryCateInOrder(m)).ParentID=0 Then
 			Response.Write "<option value="""&Categorys(aryCateInOrder(m)).ID&""">"&TransferHTML( Categorys(aryCateInOrder(m)).Name,"[html-format]")&"</option>"
 
@@ -154,7 +154,7 @@ Function PageMeta_ExportCategoryList(intPage)
 	aryCateInOrder=GetCategoryOrder()
 
 	If IsArray(aryCateInOrder) Then
-	For i=0 To Ubound(aryCateInOrder)
+	For i=LBound(aryCateInOrder)+1 To Ubound(aryCateInOrder)
 
 		If Categorys(aryCateInOrder(i)).ParentID=0 Then
 

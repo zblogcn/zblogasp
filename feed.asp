@@ -354,7 +354,7 @@ Function ExportRSSbyCmt(intID)
 				Do While Not objRS.eof
 
 					Set objComment=New TComment
-					If objComment.LoadInfoByArray(Array(objRS("comm_ID"),objRS("log_ID"),objRS("comm_AuthorID"),objRS("comm_Author"),objRS("comm_Content"),objRS("comm_Email"),objRS("comm_HomePage"),objRS("comm_PostTime"),objRS("comm_IP"),objRS("comm_Agent"))) Then
+					If objComment.LoadInfoByArray(Array(objRS("comm_ID"),objRS("log_ID"),objRS("comm_AuthorID"),objRS("comm_Author"),objRS("comm_Content"),objRS("comm_Email"),objRS("comm_HomePage"),objRS("comm_PostTime"),objRS("comm_IP"),objRS("comm_Agent"),objRS("comm_Reply"),objRS("comm_LastReplyIP"),objRS("comm_LastReplyTime"),objRS("comm_ParentID"),objRS("comm_ParentCount"),objRS("comm_IsCheck"),objRs("comm_Meta")))Then
 						.AddItem "Re:"&objArticle.HtmlTitle,objComment.Email & " (" & objComment.Author & ")",objArticle.HtmlUrl & "#cmt" & objComment.ID,objComment.PostTime,objArticle.HtmlUrl & "#cmt" & objComment.ID,objComment.HtmlContent,"","","","",""
 					End If
 					Set objComment=Nothing

@@ -38,6 +38,9 @@ Call CheckReference("")
 '检查权限
 If Not CheckRights("SettingMng") Then Call ShowError(6)
 
+GetCategory()
+GetUser()
+
 Dim EditArticle
 
 BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG247
