@@ -15,6 +15,6 @@ body{
 	</style>
 </head>
 <body><img src="../IMAGE/common/zbloglogo.gif" width="200" height="70" border="0" alt="logo" usemap="#rslogo" /><map name="rslogo"><area shape="rect" coords="10, 10, 180, 70" title="访问Z-Blog主页" href="http://www.rainbowsoft.org/" target="_blank" alt="访问Z-Blog主页" /></map>
-<script type="text/javascript" src="../function/c_system_adminleft.asp"></script>
+
 </body>
 </html>

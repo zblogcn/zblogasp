@@ -53,27 +53,6 @@ If Not IsEmpty(Request.QueryString("id")) Then
 			End If
 		End If
 
-		'ajax tags
-
-		If Request.QueryString("type")="tags" Then
-			Response.Write "$(""#ajaxtags"").html("""
-			Dim objRS
-			Set objRS=objConn.Execute("SELECT [tag_ID] FROM [blog_Tag] ORDER BY [tag_Name] ASC")
-			If (Not objRS.bof) And (Not objRS.eof) Then
-				Do While Not objRS.eof
-					If InStr(EditArticle.Tag,"{"& objRS("tag_ID") & "}")>0 Then
-						Response.Write "<a href='#' class='selected'>"& TransferHTML(Tags(objRS("tag_ID")).Name,"[html-format]") &"</a> "
-					Else
-						Response.Write "<a href='#'>"& TransferHTML(Tags(objRS("tag_ID")).Name,"[html-format]") &"</a> "
-					End If
-					objRS.MoveNext
-				Loop
-			End If
-			objRS.Close
-			Set objRS=Nothing
-			Response.Write """);$(""#ulTag"").tagTo(""#edtTag"");"
-			Response.End
-		End If
 
 
 	Else
@@ -83,6 +62,27 @@ Else
 	EditArticle.AuthorID=BlogUser.ID
 End If
 
+		'ajax tags
+
+		If Request.QueryString("type")="tags" Then
+			Response.Write "$(""#ajaxtags"").html("""
+			Dim objRS
+			Set objRS=objConn.Execute("SELECT [tag_ID],[tag_Name] FROM [blog_Tag] ORDER BY [tag_Count] DESC")
+			If (Not objRS.bof) And (Not objRS.eof) Then
+				Do While Not objRS.eof
+					If InStr(EditArticle.Tag,"{"& objRS("tag_ID") & "}")>0 Then
+						Response.Write "<a href='#' class='selected'>"& TransferHTML(objRS("tag_Name"),"[html-format]") &"</a> "
+					Else
+						Response.Write "<a href='#'>"& TransferHTML(objRS("tag_Name"),"[html-format]") &"</a> "
+					End If
+					objRS.MoveNext
+				Loop
+			End If
+			objRS.Close
+			Set objRS=Nothing
+			Response.Write """);$(""#ulTag"").tagTo(""#edtTag"");"
+			Response.End
+		End If
 BlogTitle=EditArticle.HtmlUrl
 EditArticle.Content=UBBCode(EditArticle.Content,"[link][email][font][code][face][image][flash][typeset][media][autolink][key][link-antispam]")
 

@@ -17,14 +17,10 @@ Call RegisterPlugin("FileManage","ActivePlugin_FileManage")
 
 '挂口部分
 Function ActivePlugin_FileManage()
-
-	Call Add_Action_Plugin("Action_Plugin_Admin_Begin","FileManage_Include")
-	Call Add_AdminLeft_Plugin("文件管理","http://www.zsxsoft.com")
-	If FileManage_ShowPluginName Then Call Add_Action_Plugin("Action_Plugin_FileManage_ExportInformation_NotFound","FileManage_GetPluginName(""{path}"",""{f}"")")
-	If FileManage_ShowThemesName Then Call Add_Action_Plugin("Action_Plugin_FileManage_ExportInformation_NotFound","FileManage_GetThemeName(""{path}"",""{f}"")")
-
-
-
+	Call Add_Response_Plugin("Response_Plugin_ThemeMng_SubMenu",MakeSubMenu("修改主题","../../ZB_USERS/plugin/FileManage/main.asp?act=ThemeEditor","m-left",False))
+	If FileManage_ShowPluginName=True Then Call Add_Action_Plugin("Action_Plugin_FileManage_ExportInformation_NotFound","FileManage_GetPluginName(""{path}"",""{f}"")")
+	If FileManage_ShowThemesName=True Then Call Add_Action_Plugin("Action_Plugin_FileManage_ExportInformation_NotFound","FileManage_GetThemeName(""{path}"",""{f}"")")
+	
 End Function
 '*********************************************************
 ' 得到插件名
@@ -76,19 +72,6 @@ Function FileManage_GetThemeName(p,f)
 	End If
 	Set objXmlFile=Nothing
 End Function
-'*********************************************************
-'直接接管文件管理
-'*********************************************************
-Sub FileManage_Include
-	Dim strAct
-	strAct=Request.QueryString("act")
-	If Not CheckRights(strAct) Then Call ShowError(6)
-	Select Case Request.QueryString("act")
 
-		Case "SiteFileMng" Response.Redirect ZC_BLOG_HOST & "/zb_users/PLUGIN/FileManage/main.asp?act=SiteFileMng&path="&Server.URLEncode(Request.QueryString("path"))&"&opath="&Server.URLEncode(Request.QueryString("opath")):Response.End
-		Case "SiteFileEdt" Response.Redirect ZC_BLOG_HOST & "/zb_users/PLUGIN/FileManage/main.asp?act=SiteFileEdt&path="&Server.URLEncode(Request.QueryString("path"))&"&opath="&Server.URLEncode(Request.QueryString("opath")):Response.End
-
-	End Select
-End Sub
 
 %>
