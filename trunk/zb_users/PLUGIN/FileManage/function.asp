@@ -94,23 +94,23 @@ Function FileManage_ExportInformation(foldername,path)
 		end select
 	elseif k=l & "\zb_system" then
 		select case z
-			case "admin" n="Z-Blog系统管理文件"
-			case "css" n="Z-Blog后台CSS存放文件夹"
-			case "function" n="Z-Blog核心文件"
-			case "image" n="Z-Blog后台图片存放文件夹"
-			case "script" n="Z-Blog脚本存放文件夹"
-			case "wap" n="Z-Blog Wap存放文件夹"
-			case "xml-rpc" n="Z-Blog Xml-Rpc存放文件夹"
+			case "admin" n="Z-Blog管理文件"
+			case "css" n="Z-Blog后台CSS文件夹"
+			case "function" n="核心文件"
+			case "image" n="后台资源文件夹"
+			case "script" n="后台脚本文件夹"
+			case "wap" n="Wap组件"
+			case "xml-rpc" n="Xml-Rpc组件"
 		end select
 	elseif k=l & "\zb_users" then
 		select case z
-			case "cache" n="Z-Blog缓存文件夹"
-			case "data" n="Z-Blog Access数据库"
+			case "cache" n="缓存文件夹"
+			case "data" n="数据库存放位置"
 			case "include" n="Z-Blog引用文件夹"
-			case "language" n="Z-Blog Language Pack"
-			case "plugin" n="Z-Blog 插件文件夹"
-			case "theme" n="Z-Blog 主题存放文件夹"
-			case lcase(ZC_UPLOAD_DIRECTORY) n="上传文件存放文件夹"
+			case "language" n="Language Pack"
+			case "plugin" n="插件文件夹"
+			case "theme" n="主题文件夹"
+			case lcase(ZC_UPLOAD_DIRECTORY) n="上传文件文件夹"
 			case "c_custom.asp" n="用户配置文件"
 			case "c_option.asp" n="网站设置文件"
 			case "c_option_wap.asp" n="Wap设置文件"
@@ -138,7 +138,7 @@ Function FileManage_ExportInformation(foldername,path)
 			case "b_article-istop" n= "首页置顶文章模板"
 			case "b_article-multi" n= "首页摘要文章模板"
 			case "b_article-single" n= "日志页文章模板"
-			case "b_article-guestbook" n= "留言页正文模板"
+			'case "b_article-guestbook" n= "留言页正文模板"
 			case "b_article_comment" n= "每条评论内容显示模板"
 			case "b_article_commentrev" n="回复的评论显示模板"
 			case "b_article_commentpost-verify" n= "评论验证码显示样式"
@@ -153,8 +153,11 @@ Function FileManage_ExportInformation(foldername,path)
 			case "search" n="搜索页整页模板"
 			case "single" n="日志页整页模板"
 			case "tags" n="标签页整页模板"
-			case "guestbook" n="留言页整页模板"
-			case else n="自建非默认模板"
+			case "sidebar" n="侧边栏模板"
+			case "header" n="头部模板"
+			case "footer" n="底部模板"
+			'case "guestbook" n="留言页整页模板"
+			'case else n="自建非默认模板"
 		end select
 	elseif k=l & "\zb_users\theme\"&lcase(zc_blog_theme)&"\include" then
 		n="<#TEMPLATE_INCLUDE_"&ucasE(split(z,".")(0))&"#>"
@@ -273,8 +276,17 @@ Function FileManage_ExportSiteFileList(path,opath)
 	Response.write "<tr><td colspan=""5""><a href='main.asp?act=SiteFileMng&path="&Server.URLEncode(backfolder)&"' title='"&ZC_MSG239&"'><img src=""ico\up.png""/></a>"
 	Response.write "&nbsp;&nbsp;<a href='javascript:void(0)' onclick='window.open(""main.asp?act=SiteFileUploadShow&path="&Server.URLEncode(fpath)&"&opath="& Server.URLEncode(path) &""",""Detail"",""Scrollbars=no,Toolbar=no,Location=no,Direction=no,Resizeable=no,height=165px,width=780px"")' title=""上传""><img src=""ico\upload.png""/></a>"
 	Response.Write "&nbsp;&nbsp;<a href='main.asp?act=SiteCreateFolder' onmousedown=""var str=prompt('请输入文件夹名');if(str!=null){this.href+='&path='+encodeURIComponent('"&Replace(Replace(path,"\","\\"),"""","\""")&"'+'\\'+str);this.click()}else{return false}"" title='新建文件夹'><img src='ico\cfolder.png'/></a><span style=""float:right""><a href=""main.asp?act=Help"" title=""帮助""><img src=""ico\hlp.png""/></a></span>"
-	Response.Write "&nbsp;&nbsp;<a href=""main.asp?act=SiteFileEdt&path="&Server.URLEncode(path) &""" title=""创建文件""><img src=""ico\newfile.png""/></a></td></tr>"
-	Response.write "<tr><td width=""20%"">文件名</td><td width=""10%"">修改时间</td><td width=""8%"">大小</td><td width=""10%"">注释</td><td>操作</td></tr>"
+	Response.Write "&nbsp;&nbsp;<a href=""main.asp?act=SiteFileEdt&path="&Server.URLEncode(path) &""" title=""创建文件""><img src=""ico\newfile.png""/></a>"
+	
+	
+	For Each sAction_Plugin_FileManage_AddControlBar in Action_Plugin_FileManage_AddControlBar
+		If Not IsEmpty(sAction_Plugin_FileManage_AddControlBar) Then Call Execute(sAction_Plugin_FileManage_AddControlBar)
+	Next
+	
+	
+	
+	Response.Write "</td></tr>"
+	Response.write "<tr><td width=""30%"">文件名</td><td width=""15%"">修改时间</td><td width=""5%"">大小</td><td width=""18%"">注释</td><td>操作</td></tr>"
 	for each item in fold.subfolders
 		jpath=replace(path,"\","\\")
 		Response.write "<tr height=18><td><img width=""11"" height=""11""src='ico/fld.png' />&nbsp;<a href='main.asp?act=SiteFileMng&path="&Server.URLEncode(path&"\"&item.name)&"&opath='>"&item.name&"</a>"
@@ -283,11 +295,26 @@ Function FileManage_ExportSiteFileList(path,opath)
 	for each item in fold.files
 	fpath=replace(path&"/"&item.name,BlogPath,"")
 	fpath=replace(fpath,"\","/")
-	Response.write "<tr><td>"&FileManage_GetTypeIco(item.name)&"&nbsp;<a href=""javascript:;"" title='"&ZC_MSG261&":"&item.datelastmodified&";"&ZC_MSG238&":"&clng(item.size/1024)&"k'>"&item.name&"</a></td><td>"&item.datelastmodified&"</td><td>"&FileManage_GetSize(item.size)&"</td><td>"&FileManage_ExportInformation(item.name,path)&"</td><td>"
+	Response.write "<tr><td>"&FileManage_GetTypeIco(item.name)&"&nbsp;<a href="""
+	Dim isEmptyPlugin
+	isEmptyPlugin=True
+	For Each sAction_Plugin_FileManage_FileOpenType in Action_Plugin_FileManage_FileOpenType
+		If Not IsEmpty(sAction_Plugin_FileManage_FileOpenType) Then
+			Call Execute(sAction_Plugin_FileManage_FileOpenType)
+			isEmptyPlugin=False
+		End If
+	Next
+	If isEmptyPlugin Then Response.Write "javascript:void(0)"
+	
+	Response.Write """ title='"&ZC_MSG261&":"&item.datelastmodified&";"&ZC_MSG238&":"&clng(item.size/1024)&"k'>"&item.name&"</a></td><td>"&item.datelastmodified&"</td><td>"&FileManage_GetSize(item.size)&"</td><td>"&FileManage_ExportInformation(item.name,path)&"</td><td>"
 	Response.write"<a href=""main.asp?act=SiteFileEdt&path="&Server.URLEncode(fpath)&"&opath="& Server.URLEncode(path) &""" title=""["&ZC_MSG078&"]""><img src=""ico\edit.png"" width=""11"" height=""11""/></a>"
 	Response.Write "&nbsp;&nbsp;<a href=""main.asp?act=SiteFileDownload&path="&Server.URLEncode(fpath)&"&opath="& Server.URLEncode(path) &""" target=""_blank"" title=""[下载]""><img src=""ico\download.png"" width=""11"" height=""11""/></a>"
 	Response.Write "&nbsp;&nbsp;<a href=""main.asp?act=SiteFileDel&path="&Server.URLEncode(fpath)&"&opath="& Server.URLEncode(path) &""" onclick='return window.confirm("""&ZC_MSG058&""");' title=""["&ZC_MSG063&"]""><img src=""ico\del.png"" width=""11"" height=""11""/></a>"
-	Response.Write "&nbsp;&nbsp;<a href=""main.asp?act=SiteFileRename&path="&Server.URLEncode(fpath)&"&opath="& Server.URLEncode(path) &""" onmousedown='var str=prompt(""请输入新文件名"");if(str!=null){this.href+=""&newfilename=""+encodeURIComponent(str);this.click()}else{return false}' title=""[重命名]""><img src=""ico\rename.png"" width=""11"" height=""11""/></a></td></tr>"
+	Response.Write "&nbsp;&nbsp;<a href=""main.asp?act=SiteFileRename&path="&Server.URLEncode(fpath)&"&opath="& Server.URLEncode(path) &""" onmousedown='var str=prompt(""请输入新文件名"");if(str!=null){this.href+=""&newfilename=""+encodeURIComponent(str);this.click()}else{return false}' title=""[重命名]""><img src=""ico\rename.png"" width=""11"" height=""11""/></a>"
+	For Each sAction_Plugin_FileManage_AddControlList in Action_Plugin_FileManage_AddControlList
+		If Not IsEmpty(sAction_Plugin_FileManage_AddControlList) Then Call Execute(sAction_Plugin_FileManage_AddControlList)
+	Next
+	Response.Write "</td></tr>"
 
 	next
 	response.write"</table>"
