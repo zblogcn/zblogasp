@@ -170,6 +170,10 @@ div.function li{
 	display:none;
 }
 
+#divCatalog li.li-subcate{
+	margin:0 0 0 1em;
+}
+
 
 
 /*------------------------------控制面板定义---------------------------*/
@@ -262,7 +266,7 @@ div.post .post-date{
 div.post .post-footer{
 	width:100%;
 	margin:20px 0 40px 0;
-	padding:0 0 3px 0;
+	padding:0 0 5px 0;
 	font-size:0.9em;
     font-weight: normal;
 	color:gray;
@@ -279,11 +283,17 @@ div.post .post-tags{
 	color:gray;
 	height:20px;
 	text-align:left;
+    text-indent:2em;
 }
 
 body.multi div.post .post-tags{
 	display:none;
 }
+body.single div.post .post-footer{
+    border-bottom:1px #E4E6E3 solid;
+	padding:0 0 10px 0;
+}
+
 
 div.post div.post-body{
     text-indent:2em;
@@ -398,12 +408,12 @@ div.post-body h6{
 /*---------------------------blog标题-----------------------------*/
 
 #BlogTitle{
-	font-size:24px;
+	font-size:1.6em;
 	margin:5px 0 0 10px;
 	padding:0 0 0 0;
 	font-weight:bold;
 	float:left;
-	line-height:30px;
+	line-height:1.6em;
 }
 #BlogTitle a{
 	color:#000; 
@@ -423,6 +433,7 @@ div.post-body h6{
 	margin:16px 0 0 10px;
 	padding:0;
 	float:left;
+	line-height:1.6em;
 }
 
 /*---------------------------版权-----------------------------*/
@@ -566,15 +577,15 @@ p.cd{
 
 /*---------------------------引用\评论----------------------------------*/
 ul.msg{
-	width:640px;
+	width:90%;
 	margin:20px 0 20px 10px;
-	padding:12px;
+	padding:10px;
 	text-align:left;
 	list-style-position : outside;
-          border:1px #E4E6E3 solid;
-         table-layout: fixed;
-         word-wrap:break-word;
-         background:#F8F7F8;
+    border:1px #E4E6E3 solid;
+    table-layout: fixed;
+    word-wrap:break-word;
+    background:#F8F7F8;
 }
 li.msgname{
 	border-bottom:1px dansh Silver;
@@ -593,7 +604,7 @@ li.msgurl{
 	padding:2px 10px 2px 10px;
 	margin:0;
 	background:#f0f0f0;
-        font-size:1em;
+    font-size:1em;
 }
 
 
@@ -610,9 +621,9 @@ li.msgarticle{
 	line-height:160%; 
 }
 li.msgtime{
-        font-weight: normal; 
-        font-size:10px;
-        color: #01487C;
+	font-weight: normal; 
+	font-size:0.8em;
+	color: #01487C;
 }
 
 .time{
@@ -635,7 +646,7 @@ ul.mutuality{
 	margin:5px 0 10px 10px;
 }
 ul.mutuality li.tbname{
-        padding:5px 0 2px 10px;
+    padding:5px 0 2px 10px;
 	margin:0px;
 }
 
@@ -728,7 +739,7 @@ li.msgarticle div.quote-title{
 .pagebar a{ text-align:center;border:1px solid #E4E6E3;background:#E4E6E3;font-family:Verdana;text-decoration:none;margin:0 3px;padding:1px 3px 2px}
 .pagebar .now-page{text-align:center;font-family:Verdana;text-decoration:none;margin:0 3px;padding:1px 3px 2px}
 .pagebar a:hover{color:#666;border-top:#bebdbe 1px solid;text-decoration:none;background:#ddd}
-.pagebar span{background-color:#fff;color:red;margin:3px;padding:5px}
+.pagebar span{background-color:#fff;margin:3px;padding:5px}
 .extend{display:none;}
 
 
@@ -768,14 +779,11 @@ blockquote{
 
 
 #divCommentPost{
-	border:1px solid #ccc;
-	-moz-border-radius:5px;
-	-webkit-border-radius:5px;
-	border-radius:5px;
-	background:#e5e5e5;
-	width:644px;
+    border:1px #E4E6E3 solid;
+    background:#F8F7F8;
+	width:90%;
 	margin:0 0 0 10px;
-	padding:5px 0 15px 20px;
+	padding:5px 0px 15px 20px;
 }
 #divCommentPost p{margin-top:10px;}
 #divCommentPost label{margin-top:5px;}
