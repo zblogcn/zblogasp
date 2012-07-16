@@ -1875,4 +1875,7 @@ End Function
 	function vbsunescape(source){
 		return unescape(source);
 	}
+	function vbsescape(source){
+		return escape(source);
+	}
 </script>
