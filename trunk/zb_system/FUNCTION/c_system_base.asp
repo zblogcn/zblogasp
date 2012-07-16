@@ -38,6 +38,9 @@ ReDim Tags(0)
 Dim ConfigMetas
 Set ConfigMetas=New TMeta
 
+Dim BlogConfig
+Set BlogConfig = New TConfig
+
 Dim PluginName()
 Dim PluginActiveFunction()
 ReDim PluginName(0)
@@ -79,10 +82,8 @@ Sub System_Initialize()
 	'Call GetKeyWords()
 	Call GetConfigs()
 
-	'Dim BlogConfig
-	'Set BlogConfig = New TConfig
 
-	'BlogConfig.Load("Blog")
+	BlogConfig.Load("Blog")
 
 	'BlogConfig.Write "ZC_BLOG_HOST","http://192.168.1.142/"
 
