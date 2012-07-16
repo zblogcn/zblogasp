@@ -6,7 +6,6 @@ body{
 	padding:0;
 	color:#353434;
     background:#F7F7F7;
-	/*background:#000000 url("default/2008bg.gif") repeat-x;*/
 	font-size:14px;
     font-family: "微软雅黑","宋体","Trebuchet MS", Tahoma, Arial, sans-serif; 
 
@@ -86,7 +85,7 @@ p{
 	text-align:left;
 	float:left;
 	height:220px;
-	background:#FFFFFF url("default/f.jpg") no-repeat left bottom;
+	background:#FFFFFF url("default/firefox.jpg") no-repeat left bottom;
 
 }
 
@@ -580,7 +579,7 @@ p.cd{
 /*---------------------------引用\评论----------------------------------*/
 ul.msg{
 	width:90%;
-	margin:20px 0 20px 10px;
+	margin:20px 0 20px 24px;
 	padding:10px;
 	text-align:left;
 	list-style-position : outside;
@@ -645,7 +644,7 @@ ul.trackback{
 /*---------------------------相关文章----------------------------------*/
 
 ul.mutuality{
-	margin:5px 0 10px 10px;
+
 }
 ul.mutuality li.tbname{
     padding:5px 0 2px 10px;
@@ -659,19 +658,7 @@ ul.mutuality h3{
     border-bottom:1px dansh Silver;
 }
 
-ul.mutuality h3 .lefttext{
-	margin:0px;
-	float:left;
-    color: #DC143C;
-	font-size:1em;
-}
 
-ul.mutuality h3 .righttext{
-    color: #979595;
-	float:right;
-    padding:0 10px 0 0;
-    font-weight: normal; 
-}
 /*-------------------留言回复------------------------------*/
 li.msgarticle div.quote{
 	margin:10px 0 0 0;
@@ -784,9 +771,10 @@ blockquote{
     border:1px #E4E6E3 solid;
     background:#F8F7F8;
 	width:90%;
-	margin:0 0 0 10px;
+	margin:0 0 0 24px;
 	padding:5px 0px 15px 20px;
 }
+
 #divCommentPost p{margin-top:10px;}
 #divCommentPost label{margin-top:5px;}
 #txaArticle{margin-top:10px;width:95%;height:150px;}

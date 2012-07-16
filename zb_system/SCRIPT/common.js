@@ -365,7 +365,7 @@ function InsertUbbFace() {
 		for (var i=0;i<aryFileName.length;i++)
 		{
 			strFileName = aryFileName[i];
-			strFaceHtml=strFaceHtml + "<img src=\""+str00+"zb_system/image/face/"+strFileName+".gif\" title=\""+strFileName+"\" alt=\""+strFileName+"\" width=\""+strFaceSize+"\" height=\""+strFaceSize+"\" onclick=\"InsertText(objActive,'[F]'+this.alt+'[/F]',false);\" style=\"padding:2px;cursor:pointer;\">";
+			strFaceHtml=strFaceHtml + "<img src=\""+str00+"zb_system/image/face/"+strFileName+"."+strFaceType+"\" title=\""+strFileName+"\" alt=\""+strFileName+"\" width=\""+strFaceSize+"\" height=\""+strFaceSize+"\" onclick=\"InsertText(objActive,'[F]'+this.alt+'[/F]',false);\" style=\"padding:2px;cursor:pointer;\">";
 		}
 		document.getElementById("UbbFrame").innerHTML=strFaceHtml;
 	}

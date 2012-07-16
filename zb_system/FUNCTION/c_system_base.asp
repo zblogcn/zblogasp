@@ -437,6 +437,8 @@ Dim IsRunConfigs
 IsRunConfigs=False
 Function GetConfigs()
 
+	If IsRunConfigs=True Then Exit Function
+
 	Dim objRS
 	Set objRS=objConn.Execute("SELECT [conf_Name],[conf_Value] FROM [blog_Config]")
 	If (Not objRS.bof) And (Not objRS.eof) Then
@@ -485,7 +487,7 @@ Function GetRights(strAction)
 			GetRights=5
 		Case "admin"
 			GetRights=4
-		Case "cmt","CommentRev"
+		Case "cmt"
 			GetRights=5
 		Case "tb"
 			GetRights=5
@@ -539,6 +541,8 @@ Function GetRights(strAction)
 			GetRights=4
 		Case "CommentSav"
 			GetRights=4
+		Case "CommentRev"
+			GetRights=5
 		Case "CommentDelBatch"
 			GetRights=4
 		Case "TrackBackMng"
@@ -1068,7 +1072,7 @@ Function LoadGlobeCache()
 	a=0
 	b=20
 	c=1
-	d=327
+	d=400
 	e=0
 	a2=0
 	a3=0

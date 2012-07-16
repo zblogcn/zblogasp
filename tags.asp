@@ -39,7 +39,13 @@ Set ArtList=New TArticleList
 
 ArtList.LoadCache
 
+If GetTemplate("TEMPLATE_PAGE")<>empty Then
+ArtList.template="PAGE"
+End If
+
+If GetTemplate("TEMPLATE_TAGS")<>empty Then
 ArtList.template="TAGS"
+End If
 
 ArtList.Title="TagCloud"
 

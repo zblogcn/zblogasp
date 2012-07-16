@@ -45,7 +45,14 @@ Set ArtList=New TArticleList
 
 ArtList.LoadCache
 
+
+If GetTemplate("TEMPLATE_PAGE")<>empty Then
+ArtList.template="PAGE"
+End If
+
+If GetTemplate("TEMPLATE_SEARCH")<>empty Then
 ArtList.template="SEARCH"
+End If
 
 If ArtList.Search(strQuestion) Then
 
