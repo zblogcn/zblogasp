@@ -35,6 +35,9 @@ ReDim Categorys(0)
 ReDim Users(0)
 ReDim Tags(0)
 
+Dim ConfigMetas
+Set ConfigMetas=New TMeta
+
 Dim PluginName()
 Dim PluginActiveFunction()
 ReDim PluginName(0)
@@ -74,6 +77,18 @@ Sub System_Initialize()
 	'Call GetUser()
 	'Call GetTags()
 	'Call GetKeyWords()
+	Call GetConfigs()
+
+	'Dim BlogConfig
+	'Set BlogConfig = New TConfig
+
+	'BlogConfig.Load("Blog")
+
+	'BlogConfig.Write "ZC_BLOG_HOST","http://192.168.1.142/"
+
+	'Response.Write BlogConfig.Read("ZC_BLOG_HOST")
+
+	'BlogConfig.Save
 
 	Call LoadGlobeCache()
 
@@ -414,23 +429,27 @@ End Function
 
 
 
-
 '*********************************************************
-' 目的：    KeyWords读取
+' 目的：    Tags读取
 '*********************************************************
-Function GetKeyWords()
+Dim IsRunConfigs
+IsRunConfigs=False
+Function GetConfigs()
 
-	'Dim objRS
-	'Set objRS=objConn.Execute("SELECT [key_ID],[key_Name],[key_URL] FROM [blog_Keyword] ORDER BY [key_ID] ASC")
+	Dim objRS
+	Set objRS=objConn.Execute("SELECT [conf_Name],[conf_Value] FROM [blog_Config]")
+	If (Not objRS.bof) And (Not objRS.eof) Then
 
-	'If (Not objRS.bof) And (Not objRS.eof) Then
-	'	KeyWords=objRS.GetRows
-	'End If
+		Do While Not objRS.eof
+			Call ConfigMetas.SetValue(objRS(0),objRS(1))
+			objRS.MoveNext
+		Loop
 
-	'objRS.Close
-	'Set objRS=Nothing
+	End If
 
-	GetKeyWords=True
+	IsRunConfigs=True
+
+	GetConfigs=True
 
 End Function
 '*********************************************************

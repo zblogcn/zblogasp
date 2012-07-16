@@ -1,6 +1,5 @@
 /*--------------------------全--局-------------------------------*/
 
-/* html { filter:progid:DXImageTransform.Microsoft.BasicImage(grayscale=1); }*/
 
 body{
 	margin:0;
@@ -8,8 +7,8 @@ body{
 	color:#353434;
     background:#F7F7F7;
 	/*background:#000000 url("default/2008bg.gif") repeat-x;*/
-	font: 14px "Trebuchet MS", Tahoma, Arial, sans-serif;
-    font-family: "微软雅黑","宋体"; 
+	font-size:14px;
+    font-family: "微软雅黑","宋体","Trebuchet MS", Tahoma, Arial, sans-serif; 
 
 }
 a{

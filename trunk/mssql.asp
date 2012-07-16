@@ -14,7 +14,7 @@
 '///////////////////////////////////////////////////////////////////////////////
 %>
 <% Option Explicit %>
-<% 'On Error Resume Next %>
+<% On Error Resume Next %>
 <% Response.Charset="UTF-8" %>
 <%Response.Buffer=True %>
 <%
@@ -550,6 +550,10 @@ Function UpdateDateBase()
 		objConn.execute("ALTER TABLE [blog_Tag] ADD COLUMN [tag_Meta] text default """"")
 	End If
 
+	If Not CheckUpdateDB("[conf_Name]","[blog_Config]") Then
+		objConn.execute("CREATE TABLE [blog_Config] (conf_Name VARCHAR(255) default """" not null,conf_Value text default """"")
+	End If
+
 End Function
 
 
@@ -584,7 +588,7 @@ Dim objCat
 
 
 Set objCat=Server.CreateObject("ADOX.Catalog")   
-objCat.Create  "Provider=Microsoft.Jet.OLEDB.4.0;Data Source="&Server.MapPath("zblog.mdb")
+objCat.Create "Provider=Microsoft.Jet.OLEDB.4.0;Data Source="&Server.MapPath("zblog.mdb")
 
 
 Set objConn = Server.CreateObject("ADODB.Connection")
@@ -607,6 +611,8 @@ objConn.execute("CREATE TABLE [blog_Counter] (coun_ID AutoIncrement primary key,
 objConn.execute("CREATE TABLE [blog_Keyword] (key_ID AutoIncrement primary key,key_Name VARCHAR(255) default """",key_Intro text default """",key_URL VARCHAR(255) default """")")
 
 objConn.execute("CREATE TABLE [blog_Member] (mem_ID AutoIncrement primary key,mem_Level int default 0,mem_Name VARCHAR(20) default """",mem_Password VARCHAR(32) default """",mem_Sex int default 0,mem_Email VARCHAR(50) default """",mem_MSN VARCHAR(50) default """",mem_QQ VARCHAR(50) default """",mem_HomePage VARCHAR(255) default """",mem_LastVisit datetime default now(),mem_Status int default 0,mem_PostLogs int default 0,mem_PostComms int default 0,mem_Intro text default """",mem_IP VARCHAR(15) default """",mem_Count int default 0,mem_Guid VARCHAR(36) default """",mem_Meta text default """")")
+
+objConn.execute("CREATE TABLE [blog_Config] (conf_Name VARCHAR(255) default """" not null,conf_Value text default """")")
 
 objConn.Execute("INSERT INTO [blog_Member]([mem_Level],[mem_Name],[mem_PassWord],[mem_Email],[mem_HomePage],[mem_Intro],[mem_Guid]) VALUES (1,'zblogger','"&ps&"','null@null.com','','','"&guid&"')")
 
@@ -642,8 +648,9 @@ objConn.execute("CREATE TABLE [blog_Keyword] (key_ID int identity(1,1) not null 
 
 objConn.execute("CREATE TABLE [blog_Member] (mem_ID int identity(1,1) not null primary key,mem_Level int default 0,mem_Name nvarchar(20) default '',mem_Password nvarchar(32) default '',mem_Sex int default 0,mem_Email nvarchar(50) default '',mem_MSN nvarchar(50) default '',mem_QQ nvarchar(50) default '',mem_HomePage nvarchar(255) default '',mem_LastVisit datetime default getdate(),mem_Status int default 0,mem_PostLogs int default 0,mem_PostComms int default 0,mem_Intro ntext default '',mem_IP nvarchar(15) default '',mem_Count int default 0,mem_Guid  nvarchar(36) default '',mem_Meta ntext default '')")
 
-objConn.Execute("INSERT INTO [blog_Member]([mem_Level],[mem_Name],[mem_PassWord],[mem_Email],[mem_HomePage],[mem_Intro],[mem_Guid]) VALUES (1,'zblogger','"&ps&"','null@null.com','','','"&guid&"')")
+objConn.execute("CREATE TABLE [blog_Config] (conf_Name nvarchar(255) not null default '',conf_Value text default '')")
 
+objConn.Execute("INSERT INTO [blog_Member]([mem_Level],[mem_Name],[mem_PassWord],[mem_Email],[mem_HomePage],[mem_Intro],[mem_Guid]) VALUES (1,'zblogger','"&ps&"','null@null.com','','','"&guid&"')")
 
 objConn.Close
 

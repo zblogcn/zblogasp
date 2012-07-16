@@ -4492,6 +4492,19 @@ Class TMeta
 
 	End Function
 
+	Public Function Exists(name)
+
+		For i=0 To UBound(names)
+			If LCase(names(i))=LCase(name) Then
+				Exists=True
+				Exit Function
+			End If
+		Next
+
+		Exists=False
+
+	End Function
+
 	Private Sub Class_Initialize()
 
 		ReDim Names(0)
@@ -4504,6 +4517,87 @@ Class TMeta
 		meta_split_string_2=":"
 
 		Call initCodecs
+
+	End Sub
+
+End Class
+'*********************************************************
+
+
+
+
+
+
+
+
+
+
+'*********************************************************
+' 目的：    定义TConfig
+' 输入：    无
+' 返回：    无
+'*********************************************************
+Class TConfig
+
+	Private Name
+
+	Private Meta
+
+	Public Property Get Count
+		Count = Meta.Config
+	End Property
+
+	Public Function Save()
+
+		Dim objRS
+		Set objRS=objConn.Execute("SELECT [conf_Name] FROM [blog_Config] WHERE [conf_Name]='"&Name&"'" )
+		If (Not objRS.bof) And (Not objRS.eof) Then
+			objConn.Execute("UPDATE [blog_Config] SET [conf_Value]='"&Meta.SaveString&"' WHERE [conf_Name]='"&Name&"'")
+		Else
+			objConn.Execute("INSERT INTO [blog_Config]([conf_Name],[conf_Value]) VALUES ('"&Name&"','"&Meta.SaveString&"')")
+		End If
+		Set objRS=Nothing
+
+	End Function
+
+
+	Public Function Load(configname)
+
+		Name=configname
+
+		Dim s
+		For Each s In ConfigMetas.Names
+			If LCase(s)=LCase(Name) Then
+				Meta.LoadString=ConfigMetas.GetValue(Name)
+			End If
+		Next
+
+	End Function
+
+
+	Public Function Write(name,value)
+	
+		Write=Meta.SetValue(name,value)
+
+	End Function
+
+	Public Function Read(name)
+
+		Read=Meta.GetValue(name)
+
+	End Function
+
+	Public Function Remove(name)
+
+		Remove=Meta.Remove(name)
+
+	End Function
+
+	Private Sub Class_Initialize()
+
+		Name=Empty
+
+		Set Meta=New TMeta
 
 	End Sub
 
