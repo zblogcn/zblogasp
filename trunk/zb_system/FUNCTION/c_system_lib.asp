@@ -4422,7 +4422,8 @@ Class TMeta
 
 		name=Replace(name,meta_split_string_1,"")
 		name=Replace(name,meta_split_string_2,"")
-
+		name=vbsescape(name)
+		value=vbsescape(value)
 		If IsNull(value)=True Then value=""
 
 		Dim n,i
@@ -4451,7 +4452,7 @@ Class TMeta
 		i=0
 		For Each n In names
 			If LCase(n)=LCase(name) Then
-				GetValue = base64Decode(values(i))
+				GetValue = vbsunescape(base64Decode(values(i)))
 				Exit function
 			End If
 			i=i+1
