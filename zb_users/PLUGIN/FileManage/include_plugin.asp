@@ -151,5 +151,18 @@ Redim Action_Plugin_FileManage_GetTypeIco_NotFound(0)
 Dim bAction_Plugin_FileManage_GetTypeIco_NotFound
 Dim sAction_Plugin_FileManage_GetTypeIco_NotFound
 
+Dim Action_Plugin_FileManage_AddControlBar
+Redim Action_Plugin_FileManage_AddControlBar(0)
+Dim sAction_Plugin_FileManage_AddControlBar
+Dim bAction_Plugin_FileManage_AddControlBar
 
+Dim Action_Plugin_FileManage_AddControlList
+Redim Action_Plugin_FileManage_AddControlList(0)
+Dim sAction_Plugin_FileManage_AddControlList
+Dim bAction_Plugin_FileManage_AddControlList
+
+Dim Action_Plugin_FileManage_FileOpenType
+Redim Action_Plugin_FileManage_FileOpenType(0)
+Dim sAction_Plugin_FileManage_FileOpenType
+Dim bAction_Plugin_FileManage_FileOpenType
 %>
