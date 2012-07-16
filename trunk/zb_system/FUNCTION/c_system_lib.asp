@@ -4428,15 +4428,14 @@ Class TMeta
 
 		name=Replace(name,meta_split_string_1,"")
 		name=Replace(name,meta_split_string_2,"")
-		name=vbsescape(name)
-		value=vbsescape(value)
+
 		If IsNull(value)=True Then value=""
 
 		Dim n,i
 		i=0
 		For Each n In names
 			If LCase(n)=LCase(name) Then
-				values(i)=base64Encode(CStr(value))
+				values(i)=base64Encode(vbsescape(value))
 				Exit function
 			End If
 			i=i+1
@@ -4448,7 +4447,7 @@ Class TMeta
 		ReDim Preserve Values(i+1)
 
 		Names(i+1)=name
-		Values(i+1)=base64Encode(CStr(value))
+		Values(i+1)=base64Encode(vbsescape(value))
 
 	End Function
 
@@ -4464,7 +4463,7 @@ Class TMeta
 			i=i+1
 		Next
 
-		GetValue = null
+		GetValue = Empty
 	End Function
 
 	Public Function Remove(name)
@@ -4604,6 +4603,14 @@ Class TConfig
 		Remove=Meta.Remove(name)
 
 	End Function
+
+
+	Public Function Exists(name)
+
+		Exists=Meta.Exists(name)
+
+	End Function
+
 
 	Private Sub Class_Initialize()
 
