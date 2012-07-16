@@ -2163,19 +2163,19 @@ Function BlogReBuild_Catalogs()
 Response.Write aryCateInOrder(i) & "<br/>"
 
 			If Categorys(aryCateInOrder(i)).ParentID=0 Then
-				strCatalog=strCatalog & "<li class=""li-parecate""><span class=""feed-icon""><a href="""& Categorys(aryCateInOrder(i)).RssUrl &""" target=""_blank""><img title=""rss"" width=""20"" height=""12"" src="""&ZC_BLOG_HOST&"zb_system/image/logo/rss.png"" border=""0"" alt=""rss"" /></a>&nbsp;</span><a href="""& Categorys(aryCateInOrder(i)).Url & """>"+Categorys(aryCateInOrder(i)).Name + "<span class=""article-nums""> (" & Categorys(aryCateInOrder(i)).Count & ")</span>" +"</a></li>"
+				strCatalog=strCatalog & "<li class=""li-cate""><a href="""& Categorys(aryCateInOrder(i)).Url & """>"+Categorys(aryCateInOrder(i)).Name + "<span class=""article-nums""> (" & Categorys(aryCateInOrder(i)).Count & ")</span>" +"</a></li>"
 
 				bolHasSubCate=False
 				For j=Lbound(aryCateInOrder) To UBound(aryCateInOrder)-1
 					If Categorys(aryCateInOrder(j)).ParentID=Categorys(aryCateInOrder(i)).ID Then bolHasSubCate=True
 				Next
-				If bolHasSubCate Then strCatalog=strCatalog & "<li class=""li-subcates""><ul class=""ul-subcates"">"
+				'If bolHasSubCate Then strCatalog=strCatalog & "<li class=""li-subcates""><ul class=""ul-subcates"">"
 				For j=Lbound(aryCateInOrder) To UBound(aryCateInOrder)-1
 					If Categorys(aryCateInOrder(j)).ParentID=Categorys(aryCateInOrder(i)).ID Then
-						strCatalog=strCatalog & "<li class=""li-subcate""><span class=""feed-icon""><a href="""& Categorys(aryCateInOrder(j)).RssUrl &""" target=""_blank""><img title=""rss"" width=""20"" height=""12"" src="""&ZC_BLOG_HOST&"zb_system/image/logo/rss.png"" border=""0"" alt=""rss"" /></a>&nbsp;</span><a href="""& Categorys(aryCateInOrder(j)).Url & """>"+Categorys(aryCateInOrder(j)).Name + "<span class=""article-nums""> (" & Categorys(aryCateInOrder(j)).Count & ")</span>" +"</a></li>"
+						strCatalog=strCatalog & "<li class=""li-subcate""><a href="""& Categorys(aryCateInOrder(j)).Url & """>"+Categorys(aryCateInOrder(j)).Name + "<span class=""article-nums""> (" & Categorys(aryCateInOrder(j)).Count & ")</span>" +"</a></li>"
 					End If
 				Next
-				If bolHasSubCate Then strCatalog=strCatalog & "</ul></li>"
+				'If bolHasSubCate Then strCatalog=strCatalog & "</ul></li>"
 			End If
 
 	Next
@@ -2532,29 +2532,6 @@ Function BlogReBuild_Statistics()
 			Set objRS=Nothing
 		End If
 	Next
-	Dim User
-	'For Each User in Users
-	'	If IsObject(User) Then
-	'		Set objRS=objConn.Execute("SELECT COUNT([log_ID]) FROM [blog_Article] WHERE [log_Level]>1 AND [log_AuthorID]=" & User.ID )
-	'		i=objRS(0)
-	'		objConn.Execute("UPDATE [blog_Member] SET [mem_PostLogs]="&i&" WHERE [mem_ID] =" & User.ID)
-	'		Set objRS=Nothing
-	'
-	'		Set objRS=objConn.Execute("SELECT COUNT([comm_ID]) FROM [blog_Comment] WHERE [comm_AuthorID]=" & User.ID )
-	'		i=objRS(0)
-	'		objConn.Execute("UPDATE [blog_Member] SET [mem_PostComms]="&i&" WHERE [mem_ID] =" & User.ID)
-	'		Set objRS=Nothing
-	'	End If
-	'Next
-	'Dim Tag
-	'For Each Tag in Tags
-	'	If IsObject(Tag) Then
-	'		Set objRS=objConn.Execute("SELECT COUNT([log_ID]) FROM [blog_Article] WHERE [log_Level]>1 AND [log_Tag] LIKE '%{" & Tag.ID & "}%'")
-	'		i=objRS(0)
-	'		objConn.Execute("UPDATE [blog_Tag] SET [tag_Count]="&i&" WHERE [tag_ID] =" & Tag.ID)
-	'		Set objRS=Nothing
-	'	End If
-	'Next
 
 	'Statistics
 	Dim strStatistics
