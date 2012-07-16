@@ -87,7 +87,7 @@ p{
 	text-align:left;
 	float:left;
 	height:220px;
-	background:#FFFFFF url("default/f.jpg") no-repeat 0 40px;
+	background:#FFFFFF url("default/f.jpg") no-repeat left bottom;
 
 }
 
@@ -476,59 +476,59 @@ div.post-body h6{
 	float:left;
 }
 #divCalendar div.month1{
-	background:url("default/month1.gif") no-repeat center 10px;
+	background:url("default/month1.gif") no-repeat center center;
 }
 #divCalendar div.month2{
-	background:url("default/month2.gif") no-repeat center 10px;
+	background:url("default/month2.gif") no-repeat center center;
 }
 #divCalendar div.month3{
-	background:url("default/month3.gif") no-repeat center 10px;
+	background:url("default/month3.gif") no-repeat center center;
 }
 #divCalendar div.month4{
-	background:url("default/month4.gif") no-repeat center 10px;
+	background:url("default/month4.gif") no-repeat center center;
 }
 #divCalendar div.month5{
-	background:url("default/month5.gif") no-repeat center 10px;;
+	background:url("default/month5.gif") no-repeat center center;;
 }
 #divCalendar div.month6{
-	background:url("default/month6.gif") no-repeat center 10px;
+	background:url("default/month6.gif") no-repeat center center;
 }
 #divCalendar div.month7{
-	background:url("default/month7.gif") no-repeat center 10px;
+	background:url("default/month7.gif") no-repeat center center;
 }
 #divCalendar div.month8{
-	background:url("default/month8.gif") no-repeat center 10px;
+	background:url("default/month8.gif") no-repeat center center;
 }
 #divCalendar div.month9{
-	background:url("default/month9.gif") no-repeat center 10px;
+	background:url("default/month9.gif") no-repeat center center;
 }
 #divCalendar div.month10{
-	background:url("default/month10.gif") no-repeat center 10px;
+	background:url("default/month10.gif") no-repeat center center;
 }
 #divCalendar div.month11{
-	background:url("default/month11.gif") no-repeat center 10px;
+	background:url("default/month11.gif") no-repeat center center;
 }
 #divCalendar div.month12{
-	background:url("default/month12.gif") no-repeat center 10px;
+	background:url("default/month12.gif") no-repeat center center;
 }
 
 p.w{
 	float:left;
 	width:14%;
-	height:1.5em;
-	margin:4px 0 0 0;
-	padding:2px 0 1px 0;
+	height:1.8em;
+	line-height:1.8em;
+	margin:0 0 0 0;
+	padding:0 0 0 0;
 	text-align:center;
 	vertical-align :middle;
 	font-size:1em;
-	border-top:1px solid #aaaaaa;
-	border-bottom:1px solid  #aaaaaa;
+	background:#F7F7F7;
 }
 
 p.y{
 	text-align:center;
-	height:14px;
-	margin:5px 0 5px 0;
+	height:1.7em;
+	margin:0 0 0 0;
 	padding:0 0 0 0;
 	float:left;
 	width:100%;
@@ -538,7 +538,7 @@ p.y{
 p.d{
 	float:left;
 	width:14%;
-	height:1.5em;
+	height:1.7em;
 	margin:0 0 0 0;
 	padding:2px 0 0 0;
 	text-align:center;
@@ -547,7 +547,7 @@ p.d{
 p.yd{
 	float:left;
 	width:14%;
-	height:1.5em;
+	height:1.7em;
 	margin:0 0 0 0;
 	padding:2px 0 0 0;
 	text-align:center;
@@ -559,7 +559,7 @@ p.yd{
 p.nd{
 	float:left;
 	width:14%;
-	height:1.5em;
+	height:1.7em;
 	margin:0 0 0 0;
 	padding:2px 0 0 0;
 	text-align:center;
