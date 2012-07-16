@@ -472,7 +472,7 @@ Function PostComment(strKey)
 	Dim objUser
 	For Each objUser in Users
 		If IsObject(objUser) Then
-			If (UCase(objUser.Name)=UCase(objComment.Author)) And (objUser.ID<>objComment.AuthorID) Then Call ShowError(31)
+			If (UCase(objUser.Name)=UCase(objComment.Author)) And (objUser.ID<>objComment.AuthorID) Then ShowError(31)
 		End If
 	Next
 

@@ -34,28 +34,28 @@ var str06="<%=ZC_MSG057%>";
 var intMaxLen="<%=ZC_CONTENT_MAX%>";
 var strFaceName="<%=ZC_EMOTICONS_FILENAME%>";
 var strFaceSize="<%=ZC_EMOTICONS_FILESIZE%>";
+var strFaceType="<%=ZC_EMOTICONS_FILETYPE%>";
 var strBatchView="";
 var strBatchInculde="";
 var strBatchCount="";
 
 $(document).ready(function(){ 
 
-try{
+	try{
 
-	$.getScript("<%=ZC_BLOG_HOST%>zb_system/function/c_html_js.asp?act=batch"+unescape("%26")+"view=" + escape(strBatchView)+unescape("%26")+"inculde=" + escape(strBatchInculde)+unescape("%26")+"count=" + escape(strBatchCount));
+		$.getScript("<%=ZC_BLOG_HOST%>zb_system/function/c_html_js.asp?act=batch"+unescape("%26")+"view=" + escape(strBatchView)+unescape("%26")+"inculde=" + escape(strBatchInculde)+unescape("%26")+"count=" + escape(strBatchCount));
 
-	var objImageValid=$("img[src^='<%=ZC_BLOG_HOST%>zb_system/function/c_validcode.asp?name=commentvalid']");
-	if(objImageValid.size()>0){
-		objImageValid.css("cursor","pointer");
-		objImageValid.click( function() {
-				objImageValid.attr("src","<%=ZC_BLOG_HOST%>zb_system/function/c_validcode.asp?name=commentvalid"+"&amp;random="+Math.random());
-		} );
-	};
+		var objImageValid=$("img[src^='<%=ZC_BLOG_HOST%>zb_system/function/c_validcode.asp?name=commentvalid']");
+		if(objImageValid.size()>0){
+			objImageValid.css("cursor","pointer");
+			objImageValid.click( function() {
+					objImageValid.attr("src","<%=ZC_BLOG_HOST%>zb_system/function/c_validcode.asp?name=commentvalid"+"&amp;random="+Math.random());
+			} );
+		};
 
-}catch(e){};
+	}catch(e){};
 
 });
-
 <%
 Function LoadFromFile(strFullName,strCharset)
 

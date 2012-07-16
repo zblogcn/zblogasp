@@ -277,6 +277,7 @@ Class TArticle
 
 	Public Template_Article_Trackback
 	Public Template_Article_Comment
+	Public Template_Article_Comment_Pagebar
 	Public Template_Article_Commentpost
 	Public Template_Article_Tag
 	Public Template_Article_Navbar_L
@@ -592,8 +593,9 @@ Class TArticle
 		'plugin node
 		Call Filter_Plugin_TArticle_Export_Template_Sub(Template_Article_Comment,Template_Article_Trackback,Template_Article_Tag,Template_Article_Commentpost,Template_Article_Navbar_L,Template_Article_Navbar_R,Template_Article_Mutuality)
 
-		Template_Article_Single=Replace(Template_Article_Single,"<#template:article_trackback#>",Template_Article_Trackback)
 		Template_Article_Single=Replace(Template_Article_Single,"<#template:article_comment#>",Template_Article_Comment)
+		Template_Article_Single=Replace(Template_Article_Single,"<#template:article_trackback#>",Template_Article_Trackback)
+		Template_Article_Single=Replace(Template_Article_Single,"<#template:article_comment_pagebar#>",Template_Article_Comment_Pagebar)
 		Template_Article_Single=Replace(Template_Article_Single,"<#template:article_commentpost#>",Template_Article_Commentpost)
 		Template_Article_Single=Replace(Template_Article_Single,"<#template:article_tag#>",Template_Article_Tag)
 		Template_Article_Single=Replace(Template_Article_Single,"<#template:article_navbar_l#>",Template_Article_Navbar_L)
@@ -1459,6 +1461,9 @@ Class TArticleList
 
 		If IsEmpty(html)=True Then html=Template
 
+		Call GetCategory()
+		Call GetUser()
+
 		'plugin node
 		Call Filter_Plugin_TArticleList_Export(intPage,intCateId,intAuthorId,dtmYearMonth,strTagsName,intType)
 
@@ -1590,9 +1595,6 @@ Class TArticleList
 			Next
 			'Err.Clear
 		End If
-
-		Call GetCategory()
-		Call GetUser()
 
 		objRS.Source=objRS.Source & "ORDER BY [log_PostTime] DESC,[log_ID] DESC"
 		objRS.Open()
@@ -1795,6 +1797,9 @@ Class TArticleList
 
 		If IsEmpty(html)=True Then html=Template
 
+		Call GetCategory()
+		Call GetUser()
+
 		'plugin node
 		Call Filter_Plugin_TArticleList_ExportByMixed(intPage,intCateId,intAuthorId,dtmYearMonth,strTagsName,intType)
 
@@ -1866,7 +1871,6 @@ Class TArticleList
 		objRS.Source="SELECT [log_ID] FROM [blog_Article] WHERE ([log_CateID]>0) And ([log_ID]>0) AND ([log_Istop]=0) AND ([log_Level]>1)"
 
 		If Not IsEmpty(intCateId) Then
-			GetCategory()
 			Dim strSubCateID : strSubCateID=Join(GetSubCateID(intCateId,True),",")
 			objRS.Source=objRS.Source & "AND([log_CateID]IN("&strSubCateID&"))"
 			If CheckCateByID(intCateId) Then
@@ -1879,7 +1883,6 @@ Class TArticleList
 			End If
 		End if
 		If Not IsEmpty(intAuthorId) Then
-			GetUser()
 			objRS.Source=objRS.Source & "AND([log_AuthorID]="&intAuthorId&")"
 			If CheckAuthorByID(intAuthorId) Then
 				Title=TransferHTML(Users(intAuthorId).Name,"[html-format]")
@@ -2114,6 +2117,11 @@ Class TArticleList
 			If bAction_Plugin_TArticleList_Search_Begin=True Then Exit Function
 		Next
 
+		If IsEmpty(html)=True Then html=Template
+
+		Call GetCategory()
+		Call GetUser()
+
 		Dim i
 		Dim j
 		Dim s
@@ -2133,9 +2141,6 @@ Class TArticleList
 		objRS.CursorType = adOpenKeyset
 		objRS.LockType = adLockReadOnly
 		objRS.ActiveConnection=objConn
-
-
-
 
 		objRS.Source="SELECT [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_IsAnonymous],[log_Meta] FROM [blog_Article] WHERE ([log_CateID]>0) And ([log_ID]>0) AND ([log_Level]>2)"
 
@@ -2163,6 +2168,7 @@ Class TArticleList
 
 				Set objArticle=New TArticle
 				If objArticle.LoadInfoByArray(Array(objRS(0),objRS(1),objRS(2),objRS(3),objRS(4),objRS(5),objRS(6),objRS(7),objRS(8),objRS(9),objRS(10),objRS(11),objRS(12),objRS(13),objRS(14),objRS(15),objRS(16),objRS(17))) Then
+					Call GetTagsbyTagIDList(objArticle.Tag)
 					If objArticle.Export(ZC_DISPLAY_MODE_SEARCH)= True Then
 						aryArticleList(i)=objArticle.Template_Article_Search
 					End If
@@ -2984,7 +2990,7 @@ Class TComment
 	Public Function MakeTemplate(strC,isChild)
 		Dim html,i,j,Template
 		html=strC
-		Template=GetTemplate("TEMPLATE_B_ARTICLE_COMMENTREV")
+		Template=GetTemplate("TEMPLATE_B_ARTICLE_COMMENT")
 		if Template="" then Template=strc
 		'plugin node
 		Call Filter_Plugin_TComment_MakeTemplate_Template(html)
@@ -4561,6 +4567,11 @@ Class TConfig
 
 	End Function
 
+	Public Function Delete
+
+		objConn.Execute("DELETE FROM [blog_Config] WHERE [conf_Name]='"&Name&"'")
+
+	End Function
 
 	Public Function Load(configname)
 

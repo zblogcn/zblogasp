@@ -106,7 +106,7 @@
         var point = marker.getPoint();
         var url = "http://api.map.baidu.com/staticimage?center=" + center.lng + ',' + center.lat +
             "&zoom=" + zoom + "&width=" + size.width + '&height=' + size.height + "&markers=" + point.lng + ',' + point.lat;
-        editor.execCommand('inserthtml', '<img width="'+ size.width +'"height="'+ size.height +'" src="' + url + '"' + (imgcss ? ' style="' + imgcss + '"' :'') + '/>');
+        editor.execCommand('inserthtml', '<img alt="baidu-map" width="'+ size.width +'"height="'+ size.height +'" src="' + url + '"' + (imgcss ? ' style="' + imgcss + '"' :'') + '/>');
     };
     document.getElementById("address").focus();
 </script>

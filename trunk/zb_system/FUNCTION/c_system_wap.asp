@@ -580,14 +580,10 @@ Function WapCom()
 		objRS.CursorType = adOpenKeyset
 		objRS.LockType = adLockReadOnly
 		objRS.ActiveConnection=objConn
-		If log_ID=0 Then 
-		objRS.Source="SELECT blog_Comment.* , blog_Article.log_ID, blog_Article.log_Title FROM blog_Comment INNER JOIN blog_Article ON blog_Comment.log_ID = blog_Article.log_ID ORDER BY blog_Comment.comm_PostTime DESC"
-		Response.Write WapTitle(ZC_MSG027,"")
-		Else
-		objRS.Source="SELECT blog_Comment.* , blog_Article.log_ID, blog_Article.log_Title FROM blog_Comment INNER JOIN blog_Article ON blog_Comment.log_ID = blog_Article.log_ID WHERE blog_Comment.log_ID="&log_ID&" ORDER BY blog_Comment.comm_PostTime DESC"
-'		Response.Write WapTitle("<a href="""& WapUrlStr &"?act=View&amp;id="& Article.id &""">"& Article.title &"</a>›"&ZC_MSG013)
+
+		objRS.Source="SELECT [blog_Comment].* , [blog_Article].[log_ID], [blog_Article].[log_Title] FROM [blog_Comment] INNER JOIN [blog_Article] ON [blog_Comment].[log_ID] = [blog_Article].[log_ID] WHERE [blog_Comment].[log_ID]="&log_ID&" ORDER BY [blog_Comment].[comm_PostTime] DESC"
 		Response.Write WapTitle(Article.title&"›"&ZC_MSG013,"")
-		End If
+
 		objRS.Open()
 
 		If (Not objRS.bof) And (Not objRS.eof) Then

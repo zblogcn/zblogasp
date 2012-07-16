@@ -14,7 +14,7 @@
 '///////////////////////////////////////////////////////////////////////////////
 %>
 <% Option Explicit %>
-<% On Error Resume Next %>
+<% 'On Error Resume Next %>
 <% Response.Charset="UTF-8" %>
 <%Response.Buffer=True %>
 <%
@@ -613,6 +613,7 @@ objConn.execute("CREATE TABLE [blog_Keyword] (key_ID AutoIncrement primary key,k
 objConn.execute("CREATE TABLE [blog_Member] (mem_ID AutoIncrement primary key,mem_Level int default 0,mem_Name VARCHAR(20) default """",mem_Password VARCHAR(32) default """",mem_Sex int default 0,mem_Email VARCHAR(50) default """",mem_MSN VARCHAR(50) default """",mem_QQ VARCHAR(50) default """",mem_HomePage VARCHAR(255) default """",mem_LastVisit datetime default now(),mem_Status int default 0,mem_PostLogs int default 0,mem_PostComms int default 0,mem_Intro text default """",mem_IP VARCHAR(15) default """",mem_Count int default 0,mem_Guid VARCHAR(36) default """",mem_Meta text default """")")
 
 objConn.execute("CREATE TABLE [blog_Config] (conf_Name VARCHAR(255) default """" not null,conf_Value text default """")")
+'objConn.execute("CREATE UNIQUE INDEX index_conf_Name ON [blog_Config](conf_Name)")
 
 objConn.Execute("INSERT INTO [blog_Member]([mem_Level],[mem_Name],[mem_PassWord],[mem_Email],[mem_HomePage],[mem_Intro],[mem_Guid]) VALUES (1,'zblogger','"&ps&"','null@null.com','','','"&guid&"')")
 

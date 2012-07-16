@@ -68,7 +68,7 @@
         var center = map.getCenter();
         var point = marker.getPosition();
         var url = "http://maps.google.com/maps/api/staticmap?center=" + center.lat() + ',' + center.lng() + "&zoom=" + map.zoom + "&size=520x340&maptype=" + map.getMapTypeId() + "&markers=" + point.lat() + ',' + point.lng() + "&sensor=false";
-        editor.execCommand('inserthtml', '<img width="520" height="340" src="' + url + '"' + (imgcss ? ' style="' + imgcss + '"' :'') + '/>');
+        editor.execCommand('inserthtml', '<img alt="google-map" width="520" height="340" src="' + url + '"' + (imgcss ? ' style="' + imgcss + '"' :'') + '/>');
     };
     
     function getPars(str,par){

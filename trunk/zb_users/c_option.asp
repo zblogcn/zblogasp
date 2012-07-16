@@ -98,9 +98,9 @@ Const ZC_UBB_AUTOLINK_ENABLE=True
 Const ZC_UBB_AUTOKEY_ENABLE=False
 
 
-Const ZC_EMOTICONS_FILENAME="Haha|Hehe|Love|Misdoubt|Music|Nothing_to_say|Sad|Shame|Sleep|Smile|Stop|What|Adore|After_boom|Angry|Cool|Cry|Effort|Faint|Grimace"
-
-Const ZC_EMOTICONS_FILESIZE=48
+Const ZC_EMOTICONS_FILENAME="neutral|grin|happy|slim|smile|tongue|wink|surprised|confuse|cool|cry|evilgrin|fat|mad|red|roll|unhappy|waii|yell"
+Const ZC_EMOTICONS_FILETYPE="png"
+Const ZC_EMOTICONS_FILESIZE=16
 
 
 Const ZC_UPLOAD_FILETYPE="jpg|gif|png|jpeg|bmp|psd|wmf|ico|rpm|deb|tar|gz|sit|7z|bz2|zip|rar|xml|xsl|svg|svgz|doc|xls|wps|chm|txt|pdf|mp3|avi|mpg|rm|ra|rmvb|mov|wmv|wma|swf|fla|torrent|zpi|zti"
