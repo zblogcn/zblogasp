@@ -60,9 +60,9 @@ If CheckPluginState("Totoro")=False Then Call ShowError(48)
 
 		Dim strSQL
 		if zc_mssql then
-			strSQL="WHERE ([log_isCheck]=1) "
+			strSQL="WHERE ([comm_isCheck]=1) "
 		else
-			strsql="WHERE ([log_isCheck]=FALSE)"
+			strsql="WHERE ([comm_isCheck]=FALSE)"
 		end if
 		If CheckRights("Root")=False Then strSQL=strSQL & "AND( (SELECT [log_AuthorID] FROM [blog_Article] WHERE [blog_Article].[log_ID] =[blog_Comment].[log_ID] ) =" & BlogUser.ID & ")"
 		

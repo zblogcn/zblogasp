@@ -39,21 +39,23 @@ If CheckPluginState("Totoro")=False Then Call ShowError(48)
 	For i=0 To UBound(t)-1
 		Set objComment=New TComment
 		If objComment.LoadInfobyID(t(i)) Then
-		objComment.isCheck=False
-		objComment.Post
+			objComment.isCheck=False
+			aryArticle(i)=objComment.log_ID
+			objComment.Post
 		End If
 		Set objComment=Nothing
 	Next
 
 
 	For j=0 To UBound(t)-1
-		If aryArticle(j)>0 Then
-			Call BuildArticle(aryArticle(j),False,False)
+		If clng(aryArticle(j))>0 Then
+				Call BuildArticle(aryArticle(j),False,True)
+				BlogReBuild_Comments
+				Call ClearGlobeCache
+				Call LoadGlobeCache
 		End If
 	Next
 
-	BlogReBuild_Comments
-	BlogReBuild_GuestComments
 
 	Response.Redirect "setting1.asp"
 
