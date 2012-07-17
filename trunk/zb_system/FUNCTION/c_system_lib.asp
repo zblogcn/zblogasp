@@ -4411,8 +4411,9 @@ Class TMeta
 
 	Public Function Exists(name)
 
-		For i=0 To UBound(names)
-			If LCase(names(i))=LCase(name) Then
+		Dim s
+		For Each s In names
+			If LCase(s)=LCase(name) Then
 				Exists=True
 				Exit Function
 			End If
