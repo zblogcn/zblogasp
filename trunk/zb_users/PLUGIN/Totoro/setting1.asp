@@ -48,7 +48,7 @@ BlogTitle="TotoroⅢ（基于TotoroⅡ的Z-Blog的评论管理审核系统增强
 <div class="Header"><%=BlogTitle%></div>
 <div class="SubMenu"><span class="m-left"><a href="setting.asp">TotoroⅢ设置</a></span><span class="m-left m-now"><a href="setting1.asp">审核评论<%
 	Dim objRS1
-	Set objRS1=objConn.Execute("SELECT COUNT([comm_ID]) FROM [blog_Comment] WHERE [log_ID]<0")
+	Set objRS1=objConn.Execute("SELECT COUNT([comm_ID]) FROM [blog_Comment] WHERE [comm_isCheck]=1")
 	If (Not objRS1.bof) And (Not objRS1.eof) Then
 		Response.Write "("&objRS1(0)&"条未审核的评论)"
 	End If
@@ -74,7 +74,7 @@ BlogTitle="TotoroⅢ（基于TotoroⅡ的Z-Blog的评论管理审核系统增强
 	objRS.ActiveConnection=objConn
 	objRS.Source=""
 
-	strSQL=strSQL&" WHERE  ([log_ID]<0) "
+	strSQL=strSQL&" WHERE  ([comm_isCheck]=1) "
 
 	If CheckRights("Root")=False Then strSQL=strSQL & "AND( ([comm_AuthorID] = " & BlogUser.ID & " ) OR ((SELECT [log_AuthorID] FROM [blog_Article] WHERE [blog_Article].[log_ID]=[blog_Comment].[log_ID])=" & BlogUser.ID & " )) "
 
@@ -82,7 +82,7 @@ BlogTitle="TotoroⅢ（基于TotoroⅡ的Z-Blog的评论管理审核系统增强
 
 	Call GetBlogHint()
 
-	Response.Write "<form id=""frmBatch"" method=""post"" action=""""><p><input class=""button"" type=""submit"" onclick='this.form.action="""&ZC_BLOG_HOST&"plugin/totoro/commentdel.asp?act=delALL"&""";return window.confirm("""& ZC_MSG058 &""");' value=""删除数据库中所有未审核的评论"" id=""btnPost""/></p></form><br/>"
+	Response.Write "<form id=""frmBatch"" method=""post"" action=""""><p><input class=""button"" type=""submit"" onclick='this.form.action="""&ZC_BLOG_HOST&"zb_users/plugin/totoro/commentdel.asp?act=delALL"&""";return window.confirm("""& ZC_MSG058 &""");' value=""删除数据库中所有未审核的评论"" id=""btnPost""/></p></form><br/>"
 
 	Response.Write "<table border=""1"" width=""100%"" cellspacing=""1"" cellpadding=""1"">"
 	Response.Write "<tr><td width='5%'>"& ZC_MSG076 &"</td><td width='14%'>"& ZC_MSG001 &"</td><td>"& ZC_MSG055 &"</td><td width='12%'>"& ZC_MSG080 &"</td><td width='15%'>"& ZC_MSG075 &"</td><td width='5%'  align='center'><a href='' onclick='BatchSelectAll();return false'>"& ZC_MSG229 &"</a></td></tr>"'
@@ -121,9 +121,9 @@ BlogTitle="TotoroⅢ（基于TotoroⅡ的Z-Blog的评论管理审核系统增强
 	Response.Write "</table>"
 
 	For i=1 to objRS.PageCount
-		strPage=strPage &"<a href='"&ZC_BLOG_HOST&"plugin/totoro/setting1.asp?page="& i &"'>["& Replace(ZC_MSG036,"%s",i) &"]</a> "
+		strPage=strPage &"<a href='"&ZC_BLOG_HOST&"/zb_users/plugin/totoro/setting1.asp?page="& i &"'>["& Replace(ZC_MSG036,"%s",i) &"]</a> "
 	Next
-	Response.Write "<br/><form id=""frmBatch"" method=""post"" action=""""><p><input type=""hidden"" id=""edtBatch"" name=""edtBatch"" value=""""/><input class=""button"" type=""submit"" onclick='BatchDeleteAll(""edtBatch"");if(document.getElementById(""edtBatch"").value){this.form.action="""&ZC_BLOG_HOST&"plugin/totoro/commentdel.asp"&""";return window.confirm("""& ZC_MSG058 &""");}else{return false}' value=""删除所选择的评论"" id=""btnPost""/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=""button"" type=""submit"" onclick='BatchDeleteAll(""edtBatch"");if(document.getElementById(""edtBatch"").value){this.form.action="""&ZC_BLOG_HOST&"plugin/totoro/commentpass.asp"&""";return window.confirm("""& ZC_MSG058 &""");}else{return false}' value=""通过所选择的评论"" id=""btnPost""/></p><form><br/>" & vbCrlf
+	Response.Write "<br/><form id=""frmBatch"" method=""post"" action=""""><p><input type=""hidden"" id=""edtBatch"" name=""edtBatch"" value=""""/><input class=""button"" type=""submit"" onclick='BatchDeleteAll(""edtBatch"");if(document.getElementById(""edtBatch"").value){this.form.action="""&ZC_BLOG_HOST&"/zb_users/plugin/totoro/commentdel.asp"&""";return window.confirm("""& ZC_MSG058 &""");}else{return false}' value=""删除所选择的评论"" id=""btnPost""/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=""button"" type=""submit"" onclick='BatchDeleteAll(""edtBatch"");if(document.getElementById(""edtBatch"").value){this.form.action="""&ZC_BLOG_HOST&"/zb_users/plugin/totoro/commentpass.asp"&""";return window.confirm("""& ZC_MSG058 &""");}else{return false}' value=""通过所选择的评论"" id=""btnPost""/></p><form><br/>" & vbCrlf
 
 	Response.Write "<hr/>" & ZC_MSG042 & ": " & strPage
 

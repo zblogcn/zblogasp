@@ -28,7 +28,7 @@ Dim Totoro_Config
 'Const TOTORO_BADWORD_VALUE = 50
 'Const TOTORO_BADWORD_LIST = "虚拟主机|域名注册|服务器托管|hosting|poker|免费铃声|免费彩信|铃声下载|搜'索引擎营销|数据恢复|彩票软件|手机图片|魔兽金币|交友中心|成人用品|私服|企业黄页|出租|显示屏|投影仪|群发|翻译公司|留学咨询|外挂|硬盘录像机|google排名|注册香港公司|婚庆公司|投影幕|培养箱|花店|一号通|印刷公司|打包机|封口机|管件|砂机|打标机|升降机"
 'Const TOTORO_INTERVAL_VALUE = 25
-'Const TOTORO_INTERVAL_HOUR = 1
+'Const TOTORO_INTERVAL_VALUE = 1
 'Const TOTORO_DEL_DIRECTLY = False
 'Const TOTORO_ConHuoxingwen = True
 'Const TOTORO_NUMBER_VALUE=10
@@ -56,19 +56,39 @@ Function ActivePlugin_Totoro()
 End Function
 
 
+Function InstallPlugin_Totoro()
+	Set Totoro_Config = New TConfig
+	Totoro_Config.Load("Totoro")
+	If Totoro_Config.Exists("TOTORO_VERSION")=False Then
+		Totoro_Config.Write "TOTORO_VERSION","0.0"
+		Totoro_Config.Write "TOTORO_INTERVAL_VALUE",25
+		Totoro_Config.Write "TOTORO_BADWORD_VALUE",50
+		Totoro_Config.Write "TOTORO_HYPERLINK_VALUE",10
+		Totoro_Config.Write "TOTORO_NAME_VALUE",45
+		Totoro_Config.Write "TOTORO_LEVEL_VALUE",100
+		Totoro_Config.Write "TOTORO_SV_THRESHOLD",50
+		Totoro_Config.Write "TOTORO_DEL_DIRECTLY","False"
+		Totoro_Config.Write "TOTORO_ConHuoxingwen","True"
+		Totoro_Config.Write "TOTORO_BADWORD_LIST","虚拟主机|域名注册|服务器托管|hosting|poker|免费铃声|免费彩信|铃声下载|搜索引擎营销|数据恢复|彩票软件|手机图片|魔兽金币|交友中心|成人用品|私服|企业黄页|出租|显示屏|投影仪|群发|翻译公司|留学咨询|外挂下载|硬盘录像机|google排名|注册香港公司|婚庆公司|投影幕|培养箱|花店|一号通|印刷公司|打包机|封口机|管件|砂机|打标机|升降机"
+		Totoro_Config.Write "TOTORO_NUMBER_VALUE",10
+		Totoro_Config.Save
+		Call SetBlogHint_Custom("〓 您是第一次安装Totoro，已经为您导入初始配置。")
+	End If
+End Function
+
 Function Totoro_Initialize()
 	Set Totoro_Config = New TConfig
 	Totoro_Config.Load("Totoro")
-	TOTORO_INTERVAL_VALUE=Totoro_Config.Read ("TOTORO_INTERVAL_VALUE")
-	TOTORO_BADWORD_VALUE=Totoro_Config.Read ("TOTORO_BADWORD_VALUE")
-	TOTORO_HYPERLINK_VALUE=Totoro_Config.Read ("TOTORO_HYPERLINK_VALUE")
-	TOTORO_NAME_VALUE=Totoro_Config.Read ("TOTORO_NAME_VALUE")
-	TOTORO_LEVEL_VALUE=Totoro_Config.Read ("TOTORO_LEVEL_VALUE")
-	TOTORO_SV_THRESHOLD=Totoro_Config.Read ("TOTORO_SV_THRESHOLD")
+	TOTORO_INTERVAL_VALUE=CLng(Totoro_Config.Read ("TOTORO_INTERVAL_VALUE"))
+	TOTORO_BADWORD_VALUE=CLng(Totoro_Config.Read ("TOTORO_BADWORD_VALUE"))
+	TOTORO_HYPERLINK_VALUE=CLng(Totoro_Config.Read ("TOTORO_HYPERLINK_VALUE"))
+	TOTORO_NAME_VALUE=CLng(Totoro_Config.Read ("TOTORO_NAME_VALUE"))
+	TOTORO_LEVEL_VALUE=CLng(Totoro_Config.Read ("TOTORO_LEVEL_VALUE"))
+	TOTORO_SV_THRESHOLD=CLng(Totoro_Config.Read ("TOTORO_SV_THRESHOLD"))
 	TOTORO_DEL_DIRECTLY=Totoro_Config.Read ("TOTORO_DEL_DIRECTLY")
 	TOTORO_ConHuoxingwen=Totoro_Config.Read ("TOTORO_ConHuoxingwen")
 	TOTORO_BADWORD_LIST=Totoro_Config.Read ("TOTORO_BADWORD_LIST")
-	TOTORO_NUMBER_VALUE=Totoro_Config.Read ("TOTORO_NUMBER_VALUE")
+	TOTORO_NUMBER_VALUE=CLng(Totoro_Config.Read ("TOTORO_NUMBER_VALUE"))
 End Function
 '*********************************************************
 ' 目的：    检查评论
@@ -93,7 +113,8 @@ Function Totoro_chkComment(ByRef objComment)
 	If Totoro_SV>=TOTORO_SV_THRESHOLD Then
 
 		objComment.isCheck=True
-
+		objComment.Post
+		
 		If IsEmpty(Request.Form("inpAjax"))=False Then
 			objComment.Content="你的评论已进入审核过程，请勿再次提交。"
 			Call ReturnAjaxComment(objComment)
@@ -222,17 +243,17 @@ Function Totoro_checkInterval(ByVal ip,ByVal posttime,ByVal iscomment)
 			If (Not objRS.bof) And (Not objRS.eof) Then
 				Do While Not objRS.eof
 					t=objRS("comm_PostTime")
-					If DateDiff("h",t,posttime)<TOTORO_INTERVAL_HOUR Then
+					If DateDiff("h",t,posttime)<TOTORO_INTERVAL_VALUE Then
 						j=j+1
-						If     DateDiff("n",t,posttime)>((TOTORO_INTERVAL_HOUR*60)\5)*4 Then
+						If     DateDiff("n",t,posttime)>((TOTORO_INTERVAL_VALUE*60)\5)*4 Then
 							s=s+(TOTORO_INTERVAL_VALUE\5)*1
-						ElseIf DateDiff("n",t,posttime)>((TOTORO_INTERVAL_HOUR*60)\5)*3 Then
+						ElseIf DateDiff("n",t,posttime)>((TOTORO_INTERVAL_VALUE*60)\5)*3 Then
 							s=s+(TOTORO_INTERVAL_VALUE\5)*2
-						ElseIf DateDiff("n",t,posttime)>((TOTORO_INTERVAL_HOUR*60)\5)*2 Then
+						ElseIf DateDiff("n",t,posttime)>((TOTORO_INTERVAL_VALUE*60)\5)*2 Then
 							s=s+(TOTORO_INTERVAL_VALUE\5)*3
-						ElseIf DateDiff("n",t,posttime)>((TOTORO_INTERVAL_HOUR*60)\5)*1 Then
+						ElseIf DateDiff("n",t,posttime)>((TOTORO_INTERVAL_VALUE*60)\5)*1 Then
 							s=s+(TOTORO_INTERVAL_VALUE\5)*4
-						ElseIf DateDiff("n",t,posttime)>((TOTORO_INTERVAL_HOUR*60)\5)*0 Then
+						ElseIf DateDiff("n",t,posttime)>((TOTORO_INTERVAL_VALUE*60)\5)*0 Then
 							s=s+(TOTORO_INTERVAL_VALUE\5)*5
 						Else
 							s=s+(TOTORO_INTERVAL_VALUE\5)*6
@@ -270,7 +291,7 @@ End Function
 Function Totoro_GetSpamCount_Comment()
 	If IsEmpty(objConn)=True Then Exit Function
 	Dim objRS1
-	Set objRS1=objConn.Execute("SELECT COUNT([comm_ID]) FROM [blog_Comment] WHERE [log_ID]<0")
+	Set objRS1=objConn.Execute("SELECT COUNT([comm_ID]) FROM [blog_Comment] WHERE [comm_isCheck]=1")
 	If (Not objRS1.bof) And (Not objRS1.eof) Then
 		Totoro_SpamCount_Comment="("&objRS1(0)&"条未审核的评论)"
 	End If
@@ -339,7 +360,7 @@ Function Totoro_CheckNumLong(str)
 	b=c.replace(b,"")
 	a=len(str)-len(b)
 	if a>10 then
-		Totoro_SV=Totoro_SV+TOTORO_NUMBER_VALUE*a
+		Totoro_SV=Totoro_SV+TOTORO_NUMBER_VALUE*(a-10)
 	end if
 	Totoro_CheckNumLong=True
 	set c=nothing
