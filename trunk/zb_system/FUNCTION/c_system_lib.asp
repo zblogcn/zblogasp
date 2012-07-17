@@ -3030,7 +3030,7 @@ Class TComment
 		aryTemplateTagsName( 13)="article/comment/rev"
 		aryTemplateTagsValue(13)=""
 		Dim objRS
-		Set objRS=objConn.Execute("SELECT [comm_ID],[log_ID],[comm_AuthorID],[comm_Author],[comm_Content],[comm_Email],[comm_HomePage],[comm_PostTime],[comm_IP],[comm_Agent],[comm_Reply],[comm_LastReplyIP],[comm_LastReplyTime],[comm_ParentID],[comm_ParentCount],[comm_Meta] FROM [blog_Comment] WHERE [comm_ParentID]=" & ID)
+		Set objRS=objConn.Execute("SELECT [comm_ID],[log_ID],[comm_AuthorID],[comm_Author],[comm_Content],[comm_Email],[comm_HomePage],[comm_PostTime],[comm_IP],[comm_Agent],[comm_Reply],[comm_LastReplyIP],[comm_LastReplyTime],[comm_ParentID],[comm_ParentCount],[comm_IsCheck],[comm_Meta] FROM [blog_Comment] WHERE [comm_ParentID]=" & ID)
 		Set ChildTemplate=New TComment
 		Dim intCount
 		intCount=0
