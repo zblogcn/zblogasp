@@ -2697,6 +2697,9 @@ Function BuildArticle(intID,bolBuildNavigate,bolBuildCategory)
 	Dim objArticle
 	Set objArticle=New TArticle
 
+	Call GetCategory()
+	Call GetUser()
+
 	If objArticle.LoadInfoByID(intID) Then
 		Call GetTagsbyTagIDList(objArticle.Tag)
 		objArticle.Statistic
