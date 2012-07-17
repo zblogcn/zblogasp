@@ -4221,15 +4221,15 @@ ReDim Action_Plugin_UEditor_imageManager_End(0)
 Dim bAction_Plugin_UEditor_imageManager_End
 Dim sAction_Plugin_UEditor_imageManager_End
 
-Dim Action_Plugin_UEditor_config_Begin()
-ReDim Action_Plugin_UEditor_config_Begin(0)
-Dim bAction_Plugin_UEditor_config_Begin
-Dim sAction_Plugin_UEditor_config_Begin
+Dim Action_Plugin_UEditor_Config_Begin()
+ReDim Action_Plugin_UEditor_Config_Begin(0)
+Dim bAction_Plugin_UEditor_Config_Begin
+Dim sAction_Plugin_UEditor_Config_Begin
 
-Dim Action_Plugin_UEditor_config_End()
-ReDim Action_Plugin_UEditor_config_End(0)
-Dim bAction_Plugin_UEditor_config_End
-Dim sAction_Plugin_UEditor_config_End
+Dim Action_Plugin_UEditor_Config_End()
+ReDim Action_Plugin_UEditor_Config_End(0)
+Dim bAction_Plugin_UEditor_Config_End
+Dim sAction_Plugin_UEditor_Config_End
 
 Dim Action_Plugin_UEditor_getRemoteImage_Begin()
 ReDim Action_Plugin_UEditor_getRemoteImage_Begin(0)
@@ -4260,6 +4260,23 @@ Dim Action_Plugin_UEditor_getcontent_End()
 ReDim Action_Plugin_UEditor_getcontent_End(0)
 Dim bAction_Plugin_UEditor_getcontent_End
 Dim sAction_Plugin_UEditor_getcontent_End
+
+
+
+Dim sFilter_Plugin_UEditor_Config
+Function Filter_Plugin_UEditor_Config(ByRef strJSContent)
+
+	Dim s,i
+
+	If sFilter_Plugin_UEditor_Config="" Then Exit Function
+
+	s=Split(sFilter_Plugin_UEditor_Config,"|")
+
+	For i=0 To UBound(s)-1
+		Call Execute(s(i) & " " & "strJSContent")
+	Next
+
+End Function
 
 
 %>
