@@ -31,61 +31,21 @@ If BlogUser.Level>1 Then Call ShowError(6)
 
 If CheckPluginState("Totoro")=False Then Call ShowError(48)
 
-'	Dim strContent
-'	strContent=LoadFromFile(BlogPath & "/zb_users/PLUGIN/totoro/include.asp","utf-8")
-
 	Call Totoro_Initialize
-	Dim strZC_TOTORO_INTERVAL_VALUE
-	strZC_TOTORO_INTERVAL_VALUE=Request.Form("strZC_TOTORO_INTERVAL_VALUE")
-	Totoro_Config.Write "TOTORO_INTERVAL_VALUE",strZC_TOTORO_INTERVAL_VALUE
-
-	'Call SaveValueForSetting(strContent,True,"Numeric","TOTORO_INTERVAL_VALUE",strZC_TOTORO_INTERVAL_VALUE)
-
-	Dim strZC_TOTORO_BADWORD_VALUE
-	strZC_TOTORO_BADWORD_VALUE=Request.Form("strZC_TOTORO_BADWORD_VALUE")
-	Totoro_Config.Write "TOTORO_BADWORD_VALUE",strZC_TOTORO_BADWORD_VALUE
-	'Call SaveValueForSetting(strContent,True,"Numeric","TOTORO_BADWORD_VALUE",strZC_TOTORO_BADWORD_VALUE)
-
-	Dim strZC_TOTORO_HYPERLINK_VALUE
-	strZC_TOTORO_HYPERLINK_VALUE=Request.Form("strZC_TOTORO_HYPERLINK_VALUE")
-	Totoro_Config.Write "TOTORO_HYPERLINK_VALUE",strZC_TOTORO_HYPERLINK_VALUE
-	'Call SaveValueForSetting(strContent,True,"Numeric","TOTORO_HYPERLINK_VALUE",strZC_TOTORO_HYPERLINK_VALUE)
-
-	Dim strZC_TOTORO_NAME_VALUE
-	strZC_TOTORO_NAME_VALUE=Request.Form("strZC_TOTORO_NAME_VALUE")
-	Totoro_Config.Write "TOTORO_NAME_VALUE",strZC_TOTORO_NAME_VALUE
-	'Call SaveValueForSetting(strContent,True,"Numeric","TOTORO_NAME_VALUE",strZC_TOTORO_NAME_VALUE)
-
-	Dim strZC_TOTORO_LEVEL_VALUE
-	strZC_TOTORO_LEVEL_VALUE=Request.Form("strZC_TOTORO_LEVEL_VALUE")
-	Totoro_Config.Write "TOTORO_LEVEL_VALUE",strZC_TOTORO_LEVEL_VALUE
-	'Call SaveValueForSetting(strContent,True,"Numeric","TOTORO_LEVEL_VALUE",strZC_TOTORO_LEVEL_VALUE)
-	
-	Dim strZC_TOTORO_SV_THRESHOLD
-	strZC_TOTORO_SV_THRESHOLD=Request.Form("strZC_TOTORO_SV_THRESHOLD")
-	Totoro_Config.Write "TOTORO_SV_THRESHOLD",strZC_TOTORO_SV_THRESHOLD
-	'Call SaveValueForSetting(strContent,True,"Numeric","TOTORO_SV_THRESHOLD",strZC_TOTORO_SV_THRESHOLD)
-	
-	Dim bolTOTORO_DEL_DIRECTLY
-	bolTOTORO_DEL_DIRECTLY=Request.Form("bolTOTORO_DEL_DIRECTLY")
-	Totoro_Config.Write "TOTORO_DEL_DIRECTLY",bolTOTORO_DEL_DIRECTLY
-	'Call SaveValueForSetting(strContent,True,"Boolean","TOTORO_DEL_DIRECTLY",bolTOTORO_DEL_DIRECTLY)
-
-	Dim bolTOTORO_ConHuoxingwen
-	bolTOTORO_ConHuoxingwen=Request.Form("bolTOTORO_ConHuoxingwen")
-	Totoro_Config.Write "TOTORO_ConHuoxingwen",bolTOTORO_ConHuoxingwen
-	'Call SaveValueForSetting(strContent,True,"Boolean","TOTORO_ConHuoxingwen",bolTOTORO_ConHuoxingwen)
-
-	Dim strZC_TOTORO_BADWORD_LIST
-	strZC_TOTORO_BADWORD_LIST=Replace(Replace(Request.Form("strZC_TOTORO_BADWORD_LIST"),vbCrlf,""),vbLf,"")
-	Totoro_Config.Write "TOTORO_BADWORD_LIST",strZC_TOTORO_BADWORD_LIST
-	'Call SaveValueForSetting(strContent,True,"String","TOTORO_BADWORD_LIST",strZC_TOTORO_BADWORD_LIST)
-
-
-'	Totoro_Config.Write "TOTORO_BADWORD_LIST",strZC_TOTORO_BADWORD_LIST
+	Totoro_Config.Write "TOTORO_INTERVAL_VALUE",Request.Form("strZC_TOTORO_INTERVAL_VALUE")
+	Totoro_Config.Write "TOTORO_BADWORD_VALUE",Request.Form("strZC_TOTORO_BADWORD_VALUE")
+	Totoro_Config.Write "TOTORO_HYPERLINK_VALUE",Request.Form("strZC_TOTORO_HYPERLINK_VALUE")
+	Totoro_Config.Write "TOTORO_NAME_VALUE",Request.Form("strZC_TOTORO_NAME_VALUE")
+	Totoro_Config.Write "TOTORO_LEVEL_VALUE",Request.Form("strZC_TOTORO_LEVEL_VALUE")	
+	Totoro_Config.Write "TOTORO_SV_THRESHOLD",Request.Form("strZC_TOTORO_SV_THRESHOLD")	
+	Totoro_Config.Write "TOTORO_DEL_DIRECTLY",Request.Form("bolTOTORO_DEL_DIRECTLY")
+	Totoro_Config.Write "TOTORO_ConHuoxingwen",Request.Form("bolTOTORO_ConHuoxingwen")
+	Totoro_Config.Write "TOTORO_BADWORD_LIST",Replace(Replace(Request.Form("strZC_TOTORO_BADWORD_LIST"),vbCrlf,""),vbLf,"")
+	Totoro_Config.Write "TOTORO_SV_THRESHOLD2",Request.Form("strZC_TOTORO_SV_THRESHOLD2")
 	Totoro_Config.Write "TOTORO_NUMBER_VALUE",Request.Form("strTOTORO_NUMBER_VALUE")
+	Totoro_Config.Write "TOTORO_REPLACE_LIST",Replace(Replace(Request.Form("strZC_TOTORO_REPLACE_LIST"),vbCrlf,""),vbLf,"")
+	Totoro_Config.Write "TOTORO_REPLACE_KEYWORD",Request.Form("strZC_TOTORO_REPLACE_KEYWORD")
 	Totoro_Config.Save
-	'Call SaveToFile(BlogPath & "ZB_Users/PLUGIN/totoro/include.asp",strContent,"utf-8",False)
 	Set Totoro_Config=Nothing
 
 Call System_Terminate()

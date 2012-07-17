@@ -14,10 +14,13 @@ Dim TOTORO_HYPERLINK_VALUE
 Dim TOTORO_NAME_VALUE
 Dim TOTORO_LEVEL_VALUE
 Dim TOTORO_SV_THRESHOLD
+Dim TOTORO_SV_THRESHOLD2
 Dim TOTORO_DEL_DIRECTLY
 Dim TOTORO_ConHuoxingwen
 Dim TOTORO_BADWORD_LIST
 Dim TOTORO_NUMBER_VALUE
+Dim TOTORO_REPLACE_KEYWORD
+Dim TOTORO_REPLACE_LIST
 
 Dim Totoro_Config
 'Const TOTORO_SV_THRESHOLD = 50
@@ -67,10 +70,15 @@ Function InstallPlugin_Totoro()
 		Totoro_Config.Write "TOTORO_NAME_VALUE",45
 		Totoro_Config.Write "TOTORO_LEVEL_VALUE",100
 		Totoro_Config.Write "TOTORO_SV_THRESHOLD",50
+		Totoro_Config.Write "TOTORO_SV_THRESHOLD2",50
+
 		Totoro_Config.Write "TOTORO_DEL_DIRECTLY","False"
 		Totoro_Config.Write "TOTORO_ConHuoxingwen","True"
-		Totoro_Config.Write "TOTORO_BADWORD_LIST","虚拟主机|域名注册|服务器托管|hosting|poker|免费铃声|免费彩信|铃声下载|搜索引擎营销|数据恢复|彩票软件|手机图片|魔兽金币|交友中心|成人用品|私服|企业黄页|出租|显示屏|投影仪|群发|翻译公司|留学咨询|外挂下载|硬盘录像机|google排名|注册香港公司|婚庆公司|投影幕|培养箱|花店|一号通|印刷公司|打包机|封口机|管件|砂机|打标机|升降机"
+		Totoro_Config.Write "TOTORO_BADWORD_LIST","虚拟主机|域名注册|服务器托管|host|铃声|彩信|营销|SEO|数据恢复|彩票|手机图片|游戏币|金币|交友中心|成人用品|私服|黄页|出租|求购|显示屏|投影仪|群发|翻译公司|留学咨询|外挂|google排名|婚庆公司|淘宝|皮肤病|不孕不育|性病|怀孕|医院"
 		Totoro_Config.Write "TOTORO_NUMBER_VALUE",10
+		Totoro_Config.Write "TOTORO_REPLACE_KEYWORD","**"
+		Totoro_Config.Write "TOTORO_REPLACE_LIST","无界|自由门|Free.+?Gate|大纪元|九评|江泽民|胡锦涛|温家宝|李洪志|法轮|民运|独裁|中?.*?共.*?党|64|马列|政府|Gov|示威|天安门|达赖|喇嘛|党|茉莉花|革命|十大|中革|Fuck|草泥马|Shit|操|QNMLGB|妈逼|你妈|尼玛|(台|藏|疆)独"
+
 		Totoro_Config.Save
 		Call SetBlogHint_Custom("〓 您是第一次安装Totoro，已经为您导入初始配置。")
 	End If
@@ -85,10 +93,13 @@ Function Totoro_Initialize()
 	TOTORO_NAME_VALUE=CLng(Totoro_Config.Read ("TOTORO_NAME_VALUE"))
 	TOTORO_LEVEL_VALUE=CLng(Totoro_Config.Read ("TOTORO_LEVEL_VALUE"))
 	TOTORO_SV_THRESHOLD=CLng(Totoro_Config.Read ("TOTORO_SV_THRESHOLD"))
+	TOTORO_SV_THRESHOLD2=CLng(Totoro_Config.Read ("TOTORO_SV_THRESHOLD2"))
 	TOTORO_DEL_DIRECTLY=Totoro_Config.Read ("TOTORO_DEL_DIRECTLY")
 	TOTORO_ConHuoxingwen=Totoro_Config.Read ("TOTORO_ConHuoxingwen")
 	TOTORO_BADWORD_LIST=Totoro_Config.Read ("TOTORO_BADWORD_LIST")
 	TOTORO_NUMBER_VALUE=CLng(Totoro_Config.Read ("TOTORO_NUMBER_VALUE"))
+	TOTORO_REPLACE_KEYWORD=Totoro_Config.Read ("TOTORO_REPLACE_KEYWORD")
+	TOTORO_REPLACE_LIST=Totoro_Config.Read ("TOTORO_REPLACE_LIST")
 End Function
 '*********************************************************
 ' 目的：    检查评论
@@ -110,18 +121,28 @@ Function Totoro_chkComment(ByRef objComment)
 	Call Totoro_checkBadWord(strTemp & "&" & objComment.Author & "&" & objComment.HomePage & "&" & objComment.IP & "&" & objComment.Email)
 	Call Totoro_checkInterval(Request.ServerVariables("REMOTE_ADDR"),now,true)
 	Call Totoro_checkNumLong(strTemp)
+	objComment.Content=Totoro_replaceWord(strTemp)
+	
 	If Totoro_SV>=TOTORO_SV_THRESHOLD Then
-
-		objComment.isCheck=True
-		objComment.Post
-		
-		If IsEmpty(Request.Form("inpAjax"))=False Then
-			objComment.Content="你的评论已进入审核过程，请勿再次提交。"
-			Call ReturnAjaxComment(objComment)
+		If Totoro_SV<TOTORO_SV_THRESHOLD2 Or TOTORO_SV_THRESHOLD2=0 Then
+			objComment.isCheck=True
+			objComment.Post
+			If IsEmpty(Request.Form("inpAjax"))=False Then
+				objComment.Content="你的评论已进入审核过程，请勿再次提交。"
+				Call ReturnAjaxComment(objComment)
+				Response.End
+			End If
+			Call Totoro_ExitError("你的评论已进入审核过程，请勿再次提交。")
+		ElseIf TOTORO_SV_THRESHOLD2<=Totoro_SV Then
+			If IsEmpty(Request.Form("inpAjax"))=False Then
+				objComment.Content="你的评论已经被删除，请勿再次提交。"
+				Call ReturnAjaxComment(objComment)
+				Response.End
+			End If
+			Call Totoro_ExitError("你的评论已经被删除，请勿再次提交。")
 			Response.End
+			
 		End If
-
-		Call Totoro_ExitError("你的评论已进入审核过程，请勿再次提交。")
 	End If
 
 End Function
@@ -170,23 +191,28 @@ End Function
 
 
 Function Totoro_checkBadWord(ByVal content)
-
 	If Totoro_SV+TOTORO_BADWORD_VALUE=0 Then Exit Function
-
-	Dim i,j
-	j=0
-    Dim strFilter
-    strFilter = Split(TOTORO_BADWORD_LIST, "|")
-	For i = 0 To UBound(strFilter)
-		If strFilter(i)<>"" Then
-			If InStr(LCase(content), LCase(strFilter(i))) > 0 Then
-				j=j+1
-			End If
-		End If
-    Next
-
+	Dim o
+	Set o=New RegExp
+	o.Pattern=TOTORO_BADWORD_LIST
+	o.Global=True
+	o.IgnoreCase=True
+	Dim j,k
+	j=len(o.replace(content,""))
+	k=len(content)
+	j=k-j
+	Set o=Nothing
 	Totoro_SV=Totoro_SV+TOTORO_BADWORD_VALUE*j
+End Function
 
+Function Totoro_replaceWord(content)
+	Dim o
+	Set o=New RegExp
+	o.Pattern=TOTORO_REPLACE_LIST&"|"&TOTORO_BADWORD_LIST
+	o.Global=True
+	o.IgnoreCase=True
+	Totoro_replaceWord=o.replace(content,TOTORO_REPLACE_KEYWORD)
+	Set o=Nothing
 End Function
 
 
@@ -306,7 +332,7 @@ End Function
 Function Totoro_FxxxHuoxingwen(str)
 	Dim a,b,d
 	d=str
-	a=Array("҉|","蕶","ニ|貳","弎","陸","ハ|仈","艽","ā|á|ǎ|à|а|А|α","в|в|В|ъ|Ъ|ы|Ы|ь|Ь|β","с|с|С","Ё|е|Е|ё|Ё|ê|ē|é|ě|è","℉|ｆ","ɡ","н|Н","ī|í|ǐ|ì","ｊ","κ","ι","м|М","ń|п|П|Й|π","0|ō|ó|ǒ|ǒ|о|О|ο|σ|⊙|○|◎","р|Р|ρ","я|Я","$","т|Т|τ","ū|ú|ǔ|ù|∪|μ|υ","∨|ν","ω","×|х|Х|χ","у|У|γ","э|Э","θ","ф|Ф")
+	a=Array("҉|","蕶","ニ|貳","弎","陸","ハ|仈","艽","ā|á|ǎ|à|а|А|α","в|в|В|ъ|Ъ|ы|Ы|ь|Ь|β","с|с|С","Ё|е|Е|ё|Ё|ê|ē|é|ě|è","℉|ｆ","ɡ","н|Н","ī|í|ǐ|ì","ｊ","κ","ι","м|М","ń|п|П|Й|π","0|ō|ó|ǒ|ǒ|о|О|ο|σ|⊙|○|◎","р|Р|ρ","я|Я","\$","т|Т|τ","ū|ú|ǔ|ù|∪|μ|υ","∨|ν","ω","×|х|Х|χ","у|У|γ","э|Э","θ","ф|Ф")
 	b=Array("",0,2,3,6,8,9,"a","b","c","e","f","g","h","i","j","k","l","m","n","o","p","r","s","t","u","v","w","x","y",3,8,"中")
 	Dim c,i
 	set c=new regexp
@@ -334,7 +360,7 @@ End Function
 Function Totoro_GetNum(str)
 	Dim a,b,d
 	d=str
-	a=Array("零|〇"," 一|壹|Ⅰ|⒈|㈠|①|⑴","二|贰|Ⅱ|⒉|㈡|②|⑵","三|叁|Ⅲ|⒊|㈢|③|⑶","四|肆|Ⅳ|⒋|㈣|④|⑷","五|伍|Ⅴ|⒌|⑤|㈤|⑸","六|陆|Ⅵ|⒍|㈥|⑥|⑹","七|柒|Ⅶ|⒎|⑦|㈦|⑺","八|捌|Ⅷ|⒏|㈧|⑧|⑻|","九|玖|Ⅸ|⒐|⑨|㈨|⑼")
+	a=Array("零|〇"," 一|壹|Ⅰ|⒈|㈠|①|⑴","二|贰|Ⅱ|⒉|㈡|②|⑵","三|叁|Ⅲ|⒊|㈢|③|⑶","四|肆|Ⅳ|⒋|㈣|④|⑷","五|伍|Ⅴ|⒌|⑤|㈤|⑸","六|陆|Ⅵ|⒍|㈥|⑥|⑹","七|柒|Ⅶ|⒎|⑦|㈦|⑺","八|捌|Ⅷ|⒏|㈧|⑧|⑻","九|玖|Ⅸ|⒐|⑨|㈨|⑼")
 	b=Array(0,1,2,3,4,5,6,7,8,9)
 	Dim c,i
 	set c=new regexp

@@ -65,8 +65,8 @@ BlogTitle="TotoroⅢ（基于TotoroⅡ的Z-Blog的评论管理审核系统增强
 
 	Response.Write "<p><b>关于TotoroⅢ</b></p>"
 	Response.Write "<p>Totoro是个采用评分机制的防止垃圾留言的插件，原作<a href=""http://www.rainbowsoft.org/"" target=""_blank"">zx.asd</a>。<br/>TotoroⅡ是<a href=""http://ZxMYS.COM"" target=""_blank"">Zx.MYS</a>在Totoro的基础上修改而成的增强版，加入了诸多新特性，同时修正一些问题。<br/>TotoroⅢ是由<a href=""http://www.zsxsoft.com"" target=""_blank"">ZSXSOFT</a>将TotoroII升级到1.9版本后增添新特性的版本。</p>"
-	Response.Write "<p>Spam Value(SV)初始值为0，经过相关运算后的SV分值越高Spam嫌疑越大，超过设定的阈值这条评论就进入审核状态。</p>"
-	
+	Response.Write "<p>Spam Value(SV)初始值为0，经过相关运算后的SV分值越高Spam嫌疑越大，超过设定的阈值这条评论就进入审核状态或直接被删除。</p>"
+	Response.Write "<p>配置完成之后，请一定要测试，切记切记！</p>"
 
 	Response.Write "<p></p>"
 	Response.Write "<p><b>加分减分细则：</b></p>"
@@ -100,17 +100,33 @@ BlogTitle="TotoroⅢ（基于TotoroⅡ的Z-Blog的评论管理审核系统增强
 	strTOTORO_NUMBER_VALUE=Totoro_Config.Read("TOTORO_NUMBER_VALUE")
 	strTOTORO_NUMBER_VALUE=TransferHTML(strTOTORO_NUMBER_VALUE,"[html-format]")
 	Response.Write "<p>6.数字长度评分:基数为<input name=""strTOTORO_NUMBER_VALUE"" style=""width:25px"" type=""text"" value=""" & strTOTORO_NUMBER_VALUE & """/>分(默认：10)。若数字长度达到10位，自动加上基数。多几位，加几次基数。"
-	
+
+	Dim strZC_TOTORO_REPLACE_KEYWORD
+		strZC_TOTORO_REPLACE_KEYWORD=Totoro_Config.Read("TOTORO_REPLACE_KEYWORD")
+		strZC_TOTORO_REPLACE_KEYWORD=TransferHTML(strZC_TOTORO_REPLACE_KEYWORD,"[html-format]")
+	Response.Write "<p>7.自动把敏感词替换为<input type=""text"" value="""& strZC_TOTORO_REPLACE_KEYWORD &""" name=""strZC_TOTORO_REPLACE_KEYWORD""/></p>"
+
 	
 	Dim strZC_TOTORO_SV_THRESHOLD
 	strZC_TOTORO_SV_THRESHOLD=Totoro_Config.Read("TOTORO_SV_THRESHOLD")
 	strZC_TOTORO_SV_THRESHOLD=TransferHTML(strZC_TOTORO_SV_THRESHOLD,"[html-format]")
 	Response.Write "<p>·设置系统审核阈值(默认50，阈值越小越严格，低于0则使游客的评论全进入审核):</p><p><input name=""strZC_TOTORO_SV_THRESHOLD"" style=""width:99%"" type=""text"" value=""" & strZC_TOTORO_SV_THRESHOLD & """/></p><p></p>"
+	Dim strZC_TOTORO_SV_THRESHOLD2
+	strZC_TOTORO_SV_THRESHOLD2=Totoro_Config.Read("TOTORO_SV_THRESHOLD2")
+	strZC_TOTORO_SV_THRESHOLD2=TransferHTML(strZC_TOTORO_SV_THRESHOLD2,"[html-format]")
+	Response.Write "<p>·设置自动删除阙值(默认150，一旦阙值达到该值并且阙值达到系统审核阙值则不审核直接删除。为0则不删除):</p><p><input name=""strZC_TOTORO_SV_THRESHOLD2"" style=""width:99%"" type=""text"" value=""" & strZC_TOTORO_SV_THRESHOLD2 & """/></p><p></p>"
+
 
 	Dim strZC_TOTORO_BADWORD_LIST
 	strZC_TOTORO_BADWORD_LIST=Totoro_Config.Read("TOTORO_BADWORD_LIST")
 		strZC_TOTORO_BADWORD_LIST=TransferHTML(strZC_TOTORO_BADWORD_LIST,"[html-format]")
-		Response.Write "<p>·黑词列表(分隔符'|'):</p><p><textarea rows=""6"" name=""strZC_TOTORO_BADWORD_LIST"" style=""width:99%"" >"& strZC_TOTORO_BADWORD_LIST &"</textarea></p>"	
+		Response.Write "<p>·黑词列表(分隔符'|',可使用正则,最后一个字不能是|):</p><p><textarea rows=""6"" name=""strZC_TOTORO_BADWORD_LIST"" style=""width:99%"" >"& strZC_TOTORO_BADWORD_LIST &"</textarea></p>"	
+
+	Dim strZC_TOTORO_REPLACE_LIST
+	strZC_TOTORO_REPLACE_LIST=Totoro_Config.Read("TOTORO_REPLACE_LIST")
+		strZC_TOTORO_REPLACE_LIST=TransferHTML(strZC_TOTORO_REPLACE_LIST,"[html-format]")
+		Response.Write "<p>·敏感词列表(分隔符'|',可使用正则,最后一个字不能是|):</p><p><textarea rows=""6"" name=""strZC_TOTORO_REPLACE_LIST"" style=""width:99%"" >"& strZC_TOTORO_REPLACE_LIST &"</textarea></p>"	
+
 	Response.Write "<p>·"
 
 	Dim bolTOTORO_ConHuoxingwen
