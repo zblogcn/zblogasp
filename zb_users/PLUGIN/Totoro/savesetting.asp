@@ -45,6 +45,7 @@ If CheckPluginState("Totoro")=False Then Call ShowError(48)
 	Totoro_Config.Write "TOTORO_NUMBER_VALUE",Request.Form("strTOTORO_NUMBER_VALUE")
 	Totoro_Config.Write "TOTORO_REPLACE_LIST",Replace(Replace(Request.Form("strZC_TOTORO_REPLACE_LIST"),vbCrlf,""),vbLf,"")
 	Totoro_Config.Write "TOTORO_REPLACE_KEYWORD",Request.Form("strZC_TOTORO_REPLACE_KEYWORD")
+	Totoro_Config.Write "TOTORO_CHINESESV",Request.Form("strZC_TOTORO_CHINESESV")
 	Totoro_Config.Save
 	Set Totoro_Config=Nothing
 

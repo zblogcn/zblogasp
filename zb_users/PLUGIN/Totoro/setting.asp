@@ -76,6 +76,7 @@ BlogTitle="TotoroⅢ（基于TotoroⅡ的Z-Blog的评论管理审核系统增强
 	strZC_TOTORO_HYPERLINK_VALUE=TransferHTML(strZC_TOTORO_HYPERLINK_VALUE,"[html-format]")
 	Response.Write "<p>1.评论里有链接就加<input name=""strZC_TOTORO_HYPERLINK_VALUE"" style=""width:25px"" type=""text"" value=""" & strZC_TOTORO_HYPERLINK_VALUE & """/>分(默认：10)，每多一个链接SV翻倍加分</p>"
 	
+	
 	Dim strTOTORO_INTERVAL_VALUE
 	strTOTORO_INTERVAL_VALUE=Totoro_Config.Read("TOTORO_INTERVAL_VALUE")
 	strTOTORO_INTERVAL_VALUE=TransferHTML(strTOTORO_INTERVAL_VALUE,"[html-format]")
@@ -105,6 +106,11 @@ BlogTitle="TotoroⅢ（基于TotoroⅡ的Z-Blog的评论管理审核系统增强
 		strZC_TOTORO_REPLACE_KEYWORD=Totoro_Config.Read("TOTORO_REPLACE_KEYWORD")
 		strZC_TOTORO_REPLACE_KEYWORD=TransferHTML(strZC_TOTORO_REPLACE_KEYWORD,"[html-format]")
 	Response.Write "<p>7.自动把敏感词替换为<input type=""text"" value="""& strZC_TOTORO_REPLACE_KEYWORD &""" name=""strZC_TOTORO_REPLACE_KEYWORD""/></p>"
+
+	Dim strZC_TOTORO_CHINESESV
+		strZC_TOTORO_CHINESESV=Totoro_Config.Read("TOTORO_CHINESESV")
+		strZC_TOTORO_CHINESESV=TransferHTML(strZC_TOTORO_CHINESESV,"[html-format]")
+	Response.Write "<p>8.一旦评论内没有汉字自动加SV<input type=""text"" value="""& strZC_TOTORO_CHINESESV &""" name=""strZC_TOTORO_CHINESESV""/>分(默认150)</p>"
 
 	
 	Dim strZC_TOTORO_SV_THRESHOLD

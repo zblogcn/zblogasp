@@ -21,6 +21,7 @@ Dim TOTORO_BADWORD_LIST
 Dim TOTORO_NUMBER_VALUE
 Dim TOTORO_REPLACE_KEYWORD
 Dim TOTORO_REPLACE_LIST
+Dim TOTORO_CHINESESV
 
 Dim Totoro_Config
 'Const TOTORO_SV_THRESHOLD = 50
@@ -78,6 +79,7 @@ Function InstallPlugin_Totoro()
 		Totoro_Config.Write "TOTORO_NUMBER_VALUE",10
 		Totoro_Config.Write "TOTORO_REPLACE_KEYWORD","**"
 		Totoro_Config.Write "TOTORO_REPLACE_LIST","无界|自由门|Free.+?Gate|大纪元|九评|江泽民|胡锦涛|温家宝|李洪志|法轮|民运|独裁|中?.*?共.*?党|64|马列|政府|Gov|示威|天安门|达赖|喇嘛|党|茉莉花|革命|十大|中革|Fuck|草泥马|Shit|操|QNMLGB|妈逼|你妈|尼玛|(台|藏|疆)独"
+		Totoro_Config.Write "TOTORO_CHINESESV",150
 
 		Totoro_Config.Save
 		Call SetBlogHint_Custom("〓 您是第一次安装Totoro，已经为您导入初始配置。")
@@ -100,6 +102,7 @@ Function Totoro_Initialize()
 	TOTORO_NUMBER_VALUE=CLng(Totoro_Config.Read ("TOTORO_NUMBER_VALUE"))
 	TOTORO_REPLACE_KEYWORD=Totoro_Config.Read ("TOTORO_REPLACE_KEYWORD")
 	TOTORO_REPLACE_LIST=Totoro_Config.Read ("TOTORO_REPLACE_LIST")
+	TOTORO_CHINESESV=Totoro_Config.Read("TOTORO_CHINESESV")
 End Function
 '*********************************************************
 ' 目的：    检查评论
@@ -121,6 +124,7 @@ Function Totoro_chkComment(ByRef objComment)
 	Call Totoro_checkBadWord(strTemp & "&" & objComment.Author & "&" & objComment.HomePage & "&" & objComment.IP & "&" & objComment.Email)
 	Call Totoro_checkInterval(Request.ServerVariables("REMOTE_ADDR"),now,true)
 	Call Totoro_checkNumLong(strTemp)
+	Call Totoro_checkChinese(strTemp)
 	objComment.Content=Totoro_replaceWord(strTemp)
 	
 	If Totoro_SV>=TOTORO_SV_THRESHOLD Then
@@ -148,7 +152,11 @@ Function Totoro_chkComment(ByRef objComment)
 End Function
 '*********************************************************
 
-
+Function Totoro_checkChinese(Content)
+	Dim a
+	a=CheckRegExp(Content,"[u4e00-u9fa5]")
+	If a=False Then Totoro_SV=Totoro_SV+TOTORO_CHINESESV
+End Function
 
 Function Totoro_checkLevel(ByVal level)
 
