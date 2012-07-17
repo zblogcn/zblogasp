@@ -3454,7 +3454,7 @@ Class TUpLoadFile
 
 		LoadInfoByArray=True
 
-		Call Filter_Plugin_TUpLoadFile_LoadInfoByArray(ID,AuthorID,FileSize,FileName,PostTime,FileIntro,DirByTime,Meta)
+		Call Filter_Plugin_TUpLoadFile_LoadInfoByArray(ID,AuthorID,FileSize,FileName,PostTime,FileIntro,DirByTime,Quote,Meta)
 
 	End Function
 
@@ -3519,7 +3519,7 @@ Class TUpLoadFile
 
 	Public Function UpLoad(bolAutoName)
 
-		Call Filter_Plugin_TUpLoadFile_UpLoad(ID,AuthorID,FileSize,FileName,PostTime,FileIntro,DirByTime,Meta)
+		Call Filter_Plugin_TUpLoadFile_UpLoad(ID,AuthorID,FileSize,FileName,PostTime,FileIntro,DirByTime,Quote,Meta)
 
 		DirByTime=ZC_UPLOAD_DIRBYMONTH
 
@@ -3593,7 +3593,7 @@ Class TUpLoadFile
 
 	Public Function Del()
 
-		Call Filter_Plugin_TUpLoadFile_Del(ID,AuthorID,FileSize,FileName,PostTime,FileIntro,DirByTime,Meta)
+		Call Filter_Plugin_TUpLoadFile_Del(ID,AuthorID,FileSize,FileName,PostTime,FileIntro,DirByTime,Quote,Meta)
 
 		Call CheckParameter(ID,"int",0)
 
@@ -4254,95 +4254,6 @@ End Class
 '*********************************************************
 Class TMeta
 
-     Dim Base64EncMap(63)
-     Dim Base64DecMap(127)
-
-     '初始化函数
-     PUBLIC SUB initCodecs()
-          ' 初始化变量
-          dim max, idx
-             max = len("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/")
-          for idx = 0 to max - 1
-               Base64EncMap(idx) = mid("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/", idx + 1, 1)
-          next
-          for idx = 0 to max - 1
-               Base64DecMap(ASC(Base64EncMap(idx))) = idx
-          next
-     END SUB
-
-     'Base64加密函数
-     PUBLIC FUNCTION base64Encode(plain)
-          if len(plain) = 0 then
-               base64Encode = ""
-               exit function
-          end if
-          dim ret, ndx, by3, first, second, third
-          by3 = (len(plain) \ 3) * 3
-          ndx = 1
-          do while ndx <= by3
-               first = asc(mid(plain, ndx+0, 1))
-               second = asc(mid(plain, ndx+1, 1))
-               third = asc(mid(plain, ndx+2, 1))
-               ret = ret & Base64EncMap( (first \ 4) AND 63 )
-               ret = ret & Base64EncMap( ((first * 16) AND 48) + ((second \ 16) AND 15 ) )
-               ret = ret & Base64EncMap( ((second * 4) AND 60) + ((third \ 64) AND 3 ) )
-               ret = ret & Base64EncMap( third AND 63)
-               ndx = ndx + 3
-          loop
-          if by3 < len(plain) then
-               first = asc(mid(plain, ndx+0, 1))
-               ret = ret & Base64EncMap( (first \ 4) AND 63 )
-               if (len(plain) MOD 3 ) = 2 then
-                    second = asc(mid(plain, ndx+1, 1))
-                    ret = ret & Base64EncMap( ((first * 16) AND 48) + ((second \ 16) AND 15 ) )
-                    ret = ret & Base64EncMap( ((second * 4) AND 60) )
-               else
-                    ret = ret & Base64EncMap( (first * 16) AND 48)
-                    ret = ret '& "="
-               end if
-               ret = ret '& "="
-          end if
-          base64Encode = ret
-     END FUNCTION
-
-     'Base64解密函数
-     PUBLIC FUNCTION base64Decode(scrambled)
-          if len(scrambled) = 0 then
-               base64Decode = ""
-               exit function
-          end if
-          dim realLen
-          realLen = len(scrambled)
-          do while mid(scrambled, realLen, 1) = "="
-               realLen = realLen - 1
-          loop
-          dim ret, ndx, by4, first, second, third, fourth
-          ret = ""
-          by4 = (realLen \ 4) * 4
-          ndx = 1
-          do while ndx <= by4
-               first = Base64DecMap(asc(mid(scrambled, ndx+0, 1)))
-               second = Base64DecMap(asc(mid(scrambled, ndx+1, 1)))
-               third = Base64DecMap(asc(mid(scrambled, ndx+2, 1)))
-               fourth = Base64DecMap(asc(mid(scrambled, ndx+3, 1)))
-               ret = ret & chr( ((first * 4) AND 255) +   ((second \ 16) AND 3))
-               ret = ret & chr( ((second * 16) AND 255) + ((third \ 4) AND 15))
-               ret = ret & chr( ((third * 64) AND 255) + (fourth AND 63))
-               ndx = ndx + 4
-          loop
-          if ndx < realLen then
-               first = Base64DecMap(asc(mid(scrambled, ndx+0, 1)))
-               second = Base64DecMap(asc(mid(scrambled, ndx+1, 1)))
-               ret = ret & chr( ((first * 4) AND 255) +   ((second \ 16) AND 3))
-               if realLen MOD 4 = 3 then
-                    third = Base64DecMap(asc(mid(scrambled,ndx+2,1)))
-                    ret = ret & chr( ((second * 16) AND 255) + ((third \ 4) AND 15))
-               end if
-          end if
-          base64Decode = ret
-     END FUNCTION
-
-
 	Dim meta_split_string_1
 	Dim meta_split_string_2
 
@@ -4435,7 +4346,7 @@ Class TMeta
 		i=0
 		For Each n In names
 			If LCase(n)=LCase(name) Then
-				values(i)=base64Encode(vbsescape(value))
+				values(i)=vbsescape(value)
 				Exit function
 			End If
 			i=i+1
@@ -4447,7 +4358,7 @@ Class TMeta
 		ReDim Preserve Values(i+1)
 
 		Names(i+1)=name
-		Values(i+1)=base64Encode(vbsescape(value))
+		Values(i+1)=vbsescape(value)
 
 	End Function
 
@@ -4457,7 +4368,7 @@ Class TMeta
 		i=0
 		For Each n In names
 			If LCase(n)=LCase(name) Then
-				GetValue = vbsunescape(base64Decode(values(i)))
+				GetValue = vbsunescape(values(i))
 				Exit function
 			End If
 			i=i+1
@@ -4519,10 +4430,8 @@ Class TMeta
 		ReDim Names(-1)
 		ReDim Values(-1)
 
-		meta_split_string_1=","
-		meta_split_string_2=":"
-
-		Call initCodecs
+		meta_split_string_1=Chr(1)
+		meta_split_string_2=Chr(2)
 
 	End Sub
 
