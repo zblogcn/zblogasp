@@ -4267,7 +4267,7 @@ Class TMeta
 	Public Function Save()
 
 		Dim n,v
-		If UBound(names)>-1 Then
+		If UBound(names)>0 Then
 
 			'n=Join(Names,"</name><name>")
 			'n="<name>"&n&"</name>"
@@ -4427,9 +4427,6 @@ Class TMeta
 
 		ReDim Names(0)
 		ReDim Values(0)
-
-		ReDim Names(-1)
-		ReDim Values(-1)
 
 		meta_split_string_1=Chr(1)
 		meta_split_string_2=Chr(2)
