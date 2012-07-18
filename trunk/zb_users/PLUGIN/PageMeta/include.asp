@@ -22,7 +22,7 @@ Function ActivePlugin_PageMeta()
 	Call Add_Filter_Plugin("Filter_Plugin_TArticle_Export_Template","PageMeta_AddMeta")
 End Function
 
-Function PageMeta_AddMeta(ByRef Ftemplate,Template_Article_Single,Template_Article_Multi, Template_Article_Istop,Template_Article_Multi_WAP,Template_Article_Single_WAP)
+Function PageMeta_AddMeta(ByRef Ftemplate,Template_Article_Single,Template_Article_Multi, Template_Article_Istop)
 		Ftemplate=PageMeta_P(Ftemplate)
 End Function	
 
