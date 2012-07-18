@@ -1,20 +1,20 @@
-<%@ CODEPAGE=65001 %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<%=ZC_BLOG_LANGUAGE%>" lang="<%=ZC_BLOG_LANGUAGE%>">
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<meta http-equiv="Content-Language" content="<%=ZC_BLOG_LANGUAGE%>" />
-	<link rel="stylesheet" rev="stylesheet" href="../CSS/admin.css" type="text/css" media="screen" />
-	<style>
-body{
-	margin:0;
-	padding:0;
-	background-color:#F0F6FC;
-	background:url("../image/common/topbacking2.gif") repeat-x 0  -10px;
-}
-	</style>
-</head>
-<body><img src="../IMAGE/common/zbloglogo.gif" width="200" height="70" border="0" alt="logo" usemap="#rslogo" /><map name="rslogo"><area shape="rect" coords="10, 10, 180, 70" title="访问Z-Blog主页" href="http://www.rainbowsoft.org/" target="_blank" alt="访问Z-Blog主页" /></map>
-
-</body>
-</html>
+<div id="header">
+  <div class="top">
+    <div class="logo"><img src="<%=ZC_BLOG_HOST%>ZB_SYSTEM/image/LOGO/logo.png" /></div>
+    <div class="user"> <img src="<%=ZC_BLOG_HOST%>ZB_SYSTEM/image/IMG/avatar.png" width="40" height="40" class="avatar" alt="Avatar" />
+      <div class="username">管理员：<%=BlogUser.Name%></div>
+      <div class="userbtn"><a class="logout" href="../cmd.asp?act=logout" title=""><%=ZC_MSG020%></a> <a class="profile" href="../cmd.asp?act=UserMng" title=""><%=ZC_MSG070%></a></div>
+    </div>
+    <div class="menu">
+      <ul>
+        <li><a href="http://www.rainbowsoft.org"><%=ZC_MSG340%></a></li>
+        <li><a href="#"><%=ZC_MSG341%></a></li>
+        <li><a href="#"><%=ZC_MSG248%></a></li>
+        <li><a href="<%=ZC_BLOG_HOST%>"><%=ZC_MSG065%></a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="info">
+    <p>Z-Blog 1.9 Walle Build 100427 发布 (2012-7-11)  现已发布！现在就更新。</p>
+  </div>
+</div>

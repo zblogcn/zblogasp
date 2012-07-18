@@ -86,7 +86,7 @@ Call Add_Response_Plugin("Response_Plugin_ArticleMng_SubMenu",MakeSubMenu(ZC_MSG
 	intTitle=vbsunescape(intTitle)
 	intTitle=FilterSQL(intTitle)
 
-	Response.Write "<div class=""Header"">" & ZC_MSG067 & "</div>"
+	Response.Write "<div class=""divHeader"">" & ZC_MSG067 & "</div>"
 	Response.Write "<div class=""SubMenu"">" & Response_Plugin_ArticleMng_SubMenu & "</div>"
 	Response.Write "<div id=""divMain2"">"
 
@@ -259,7 +259,7 @@ Call Add_Response_Plugin("Response_Plugin_ArticleMng_SubMenu",MakeSubMenu(ZC_MSG
 	intTitle=vbsunescape(intTitle)
 	intTitle=FilterSQL(intTitle)
 
-	Response.Write "<div class=""Header"">" & ZC_MSG067 & "</div>"
+	Response.Write "<div class=""divHeader"">" & ZC_MSG067 & "</div>"
 	Response.Write "<div class=""SubMenu"">" & Response_Plugin_ArticleMng_SubMenu & "</div>"
 	Response.Write "<div id=""divMain2"">"
 
@@ -400,7 +400,7 @@ Function ExportCategoryList(intPage)
 
 	Dim i,j
 
-	Response.Write "<div class=""Header"">" & ZC_MSG066 & "</div>"
+	Response.Write "<div class=""divHeader"">" & ZC_MSG066 & "</div>"
 	Response.Write "<div class=""SubMenu"">" & Response_Plugin_CategoryMng_SubMenu & "</div>"
 	Response.Write "<div id=""divMain2"">"
 
@@ -498,7 +498,7 @@ Call Add_Response_Plugin("Response_Plugin_CommentMng_SubMenu",MakeSubMenu(ZC_MSG
 
 	If Trim(intContent)<>"" Then strSQL=strSQL & " AND ( ([comm_Author] LIKE '%" & intContent & "%') OR ([comm_Content] LIKE '%" & intContent & "%') OR ([comm_HomePage] LIKE '%" & intContent & "%') ) "
 
-	Response.Write "<div class=""Header"">" & ZC_MSG068 & "</div>"
+	Response.Write "<div class=""divHeader"">" & ZC_MSG068 & "</div>"
 	Response.Write "<div class=""SubMenu"">" & Response_Plugin_CommentMng_SubMenu & "</div>"
 	Response.Write "<div id=""divMain2"">"
 
@@ -605,7 +605,7 @@ Function ExportTrackBackList(intPage)
 	strSQL="WHERE ([log_ID]>0) "
 	If CheckRights("Root")=False Then strSQL=strSQL & "AND( (SELECT [log_AuthorID] FROM [blog_Article] WHERE [blog_Article].[log_ID] =[blog_TrackBack].[log_ID] ) =" & BlogUser.ID & ")"
 
-	Response.Write "<div class=""Header"">" & ZC_MSG069 & "</div>"
+	Response.Write "<div class=""divHeader"">" & ZC_MSG069 & "</div>"
 	Response.Write "<div class=""SubMenu"">" & Response_Plugin_TrackBackMng_SubMenu & "</div>"
 	Response.Write "<div id=""divMain2"">"
 
@@ -679,7 +679,7 @@ Function ExportUserList(intPage)
 
 	Call CheckParameter(intPage,"int",1)
 
-	Response.Write "<div class=""Header"">" & ZC_MSG070 & "</div>"
+	Response.Write "<div class=""divHeader"">" & ZC_MSG070 & "</div>"
 	Response.Write "<div class=""SubMenu"">" & Response_Plugin_UserMng_SubMenu & "</div>"
 	Response.Write "<div id=""divMain2"">"
 
@@ -767,7 +767,7 @@ Function ExportFileList(intPage)
 
 	Call CheckParameter(intPage,"int",1)
 
-	Response.Write "<div class=""Header"">" & ZC_MSG071 & "</div>"
+	Response.Write "<div class=""divHeader"">" & ZC_MSG071 & "</div>"
 	Response.Write "<div class=""SubMenu"">" & Response_Plugin_FileMng_SubMenu & "</div>"
 	Response.Write "<div id=""divMain2"">"
 
@@ -881,7 +881,7 @@ Function ExportTagList(intPage)
 	Dim strPage
 	Dim intPageAll
 
-	Response.Write "<div class=""Header"">" & ZC_MSG141 & "</div>"
+	Response.Write "<div class=""divHeader"">" & ZC_MSG141 & "</div>"
 	Response.Write "<div class=""SubMenu"">" & Response_Plugin_TagMng_SubMenu & "</div>"
 	Response.Write "<div id=""divMain2"">"
 
@@ -989,7 +989,7 @@ Function ExportPluginMng()
 	Dim fso, f, f1, fc
 	Set fso = CreateObject("Scripting.FileSystemObject")
 
-	Response.Write "<div class=""Header"">" & ZC_MSG107 & "</div>"
+	Response.Write "<div class=""divHeader"">" & ZC_MSG107 & "</div>"
 	Response.Write "<div class=""SubMenu"">" & Response_Plugin_PlugInMng_SubMenu & "</div>"
 	Response.Write "<div id=""divMain2"">"
 
@@ -1230,7 +1230,7 @@ Function ExportSiteInfo()
 	Call CheckParameter(allCateNums,"int",0)
 	Call CheckParameter(allTagsNums,"int",0)
 
-	Response.Write "<div class=""Header"">" & ZC_MSG159 & "</div>"
+	Response.Write "<div class=""divHeader"">" & ZC_MSG159 & "</div>"
 	Response.Write "<div class=""SubMenu"">" & Response_Plugin_SiteInfo_SubMenu & "</div>"
 	Response.Write "<div id=""divMain2"">"
 
@@ -1399,7 +1399,7 @@ Function ExportFileReBuildAsk()
 		Call SetBlogHint_Custom("‼ 之前的'文件重建'过程尚未完成，是否要继续重建？"+vbCrlf+"确定请点击<a href='../cmd.asp?act=FileReBuild&page="&Request.Cookies("FileReBuild_Step")&"&all=0'><b>[继续执行'文件重建']</b></a>”。")
 	End If
 
-	Response.Write "<div class=""Header"">" & ZC_MSG073 & "</div>"
+	Response.Write "<div class=""divHeader"">" & ZC_MSG073 & "</div>"
 	Response.Write "<div class=""SubMenu"">" & Response_Plugin_AskFileReBuild_SubMenu & "</div>"
 	Response.Write "<div id=""divMain2"">"
 
@@ -1464,7 +1464,7 @@ Function ExportThemeMng()
 	End If
 
 
-	Response.Write "<div class=""Header"">" & ZC_MSG291 & "</div>"
+	Response.Write "<div class=""divHeader"">" & ZC_MSG291 & "</div>"
 	Response.Write "<div class=""SubMenu"">" & Response_Plugin_ThemeMng_SubMenu & "</div>"
 	Response.Write "<div id=""divMain2"">"
 

@@ -64,10 +64,7 @@ End If
 %><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<%=ZC_BLOG_LANGUAGE%>" lang="<%=ZC_BLOG_LANGUAGE%>">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<meta http-equiv="Content-Language" content="<%=ZC_BLOG_LANGUAGE%>" />
-	<link rel="stylesheet" rev="stylesheet" href="../CSS/admin.css" type="text/css" media="screen" />
-	<script language="JavaScript" src="../script/common.js" type="text/javascript"></script>
+	<!--#include file="admin_header.asp"-->
 	<link rel="stylesheet" href="../CSS/jquery.bettertip.css" type="text/css" media="screen">
 	<script language="JavaScript" src="../script/jquery.bettertip.pack.js" type="text/javascript"></script>
 	<script language="JavaScript" src="../script/jquery.textarearesizer.compressed.js" type="text/javascript"></script>
@@ -79,31 +76,35 @@ End If
 		BT_setOptions({openWait:250, closeWait:0, cacheEnabled:true});
 	})
 </script>
-			<div id="divMain">
-<%
-
-Select Case Request.QueryString("act")
-
-	Case "ArticleMng"
-		If Request.QueryString("type")="Page" Then
-		Call ExportPageList(Request.QueryString("page"),Request("cate"),Request("level"),Escape(Request("title")))
-		Else
-		Call ExportArticleList(Request.QueryString("page"),Request("cate"),Request("level"),Escape(Request("title")))
-		End If
-	Case "CategoryMng" Call ExportCategoryList(Request.QueryString("page"))
-	Case "CommentMng" Call ExportCommentList(Request.QueryString("page"),Request("intContent"))
-	Case "TrackBackMng" Call ExportTrackBackList(Request.QueryString("page"))
-	Case "UserMng" Call ExportUserList(Request.QueryString("page"))
-	Case "FileMng" Call ExportFileList(Request.QueryString("page"))
-	Case "TagMng" Call ExportTagList(Request.QueryString("page"))
-	Case "PlugInMng" Call ExportPluginMng()
-	Case "SiteInfo" Call ExportSiteInfo()
-	Case "AskFileReBuild" Call ExportFileReBuildAsk()
-	Case "ThemeMng" Call ExportThemeMng()
-
-End Select
-
+			<!--#include file="admin_top.asp"-->
+<div id="main">
+<div class="main_right">
+  <div class="yui">
+    <div class="content">
+    <div style="background:#FFFFFF; width:100%; "> 
+      <%
+	Select Case Request.QueryString("act")
+		Case "ArticleMng"
+			If Request.QueryString("type")="Page" Then
+			Call ExportPageList(Request.QueryString("page"),Request("cate"),Request("level"),Escape(Request("title")))
+			Else
+			Call ExportArticleList(Request.QueryString("page"),Request("cate"),Request("level"),Escape(Request("title")))
+			End If
+		Case "CategoryMng" Call ExportCategoryList(Request.QueryString("page"))
+		Case "CommentMng" Call ExportCommentList(Request.QueryString("page"),Request("intContent"))
+		Case "TrackBackMng" Call ExportTrackBackList(Request.QueryString("page"))
+		Case "UserMng" Call ExportUserList(Request.QueryString("page"))
+		Case "FileMng" Call ExportFileList(Request.QueryString("page"))
+		Case "TagMng" Call ExportTagList(Request.QueryString("page"))
+		Case "PlugInMng" Call ExportPluginMng()
+		Case "SiteInfo" Call ExportSiteInfo()
+		Case "AskFileReBuild" Call ExportFileReBuildAsk()
+		Case "ThemeMng" Call ExportThemeMng()
+	End Select
 %>
+  </div>  </div>
+  </div></div>
+<!--#include file="admin_left.asp"-->
 			</div>
 <script>
 
