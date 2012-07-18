@@ -224,8 +224,8 @@ function VerifyMessage() {
 			}
 			else{
 				var i=Math.round(Math.random()*1000);
-				var s ="<div id=\"divAjaxComment"+i+"\">"+data+"</div>";
-				$(s).insertBefore("#divAjaxComment");
+				var s =data;
+				$(s).insertBefore("#AjaxCommentEnd");
 				$("#divAjaxComment"+i).fadeIn("slow");
 				//$("#divAjaxComment"+i).fadeTo("normal", 0);
 				//$("#divAjaxComment"+i).fadeTo("normal", 1);

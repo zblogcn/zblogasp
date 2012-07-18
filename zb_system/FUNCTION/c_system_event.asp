@@ -437,11 +437,11 @@ Function PostComment(strKey,intRevertCommentID)
 
 
 	If CLng(inpParentID)>0 Then
-		objComment.LoadInfoById(inpParentID)
-		If objComment.ParentCount>ZC_MAXFLOOR-1 Then Call ShowError(52)
-		tmpCount= objComment.ParentCount
-		Set objComment=Nothing	
-		Set  objComment=New TComment
+		
+		Dim i
+		i=GetCommentFloor(inpParentID)
+		If i>ZC_MAXFLOOR-1 Then	Call ShowError(52)
+
 	End If
 
 
@@ -452,7 +452,6 @@ Function PostComment(strKey,intRevertCommentID)
 	objComment.Email=inpEmail
 	objComment.HomePage=inpHomePage
 	objComment.ParentID=inpParentID
-	objComment.ParentCount=tmpCount+1
 	objComment.Count=objConn.Execute("SELECT COUNT([comm_ID]) FROM [blog_Comment] WHERE [comm_IsCheck]=0 AND [log_ID] =" & inpID)(0)
 
 
@@ -573,11 +572,10 @@ objComment.LoadInfoByID intID
 '	If objComment.LoadInfoByID(intID)=True Then
 	if inpParentID>0 And inpParentID<>clng(intID) then
 		If objComment2.LoadInfoByID(inpParentID)=True Then
-			If objComment2.ParentCount+1>ZC_MAXFLOOR Then Call SetBlogHint_Custom(ZC_MSG335):SaveComment=True:Exit Function
-			tmpCount=objComment2.ParentCount
+			If GetCommentFloor(inpParentID)+1>ZC_MAXFLOOR Then Call SetBlogHint_Custom(ZC_MSG335):SaveComment=True:Exit Function
+
 			If objComment2.log_ID=cLng(intLog_ID) then
 				objComment.ParentID=inpParentID
-				objComment.ParentCount=tmpCount+1
 			Else
 				Call SetBlogHint_Custom(ZC_MSG336)
 				SaveComment=True
