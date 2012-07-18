@@ -2854,4 +2854,39 @@ GetTagsbyTagNameList=True
 
 End Function
 '*********************************************************
+
+
+
+
+'*********************************************************
+' 目的：    
+'*********************************************************
+Function GetCommentFloor(ID)
+
+	Dim i,j
+	i=ID
+	j=0
+
+	Dim objRS
+
+	Do While i>0
+
+		j=j+1
+
+		Set objRS=objConn.Execute("SELECT [comm_ParentID] FROM [blog_Comment] WHERE [comm_ID] =" & i)
+
+		If (Not objRS.bof) And (Not objRS.eof) Then
+			i=objRS(0)
+		Else
+			i=0
+		End If
+
+	Loop
+
+	GetCommentFloor=j
+
+
+End Function
+'*********************************************************
+
 %>

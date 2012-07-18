@@ -836,7 +836,7 @@ Class TArticle
 			objRS.CursorType = adOpenKeyset
 			objRS.LockType = adLockReadOnly
 			objRS.ActiveConnection=objConn
-			objRS.Source="SELECT [comm_ID],[log_ID],[comm_AuthorID],[comm_Author],[comm_Content],[comm_Email],[comm_HomePage],[comm_PostTime],[comm_IP],[comm_Agent],[comm_Reply],[comm_LastReplyIP],[comm_LastReplyTime],[comm_ParentID],[comm_ParentCount],[comm_IsCheck],[comm_Meta] FROM [blog_Comment] WHERE ([blog_Comment].[log_ID]=" & ID &" )"
+			objRS.Source="SELECT [comm_ID],[log_ID],[comm_AuthorID],[comm_Author],[comm_Content],[comm_Email],[comm_HomePage],[comm_PostTime],[comm_IP],[comm_Agent],[comm_Reply],[comm_LastReplyIP],[comm_LastReplyTime],[comm_ParentID],[comm_IsCheck],[comm_Meta] FROM [blog_Comment] WHERE ([blog_Comment].[log_ID]=" & ID &" )"
 			objRS.Open()
 
 			If (not objRS.bof) And (not objRS.eof) Then
@@ -852,7 +852,7 @@ Class TArticle
 					If IsNumeric(objRS("comm_AuthorID")) Then
 
 						Set objComment=New TComment
-						objComment.LoadInfoByArray(Array(objRS("comm_ID"),objRS("log_ID"),objRS("comm_AuthorID"),objRS("comm_Author"),objRS("comm_Content"),objRS("comm_Email"),objRS("comm_HomePage"),objRS("comm_PostTime"),objRS("comm_IP"),objRS("comm_Agent"),objRS("comm_Reply"),objRS("comm_LastReplyIP"),objRS("comm_LastReplyTime"),objRS("comm_ParentID"),objRS("comm_ParentCount"),objRS("comm_IsCheck"),objRs("comm_Meta")))
+						objComment.LoadInfoByArray(Array(objRS("comm_ID"),objRS("log_ID"),objRS("comm_AuthorID"),objRS("comm_Author"),objRS("comm_Content"),objRS("comm_Email"),objRS("comm_HomePage"),objRS("comm_PostTime"),objRS("comm_IP"),objRS("comm_Agent"),objRS("comm_Reply"),objRS("comm_LastReplyIP"),objRS("comm_LastReplyTime"),objRS("comm_ParentID"),objRS("comm_IsCheck"),objRs("comm_Meta")))
 
 						strC_Count=strC_Count+1
 
@@ -907,7 +907,7 @@ Class TArticle
 
 		End If
 
-		Template_Article_Comment="<span style=""display:none;"" id=""AjaxCommentBegin""></span>" & Template_Article_Comment & "<span style=""display:none;"" id=""AjaxCommentEnd""></span><div style=""display:none;"" id=""divAjaxComment""></div>"
+		Template_Article_Comment="<span style=""display:none;"" id=""AjaxCommentBegin""></span>" & Template_Article_Comment & "<span style=""display:none;"" id=""AjaxCommentEnd""></span>"
 
 		i=0
 		Do While InStr(Template_Article_Comment,"<!--(count-->0<!--count)-->")>0
@@ -2769,7 +2769,6 @@ Class TComment
 	Public ID
 	Public log_ID
 	Public ParentID
-	Public ParentCount
 	
 	Public AuthorID
 	Public Author
@@ -2844,7 +2843,7 @@ Class TComment
 
 	Public Function Post()
 
-		Call Filter_Plugin_TComment_Post(ID,log_ID,AuthorID,Author,Content,Email,HomePage,PostTime,IP,Agent,Reply,LastReplyIP,LastReplyTime,ParentID,ParentCount,IsCheck,MetaString)
+		Call Filter_Plugin_TComment_Post(ID,log_ID,AuthorID,Author,Content,Email,HomePage,PostTime,IP,Agent,Reply,LastReplyIP,LastReplyTime,ParentID,IsCheck,MetaString)
 
 		If IsThrow=True Then Post=True:Exit Function
 
@@ -2861,9 +2860,8 @@ Class TComment
 		Call CheckParameter(AuthorID,"int",0)
 		Call CheckParameter(PostTime,"dtm",GetTime(Now()))
 		Call CheckParameter(ParentID,"int",0)
-		Call CheckParameter(ParentCount,"int",0)
 		Call CheckParameter(IsCheck,"bool",False)
-		If ParentCount>ZC_MAXFLOOR Then Exit Function
+
 		If ParentID="" Then ParentID=0
 		Author=FilterSQL(Author)
 		Content=FilterSQL(Content)
@@ -2922,7 +2920,7 @@ Class TComment
 		End If
 
 		If ID=0 Then
-			objConn.Execute("INSERT INTO [blog_Comment]([log_ID],[comm_AuthorID],[comm_Author],[comm_Content],[comm_Email],[comm_HomePage],[comm_IP],[comm_PostTime],[comm_Agent],[comm_Reply],[comm_LastReplyIP],[comm_LastReplyTime],[comm_ParentID],[comm_ParentCount],[comm_IsCheck],[comm_Meta]) VALUES ("&log_ID&","&AuthorID&",'"&Author&"','"&Content&"','"&Email&"','"&HomePage&"','"&IP&"','"&PostTime&"','"&Agent&"','"&Reply&"','"&LastReplyIP&"','"&LastReplyTime&"','"&ParentID&"','"&ParentCount&"',"&CInt(IsCheck)&",'"&MetaString&"')")
+			objConn.Execute("INSERT INTO [blog_Comment]([log_ID],[comm_AuthorID],[comm_Author],[comm_Content],[comm_Email],[comm_HomePage],[comm_IP],[comm_PostTime],[comm_Agent],[comm_Reply],[comm_LastReplyIP],[comm_LastReplyTime],[comm_ParentID],[comm_IsCheck],[comm_Meta]) VALUES ("&log_ID&","&AuthorID&",'"&Author&"','"&Content&"','"&Email&"','"&HomePage&"','"&IP&"','"&PostTime&"','"&Agent&"','"&Reply&"','"&LastReplyIP&"','"&LastReplyTime&"','"&ParentID&"',"&CInt(IsCheck)&",'"&MetaString&"')")
 			Set objRS=objConn.Execute("SELECT MAX([comm_ID]) FROM [blog_Comment]")
 			If (Not objRS.bof) And (Not objRS.eof) Then
 				ID=objRS(0)
@@ -2939,7 +2937,7 @@ Class TComment
 
 	Public Function Del()
 
-		Call Filter_Plugin_TComment_Del(ID,log_ID,AuthorID,Author,Content,Email,HomePage,PostTime,IP,Agent,Reply,LastReplyIP,LastReplyTime,ParentID,ParentCount,IsCheck,MetaString)
+		Call Filter_Plugin_TComment_Del(ID,log_ID,AuthorID,Author,Content,Email,HomePage,PostTime,IP,Agent,Reply,LastReplyIP,LastReplyTime,ParentID,IsCheck,MetaString)
 
 		Call CheckParameter(ID,"int",0)
 		If (ID=0) Then Del=False:Exit Function
@@ -2953,7 +2951,7 @@ Class TComment
 		Call CheckParameter(comm_ID,"int",0)
 
 		Dim objRS
-		Set objRS=objConn.Execute("SELECT [comm_ID],[log_ID],[comm_AuthorID],[comm_Author],[comm_Content],[comm_Email],[comm_HomePage],[comm_PostTime],[comm_IP],[comm_Agent],[comm_Reply],[comm_LastReplyIP],[comm_LastReplyTime],[comm_ParentID],[comm_ParentCount],[comm_IsCheck],[comm_Meta] FROM [blog_Comment] WHERE [comm_ID]=" & comm_ID)
+		Set objRS=objConn.Execute("SELECT [comm_ID],[log_ID],[comm_AuthorID],[comm_Author],[comm_Content],[comm_Email],[comm_HomePage],[comm_PostTime],[comm_IP],[comm_Agent],[comm_Reply],[comm_LastReplyIP],[comm_LastReplyTime],[comm_ParentID],[comm_IsCheck],[comm_Meta] FROM [blog_Comment] WHERE [comm_ID]=" & comm_ID)
 
 		If (Not objRS.bof) And (Not objRS.eof) Then
 
@@ -2971,7 +2969,6 @@ Class TComment
 			LastReplyIP=objRS("comm_LastReplyIP")
 			LastReplyTime=objRS("comm_LastReplyTime")
 			ParentID=objRS("comm_ParentID")
-			ParentCount=objRS("comm_ParentCount")
 			IsCheck=objRS("comm_IsCheck")
 			MetaString=objRS("comm_Meta")
 
@@ -2984,7 +2981,7 @@ Class TComment
 
 		If IsNull(HomePage) Then HomePage=""
 
-		Call Filter_Plugin_TComment_LoadInfoByID(ID,log_ID,AuthorID,Author,Content,Email,HomePage,PostTime,IP,Agent,Reply,LastReplyIP,LastReplyTime,ParentID,ParentCount,IsCheck,MetaString)
+		Call Filter_Plugin_TComment_LoadInfoByID(ID,log_ID,AuthorID,Author,Content,Email,HomePage,PostTime,IP,Agent,Reply,LastReplyIP,LastReplyTime,ParentID,IsCheck,MetaString)
 
 	End Function
 
@@ -3006,9 +3003,8 @@ Class TComment
 			LastReplyIP=aryCommInfo(11)
 			LastReplyTime=aryCommInfo(12)
 			ParentID=aryCommInfo(13)
-			ParentCount=aryCommInfo(14)
-			IsCheck=aryCommInfo(15)
-			MetaString=aryCommInfo(16)
+			IsCheck=aryCommInfo(14)
+			MetaString=aryCommInfo(15)
 
 		End If
 
@@ -3016,7 +3012,7 @@ Class TComment
 
 		LoadInfoByArray=True
 
-		Call Filter_Plugin_TComment_LoadInfoByArray(ID,log_ID,AuthorID,Author,Content,Email,HomePage,PostTime,IP,Agent,Reply,LastReplyIP,LastReplyTime,ParentID,ParentCount,IsCheck,MetaString)
+		Call Filter_Plugin_TComment_LoadInfoByArray(ID,log_ID,AuthorID,Author,Content,Email,HomePage,PostTime,IP,Agent,Reply,LastReplyIP,LastReplyTime,ParentID,IsCheck,MetaString)
 
 	End Function
 

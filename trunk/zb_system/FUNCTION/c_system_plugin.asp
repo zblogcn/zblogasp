@@ -2860,12 +2860,12 @@ End Function
 '**************************************************<
 '类型:filter
 '名称:Filter_Plugin_TComment_Post
-'参数:ID,log_ID,AuthorID,Author,Content,Email,HomePage,PostTime,IP,Agent,ParentID,ParentCount
+'参数:ID,log_ID,AuthorID,Author,Content,Email,HomePage,PostTime,IP,Agent,ParentID
 '说明:
 '调用:
 '**************************************************>
 Dim sFilter_Plugin_TComment_Post
-Function Filter_Plugin_TComment_Post(ByRef ID,ByRef log_ID,ByRef AuthorID,ByRef Author,ByRef Content,ByRef Email,ByRef HomePage,ByRef PostTime,ByRef IP,ByRef Agent,ByRef Reply,ByRef LastReplyIP,ByRef LastReplyTime,ByRef ParentID,ByRef ParentCount,ByRef IsCheck,ByRef MetaString)
+Function Filter_Plugin_TComment_Post(ByRef ID,ByRef log_ID,ByRef AuthorID,ByRef Author,ByRef Content,ByRef Email,ByRef HomePage,ByRef PostTime,ByRef IP,ByRef Agent,ByRef Reply,ByRef LastReplyIP,ByRef LastReplyTime,ByRef ParentID,ByRef IsCheck,ByRef MetaString)
 
 	Dim s,i
 
@@ -2874,7 +2874,7 @@ Function Filter_Plugin_TComment_Post(ByRef ID,ByRef log_ID,ByRef AuthorID,ByRef 
 	s=Split(sFilter_Plugin_TComment_Post,"|")
 
 	For i=0 To UBound(s)-1
-		Call Execute(s(i) & " " & "ID,log_ID,AuthorID,Author,Content,Email,HomePage,PostTime,IP,Agent,Reply,LastReplyIP,LastReplyTime,ParentID,ParentCount,IsCheck,MetaString")
+		Call Execute(s(i) & " " & "ID,log_ID,AuthorID,Author,Content,Email,HomePage,PostTime,IP,Agent,Reply,LastReplyIP,LastReplyTime,ParentID,IsCheck,MetaString")
 	Next
 
 End Function
@@ -2886,12 +2886,12 @@ End Function
 '**************************************************<
 '类型:filter
 '名称:Filter_Plugin_TComment_LoadInfoByArray
-'参数:ID,log_ID,AuthorID,Author,Content,Email,HomePage,PostTime,IP,Agent,ParentID,ParentCount
+'参数:ID,log_ID,AuthorID,Author,Content,Email,HomePage,PostTime,IP,Agent,ParentID
 '说明:
 '调用:
 '**************************************************>
 Dim sFilter_Plugin_TComment_LoadInfoByArray
-Function Filter_Plugin_TComment_LoadInfoByArray(ByRef ID,ByRef log_ID,ByRef AuthorID,ByRef Author,ByRef Content,ByRef Email,ByRef HomePage,ByRef PostTime,ByRef IP,ByRef Agent,ByRef Reply,ByRef LastReplyIP,ByRef LastReplyTime,ByRef ParentID,ByRef ParentCount,ByRef IsCheck,ByRef MetaString)
+Function Filter_Plugin_TComment_LoadInfoByArray(ByRef ID,ByRef log_ID,ByRef AuthorID,ByRef Author,ByRef Content,ByRef Email,ByRef HomePage,ByRef PostTime,ByRef IP,ByRef Agent,ByRef Reply,ByRef LastReplyIP,ByRef LastReplyTime,ByRef ParentID,ByRef IsCheck,ByRef MetaString)
 
 	Dim s,i
 
@@ -2900,7 +2900,7 @@ Function Filter_Plugin_TComment_LoadInfoByArray(ByRef ID,ByRef log_ID,ByRef Auth
 	s=Split(sFilter_Plugin_TComment_LoadInfoByArray,"|")
 
 	For i=0 To UBound(s)-1
-		Call Execute(s(i) & " " & "ID,log_ID,AuthorID,Author,Content,Email,HomePage,PostTime,IP,Agent,Reply,LastReplyIP,LastReplyTime,ParentID,ParentCount,IsCheck,MetaString")
+		Call Execute(s(i) & " " & "ID,log_ID,AuthorID,Author,Content,Email,HomePage,PostTime,IP,Agent,Reply,LastReplyIP,LastReplyTime,ParentID,IsCheck,MetaString")
 	Next
 
 End Function
@@ -2912,12 +2912,12 @@ End Function
 '**************************************************<
 '类型:filter
 '名称:Filter_Plugin_TComment_Del
-'参数:ID,log_ID,AuthorID,Author,Content,Email,HomePage,PostTime,IP,Agent,ParentID,ParentCount
+'参数:ID,log_ID,AuthorID,Author,Content,Email,HomePage,PostTime,IP,Agent,ParentID
 '说明:
 '调用:
 '**************************************************>
 Dim sFilter_Plugin_TComment_Del
-Function Filter_Plugin_TComment_Del(ByRef ID,ByRef log_ID,ByRef AuthorID,ByRef Author,ByRef Content,ByRef Email,ByRef HomePage,ByRef PostTime,ByRef IP,ByRef Agent,ByRef Reply,ByRef LastReplyIP,ByRef LastReplyTime,ByRef ParentID,ByRef ParentCount,ByRef IsCheck,ByRef MetaString)
+Function Filter_Plugin_TComment_Del(ByRef ID,ByRef log_ID,ByRef AuthorID,ByRef Author,ByRef Content,ByRef Email,ByRef HomePage,ByRef PostTime,ByRef IP,ByRef Agent,ByRef Reply,ByRef LastReplyIP,ByRef LastReplyTime,ByRef ParentID,ByRef IsCheck,ByRef MetaString)
 
 	Dim s,i
 
@@ -2926,7 +2926,7 @@ Function Filter_Plugin_TComment_Del(ByRef ID,ByRef log_ID,ByRef AuthorID,ByRef A
 	s=Split(sFilter_Plugin_TComment_Del,"|")
 
 	For i=0 To UBound(s)-1
-		Call Execute(s(i) & " " & "ID,log_ID,AuthorID,Author,Content,Email,HomePage,PostTime,IP,Agent,Reply,LastReplyIP,LastReplyTime,ParentID,ParentCount,IsCheck,MetaString")
+		Call Execute(s(i) & " " & "ID,log_ID,AuthorID,Author,Content,Email,HomePage,PostTime,IP,Agent,Reply,LastReplyIP,LastReplyTime,ParentID,IsCheck,MetaString")
 	Next
 
 End Function
@@ -2938,12 +2938,12 @@ End Function
 '**************************************************<
 '类型:filter
 '名称:Filter_Plugin_TComment_LoadInfoByID
-'参数:ID,log_ID,AuthorID,Author,Content,Email,HomePage,PostTime,IP,Agent,ParentID,ParentCount
+'参数:ID,log_ID,AuthorID,Author,Content,Email,HomePage,PostTime,IP,Agent,ParentID
 '说明:
 '调用:
 '**************************************************>
 Dim sFilter_Plugin_TComment_LoadInfoByID
-Function Filter_Plugin_TComment_LoadInfoByID(ByRef ID,ByRef log_ID,ByRef AuthorID,ByRef Author,ByRef Content,ByRef Email,ByRef HomePage,ByRef PostTime,ByRef IP,ByRef Agent,ByRef Reply,ByRef LastReplyIP,ByRef LastReplyTime,ByRef ParentID,ByRef ParentCount,ByRef IsCheck,ByRef MetaString)
+Function Filter_Plugin_TComment_LoadInfoByID(ByRef ID,ByRef log_ID,ByRef AuthorID,ByRef Author,ByRef Content,ByRef Email,ByRef HomePage,ByRef PostTime,ByRef IP,ByRef Agent,ByRef Reply,ByRef LastReplyIP,ByRef LastReplyTime,ByRef ParentID,ByRef IsCheck,ByRef MetaString)
 
 	Dim s,i
 
@@ -2952,7 +2952,7 @@ Function Filter_Plugin_TComment_LoadInfoByID(ByRef ID,ByRef log_ID,ByRef AuthorI
 	s=Split(sFilter_Plugin_TComment_LoadInfoByID,"|")
 
 	For i=0 To UBound(s)-1
-		Call Execute(s(i) & " " & "ID,log_ID,AuthorID,Author,Content,Email,HomePage,PostTime,IP,Agent,Reply,LastReplyIP,LastReplyTime,ParentID,ParentCount,IsCheck,MetaString")
+		Call Execute(s(i) & " " & "ID,log_ID,AuthorID,Author,Content,Email,HomePage,PostTime,IP,Agent,Reply,LastReplyIP,LastReplyTime,ParentID,IsCheck,MetaString")
 	Next
 
 End Function
