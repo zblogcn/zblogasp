@@ -807,26 +807,45 @@ Class TArticle
 			If bAction_Plugin_TArticle_Export_CMTandTB_Begin=True Then Exit Function
 		Next
 
-		If CommNums + TrackBackNums > 0 Then
+		If CommNums > 0 Then
 			Dim strC_Count,strC,strT_Count,strT
 
 			Dim objComment
 			Dim objTrackBack
 
-			Dim i
+			Dim i,j,s
+
+			'Dim comments()
+			Dim comments_ID()
+			Dim comments_ParentID()
+			Dim comments_Template()
+			Dim comments_ID2Array()
+
 
 			Dim objRS
+
+			Set objRS=objConn.Execute("SELECT MAX([comm_ID]) FROM [blog_Comment]")
+			If (Not objRS.bof) And (Not objRS.eof) Then
+				ReDim comments_ID2Array(objRS(0))
+			End If
+			Set objRS=Nothing
+
+
 			strC_Count=0
 			Set objRS=Server.CreateObject("ADODB.Recordset")
 			objRS.CursorType = adOpenKeyset
 			objRS.LockType = adLockReadOnly
 			objRS.ActiveConnection=objConn
-			objRS.Source="SELECT [comm_ID],[log_ID],[comm_AuthorID],[comm_Author],[comm_Content],[comm_Email],[comm_HomePage],[comm_PostTime],[comm_IP],[comm_Agent],[comm_Reply],[comm_LastReplyIP],[comm_LastReplyTime],[comm_ParentID],[comm_ParentCount],[comm_IsCheck],[comm_Meta] FROM [blog_Comment] WHERE ([blog_Comment].[log_ID]=" & ID &" AND [blog_Comment].[comm_ParentID]=0) UNION ALL SELECT [tb_ID],[log_ID],'',[tb_Title],[tb_Excerpt],[tb_Blog],[tb_URL],[tb_PostTime],[tb_IP],[tb_Agent],'','','','' ,'','',[tb_Meta] from [blog_TrackBack] WHERE [blog_TrackBack].[log_ID]="& ID & " ORDER BY [comm_ID],[comm_PostTime]"
+			objRS.Source="SELECT [comm_ID],[log_ID],[comm_AuthorID],[comm_Author],[comm_Content],[comm_Email],[comm_HomePage],[comm_PostTime],[comm_IP],[comm_Agent],[comm_Reply],[comm_LastReplyIP],[comm_LastReplyTime],[comm_ParentID],[comm_ParentCount],[comm_IsCheck],[comm_Meta] FROM [blog_Comment] WHERE ([blog_Comment].[log_ID]=" & ID &" )"
 			objRS.Open()
 
 			If (not objRS.bof) And (not objRS.eof) Then
 
-				ReDim aryArticleExportMsgTB(objRS.RecordCount)
+				i=objRS.RecordCount
+				'ReDim comments(i)
+				ReDim comments_ID(i)
+				ReDim comments_ParentID(i)
+				ReDim comments_Template(i)
 
 				For i=1 To objRS.RecordCount
 
@@ -835,42 +854,20 @@ Class TArticle
 						Set objComment=New TComment
 						objComment.LoadInfoByArray(Array(objRS("comm_ID"),objRS("log_ID"),objRS("comm_AuthorID"),objRS("comm_Author"),objRS("comm_Content"),objRS("comm_Email"),objRS("comm_HomePage"),objRS("comm_PostTime"),objRS("comm_IP"),objRS("comm_Agent"),objRS("comm_Reply"),objRS("comm_LastReplyIP"),objRS("comm_LastReplyTime"),objRS("comm_ParentID"),objRS("comm_ParentCount"),objRS("comm_IsCheck"),objRs("comm_Meta")))
 
-						If objRs("comm_ParentID")=0 Then strC_Count=strC_Count+1
+						strC_Count=strC_Count+1
 
 						strC=GetTemplate("TEMPLATE_B_ARTICLE_COMMENT")
 'Mark3
-						objComment.Count=strC_Count
-						
-						strC=objComment.MakeTemplate(strC,False)
+						objComment.Count=0'strC_Count
+						strC=objComment.MakeTemplate(strC)
 
-						If ZC_COMMENT_REVERSE_ORDER_EXPORT=True Then
-							Template_Article_Comment=strC & Template_Article_Comment
-						Else
-							Template_Article_Comment=Template_Article_Comment & strC
-						End If
+						'Set comments(i)=objComment
+						comments_ID(i)=objComment.ID
+						comments_ParentID(i)=objComment.ParentID
+						comments_Template(i)=strC
+						comments_ID2Array(objComment.ID)=i
 
 						Set objComment=Nothing
-
-					Else
-
-						Set objTrackBack=New TTrackBack
-
-						objTrackBack.LoadInfoByArray(Array(objRS("comm_ID"),objRS("log_ID"),objRS("comm_HomePage"),objRS("comm_Author"),objRS("comm_Email"),objRS("comm_Content"),objRS("comm_PostTime"),"","","",objRS("comm_Meta")))
-
-						strT_Count=strT_Count+1
-
-						strT=GetTemplate("TEMPLATE_B_ARTICLE_TRACKBACK")
-
-						objTrackBack.Count=strT_Count
-						strT=objTrackBack.MakeTemplate(strT)
-
-						If ZC_COMMENT_REVERSE_ORDER_EXPORT=True Then
-							Template_Article_Trackback=strT & Template_Article_Trackback
-						Else
-							Template_Article_Trackback=Template_Article_Trackback & strT
-						End If
-
-						Set objTrackBack=Nothing
 
 					End If
 
@@ -883,9 +880,41 @@ Class TArticle
 			objRS.Close()
 			Set objRS=Nothing
 
+			For Each i in comments_ID
+				For Each j in comments_ID
+					If comments_ID(comments_ID2Array(i))= comments_ParentID(comments_ID2Array(j)) Then
+						comments_Template(comments_ID2Array(i))=Replace(comments_Template(comments_ID2Array(i)),"<!--rev-->","<!--rev"&j&"--><!--rev-->")
+					End If
+				Next
+			Next
+
+			For Each i in comments_ID
+				For Each j in comments_ID
+					comments_Template(comments_ID2Array(i))=Replace(comments_Template(comments_ID2Array(i)),"<!--rev"&j&"-->",comments_Template(comments_ID2Array(j)))
+				Next
+			Next
+
+			For Each i In comments_ID
+				If comments_ParentID(comments_ID2Array(i))= 0 Then
+					If ZC_COMMENT_REVERSE_ORDER_EXPORT=True Then
+						Template_Article_Comment=comments_Template(comments_ID2Array(i)) & Template_Article_Comment
+					Else
+						Template_Article_Comment=Template_Article_Comment & comments_Template(comments_ID2Array(i))
+					End If
+				End If
+			Next
+
+
 		End If
 
-		Template_Article_Comment=Template_Article_Comment & "<div style=""display:none;"" id=""divAjaxComment""></div>"
+		Template_Article_Comment="<span style=""display:none;"" id=""AjaxCommentBegin""></span>" & Template_Article_Comment & "<span style=""display:none;"" id=""AjaxCommentEnd""></span><div style=""display:none;"" id=""divAjaxComment""></div>"
+
+		i=0
+		Do While InStr(Template_Article_Comment,"<!--(count-->0<!--count)-->")>0
+			i=i+1
+			Template_Article_Comment=Replace(Template_Article_Comment,"<!--(count-->0<!--count)-->",i,1,1)
+		Loop
+
 
 		Export_CMTandTB=True
 
@@ -2760,6 +2789,8 @@ Class TComment
 	Public IsCheck
 	Public Meta
 
+	Public IsThrow '此值为True时,系统不会保存的,会直接扔出去.
+
 	Public Property Get MetaString
 		MetaString=Meta.SaveString
 	End Property
@@ -2814,6 +2845,9 @@ Class TComment
 	Public Function Post()
 
 		Call Filter_Plugin_TComment_Post(ID,log_ID,AuthorID,Author,Content,Email,HomePage,PostTime,IP,Agent,Reply,LastReplyIP,LastReplyTime,ParentID,ParentCount,IsCheck,MetaString)
+
+		If IsThrow=True Then Post=True:Exit Function
+
 		If IP="" Then
 			IP=Request.ServerVariables("REMOTE_ADDR")
 			Agent=Request.ServerVariables("HTTP_USER_AGENT")
@@ -2987,7 +3021,7 @@ Class TComment
 	End Function
 
 'Mark2 MakeTemplate
-	Public Function MakeTemplate(strC,isChild)
+	Public Function MakeTemplate(strC)
 		Dim html,i,j,Template
 		html=strC
 		Template=GetTemplate("TEMPLATE_B_ARTICLE_COMMENT")
@@ -2997,12 +3031,12 @@ Class TComment
 		Dim ChildTemplate
 		Dim aryTemplateTagsName()
 		Dim aryTemplateTagsValue()
-		ReDim aryTemplateTagsName(13)
-		ReDim aryTemplateTagsValue(13)
+		ReDim aryTemplateTagsName(12)
+		ReDim aryTemplateTagsValue(12)
 		If ParentID="" Then ParentID=0
-		If ParentID>0 Then
-			If isChild=False Then MakeTemplate="":Exit Function
-		End If
+		'If ParentID>0 Then
+		'	If isChild=False Then MakeTemplate="":Exit Function
+		'End If
 		aryTemplateTagsName(  1)="article/comment/id"
 		aryTemplateTagsValue( 1)=ID
 		aryTemplateTagsName(  2)="article/comment/name"
@@ -3016,9 +3050,9 @@ Class TComment
 		aryTemplateTagsName(  6)="article/comment/posttime"
 		aryTemplateTagsValue( 6)=PostTime
 		aryTemplateTagsName(  7)="article/comment/content"
-		aryTemplateTagsValue( 7)=HtmlContent
+		aryTemplateTagsValue( 7)=HtmlContent & "<!--rev-->"
 		aryTemplateTagsName(  8)="article/comment/count"
-		aryTemplateTagsValue( 8)=Count
+		aryTemplateTagsValue( 8)="<!--(count-->"& Count &"<!--count)-->"
 		aryTemplateTagsName(  9)="article/comment/authorid"
 		aryTemplateTagsValue( 9)=AuthorID
 		aryTemplateTagsName( 10)="article/comment/firstcontact"
@@ -3027,21 +3061,6 @@ Class TComment
 		aryTemplateTagsValue(11)=EmailMD5
 		aryTemplateTagsName( 12)="article/comment/parentid"
 		aryTemplateTagsValue(12)=ParentID
-		aryTemplateTagsName( 13)="article/comment/rev"
-		aryTemplateTagsValue(13)=""
-		Dim objRS
-		Set objRS=objConn.Execute("SELECT [comm_ID],[log_ID],[comm_AuthorID],[comm_Author],[comm_Content],[comm_Email],[comm_HomePage],[comm_PostTime],[comm_IP],[comm_Agent],[comm_Reply],[comm_LastReplyIP],[comm_LastReplyTime],[comm_ParentID],[comm_ParentCount],[comm_IsCheck],[comm_Meta] FROM [blog_Comment] WHERE [comm_ParentID]=" & ID)
-		Set ChildTemplate=New TComment
-		Dim intCount
-		intCount=0
-		Do Until objRS.bof Or objRS.eof
-			If ChildTemplate.LoadInfoById(objRS("comm_ID"))=True Then
-				intCount=intCount+1
-				ChildTemplate.Count=intCount
-				aryTemplateTagsValue(13)=aryTemplateTagsValue(13)&ChildTemplate.MakeTemplate(Template,True)
-			End If
-			objRS.movenext
-		Loop
 
 		'plugin node
 		Call Filter_Plugin_TComment_MakeTemplate_TemplateTags(aryTemplateTagsName,aryTemplateTagsValue)

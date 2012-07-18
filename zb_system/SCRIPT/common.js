@@ -617,7 +617,7 @@ function RevertComment(intRevertID) {
 	}
 
 	if(f.action.search("act=cmt")>0){
-		f.action=f.action.replace("cmd.asp?act=cmt","cmd.asp?act=CommentRev&id="+intRevertID);
+		f.action=f.action.replace("cmd.asp?act=cmt","cmd.asp?act=cmt&id="+intRevertID);
 		return true;
 	}
 	else{

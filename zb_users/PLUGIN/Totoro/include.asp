@@ -110,6 +110,8 @@ End Function
 Function Totoro_chkComment(ByRef objComment)
 	Call Totoro_Initialize
 	
+	If objComment.IsCheck=True Then Exit Function
+	If objComment.IsThrow=True Then Exit Function
 	
 	Dim strTemp
 	strTemp=objComment.Content
@@ -126,28 +128,18 @@ Function Totoro_chkComment(ByRef objComment)
 	Call Totoro_checkNumLong(strTemp)
 	Call Totoro_checkChinese(strTemp)
 	objComment.Content=Totoro_replaceWord(strTemp)
-	
+
 	If Totoro_SV>=TOTORO_SV_THRESHOLD Then
+		ZVA_ErrorMsg(14)="Totoro Ⅲ" & ZC_MSG339 & ZVA_ErrorMsg(14)
+		ZVA_ErrorMsg(53)="Totoro Ⅲ" & ZC_MSG339 & ZVA_ErrorMsg(53)
 		If Totoro_SV<TOTORO_SV_THRESHOLD2 Or TOTORO_SV_THRESHOLD2=0 Then
-			objComment.isCheck=True
-			objComment.Post
-			If IsEmpty(Request.Form("inpAjax"))=False Then
-				objComment.Content="你的评论已进入审核过程，请勿再次提交。"
-				Call ReturnAjaxComment(objComment)
-				Response.End
-			End If
-			Call Totoro_ExitError("你的评论已进入审核过程，请勿再次提交。")
+			objComment.IsCheck=True
 		ElseIf TOTORO_SV_THRESHOLD2<=Totoro_SV Then
-			If IsEmpty(Request.Form("inpAjax"))=False Then
-				objComment.Content="你的评论已经被删除，请勿再次提交。"
-				Call ReturnAjaxComment(objComment)
-				Response.End
-			End If
-			Call Totoro_ExitError("你的评论已经被删除，请勿再次提交。")
-			Response.End
-			
+			objComment.IsThrow=True
 		End If
 	End If
+	
+	Totoro_chkComment=True
 
 End Function
 '*********************************************************
@@ -163,9 +155,9 @@ Function Totoro_checkLevel(ByVal level)
 	If TOTORO_LEVEL_VALUE=0 Then Exit Function
 
 	If Level=1 Then
-	Totoro_SV=Totoro_SV-TOTORO_LEVEL_VALUE*(4)
+	Totoro_SV=Totoro_SV-TOTORO_LEVEL_VALUE*(8)
 	ElseIf  Level=2 Then
-	Totoro_SV=Totoro_SV-TOTORO_LEVEL_VALUE*(3)
+	Totoro_SV=Totoro_SV-TOTORO_LEVEL_VALUE*(4)
 	ElseIf  Level=3 Then
 	Totoro_SV=Totoro_SV-TOTORO_LEVEL_VALUE*(2)
 	ElseIf  Level=4 Then
