@@ -340,7 +340,7 @@ Const ZC_MSG335="x 超出了层数！"
 Const ZC_MSG336="x 父评论和子评论不在同一篇文章!"
 Const ZC_MSG337="上一篇"
 Const ZC_MSG338="下一篇"
-
+Const ZC_MSG339="插件大显神威!"
 
 
 
@@ -432,7 +432,7 @@ ZVA_ErrorMsg(10)="系统初始化失败"
 ZVA_ErrorMsg(11)="编辑文章失败"
 ZVA_ErrorMsg(12)="编辑分类失败"
 ZVA_ErrorMsg(13)="该分类下有文章，删除失败"
-ZVA_ErrorMsg(14)="评论发表失败"
+ZVA_ErrorMsg(14)="你的评论已被拦截,发表失败."
 ZVA_ErrorMsg(15)="名称不能为空或过长及格式不正确"
 ZVA_ErrorMsg(16)="编辑用户失败"
 ZVA_ErrorMsg(17)="删除用户失败"
@@ -471,5 +471,5 @@ ZVA_ErrorMsg(49)="该分类下有子分类, 删除失败"
 ZVA_ErrorMsg(50)="指定的父分类不存在"
 ZVA_ErrorMsg(51)="子分类下不能再包含分类"
 ZVA_ErrorMsg(52)="超过博客设置的最大回复层数"
-ZVA_ErrorMsg(53)="要回复的评论不存在"
+ZVA_ErrorMsg(53)="你的评论已进入审核过程,请勿再次提交."
 %>

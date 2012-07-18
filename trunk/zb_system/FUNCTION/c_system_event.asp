@@ -399,7 +399,7 @@ End Function
 '*********************************************************
 ' 目的：    Post Comment
 '*********************************************************
-Function PostComment(strKey)
+Function PostComment(strKey,intRevertCommentID)
 
 	Call GetCategory()
 	Call GetUser()
@@ -423,7 +423,7 @@ Function PostComment(strKey)
 	inpArticle=Request.Form("inpArticle")
 	inpEmail=Request.Form("inpEmail")
 	inpHomePage=Request.Form("inpHomePage")
-	inpParentID=Request.Form("inpParentID")
+	inpParentID=intRevertCommentID
 	
 	If Len(inpArticle)=0 Or Len(inpArticle)>ZC_CONTENT_MAX Then
 		Call  ShowError(46)
@@ -434,15 +434,17 @@ Function PostComment(strKey)
 	Dim tmpCount
 
 	Set objComment=New TComment
-	'If clng(inpParentID)>0 Then
-'		objComment.LoadInfoById(inpParentID)'
-'		If objComment.ParentCount>ZC_MAXFL'OOR Then Exit Function'
-'		tmpCount= objComment.ParentCount
-'		Set objComment=Nothing	
-'		Set  objComment=New TComment
-'	Else
-		tmpCount=-1
-'	End If
+
+
+	If CLng(inpParentID)>0 Then
+		objComment.LoadInfoById(inpParentID)
+		If objComment.ParentCount>ZC_MAXFLOOR-1 Then Call ShowError(52)
+		tmpCount= objComment.ParentCount
+		Set objComment=Nothing	
+		Set  objComment=New TComment
+	End If
+
+
 	objComment.log_ID=inpID
 	objComment.AuthorID=BlogUser.ID
 	objComment.Author=inpName
@@ -451,10 +453,13 @@ Function PostComment(strKey)
 	objComment.HomePage=inpHomePage
 	objComment.ParentID=inpParentID
 	objComment.ParentCount=tmpCount+1
+	objComment.Count=objConn.Execute("SELECT COUNT([comm_ID]) FROM [blog_Comment] WHERE [comm_IsCheck]=0 AND [log_ID] =" & inpID)(0)
 
 
 	'接口
 	Call Filter_Plugin_PostComment_Core(objComment)
+
+	If objComment.IsThrow=True Then Call ShowError(14)
 
 	If objComment.AuthorID>0 Then
 		objComment.Author=Users(objComment.AuthorID).Name
@@ -477,6 +482,8 @@ Function PostComment(strKey)
 	Next
 
 	If objComment.Post Then
+
+		If objComment.IsCheck=True Then Call ShowError(53)
 
 		Call BuildArticle(objComment.log_ID,False,True)
 		BlogReBuild_Comments
@@ -545,103 +552,6 @@ End Function
 
 
 'EventMark4
-'*********************************************************
-' 目的：    Revert Comment
-'*********************************************************
-Function RevertComment(strKey,intRevertCommentID)
-
-	Call GetCategory()
-	Call GetUser()
-
-	If IsEmpty(Request.Form("inpAjax"))=False Then
-		ShowError_Custom="Call RespondError(id,ZVA_ErrorMsg(id)):Response.End"
-	End If
-
-	Call CheckParameter(intRevertCommentID,"int",0)
-
-	If ZC_COMMENT_TURNOFF Then
-		Call ShowError(40)
-	End If
-
-	If ZC_COMMENT_VERIFY_ENABLE Then
-		If CheckVerifyNumber(Request.Form("inpVerify"))=False Then Call ShowError(38)
-	End If
-
-	Dim objComment
-	Dim objArticle
-	Dim inpID,inpName,inpArticle,inpEmail,inpHomePage,inpParentID
-
-	Set objComment=New TComment
-	inpID=Request.Form("inpID")
-	inpName=Request.Form("inpName")
-	inpArticle=Request.Form("inpArticle")
-	inpEmail=Request.Form("inpEmail")
-	inpHomePage=Request.Form("inpHomePage")
-	inpParentID=intRevertCommentID
-
-	If Len(inpArticle)=0 Or Len(inpArticle)>ZC_CONTENT_MAX Then
-		Call  ShowError(46)
-	End If
-	Dim tmpCount
-	Set objComment=New TComment
-	If clng(inpParentID)>0 Then
-		objComment.LoadInfoById(inpParentID)
-		If objComment.ParentCount>ZC_MAXFLOOR-2 Then Call ShowError(52)
-		tmpCount= objComment.ParentCount
-		Set objComment=Nothing	
-		Set  objComment=New TComment
-	Else
-		Call ShowError(53)
-	End If
-	
-	objComment.log_ID=inpID
-	objComment.AuthorID=BlogUser.ID
-	objComment.Author=inpName
-	objComment.Content=inpArticle
-	objComment.Email=inpEmail
-	objComment.HomePage=inpHomePage
-	objComment.ParentID=inpParentID
-	objComment.ParentCount=tmpCount+1
-
-	If objComment.log_ID>0 Then
-		Set objArticle=New TArticle
-		If objArticle.LoadInfoByID(objComment.log_ID) Then
-			If Not (strKey=objArticle.CommentKey) Then Call ShowError(43)
-			If objArticle.Level<4 Then Call ShowError(44)
-		Else
-			Call ShowError(9)
-		End If
-		Set objArticle=Nothing
-	End If
-
-	'接口
-	Call Filter_Plugin_PostComment_Core(objComment)
-
-	If objComment.Post Then
-
-		Call BuildArticle(objComment.log_ID,False,False)
-		BlogReBuild_Comments
-
-		RevertComment=True
-
-		Call Filter_Plugin_PostComment_Succeed(objComment)
-	End if
-
-	If IsEmpty(Request.Form("inpAjax"))=False Then
-		objComment.LoadInfoById objComment.ParentID
-		Call ReturnAjaxComment(objComment)
-		Call ClearGlobeCache
-		Call LoadGlobeCache
-	End If
-
-	Set objComment=Nothing
-
-End Function
-'*********************************************************
-
-
-
-
 '*********************************************************
 ' 目的：    Save Comment
 '*********************************************************
@@ -727,7 +637,7 @@ Function ReturnAjaxComment_Plugin(aryTemplateTagsName,aryTemplateTagsValue)
 End Function
 'Mark5
 Function ReturnAjaxComment(objComment)
-
+On Error Resume Next
 	Dim i,j
 	i=0
 	Dim objArticle
@@ -737,35 +647,16 @@ Function ReturnAjaxComment(objComment)
 		Call Add_Filter_Plugin("Filter_Plugin_TArticle_Export_TemplateTags","ReturnAjaxComment_Plugin")
 		Set objArticle=New TArticle
 		If objArticle.LoadInfoByID(objComment.log_ID) Then
+			Call GetTagsbyTagIDList(objArticle.Tag)
 			Call objArticle.Export(ZC_DISPLAY_MODE_ALL)
 			i=objArticle.CommNums
 		End If
-	Else
-		'Filter_Plugin_TGuestBook_Export_TemplateTags
-		Call Add_Filter_Plugin("Filter_Plugin_TGuestBook_Export_TemplateTags","ReturnAjaxComment_Plugin")
-		Dim GuestBook
-		Set GuestBook=New TGuestBook
-		Call GuestBook.Export("")
-
-		Dim objRS
-		Set objRS=Server.CreateObject("ADODB.Recordset")
-		objRS.CursorType = adOpenKeyset
-		objRS.LockType = adLockReadOnly
-		objRS.ActiveConnection=objConn
-		objRS.Source=""
-		objRS.Open("SELECT COUNT([comm_ID])AS allComment FROM [blog_Comment] WHERE [blog_Comment].[log_ID]=0")
-		If (Not objRS.bof) And (Not objRS.eof) Then
-			i=objRS("allComment")
-		End If
-		objRS.Close
-		Set objRS=Nothing
 	End If
 
 	Dim strC
 	strC=GetTemplate("TEMPLATE_B_ARTICLE_COMMENT")
 	objComment.Count=objComment.Count+1
-	strC=objComment.MakeTemplate(strC,True)
-
+	strC=objComment.MakeTemplate(strC)
 	strC=Replace(strC,"<#ZC_BLOG_HOST#>",ZC_BLOG_HOST)
 
 	Dim aryTemplateTagsName2

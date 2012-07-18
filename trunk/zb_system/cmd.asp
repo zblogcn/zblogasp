@@ -112,10 +112,6 @@ Select Case strAct
 
 		Call CommentDel()
 
-	Case "CommentRev"
-
-		Call CommentRev()
-
 	Case "CommentEdt"
 
 		Call CommentEdt()
@@ -559,7 +555,7 @@ Function CommentPost
 		If bAction_Plugin_CommentPost_Begin=True Then Exit Function
 	Next
 
-	If PostComment(Request.QueryString("key")) Then
+	If PostComment(Request.QueryString("key"),CInt(Request.QueryString("id"))) Then
 
 		Call ClearGlobeCache
 		Call LoadGlobeCache
@@ -603,35 +599,6 @@ Function CommentDel
 		Response.Redirect "cmd.asp?act=CommentMng"
 	Else
 		Call ShowError(18)
-	End If
-End Function
-
-Function CommentRev
-
-	'plugin node
-	For Each sAction_Plugin_CommentRev_Begin in Action_Plugin_CommentRev_Begin
-		If Not IsEmpty(sAction_Plugin_CommentRev_Begin) Then Call Execute(sAction_Plugin_CommentRev_Begin)
-		If bAction_Plugin_CommentRev_Begin=True Then Exit Function
-	Next
-
-	If RevertComment(Request.QueryString("key"),Request.QueryString("id")) Then
-
-		Call ClearGlobeCache
-		Call LoadGlobeCache
-
-		'plugin node
-		For Each sAction_Plugin_CommentRev_Succeed in Action_Plugin_CommentRev_Succeed
-			If Not IsEmpty(sAction_Plugin_CommentRev_Succeed) Then Call Execute(sAction_Plugin_CommentRev_Succeed)
-			If bAction_Plugin_CommentRev_Succeed=True Then Exit Function
-		Next
-
-		If IsEmpty(Request.Form("inpAjax"))=False Then
-			Response.End
-		End If
-
-		Response.Redirect Request.Form("inpLocation")
-	Else
-		Call ShowError(14)
 	End If
 End Function
 

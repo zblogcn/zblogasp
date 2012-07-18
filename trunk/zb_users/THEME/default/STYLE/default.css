@@ -134,7 +134,6 @@ div.function h3{
 	padding:6px 0 0 10px;
 	color:#284259;
     border-bottom:1px solid #DAE2E6;
-    background:url("default/hotarticletitle.gif") no-repeat;
 }
 
 
@@ -552,7 +551,6 @@ p.yd{
          vertical-align :middle;
 	color:#6090c0;
 	font-weight : bold;
-         background:url(default/databg.gif) no-repeat 2px 2px;
 }
 p.nd{
 	float:left;

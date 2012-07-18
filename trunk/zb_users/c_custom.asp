@@ -1,7 +1,7 @@
 ﻿<%
 '网站基本设置
 Const ZC_DATABASE_PATH="zb_users/data/#%20768d53283c63b13403f0.mdb"
-Const ZC_BLOG_HOST="http://localhost/"
+Const ZC_BLOG_HOST="http://192.168.1.14/"
 Const ZC_MSSQL=True
 Const ZC_MSSQL_DATABASE="zb"
 Const ZC_MSSQL_USERNAME="sa"
