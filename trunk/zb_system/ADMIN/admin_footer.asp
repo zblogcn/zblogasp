@@ -1,10 +1,11 @@
     </div>
   </div>
 </div>
-<!--#include file="admin_left.asp"-->
+
 			</div>
 <script language="JavaScript" type="text/javascript">
 // <![CDATA[
+
 $(document).ready(function(){ 
 
 	//斑马线

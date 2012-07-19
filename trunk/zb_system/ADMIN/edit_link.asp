@@ -153,6 +153,7 @@ function currentpage(){
 
 
 			</div></form></div>
+<script type="text/javascript">ActiveLeftMenu("aLinkMng");</script>
 <!--#include file="admin_footer.asp"-->
 <% 
 Call System_Terminate()
