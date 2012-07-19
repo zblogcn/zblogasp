@@ -5,7 +5,7 @@ body{
 	margin:0;
 	padding:0;
 	color:#353434;
-    background:#F7F7F7;
+    background:#F4F4F4;
 	font-size:14px;
     font-family: "微软雅黑","宋体","Trebuchet MS", Tahoma, Arial, sans-serif; 
 
@@ -48,6 +48,19 @@ p{
 	padding:0 0 0 0;
 }
 
+dl{
+	margin:0 0 0 0;
+	padding:0 0 0 0;
+}
+dd{
+	margin:0 0 0 0;
+	padding:0 0 0 0;
+}
+dt{
+	margin:0 0 0 0;
+	padding:0 0 0 0;
+}
+
 
 /*---------------------------各模块设定-------------------------------*/
 #divAll{
@@ -71,9 +84,9 @@ p{
 	text-align:left;
 	float:left;
 	background:#FFFFFF;
-	border-right:1px solid  #E4E6E3;
-	border-left:1px solid #E4E6E3;
-	border-top:1px solid #E4E6E3;
+	border-right:1px solid  #F4F4F4;
+	border-left:1px solid #F4F4F4;
+	border-top:1px solid #F4F4F4;
 }
 
 
@@ -85,7 +98,7 @@ p{
 	text-align:left;
 	float:left;
 	height:220px;
-	background:#FFFFFF url("default/firefox.jpg") no-repeat left bottom;
+	background:#FFF url("default/firefox.jpg") no-repeat left bottom;
 
 }
 
@@ -111,33 +124,33 @@ p{
 #divBottom{
 	width:100%;
 	margin:0 0 0 0;
-	padding:0 0 10px 0;
+	padding:0 0 20px 0;
 	text-align:center;
     float:left;
-	border-bottom:1px solid  #E4E6E3;
 }
 
 
 
 /*------------------------------侧边栏定义---------------------------*/
-div.function {
+.function {
 	float:left;
 	width:100%;
 	margin:0 0 20px 0;
 	padding:0;
 	text-align:left;
 }
-div.function h3{
+.function .function_t{
 	font-size:1em;
 	height:24px;
+	line-height:24px;
 	margin:0 0 2px 0;
-	padding:6px 0 0 10px;
+	padding:5px 0 5px 1em;
 	color:#284259;
-    border-bottom:1px solid #DAE2E6;
+	background:#F4F4F4;
 }
 
 
-div.function ul{
+.function ul{
 	text-align:left;
 	width:95%;
 	margin:0 0 0 0;
@@ -146,11 +159,15 @@ div.function ul{
 	list-style-position:outside;
 	list-style-type:none;
 }
-div.function li{
+.function li{
 	font-size:1em;
 	margin:0 0 0 0;
 	padding:5px 0 5px 1em;
 	background:url("default/pointblue.gif") no-repeat 0 center;
+}
+
+.function .function_c div{
+	padding:0.5em 0 0.5em 1em;
 }
 
 
@@ -175,18 +192,10 @@ body.single #divMisc{
 	display:none;
 }
 
-
-/*------------------------------控制面板定义---------------------------*/
-#divContorPanel li{
-	background-image : none;
-	padding-left:0em;
+#divCalendar .function_t{
+	display:none;
 }
 
-#divSearchPanel li{
-	background-image : none;
-    border-bottom:none;
-	padding-left:0em;
-}
 
 
 /*------------------------------文章模块---------------------------*/
@@ -227,11 +236,11 @@ div.post-nav a.r{
     margin:0 0 0 0;
 	padding-left:10px;
 	padding:2px 0 2px 0;
-         width:40%;
-         overflow: hidden;
-         text-overflow: ellipsis;
-         white-space: nowrap;
-         text-align:right;
+	width:40%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	text-align:right;
 }
 
 /*---------------------------文章内容------------------------*/
@@ -241,16 +250,13 @@ div.post .post-title{
 	width:100%;
     margin:0 0 12px 0;
     padding:5px 0 5px 0;
-    font-family: 微软雅黑,宋体; 
     font-size:1.3em;
 	font-weight:bold;
     line-height:160%; 
 	color: #284259;
     text-align:center;
-    background:#f8f8f8;
-    border-bottom:1px #E4E6E3 solid;
+	background:#F4F4F4;
 }
-
 
 div.post .post-date{
     height:20px;
@@ -289,10 +295,8 @@ div.post .post-tags{
 body.multi div.post .post-tags{
 	display:none;
 }
-body.single div.post .post-footer{
-    border-bottom:1px #E4E6E3 solid;
-	padding:0 0 10px 0;
-}
+
+
 
 
 div.post div.post-body{
@@ -317,12 +321,10 @@ div.post-body div.media a{
 
 div.post-body img{
 	border: 3px solid #cac4c1; margin: 5px; padding: 0;
-         
 }
 
 div.post-body img:hover{
 	border: 3px solid #8DBCE5; 
-         
 }
 
 
@@ -352,12 +354,12 @@ div.post-body p.inscript{
 div.post-body code{
 	padding:5px;
 	background:#f8f8f8;
-         border:1px #E4E6E3 solid;
+    border:1px #F4F4F4 solid;
 }
 
 code {
-         background: #e9f0fa;
-         cursor: text;
+    background: #e9f0fa;
+    cursor: text;
  }
 
 div.post-body h1{
@@ -409,7 +411,7 @@ div.post-body h6{
 
 #BlogTitle{
 	font-size:1.6em;
-	margin:5px 0 0 10px;
+	margin:2px 0 0 10px;
 	padding:0 0 0 0;
 	font-weight:bold;
 	float:left;
@@ -430,7 +432,7 @@ div.post-body h6{
 	color:#000; 
 	font-size:1em;
     font-weight:normal;
-	margin:16px 0 0 10px;
+	margin:14px 0 0 10px;
 	padding:0;
 	float:left;
 	line-height:1.6em;
@@ -462,9 +464,6 @@ div.post-body h6{
 	text-align:center;
 }
 
-#divCalendar h3{
-	display:none;
-}
 
 #divCalendar div{
     width:100%;
@@ -519,7 +518,7 @@ p.w{
 	text-align:center;
 	vertical-align :middle;
 	font-size:1em;
-	background:#F7F7F7;
+	background:#F4F4F4;
 }
 
 p.y{
@@ -548,7 +547,7 @@ p.yd{
 	margin:0 0 0 0;
 	padding:2px 0 0 0;
 	text-align:center;
-         vertical-align :middle;
+    vertical-align :middle;
 	color:#6090c0;
 	font-weight : bold;
 }
@@ -571,38 +570,33 @@ p.cd{
 	text-align:center;
 	vertical-align :middle;
 	font-weight:bold;
-         color: #01487C;
+    color: #01487C;
 }
 
 /*---------------------------引用\评论----------------------------------*/
 ul.msg{
 	width:90%;
-	margin:20px 0 20px 24px;
-	padding:10px;
+	margin:10px 0 20px 30px;
+	padding:5px 10px 5px 10px;
 	text-align:left;
 	list-style-position : outside;
-    border:1px #E4E6E3 solid;
     table-layout: fixed;
     word-wrap:break-word;
-    background:#F8F7F8;
+    background:#F4F4F4;
 }
+
 li.msgname{
-	border-bottom:1px dansh Silver;
-	padding:0 0 2px 5px;
+	padding:0 0 5px 5px;
 	margin:0px;   
 	font-weight: bold;
     font-size:1em;
 }
-li.tbname{
-	border-bottom:1px dansh Silver;
-	padding:0 0 0 5px;
-	margin:0px;
-}
+
 li.msgurl{
 	text-align:right;
 	padding:2px 10px 2px 10px;
 	margin:0;
-	background:#f0f0f0;
+	background:#F4F4F4;
     font-size:1em;
 }
 
@@ -615,60 +609,44 @@ li.msggravatar{
 
 li.msgarticle{
 	list-style-position : outside;
-	padding:15px 10px 15px 10px;
+	padding:10px;
 	margin:0;
 	line-height:160%; 
+    background:#FFF;
 }
 li.msgtime{
+	padding:5px 0 0 0;
 	font-weight: normal; 
 	font-size:0.8em;
 	color: #01487C;
 }
 
-.time{
-    font-weight: normal; 
-    font-size:0.9em;
-    color: #979595;
-}
-ul.trackback li.tbname{
-	border-bottom:none;
-	padding:5px 0 2px 16px;
-	margin:0px;
-}
-ul.trackback{
-	margin:5px 0 10px 10px;
-}
+
 
 /*---------------------------相关文章----------------------------------*/
 
-ul.mutuality{
-
+ul.mutuality li.msgarticle{
+    background:#F4F4F4;
 }
 ul.mutuality li.tbname{
     padding:5px 0 2px 10px;
 	margin:0px;
 }
 
-ul.mutuality h3{
-    font-size:1em;
-    padding:0px 0 18px 10px;
-	margin:0px;
-    border-bottom:1px dansh Silver;
-}
 
 
 /*-------------------留言回复------------------------------*/
 li.msgarticle div.quote{
 	margin:10px 0 0 0;
-        padding:10px;
+    padding:10px;
 	background:#FFFFFF;
-         border:1px #E4E6E3 solid;
+    border:1px #F4F4F4 solid;
 }
 li.msgarticle div.quote-title{
 	margin:0;
 	padding:0;
 	font-size:1em;
-        color: #DC143C;
+    color: #DC143C;
 }
 
 /*-------------------------------导航栏--------------------------------*/
@@ -676,7 +654,7 @@ li.msgarticle div.quote-title{
 	float:right;
 	width:100%;
 	height:40px;
-	background:#0a3447;
+	background:#244466;
 	color:#fff;
 }
 
@@ -723,9 +701,9 @@ li.msgarticle div.quote-title{
 
 /*--------------------------分页条-------------------------------*/
 
-.pagebar a{ text-align:center;border:1px solid #E4E6E3;background:#E4E6E3;font-family:Verdana;text-decoration:none;margin:0 3px;padding:1px 3px 2px}
-.pagebar .now-page{text-align:center;font-family:Verdana;text-decoration:none;margin:0 3px;padding:1px 3px 2px}
-.pagebar a:hover{color:#666;border-top:#bebdbe 1px solid;text-decoration:none;background:#ddd}
+.pagebar a{ text-align:center;text-decoration:none;margin:0 3px;padding:1px 2px}
+.pagebar .now-page{text-align:center;font-family:Verdana;text-decoration:none;margin:0 3px;padding:1px 2px}
+.pagebar a:hover{color:#666;text-decoration:none;background:#F4F4F4}
 .pagebar span{background-color:#fff;margin:3px;padding:5px}
 .extend{display:none;}
 
@@ -736,14 +714,12 @@ li.msgarticle div.quote-title{
 blockquote{
 	margin: 10px 0;
 	padding: 0 55px;
-         color:#808080;
-       /*background: transparent url(default/blockquote.gif) no-repeat 0 0;*/
+    color:#808080;
 }
 
 
 /**********自动截取最新发表的标题****************/
 #ulPrevious li{
-    width:220px;
     white-space:nowrap;
     word-break:keep-all;
     overflow:hidden;
@@ -752,7 +728,6 @@ blockquote{
 
 
 #divComments li{
-    width:220px;
     white-space:nowrap;
     word-break:keep-all;
     overflow:hidden;
@@ -766,10 +741,9 @@ blockquote{
 
 
 #divCommentPost{
-    border:1px #E4E6E3 solid;
-    background:#F8F7F8;
+    background:#F4F4F4;
 	width:90%;
-	margin:0 0 0 24px;
+	margin:0 0 0 30px;
 	padding:5px 0px 15px 20px;
 }
 
@@ -778,4 +752,3 @@ blockquote{
 #txaArticle{margin-top:10px;width:95%;height:150px;}
 
 input.button{width: 100px;height:26px}
-input.text{margin-bottom:5px;}

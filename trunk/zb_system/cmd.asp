@@ -343,7 +343,7 @@ Function BlogAdmin
 
 	'Call MakeBlogReBuild_Core()
 
-	Response.Redirect "admin/admin_default.asp"
+	Response.Redirect "admin/admin.asp?act=SiteInfo"
 
 End Function
 

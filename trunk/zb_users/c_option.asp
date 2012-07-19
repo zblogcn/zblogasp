@@ -1,5 +1,4 @@
 ﻿<%
-Response.CodePage=65001
 '///////////////////////////////////////////////////////////////////////////////
 '//              Z-Blog
 '// 作    者:    朱煊(zx.asd)
@@ -66,6 +65,8 @@ Const ZC_SEARCH_COUNT=25
 Const ZC_PAGEBAR_COUNT=14
 
 Const ZC_TAGS_DISPLAY_COUNT=50
+
+Const ZC_COMMENTS_DISPLAY_COUNT=10
 
 Const ZC_IMAGE_WIDTH=520
 Const ZC_REBUILD_FILE_COUNT=50

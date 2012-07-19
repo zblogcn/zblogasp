@@ -1,6 +1,6 @@
 <div id="header">
   <div class="top">
-    <div class="logo"><img src="<%=ZC_BLOG_HOST%>ZB_SYSTEM/image/LOGO/logo.png" /></div>
+    <div class="logo"><img src="<%=ZC_BLOG_HOST%>ZB_SYSTEM/image/IMG/logo.png" /></div>
     <div class="user"> <img src="<%=ZC_BLOG_HOST%>ZB_SYSTEM/image/IMG/avatar.png" width="40" height="40" class="avatar" alt="Avatar" />
       <div class="username">管理员：<%=BlogUser.Name%></div>
       <div class="userbtn"><a class="logout" href="../cmd.asp?act=logout" title=""><%=ZC_MSG020%></a> <a class="profile" href="../cmd.asp?act=UserMng" title=""><%=ZC_MSG070%></a></div>

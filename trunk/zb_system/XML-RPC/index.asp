@@ -17,13 +17,13 @@
 <% On Error Resume Next %>
 <% Response.Charset="UTF-8" %>
 <% Response.Buffer=True %>
-<!-- #include file="../c_option.asp" -->
+<!-- #include file="../../zb_users/c_option.asp" -->
 <!-- #include file="../function/c_function.asp" -->
 <!-- #include file="../function/c_system_lib.asp" -->
 <!-- #include file="../function/c_system_base.asp" -->
 <!-- #include file="../function/c_system_event.asp" -->
 <!-- #include file="../function/c_system_plugin.asp" -->
-<!-- #include file="../plugin/p_config.asp" -->
+<!-- #include file="../../zb_users/plugin/p_config.asp" -->
 <%
 '/////////////////////////////////////////////////////////////////////////////////////////
 '*********************************************************
@@ -242,7 +242,7 @@ Function this_newPost(structPost,bolPublish)
 
 	Dim Cate
 	Dim i
-	For i=UBound(Categorys) To LBound(Categorys) Step -1
+	For i=UBound(Categorys) To 1 Step -1
 		If IsObject(Categorys(i)) Then
 			objArticle.CateID=Categorys(i).ID
 			If strCate=Categorys(i).Name Then
@@ -290,7 +290,7 @@ End Function
 '*********************************************************
 Function this_editPost(intPostID,structPost,bolPublish)
 
-	On Error Resume Next
+	'On Error Resume Next
 
 	Dim objXmlFile
 	Set objXmlFile = Server.CreateObject("Microsoft.XMLDOM")
@@ -323,7 +323,7 @@ Function this_editPost(intPostID,structPost,bolPublish)
 	If strCate<>"" Then
 		Dim Cate
 		Dim i
-		For i=UBound(Categorys) To LBound(Categorys) Step -1
+		For i=UBound(Categorys) To 1 Step -1
 			If IsObject(Categorys(i)) Then
 				objArticle.CateID=Categorys(i).ID
 				If strCate=Categorys(i).Name Then
@@ -358,7 +358,7 @@ Function this_editPost(intPostID,structPost,bolPublish)
 		Call RespondError(11,ZVA_ErrorMsg(11))
 	End If
 
-	Err.Clear
+	'Err.Clear
 
 End Function
 '*********************************************************
@@ -416,6 +416,8 @@ End Function
 '*********************************************************
 Function this_newMediaObject(strFileName,strFileType,strFileBits)
 
+	'On Error Resume Next
+
 	Dim objXmlFile
 	Set objXmlFile = Server.CreateObject("Microsoft.XMLDOM")
 
@@ -449,7 +451,7 @@ Function this_newMediaObject(strFileName,strFileType,strFileBits)
 
 		Dim objRS
 		strFileName=FilterSQL(strFileName)
-		If Not objConn.Execute("SELECT * FROM [blog_UpLoad] WHERE [ul_FileName] = '" & strFileName & "'").EOF Then Call RespondError(28,ZVA_ErrorMsg(28))
+		'If Not objConn.Execute("SELECT * FROM [blog_UpLoad] WHERE [ul_FileName] = '" & strFileName & "'").EOF Then Call RespondError(28,ZVA_ErrorMsg(28))
 
 		.Position = 0
 		objUpLoadFile.Stream=.Read
