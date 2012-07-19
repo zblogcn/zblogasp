@@ -66,26 +66,9 @@ End If
 
 BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG070
 
-%><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<%=ZC_BLOG_LANGUAGE%>" lang="<%=ZC_BLOG_LANGUAGE%>">
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<meta http-equiv="Content-Language" content="<%=ZC_BLOG_LANGUAGE%>" />
-	<link rel="stylesheet" rev="stylesheet" href="../CSS/admin2.css" type="text/css" media="screen" />
-	<script language="JavaScript" src="../script/common.js" type="text/javascript"></script>
-	<script language="JavaScript" src="../SCRIPT/md5.js" type="text/javascript"></script>
-	<link rel="stylesheet" href="../CSS/jquery.bettertip.css" type="text/css" media="screen">
-	<script language="JavaScript" src="../script/jquery.bettertip.pack.js" type="text/javascript"></script>
-	<title><%=BlogTitle%></title>
-</head>
-<body>
+%>
+<!--#include file="admin_header.asp"-->
 <!--#include file="admin_top.asp"-->
-<div id="main">
-	<div class="main_right">
-    	<div class="yui">
-			<div class="content">
-            	<div class="wrapper"><!--调用开始-->
-
 			<div id="divMain">
 <div class="divHeader"><%=ZC_MSG242%></div>
 <%
@@ -129,16 +112,6 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG070
 </div>
 
 			</div>
-
-<!--调用结束-->
-            	</div>
-            </div>
-		</div>
-    </div>
-	<!--#include file="admin_left.asp"-->
-	<div class="clear"></div>
-</div>
-</body>
 <script>
 
 
@@ -209,7 +182,7 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG070
 		}
 	}
 </script>
-</html>
+<!--#include file="admin_footer.asp"-->
 <% 
 Call System_Terminate()
 

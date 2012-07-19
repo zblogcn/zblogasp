@@ -97,18 +97,13 @@ Call GetTagsbyTagIDList(EditArticle.Tag)
 BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & IIf(Request.QueryString("type")="Page",ZC_MSG329,ZC_MSG047)
 
 %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<%=ZC_BLOG_LANGUAGE%>" lang="<%=ZC_BLOG_LANGUAGE%>">
-	<head>
-	<!--#include file="admin_header.asp"-->
+<!--#include file="admin_header.asp"-->
+
 	<link rel="stylesheet" type="text/css" href="ueditor/themes/default/ueditor.css"/>
-    <link rel="stylesheet" rev="stylesheet" href="../CSS/admin2.css" type="text/css" media="screen" />
-	<link rel="stylesheet" href="../CSS/jquery.bettertip.css" type="text/css" media="screen">
-	<script language="JavaScript" src="../script/jquery.bettertip.pack.js" type="text/javascript"></script>
-	<script language="JavaScript" src="../script/jquery.tagto.js" type="text/javascript"></script>
+
 	<script type="text/javascript" charset="utf-8" src="ueditor/editor_config.asp"></script>
 	<script type="text/javascript" charset="utf-8" src="ueditor/editor_all_min.js"></script>
-	<script language="JavaScript" type="text/javascript">
+	<script language="Javascript" type="text/javascript">
 	var loaded=false;
 	var editor = new baidu.editor.ui.Editor();
 	var editor2 = new baidu.editor.ui.Editor({
@@ -120,41 +115,31 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & IIf(Request.QueryString("type")="Page",ZC_
 		autoHeightEnabled:false,
 		minFrameHeight:200
 	});</script>
-	</head>
-	<body>
-	<!--#include file="admin_top.asp"-->
-	<div id="main">
-    <div class="main_right">
-      <div class="yui">
-        <div class="content"><div class="divHeader"><%=IIf(Request.QueryString("type")="Page",ZC_MSG329,ZC_MSG047)%></div>
-          <div class="conleft">
-            <div class="shell">
-              <div class="conleft_body">
-              
-                <div id="divMain2">
+<!--#include file="admin_top.asp"-->
+                <div id="divMain">
                   
                   <%
 	Response.Write "<div class=""SubMenu"">" & Response_Plugin_ArticleEdt_SubMenu & "</div>"
 %>
                   <div class="form">
                     <% Call GetBlogHint() %>
-                    <form id="edit" name="edit" method="post">
-                      <input type="hidden" name="edtID" id="edtID" value="<%=EditArticle.ID%>">
-                      <p><%=ZC_MSG060%>:
-                        <input type="text" name="edtTitle" id="edtTitle" style="width:367px;"  onblur="if(this.value=='') this.value='<%=ZC_MSG099%>'" onFocus="if(this.value=='<%=ZC_MSG099%>') this.value=''" value="<%=EditArticle.Title%>" />
+                    <form id="edit" name="edit" method="post" action="">
+                      <input type="hidden" name="edtID" id="edtID" value="<%=EditArticle.ID%>" />
+                      <div><%=ZC_MSG060%>:
+                        <input type="text" name="edtTitle" id="edtTitle" style="width:367px;"  onblur="if(this.value=='') this.value='<%=ZC_MSG099%>'" onfocus="if(this.value=='<%=ZC_MSG099%>') this.value=''" value="<%=EditArticle.Title%>" />
                         <%
 On Error Resume Next
 BlogTitle=EditArticle.Alias
 If Err.Number=0 Then
 %>
                         &nbsp;<%=ZC_MSG147%>:
-                        <input type="text" style="width:220px;" name="edtAlias" id="edtAlias" value="<%=TransferHTML(EditArticle.Alias,"[html-format]")%>">
+                        <input type="text" style="width:220px;" name="edtAlias" id="edtAlias" value="<%=TransferHTML(EditArticle.Alias,"[html-format]")%>" />
                         .<%=ZC_STATIC_TYPE%>
                         <%
 End If
 Err.Clear
 %>
-                      </p>
+                      </div>
                       <%
 Err.Clear
 On Error Resume Next
@@ -163,8 +148,8 @@ BlogTitle=EditArticle.Tag
 
 If Err.Number=0 Then
 %>
-                      <p><%=ZC_MSG012%>:
-                        <select style="width:140px;" class="edit" size="1" id="cmbCate" onChange="edtCateID.value=this.options[this.selectedIndex].value">
+                      <div><%=ZC_MSG012%>:
+                        <select style="width:140px;" class="edit" size="1" id="cmbCate" onchange="edtCateID.value=this.options[this.selectedIndex].value">
                           <option value="0"></option>
                           <%
 	'GetCategory()
@@ -187,17 +172,17 @@ If Err.Number=0 Then
 	Next
 %>
                         </select>
-                        <input type="hidden" name="edtCateID" id="edtCateID" value="<%=EditArticle.CateID%>">
+                        <input type="hidden" name="edtCateID" id="edtCateID" value="<%=EditArticle.CateID%>" />
                         <%
  End If
  Else
 %>
-                        <input type="hidden" name="edtCateID" id="edtCateID" value="0">
+                        <input type="hidden" name="edtCateID" id="edtCateID" value="0" />
                         <%
 End If
 %>
                         &nbsp;<%=ZC_MSG003%>:
-                        <select style="width:100px;" class="edit" size="1" id="cmbUser" onChange="edtAuthorID.value=this.options[this.selectedIndex].value">
+                        <select style="width:100px;" class="edit" size="1" id="cmbUser" onchange="edtAuthorID.value=this.options[this.selectedIndex].value">
                           <option value="0"></option>
                           <%
 	GetUser()
@@ -222,28 +207,28 @@ End If
 
 %>
                         </select>
-                        <input type="hidden" name="edtAuthorID" id="edtAuthorID" value="<%=EditArticle.AuthorID%>">
+                        <input type="hidden" name="edtAuthorID" id="edtAuthorID" value="<%=EditArticle.AuthorID%>" />
                         <%
 If Request.QueryString("type")<>"Page" Then %>
                         &nbsp;<%=ZC_MSG138%>:
-                        <input type="text" style="width:313px;" name="edtTag" id="edtTag" value="<%=TransferHTML(EditArticle.TagToName,"[html-format]")%>">
-                        <a href="" style="cursor:pointer;" onClick="if(document.getElementById('ulTag').style.display=='none'){document.getElementById('ulTag').style.display='block';if(loaded==false){$.getScript('edit_ueditor.asp?type=tags<%if EditArticle.id<>0  then response.write "&id="&EditArticle.ID%>');loaded=true;}}else{document.getElementById('ulTag').style.display='none'};return false;"><%=ZC_MSG139%><span style="font-size: 1.5em; vertical-align: -1px;"></span></a>
+                        <input type="text" style="width:313px;" name="edtTag" id="edtTag" value="<%=TransferHTML(EditArticle.TagToName,"[html-format]")%>" />
+                        <a href="" style="cursor:pointer;" onclick="if(document.getElementById('ulTag').style.display=='none'){document.getElementById('ulTag').style.display='block';if(loaded==false){$.getscript('edit_ueditor.asp?type=tags<%if EditArticle.id<>0  then response.write "&id="&EditArticle.ID%>');loaded=true;}}else{document.getElementById('ulTag').style.display='none'};return false;"><%=ZC_MSG139%><span style="font-size: 1.5em; vertical-align: -1px;"></span></a>
                       <ul id="ulTag" style="display:none;">
-                        <span id="ajaxtags"><%=ZC_MSG326%></span>&nbsp;&nbsp;(<%=ZC_MSG296%>)
+                        <li><span id="ajaxtags"><%=ZC_MSG326%></span>&nbsp;&nbsp;(<%=ZC_MSG296%>)</li>
                       </ul>
-                      </p>
+                      </div>
                       <%
 Else
 %>
-                      <input name="edtAutoList" id="edtAutoList" type="checkbox" value="True" checked="checked"/>
+                      <input name="edtAutoList" id="edtAutoList" type="checkbox" value="True" checked="checked" />
                       <label for="edtAutoList">自动加入导航条</label>
                       <%
 End If
 Err.Clear
 %>
                       <div id="divAdv" style="display:block;">
-                        <p><%=ZC_MSG061%>:
-                          <select style="width:140px;" class="edit" size="1" id="cmbArticleLevel" onChange="edtLevel.value=this.options[this.selectedIndex].value">
+                        <div><%=ZC_MSG061%>:
+                          <select style="width:140px;" class="edit" size="1" id="cmbArticleLevel" onchange="edtLevel.value=this.options[this.selectedIndex].value">
                             <%
 	Dim ArticleLevel
 	Dim i:i=0
@@ -292,7 +277,7 @@ Err.Clear
 Err.Clear
 %>
                           &nbsp;<%=ZC_MSG324%>:
-                          <select style="width:150px;" class="edit" size="1" id="cmbTemplate" onChange="edtTemplate.value=this.options[this.selectedIndex].value">
+                          <select style="width:150px;" class="edit" size="1" id="cmbTemplate" onchange="edtTemplate.value=this.options[this.selectedIndex].value">
                             <%
 	'Response.Write "<option value="""">"&ZC_MSG325&"</option>"
 
@@ -325,7 +310,7 @@ Err.Clear
 %>
                           </select>
                           <input type="hidden" name="edtTemplate" id="edtTemplate" value="<%=EditArticle.TemplateName%>" />
-                      </div>
+                      </div></div>
                       <%
 If Response_Plugin_Edit_Form<>"" Then
 %>
@@ -336,23 +321,23 @@ End If
                       
                       <!-- <div id="divFileSnd">
 <%If CheckRights("FileSnd") Then%>
-	<p id="filesnd"><iframe frameborder="0" height="56" marginheight="0" marginwidth="0" scrolling="no" width="100%" src="../cmd.asp?act=FileSnd"></iframe></p>
+	<p id="filesnd"><iframe frameborder="0" height="56" marginheight="0" marginwidth="0" scrolling="no" width="100%" src="../cmd.asp?act=FileSnd"></iframe></div>
 <%Else%>
 <%End If%>
 </div> -->
                       
                       <div id="divContent" style="clear:both;">
-                        <p><%=ZC_MSG055%>:(<span id="timemsg"></span><span id="msg2"></span><span id="msg"></span><SCRIPT LANGUAGE="JavaScript" src="c_autosaverjs.asp?act=edit&type=ueditor"></SCRIPT>)<br/>
-                        </p>
-                        <textarea id="ueditor" name="txaContent"><%=EditArticle.Content%></textarea>
+                        <div><%=ZC_MSG055%>:(<span id="timemsg"></span><span id="msg2"></span><span id="msg"></span><script type="text/javascript" src="c_autosaverjs.asp?act=edit&amp;type=ueditor"></script>)<br/>
+                        </div>
+                        <textarea id="ueditor" name="txaContent" rows="50" cols="250"><%=EditArticle.Content%></textarea>
                       </div>
-                      <p></p>
-                      <div id="divAutoIntro" class="anti_normal" style="display:<%If EditArticle.ID=0 And EditArticle.Intro="" Then Response.Write "block" Else Response.Write "none"%>;" onClick="try{this.style.display='none';document.getElementById('divIntro').style.display='block';AutoIntro();}catch(e){}">
-                        <p><a title="<%=ZC_MSG297%>" href="javascript:AutoIntro()">[<%=ZC_MSG310%>]</a></p>
+                      <div></div>
+                      <div id="divAutoIntro" class="anti_normal" style="display:<%If EditArticle.ID=0 And EditArticle.Intro="" Then Response.Write "block" Else Response.Write "none"%>;" onclick="try{this.style.display='none';document.getElementById('divIntro').style.display='block';AutoIntro();}catch(e){}">
+                        <div><a title="<%=ZC_MSG297%>" href="javascript:AutoIntro()">[<%=ZC_MSG310%>]</a></div>
                       </div>
                       <div id="divIntro" style="display:<%If EditArticle.Intro="" Then Response.Write "none" Else Response.Write "block"%>;">
-                        <p><%=ZC_MSG016%>:<a title="<%=ZC_MSG297%>" href="javascript:AutoIntro()">[<%=ZC_MSG310%>]</a></p>
-                        <textarea id="ueditor2" name="txaIntro"><%=EditArticle.Intro%></textarea>
+                        <div><%=ZC_MSG016%>:<a title="<%=ZC_MSG297%>" href="javascript:AutoIntro()">[<%=ZC_MSG310%>]</a></div>
+                        <textarea id="ueditor2" name="txaIntro" rows="50" cols="250"><%=EditArticle.Intro%></textarea>
                       </div>
                       <%
 If Response_Plugin_Edit_Form2<>"" Then
@@ -361,37 +346,18 @@ If Response_Plugin_Edit_Form2<>"" Then
                       <%
 End If
 %>
-                      <p>
+                      <div>
                         <input class="button" type="submit" value="<%=ZC_MSG087%>" id="btnPost" onclick='return checkArticleInfo();' />
-                      </p>
+                      </div>
                     </form>
                   </div>
-                </div>
-              </div>
-            </div>
-            </div>
-            <div class="conright">
-              <div class="box_category box">
-                <h2>发布</h2>
-              </div>
-            </div>
-            
-            <div class="clear"></div>
-          </div>
-        </div>
-      </div>
-      
-      <!--#include file="admin_left.asp"-->
-    </div>
+</div>
+               
     
-    <script type="text/javascript">
-
-	$(document).ready(function(){
-
-		editor.render('ueditor');
-		editor2.render('ueditor2');
-
-	});
+<script type="text/javascript">
+// <![CDATA[
+	editor.render('ueditor');
+	editor2.render('ueditor2');
 
 	var str10="<%=ZC_MSG115%>";
 	var str11="<%=ZC_MSG116%>";
@@ -444,11 +410,9 @@ End If
 		$("div.normal").css("display","block");
 		$("div.anti_normal").css("display","none");
 	}
-
-
+// ]]>
 </script>
-</body>
-</html>
+<!--#include file="admin_footer.asp"-->
 <%
 Call System_Terminate()
 

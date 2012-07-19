@@ -86,13 +86,8 @@ function currentpage(){
 </script>
 </head>
 <body>
+<!--#include file="admin_header.asp"-->
 <!--#include file="admin_top.asp"-->
-<div id="main">
-	<div class="main_right">
-    	<div class="yui">
-			<div class="content">
-            	<div class="wrapper"><!--调用开始-->
-
 			<div id="divMain">
 <div class="divHeader"><%=ZC_MSG298%></div>
 <%
@@ -158,34 +153,7 @@ function currentpage(){
 
 
 			</div></form></div>
-<script language="javascript">
-
-
-$(document).ready(function(){
-	$("#divMain2").tabs({ fxFade: true, fxSpeed: 'fast' });
-
-	/* jQuery textarea resizer plugin usage */
-	$(document).ready(function() {
-		$('textarea.resizable:not(.processed)').TextAreaResizer();
-		$('iframe.resizable:not(.processed)').TextAreaResizer();
-	});
-
-});
-
-</script>
-                <!--调用结束-->
-            	</div>
-            </div>
-		</div>
-    </div>
-	<!--#include file="admin_left.asp"-->
-	<div class="clear"></div>
-</div>
-
-
-
-</body>
-</html>
+<!--#include file="admin_footer.asp"-->
 <% 
 Call System_Terminate()
 

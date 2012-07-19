@@ -636,6 +636,6 @@ function RevertComment(intRevertID) {
 // 返回：    无
 //*********************************************************
 function ActiveLeftMenu(name){
-	self.parent.frames["list"].changeButtonColor(self.parent.frames["list"].document.getElementsByName(name)[0]);
+	//self.parent.frames["list"].changeButtonColor(self.parent.frames["list"].document.getElementsByName(name)[0]);
 }
 //*********************************************************
