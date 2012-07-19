@@ -5,7 +5,7 @@
 邮箱：u2lei@yahoo.com.cn
      xinxr@msn.com
 */
-body{ padding:0; margin:0; font-family:"微软雅黑", "宋体", Arial, Helvetica, sans-serif; color:#444444; font-size: 14px; line-height: 20px; background: #FFFFFF}
+body{ min-width:1000px;padding:0; margin:0; font-family:"微软雅黑", "宋体", Arial, Helvetica, sans-serif; color:#444444; font-size: 14px; line-height: 20px; background: #FFFFFF}
 * { padding:0; margin:0;}
 div, h1, h2, h3, h4, p, form, ul, label, input, textarea, img, span{margin:0; padding:0;}
 table{border-collapse:collapse;}
@@ -96,7 +96,7 @@ background:#ffffdd;
 /**/
 #main { width:100%; background: url(../image/IMG2/left_bg.png) repeat-y left top;}
 /*后台顶部*/
-#header {min-width:1000px;}
+#header {}
 #header .top { height:85px; padding:0; background:#3A6EA5; position: relative;}
 /**/
 .logo { width:190px; height:62px; padding:10px 0; left:20px;}
@@ -167,8 +167,8 @@ background:#ffffdd;
 /**/
 #main .main_right .content { padding:5px 12px;}
 /*后台首页*/
-#divMain {	min-width:850px;background:#FFFFFF;}
-#divMain2 { min-width:850px;padding:0px;margin:0px;}
+#divMain {	background:#FFFFFF;}
+#divMain2 { padding:0px;margin:0px;}
 .divHeader { height:1.5em; line-height:1.5em; font-size:1.8em; padding:0; background:#FFF;}
 /**/
 #main .conleft { width:100%; float:left; margin-right:-280px;}
