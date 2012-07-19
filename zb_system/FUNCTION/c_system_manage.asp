@@ -226,7 +226,7 @@ Call Add_Response_Plugin("Response_Plugin_ArticleMng_SubMenu",MakeSubMenu(ZC_MSG
 	Response.Write "<hr/>" & ZC_MSG042 & ": " & strPage
 	Response.Write "</div>"
 
-	Response.Write "<script>ActiveLeftMenu(""aArticleMng"");</script>"
+	Response.Write "<script type=""text/javascript"">ActiveLeftMenu(""aArticleMng"");</script>"
 
 	objRS.Close
 	Set objRS=Nothing
@@ -259,7 +259,7 @@ Call Add_Response_Plugin("Response_Plugin_ArticleMng_SubMenu",MakeSubMenu(ZC_MSG
 	intTitle=vbsunescape(intTitle)
 	intTitle=FilterSQL(intTitle)
 
-	Response.Write "<div class=""divHeader"">" & ZC_MSG067 & "</div>"
+	Response.Write "<div class=""divHeader"">" & ZC_MSG327 & "</div>"
 	Response.Write "<div class=""SubMenu"">" & Response_Plugin_ArticleMng_SubMenu & "</div>"
 	Response.Write "<div id=""divMain2"">"
 
@@ -380,7 +380,7 @@ Call Add_Response_Plugin("Response_Plugin_ArticleMng_SubMenu",MakeSubMenu(ZC_MSG
 	Response.Write "<hr/>" & ZC_MSG042 & ": " & strPage
 	Response.Write "</div>"
 
-	Response.Write "<script>ActiveLeftMenu(""aPageMng"");</script>"
+	Response.Write "<script type=""text/javascript"">ActiveLeftMenu(""aPageMng"");</script>"
 
 	objRS.Close
 	Set objRS=Nothing
@@ -457,6 +457,8 @@ Function ExportCategoryList(intPage)
 	Response.Write "</table>"
 
 	Response.Write "</div>"
+
+	Response.Write "<script type=""text/javascript"">ActiveLeftMenu(""aCategoryMng"");</script>"
 
 	ExportCategoryList=True
 
@@ -575,6 +577,8 @@ Call Add_Response_Plugin("Response_Plugin_CommentMng_SubMenu",MakeSubMenu(ZC_MSG
 	objRS.Close
 	Set objRS=Nothing
 
+	Response.Write "<script type=""text/javascript"">ActiveLeftMenu(""aCommentMng"");</script>"
+
 	ExportCommentList=True
 
 End Function
@@ -588,75 +592,6 @@ End Function
 '*********************************************************
 Function ExportTrackBackList(intPage)
 
-	Dim i
-	Dim objRS
-	Dim strSQL
-	Dim strPage
-	Dim intPageAll
-
-	Call CheckParameter(intPage,"int",1)
-
-	Set objRS=Server.CreateObject("ADODB.Recordset")
-	objRS.CursorType = adOpenKeyset
-	objRS.LockType = adLockReadOnly
-	objRS.ActiveConnection=objConn
-	objRS.Source=""
-
-	strSQL="WHERE ([log_ID]>0) "
-	If CheckRights("Root")=False Then strSQL=strSQL & "AND( (SELECT [log_AuthorID] FROM [blog_Article] WHERE [blog_Article].[log_ID] =[blog_TrackBack].[log_ID] ) =" & BlogUser.ID & ")"
-
-	Response.Write "<div class=""divHeader"">" & ZC_MSG069 & "</div>"
-	Response.Write "<div class=""SubMenu"">" & Response_Plugin_TrackBackMng_SubMenu & "</div>"
-	Response.Write "<div id=""divMain2"">"
-
-	Call GetBlogHint()
-
-	Response.Write "<table border=""1"" width=""100%"" cellspacing=""1"" cellpadding=""1"">"
-	Response.Write "<tr><td>"& ZC_MSG048 & ZC_MSG076 &"</td><td>"& ZC_MSG014 &"</td><td>"& ZC_MSG060 &"</td><td>"& ZC_MSG055 &"</td><td></td><td width='5%'  align='center'><a href='' onclick='BatchSelectAll();return false'>"& ZC_MSG229 &"</a></td></tr>"
-
-
-	objRS.Open("SELECT * FROM [blog_TrackBack] "& strSQL &" ORDER BY [tb_ID] DESC")
-	objRS.PageSize=ZC_MANAGE_COUNT
-	If objRS.PageCount>0 Then objRS.AbsolutePage = intPage
-	intPageAll=objRS.PageCount
-
-	If (Not objRS.bof) And (Not objRS.eof) Then
-
-		For i=1 to objRS.PageSize
-
-			Response.Write "<tr>"
-			Response.Write "<td>" & objRS("log_ID") & "</td>"
-			Response.Write "<td><a target=""_blank"" href="""&objRS("tb_Url")&""">" & Left(objRS("tb_Blog"),14) & "</a></td>"
-			Response.Write "<td><a href=""../view.asp?id=" & objRS("log_ID") & "#tb" & objRS("tb_ID") & """ target=""_blank"">" & Left(objRS("tb_Title"),12) & "</a></td>"
-
-			Response.Write "<td><a id=""mylink"&objRS("tb_ID")&""" href=""$div"&objRS("tb_ID")&"tip?width=320"" class=""betterTip"" title=""正文"">" & Left(objRS("tb_Excerpt"),18) & "...</a><div id=""div"&objRS("tb_ID")&"tip"" style=""display:none;"">"& objRS("tb_Excerpt") &"</div></td>"
-
-			Response.Write "<td align=""center""><a href=""../cmd.asp?act=TrackBackDel&id=" & objRS("tb_ID") & "&log_id="& objRS("log_ID") &""" onclick='return window.confirm(""" & ZC_MSG058 & """);'>["& ZC_MSG063 &"]</a></td>"
-			Response.Write "<td align=""center"" ><input type=""checkbox"" name=""edtDel"" id=""edtDel"" value="""&objRS("tb_ID")&"""/></td>"
-			Response.Write "</tr>"
-
-			objRS.MoveNext
-			If objRS.eof Then Exit For
-
-		Next
-
-	End If
-
-	Response.Write "</table>"
-
-	'For i=1 to objRS.PageCount
-	'	strPage=strPage &"<a href='admin.asp?act=TrackBackMng&amp;page="& i &"'>["& Replace(ZC_MSG036,"%s",i) &"]</a> "
-	'Next
-	strPage=ExportPageBar(intPage,intPageAll,ZC_PAGEBAR_COUNT,"admin.asp?act=TrackBackMng&amp;page=")
-
-	Response.Write "<br/><form id=""frmBatch"" method=""post"" action=""../cmd.asp?act=TrackBackDelBatch""><input type=""hidden"" id=""edtBatch"" name=""edtBatch"" value=""""/><input class=""button"" type=""submit"" onclick='BatchDeleteAll(""edtBatch"");if(document.getElementById(""edtBatch"").value){return window.confirm("""& ZC_MSG058 &""");}else{return false}' value="""&ZC_MSG228&""" id=""btnPost""/><form>" & vbCrlf
-
-
-	Response.Write "<hr/>" & ZC_MSG042 & ": " & strPage
-	Response.Write "</div>"
-
-	objRS.Close
-	Set objRS=Nothing
 
 	ExportTrackBackList=True
 
@@ -745,6 +680,8 @@ Function ExportUserList(intPage)
 
 	objRS.Close
 	Set objRS=Nothing
+
+	Response.Write "<script type=""text/javascript"">ActiveLeftMenu(""aUserMng"");</script>"
 
 	ExportUserList=True
 
@@ -836,6 +773,8 @@ Function ExportFileList(intPage)
 	Response.Write "</div><script type=""text/javascript"">if(GetCookie(""chkAutoFileName"")==""true""){document.getElementById(""chkAutoName"").checked=true;document.getElementById(""edit"").action=document.getElementById(""edit"").action+""&autoname=1"";};</script>"
 	objRS.Close
 	Set objRS=Nothing
+
+	Response.Write "<script type=""text/javascript"">ActiveLeftMenu(""aFileMng"");</script>"
 
 	ExportFileList=True
 
@@ -944,6 +883,8 @@ Function ExportTagList(intPage)
 
 	objRS.Close
 	Set objRS=Nothing
+
+	Response.Write "<script type=""text/javascript"">ActiveLeftMenu(""aTagMng"");</script>"
 
 	ExportTagList=True
 
@@ -1147,6 +1088,8 @@ Function ExportPluginMng()
 <%
 
 	Err.Clear
+
+	Response.Write "<script type=""text/javascript"">ActiveLeftMenu(""aPlugInMng"");</script>"
 
 	ExportPluginMng=True
 
@@ -1384,6 +1327,8 @@ End If
 
 	ExportSiteInfo=True
 
+	Response.Write "<script type=""text/javascript"">ActiveLeftMenu(""aSiteInfo"");</script>"
+
 	Err.Clear
 
 End Function
@@ -1421,7 +1366,7 @@ Function ExportFileReBuildAsk()
 
 	Response.Write "</div>"
 
-	Response.Write "<script>ActiveLeftMenu(""aAskFileReBuild"");</script>"
+	Response.Write "<script type=""text/javascript"">ActiveLeftMenu(""aAskFileReBuild"");</script>"
 
 	ExportFileReBuildAsk=True
 
@@ -1630,6 +1575,8 @@ Function ExportThemeMng()
 	Response.Write "</form>"
 	Response.Write "</div>"
 	Err.Clear
+
+	Response.Write "<script type=""text/javascript"">ActiveLeftMenu(""aThemeMng"");</script>"
 
 	ExportThemeMng=True
 

@@ -367,7 +367,7 @@ Function ArticleMng
 		If bAction_Plugin_ArticleMng_Begin=True Then Exit Function
 	Next
 
-	If Request.QueryString("type")="Page" Then
+	If LCase(Request.QueryString("type"))="page" Then
 		Response.Redirect "admin/admin.asp?act=ArticleMng&type=Page&page=" & Request.QueryString("id")
 	End If
 

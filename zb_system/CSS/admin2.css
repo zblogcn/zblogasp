@@ -122,16 +122,14 @@ background:#ffffdd;
 #header .info a { color:#04376C;}
 
 /*左边导航*/
-#main .main_left { float:left; width:140px; background:#E0E1E2; padding:0px;margin:5px 0 0 0;}
-#main .main_left .line { height:2px; margin:5px 0 4px 0; background: url(../image/IMG/line.png) no-repeat left bottom;}
+#main .main_left { float:left; width:140px; background:#E0E1E2; padding:0px;margin:5px 0 0 0;position: absolute;_position:static;}
 #main .main_left #nav {}
 #main .main_left #nav li { float:left; width:140px; height:32px; margin-bottom:0;border-bottom:5px solid #fff;cursor:pointer;}
 #main .main_left #nav a { float:left;  width:140px; height:32px; line-height:35px;cursor:pointer;}
 #main .main_left #nav a:hover { color:#000000; background:#b0cdee;}
 #main .main_left #nav span {  float:left;width:90px; height:32px; line-height:32px; padding-right:55px; text-align:right;cursor:pointer;}
 /*导航高亮*/
-#main .main_left #nav a.on,
-#main .main_left #nav a:hover.on { color:#FFFFFF; background:#3a6ea5;}
+#main .main_left #nav .buttonon a,#main .main_left #nav .buttonon a:hover { color:#FFFFFF; background:#3a6ea5;}
 /*主要内容区*/
 #main .main_right { width:100%; float:right; margin-left:-150px;}
 #main .main_right .yui { margin-left:140px;}
@@ -169,8 +167,8 @@ background:#ffffdd;
 /**/
 #main .main_right .content { padding:5px 12px;}
 /*后台首页*/
-#divMain {	 background:#FFFFFF;}
-#divMain2 { padding:0px;margin:0px;}
+#divMain {	min-width:850px;background:#FFFFFF;}
+#divMain2 { min-width:850px;padding:0px;margin:0px;}
 .divHeader { height:1.5em; line-height:1.5em; font-size:1.8em; padding:0; background:#FFF;}
 /**/
 #main .conleft { width:100%; float:left; margin-right:-280px;}

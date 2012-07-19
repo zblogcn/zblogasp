@@ -116,6 +116,7 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & IIf(Request.QueryString("type")="Page",ZC_
 		minFrameHeight:200
 	});</script>
 <!--#include file="admin_top.asp"-->
+<script type="text/javascript">ActiveLeftMenu("aArticleEdt");</script>
                 <div id="divMain">
                   
                   <%
@@ -352,10 +353,10 @@ End If
                     </form>
                   </div>
 </div>
-               
-    
 <script type="text/javascript">
 // <![CDATA[
+	ActiveLeftMenu("aArticleEdt");
+
 	editor.render('ueditor');
 	editor2.render('ueditor2');
 

@@ -24,7 +24,7 @@
 
 
 <div id="main">
-
+<!--#include file="admin_left.asp"-->
 <div class="main_right">
   <div class="yui">
     <div class="content">
