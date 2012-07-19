@@ -996,7 +996,7 @@ Function ExportPluginMng()
 	Call GetBlogHint()
 
 
-	Response.Write "<table border=""1"" width=""100%"" cellspacing=""1"" cellpadding=""1"">"
+	Response.Write "<table border=""1"" width=""100%"" cellspacing=""1"" cellpadding=""1"" class=""tableBorder"">"
 	Response.Write "<tr><td width=""5%"">"& ZC_MSG079 &"</td><td width=""20%"">"& ZC_MSG001 &"</td><td width=""15%"">"& ZC_MSG128 &"</td><td width=""15%"">"& ZC_MSG150 &"</td><td width=""15%"">"& ZC_MSG151 &"</td><td width=""10%"">"& ZC_MSG309 &"</td><td width=""10%""></td><td width=""10%""></td></tr>"
 
 	Dim objXmlFile,strXmlFile
@@ -1138,6 +1138,8 @@ Function ExportPluginMng()
 
 	Response.Write Join(aryPL_Disable)
 
+	Response.Write "</table>"
+	
 	Response.Write "</div>"
 
 %>
@@ -1238,7 +1240,7 @@ Function ExportSiteInfo()
 	%>
 
 	<table border="0" cellspacing="0" cellpadding="0" align="center" width="100%" class="tableBorder">
-	<tr><th height=25 colspan=4  align="center">&nbsp;<%=ZC_MSG167%></th></tr>
+	<tr><th height=32 colspan=4  align="center">&nbsp;<%=ZC_MSG167%></th></tr>
 	<tr>
 	<td width="20%"><%=ZC_MSG160%></td>
 	<td width="30%"><%=BlogUser.Name%> (<%=ZVA_User_Level_Name(BlogUser.Level)%>)</td>
@@ -1281,7 +1283,7 @@ Function ExportSiteInfo()
 	</table>
 <!--
 	<table border="0" cellspacing="0" cellpadding="0" align=center width="100%" class="tableBorder">
-	<tr><th height=25 colspan=4>&nbsp;<%=ZC_MSG164%></th></tr>
+	<tr><th height=32 colspan=4>&nbsp;<%=ZC_MSG164%></th></tr>
 	<tr>
 	<td width="22%" ><%=ZC_MSG150%></td>
 	<td width="27%"><%=ZC_BLOG_VERSION%></td>
@@ -1357,7 +1359,7 @@ Function ExportSiteInfo()
 If Len(ZC_UPDATE_INFO_URL)>0 Then
 %>
 	<table border="0" cellspacing="0" cellpadding="0" align="center" width="100%" class="tableBorder">
-	<tr><th height=25 colspan=4 align="center">&nbsp;<%=ZC_MSG164%>&nbsp;<a href="javascript:updateinfo('?reload');">[<%=ZC_MSG289%>]</a></th></tr>
+	<tr><th height=32 colspan=4 align="center">&nbsp;<%=ZC_MSG164%>&nbsp;<a href="javascript:updateinfo('?reload');">[<%=ZC_MSG289%>]</a></th></tr>
 	<tr><td height=25 colspan=4 id="tdUpdateInfo">
 <script language="JavaScript" type="text/javascript">
 function updateinfo(s){
