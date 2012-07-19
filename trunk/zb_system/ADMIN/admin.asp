@@ -81,7 +81,7 @@ End If
 <div class="main_right">
   <div class="yui">
     <div class="content">
-    <div style="background:#FFFFFF; width:100%; "> 
+    <div class="wrapper">
       <%
 	Select Case Request.QueryString("act")
 		Case "ArticleMng"
@@ -102,8 +102,10 @@ End If
 		Case "ThemeMng" Call ExportThemeMng()
 	End Select
 %>
-  </div>  </div>
-  </div></div>
+    </div>
+    </div>
+  </div>
+</div>
 <!--#include file="admin_left.asp"-->
 			</div>
 <script>
