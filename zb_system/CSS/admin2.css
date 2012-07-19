@@ -96,7 +96,7 @@ background:#ffffdd;
 /**/
 #main { width:100%; background: url(../image/IMG2/left_bg.png) repeat-y left top;}
 /*后台顶部*/
-#header {}
+#header {min-width:1000px;}
 #header .top { height:85px; padding:0; background:#3A6EA5; position: relative;}
 /**/
 .logo { width:190px; height:62px; padding:10px 0; left:20px;}

@@ -12,7 +12,7 @@
     <li class="themes"><a id="aThemeMng" href="../cmd.asp?act=ThemeMng"><span><%=ZC_MSG291%></span></a></li>
     <li class="plugin"><a id="aPlugInMng" href="../cmd.asp?act=PlugInMng"><span><%=ZC_MSG107%></span></a></li>
     <li class="link"><a id="aLinkMng" href="../cmd.asp?act=LinkMng"><span><%=ZC_MSG298%></span></a></li>
-    <li class="file"><a id="aSiteFileMng" href="../../ZB_Users/PLUGIN/FileManage/main.asp"><span><%=ZC_MSG210%></span></a></li>
+    <li class="file"><a id="aSiteFileMng" href="../../zb_users/plugin/filemanage/main.asp"><span><%=ZC_MSG210%></span></a></li>
   </ul>
 </div>
 
