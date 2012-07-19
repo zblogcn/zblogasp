@@ -71,13 +71,13 @@ ol {
 /**/
 table {
 	border-collapse: collapse;
-	border:1px solid #babbbc;
+	border:1px solid #E1E1E1;
 	background:#ffffff;
 	margin-top:10px;
 	line-height:120%;
 }
 td{
-	border:1px solid #babbbc;
+	border:1px solid #E1E1E1;
 	margin:0;
 	padding:3px;
 }
@@ -85,7 +85,7 @@ tr.color1{
 background:#ededed;
 }
 tr.color2{
-background:#F1F4F7;
+background:#F4F4F4;
 }
 tr.color3{
 background:#FFFFFF;
@@ -94,14 +94,14 @@ tr.color4{
 background:#ffffdd;
 }
 /**/
-#main { width:100%; background: url(../image/IMG/left_bg.png) repeat-y left top;}
+#main { width:100%; background: url(../image/IMG2/left_bg.png) repeat-y left top;}
 /*后台顶部*/
 #header {}
-#header .top { height:92px; padding:0 20px; background:#3A6EA5; border-bottom:3px solid #FFFFFF; position: relative;}
+#header .top { height:92px; padding:0; background:#3A6EA5; position: relative;}
 /**/
 .logo { width:190px; height:62px; padding:15px 0; left:20px;}
 /**/
-.user { position: absolute; right:23px; top:15px; width:400px; height:40px; text-align:right; color:#FFFFFF;}
+.user { position: absolute; right:15px; top:15px; width:400px; height:40px; text-align:right; color:#FFFFFF;}
 .user .avatar { float:right; width:40px; height:40px; margin-left:15px;}
 .username { height:20px; line-height:20px; overflow:hidden;}
 .userbtn { height:20px;}
@@ -111,63 +111,65 @@ background:#ffffdd;
 .userbtn a.profile { padding-left:20px; background: url(../image/common/user_2.png) no-repeat left 1px;}
 .userbtn .profile:hover { padding-left:20px; color:#000000; background: url(../image/common/user_1.png) no-repeat left 1px;}
 /**/
-.menu { height:26px; line-height:26px; font-weight:bold; position: absolute; right:20px; bottom:0px;}
+.menu { height:26px; line-height:26px; font-weight:bold; position: absolute; right:10px; bottom:0px;}
 .menu ul li { float:right; display:block; height:26px; margin:0 3px; text-align:center;}
 .menu ul li a { display:block; height:26px; padding:0 15px; color:#383838; background:#FFFFFF;}
 .menu ul li a:hover { color:#FFFFFF; background: #B0CDEE;}
 
 /*官方公告区*/
-#header .info { height:36px; line-height:36px; padding:0 0 0 70px; font-size:12px; color:#04376C; background: #B0CDEE url(../image/IMG/horn.png) no-repeat 40px 8px;}
+#header .info {display:none; height:36px; line-height:36px; padding:0 0 0 70px; font-size:12px; color:#04376C; background: #B0CDEE url(../image/IMG/horn.png) no-repeat 40px 8px;}
 #header .info a { color:#04376C;}
 
 /*左边导航*/
-#main .main_left { float:left; width:160px; background:#E0E1E2; padding:20px 0 30px;}
+#main .main_left { float:left; width:160px; background:#E0E1E2; padding:0px;margin:5px 0 0 0;}
 #main .main_left .line { height:2px; margin:5px 0 4px 0; background: url(../image/IMG/line.png) no-repeat left bottom;}
 #main .main_left #nav {}
-#main .main_left #nav p { display:block; width:145px; height:34px; margin-bottom:2px;}
-#main .main_left #nav a { display:block; width:145px; height:34px; line-height:34px; font-size:14px;}
+#main .main_left #nav p { display:block; width:160px; height:32px; margin-bottom:0;border-bottom:5px solid #fff;}
+#main .main_left #nav a { display:block; width:160px; height:32px; line-height:35px; font-size:14px;}
 #main .main_left #nav a:hover { color:#000000; background:#b0cdee;}
-#main .main_left #nav span { display:block; width:90px; height:34px; line-height:34px; font-size:14px; padding-right:55px; text-align:right;}
+#main .main_left #nav span { display:block; width:100px; height:32px; line-height:32px; font-size:14px; padding-right:55px; text-align:right;}
 /*导航高亮*/
 #main .main_left #nav a.on,
-#main .main_left #nav a:hover.on { color:#FFFFFF; background:#64aad0;}
+#main .main_left #nav a:hover.on { color:#FFFFFF; background:#3a6ea5;}
 /*主要内容区*/
 #main .main_right { width:100%; float:right; margin-left:-160px;}
 #main .main_right .yui { margin-left:160px;}
 #main .main_right .yui { position:relative;}
 /*导航图标区*/
-#nav .home span { background: url(../image/common/home_1.png) no-repeat 100px 10px;}
-#nav .reconstruction span { background: url(../image/common/reconstruction_1.png) no-repeat 100px 10px;}
-#nav .new span { background: url(../image/common/new_1.png) no-repeat 100px 10px;}
-#nav .article span { background: url(../image/common/article_1.png) no-repeat 100px 10px;}
-#nav .category span { background: url(../image/common/category_1.png) no-repeat 100px 10px;}
-#nav .tags span { background: url(../image/common/tags_1.png) no-repeat 100px 10px;}
-#nav .comments span { background: url(../image/common/comments_1.png) no-repeat 100px 10px;}
-#nav .quoted span { background: url(../image/common/quoted_1.png) no-repeat 100px 10px;}
-#nav .accessories span { background: url(../image/common/accessories_1.png) no-repeat 100px 10px;}
-#nav .themes span { background: url(../image/common/themes_1.png) no-repeat 100px 10px;}
-#nav .plugin span { background: url(../image/common/plugin_1.png) no-repeat 100px 10px;}
-#nav .link span { background: url(../image/common/link_1.png) no-repeat 100px 10px;}
-#nav .file span { background: url(../image/common/file_1.png) no-repeat 100px 10px;}
+#nav .home span { background-image: url(../image/common/home_1.png);}
+#nav .reconstruction span { background: url(../image/common/reconstruction_1.png);}
+#nav .new span { background-image: url(../image/common/new_1.png);}
+#nav .article span { background-image: url(../image/common/article_1.png);}
+#nav .category span { background-image: url(../image/common/category_1.png);}
+#nav .tags span { background-image: url(../image/common/tags_1.png);}
+#nav .comments span { background-image: url(../image/common/comments_1.png);}
+#nav .quoted span { background-image: url(../image/common/quoted_1.png);}
+#nav .accessories span { background-image: url(../image/common/accessories_1.png);}
+#nav .themes span { background-image: url(../image/common/themes_1.png);}
+#nav .plugin span { background-image: url(../image/common/plugin_1.png);}
+#nav .link span { background-image: url(../image/common/link_1.png);}
+#nav .file span { background-image: url(../image/common/file_1.png);}
 /*高亮导航图标区*/
-#nav .home .on span { background: url(../image/common/home_2.png) no-repeat 100px 10px;}
-#nav .reconstruction .on span { background: url(../image/common/reconstruction_2.png) no-repeat 100px 10px;}
-#nav .new .on span { background: url(../image/common/new_2.png) no-repeat 100px 10px;}
-#nav .article .on span { background: url(../image/common/article_2.png) no-repeat 100px 10px;}
-#nav .category .on span { background: url(../image/common/category_2.png) no-repeat 100px 10px;}
-#nav .tags .on span { background: url(../image/common/tags_2.png) no-repeat 100px 10px;}
-#nav .comments .on span { background: url(../image/common/comments_2.png) no-repeat 100px 10px;}
-#nav .quoted .on span { background: url(../image/common/quoted_2.png) no-repeat 100px 10px;}
-#nav .accessories .on span { background: url(../image/common/accessories_2.png) no-repeat 100px 10px;}
-#nav .themes .on span { background: url(../image/common/themes_2.png) no-repeat 100px 10px;}
-#nav .plugin .on span { background: url(../image/common/plugin_2.png) no-repeat 100px 10px;}
-#nav .link .on span { background: url(../image/common/link_2.png) no-repeat 100px 10px;}
-#nav .file .on span { background: url(../image/common/file_2.png) no-repeat 100px 10px;}
+#nav .home span { background-image: url(../image/common/home_1.png);}
+#nav .reconstruction .on span { background-image: url(../image/common/reconstruction_2.png);}
+#nav .new .on span { background-image: url(../image/common/new_2.png);}
+#nav .article .on span { background-image: url(../image/common/article_2.png);}
+#nav .category .on span { background-image: url(../image/common/category_2.png);}
+#nav .tags .on span { background-image: url(../image/common/tags_2.png);}
+#nav .comments .on span { background-image: url(../image/common/comments_2.png);}
+#nav .quoted .on span { background-image: url(../image/common/quoted_2.png);}
+#nav .accessories .on span { background-image: url(../image/common/accessories_2.png);}
+#nav .themes .on span { background-image: url(../image/common/themes_2.png);}
+#nav .plugin .on span { background-image: url(../image/common/plugin_2.png);}
+#nav .link .on span { background-image: url(../image/common/link_2.png);}
+#nav .file .on span { background-image: url(../image/common/file_2.png);}
+
+#nav span{ background-repeat:no-repeat;background-position: 110px 8px;}
 /**/
-#main .main_right .content { padding:20px 30px;}
+#main .main_right .content { padding:5px 12px;}
 /*后台首页*/
 .wrapper { background:#FFFFFF;}
-.divHeader { height:34px; line-height:34px; font-size:16px; padding:0 10px; background:#F6F6F6; margin-bottom:20px;}
+.divHeader { height:32px; line-height:32px; font-size:16px; padding:0 10px; background:#FFF;}
 #divMain2 { padding:0px;}
 /**/
 #main .conleft { width:100%; float:left; margin-right:-280px;}

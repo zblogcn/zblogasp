@@ -536,6 +536,7 @@ Function UpdateDateBase()
 
 	If Not CheckUpdateDB("[ul_Meta]","[blog_UpLoad]") Then
 		objConn.execute("ALTER TABLE [blog_UpLoad] ADD COLUMN [ul_Meta] text default """"")
+		Call objConn.Execute("ALTER TABLE [blog_UpLoad] ALTER COLUMN [ul_FileName] NVARCHAR(255) ")
 	End If
 
 	If Not CheckUpdateDB("[tb_Meta]","[blog_TrackBack]") Then
@@ -602,7 +603,7 @@ objConn.execute("CREATE TABLE [blog_Comment] (comm_ID AutoIncrement primary key,
 
 objConn.execute("CREATE TABLE [blog_TrackBack] (tb_ID AutoIncrement primary key,log_ID int default 0,tb_URL VARCHAR(255) default """",tb_Title VARCHAR(100) default """",tb_Blog VARCHAR(50) default """",tb_Excerpt text default """",tb_PostTime datetime default now(),tb_IP VARCHAR(15) default """",tb_Agent text default """",tb_Meta text default """")")
 
-objConn.execute("CREATE TABLE [blog_UpLoad] (ul_ID AutoIncrement primary key,ul_AuthorID int default 0,ul_FileSize int default 0,ul_FileName VARCHAR(50) default """",ul_PostTime datetime default now(),ul_Quote VARCHAR(255) default """",ul_DownNum int default 0,ul_FileIntro VARCHAR(255) default """",ul_DirByTime YESNO DEFAULT 0,ul_Meta text default """")")
+objConn.execute("CREATE TABLE [blog_UpLoad] (ul_ID AutoIncrement primary key,ul_AuthorID int default 0,ul_FileSize int default 0,ul_FileName VARCHAR(255) default """",ul_PostTime datetime default now(),ul_Quote VARCHAR(255) default """",ul_DownNum int default 0,ul_FileIntro VARCHAR(255) default """",ul_DirByTime YESNO DEFAULT 0,ul_Meta text default """")")
 
 objConn.execute("CREATE TABLE [blog_Counter] (coun_ID AutoIncrement primary key,coun_IP VARCHAR(15) default """",coun_Agent text default """",coun_Refer VARCHAR(255) default """",coun_PostTime datetime default now() )")
 
@@ -639,7 +640,7 @@ objConn.execute("CREATE TABLE [blog_Comment] (comm_ID int identity(1,1) not null
 
 objConn.execute("CREATE TABLE [blog_TrackBack] (tb_ID int identity(1,1) not null primary key,log_ID int default 0,tb_URL nvarchar(255) default '',tb_Title nvarchar(100) default '',tb_Blog nvarchar(50) default '',tb_Excerpt ntext default '',tb_PostTime datetime default getdate(),tb_IP nvarchar(15) default '',tb_Agent ntext default '',tb_Meta ntext default '')")
 
-objConn.execute("CREATE TABLE [blog_UpLoad] (ul_ID int identity(1,1) not null primary key,ul_AuthorID int default 0,ul_FileSize int default 0,ul_FileName nvarchar(50) default '',ul_PostTime datetime default getdate(),ul_Quote nvarchar(255) default '',ul_DownNum int default 0,ul_FileIntro nvarchar(255) default '',ul_DirByTime bit DEFAULT 0,ul_Meta ntext default '')")
+objConn.execute("CREATE TABLE [blog_UpLoad] (ul_ID int identity(1,1) not null primary key,ul_AuthorID int default 0,ul_FileSize int default 0,ul_FileName nvarchar(255) default '',ul_PostTime datetime default getdate(),ul_Quote nvarchar(255) default '',ul_DownNum int default 0,ul_FileIntro nvarchar(255) default '',ul_DirByTime bit DEFAULT 0,ul_Meta ntext default '')")
 
 objConn.execute("CREATE TABLE [blog_Counter] (coun_ID int identity(1,1) not null primary key,coun_IP nvarchar(15) default '',coun_Agent ntext default '',coun_Refer nvarchar(255) default '',coun_PostTime datetime default getdate() )")
 

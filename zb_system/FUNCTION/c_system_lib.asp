@@ -841,13 +841,13 @@ Class TArticle
 
 			If (not objRS.bof) And (not objRS.eof) Then
 
-				i=objRS.RecordCount
+				j=objRS.RecordCount
 				'ReDim comments(i)
-				ReDim comments_ID(i)
-				ReDim comments_ParentID(i)
-				ReDim comments_Template(i)
+				ReDim comments_ID(j)
+				ReDim comments_ParentID(j)
+				ReDim comments_Template(j)
 
-				For i=1 To objRS.RecordCount
+				For i=1 To j
 
 					If IsNumeric(objRS("comm_AuthorID")) Then
 
@@ -880,40 +880,65 @@ Class TArticle
 			objRS.Close()
 			Set objRS=Nothing
 
-			For Each i in comments_ID
-				For Each j in comments_ID
-					If comments_ID(comments_ID2Array(i))= comments_ParentID(comments_ID2Array(j)) Then
-						comments_Template(comments_ID2Array(i))=Replace(comments_Template(comments_ID2Array(i)),"<!--rev-->","<!--rev"&j&"--><!--rev-->")
+			Dim m,n
+			Dim intAll,intPages,intPageNow
+			intAll=j
+			intPages=Int(intAll/ZC_COMMENTS_DISPLAY_COUNT)+1
+			intPageNow=1
+
+			'Response.Write intAll & ":" & intPages
+			
+			'If intAll>0 Then
+
+				For Each i in comments_ID
+					For Each j in comments_ID
+						If comments_ID(comments_ID2Array(i))= comments_ParentID(comments_ID2Array(j)) Then
+							comments_Template(comments_ID2Array(i))=Replace(comments_Template(comments_ID2Array(i)),"<!--rev-->","<!--rev"&j&"--><!--rev-->")
+							'comments_Template(comments_ID2Array(i))=Replace(comments_Template(comments_ID2Array(i)),"<!--rev-->",comments_Template(comments_ID2Array(j)) & "<!--rev-->")
+						End If
+					Next
+					If comments_ParentID(comments_ID2Array(i))= 0 Then
+						n=n+1
+					End If
+					If n>ZC_COMMENTS_DISPLAY_COUNT Then
+						'Exit For
 					End If
 				Next
-			Next
 
-			For Each i in comments_ID
-				For Each j in comments_ID
-					comments_Template(comments_ID2Array(i))=Replace(comments_Template(comments_ID2Array(i)),"<!--rev"&j&"-->",comments_Template(comments_ID2Array(j)))
+				For Each i in comments_ID
+					For Each j in comments_ID
+						comments_Template(comments_ID2Array(i))=Replace(comments_Template(comments_ID2Array(i)),"<!--rev"&j&"-->",comments_Template(comments_ID2Array(j)))
+					Next
 				Next
-			Next
 
-			For Each i In comments_ID
-				If comments_ParentID(comments_ID2Array(i))= 0 Then
-					If ZC_COMMENT_REVERSE_ORDER_EXPORT=True Then
-						Template_Article_Comment=comments_Template(comments_ID2Array(i)) & Template_Article_Comment
-					Else
-						Template_Article_Comment=Template_Article_Comment & comments_Template(comments_ID2Array(i))
+				For Each i in comments_ID
+					If comments_ParentID(comments_ID2Array(i))= 0 Then
+						If ZC_COMMENT_REVERSE_ORDER_EXPORT=True Then
+							Template_Article_Comment=comments_Template(comments_ID2Array(i)) & Template_Article_Comment
+						Else
+							Template_Article_Comment=Template_Article_Comment & comments_Template(comments_ID2Array(i))
+						End If
 					End If
-				End If
-			Next
+					'If UBound(Split(Template_Article_Comment,"<!--rev-->"))>10+3 Then Exit For
+					If comments_ParentID(comments_ID2Array(i))= 0 Then
+						m=m+1
+					End If
+					If m>ZC_COMMENTS_DISPLAY_COUNT Then
+						'Exit For
+					End If
+				Next
 
+			'End If
+
+			Template_Article_Comment="<span style=""display:none;"" id=""AjaxCommentBegin""></span>" & Template_Article_Comment & "<span style=""display:none;"" id=""AjaxCommentEnd""></span>"
+
+			i=0
+			Do While InStr(Template_Article_Comment,"<!--(count-->0<!--count)-->")>0
+				i=i+1
+				Template_Article_Comment=Replace(Template_Article_Comment,"<!--(count-->0<!--count)-->",i,1,1)
+			Loop
 
 		End If
-
-		Template_Article_Comment="<span style=""display:none;"" id=""AjaxCommentBegin""></span>" & Template_Article_Comment & "<span style=""display:none;"" id=""AjaxCommentEnd""></span>"
-
-		i=0
-		Do While InStr(Template_Article_Comment,"<!--(count-->0<!--count)-->")>0
-			i=i+1
-			Template_Article_Comment=Replace(Template_Article_Comment,"<!--(count-->0<!--count)-->",i,1,1)
-		Loop
 
 
 		Export_CMTandTB=True
@@ -3571,11 +3596,11 @@ Class TUpLoadFile
 		Dim objRS
 		Set objRS=objConn.Execute("SELECT * FROM [blog_UpLoad] WHERE [ul_FileName] = '" & FileName & "'")
 
-		If (Not objRS.bof) And (Not objRS.eof) Then
+		'If (Not objRS.bof) And (Not objRS.eof) Then
 			'不能重名
-			 Call ShowError(28)
-		Else
-
+		'	 Call ShowError(28)
+		'Else
+			If Len(FileName)>255 Then FileName=Right(FileName,255)
 			PostTime=GetTime(Now())
 
 			objConn.Execute("INSERT INTO [blog_UpLoad]([ul_AuthorID],[ul_FileSize],[ul_FileName],[ul_PostTime],[ul_FileIntro],[ul_DirByTime],[ul_Quote],[ul_Meta]) VALUES ("& AuthorID &","& FileSize &",'"& FileName &"','"& PostTime &"','"&FileIntro&"',"&CInt(DirByTime)&",'"&Quote&"','"&MetaString&"')")
@@ -3599,7 +3624,7 @@ Class TUpLoadFile
 			objStreamFile.SaveToFile BlogPath & "zb_users/"& strUPLOADDIR &"/" & FileName,adSaveCreateOverWrite
 			objStreamFile.Close
 
-		End If
+		'End If
 
 		UpLoad=True
 
@@ -3657,7 +3682,7 @@ Class TUpLoadFile
 			strUPLOADDIR = ZC_UPLOAD_DIRECTORY
 		End If
 
-		FullUrlPathName=ZC_BLOG_HOST & strUPLOADDIR & "/" & FileName
+		FullUrlPathName=ZC_BLOG_HOST & "zb_users/" & strUPLOADDIR & "/" & FileName
 	End Property
 
 	Private Sub Class_Initialize()
