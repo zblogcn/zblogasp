@@ -1,7 +1,7 @@
 <div class="main_left">
   <div id="nav">
-    <!--<p class="home"><a class="on" href="../../"><span><%=ZC_MSG065%></span></a></p>-->
-    <p class="reconstruction"><a class="on" href="../cmd.asp?act=SiteInfo"><span><%=ZC_MSG245%></span></a></p>
+    <!--<p class="home reconstruction"><a class="on" href="../../"><span><%=ZC_MSG065%></span></a></p>-->
+    <p class="home"><a class="on" href="../cmd.asp?act=SiteInfo"><span><%=ZC_MSG245%></span></a></p>
     <div class="line"></div>
     <p class="new"><a href="../cmd.asp?act=ArticleEdt&webedit=<%=ZC_BLOG_WEBEDIT%>"><span><%=ZC_MSG168%></span></a></p>
     <p class="article"><a href="../cmd.asp?act=ArticleMng"><span><%=ZC_MSG067%></span></a></p>

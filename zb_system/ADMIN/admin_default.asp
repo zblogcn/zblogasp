@@ -35,7 +35,7 @@ BlogTitle="Z-Blog后台管理"
 <div class="main_right">
   <div class="yui">
     <div class="content">
-      <div style="background:#FFFFFF; width:100%; height:300px;"> 主要内容区，这个区域内的板块背景色为白色。比如： </div>
+      <div class="wrapper"> 主要内容区，这个区域内的板块背景色为白色。比如： </div>
     </div>
   </div></div>
 <!--#include file="admin_left.asp"-->

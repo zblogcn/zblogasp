@@ -71,7 +71,7 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG070
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta http-equiv="Content-Language" content="<%=ZC_BLOG_LANGUAGE%>" />
-	<link rel="stylesheet" rev="stylesheet" href="../CSS/admin.css" type="text/css" media="screen" />
+	<link rel="stylesheet" rev="stylesheet" href="../CSS/admin2.css" type="text/css" media="screen" />
 	<script language="JavaScript" src="../script/common.js" type="text/javascript"></script>
 	<script language="JavaScript" src="../SCRIPT/md5.js" type="text/javascript"></script>
 	<link rel="stylesheet" href="../CSS/jquery.bettertip.css" type="text/css" media="screen">
@@ -79,10 +79,15 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG070
 	<title><%=BlogTitle%></title>
 </head>
 <body>
-
+<!--#include file="admin_top.asp"-->
+<div id="main">
+	<div class="main_right">
+    	<div class="yui">
+			<div class="content">
+            	<div class="wrapper"><!--调用开始-->
 
 			<div id="divMain">
-<div class="Header"><%=ZC_MSG242%></div>
+<div class="divHeader"><%=ZC_MSG242%></div>
 <%
 	Response.Write "<div class=""SubMenu"">" & Response_Plugin_UserEdt_SubMenu & "</div>"
 %>
@@ -125,6 +130,14 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG070
 
 			</div>
 
+<!--调用结束-->
+            	</div>
+            </div>
+		</div>
+    </div>
+	<!--#include file="admin_left.asp"-->
+	<div class="clear"></div>
+</div>
 </body>
 <script>
 

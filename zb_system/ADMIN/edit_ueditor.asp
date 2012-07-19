@@ -102,6 +102,7 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & IIf(Request.QueryString("type")="Page",ZC_
 	<head>
 	<!--#include file="admin_header.asp"-->
 	<link rel="stylesheet" type="text/css" href="ueditor/themes/default/ueditor.css"/>
+    <link rel="stylesheet" rev="stylesheet" href="../CSS/admin2.css" type="text/css" media="screen" />
 	<link rel="stylesheet" href="../CSS/jquery.bettertip.css" type="text/css" media="screen">
 	<script language="JavaScript" src="../script/jquery.bettertip.pack.js" type="text/javascript"></script>
 	<script language="JavaScript" src="../script/jquery.tagto.js" type="text/javascript"></script>
@@ -121,16 +122,17 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & IIf(Request.QueryString("type")="Page",ZC_
 	});</script>
 	</head>
 	<body>
-    <!--#include file="admin_top.asp"-->
-    <div id="main">
+	<!--#include file="admin_top.asp"-->
+	<div id="main">
     <div class="main_right">
       <div class="yui">
-        <div class="content">
+        <div class="content"><div class="divHeader"><%=IIf(Request.QueryString("type")="Page",ZC_MSG329,ZC_MSG047)%></div>
           <div class="conleft">
             <div class="shell">
-              <div class="conleft_body" style="height:600px;">
+              <div class="conleft_body">
+              
                 <div id="divMain2">
-                  <div class="Header"><%=IIf(Request.QueryString("type")="Page",ZC_MSG329,ZC_MSG047)%></div>
+                  
                   <%
 	Response.Write "<div class=""SubMenu"">" & Response_Plugin_ArticleEdt_SubMenu & "</div>"
 %>
@@ -367,18 +369,21 @@ End If
                 </div>
               </div>
             </div>
+            </div>
             <div class="conright">
               <div class="box_category box">
                 <h2>发布</h2>
               </div>
             </div>
+            
             <div class="clear"></div>
           </div>
         </div>
       </div>
       
-      <!--#include file="admin_left.asp"--> 
+      <!--#include file="admin_left.asp"-->
     </div>
+    
     <script type="text/javascript">
 
 	$(document).ready(function(){

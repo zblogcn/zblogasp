@@ -50,7 +50,7 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG298
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta http-equiv="Content-Language" content="<%=ZC_BLOG_LANGUAGE%>" />
-	<link rel="stylesheet" rev="stylesheet" href="../CSS/admin.css" type="text/css" media="screen" />
+	<link rel="stylesheet" rev="stylesheet" href="../CSS/admin2.css" type="text/css" media="screen" />
 	<script language="JavaScript" src="../script/common.js" type="text/javascript"></script>
 	<script language="JavaScript" src="../script/jquery.tabs.pack.js" type="text/javascript"></script>
 	<link rel="stylesheet" href="../CSS/jquery.tabs.css" type="text/css" media="print, projection, screen">
@@ -61,10 +61,40 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG298
 	<script language="JavaScript" src="../script/jquery.bettertip.pack.js" type="text/javascript"></script>
 	<script language="JavaScript" src="../script/jquery.textarearesizer.compressed.js" type="text/javascript"></script>
 	<title><%=BlogTitle%></title>
+    <!--[if IE 6]>
+<script src="js/iepng.js" type="text/javascript"></script>
+<script type="text/javascript">
+   EvPNG.fix('div, ul, img, li, input, span, a');  //EvPNG.fix('包含透明PNG图片的标签'); 多个标签之间用英文逗号隔开。
+</script>
+<![endif]--> 
+<script type="text/javascript">
+function currentpage(){
+    if(!document.getElementsByTagName) return false;
+    if(!document.getElementById) return false;
+    if(!document.getElementById('nav')) return false;
+    var nav = document.getElementById('nav');
+    var links = nav.getElementsByTagName('a');
+    for (var i=0;i<links.length;i++){
+        var linkurl =  links[i].getAttribute('href');
+        var currenturl = document.location.href;
+            if(currenturl.indexOf(linkurl)!=-1){
+                links[i].className = 'on';
+                return true;
+            }
+    }
+}
+</script>
 </head>
 <body>
+<!--#include file="admin_top.asp"-->
+<div id="main">
+	<div class="main_right">
+    	<div class="yui">
+			<div class="content">
+            	<div class="wrapper"><!--调用开始-->
+
 			<div id="divMain">
-<div class="Header"><%=ZC_MSG298%></div>
+<div class="divHeader"><%=ZC_MSG298%></div>
 <%
 	Response.Write "<div class=""SubMenu"">" & Response_Plugin_LinkMng_SubMenu & "</div>"
 %>
@@ -143,6 +173,16 @@ $(document).ready(function(){
 });
 
 </script>
+                <!--调用结束-->
+            	</div>
+            </div>
+		</div>
+    </div>
+	<!--#include file="admin_left.asp"-->
+	<div class="clear"></div>
+</div>
+
+
 
 </body>
 </html>
