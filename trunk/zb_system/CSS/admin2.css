@@ -5,7 +5,7 @@
 邮箱：u2lei@yahoo.com.cn
      xinxr@msn.com
 */
-body{ padding:0; margin:0; font-family:"微软雅黑", "宋体", Arial, Helvetica, sans-serif; color:#444444; font-size: 12px; line-height: 20px; background: #EBEBEB url(../image/IMG/bg.png) repeat;}
+body{ padding:0; margin:0; font-family:"微软雅黑", "宋体", Arial, Helvetica, sans-serif; color:#444444; font-size: 12px; line-height: 20px; background: #FFFFFF}
 * { padding:0; margin:0;}
 div, h1, h2, h3, h4, p, form, ul, label, input, textarea, img, span{margin:0; padding:0;}
 table{border-collapse:collapse;}
@@ -15,11 +15,89 @@ ul { padding:0; margin:0;}
 li { list-style-type: none;}
 .clear { clear: both;}
 img { border: none;}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	display: block;
+	font-weight: bold;
+}
+
+h1 {
+	font-size: 2em;
+	margin: .67em 0;
+}
+
+h2 {
+	font-size: 1.5em;
+	margin: .83em 0;
+}
+
+h3 {
+	font-size: 1.17em;
+	margin: 1em 0;
+}
+
+h4 {
+	font-size: 1em;
+	margin: 1.33em 0;
+}
+
+h5 {
+	font-size: 0.83em;
+	margin: 1.67em 0;
+}
+
+h6 {
+	font-size: 0.67em;
+	margin: 2.33em 0;
+}
+
+ul,
+ol {
+	padding: 0;
+}
+
+ul {
+	list-style: none;
+}
+
+ol {
+	list-style-type: decimal;
+	margin-left: 2em;
+}
+/**/
+table {
+	border-collapse: collapse;
+	border:1px solid #babbbc;
+	background:#ffffff;
+	margin-top:10px;
+	line-height:120%;
+}
+td{
+	border:1px solid #babbbc;
+	margin:0;
+	padding:3px;
+}
+tr.color1{
+background:#ededed;
+}
+tr.color2{
+background:#F1F4F7;
+}
+tr.color3{
+background:#FFFFFF;
+}
+tr.color4{
+background:#ffffdd;
+}
 /**/
 #main { width:100%; background: url(../image/IMG/left_bg.png) repeat-y left top;}
 /*后台顶部*/
 #header {}
-#header .top { height:92px; padding:0 20px; background:#0D58A6; border-bottom:3px solid #FFFFFF; position: relative;}
+#header .top { height:92px; padding:0 20px; background:#3A6EA5; border-bottom:3px solid #FFFFFF; position: relative;}
 /**/
 .logo { width:190px; height:62px; padding:15px 0; left:20px;}
 /**/
@@ -57,8 +135,6 @@ img { border: none;}
 #main .main_right { width:100%; float:right; margin-left:-160px;}
 #main .main_right .yui { margin-left:160px;}
 #main .main_right .yui { position:relative;}
-/**/
-#main .main_right .content { padding:20px;}
 /*导航图标区*/
 #nav .home span { background: url(../image/common/home_1.png) no-repeat 100px 10px;}
 #nav .reconstruction span { background: url(../image/common/reconstruction_1.png) no-repeat 100px 10px;}
@@ -87,7 +163,87 @@ img { border: none;}
 #nav .plugin .on span { background: url(../image/common/plugin_2.png) no-repeat 100px 10px;}
 #nav .link .on span { background: url(../image/common/link_2.png) no-repeat 100px 10px;}
 #nav .file .on span { background: url(../image/common/file_2.png) no-repeat 100px 10px;}
+/**/
+#main .main_right .content { padding:20px 30px;}
+/*后台首页*/
+.wrapper { background:#FFFFFF;}
+.divHeader { height:34px; line-height:34px; font-size:16px; padding:0 10px; background:#F6F6F6; margin-bottom:20px;}
+#divMain2 { padding:0px;}
+/**/
+#main .conleft { width:100%; float:left; margin-right:-280px;}
+#main .conleft .shell { margin-right:280px;}
 
+.conleft_body { background:#FFFFFF; padding:0px;}
+.conleft_body h2 { font-size:22px; line-height:30px; margin-bottom:20px;}
+.conleft_body p { line-height:22px; font-size:14px;}
+.box  h2 { height:30px; line-height:30px; font-size:18px; font-weight:normal; background: url(image/IMG/line.png) repeat-x left bottom;}
+/**/
+.conright { width:260px; float:right;}
+.box_category { height:200px; background:#FFFFFF; padding:10px; margin-bottom:10px;}
+/**/
+.tableBorder { line-height:26px;}
+#tdUpdateInfo { line-height:24px;}
+/**/
 
+/**/
 
+/*文章编辑*/
+.conleft_body .form {} 
+/**/
 
+/**/
+
+/**/
+
+/**/
+
+/**/
+
+/**/
+
+/**/
+/**/
+.SubMenu{
+	padding:0px; background:#e9e9e9;
+	margin:0px;
+	width:100%;
+	text-align:left;
+	float:left;
+	font-size:0;
+}
+
+.SubMenu span {
+	float:left;
+	padding:2px 2px 2px 5px;
+}
+
+.SubMenu span.m-left {
+	float:left;
+}
+.SubMenu span.m-right {
+	float:right;
+}
+
+.SubMenu span a:hover {
+	border:1px solid #527b9a;
+	text-decoration : none;
+
+}
+.SubMenu span a:active {
+	border:1px solid #527b9a;
+	text-decoration : none;
+}
+
+.SubMenu span a{
+	font-size:12px;
+	border:1px solid #FFFFFF;
+	padding:4px 5px 3px 5px;
+	float:left;
+}
+
+.SubMenu span.m-now a{
+	background:#FFFFFF;
+	border:1px solid #FFFFFF;
+	margin-bottom: -2px;
+	border-bottom:3px solid #FFFFFF;
+}
