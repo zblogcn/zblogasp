@@ -425,24 +425,24 @@ Function ExportCategoryList(intPage)
 
 		If Categorys(aryCateInOrder(i)).ParentID=0 Then
 
-			Response.Write "<tr><td align=""center""><img width=""16"" src=""../image/admin/folder.png"" /></td>"
+			Response.Write "<tr><td align=""center""><img width=""16"" src=""../image/admin/folder.png"" alt="""" /></td>"
 			Response.Write "<td>" & Categorys(aryCateInOrder(i)).ID & "</td>"
 			Response.Write "<td>" & Categorys(aryCateInOrder(i)).Order & "</td>"
 			Response.Write "<td><a href=""../catalog.asp?cate="& Categorys(aryCateInOrder(i)).ID &"""  target=""_blank"">" & Categorys(aryCateInOrder(i)).Name & "</a></td>"
 			Response.Write "<td>" & Categorys(aryCateInOrder(i)).Alias & "</td>"
-			Response.Write "<td align=""center""><a href=""../cmd.asp?act=CategoryEdt&id="& Categorys(aryCateInOrder(i)).ID &""">["& ZC_MSG078 &"]</a></td>"
+			Response.Write "<td align=""center""><a href=""../cmd.asp?act=CategoryEdt&amp;id="& Categorys(aryCateInOrder(i)).ID &""">["& ZC_MSG078 &"]</a></td>"
 			Response.Write "<td align=""center""><a onclick='return window.confirm("""& ZC_MSG058 &""");' href=""../cmd.asp?act=CategoryDel&amp;id="& Categorys(aryCateInOrder(i)).ID &""">["& ZC_MSG063 &"]</a></td>"
 			Response.Write "</tr>"
 
 			For j=0 To UBound(aryCateInOrder)
 
 				If Categorys(aryCateInOrder(j)).ParentID=Categorys(aryCateInOrder(i)).ID Then
-					Response.Write "<tr><td align=""center""><img width=""16"" src=""../image/admin/arrow_turn_right.png"" /></td>"
+					Response.Write "<tr><td align=""center""><img width=""16"" src=""../image/admin/arrow_turn_right.png"" alt="""" /></td>"
 					Response.Write "<td>" & Categorys(aryCateInOrder(j)).ID & "</td>"
 					Response.Write "<td>" & Categorys(aryCateInOrder(j)).Order & "</td>"
 					Response.Write "<td><a href=""../../catalog.asp?cate="& Categorys(aryCateInOrder(j)).ID &"""  target=""_blank"">&nbsp;┄&nbsp;" & Categorys(aryCateInOrder(j)).Name & "</a></td>"
 					Response.Write "<td>" & Categorys(aryCateInOrder(j)).Alias & "</td>"
-					Response.Write "<td align=""center""><a href=""../cmd.asp?act=CategoryEdt&id="& Categorys(aryCateInOrder(j)).ID &""">["& ZC_MSG078 &"]</a></td>"
+					Response.Write "<td align=""center""><a href=""../cmd.asp?act=CategoryEdt&amp;id="& Categorys(aryCateInOrder(j)).ID &""">["& ZC_MSG078 &"]</a></td>"
 					Response.Write "<td align=""center""><a onclick='return window.confirm("""& ZC_MSG058 &""");' href=""../cmd.asp?act=CategoryDel&amp;id="& Categorys(aryCateInOrder(j)).ID &""">["& ZC_MSG063 &"]</a></td>"
 					Response.Write "</tr>"
 				End If
@@ -1240,7 +1240,7 @@ Function ExportSiteInfo()
 	%>
 
 	<table border="0" cellspacing="0" cellpadding="0" align="center" width="100%" class="tableBorder">
-	<tr><th height=32 colspan=4  align="center">&nbsp;<%=ZC_MSG167%></th></tr>
+	<tr><th height="32" colspan="4"  align="center">&nbsp;<%=ZC_MSG167%></th></tr>
 	<tr>
 	<td width="20%"><%=ZC_MSG160%></td>
 	<td width="30%"><%=BlogUser.Name%> (<%=ZVA_User_Level_Name(BlogUser.Level)%>)</td>
@@ -1283,7 +1283,7 @@ Function ExportSiteInfo()
 	</table>
 <!--
 	<table border="0" cellspacing="0" cellpadding="0" align=center width="100%" class="tableBorder">
-	<tr><th height=32 colspan=4>&nbsp;<%=ZC_MSG164%></th></tr>
+	<tr><th height="32" colspan="4">&nbsp;<%=ZC_MSG164%></th></tr>
 	<tr>
 	<td width="22%" ><%=ZC_MSG150%></td>
 	<td width="27%"><%=ZC_BLOG_VERSION%></td>
@@ -1359,8 +1359,8 @@ Function ExportSiteInfo()
 If Len(ZC_UPDATE_INFO_URL)>0 Then
 %>
 	<table border="0" cellspacing="0" cellpadding="0" align="center" width="100%" class="tableBorder">
-	<tr><th height=32 colspan=4 align="center">&nbsp;<%=ZC_MSG164%>&nbsp;<a href="javascript:updateinfo('?reload');">[<%=ZC_MSG289%>]</a></th></tr>
-	<tr><td height=25 colspan=4 id="tdUpdateInfo">
+	<tr><th height="32" colspan="4" align="center">&nbsp;<%=ZC_MSG164%>&nbsp;<a href="javascript:updateinfo('?reload');">[<%=ZC_MSG289%>]</a></th></tr>
+	<tr><td height="25" colspan="4" id="tdUpdateInfo">
 <script language="JavaScript" type="text/javascript">
 function updateinfo(s){
 	$.post("c_updateinfo.asp"+s,{},

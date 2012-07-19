@@ -5,7 +5,7 @@
 邮箱：u2lei@yahoo.com.cn
      xinxr@msn.com
 */
-body{ padding:0; margin:0; font-family:"微软雅黑", "宋体", Arial, Helvetica, sans-serif; color:#444444; font-size: 12px; line-height: 20px; background: #FFFFFF}
+body{ padding:0; margin:0; font-family:"微软雅黑", "宋体", Arial, Helvetica, sans-serif; color:#444444; font-size: 14px; line-height: 20px; background: #FFFFFF}
 * { padding:0; margin:0;}
 div, h1, h2, h3, h4, p, form, ul, label, input, textarea, img, span{margin:0; padding:0;}
 table{border-collapse:collapse;}
@@ -73,7 +73,7 @@ table {
 	border-collapse: collapse;
 	border:1px solid #E1E1E1;
 	background:#ffffff;
-	margin-top:10px;
+	margin-bottom:1em;
 	line-height:120%;
 }
 td{
@@ -97,11 +97,11 @@ background:#ffffdd;
 #main { width:100%; background: url(../image/IMG2/left_bg.png) repeat-y left top;}
 /*后台顶部*/
 #header {}
-#header .top { height:92px; padding:0; background:#3A6EA5; position: relative;}
+#header .top { height:85px; padding:0; background:#3A6EA5; position: relative;}
 /**/
-.logo { width:190px; height:62px; padding:15px 0; left:20px;}
+.logo { width:190px; height:62px; padding:10px 0; left:20px;}
 /**/
-.user { position: absolute; right:15px; top:15px; width:400px; height:40px; text-align:right; color:#FFFFFF;}
+.user { position: absolute; right:15px; top:10px; width:400px; height:40px; text-align:right; color:#FFFFFF;}
 .user .avatar { float:right; width:40px; height:40px; margin-left:15px;}
 .username { height:20px; line-height:20px; overflow:hidden;}
 .userbtn { height:20px;}
@@ -111,31 +111,33 @@ background:#ffffdd;
 .userbtn a.profile { padding-left:20px; background: url(../image/common/user_2.png) no-repeat left 1px;}
 .userbtn .profile:hover { padding-left:20px; color:#000000; background: url(../image/common/user_1.png) no-repeat left 1px;}
 /**/
-.menu { height:26px; line-height:26px; font-weight:bold; position: absolute; right:10px; bottom:0px;}
-.menu ul li { float:right; display:block; height:26px; margin:0 3px; text-align:center;}
-.menu ul li a { display:block; height:26px; padding:0 15px; color:#383838; background:#FFFFFF;}
+.menu { height:30px; font-weight:bold; position: absolute; right:10px; bottom:0px;}
+.menu ul {float:right;margin:0;padding:0;}
+.menu ul li { float:right;line-height:30px; height:30px; margin:0 3px; text-align:center;}
+.menu ul li a {  line-height:30px;height:30px; padding:2px 12px; color:#383838; background:#FFFFFF;}
 .menu ul li a:hover { color:#FFFFFF; background: #B0CDEE;}
 
 /*官方公告区*/
-#header .info {display:none; height:36px; line-height:36px; padding:0 0 0 70px; font-size:12px; color:#04376C; background: #B0CDEE url(../image/IMG/horn.png) no-repeat 40px 8px;}
+#header .info {display:none; height:36px; line-height:36px; padding:0 0 0 70px; color:#04376C; background: #B0CDEE url(../image/IMG/horn.png) no-repeat 40px 8px;}
 #header .info a { color:#04376C;}
 
 /*左边导航*/
-#main .main_left { float:left; width:160px; background:#E0E1E2; padding:0px;margin:5px 0 0 0;}
+#main .main_left { float:left; width:140px; background:#E0E1E2; padding:0px;margin:5px 0 0 0;}
 #main .main_left .line { height:2px; margin:5px 0 4px 0; background: url(../image/IMG/line.png) no-repeat left bottom;}
 #main .main_left #nav {}
-#main .main_left #nav p { display:block; width:160px; height:32px; margin-bottom:0;border-bottom:5px solid #fff;}
-#main .main_left #nav a { display:block; width:160px; height:32px; line-height:35px; font-size:14px;}
+#main .main_left #nav li { float:left; width:140px; height:32px; margin-bottom:0;border-bottom:5px solid #fff;cursor:pointer;}
+#main .main_left #nav a { float:left;  width:140px; height:32px; line-height:35px;cursor:pointer;}
 #main .main_left #nav a:hover { color:#000000; background:#b0cdee;}
-#main .main_left #nav span { display:block; width:100px; height:32px; line-height:32px; font-size:14px; padding-right:55px; text-align:right;}
+#main .main_left #nav span {  float:left;width:90px; height:32px; line-height:32px; padding-right:55px; text-align:right;cursor:pointer;}
 /*导航高亮*/
 #main .main_left #nav a.on,
 #main .main_left #nav a:hover.on { color:#FFFFFF; background:#3a6ea5;}
 /*主要内容区*/
-#main .main_right { width:100%; float:right; margin-left:-160px;}
-#main .main_right .yui { margin-left:160px;}
+#main .main_right { width:100%; float:right; margin-left:-150px;}
+#main .main_right .yui { margin-left:140px;}
 #main .main_right .yui { position:relative;}
 /*导航图标区*/
+#nav span{ background-repeat:no-repeat;background-position: 100px 8px;}
 #nav .home span { background-image: url(../image/common/home_1.png);}
 #nav .reconstruction span { background: url(../image/common/reconstruction_1.png);}
 #nav .new span { background-image: url(../image/common/new_1.png);}
@@ -164,13 +166,12 @@ background:#ffffdd;
 #nav .link .on span { background-image: url(../image/common/link_2.png);}
 #nav .file .on span { background-image: url(../image/common/file_2.png);}
 
-#nav span{ background-repeat:no-repeat;background-position: 110px 8px;}
 /**/
 #main .main_right .content { padding:5px 12px;}
 /*后台首页*/
-.wrapper { background:#FFFFFF;}
-.divHeader { height:32px; line-height:32px; font-size:16px; padding:0 10px; background:#FFF;}
-#divMain2 { padding:0px;}
+#divMain {	 background:#FFFFFF;}
+#divMain2 { padding:0px;margin:0px;}
+.divHeader { height:1.5em; line-height:1.5em; font-size:1.8em; padding:0; background:#FFF;}
 /**/
 #main .conleft { width:100%; float:left; margin-right:-280px;}
 #main .conleft .shell { margin-right:280px;}
@@ -206,17 +207,20 @@ background:#ffffdd;
 /**/
 /**/
 .SubMenu{
-	padding:0px;
-	margin:0px;
+	padding:0 0 5px 0;
+	margin:0 0 0 0;
 	width:100%;
 	text-align:left;
-	float:left;
-	font-size:0;background:#64aad0;
+	font-size:1em;
+	height:32px;
 }
 
 .SubMenu span {
-	float:left; font-weight:bold;
+	float:left;
+	font-weight:bold;
 	padding:2px 10px 2px 0px;
+	margin:0 5px 0 0;
+	text-align:center;
 }
 
 .SubMenu span.m-left {
@@ -228,23 +232,32 @@ background:#ffffdd;
 
 .SubMenu span a:hover {
 	background:#b0cdee;
-	text-decoration : none; color:#3A6EA5;
+	text-decoration : none; 
+	color:white;
 
 }
 .SubMenu span a:active {
-	background:#b0cdee; color:#3A6EA5;
+	background:#b0cdee; 
 	text-decoration : none;
+	color:white;
 }
 
 .SubMenu span a{
-	font-size:12px; background:#64aad0;
-	padding:4px 8px; color:#FFFFFF;
+	height:40px;
+	background:#64aad0;
+	padding:5px 10px;
 	float:left;
+	color:white;
+	height:20px;
+	line-height:20px;
 }
 
 .SubMenu span.m-now a{
-	background:#FFFFFF;
 	border:1px solid #FFFFFF;
 	margin-bottom: -2px;
 	border-bottom:3px solid #FFFFFF;
 }
+
+
+
+
