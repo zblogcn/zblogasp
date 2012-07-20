@@ -397,6 +397,7 @@ End Function
 ' 目的：    Manager Categorys
 '*********************************************************
 Function ExportCategoryList(intPage)
+	Call Add_Response_Plugin("Response_Plugin_CategoryMng_SubMenu",MakeSubMenu(ZC_MSG077 & "","../cmd.asp?act=CategoryEdt","m-left",False))
 
 	Dim i,j
 
@@ -406,10 +407,7 @@ Function ExportCategoryList(intPage)
 
 	Call GetBlogHint()
 
-	Response.Write "<form id=""edit"" method=""post"" action="""">"
-	Response.Write "<p>"& ZC_MSG122 &": </p>"
-	Response.Write "<p><a href=""../cmd.asp?act=CategoryEdt"">["& ZC_MSG077 &"]</a></p>"
-	Response.Write "</form>"
+
 
 	Call CheckParameter(intPage,"int",1)
 '∟
@@ -605,7 +603,10 @@ End Function
 ' 目的：    Manager Users
 '*********************************************************
 Function ExportUserList(intPage)
-
+	If CheckRights("UserCrt")=True Then
+		Call Add_Response_Plugin("Response_Plugin_UserMng_SubMenu",MakeSubMenu(ZC_MSG127 & "","edit_user.asp","m-left",False))
+	End If	
+	
 	Dim i
 	Dim objRS
 	Dim strSQL
@@ -620,12 +621,6 @@ Function ExportUserList(intPage)
 
 	Call GetBlogHint()
 
-	If CheckRights("UserCrt")=True Then
-		Response.Write "<form id=""edit"" method=""post"" action="""">"
-		Response.Write "<p>"& ZC_MSG123 &": </p>"
-		Response.Write "<p><a href=""edit_user.asp"">["& ZC_MSG127 &"]</a></p>"
-		Response.Write "</form>"
-	End If
 
 	Set objRS=Server.CreateObject("ADODB.Recordset")
 	objRS.CursorType = adOpenKeyset
@@ -814,6 +809,7 @@ End Function
 ' 目的：    Manager Tag
 '*********************************************************
 Function ExportTagList(intPage)
+	Call Add_Response_Plugin("Response_Plugin_TagMng_SubMenu",MakeSubMenu(ZC_MSG136 & "","../cmd.asp?act=TagEdt","m-left",False))
 
 	Dim i
 	Dim objRS
@@ -826,10 +822,7 @@ Function ExportTagList(intPage)
 
 	Call GetBlogHint()
 
-	Response.Write "<form id=""edit"" method=""post"" action="""">"
-	Response.Write "<p>"& ZC_MSG134 &": </p>"
-	Response.Write "<p><a href=""../cmd.asp?act=TagEdt"">["& ZC_MSG136 &"]</a></p>"
-	Response.Write "</form>"
+
 
 	Call CheckParameter(intPage,"int",1)
 
