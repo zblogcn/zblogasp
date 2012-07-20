@@ -269,12 +269,14 @@ Function FileManage_ExportSiteFileList(path,opath)
 
 	response.write "<p>"&ZC_MSG240&":"&path&"</p>"
 		if lcase(path)=lcase(blogpath)&"\zb_system" then call response.write("<p><font color=""red"">注意！您正在使用的Z-Blog版本为"&ZC_BLOG_VERSION&"，修改系统文件请小心！</font></p>")
-
+	response.write "<div id=""fileUpload"">"
+	FileManage_ExportSiteUpload(path)
 	set fold=f.getfolder(path)
-
+	response.write "</div>"
 	Response.write"<table width=""100%"" border=""0"">"
 	Response.write "<tr><td colspan=""5""><a href='main.asp?act=SiteFileMng&path="&Server.URLEncode(backfolder)&"' title='"&ZC_MSG239&"'><img src=""ico\up.png""/></a>"
-	Response.write "&nbsp;&nbsp;<a href='javascript:void(0)' onclick='window.open(""main.asp?act=SiteFileUploadShow&path="&Server.URLEncode(fpath)&"&opath="& Server.URLEncode(path) &""",""Detail"",""Scrollbars=no,Toolbar=no,Location=no,Direction=no,Resizeable=no,height=165px,width=780px"")' title=""上传""><img src=""ico\upload.png""/></a>"
+	Response.Write "&nbsp;&nbsp;<a href=""javascript:void(0)"" onclick=""if($('#fileUpload').css('display')=='none'){$('#fileUpload').show()}else{$('#fileUpload').hide()}"" title=""上传""><img src=""ico\upload.png""/></a>"
+'	Response.write "&nbsp;&nbsp;<a href='javascript:void(0)' onclick='window.open(""main.asp?act=SiteFileUploadShow&path="&Server.URLEncode(fpath)&"&opath="& Server.URLEncode(path) &""",""Detail"",""Scrollbars=no,Toolbar=no,Location=no,Direction=no,Resizeable=no,height=165px,width=780px"")' title=""上传""><img src=""ico\upload.png""/></a>"
 	Response.Write "&nbsp;&nbsp;<a href='main.asp?act=SiteCreateFolder' onmousedown=""var str=prompt('请输入文件夹名');if(str!=null){this.href+='&path='+encodeURIComponent('"&Replace(Replace(path,"\","\\"),"""","\""")&"'+'\\'+str);this.click()}else{return false}"" title='新建文件夹'><img src='ico\cfolder.png'/></a><span style=""float:right""><a href=""main.asp?act=Help"" title=""帮助""><img src=""ico\hlp.png""/></a></span>"
 	Response.Write "&nbsp;&nbsp;<a href=""main.asp?act=SiteFileEdt&path="&Server.URLEncode(path) &""" title=""创建文件""><img src=""ico\newfile.png""/></a>"
 	
@@ -304,13 +306,14 @@ Function FileManage_ExportSiteFileList(path,opath)
 			isEmptyPlugin=False
 		End If
 	Next
-	If isEmptyPlugin Then Response.Write "javascript:void(0)"
+	If isEmptyPlugin Then Response.Write ZC_BLOG_HOST & replace(lcasE(path),lcase(blogpath),"")&"/"&item.name
 	
-	Response.Write """ title='"&ZC_MSG261&":"&item.datelastmodified&";"&ZC_MSG238&":"&clng(item.size/1024)&"k'>"&item.name&"</a></td><td>"&item.datelastmodified&"</td><td>"&FileManage_GetSize(item.size)&"</td><td>"&FileManage_ExportInformation(item.name,path)&"</td><td>"
-	Response.write"<a href=""main.asp?act=SiteFileEdt&path="&Server.URLEncode(fpath)&"&opath="& Server.URLEncode(path) &""" title=""["&ZC_MSG078&"]""><img src=""ico\edit.png"" width=""11"" height=""11""/></a>"
-	Response.Write "&nbsp;&nbsp;<a href=""main.asp?act=SiteFileDownload&path="&Server.URLEncode(fpath)&"&opath="& Server.URLEncode(path) &""" target=""_blank"" title=""[下载]""><img src=""ico\download.png"" width=""11"" height=""11""/></a>"
-	Response.Write "&nbsp;&nbsp;<a href=""main.asp?act=SiteFileDel&path="&Server.URLEncode(fpath)&"&opath="& Server.URLEncode(path) &""" onclick='return window.confirm("""&ZC_MSG058&""");' title=""["&ZC_MSG063&"]""><img src=""ico\del.png"" width=""11"" height=""11""/></a>"
-	Response.Write "&nbsp;&nbsp;<a href=""main.asp?act=SiteFileRename&path="&Server.URLEncode(fpath)&"&opath="& Server.URLEncode(path) &""" onmousedown='var str=prompt(""请输入新文件名"");if(str!=null){this.href+=""&newfilename=""+encodeURIComponent(str);this.click()}else{return false}' title=""[重命名]""><img src=""ico\rename.png"" width=""11"" height=""11""/></a>"
+	Response.Write """ target=""_blank"" title='"&ZC_MSG261&":"&item.datelastmodified&";"&ZC_MSG238&":"&clng(item.size/1024)&"k'>"&item.name&"</a></td><td>"&item.datelastmodified&"</td><td>"&FileManage_GetSize(item.size)&"</td><td>"&FileManage_ExportInformation(item.name,path)&"</td><td>"
+	Response.write"<a href=""main.asp?act=SiteFileEdt&path="&Server.URLEncode(fpath)&"&opath="& Server.URLEncode(path) &""" title=""["&ZC_MSG078&"]""><img src=""ico\edit.png"" width=""11"" height=""11""/>[编辑]</a>"
+	Response.Write "&nbsp;&nbsp;<a href=""main.asp?act=SiteFileDownload&path="&Server.URLEncode(fpath)&"&opath="& Server.URLEncode(path) &""" target=""_blank"" title=""[下载]""><img src=""ico\download.png"" width=""11"" height=""11""/>[下载]</a>"
+	Response.Write "&nbsp;&nbsp;<a href=""main.asp?act=SiteFileRename&path="&Server.URLEncode(fpath)&"&opath="& Server.URLEncode(path) &""" onmousedown='var str=prompt(""请输入新文件名"");if(str!=null){this.href+=""&newfilename=""+encodeURIComponent(str);this.click()}else{return false}' title=""[重命名]""><img src=""ico\rename.png"" width=""11"" height=""11""/>[重命名]</a>"
+
+	Response.Write "&nbsp;&nbsp;<a href=""main.asp?act=SiteFileDel&path="&Server.URLEncode(fpath)&"&opath="& Server.URLEncode(path) &""" onclick='return window.confirm("""&ZC_MSG058&""");' title=""["&ZC_MSG063&"]""><img src=""ico\del.png"" width=""11"" height=""11""/>[删除]</a>"
 	For Each sAction_Plugin_FileManage_AddControlList in Action_Plugin_FileManage_AddControlList
 		If Not IsEmpty(sAction_Plugin_FileManage_AddControlList) Then Call Execute(sAction_Plugin_FileManage_AddControlList)
 	Next
@@ -365,6 +368,7 @@ Function FileManage_ExportSiteFileEdit(tpath,opath)
 		
 		Response.Write "<p><br/>文件路径及文件名: <!--<a href=""javascript:void(0)"" onclick=""path.readOnly='';this.style.display='none';path.focus()"">修改文件名</a>--><INPUT TYPE=""text"" Value="""&unEscape(tpath)&""" style=""width:100%"" name=""path"" id=""path"" ></p>"
 		Response.Write "<p><textarea class=""resizable"" style=""height:300px;width:100%"" name=""txaContent"" id=""txaContent"">"&ct&"</textarea></p>" & vbCrlf
+
 		Response.Write "<hr/>"
 		Response.Write "<p><input class=""button"" type=""submit"" value="""&ZC_MSG087&""" id=""btnPost""/><input class=""button"" type=""button"" value=""撤销修改，返回""  onclick=""history.go(-1)""/></p>" & vbCrlf
 		Response.Write "</form>" & vbCrlf
@@ -541,8 +545,9 @@ Function FileManage_ExportSiteUpload(path)
 		filePath=BlogPath & path
 	 end if
 	Response.Write filePath&"""/></p>"
-	Response.Write "<p><input type=""file"" id=""edtFileLoad"" name=""edtFileLoad"" size=""20"">  <input type=""submit"" class=""button"" value="""& ZC_MSG087 &""" name=""B1"" onclick='' /> <input class=""button"" type=""reset"" value="""& ZC_MSG088 &""" name=""B2"" />"
-
+	Response.Write "<p><input type=""file"" id=""edtFileLoad"" name=""edtFileLoad"" size=""20"">  <input type=""submit"" class=""button"" value="""& ZC_MSG087 &""" name=""B1"" onclick='' />"
+	Response.Write "<input class=""button"" type=""reset"" value="""& ZC_MSG088 &""" name=""B2"" />"
+	Response.Write "</p></form>"
 
 	For Each sAction_Plugin_FileManage_ExportSiteUpload_End in Action_Plugin_FileManage_ExportSiteUpload_End
 		If Not IsEmpty(sAction_Plugin_FileManage_ExportSiteUpload_End) Then Call Execute(sAction_Plugin_FileManage_ExportSiteUpload_End)
@@ -571,7 +576,7 @@ Function FileManage_Upload()
 '	If objUpload.Form("edtFileLoad")="" Then isOK=False
 	If Left(LCase(objUpload.Form("edtFileLoad")),10)="global.asa" Then isOK=False
 	If isOK=False Then Response.Write "<script>alert('不能上传Global.asa和Global.asax，也不能往Z-Blog以外的文件夹上传文件。同时上传时最大文件大小不能超过200K，否则可能会被IIS限制。');window.close()</script>":Response.End
-	objUpload.SavePath=tpath
+	objUpload.SavePath=tpath&"\"
 	objUpload.open
 	objUpload.save "edtFileLoad",1
 	If Err.Number=0 Then
@@ -579,7 +584,7 @@ Function FileManage_Upload()
 	Else
 		Call SetBlogHint_Custom("<font color='red'>出现错误" & Hex(Err.Number) & "，描述为" & Err.Description & "，操作没有生效。</font>")	End If
 	
-	Response.Write "<script>opener.location.reload();window.close();</script>"
+	Response.Write "<script>location.href=""main.asp?path="&Server.URLEncode(tpath)&"""</script>"
 
 	For Each sAction_Plugin_FileManage_Upload_End in Action_Plugin_FileManage_Upload_End
 		If Not IsEmpty(sAction_Plugin_FileManage_Upload_End) Then Call Execute(sAction_Plugin_FileManage_Upload_End)
@@ -589,7 +594,7 @@ End Function
 '*********************************************************
 ' 目的：    保存文件
 '*********************************************************
-Function FileManage_PostSiteFile(tpath)
+Function FileManage_PostSiteFile(tpath,opath)
 	For Each sAction_Plugin_FileManage_PostSiteFile_Begin in Action_Plugin_FileManage_PostSiteFile_Begin
 		If Not IsEmpty(sAction_Plugin_FileManage_PostSiteFile_Begin) Then Call Execute(sAction_Plugin_FileManage_PostSiteFile_Begin)
 	Next
@@ -602,7 +607,10 @@ Function FileManage_PostSiteFile(tpath)
 	 else
 		filePath=fxxxPath & tpath
 	 end if
-
+	dim j,k
+	j=split(filepath,"\")
+	redim preserve j(ubound(j)-1)
+	j=join(j,"\")
 	 filepath=replace(replace(filepath,"\/","\"),"\\","\")
 	Dim objFSO,objGetFile,objADO
 	Set objFSO=Server.CreateObject("Scripting.FileSystemObject") 
@@ -628,7 +636,7 @@ Function FileManage_PostSiteFile(tpath)
 			FileManage_PostSiteFile=True
 		End IF
 	End If
-	Response.Write "<script type=""text/javascript"">location.href=""main.asp?act=SiteFileMng" & "&path=" & Replace(Request.QueryString("opath"),"\","\\")&"""</script>"
+	Response.Write "<script type=""text/javascript"">location.href=""main.asp?act=SiteFileMng" & "&path=" & Replace(j,"\","\\")&"""</script>"
 
 
 	For Each sAction_Plugin_FileManage_PostSiteFile_End in Action_Plugin_FileManage_PostSiteFile_End
