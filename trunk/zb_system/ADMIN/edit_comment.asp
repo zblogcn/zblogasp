@@ -65,7 +65,7 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG066
 <!--#include file="admin_header.asp"-->
 <!--#include file="admin_top.asp"-->
 <div id="divMain">
-<div class="divHeader"><%=ZC_MSG272%></div>
+<div class="divHeader2"><%=ZC_MSG272%></div>
 <%
 	Response.Write "<div class=""SubMenu"">" & Response_Plugin_CommentEdt_SubMenu & "</div>"
 %>

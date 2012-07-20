@@ -52,7 +52,7 @@ s=s &"<a href='"&Url & PageFrist &"'>["& "&lt;&lt;" &"]</a> "
 
 For i=PageBegin To PageEnd
 	If i=PageNow Then
-		s=s &"["& Replace(ZC_MSG036,"%s",i) &"] "
+		s=s &"<span>["& Replace(ZC_MSG036,"%s",i) &"]</span> "
 	Else
 		s=s &"<a href='"&Url & i  &"'>["& Replace(ZC_MSG036,"%s",i) &"]</a> "
 	End If
@@ -71,7 +71,7 @@ End Function
 '*********************************************************
 Function ExportArticleList(intPage,intCate,intLevel,intTitle)
 
-Call Add_Response_Plugin("Response_Plugin_ArticleMng_SubMenu",MakeSubMenu(ZC_MSG168 & "","../cmd.asp?act=ArticleEdt&webedit=" & ZC_BLOG_WEBEDIT,"m-left",False))
+Call Add_Response_Plugin("Response_Plugin_ArticleMng_SubMenu",MakeSubMenu(ZC_MSG168 & "","../cmd.asp?act=ArticleEdt&amp;webedit=" & ZC_BLOG_WEBEDIT,"m-left",False))
 
 	Dim i
 	Dim objRS
@@ -92,7 +92,7 @@ Call Add_Response_Plugin("Response_Plugin_ArticleMng_SubMenu",MakeSubMenu(ZC_MSG
 
 	Call GetBlogHint()
 
-	Response.Write "<form id=""edit"" method=""post"" enctype=""application/x-www-form-urlencoded"" action=""../admin/admin.asp?act=ArticleMng"">"
+	Response.Write "<form class=""search"" id=""edit"" method=""post"" action=""../admin/admin.asp?act=ArticleMng"">"
 
 	Response.Write "<p>"&ZC_MSG158&":</p><p>"
 
@@ -107,13 +107,13 @@ Call Add_Response_Plugin("Response_Plugin_ArticleMng_SubMenu",MakeSubMenu(ZC_MSG
 
 			For n=0 To UBound(aryCateInOrder)
 				If Categorys(aryCateInOrder(n)).ParentID=Categorys(aryCateInOrder(m)).ID Then
-					Response.Write "<option value="""&Categorys(aryCateInOrder(n)).ID&""">&nbsp;┄ "&TransferHTML( Categorys(aryCateInOrder(n)).Name,"[html-format]")&"</option>"
+					Response.Write "<option value="""&Categorys(aryCateInOrder(n)).ID&""">└"&TransferHTML( Categorys(aryCateInOrder(n)).Name,"[html-format]")&"</option>"
 				End If
 			Next
 		End If
 	Next
 	End If
-	Response.Write "</select> "
+	Response.Write "</select>&nbsp;&nbsp;&nbsp;&nbsp;"
 
 	Response.Write ZC_MSG061&" <select class=""edit"" size=""1"" id=""level"" name=""level"" style=""width:80px;"" ><option value=""-1"">"&ZC_MSG157&"</option> "
 
@@ -123,8 +123,8 @@ Call Add_Response_Plugin("Response_Plugin_ArticleMng_SubMenu",MakeSubMenu(ZC_MSG
 	Next
 	Response.Write "</select>"
 
-	Response.Write " "&ZC_MSG224&" <input id=""title"" name=""title"" style=""width:150px;"" type=""text"" value="""" /> "
-	Response.Write "<input type=""submit"" class=""button"" value="""&ZC_MSG087&""">"
+	Response.Write "&nbsp;&nbsp;&nbsp;&nbsp;"&ZC_MSG224&" <input id=""title"" name=""title"" style=""width:250px;"" type=""text"" value="""" /> "
+	Response.Write "&nbsp;&nbsp;&nbsp;&nbsp;<input type=""submit"" class=""button"" value="""&ZC_MSG087&"""/>"
 
 	Response.Write "</p></form>"
 
@@ -157,8 +157,8 @@ Call Add_Response_Plugin("Response_Plugin_ArticleMng_SubMenu",MakeSubMenu(ZC_MSG
 		End If
 	End If
 
-	Response.Write "<table border=""1"" width=""100%"" cellspacing=""1"" cellpadding=""1"">"
-	Response.Write "<tr><td>"& ZC_MSG076 &"</td><td>"& ZC_MSG012 &"</td><td>"& ZC_MSG003 &"</td><td>"& ZC_MSG075 &"</td><td>"& ZC_MSG060 &"</td><td></td><td></td></tr>"
+	Response.Write "<table border=""1"" width=""100%"" cellspacing=""0"" cellpadding=""0"" class=""tableBorder"">"
+	Response.Write "<tr><th width=""5%"">"& ZC_MSG076 &"</th><th width=""14%"">"& ZC_MSG012 &"</th><th width=""14%"">"& ZC_MSG003 &"</th><th>"& ZC_MSG060 &"</th><th width=""14%"">"& ZC_MSG075 &"</th><th width=""14%""></th></tr>"
 
 	objRS.Open("SELECT * FROM [blog_Article] "& strSQL &" ORDER BY [log_PostTime] DESC")
 	objRS.PageSize=ZC_MANAGE_COUNT
@@ -202,14 +202,14 @@ Call Add_Response_Plugin("Response_Plugin_ArticleMng_SubMenu",MakeSubMenu(ZC_MSG
 			Next
 
 			'Response.Write "<td>" & ZVA_Article_Level_Name(objRS("log_Level")) & "</td>"
-			Response.Write "<td>" & FormatDateTime(objRS("log_PostTime"),vbShortDate) & "</td>"
-			If Len(objRS("log_Title"))>14 Then
+			If Len(objRS("log_Title"))>28 Then
 				Response.Write "<td><a href=""../view.asp?id=" & objRS("log_ID") & """ title="""& Replace(objRS("log_Title"),"""","") &""" target=""_blank"">" & Left(objRS("log_Title"),14) & "..." & "</a></td>"
 			Else
 				Response.Write "<td><a href=""../view.asp?id=" & objRS("log_ID") & """ title="""& Replace(objRS("log_Title"),"""","") &""" target=""_blank"">" & objRS("log_Title") & "</a></td>"
 			End If
-			Response.Write "<td align=""center""><a href=""../cmd.asp?act=ArticleEdt&webedit="& ZC_BLOG_WEBEDIT &"&id=" & objRS("log_ID") & """>[" & ZC_MSG100 & "]</a></td>"
-			Response.Write "<td align=""center""><a onclick='return window.confirm("""& ZC_MSG058 &""");' href=""../cmd.asp?act=ArticleDel&id=" & objRS("log_ID") & """>[" & ZC_MSG063 & "]</a></td>"
+			Response.Write "<td>" & FormatDateTime(objRS("log_PostTime"),vbShortDate) & "</td>"
+			Response.Write "<td align=""center""><a href=""../cmd.asp?act=ArticleEdt&amp;webedit="& ZC_BLOG_WEBEDIT &"&amp;id=" & objRS("log_ID") & """><img src=""../image/admin/page_edit.png"" alt=""" & ZC_MSG100 & """ title=""" & ZC_MSG100 & """ width=""16"" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+			Response.Write "<a onclick='return window.confirm("""& ZC_MSG058 &""");' href=""../cmd.asp?act=ArticleDel&amp;id=" & objRS("log_ID") & """><img src=""../image/admin/delete.png"" alt=""" & ZC_MSG063 & """ title=""" & ZC_MSG063 & """ width=""16"" /></a></td>"
 			Response.Write "</tr>"
 
 			objRS.MoveNext
@@ -223,7 +223,7 @@ Call Add_Response_Plugin("Response_Plugin_ArticleMng_SubMenu",MakeSubMenu(ZC_MSG
 
 	strPage=ExportPageBar(intPage,intPageAll,ZC_PAGEBAR_COUNT,"../admin/admin.asp?act=ArticleMng&amp;cate="&ReQuest("cate")&"&amp;level="&ReQuest("level")&"&amp;title="&Escape(ReQuest("title")) & "&amp;page=")
 
-	Response.Write "<hr/>" & ZC_MSG042 & ": " & strPage
+	Response.Write "<hr/><p class=""pagebar"">" & ZC_MSG042 & ": " & strPage & "</p>"
 	Response.Write "</div>"
 
 	Response.Write "<script type=""text/javascript"">ActiveLeftMenu(""aArticleMng"");</script>"
@@ -244,7 +244,7 @@ End Function
 '*********************************************************
 Function ExportPageList(intPage,intCate,intLevel,intTitle)
 'Call SetBlogHint_Custom(ZC_MSG334)
-Call Add_Response_Plugin("Response_Plugin_ArticleMng_SubMenu",MakeSubMenu(ZC_MSG328 & "","../cmd.asp?act=ArticleEdt&type=Page&webedit=" & ZC_BLOG_WEBEDIT,"m-left",False))
+Call Add_Response_Plugin("Response_Plugin_ArticleMng_SubMenu",MakeSubMenu(ZC_MSG328 & "","../cmd.asp?act=ArticleEdt&amp;type=Page&amp;webedit=" & ZC_BLOG_WEBEDIT,"m-left",False))
 
 	Dim i
 	Dim objRS
@@ -265,28 +265,9 @@ Call Add_Response_Plugin("Response_Plugin_ArticleMng_SubMenu",MakeSubMenu(ZC_MSG
 
 	Call GetBlogHint()
 
-	Response.Write "<form id=""edit"" method=""post"" enctype=""application/x-www-form-urlencoded"" action=""../admin/admin.asp?act=ArticleMng&type=Page"">"
+	Response.Write "<form class=""search"" id=""edit"" method=""post"" action=""../admin/admin.asp?act=ArticleMng&amp;type=Page"">"
 
 	Response.Write "<p>"&REPLACE(ZC_MSG158,ZC_MSG048,ZC_MSG330)&":</p><p>"
-
-	Response.Write ZC_MSG012&" <select class=""edit"" size=""1"" id=""cate"" name=""cate"" style=""width:100px;"" ><option value=""-1"">"&ZC_MSG157&"</option> "
-
-	Dim aryCateInOrder : aryCateInOrder=GetCategoryOrder()
-	Dim m,n
-	If IsArray(aryCateInOrder) Then
-	For m=LBound(aryCateInOrder)+1 To Ubound(aryCateInOrder)
-		If Categorys(aryCateInOrder(m)).ParentID=0 Then
-			Response.Write "<option value="""&Categorys(aryCateInOrder(m)).ID&""">"&TransferHTML( Categorys(aryCateInOrder(m)).Name,"[html-format]")&"</option>"
-
-			For n=0 To UBound(aryCateInOrder)
-				If Categorys(aryCateInOrder(n)).ParentID=Categorys(aryCateInOrder(m)).ID Then
-					Response.Write "<option value="""&Categorys(aryCateInOrder(n)).ID&""">&nbsp;┄ "&TransferHTML( Categorys(aryCateInOrder(n)).Name,"[html-format]")&"</option>"
-				End If
-			Next
-		End If
-	Next
-	End If
-	Response.Write "</select> "
 
 	Response.Write ZC_MSG061&" <select class=""edit"" size=""1"" id=""level"" name=""level"" style=""width:80px;"" ><option value=""-1"">"&ZC_MSG157&"</option> "
 
@@ -296,8 +277,8 @@ Call Add_Response_Plugin("Response_Plugin_ArticleMng_SubMenu",MakeSubMenu(ZC_MSG
 	Next
 	Response.Write "</select>"
 
-	Response.Write " "&ZC_MSG224&" <input id=""title"" name=""title"" style=""width:150px;"" type=""text"" value="""" /> "
-	Response.Write "<input type=""submit"" class=""button"" value="""&ZC_MSG087&""">"
+	Response.Write "&nbsp;&nbsp;&nbsp;&nbsp;"&ZC_MSG224&" <input id=""title"" name=""title"" style=""width:250px;"" type=""text"" value="""" /> "
+	Response.Write "&nbsp;&nbsp;&nbsp;&nbsp;<input type=""submit"" class=""button"" value="""&ZC_MSG087&"""/>"
 
 	Response.Write "</p></form>"
 
@@ -326,12 +307,12 @@ Call Add_Response_Plugin("Response_Plugin_ArticleMng_SubMenu",MakeSubMenu(ZC_MSG
 		If ZC_MSSQL=False Then
 			strSQL = strSQL & "AND ( (InStr(1,LCase([log_Title]),LCase('" & intTitle &"'),0)<>0) OR (InStr(1,LCase([log_Intro]),LCase('" & intTitle &"'),0)<>0) OR (InStr(1,LCase([log_Content]),LCase('" & intTitle &"'),0)<>0) )"
 		Else
-			strSQL = strSQL & "AND ( (CHARINDEX('" & intTitle &"',[log_Title]))<>0) OR (CHARINDEX('" & intTitle &"',[log_Intro])<>0) OR (CHARINDEX('" & intTitle &"',[log_Content])<>0) )"
+			strSQL = strSQL & "AND ( (CHARINDEX('" & intTitle &"',[log_Title]))<>0) OR (CHARINDEX('" & intTitle &"',[log_Intro])<>0) OR (CHARINDEX('" & intTitle &"',[log_Content])<>0)"
 		End If
 	End If
 
-	Response.Write "<table border=""1"" width=""100%"" cellspacing=""1"" cellpadding=""1"">"
-	Response.Write "<tr><td>"& ZC_MSG076 &"</td><td>"& ZC_MSG003 &"</td><td>"& ZC_MSG075 &"</td><td>"& ZC_MSG060 &"</td><td></td><td></td></tr>"
+	Response.Write "<table border=""1"" width=""100%"" cellspacing=""0"" cellpadding=""0""  class=""tableBorder"">"
+	Response.Write "<tr><th width='5%'>"& ZC_MSG076 &"</th><th width='14%'>"& ZC_MSG003 &"</th><th>"& ZC_MSG060 &"</th><th width='14%'>"& ZC_MSG075 &"</th><th width='14%'></th></tr>"
 
 	objRS.Open("SELECT * FROM [blog_Article] "& strSQL &" ORDER BY [log_PostTime] DESC")
 	objRS.PageSize=ZC_MANAGE_COUNT
@@ -356,14 +337,14 @@ Call Add_Response_Plugin("Response_Plugin_ArticleMng_SubMenu",MakeSubMenu(ZC_MSG
 			Next
 
 			'Response.Write "<td>" & ZVA_Article_Level_Name(objRS("log_Level")) & "</td>"
-			Response.Write "<td>" & FormatDateTime(objRS("log_PostTime"),vbShortDate) & "</td>"
-			If Len(objRS("log_Title"))>14 Then
+			If Len(objRS("log_Title"))>28 Then
 				Response.Write "<td><a href=""../view.asp?id=" & objRS("log_ID") & """ title="""& Replace(objRS("log_Title"),"""","") &""" target=""_blank"">" & Left(objRS("log_Title"),14) & "..." & "</a></td>"
 			Else
 				Response.Write "<td><a href=""../view.asp?id=" & objRS("log_ID") & """ title="""& Replace(objRS("log_Title"),"""","") &""" target=""_blank"">" & objRS("log_Title") & "</a></td>"
 			End If
-			Response.Write "<td align=""center""><a href=""../cmd.asp?act=ArticleEdt&type=Page&webedit="& ZC_BLOG_WEBEDIT &"&id=" & objRS("log_ID") & """>[" & ZC_MSG100 & "]</a></td>"
-			Response.Write "<td align=""center""><a onclick='return window.confirm("""& ZC_MSG058 &""");' href=""../cmd.asp?act=ArticleDel&type=Page&id=" & objRS("log_ID") & """>[" & ZC_MSG063 & "]</a></td>"
+			Response.Write "<td>" & FormatDateTime(objRS("log_PostTime"),vbShortDate) & "</td>"
+			Response.Write "<td align=""center""><a href=""../cmd.asp?act=ArticleEdt&amp;type=Page&amp;webedit="& ZC_BLOG_WEBEDIT &"&amp;id=" & objRS("log_ID") & """><img src=""../image/admin/page_edit.png"" alt=""" & ZC_MSG100 & """ title=""" & ZC_MSG100 & """ width=""16"" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+			Response.Write "<a onclick='return window.confirm("""& ZC_MSG058 &""");' href=""../cmd.asp?act=ArticleDel&amp;type=Page&amp;id=" & objRS("log_ID") & """><img src=""../image/admin/delete.png"" alt=""" & ZC_MSG063 & """ title=""" & ZC_MSG063 & """ width=""16"" /></a></td>"
 			Response.Write "</tr>"
 
 			objRS.MoveNext
@@ -375,9 +356,9 @@ Call Add_Response_Plugin("Response_Plugin_ArticleMng_SubMenu",MakeSubMenu(ZC_MSG
 
 	Response.Write "</table>"
 
-	strPage=ExportPageBar(intPage,intPageAll,ZC_PAGEBAR_COUNT,"../admin/admin.asp?act=ArticleMng&amp;cate="&ReQuest("cate")&"&amp;level="&ReQuest("level")&"&amp;title="&Escape(ReQuest("title")) & "&amp;page=")
+	strPage=ExportPageBar(intPage,intPageAll,ZC_PAGEBAR_COUNT,"../admin/admin.asp?act=ArticleMng&amp;type=Page&amp;cate="&ReQuest("cate")&"&amp;level="&ReQuest("level")&"&amp;title="&Escape(ReQuest("title")) & "&amp;page=")
 
-	Response.Write "<hr/>" & ZC_MSG042 & ": " & strPage
+	Response.Write "<hr/><p class=""pagebar"">" & ZC_MSG042 & ": " & strPage & "</p>"
 	Response.Write "</div>"
 
 	Response.Write "<script type=""text/javascript"">ActiveLeftMenu(""aPageMng"");</script>"
@@ -412,8 +393,8 @@ Function ExportCategoryList(intPage)
 	Call CheckParameter(intPage,"int",1)
 '∟
 
-	Response.Write "<table border=""1"" width=""100%"" cellspacing=""1"" cellpadding=""1"">"
-	Response.Write "<tr><td width=""18""></td><td>"& ZC_MSG076 &"</td><td>"& ZC_MSG079 &"</td><td>"& ZC_MSG001 &"</td><td>"& ZC_MSG147 &"</td><td></td><td></td></tr>"
+	Response.Write "<table border=""1"" width=""100%"" cellspacing=""0"" cellpadding=""0"" class='tableBorder'>"
+	Response.Write "<tr><th width=""5%""></th><th width=""10%"">"& ZC_MSG076 &"</th><th width=""10%"">"& ZC_MSG079 &"</th><th>"& ZC_MSG001 &"</th><th>"& ZC_MSG147 &"</th><th width=""14%""></th></tr>"
 
 	Dim aryCateInOrder
 	aryCateInOrder=GetCategoryOrder()
@@ -428,20 +409,18 @@ Function ExportCategoryList(intPage)
 			Response.Write "<td>" & Categorys(aryCateInOrder(i)).Order & "</td>"
 			Response.Write "<td><a href=""../catalog.asp?cate="& Categorys(aryCateInOrder(i)).ID &"""  target=""_blank"">" & Categorys(aryCateInOrder(i)).Name & "</a></td>"
 			Response.Write "<td>" & Categorys(aryCateInOrder(i)).Alias & "</td>"
-			Response.Write "<td align=""center""><a href=""../cmd.asp?act=CategoryEdt&amp;id="& Categorys(aryCateInOrder(i)).ID &""">["& ZC_MSG078 &"]</a></td>"
-			Response.Write "<td align=""center""><a onclick='return window.confirm("""& ZC_MSG058 &""");' href=""../cmd.asp?act=CategoryDel&amp;id="& Categorys(aryCateInOrder(i)).ID &""">["& ZC_MSG063 &"]</a></td>"
+			Response.Write "<td align=""center""><a href=""../cmd.asp?act=CategoryEdt&amp;id="& Categorys(aryCateInOrder(i)).ID &"""><img src=""../image/admin/folder_edit.png"" alt=""" & ZC_MSG078 & """ title=""" & ZC_MSG078 & """ width=""16"" /></a>&nbsp;&nbsp;&nbsp;&nbsp;<a onclick='return window.confirm("""& ZC_MSG058 &""");' href=""../cmd.asp?act=CategoryDel&amp;id="& Categorys(aryCateInOrder(i)).ID &"""></a><img src=""../image/admin/delete.png"" alt=""" & ZC_MSG063 & """ title=""" & ZC_MSG063 & """ width=""16"" /></td>"
 			Response.Write "</tr>"
 
-			For j=0 To UBound(aryCateInOrder)
+			For j=1 To UBound(aryCateInOrder)
 
 				If Categorys(aryCateInOrder(j)).ParentID=Categorys(aryCateInOrder(i)).ID Then
 					Response.Write "<tr><td align=""center""><img width=""16"" src=""../image/admin/arrow_turn_right.png"" alt="""" /></td>"
 					Response.Write "<td>" & Categorys(aryCateInOrder(j)).ID & "</td>"
 					Response.Write "<td>" & Categorys(aryCateInOrder(j)).Order & "</td>"
-					Response.Write "<td><a href=""../../catalog.asp?cate="& Categorys(aryCateInOrder(j)).ID &"""  target=""_blank"">&nbsp;┄&nbsp;" & Categorys(aryCateInOrder(j)).Name & "</a></td>"
+					Response.Write "<td><a href=""../../catalog.asp?cate="& Categorys(aryCateInOrder(j)).ID &"""  target=""_blank"">" & Categorys(aryCateInOrder(j)).Name & "</a></td>"
 					Response.Write "<td>" & Categorys(aryCateInOrder(j)).Alias & "</td>"
-					Response.Write "<td align=""center""><a href=""../cmd.asp?act=CategoryEdt&amp;id="& Categorys(aryCateInOrder(j)).ID &""">["& ZC_MSG078 &"]</a></td>"
-					Response.Write "<td align=""center""><a onclick='return window.confirm("""& ZC_MSG058 &""");' href=""../cmd.asp?act=CategoryDel&amp;id="& Categorys(aryCateInOrder(j)).ID &""">["& ZC_MSG063 &"]</a></td>"
+					Response.Write "<td align=""center""><a href=""../cmd.asp?act=CategoryEdt&amp;id="& Categorys(aryCateInOrder(j)).ID &"""><img src=""../image/admin/folder_edit.png"" alt=""" & ZC_MSG078 & """ title=""" & ZC_MSG078 & """ width=""16"" /></a>&nbsp;&nbsp;&nbsp;&nbsp;<a onclick='return window.confirm("""& ZC_MSG058 &""");' href=""../cmd.asp?act=CategoryDel&amp;id="& Categorys(aryCateInOrder(j)).ID &"""></a><img src=""../image/admin/delete.png"" alt=""" & ZC_MSG063 & """ title=""" & ZC_MSG063 & """ width=""16"" /></td>"
 					Response.Write "</tr>"
 				End If
 
@@ -470,7 +449,8 @@ End Function
 ' 目的：    Manager Comments
 '*********************************************************
 Function ExportCommentList(intPage,intContent)
-Call Add_Response_Plugin("Response_Plugin_CommentMng_SubMenu",MakeSubMenu(ZC_MSG211 & "","../cmd.asp?act=CommentEdt","m-left",False))
+
+	'Call Add_Response_Plugin("Response_Plugin_CommentMng_SubMenu",MakeSubMenu(ZC_MSG211 & "","../cmd.asp?act=CommentEdt","m-left",False))
 
 	Dim i
 	Dim objRS
@@ -487,12 +467,7 @@ Call Add_Response_Plugin("Response_Plugin_CommentMng_SubMenu",MakeSubMenu(ZC_MSG
 	objRS.ActiveConnection=objConn
 	objRS.Source=""
 
-
-	If CheckRights("GuestBookMng")=True Then
-	strSQL=strSQL & " WHERE ( ([log_ID]>0) OR ([log_ID] = 0 ) ) "
-	Else
 	strSQL=strSQL&" WHERE  ([log_ID]>0) "
-	End If
 
 	If CheckRights("Root")=False Then strSQL=strSQL & "AND( ([comm_AuthorID] = " & BlogUser.ID & " ) OR ((SELECT [log_AuthorID] FROM [blog_Article] WHERE [blog_Article].[log_ID]=[blog_Comment].[log_ID])=" & BlogUser.ID & " )) "
 
@@ -504,16 +479,16 @@ Call Add_Response_Plugin("Response_Plugin_CommentMng_SubMenu",MakeSubMenu(ZC_MSG
 
 	Call GetBlogHint()
 
-	Response.Write "<form id=""edit"" method=""post"" enctype=""application/x-www-form-urlencoded"" action=""../admin/admin.asp?act=CommentMng"">"
+	Response.Write "<form class=""search"" id=""edit"" method=""post"" action=""../admin/admin.asp?act=CommentMng"">"
 	Response.Write "<p>"&ZC_MSG287&":</p><p>"
 
-	Response.Write " "&ZC_MSG224&" <input id=""intContent"" name=""intContent"" style=""width:150px;"" type=""text"" value="""" /> "
-	Response.Write "<input type=""submit"" class=""button"" value="""&ZC_MSG087&""">"
+	Response.Write " "&ZC_MSG224&" <input id=""intContent"" name=""intContent"" style=""width:250px;"" type=""text"" value="""" /> "
+	Response.Write "<input type=""submit"" class=""button"" value="""&ZC_MSG087&"""/>"
 
 	Response.Write "</p></form>"
 
-	Response.Write "<table border=""1"" width=""100%"" cellspacing=""1"" cellpadding=""1"">"
-	Response.Write "<tr><td width='5%'>"& ZC_MSG076 &"</td><td width=""5%"">"&ZC_MSG331&"</td><td width='14%'>"& ZC_MSG001 &"</td><td>"& ZC_MSG055 &"</td><td width=""12%"">"&ZC_MSG332&"</td><td width='12%'>"& ZC_MSG080 &"</td><td width='15%'>"& ZC_MSG075 &"</td><td width='6%'></td><td width='6%'></td><td width='6%'><td width='5%'  align='center'><a href='' onclick='BatchSelectAll();return false'>"& ZC_MSG229 &"</a></td></tr>"'
+	Response.Write "<table border=""1"" width=""100%"" cellspacing=""0"" cellpadding=""0"" class=""tableBorder"">"
+	Response.Write "<tr><th width=""5%""></th><th width='5%'>"& ZC_MSG076 &"</th><th width=""5%"">"&ZC_MSG331&"</th><th width='14%'>"& ZC_MSG001 &"</th><th>"& ZC_MSG055 &"</th><th width='15%'></th><th width='5%'  align='center'><a href='' onclick='BatchSelectAll();return false'>"& ZC_MSG229 &"</a></th></tr>"'
 
 	objRS.Open("SELECT * FROM [blog_Comment] "& strSQL &" ORDER BY [comm_ID] DESC")
 	Dim objArticle
@@ -527,30 +502,21 @@ Call Add_Response_Plugin("Response_Plugin_CommentMng_SubMenu",MakeSubMenu(ZC_MSG
 
 		For i=1 to objRS.PageSize
 
+			objArticle.LoadInfoById objRs("log_ID")
+
 			Response.Write "<tr>"
+			Response.Write "<td align=""center""><a href="""&objArticle.URL&"#cmt"&objRS("comm_ID")&""" target=""_blank""><img src=""../image/admin/comment.png"" alt=""" & ZC_MSG212& " @ " & objArticle.HtmlTitle & """ title=""" & ZC_MSG212& " @ " & objArticle.HtmlTitle & """ width=""16"" /></a></td>"
 			Response.Write "<td>" & objRS("comm_ID") & "</td>"
-			Response.Write "<td>"&objRs("comm_ParentID")&"</td>"
+			Response.Write "<td>"&IIF(objRs("comm_ParentID")>0,objRs("comm_ParentID"),"")&"</td>"
 			If Trim(objRS("comm_Email"))="" Then
 			Response.Write "<td>"& objRS("comm_Author") & "</td>"
 			Else
 			Response.Write "<td><a href=""mailto:"& objRS("comm_Email") &""">" & objRS("comm_Author") & "</a></td>"
 			End If
 
-			'If objRS("log_ID")=0 Then
-			'	Response.Write "<td><a href=""../guestbook.asp#cmt" & objRS("comm_ID") & """ target=""_blank"">" & Left(objRS("comm_Content"),20) & "...</a></td>"
-			'Else
-			'	Response.Write "<td><a href=""../view.asp?id=" & objRS("log_ID") & "#cmt" & objRS("comm_ID") & """ target=""_blank"" title="""&TransferHTML(TransferHTML(UBBCode(objRS("comm_Content"),"[face][link][autolink][font][code][image][typeset][media][flash][key][upload]"),"[html-japan][upload]"),"[nohtml]")&""">" & Left(objRS("comm_Content"),20) & "...</a></td>"
-			'End If
-
-			Response.Write "<td><a id=""mylink"&objRS("comm_ID")&""" href=""$div"&objRS("comm_ID")&"tip?width=320"" class=""betterTip"" title=""正文"">" & Left(objRS("comm_Content"),20) & "...</a><div id=""div"&objRS("comm_ID")&"tip"" style=""display:none;"">"& objRS("comm_Content") &"</div></td>"
-			objArticle.LoadInfoById objRs("log_ID")
-			Response.Write "<td><a href="""&objArticle.URL&"#cmt"&objRS("comm_ID")&""" target=""_blank"">"&objArticle.title&"</a></td>"
-			Response.Write "<td>" & objRS("comm_IP") & "</td>"
-			Response.Write "<td>" & objRS("comm_PostTime") & "</td>"
-			Response.Write "<td align=""center""><a href=""../cmd.asp?act=CommentEdt&revid="&objRs("comm_ID")&"&log_id="& objRS("log_ID") &""">["&ZC_MSG333&"]</a></td>"
-			Response.Write "<td align=""center""><a href=""../cmd.asp?act=CommentEdt&id=" & objRS("comm_ID") & "&log_id="& objRS("log_ID") &"&revid="& objRS("comm_ParentID") &""">["& ZC_MSG078 &"]</a></td>"
-			Response.Write "<td align=""center""><a href=""../cmd.asp?act=CommentDel&id=" & objRS("comm_ID") & "&log_id="& objRS("log_ID")  &"&revid="& objRS("comm_ParentID") &""" onclick='return window.confirm("""& ZC_MSG058 &""");'>["& ZC_MSG063 &"]</a></td>"
-			Response.Write "<td align=""center"" ><input type=""checkbox"" name=""edtDel"" id=""edtDel"" value="""&objRS("comm_ID")&"""/></td>"
+			Response.Write "<td><a id=""mylink"&objRS("comm_ID")&""" href=""$div"&objRS("comm_ID")&"tip?width=400"" class=""betterTip"" title="""&ZC_MSG055&""">" & Left(objRS("comm_Content"),30) & "...</a><div id=""div"&objRS("comm_ID")&"tip"" style=""display:none;""><p>"& objRS("comm_Content") &"</p><br/><p>" & ZC_MSG080 & " : " &objRS("comm_IP") & "</p><p>" & ZC_MSG075 & " : " &objRS("comm_PostTime") & "</p></div></td>"
+			Response.Write "<td align=""center""><a href=""../cmd.asp?act=CommentEdt&amp;revid="&objRs("comm_ID")&"&amp;log_id="& objRS("log_ID") &"""><img src=""../image/admin/comments.png"" alt=""" & ZC_MSG333 & """ title=""" & ZC_MSG333 & """ width=""16"" /></a>&nbsp;&nbsp;&nbsp;&nbsp;<a href=""../cmd.asp?act=CommentEdt&amp;amp;id=" & objRS("comm_ID") & "&amp;log_id="& objRS("log_ID") &"&amp;revid="& objRS("comm_ParentID") &"""><img src=""../image/admin/comment_edit.png"" alt=""" & ZC_MSG078 & """ title=""" & ZC_MSG078 & """ width=""16"" /></a>&nbsp;&nbsp;&nbsp;&nbsp;<a href=""../cmd.asp?act=CommentDel&amp;id=" & objRS("comm_ID") & "&amp;log_id="& objRS("log_ID")  &"&amp;revid="& objRS("comm_ParentID") &""" onclick='return window.confirm("""& ZC_MSG058 &""");'><img src=""../image/admin/delete.png"" alt=""" & ZC_MSG063 & """ title=""" & ZC_MSG063 & """ width=""16"" /></a></td>"
+			Response.Write "<td align=""center"" ><input type=""checkbox"" name=""edtDel"" value="""&objRS("comm_ID")&"""/></td>"
 			Response.Write "</tr>"
 
 			objRS.MoveNext
@@ -567,9 +533,9 @@ Call Add_Response_Plugin("Response_Plugin_CommentMng_SubMenu",MakeSubMenu(ZC_MSG
 	'Next
 	strPage=ExportPageBar(intPage,intPageAll,ZC_PAGEBAR_COUNT,"admin.asp?act=CommentMng&amp;page=")
 
-	Response.Write "<br/><form id=""frmBatch"" method=""post"" action=""../cmd.asp?act=CommentDelBatch""><input type=""hidden"" id=""edtBatch"" name=""edtBatch"" value=""""/><input class=""button"" type=""submit"" onclick='BatchDeleteAll(""edtBatch"");if(document.getElementById(""edtBatch"").value){return window.confirm("""& ZC_MSG058 &""");}else{return false}' value="""&ZC_MSG228&""" id=""btnPost""/><form>" & vbCrlf
+	Response.Write "<form id=""frmBatch"" method=""post"" action=""../cmd.asp?act=CommentDelBatch""><input type=""hidden"" id=""edtBatch"" name=""edtBatch"" value=""""/><input class=""button"" type=""submit"" onclick='BatchDeleteAll(""edtBatch"");if(document.getElementById(""edtBatch"").value){return window.confirm("""& ZC_MSG058 &""");}else{return false}' value="""&ZC_MSG228&""" id=""btnPost""/></form>" & vbCrlf
 
-	Response.Write "<hr/>" & ZC_MSG042 & ": " & strPage
+	Response.Write "<hr/><p class=""pagebar"">" & ZC_MSG042 & ": " & strPage & "</p>"
 	Response.Write "</div>"
 
 	objRS.Close
@@ -638,8 +604,8 @@ Function ExportUserList(intPage)
 
 	If (Not objRS.bof) And (Not objRS.eof) Then
 
-		Response.Write "<table border=""1"" width=""100%"" cellspacing=""1"" cellpadding=""1"">"
-		Response.Write "<tr><td>"& ZC_MSG076 &"</td><td>"&"</td><td>"& ZC_MSG001 &"</td><td>"& ZC_MSG082 &"</td><td>"& ZC_MSG124 &"</td><td></td><td></td></tr>"
+		Response.Write "<table border=""1"" width=""100%"" cellspacing=""0"" cellpadding=""0"" class=""tableBorder"">"
+		Response.Write "<tr><th width='5%'>"& ZC_MSG076 &"</th><th width='10%'></th><th>"& ZC_MSG001 &"</th><th width='10%'>"& ZC_MSG082 &"</th><th width='10%'>"& ZC_MSG124 &"</th><th width='14%'></th></tr>"
 
 		For i=1 to objRS.PageSize
 
@@ -651,8 +617,7 @@ Function ExportUserList(intPage)
 			Response.Write "<td>" & objRS("mem_PostLogs") & "</td>"
 			Response.Write "<td>" & objRS("mem_PostComms") & "</td>"
 
-			Response.Write "<td align=""center""><a href=""edit_user.asp?id="& objRS("mem_ID") &""">["& ZC_MSG078 &"]</a></td>"
-			Response.Write "<td align=""center""><a onclick='return window.confirm("""& ZC_MSG058 &""");' href=""../cmd.asp?act=UserDel&amp;id="& objRS("mem_ID") &""">["& ZC_MSG063 &"]</a></td>"
+			Response.Write "<td align=""center""><a href=""edit_user.asp?id="& objRS("mem_ID") &"""><img src=""../image/admin/user_edit.png"" alt=""" & ZC_MSG078 & """ title=""" & ZC_MSG078 & """ width=""16"" /></a>&nbsp;&nbsp;&nbsp;&nbsp;<a onclick='return window.confirm("""& ZC_MSG058 &""");' href=""../cmd.asp?act=UserDel&amp;id="& objRS("mem_ID") &"""><img src=""../image/admin/delete.png"" alt=""" & ZC_MSG063 & """ title=""" & ZC_MSG063 & """ width=""16"" /></a></td>"
 
 			Response.Write "</tr>"
 
@@ -670,7 +635,7 @@ Function ExportUserList(intPage)
 	'Next
 	strPage=ExportPageBar(intPage,intPageAll,ZC_PAGEBAR_COUNT,"admin.asp?act=UserMng&amp;page=")
 
-	Response.Write "<hr/>" & ZC_MSG042 & ": " & strPage
+	Response.Write "<hr/><p class=""pagebar"">" & ZC_MSG042 & ": " & strPage & "</p>"
 	Response.Write "</div>"
 
 	objRS.Close
@@ -705,10 +670,10 @@ Function ExportFileList(intPage)
 
 	Call GetBlogHint()
 
-	Response.Write "<form border=""1"" name=""edit"" id=""edit"" method=""post"" enctype=""multipart/form-data"" action=""../cmd.asp?act=FileUpload"">"
+	Response.Write "<form class=""search"" name=""edit"" id=""edit"" method=""post"" enctype=""multipart/form-data"" action=""../cmd.asp?act=FileUpload"">"
 	Response.Write "<p>"& ZC_MSG108 &": </p>"
-	Response.Write "<p><input type=""file"" id=""edtFileLoad"" name=""edtFileLoad"" size=""20"">  <input type=""submit"" class=""button"" value="""& ZC_MSG087 &""" name=""B1"" onclick='document.getElementById(""edit"").action=document.getElementById(""edit"").action+""&filename=""+escape(edtFileLoad.value)' /> <input class=""button"" type=""reset"" value="""& ZC_MSG088 &""" name=""B2"" />"
-	Response.Write "&nbsp;<input type=""checkbox"" onclick='if(this.checked==true){document.getElementById(""edit"").action=document.getElementById(""edit"").action+""&autoname=1"";}else{document.getElementById(""edit"").action=""../cmd.asp?act=FileUpload"";};SetCookie(""chkAutoFileName"",this.checked,365);' id=""chkAutoName"" id=""chkAutoName""/><label for=""chkAutoName"">"& ZC_MSG131 &"</label></p></form>"
+	Response.Write "<p><input type=""file"" id=""edtFileLoad"" name=""edtFileLoad"" size=""40"" />  <input type=""submit"" class=""button"" value="""& ZC_MSG087 &""" name=""B1"" onclick='document.getElementById(""edit"").action=document.getElementById(""edit"").action+""&amp;filename=""+escape(edtFileLoad.value)' /> <input class=""button"" type=""reset"" value="""& ZC_MSG088 &""" name=""B2"" />"
+	Response.Write "&nbsp;<input type=""checkbox"" onclick='if(this.checked==true){document.getElementById(""edit"").action=document.getElementById(""edit"").action+""&amp;autoname=1"";}else{document.getElementById(""edit"").action=""../cmd.asp?act=FileUpload"";};SetCookie(""chkAutoFileName"",this.checked,365);' id=""chkAutoName""/><label for=""chkAutoName"">"& ZC_MSG131 &"</label></p></form>"
 
 	Set objRS=Server.CreateObject("ADODB.Recordset")
 	objRS.CursorType = adOpenKeyset
@@ -718,8 +683,8 @@ Function ExportFileList(intPage)
 
 	If CheckRights("Root")=False Then strSQL="WHERE [ul_AuthorID] = " & BlogUser.ID
 
-	Response.Write "<table border='1' width='100%' cellspacing=""1"" cellpadding=""1"">"
-	Response.Write "<tr><td width='10%'>"& ZC_MSG076 &"</td><td width='10%'>"& ZC_MSG003 &"</td><td width='30%'>"& ZC_MSG001 &"</td><td width='15%'>"& ZC_MSG041 &"</td><td width='15%'>"& ZC_MSG075 &"</td><td width='7%'></td><td width='5%'  align='center'><a href='' onclick='BatchSelectAll();return false'>"& ZC_MSG229 &"</a></td></tr>"
+	Response.Write "<table border=""1"" width=""100%"" cellspacing=""0"" cellpadding=""0"" class=""tableBorder"">"
+	Response.Write "<tr><th width='5%'>"& ZC_MSG076 &"</th><th width='10%'>"& ZC_MSG003 &"</th><th width=''>"& ZC_MSG001 &"</th><th width='12%'>"& ZC_MSG041 &"</th><th width='12%'>"& ZC_MSG075 &"</th><th width='5%'></th><th width='5%'><a href='' onclick='BatchSelectAll();return false'>"& ZC_MSG229 &"</a></th></tr>"
 
 	objRS.Open("SELECT * FROM [blog_UpLoad] " & strSQL & " ORDER BY [ul_PostTime] DESC")
 	objRS.PageSize=ZC_MANAGE_COUNT
@@ -743,9 +708,9 @@ Function ExportFileList(intPage)
 				Response.Write "<td><a href='../../zb_users/"& ZC_UPLOAD_DIRECTORY &"/"&objRS("ul_FileName")&"' target='_blank'>"&objRS("ul_FileName")&"</a></td>"
 			End If
 
-			Response.Write "<td>"&objRS("ul_FileSize")&"</td><td>"&objRS("ul_PostTime")&"</td>"
-			Response.Write "<td align=""center""><a href='../cmd.asp?act=FileDel&amp;id="&Server.URLEncode(objRS("ul_ID"))&"' onclick='return window.confirm("""& ZC_MSG058 &""");'>["& ZC_MSG063 &"]</a></td>"
-			Response.Write "<td align=""center"" ><input type=""checkbox"" name=""edtDel"" id=""edtDel"" value="""&objRS("ul_ID")&"""/></td>"
+			Response.Write "<td>"&objRS("ul_FileSize")&"</td><td>"&FormatDateTime(objRS("ul_PostTime"), 2)&"</td>"
+			Response.Write "<td align=""center""><a href='../cmd.asp?act=FileDel&amp;id="&Server.URLEncode(objRS("ul_ID"))&"' onclick='return window.confirm("""& ZC_MSG058 &""");'><img src=""../image/admin/delete.png"" alt=""" & ZC_MSG063 & """ title=""" & ZC_MSG063 & """ width=""16"" /></a></td>"
+			Response.Write "<td align=""center"" ><input type=""checkbox"" name=""edtDel"" id=""edtDel"&objRS("ul_ID")&""" value="""&objRS("ul_ID")&"""/></td>"
 			Response.Write "</tr>"
 
 			objRS.MoveNext
@@ -757,15 +722,15 @@ Function ExportFileList(intPage)
 
 	Response.Write "</table>"
 
-	Response.Write "<br/><form id=""frmBatch"" method=""post"" action=""../cmd.asp?act=FileDelBatch""><input type=""hidden"" id=""edtBatch"" name=""edtBatch"" value=""""/><input class=""button"" type=""submit"" onclick='BatchDeleteAll(""edtBatch"");if(document.getElementById(""edtBatch"").value){return window.confirm("""& ZC_MSG058 &""");}else{return false}' value="""&ZC_MSG228&""" id=""btnPost""/><form>" & vbCrlf
+	Response.Write "<form id=""frmBatch"" method=""post"" action=""../cmd.asp?act=FileDelBatch""><input type=""hidden"" id=""edtBatch"" name=""edtBatch"" value=""""/><input class=""button"" type=""submit"" onclick='BatchDeleteAll(""edtBatch"");if(document.getElementById(""edtBatch"").value){return window.confirm("""& ZC_MSG058 &""");}else{return false}' value="""&ZC_MSG228&""" id=""btnPost""/></form>" & vbCrlf
 
 	'For i=1 to objRS.PageCount
 	'	strPage=strPage &"<a href='admin.asp?act=FileMng&amp;page="& i &"'>["& Replace(ZC_MSG036,"%s",i) &"]</a> "
 	'Next
 	strPage=ExportPageBar(intPage,intPageAll,ZC_PAGEBAR_COUNT,"admin.asp?act=FileMng&amp;page=")
 
-	Response.Write "<hr/>" & ZC_MSG042 & ": " & strPage
-	Response.Write "</div><script type=""text/javascript"">if(GetCookie(""chkAutoFileName"")==""true""){document.getElementById(""chkAutoName"").checked=true;document.getElementById(""edit"").action=document.getElementById(""edit"").action+""&autoname=1"";};</script>"
+	Response.Write "<hr/><p class=""pagebar"">" & ZC_MSG042 & ": " & strPage & "</p>"
+	Response.Write "</div><script type=""text/javascript"">if(GetCookie(""chkAutoFileName"")==""true""){document.getElementById(""chkAutoName"").checked=true;document.getElementById(""edit"").action=document.getElementById(""edit"").action+""&amp;autoname=1"";};</script>"
 	objRS.Close
 	Set objRS=Nothing
 
@@ -838,8 +803,8 @@ Function ExportTagList(intPage)
 	If objRS.PageCount>0 Then objRS.AbsolutePage = intPage
 	intPageAll=objRS.PageCount
 
-	Response.Write "<table border=""1"" width=""100%"" cellspacing=""1"" cellpadding=""1"">"
-	Response.Write "<tr><td width=""5%"">"& ZC_MSG076 &"</td><td width=""25%"">"& ZC_MSG001 &"</td><td width=""40%"">"& ZC_MSG016 &"</td><td width=""15%""></td><td width=""15%""></td></tr>"
+	Response.Write "<table border=""1"" width=""100%"" cellspacing=""0"" cellpadding=""0"" class=""tableBorder"">"
+	Response.Write "<tr><th width=""8%"">"& ZC_MSG076 &"</th><th>"& ZC_MSG001 &"</th><th>"& ZC_MSG016 &"</th><th width=""14%""></th></tr>"
 
 	If (Not objRS.bof) And (Not objRS.eof) Then
 
@@ -853,8 +818,7 @@ Function ExportTagList(intPage)
 			Else
 				Response.Write "<td>" & TransferHTML(objRS("tag_Intro"),"[html-format]") & "</td>"
 			End If
-			Response.Write "<td align=""center""><a href=""../cmd.asp?act=TagEdt&id="& objRS("tag_ID") &""">["& ZC_MSG078 &"]</a></td>"
-			Response.Write "<td align=""center""><a onclick='return window.confirm("""& ZC_MSG058 &""");' href=""../cmd.asp?act=TagDel&amp;id="& objRS("tag_ID") &""">["& ZC_MSG063 &"]</a></td>"
+			Response.Write "<td align=""center""><a href=""../cmd.asp?act=TagEdt&amp;id="& objRS("tag_ID") &"""><img src=""../image/admin/tag_blue_edit.png"" alt=""" & ZC_MSG078 & """ title=""" & ZC_MSG078 & """ width=""16"" /></a>&nbsp;&nbsp;&nbsp;&nbsp;<a onclick='return window.confirm("""& ZC_MSG058 &""");' href=""../cmd.asp?act=TagDel&amp;id="& objRS("tag_ID") &"""><img src=""../image/admin/delete.png"" alt=""" & ZC_MSG063 & """ title=""" & ZC_MSG063 & """ width=""16"" /></a></td>"
 			Response.Write "</tr>"
 
 			objRS.MoveNext
@@ -871,7 +835,7 @@ Function ExportTagList(intPage)
 	'Next
 	strPage=ExportPageBar(intPage,intPageAll,ZC_PAGEBAR_COUNT,"admin.asp?act=TagMng&amp;page=")
 
-	Response.Write "<hr/>" & ZC_MSG042 & ": " & strPage
+	Response.Write "<hr/><p class=""pagebar"">" & ZC_MSG042 & ": " & strPage & "</p>"
 	Response.Write "</div>"
 
 	objRS.Close
@@ -931,7 +895,7 @@ Function ExportPluginMng()
 
 
 	Response.Write "<table border=""1"" width=""100%"" cellspacing=""1"" cellpadding=""1"" class=""tableBorder"">"
-	Response.Write "<tr><td width=""5%"">"& ZC_MSG079 &"</td><td width=""20%"">"& ZC_MSG001 &"</td><td width=""15%"">"& ZC_MSG128 &"</td><td width=""15%"">"& ZC_MSG150 &"</td><td width=""15%"">"& ZC_MSG151 &"</td><td width=""10%"">"& ZC_MSG309 &"</td><td width=""10%""></td><td width=""10%""></td></tr>"
+	Response.Write "<tr><th width=""6%"">"& ZC_MSG309 &"</th><th width=""6%"">"& ZC_MSG079 &"</th><th>"& ZC_MSG001 &"</th><th width=""15%"">"& ZC_MSG128 &"</th><th width=""15%"">"& ZC_MSG150 &"</th><th width=""15%"">"& ZC_MSG151 &"</th><th width=""5%""></th><th width=""5%""></th></tr>"
 
 	Dim objXmlFile,strXmlFile
 
@@ -952,14 +916,14 @@ Function ExportPluginMng()
 				If Err.Number=0 Then
 
 					Response.Write "<tr>"
+					Response.Write "<td align='center'><img width='16' title='"&ZC_MSG308&"' alt='"&ZC_MSG308&"' src='../IMAGE/ADMIN/arrow-3-right.png'/></td>"
 					Response.Write "<td>"& "0" &"</td>"
 					Response.Write "<td><a id=""mylink"&Left(md5(objXmlFile.documentElement.selectSingleNode("id").text),6)&""" href=""$div"&Left(md5(objXmlFile.documentElement.selectSingleNode("id").text),6)&"tip?width=300"" class=""betterTip"" title=""$content"">" & "" & objXmlFile.documentElement.selectSingleNode("plugin/name").text & "" & "</a><div id=""div"&Left(md5(objXmlFile.documentElement.selectSingleNode("id").text),6)&"tip"" style=""display:none;"">"&objXmlFile.documentElement.selectSingleNode("plugin/note").text&"</div></td>"
 					Response.Write "<td>" & "<a target=""_blank"" href=""" & objXmlFile.documentElement.selectSingleNode("author/url").text & """>"& objXmlFile.documentElement.selectSingleNode("author/name").text & "</td>"
 					Response.Write "<td>" & objXmlFile.documentElement.selectSingleNode("version").text & "</td>"
 					Response.Write "<td>"& objXmlFile.documentElement.selectSingleNode("modified").text &"</td>"
-					Response.Write "<td align=center><img title='"&ZC_MSG308&"' alt='"&ZC_MSG308&"' src='../IMAGE/EDIT/0101.gif'/></td>"
-					Response.Write "<td align=center>"& ZC_MSG311 &"</td>"
-					Response.Write "<td align=center>"
+					Response.Write "<td align='center'>"& ZC_MSG311 &"</td>"
+					Response.Write "<td align='center'>"
 					If BlogUser.Level<=CInt(objXmlFile.documentElement.selectSingleNode("plugin/level").text) Then
 						If fso.FileExists(BlogPath & "zb_users/theme/" & ZC_BLOG_THEME & "/plugin/" & objXmlFile.documentElement.selectSingleNode("plugin/path").text) Then
 							Response.Write "<a href=""../../ZB_USERS/theme/" & ZC_BLOG_THEME & "/plugin/" & objXmlFile.documentElement.selectSingleNode("plugin/path").text &""">[" & ZC_MSG022 & "]</a>"
@@ -1009,39 +973,40 @@ Function ExportPluginMng()
 
 
 			s=s & "<tr>"
+
+			If CheckPluginState(objXmlFile.documentElement.selectSingleNode("id").text) Then
+				s=s & "<td align='center'><img width='16' title='"&ZC_MSG308&"' alt='"&ZC_MSG308&"' src='../IMAGE/ADMIN/arrow-3-right.png'/></td>"
+			Else
+				s=s & "<td align='center'><img width='16' title='"&ZC_MSG307&"' alt='"&ZC_MSG307&"' src='../IMAGE/ADMIN/MD-stop.png'/></td>"
+			End If
+
 			s=s & "<td>"& m &"</td>"
 			s=s & "<td><a id=""mylink"&Left(md5(objXmlFile.documentElement.selectSingleNode("id").text),6)&""" href=""$div"&objXmlFile.documentElement.selectSingleNode("id").text&"tip?width=300"" class=""betterTip"" title=""$content"">" & "" & objXmlFile.documentElement.selectSingleNode("name").text & "" & "</a><div id=""div"&objXmlFile.documentElement.selectSingleNode("id").text&"tip"" style=""display:none;"">"&objXmlFile.documentElement.selectSingleNode("note").text&"</div></td>"
-			s=s & "<td>" & "<a target=""_blank"" href=""" & objXmlFile.documentElement.selectSingleNode("author/url").text & """>"& objXmlFile.documentElement.selectSingleNode("author/name").text & "</td>"
+			s=s & "<td>" & "<a target=""_blank"" href=""" & objXmlFile.documentElement.selectSingleNode("author/url").text & """>"& objXmlFile.documentElement.selectSingleNode("author/name").text & "</a></td>"
 			s=s & "<td>" & objXmlFile.documentElement.selectSingleNode("version").text & "</td>"
 			s=s & "<td>"& objXmlFile.documentElement.selectSingleNode("modified").text &"</td>"
 
-			If CheckPluginState(objXmlFile.documentElement.selectSingleNode("id").text) Then
-				s=s & "<td align=center><img title='"&ZC_MSG308&"' alt='"&ZC_MSG308&"' src='../IMAGE/EDIT/0101.gif'/></td>"
-			Else
-				s=s & "<td align=center><img title='"&ZC_MSG307&"' alt='"&ZC_MSG307&"' src='../IMAGE/EDIT/0020.gif'/></td>"
-			End If
-
-				s=s & "<td align=center>"
+				s=s & "<td align='center'>"
 			If CheckPluginState(objXmlFile.documentElement.selectSingleNode("id").text) Then
 				If CheckRights("PlugInDisable")=True Then
-					s=s & "<a href=""../cmd.asp?act=PlugInDisable&name="& Server.URLEncode(objXmlFile.documentElement.selectSingleNode("id").text) &""">[" & ZC_MSG307 & "]</a>"
+					s=s & "<a href=""../cmd.asp?act=PlugInDisable&amp;name="& Server.URLEncode(objXmlFile.documentElement.selectSingleNode("id").text) &"""><img width='16' title='"&ZC_MSG307&"' alt='"&ZC_MSG307&"' src='../IMAGE/ADMIN/stop.png'/></a>"
 				Else
 
 				End If
 			Else
 				If CheckRights("PlugInActive")=True Then
-					s=s & "<a href=""../cmd.asp?act=PlugInActive&name="& Server.URLEncode(objXmlFile.documentElement.selectSingleNode("id").text) &""">[" & ZC_MSG308 & "]</a>"
+					s=s & "<a href=""../cmd.asp?act=PlugInActive&amp;name="& Server.URLEncode(objXmlFile.documentElement.selectSingleNode("id").text) &"""><img width='16' title='"&ZC_MSG308&"' alt='"&ZC_MSG308&"' src='../IMAGE/ADMIN/arrow_rotate_anticlockwise.png'/></a>"
 				Else
 				End If
 			End If
 			s=s & "</td>"
 
 
-			s=s & "<td align=center>"
+			s=s & "<td align='center'>"
 			If CheckPluginState(objXmlFile.documentElement.selectSingleNode("id").text) Then
 				If BlogUser.Level<=CInt(objXmlFile.documentElement.selectSingleNode("level").text) Then
 					If fso.FileExists(BlogPath & "zb_users/plugin/" & f1.name & "/" & objXmlFile.documentElement.selectSingleNode("path").text) Then
-						s=s & "<a href=""../../ZB_USERS/plugin/" & f1.name & "/" & objXmlFile.documentElement.selectSingleNode("path").text &""">[" & ZC_MSG022 & "]</a>"
+						s=s & "<a href=""../../ZB_USERS/plugin/" & f1.name & "/" & objXmlFile.documentElement.selectSingleNode("path").text &"""><img width='16' title='"&ZC_MSG022&"' alt='"&ZC_MSG022&"' src='../IMAGE/ADMIN/application_double.png'/></a>"
 					End If
 				End If
 			Else
@@ -1218,7 +1183,7 @@ Function ExportSiteInfo()
 	</tr> -->
 	</table>
 <!--
-	<table border="0" cellspacing="0" cellpadding="0" align=center width="100%" class="tableBorder">
+	<table border="0" cellspacing="0" cellpadding="0" align='center' width="100%" class="tableBorder">
 	<tr><th height="32" colspan="4">&nbsp;<%=ZC_MSG164%></th></tr>
 	<tr>
 	<td width="22%" ><%=ZC_MSG150%></td>
