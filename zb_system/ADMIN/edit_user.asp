@@ -182,6 +182,8 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG070
 		}
 	}
 </script>
+<script type="text/javascript">ActiveLeftMenu("aUserMng");</script>
+
 <!--#include file="admin_footer.asp"-->
 <% 
 Call System_Terminate()

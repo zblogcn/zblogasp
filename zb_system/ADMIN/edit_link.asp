@@ -154,6 +154,21 @@ function currentpage(){
 
 			</div></form></div>
 <script type="text/javascript">ActiveLeftMenu("aLinkMng");</script>
+<script language="javascript">
+
+	
+	$(document).ready(function(){
+		$("#divMain2").tabs({ fxFade: true, fxSpeed: 'fast' });
+	
+		/* jQuery textarea resizer plugin usage */
+		$(document).ready(function() {
+			$('textarea.resizable:not(.processed)').TextAreaResizer();
+			$('iframe.resizable:not(.processed)').TextAreaResizer();
+		});
+	
+	});
+	
+</script>
 <!--#include file="admin_footer.asp"-->
 <% 
 Call System_Terminate()

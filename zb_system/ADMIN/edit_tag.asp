@@ -107,6 +107,21 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG066
 </div>
 
 			</div>
+<script>
+	
+		var str17="<%=ZC_MSG118%>";
+	
+		function checkTagInfo(){
+			document.getElementById("edit").action="../cmd.asp?act=TagPst";
+	
+			if(!document.getElementById("edtName").value){
+				alert(str17);
+				return false
+			}
+	
+		}
+		ActiveLeftMenu("aTagMng");
+		</script>
 <!--#include file="admin_footer.asp"-->
 <% 
 Call System_Terminate()

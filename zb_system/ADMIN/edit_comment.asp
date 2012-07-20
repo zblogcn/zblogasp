@@ -115,6 +115,8 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG066
 
 	}
 </script>
+<script type="text/javascript">ActiveLeftMenu("aCommentMng");</script>
+
 <!--#include file="admin_footer.asp"-->
 <% 
 Call System_Terminate()
