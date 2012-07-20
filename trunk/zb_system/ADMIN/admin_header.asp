@@ -11,8 +11,8 @@
 <link rel="stylesheet" href="../CSS/jquery.bettertip.css" type="text/css" media="screen" />
 <script language="JavaScript" src="../script/jquery.bettertip.pack.js" type="text/javascript"></script>
 <!--[if IE 6]>
-<script src="<%=ZC_BLOG_HOST%>zb_system/script/iepng.js" type="text/javascript"></script>
+<!-- <script src="<%=ZC_BLOG_HOST%>zb_system/script/iepng.js" type="text/javascript"></script>
 <script type="text/javascript">
    GtPNG.fix('div, ul, img, li, input, span, a');  //EvPNG.fix('包含透明PNG图片的标签'); 多个标签之间用英文逗号隔开。
-</script>
+</script> -->
 <![endif]-->
