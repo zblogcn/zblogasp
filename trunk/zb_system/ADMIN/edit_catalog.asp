@@ -138,6 +138,20 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG066
 	Response.Write "<p><input type=""submit"" class=""button"" value="""& ZC_MSG087 &""" id=""btnPost"" onclick='return checkCateInfo();' /></p><p></p>"
 %>
 </form>
+<script>
+	
+		var str17="<%=ZC_MSG118%>";
+	
+		function checkCateInfo(){
+			document.getElementById("edit").action="../cmd.asp?act=CategoryPst";
+	
+			if(!document.getElementById("edtName").value){
+				alert(str17);
+				return false
+			}
+	
+		}
+</script>
 </div>
 
 			</div>
