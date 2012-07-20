@@ -1,5 +1,4 @@
 ﻿<%@ CODEPAGE=65001 %>
-<FONT SIZE="" COLOR=""></FONT><!--#include file="up_inc.asp"-->
 <!-- #include file="../../../../zb_users\c_option.asp" -->
 <!-- #include file="../../../function\c_function.asp" -->
 <!-- #include file="../../../function\c_system_lib.asp" -->
