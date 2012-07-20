@@ -70,7 +70,7 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG070
 <!--#include file="admin_header.asp"-->
 <!--#include file="admin_top.asp"-->
 			<div id="divMain">
-<div class="divHeader"><%=ZC_MSG242%></div>
+<div class="divHeader2"><%=ZC_MSG242%></div>
 <%
 	Response.Write "<div class=""SubMenu"">" & Response_Plugin_UserEdt_SubMenu & "</div>"
 %>

@@ -59,13 +59,13 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG066
 <!--#include file="admin_header.asp"-->
 <!--#include file="admin_top.asp"-->
 <div id="divMain">
-<div class="divHeader"><%=ZC_MSG243%></div>
+<div class="divHeader2"><%=ZC_MSG243%></div>
 <%
 	Response.Write "<div class=""SubMenu"">" & Response_Plugin_CategoryEdt_SubMenu & "</div>"
 %>
 <div id="divMain2">
 <% Call GetBlogHint() %>
-<form id="edit" name="edit" method="post">
+<form id="edit" name="edit" method="post" action="">
 <%
 	Response.Write "<input id=""edtID"" name=""edtID""  type=""hidden"" value="""& EditCategory.ID &""" />"
 	Response.Write "<p>"& ZC_MSG001 &":</p><p><input id=""edtName"" style='width:300px;' size=""40"" name=""edtName""  type=""text"" value="""& TransferHTML(EditCategory.Name,"[html-format]") &""" />(*)</p><p></p>"
@@ -127,7 +127,7 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG066
 	Response.Write "<option value=''>"&ZC_MSG325&"(CATALOG)</option>"
 	End If
 
-	Response.Write "</select><input type='hidden' name='edtTemplate' id='edtTemplate' value="&EditCategory.TemplateName&" />"
+	Response.Write "</select><input type='hidden' name='edtTemplate' id='edtTemplate' value='"&EditCategory.TemplateName&"' />"
 
 
 
@@ -138,7 +138,7 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG066
 	Response.Write "<p><input type=""submit"" class=""button"" value="""& ZC_MSG087 &""" id=""btnPost"" onclick='return checkCateInfo();' /></p><p></p>"
 %>
 </form>
-<script>
+<script type="text/javascript">
 	
 		var str17="<%=ZC_MSG118%>";
 	
@@ -153,10 +153,8 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG066
 		}
 </script>
 <script type="text/javascript">ActiveLeftMenu("aCategoryMng");</script>
-
 </div>
-
-			</div>
+</div>
 <!--#include file="admin_footer.asp"-->
 <%
 Call System_Terminate()

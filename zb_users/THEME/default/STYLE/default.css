@@ -751,4 +751,4 @@ blockquote{
 #divCommentPost label{margin-top:5px;}
 #txaArticle{margin-top:10px;width:95%;height:150px;}
 
-input.button{width: 100px;height:26px}
+input.button { ;color:#FFFFFF; font-size:14px; width:100px; height:32px; background:#3a6ea5; border:1px solid #3399CC;cursor: pointer;}

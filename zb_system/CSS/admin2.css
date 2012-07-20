@@ -5,7 +5,7 @@
 邮箱：u2lei@yahoo.com.cn
      xinxr@msn.com
 */
-body{ min-width:1000px;padding:0; margin:0; font-family:"微软雅黑", "宋体", Arial, Helvetica, sans-serif; color:#444444; font-size: 14px; line-height: 20px; background: #FFFFFF}
+body{min-width:1000px;padding:0; margin:0; font-family:"微软雅黑","宋体", Arial, Helvetica, sans-serif; color:#444444; font-size: 14px; line-height: 20px; background: #FFFFFF};
 * { padding:0; margin:0;}
 div, h1, h2, h3, h4, p, form, ul, label, input, textarea, img, span{margin:0; padding:0;}
 table{border-collapse:collapse;}
@@ -76,10 +76,12 @@ table {
 	margin-bottom:1em;
 	line-height:120%;
 }
-td{
+
+td,th{
 	border:1px solid #E1E1E1;
 	margin:0;
 	padding:3px;
+	text-indent:0.5em;
 }
 tr.color1{
 background:#ededed;
@@ -99,22 +101,22 @@ background:#ffffdd;
 #header {}
 #header .top { height:85px; padding:0; background:#3A6EA5; position: relative;}
 /**/
-.logo { width:190px; height:62px; padding:10px 0; left:20px;}
+.logo { width:190px; height:62px; padding:10px 0 0 0; left:20px;}
 /**/
 .user { position: absolute; right:15px; top:10px; width:400px; height:40px; text-align:right; color:#FFFFFF;}
 .user .avatar { float:right; width:40px; height:40px; margin-left:15px;}
 .username { height:20px; line-height:20px; overflow:hidden;}
 .userbtn { height:20px;}
 .userbtn a { margin-left:15px; color:#FFFFFF;}
-.userbtn a.logout { padding-left:20px; background: url(../image/common/tuic_2.png) no-repeat left 1px;}
-.userbtn .logout:hover { padding-left:20px; color:#000000; background: url(../image/common/tuic_1.png) no-repeat left 1px;}
-.userbtn a.profile { padding-left:20px; background: url(../image/common/user_2.png) no-repeat left 1px;}
-.userbtn .profile:hover { padding-left:20px; color:#000000; background: url(../image/common/user_1.png) no-repeat left 1px;}
+.userbtn a.logout { padding-left:20px; background: url(../image/common/tuic_2.png) no-repeat left 3px;}
+.userbtn .logout:hover { padding-left:20px; color:#000000; background: url(../image/common/tuic_1.png) no-repeat left 3px;}
+.userbtn a.profile { padding-left:20px; background: url(../image/common/user_2.png) no-repeat left 3px;}
+.userbtn .profile:hover { padding-left:20px; color:#000000; background: url(../image/common/user_1.png) no-repeat left 3px;}
 /**/
-.menu { height:30px; font-weight:bold; position: absolute; right:10px; bottom:0px;}
+.menu { height:30px; position: absolute; right:10px; bottom:0px;}
 .menu ul {float:right;margin:0;padding:0;}
-.menu ul li { float:right;line-height:30px; height:30px; margin:0 3px; text-align:center;}
-.menu ul li a {  line-height:30px;height:30px; padding:2px 12px; color:#383838; background:#FFFFFF;}
+.menu ul li { float:left;line-height:30px; padding:0;height:30px; margin:0 3px; text-align:center;}
+.menu ul li a {line-height:30px;height:30px; padding:3px 12px 5px 12px; color:#383838; background:#FFFFFF;}
 .menu ul li a:hover { color:#FFFFFF; background: #B0CDEE;}
 
 /*官方公告区*/
@@ -129,7 +131,7 @@ background:#ffffdd;
 #main .main_left #nav a:hover { color:#000000; background:#b0cdee;}
 #main .main_left #nav span {  float:left;width:90px; height:32px; line-height:32px; padding-right:50px; text-align:right;cursor:pointer;}
 /*导航高亮*/
-#main .main_left #nav .buttonon a,#main .main_left #nav .buttonon a:hover { color:#FFFFFF; background:#3a6ea5;}
+#main .main_left #nav .buttonon a,#main .main_left #nav .buttonon a:hover { color:#FFFFFF; background:#3399cc;}
 
 /*导航图标区*/
 #nav span{ background-repeat:no-repeat;background-position: 100px 8px;}
@@ -165,14 +167,19 @@ background:#ffffdd;
 #main .main_right {padding-left:140px;}
 #main .main_right .yui { float:left;width:100%;}
 #main .main_right .content { padding:5px 12px;}
+
+
 /*后台首页*/
 #divMain {	float:left;width:100%;background:#FFFFFF;}
 #divMain2 { padding:0px;margin:0px;}
-.divHeader { height:1.5em; line-height:1.5em; font-size:1.8em; padding:0; background:#FFF;}
+.divHeader { height:1.8em; line-height:1.8em; font-size:1.5em; padding:0; background:#FFF;}
+.divHeader2 { height:1.8em; line-height:1.8em; font-size:1.5em; padding:0; background:#FFF;border-bottom:5px solid #e0e0e0;}
+
+
+
 /**/
 #main .conleft { width:100%; float:left; margin-right:-280px;}
 #main .conleft .shell { margin-right:280px;}
-
 .conleft_body { background:#FFFFFF; padding:0px;}
 .conleft_body h2 { font-size:22px; line-height:30px; margin-bottom:20px;}
 .conleft_body p { line-height:22px; font-size:14px;}
@@ -181,15 +188,43 @@ background:#ffffdd;
 .conright { width:260px; float:right;}
 .box_category { height:200px; background:#FFFFFF; padding:10px; margin-bottom:10px;}
 /**/
-.tableBorder { line-height:26px;}
+/*文章编辑*/
+.conleft_body .form {} 
+
+
+
+
 #tdUpdateInfo { line-height:24px;}
 /**/
 
-/**/
+/*表格*/
+.tableBorder { line-height:1.8em;}
 
-/*文章编辑*/
-.conleft_body .form {} 
-/**/
+.tableBorder th{
+text-align:left;
+/*
+background:#999999;
+border-right:1px solid #999999;
+color:white;
+*/
+
+}
+
+/*文章编辑和页面编辑*/
+#divEditLeft{
+
+}
+
+#divEditPost{
+
+}
+.hidden{
+	display:none;
+}
+span.editinputname{
+padding:0 5px ;
+}
+
 
 /**/
 
@@ -241,7 +276,7 @@ background:#ffffdd;
 
 .SubMenu span a{
 	height:40px;
-	background:#64aad0;
+	background:#3399cc;
 	padding:5px 10px;
 	float:left;
 	color:white;
@@ -255,6 +290,49 @@ background:#ffffdd;
 	border-bottom:3px solid #FFFFFF;
 }
 
+hr {height:0px;border:none;padding:0;visibility:hidden;}
+
+input.button { color:#FFFFFF; font-size:14px; width:100px; 	padding: 0.15em 0.25em 0.20em 0.25em; background:#3a6ea5; border:1px solid #3399CC;cursor: pointer;}
+
+
+form {background:#fff;border:0px solid black;padding:0.5em;margin:0 0 0.5em 0;}
+
+
+form.search {
+background:#f0f0f0;
+/*
+background:#ffcc66;
+*/
+}
+form.search input.button{
+/*
+background:#7e5c17;border:1px solid #644609;
+*/
+}
+
+
+form p{padding:0.5em 0  0.5em 0;}
 
 
 
+form input {
+	padding: 0.25em 0.25em 0.25em 0.25em;
+	border: 1px double #527b9a;
+	background-position: bottom;
+	background:#fff;
+}
+form select{
+	padding: 0.15em 0.25em 0.20em 0.25em;
+	border: 1px double #527b9a;
+	background-position: bottom;
+	background:#fff;
+}
+
+form textarea{
+	padding: 0.15em 0.25em 0.20em 0.25em;
+	border: 1px double #527b9a;
+	background-position: bottom;
+	background:#fff;
+}
+
+.pagebar span{color:#3a6ea5;font-weight:bolder;font-size:1.1em}

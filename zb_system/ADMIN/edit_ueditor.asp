@@ -41,6 +41,10 @@ If Not CheckRights("ArticleEdt") Then Call ShowError(6)
 GetCategory()
 GetUser()
 
+Dim IsPage
+
+IsPage=Request.QueryString("type")="Page"
+
 Dim EditArticle
 
 Set EditArticle=New TArticle
@@ -83,6 +87,7 @@ End If
 			Response.Write """);$(""#ulTag"").tagTo(""#edtTag"");"
 			Response.End
 		End If
+
 BlogTitle=EditArticle.HtmlUrl
 EditArticle.Content=UBBCode(EditArticle.Content,"[link][email][font][code][face][image][flash][typeset][media][autolink][key][link-antispam]")
 
@@ -94,16 +99,15 @@ EditArticle.Title=TransferHTML(EditArticle.Title,"[html-format]")
 
 Call GetTagsbyTagIDList(EditArticle.Tag)
 
-BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & IIf(Request.QueryString("type")="Page",ZC_MSG329,ZC_MSG047)
+BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & IIf(IsPage,ZC_MSG329,ZC_MSG047)
 
 %>
 <!--#include file="admin_header.asp"-->
-
 	<link rel="stylesheet" type="text/css" href="ueditor/themes/default/ueditor.css"/>
-
+	<script type="text/javascript" src="../script/jquery.tagto.js"></script>
 	<script type="text/javascript" charset="utf-8" src="ueditor/editor_config.asp"></script>
 	<script type="text/javascript" charset="utf-8" src="ueditor/editor_all_min.js"></script>
-	<script language="Javascript" type="text/javascript">
+	<script type="text/javascript">
 	var loaded=false;
 	var editor = new baidu.editor.ui.Editor();
 	var editor2 = new baidu.editor.ui.Editor({
@@ -118,38 +122,62 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & IIf(Request.QueryString("type")="Page",ZC_
 <!--#include file="admin_top.asp"-->
 <script type="text/javascript">ActiveLeftMenu("aArticleEdt");</script>
                 <div id="divMain">
-                  
-                  <%
+<div class="divHeader2"><%=IIf(IsPage,ZC_MSG329,ZC_MSG047)%></div>
+<%
 	Response.Write "<div class=""SubMenu"">" & Response_Plugin_ArticleEdt_SubMenu & "</div>"
 %>
-                  <div class="form">
+                  <div id="divMain2">
                     <% Call GetBlogHint() %>
                     <form id="edit" name="edit" method="post" action="">
+
+<div id="divEditLeft">
                       <input type="hidden" name="edtID" id="edtID" value="<%=EditArticle.ID%>" />
-                      <div><%=ZC_MSG060%>:
-                        <input type="text" name="edtTitle" id="edtTitle" style="width:367px;"  onblur="if(this.value=='') this.value='<%=ZC_MSG099%>'" onfocus="if(this.value=='<%=ZC_MSG099%>') this.value=''" value="<%=EditArticle.Title%>" />
+<!-- title -->
+                      <p><span class='editinputname'><%=ZC_MSG060%>:</span>
+                        <input type="text" name="edtTitle" id="edtTitle" style="width:400px"  onblur="if(this.value=='') this.value='<%=ZC_MSG099%>'" onfocus="if(this.value=='<%=ZC_MSG099%>') this.value=''" value="<%=EditArticle.Title%>" /></p>
                         <%
 On Error Resume Next
-BlogTitle=EditArticle.Alias
 If Err.Number=0 Then
 %>
-                        &nbsp;<%=ZC_MSG147%>:
-                        <input type="text" style="width:220px;" name="edtAlias" id="edtAlias" value="<%=TransferHTML(EditArticle.Alias,"[html-format]")%>" />
+<!-- alias -->
+                        <p><span class='editinputname'><%=ZC_MSG147%>:</span>
+                        <input type="text" style="width:400px" name="edtAlias" id="edtAlias" value="<%=TransferHTML(EditArticle.Alias,"[html-format]")%>" />
                         .<%=ZC_STATIC_TYPE%>
-                        <%
+<%
 End If
 Err.Clear
 %>
-                      </div>
+                      </p>
+
+<!-- tags( -->
+<% If Request.QueryString("type")<>"Page" Then %>
+                        <p><span class='editinputname' style='padding-right:2px;'><%=ZC_MSG138%>:</span>
+                        <input type="text" style="width:400px;" name="edtTag" id="edtTag" value="<%=TransferHTML(EditArticle.TagToName,"[html-format]")%>" />
+                        <a href="" style="cursor:pointer;" onclick="if(document.getElementById('ulTag').style.display=='none'){document.getElementById('ulTag').style.display='block';if(loaded==false){$.getscript('edit_ueditor.asp?type=tags');loaded=true;}}else{document.getElementById('ulTag').style.display='none'};return false;"><%=ZC_MSG139%><span style="font-size: 1.5em; vertical-align: -1px;"></span></a></p>
+                      <ul id="ulTag" style="display:none;">
+                        <li><span id="ajaxtags"><%=ZC_MSG326%></span>&nbsp;&nbsp;(<%=ZC_MSG296%>)</li>
+                      </ul>
+                      
+<% End If %>
+<!-- )tags -->
+
+
+
+                        <p>
+
+
+
+
+
+<!-- cate -->
                       <%
 Err.Clear
 On Error Resume Next
 If Request.QueryString("type")<>"Page" Then
-BlogTitle=EditArticle.Tag
 
 If Err.Number=0 Then
 %>
-                      <div><%=ZC_MSG012%>:
+                      <span class='editinputname' style="cursor:pointer;" onclick="$(this).next().toggleClass('hidden');"><%=ZC_MSG012%>:</span>
                         <select style="width:140px;" class="edit" size="1" id="cmbCate" onchange="edtCateID.value=this.options[this.selectedIndex].value">
                           <option value="0"></option>
                           <%
@@ -174,7 +202,7 @@ If Err.Number=0 Then
 %>
                         </select>
                         <input type="hidden" name="edtCateID" id="edtCateID" value="<%=EditArticle.CateID%>" />
-                        <%
+<%
  End If
  Else
 %>
@@ -182,102 +210,12 @@ If Err.Number=0 Then
                         <%
 End If
 %>
-                        &nbsp;<%=ZC_MSG003%>:
-                        <select style="width:100px;" class="edit" size="1" id="cmbUser" onchange="edtAuthorID.value=this.options[this.selectedIndex].value">
-                          <option value="0"></option>
-                          <%
-	GetUser()
-	Dim User
-	For Each User in Users
-		If IsObject(User) Then
-			If CheckRights("Root")=True Then
-				Response.Write "<option value="""&User.ID&""" "
-				If User.ID=EditArticle.AuthorID Then
-					Response.Write "selected=""selected"""
-				End If
-				Response.Write ">"&TransferHTML(User.Name,"[html-format]")&"</option>"
-			Else
-				If User.ID=EditArticle.AuthorID Then
-					Response.Write "<option value="""&User.ID&""" "
-					Response.Write "selected=""selected"""
-					Response.Write ">"&TransferHTML(User.Name,"[html-format]")&"</option>"
-				End If
-			End If
-		End If
-	Next
+<!-- cate -->
 
-%>
-                        </select>
-                        <input type="hidden" name="edtAuthorID" id="edtAuthorID" value="<%=EditArticle.AuthorID%>" />
-                        <%
-If Request.QueryString("type")<>"Page" Then %>
-                        &nbsp;<%=ZC_MSG138%>:
-                        <input type="text" style="width:313px;" name="edtTag" id="edtTag" value="<%=TransferHTML(EditArticle.TagToName,"[html-format]")%>" />
-                        <a href="" style="cursor:pointer;" onclick="if(document.getElementById('ulTag').style.display=='none'){document.getElementById('ulTag').style.display='block';if(loaded==false){$.getscript('edit_ueditor.asp?type=tags<%if EditArticle.id<>0  then response.write "&id="&EditArticle.ID%>');loaded=true;}}else{document.getElementById('ulTag').style.display='none'};return false;"><%=ZC_MSG139%><span style="font-size: 1.5em; vertical-align: -1px;"></span></a>
-                      <ul id="ulTag" style="display:none;">
-                        <li><span id="ajaxtags"><%=ZC_MSG326%></span>&nbsp;&nbsp;(<%=ZC_MSG296%>)</li>
-                      </ul>
-                      </div>
-                      <%
-Else
-%>
-                      <input name="edtAutoList" id="edtAutoList" type="checkbox" value="True" checked="checked" />
-                      <label for="edtAutoList">自动加入导航条</label>
-                      <%
-End If
-Err.Clear
-%>
-                      <div id="divAdv" style="display:block;">
-                        <div><%=ZC_MSG061%>:
-                          <select style="width:140px;" class="edit" size="1" id="cmbArticleLevel" onchange="edtLevel.value=this.options[this.selectedIndex].value">
-                            <%
-	Dim ArticleLevel
-	Dim i:i=0
-	For Each ArticleLevel in ZVA_Article_Level_Name
-		Response.Write "<option value="""& i &""" "
-		If EditArticle.Level=i Then Response.Write "selected=""selected"""
-		Response.Write ">"& Replace(ZVA_Article_Level_Name(i),ZC_MSG048,ZC_MSG330) &"</option>"
-		i=i+1
-	Next
-%>
-                          </select>
-                          <input type="hidden" name="edtLevel" id="edtLevel" value="<%=EditArticle.Level%>" />
-                          <%
-Err.Clear
-On Error Resume Next
-BlogTitle=EditArticle.Istop
-If Request.QueryString("type")<>"Page" Then
-If Err.Number=0 Then
 
-%>
-                          &nbsp;<%=ZC_MSG051%>
-                          <%If EditArticle.Istop Then%>
-                          <input type="checkbox" name="edtIstop" id="edtIstop" value="True" checked=""/>
-                          <%Else%>
-                          <input type="checkbox" name="edtIstop" id="edtIstop" value="True"/>
-                          <%End If%>
-                          <%
 
-End If
-Else
-%>
-                          <input type="hidden" name="edtIstop" id="edtIstop" value=""/>
-                          <%
-End If
-Err.Clear
-%>
-                          &nbsp;<%=ZC_MSG062%>:
-                          <input type="text" name="edtYear" id="edtYear" style="width:35px;" value="<%=Year(EditArticle.PostTime)%>" />
-                          -
-                          <input type="text" name="edtMonth" id="edtMonth" style="width:25px;" value="<%=Month(EditArticle.PostTime)%>" />
-                          -
-                          <input type="text" name="edtDay" id="edtDay" style="width:25px;" value="<%=Day(EditArticle.PostTime)%>" />
-                          -
-                          <input type="text" name="edtTime" id="edtTime" style="width:50px;" value="<%= Hour(EditArticle.PostTime)&":"&Minute(EditArticle.PostTime)&":"&Second(EditArticle.PostTime)%>" />
-                          <%
-Err.Clear
-%>
-                          &nbsp;<%=ZC_MSG324%>:
+<!-- template( -->
+                          <span class='editinputname'><%=ZC_MSG324%>:</span>
                           <select style="width:150px;" class="edit" size="1" id="cmbTemplate" onchange="edtTemplate.value=this.options[this.selectedIndex].value">
                             <%
 	'Response.Write "<option value="""">"&ZC_MSG325&"</option>"
@@ -311,45 +249,158 @@ Err.Clear
 %>
                           </select>
                           <input type="hidden" name="edtTemplate" id="edtTemplate" value="<%=EditArticle.TemplateName%>" />
-                      </div></div>
-                      <%
-If Response_Plugin_Edit_Form<>"" Then
+<!-- )template -->
+
+
+
+
+<!-- level -->
+                          <span class='editinputname' style="cursor:pointer;" onclick="$(this).next().toggleClass('hidden');"><%=ZC_MSG061%>:</span><select class="hidden edit" style="width:140px;" size="1" id="cmbArticleLevel" onchange="edtLevel.value=this.options[this.selectedIndex].value">
+                            <%
+	Dim ArticleLevel
+	Dim i:i=0
+	For Each ArticleLevel in ZVA_Article_Level_Name
+		Response.Write "<option value="""& i &""" "
+		If EditArticle.Level=i Then Response.Write "selected=""selected"""
+		Response.Write ">"& ZVA_Article_Level_Name(i) &"</option>"
+		i=i+1
+	Next
 %>
-                      <div><%=Response_Plugin_Edit_Form%></div>
-                      <%
-End If
+                          </select>
+                          <input type="hidden" name="edtLevel" id="edtLevel" value="<%=EditArticle.Level%>" />
+                          <%
+Err.Clear
 %>
-                      
-                      <!-- <div id="divFileSnd">
-<%If CheckRights("FileSnd") Then%>
-	<p id="filesnd"><iframe frameborder="0" height="56" marginheight="0" marginwidth="0" scrolling="no" width="100%" src="../cmd.asp?act=FileSnd"></iframe></div>
+<!-- )level -->
+
+
+
+<!-- user( -->
+
+                        <span class='editinputname' style="cursor:pointer;" onclick="$(this).next().toggleClass('hidden');"><%=ZC_MSG003%>:</span><select class="hidden edit" style="width:100px;" size="1" id="cmbUser" onchange="edtAuthorID.value=this.options[this.selectedIndex].value">
+                          <option value="0"></option>
+                          <%
+	GetUser()
+	Dim User
+	For Each User in Users
+		If IsObject(User) Then
+			If CheckRights("Root")=True Then
+				Response.Write "<option value="""&User.ID&""" "
+				If User.ID=EditArticle.AuthorID Then
+					Response.Write "selected=""selected"""
+				End If
+				Response.Write ">"&TransferHTML(User.Name,"[html-format]")&"</option>"
+			Else
+				If User.ID=EditArticle.AuthorID Then
+					Response.Write "<option value="""&User.ID&""" "
+					Response.Write "selected=""selected"""
+					Response.Write ">"&TransferHTML(User.Name,"[html-format]")&"</option>"
+				End If
+			End If
+		End If
+	Next
+
+%>
+                        </select>
+                        <input type="hidden" name="edtAuthorID" id="edtAuthorID" value="<%=EditArticle.AuthorID%>" />
+<!-- )user -->
+
+
+
+
+
+<!-- date( -->
+                          <span class='editinputname' style="cursor:pointer;" onclick="$(this).next().toggleClass('hidden');"><%=ZC_MSG062%>:</span>
+                          <span class="hidden"><input type="text" name="edtYear" id="edtYear" style="width:35px;" value="<%=Year(EditArticle.PostTime)%>" />
+                          -
+                          <input type="text" name="edtMonth" id="edtMonth" style="width:25px;" value="<%=Month(EditArticle.PostTime)%>" />
+                          -
+                          <input type="text" name="edtDay" id="edtDay" style="width:25px;" value="<%=Day(EditArticle.PostTime)%>" />
+                          -
+                          <input type="text" name="edtTime" id="edtTime" style="width:50px;" value="<%= Hour(EditArticle.PostTime)&":"&Minute(EditArticle.PostTime)&":"&Second(EditArticle.PostTime)%>" /></span>
+<!-- )date -->
+
+
+
+
+
+<!-- Istop( -->
+<% If Request.QueryString("type")<>"Page" Then %>
+                          <span class='editinputname'><%=ZC_MSG051%>
+                          <%If EditArticle.Istop Then%>
+                          <input type="checkbox" name="edtIstop" id="edtIstop" value="True" checked=""/>
+                          <%Else%>
+                          <input type="checkbox" name="edtIstop" id="edtIstop" value="True"/></span>
+                          <%End If%>
 <%Else%>
-<%End If%>
-</div> -->
+                          <input type="hidden" name="edtIstop" id="edtIstop" value=""/>
+<% End If %>
+<!-- )Istop -->
+
+
+
+<% If Request.QueryString("type")="Page" Then %>
+                      <label for="edtAutoList">自动加入导航条 </label><input name="edtAutoList" id="edtAutoList" type="checkbox" value="" />
+                      
+<% End If %>
+
+
+                      </p>
+
+</div>
+
+
+
+
+
+
+
+
+
+<% If Response_Plugin_Edit_Form<>"" Then %>
+<div><%=Response_Plugin_Edit_Form%></div>
+<% End If %>
+                      
                       
                       <div id="divContent" style="clear:both;">
-                        <div><%=ZC_MSG055%>:(<span id="timemsg"></span><span id="msg2"></span><span id="msg"></span><script type="text/javascript" src="c_autosaverjs.asp?act=edit&amp;type=ueditor"></script>)<br/>
-                        </div>
+                        <p><span class='editinputname'><%=ZC_MSG055%>:</span>(<span id="timemsg"></span><span id="msg2"></span><span id="msg"></span><script type="text/javascript" src="c_autosaverjs.asp?act=edit&amp;type=ueditor"></script>)
+						<span class='editinputname' <%If EditArticle.ID=0 And EditArticle.Intro="" Then Response.Write "" Else Response.Write "style='display:none;'"%> onclick="try{this.style.display='none';document.getElementById('divIntro').style.display='block';AutoIntro();}catch(e){}"></span>
+                        <span><a title="<%=ZC_MSG297%>" href="javascript:AutoIntro()">[<%=ZC_MSG310%>]</a></span>
+                      
+						</p>
                         <textarea id="ueditor" name="txaContent" rows="50" cols="250"><%=EditArticle.Content%></textarea>
                       </div>
-                      <div></div>
-                      <div id="divAutoIntro" class="anti_normal" style="display:<%If EditArticle.ID=0 And EditArticle.Intro="" Then Response.Write "block" Else Response.Write "none"%>;" onclick="try{this.style.display='none';document.getElementById('divIntro').style.display='block';AutoIntro();}catch(e){}">
-                        <div><a title="<%=ZC_MSG297%>" href="javascript:AutoIntro()">[<%=ZC_MSG310%>]</a></div>
-                      </div>
+                      <hr/>
+
+
+
+
                       <div id="divIntro" style="display:<%If EditArticle.Intro="" Then Response.Write "none" Else Response.Write "block"%>;">
-                        <div><%=ZC_MSG016%>:<a title="<%=ZC_MSG297%>" href="javascript:AutoIntro()">[<%=ZC_MSG310%>]</a></div>
+                        <p><span class='editinputname'><%=ZC_MSG016%>:<a title="<%=ZC_MSG297%>" href="javascript:AutoIntro()">[<%=ZC_MSG310%>]</a></span></p>
                         <textarea id="ueditor2" name="txaIntro" rows="50" cols="250"><%=EditArticle.Intro%></textarea>
                       </div>
-                      <%
-If Response_Plugin_Edit_Form2<>"" Then
-%>
-                      <div><%=Response_Plugin_Edit_Form2%></div>
-                      <%
-End If
-%>
-                      <div>
-                        <input class="button" type="submit" value="<%=ZC_MSG087%>" id="btnPost" onclick='return checkArticleInfo();' />
-                      </div>
+
+<% If Response_Plugin_Edit_Form2<>"" Then %>
+<div><%=Response_Plugin_Edit_Form2%></div>
+<% End If %>
+
+
+<div id="divEditPost">
+
+<p>
+<input class="button" type="submit" value="<%=ZC_MSG087%>" id="btnPost" onclick='return checkArticleInfo();' />
+</p>
+
+
+
+
+
+</div>
+
+
+
+
+
                     </form>
                   </div>
 </div>

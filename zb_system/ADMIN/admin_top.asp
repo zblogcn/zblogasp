@@ -1,6 +1,5 @@
 </head>
 <body>
-
 <div id="header">
   <div class="top">
     <div class="logo"><img src="<%=ZC_BLOG_HOST%>ZB_SYSTEM/image/IMG/logo.png" alt="Z-Blog" title="Z-Blog"/></div>
@@ -10,10 +9,10 @@
     </div>
     <div class="menu">
       <ul>
-        <li><a href="http://www.rainbowsoft.org"><%=ZC_MSG340%></a></li>
+        <li><a href="<%=ZC_BLOG_HOST%>"><%=ZC_MSG065%></a></li>
+        <li><a href="<%=ZC_BLOG_HOST%>ZB_SYSTEM/cmd.asp?act=admin"><%=ZC_MSG248%></a></li>
         <li><a href="#"><%=ZC_MSG341%></a></li>
-        <li><a href="#"><%=ZC_MSG248%></a></li>
-        <li><a href="<%=ZC_BLOG_HOST%>" target="_blank"><%=ZC_MSG065%></a></li>
+        <li><a href="http://www.rainbowsoft.org/" target="_blank"><%=ZC_MSG340%></a></li>
       </ul>
     </div>
   </div>
