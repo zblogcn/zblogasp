@@ -372,7 +372,7 @@ Err.Clear
 
 
                       <div id="divIntro" style="display:<%If EditArticle.Intro="" Then Response.Write "none" Else Response.Write "block"%>;">
-                        <p><span class='editinputname'><%=ZC_MSG016%>:<a title="<%=ZC_MSG297%>" href="javascript:AutoIntro()">[<%=ZC_MSG310%>]</a></span></p>
+                        <p><span class='editinputname'><%=ZC_MSG016%>:<!--<a title="<%=ZC_MSG297%>" href="javascript:AutoIntro()">[<%=ZC_MSG310%>]</a>--></span></p>
                         <textarea id="ueditor2" name="txaIntro" rows="50" cols="250"><%=EditArticle.Intro%></textarea>
                       </div>
 
@@ -447,7 +447,8 @@ Err.Clear
 	}
 
 	function AutoIntro() {
-		editor2.setContent(editor.getContent().replace(/<[^>]+>/g, "").substring(0,200) )
+		editor2.setContent(editor.getContent().replace(/<[^>]+>/g, "").substring(0,200) );
+		$("#divIntro").show()
 	}
 
 	function Advanced(){
