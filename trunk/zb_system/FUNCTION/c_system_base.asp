@@ -1636,10 +1636,23 @@ Sub CreatDirectoryByCustomDirectory(strCustomDirectory)
 
 End Sub
 '*********************************************************
-
-
-
-
+'*********************************************************
+' 目的：  生成左侧导航栏
+'*********************************************************
+Function MakeLeftMenu(strName,strUrl,strLiId,strAName,strImgUrl)
+	dim tmp
+	tmp="<li id="""&strLiId&"""><a id="""&strAName&""" href="""&strUrl&"""><span style=""background-image:url('"&strImgUrl&"')"">"&strName&"</span></a></li>"
+	MakeLeftMenu=tmp
+	
+End Function
+'*********************************************************
+' 目的：  生成头部菜单
+'*********************************************************
+Function MakeTopMenu(strName,strUrl)
+	Dim tmp
+	tmp="<li><a href="""&strUrl&""">"&strName&"</a></li>"
+	MakeTopMenu=tmp
+End Function
 '*********************************************************
 ' 目的： 加入二级菜单项
 '*********************************************************

@@ -11,8 +11,8 @@
     <li id="nav_themes"><a id="aThemeMng" href="<%=ZC_BLOG_HOST%>ZB_SYSTEM/cmd.asp?act=ThemeMng"><span><%=ZC_MSG291%></span></a></li>
     <li id="nav_plugin"><a id="aPlugInMng" href="<%=ZC_BLOG_HOST%>ZB_SYSTEM/cmd.asp?act=PlugInMng"><span><%=ZC_MSG107%></span></a></li>
     <li id="nav_link"><a id="aLinkMng" href="<%=ZC_BLOG_HOST%>ZB_SYSTEM/cmd.asp?act=LinkMng"><span><%=ZC_MSG298%></span></a></li>
-    <li id="nav_file"><a id="aSiteFileMng" href="<%=ZC_BLOG_HOST%>zb_users/plugin/filemanage/main.asp"><span><%=ZC_MSG210%></span></a></li>
     <li id="nav_build"><a id="aAskFileReBuild" href="<%=ZC_BLOG_HOST%>zb_system/cmd.asp?act=AskFileReBuild"><span><%=ZC_MSG073%></span></a></li>
+    <%=Response_Plugin_AdminLeft_Plugin%>
   </ul>
 </div>
 

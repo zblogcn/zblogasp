@@ -4198,7 +4198,8 @@ Dim sAction_Plugin_Tags_End
 '**************************************************>
 Dim Response_Plugin_AdminLeft_Plugin
 Response_Plugin_AdminLeft_Plugin=""
-
+Dim Response_Plugin_AdminTop_Plugin
+Response_Plugin_AdminTop_Plugin=""
 
 '以下为uEditor的所有接口：
 Dim Action_Plugin_UEditor_FileUpload_Begin()
@@ -4277,6 +4278,5 @@ Function Filter_Plugin_UEditor_Config(ByRef strJSContent)
 	Next
 
 End Function
-
 
 %>
