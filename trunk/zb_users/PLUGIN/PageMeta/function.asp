@@ -28,7 +28,7 @@ Function PageMeta_ExportArticleList(intPage,intCate,intLevel,intTitle)
 	intTitle=vbsunescape(intTitle)
 	intTitle=FilterSQL(intTitle)
 	Call GetBlogHint()
-	Response.Write "<form id=""edit"" method=""post"" enctype=""application/x-www-form-urlencoded"" action=""List.asp?act=ArticleMng"">"
+	Response.Write "<form id=""edit"" class=""search"" method=""post"" enctype=""application/x-www-form-urlencoded"" action=""List.asp?act=ArticleMng"">"
 	Response.Write "<p>"&ZC_MSG158&":</p><p>"
 	Response.Write ZC_MSG012&" <select class=""edit"" size=""1"" id=""cate"" name=""cate"" style=""width:100px;"" ><option value=""-1"">"&ZC_MSG157&"</option> "
 	Dim aryCateInOrder : aryCateInOrder=GetCategoryOrder()
@@ -125,16 +125,18 @@ Function PageMeta_ExportArticleList(intPage,intCate,intLevel,intTitle)
 			
 			Response.Write "<td>" & replace(vbsunescape2(mt.getvalue("pagemeta")),vbcrlf,"<br/>") & "</td>"
 			set mt=nothing
-			Response.Write "<td align=""center""><a href=""Edit.asp?act=1&id=" & objRS("log_ID") & """>[编辑Meta头]</a></td>"
+			Response.Write "<td align=""center""><a href=""Edit.asp?act=1&id=" & objRS("log_ID") & """><img src="""&ZC_BLOG_HOST&"/ZB_SYSTEM/image/admin/folder_edit.png"" alt=""编辑"" title=""编辑"" width=""16"" /></a></td>"
 			Response.Write "</tr>"
 			objRS.MoveNext
 			If objRS.eof Then Exit For
 		Next
 	End If
-	Response.Write "</table>"
+	Response.Write "</table> "
 	strPage=ExportPageBar(intPage,intPageAll,ZC_PAGEBAR_COUNT,"List.asp?act=ArticleMng&cate="&ReQuest("cate")&"&amp;level="&ReQuest("level")&"&amp;title="&Escape(ReQuest("title")) & "&amp;page=")
-	Response.Write "<hr/>" & ZC_MSG042 & ": " & strPage
-	Response.Write "</div>"
+
+	Response.Write "<hr/><p class=""pagebar"">" & ZC_MSG042 & ": " & strPage
+
+	Response.Write "</p></div>"
 	objRS.Close
 	Set objRS=Nothing
 End Function
@@ -158,26 +160,26 @@ Function PageMeta_ExportCategoryList(intPage)
 
 		If Categorys(aryCateInOrder(i)).ParentID=0 Then
 
-			Response.Write "<tr><td align=""center"">┬</td>"
+			Response.Write "<tr><td align=""center""><img width=""16"" src="""&ZC_BLOG_HOST&"ZB_SYSTEM/image/admin/folder.png"" alt="""" /></td>"
 			Response.Write "<td>" & Categorys(aryCateInOrder(i)).ID & "</td>"
 			Response.Write "<td>" & Categorys(aryCateInOrder(i)).Order & "</td>"
 			Response.Write "<td><a href=""../../../catalog.asp?cate="& Categorys(aryCateInOrder(i)).ID &"""  target=""_blank"">" & Categorys(aryCateInOrder(i)).Name & "</a></td>"
 			Response.Write "<td>" & Categorys(aryCateInOrder(i)).Alias & "</td>"
 			rESPONSE.Write "<td>"&Replace(vbsunescape2(Categorys(aryCateInOrder(i)).Meta.GetValue("pagemeta")),vbcrlf,"<br/>")&"</td>"
-			Response.Write "<td align=""center""><a href=""Edit.asp?act=2&id="& Categorys(aryCateInOrder(i)).ID &""">[编辑Meta头]</a></td>"
+			Response.Write "<td align=""center""><a href=""Edit.asp?act=2&id="& Categorys(aryCateInOrder(i)).ID &"""><img src="""&ZC_BLOG_HOST&"/ZB_SYSTEM/image/admin/folder_edit.png"" alt=""编辑"" title=""编辑"" width=""16"" /></a></td>"
 			Response.Write "</tr>"
 
 			For j=0 To UBound(aryCateInOrder)
 
 				If Categorys(aryCateInOrder(j)).ParentID=Categorys(aryCateInOrder(i)).ID Then
-					Response.Write "<tr><td align=""center"">├</td>"
+					Response.Write "<tr><td align=""center""><img width=""16"" src="""&ZC_BLOG_HOST&"ZB_SYSTEM/image/admin/arrow_turn_right.png"" alt="""" /></td>"
 					Response.Write "<td>" & Categorys(aryCateInOrder(j)).ID & "</td>"
 					Response.Write "<td>" & Categorys(aryCateInOrder(j)).Order & "</td>"
 					Response.Write "<td><a href=""../../../catalog.asp?cate="& Categorys(aryCateInOrder(j)).ID &"""  target=""_blank"">&nbsp;┄&nbsp;" & Categorys(aryCateInOrder(j)).Name & "</a></td>"
 					Response.Write "<td>" & Categorys(aryCateInOrder(j)).Alias & "</td>"
 					rESPONSE.Write "<td>"&Replace(vbsunescape2(Categorys(aryCateInOrder(j)).Meta.GetValue("pagemeta")),vbcrlf,"<br/>")&"</td>"
 
-					Response.Write "<td align=""center""><a href=""Edit.asp?act=2&id="& Categorys(aryCateInOrder(j)).ID &""">[编辑Meta头]</a></td>"
+					Response.Write "<td align=""center""><a href=""Edit.asp?act=2&id="& Categorys(aryCateInOrder(j)).ID &"""><img src="""&ZC_BLOG_HOST&"/ZB_SYSTEM/image/admin/folder_edit.png"" alt=""编辑"" title=""编辑"" width=""16"" /></a></td>"
 					Response.Write "</tr>"
 				End If
 
@@ -238,7 +240,7 @@ Function PageMeta_ExportUserList(intPage)
 			mt.loadstring=objRs("mem_Meta")
 			Response.Write "<td>" & Replace(vbsunescape2(mt.GetValue("pagemeta")),vbcrlf,"<br/>") & "</td>"
 
-			Response.Write "<td align=""center""><a href=""edit.asp?act=3&id="& objRS("mem_ID") &""">[编辑Meta头]</a></td>"
+			Response.Write "<td align=""center""><a href=""edit.asp?act=3&id="& objRS("mem_ID") &"""><img src="""&ZC_BLOG_HOST&"/ZB_SYSTEM/image/admin/folder_edit.png"" alt=""编辑"" title=""编辑"" width=""16"" /></a></td>"
 
 			Response.Write "</tr>"
 
@@ -256,8 +258,8 @@ Function PageMeta_ExportUserList(intPage)
 	'Next
 	strPage=ExportPageBar(intPage,intPageAll,ZC_PAGEBAR_COUNT,"list.asp?act=UserMng&page=")
 
-	Response.Write "<hr/>" & ZC_MSG042 & ": " & strPage
-	Response.Write "</div>"
+	Response.Write "<hr/><p class=""pagebar"">" & ZC_MSG042 & ": " & strPage
+	Response.Write "</p></div>"
 
 	objRS.Close
 	Set objRS=Nothing
@@ -306,7 +308,7 @@ Function pAgEmEtA_eXpOrTtAgLiSt(InTpAgE)
 			mt.loadstring=objRs("tag_Meta")
 			Response.Write "<td>" & Replace(vbsunescape2(mt.GetValue("pagemeta")),vbcrlf,"<br/>") & "</td>"
 
-			Response.Write "<td align=""center""><a href=""Edit.asp?act=4&id="& objRS("tag_ID") &""">[编辑Meta头]</a></td>"
+			Response.Write "<td align=""center""><a href=""Edit.asp?act=4&id="& objRS("tag_ID") &"""><img src="""&ZC_BLOG_HOST&"/ZB_SYSTEM/image/admin/folder_edit.png"" alt=""编辑"" title=""编辑"" width=""16"" /></a></td>"
 			Response.Write "</tr>"
 
 			objRS.MoveNext
@@ -323,8 +325,8 @@ Function pAgEmEtA_eXpOrTtAgLiSt(InTpAgE)
 	'Next
 	strPage=ExportPageBar(intPage,intPageAll,ZC_PAGEBAR_COUNT,"list.asp?act=TagMng&amp;page=")
 
-	Response.Write "<hr/>" & ZC_MSG042 & ": " & strPage
-	Response.Write "</div>"
+	Response.Write "<hr/><p class=""pagebar"">" & ZC_MSG042 & ": " & strPage
+	Response.Write "</p></div>"
 
 	objRS.Close
 	Set objRS=Nothing
@@ -334,6 +336,6 @@ Function pAgEmEtA_eXpOrTtAgLiSt(InTpAgE)
 end function
 function vbsunescape2(v)
 	vbsunescape2=vbsunescape(v)
-	if vbsunescape2="null" then vbsunescape2=""
+	if vbsunescape2="null" or vbsunescape2="undefined" then vbsunescape2=""
 end function
 %>

@@ -43,7 +43,7 @@ Else
 	End IF
 End If
 Set d=nothing
-Call SetBlogHint_Custom("<font color=""green"">√ 操作成功</font>")
+Call SetBlogHint(True,True,Empty)
 Response.Redirect "List.asp?act="&f(a)&"Mng"
 
 %>
