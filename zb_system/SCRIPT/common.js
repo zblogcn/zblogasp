@@ -639,8 +639,8 @@ function ActiveLeftMenu(name){
 
 	name="#"+name;
 	//$(name).addClass("buttonon");
-	$("#nav li").removeClass("buttonon");
-	$(name).parent().addClass("buttonon");
+	$("#nav li").removeClass("on");
+	$(name).parent().addClass("on");
 
 }
 //*********************************************************

@@ -10,7 +10,7 @@
     <div class="menu">
       <ul>
         <li><a href="<%=ZC_BLOG_HOST%>"><%=ZC_MSG065%></a></li>
-        <li><a href="<%=ZC_BLOG_HOST%>ZB_SYSTEM/cmd.asp?act=admin"><%=ZC_MSG247%></a></li>
+        <li><a href="<%=ZC_BLOG_HOST%>zb_system/cmd.asp?act=AskFileReBuild"><%=ZC_MSG247%></a></li>
         <li><a href="#"><%=ZC_MSG341%></a></li>
         <li><a href="http://www.rainbowsoft.org/" target="_blank"><%=ZC_MSG340%></a></li>
       </ul>
