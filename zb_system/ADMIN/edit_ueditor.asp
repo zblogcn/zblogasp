@@ -134,7 +134,7 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & IIf(IsPage,ZC_MSG329,ZC_MSG047)
                       <input type="hidden" name="edtID" id="edtID" value="<%=EditArticle.ID%>" />
 <!-- title -->
                       <p><span class='editinputname'><%=ZC_MSG060%>:</span>
-                        <input type="text" name="edtTitle" id="edtTitle" style="width:400px"  onblur="if(this.value=='') this.value='<%=ZC_MSG099%>'" onfocus="if(this.value=='<%=ZC_MSG099%>') this.value=''" value="<%=EditArticle.Title%>" /></p>
+                        <input type="text" name="edtTitle" id="edtTitle" style="width:400px"  onblur="if(this.value=='') this.value='<%=ZC_MSG099%>'" onFocus="if(this.value=='<%=ZC_MSG099%>') this.value=''" value="<%=EditArticle.Title%>" /></p>
                         <%
 On Error Resume Next
 If Err.Number=0 Then
@@ -153,7 +153,7 @@ Err.Clear
 <% If Request.QueryString("type")<>"Page" Then %>
                         <p><span class='editinputname' style='padding-right:2px;'><%=ZC_MSG138%>:</span>
                         <input type="text" style="width:400px;" name="edtTag" id="edtTag" value="<%=TransferHTML(EditArticle.TagToName,"[html-format]")%>" />
-                        <a href="" style="cursor:pointer;" onclick="if(document.getElementById('ulTag').style.display=='none'){document.getElementById('ulTag').style.display='block';if(loaded==false){$.getscript('edit_ueditor.asp?type=tags');loaded=true;}}else{document.getElementById('ulTag').style.display='none'};return false;"><%=ZC_MSG139%><span style="font-size: 1.5em; vertical-align: -1px;"></span></a></p>
+                        <a href="" style="cursor:pointer;" onClick="if(document.getElementById('ulTag').style.display=='none'){document.getElementById('ulTag').style.display='block';if(loaded==false){$.getScript('edit_ueditor.asp?type=tags');loaded=true;}}else{document.getElementById('ulTag').style.display='none'};return false;"><%=ZC_MSG139%><span style="font-size: 1.5em; vertical-align: -1px;"></span></a></p>
                       <ul id="ulTag" style="display:none;">
                         <li><span id="ajaxtags"><%=ZC_MSG326%></span>&nbsp;&nbsp;(<%=ZC_MSG296%>)</li>
                       </ul>
@@ -177,8 +177,8 @@ If Request.QueryString("type")<>"Page" Then
 
 If Err.Number=0 Then
 %>
-                      <span class='editinputname' style="cursor:pointer;" onclick="$(this).next().toggleClass('hidden');"><%=ZC_MSG012%>:</span>
-                        <select style="width:140px;" class="edit" size="1" id="cmbCate" onchange="edtCateID.value=this.options[this.selectedIndex].value">
+                      <span class='editinputname' style="cursor:pointer;" onClick="$(this).next().toggleClass('hidden');"><%=ZC_MSG012%>:</span>
+                        <select style="width:140px;" class="edit" size="1" id="cmbCate" onChange="edtCateID.value=this.options[this.selectedIndex].value">
                           <option value="0"></option>
                           <%
 	'GetCategory()
@@ -216,7 +216,7 @@ End If
 
 <!-- template( -->
                           <span class='editinputname'><%=ZC_MSG324%>:</span>
-                          <select style="width:150px;" class="edit" size="1" id="cmbTemplate" onchange="edtTemplate.value=this.options[this.selectedIndex].value">
+                          <select style="width:150px;" class="edit" size="1" id="cmbTemplate" onChange="edtTemplate.value=this.options[this.selectedIndex].value">
                             <%
 	'Response.Write "<option value="""">"&ZC_MSG325&"</option>"
 
@@ -255,7 +255,7 @@ End If
 
 
 <!-- level -->
-                          <span class='editinputname' style="cursor:pointer;" onclick="$(this).next().toggleClass('hidden');"><%=ZC_MSG061%>:</span><select class="hidden edit" style="width:140px;" size="1" id="cmbArticleLevel" onchange="edtLevel.value=this.options[this.selectedIndex].value">
+                          <span class='editinputname' style="cursor:pointer;" onClick="$(this).next().toggleClass('hidden');"><%=ZC_MSG061%>:</span><select class="hidden edit" style="width:140px;" size="1" id="cmbArticleLevel" onChange="edtLevel.value=this.options[this.selectedIndex].value">
                             <%
 	Dim ArticleLevel
 	Dim i:i=0
@@ -277,7 +277,7 @@ Err.Clear
 
 <!-- user( -->
 
-                        <span class='editinputname' style="cursor:pointer;" onclick="$(this).next().toggleClass('hidden');"><%=ZC_MSG003%>:</span><select class="hidden edit" style="width:100px;" size="1" id="cmbUser" onchange="edtAuthorID.value=this.options[this.selectedIndex].value">
+                        <span class='editinputname' style="cursor:pointer;" onClick="$(this).next().toggleClass('hidden');"><%=ZC_MSG003%>:</span><select class="hidden edit" style="width:100px;" size="1" id="cmbUser" onChange="edtAuthorID.value=this.options[this.selectedIndex].value">
                           <option value="0"></option>
                           <%
 	GetUser()
@@ -310,7 +310,7 @@ Err.Clear
 
 
 <!-- date( -->
-                          <span class='editinputname' style="cursor:pointer;" onclick="$(this).next().toggleClass('hidden');"><%=ZC_MSG062%>:</span>
+                          <span class='editinputname' style="cursor:pointer;" onClick="$(this).next().toggleClass('hidden');"><%=ZC_MSG062%>:</span>
                           <span class="hidden"><input type="text" name="edtYear" id="edtYear" style="width:35px;" value="<%=Year(EditArticle.PostTime)%>" />
                           -
                           <input type="text" name="edtMonth" id="edtMonth" style="width:25px;" value="<%=Month(EditArticle.PostTime)%>" />
@@ -364,7 +364,7 @@ Err.Clear
                       
                       <div id="divContent" style="clear:both;">
                         <p><span class='editinputname'><%=ZC_MSG055%>:</span>(<span id="timemsg"></span><span id="msg2"></span><span id="msg"></span><script type="text/javascript" src="c_autosaverjs.asp?act=edit&amp;type=ueditor"></script>)
-						<span class='editinputname' <%If EditArticle.ID=0 And EditArticle.Intro="" Then Response.Write "" Else Response.Write "style='display:none;'"%> onclick="try{this.style.display='none';document.getElementById('divIntro').style.display='block';AutoIntro();}catch(e){}"></span>
+						<span class='editinputname' <%If EditArticle.ID=0 And EditArticle.Intro="" Then Response.Write "" Else Response.Write "style='display:none;'"%> onClick="try{this.style.display='none';document.getElementById('divIntro').style.display='block';AutoIntro();}catch(e){}"></span>
                         <span><a title="<%=ZC_MSG297%>" href="javascript:AutoIntro()">[<%=ZC_MSG310%>]</a></span>
                       
 						</p>
