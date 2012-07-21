@@ -971,6 +971,20 @@ Function MakeFileReBuild()
 
 			Call SetBlogHint(True,Empty,False)
 
+			Response.Write "<!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 1.0 Transitional//EN"" ""http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd""><html><head><meta http-equiv=""Content-Type"" content=""text/html; charset=utf-8"" /><link rel=""stylesheet"" rev=""stylesheet"" href=""CSS/admin2.css"" type=""text/css"" media=""screen"" /></head><body>"
+
+			Response.Write "<div id=""divMain"">"
+			'Response.Write "<div class=""Header"">" & ZC_MSG073 & "</div>"
+			Call GetBlogHint()
+			Response.Write "<div id=""divMain2"">"
+			Response.Write "<form  name=""edit"" id=""edit"">"
+
+			Response.Write "<p>" & ZC_MSG225 &"</p>"
+			Response.Write "<p>" & Replace(ZC_MSG169,"%n",intAllTime/1000)&"</p>"
+
+			Response.Write "</form></div></div>"
+			Response.Write "</body></html>"
+
 			Response.Cookies("FileReBuild_Step")=""
 			Response.Cookies("FileReBuild_Step").Expires= (now()-1)
 
@@ -982,8 +996,6 @@ Function MakeFileReBuild()
 				If Not IsEmpty(sAction_Plugin_MakeFileReBuild_End) Then Call Execute(sAction_Plugin_MakeFileReBuild_End)
 				If bAction_Plugin_MakeFileReBuild_End=True Then Exit Function
 			Next
-
-			Response.Redirect "admin/admin.asp?act=AskFileReBuild&succeed=" & intAllTime
 
 			Exit Function
 
@@ -1001,14 +1013,15 @@ Function MakeFileReBuild()
 
 		intAllTime=CLng(intAllTime)+RunTime
 
-		Response.Write "<!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 1.0 Transitional//EN"" ""http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd""><html><head><meta http-equiv=""Content-Type"" content=""text/html; charset=utf-8""/><meta http-equiv=""Content-Language"" content=""zh-cn"" /><meta http-equiv=""refresh"" content="""&ZC_REBUILD_FILE_INTERVAL&";URL=cmd.asp?act=FileReBuild&page="&intPage+1&"&all="&intAllTime&"""/><link rel=""stylesheet"" rev=""stylesheet"" href=""CSS/admin.css"" type=""text/css"" media=""screen"" /><title>"&ZC_MSG073&"</title></head><body>"
+		Response.Write "<!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 1.0 Transitional//EN"" ""http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd""><html><head><meta http-equiv=""Content-Type"" content=""text/html; charset=utf-8""/><meta http-equiv=""Content-Language"" content=""zh-cn"" /><meta http-equiv=""refresh"" content="""&ZC_REBUILD_FILE_INTERVAL&";URL=cmd.asp?act=FileReBuild&page="&intPage+1&"&all="&intAllTime&"""/><link rel=""stylesheet"" rev=""stylesheet"" href=""CSS/admin2.css"" type=""text/css"" media=""screen"" /><title>"&ZC_MSG073&"</title></head><body>"
 
-		Response.Write "<div id=""divMain""><div class=""Header"">" & ZC_MSG073 & "</div>"
+		Response.Write "<div id=""divMain"">"
+		'Response.Write "<div class=""Header"">" & ZC_MSG073 & "</div>"
 		Response.Write "<div id=""divMain2"">"
 		Response.Write "<form  name=""edit"" id=""edit"">"
 
 
-		For j=1 To intPage
+		For j=intPage To intPage
 		Response.Write "<p>" &Replace(ZC_MSG227,"%n",j)&"</p>"
 		Next
 

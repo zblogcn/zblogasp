@@ -1075,7 +1075,36 @@ Function AskFileReBuild()
 
 	'Call SetBlogHint(Empty,True,Empty)
 
+
+If Request.QueryString("iframe")=1 Then
+
+	Response.Write "<!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 1.0 Transitional//EN"" ""http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd""><html><head><meta http-equiv=""Content-Type"" content=""text/html; charset=utf-8"" /><link rel=""stylesheet"" rev=""stylesheet"" href=""CSS/admin2.css"" type=""text/css"" media=""screen"" /></head><body>"
+
+	If Request.Cookies("FileReBuild_Step")<>"" Then
+		Response.Write "<div class='hint'><p class='hint_teal'>之前的'文件重建'过程尚未完成，是否要继续重建？确定请点击<a href='cmd.asp?act=FileReBuild&page="&Request.Cookies("FileReBuild_Step")&"&all=0'><b>[继续执行'文件重建']</b></a>”。</p></div>"
+	End If
+
+
+	Response.Write "<form id=""edit"" name=""edit"" method=""post"" action=""cmd.asp?act=FileReBuild"">" & vbCrlf
+
+	Response.Write "<p>"& ZC_MSG112 &"</p>" & vbCrlf
+	Response.Write "<p><input class=""button"" type=""submit"" value="""&ZC_MSG087&""" id=""btnPost""/></p>" & vbCrlf
+
+	'Response.Write "<p></p>" & vbCrlf
+	'Response.Write "<p></p>" & vbCrlf
+	'Response.Write "<p>其它操作:</p>" & vbCrlf
+	'Response.Write "<p>进行<a href='../cmd.asp?act=BlogReBuild'>[索引重建]</a></p>" & vbCrlf
+	'Response.Write "<p></p>" & vbCrlf
+
+	Response.Write "</form>" 
+	Response.Write "</body></html>"
+
+	Exit Function
+
+End If 
+
 	Response.Redirect "admin/admin.asp?act=AskFileReBuild"
+
 End Function
 
 Function TrackBackUrlGet()

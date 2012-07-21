@@ -1302,47 +1302,16 @@ Function ExportFileReBuildAsk()
 
 'Call Add_Response_Plugin("Response_Plugin_AskFileReBuild_SubMenu",MakeSubMenu(ZC_MSG072,"../cmd.asp?act=BlogReBuild","m-left",False))
 
-If IsEmpty(Request.QueryString("succeed"))=False Then
-
-
-	Response.Write "<div id=""divMain""><div class=""divHeader2"">" & ZC_MSG073 & "</div>"
-	Response.Write "<div id=""divMain2"">"
-	Call GetBlogHint()
-	Response.Write "<form  name=""edit"" id=""edit"">"
-
-	Response.Write "<p>" & ZC_MSG225 &"</p>"
-	Response.Write "<p>" & Replace(ZC_MSG169,"%n",Request.QueryString("succeed")/1000)&"</p>"
-
-	Response.Write "</form></div></div>"
-
-	ExportFileReBuildAsk=True
-
-	Exit Function
-
-
-End If
-
-	If Request.Cookies("FileReBuild_Step")<>"" Then
-		Call SetBlogHint_Custom("‼ 之前的'文件重建'过程尚未完成，是否要继续重建？"+vbCrlf+"确定请点击<a href='../cmd.asp?act=FileReBuild&page="&Request.Cookies("FileReBuild_Step")&"&all=0'><b>[继续执行'文件重建']</b></a>”。")
-	End If
 
 	Response.Write "<div class=""divHeader2"">" & ZC_MSG073 & "</div>"
 	Response.Write "<div class=""SubMenu"">" & Response_Plugin_AskFileReBuild_SubMenu & "</div>"
 	Response.Write "<div id=""divMain2"">"
 
+	Response.Write "<iframe frameborder='0' height='500' marginheight='0' marginwidth='0' scrolling='no' width='100%' src='../cmd.asp?act=AskFileReBuild&amp;iframe=1'>"
 
 
-	Response.Write "<form id=""edit"" name=""edit"" method=""post"" action=""../cmd.asp?act=FileReBuild"">" & vbCrlf
-	Response.Write "<p>"& ZC_MSG112 &"</p>" & vbCrlf
-	Response.Write "<p><input class=""button"" type=""submit"" value="""&ZC_MSG087&""" id=""btnPost""/></p>" & vbCrlf
 
-	'Response.Write "<p></p>" & vbCrlf
-	'Response.Write "<p></p>" & vbCrlf
-	'Response.Write "<p>其它操作:</p>" & vbCrlf
-	'Response.Write "<p>进行<a href='../cmd.asp?act=BlogReBuild'>[索引重建]</a></p>" & vbCrlf
-	'Response.Write "<p></p>" & vbCrlf
-
-	Response.Write "</form>" & vbCrlf
+	Response.Write "</iframe>"
 
 	Response.Write "</div>"
 
