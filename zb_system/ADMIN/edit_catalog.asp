@@ -59,23 +59,22 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG066
 <!--#include file="admin_header.asp"-->
 <!--#include file="admin_top.asp"-->
 <div id="divMain">
+<%	Call GetBlogHint()	%>
 <div class="divHeader2"><%=ZC_MSG243%></div>
 <%
 	Response.Write "<div class=""SubMenu"">" & Response_Plugin_CategoryEdt_SubMenu & "</div>"
 %>
 <div id="divMain2">
-<% Call GetBlogHint() %>
 <form id="edit" name="edit" method="post" action="">
 <%
 	Response.Write "<input id=""edtID"" name=""edtID""  type=""hidden"" value="""& EditCategory.ID &""" />"
-	Response.Write "<p>"& ZC_MSG001 &":</p><p><input id=""edtName"" style='width:300px;' size=""40"" name=""edtName""  type=""text"" value="""& TransferHTML(EditCategory.Name,"[html-format]") &""" />(*)</p><p></p>"
-	Response.Write "<p>"& ZC_MSG079 &":</p><p><input id=""edtOrder"" style='width:300px;' size=""40"" name=""edtOrder""  type=""text"" value="""& EditCategory.Order &""" /></p><p></p>"
-	Response.Write "<p>"& ZC_MSG320 &":</p>"
-	Response.Write "<p><select style='width:310px;' id=""edtPareID"" name=""edtPareID"" class=""edit"" size=""1"">"
+	Response.Write "<p>"& ZC_MSG001 &":<br/><input id=""edtName"" style='width:300px;' size=""40"" name=""edtName""  type=""text"" value="""& TransferHTML(EditCategory.Name,"[html-format]") &""" />(*)</p>"
+	Response.Write "<p>"& ZC_MSG079 &":<br/><input id=""edtOrder"" style='width:300px;' size=""40"" name=""edtOrder""  type=""text"" value="""& EditCategory.Order &""" /></p>"
+	Response.Write "<p>"& ZC_MSG320 &":<br/><select style='width:310px;' id=""edtPareID"" name=""edtPareID"" class=""edit"" size=""1"">"
 	Response.Write "<option value=""0"" "
 	If EditCategory.ParentID=0 Then Response.Write "selected=""selected"" "
 	Response.Write ">"& ZC_MSG322 &"</option>"
-	Dim Category,bolHasSubCate
+	Dim Category,bolHasSubCatehttp://192.168.1.14/ZB_SYSTEM/cmd.asp?act=CategoryMng
 	bolHasSubCate=False
 	For Each Category in Categorys
 		If IsObject(Category) Then
@@ -97,10 +96,10 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG066
 			Next
 		End If
 	End If
-	Response.Write "</select></p><p></p>"
+	Response.Write "</select></p>"
 
 
-	Response.Write "<p>"&ZC_MSG324&":</p><p><select style='width:310px;' class='edit' size='1' id='cmbTemplate' onchange='edtTemplate.value=this.options[this.selectedIndex].value'>"
+	Response.Write "<p>"&ZC_MSG324&":<br/><select style='width:310px;' class='edit' size='1' id='cmbTemplate' onchange='edtTemplate.value=this.options[this.selectedIndex].value'>"
 
 	'Response.Write "<option value="""">"&ZC_MSG325&"</option>"
 
@@ -133,8 +132,8 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG066
 
 
 
-	Response.Write "</p><p></p>"
-	Response.Write "<p>"& ZC_MSG147 &":</p><p><input id=""edtAlias"" style='width:300px;' size=""40"" name=""edtAlias""  type=""text"" value="""& TransferHTML(EditCategory.Alias,"[html-format]") &""" /></p><p></p>"
+	Response.Write "</p>"
+	Response.Write "<p>"& ZC_MSG147 &":<br/><input id=""edtAlias"" style='width:300px;' size=""40"" name=""edtAlias""  type=""text"" value="""& TransferHTML(EditCategory.Alias,"[html-format]") &""" /></p><p></p>"
 	Response.Write "<p><input type=""submit"" class=""button"" value="""& ZC_MSG087 &""" id=""btnPost"" onclick='return checkCateInfo();' /></p><p></p>"
 %>
 </form>

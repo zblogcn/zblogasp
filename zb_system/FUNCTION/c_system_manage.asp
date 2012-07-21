@@ -48,17 +48,17 @@ If PageEnd > PageAll Then
 	End If
 End If
 
-s=s &"<a href='"&Url & PageFrist &"'>["& "&lt;&lt;" &"]</a> "
+s=s &"<a href='"&Url & PageFrist &"'>"& "&lt;&lt;" &"</a> "
 
 For i=PageBegin To PageEnd
 	If i=PageNow Then
-		s=s &"<span>["& Replace(ZC_MSG036,"%s",i) &"]</span> "
+		s=s &"<span>"& Replace(ZC_MSG036,"%s",i) &"</span> "
 	Else
-		s=s &"<a href='"&Url & i  &"'>["& Replace(ZC_MSG036,"%s",i) &"]</a> "
+		s=s &"<a href='"&Url & i  &"'>"& Replace(ZC_MSG036,"%s",i) &"</a> "
 	End If
 Next
 
-s=s &"<a href='"&Url & PageLast  &"'>["& "&gt;&gt;" &"]</a> "
+s=s &"<a href='"&Url & PageLast  &"'>"& "&gt;&gt;" &"</a> "
 
 ExportPageBar=s
 
@@ -90,7 +90,7 @@ Call Add_Response_Plugin("Response_Plugin_ArticleMng_SubMenu",MakeSubMenu(ZC_MSG
 	Response.Write "<div class=""SubMenu"">" & Response_Plugin_ArticleMng_SubMenu & "</div>"
 	Response.Write "<div id=""divMain2"">"
 
-	Call GetBlogHint()
+
 
 	Response.Write "<form class=""search"" id=""edit"" method=""post"" action=""../admin/admin.asp?act=ArticleMng"">"
 
@@ -263,7 +263,7 @@ Call Add_Response_Plugin("Response_Plugin_ArticleMng_SubMenu",MakeSubMenu(ZC_MSG
 	Response.Write "<div class=""SubMenu"">" & Response_Plugin_ArticleMng_SubMenu & "</div>"
 	Response.Write "<div id=""divMain2"">"
 
-	Call GetBlogHint()
+
 
 	Response.Write "<form class=""search"" id=""edit"" method=""post"" action=""../admin/admin.asp?act=ArticleMng&amp;type=Page"">"
 
@@ -386,7 +386,7 @@ Function ExportCategoryList(intPage)
 	Response.Write "<div class=""SubMenu"">" & Response_Plugin_CategoryMng_SubMenu & "</div>"
 	Response.Write "<div id=""divMain2"">"
 
-	Call GetBlogHint()
+
 
 
 
@@ -477,7 +477,7 @@ Function ExportCommentList(intPage,intContent)
 	Response.Write "<div class=""SubMenu"">" & Response_Plugin_CommentMng_SubMenu & "</div>"
 	Response.Write "<div id=""divMain2"">"
 
-	Call GetBlogHint()
+
 
 	Response.Write "<form class=""search"" id=""edit"" method=""post"" action=""../admin/admin.asp?act=CommentMng"">"
 	Response.Write "<p>"&ZC_MSG287&":</p><p>"
@@ -585,7 +585,7 @@ Function ExportUserList(intPage)
 	Response.Write "<div class=""SubMenu"">" & Response_Plugin_UserMng_SubMenu & "</div>"
 	Response.Write "<div id=""divMain2"">"
 
-	Call GetBlogHint()
+
 
 
 	Set objRS=Server.CreateObject("ADODB.Recordset")
@@ -668,7 +668,7 @@ Function ExportFileList(intPage)
 	Response.Write "<div class=""SubMenu"">" & Response_Plugin_FileMng_SubMenu & "</div>"
 	Response.Write "<div id=""divMain2"">"
 
-	Call GetBlogHint()
+
 
 	Response.Write "<form class=""search"" name=""edit"" id=""edit"" method=""post"" enctype=""multipart/form-data"" action=""../cmd.asp?act=FileUpload"">"
 	Response.Write "<p>"& ZC_MSG108 &": </p>"
@@ -785,7 +785,7 @@ Function ExportTagList(intPage)
 	Response.Write "<div class=""SubMenu"">" & Response_Plugin_TagMng_SubMenu & "</div>"
 	Response.Write "<div id=""divMain2"">"
 
-	Call GetBlogHint()
+
 
 
 
@@ -891,7 +891,7 @@ Function ExportPluginMng()
 	Response.Write "<div class=""SubMenu"">" & Response_Plugin_PlugInMng_SubMenu & "</div>"
 	Response.Write "<div id=""divMain2"">"
 
-	Call GetBlogHint()
+
 
 
 	Response.Write "<table border=""1"" width=""100%"" cellspacing=""0"" cellpadding=""0"" class=""tableBorder"">"
@@ -1137,7 +1137,7 @@ Function ExportSiteInfo()
 	Response.Write "<div class=""SubMenu"">" & Response_Plugin_SiteInfo_SubMenu & "</div>"
 	Response.Write "<div id=""divMain2"">"
 
-	Call GetBlogHint()
+
 	%>
 
 	<table border="0" cellspacing="0" cellpadding="0" align="center" width="100%" class="tableBorder">
@@ -1293,6 +1293,8 @@ End Function
 '*********************************************************
 
 
+
+
 '*********************************************************
 ' 目的：
 '*********************************************************
@@ -1300,15 +1302,35 @@ Function ExportFileReBuildAsk()
 
 'Call Add_Response_Plugin("Response_Plugin_AskFileReBuild_SubMenu",MakeSubMenu(ZC_MSG072,"../cmd.asp?act=BlogReBuild","m-left",False))
 
+If IsEmpty(Request.QueryString("succeed"))=False Then
+
+
+	Response.Write "<div id=""divMain""><div class=""divHeader2"">" & ZC_MSG073 & "</div>"
+	Response.Write "<div id=""divMain2"">"
+	Call GetBlogHint()
+	Response.Write "<form  name=""edit"" id=""edit"">"
+
+	Response.Write "<p>" & ZC_MSG225 &"</p>"
+	Response.Write "<p>" & Replace(ZC_MSG169,"%n",Request.QueryString("succeed")/1000)&"</p>"
+
+	Response.Write "</form></div></div>"
+
+	ExportFileReBuildAsk=True
+
+	Exit Function
+
+
+End If
+
 	If Request.Cookies("FileReBuild_Step")<>"" Then
 		Call SetBlogHint_Custom("‼ 之前的'文件重建'过程尚未完成，是否要继续重建？"+vbCrlf+"确定请点击<a href='../cmd.asp?act=FileReBuild&page="&Request.Cookies("FileReBuild_Step")&"&all=0'><b>[继续执行'文件重建']</b></a>”。")
 	End If
 
-	Response.Write "<div class=""divHeader"">" & ZC_MSG073 & "</div>"
+	Response.Write "<div class=""divHeader2"">" & ZC_MSG073 & "</div>"
 	Response.Write "<div class=""SubMenu"">" & Response_Plugin_AskFileReBuild_SubMenu & "</div>"
 	Response.Write "<div id=""divMain2"">"
 
-	Call GetBlogHint()
+
 
 	Response.Write "<form id=""edit"" name=""edit"" method=""post"" action=""../cmd.asp?act=FileReBuild"">" & vbCrlf
 	Response.Write "<p>"& ZC_MSG112 &"</p>" & vbCrlf
@@ -1373,7 +1395,7 @@ Function ExportThemeMng()
 	Response.Write "<div class=""SubMenu"">" & Response_Plugin_ThemeMng_SubMenu & "</div>"
 	Response.Write "<div id=""divMain2"">"
 
-	Call GetBlogHint()
+
 
 	Response.Write "<form id=""frmTheme"" method=""post"" action=""../cmd.asp?act=ThemeSav"">"
 
@@ -1435,15 +1457,15 @@ Function ExportThemeMng()
 
 
 		If UCase(Theme_Id)=UCase(CurrentTheme) Then
-			Response.Write "<div class=""theme-now"" style="""">"
+			Response.Write "<div class=""theme-now"">"
 		Else
-			Response.Write "<div class=""theme-other"" style="""">"
+			Response.Write "<div class=""theme-other"">"
 		End If
 
 		If UCase(Theme_Id) <> UCase(f1.name) Then
 			Response.Write "<p style=""color:red;"">ID Error! Should be """& f1.name &"""!!</p>"
 		Else
-			Response.Write "<p>ID: <a id=""mylink1"&Left(md5(Theme_Id),6)&""" href=""$div"&Left(md5(Theme_Id),6)&"tip?width=300"" class=""betterTip"" title="""&Theme_Id&""">" & "" & Theme_Id & "" & "</a></p>"
+			Response.Write "<p><img width='16' title='' alt='' src='../IMAGE/ADMIN/layout.png'/>&nbsp;&nbsp;ID: <a id=""mylink1"&Left(md5(Theme_Id),6)&""" href=""$div"&Left(md5(Theme_Id),6)&"tip?width=300"" class=""betterTip"" title="""&Theme_Id&""">" & "" & Theme_Id & "" & "</a></p>"
 		End If
 		Response.Write "<p><a id=""mylink"&Left(md5(Theme_Id),6)&""" href=""$div"&Left(md5(Theme_Id),6)&"tip?width=300"" class=""betterTip"" title="""&Theme_Id&"""><img src=""" & Theme_ScreenShot & """ title=""" & Theme_Name & """ alt=""ScreenShot"" width=""200"" height=""150"" /></a></p>"
 
@@ -1473,7 +1495,7 @@ Function ExportThemeMng()
 
 		Response.Write "<p>"&ZC_MSG011&":" & Theme_Pubdate & "</p>"
 		Response.Write "<p>"&ZC_MSG016&":" & Theme_Note & "</p>"
-		Response.Write "<p>"&ZC_MSG314&":" & "<select class=""edit"" size=""1"" id=""cate"&Left(md5(Theme_Id),6)&""" name=""cate"&Left(md5(Theme_Id),6)&""" style=""width:100px;"" onchange=""document.getElementById('edtZC_BLOG_THEME').value='"&Theme_Id&"';document.getElementById('edtZC_BLOG_CSS').value=this.options[this.selectedIndex].value""> ><option value=""""></option>"
+		Response.Write "<p>"&ZC_MSG314&":" & "<select class=""edit"" size=""1"" id=""cate"&Left(md5(Theme_Id),6)&""" name=""cate"&Left(md5(Theme_Id),6)&""" style=""width:120px;"" onchange=""document.getElementById('edtZC_BLOG_THEME').value='"&Theme_Id&"';document.getElementById('edtZC_BLOG_CSS').value=this.options[this.selectedIndex].value""><option value=""""></option>"
 
 
 		aryFileList=LoadIncludeFiles("zb_users\theme" & "/" & Theme_Id & "/style")
@@ -1506,11 +1528,7 @@ Function ExportThemeMng()
 		End If
 
 		Response.Write "</select>"
-		'Response.Write "&nbsp;&nbsp;<a href='' onclick='if(document.getElementById(""cate"&Left(md5(Theme_Id),6)&""").value){document.getElementById(""frmTheme"").submit();return false;}'>["&ZC_MSG308&"]</a>"
-		Response.Write "&nbsp;&nbsp;<input type=""submit"" class=""button"" value="""& ZC_MSG308 &""" id=""btnPost"" onclick='if(!document.getElementById(""cate"&Left(md5(Theme_Id),6)&""").value){return false;}else{document.getElementById(""edtZC_BLOG_THEME"").value="""&Theme_Id&""";document.getElementById(""edtZC_BLOG_CSS"").value=document.getElementById(""cate"&Left(md5(Theme_Id),6)&""").value};' />"
-
-		'Response.Write "&nbsp;&nbsp;<input type=""submit"" class=""button"" value="""& ZC_MSG308 &""" id=""btnPost"" onclick='if(document.getElementById(""edtZC_BLOG_CSS"").value&&document.getElementById(""edtZC_BLOG_THEME"").value){return window.confirm("""& ZC_MSG058 &""");}else{return false}' />"
-		Response.Write "</p>"
+		Response.Write "&nbsp;&nbsp;<a href='#' onclick='if(!document.getElementById(""cate"&Left(md5(Theme_Id),6)&""").value){return false;}else{document.getElementById(""edtZC_BLOG_THEME"").value="""&Theme_Id&""";document.getElementById(""edtZC_BLOG_CSS"").value=document.getElementById(""cate"&Left(md5(Theme_Id),6)&""").value};document.getElementById(""frmTheme"").submit()'><img width='16' title='"&ZC_MSG308&"' alt='"&ZC_MSG308&"' src='../IMAGE/ADMIN/accept.png' /></a></p>"
 
 
 		Response.Write "</div>"

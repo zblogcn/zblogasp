@@ -37,7 +37,7 @@ Const ZC_MSG032="最近发表"'Previous
 Const ZC_MSG033="名称或邮箱不能为空"
 Const ZC_MSG034="名称或邮箱格式不对"
 Const ZC_MSG035="留言不能为空或过长"
-Const ZC_MSG036="第%s页"
+Const ZC_MSG036="%s"
 Const ZC_MSG037="UBB标签"
 Const ZC_MSG038="密码不能小于6位"
 Const ZC_MSG039="图标汇集"'Misc
@@ -267,10 +267,10 @@ Const ZC_MSG262="关闭评论功能"
 Const ZC_MSG263="关闭引用功能"
 Const ZC_MSG264="%s 于 %s 回复"
 Const ZC_MSG265="回复该留言"
-Const ZC_MSG266="√ 操作成功."
-Const ZC_MSG267="× 操作失败."
-Const ZC_MSG268="‼ 提示:需要进行'[索引重建]'."
-Const ZC_MSG269="‼ 提示:需要进行'<a href=""%u"">[文件重建]</a>'."
+Const ZC_MSG266=" 操作成功."
+Const ZC_MSG267=" 操作失败."
+Const ZC_MSG268=" 提示:需要进行'[索引重建]'."
+Const ZC_MSG269=" 提示:需要进行'<a href=""%u"">[文件重建]</a>'."
 Const ZC_MSG270="生成分类和按月归档的静态首页"
 Const ZC_MSG271="启用评论和引用的倒序输出"
 Const ZC_MSG272="评论编辑"
@@ -343,7 +343,7 @@ Const ZC_MSG338="下一篇"
 Const ZC_MSG339="插件大显神威!"
 Const ZC_MSG340="官方网站"
 Const ZC_MSG341="帮助中心"
-
+Const ZC_MSG342="回复评论ID(设置为0则单独为一个评论，同时该ID不能为其他文章评论的ID)"
 
 
 Dim ZVA_Article_Level_Name(4)

@@ -122,15 +122,15 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & IIf(IsPage,ZC_MSG329,ZC_MSG047)
 <!--#include file="admin_top.asp"-->
 <script type="text/javascript">ActiveLeftMenu("aArticleEdt");</script>
                 <div id="divMain">
+<%	Call GetBlogHint()	%>
 <div class="divHeader2"><%=IIf(IsPage,ZC_MSG329,ZC_MSG047)%></div>
 <%
 	Response.Write "<div class=""SubMenu"">" & Response_Plugin_ArticleEdt_SubMenu & "</div>"
 %>
                   <div id="divMain2">
-                    <% Call GetBlogHint() %>
                     <form id="edit" name="edit" method="post" action="">
 
-<div id="divEditLeft">
+<div id="divEditTitle">
                       <input type="hidden" name="edtID" id="edtID" value="<%=EditArticle.ID%>" />
 <!-- title -->
                       <p><span class='editinputname'><%=ZC_MSG060%>:</span>
@@ -353,12 +353,8 @@ Err.Clear
 
 
 
-
-
-
-
 <% If Response_Plugin_Edit_Form<>"" Then %>
-<div><%=Response_Plugin_Edit_Form%></div>
+<div id="divEditForm1"><%=Response_Plugin_Edit_Form%></div>
 <% End If %>
                       
                       
@@ -381,7 +377,7 @@ Err.Clear
                       </div>
 
 <% If Response_Plugin_Edit_Form2<>"" Then %>
-<div><%=Response_Plugin_Edit_Form2%></div>
+<div id="divEditForm2"><%=Response_Plugin_Edit_Form2%></div>
 <% End If %>
 
 
@@ -390,10 +386,6 @@ Err.Clear
 <p>
 <input class="button" type="submit" value="<%=ZC_MSG087%>" id="btnPost" onclick='return checkArticleInfo();' />
 </p>
-
-
-
-
 
 </div>
 

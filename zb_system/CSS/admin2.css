@@ -177,27 +177,10 @@ background:#ffffdd;
 
 
 
-/**/
-#main .conleft { width:100%; float:left; margin-right:-280px;}
-#main .conleft .shell { margin-right:280px;}
-.conleft_body { background:#FFFFFF; padding:0px;}
-.conleft_body h2 { font-size:22px; line-height:30px; margin-bottom:20px;}
-.conleft_body p { line-height:22px; font-size:14px;}
-.box  h2 { height:30px; line-height:30px; font-size:18px; font-weight:normal; background: url(image/IMG/line.png) repeat-x left bottom;}
-/**/
-.conright { width:260px; float:right;}
-.box_category { height:200px; background:#FFFFFF; padding:10px; margin-bottom:10px;}
-/**/
-/*文章编辑*/
-.conleft_body .form {} 
 
 
 
-
-#tdUpdateInfo { line-height:24px;}
-/**/
-
-/*表格*/
+/*表   格*/
 .tableBorder { line-height:1.8em;}
 
 .tableBorder th{
@@ -207,37 +190,143 @@ background:#999999;
 border-right:1px solid #999999;
 color:white;
 */
-
 }
 
-/*文章编辑和页面编辑*/
-#divEditLeft{
 
+
+
+/*表   单*/
+input.button { color:#FFFFFF; font-size:14px; width:100px;height:24px;padding: 0.15em 0.25em 0.20em 0.25em; background:#3a6ea5; border:1px solid #3399CC;cursor: pointer;}
+
+
+form {background:#fff;border:0px solid black;padding:0.5em;margin:0 0 0.5em 0;}
+
+form p{padding:0.5em 0  0.5em 0;line-height:1.5em;}
+
+
+
+form input {
+	padding: 0.25em 0.25em 0.25em 0.25em;
+	border: 1px double #527b9a;
+	background-position: bottom;
+	background:#fff;
+}
+form select{
+	padding: 0.15em 0.25em 0.20em 0.25em;
+	border: 1px double #527b9a;
+	background-position: bottom;
+	background:#fff;
 }
 
-#divEditPost{
-
+form textarea{
+	padding: 0.15em 0.25em 0.20em 0.25em;
+	border: 1px double #527b9a;
+	background-position: bottom;
+	background:#fff;
 }
+
+
+
+
+
+/*提示DIV*/
+div.hint{
+	width:100%;
+	margin:0 0 0.5em 0;
+}
+
+div.hint p{
+	padding:0.2em 0.5em 0.3em 2.2em;
+	line-height:1.5em;
+}
+
+div.hint font{
+	color:black;
+}
+
+div.hint p.hint_green{
+	background:#d5ffce url(../image/admin/ok.png) no-repeat 8px center;
+}
+
+div.hint p.hint_red{
+	background:#ffcece url(../image/admin/exclamation.png) no-repeat 8px center;
+}
+
+div.hint p.hint_blue{
+	background:#dbe3ff url(../image/admin/information.png) no-repeat 8px center;
+}
+
+div.hint p.hint_teal{
+	background:#fffbcc url(../image/admin/error.png) no-repeat 8px center;
+}
+
+
+/*后台*/
+form.search {
+background:#f0f0f0;
+/*
+background:#ffcc66;
+*/
+}
+
+form.search input.button{
+/*
+background:#7e5c17;border:1px solid #644609;
+*/
+}
+
+hr {height:0px;border:none;padding:0;visibility:hidden;}
+
+
+
+/*后台编辑页,文章编辑和页面编辑*/
+div.theme-now{
+	float:left;
+	background:#ccd1e4;
+	padding:1em;
+	margin:0 1em 1em 0;
+}
+
+div.theme-other{
+	float:left;
+	background:#f0f0f0;
+	padding:1em;
+	margin:0 1em 1em 0;
+}
+
 .hidden{
 	display:none;
 }
+
 span.editinputname{
 padding:0 5px ;
 }
 
+.pagebar {
+	padding-bottom:1em;
+}
 
-/**/
 
-/**/
+.pagebar span{
+	color:#3a6ea5;
+	font-weight:bolder;
+	padding:2px 5px 2px 5px;
+	border:1px solid #7190ba;
+	background:#99b6dd;
+	margin:1px;
+}
 
-/**/
+.pagebar a{
+	border:1px solid #7aa4d0;
+	background:#e8f6ff;
+	padding:2px;
+	padding:2px 5px 2px 5px;
+	margin:1px;
+}
 
-/**/
 
-/**/
 
-/**/
-/**/
+/*正文DIV下的导航条*/
 .SubMenu{
 	padding:0 0 5px 0;
 	margin:0 0 0 0;
@@ -289,50 +378,3 @@ padding:0 5px ;
 	margin-bottom: -2px;
 	border-bottom:3px solid #FFFFFF;
 }
-
-hr {height:0px;border:none;padding:0;visibility:hidden;}
-
-input.button { color:#FFFFFF; font-size:14px; width:100px; 	padding: 0.15em 0.25em 0.20em 0.25em; background:#3a6ea5; border:1px solid #3399CC;cursor: pointer;}
-
-
-form {background:#fff;border:0px solid black;padding:0.5em;margin:0 0 0.5em 0;}
-
-
-form.search {
-background:#f0f0f0;
-/*
-background:#ffcc66;
-*/
-}
-form.search input.button{
-/*
-background:#7e5c17;border:1px solid #644609;
-*/
-}
-
-
-form p{padding:0.5em 0  0.5em 0;}
-
-
-
-form input {
-	padding: 0.25em 0.25em 0.25em 0.25em;
-	border: 1px double #527b9a;
-	background-position: bottom;
-	background:#fff;
-}
-form select{
-	padding: 0.15em 0.25em 0.20em 0.25em;
-	border: 1px double #527b9a;
-	background-position: bottom;
-	background:#fff;
-}
-
-form textarea{
-	padding: 0.15em 0.25em 0.20em 0.25em;
-	border: 1px double #527b9a;
-	background-position: bottom;
-	background:#fff;
-}
-
-.pagebar span{color:#3a6ea5;font-weight:bolder;font-size:1.1em}

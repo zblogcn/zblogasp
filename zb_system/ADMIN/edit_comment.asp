@@ -65,25 +65,25 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG066
 <!--#include file="admin_header.asp"-->
 <!--#include file="admin_top.asp"-->
 <div id="divMain">
+<%	Call GetBlogHint()	%>
 <div class="divHeader2"><%=ZC_MSG272%></div>
 <%
 	Response.Write "<div class=""SubMenu"">" & Response_Plugin_CommentEdt_SubMenu & "</div>"
 %>
 <div id="divMain2">
-<% Call GetBlogHint() %>
 <form id="edit" name="edit" method="post">
 <%
 	Response.Write "<input id=""edtID"" name=""edtID""  type=""hidden"" value="""& EditComment.ID &""" />"
-	Response.Write "<p>"& ZC_MSG277 &":</p><p><input type=""text"" id=""inpID"" name=""inpID"" value="""& EditComment.log_ID &""" size=""40"" />(*)</p>"
-	Response.Write "<p>"& "回复评论ID(设置为0则单独为一个评论，同时该ID不能为其他文章评论的ID)" &":</p><p><input type=""text"" name=""intRepComment"" value="""& TransferHTML(EditComment.ParentID,"[html-format]") &""" size=""40""  /></p>"
+	Response.Write "<p>"& ZC_MSG277 &":<br/><input type=""text"" id=""inpID"" name=""inpID"" value="""& EditComment.log_ID &""" size=""40"" />(*)</p>"
+	Response.Write "<p>"& ZC_MSG342 &":<br/><input type=""text"" name=""intRepComment"" value="""& TransferHTML(EditComment.ParentID,"[html-format]") &""" size=""40""  /></p>"
 
-	Response.Write "<p>"& ZC_MSG001 &":</p><p><input type=""text"" id=""inpName"" name=""inpName"" value="""& TransferHTML(EditComment.Author,"[html-format]") &""" size=""40"" />(*)</p>"
-	Response.Write "<p>"& ZC_MSG053 &":</p><p><input type=""text"" name=""inpEmail"" value="""& TransferHTML(EditComment.Email,"[html-format]") &""" size=""40""  /></p>"
-	Response.Write "<p>"& ZC_MSG054 &":</p><p><input type=""text"" name=""inpHomePage"" value="""& TransferHTML(EditComment.HomePage,"[html-format]") &""" size=""40""  /></p>"
+	Response.Write "<p>"& ZC_MSG001 &":<br/><input type=""text"" id=""inpName"" name=""inpName"" value="""& TransferHTML(EditComment.Author,"[html-format]") &""" size=""40"" />(*)</p>"
+	Response.Write "<p>"& ZC_MSG053 &":<br/><input type=""text"" name=""inpEmail"" value="""& TransferHTML(EditComment.Email,"[html-format]") &""" size=""40""  /></p>"
+	Response.Write "<p>"& ZC_MSG054 &":<br/><input type=""text"" name=""inpHomePage"" value="""& TransferHTML(EditComment.HomePage,"[html-format]") &""" size=""40""  /></p>"
 	
-	Response.Write "<p>"& ZC_MSG055 &":</p><p><textarea name=""txaArticle"" id=""txaArticle"" onchange=""GetActiveText(this.id);"" onclick=""GetActiveText(this.id);"" onfocus=""GetActiveText(this.id);"" cols=""80"" rows=""12"">"&EditComment.Content&"</textarea>(*)</p>"
+	Response.Write "<p>"& ZC_MSG055 &":<br/><textarea name=""txaArticle"" id=""txaArticle"" onchange=""GetActiveText(this.id);"" onclick=""GetActiveText(this.id);"" onfocus=""GetActiveText(this.id);"" cols=""80"" rows=""12"">"&EditComment.Content&"</textarea>(*)</p>"
 
-	Response.Write "<p><input type=""submit"" class=""button"" value="""& ZC_MSG087 &""" id=""btnPost"" onclick='return checkCateInfo();' /></p><p><script language=""JavaScript"" type=""text/javascript"">objActive=""txaArticle"";ExportUbbFrame();</script></p>"
+	Response.Write "<p><input type=""submit"" class=""button"" value="""& ZC_MSG087 &""" id=""btnPost"" onclick='return checkCateInfo();' /><br/><script language=""JavaScript"" type=""text/javascript"">objActive=""txaArticle"";ExportUbbFrame();</script></p>"
 %>
 </form>
 </div>
