@@ -1,5 +1,8 @@
 <!-- #include file="include_plugin.asp"-->
 <%
+Dim FileManage_FSO
+
+
 '*********************************************************
 ' 目的：    格式化文件大小
 '*********************************************************
@@ -239,7 +242,7 @@ End Function
 '*********************************************************
 ' 目的：    输出文件列表
 '*********************************************************
-Function FileManage_ExportSiteFileList(path,opath)
+Function FileManage_ExportSiteFileList(path,OpenFolderPath)
 	For Each sAction_Plugin_FileManage_ExportSiteFileList_Begin in Action_Plugin_FileManage_ExportSiteFileList_Begin
 		If Not IsEmpty(sAction_Plugin_FileManage_ExportSiteFileList_Begin) Then Call Execute(sAction_Plugin_FileManage_ExportSiteFileList_Begin)
 	Next
@@ -247,17 +250,9 @@ Function FileManage_ExportSiteFileList(path,opath)
 
 	'On Error Resume Next
 	dim f,fold,item,fpath,jpath
-	If opath<>"" Then path=opath
+	If OpenFolderPath<>"" Then path=OpenFolderPath
 
-	  if path<>"" then
-		 if instr(path,":")>0 then
-		 path=path
-		 else
-		 path=server.mappath(path)
-		 end if
-	  else
-	  path=BlogPath
-	  end if
+	FileManage_FormatPath path
 	dim backfolder
 	backfolder=split(path,"\")
 	redim preserve backfolder(ubound(backfolder)-1)
@@ -276,9 +271,9 @@ Function FileManage_ExportSiteFileList(path,opath)
 	Response.write"<table width=""100%"" border=""0"">"
 	Response.write "<tr><td colspan=""5""><a href='main.asp?act=SiteFileMng&path="&Server.URLEncode(backfolder)&"' title='"&ZC_MSG239&"'><img src=""ico\up.png""/></a>"
 	Response.Write "&nbsp;&nbsp;<a href=""javascript:void(0)"" onclick=""if($('#fileUpload').css('display')=='none'){$('#fileUpload').show()}else{$('#fileUpload').hide()}"" title=""上传""><img src=""ico\upload.png""/></a>"
-'	Response.write "&nbsp;&nbsp;<a href='javascript:void(0)' onclick='window.open(""main.asp?act=SiteFileUploadShow&path="&Server.URLEncode(fpath)&"&opath="& Server.URLEncode(path) &""",""Detail"",""Scrollbars=no,Toolbar=no,Location=no,Direction=no,Resizeable=no,height=165px,width=780px"")' title=""上传""><img src=""ico\upload.png""/></a>"
+'	Response.write "&nbsp;&nbsp;<a href='javascript:void(0)' onclick='window.open(""main.asp?act=SiteFileUploadShow&path="&Server.URLEncode(fpath)&"&OpenFolderPath="& Server.URLEncode(path) &""",""Detail"",""Scrollbars=no,Toolbar=no,Location=no,Direction=no,Resizeable=no,height=165px,width=780px"")' title=""上传""><img src=""ico\upload.png""/></a>"
 	Response.Write "&nbsp;&nbsp;<a href='main.asp?act=SiteCreateFolder' onmousedown=""var str=prompt('请输入文件夹名');if(str!=null){this.href+='&path='+encodeURIComponent('"&Replace(Replace(path,"\","\\"),"""","\""")&"'+'\\'+str);this.click()}else{return false}"" title='新建文件夹'><img src='ico\cfolder.png'/></a><span style=""float:right""><a href=""main.asp?act=Help"" title=""帮助""><img src=""ico\hlp.png""/></a></span>"
-	Response.Write "&nbsp;&nbsp;<a href=""main.asp?act=SiteFileEdt&path="&Server.URLEncode(path) &""" title=""创建文件""><img src=""ico\newfile.png""/></a>"
+	Response.Write "&nbsp;&nbsp;<a href=""main.asp?act=SiteFileEdt&path="&Server.URLEncode(path) &"&OpenFolderPath="&Server.URLEncode(path)&""" title=""创建文件""><img src=""ico\newfile.png""/></a>"
 	
 	
 	For Each sAction_Plugin_FileManage_AddControlBar in Action_Plugin_FileManage_AddControlBar
@@ -291,12 +286,13 @@ Function FileManage_ExportSiteFileList(path,opath)
 	Response.write "<tr><td width=""30%"">文件名</td><td width=""15%"">修改时间</td><td width=""5%"">大小</td><td width=""18%"">注释</td><td>操作</td></tr>"
 	for each item in fold.subfolders
 		jpath=replace(path,"\","\\")
-		Response.write "<tr height=18><td><img width=""11"" height=""11""src='ico/fld.png' />&nbsp;<a href='main.asp?act=SiteFileMng&path="&Server.URLEncode(path&"\"&item.name)&"&opath='>"&item.name&"</a>"
+		Response.write "<tr height=18><td><img width=""11"" height=""11""src='ico/fld.png' />&nbsp;<a href='main.asp?act=SiteFileMng&path="&Server.URLEncode(path&"\"&item.name)&"&OpenFolderPath='>"&item.name&"</a>"
 		Response.write"</td><td>"&item.datelastmodified&"</td><td></td><td>"&FileManage_ExportInformation(item.name,path)&"</td><td></td></tr>"
 	next
 	for each item in fold.files
-	fpath=replace(path&"/"&item.name,BlogPath,"")
-	fpath=replace(fpath,"\","/")
+'	fpath=replace(path&"/"&item.name,BlogPath,"")
+	fpath=path&"/"&item.name
+	fpath=replace(replace(fpath,"/","\"),"\\","\")
 	Response.write "<tr><td>"&FileManage_GetTypeIco(item.name)&"&nbsp;<a href="""
 	Dim isEmptyPlugin
 	isEmptyPlugin=True
@@ -309,11 +305,11 @@ Function FileManage_ExportSiteFileList(path,opath)
 	If isEmptyPlugin Then Response.Write ZC_BLOG_HOST & replace(lcasE(path),lcase(blogpath),"")&"/"&item.name
 	
 	Response.Write """ target=""_blank"" title='"&ZC_MSG261&":"&item.datelastmodified&";"&ZC_MSG238&":"&clng(item.size/1024)&"k'>"&item.name&"</a></td><td>"&item.datelastmodified&"</td><td>"&FileManage_GetSize(item.size)&"</td><td>"&FileManage_ExportInformation(item.name,path)&"</td><td>"
-	Response.write"<a href=""main.asp?act=SiteFileEdt&path="&Server.URLEncode(fpath)&"&opath="& Server.URLEncode(path) &""" title=""["&ZC_MSG078&"]""><img src=""ico\edit.png"" width=""11"" height=""11""/>[编辑]</a>"
-	Response.Write "&nbsp;&nbsp;<a href=""main.asp?act=SiteFileDownload&path="&Server.URLEncode(fpath)&"&opath="& Server.URLEncode(path) &""" target=""_blank"" title=""[下载]""><img src=""ico\download.png"" width=""11"" height=""11""/>[下载]</a>"
-	Response.Write "&nbsp;&nbsp;<a href=""main.asp?act=SiteFileRename&path="&Server.URLEncode(fpath)&"&opath="& Server.URLEncode(path) &""" onmousedown='var str=prompt(""请输入新文件名"");if(str!=null){this.href+=""&newfilename=""+encodeURIComponent(str);this.click()}else{return false}' title=""[重命名]""><img src=""ico\rename.png"" width=""11"" height=""11""/>[重命名]</a>"
+	Response.write"<a href=""main.asp?act=SiteFileEdt&path="&Server.URLEncode(fpath)&"&OpenFolderPath="& Server.URLEncode(path) &""" title=""["&ZC_MSG078&"]""><img src=""ico\edit.png"" width=""11"" height=""11""/>[编辑]</a>"
+	Response.Write "&nbsp;&nbsp;<a href=""main.asp?act=SiteFileDownload&path="&Server.URLEncode(fpath)&"&OpenFolderPath="& Server.URLEncode(path) &""" target=""_blank"" title=""[下载]""><img src=""ico\download.png"" width=""11"" height=""11""/>[下载]</a>"
+	Response.Write "&nbsp;&nbsp;<a href=""main.asp?act=SiteFileRename&path="&Server.URLEncode(fpath)&"&OpenFolderPath="& Server.URLEncode(path) &""" onmousedown='var str=prompt(""请输入新文件名"");if(str!=null){this.href+=""&newfilename=""+encodeURIComponent(str);this.click()}else{return false}' title=""[重命名]""><img src=""ico\rename.png"" width=""11"" height=""11""/>[重命名]</a>"
 
-	Response.Write "&nbsp;&nbsp;<a href=""main.asp?act=SiteFileDel&path="&Server.URLEncode(fpath)&"&opath="& Server.URLEncode(path) &""" onclick='return window.confirm("""&ZC_MSG058&""");' title=""["&ZC_MSG063&"]""><img src=""ico\del.png"" width=""11"" height=""11""/>[删除]</a>"
+	Response.Write "&nbsp;&nbsp;<a href=""main.asp?act=SiteFileDel&path="&Server.URLEncode(fpath)&"&OpenFolderPath="& Server.URLEncode(path) &""" onclick='return window.confirm("""&ZC_MSG058&""");' title=""["&ZC_MSG063&"]""><img src=""ico\del.png"" width=""11"" height=""11""/>[删除]</a>"
 	For Each sAction_Plugin_FileManage_AddControlList in Action_Plugin_FileManage_AddControlList
 		If Not IsEmpty(sAction_Plugin_FileManage_AddControlList) Then Call Execute(sAction_Plugin_FileManage_AddControlList)
 	Next
@@ -344,7 +340,7 @@ End Function
 '*********************************************************
 ' 目的：    输出编辑文件
 '*********************************************************
-Function FileManage_ExportSiteFileEdit(tpath,opath)
+Function FileManage_ExportSiteFileEdit(tpath,OpenFolderPath)
 	For Each sAction_Plugin_FileManage_ExportSiteFileEdit_Begin in Action_Plugin_FileManage_ExportSiteFileEdit_Begin
 		If Not IsEmpty(sAction_Plugin_FileManage_ExportSiteFileEdit_Begin) Then Call Execute(sAction_Plugin_FileManage_ExportSiteFileEdit_Begin)
 	Next
@@ -352,25 +348,24 @@ Function FileManage_ExportSiteFileEdit(tpath,opath)
 
 	Dim Del,txaContent
 	Dim ct
-	ct=TransferHTML(LoadFromFile(BlogPath & unEscape(tpath),"utf-8"),"[textarea]")
+	ct=TransferHTML(LoadFromFile(unEscape(tpath),"utf-8"),"[textarea]")
 
 	'dim chkg
 	'chkg=lcase(BlogPath & unEscape(tpath))
 	'if instr(chkg,"global.asa") Then
-	'	Response.Write  "<p>当前文件:" & chkg & "</p><p>对不起，为了您的其他程序的安全，您只能修改Z-Blog文件夹内的文件，同时也不允许修改Global.asa和Global.asax。</p><p><a href='main.asp?act=SiteFileMng&path="&Server.URLEncode(oPath)&"'>点击这里返回</a></p></div>" :Response.end
+	'	Response.Write  "<p>当前文件:" & chkg & "</p><p>对不起，为了您的其他程序的安全，您只能修改Z-Blog文件夹内的文件，同时也不允许修改Global.asa和Global.asax。</p><p><a href='main.asp?act=SiteFileMng&path="&Server.URLEncode(OpenFolderPath)&"'>点击这里返回</a></p></div>" :Response.end
 	'End If
 	If IsEmpty(txaContent) Then txaContent=Null
 
 		
 	If Not IsNull(tpath) Then
 
-		Response.Write "<form id=""edit"" name=""edit"" method=""post"" action=""main.asp?act=SiteFilePst&path="&Server.URLEncode(tpath)&"&opath="&Server.URLEncode(opath)&""">" & vbCrlf
-		
+		Response.Write "<form id=""edit"" name=""edit"" method=""post"" action=""main.asp?act=SiteFilePst&path="&Server.URLEncode(tpath)&"&OpenFolderPath="&Server.URLEncode(OpenFolderPath)&""">" & vbCrlf
 		Response.Write "<p><br/>文件路径及文件名: <!--<a href=""javascript:void(0)"" onclick=""path.readOnly='';this.style.display='none';path.focus()"">修改文件名</a>--><INPUT TYPE=""text"" Value="""&unEscape(tpath)&""" style=""width:100%"" name=""path"" id=""path"" ></p>"
 		Response.Write "<p><textarea class=""resizable"" style=""height:300px;width:100%"" name=""txaContent"" id=""txaContent"">"&ct&"</textarea></p>" & vbCrlf
 
 		Response.Write "<hr/>"
-		Response.Write "<p><input class=""button"" type=""submit"" value="""&ZC_MSG087&""" id=""btnPost""/><input class=""button"" type=""button"" value=""撤销修改，返回""  onclick=""history.go(-1)""/></p>" & vbCrlf
+		Response.Write "<p><input class=""button"" type=""submit"" value="""&ZC_MSG087&""" id=""btnPost""/><input class=""button"" type=""button"" value=""返回""  onclick=""location.href='main.asp?act=SiteFileMng&path="&Server.URLEncode(OpenFolderPath)&"'""/></p>" & vbCrlf
 		Response.Write "</form>" & vbCrlf
 		If FileManage_CodeMirror Then
     	Response.Write "<script>var editor = CodeMirror.fromTextArea(document.getElementById(""txaContent""), {mode: {"
@@ -401,14 +396,21 @@ Function FileManage_DeleteSiteFile(tpath)
 	For Each sAction_Plugin_FileManage_DeleteSiteFile_Begin in Action_Plugin_FileManage_DeleteSiteFile_Begin
 		If Not IsEmpty(sAction_Plugin_FileManage_DeleteSiteFile_Begin) Then Call Execute(sAction_Plugin_FileManage_DeleteSiteFile_Begin)
 	Next
-	
-	On Error Resume Next
-	If DelSiteFile(Request.QueryString("path")) Then
+	  
+	'On Error Resume Next
+	Dim SuccessPath
+	FileManage_FormatPath tpath
+	SuccessPath="main.asp?act=SiteFileMng&path="&Server.URLEncode(Replace(Request.QueryString("OpenFolderPath"),"\","\\"))
+	If FileManage_CheckFile(tpath)=True Then FileManage_ExportError "不能删除Global.asa和Global.asax和Z-Blog以外的文件夹内的文件",SuccessPath
+	FileManage_FSO.DeleteFile(tpath)
+	If Err.Number=0 Then
 		Call SetBlogHint(True,True,Empty)
 	Else
-		Call SetBlogHint_Custom("<font color='red'>出现错误" & Hex(Err.Number) & "，描述为" & Err.Description & "，操作没有生效。</font>")
+		Call FileManage_ExportError("出现错误" & Hex(Err.Number) & "，描述为" & Err.Description & "，操作没有生效",SuccessPath)
 	End If
-	Response.Write "<script type=""text/javascript"">location.href=""main.asp?act=SiteFileMng" & "&path=" & Replace(Request.QueryString("opath"),"\","\\")&"""</script>"
+	
+	Response.Write "<script type=""text/javascript"">location.href="""&SuccessPath&"""</script>"
+	 	
 
 	For Each sAction_Plugin_FileManage_DeleteSiteFile_End in Action_Plugin_FileManage_DeleteSiteFile_End
 		If Not IsEmpty(sAction_Plugin_FileManage_DeleteSiteFile_End) Then Call Execute(sAction_Plugin_FileManage_DeleteSiteFile_End)
@@ -424,20 +426,12 @@ Function FileManage_DownloadFile(ByVal tpath)
 	Next
 	
 	On Error Resume Next
-	Dim filePath,isOK,i,fxxxPath
-	fxxxPath=Replace(LCase(BlogPath),"zb_users\plugin\filemanage\..\..\..\","")
-	 if instr(tpath,":")>0 then
-	 	filePath=tpath
-	 else
-		filePath=fxxxPath & tpath
-	 end if
-	 filepath=replace(filepath,"\./","\")
-	Dim objFSO,objGetFile,objADO
-	Set objFSO=Server.CreateObject("Scripting.FileSystemObject") 
-	Set objGetFile=objFSO.getfile(FilePath) 
-	isOK=True
-	If Instr(LCase(objGetFile.Path),fxxxPath)=0 Then isOK=False
-	If isOK=False Then Response.Write "<script>alert('不能下载Z-Blog以外的文件夹内的文件');window.close()</script>":Response.End
+
+	FileManage_FormatPath tpath
+	
+	Dim objGetFile,objADO
+	Set objGetFile=FileManage_FSO.getfile(tPath) 
+	If FileManage_CheckFile(tpath) Then Response.Write "<script>alert('不能下载Z-Blog以外的文件夹内的文件');window.close()</script>":Response.End
 	Response.Clear
 	Response.ContentType = "application/octet-stream " 
 	Response.AddHeader "Content-Disposition",   "attachment;filename="&objGetFile.name  
@@ -448,13 +442,14 @@ Function FileManage_DownloadFile(ByVal tpath)
     	.Mode=adModeReadWrite
     	.Open 
 		.Position = objAdo.Size 
-    	.LoadFromFile FilePath 
+    	.LoadFromFile tpath 
 		Response.BinaryWrite .Read
 		.Close
 	End With  
+	Response.End 
 	'我讨厌打常量。。。。。。
 	Set objGetFile=Nothing 
-	Set objFSO=Nothing 
+	 
 	Set objADO=Nothing
 
 	For Each sAction_Plugin_FileManage_DownloadFile_End in Action_Plugin_FileManage_DownloadFile_End
@@ -469,64 +464,28 @@ Function FileManage_RenameFile(tpath,newname)
 	For Each sAction_Plugin_FileManage_RenameFile_Begin in Action_Plugin_FileManage_RenameFile_Begin
 		If Not IsEmpty(sAction_Plugin_FileManage_RenameFile_Begin) Then Call Execute(sAction_Plugin_FileManage_RenameFile_Begin)
 	Next
-	  
+	
 	On Error Resume Next
-	Dim filePath,isOK,i,fxxxPath
-	fxxxPath=Replace(LCase(BlogPath),"zb_users\plugin\filemanage\..\..\..\","")
-	 if instr(tpath,":")>0 then
-	 	filePath=tpath
-	 else
-		filePath=fxxxPath & tpath
-	 end if
-	 filepath=replace(replace(filepath,"\/","\"),"\\","\")
-	Dim objFSO,objGetFile,objADO
-	Set objFSO=Server.CreateObject("Scripting.FileSystemObject") 
-	Set objGetFile=objFSO.getfile(FilePath) 
-	isOK=True
-	If left(lcase(objGetFile.name),10)="global.asa" Then isOK=False
-	If Instr(LCase(objGetFile.Path),fxxxPath)=0 Then isOK=False
-	If isOK=False Then Response.Write "<script>alert('不能重命名Global.asa和Global.asax和Z-Blog以外的文件夹内的文件');window.close()</script>":Response.End
-	objGetFile.name=newname
+	Dim SuccessPath
+	FileManage_FormatPath tpath
+	SuccessPath="main.asp?act=SiteFileMng&path="&Server.URLEncode(Request.QueryString("OpenFolderPath"))
+	If FileManage_CheckFile(tpath)=True Then FileManage_ExportError "不能重命名Global.asa和Global.asax和Z-Blog以外的文件夹内的文件",SuccessPath
+	FileManage_FSO.GetFile(tpath).name=newname
 	If Err.Number=0 Then
 		Call SetBlogHint(True,True,Empty)
 	Else
-		Call SetBlogHint_Custom("<font color='red'>出现错误" & Hex(Err.Number) & "，描述为" & Err.Description & "，操作没有生效。</font>")
+		Call FileManage_ExportError("出现错误" & Hex(Err.Number) & "，描述为" & Err.Description & "，操作没有生效",SuccessPath)
 	End If
 	
-	Response.Write "<script type=""text/javascript"">location.href=""main.asp?act=SiteFileMng" & "&path=" & Replace(Request.QueryString("opath"),"\","\\")&"""</script>"
+	Response.Write "<script type=""text/javascript"">location.href="""&SuccessPath&"""</script>"
 	Set objGetFile=Nothing 
-	Set objFSO=Nothing 
+	 
 
 	For Each sAction_Plugin_FileManage_RenameFile_End in Action_Plugin_FileManage_RenameFile_End
 		If Not IsEmpty(sAction_Plugin_FileManage_RenameFile_End) Then Call Execute(sAction_Plugin_FileManage_RenameFile_End)
 	Next
 End Function
 
-'*********************************************************
-' 目的：    检查文件夹是否合法
-'*********************************************************
-Function FileManage_CheckFolder(folder)
-	For Each sAction_Plugin_FileManage_CheckFolder_Begin in Action_Plugin_FileManage_CheckFolder_Begin
-		If Not IsEmpty(sAction_Plugin_FileManage_CheckFolder_Begin) Then Call Execute(sAction_Plugin_FileManage_CheckFolder_Begin)
-	Next
-	
-	FileManage_CheckFolder=False
-	dim sptzsx,xhf,t1,t2,t3
-	  sptzsx=split(blogpath,"\")
-	  for xhf=0 to ubound(sptzsx)
-	  	if sptzsx(xhf)=".." then t2=t2+1 else t1=t1+1
-	  next
-	t3=t1-t2:t2=0:t1=0
-  	  sptzsx=split(folder,"\")
-	  for xhf=0 to ubound(sptzsx)
-	  	if sptzsx(xhf)=".." then t2=t2+1 else t1=t1+1
-	  next
-	  if t1-t2<t3 Then FileManage_CheckFolder=True
-
-	For Each sAction_Plugin_FileManage_CheckFolder_End in Action_Plugin_FileManage_CheckFolder_End
-		If Not IsEmpty(sAction_Plugin_FileManage_CheckFolder_End) Then Call Execute(sAction_Plugin_FileManage_CheckFolder_End)
-	Next
-End Function
 
 '*********************************************************
 ' 目的：    输出上传
@@ -559,32 +518,32 @@ End Function
 '*********************************************************
 Function FileManage_Upload()
 	On Error Resume Next
+	For Each sAction_Plugin_FileManage_Upload_Begin in Action_Plugin_FileManage_Upload_Begin
+		If Not IsEmpty(sAction_Plugin_FileManage_Upload_Begin) Then Call Execute(sAction_Plugin_FileManage_Upload_Begin)
+	Next
 	Dim objUpload
 	Set objUpload=New FileManage_UpLoadClass
 	objUpload.AutoSave=2
 	objUpload.Charset="UTF-8"
 	objUpload.FileType=""
 	objUpload.open
-	Dim tpath
+	Dim tpath,opath,SuccessPath
 	tpath=objUpload.Form("path")
-	For Each sAction_Plugin_FileManage_Upload_Begin in Action_Plugin_FileManage_Upload_Begin
-		If Not IsEmpty(sAction_Plugin_FileManage_Upload_Begin) Then Call Execute(sAction_Plugin_FileManage_Upload_Begin)
-	Next
+	SuccessPath="main.asp?act=SiteFileMng&path="&Server.URLEncode(tpath)
 	Dim isOK
 	isOK=True
-	If FileManage_CheckFolder(tpath) Then isOK=False
-'	If objUpload.Form("edtFileLoad")="" Then isOK=False
-	If Left(LCase(objUpload.Form("edtFileLoad")),10)="global.asa" Then isOK=False
-	If isOK=False Then Response.Write "<script>alert('不能上传Global.asa和Global.asax，也不能往Z-Blog以外的文件夹上传文件。同时上传时最大文件大小不能超过200K，否则可能会被IIS限制。');window.close()</script>":Response.End
+	If FileManage_CheckFile(tpath) Then FileManage_ExportError "不能上传Global.asa和Global.asax，也不能往Z-Blog以外的文件夹上传文件。",SuccessPath
+	
 	objUpload.SavePath=tpath&"\"
 	objUpload.open
 	objUpload.save "edtFileLoad",1
 	If Err.Number=0 Then
 		Call SetBlogHint(True,True,Empty)
 	Else
-		Call SetBlogHint_Custom("<font color='red'>出现错误" & Hex(Err.Number) & "，描述为" & Err.Description & "，操作没有生效。</font>")	End If
+		FileManage_ExportError "<font color='red'>出现错误" & Hex(Err.Number) & "，描述为" & Err.Description & "，操作没有生效。</font>",SuccessPath
+	End If
 	
-	Response.Write "<script>location.href=""main.asp?path="&Server.URLEncode(tpath)&"""</script>"
+	Response.Write "<script>location.href="""&SuccessPath&"""</script>"
 
 	For Each sAction_Plugin_FileManage_Upload_End in Action_Plugin_FileManage_Upload_End
 		If Not IsEmpty(sAction_Plugin_FileManage_Upload_End) Then Call Execute(sAction_Plugin_FileManage_Upload_End)
@@ -594,49 +553,37 @@ End Function
 '*********************************************************
 ' 目的：    保存文件
 '*********************************************************
-Function FileManage_PostSiteFile(tpath,opath)
+Function FileManage_PostSiteFile(tpath,OpenFolderPath)
 	For Each sAction_Plugin_FileManage_PostSiteFile_Begin in Action_Plugin_FileManage_PostSiteFile_Begin
 		If Not IsEmpty(sAction_Plugin_FileManage_PostSiteFile_Begin) Then Call Execute(sAction_Plugin_FileManage_PostSiteFile_Begin)
 	Next
-	
+	Dim SuccessPath
+	SuccessPath="main.asp?act=SiteFileMng&path="
+
 	'On Error Resume Next
-	Dim filePath,isOK,i,fxxxPath
-	fxxxPath=Replace(LCase(BlogPath),"zb_users\plugin\filemanage\..\..\..\","")
-	 if instr(tpath,":")>0 then
-	 	filePath=tpath
-	 else
-		filePath=fxxxPath & tpath
-	 end if
-	dim j,k
-	j=split(filepath,"\")
-	redim preserve j(ubound(j)-1)
-	j=join(j,"\")
-	 filepath=replace(replace(filepath,"\/","\"),"\\","\")
-	Dim objFSO,objGetFile,objADO
-	Set objFSO=Server.CreateObject("Scripting.FileSystemObject") 
-	IsOK=True
-	If objFSO.FileExists(FilePath) Then
-			Set objGetFile=objFSO.getfile(FilePath) 
-			If left(lcase(objGetFile.name),10)="global.asa" Then isOK=False
-			If Instr(LCase(objGetFile.Path),fxxxPath)=0 Then isOK=False
-		Else
-			If Instr(lcase(FilePath),"global.asa")>0 Then isOK=False
+	
+	FileManage_FormatPath tpath
+	If FileManage_FSO.FileExists(tpath) Then
+		SuccessPath=SuccessPath&Server.URLEncode(FileManage_FSO.getFile(tpath).ParentFolder)
+	Else
+		SuccessPath=SuccessPath&Server.URLEncode(OpenFolderPath)
 	End If
-	If isOK=False Then Response.Write "<script>alert('不能修改Global.asa和Global.asax和Z-Blog以外的文件夹内的文件');history.go(-1)</script>":Response.End
+	If FileManage_CheckFile(tpath)=True Then FileManage_ExportError "不能修改Global.asa和Global.asax和Z-Blog以外的文件夹内的文件",SuccessPath
 	Dim txaContent
 	txaContent=Request.Form("txaContent")
 	If IsEmpty(txaContent) Then txaContent=Null
 	If Not IsNull(tpath) Then
 		If Not IsNull(txaContent) Then
-				Call SaveToFile(FilePath,txaContent,"utf-8",False)
+				Call SaveToFile(tpath,txaContent,"utf-8",False)
 			If Err.Number=0 Then
 				Call SetBlogHint(True,True,Empty)
+				FileManage_PostSiteFile=True
 			Else
-				Call SetBlogHint_Custom("<font color='red'>出现错误" & Hex(Err.Number) & "，描述为" & Err.Description & "，操作没有生效。</font>")			End If
-			FileManage_PostSiteFile=True
+				FileManage_ExportError "出现错误" & Hex(Err.Number) & "，描述为" & Err.Description & "，操作没有生效。",SuccessPath
+			End If
 		End IF
 	End If
-	Response.Write "<script type=""text/javascript"">location.href=""main.asp?act=SiteFileMng" & "&path=" & Replace(j,"\","\\")&"""</script>"
+	Response.Write "<script type=""text/javascript"">location.href="""&SuccessPath&"""</script>"
 
 
 	For Each sAction_Plugin_FileManage_PostSiteFile_End in Action_Plugin_FileManage_PostSiteFile_End
@@ -647,29 +594,20 @@ End Function
 '*********************************************************
 ' 目的：    创建文件夹
 '*********************************************************
-Function FileManage_CreateFolder(tpath)
+Function FileManage_CreateFolder(tpath,openpath)
 	For Each sAction_Plugin_FileManage_CreateFolder_Begin in Action_Plugin_FileManage_CreateFolder_Begin
 		If Not IsEmpty(sAction_Plugin_FileManage_CreateFolder_Begin) Then Call Execute(sAction_Plugin_FileManage_CreateFolder_Begin)
 	Next
-
+	Dim SuccessPath
+	SuccessPath="main.asp?act=SiteFileMng&path="&Server.UrlEncode(tpath)
 	On Error Resume Next
-	Dim filePath,isOK,i,fxxxPath
-	 if instr(tpath,":")>0 then
-	 	filePath=tpath
-	 else
-		filePath=fxxxPath & tpath
-	 end if
-	 '创建文件夹时不对是否为zblog之外文件夹判断
-	 filepath=replace(replace(filepath,"\/","\"),"\\","\")
-	Dim objFSO,objGetFile,objADO
-	Set objFSO=Server.CreateObject("Scripting.FileSystemObject") 
-	objFSO.CreateFolder tpath
+	FileManage_FSO.CreateFolder tpath
 	If Err.Number=0 Then
 		Call SetBlogHint(True,True,Empty)
 	Else
-		Call SetBlogHint_Custom("<font color='red'>出现错误" & Hex(Err.Number) & "，描述为" & Err.Description & "，操作没有生效。</font>")	End If
-	Set objFSO=nothing
-	Response.Write "<script type=""text/javascript"">location.href=""main.asp?act=SiteFileMng" & "&path=" & Replace(tpath,"\","\\")&"""</script>"
+		Call FileManage_ExportError("<font color='red'>出现错误" & Hex(Err.Number) & "，描述为" & Err.Description & "，操作没有生效。</font>","main.asp?act=SiteFileMng&path="&Server.URLEncode(openpath))
+	End If
+	Response.Write "<script type=""text/javascript"">location.href="""&SuccessPath&"""</script>"
 
 	For Each sAction_Plugin_FileManage_CreateFolder_End in Action_Plugin_FileManage_CreateFolder_End
 		If Not IsEmpty(sAction_Plugin_FileManage_CreateFolder_End) Then Call Execute(sAction_Plugin_FileManage_CreateFolder_End)
@@ -782,381 +720,61 @@ Function FileManage_Help
 	Response.Write "</script>"
 End Function
 
-%>
+Sub FileManage_ExportError(Msg,Url)
+	On Error Resume Next
+	Call SetBlogHint_Custom("<font color='red'>"&Msg&"</font>")
+	Response.Clear
+	Response.Write "<script>location.href="""&Url&"""</script>"
+	Response.End
+End Sub
 
-<%
-'----------------------------------------------------------
-'**************  风声 ASP 无组件上传类 V2.11  *************
-'作者：风声
-'网站：http://www.fonshen.com
-'邮件：webmaster@fonshen.com
-'版权：版权全体,源代码公开,各种用途均可免费使用
-'其他：有稍作改动，
-'**********************************************************
-'----------------------------------------------------------
-Class FileManage_UpLoadClass
+'*********************************************************
+' 目的：    检查文件夹是否合法
+'*********************************************************
+Function FileManage_CheckFolder(folder)
+	
+	FileManage_CheckFolder=False
+	Dim Temp1,Temp2
+	If FileManage_FSO.FolderExists(folder)=False Then
+		FileManage_CheckFolder=True
+	Else
+		Temp1=FileManage_FSO.GetFolder(BlogPath).Path
+		Temp2=FileManage_FSO.GetFolder(folder).Path
+		If Left(Temp2,Len(Temp1))<>Temp1 Then FileManage_CheckFolder=True
+	End If 
+End Function
+Function FileManage_CheckFile(file)
+	
+	FileManage_CheckFile=False
+	Dim Temp1,Temp2,Temp3
+	'If FileManage_FSO.FileExists(file)=False Then
+	'	FileManage_CheckFile=True
+	'Else
+		Temp1=FileManage_FSO.GetFolder(BlogPath).Path
+		If FileManage_FSO.FileExists(file)=True Then
+			Temp2=FileManage_FSO.GetFile(file).ParentFolder
+			Temp3=LCase(FileManage_FSO.GetFile(file).Name)
+			If Left(Temp2,Len(Temp1))<>Temp1 Then FileManage_CheckFile=True
+		Else
+			Temp3=file
+			If Instr(Temp3,Temp1)<=0 Then FileManage_CheckFile=True
+		End If
+		If CheckRegExp(Temp3,".*?global.asa(x)?") Then FileManage_CheckFile=True
+	'End If 
+End Function
 
-	Private m_TotalSize,m_MaxSize,m_FileType,m_SavePath,m_AutoSave,m_Error,m_Charset
-	Private m_dicForm,m_binForm,m_binItem,m_strDate,m_lngTime
-	Public	FormItem,FileItem
 
-	Public Property Get Version
-		Version="Fonshen ASP UpLoadClass Version 2.11"
-	End Property
-
-	Public Property Get Error
-		Error=m_Error
-	End Property
-
-	Public Property Get Charset
-		Charset=m_Charset
-	End Property
-	Public Property Let Charset(strCharset)
-		m_Charset=strCharset
-	End Property
-
-	Public Property Get TotalSize
-		TotalSize=m_TotalSize
-	End Property
-	Public Property Let TotalSize(lngSize)
-		if isNumeric(lngSize) then m_TotalSize=Clng(lngSize)
-	End Property
-
-	Public Property Get MaxSize
-		MaxSize=m_MaxSize
-	End Property
-	Public Property Let MaxSize(lngSize)
-		if isNumeric(lngSize) then m_MaxSize=Clng(lngSize)
-	End Property
-
-	Public Property Get FileType
-		FileType=m_FileType
-	End Property
-	Public Property Let FileType(strType)
-		m_FileType=strType
-	End Property
-
-	Public Property Get SavePath
-		SavePath=m_SavePath
-	End Property
-	Public Property Let SavePath(strPath)
-		m_SavePath=Replace(strPath,chr(0),"")
-	End Property
-
-	Public Property Get AutoSave
-		AutoSave=m_AutoSave
-	End Property
-	Public Property Let AutoSave(byVal Flag)
-		select case Flag
-			case 0,1,2: m_AutoSave=Flag
-		end select
-	End Property
-
-	Private Sub Class_Initialize
-		m_Error	   = -1
-		m_Charset  = "gb2312"
-		m_TotalSize= 0
-		m_MaxSize  = 153600
-		m_FileType = "jpg/gif"
-		m_SavePath = ""
-		m_AutoSave = 0
-		Dim dtmNow : dtmNow = Date()
-		m_strDate  = Year(dtmNow)&Right("0"&Month(dtmNow),2)&Right("0"&Day(dtmNow),2)
-		m_lngTime  = Clng(Timer()*1000)
-		Set m_binForm = Server.CreateObject("ADODB.Stream")
-		Set m_binItem = Server.CreateObject("ADODB.Stream")
-		Set m_dicForm = Server.CreateObject("Scripting.Dictionary")
-		m_dicForm.CompareMode = 1
-	End Sub
-
-	Private Sub Class_Terminate
-		m_dicForm.RemoveAll
-		Set m_dicForm = nothing
-		Set m_binItem = nothing
-		m_binForm.Close()
-		Set m_binForm = nothing
-	End Sub
-
-	Public Function Open()
-		Open = 0
-		if m_Error=-1 then
-			m_Error=0
+Sub FileManage_FormatPath(ByRef Path)
+	if path<>"" then
+		if instr(path,":")>0 then
+			path=path
 		else
-			Exit Function
+			path=server.mappath(path)
 		end if
-		Dim lngRequestSize : lngRequestSize=Request.TotalBytes
-		if m_TotalSize>0 and lngRequestSize>m_TotalSize then
-			m_Error=5
-			Exit Function
-		elseif lngRequestSize<1 then
-			m_Error=4
-			Exit Function
-		end if
+	else
+		path=BlogPath
+	end if
 
-		Dim lngChunkByte : lngChunkByte = 102400
-		Dim lngReadSize : lngReadSize = 0
-		m_binForm.Type = 1
-		m_binForm.Open()
-		do
-			m_binForm.Write Request.BinaryRead(lngChunkByte)
-			lngReadSize=lngReadSize+lngChunkByte
-			if  lngReadSize >= lngRequestSize then exit do
-		loop		
-		m_binForm.Position=0
-		Dim binRequestData : binRequestData=m_binForm.Read()
+End Sub
 
-		Dim bCrLf,strSeparator,intSeparator
-		bCrLf=ChrB(13)&ChrB(10)
-		intSeparator=InstrB(1,binRequestData,bCrLf)-1
-		strSeparator=LeftB(binRequestData,intSeparator)
-
-		Dim strItem,strInam,strFtyp,strPuri,strFnam,strFext,lngFsiz
-		Const strSplit="'"">"
-		Dim strFormItem,strFileItem,intTemp,strTemp
-		Dim p_start : p_start=intSeparator+2
-		Dim p_end
-		Do
-			p_end = InStrB(p_start,binRequestData,bCrLf&bCrLf)-1
-			m_binItem.Type=1
-			m_binItem.Open()
-			m_binForm.Position=p_start
-			m_binForm.CopyTo m_binItem,p_end-p_start
-			m_binItem.Position=0
-			m_binItem.Type=2
-			m_binItem.Charset=m_Charset
-			strItem = m_binItem.ReadText()
-			m_binItem.Close()
-			intTemp=Instr(39,strItem,"""")
-			strInam=Mid(strItem,39,intTemp-39)
-
-			p_start = p_end + 4
-			p_end = InStrB(p_start,binRequestData,strSeparator)-1
-			m_binItem.Type=1
-			m_binItem.Open()
-			m_binForm.Position=p_start
-			lngFsiz=p_end-p_start-2
-			m_binForm.CopyTo m_binItem,lngFsiz
-
-			if Instr(intTemp,strItem,"filename=""")<>0 then
-			if not m_dicForm.Exists(strInam&"_From") then
-				strFileItem=strFileItem&strSplit&strInam
-				if m_binItem.Size<>0 then
-					intTemp=intTemp+13
-					strFtyp=Mid(strItem,Instr(intTemp,strItem,"Content-Type: ")+14)
-					strPuri=Mid(strItem,intTemp,Instr(intTemp,strItem,"""")-intTemp)
-					intTemp=InstrRev(strPuri,"\")
-					strFnam=Mid(strPuri,intTemp+1)
-					m_dicForm.Add strInam&"_Type",strFtyp
-					m_dicForm.Add strInam&"_Name",strFnam
-					m_dicForm.Add strInam&"_Path",Left(strPuri,intTemp)
-					m_dicForm.Add strInam&"_Size",lngFsiz
-					if Instr(strFnam,".")<>0 then
-						strFext=Mid(strFnam,InstrRev(strFnam,".")+1)
-					else
-						strFext=""
-					end if
-
-					select case strFtyp
-					case "image/jpeg","image/pjpeg","image/jpg"
-						if Lcase(strFext)<>"jpg" then strFext="jpg"
-						m_binItem.Position=3
-						do while not m_binItem.EOS
-							do
-								intTemp = Ascb(m_binItem.Read(1))
-							loop while intTemp = 255 and not m_binItem.EOS
-							if intTemp < 192 or intTemp > 195 then
-								m_binItem.read(Bin2Val(m_binItem.Read(2))-2)
-							else
-								Exit do
-							end if
-							do
-								intTemp = Ascb(m_binItem.Read(1))
-							loop while intTemp < 255 and not m_binItem.EOS
-						loop
-						m_binItem.Read(3)
-						m_dicForm.Add strInam&"_Height",Bin2Val(m_binItem.Read(2))
-						m_dicForm.Add strInam&"_Width",Bin2Val(m_binItem.Read(2))
-					case "image/gif"
-						if Lcase(strFext)<>"gif" then strFext="gif"
-						m_binItem.Position=6
-						m_dicForm.Add strInam&"_Width",BinVal2(m_binItem.Read(2))
-						m_dicForm.Add strInam&"_Height",BinVal2(m_binItem.Read(2))
-					case "image/png"
-						if Lcase(strFext)<>"png" then strFext="png"
-						m_binItem.Position=18
-						m_dicForm.Add strInam&"_Width",Bin2Val(m_binItem.Read(2))
-						m_binItem.Read(2)
-						m_dicForm.Add strInam&"_Height",Bin2Val(m_binItem.Read(2))
-					case "image/bmp"
-						if Lcase(strFext)<>"bmp" then strFext="bmp"
-						m_binItem.Position=18
-						m_dicForm.Add strInam&"_Width",BinVal2(m_binItem.Read(4))
-						m_dicForm.Add strInam&"_Height",BinVal2(m_binItem.Read(4))
-					case "application/x-shockwave-flash"
-						if Lcase(strFext)<>"swf" then strFext="swf"
-						m_binItem.Position=0
-						if Ascb(m_binItem.Read(1))=70 then
-							m_binItem.Position=8
-							strTemp = Num2Str(Ascb(m_binItem.Read(1)), 2 ,8)
-							intTemp = Str2Num(Left(strTemp, 5), 2)
-							strTemp = Mid(strTemp, 6)
-							while (Len(strTemp) < intTemp * 4)
-								strTemp = strTemp & Num2Str(Ascb(m_binItem.Read(1)), 2 ,8)
-							wend
-							m_dicForm.Add strInam&"_Width", Int(Abs(Str2Num(Mid(strTemp, intTemp + 1, intTemp), 2) - Str2Num(Mid(strTemp, 1, intTemp), 2)) / 20)
-							m_dicForm.Add strInam&"_Height",Int(Abs(Str2Num(Mid(strTemp, 3 * intTemp + 1, intTemp), 2) - Str2Num(Mid(strTemp, 2 * intTemp + 1, intTemp), 2)) / 20)
-						end if
-					end select
-
-					m_dicForm.Add strInam&"_Ext",strFext
-					m_dicForm.Add strInam&"_From",p_start
-					if m_AutoSave<>2 then
-						intTemp=GetFerr(lngFsiz,strFext)
-						m_dicForm.Add strInam&"_Err",intTemp
-						if intTemp=0 then
-							if m_AutoSave=0 then
-								strFnam=GetTimeStr()
-								if strFext<>"" then strFnam=strFnam&"."&strFext
-							end if
-							m_binItem.SaveToFile m_SavePath&strFnam,2
-							m_dicForm.Add strInam,strFnam
-						end if
-					end if
-				else
-					m_dicForm.Add strInam&"_Err",-1
-				end if
-			end if
-			else
-				m_binItem.Position=0
-				m_binItem.Type=2
-				m_binItem.Charset=m_Charset
-				strTemp=m_binItem.ReadText
-				if m_dicForm.Exists(strInam) then
-					m_dicForm(strInam) = m_dicForm(strInam)&","&strTemp
-				else
-					strFormItem=strFormItem&strSplit&strInam
-					m_dicForm.Add strInam,strTemp
-				end if
-			end if
-
-			m_binItem.Close()
-			p_start = p_end+intSeparator+2
-		loop Until p_start+3>lngRequestSize
-		FormItem=Split(strFormItem,strSplit)
-		FileItem=Split(strFileItem,strSplit)
-		
-		Open = lngRequestSize
-	End Function
-
-	Private Function GetTimeStr()
-		m_lngTime=m_lngTime+1
-		GetTimeStr=m_strDate&Right("00000000"&m_lngTime,8)
-	End Function
-
-	Private Function GetFerr(lngFsiz,strFext)
-		dim intFerr
-		intFerr=0
-		if lngFsiz>m_MaxSize and m_MaxSize>0 then
-			if m_Error=0 or m_Error=2 then m_Error=m_Error+1
-			intFerr=intFerr+1
-		end if
-		if Instr(1,LCase("/"&m_FileType&"/"),LCase("/"&strFext&"/"))=0 and m_FileType<>"" then
-			if m_Error<2 then m_Error=m_Error+2
-			intFerr=intFerr+2
-		end if
-		GetFerr=intFerr
-	End Function
-
-	Public Function Save(Item,strFnam)
-		Save=false
-		if m_dicForm.Exists(Item&"_From") then
-			dim intFerr,strFext
-			strFext=m_dicForm(Item&"_Ext")
-			intFerr=GetFerr(m_dicForm(Item&"_Size"),strFext)
-			if m_dicForm.Exists(Item&"_Err") then
-				if intFerr=0 then
-					m_dicForm(Item&"_Err")=0
-				end if
-			else
-				m_dicForm.Add Item&"_Err",intFerr
-			end if
-			if intFerr<>0 then Exit Function
-			if VarType(strFnam)=2 then
-				select case strFnam
-					case 0:strFnam=GetTimeStr()
-						if strFext<>"" then strFnam=strFnam&"."&strFext
-					case 1:strFnam=m_dicForm(Item&"_Name")
-				end select
-			end if
-			m_binItem.Type = 1
-			m_binItem.Open
-			m_binForm.Position = m_dicForm(Item&"_From")
-			m_binForm.CopyTo m_binItem,m_dicForm(Item&"_Size")
-			m_binItem.SaveToFile m_SavePath&strFnam,2
-			m_binItem.Close()
-			if m_dicForm.Exists(Item) then
-				m_dicForm(Item)=strFnam
-			else
-				m_dicForm.Add Item,strFnam
-			end if
-			Save=true
-		end if
-	End Function
-
-	Public Function GetData(Item)
-		GetData=""
-		if m_dicForm.Exists(Item&"_From") then
-			if GetFerr(m_dicForm(Item&"_Size"),m_dicForm(Item&"_Ext"))<>0 then Exit Function
-			m_binForm.Position = m_dicForm(Item&"_From")
-			GetData = m_binForm.Read(m_dicForm(Item&"_Size"))
-		end if
-	End Function
-
-	Public Function Form(Item)
-		if m_dicForm.Exists(Item) then
-			Form=m_dicForm(Item)
-		else
-			Form=""
-		end if
-	End Function
-
-	Private Function BinVal2(bin)
-		dim lngValue,i
-		lngValue=0
-		for i = lenb(bin) to 1 step -1
-			lngValue = lngValue *256 + Ascb(midb(bin,i,1))
-	Next
-		BinVal2=lngValue
-	End Function
-
-	Private Function Bin2Val(bin)
-		dim lngValue,i
-		lngValue=0
-		for i = 1 to lenb(bin)
-			lngValue = lngValue *256 + Ascb(midb(bin,i,1))
-	Next
-		Bin2Val=lngValue
-	End Function
-
-	Private Function Num2Str(num, base, lens)
-		Dim ret,i
-		ret = ""
-		while(num >= base)
-			i   = num Mod base
-			ret = i & ret
-			num = (num - i) / base
-		wend
-		Num2Str = Right(String(lens, "0") & num & ret, lens)
-	End Function
-
-	Private Function Str2Num(str, base)
-		Dim ret, i
-		ret = 0 
-		for i = 1 to Len(str)
-			ret = ret * base + Cint(Mid(str, i, 1))
-	Next
-		Str2Num = ret
-	End Function
-
-End Class
 %>
