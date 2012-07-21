@@ -53,7 +53,7 @@
 #BT_main {
 	position: relative;
 	z-index:101;
-	border: 1px solid #91ADBF;
+	border: 1px solid #3399cc;
 	background-color: #fff;
 }
 
@@ -71,13 +71,14 @@
 }
 
 #BT_title{
-	background-color: #DAE2E8;
+	background-color: #3399cc;
 	text-align: left;
 	padding-left: 8px;
 	padding-bottom: 5px;
 	padding-top: 2px;
 	font-weight:bold;
 	font-size:12px;
+	color:white;
 }
 
 #BT_text p{

@@ -16,3 +16,4 @@
    GtPNG.fix('div, ul, img, li, input, span, a');  //EvPNG.fix('包含透明PNG图片的标签'); 多个标签之间用英文逗号隔开。
 </script>
 <![endif]-->
+<script type="text/javascript" src="<%=ZC_BLOG_HOST%>ZB_SYSTEM/script/simpla.jquery.configuration.js"></script>
