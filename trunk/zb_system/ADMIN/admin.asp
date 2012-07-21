@@ -65,6 +65,7 @@ End If
 <!--#include file="admin_header.asp"-->
 <!--#include file="admin_top.asp"-->
     <div id="divMain">
+<%	Call GetBlogHint()	%>
       <%
 	Select Case Request.QueryString("act")
 		Case "ArticleMng"

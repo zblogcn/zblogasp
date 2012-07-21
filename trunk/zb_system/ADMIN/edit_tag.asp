@@ -58,21 +58,20 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG066
 <!--#include file="admin_header.asp"-->
 <!--#include file="admin_top.asp"-->   
 <div id="divMain">
+<%	Call GetBlogHint()	%>
 <div class="divHeader2"><%=ZC_MSG241%></div>
 <%
 	Response.Write "<div class=""SubMenu"">" & Response_Plugin_TagEdt_SubMenu & "</div>"
 %>
 <div id="divMain2">
-<% Call GetBlogHint() %>
 <form id="edit" name="edit" method="post" action="">
 <%
 	Response.Write "<input id=""edtID"" name=""edtID""  type=""hidden"" value="""& EditTag.ID &""" />"
-	Response.Write "<p>"& ZC_MSG001 &":</p><p><input id=""edtName"" style='width:300px;' name=""edtName""  type=""text"" value="""& TransferHTML(EditTag.Name,"[html-format]") &""" />(*)</p><p></p>"
-	'Response.Write "<p>"& ZC_MSG079 &":</p><p><input id=""edtOrder"" size=""40"" name=""edtOrder""  type=""text"" value="""& EditTag.Order &""" /></p><p></p>"
-	Response.Write "<p>"& ZC_MSG016 &":</p><p><input id=""edtIntro"" style='width:300px;' name=""edtIntro""  type=""text"" value="""& TransferHTML(EditTag.Intro,"[html-format]") &""" /></p><p></p>"
-	Response.Write "<p>"& ZC_MSG147 &":</p><p><input id=""edtAlias"" style='width:300px;' name=""edtAlias""  type=""text"" value="""& TransferHTML(EditTag.Alias,"[html-format]") &""" /></p><p></p>"
+	Response.Write "<p>"& ZC_MSG001 &":<br/><input id=""edtName"" style='width:300px;' name=""edtName""  type=""text"" value="""& TransferHTML(EditTag.Name,"[html-format]") &""" />(*)</p>"
+	Response.Write "<p>"& ZC_MSG016 &":<br/><input id=""edtIntro"" style='width:300px;' name=""edtIntro""  type=""text"" value="""& TransferHTML(EditTag.Intro,"[html-format]") &""" /></p>"
+	Response.Write "<p>"& ZC_MSG147 &":<br/><input id=""edtAlias"" style='width:300px;' name=""edtAlias""  type=""text"" value="""& TransferHTML(EditTag.Alias,"[html-format]") &""" /></p>"
 
-	Response.Write "<p>"&ZC_MSG324&":</p><p><select style='width:310px;' class='edit' size='1' id='cmbTemplate' onchange='edtTemplate.value=this.options[this.selectedIndex].value'>"
+	Response.Write "<p>"&ZC_MSG324&":<br/><select style='width:310px;' class='edit' size='1' id='cmbTemplate' onchange='edtTemplate.value=this.options[this.selectedIndex].value'>"
 
 	'Response.Write "<option value="""">"&ZC_MSG325&"</option>"
 
@@ -101,7 +100,7 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG066
 
 	Response.Write "</select><input type='hidden' name='edtTemplate' id='edtTemplate' value='"&EditTag.TemplateName&"' /></p>"
 
-	Response.Write "<p></p><p><input type=""submit"" class=""button"" value="""& ZC_MSG087 &""" id=""btnPost"" onclick='return checkTagInfo();' /></p><p></p>"
+	Response.Write "<p><input type=""submit"" class=""button"" value="""& ZC_MSG087 &""" id=""btnPost"" onclick='return checkTagInfo();' /></p><p></p>"
 %>
 </form>
 </div>

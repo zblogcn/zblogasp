@@ -70,12 +70,12 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG070
 <!--#include file="admin_header.asp"-->
 <!--#include file="admin_top.asp"-->
 			<div id="divMain">
+<%	Call GetBlogHint()	%>
 <div class="divHeader2"><%=ZC_MSG242%></div>
 <%
 	Response.Write "<div class=""SubMenu"">" & Response_Plugin_UserEdt_SubMenu & "</div>"
 %>
 <div id="divMain2">
-<% Call GetBlogHint() %>
 <form id="edit" name="edit" method="post">
 <%
 	Dim i

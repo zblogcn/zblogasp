@@ -139,7 +139,7 @@ Const ZC_GUESTBOOK_ID=0
 Const ZC_UPDATE_INFO_URL="http://update.rainbowsoft.org/info/"
 
 
-Const ZC_USING_PLUGIN_LIST="FileManage|PluginSapper|PageMeta"
+Const ZC_USING_PLUGIN_LIST="FileManage|PluginSapper"
 
 
 

@@ -1519,11 +1519,11 @@ Function GetBlogHint()
 	If IsEmpty(bolOperateSuccess)=False Then
 
 		If bolOperateSuccess=True Then
-			Response.Write "<p class='hint hint_green'><font color='green'>" & ZC_MSG266 & "</font></p>"
+			Response.Write "<div class='hint'><p class='hint hint_green'><font color='green'>" & ZC_MSG266 & "</font></p></div>"
 		End If
 
 		If bolOperateSuccess=False Then
-			Response.Write "<p class='hint hint_red'><font color='red'>" & ZC_MSG267 & "</font></p>"
+			Response.Write "<div class='hint'><p class='hint hint_red'><font color='red'>" & ZC_MSG267 & "</font></p></div>"
 		End If
 
 		Application.Lock
@@ -1539,7 +1539,7 @@ Function GetBlogHint()
 
 		For Each s In t
 			If s<>"" Then
-			Response.Write "<p class='hint hint_Teal'><font color='orangered'>" & s & "</font></p>"
+			Response.Write "<div class='hint'><p class='hint hint_teal'><font color='orangered'>" & s & "</font></p></div>"
 			End If
 		Next
 
@@ -1549,7 +1549,7 @@ Function GetBlogHint()
 	If IsEmpty(bolRebuildIndex)=False Then
 
 		If bolRebuildIndex=True Then
-			Response.Write "<p class='hint hint_blue'><font color='blue'>" & ZC_MSG268 & "</font></p>"
+			Response.Write "<div class='hint'><p class='hint hint_blue'><font color='blue'>" & ZC_MSG268 & "</font></p></div>"
 		End If
 
 	End If
@@ -1557,7 +1557,7 @@ Function GetBlogHint()
 	If IsEmpty(bolRebuildFiles)=False Then
 
 		If bolRebuildFiles=True Then
-			Response.Write "<p class='hint hint_blue'><font color='blue'>" & Replace(ZC_MSG269,"%u",ZC_BLOG_HOST&"ZB_SYSTEM/admin/admin.asp?act=AskFileReBuild") & "</font></p>"
+			Response.Write "<div class='hint'><p class='hint hint_blue'><font color='blue'>" & Replace(ZC_MSG269,"%u",ZC_BLOG_HOST&"ZB_SYSTEM/admin/admin.asp?act=AskFileReBuild") & "</font></p></div>"
 		End If
 
 	End If
