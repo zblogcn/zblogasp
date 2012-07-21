@@ -1057,6 +1057,7 @@ Function LoadGlobeCache()
 			For j=1 to UBound(aryTemplatesName)
 				aryTemplatesContent(i)=Replace(aryTemplatesContent(i),"<#"+aryTemplatesName(j)+"#>",aryTemplatesContent(j))
 			Next
+			aryTemplatesContent(i)=Replace(aryTemplatesContent(i),"<#ZC_BLOG_HOST#>themes/","<#ZC_BLOG_HOST#>zb_users/theme/")
 		Next
 
 
@@ -1436,6 +1437,8 @@ Function GetReallyDirectory()
 	End If
 	Set fso=Nothing
 
+	BlogPath=CreateObject("Scripting.FileSystemObject").GetFolder(BlogPath).Path & "\"
+
 	GETREALLYDIRECTORY_ISRUNNING=True
 
 	GetReallyDirectory=True
@@ -1636,6 +1639,10 @@ Sub CreatDirectoryByCustomDirectory(strCustomDirectory)
 
 End Sub
 '*********************************************************
+
+
+
+
 '*********************************************************
 ' 目的：  生成左侧导航栏
 '*********************************************************

@@ -45,45 +45,44 @@ Dim EditArticle
 
 BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG247
 
-%><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<%=ZC_BLOG_LANGUAGE%>" lang="<%=ZC_BLOG_LANGUAGE%>">
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<meta http-equiv="Content-Language" content="<%=ZC_BLOG_LANGUAGE%>" />
-	<link rel="stylesheet" rev="stylesheet" href="../CSS/admin2.css" type="text/css" media="screen" />
-	<script language="JavaScript" src="../script/common.js" type="text/javascript"></script>
-	<script language="JavaScript" src="../script/jquery.tabs.pack.js" type="text/javascript"></script>
-	<link rel="stylesheet" href="../CSS/jquery.tabs.css" type="text/css" media="print, projection, screen">
+%><!--#include file="admin_header.asp"-->
+	<script language="JavaScript" src=".<%=ZC_BLOG_HOST%>script/jquery.tabs.pack.js" type="text/javascript"></script>
+	<link rel="stylesheet" href="<%=ZC_BLOG_HOST%>CSS/jquery.tabs.css" type="text/css">
 	<!--[if lte IE 7]>
-	<link rel="stylesheet" href="../CSS/jquery.tabs-ie.css" type="text/css" media="projection, screen">
+	<link rel="stylesheet" href="<%=ZC_BLOG_HOST%>CSS/jquery.tabs-ie.css" type="text/css" media="projection, screen">
 	<![endif]-->
-	<link rel="stylesheet" href="../CSS/jquery.bettertip.css" type="text/css" media="screen">
-	<script language="JavaScript" src="../script/jquery.bettertip.pack.js" type="text/javascript"></script>
-	<title><%=BlogTitle%></title>
-</head>
-<body>
 <!--#include file="admin_top.asp"-->
-<div id="main">
-	<div class="main_right">
-    	<div class="yui">
-			<div class="content">
-            	<div class="wrapper"><!--调用开始-->
 			<div id="divMain">
-<div class="divHeader"><%=ZC_MSG247%></div>
+<% Call GetBlogHint() %>
+<div class="divHeader2"><%=ZC_MSG247%></div>
 <%
 	Response.Write "<div class=""SubMenu"">" & Response_Plugin_SettingMng_SubMenu & "</div>"
 %>
 <form method="post" action="../cmd.asp?act=SettingSav">
 <div id="divMain2">
-<% Call GetBlogHint() %>
-<ul>
-	<li class="tabs-selected"><a href="#fragment-1"><span><%=ZC_MSG105%></span></a></li>
-	<li><a href="#fragment-2"><span><%=ZC_MSG173%></span></a></li>
-	<li><a href="#fragment-3"><span><%=ZC_MSG186%></span></a></li>
-	<li><a href="#fragment-4"><span><%=ZC_MSG281%></span></a></li>
-	<li><a href="#fragment-5"><span><%=ZC_MSG195%></span></a></li>
-	<li><a href="#fragment-6"><span><%=ZC_MSG215%></span></a></li>
-</ul>
+
+
+
+			<div class="content-box"><!-- Start Content Box -->
+				
+				<div class="content-box-header">
+			
+					<ul class="content-box-tabs">
+
+	<li><a href="#tab1" class="default-tab"><span><%=ZC_MSG105%></span></a></li>
+	<li><a href="#tab2"><span><%=ZC_MSG173%></span></a></li>
+	<li><a href="#tab3"><span><%=ZC_MSG186%></span></a></li>
+	<li><a href="#tab4"><span><%=ZC_MSG281%></span></a></li>
+	<li><a href="#tab5"><span><%=ZC_MSG195%></span></a></li>
+	<li><a href="#tab6"><span><%=ZC_MSG215%></span></a></li>
+					</ul>
+					
+					<div class="clear"></div>
+					
+				</div> <!-- End .content-box-header -->
+				
+				<div class="content-box-content">
+
 <%
 
 	Function SplitNameAndNote(s)
@@ -139,7 +138,7 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG247
 	strZC_BLOG_MASTER=TransferHTML(strZC_BLOG_MASTER,"[html-format]")
 	strZC_BLOG_THEME=TransferHTML(strZC_BLOG_THEME,"[html-format]")
 
-	Response.Write "<div class=""tabs-div"" style='border:none;padding:0px;margin:0;' id=""fragment-1"">"
+	Response.Write "<div class=""tab-content default-tab"" style='border:none;padding:0px;margin:0;' id=""tab1"">"
 	Response.Write "<table width='100%' style='padding:0px;margin:1px;' cellspacing='0' cellpadding='0'>"
 	Response.Write "<tr><td style='width:32%'>" & SplitNameAndNote(ZC_MSG104) & "</td><td style=""width:68%""><p><input id=""edtZC_BLOG_HOST"" name=""edtZC_BLOG_HOST"" style=""width:95%"" type=""text"" value=""" & strZC_BLOG_HOST & """ /></p></td></tr>"
 	Response.Write "<tr><td style='width:32%'>" & SplitNameAndNote(ZC_MSG091) & "</td><td style=""width:68%""><p><input id=""edtZC_BLOG_NAME"" name=""edtZC_BLOG_NAME"" style=""width:95%"" type=""text"" value=""" & strZC_BLOG_NAME & """ /></p></td></tr>"
@@ -155,7 +154,7 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG247
 
 
 
-	Response.Write "<div class=""tabs-div"" style='border:none;padding:0px;margin:0;' id=""fragment-2"">"
+	Response.Write "<div class=""tab-content"" style='border:none;padding:0px;margin:0;' id=""tab2"">"
 	Response.Write "<table width='100%' style='padding:0px;margin:1px;' cellspacing='0' cellpadding='0'>"
 	tmpSng=LoadFromFile(BlogPath & "zb_users/c_option.asp","utf-8")
 
@@ -248,7 +247,7 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG247
 
 	Response.Write "</table>"
 	Response.Write "</div>"
-	Response.Write "<div class=""tabs-div"" style='border:none;padding:0px;margin:0;' id=""fragment-3"">"
+	Response.Write "<div class=""tab-content"" style='border:none;padding:0px;margin:0;' id=""tab3"">"
 	Response.Write "<table width='100%' style='padding:0px;margin:1px;' cellspacing='0' cellpadding='0'>"
 
 	Dim strZC_MSG_COUNT
@@ -361,7 +360,7 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG247
 
 	Response.Write "</table>"
 	Response.Write "</div>"
-	Response.Write "<div class=""tabs-div"" style='border:none;padding:0px;margin:0;' id=""fragment-4"">"
+	Response.Write "<div class=""tab-content"" style='border:none;padding:0px;margin:0;' id=""tab4"">"
 	Response.Write "<table width='100%' style='padding:0px;margin:1px;' cellspacing='0' cellpadding='0'>"
 
 	Dim strZC_STATIC_TYPE
@@ -409,7 +408,7 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG247
 
 	Response.Write "</table>"
 	Response.Write "</div>"
-	Response.Write "<div class=""tabs-div"" style='border:none;padding:0px;margin:0;' id=""fragment-5"">"
+	Response.Write "<div class=""tab-content"" style='border:none;padding:0px;margin:0;' id=""tab5"">"
 	Response.Write "<table width='100%' style='padding:0px;margin:1px;' cellspacing='0' cellpadding='0'>"
 
 	Dim strZC_UBB_LINK_ENABLE
@@ -498,7 +497,7 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG247
 
 	Response.Write "</table>"
 	Response.Write "</div>"
-	Response.Write "<div class=""tabs-div"" style='border:none;padding:0px;margin:0;' id=""fragment-6"">"
+	Response.Write "<div class=""tab-content"" style='border:none;padding:0px;margin:0;' id=""tab6"">"
 	Response.Write "<table width='100%' style='padding:0px;margin:1px;' cellspacing='0' cellpadding='0'>"
 
 	'Dim strZC_IE_DISPLAY_WAP
@@ -558,6 +557,15 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG247
 	Response.Write "</table>"
 	Response.Write "</div>"
 
+%>
+
+				</div> <!-- End .content-box-content -->
+				
+			</div> <!-- End .content-box -->
+<%
+
+
+
 	Response.Write "<p><br/><input type=""submit"" class=""button"" value="""& ZC_MSG087 &""" id=""btnPost"" onclick='' /></p>"
 
 %>
@@ -565,35 +573,6 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG247
 
 			</div></form></div>
 <script language="javascript">
-
-
-$(document).ready(function(){
-	$("#divMain2").tabs({ fxFade: true, fxSpeed: 'fast' });
-	$("input[type=text],textarea").width($("body").width()*0.55);
-
-	//斑马线
-	var tables=document.getElementsByTagName("table");
-	var b=false;
-	for (var j = 0; j < tables.length; j++){
-
-		var cells = tables[j].getElementsByTagName("tr");
-
-		//cells[0].className="color3";
-		b=false;
-		for (var i = 0; i < cells.length; i++){
-			if(b){
-				cells[i].className="color2";
-				b=false;
-			}
-			else{
-				cells[i].className="color3";
-				b=true;
-			};
-		};
-	}
-
-});
-
 
 
 function ChangeValue(obj){
@@ -610,19 +589,30 @@ function ChangeValue(obj){
 	return true;
 	}
 }
+
+
+    // Content box tabs:
+		
+		$('.content-box .content-box-content div.tab-content').hide(); // Hide the content divs
+		$('ul.content-box-tabs li a.default-tab').addClass('current'); // Add the class "current" to the default tab
+		$('.content-box-content div.default-tab').show(); // Show the div with class "default-tab"
+		
+		$('.content-box ul.content-box-tabs li a').click( // When a tab is clicked...
+			function() { 
+				$(this).parent().siblings().find("a").removeClass('current'); // Remove "current" class from all tabs
+				$(this).addClass('current'); // Add class "current" to clicked tab
+				var currentTab = $(this).attr('href'); // Set variable "currentTab" to the value of href of clicked tab
+				$(currentTab).siblings().hide(); // Hide all content divs
+				$(currentTab).show(); // Show the content div with the id equal to the id of clicked tab
+				return false; 
+			}
+		);
+
+
+
+
 </script>
-
-<!--调用结束-->
-            	</div>
-            </div>
-		</div>
-    </div>
-	<!--#include file="admin_left.asp"-->
-	<div class="clear"></div>
-</div>
-
-</body>
-</html>
+<!--#include file="admin_footer.asp"-->
 <% 
 Call System_Terminate()
 
