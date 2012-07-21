@@ -14,9 +14,10 @@ Const FileManage_CodeMirror=True
 
 '注册插件
 Call RegisterPlugin("FileManage","ActivePlugin_FileManage")
-
 '挂口部分
 Function ActivePlugin_FileManage()
+    Call Add_Response_Plugin("Response_Plugin_AdminLeft_Plugin",MakeLeftMenu(ZC_MSG210,ZC_BLOG_HOST&"/zb_users/plugin/filemanage/main.asp","nav_file","aSiteFileMng",ZC_BLOG_HOST&"/ZB_SYSTEM/image/common/file_1.png"))
+
 	Call Add_Response_Plugin("Response_Plugin_ThemeMng_SubMenu",MakeSubMenu("修改主题","../../ZB_USERS/plugin/FileManage/main.asp?act=ThemeEditor","m-left",False))
 	If FileManage_ShowPluginName=True Then Call Add_Action_Plugin("Action_Plugin_FileManage_ExportInformation_NotFound","FileManage_GetPluginName(""{path}"",""{f}"")")
 	If FileManage_ShowThemesName=True Then Call Add_Action_Plugin("Action_Plugin_FileManage_ExportInformation_NotFound","FileManage_GetThemeName(""{path}"",""{f}"")")

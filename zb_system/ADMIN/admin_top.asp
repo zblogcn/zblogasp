@@ -13,6 +13,7 @@
         <li><a href="<%=ZC_BLOG_HOST%>zb_system/cmd.asp?act=AskFileReBuild"><%=ZC_MSG247%></a></li>
         <li><a href="#"><%=ZC_MSG341%></a></li>
         <li><a href="http://www.rainbowsoft.org/" target="_blank"><%=ZC_MSG340%></a></li>
+        <%=Response_Plugin_AdminTop_Plugin%>
       </ul>
     </div>
   </div>
