@@ -2182,7 +2182,6 @@ Function BlogReBuild_Catalogs()
 
 	Dim i,j
 	For i=Lbound(aryCateInOrder)+1 To Ubound(aryCateInOrder)
-Response.Write aryCateInOrder(i) & "<br/>"
 
 			If Categorys(aryCateInOrder(i)).ParentID=0 Then
 				strCatalog=strCatalog & "<li class=""li-cate""><a href="""& Categorys(aryCateInOrder(i)).Url & """>"+Categorys(aryCateInOrder(i)).Name + "<span class=""article-nums""> (" & Categorys(aryCateInOrder(i)).Count & ")</span>" +"</a></li>"
