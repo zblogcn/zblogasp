@@ -894,7 +894,7 @@ Function ExportPluginMng()
 	Call GetBlogHint()
 
 
-	Response.Write "<table border=""1"" width=""100%"" cellspacing=""1"" cellpadding=""1"" class=""tableBorder"">"
+	Response.Write "<table border=""1"" width=""100%"" cellspacing=""0"" cellpadding=""0"" class=""tableBorder"">"
 	Response.Write "<tr><th width=""6%"">"& ZC_MSG309 &"</th><th width=""6%"">"& ZC_MSG079 &"</th><th>"& ZC_MSG001 &"</th><th width=""15%"">"& ZC_MSG128 &"</th><th width=""15%"">"& ZC_MSG150 &"</th><th width=""15%"">"& ZC_MSG151 &"</th><th width=""5%""></th><th width=""5%""></th></tr>"
 
 	Dim objXmlFile,strXmlFile
