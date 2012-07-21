@@ -4569,4 +4569,128 @@ Class TConfig
 
 End Class
 '*********************************************************
+
+
+
+
+
+
+
+'*********************************************************
+' 目的：    定义模块功能类
+' 输入：    无
+' 返回：    无
+'*********************************************************
+Class TFunction
+
+	Public ID
+	Public Name
+	Public FileName
+	Public Order
+	Public Content
+	Public IsSystem
+	Public IsHidden
+	Public SidebarID
+	Public HtmlID
+	Public Ftype 'div or ul
+	Public Meta
+
+	Public Property Get MetaString
+		MetaString=Meta.SaveString
+	End Property
+	Public Property Let MetaString(s)
+		Meta.LoadString=s
+	End Property
+
+	Public Function Post()
+
+		Call CheckParameter(ID,"int",0)
+
+		Name=FilterSQL(Name)
+		Name=TransferHTML(Name,"[normalname]")
+
+		If Len(Name)=0 Then Post=False:Exit Function
+
+		Intro=FilterSQL(Intro)
+		Intro=TransferHTML(Intro,"[html-format]")
+
+		Url=FilterSQL(Url)
+		If Len(Url)=0 Then Post=False:Exit Function
+		If Not CheckRegExp(Url,"[homepage]") Then Call  ShowError(30)
+
+		If ID=0 Then
+			objConn.Execute("INSERT INTO [blog_Keyword]([key_Name],[key_URL],[key_Intro]) VALUES ('"&Name&"','"&Url&"','"&Intro&"')")
+		Else
+			objConn.Execute("UPDATE [blog_Keyword] SET [key_Name]='"&Name&"',[key_URL]='"&Url&"',[key_Intro]='"&Intro&"' WHERE [key_ID] =" & ID)
+		End If
+
+		Post=True
+
+	End Function
+
+
+	Public Function LoadInfoByID(key_ID)
+
+		Call CheckParameter(key_ID,"int",0)
+
+		Dim objRS
+		Set objRS=objConn.Execute("SELECT [key_ID],[key_Name],[key_Intro],[key_Url] FROM [blog_Keyword] WHERE [key_ID]=" & key_ID)
+
+		If (Not objRS.bof) And (Not objRS.eof) Then
+
+			ID=objRS("key_ID")
+			Name=objRS("key_Name")
+			Intro=objRS("key_Intro")
+			Url=objRS("key_Url")
+
+			LoadInfoByID=True
+
+		End If
+
+		objRS.Close
+		Set objRS=Nothing
+
+		If IsNull(Intro) Then Intro=""
+
+	End Function
+
+
+	Public Function LoadInfoByArray(aryKeyWordInfo)
+
+		If IsArray(aryKeywordInfo)=True Then
+
+			ID=aryKeyWordInfo(0)
+			Name=aryKeyWordInfo(1)
+			Intro=aryKeyWordInfo(2)
+			Url=aryKeyWordInfo(3)
+
+		End If
+
+		If IsNull(Intro) Then Intro=""
+
+		LoadInfoByArray=True
+
+	End Function
+
+
+	Public Function Del()
+
+		Call CheckParameter(ID,"int",0)
+		If (ID=0) Then Del=False:Exit Function
+
+		objConn.Execute("DELETE FROM [blog_Function] WHERE [func_ID] =" & ID)
+		Del=True
+
+	End Function
+
+	Private Sub Class_Initialize()
+		ID=0
+		Ftype="div"
+		Set Meta=New TMeta
+	End Sub
+
+
+End Class
+'*********************************************************
+
 %>

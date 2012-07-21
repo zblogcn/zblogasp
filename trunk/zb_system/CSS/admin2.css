@@ -140,6 +140,10 @@ background:#ffffdd;
 #nav li span{
 background-repeat:no-repeat;
 background-position: 100px 8px;
+background-image: url(../image/common/window_1.png);
+}
+#nav li.on span{
+background-image: url(../image/common/window_2.png);
 }
 
 #nav #nav_build span { background-image: url(../image/common/rebuild_1.png);}
@@ -401,18 +405,20 @@ padding:0 5px ;
 	float:left;padding:0;height:30px;
 }
 
+
 .content-box .content-box-tabs a{
-	color:#3a6ea5;
-	font-weight:bolder;
-	padding:5px;
-	border:1px solid #7190ba;
-	background:#99b6dd;
+	border:1px solid #e8f6ff;
+	background:#d8e6ef;
+	padding:5px 10px;
 	margin:1px 5px 0 0;
 }
 
 .content-box .content-box-tabs a.current{
-	border:1px solid #7aa4d0;
-	background:#e8f6ff;
+	color:#3a6ea5;
+	font-weight:bolder;
 	padding:5px;
+	border:1px solid #7190ba;
+	background:#7190ba;
 	margin:1px 5px 0 0;
+	color:white;
 }

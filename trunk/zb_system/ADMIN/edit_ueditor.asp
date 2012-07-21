@@ -215,7 +215,7 @@ End If
 
 
 <!-- template( -->
-                          <span class='editinputname'><%=ZC_MSG324%>:</span>
+                          <span class='editinputname' style="cursor:pointer;" onClick="$(this).next().toggleClass('hidden');"><%=ZC_MSG324%>:</span>
                           <select style="width:150px;" class="edit" size="1" id="cmbTemplate" onChange="edtTemplate.value=this.options[this.selectedIndex].value">
                             <%
 	'Response.Write "<option value="""">"&ZC_MSG325&"</option>"
