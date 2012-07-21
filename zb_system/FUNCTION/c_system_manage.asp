@@ -995,7 +995,7 @@ Function ExportPluginMng()
 				End If
 			Else
 				If CheckRights("PlugInActive")=True Then
-					s=s & "<a href=""../cmd.asp?act=PlugInActive&amp;name="& Server.URLEncode(objXmlFile.documentElement.selectSingleNode("id").text) &"""><img width='16' title='"&ZC_MSG308&"' alt='"&ZC_MSG308&"' src='../IMAGE/ADMIN/arrow_rotate_anticlockwise.png'/></a>"
+					s=s & "<a href=""../cmd.asp?act=PlugInActive&amp;name="& Server.URLEncode(objXmlFile.documentElement.selectSingleNode("id").text) &"""><img width='16' title='"&ZC_MSG308&"' alt='"&ZC_MSG308&"' src='../IMAGE/ADMIN/accept.png'/></a>"
 				Else
 				End If
 			End If
@@ -1497,7 +1497,7 @@ Function ExportThemeMng()
 		End If
 
 		Response.Write "</select>"
-		Response.Write "&nbsp;&nbsp;<a href='#' onclick='if(!document.getElementById(""cate"&Left(md5(Theme_Id),6)&""").value){return false;}else{document.getElementById(""edtZC_BLOG_THEME"").value="""&Theme_Id&""";document.getElementById(""edtZC_BLOG_CSS"").value=document.getElementById(""cate"&Left(md5(Theme_Id),6)&""").value};$(""#frmTheme"").submit()'><img width='16' title='"&ZC_MSG308&"' alt='"&ZC_MSG308&"' src='../IMAGE/ADMIN/accept.png' /></a></p>"
+		Response.Write "&nbsp;&nbsp;<a href='#' onclick='if(!document.getElementById(""cate"&Left(md5(Theme_Id),6)&""").value){return false;}else{document.getElementById(""edtZC_BLOG_THEME"").value="""&Theme_Id&""";document.getElementById(""edtZC_BLOG_CSS"").value=document.getElementById(""cate"&Left(md5(Theme_Id),6)&""").value};$(""#frmTheme"").submit()'><img width='16' title='"&ZC_MSG308&"' alt='"&ZC_MSG308&"' src='../IMAGE/ADMIN/arrow_rotate_anticlockwise.png' /></a></p>"
 
 
 		Response.Write "</div>"

@@ -45,12 +45,8 @@ Dim EditArticle
 
 BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG247
 
-%><!--#include file="admin_header.asp"-->
-	<script language="JavaScript" src=".<%=ZC_BLOG_HOST%>script/jquery.tabs.pack.js" type="text/javascript"></script>
-	<link rel="stylesheet" href="<%=ZC_BLOG_HOST%>CSS/jquery.tabs.css" type="text/css">
-	<!--[if lte IE 7]>
-	<link rel="stylesheet" href="<%=ZC_BLOG_HOST%>CSS/jquery.tabs-ie.css" type="text/css" media="projection, screen">
-	<![endif]-->
+%>
+<!--#include file="admin_header.asp"-->
 <!--#include file="admin_top.asp"-->
 			<div id="divMain">
 <% Call GetBlogHint() %>
@@ -147,7 +143,7 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG247
 	Response.Write "<tr><td style='width:32%'>" & SplitNameAndNote(ZC_MSG094) & "</td><td style=""width:68%""><p><input id=""edtZC_BLOG_SUBTITLE"" name=""edtZC_BLOG_SUBTITLE"" style=""width:95%""  type=""text"" value=""" & strZC_BLOG_SUBTITLE & """ /></p></td></tr>"
 	Response.Write "<tr><td style='width:32%'>" & SplitNameAndNote(ZC_MSG293) & "</td><td style=""width:68%""><p><input id=""edtZC_BLOG_THEME"" name=""edtZC_BLOG_THEME"" style=""width:95%"" type=""text"" value=""" & strZC_BLOG_THEME & """ /></p></td></tr>"
 	Response.Write "<tr><td style='width:32%'>" & SplitNameAndNote(ZC_MSG095) & "</td><td style=""width:68%""><p><input id=""edtZC_BLOG_CSS"" name=""edtZC_BLOG_CSS"" style=""width:95%"" type=""text"" value=""" & strZC_BLOG_CSS & """ /></p></td></tr>"
-	Response.Write "<tr><td style='width:32%'>" & SplitNameAndNote(ZC_MSG096) & "</td><td style=""width:68%""><p><textarea rows=""4"" id=""edtZC_BLOG_COPYRIGHT"" name=""edtZC_BLOG_COPYRIGHT"" style=""width:95%"" type=""text"" >" & strZC_BLOG_COPYRIGHT & "</textarea></p></td></tr>"
+	Response.Write "<tr><td style='width:32%'>" & SplitNameAndNote(ZC_MSG096) & "</td><td style=""width:68%""><p><textarea rows=""4"" id=""edtZC_BLOG_COPYRIGHT"" name=""edtZC_BLOG_COPYRIGHT"" style=""width:95%"">" & strZC_BLOG_COPYRIGHT & "</textarea></p></td></tr>"
 	Response.Write "<tr><td style='width:32%'>" & SplitNameAndNote(ZC_MSG097) & "</td><td style=""width:68%""><p><input id=""edtZC_BLOG_MASTER"" name=""edtZC_BLOG_MASTER"" style=""width:95%""  type=""text"" value=""" & strZC_BLOG_MASTER & """ /></p></td></tr>"
 	Response.Write "</table>"
 	Response.Write "</div>"
