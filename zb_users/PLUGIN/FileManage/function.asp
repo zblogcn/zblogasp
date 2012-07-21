@@ -400,7 +400,7 @@ Function FileManage_DeleteSiteFile(tpath)
 	'On Error Resume Next
 	Dim SuccessPath
 	FileManage_FormatPath tpath
-	SuccessPath="main.asp?act=SiteFileMng&path="&Server.URLEncode(Replace(Request.QueryString("OpenFolderPath"),"\","\\"))
+	SuccessPath="main.asp?act=SiteFileMng&path="&Server.URLEncode(Request.QueryString("OpenFolderPath"))
 	If FileManage_CheckFile(tpath)=True Then FileManage_ExportError "不能删除Global.asa和Global.asax和Z-Blog以外的文件夹内的文件",SuccessPath
 	FileManage_FSO.DeleteFile(tpath)
 	If Err.Number=0 Then
