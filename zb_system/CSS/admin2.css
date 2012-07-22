@@ -95,7 +95,7 @@ tr.color4{
 background:#ffffdd;
 }
 /**/
-#main { width:100%; background: url(../image/IMG2/left_bg.png) repeat-y left top;}
+#main { width:100%;}
 /*后台顶部*/
 #header {}
 #header .top { height:85px; padding:0; background:#3A6EA5; position: relative;}
