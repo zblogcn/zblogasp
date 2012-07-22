@@ -309,11 +309,11 @@ hr {height:0px;border:none;padding:0;visibility:hidden;}
 #divEditLeft{
 	float:left;
 	width:100%;
-	margin-right:-210px;
+	margin-right:-220px;
 }
 
 #divEditTitle,#divContent,#divIntro,#divEditForm,#divEditForm2{
-	padding-right:210px;
+	padding-right:220px;
 }
 
 
