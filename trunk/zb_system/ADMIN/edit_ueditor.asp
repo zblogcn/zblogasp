@@ -180,7 +180,7 @@ Err.Clear
                       
                       <hr/>
                       <div id="divContent" style="clear:both;">
-						<p><span class='editinputname'><%=ZC_MSG055%>:</span></p>
+						<!-- <p><span class='editinputname'><%=ZC_MSG055%>:</span></p> -->
                         <textarea id="ueditor" name="txaContent" rows="50" cols="250"><%=EditArticle.Content%></textarea>
 						<p style="text-align:right;"><span><a title="<%=ZC_MSG297%>" href="" onclick="try{document.getElementById('divIntro').style.display='block';AutoIntro();return false;}catch(e){}">[<%=ZC_MSG310%>]</a></span><span class='editinputname'></span><span id="timemsg"></span><span id="msg2"></span><span id="msg"></span><span class='editinputname'></span><script type="text/javascript" src="c_autosaverjs.asp?act=edit&amp;type=ueditor"></script></p>
                       </div>
