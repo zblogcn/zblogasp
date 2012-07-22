@@ -2919,30 +2919,36 @@ End Function
 ' 目的：    
 '*********************************************************
 Function GetCurrentHost()
-	Dim s,t,u
 
-	s=  Request.ServerVariables("URL")
-	t=Replace(BlogPath,"\","/")
+	Dim s,t,u,i
+	s=Replace(Request.ServerVariables("PATH_TRANSLATED"),"\","/")
 
-	Dim i
+	t=Request.ServerVariables("HTTP_HOST") & Request.ServerVariables("URL")
 
-	For i=Len(s) To 1 Step -1
-		If InStr(t,Left(s,i))>0 Then
-		
-			u=Left(s,i)
-			If u=Right(t,Len(u)) Then
-				Exit For
-			End If
+	For i=1 To 1000
 
-		End If
+		If Right(t,i)<>Right(s,i) Then
+			u=Right(t,i-1)
+			Exit For
+		End If 
+
 	Next
+	'Response.Write u
+	'Response.Write "<br/>"
+	'Response.Write Left(t,Len(t)-Len(u))
 
-	'Response.Write "https://" & Request.ServerVariables("HTTP_HOST") & Left(s,i)
+	t=Left(t,Len(t)-Len(u))
+
+	If Right(t,1)<>"/" Then t=t& "/"
+
+	'Response.Write "<br/>"
+	'Response.Write t
+		
 
 	if Request.ServerVariables("HTTPS")="off" then
-		t= "http://" & Request.ServerVariables("HTTP_HOST") & Left(s,i)
+		t= "http://" & t
 	else
-		t= "https://" & Request.ServerVariables("HTTP_HOST") & Left(s,i)
+		t= "https://" & t
 	end If
 
 	If Right(t,1)<>"/" Then t=t & "/"
