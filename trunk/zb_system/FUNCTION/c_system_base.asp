@@ -1648,7 +1648,7 @@ End Sub
 '*********************************************************
 Function MakeLeftMenu(strName,strUrl,strLiId,strAName,strImgUrl)
 	dim tmp
-	If IsEmpty(strImgUrl)=False Then
+	If Trim(strImgUrl)<>"" Then
 		tmp="<li id="""&strLiId&"""><a id="""&strAName&""" href="""&strUrl&"""><span style=""background-image:url('"&strImgUrl&"')"">"&strName&"</span></a></li>"
 	Else
 		tmp="<li id="""&strLiId&"""><a id="""&strAName&""" href="""&strUrl&"""><span>"&strName&"</span></a></li>"

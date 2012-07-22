@@ -40,8 +40,8 @@ Select Case Request.QueryString("act")
 		Case "SiteFileDownload" Call FileManage_DownloadFile(strPath)
 End Select
 
-Call SetBlogHint_Custom("‼ 提示:错误的编辑或删除系统文件会导致Blog无法运行;请保护好管理员账号,防止他人通过此功能威胁空间安全.")
-Call SetBlogHint_Custom("‼ 若需要修改的数据>200K，请使用文件上传或FTP。")
+Call SetBlogHint_Custom(" 提示:错误的编辑或删除系统文件会导致Blog无法运行;请保护好管理员账号,防止他人通过此功能威胁空间安全.")
+Call SetBlogHint_Custom(" 若需要修改的数据>200K，请使用文件上传或FTP。")
 
 %>
 <!--#include file="..\..\..\zb_system\admin\admin_header.asp"-->

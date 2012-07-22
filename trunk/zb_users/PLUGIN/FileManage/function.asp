@@ -268,7 +268,7 @@ Function FileManage_ExportSiteFileList(path,OpenFolderPath)
 	FileManage_ExportSiteUpload(path)
 	set fold=f.getfolder(path)
 	response.write "</div>"
-	Response.write"<table width=""100%"" border=""0"">"
+	Response.write"<table width=""100%"" border=""0"" class=""tableBorder"">"
 	Response.write "<tr><td colspan=""5""><a href='main.asp?act=SiteFileMng&path="&Server.URLEncode(backfolder)&"' title='"&ZC_MSG239&"'><img src=""ico\up.png""/></a>"
 	Response.Write "&nbsp;&nbsp;<a href=""javascript:void(0)"" onclick=""if($('#fileUpload').css('display')=='none'){$('#fileUpload').show()}else{$('#fileUpload').hide()}"" title=""上传""><img src=""ico\upload.png""/></a>"
 '	Response.write "&nbsp;&nbsp;<a href='javascript:void(0)' onclick='window.open(""main.asp?act=SiteFileUploadShow&path="&Server.URLEncode(fpath)&"&OpenFolderPath="& Server.URLEncode(path) &""",""Detail"",""Scrollbars=no,Toolbar=no,Location=no,Direction=no,Resizeable=no,height=165px,width=780px"")' title=""上传""><img src=""ico\upload.png""/></a>"
@@ -283,11 +283,11 @@ Function FileManage_ExportSiteFileList(path,OpenFolderPath)
 	
 	
 	Response.Write "</td></tr>"
-	Response.write "<tr><td width=""30%"">文件名</td><td width=""15%"">修改时间</td><td width=""5%"">大小</td><td width=""18%"">注释</td><td>操作</td></tr>"
+	Response.write "<tr><td>文件名</td><td width=""16%"">修改时间</td><td width=""7%"">大小</td><td width=""24%"">注释</td><td>操作</td></tr>"
 	for each item in fold.subfolders
 		jpath=replace(path,"\","\\")
-		Response.write "<tr height=18><td><img width=""11"" height=""11""src='ico/fld.png' />&nbsp;<a href='main.asp?act=SiteFileMng&path="&Server.URLEncode(path&"\"&item.name)&"&OpenFolderPath='>"&item.name&"</a>"
-		Response.write"</td><td>"&item.datelastmodified&"</td><td></td><td>"&FileManage_ExportInformation(item.name,path)&"</td><td></td></tr>"
+		Response.write "<tr height='14'><td><img width=""11"" height=""11""src='ico/fld.png' />&nbsp;<a href='main.asp?act=SiteFileMng&path="&Server.URLEncode(path&"\"&item.name)&"&OpenFolderPath='>"&item.name&"</a>"
+		Response.write"</td><td>"&item.datelastmodified&"</td><td></td><td>"&FileManage_ExportInformation(item.name,path)&"</td><td width=""15%""></td></tr>"
 	next
 	for each item in fold.files
 '	fpath=replace(path&"/"&item.name,BlogPath,"")
@@ -304,12 +304,12 @@ Function FileManage_ExportSiteFileList(path,OpenFolderPath)
 	Next
 	If isEmptyPlugin Then Response.Write ZC_BLOG_HOST & replace(lcasE(path),lcase(blogpath),"")&"/"&item.name
 	
-	Response.Write """ target=""_blank"" title='"&ZC_MSG261&":"&item.datelastmodified&";"&ZC_MSG238&":"&clng(item.size/1024)&"k'>"&item.name&"</a></td><td>"&item.datelastmodified&"</td><td>"&FileManage_GetSize(item.size)&"</td><td>"&FileManage_ExportInformation(item.name,path)&"</td><td>"
-	Response.write"<a href=""main.asp?act=SiteFileEdt&path="&Server.URLEncode(fpath)&"&OpenFolderPath="& Server.URLEncode(path) &""" title=""["&ZC_MSG078&"]""><img src=""ico\edit.png"" width=""11"" height=""11""/>[编辑]</a>"
-	Response.Write "&nbsp;&nbsp;<a href=""main.asp?act=SiteFileDownload&path="&Server.URLEncode(fpath)&"&OpenFolderPath="& Server.URLEncode(path) &""" target=""_blank"" title=""[下载]""><img src=""ico\download.png"" width=""11"" height=""11""/>[下载]</a>"
-	Response.Write "&nbsp;&nbsp;<a href=""main.asp?act=SiteFileRename&path="&Server.URLEncode(fpath)&"&OpenFolderPath="& Server.URLEncode(path) &""" onmousedown='var str=prompt(""请输入新文件名"");if(str!=null){this.href+=""&newfilename=""+encodeURIComponent(str);this.click()}else{return false}' title=""[重命名]""><img src=""ico\rename.png"" width=""11"" height=""11""/>[重命名]</a>"
+	Response.Write """ target=""_blank"" title='"&ZC_MSG261&":"&item.datelastmodified&";"&ZC_MSG238&":"&clng(item.size/1024)&"k'>"&item.name&"</a></td><td>"&item.datelastmodified&"</td><td>"&FileManage_GetSize(item.size)&"</td><td>"&FileManage_ExportInformation(item.name,path)&"</td><td align=""center"">"
+	Response.write"<a href=""main.asp?act=SiteFileEdt&path="&Server.URLEncode(fpath)&"&OpenFolderPath="& Server.URLEncode(path) &""" title=""["&ZC_MSG078&"]""><img src="""&ZC_BLOG_HOST&"/zb_system/image/admin/script_edit.png"" width=""16"" height=""16"" alt='编辑' title='编辑'/></a>&nbsp;"
+	Response.Write "&nbsp;&nbsp;<a href=""main.asp?act=SiteFileDownload&path="&Server.URLEncode(fpath)&"&OpenFolderPath="& Server.URLEncode(path) &""" target=""_blank"" title=""[下载]""><img src="""&ZC_BLOG_HOST&"/zb_system/image/admin/download.png"" width=""16"" height=""16"" alt='下载' title='下载'/></a>&nbsp;"
+	Response.Write "&nbsp;&nbsp;<a href=""main.asp?act=SiteFileRename&path="&Server.URLEncode(fpath)&"&OpenFolderPath="& Server.URLEncode(path) &""" onmousedown='var str=prompt(""请输入新文件名"");if(str!=null){this.href+=""&newfilename=""+encodeURIComponent(str);this.click()}else{return false}' title=""[重命名]""><img src="""&ZC_BLOG_HOST&"/zb_system/image/admin/document-rename.png"" width=""16"" height=""16"" alt='重命名' title='重命名'/></a>&nbsp;"
 
-	Response.Write "&nbsp;&nbsp;<a href=""main.asp?act=SiteFileDel&path="&Server.URLEncode(fpath)&"&OpenFolderPath="& Server.URLEncode(path) &""" onclick='return window.confirm("""&ZC_MSG058&""");' title=""["&ZC_MSG063&"]""><img src=""ico\del.png"" width=""11"" height=""11""/>[删除]</a>"
+	Response.Write "&nbsp;&nbsp;<a href=""main.asp?act=SiteFileDel&path="&Server.URLEncode(fpath)&"&OpenFolderPath="& Server.URLEncode(path) &""" onclick='return window.confirm("""&ZC_MSG058&""");' title=""["&ZC_MSG063&"]""><img src="""&ZC_BLOG_HOST&"/zb_system/image/admin/delete.png"" width=""16"" height=""16"" alt='删除' title='删除'/></a>"
 	For Each sAction_Plugin_FileManage_AddControlList in Action_Plugin_FileManage_AddControlList
 		If Not IsEmpty(sAction_Plugin_FileManage_AddControlList) Then Call Execute(sAction_Plugin_FileManage_AddControlList)
 	Next
