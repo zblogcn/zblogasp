@@ -178,7 +178,7 @@ Err.Clear
 <div id="divEditForm1"><%=Response_Plugin_Edit_Form%></div>
 <% End If %>
                       
-                      
+                      <hr/>
                       <div id="divContent" style="clear:both;">
 						<p><span class='editinputname'><%=ZC_MSG055%>:</span></p>
                         <textarea id="ueditor" name="txaContent" rows="50" cols="250"><%=EditArticle.Content%></textarea>
@@ -197,8 +197,6 @@ Err.Clear
 <% If Response_Plugin_Edit_Form2<>"" Then %>
 <div id="divEditForm2"><%=Response_Plugin_Edit_Form2%></div>
 <% End If %>
-
-
 
 
 
