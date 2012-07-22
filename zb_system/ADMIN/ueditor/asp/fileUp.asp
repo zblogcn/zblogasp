@@ -46,7 +46,7 @@ Next
 Dim Path
 Path=Replace(BlogPath & "zb_users\"& strUPLOADDIR &"\" & upload.form("edtFileLoad_Name")	,"\","/")
 Dim s
-FileName=ZC_BLOG_HOST&"zb_users\"& strUPLOADDIR &"\" & upload.form("edtFileLoad_Name")
+FileName=GetCurrentHost&"zb_users\"& strUPLOADDIR &"\" & upload.form("edtFileLoad_Name")
 s=upload.Save("edtFileLoad",1)
 objConn.Execute("INSERT INTO [blog_UpLoad]([ul_AuthorID],[ul_FileSize],[ul_FileName],[ul_PostTime],[ul_FileIntro],[ul_DirByTime]) VALUES ("& BlogUser.ID &",'"& upload.form("edtFileLoad_Size") &"','"& upload.form("edtFileLoad") &"','"& PostTime &"','Attatment',"&CInt(ZC_UPLOAD_DIRBYMONTH)&")")
 
