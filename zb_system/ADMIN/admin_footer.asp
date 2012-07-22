@@ -6,7 +6,8 @@
 <script language="JavaScript" type="text/javascript">
 // <![CDATA[
 
-$(document).ready(function(){ 
+
+function bmx2table(){
 
 	//斑马线
 	var tables=document.getElementsByTagName("table");
@@ -36,13 +37,15 @@ $(document).ready(function(){
 					this.className="color3";
 				}
 			};
-
 		};
-	}
+	};
+};
 
+$(document).ready(function(){ 
+
+	bmx2table();
 
 	if($('.SubMenu').find('span').length==0){$('.SubMenu').hide()}
-
 
 });
 // ]]>

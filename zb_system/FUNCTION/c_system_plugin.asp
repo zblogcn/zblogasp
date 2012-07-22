@@ -3614,6 +3614,16 @@ Response_Plugin_CategoryMng_SubMenu=""
 
 '**************************************************<
 '类型:response
+'名称:Response_Plugin_FunctionMng_SubMenu
+'参数:无
+'说明:模块管理子菜单
+'**************************************************>
+Dim Response_Plugin_FunctionMng_SubMenu
+Response_Plugin_FunctionMng_SubMenu=""
+
+
+'**************************************************<
+'类型:response
 '名称:Response_Plugin_CommentMng_SubMenu
 '参数:无
 '说明:评论管理子菜单

@@ -10,7 +10,7 @@
     <li id="nav_comments"><a id="aCommentMng"  href="<%=GetCurrentHost%>ZB_SYSTEM/cmd.asp?act=CommentMng"><span><%=ZC_MSG068%></span></a></li>
     <li id="nav_accessories"><a id="aFileMng" href="<%=GetCurrentHost%>ZB_SYSTEM/cmd.asp?act=FileMng"><span><%=ZC_MSG071%></span></a></li>
     <li id="nav_themes"><a id="aThemeMng" href="<%=GetCurrentHost%>ZB_SYSTEM/cmd.asp?act=ThemeMng"><span><%=ZC_MSG291%></span></a></li>
-    <li id="nav_function"><a id="aFunctionMng" href="<%=GetCurrentHost%>ZB_SYSTEM/cmd.asp?act=LinkMng"><span><%=ZC_MSG343%></span></a></li>
+    <li id="nav_function"><a id="aFunctionMng" href="<%=GetCurrentHost%>ZB_SYSTEM/cmd.asp?act=FunctionMng"><span><%=ZC_MSG343%></span></a></li>
     <li id="nav_plugin"><a id="aPlugInMng" href="<%=GetCurrentHost%>ZB_SYSTEM/cmd.asp?act=PlugInMng"><span><%=ZC_MSG107%></span></a></li>
     <li id="nav_user"><a id="aUserMng" href="<%=GetCurrentHost%>ZB_SYSTEM/cmd.asp?act=UserMng"><span><%=ZC_MSG070%></span></a></li>
     <%=Response_Plugin_Admin_Left%>

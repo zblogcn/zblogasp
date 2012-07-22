@@ -551,6 +551,7 @@ Function UpdateDateBase()
 
 	If Not CheckUpdateDB("[conf_Name]","[blog_Config]") Then
 		objConn.execute("CREATE TABLE [blog_Config] (conf_Name VARCHAR(255) default """" not null,conf_Value text default """"")
+		objConn.execute("CREATE TABLE [blog_Function] (fn_ID AutoIncrement primary key,fn_Name VARCHAR(50) default """",fn_FileName VARCHAR(50) default """",fn_Order int default 0,fn_Content text default """",fn_IsSystem YESNO DEFAULT 0,fn_HtmlID VARCHAR(50) default """",fn_Ftype VARCHAR(5) default """",fn_Meta text default """")")
 	End If
 
 End Function
@@ -593,6 +594,8 @@ objCat.Create "Provider=Microsoft.Jet.OLEDB.4.0;Data Source="&Server.MapPath("zb
 Set objConn = Server.CreateObject("ADODB.Connection")
 objConn.Open "Provider=Microsoft.Jet.OLEDB.4.0;Data Source="&Server.MapPath("zblog.mdb")
 
+objConn.BeginTrans
+
 objConn.execute("CREATE TABLE [blog_Tag] (tag_ID AutoIncrement primary key,tag_Name VARCHAR(255) default """",tag_Intro text default """",tag_ParentID int default 0,tag_URL VARCHAR(255) default """",tag_Order int default 0,tag_Count int default 0,tag_Template VARCHAR(255) default """",tag_FullUrl VARCHAR(255) default """",tag_Meta text default """")")
 
 objConn.execute("CREATE TABLE [blog_Article] (log_ID AutoIncrement primary key,log_CateID int default 0,log_AuthorID int default 0,log_Level int default 0,log_Url VARCHAR(255) default """",log_Title VARCHAR(255) default """",log_Intro text default """",log_Content text default """",log_IP VARCHAR(15) default """",log_PostTime datetime default now(),log_CommNums int default 0,log_ViewNums int default 0,log_TrackBackNums int default 0,log_Tag VARCHAR(255) default """",log_IsTop YESNO DEFAULT 0,log_Yea int default 0,log_Nay int default 0,log_Ratting int default 0,log_Template VARCHAR(255) default """",log_FullUrl VARCHAR(255) default """",log_IsAnonymous YESNO DEFAULT FALSE,log_Meta text default """")")
@@ -614,10 +617,11 @@ objConn.execute("CREATE TABLE [blog_Member] (mem_ID AutoIncrement primary key,me
 objConn.execute("CREATE TABLE [blog_Config] (conf_Name VARCHAR(255) default """" not null,conf_Value text default """")")
 'objConn.execute("CREATE UNIQUE INDEX index_conf_Name ON [blog_Config](conf_Name)")
 
+objConn.execute("CREATE TABLE [blog_Function] (fn_ID AutoIncrement primary key,fn_Name VARCHAR(50) default """",fn_FileName VARCHAR(50) default """",fn_Order int default 0,fn_Content text default """",fn_IsSystem YESNO DEFAULT 0,fn_SidebarID int default 0,fn_HtmlID VARCHAR(50) default """",fn_Ftype VARCHAR(5) default """",fn_Meta text default """")")
+
 objConn.Execute("INSERT INTO [blog_Member]([mem_Level],[mem_Name],[mem_PassWord],[mem_Email],[mem_HomePage],[mem_Intro],[mem_Guid]) VALUES (1,'zblogger','"&ps&"','null@null.com','','','"&guid&"')")
 
-
-
+objConn.CommitTrans
 
 
 '这段是在指定的MSSQL数据库里创建新表及默认数据
@@ -629,6 +633,8 @@ objConn.Execute("INSERT INTO [blog_Member]([mem_Level],[mem_Name],[mem_PassWord]
 Set objConn = Server.CreateObject("ADODB.Connection")
 
 objConn.Open "Provider=SqlOLEDB;Data Source=(local)\SQLEXPRESS;Initial Catalog=zb;Persist Security Info=True;User ID=sa;Password=;"
+
+objConn.BeginTrans
 
 objConn.execute("CREATE TABLE [blog_Tag] (tag_ID int identity(1,1) not null primary key,tag_Name nvarchar(255) default '',tag_Intro ntext default '',tag_ParentID int default 0,tag_URL nvarchar(255) default '',tag_Order int default 0,tag_Count int default 0,tag_Template nvarchar(255) default '',tag_FullUrl nvarchar(255) default '',tag_Meta ntext default '')")
 
@@ -650,7 +656,11 @@ objConn.execute("CREATE TABLE [blog_Member] (mem_ID int identity(1,1) not null p
 
 objConn.execute("CREATE TABLE [blog_Config] (conf_Name nvarchar(255) not null default '',conf_Value text default '')")
 
+objConn.execute("CREATE TABLE [blog_Function] (fn_ID int identity(1,1) not null primary key,fn_Name nvarchar(50) default '',fn_FileName nvarchar(50) default '',fn_Order int default 0,fn_Content ntext default '',fn_IsSystem bit DEFAULT 0,fn_SidebarID int default 0,fn_HtmlID nvarchar(50) default '',fn_Ftype nvarchar(5) default '',fn_Meta ntext default '')")
+
 objConn.Execute("INSERT INTO [blog_Member]([mem_Level],[mem_Name],[mem_PassWord],[mem_Email],[mem_HomePage],[mem_Intro],[mem_Guid]) VALUES (1,'zblogger','"&ps&"','null@null.com','','','"&guid&"')")
+
+objConn.CommitTrans
 
 objConn.Close
 

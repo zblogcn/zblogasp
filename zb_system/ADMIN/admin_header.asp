@@ -10,6 +10,7 @@
 <title><%=BlogTitle%></title>
 <link rel="stylesheet" href="<%=GetCurrentHost%>ZB_SYSTEM/CSS/jquery.bettertip.css" type="text/css" media="screen" />
 <script language="JavaScript" src="<%=GetCurrentHost%>ZB_SYSTEM/script/jquery.bettertip.pack.js" type="text/javascript"></script>
+<script language="JavaScript" src="<%=GetCurrentHost%>ZB_SYSTEM/script/jquery-ui-1.8.21.custom.min.js" type="text/javascript"></script>
 <!--[if IE 6]>
 <script src="<%=GetCurrentHost%>zb_system/script/iepng.js" type="text/javascript"></script>
 <script type="text/javascript">
