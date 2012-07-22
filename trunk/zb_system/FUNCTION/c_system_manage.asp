@@ -1543,7 +1543,7 @@ Function ExportFunctionList()
 
 
 	Response.Write "<table border=""1"" width=""100%"" cellspacing=""0"" cellpadding=""0"" class='tableBorder'>"
-	Response.Write "<tr><th width=""5%""></th><th width=""8%"">"& ZC_MSG079 &"</th><th width=""8%"">"& ZC_MSG076 &"</th><th>"& ZC_MSG001 &"</th><th>"& ZC_MSG147 &"</th><th width=""14%"">"&ZC_MSG061&"</th><th width=""14%"">"&ZC_MSG345&"</th><th width=""14%""></th></tr>"
+	Response.Write "<tr><th width=""5%""></th><th width=""8%"">"& ZC_MSG079 &"</th><th width=""8%"">"& ZC_MSG076 &"</th><th>"& ZC_MSG001 &"</th><th>Html ID</th><th width=""14%"">"&ZC_MSG061&"</th><th width=""14%"">"&ZC_MSG345&"</th><th width=""14%""></th></tr>"
 
 	Dim aryFunctionInOrder
 	aryFunctionInOrder=GetFunctionOrder()
