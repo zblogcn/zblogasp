@@ -62,7 +62,7 @@ Public Function Logout()
 	Response.Write "function SetCookie(sName, sValue,iExpireDays) {if (iExpireDays){var dExpire = new Date();dExpire.setTime(dExpire.getTime()+parseInt(iExpireDays*24*60*60*1000));document.cookie = sName + ""="" + escape(sValue) + ""; expires="" + dExpire.toGMTString();}else{document.cookie = sName + ""="" + escape(sValue) + ""; path=/"";	}}"
 	Response.Write "SetCookie(""username"","""","""");"
 	Response.Write "SetCookie(""password"","""","""");"
-	Response.Write "window.location=""" & ZC_BLOG_HOST & """;"
+	Response.Write "window.location=""" & GetCurrentHost & """;"
 	Response.Write "</script>"
 
 	Logout=True
@@ -96,7 +96,7 @@ Function UploadFile(bolAutoName,bolReload)
 
 		Response.Write "<!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 1.0 Transitional//EN"" ""http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd""><html><head><meta http-equiv=""Content-Type"" content=""text/html; charset=utf-8""/><meta http-equiv=""Content-Language"" content=""zh-cn"" /><link rel=""stylesheet"" rev=""stylesheet"" href=""CSS/admin.css"" type=""text/css"" media=""screen"" /></head><body>"
 
-		Response.Write "<form border=""1"" name=""edit"" id=""edit"" method=""post"" enctype=""multipart/form-data"" action="""& ZC_BLOG_HOST &"cmd.asp?act=FileSnd"">"
+		Response.Write "<form border=""1"" name=""edit"" id=""edit"" method=""post"" enctype=""multipart/form-data"" action="""& GetCurrentHost &"cmd.asp?act=FileSnd"">"
 		Response.Write "<p><input type=""submit"" class=""button"" value="""& ZC_MSG237 &""" name=""B1"" />&nbsp;&nbsp;"& ZC_MSG236 &":"
 		Response.Write ""& "<a href="""& objUpLoadFile.FullUrlPathName &""" target=""_blank"">"& objUpLoadFile.FullUrlPathName &"</a></p>"
 		Response.Write "</form>"
@@ -172,10 +172,10 @@ Function SendFile()
 
 	Response.Write "<!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 1.0 Transitional//EN"" ""http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd""><html><head><meta http-equiv=""Content-Type"" content=""text/html; charset=utf-8""/><meta http-equiv=""Content-Language"" content=""zh-cn"" /><link rel=""stylesheet"" rev=""stylesheet"" href=""CSS/admin.css"" type=""text/css"" media=""screen"" /><script src=""script/common.js"" type=""text/javascript""></script></head><body>"
 
-	Response.Write "<form border=""1"" name=""edit"" id=""edit"" method=""post"" enctype=""multipart/form-data"" action="""& ZC_BLOG_HOST &"cmd.asp?act=FileUpload&reload=1"">"
+	Response.Write "<form border=""1"" name=""edit"" id=""edit"" method=""post"" enctype=""multipart/form-data"" action="""& GetCurrentHost &"cmd.asp?act=FileUpload&reload=1"">"
 	Response.Write "<p>"& ZC_MSG108 &": "
 	Response.Write "<input type=""file"" id=""edtFileLoad"" name=""edtFileLoad"" size=""20"">  <input type=""submit"" class=""button"" value="""& ZC_MSG087 &""" name=""B1"" onclick='document.getElementById(""edit"").action=document.getElementById(""edit"").action+""&filename=""+escape(document.getElementById(""edtFileLoad"").value)' /> <input class=""button"" type=""reset"" value="""& ZC_MSG088 &""" name=""B2"" />"
-	Response.Write "&nbsp;<input type=""checkbox"" onclick='if(this.checked==true){document.getElementById(""edit"").action=document.getElementById(""edit"").action+""&autoname=1"";}else{document.getElementById(""edit"").action="""& ZC_BLOG_HOST &"cmd.asp?act=FileUpload&reload=1"";};SetCookie(""chkAutoFileName"",this.checked,365);' id=""chkAutoName"" id=""chkAutoName""/><label for=""chkAutoName"">"& ZC_MSG131 &"</label></p></form>"
+	Response.Write "&nbsp;<input type=""checkbox"" onclick='if(this.checked==true){document.getElementById(""edit"").action=document.getElementById(""edit"").action+""&autoname=1"";}else{document.getElementById(""edit"").action="""& GetCurrentHost &"cmd.asp?act=FileUpload&reload=1"";};SetCookie(""chkAutoFileName"",this.checked,365);' id=""chkAutoName"" id=""chkAutoName""/><label for=""chkAutoName"">"& ZC_MSG131 &"</label></p></form>"
 
 	Response.Write "<script type=""text/javascript"">if(GetCookie(""chkAutoFileName"")==""true""){document.getElementById(""chkAutoName"").checked=true;document.getElementById(""edit"").action=document.getElementById(""edit"").action+""&autoname=1"";};</script></body></html>"
 
@@ -948,7 +948,7 @@ Function MakeFileReBuild()
 	If intPage=0 Then
 		Call MakeBlogReBuild_Core()
 		intPage=1
-		Response.Redirect ZC_BLOG_HOST&"zb_system/cmd.asp?act=FileReBuild&page="&intPage&"&all="&intAllTime
+		Response.Redirect GetCurrentHost&"zb_system/cmd.asp?act=FileReBuild&page="&intPage&"&all="&intAllTime
 	End If
 
 	Dim i,j

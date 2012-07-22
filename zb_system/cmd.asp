@@ -885,7 +885,7 @@ Function Search()
 		If bAction_Plugin_Search_Begin=True Then Exit Function
 	Next
 
-	RedirectBy301(ZC_BLOG_HOST & "search.asp?q=" & Server.URLEncode(Request.Form("edtSearch")))
+	RedirectBy301(GetCurrentHost & "search.asp?q=" & Server.URLEncode(Request.Form("edtSearch")))
 End Function
 
 Function SettingMng()

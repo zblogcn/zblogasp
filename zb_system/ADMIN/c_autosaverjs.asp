@@ -28,7 +28,7 @@ Response.ContentType="application/x-javascript"
 Call System_Initialize()
 
 Public ZC_AUTOSAVE_FILENAME
-ZC_AUTOSAVE_FILENAME="autosave"&"_"&MD5(ZC_BLOG_HOST & ZC_BLOG_CLSID & BlogUser.Name)&".txt"  
+ZC_AUTOSAVE_FILENAME="autosave"&"_"&MD5(GetCurrentHost & ZC_BLOG_CLSID & BlogUser.Name)&".txt"  
 
 
 IF IsEmpty(ReQuest.QueryString("act")) Then
@@ -79,7 +79,7 @@ Function SaveContent()
 		End With
 		Set objStream = NoThing
 		If Err.Number=0 then
-		Response.Write "<span style="""">&nbsp;"&formatdatetime(now,4)&":"&Right("0"&second(now),2)&"<a href="""&ZC_BLOG_HOST&"zb_users/CACHE/"&ZC_AUTOSAVE_FILENAME&""" target=""_blank"" style=""text-decoration: none;"">"&ZC_MSG258&"</a>&nbsp;</span>"
+		Response.Write "<span style="""">&nbsp;"&formatdatetime(now,4)&":"&Right("0"&second(now),2)&"<a href="""&GetCurrentHost&"zb_users/CACHE/"&ZC_AUTOSAVE_FILENAME&""" target=""_blank"" style=""text-decoration: none;"">"&ZC_MSG258&"</a>&nbsp;</span>"
 		Else
 		Response.Write "<span style="""">&nbsp;"&formatdatetime(now,4)&""&ZC_MSG257&"&nbsp;"&Err.Number&Err.description&"</span>"
 		End If
@@ -104,7 +104,7 @@ Function ExportAutoSaveJS()
 	Response.Write "  }"
 	'/////////////
 	Response.Write "  var AutoSaveTime=60;"
-	Response.Write "  var FileName="""&ZC_BLOG_HOST&"zb_users/CACHE/"&ZC_AUTOSAVE_FILENAME&""";"
+	Response.Write "  var FileName="""&GetCurrentHost&"zb_users/CACHE/"&ZC_AUTOSAVE_FILENAME&""";"
 	Response.Write "  var postForm = null; "
 	Response.Write "  var msg = null; "
 	Response.Write "  function init_edit(){"

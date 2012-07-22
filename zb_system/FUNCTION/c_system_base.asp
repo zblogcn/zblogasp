@@ -2912,4 +2912,41 @@ Function GetCommentFloor(ID)
 End Function
 '*********************************************************
 
+
+
+
+'*********************************************************
+' 目的：    
+'*********************************************************
+Function GetCurrentHost()
+	Dim s,t,u
+
+	s=  Request.ServerVariables("URL")
+	t=Replace(BlogPath,"\","/")
+
+	Dim i
+
+	For i=Len(s) To 1 Step -1
+		If InStr(t,Left(s,i))>0 Then
+		
+			u=Left(s,i)
+			If u=Right(t,Len(u)) Then
+				Exit For
+			End If
+
+		End If
+	Next
+
+	'Response.Write "https://" & Request.ServerVariables("HTTP_HOST") & Left(s,i)
+
+	if Request.ServerVariables("HTTPS")="off" then
+		t= "http://" & Request.ServerVariables("HTTP_HOST") & Left(s,i)
+	else
+		t= "https://" & Request.ServerVariables("HTTP_HOST") & Left(s,i)
+	end If
+		
+	GetCurrentHost=t
+
+End Function
+'*********************************************************
 %>
