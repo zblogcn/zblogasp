@@ -8,13 +8,6 @@
 <!-- #include file="..\..\..\function\c_system_plugin.asp" -->
 <!-- #include file="..\..\..\..\zb_users\plugin\p_config.asp" -->
 <%
-Call System_Initialize()
-Call CheckReference("")
-If Not CheckRights("ArticleEdt") Then Call ShowError(6)
-For Each sAction_Plugin_FileUpload_Begin in Action_Plugin_FileUpload_Begin
-	If Not IsEmpty(sAction_Plugin_FileUpload_Begin) Then Call Execute(sAction_Plugin_FileUpload_Begin)
-Next
-
 dim upload,file,state,uploadPath,PostTime
 Randomize
 
@@ -33,6 +26,23 @@ upload.FileType=Replace(ZC_UPLOAD_FILETYPE,"|","/")
 upload.savepath=BlogPath & "zb_users\"& strUPLOADDIR &"\"
 upload.maxsize=1024*1024*1024
 upload.open
+Call System_Initialize
+Set BlogUser=Nothing
+Set BlogUser =New TUser
+BlogUser.LoginType="Self"
+BlogUser.name=CStr(Trim(upload.form("username")))
+BlogUser.Password=CStr(Trim(upload.form("password")))
+BlogUser.Verify()
+Call SetBlogHInt_Custom("Username="&BlogUser.name&"<br/>Password="&BlogUser.Password&"<br/>Level="&BlogUser.level)
+
+
+
+If Not CheckRights("ArticleEdt") Then Call ShowError(6)
+For Each sAction_Plugin_FileUpload_Begin in Action_Plugin_FileUpload_Begin
+	If Not IsEmpty(sAction_Plugin_FileUpload_Begin) Then Call Execute(sAction_Plugin_FileUpload_Begin)
+Next
+
+
 Dim Path
 Path=Replace(BlogPath & "zb_users\"& strUPLOADDIR &"\" & upload.form("edtFileLoad_Name")	,"\","/")
 Dim s
