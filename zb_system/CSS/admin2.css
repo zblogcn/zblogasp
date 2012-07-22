@@ -5,7 +5,7 @@
 邮箱：u2lei@yahoo.com.cn
      xinxr@msn.com
 */
-body{min-width:1000px;padding:0; margin:0; font-family:"微软雅黑","宋体", Arial, Helvetica, sans-serif; color:#444444; font-size: 14px; line-height: 20px; background: #FFFFFF};
+body{min-width:1080px;padding:0; margin:0; font-family:"微软雅黑","宋体", Arial, Helvetica, sans-serif; color:#444444; font-size: 14px; line-height: 20px; background: #FFFFFF};
 * { padding:0; margin:0;}
 div, h1, h2, h3, h4, p, form, ul, label, input, textarea, img, span{margin:0; padding:0;}
 table{border-collapse:collapse;}
@@ -73,7 +73,6 @@ table {
 	border-collapse: collapse;
 	border:1px solid #E1E1E1;
 	background:#ffffff;
-	margin-bottom:1em;
 	line-height:120%;
 }
 
@@ -198,7 +197,12 @@ background-image: url(../image/common/window_2.png);
 
 
 /*表   格*/
-.tableBorder { line-height:1.8em;}
+.tableBorder {
+	line-height:1.8em;
+	margin-bottom:0.8em;
+	margin-top:0.2em;
+}
+
 
 .tableBorder th{
 text-align:left;
@@ -230,14 +234,14 @@ form input {
 }
 form select{
 	padding: 0.15em 0.25em 0.20em 0.25em;
-	border: 1px double #527b9a;
+	border: 1px double #aaaaaa;
 	background-position: bottom;
 	background:#fff;
 }
 
 form textarea{
 	padding: 0.15em 0.25em 0.20em 0.25em;
-	border: 1px double #527b9a;
+	border: 1px double #aaaaaa;
 	background-position: bottom;
 	background:#fff;
 }
@@ -297,6 +301,22 @@ hr {height:0px;border:none;padding:0;visibility:hidden;}
 
 
 /*后台编辑页,文章编辑和页面编辑*/
+#divEditRight{
+	float:right;
+	width:210px;
+	text-align:right;
+}
+#divEditLeft{
+	float:left;
+	width:100%;
+	margin-right:-210px;
+}
+
+#divEditTitle,#divContent,#divIntro,#divEditForm,#divEditForm2{
+	padding-right:210px;
+}
+
+
 div.theme-now{
 	float:left;
 	background:#ccd1e4;
