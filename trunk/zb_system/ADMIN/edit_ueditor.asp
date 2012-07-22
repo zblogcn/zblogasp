@@ -120,7 +120,11 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & IIf(IsPage,ZC_MSG329,ZC_MSG047)
 		minFrameHeight:200
 	});</script>
 <!--#include file="admin_top.asp"-->
+<%If IsPage=False Then%>
 <script type="text/javascript">ActiveLeftMenu("aArticleEdt");</script>
+<%Else%>
+<script type="text/javascript">ActiveLeftMenu("aPageMng");</script>
+<%End If%>
                 <div id="divMain">
 <%	Call GetBlogHint()	%>
 <div class="divHeader2"><%=IIf(IsPage,ZC_MSG329,ZC_MSG047)%></div>
@@ -411,7 +415,6 @@ Err.Clear
 </div>
 <script type="text/javascript">
 // <![CDATA[
-	ActiveLeftMenu("aArticleEdt");
 
 	editor.render('ueditor');
 	editor2.render('ueditor2');
