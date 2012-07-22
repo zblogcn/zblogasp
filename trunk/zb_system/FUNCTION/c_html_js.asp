@@ -161,18 +161,18 @@ Function ReadCountInfo()
 
 	If IsNull(objDS) or IsEmpty(objDS) Then ReadCountInfo=Empty : Exit Function
 
-	Dim aryArticleCount()
-	Redim Preserve aryArticleCount(objDS(0,UBound(objDS, 2)))
+	Dim aryCount()
+	Redim Preserve aryCount(objDS(0,UBound(objDS, 2)))
 	
 	For i = 0 To UBound(objDS, 2)
-		aryArticleCount(objDS(0,i))=objDS(1,i)
+		aryCount(objDS(0,i))=objDS(1,i)
 	Next
 
 	Application.Lock
-	Application(ZC_BLOG_CLSID&"CACHE_ARTICLE_VIEWCOUNT")=aryArticleCount
+	Application(ZC_BLOG_CLSID&"CACHE_ARTICLE_VIEWCOUNT")=aryCount
 	Application.UnLock
 
-	ReadCountInfo=aryArticleCount
+	ReadCountInfo=aryCount
 
 End Function
 '*********************************************************
@@ -189,19 +189,46 @@ Function UpdateCountInfo(id)
 
 	Call CheckParameter(id,"int",0)
 
-	Call OpenConnect()
+	Dim strLastUpdate,intCount,aryCount,objRS,bolToDb
+	bolToDb=False
 
-	objConn.Execute("UPDATE [blog_Article] SET [log_ViewNums]=[log_ViewNums]+1 WHERE [log_ID] =" & id)
-
-	Call CloseConnect()
-
-	Dim aryArticleCount
 	Application.Lock
-	aryArticleCount=Application(ZC_BLOG_CLSID&"CACHE_ARTICLE_VIEWCOUNT")
-	aryArticleCount(id)=aryArticleCount(id)+1
-	Application(ZC_BLOG_CLSID&"CACHE_ARTICLE_VIEWCOUNT")=aryArticleCount
+	strLastUpdate=Application(ZC_BLOG_CLSID&"LAST_UPDATE")
+	aryCount=Application(ZC_BLOG_CLSID&"CACHE_ARTICLE_VIEWCOUNT")
+	aryCount(id)=aryCount(id)+1
+	Application(ZC_BLOG_CLSID&"CACHE_ARTICLE_VIEWCOUNT")=aryCount
 	Application.UnLock
 
+	If IsEmpty(strLastUpdate) Or Not IsDate(strLastUpdate) Then
+		Application.Lock
+		Application(ZC_BLOG_CLSID&"LAST_UPDATE") = Now()
+		strLastUpdate = Application(ZC_BLOG_CLSID&"LAST_UPDATE")
+		Application.UnLock
+		bolToDb=True
+	End If
+	If DateDiff("s",strLastUpdate,Now()) > 60 Then bolToDb=True
+ 	If bolToDb=True Then
+ 		Call OpenConnect()
+		Set objRS=objConn.Execute("SELECT [log_ViewNums] FROM [blog_Article] WHERE [log_ID] =" & id)
+		If (not objRS.bof) And (not objRS.eof) Then
+			intCount=objRS("log_ViewNums")
+		Else
+			intCount=0
+		End If
+  		Set objRS=Nothing
+		If aryCount(id) > intCount Then
+			objConn.Execute("UPDATE [blog_Article] SET [log_ViewNums]=" & CLng(aryCount(id)) & " WHERE [log_ID] =" & id)
+			Application.Lock
+			Application(ZC_BLOG_CLSID&"LAST_UPDATE") = Now()
+			Application.UnLock
+		Else
+			aryCount(id) = intCount
+		  	Application.Lock
+		  	Application(ZC_BLOG_CLSID&"CACHE_ARTICLE_VIEWCOUNT")=aryCount
+		  	Application.UnLock
+  		End If
+		Call CloseConnect()
+ 	End If
 End Function
 '*********************************************************
 
@@ -215,17 +242,17 @@ End Function
 '*********************************************************
 Function LoadCountInfo(id)
 
-	Dim aryArticleCount
+	Dim aryCount
 
 	Application.Lock
-	aryArticleCount=Application(ZC_BLOG_CLSID&"CACHE_ARTICLE_VIEWCOUNT")
+	aryCount=Application(ZC_BLOG_CLSID&"CACHE_ARTICLE_VIEWCOUNT")
 	Application.UnLock
 
-	If IsEmpty(aryArticleCount) Then
-		aryArticleCount=ReadCountInfo
+	If IsEmpty(aryCount) Then
+		aryCount=ReadCountInfo
 	End If
 
-	LoadCountInfo=aryArticleCount(id)
+	LoadCountInfo=aryCount(id)
 
 End Function
 '*********************************************************
