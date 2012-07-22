@@ -47,5 +47,6 @@ $(document).ready(function(){
 });
 // ]]>
 </script>
+<%=Response_Plugin_Admin_Footer%>
 </body>
 </html>
