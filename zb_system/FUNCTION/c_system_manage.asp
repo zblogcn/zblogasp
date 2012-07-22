@@ -1537,8 +1537,6 @@ Function ExportFunctionList()
 
 	Dim i,j,s
 
-	SetBlogHint_Custom(Round(Right(10111,3)/111)=1)
-
 	Response.Write "<div class=""divHeader"">" & ZC_MSG343 & "</div>"
 	Response.Write "<div class=""SubMenu"">" & Response_Plugin_FunctionMng_SubMenu & "</div>"
 	Response.Write "<div id=""divMain2"">"
@@ -1570,8 +1568,11 @@ Function ExportFunctionList()
 		Response.Write "<td>" & Functions(aryFunctionInOrder(i)).HtmlID & "</td>"
 		Response.Write "<td>" & Functions(aryFunctionInOrder(i)).Ftype & "</td>"
 		Response.Write "<td>" & s & "</td>"
-		Response.Write "<td align=""center""><a href=""../cmd.asp?act=CategoryEdt&amp;id="& Functions(aryFunctionInOrder(i)).ID &"""><img src=""../image/admin/brick_edit.png"" alt=""" & ZC_MSG078 & """ title=""" & ZC_MSG078 & """ width=""16"" /></a>&nbsp;&nbsp;&nbsp;&nbsp;<a onclick='return window.confirm("""& ZC_MSG058 &""");' href=""../cmd.asp?act=CategoryDel&amp;id="& Functions(aryFunctionInOrder(i)).ID &"""></a><img src=""../image/admin/delete.png"" alt=""" & ZC_MSG063 & """ title=""" & ZC_MSG063 & """ width=""16"" /></td>"
-		Response.Write "</tr>"
+		Response.Write "<td align=""center""><a href=""../cmd.asp?act=Function&amp;id="& Functions(aryFunctionInOrder(i)).ID &"""><img src=""../image/admin/brick_edit.png"" alt=""" & ZC_MSG078 & """ title=""" & ZC_MSG078 & """ width=""16"" /></a>"
+		If Functions(aryFunctionInOrder(i)).IsSystem=False Then
+		Response.Write "&nbsp;&nbsp;&nbsp;&nbsp;<a onclick='return window.confirm("""& ZC_MSG058 &""");' href=""../cmd.asp?act=FunctionDel&amp;id="& Functions(aryFunctionInOrder(i)).ID &"""><img src=""../image/admin/delete.png"" alt=""" & ZC_MSG063 & """ title=""" & ZC_MSG063 & """ width=""16"" /></a>"
+		End If
+		Response.Write "</td></tr>"
 
 	Next
 	End If

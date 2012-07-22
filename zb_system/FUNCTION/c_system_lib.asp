@@ -608,8 +608,8 @@ Class TArticle
 		Dim aryTemplateTagsName()
 		Dim aryTemplateTagsValue()
 		Dim i,j
-		ReDim aryTemplateTagsName(49)
-		ReDim aryTemplateTagsValue(49)
+		ReDim aryTemplateTagsName(54)
+		ReDim aryTemplateTagsValue(54)
 
 		aryTemplateTagsName(1)="article/id"
 		aryTemplateTagsValue(1)=ID
@@ -729,6 +729,17 @@ Class TArticle
 		aryTemplateTagsValue(48)=ZVA_Month_Abbr(Month(PostTime))
 		aryTemplateTagsName(49)="article/posttime/weekdaynameabbr"
 		aryTemplateTagsValue(49)=ZVA_Week_Abbr(Weekday(PostTime))
+
+		aryTemplateTagsName(50)="template:sidebar"
+		aryTemplateTagsValue(50)=Templates_Sidebar(1)
+		aryTemplateTagsName(51)="template:sidebar2"
+		aryTemplateTagsValue(51)=Templates_Sidebar(2)
+		aryTemplateTagsName(52)="template:sidebar3"
+		aryTemplateTagsValue(52)=Templates_Sidebar(3)
+		aryTemplateTagsName(53)="template:sidebar4"
+		aryTemplateTagsValue(53)=Templates_Sidebar(4)
+		aryTemplateTagsName(54)="template:sidebar5"
+		aryTemplateTagsValue(54)=Templates_Sidebar(5)
 
 
 		Call Filter_Plugin_TArticle_Export_TemplateTags(aryTemplateTagsName,aryTemplateTagsValue)
@@ -1457,11 +1468,6 @@ Class TArticleList
 	Public Template_PageBar_Previous
 	Public Template_Calendar
 
-	Public Template_Sidebar
-	Public Template_Sidebar2
-	Public Template_Sidebar3
-
-
 	Public TemplateTags_ArticleList_Author_ID
 	Public TemplateTags_ArticleList_Tags_ID
 	Public TemplateTags_ArticleList_Category_ID
@@ -2075,8 +2081,8 @@ Class TArticleList
 		'plugin node
 		Call Filter_Plugin_TArticleList_Build_Template(html)
 
-		ReDim aryTemplateSubName(17)
-		ReDim aryTemplateSubValue(17)
+		ReDim aryTemplateSubName(19)
+		ReDim aryTemplateSubValue(19)
 
 		aryTemplateSubName(  1)="template:article-multi"
 		aryTemplateSubValue( 1)=Template_Article_Multi
@@ -2107,11 +2113,16 @@ Class TArticleList
 		aryTemplateSubName( 14)="articlelist/page/count"
 		aryTemplateSubValue(14)=ZC_DISPLAY_COUNT
 		aryTemplateSubName( 15)="template:sidebar"
-		aryTemplateSubValue(15)=Template_Sidebar
+		aryTemplateSubValue(15)=Templates_Sidebar(1)
 		aryTemplateSubName( 16)="template:sidebar2"
-		aryTemplateSubValue(16)=Template_Sidebar2
+		aryTemplateSubValue(16)=Templates_Sidebar(2)
 		aryTemplateSubName( 17)="template:sidebar3"
-		aryTemplateSubValue(17)=Template_Sidebar3
+		aryTemplateSubValue(17)=Templates_Sidebar(3)
+		aryTemplateSubName( 18)="template:sidebar4"
+		aryTemplateSubValue(18)=Templates_Sidebar(4)
+		aryTemplateSubName( 19)="template:sidebar5"
+		aryTemplateSubValue(19)=Templates_Sidebar(5)
+
 
 		'plugin node
 		Call Filter_Plugin_TArticleList_Build_TemplateSub(aryTemplateSubName,aryTemplateSubValue)
@@ -4616,7 +4627,7 @@ Class TFunction
 		Call CheckParameter(SidebarID,"int",1)
 		Call CheckParameter(IsSystem,"bool",False)
 
-		Name=FilterSQL(Name)
+		Name=LCase(FilterSQL(Name))
 		FileName=FilterSQL(FileName)
 		HtmlID=FilterSQL(HtmlID)
 
@@ -4699,17 +4710,91 @@ Class TFunction
 	End Function
 
 
+	Public Function InSidebars(num)
+		If num=1 Then InSidebars=InSidebar
+		If num=2 Then InSidebars=InSidebar2
+		If num=3 Then InSidebars=InSidebar3
+		If num=4 Then InSidebars=InSidebar4
+		If num=5 Then InSidebars=InSidebar5
+	End Function
+
 
 	Public Function InSidebar()
-		InSidebar=(Round(Right(Order,1)/1)=1)
+		InSidebar=(Round(Right(SidebarID,1)/1)=1)
 	End Function
 
 	Public Function InSidebar2()
-		InSidebar2=(Round(Right(Order,2)/11)=1)
+		InSidebar2=(Round(Right(SidebarID,2)/11)=1)
 	End Function
 
 	Public Function InSidebar3()
-		InSidebar3=(Round(Right(Order,3)/111)=1)
+		InSidebar3=(Round(Right(SidebarID,3)/111)=1)
+	End Function
+
+	Public Function InSidebar4()
+		InSidebar4=(Round(Right(SidebarID,4)/1111)=1)
+	End Function
+
+	Public Function InSidebar5()
+		InSidebar5=(Round(Right(SidebarID,5)/11111)=1)
+	End Function
+
+
+
+	Public Function MakeTemplate(strT)
+
+		Dim html,i,j,s
+		html=strT
+
+		If Ftype="div" Then
+			s="<div><#CACHE_INCLUDE_" & UCase(FileName) & "#></div>"
+		End If
+
+		If Ftype="ul" Then
+			s="<ul><#CACHE_INCLUDE_" & UCase(FileName) & "#></ul>"
+		End If
+
+		'plugin node
+
+
+		Dim aryTemplateTagsName()
+		Dim aryTemplateTagsValue()
+
+		ReDim aryTemplateTagsName(5)
+		ReDim aryTemplateTagsValue(5)
+
+		aryTemplateTagsName(  1)="function/id"
+		aryTemplateTagsValue( 1)=ID
+		aryTemplateTagsName(  2)="function/name"
+		aryTemplateTagsValue( 2)=Name
+		aryTemplateTagsName(  3)="function/htmlid"
+		aryTemplateTagsValue( 3)=HtmlID
+		aryTemplateTagsName(  4)="function/content"
+		aryTemplateTagsValue( 4)=s
+		aryTemplateTagsName(  5)="function/filename"
+		aryTemplateTagsValue( 5)=FileName
+
+
+		'plugin node
+
+
+		j=UBound(aryTemplateTagsName)
+		For i=1 to j
+			html=Replace(html,"<#" & aryTemplateTagsName(i) & "#>",aryTemplateTagsValue(i))
+		Next
+
+		MakeTemplate=html
+
+	End Function
+
+
+
+	Public Function Save()
+
+		Call SaveToFile(BlogPath & "zb_users/include/"&FileName&".asp",Content,"utf-8",False)
+
+		Save=True
+
 	End Function
 
 	Public Function Del()

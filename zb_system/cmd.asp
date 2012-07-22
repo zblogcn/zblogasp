@@ -1331,6 +1331,7 @@ Function FunctionMng()
 
 	If IsEmpty(Request.Form("edtBatch"))=False Then
 		Call SortFunction(Request.Form("edtBatch"))
+		Call MakeBlogReBuild_Core()
 	End If
 
 

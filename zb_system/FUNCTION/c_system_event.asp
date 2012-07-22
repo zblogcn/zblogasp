@@ -927,7 +927,7 @@ End Function
 '*********************************************************
 Function MakeFileReBuild()
 
-	On Error Resume Next
+	'On Error Resume Next
 
 	'plugin node
 	bAction_Plugin_MakeFileReBuild_Begin=False
@@ -1040,7 +1040,7 @@ Function MakeFileReBuild()
 
 	End If
 
-	Err.Clear
+	'Err.Clear
 
 End Function
 '*********************************************************

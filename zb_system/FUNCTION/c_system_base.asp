@@ -38,6 +38,9 @@ ReDim Users(0)
 ReDim Tags(0)
 ReDim Functions(0)
 
+Dim FunctionMetas
+Set FunctionMetas=New TMeta
+
 Dim ConfigMetas
 Set ConfigMetas=New TMeta
 
@@ -53,6 +56,10 @@ Dim TemplateTagsName
 Dim TemplateTagsValue
 Dim TemplatesName
 Dim TemplatesContent
+
+
+Dim Templates_Sidebar()
+ReDim Templates_Sidebar(5)
 
 '*********************************************************
 ' 目的：    System 初始化
@@ -84,7 +91,7 @@ Sub System_Initialize()
 	'Call GetTags()
 	'Call GetKeyWords()
 	Call GetConfigs()
-	Call GetFunctions()
+	'Call GetFunctions()
 
 
 	BlogConfig.Load("Blog")
@@ -106,6 +113,18 @@ Sub System_Initialize()
 			Call MakeBlogReBuild_Core()
 		End If
 	End If
+
+
+
+	Application.Lock
+    Templates_Sidebar(1)=Application(ZC_BLOG_CLSID & "CACHE_INCLUDE_SIDEBAR" )
+	Templates_Sidebar(2)=Application(ZC_BLOG_CLSID & "CACHE_INCLUDE_SIDEBAR2")
+	Templates_Sidebar(3)=Application(ZC_BLOG_CLSID & "CACHE_INCLUDE_SIDEBAR3")
+	Templates_Sidebar(4)=Application(ZC_BLOG_CLSID & "CACHE_INCLUDE_SIDEBAR4")
+	Templates_Sidebar(5)=Application(ZC_BLOG_CLSID & "CACHE_INCLUDE_SIDEBAR5")
+	Application.UnLock
+
+
 
 	'plugin node
 	bAction_Plugin_System_Initialize_Succeed=False
@@ -172,6 +191,16 @@ Sub System_Initialize_WithOutDB()
 			Call LoadGlobeCache()
 		End If
 	End If
+
+
+	Application.Lock
+    Templates_Sidebar(1)=Application(ZC_BLOG_CLSID & "CACHE_INCLUDE_SIDEBAR" )
+	Templates_Sidebar(2)=Application(ZC_BLOG_CLSID & "CACHE_INCLUDE_SIDEBAR2")
+	Templates_Sidebar(3)=Application(ZC_BLOG_CLSID & "CACHE_INCLUDE_SIDEBAR3")
+	Templates_Sidebar(4)=Application(ZC_BLOG_CLSID & "CACHE_INCLUDE_SIDEBAR4")
+	Templates_Sidebar(5)=Application(ZC_BLOG_CLSID & "CACHE_INCLUDE_SIDEBAR5")
+	Application.UnLock
+
 
 	'plugin node
 	bAction_Plugin_System_Initialize_WithOutDB_Succeed=False
@@ -501,6 +530,7 @@ Function GetFunctions()
 		For i=0 To l
 			Set Functions(aryAllData(0,i))=New TFunction
 			Functions(aryAllData(0,i)).LoadInfoByArray(Array(aryAllData(0,i),aryAllData(1,i),aryAllData(2,i),aryAllData(3,i),aryAllData(4,i),aryAllData(5,i),aryAllData(6,i),aryAllData(7,i),aryAllData(8,i),aryAllData(9,i)))
+			Call FunctionMetas.SetValue(aryAllData(2,i),aryAllData(0,i))
 		Next
 
 	End If
@@ -1123,8 +1153,21 @@ Function LoadGlobeCache()
 			aryTemplatesContent(i)=Replace(aryTemplatesContent(i),"<#ZC_BLOG_HOST#>themes/","<#ZC_BLOG_HOST#>zb_users/theme/")
 		Next
 
-
 	End If
+
+
+	'读取Cache目录下的所有侧栏文件并写入Cache
+
+
+	Application.Lock
+	Application(ZC_BLOG_CLSID & "CACHE_INCLUDE_SIDEBAR" )=LoadFromFile(BlogPath & "zb_users\cache" & "\sidebar.html","utf-8" )
+	Application(ZC_BLOG_CLSID & "CACHE_INCLUDE_SIDEBAR2")=LoadFromFile(BlogPath & "zb_users\cache" & "\sidebar2.html","utf-8")
+	Application(ZC_BLOG_CLSID & "CACHE_INCLUDE_SIDEBAR3")=LoadFromFile(BlogPath & "zb_users\cache" & "\sidebar3.html","utf-8")
+	Application(ZC_BLOG_CLSID & "CACHE_INCLUDE_SIDEBAR4")=LoadFromFile(BlogPath & "zb_users\cache" & "\sidebar4.html","utf-8")
+	Application(ZC_BLOG_CLSID & "CACHE_INCLUDE_SIDEBAR5")=LoadFromFile(BlogPath & "zb_users\cache" & "\sidebar5.html","utf-8")
+	Application.UnLock
+
+
 
 	'加载标签
 	Dim a,b,c,d,e,a2,a3
@@ -1377,6 +1420,15 @@ Function ClearGlobeCache()
 	Application(ZC_BLOG_CLSID & "TEMPLATE_WAP_ARTICLE-MULTI")=Empty
 	Application(ZC_BLOG_CLSID & "TEMPLATE_WAP_SINGLE")=Empty
 	Application(ZC_BLOG_CLSID & "TEMPLATE_GUESTBOOK")=Empty
+	Application(ZC_BLOG_CLSID & "TEMPLATE_B_FUNCTION")=Empty
+	Application(ZC_BLOG_CLSID & "TEMPLATE_B_ARTICLE_COMMENT_PAGEBAR")=Empty
+
+	Application(ZC_BLOG_CLSID & "CACHE_INCLUDE_SIDEBAR" )=Empty
+	Application(ZC_BLOG_CLSID & "CACHE_INCLUDE_SIDEBAR2")=Empty
+	Application(ZC_BLOG_CLSID & "CACHE_INCLUDE_SIDEBAR3")=Empty
+	Application(ZC_BLOG_CLSID & "CACHE_INCLUDE_SIDEBAR4")=Empty
+	Application(ZC_BLOG_CLSID & "CACHE_INCLUDE_SIDEBAR5")=Empty
+
 
 	Application(ZC_BLOG_CLSID & "SIGNAL_RELOADCACHE")=Empty
 
@@ -1994,6 +2046,8 @@ Function MakeBlogReBuild_Core()
 
 	BlogReBuild_Categorys
 
+	BlogReBuild_Functions
+
 	BuildAllCache
 
 	ExportRSS
@@ -2037,6 +2091,8 @@ Function BuildAllCache()
 		If Not IsEmpty(sAction_Plugin_BuildAllCache_Begin) Then Call Execute(sAction_Plugin_BuildAllCache_Begin)
 		If bAction_Plugin_BuildAllCache_Begin=True Then Exit Function
 	Next
+
+	Call GetFunctions()
 
 	Dim strList
 
@@ -2145,7 +2201,11 @@ Function BlogReBuild_Calendar()
 
 	strCalendar=TransferHTML(strCalendar,"[no-asp]")
 
-	Call SaveToFile(BlogPath & "zb_users/include/calendar.asp",strCalendar,"utf-8",True)
+
+	Call GetFunctions()
+	Functions(FunctionMetas.GetValue("calendar")).Content=strCalendar
+
+	'Call SaveToFile(BlogPath & "zb_users/include/calendar.asp",strCalendar,"utf-8",True)
 
 	BlogReBuild_Calendar=True
 
@@ -2229,7 +2289,11 @@ Function BlogReBuild_Archives()
 
 	strArchives=TransferHTML(strArchives,"[no-asp]")
 
-	Call SaveToFile(BlogPath & "zb_users/include/archives.asp",strArchives,"utf-8",True)
+
+	Call GetFunctions()
+	Functions(FunctionMetas.GetValue("archives")).Content=strArchives
+
+	'Call SaveToFile(BlogPath & "zb_users/include/archives.asp",strArchives,"utf-8",True)
 
 	BlogReBuild_Archives=True
 
@@ -2291,7 +2355,11 @@ Function BlogReBuild_Catalogs()
 
 	strCatalog=TransferHTML(strCatalog,"[no-asp]")
 
-	Call SaveToFile(BlogPath & "zb_users/include/catalog.asp",strCatalog,"utf-8",True)
+
+	Call GetFunctions()
+	Functions(FunctionMetas.GetValue("catalog")).Content=strCatalog
+
+	'Call SaveToFile(BlogPath & "zb_users/include/catalog.asp",strCatalog,"utf-8",True)
 
 	BlogReBuild_Catalogs=True
 
@@ -2381,14 +2449,17 @@ Function BlogReBuild_Authors()
 	Dim strAuthor
 	Dim User
 	For Each User in Users
-		If IsObject(User) Then
+		If IsObject(User) And User.ID>0 Then
 				strAuthor=strAuthor & "<li><a href="""& User.Url & """>"+User.Name + " (" & User.Count & ")" +"</a></li>"
 		End If
 	Next
 
 	strAuthor=TransferHTML(strAuthor,"[no-asp]")
 
-	Call SaveToFile(BlogPath & "zb_users/include/authors.asp",strAuthor,"utf-8",True)
+	Call GetFunctions()
+	Functions(FunctionMetas.GetValue("authors")).Content=strAuthor
+
+	'Call SaveToFile(BlogPath & "zb_users/include/authors.asp",strAuthor,"utf-8",True)
 
 	BlogReBuild_Authors=True
 
@@ -2434,7 +2505,10 @@ Function BlogReBuild_Tags()
 
 	strTag=TransferHTML(strTag,"[no-asp]")
 
-	Call SaveToFile(BlogPath & "zb_users/include/tags.asp",strTag,"utf-8",True)
+	Call GetFunctions()
+	Functions(FunctionMetas.GetValue("tags")).Content=strTag
+
+	'Call SaveToFile(BlogPath & "zb_users/include/tags.asp",strTag,"utf-8",True)
 
 	BlogReBuild_Tags=True
 
@@ -2480,7 +2554,10 @@ Function BlogReBuild_Previous()
 
 	strPrevious=TransferHTML(strPrevious,"[no-asp]")
 
-	Call SaveToFile(BlogPath & "zb_users/include/previous.asp",strPrevious,"utf-8",True)
+	Call GetFunctions()
+	Functions(FunctionMetas.GetValue("previous")).Content=strPrevious
+
+	'Call SaveToFile(BlogPath & "zb_users/include/previous.asp",strPrevious,"utf-8",True)
 
 	BlogReBuild_Previous=True
 
@@ -2532,7 +2609,10 @@ Function BlogReBuild_Comments()
 
 	strComments=TransferHTML(strComments,"[no-asp]")
 
-	Call SaveToFile(BlogPath & "zb_users/include/comments.asp",strComments,"utf-8",True)
+	Call GetFunctions()
+	Functions(FunctionMetas.GetValue("comments")).Content=strComments
+
+	'Call SaveToFile(BlogPath & "zb_users/include/comments.asp",strComments,"utf-8",True)
 
 	BlogReBuild_Comments=True
 
@@ -2573,37 +2653,6 @@ Function BlogReBuild_TrackBacks()
 		If Not IsEmpty(sAction_Plugin_BlogReBuild_TrackBacks_Begin) Then Call Execute(sAction_Plugin_BlogReBuild_TrackBacks_Begin)
 		If bAction_Plugin_BlogReBuild_TrackBacks_Begin=True Then Exit Function
 	Next
-
-	Dim objRS
-	Dim objStream
-	Dim objArticle
-
-	'TrackBacks
-	Dim strTrackBacks
-
-	Dim s
-	Dim i
-	Set objRS=objConn.Execute("SELECT * FROM [blog_TrackBack] ORDER BY [tb_ID] DESC")
-	If (Not objRS.bof) And (Not objRS.eof) Then
-		For i=1 to ZC_MSG_COUNT
-			s=objRS("tb_Title")
-			s=Replace(s,vbCrlf,"")
-			If (len(s)>ZC_RECENT_COMMENT_WORD_MAX) And (ZC_RECENT_COMMENT_WORD_MAX>(Len(ZC_MSG305)+1)) Then s=Left(s,ZC_RECENT_COMMENT_WORD_MAX-(Len(ZC_MSG305)+1))&ZC_MSG305
-			Set objArticle=New TArticle
-			If objArticle.LoadInfoByID(objRS("log_ID")) Then
-				strTrackBacks=strTrackBacks & "<li><a href="""& objArticle.Url & "#tb" & objRS("tb_ID") & """ title=""" & objRS("tb_PostTime") & " post by " & Replace(objRS("tb_Blog"),"""","") & """>"+s+"</a></li>"
-			End If
-			Set objArticle=Nothing
-			objRS.MoveNext
-			If objRS.eof Then Exit For
-		Next
-	End If
-	objRS.close
-	Set objRS=Nothing
-
-	strTrackBacks=TransferHTML(strTrackBacks,"[no-asp]")
-
-	Call SaveToFile(BlogPath & "zb_users/include/trackbacks.asp",strTrackBacks,"utf-8",True)
 
 	BlogReBuild_TrackBacks=True
 
@@ -2667,9 +2716,59 @@ Function BlogReBuild_Statistics()
 
 	strStatistics=TransferHTML(strStatistics,"[no-asp]")
 
-	Call SaveToFile(BlogPath & "zb_users/include/statistics.asp",strStatistics,"utf-8",False)
+	Call GetFunctions()
+	Functions(FunctionMetas.GetValue("statistics")).Content=strStatistics
+
+	'Call SaveToFile(BlogPath & "zb_users/include/statistics.asp",strStatistics,"utf-8",False)
 
 	BlogReBuild_Statistics=True
+
+End Function
+'*********************************************************
+
+
+
+
+'*********************************************************
+' 目的：    BlogReBuild Functions
+'*********************************************************
+Function BlogReBuild_Functions
+
+	Call GetFunctions()
+
+	Dim i,j,s,t,f
+
+	For Each f In Functions
+		If IsObject(f)=True Then
+			If f.id>0 Then
+				'If f.Ftype="div" Then f.Save
+				f.Save
+			End If
+		End If 
+	Next
+
+
+	Dim aryFunctionInOrder
+	aryFunctionInOrder=GetFunctionOrder()
+
+	Application.Lock
+	t=Application(ZC_BLOG_CLSID & "TEMPLATE_B_FUNCTION")
+	Application.UnLock
+
+
+	For i=1 To 5
+		If IsArray(aryFunctionInOrder) Then
+			s=""
+			For j=LBound(aryFunctionInOrder)+1 To Ubound(aryFunctionInOrder)
+				If Functions(aryFunctionInOrder(j)).InSidebars(i)=True Then
+				s=s & Functions(aryFunctionInOrder(j)).MakeTemplate(t)
+				End If
+			Next
+			Call SaveToFile(BlogPath & "zb_users/cache/sidebar"& IIF(i>1,i,"") &".html",s,"utf-8",False)
+		End If
+	Next
+
+	BlogReBuild_Functions=True
 
 End Function
 '*********************************************************
