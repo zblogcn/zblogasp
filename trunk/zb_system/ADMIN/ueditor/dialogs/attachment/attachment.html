@@ -24,6 +24,13 @@
 <script type="text/javascript" src="callbacks.js"></script>
 <script type="text/javascript" src="fileTypeMaps.js"></script>
 <script type="text/javascript">
+	function GetCookie(sName) {
+
+	var arr = document.cookie.match(new RegExp("(^| )"+sName+"=([^;]*)(;|$)"));
+	if(arr !=null){return unescape(arr[2])};
+	return null;
+
+	}
     var swfupload,
         filesList=[];
     editor.setOpt({
@@ -34,8 +41,8 @@
             upload_url:editor.options.fileUrl,           //附件上传服务器地址
             file_post_name:editor.options.fileFieldName,      //向后台提交的表单名
             flash_url:"../../third-party/swfupload/swfupload.swf",
+			post_params:{'username':GetCookie("username"),'password':GetCookie("password")},
             flash9_url:"../../third-party/swfupload/swfupload_fp9.swf",
-            post_params:{"PHPSESSID":"<?php echo session_id(); ?>"}, //解决session丢失问题
             file_size_limit:"100 MB",                                 //文件大小限制，此处仅是前端flash选择时候的限制，具体还需要和后端结合判断
             file_types:"*.*",                                         //允许的扩展名，多个扩展名之间用分号隔开，支持*通配符
             file_types_description:"All Files",                      //扩展名描述
@@ -106,6 +113,8 @@
             }
         };
         swfupload = new SWFUpload( settings );
+		swfupload.addPostParam("username",GetCookie("username"));
+		swfupload.addPostParam("password",GetCookie("password"));
         //点击OK按钮
         dialog.onok = function(){
             var map = fileTypeMaps,
