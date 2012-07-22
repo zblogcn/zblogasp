@@ -5,13 +5,13 @@
 <meta name="robots" content="nofollow" />
 <meta http-equiv="Content-Language" content="<%=ZC_BLOG_LANGUAGE%>" />
 <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" /> 
-<link href="<%=ZC_BLOG_HOST%>ZB_SYSTEM/CSS/admin2.css" rel="stylesheet" type="text/css" />
-<script language="JavaScript" src="<%=ZC_BLOG_HOST%>ZB_SYSTEM/script/common.js" type="text/javascript"></script>
+<link href="<%=GetCurrentHost%>ZB_SYSTEM/CSS/admin2.css" rel="stylesheet" type="text/css" />
+<script language="JavaScript" src="<%=GetCurrentHost%>ZB_SYSTEM/script/common.js" type="text/javascript"></script>
 <title><%=BlogTitle%></title>
-<link rel="stylesheet" href="<%=ZC_BLOG_HOST%>ZB_SYSTEM/CSS/jquery.bettertip.css" type="text/css" media="screen" />
-<script language="JavaScript" src="<%=ZC_BLOG_HOST%>ZB_SYSTEM/script/jquery.bettertip.pack.js" type="text/javascript"></script>
+<link rel="stylesheet" href="<%=GetCurrentHost%>ZB_SYSTEM/CSS/jquery.bettertip.css" type="text/css" media="screen" />
+<script language="JavaScript" src="<%=GetCurrentHost%>ZB_SYSTEM/script/jquery.bettertip.pack.js" type="text/javascript"></script>
 <!--[if IE 6]>
-<script src="<%=ZC_BLOG_HOST%>zb_system/script/iepng.js" type="text/javascript"></script>
+<script src="<%=GetCurrentHost%>zb_system/script/iepng.js" type="text/javascript"></script>
 <script type="text/javascript">
    GtPNG.fix('div, ul, img, li, input, span, a');  //EvPNG.fix('包含透明PNG图片的标签'); 多个标签之间用英文逗号隔开。
 </script>

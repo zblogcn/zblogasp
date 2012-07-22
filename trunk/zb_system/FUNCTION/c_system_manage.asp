@@ -916,7 +916,7 @@ Function ExportPluginMng()
 				If Err.Number=0 Then
 
 					Response.Write "<tr>"
-					Response.Write "<td align='center'><img width='16' title='"&ZC_MSG308&"' alt='"&ZC_MSG308&"' src='../IMAGE/ADMIN/arrow-3-right.png'/></td>"
+					Response.Write "<td align='center'><img width='16' src='../IMAGE/ADMIN/arrow-3-right.png'/></td>"
 					Response.Write "<td>"& "0" &"</td>"
 					Response.Write "<td><a id=""mylink"&Left(md5(objXmlFile.documentElement.selectSingleNode("id").text),6)&""" href=""$div"&Left(md5(objXmlFile.documentElement.selectSingleNode("id").text),6)&"tip?width=300"" class=""betterTip"" title=""$content"">" & "" & objXmlFile.documentElement.selectSingleNode("plugin/name").text & "" & "</a><div id=""div"&Left(md5(objXmlFile.documentElement.selectSingleNode("id").text),6)&"tip"" style=""display:none;"">"&objXmlFile.documentElement.selectSingleNode("plugin/note").text&"</div></td>"
 					Response.Write "<td>" & "<a target=""_blank"" href=""" & objXmlFile.documentElement.selectSingleNode("author/url").text & """>"& objXmlFile.documentElement.selectSingleNode("author/name").text & "</td>"
@@ -975,9 +975,9 @@ Function ExportPluginMng()
 			s=s & "<tr>"
 
 			If CheckPluginState(objXmlFile.documentElement.selectSingleNode("id").text) Then
-				s=s & "<td align='center'><img width='16' title='"&ZC_MSG308&"' alt='"&ZC_MSG308&"' src='../IMAGE/ADMIN/arrow-3-right.png'/></td>"
+				s=s & "<td align='center'><img width='16' src='../IMAGE/ADMIN/arrow-3-right.png'/></td>"
 			Else
-				s=s & "<td align='center'><img width='16' title='"&ZC_MSG307&"' alt='"&ZC_MSG307&"' src='../IMAGE/ADMIN/MD-stop.png'/></td>"
+				s=s & "<td align='center'><img width='16' src='../IMAGE/ADMIN/MD-stop.png'/></td>"
 			End If
 
 			s=s & "<td>"& m &"</td>"
@@ -1174,7 +1174,7 @@ Function ExportSiteInfo()
 	</tr>
 	<tr>
 	<td width="20%">MetaWeblog API</td>
-	<td colspan="3" width="80%"><%=ZC_BLOG_HOST%>xml-rpc/index.asp</td>
+	<td colspan="3" width="80%"><%=GetCurrentHost%>zb_system/xml-rpc/index.asp</td>
 	</tr>
 <!-- 	<tr>
 	<td colspan="4">
