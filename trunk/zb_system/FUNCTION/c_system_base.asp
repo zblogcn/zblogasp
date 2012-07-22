@@ -1408,11 +1408,11 @@ End Function
 '*********************************************************
 ' 目的：    得到实际上的真实目录
 '*********************************************************
-Dim GETREALLYDIRECTORY_ISRUNNING
-GETREALLYDIRECTORY_ISRUNNING=False
+Dim IsRunGetReallyDirectory
+IsRunGetReallyDirectory=False
 Function GetReallyDirectory()
 
-	If GETREALLYDIRECTORY_ISRUNNING=True Then Exit Function
+	If IsRunGetReallyDirectory=True Then Exit Function
 
 	On Error Resume Next
 
@@ -1439,7 +1439,7 @@ Function GetReallyDirectory()
 
 	BlogPath=CreateObject("Scripting.FileSystemObject").GetFolder(BlogPath).Path & "\"
 
-	GETREALLYDIRECTORY_ISRUNNING=True
+	IsRunGetReallyDirectory=True
 
 	GetReallyDirectory=True
 
@@ -2919,6 +2919,8 @@ End Function
 ' 目的：    
 '*********************************************************
 Function GetCurrentHost()
+
+	Call GetReallyDirectory()
 
 	Dim s,t,u,i,w,x
 

@@ -4196,10 +4196,15 @@ Dim sAction_Plugin_Tags_End
 '参数:无
 '说明:左侧菜单
 '**************************************************>
-Dim Response_Plugin_AdminLeft_Plugin
-Response_Plugin_AdminLeft_Plugin=""
-Dim Response_Plugin_AdminTop_Plugin
-Response_Plugin_AdminTop_Plugin=""
+Dim Response_Plugin_Admin_Left
+Response_Plugin_Admin_Left=""
+Dim Response_Plugin_Admin_Top
+Response_Plugin_Admin_Top=""
+Dim Response_Plugin_Admin_Header
+Response_Plugin_Admin_Header=""
+Dim Response_Plugin_Admin_Footer
+Response_Plugin_Admin_Footer=""
+
 
 '以下为uEditor的所有接口：
 Dim Action_Plugin_UEditor_FileUpload_Begin()
