@@ -2920,40 +2920,27 @@ End Function
 '*********************************************************
 Function GetCurrentHost()
 
-	Dim s,t,u,i
-	s=Replace(Request.ServerVariables("PATH_TRANSLATED"),"\","/")
+	Dim s,t,u,i,w,x
 
-	t=Request.ServerVariables("HTTP_HOST") & Request.ServerVariables("URL")
+	s=LCase(Replace(Request.ServerVariables("PATH_TRANSLATED"),"\","/"))
 
-	For i=1 To 1000
+	t=LCase(Request.ServerVariables("HTTP_HOST") & Request.ServerVariables("URL"))
 
-		If Right(t,i)<>Right(s,i) Then
-			u=Right(t,i-1)
-			Exit For
-		End If 
+	w=LCase(Replace(BlogPath,"\","/"))
 
-	Next
-	'Response.Write u
-	'Response.Write "<br/>"
-	'Response.Write Left(t,Len(t)-Len(u))
+	x=Right(s,Len(s)-Len(w))
 
-	t=Left(t,Len(t)-Len(u))
-
-	If Right(t,1)<>"/" Then t=t& "/"
-
-	'Response.Write "<br/>"
-	'Response.Write t
-		
+	u=Replace(t,x,"")
 
 	if Request.ServerVariables("HTTPS")="off" then
-		t= "http://" & t
+		u= "http://" & u
 	else
-		t= "https://" & t
+		u= "https://" & u
 	end If
 
-	If Right(t,1)<>"/" Then t=t & "/"
+	If Right(u,1)<>"/" Then u=u & "/"
 		
-	GetCurrentHost=t
+	GetCurrentHost=u
 
 End Function
 '*********************************************************
