@@ -44,6 +44,7 @@ If Not CheckRights(strAct) Then Call ShowError(6)
 
 Call GetCategory()
 Call GetUser()
+Call GetFunctions()
 
 BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG046
 
