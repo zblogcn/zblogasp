@@ -893,9 +893,9 @@ Function MakeBlogReBuild()
 
 	Call SetBlogHint(True,False,Empty)
 
-	Response.Write "<!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 1.0 Transitional//EN"" ""http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd""><html><head><meta http-equiv=""Content-Type"" content=""text/html; charset=utf-8"" /><link rel=""stylesheet"" rev=""stylesheet"" href=""CSS/admin.css"" type=""text/css"" media=""screen"" /></head><body>"
+	Response.Write "<!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 1.0 Transitional//EN"" ""http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd""><html><head><meta http-equiv=""Content-Type"" content=""text/html; charset=utf-8"" /><link rel=""stylesheet"" rev=""stylesheet"" href=""CSS/admin2.css"" type=""text/css"" media=""screen"" /></head><body>"
 
-	Response.Write "<div id=""divMain""><div class=""Header"">" & ZC_MSG072 & "</div>"
+	Response.Write "<div id=""divMain""><div class=""divHeader2"">" & ZC_MSG072 & "</div>"
 	Response.Write "<div id=""divMain2"">"
 	Call GetBlogHint()
 	Response.Write "<form  name=""edit"" id=""edit"">"
@@ -2191,4 +2191,31 @@ Function ScanTagCount(strTags)
 End Function
 '*********************************************************
 
+
+
+'*********************************************************
+' 目的：
+'*********************************************************
+Function SortFunction(s)
+
+	Dim t
+
+	t=Split(s,"_")
+
+	Call GetFunctions()
+
+	Dim i,j
+
+	j=1
+
+	For i=LBound(t) To UBound(t)-1
+		If (IsObject(Functions(t(i)))=True) Then
+			Functions(t(i)).Order=j
+			j=j+1
+			Functions(t(i)).Post()
+		End If
+	Next
+
+End Function
+'*********************************************************
 %>

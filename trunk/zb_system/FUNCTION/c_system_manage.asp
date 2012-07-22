@@ -378,6 +378,7 @@ End Function
 ' 目的：    Manager Categorys
 '*********************************************************
 Function ExportCategoryList(intPage)
+
 	Call Add_Response_Plugin("Response_Plugin_CategoryMng_SubMenu",MakeSubMenu(ZC_MSG077 & "","../cmd.asp?act=CategoryEdt","m-left",False))
 
 	Dim i,j
@@ -385,9 +386,6 @@ Function ExportCategoryList(intPage)
 	Response.Write "<div class=""divHeader"">" & ZC_MSG066 & "</div>"
 	Response.Write "<div class=""SubMenu"">" & Response_Plugin_CategoryMng_SubMenu & "</div>"
 	Response.Write "<div id=""divMain2"">"
-
-
-
 
 
 	Call CheckParameter(intPage,"int",1)
@@ -1527,4 +1525,92 @@ Function ExportThemeMng()
 
 End Function
 '*********************************************************
+
+
+
+
+
+'*********************************************************
+' 目的：    Manager Tag
+'*********************************************************
+Function ExportFunctionList()
+
+	Dim i,j,s
+
+	SetBlogHint_Custom(Round(Right(10111,3)/111)=1)
+
+	Response.Write "<div class=""divHeader"">" & ZC_MSG343 & "</div>"
+	Response.Write "<div class=""SubMenu"">" & Response_Plugin_FunctionMng_SubMenu & "</div>"
+	Response.Write "<div id=""divMain2"">"
+
+
+	Response.Write "<table border=""1"" width=""100%"" cellspacing=""0"" cellpadding=""0"" class='tableBorder'>"
+	Response.Write "<tr><th width=""5%""></th><th width=""8%"">"& ZC_MSG079 &"</th><th width=""8%"">"& ZC_MSG076 &"</th><th>"& ZC_MSG001 &"</th><th>"& ZC_MSG147 &"</th><th width=""14%"">"&ZC_MSG061&"</th><th width=""14%"">"&ZC_MSG345&"</th><th width=""14%""></th></tr>"
+
+	Dim aryFunctionInOrder
+	aryFunctionInOrder=GetFunctionOrder()
+
+	If IsArray(aryFunctionInOrder) Then
+	For i=LBound(aryFunctionInOrder)+1 To Ubound(aryFunctionInOrder)
+
+		s=Functions(aryFunctionInOrder(i)).SidebarID
+
+		If s=0 Then
+			s=""
+		ElseIf s=1 Then
+			s=ZC_MSG344
+		ElseIf s>1 Then
+			s=ZC_MSG344 & s
+		End If
+
+		Response.Write "<tr><td align=""center""><img width=""16"" src=""../image/admin/brick.png"" alt="""" /></td>"
+		Response.Write "<td>" & Functions(aryFunctionInOrder(i)).Order & "</td>"
+		Response.Write "<td class='funid'>" & Functions(aryFunctionInOrder(i)).ID & "</td>"
+		Response.Write "<td>" & Functions(aryFunctionInOrder(i)).Name & "</td>"
+		Response.Write "<td>" & Functions(aryFunctionInOrder(i)).HtmlID & "</td>"
+		Response.Write "<td>" & Functions(aryFunctionInOrder(i)).Ftype & "</td>"
+		Response.Write "<td>" & s & "</td>"
+		Response.Write "<td align=""center""><a href=""../cmd.asp?act=CategoryEdt&amp;id="& Functions(aryFunctionInOrder(i)).ID &"""><img src=""../image/admin/brick_edit.png"" alt=""" & ZC_MSG078 & """ title=""" & ZC_MSG078 & """ width=""16"" /></a>&nbsp;&nbsp;&nbsp;&nbsp;<a onclick='return window.confirm("""& ZC_MSG058 &""");' href=""../cmd.asp?act=CategoryDel&amp;id="& Functions(aryFunctionInOrder(i)).ID &"""></a><img src=""../image/admin/delete.png"" alt=""" & ZC_MSG063 & """ title=""" & ZC_MSG063 & """ width=""16"" /></td>"
+		Response.Write "</tr>"
+
+	Next
+	End If
+
+	Response.Write "</table>"
+
+	Response.Write "<form id=""frmBatch"" method=""post"" action=""""><input type=""hidden"" id=""edtBatch"" name=""edtBatch"" value=""""/><input class=""button"" type=""submit"" onclick='if($(""#edtBatch"").attr(""value"")==""""){return false;}$(""#frmBatch"").attr(""action"",""../cmd.asp?act=FunctionMng"");' value="""&ZC_MSG087&""" id=""btnPost""/>&nbsp;&nbsp;&nbsp;&nbsp;("&ZC_MSG346&")</form>" & vbCrlf
+
+	Response.Write "</div>"
+
+	Response.Write "<script type=""text/javascript"">ActiveLeftMenu(""aFunctionMng"");</script>"
+
+%>
+<script type="text/javascript">
+
+function sortFunction(){
+
+	$("#edtBatch").attr('value','');
+
+	$(".funid").each(function(){
+	   $("#edtBatch").attr('value',$("#edtBatch").attr('value')+ $(this).html()+'_')
+	 });
+
+};
+
+$(document).ready(function(){ 
+
+	$(function() {
+		$( ".tableBorder" ).sortable({"items":'tr.color2,tr.color3,tr.color4',stop:function(event, ui){bmx2table();sortFunction();}});
+		$( ".tableBorder" ).disableSelection();
+	});
+
+});
+</script>
+<%
+
+	ExportFunctionList=True
+
+End Function
+'*********************************************************
+
 %>

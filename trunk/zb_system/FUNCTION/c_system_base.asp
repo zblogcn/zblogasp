@@ -31,9 +31,12 @@ StarTime = Timer()
 Dim Categorys()
 Dim Users()
 Dim Tags()
+Dim Functions()
+
 ReDim Categorys(0)
 ReDim Users(0)
 ReDim Tags(0)
+ReDim Functions(0)
 
 Dim ConfigMetas
 Set ConfigMetas=New TMeta
@@ -81,6 +84,7 @@ Sub System_Initialize()
 	'Call GetTags()
 	'Call GetKeyWords()
 	Call GetConfigs()
+	Call GetFunctions()
 
 
 	BlogConfig.Load("Blog")
@@ -461,6 +465,59 @@ End Function
 
 
 '*********************************************************
+' 目的：    Functions读取
+'*********************************************************
+Dim IsRunFunctions
+IsRunFunctions=False
+Function GetFunctions()
+
+	If IsRunFunctions=True Then Exit Function
+
+	Dim i,j,k,l
+
+	Dim aryAllData
+	Dim arySingleData()
+
+	Erase Tags
+	ReDim Tags(0)
+
+	Dim objRS
+
+	Set objRS=objConn.Execute("SELECT TOP 1 [fn_ID] FROM [blog_Function] ORDER BY [fn_ID] DESC")
+	If (Not objRS.bof) And (Not objRS.eof) Then
+		i=objRS("fn_ID")
+		ReDim Functions(i)
+	End If
+
+	Set objRS=objConn.Execute("SELECT [fn_ID],[fn_Name],[fn_FileName],[fn_Order],[fn_Content],[fn_IsSystem],[fn_SidebarID],[fn_HtmlID],[fn_Ftype],[fn_Meta] FROM [blog_Function] ORDER BY [fn_ID] ASC")
+	If (Not objRS.bof) And (Not objRS.eof) Then
+
+		aryAllData=objRS.GetRows(objRS.RecordCount)
+		objRS.Close
+		Set objRS=Nothing
+
+		k=UBound(aryAllData,1)
+		l=UBound(aryAllData,2)
+		For i=0 To l
+			Set Functions(aryAllData(0,i))=New TFunction
+			Functions(aryAllData(0,i)).LoadInfoByArray(Array(aryAllData(0,i),aryAllData(1,i),aryAllData(2,i),aryAllData(3,i),aryAllData(4,i),aryAllData(5,i),aryAllData(6,i),aryAllData(7,i),aryAllData(8,i),aryAllData(9,i)))
+		Next
+
+	End If
+
+	Set Functions(0)=New TFunction
+
+	IsRunFunctions=True
+
+	GetFunctions=True
+
+End Function
+'*********************************************************
+
+
+
+
+'*********************************************************
 ' 目的：    读取权限
 ' 备注:     权限最高为1 最低为5 不是则非法
 '           "Root"一定只能为1
@@ -495,8 +552,8 @@ Function GetRights(strAction)
 			GetRights=5
 		Case "rss"
 			GetRights=5
-		Case "gettburl"
-			GetRights=5
+		'Case "gettburl"
+		'	GetRights=5
 		Case "ArticleMng"
 			GetRights=3
 		Case "ArticleEdt"
@@ -531,8 +588,8 @@ Function GetRights(strAction)
 		'	GetRights=1
 		'Case "KeyWordDel"
 		'	GetRights=1
-		Case "GuestBookMng"
-			GetRights=2
+		'Case "GuestBookMng"
+		'	GetRights=2
 		Case "CommentMng"
 			GetRights=4
 		Case "CommentDel"
@@ -543,14 +600,14 @@ Function GetRights(strAction)
 			GetRights=4
 		Case "CommentDelBatch"
 			GetRights=4
-		Case "TrackBackMng"
-			GetRights=3
-		Case "TrackBackDel"
-			GetRights=3
-		Case "TrackBackDelBatch"
-			GetRights=3
-		Case "TrackBackSnd"
-			GetRights=0
+		'Case "TrackBackMng"
+		'	GetRights=3
+		'Case "TrackBackDel"
+		'	GetRights=3
+		'Case "TrackBackDelBatch"
+		'	GetRights=3
+		'Case "TrackBackSnd"
+		'	GetRights=0
 		Case "UserMng"
 			GetRights=4
 		Case "UserEdt"
@@ -602,6 +659,12 @@ Function GetRights(strAction)
 		Case "PlugInActive"
 			GetRights=1
 		Case "PlugInDisable"
+			GetRights=1
+		Case "FunctionMng"
+			GetRights=1
+		Case "FunctionEdt"
+			GetRights=1
+		Case "FunctionDel"
 			GetRights=1
 		Case Else Call ShowError(1)
 
@@ -2943,6 +3006,44 @@ Function GetCurrentHost()
 	If Right(u,1)<>"/" Then u=u & "/"
 		
 	GetCurrentHost=u
+
+End Function
+'*********************************************************
+
+
+
+
+'*********************************************************
+' 目的：    Get Function Order 输出数组.
+'*********************************************************
+Function GetFunctionOrder()
+
+	Dim i
+	Dim objRS
+
+	Set objRS=Server.CreateObject("ADODB.Recordset")
+	objRS.CursorType = adOpenKeyset
+	objRS.LockType = adLockReadOnly
+	objRS.ActiveConnection=objConn
+	objRS.Source=""
+
+	Dim aryCateInOrder()
+	i=0
+
+	objRS.Open("SELECT * FROM [blog_Function] ORDER BY [fn_Order] ASC,[fn_ID] ASC")
+	Do While Not objRS.eof
+		i=i+1
+		ReDim Preserve aryCateInOrder(i)
+		aryCateInOrder(i)=objRS("fn_ID")
+		objRS.MoveNext
+	Loop
+	objRS.Close
+	Set objRS=Nothing
+
+	If i>0 Then GetFunctionOrder=aryCateInOrder
+	If i=0 Then GetFunctionOrder=Array()
+
+	Erase aryCateInOrder
 
 End Function
 '*********************************************************

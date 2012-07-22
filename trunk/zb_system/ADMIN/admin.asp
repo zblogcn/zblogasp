@@ -84,6 +84,7 @@ End If
 		Case "SiteInfo" Call ExportSiteInfo()
 		Case "AskFileReBuild" Call ExportFileReBuildAsk()
 		Case "ThemeMng" Call ExportThemeMng()
+		Case "FunctionMng" Call ExportFunctionList()
 	End Select
 %>
     </div>

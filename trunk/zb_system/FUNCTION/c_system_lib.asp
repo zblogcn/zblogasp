@@ -4614,22 +4614,24 @@ Class TFunction
 		Call CheckParameter(ID,"int",0)
 		Call CheckParameter(Order,"int",0)
 		Call CheckParameter(SidebarID,"int",1)
-
+		Call CheckParameter(IsSystem,"bool",False)
 
 		Name=FilterSQL(Name)
 		FileName=FilterSQL(FileName)
 		HtmlID=FilterSQL(HtmlID)
 
+		Name=Left(Name,50)
+		FileName=Left(FileName,50)
+		HtmlID=Left(HtmlID,50)
+
 		If Ftype<>"div" And Ftype<>"ul" Then Ftype="div"
 
 		Content=FilterSQL(Content)
-		Content=TransferHTML(Content,"[html-format]")
-
 
 		If ID=0 Then
-			objConn.Execute("INSERT INTO [blog_Function]([fn_Name],[fn_FileName],[fn_Order],[fn_Content],[fn_IsSystem],[fn_SidebarID],[fn_HtmlID],[fn_Ftype],[fn_Meta]) VALUES ('"&Name&"','"&FileName&"',"&Order&",'"&Content&"'"&IsSystem&","&SidebarID&","&HtmlID&",'"&Ftype&"','"&MetaString&"'")
+			objConn.Execute("INSERT INTO [blog_Function]([fn_Name],[fn_FileName],[fn_Order],[fn_Content],[fn_IsSystem],[fn_SidebarID],[fn_HtmlID],[fn_Ftype],[fn_Meta]) VALUES ('"&Name&"','"&FileName&"',"&Order&",'"&Content&"',"&CInt(IsSystem)&","&SidebarID&",'"&HtmlID&"','"&Ftype&"','"&MetaString&"')")
 		Else
-			objConn.Execute("UPDATE [blog_Function] SET [key_Name]='"&Name&"',[key_URL]='"&Url&"',[key_Intro]='"&Intro&"' WHERE [key_ID] =" & ID)
+			objConn.Execute("UPDATE [blog_Function] SET [fn_Name]='"&Name&"',[fn_FileName]='"&FileName&"',[fn_Order]="&Order&",[fn_Content]='"&Content&"',[fn_IsSystem]="&CInt(IsSystem)&",[fn_SidebarID]="&SidebarID&",[fn_HtmlID]='"&HtmlID&"',[fn_Ftype]='"&Ftype&"',[fn_Meta]='"&MetaString&"' WHERE [fn_ID] =" & ID)
 		End If
 
 		Post=True
@@ -4642,10 +4644,11 @@ Class TFunction
 		Call CheckParameter(fn_ID,"int",0)
 
 		Dim objRS
-		Set objRS=objConn.Execute("SELECT [fn_Name],[fn_FileName],[fn_Order],[fn_Content],[fn_IsSystem],[fn_SidebarID],[fn_HtmlID],[fn_Ftype],[fn_Meta] FROM [blog_Function]  WHERE [fn_ID]=" & fn_ID)
+		Set objRS=objConn.Execute("SELECT [fn_ID],[fn_Name],[fn_FileName],[fn_Order],[fn_Content],[fn_IsSystem],[fn_SidebarID],[fn_HtmlID],[fn_Ftype],[fn_Meta] FROM [blog_Function] WHERE [fn_ID]=" & fn_ID)
 
 		If (Not objRS.bof) And (Not objRS.eof) Then
 
+			ID=("fn_ID")
 			Name=objRS("fn_Name")
 			FileName=objRS("fn_FileName")
 			Order=objRS("fn_Order")
@@ -4653,7 +4656,7 @@ Class TFunction
 			IsSystem=objRS("fn_IsSystem")
 			SidebarID=objRS("fn_SidebarID")
 			HtmlID=objRS("fn_HtmlID")
-			Ftype=objRS("fn_HtmlID")
+			Ftype=objRS("fn_Ftype")
 			MetaString=objRS("fn_Meta")
 
 			LoadInfoByID=True
@@ -4668,23 +4671,46 @@ Class TFunction
 	End Function
 
 
-	Public Function LoadInfoByArray(aryKeyWordInfo)
 
-		If IsArray(aryKeywordInfo)=True Then
+	Public Function LoadInfoByArray(aryCateInfo)
 
-			ID=aryKeyWordInfo(0)
-			Name=aryKeyWordInfo(1)
-			Intro=aryKeyWordInfo(2)
-			Url=aryKeyWordInfo(3)
-
+		If IsArray(aryCateInfo)=True Then
+			ID=aryCateInfo(0)
+			Name=aryCateInfo(1)
+			FileName=aryCateInfo(2)
+			Order=aryCateInfo(3)
+			Content=aryCateInfo(4)
+			IsSystem=aryCateInfo(5)
+			SidebarID=aryCateInfo(6)
+			HtmlID=aryCateInfo(7)
+			Ftype=aryCateInfo(8)
+			MetaString=aryCateInfo(9)
 		End If
-
-		If IsNull(Intro) Then Intro=""
 
 		LoadInfoByArray=True
 
 	End Function
 
+
+	Public Function GetNewOrder()
+
+		GetNewOrder=CInt(objConn.Execute("SELECT TOP 1 [fn_Order] FROM [blog_Function] ORDER BY [fn_Order] DESC")(0))+1
+
+	End Function
+
+
+
+	Public Function InSidebar()
+		InSidebar=(Round(Right(Order,1)/1)=1)
+	End Function
+
+	Public Function InSidebar2()
+		InSidebar2=(Round(Right(Order,2)/11)=1)
+	End Function
+
+	Public Function InSidebar3()
+		InSidebar3=(Round(Right(Order,3)/111)=1)
+	End Function
 
 	Public Function Del()
 
@@ -4700,6 +4726,7 @@ Class TFunction
 		ID=0
 		Ftype="div"
 		SidebarID=1
+		IsSystem=False
 		Set Meta=New TMeta
 	End Sub
 

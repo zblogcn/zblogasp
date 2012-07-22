@@ -270,6 +270,18 @@ Select Case strAct
 		Call PlugInDisable()
 
 
+	Case "FunctionMng"
+
+		Call FunctionMng()
+
+	Case "FunctionEdt"
+
+		Call FunctionEdt()
+
+	Case "FunctionSav"
+
+		Call FunctionSav()
+
 End Select
 
 
@@ -1312,6 +1324,34 @@ Function PlugInDisable()
 		Response.Redirect "cmd.asp?act=PlugInMng"
 	End If
 End Function
+
+
+
+Function FunctionMng()
+
+	If IsEmpty(Request.Form("edtBatch"))=False Then
+		Call SortFunction(Request.Form("edtBatch"))
+	End If
+
+
+	Response.Redirect "admin/admin.asp?act=FunctionMng"
+
+End Function
+
+Function FunctionEdt()
+
+
+End Function
+
+Function FunctionSav()
+
+
+End Function
+
+
+
+
+
 
 
 'plugin node

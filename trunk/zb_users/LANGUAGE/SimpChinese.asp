@@ -345,8 +345,9 @@ Const ZC_MSG340="官方网站"
 Const ZC_MSG341="帮助中心"
 Const ZC_MSG342="回复评论ID(设置为0则单独为一个评论，同时该ID不能为其他文章评论的ID)"
 Const ZC_MSG343="侧栏管理"
-
-
+Const ZC_MSG344="侧栏"
+Const ZC_MSG345="显示"
+Const ZC_MSG346="请拖动需要移动的模块行到指定位置,并点'提交'按钮保存侧栏模块的排序结果."
 
 
 
