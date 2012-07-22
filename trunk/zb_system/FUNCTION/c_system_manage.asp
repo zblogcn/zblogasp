@@ -612,7 +612,7 @@ Function ExportUserList(intPage)
 			Response.Write "<tr>"
 			Response.Write "<td>" & objRS("mem_ID") & "</td>"
 			Response.Write "<td>" & ZVA_User_Level_Name(objRS("mem_Level")) & "</td>"
-			Response.Write "<td><a href=""../catalog.asp?auth="& objRS("mem_ID") &"""  target=""_blank"">" & objRS("mem_Name") & "</a></td>"
+			Response.Write "<td><a href=""../../catalog.asp?auth="& objRS("mem_ID") &"""  target=""_blank"">" & objRS("mem_Name") & "</a></td>"
 
 			Response.Write "<td>" & objRS("mem_PostLogs") & "</td>"
 			Response.Write "<td>" & objRS("mem_PostComms") & "</td>"
