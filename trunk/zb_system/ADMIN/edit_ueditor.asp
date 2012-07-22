@@ -386,15 +386,18 @@ Err.Clear
 
 
 <% If Request.QueryString("type")="Page" Then %>
+                      <p>
                       <label for="edtAutoList">自动加入导航条 </label><input name="edtAutoList" id="edtAutoList" type="checkbox" value="" />
-                      
+                      </p>                      
 <% End If %>
 
 
-                      </p>
 
 
 
+<% If Response_Plugin_Edit_Form3<>"" Then %>
+<div id="divEditForm3"><%=Response_Plugin_Edit_Form3%></div>
+<% End If %>
 
 
 

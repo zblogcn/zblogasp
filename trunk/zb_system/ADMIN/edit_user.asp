@@ -166,7 +166,7 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG070
 			}
 
 			if(document.getElementById("edtPassWord").value){
-				if((document.getElementById("edtPassWord").value).length<=5){
+				if((document.getElementById("edtPassWord").value).length<=8){
 					alert(str16);
 					return false;
 				}
@@ -180,6 +180,8 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG070
 		if(document.getElementById("edtPassWord").value){
 			document.getElementById("edtPassWord").value=MD5(document.getElementById("edtPassWord").value);
 		}
+
+		return false;
 	}
 </script>
 <script type="text/javascript">ActiveLeftMenu("aUserMng");</script>
