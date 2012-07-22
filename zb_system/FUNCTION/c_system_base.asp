@@ -2944,6 +2944,8 @@ Function GetCurrentHost()
 	else
 		t= "https://" & Request.ServerVariables("HTTP_HOST") & Left(s,i)
 	end If
+
+	If Right(t,1)<>"/" Then t=t & "/"
 		
 	GetCurrentHost=t
 
