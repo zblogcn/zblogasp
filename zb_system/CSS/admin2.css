@@ -224,7 +224,7 @@ form p{padding:0.5em 0  0.5em 0;line-height:1.5em;}
 
 form input {
 	padding: 0.25em 0.25em 0.25em 0.25em;
-	border: 1px double #527b9a;
+	border: 1px double #aaaaaa;
 	background-position: bottom;
 	background:#fff;
 }
@@ -396,13 +396,16 @@ padding:0 5px ;
 	border-bottom:3px solid #FFFFFF;
 }
 
+
+
 /* 网站设置页 */
 .content-box ul{
 	padding:10px 0 0 0;
 }
 
 .content-box li{
-	float:left;padding:0;height:30px;
+	float:left;padding:0 0 0 0;height:2em;
+	line-height:2em;
 }
 
 
@@ -410,7 +413,8 @@ padding:0 5px ;
 	border:1px solid #e8f6ff;
 	background:#d8e6ef;
 	padding:5px 10px;
-	margin:1px 5px 0 0;
+	margin:0 5px 0 0;
+	line-height:2em;
 }
 
 .content-box .content-box-tabs a.current{
