@@ -265,6 +265,9 @@ Function this_newPost(structPost,bolPublish)
 	s=Left(s,ZC_TB_EXCERPT_MAX) & "..."
 	objArticle.Intro=objArticle.Content
 
+	'接口
+	Call Filter_Plugin_PostArticle_Core(objArticle)
+
 	If objArticle.Post=True Then
 		Call BuildArticle(objArticle.ID,true,true)
 
@@ -290,7 +293,7 @@ End Function
 '*********************************************************
 Function this_editPost(intPostID,structPost,bolPublish)
 
-	'On Error Resume Next
+	On Error Resume Next
 
 	Dim objXmlFile
 	Set objXmlFile = Server.CreateObject("Microsoft.XMLDOM")
@@ -346,6 +349,9 @@ Function this_editPost(intPostID,structPost,bolPublish)
 	s=Left(s,ZC_TB_EXCERPT_MAX) & "..."
 	objArticle.Intro=objArticle.Content
 
+	'接口
+	Call Filter_Plugin_PostArticle_Core(objArticle)
+
 	If objArticle.Post=True Then
 		Call BuildArticle(objArticle.ID,true,true)
 
@@ -358,7 +364,7 @@ Function this_editPost(intPostID,structPost,bolPublish)
 		Call RespondError(11,ZVA_ErrorMsg(11))
 	End If
 
-	'Err.Clear
+	Err.Clear
 
 End Function
 '*********************************************************

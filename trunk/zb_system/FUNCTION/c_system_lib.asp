@@ -1457,6 +1457,10 @@ Class TArticleList
 	Public Template_PageBar_Previous
 	Public Template_Calendar
 
+	Public Template_Sidebar
+	Public Template_Sidebar2
+	Public Template_Sidebar3
+
 
 	Public TemplateTags_ArticleList_Author_ID
 	Public TemplateTags_ArticleList_Tags_ID
@@ -2071,8 +2075,8 @@ Class TArticleList
 		'plugin node
 		Call Filter_Plugin_TArticleList_Build_Template(html)
 
-		ReDim aryTemplateSubName(14)
-		ReDim aryTemplateSubValue(14)
+		ReDim aryTemplateSubName(17)
+		ReDim aryTemplateSubValue(17)
 
 		aryTemplateSubName(  1)="template:article-multi"
 		aryTemplateSubValue( 1)=Template_Article_Multi
@@ -2102,6 +2106,12 @@ Class TArticleList
 		aryTemplateSubValue(13)=TemplateTags_ArticleList_Page_All
 		aryTemplateSubName( 14)="articlelist/page/count"
 		aryTemplateSubValue(14)=ZC_DISPLAY_COUNT
+		aryTemplateSubName( 15)="template:sidebar"
+		aryTemplateSubValue(15)=Template_Sidebar
+		aryTemplateSubName( 16)="template:sidebar2"
+		aryTemplateSubValue(16)=Template_Sidebar2
+		aryTemplateSubName( 17)="template:sidebar3"
+		aryTemplateSubValue(17)=Template_Sidebar3
 
 		'plugin node
 		Call Filter_Plugin_TArticleList_Build_TemplateSub(aryTemplateSubName,aryTemplateSubValue)
@@ -3043,21 +3053,21 @@ Class TComment
 
 'Mark2 MakeTemplate
 	Public Function MakeTemplate(strC)
-		Dim html,i,j,Template
+
+		Dim html,i,j
 		html=strC
-		Template=GetTemplate("TEMPLATE_B_ARTICLE_COMMENT")
-		if Template="" then Template=strc
+
 		'plugin node
 		Call Filter_Plugin_TComment_MakeTemplate_Template(html)
-		Dim ChildTemplate
+
 		Dim aryTemplateTagsName()
 		Dim aryTemplateTagsValue()
+
 		ReDim aryTemplateTagsName(12)
 		ReDim aryTemplateTagsValue(12)
+
 		If ParentID="" Then ParentID=0
-		'If ParentID>0 Then
-		'	If isChild=False Then MakeTemplate="":Exit Function
-		'End If
+
 		aryTemplateTagsName(  1)="article/comment/id"
 		aryTemplateTagsValue( 1)=ID
 		aryTemplateTagsName(  2)="article/comment/name"
@@ -4292,10 +4302,11 @@ End Class
 ' 输入：    无
 ' 返回：    无
 '*********************************************************
+Dim meta_split_string_1
+Dim meta_split_string_2
+meta_split_string_1=Chr(1)
+meta_split_string_2=Chr(2)
 Class TMeta
-
-	Dim meta_split_string_1
-	Dim meta_split_string_2
 
 	Dim Names()
 	Dim Values()
@@ -4468,9 +4479,6 @@ Class TMeta
 		ReDim Names(0)
 		ReDim Values(0)
 
-		meta_split_string_1=Chr(1)
-		meta_split_string_2=Chr(2)
-
 	End Sub
 
 End Class
@@ -4589,7 +4597,6 @@ Class TFunction
 	Public Order
 	Public Content
 	Public IsSystem
-	Public IsHidden
 	Public SidebarID
 	Public HtmlID
 	Public Ftype 'div or ul
@@ -4605,23 +4612,24 @@ Class TFunction
 	Public Function Post()
 
 		Call CheckParameter(ID,"int",0)
+		Call CheckParameter(Order,"int",0)
+		Call CheckParameter(SidebarID,"int",1)
+
 
 		Name=FilterSQL(Name)
-		Name=TransferHTML(Name,"[normalname]")
+		FileName=FilterSQL(FileName)
+		HtmlID=FilterSQL(HtmlID)
 
-		If Len(Name)=0 Then Post=False:Exit Function
+		If Ftype<>"div" And Ftype<>"ul" Then Ftype="div"
 
-		Intro=FilterSQL(Intro)
-		Intro=TransferHTML(Intro,"[html-format]")
+		Content=FilterSQL(Content)
+		Content=TransferHTML(Content,"[html-format]")
 
-		Url=FilterSQL(Url)
-		If Len(Url)=0 Then Post=False:Exit Function
-		If Not CheckRegExp(Url,"[homepage]") Then Call  ShowError(30)
 
 		If ID=0 Then
-			objConn.Execute("INSERT INTO [blog_Keyword]([key_Name],[key_URL],[key_Intro]) VALUES ('"&Name&"','"&Url&"','"&Intro&"')")
+			objConn.Execute("INSERT INTO [blog_Function]([fn_Name],[fn_FileName],[fn_Order],[fn_Content],[fn_IsSystem],[fn_SidebarID],[fn_HtmlID],[fn_Ftype],[fn_Meta]) VALUES ('"&Name&"','"&FileName&"',"&Order&",'"&Content&"'"&IsSystem&","&SidebarID&","&HtmlID&",'"&Ftype&"','"&MetaString&"'")
 		Else
-			objConn.Execute("UPDATE [blog_Keyword] SET [key_Name]='"&Name&"',[key_URL]='"&Url&"',[key_Intro]='"&Intro&"' WHERE [key_ID] =" & ID)
+			objConn.Execute("UPDATE [blog_Function] SET [key_Name]='"&Name&"',[key_URL]='"&Url&"',[key_Intro]='"&Intro&"' WHERE [key_ID] =" & ID)
 		End If
 
 		Post=True
@@ -4629,19 +4637,24 @@ Class TFunction
 	End Function
 
 
-	Public Function LoadInfoByID(key_ID)
+	Public Function LoadInfoByID(fn_ID)
 
-		Call CheckParameter(key_ID,"int",0)
+		Call CheckParameter(fn_ID,"int",0)
 
 		Dim objRS
-		Set objRS=objConn.Execute("SELECT [key_ID],[key_Name],[key_Intro],[key_Url] FROM [blog_Keyword] WHERE [key_ID]=" & key_ID)
+		Set objRS=objConn.Execute("SELECT [fn_Name],[fn_FileName],[fn_Order],[fn_Content],[fn_IsSystem],[fn_SidebarID],[fn_HtmlID],[fn_Ftype],[fn_Meta] FROM [blog_Function]  WHERE [fn_ID]=" & fn_ID)
 
 		If (Not objRS.bof) And (Not objRS.eof) Then
 
-			ID=objRS("key_ID")
-			Name=objRS("key_Name")
-			Intro=objRS("key_Intro")
-			Url=objRS("key_Url")
+			Name=objRS("fn_Name")
+			FileName=objRS("fn_FileName")
+			Order=objRS("fn_Order")
+			Content=objRS("fn_Content")
+			IsSystem=objRS("fn_IsSystem")
+			SidebarID=objRS("fn_SidebarID")
+			HtmlID=objRS("fn_HtmlID")
+			Ftype=objRS("fn_HtmlID")
+			MetaString=objRS("fn_Meta")
 
 			LoadInfoByID=True
 
@@ -4678,7 +4691,7 @@ Class TFunction
 		Call CheckParameter(ID,"int",0)
 		If (ID=0) Then Del=False:Exit Function
 
-		objConn.Execute("DELETE FROM [blog_Function] WHERE [func_ID] =" & ID)
+		objConn.Execute("DELETE FROM [blog_Function] WHERE [fn_ID] =" & ID)
 		Del=True
 
 	End Function
@@ -4686,6 +4699,7 @@ Class TFunction
 	Private Sub Class_Initialize()
 		ID=0
 		Ftype="div"
+		SidebarID=1
 		Set Meta=New TMeta
 	End Sub
 
