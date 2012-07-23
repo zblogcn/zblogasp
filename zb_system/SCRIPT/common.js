@@ -229,7 +229,7 @@ function VerifyMessage() {
 			}
 
 			$("#frmSumbit :submit").removeClass("btnloading");
-			$("#frmSumbit :submit").attr("disabled","");
+			$("#frmSumbit :submit").removeAttr("disabled");
 			$("#frmSumbit :submit").val(strSubmit);
 
 		}
