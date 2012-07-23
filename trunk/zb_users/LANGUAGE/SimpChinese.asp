@@ -20,7 +20,7 @@ Const ZC_MSG015="查看"
 Const ZC_MSG016="摘要"
 Const ZC_MSG017="Please input your website url."
 Const ZC_MSG018="来宾"
-Const ZC_MSG019="登录%s验证身份%s注销%s后台管理%s发表评论%s传送引用%s查看权限%s索引重建%s文章重建%s管理文章%s编辑文章%s发布文章%s删除文章%s管理分类%s修改分类%s删除分类%s管理评论%s删除评论%s回复评论%s管理引用%s删除引用%s发送引用%s管理用户%s修改用户%s创建用户%s删除用户%s附件管理%s附件上传%s附件删除%s站内搜索%sTag管理%sTag编辑%sTag保存%sTag删除%s网站设置%s网站设置保存%s插件管理%s查看RSS和ATOM输出%s超级管理%s"
+Const ZC_MSG019="超级管理%s登录%s验证身份%s注销%s后台管理%s发表评论%s查看权限%s查看RSS输出%s索引重建%s文章重建%s管理文章%s编辑文章%s发布文章%s删除文章%s管理分类%s修改分类%s删除分类%s管理评论%s删除评论%s管理用户%s修改用户%s创建用户%s删除用户%s附件管理%s附件上传%s附件删除%s站内搜索%sTag管理%sTag编辑%sTag保存%sTag删除%s网站设置%s网站设置保存%s插件管理%s侧栏模块管理%s"
 Const ZC_MSG020="退出登录"
 Const ZC_MSG021="查看权限"
 Const ZC_MSG022="管理"
@@ -353,6 +353,8 @@ Const ZC_MSG348="UL内LI的最大行数"
 Const ZC_MSG349="新建模块"
 Const ZC_MSG350="为0则不限制LI的输出项数"
 Const ZC_MSG351="ID值是页面唯一的,请不要与其它模块的ID重复,建议以div为前缀加文件名."
+Const ZC_MSG352="不显示在侧栏"
+
 
 
 Dim ZVA_Article_Level_Name(4)

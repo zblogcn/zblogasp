@@ -24,14 +24,25 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta http-equiv="Content-Language" content="<%=ZC_BLOG_LANGUAGE%>" />
-	<link rel="stylesheet" rev="stylesheet" href="../CSS/admin.css" type="text/css" media="screen" />
+	<link rel="stylesheet" rev="stylesheet" href="../css/login.css" type="text/css" media="screen" />
 	<title><%=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG045%></title>
 </head>
 <body>
-<div id="divMain">
-<div class="Header"><%=ZC_MSG045%></div>
-<div id="divMain2">
-<form id="edit" name="edit" method="post">
+
+<div class="bg"></div>
+<div id="wrapper">
+  <div class="logo"><img src="../image/admin/none.gif" title="Z-Blog" alt="Z-Blog"/></div>
+  <div class="login">
+    <form id="frmLogin" method="post" action="">
+    <dl>
+      <dd>
+	  <div class="divHeader"><%=ZC_MSG045%></div>
+	  </dd>
+    </dl>
+    <dl>
+      <dd>
+
+
 <%
 	Response.Write "<p>" & ZC_MSG098 & ":" & ZVA_ErrorMsg(Request.QueryString("errorid")) & "</p>"
 
@@ -40,7 +51,7 @@
 		Response.Write "<p>" & ZC_MSG016 & ":" & "<br/>" & TransferHTML(Request.QueryString("description"),"[html-format]") & "</p>"
 		Response.Write "<p>" & TransferHTML(Request.QueryString("source"),"[html-format]") & "</p>"
 	End If
-
+		Response.Write "<p><br/></p>"
 	If CheckRegExp(Request.QueryString("sourceurl"),"[homepage]")=True Then
 		Response.Write "<p><a href=""" & TransferHTML(Request.QueryString("sourceurl"),"[html-format]") & """>" & ZC_MSG295 & "</a></p>"
 	Else
@@ -51,9 +62,25 @@
 		Response.Write "<p><a href=""../cmd.asp?act=login"" target=""_top"">"& ZC_MSG009 & "</a></p>"
 	End If
 %>
-</form>
+
+
+
+
+	  </dd>
+    </dl>
+
+    </form>
+  </div>
 </div>
-</div>
+
+
+
+
+
+
+
+
+
 </body>
 </html>
 <%

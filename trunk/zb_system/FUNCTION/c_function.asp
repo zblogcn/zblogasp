@@ -276,6 +276,10 @@ Function TransferHTML(ByVal source,para)
 	If Instr(para,"[>]")>0 Then  source=Replace(source,">","&gt;")
 	If Instr(para,"[""]")>0 Then source=Replace(source,"""","&quot;")
 	If Instr(para,"[space]")>0 Then source=Replace(source," ","&nbsp;")
+	If Instr(para,"[delspace]")>0 Then
+		Source=Replace(source," ","")
+		Source=Replace(source,"　","")
+	End If
 	If Instr(para,"[enter]")>0 Then
 		source=Replace(source,vbCrLf,"<br/>")
 		source=Replace(source,vbLf,"<br/>")

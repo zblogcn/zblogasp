@@ -64,7 +64,7 @@ Function CheckUserAndRights(userName,userPassWord,strAction)
 
 	BlogUser.LoginType="Self"
 	BlogUser.Name=userName
-	BlogUser.PassWord=MD5(userPassWord)
+	BlogUser.PassWord=BlogUser.GetPasswordByOriginal(userPassWord)
 	If BlogUser.Verify() Then
 		If Not CheckRights(strAction) Then Call RespondError(6,ZVA_ErrorMsg(6))
 		CheckUserAndRights=True

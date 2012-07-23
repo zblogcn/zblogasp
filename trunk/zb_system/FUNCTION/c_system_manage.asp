@@ -1553,15 +1553,15 @@ Function ExportFunctionList()
 	If IsArray(aryFunctionInOrder) Then
 	For i=LBound(aryFunctionInOrder)+1 To Ubound(aryFunctionInOrder)
 
-		s=Functions(aryFunctionInOrder(i)).SidebarID
+		s=""
 
-		If s=0 Then
-			s=""
-		ElseIf s=1 Then
-			s=ZC_MSG344
-		ElseIf s>1 Then
-			s=ZC_MSG344 & s
-		End If
+		If Functions(aryFunctionInOrder(i)).SidebarID=0 Then s=""
+		If Functions(aryFunctionInOrder(i)).InSidebar Then s=ZC_MSG344
+		If Functions(aryFunctionInOrder(i)).InSidebar2 Then s=s & "," & ZC_MSG344 &"2"
+		If Functions(aryFunctionInOrder(i)).InSidebar3 Then s=s & "," & ZC_MSG344 &"3"
+		If Functions(aryFunctionInOrder(i)).InSidebar4 Then s=s & "," & ZC_MSG344 &"4"
+		If Functions(aryFunctionInOrder(i)).InSidebar5 Then s=s & "," & ZC_MSG344 &"5"
+
 
 		Response.Write "<tr><td align=""center""><img width=""16"" src=""../image/admin/brick.png"" alt="""" /></td>"
 		Response.Write "<td>" & Functions(aryFunctionInOrder(i)).Order & "</td>"

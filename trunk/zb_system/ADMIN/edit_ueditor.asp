@@ -386,9 +386,9 @@ Err.Clear
 
 
 <% If Request.QueryString("type")="Page" Then %>
-                      <p>
+                      <!--<p>
                       <label for="edtAutoList">自动加入导航条 </label><input name="edtAutoList" id="edtAutoList" type="checkbox" value="" />
-                      </p>                      
+                      </p>-->
 <% End If %>
 
 

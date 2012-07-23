@@ -266,7 +266,6 @@ Class TArticle
 	Public IsAnonymous
 	Public Meta
 	Public TemplateName
-	Public AutoList
 
 	Public Property Get MetaString
 		MetaString=Meta.SaveString
@@ -1206,24 +1205,6 @@ Class TArticle
 		FullUrl=Replace(Url,ZC_BLOG_HOST,"<#ZC_BLOG_HOST#>")
 		objConn.Execute("UPDATE [blog_Article] SET [log_FullUrl]='"&FullUrl&"' WHERE [log_ID] =" & ID)
 
-		If AutoList="True" Then
-
-			Dim oReg,strNBar
-			Set oReg=New RegExp
-			oReg.Global=True
-			oReg.IgnoreCase=True
-			oReg.Pattern="<li.+?id=[""page']?" & id & "[""']?.+?</li>"
-			strNBar=LoadFromFile(BlogPath & "/ZB_USERS/INCLUDE/navbar.asp","utf-8")
-			If oReg.Test(strNBar) Then
-				Call SaveToFile(BlogPath & "/ZB_USERS/INCLUDE/navbar.asp",oReg.Replace(strNBar,"<li id=""page"&id&"""><a href="""&Replace(Url,ZC_BLOG_HOST,"<%=ZC_BLOG_HOST%"&">")&""">"&Title&"</a></li>"),"utf-8",False)
-			Else
-				Call SaveToFile(BlogPath & "/ZB_USERS/INCLUDE/navbar.asp",strNBar & vbCrlf & "<li id=""page"&id&"""><a href="""&Replace(Url,ZC_BLOG_HOST,"<%=ZC_BLOG_HOST%"&">")&""">"&Title&"</a></li>","utf-8",False)
-			End If
-			Set oReg=Nothing
-			Call SetBlogHint(Empty,Empty,True)
-
-		End If
-
 		Post=True
 
 	End Function
@@ -1273,16 +1254,6 @@ Class TArticle
 		objConn.Execute("DELETE FROM [blog_Comment] WHERE [log_ID] =" & ID)
 		objConn.Execute("DELETE FROM [blog_TrackBack] WHERE [log_ID] =" & ID)
 
-		If CateID=0 Then
-			Dim oReg
-			Set oReg=New RegExp
-			oReg.Global=True
-			oReg.IgnoreCase=True
-			oReg.Pattern="<li.+?id=[""page']?" & id & "[""']?.+?</li>"
-			Call SaveToFile(BlogPath & "/ZB_USERS/INCLUDE/navbar.asp",oReg.Replace(LoadFromFile(BlogPath & "/ZB_USERS/INCLUDE/navbar.asp","utf-8"),""),"utf-8",False)
-			Set oReg=Nothing
-		EnD If
-
 		Del=True
 
 	End Function
@@ -1331,7 +1302,6 @@ Class TArticle
 
 		For i=1 to j
 			If (InStr(aryTemplateTagsName(i),"CACHE_INCLUDE_")>0) And (Right(aryTemplateTagsName(i),5)<>"_HTML") And (Right(aryTemplateTagsName(i),3)<>"_JS") Then
-
 				'Dim modname
 				'modname=LCase(Replace(aryTemplateTagsName(i),"CACHE_INCLUDE_",""))
 				'If aryTemplateTagsName(i)<>"CACHE_INCLUDE_NAVBAR" Then
@@ -2463,12 +2433,26 @@ Class TUser
 	End Property
 
 
-	Public Function GetMixPassword(md5password)
+	Public Function GetPasswordByOriginal(OriginaPassword)
 
 		Dim objRS
 		Set objRS=objConn.Execute("SELECT [mem_Guid] FROM [blog_Member] WHERE [mem_Name]='"&Name & "'" )
 		If (Not objRS.Bof) And (Not objRS.Eof) Then
-			GetMixPassword=MD5(md5password & objRS("mem_Guid"))
+			GetPasswordByOriginal=MD5(MD5(OriginaPassword) & objRS("mem_Guid"))
+		End If
+
+		objRS.Close
+		Set objRS=Nothing
+
+	End Function
+
+
+	Public Function GetPasswordByMD5(Md5Password)
+
+		Dim objRS
+		Set objRS=objConn.Execute("SELECT [mem_Guid] FROM [blog_Member] WHERE [mem_Name]='"&Name & "'" )
+		If (Not objRS.Bof) And (Not objRS.Eof) Then
+			GetPasswordByMD5=MD5(Md5Password & objRS("mem_Guid"))
 		End If
 
 		objRS.Close
@@ -2517,10 +2501,6 @@ Class TUser
 		Dim objRS
 		Set objRS=objConn.Execute("SELECT [mem_ID],[mem_Level],[mem_Password],[mem_Guid] FROM [blog_Member] WHERE [mem_Name]='"&strUserName & "'" )
 		If (Not objRS.Bof) And (Not objRS.Eof) Then
-
-			If LoginType<>"Cookies" Then
-				strPassWord=MD5(strPassWord & objRS("mem_Guid"))
-			End If
 
 			If StrComp(strPassWord,objRS("mem_Password"))=0 Then
 
@@ -2631,7 +2611,7 @@ Class TUser
 		IF Len(HomePage)>0 Then
 			If Not CheckRegExp(HomePage,"[homepage]") Then Call ShowError(30)
 		End If
-		PassWord=MD5(PassWord & Guid)
+		'PassWord=MD5(PassWord & Guid)
 
 		If ID=0 Then
 
@@ -2714,7 +2694,7 @@ Class TUser
 			If Not CheckRegExp(HomePage,"[homepage]") Then Call ShowError(30)
 		End If
 
-		PassWord=MD5(Password & Guid)
+		'PassWord=MD5(Password & Guid)
 		If ID=0 Then
 
 			If Level <= 1 Then ShowError(6)
@@ -4622,16 +4602,39 @@ Class TFunction
 	End Property
 
 	Public Function Post()
-
 		Call CheckParameter(ID,"int",0)
 		Call CheckParameter(Order,"int",0)
 		Call CheckParameter(SidebarID,"int",1)
 		Call CheckParameter(IsSystem,"bool",False)
 		Call CheckParameter(MaxLi,"int",0)
 
-		Name=LCase(FilterSQL(Name))
-		FileName=FilterSQL(FileName)
-		HtmlID=FilterSQL(HtmlID)
+		Name=FilterSQL(Name)
+		FileName=Replace(TransferHTML(LCase(FilterSQL(FileName)),"[delspace][filename]"),".","")
+		HtmlID=TransferHTML(FilterSQL(HtmlID),"[delspace][filename]")
+
+		If Name="" Then
+			Name="Function"
+		End If
+
+		If FileName="" Then
+			If ID=0 Then
+				FileName="function"& GetNewID
+			Else
+				FileName="function" & ID
+			End If
+		End If
+
+		If HtmlID="" Then
+			If ID=0 Then 
+				HtmlID="divFunction" & GetNewID
+			Else
+				HtmlID="divFunction" & ID
+			End If
+		End If
+
+		If Order=0 Then
+			Order=GetNewOrder
+		End If
 
 		Name=Left(Name,50)
 		FileName=Left(FileName,50)
@@ -4661,7 +4664,7 @@ Class TFunction
 
 		If (Not objRS.bof) And (Not objRS.eof) Then
 
-			ID=("fn_ID")
+			ID=objRS("fn_ID")
 			Name=objRS("fn_Name")
 			FileName=objRS("fn_FileName")
 			Order=objRS("fn_Order")
@@ -4679,8 +4682,6 @@ Class TFunction
 
 		objRS.Close
 		Set objRS=Nothing
-
-		If IsNull(Intro) Then Intro=""
 
 	End Function
 
@@ -4808,15 +4809,42 @@ Class TFunction
 
 	End Function
 
+
 	Public Function Del()
 
 		Call CheckParameter(ID,"int",0)
+
 		If (ID=0) Then Del=False:Exit Function
 
 		objConn.Execute("DELETE FROM [blog_Function] WHERE [fn_ID] =" & ID)
+
+		Call DelFile()
+
 		Del=True
 
 	End Function
+
+
+	Public Function DelFile()
+
+		On Error Resume Next
+
+		Dim fso, TxtFile
+
+		Set fso = CreateObject("Scripting.FileSystemObject")
+		If fso.FileExists(BlogPath & "zb_users/include/" & FileName & ".asp") Then
+			Set TxtFile = fso.GetFile(BlogPath & "zb_users/include/" & FileName & ".asp")
+			TxtFile.Delete
+		End If
+		Set fso=Nothing
+
+		DelFile=True
+
+		Err.Clear
+
+	End Function
+
+
 
 	Private Sub Class_Initialize()
 		ID=0
