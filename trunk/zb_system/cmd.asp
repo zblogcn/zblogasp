@@ -269,7 +269,6 @@ Select Case strAct
 
 		Call PlugInDisable()
 
-
 	Case "FunctionMng"
 
 		Call FunctionMng()
@@ -281,6 +280,10 @@ Select Case strAct
 	Case "FunctionSav"
 
 		Call FunctionSav()
+
+	Case "FunctionDel"
+
+		Call FunctionDel()
 
 End Select
 
@@ -1339,13 +1342,33 @@ Function FunctionMng()
 
 End Function
 
+
+
 Function FunctionEdt()
 
+	Response.Redirect "admin/edit_function.asp?id=" & Request.QueryString("id")
 
 End Function
 
+
+
+
 Function FunctionSav()
 
+	If SaveFunction()=True Then
+		Response.Redirect "cmd.asp?act=FunctionMng"
+	End If
+
+End Function
+
+
+
+
+Function FunctionDel()
+
+	If DelFunction()=True Then
+		Response.Redirect "cmd.asp?act=FunctionMng"
+	End If
 
 End Function
 

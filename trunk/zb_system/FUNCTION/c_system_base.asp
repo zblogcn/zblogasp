@@ -20,6 +20,7 @@ Dim objConn
 
 Dim BlogTitle
 Dim BlogUser
+Set BlogUser =New TUser
 
 Dim BlogPath
 BlogPath=Server.MapPath("c_system_base.asp")
@@ -58,8 +59,14 @@ Dim TemplatesName
 Dim TemplatesContent
 
 
-Dim Templates_Sidebar()
-ReDim Templates_Sidebar(5)
+Dim TemplateDic
+Dim TemplateTagsDic
+
+Set TemplateDic=CreateObject("Scripting.Dictionary")
+Set TemplateTagsDic=CreateObject("Scripting.Dictionary")
+
+'Dim Templates_Sidebar()
+'ReDim Templates_Sidebar(5)
 
 '*********************************************************
 ' 目的：    System 初始化
@@ -83,7 +90,6 @@ Sub System_Initialize()
 		If Err.Number<>0 Then Call ShowError(4)
 	End If
 
-	Set BlogUser =New TUser
 	BlogUser.Verify()
 
 	'Call GetCategory()
@@ -91,7 +97,7 @@ Sub System_Initialize()
 	'Call GetTags()
 	'Call GetKeyWords()
 	Call GetConfigs()
-	'Call GetFunctions()
+	'Call GetFunction()
 
 
 	BlogConfig.Load("Blog")
@@ -114,17 +120,7 @@ Sub System_Initialize()
 		End If
 	End If
 
-
-
-	Application.Lock
-    Templates_Sidebar(1)=Application(ZC_BLOG_CLSID & "CACHE_INCLUDE_SIDEBAR" )
-	Templates_Sidebar(2)=Application(ZC_BLOG_CLSID & "CACHE_INCLUDE_SIDEBAR2")
-	Templates_Sidebar(3)=Application(ZC_BLOG_CLSID & "CACHE_INCLUDE_SIDEBAR3")
-	Templates_Sidebar(4)=Application(ZC_BLOG_CLSID & "CACHE_INCLUDE_SIDEBAR4")
-	Templates_Sidebar(5)=Application(ZC_BLOG_CLSID & "CACHE_INCLUDE_SIDEBAR5")
-	Application.UnLock
-
-
+	Call CreateAdminLeftMenu()
 
 	'plugin node
 	bAction_Plugin_System_Initialize_Succeed=False
@@ -191,15 +187,6 @@ Sub System_Initialize_WithOutDB()
 			Call LoadGlobeCache()
 		End If
 	End If
-
-
-	Application.Lock
-    Templates_Sidebar(1)=Application(ZC_BLOG_CLSID & "CACHE_INCLUDE_SIDEBAR" )
-	Templates_Sidebar(2)=Application(ZC_BLOG_CLSID & "CACHE_INCLUDE_SIDEBAR2")
-	Templates_Sidebar(3)=Application(ZC_BLOG_CLSID & "CACHE_INCLUDE_SIDEBAR3")
-	Templates_Sidebar(4)=Application(ZC_BLOG_CLSID & "CACHE_INCLUDE_SIDEBAR4")
-	Templates_Sidebar(5)=Application(ZC_BLOG_CLSID & "CACHE_INCLUDE_SIDEBAR5")
-	Application.UnLock
 
 
 	'plugin node
@@ -498,7 +485,7 @@ End Function
 '*********************************************************
 Dim IsRunFunctions
 IsRunFunctions=False
-Function GetFunctions()
+Function GetFunction()
 
 	If IsRunFunctions=True Then Exit Function
 
@@ -518,7 +505,7 @@ Function GetFunctions()
 		ReDim Functions(i)
 	End If
 
-	Set objRS=objConn.Execute("SELECT [fn_ID],[fn_Name],[fn_FileName],[fn_Order],[fn_Content],[fn_IsSystem],[fn_SidebarID],[fn_HtmlID],[fn_Ftype],[fn_Meta] FROM [blog_Function] ORDER BY [fn_ID] ASC")
+	Set objRS=objConn.Execute("SELECT [fn_ID],[fn_Name],[fn_FileName],[fn_Order],[fn_Content],[fn_IsSystem],[fn_SidebarID],[fn_HtmlID],[fn_Ftype],[fn_MaxLi],[fn_Meta] FROM [blog_Function] ORDER BY [fn_ID] ASC")
 	If (Not objRS.bof) And (Not objRS.eof) Then
 
 		aryAllData=objRS.GetRows(objRS.RecordCount)
@@ -529,7 +516,7 @@ Function GetFunctions()
 		l=UBound(aryAllData,2)
 		For i=0 To l
 			Set Functions(aryAllData(0,i))=New TFunction
-			Functions(aryAllData(0,i)).LoadInfoByArray(Array(aryAllData(0,i),aryAllData(1,i),aryAllData(2,i),aryAllData(3,i),aryAllData(4,i),aryAllData(5,i),aryAllData(6,i),aryAllData(7,i),aryAllData(8,i),aryAllData(9,i)))
+			Functions(aryAllData(0,i)).LoadInfoByArray(Array(aryAllData(0,i),aryAllData(1,i),aryAllData(2,i),aryAllData(3,i),aryAllData(4,i),aryAllData(5,i),aryAllData(6,i),aryAllData(7,i),aryAllData(8,i),aryAllData(9,i),aryAllData(10,i)))
 			Call FunctionMetas.SetValue(aryAllData(2,i),aryAllData(0,i))
 		Next
 
@@ -539,7 +526,7 @@ Function GetFunctions()
 
 	IsRunFunctions=True
 
-	GetFunctions=True
+	GetFunction=True
 
 End Function
 '*********************************************************
@@ -682,10 +669,10 @@ Function GetRights(strAction)
 			GetRights=1
 		Case "ThemeSav"
 			GetRights=1
-		Case "LinkMng"
-			GetRights=1
-		Case "LinkSav"
-			GetRights=1
+		'Case "LinkMng"
+		'	GetRights=1
+		'Case "LinkSav"
+		'	GetRights=1
 		Case "PlugInActive"
 			GetRights=1
 		Case "PlugInDisable"
@@ -694,10 +681,12 @@ Function GetRights(strAction)
 			GetRights=1
 		Case "FunctionEdt"
 			GetRights=1
+		Case "FunctionSav"
+			GetRights=1
 		Case "FunctionDel"
 			GetRights=1
-		Case Else Call ShowError(1)
-
+		Case Else
+			'Call ShowError(1)
 	End Select
 
 End Function
@@ -971,9 +960,11 @@ Function LoadIncludeFiles(strDir)
 	i=0
 
 	For Each f1 in fc
-		i=i+1
-		ReDim Preserve aryFileList(i)
-		aryFileList(i)=f1.name
+		If Right(f1.name,5)=".html" Or Right(f1.name,4)=".asp" Or Right(f1.name,4)=".htm"  Then
+			i=i+1
+			ReDim Preserve aryFileList(i)
+			aryFileList(i)=f1.name
+		End If
 	Next
 
 	LoadIncludeFiles=aryFileList
@@ -993,13 +984,16 @@ End Function
 '*********************************************************
 Function GetTemplate(Name)
 
-	Dim i,j
-	j=UBound(TemplatesName)
-	For i=1 to j
-		If LCase(TemplatesName(i))=LCase(Name) Then
-			GetTemplate=TemplatesContent(i)
-		End If
-	Next
+
+	GetTemplate=TemplateDic.Item(Name)
+
+'	Dim i,j
+'	j=UBound(TemplatesName)
+'	For i=1 to j
+'		If LCase(TemplatesName(i))=LCase(Name) Then
+'			GetTemplate=TemplatesContent(i)
+'		End If
+'	Next
 
 End Function
 '*********************************************************
@@ -1012,14 +1006,38 @@ End Function
 '*********************************************************
 Function SetTemplate(Name,Value)
 
-	Dim i,j
-	j=UBound(TemplatesName)
-	For i=1 to j
-		If LCase(TemplatesName(i))=LCase(Name) Then
-			TemplatesContent(i)=Value
-		End If
-	Next
+	TemplateDic.Item(Name)=Value
 
+'	Dim i,j
+'	j=UBound(TemplatesName)
+'	For i=1 to j
+'		If LCase(TemplatesName(i))=LCase(Name) Then
+'			TemplatesContent(i)=Value
+'		End If
+'	Next
+
+End Function
+'*********************************************************
+
+
+
+
+'*********************************************************
+' 目的：    
+'*********************************************************
+Function GetTemplateTags(Name)
+	GetTemplateTags=TemplateTagsDic.Item(Name)
+End Function
+'*********************************************************
+
+
+
+
+'*********************************************************
+' 目的：    
+'*********************************************************
+Function SetTemplateTags(Name,Value)
+	TemplateTagsDic.Item(Name)=Value
 End Function
 '*********************************************************
 
@@ -1057,7 +1075,7 @@ End Function
 '*********************************************************
 Function LoadGlobeCache()
 
-	On Error Resume Next
+	'On Error Resume Next
 
 	Dim bolReLoadCache
 	Application.Lock
@@ -1074,6 +1092,19 @@ Function LoadGlobeCache()
 		TemplatesName=Application(ZC_BLOG_CLSID & "TemplatesName")
 		TemplatesContent=Application(ZC_BLOG_CLSID & "TemplatesContent")
 		Application.UnLock
+
+		Dim ii,jj
+		jj=UBound(TemplatesName)
+		For ii=1 to jj
+			If TemplateDic.Exists(TemplatesName(ii))=False Then TemplateDic.Add TemplatesName(ii), TemplatesContent(ii)
+		Next
+
+		jj=UBound(TemplateTagsName)
+		For ii=1 to jj
+			If TemplateTagsDic.Exists(TemplateTagsName(ii))=False Then TemplateTagsDic.Add TemplateTagsName(ii), TemplateTagsValue(ii)
+		Next
+
+'Dim TagsDic
 
 		If IsEmpty(TemplateTagsValue)=False And IsEmpty(TemplateTagsValue)=False And IsEmpty(TemplatesName)=False And IsEmpty(TemplatesContent)=False Then
 			Exit Function
@@ -1096,17 +1127,17 @@ Function LoadGlobeCache()
 	ReDim Preserve aryTemplatesContent(3)
 
 	'加载WAP
-	Application.Lock
+	'Application.Lock
 	aryTemplatesName(1)="TEMPLATE_WAP_ARTICLE_COMMENT"
 	aryTemplatesName(2)="TEMPLATE_WAP_ARTICLE-MULTI"
 	aryTemplatesName(3)="TEMPLATE_WAP_SINGLE"
 	aryTemplatesContent(1)=LoadFromFile(BlogPath & "zb_system\" & "WAP/wap_article_comment.html","utf-8")
 	aryTemplatesContent(2)=LoadFromFile(BlogPath & "zb_system\" & "WAP/wap_article-multi.html","utf-8")
 	aryTemplatesContent(3)=LoadFromFile(BlogPath & "zb_system\" & "WAP/wap_single.html","utf-8")
-	Application(ZC_BLOG_CLSID & "TEMPLATE_WAP_ARTICLE_COMMENT")=aryTemplatesContent(1)
-	Application(ZC_BLOG_CLSID & "TEMPLATE_WAP_ARTICLE-MULTI")=aryTemplatesContent(2)
-	Application(ZC_BLOG_CLSID & "TEMPLATE_WAP_SINGLE")=aryTemplatesContent(3)
-	Application.UnLock
+	'Application(ZC_BLOG_CLSID & "TEMPLATE_WAP_ARTICLE_COMMENT")=aryTemplatesContent(1)
+	'Application(ZC_BLOG_CLSID & "TEMPLATE_WAP_ARTICLE-MULTI")=aryTemplatesContent(2)
+	'Application(ZC_BLOG_CLSID & "TEMPLATE_WAP_SINGLE")=aryTemplatesContent(3)
+	'Application.UnLock
 
 
 	'读取Template目录下的所有文件并写入Cache
@@ -1117,7 +1148,7 @@ Function LoadGlobeCache()
 	aryFileList=LoadIncludeFiles("zb_users\theme" & "/" & ZC_BLOG_THEME & "/" & ZC_TEMPLATE_DIRECTORY)
 
 	If IsArray(aryFileList) Then
-
+'SetBlogHint_Custom(UBound(aryFileList))
 		j=UBound(aryFileList)
 
 		ReDim aryFileNameTemplate(j)
@@ -1138,9 +1169,9 @@ Function LoadGlobeCache()
 			strContent=""
 			strContent=LoadFromFile(BlogPath & "zb_users\" & aryFileNameTemplate(i),"utf-8")
 
-			Application.Lock
-			Application(ZC_BLOG_CLSID & aryFileNameTemplate_Variable(i))=strContent
-			Application.UnLock
+			'Application.Lock
+			'Application(ZC_BLOG_CLSID & aryFileNameTemplate_Variable(i))=strContent
+			'Application.UnLock
 
 			aryTemplatesContent(3+i)=strContent
 		Next
@@ -1152,21 +1183,27 @@ Function LoadGlobeCache()
 			Next
 			aryTemplatesContent(i)=Replace(aryTemplatesContent(i),"<#ZC_BLOG_HOST#>themes/","<#ZC_BLOG_HOST#>zb_users/theme/")
 		Next
-
+		j=UBound(aryFileList)
 	End If
 
 
 	'读取Cache目录下的所有侧栏文件并写入Cache
 
+	ReDim Preserve aryTemplatesName(3+j+5)
+	ReDim Preserve aryTemplatesContent(3+j+5)
 
-	Application.Lock
-	Application(ZC_BLOG_CLSID & "CACHE_INCLUDE_SIDEBAR" )=LoadFromFile(BlogPath & "zb_users\cache" & "\sidebar.html","utf-8" )
-	Application(ZC_BLOG_CLSID & "CACHE_INCLUDE_SIDEBAR2")=LoadFromFile(BlogPath & "zb_users\cache" & "\sidebar2.html","utf-8")
-	Application(ZC_BLOG_CLSID & "CACHE_INCLUDE_SIDEBAR3")=LoadFromFile(BlogPath & "zb_users\cache" & "\sidebar3.html","utf-8")
-	Application(ZC_BLOG_CLSID & "CACHE_INCLUDE_SIDEBAR4")=LoadFromFile(BlogPath & "zb_users\cache" & "\sidebar4.html","utf-8")
-	Application(ZC_BLOG_CLSID & "CACHE_INCLUDE_SIDEBAR5")=LoadFromFile(BlogPath & "zb_users\cache" & "\sidebar5.html","utf-8")
-	Application.UnLock
 
+	aryTemplatesName(3+j+1)="CACHE_SIDEBAR"
+	aryTemplatesName(3+j+2)="CACHE_SIDEBAR2"
+	aryTemplatesName(3+j+3)="CACHE_SIDEBAR3"
+	aryTemplatesName(3+j+4)="CACHE_SIDEBAR4"
+	aryTemplatesName(3+j+5)="CACHE_SIDEBAR5"
+
+	aryTemplatesContent(3+j+1)=LoadFromFile(BlogPath & "zb_users\cache" & "\sidebar.html","utf-8" )
+	aryTemplatesContent(3+j+2)=LoadFromFile(BlogPath & "zb_users\cache" & "\sidebar2.html","utf-8")
+	aryTemplatesContent(3+j+3)=LoadFromFile(BlogPath & "zb_users\cache" & "\sidebar3.html","utf-8")
+	aryTemplatesContent(3+j+4)=LoadFromFile(BlogPath & "zb_users\cache" & "\sidebar4.html","utf-8")
+	aryTemplatesContent(3+j+5)=LoadFromFile(BlogPath & "zb_users\cache" & "\sidebar5.html","utf-8")
 
 
 	'加载标签
@@ -1302,8 +1339,6 @@ Function LoadGlobeCache()
 	End If
 
 
-
-
 	ReDim Preserve aryTemplateTagsName(a+a2+a3+e+d)
 	ReDim Preserve aryTemplateTagsValue(a+a2+a3+e+d)
 	For j=1 to d
@@ -1390,7 +1425,6 @@ Function ClearGlobeCache()
 
 	Application.Lock
 
-	Application(ZC_BLOG_CLSID & "CACHE_ARTICLE_VIEWCOUNT")=Empty
 
 	Application(ZC_BLOG_CLSID & "TemplateTagsName")=Empty
 	Application(ZC_BLOG_CLSID & "TemplateTagsValue")=Empty
@@ -1398,41 +1432,13 @@ Function ClearGlobeCache()
 	Application(ZC_BLOG_CLSID & "TemplatesName")=Empty
 	Application(ZC_BLOG_CLSID & "TemplatesContent")=Empty
 
-	Application(ZC_BLOG_CLSID & "TEMPLATE_B_ARTICLE_COMMENT")=Empty
-	Application(ZC_BLOG_CLSID & "TEMPLATE_B_ARTICLE_COMMENTPOST")=Empty
-	Application(ZC_BLOG_CLSID & "TEMPLATE_B_ARTICLE_COMMENTPOST-VERIFY")=Empty
-	Application(ZC_BLOG_CLSID & "TEMPLATE_B_ARTICLE_TAG")=Empty
-	Application(ZC_BLOG_CLSID & "TEMPLATE_B_ARTICLE_TRACKBACK")=Empty
-	Application(ZC_BLOG_CLSID & "TEMPLATE_B_ARTICLE-MULTI")=Empty
-	Application(ZC_BLOG_CLSID & "TEMPLATE_B_ARTICLE-SINGLE")=Empty
-	Application(ZC_BLOG_CLSID & "TEMPLATE_B_ARTICLE-GUESTBOOK")=Empty
-	Application(ZC_BLOG_CLSID & "TEMPLATE_B_PAGEBAR")=Empty
-	Application(ZC_BLOG_CLSID & "TEMPLATE_B_ARTICLE_NVABAR_L")=Empty
-	Application(ZC_BLOG_CLSID & "TEMPLATE_B_ARTICLE_NVABAR_R")=Empty
-	Application(ZC_BLOG_CLSID & "TEMPLATE_B_ARTICLE_MUTUALITY")=Empty
-	Application(ZC_BLOG_CLSID & "TEMPLATE_B_ARTICLE-ISTOP")=Empty
-	Application(ZC_BLOG_CLSID & "TEMPLATE_CATALOG")=Empty
-	Application(ZC_BLOG_CLSID & "TEMPLATE_DEFAULT")=Empty
-	Application(ZC_BLOG_CLSID & "TEMPLATE_SEARCH")=Empty
-	Application(ZC_BLOG_CLSID & "TEMPLATE_SINGLE")=Empty
-	Application(ZC_BLOG_CLSID & "TEMPLATE_TAGS")=Empty
-	Application(ZC_BLOG_CLSID & "TEMPLATE_WAP_ARTICLE_COMMENT")=Empty
-	Application(ZC_BLOG_CLSID & "TEMPLATE_WAP_ARTICLE-MULTI")=Empty
-	Application(ZC_BLOG_CLSID & "TEMPLATE_WAP_SINGLE")=Empty
-	Application(ZC_BLOG_CLSID & "TEMPLATE_GUESTBOOK")=Empty
-	Application(ZC_BLOG_CLSID & "TEMPLATE_B_FUNCTION")=Empty
-	Application(ZC_BLOG_CLSID & "TEMPLATE_B_ARTICLE_COMMENT_PAGEBAR")=Empty
-
-	Application(ZC_BLOG_CLSID & "CACHE_INCLUDE_SIDEBAR" )=Empty
-	Application(ZC_BLOG_CLSID & "CACHE_INCLUDE_SIDEBAR2")=Empty
-	Application(ZC_BLOG_CLSID & "CACHE_INCLUDE_SIDEBAR3")=Empty
-	Application(ZC_BLOG_CLSID & "CACHE_INCLUDE_SIDEBAR4")=Empty
-	Application(ZC_BLOG_CLSID & "CACHE_INCLUDE_SIDEBAR5")=Empty
-
 
 	Application(ZC_BLOG_CLSID & "SIGNAL_RELOADCACHE")=Empty
 
 	Application(ZC_BLOG_CLSID & "TEMPLATEMODIFIED")=Empty
+
+	Application(ZC_BLOG_CLSID & "CACHE_ARTICLE_VIEWCOUNT")=Empty
+
 
 	Application.UnLock
 
@@ -1761,7 +1767,10 @@ End Sub
 '*********************************************************
 ' 目的：  生成左侧导航栏
 '*********************************************************
-Function MakeLeftMenu(strName,strUrl,strLiId,strAName,strImgUrl)
+Function MakeLeftMenu(requireLevel,strName,strUrl,strLiId,strAName,strImgUrl)
+
+	If BlogUser.Level>requireLevel Then Exit Function
+
 	dim tmp
 	If Trim(strImgUrl)<>"" Then
 		tmp="<li id="""&strLiId&"""><a id="""&strAName&""" href="""&strUrl&"""><span style=""background-image:url('"&strImgUrl&"')"">"&strName&"</span></a></li>"
@@ -2092,7 +2101,7 @@ Function BuildAllCache()
 		If bAction_Plugin_BuildAllCache_Begin=True Then Exit Function
 	Next
 
-	Call GetFunctions()
+	Call GetFunction()
 
 	Dim strList
 
@@ -2202,7 +2211,7 @@ Function BlogReBuild_Calendar()
 	strCalendar=TransferHTML(strCalendar,"[no-asp]")
 
 
-	Call GetFunctions()
+	Call GetFunction()
 	Functions(FunctionMetas.GetValue("calendar")).Content=strCalendar
 
 	'Call SaveToFile(BlogPath & "zb_users/include/calendar.asp",strCalendar,"utf-8",True)
@@ -2290,7 +2299,7 @@ Function BlogReBuild_Archives()
 	strArchives=TransferHTML(strArchives,"[no-asp]")
 
 
-	Call GetFunctions()
+	Call GetFunction()
 	Functions(FunctionMetas.GetValue("archives")).Content=strArchives
 
 	'Call SaveToFile(BlogPath & "zb_users/include/archives.asp",strArchives,"utf-8",True)
@@ -2356,7 +2365,7 @@ Function BlogReBuild_Catalogs()
 	strCatalog=TransferHTML(strCatalog,"[no-asp]")
 
 
-	Call GetFunctions()
+	Call GetFunction()
 	Functions(FunctionMetas.GetValue("catalog")).Content=strCatalog
 
 	'Call SaveToFile(BlogPath & "zb_users/include/catalog.asp",strCatalog,"utf-8",True)
@@ -2456,7 +2465,7 @@ Function BlogReBuild_Authors()
 
 	strAuthor=TransferHTML(strAuthor,"[no-asp]")
 
-	Call GetFunctions()
+	Call GetFunction()
 	Functions(FunctionMetas.GetValue("authors")).Content=strAuthor
 
 	'Call SaveToFile(BlogPath & "zb_users/include/authors.asp",strAuthor,"utf-8",True)
@@ -2505,7 +2514,7 @@ Function BlogReBuild_Tags()
 
 	strTag=TransferHTML(strTag,"[no-asp]")
 
-	Call GetFunctions()
+	Call GetFunction()
 	Functions(FunctionMetas.GetValue("tags")).Content=strTag
 
 	'Call SaveToFile(BlogPath & "zb_users/include/tags.asp",strTag,"utf-8",True)
@@ -2554,7 +2563,7 @@ Function BlogReBuild_Previous()
 
 	strPrevious=TransferHTML(strPrevious,"[no-asp]")
 
-	Call GetFunctions()
+	Call GetFunction()
 	Functions(FunctionMetas.GetValue("previous")).Content=strPrevious
 
 	'Call SaveToFile(BlogPath & "zb_users/include/previous.asp",strPrevious,"utf-8",True)
@@ -2609,7 +2618,7 @@ Function BlogReBuild_Comments()
 
 	strComments=TransferHTML(strComments,"[no-asp]")
 
-	Call GetFunctions()
+	Call GetFunction()
 	Functions(FunctionMetas.GetValue("comments")).Content=strComments
 
 	'Call SaveToFile(BlogPath & "zb_users/include/comments.asp",strComments,"utf-8",True)
@@ -2716,7 +2725,7 @@ Function BlogReBuild_Statistics()
 
 	strStatistics=TransferHTML(strStatistics,"[no-asp]")
 
-	Call GetFunctions()
+	Call GetFunction()
 	Functions(FunctionMetas.GetValue("statistics")).Content=strStatistics
 
 	'Call SaveToFile(BlogPath & "zb_users/include/statistics.asp",strStatistics,"utf-8",False)
@@ -2734,14 +2743,13 @@ End Function
 '*********************************************************
 Function BlogReBuild_Functions
 
-	Call GetFunctions()
+	Call GetFunction()
 
 	Dim i,j,s,t,f
 
 	For Each f In Functions
 		If IsObject(f)=True Then
 			If f.id>0 Then
-				'If f.Ftype="div" Then f.Save
 				f.Save
 			End If
 		End If 
@@ -2752,7 +2760,7 @@ Function BlogReBuild_Functions
 	aryFunctionInOrder=GetFunctionOrder()
 
 	Application.Lock
-	t=Application(ZC_BLOG_CLSID & "TEMPLATE_B_FUNCTION")
+	t=GetTemplate("TEMPLATE_B_FUNCTION")
 	Application.UnLock
 
 
@@ -3143,6 +3151,37 @@ Function GetFunctionOrder()
 	If i=0 Then GetFunctionOrder=Array()
 
 	Erase aryCateInOrder
+
+End Function
+'*********************************************************
+
+
+
+
+'*********************************************************
+' 目的：    Create Admin Menu
+'*********************************************************
+Function CreateAdminLeftMenu()
+
+'强制清空Menu,防止某些插件提前插入造成排在系统菜单之前,插件插入菜单要在系统初始化完成后
+Response_Plugin_Admin_Left=""
+
+Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("ArticleEdt"),ZC_MSG168,GetCurrentHost&"zb_system/cmd.asp?act=ArticleEdt&amp;webedit="&ZC_BLOG_WEBEDIT,"nav_new","aArticleEdt",""))
+Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("FileReBuild"),ZC_MSG073,GetCurrentHost&"zb_system/cmd.asp?act=AskFileReBuild","nav_build","aAskFileReBuild",""))
+Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("ArticleMng"),ZC_MSG067,GetCurrentHost&"zb_system/cmd.asp?act=ArticleMng","nav_article","aArticleMng",""))
+Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("ArticleMng"),ZC_MSG327,GetCurrentHost&"ZB_SYSTEM/cmd.asp?act=ArticleMng&amp;type=Page","nav_page","aPageMng",""))
+Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("CategoryMng"),ZC_MSG066,GetCurrentHost&"ZB_SYSTEM/cmd.asp?act=CategoryMng","nav_category","aCategoryMng",""))
+
+Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("TagMng"),ZC_MSG141,GetCurrentHost&"ZB_SYSTEM/cmd.asp?act=TagMng","nav_tags","aTagMng",""))
+Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("CommentMng"),ZC_MSG068,GetCurrentHost&"ZB_SYSTEM/cmd.asp?act=CommentMng","nav_comments","aCommentMng",""))
+Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("FileMng"),ZC_MSG071,GetCurrentHost&"ZB_SYSTEM/cmd.asp?act=FileMng","nav_accessories","aFileMng",""))
+Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("ThemeMng"),ZC_MSG291,GetCurrentHost&"ZB_SYSTEM/cmd.asp?act=ThemeMng","nav_themes","aThemeMng",""))
+
+
+Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("FunctionMng"),ZC_MSG343,GetCurrentHost&"ZB_SYSTEM/cmd.asp?act=FunctionMng","nav_function","aFunctionMng",""))
+Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("PlugInMng"),ZC_MSG107,GetCurrentHost&"ZB_SYSTEM/cmd.asp?act=PlugInMng","nav_plugin","aPlugInMng",""))
+Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("UserMng"),ZC_MSG070,GetCurrentHost&"ZB_SYSTEM/cmd.asp?act=UserMng","nav_user","aUserMng",""))
+
 
 End Function
 '*********************************************************

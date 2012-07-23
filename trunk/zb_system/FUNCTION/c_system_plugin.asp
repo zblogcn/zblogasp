@@ -3754,6 +3754,16 @@ Response_Plugin_LinkMng_SubMenu=""
 
 '**************************************************<
 '类型:response
+'名称:Response_Plugin_Function_SubMenu
+'参数:无
+'说明:模块管理子菜单
+'**************************************************>
+Dim Response_Plugin_Function_SubMenu
+Response_Plugin_Function_SubMenu=""
+
+
+'**************************************************<
+'类型:response
 '名称:Response_Plugin_ArticleEdt_SubMenu
 '参数:无
 '说明:文件编辑页子菜单
