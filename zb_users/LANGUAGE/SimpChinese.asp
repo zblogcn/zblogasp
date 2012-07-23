@@ -39,7 +39,7 @@ Const ZC_MSG034="名称或邮箱格式不对"
 Const ZC_MSG035="留言不能为空或过长"
 Const ZC_MSG036="%s"
 Const ZC_MSG037="UBB标签"
-Const ZC_MSG038="密码不能小于6位"
+Const ZC_MSG038="密码不能小于8位"
 Const ZC_MSG039="图标汇集"'Misc
 Const ZC_MSG040="◎欢迎参与讨论，请在这里发表您的看法、交流您的观点。"
 Const ZC_MSG041="大小"
@@ -91,7 +91,7 @@ Const ZC_MSG086="搜索%s，共找到%s个结果"
 Const ZC_MSG087="提交"
 Const ZC_MSG088="重置"
 Const ZC_MSG089="验证"
-Const ZC_MSG090="全局管理"
+Const ZC_MSG090="内容"
 Const ZC_MSG091="BLOG的名称"
 Const ZC_MSG092="BLOG的简介"
 Const ZC_MSG093="网站的标题"
@@ -348,8 +348,11 @@ Const ZC_MSG343="侧栏管理"
 Const ZC_MSG344="侧栏"
 Const ZC_MSG345="显示"
 Const ZC_MSG346="请拖动需要移动的模块行到指定位置,并点'提交'按钮保存侧栏模块的排序结果."
-
-
+Const ZC_MSG347="模块编辑"
+Const ZC_MSG348="UL内LI的最大行数"
+Const ZC_MSG349="新建模块"
+Const ZC_MSG350="为0则不限制LI的输出项数"
+Const ZC_MSG351="ID值是页面唯一的,请不要与其它模块的ID重复,建议以div为前缀加文件名."
 
 
 Dim ZVA_Article_Level_Name(4)

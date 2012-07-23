@@ -343,6 +343,10 @@ padding:0 5px ;
 	padding-bottom:1em;
 }
 
+span.title{
+	font-weight:bold;
+}
+
 
 .pagebar span{
 	color:#3a6ea5;

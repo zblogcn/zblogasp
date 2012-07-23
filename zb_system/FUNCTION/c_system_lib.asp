@@ -731,15 +731,15 @@ Class TArticle
 		aryTemplateTagsValue(49)=ZVA_Week_Abbr(Weekday(PostTime))
 
 		aryTemplateTagsName(50)="template:sidebar"
-		aryTemplateTagsValue(50)=Templates_Sidebar(1)
+		aryTemplateTagsValue(50)=GetTemplate("CACHE_SIDEBAR")
 		aryTemplateTagsName(51)="template:sidebar2"
-		aryTemplateTagsValue(51)=Templates_Sidebar(2)
+		aryTemplateTagsValue(51)=GetTemplate("CACHE_SIDEBAR2")
 		aryTemplateTagsName(52)="template:sidebar3"
-		aryTemplateTagsValue(52)=Templates_Sidebar(3)
+		aryTemplateTagsValue(52)=GetTemplate("CACHE_SIDEBAR3")
 		aryTemplateTagsName(53)="template:sidebar4"
-		aryTemplateTagsValue(53)=Templates_Sidebar(4)
+		aryTemplateTagsValue(53)=GetTemplate("CACHE_SIDEBAR4")
 		aryTemplateTagsName(54)="template:sidebar5"
-		aryTemplateTagsValue(54)=Templates_Sidebar(5)
+		aryTemplateTagsValue(54)=GetTemplate("CACHE_SIDEBAR5")
 
 
 		Call Filter_Plugin_TArticle_Export_TemplateTags(aryTemplateTagsName,aryTemplateTagsValue)
@@ -1332,15 +1332,15 @@ Class TArticle
 		For i=1 to j
 			If (InStr(aryTemplateTagsName(i),"CACHE_INCLUDE_")>0) And (Right(aryTemplateTagsName(i),5)<>"_HTML") And (Right(aryTemplateTagsName(i),3)<>"_JS") Then
 
-				Dim modname
-				modname=LCase(Replace(aryTemplateTagsName(i),"CACHE_INCLUDE_",""))
-				If aryTemplateTagsName(i)<>"CACHE_INCLUDE_NAVBAR" Then
-					If aryTemplateTagsName(i)="CACHE_INCLUDE_CALENDAR" Then
-						aryTemplateTagsValue(i)="<div id=""mod_"+modname+"""><script type=""text/javascript"">strBatchInculde+=""mod_"+modname+"="+modname+",""</script></div>"
-					Else
-						aryTemplateTagsValue(i)="<li id=""mod_"+modname+""" style=""display:none;""><script type=""text/javascript"">strBatchInculde+=""mod_"+modname+"="+modname+",""</script></li>"
-					End If
-				End If
+				'Dim modname
+				'modname=LCase(Replace(aryTemplateTagsName(i),"CACHE_INCLUDE_",""))
+				'If aryTemplateTagsName(i)<>"CACHE_INCLUDE_NAVBAR" Then
+				'		If aryTemplateTagsName(i)="CACHE_INCLUDE_CALENDAR" Then
+				'		aryTemplateTagsValue(i)="<div id=""mod_"+modname+"""><script type=""text/javascript"">strBatchInculde+=""mod_"+modname+"="+modname+",""</script></div>"
+				'	Else
+				'		aryTemplateTagsValue(i)="<li id=""mod_"+modname+""" style=""display:none;""><script type=""text/javascript"">strBatchInculde+=""mod_"+modname+"="+modname+",""</script></li>"
+				'	End If
+				'End If
 			End If
 		Next
 
@@ -2113,15 +2113,15 @@ Class TArticleList
 		aryTemplateSubName( 14)="articlelist/page/count"
 		aryTemplateSubValue(14)=ZC_DISPLAY_COUNT
 		aryTemplateSubName( 15)="template:sidebar"
-		aryTemplateSubValue(15)=Templates_Sidebar(1)
+		aryTemplateSubValue(15)=GetTemplate("CACHE_SIDEBAR")
 		aryTemplateSubName( 16)="template:sidebar2"
-		aryTemplateSubValue(16)=Templates_Sidebar(2)
+		aryTemplateSubValue(16)=GetTemplate("CACHE_SIDEBAR2")
 		aryTemplateSubName( 17)="template:sidebar3"
-		aryTemplateSubValue(17)=Templates_Sidebar(3)
+		aryTemplateSubValue(17)=GetTemplate("CACHE_SIDEBAR3")
 		aryTemplateSubName( 18)="template:sidebar4"
-		aryTemplateSubValue(18)=Templates_Sidebar(4)
+		aryTemplateSubValue(18)=GetTemplate("CACHE_SIDEBAR4")
 		aryTemplateSubName( 19)="template:sidebar5"
-		aryTemplateSubValue(19)=Templates_Sidebar(5)
+		aryTemplateSubValue(19)=GetTemplate("CACHE_SIDEBAR5")
 
 
 		'plugin node
@@ -4611,6 +4611,7 @@ Class TFunction
 	Public SidebarID
 	Public HtmlID
 	Public Ftype 'div or ul
+	Public MaxLi
 	Public Meta
 
 	Public Property Get MetaString
@@ -4626,6 +4627,7 @@ Class TFunction
 		Call CheckParameter(Order,"int",0)
 		Call CheckParameter(SidebarID,"int",1)
 		Call CheckParameter(IsSystem,"bool",False)
+		Call CheckParameter(MaxLi,"int",0)
 
 		Name=LCase(FilterSQL(Name))
 		FileName=FilterSQL(FileName)
@@ -4640,9 +4642,9 @@ Class TFunction
 		Content=FilterSQL(Content)
 
 		If ID=0 Then
-			objConn.Execute("INSERT INTO [blog_Function]([fn_Name],[fn_FileName],[fn_Order],[fn_Content],[fn_IsSystem],[fn_SidebarID],[fn_HtmlID],[fn_Ftype],[fn_Meta]) VALUES ('"&Name&"','"&FileName&"',"&Order&",'"&Content&"',"&CInt(IsSystem)&","&SidebarID&",'"&HtmlID&"','"&Ftype&"','"&MetaString&"')")
+			objConn.Execute("INSERT INTO [blog_Function]([fn_Name],[fn_FileName],[fn_Order],[fn_Content],[fn_IsSystem],[fn_SidebarID],[fn_HtmlID],[fn_Ftype],[fn_MaxLi],[fn_Meta]) VALUES ('"&Name&"','"&FileName&"',"&Order&",'"&Content&"',"&CInt(IsSystem)&","&SidebarID&",'"&HtmlID&"','"&Ftype&"',"&MaxLi&",'"&MetaString&"')")
 		Else
-			objConn.Execute("UPDATE [blog_Function] SET [fn_Name]='"&Name&"',[fn_FileName]='"&FileName&"',[fn_Order]="&Order&",[fn_Content]='"&Content&"',[fn_IsSystem]="&CInt(IsSystem)&",[fn_SidebarID]="&SidebarID&",[fn_HtmlID]='"&HtmlID&"',[fn_Ftype]='"&Ftype&"',[fn_Meta]='"&MetaString&"' WHERE [fn_ID] =" & ID)
+			objConn.Execute("UPDATE [blog_Function] SET [fn_Name]='"&Name&"',[fn_FileName]='"&FileName&"',[fn_Order]="&Order&",[fn_Content]='"&Content&"',[fn_IsSystem]="&CInt(IsSystem)&",[fn_SidebarID]="&SidebarID&",[fn_HtmlID]='"&HtmlID&"',[fn_Ftype]='"&Ftype&"',[fn_MaxLi]="&MaxLi&",[fn_Meta]='"&MetaString&"' WHERE [fn_ID] =" & ID)
 		End If
 
 		Post=True
@@ -4655,7 +4657,7 @@ Class TFunction
 		Call CheckParameter(fn_ID,"int",0)
 
 		Dim objRS
-		Set objRS=objConn.Execute("SELECT [fn_ID],[fn_Name],[fn_FileName],[fn_Order],[fn_Content],[fn_IsSystem],[fn_SidebarID],[fn_HtmlID],[fn_Ftype],[fn_Meta] FROM [blog_Function] WHERE [fn_ID]=" & fn_ID)
+		Set objRS=objConn.Execute("SELECT [fn_ID],[fn_Name],[fn_FileName],[fn_Order],[fn_Content],[fn_IsSystem],[fn_SidebarID],[fn_HtmlID],[fn_Ftype],[fn_MaxLi],[fn_Meta] FROM [blog_Function] WHERE [fn_ID]=" & fn_ID)
 
 		If (Not objRS.bof) And (Not objRS.eof) Then
 
@@ -4668,6 +4670,7 @@ Class TFunction
 			SidebarID=objRS("fn_SidebarID")
 			HtmlID=objRS("fn_HtmlID")
 			Ftype=objRS("fn_Ftype")
+			MaxLi=objRS("fn_MaxLi")
 			MetaString=objRS("fn_Meta")
 
 			LoadInfoByID=True
@@ -4695,10 +4698,18 @@ Class TFunction
 			SidebarID=aryCateInfo(6)
 			HtmlID=aryCateInfo(7)
 			Ftype=aryCateInfo(8)
-			MetaString=aryCateInfo(9)
+			MaxLi=aryCateInfo(9)
+			MetaString=aryCateInfo(10)
 		End If
 
 		LoadInfoByArray=True
+
+	End Function
+
+
+	Public Function GetNewID()
+
+		GetNewID=CInt(objConn.Execute("SELECT TOP 1 [fn_ID] FROM [blog_Function] ORDER BY [fn_ID] DESC")(0))+1
 
 	End Function
 
@@ -4812,6 +4823,7 @@ Class TFunction
 		Ftype="div"
 		SidebarID=1
 		IsSystem=False
+		MaxLi=0
 		Set Meta=New TMeta
 	End Sub
 

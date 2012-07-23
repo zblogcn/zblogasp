@@ -1535,6 +1535,8 @@ End Function
 '*********************************************************
 Function ExportFunctionList()
 
+	Call Add_Response_Plugin("Response_Plugin_FunctionMng_SubMenu",MakeSubMenu(ZC_MSG349 & "","../cmd.asp?act=FunctionEdt","m-left",False))
+
 	Dim i,j,s
 
 	Response.Write "<div class=""divHeader"">" & ZC_MSG343 & "</div>"
@@ -1566,9 +1568,9 @@ Function ExportFunctionList()
 		Response.Write "<td class='funid'>" & Functions(aryFunctionInOrder(i)).ID & "</td>"
 		Response.Write "<td>" & Functions(aryFunctionInOrder(i)).Name & "</td>"
 		Response.Write "<td>" & Functions(aryFunctionInOrder(i)).HtmlID & "</td>"
-		Response.Write "<td>" & Functions(aryFunctionInOrder(i)).Ftype & "</td>"
+		Response.Write "<td>" & UCase(Functions(aryFunctionInOrder(i)).Ftype) & "</td>"
 		Response.Write "<td>" & s & "</td>"
-		Response.Write "<td align=""center""><a href=""../cmd.asp?act=Function&amp;id="& Functions(aryFunctionInOrder(i)).ID &"""><img src=""../image/admin/brick_edit.png"" alt=""" & ZC_MSG078 & """ title=""" & ZC_MSG078 & """ width=""16"" /></a>"
+		Response.Write "<td align=""center""><a href=""../cmd.asp?act=FunctionEdt&amp;id="& Functions(aryFunctionInOrder(i)).ID &"""><img src=""../image/admin/brick_edit.png"" alt=""" & ZC_MSG078 & """ title=""" & ZC_MSG078 & """ width=""16"" /></a>"
 		If Functions(aryFunctionInOrder(i)).IsSystem=False Then
 		Response.Write "&nbsp;&nbsp;&nbsp;&nbsp;<a onclick='return window.confirm("""& ZC_MSG058 &""");' href=""../cmd.asp?act=FunctionDel&amp;id="& Functions(aryFunctionInOrder(i)).ID &"""><img src=""../image/admin/delete.png"" alt=""" & ZC_MSG063 & """ title=""" & ZC_MSG063 & """ width=""16"" /></a>"
 		End If
