@@ -1356,6 +1356,8 @@ End Function
 Function FunctionSav()
 
 	If SaveFunction()=True Then
+		Call SetBlogHint(True,True,Empty)
+		Call MakeBlogReBuild_Core()
 		Response.Redirect "cmd.asp?act=FunctionMng"
 	End If
 
@@ -1366,7 +1368,9 @@ End Function
 
 Function FunctionDel()
 
-	If DelFunction()=True Then
+	If DelFunction(CInt(Request.QueryString("id")))=True Then
+		Call SetBlogHint(True,True,Empty)
+		Call MakeBlogReBuild_Core()
 		Response.Redirect "cmd.asp?act=FunctionMng"
 	End If
 
@@ -1386,6 +1390,6 @@ Next
 Call System_Terminate()
 
 If Err.Number<>0 then
-	Call ShowError(0)
+	'Call ShowError(0)
 End If
 %>

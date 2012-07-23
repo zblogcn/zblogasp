@@ -65,8 +65,6 @@ Dim TemplateTagsDic
 Set TemplateDic=CreateObject("Scripting.Dictionary")
 Set TemplateTagsDic=CreateObject("Scripting.Dictionary")
 
-'Dim Templates_Sidebar()
-'ReDim Templates_Sidebar(5)
 
 '*********************************************************
 ' 目的：    System 初始化
@@ -563,8 +561,8 @@ Function GetRights(strAction)
 			GetRights=4
 		Case "cmt"
 			GetRights=5
-		Case "tb"
-			GetRights=5
+		'Case "tb"
+		'	GetRights=5
 		Case "vrs"
 			GetRights=5
 		Case "rss"
@@ -1148,7 +1146,7 @@ Function LoadGlobeCache()
 	aryFileList=LoadIncludeFiles("zb_users\theme" & "/" & ZC_BLOG_THEME & "/" & ZC_TEMPLATE_DIRECTORY)
 
 	If IsArray(aryFileList) Then
-'SetBlogHint_Custom(UBound(aryFileList))
+
 		j=UBound(aryFileList)
 
 		ReDim aryFileNameTemplate(j)
@@ -1681,7 +1679,7 @@ Function GetBlogHint()
 	If IsEmpty(bolRebuildFiles)=False Then
 
 		If bolRebuildFiles=True Then
-			Response.Write "<div class='hint'><p class='hint hint_blue'><font color='blue'>" & Replace(ZC_MSG269,"%u",ZC_BLOG_HOST&"ZB_SYSTEM/admin/admin.asp?act=AskFileReBuild") & "</font></p></div>"
+			Response.Write "<div class='hint'><p class='hint hint_blue'><font color='blue'>" & Replace(ZC_MSG269,"%u",ZC_BLOG_HOST&"zb_system/admin/admin.asp?act=AskFileReBuild") & "</font></p></div>"
 		End If
 
 	End If
@@ -3169,18 +3167,18 @@ Response_Plugin_Admin_Left=""
 Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("ArticleEdt"),ZC_MSG168,GetCurrentHost&"zb_system/cmd.asp?act=ArticleEdt&amp;webedit="&ZC_BLOG_WEBEDIT,"nav_new","aArticleEdt",""))
 Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("FileReBuild"),ZC_MSG073,GetCurrentHost&"zb_system/cmd.asp?act=AskFileReBuild","nav_build","aAskFileReBuild",""))
 Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("ArticleMng"),ZC_MSG067,GetCurrentHost&"zb_system/cmd.asp?act=ArticleMng","nav_article","aArticleMng",""))
-Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("ArticleMng"),ZC_MSG327,GetCurrentHost&"ZB_SYSTEM/cmd.asp?act=ArticleMng&amp;type=Page","nav_page","aPageMng",""))
-Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("CategoryMng"),ZC_MSG066,GetCurrentHost&"ZB_SYSTEM/cmd.asp?act=CategoryMng","nav_category","aCategoryMng",""))
+Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("ArticleMng"),ZC_MSG327,GetCurrentHost&"zb_system/cmd.asp?act=ArticleMng&amp;type=Page","nav_page","aPageMng",""))
+Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("CategoryMng"),ZC_MSG066,GetCurrentHost&"zb_system/cmd.asp?act=CategoryMng","nav_category","aCategoryMng",""))
 
-Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("TagMng"),ZC_MSG141,GetCurrentHost&"ZB_SYSTEM/cmd.asp?act=TagMng","nav_tags","aTagMng",""))
-Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("CommentMng"),ZC_MSG068,GetCurrentHost&"ZB_SYSTEM/cmd.asp?act=CommentMng","nav_comments","aCommentMng",""))
-Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("FileMng"),ZC_MSG071,GetCurrentHost&"ZB_SYSTEM/cmd.asp?act=FileMng","nav_accessories","aFileMng",""))
-Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("ThemeMng"),ZC_MSG291,GetCurrentHost&"ZB_SYSTEM/cmd.asp?act=ThemeMng","nav_themes","aThemeMng",""))
+Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("TagMng"),ZC_MSG141,GetCurrentHost&"zb_system/cmd.asp?act=TagMng","nav_tags","aTagMng",""))
+Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("CommentMng"),ZC_MSG068,GetCurrentHost&"zb_system/cmd.asp?act=CommentMng","nav_comments","aCommentMng",""))
+Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("FileMng"),ZC_MSG071,GetCurrentHost&"zb_system/cmd.asp?act=FileMng","nav_accessories","aFileMng",""))
+Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("ThemeMng"),ZC_MSG291,GetCurrentHost&"zb_system/cmd.asp?act=ThemeMng","nav_themes","aThemeMng",""))
 
 
-Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("FunctionMng"),ZC_MSG343,GetCurrentHost&"ZB_SYSTEM/cmd.asp?act=FunctionMng","nav_function","aFunctionMng",""))
-Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("PlugInMng"),ZC_MSG107,GetCurrentHost&"ZB_SYSTEM/cmd.asp?act=PlugInMng","nav_plugin","aPlugInMng",""))
-Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("UserMng"),ZC_MSG070,GetCurrentHost&"ZB_SYSTEM/cmd.asp?act=UserMng","nav_user","aUserMng",""))
+Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("FunctionMng"),ZC_MSG343,GetCurrentHost&"zb_system/cmd.asp?act=FunctionMng","nav_function","aFunctionMng",""))
+Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("PlugInMng"),ZC_MSG107,GetCurrentHost&"zb_system/cmd.asp?act=PlugInMng","nav_plugin","aPlugInMng",""))
+Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("UserMng"),ZC_MSG070,GetCurrentHost&"zb_system/cmd.asp?act=UserMng","nav_user","aUserMng",""))
 
 
 End Function

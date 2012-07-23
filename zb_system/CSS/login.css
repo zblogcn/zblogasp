@@ -31,3 +31,6 @@ input[type="checkbox"]{margin:8px 0 0 0;padding:0;}
 #edtUserName, #edtPassWord { float:left; width:170px; height:25px; padding:0 5px; line-height:27px; }
 dd.submit { width:220px; }
 .button { float:right;color:#FFFFFF; font-size:14px; width:70px; height:32px; background:#3a6ea5; border:1px solid #3399CC;cursor: pointer;}
+
+
+.divHeader { height:1.8em; line-height:1.8em; font-size:1.5em; padding:0; background:#FFF;}

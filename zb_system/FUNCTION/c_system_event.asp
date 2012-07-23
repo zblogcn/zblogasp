@@ -24,11 +24,13 @@ Public Function Login()
 
 	'If CheckVerifyNumber(Request.Form("edtCheckOut"))=False Then Call ShowError(38)
 
-	BlogUser.LoginType="Form"
-	
+	BlogUser.LoginType="Self"
+	BlogUser.Name=Request.Form("username")
+	BlogUser.PassWord=BlogUser.GetPasswordByMD5(Request.Form("password"))
+
 	If BlogUser.Verify=True Then
 
-		Response.Cookies("password")=BlogUser.GetMixPassWord(Request.Form("password"))
+		Response.Cookies("password")=BlogUser.PassWord
 		If Request.Form("savedate")<>0 Then
 			Response.Cookies("password").Expires = DateAdd("d", Request.Form("savedate"), now)
 		End If
@@ -251,7 +253,6 @@ Function PostArticle()
 	objArticle.TemplateName=Request.Form("edtTemplate")
 
 	objArticle.Intro=Request.Form("txaIntro")
-	objArticle.AutoList=Request.Form("edtAutoList")
 
 	objArticle.Content=Request.Form("txaContent")
 	If objArticle.Intro="" Then
@@ -1059,16 +1060,15 @@ Function ListUser_Rights()
 	Dim strAction
 	Dim aryAction
 
-	strAction="login|verify|logout|admin|cmt|tb|vrs|BlogReBuild|FileReBuild|ArticleMng|ArticleEdt|ArticlePst|ArticleDel|CategoryMng|CategoryPst|CategoryDel|CommentMng|CommentDel|CommentRev|TrackBackMng|TrackBackDel|TrackBackSnd|UserMng|UserEdt|UserCrt|UserDel|FileMng|FileUpload|FileDel|Search|TagMng|TagEdt|TagPst|TagDel|SettingMng|SettingSav|PlugInMng|rss|Root"
+	strAction="Root|login|verify|logout|admin|cmt|vrs|rss|BlogReBuild|FileReBuild|ArticleMng|ArticleEdt|ArticlePst|ArticleDel|CategoryMng|CategoryPst|CategoryDel|CommentMng|CommentDel|UserMng|UserEdt|UserCrt|UserDel|FileMng|FileUpload|FileDel|Search|TagMng|TagEdt|TagPst|TagDel|SettingMng|SettingSav|PlugInMng|FunctionMng"
 
 	aryAction=Split(strAction, "|")
 
 	s=ZC_MSG019
 
-	Response.Write "<!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 1.0 Transitional//EN"" ""http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd""><html><head><meta http-equiv=""Content-Type"" content=""text/html; charset=utf-8""/><meta http-equiv=""Content-Language"" content=""zh-cn"" /><link rel=""stylesheet"" rev=""stylesheet"" href=""CSS/admin.css"" type=""text/css"" media=""screen"" /><title>"&ZC_MSG021&"</title></head><body>"
 
-	Response.Write "<div id=""divMain""><div class=""Header"">" & ZC_MSG021 & "</div>"
-	Response.Write "<div id=""divMain2""><form  name=""edit"" id=""edit""><P>"
+	Response.Write "<!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 1.0 Transitional//EN"" ""http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd""><html xmlns=""http://www.w3.org/1999/xhtml"" xml:lang="""&ZC_BLOG_LANGUAGE&""" lang="""&ZC_BLOG_LANGUAGE&"""><head><meta http-equiv=""Content-Type"" content=""text/html; charset=utf-8"" /><meta http-equiv=""Content-Language"" content="""&ZC_BLOG_LANGUAGE&""" /><link rel=""stylesheet"" rev=""stylesheet"" href=""css/login.css"" type=""text/css"" media=""screen"" /><title>"&ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG021&"</title></head><body><div class=""bg""></div><div id=""wrapper""><div class=""logo""><img src=""image/admin/none.gif"" title=""Z-Blog"" alt=""Z-Blog""/></div><div class=""login""><form id=""frmLogin"" method=""post"" action=""""><dl><dd>"
+
 
 	Response.Write ZC_MSG001 & ":" & BLogUser.Name & "<br/><br/>"
 	Response.Write ZC_MSG249 & ":" & ZVA_User_Level_Name(BLogUser.Level) & "<br/><br/>"
@@ -1080,8 +1080,8 @@ Function ListUser_Rights()
 
 	Response.Write s
 
-	Response.Write "</p></form></div></div>"
-	Response.Write "</body></html>"
+	Response.Write "</dd></dl></div></div></body></html>"
+
 
 	ListUser_Rights=True
 
@@ -2226,7 +2226,32 @@ End Function
 ' 目的：
 '*********************************************************
 Function SaveFunction()
-SaveFunction=True
+
+	Dim objFunction
+	Set objFunction=New TFunction
+
+	If CInt(Request.Form("inpID"))>0 Then objFunction.LoadInfoByID(Request.Form("inpID"))
+
+	objFunction.ID=Request.Form("inpID")
+	objFunction.Name=Request.Form("inpName")
+	If objFunction.IsSystem=False Then objFunction.FileName=Request.Form("inpFileName")
+	If objFunction.IsSystem=False Then objFunction.HtmlID=Request.Form("inpHtmlID")
+	If objFunction.IsSystem=False Then objFunction.Ftype=Request.Form("inpFtype")
+	objFunction.Order=Request.Form("inpOrder")
+	objFunction.MaxLi=Request.Form("inpMaxLi")
+	objFunction.SidebarID=Request.Form("inpSidebarID")
+	objFunction.Content=Replace(Request.Form("inpContent"),VBCrlf,"")
+
+	'接口
+	'Call Filter_Plugin_SaveFunction_Core(objFunction)
+
+	If objFunction.Post Then
+
+		SaveFunction=True
+		'Call Filter_Plugin_SaveFunction_Succeed(objFunction)
+	End If
+	Set objFunction=Nothing
+
 End Function
 '*********************************************************
 
@@ -2236,8 +2261,22 @@ End Function
 '*********************************************************
 ' 目的：
 '*********************************************************
-Function DelFunction()
-DelFunction=True
+Function DelFunction(intID)
+
+	Dim objFunction
+
+	Set objFunction=New TFunction
+
+	If objFunction.LoadInfobyID(intID) Then
+
+		If objFunction.Del Then
+			DelFunction=True
+		End If
+
+	End If
+
+	Set objFunction=Nothing
+
 End Function
 '*********************************************************
 %>
