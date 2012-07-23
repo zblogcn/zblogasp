@@ -36,14 +36,14 @@
 <style type="text/css">
 <!--
 *{
-	font-size:12px;
+	font-size:14px;
 }
 body{
 	margin:0;
 	padding:0;
 	color: #000000;
 	font-size:12px;
-	background:#EDF5FB;
+	background:#f8f8f8;
 	font-family:"宋体","黑体";
 }
 h1,h2,h3,h4,h5,h6{
@@ -76,12 +76,12 @@ p{
 }
 table {
 	border-collapse: collapse;
-	border:1px solid #333333;
+	border:0px solid #333333;
 	background:#ffffff;
 	margin-top:10px;
 }
 td{
-	border:1px solid #333333;
+	border:0px solid #333333;
 	margin:0;
 	padding:3px;
 }
@@ -132,30 +132,30 @@ input.button{
 	width:600px;
 	height:400px;
 	background-color:white;
-	border:1px solid #B3C3CD;
+	border:0px solid #B3C3CD;
 }
 
 #frmLogin h3{
-	padding:10px 0 10px 0;
-	margin:1px 1px 0 1px;
+	padding:15px 0 5px 0;
+	margin:0;
 	text-align:center;
-	color:black;
-	background:#A1B0B9;
+	color:white;
+	background:#3399cc;
 	font-size:24px;
 	height:30px;
 }
 
 #divHeader{
-	background:#CFD9DF;
-	margin:0 1px 0 1px;
+	background:#b0cdee;
+	margin:0 0;
 	padding:8px;
 }
 #divMain{
-	height:300px;
+	height:290px;
 }
 #divFooter{
-	border-top:1px solid #A1B0B9;
-	margin:0 1px 0 1px;
+	border-top:0px solid #A1B0B9;
+	margin:5px 0px 0 0px;
 	text-align:center;
 	padding:2px;
 }
@@ -190,6 +190,8 @@ input.button{
 
 	Call System_Initialize()
 
+	Call GetUser()
+
 Dim objRS,i,j
 Set objRS=Server.CreateObject("ADODB.Recordset")
 objRS.CursorType = adOpenKeyset
@@ -208,7 +210,7 @@ If CInt(Request.Form("userid"))>0 Then
 	Response.Cookies("password").Expires = DateAdd("y", 1, now)
 	Response.Cookies("password").Path = "/"
 
-	Response.Redirect "ZB_SYSTEM/admin/admin_default.asp"
+	Response.Redirect "zb_system/cmd.asp?act=admin&nbsp;"
 
 End If
 
