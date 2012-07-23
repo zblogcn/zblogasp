@@ -96,7 +96,7 @@ t.post
 
 Set t=new Tfunction
 t.Name="文章归档"
-t.FileName="comments"
+t.FileName="archives"
 t.IsSystem=True
 t.SidebarID=1
 t.Order=7

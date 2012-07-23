@@ -1333,6 +1333,7 @@ End Function
 Function FunctionMng()
 
 	If IsEmpty(Request.Form("edtBatch"))=False Then
+		Call SaveFunctionType()
 		Call SortFunction(Request.Form("edtBatch"))
 		Call MakeBlogReBuild_Core()
 	End If
@@ -1357,6 +1358,7 @@ Function FunctionSav()
 
 	If SaveFunction()=True Then
 		Call SetBlogHint(True,True,Empty)
+		Call SaveFunctionType()
 		Call MakeBlogReBuild_Core()
 		Response.Redirect "cmd.asp?act=FunctionMng"
 	End If
@@ -1370,6 +1372,7 @@ Function FunctionDel()
 
 	If DelFunction(CInt(Request.QueryString("id")))=True Then
 		Call SetBlogHint(True,True,Empty)
+		Call SaveFunctionType()
 		Call MakeBlogReBuild_Core()
 		Response.Redirect "cmd.asp?act=FunctionMng"
 	End If

@@ -298,6 +298,8 @@ Class TArticle
 
 	Public html
 
+	Public IsDynamicLoadSildbar
+
 	Private Ftemplate
 	Public Property Let Template(strFileName)
 		Ftemplate=GetTemplate("TEMPLATE_" & strFileName)
@@ -1298,21 +1300,24 @@ Class TArticle
 
 		Call Filter_Plugin_TArticle_Build_TemplateTags(aryTemplateTagsName,aryTemplateTagsValue)
 
-		j=UBound(aryTemplateTagsName)
+		Dim s,t
 
+		j=UBound(aryTemplateTagsName)
 		For i=1 to j
 			If (InStr(aryTemplateTagsName(i),"CACHE_INCLUDE_")>0) And (Right(aryTemplateTagsName(i),5)<>"_HTML") And (Right(aryTemplateTagsName(i),3)<>"_JS") Then
-				'Dim modname
-				'modname=LCase(Replace(aryTemplateTagsName(i),"CACHE_INCLUDE_",""))
-				'If aryTemplateTagsName(i)<>"CACHE_INCLUDE_NAVBAR" Then
-				'		If aryTemplateTagsName(i)="CACHE_INCLUDE_CALENDAR" Then
-				'		aryTemplateTagsValue(i)="<div id=""mod_"+modname+"""><script type=""text/javascript"">strBatchInculde+=""mod_"+modname+"="+modname+",""</script></div>"
-				'	Else
-				'		aryTemplateTagsValue(i)="<li id=""mod_"+modname+""" style=""display:none;""><script type=""text/javascript"">strBatchInculde+=""mod_"+modname+"="+modname+",""</script></li>"
-				'	End If
-				'End If
+				s=s & aryTemplateTagsName(i) & "|"
 			End If
 		Next
+
+		If IsDynamicLoadSildbar=True Then
+			For Each t In Split(s,"|")
+				If t="" Then Exit For
+				If t<>"CACHE_INCLUDE_NAVBAR" Then
+					html=Replace(html,"<#"&t&"#>","<#"&t&"_JS#>")
+				End If
+			Next
+		End If
+
 
 		j=UBound(aryTemplateTagsName)
 
@@ -1399,6 +1404,8 @@ Class TArticle
 		Title=ZC_MSG099
 		IP=Request.Servervariables("REMOTE_ADDR")
 
+		IsDynamicLoadSildbar=True
+
 		Ftemplate=Empty
 
 		Set Meta=New TMeta
@@ -1449,6 +1456,8 @@ Class TArticleList
 	Public TemplateTags_ArticleList_Page_All
 
 	Public html
+
+	Public IsDynamicLoadSildbar
 
 	Private Ftemplate
 	Public Property Let Template(strFileName)
@@ -2097,6 +2106,8 @@ Class TArticleList
 		'plugin node
 		Call Filter_Plugin_TArticleList_Build_TemplateSub(aryTemplateSubName,aryTemplateSubValue)
 
+
+
 		j=UBound(aryTemplateSubName)
 		For i=0 to j
 			html=Replace(html,"<#" & aryTemplateSubName(i) & "#>",aryTemplateSubValue(i))
@@ -2110,20 +2121,38 @@ Class TArticleList
 
 		Call Filter_Plugin_TArticleList_Build_TemplateTags(aryTemplateTagsName,aryTemplateTagsValue)
 
+		Dim s,t
+		j=UBound(aryTemplateTagsName)
+		For i=1 to j
+			If (InStr(aryTemplateTagsName(i),"CACHE_INCLUDE_")>0) And (Right(aryTemplateTagsName(i),5)<>"_HTML") And (Right(aryTemplateTagsName(i),3)<>"_JS") Then
+				s=s & aryTemplateTagsName(i) & "|"
+			End If
+			If IsEmpty(Template_Calendar)=False Then 
+				If ("<#" & aryTemplateTagsName(i) & "#>"="<#CACHE_INCLUDE_CALENDAR#>") Or ("<#" & aryTemplateTagsName(i) & "#>"="<#CACHE_INCLUDE_CALENDAR_JS#>") Then
+					aryTemplateTagsValue(i)=Template_Calendar
+				End If
+			Else
+				If ("<#" & aryTemplateTagsName(i) & "#>"="<#CACHE_INCLUDE_CALENDAR_NOW#>") Then
+					aryTemplateTagsValue(i)=TemplateTagsDic.Item("CACHE_INCLUDE_CALENDAR")
+				End If
+			End If
+		Next
+
+		If IsDynamicLoadSildbar=True Then
+			For Each t In Split(s,"|")
+				If t="" Then Exit For
+				If t<>"CACHE_INCLUDE_NAVBAR" Then
+					html=Replace(html,"<#"&t&"#>","<#"&t&"_JS#>")
+				End If
+			Next
+		End If
+
 		j=UBound(aryTemplateTagsName)
 		For i=1 to j
 			html=Replace(html,"<#" & aryTemplateTagsName(i) & "#>",aryTemplateTagsValue(i))
 		Next
 		html=Replace(html,"<#" & aryTemplateTagsName(0) & "#>",aryTemplateTagsValue(0))
 
-		If IsEmpty(Template_Calendar) Or Len(Template_Calendar)=0 Then
-			For i=1 to j
-				If aryTemplateTagsName(i)="CACHE_INCLUDE_CALENDAR" Then
-					Template_Calendar=aryTemplateTagsValue(i)
-				End If
-			Next
-		End If
-		html=Replace(html,"<#CACHE_INCLUDE_CALENDAR_NOW#>",Template_Calendar)
 
 		Build=True
 
@@ -2353,6 +2382,8 @@ Class TArticleList
 	Private Sub Class_Initialize()
 
 		Redim Article(ZC_DISPLAY_COUNT)
+
+		IsDynamicLoadSildbar=False
 
 	End Sub
 
@@ -4609,7 +4640,7 @@ Class TFunction
 		Call CheckParameter(MaxLi,"int",0)
 
 		Name=FilterSQL(Name)
-		FileName=Replace(TransferHTML(LCase(FilterSQL(FileName)),"[delspace][filename]"),".","")
+		FileName=Replace(TransferHTML(LCase(FilterSQL(FileName)),"[delspace][filename][normalname]"),".","")
 		HtmlID=TransferHTML(FilterSQL(HtmlID),"[delspace][filename]")
 
 		If Name="" Then

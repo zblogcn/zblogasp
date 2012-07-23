@@ -76,7 +76,7 @@ If f<>"" Then
 
 			For l=0 To UBound(aryPara)-1
 				aryElement=Split(aryPara(l),"=")
-				Response.Write "try{eval(""if(document.getElementById(\"""& aryElement(0) &"\"").tagName==\""LI\""){$(\""#"& aryElement(0) &"\"").after(\"""& LoadFileInfo(aryElement(1)) &"\"");$(\""#"& aryElement(0) &"\"").remove();}else{document.getElementById(\"""& aryElement(0) &"\"").innerHTML=\"""& LoadFileInfo(aryElement(1)) &"\""}"");}catch(e){}"
+				Response.Write "try{eval(""  {$(\""#"& aryElement(0) &"\"").after(\"""& LoadFileInfo(aryElement(1)) &"\"");$(\""#"& aryElement(0) &"\"").remove();}  "");}catch(e){}"
 			Next
 
 		End If

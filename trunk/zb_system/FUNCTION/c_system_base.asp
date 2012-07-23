@@ -1205,17 +1205,18 @@ Function LoadGlobeCache()
 
 
 	'加载标签
-	Dim a,b,c,d,e,a2,a3
+	Dim a,b,c,d,e,a2,a3,f
 	Dim t()
 	Dim s()
 
 	a=0
-	b=20
+	b=21
 	c=1
 	d=400
 	e=0
 	a2=0
 	a3=0
+	f=1
 
 
 	'读取TEMPLATE下的Include目录下的所有文件并写入Cache
@@ -1315,10 +1316,15 @@ Function LoadGlobeCache()
 			Dim modname
 			modname=LCase(Replace(aryFileNameInclude_Variable(i),"CACHE_INCLUDE_",""))
 
-			If aryFileNameInclude_Variable(i)="CACHE_INCLUDE_CALENDAR" Then
-				aryTemplateTagsValue(e+i+a)="<div id=""mod_"+modname+"""><script type=""text/javascript"">strBatchInculde+=""mod_"+modname+"="+modname+",""</script></div>"
+			Dim functionstype
+
+			Set functionstype=New TMeta
+			functionstype.LoadString=LoadFromFile(BlogPath & "zb_users\cache\functionstype.html","utf-8")
+			
+			If functionstype.GetValue(modname)="div" Then
+				aryTemplateTagsValue(e+i+a)="<div id=""mod_"+modname+""" style=""display:none;""><script type=""text/javascript"">LoadFunction('"&modname&"');</script></div>"
 			Else
-				aryTemplateTagsValue(e+i+a)="<li id=""mod_"+modname+""" style=""display:none;""><script type=""text/javascript"">strBatchInculde+=""mod_"+modname+"="+modname+",""</script></li>"
+				aryTemplateTagsValue(e+i+a)="<li id=""mod_"+modname+""" style=""display:none;""><script type=""text/javascript"">LoadFunction('"&modname&"');</script></li>"
 			End If
 
 		Next
@@ -1360,13 +1366,15 @@ Function LoadGlobeCache()
 	t(11)="ZC_CONTENT_MAX"
 	t(12)="ZC_EMOTICONS_FILENAME"
 	t(13)="ZC_EMOTICONS_FILESIZE"
-	t(14)="ZC_GUESTBOOK_CONTENT"
-	t(15)="ZC_BLOG_CLSID"
-	t(16)="ZC_TIME_ZONE"
-	t(17)="ZC_IMAGE_WIDTH"
-	t(18)="ZC_BLOG_THEME"
-	t(19)="ZC_VERIFYCODE_WIDTH"
-	t(20)="ZC_VERIFYCODE_HEIGHT"
+	t(14)="ZC_EMOTICONS_FILETYPE"
+	t(15)="ZC_GUESTBOOK_CONTENT"
+	t(16)="ZC_BLOG_CLSID"
+	t(17)="ZC_TIME_ZONE"
+	t(18)="ZC_IMAGE_WIDTH"
+	t(19)="ZC_BLOG_THEME"
+	t(20)="ZC_VERIFYCODE_WIDTH"
+	t(21)="ZC_VERIFYCODE_HEIGHT"
+
 
 
 	ReDim Preserve aryTemplateTagsName(a+a2+a3+e+d+b)
@@ -1381,6 +1389,11 @@ Function LoadGlobeCache()
 	aryTemplateTagsName(a+a2+a3+e+d+b+c)="BLOG_CREATE_TIME"
 	aryTemplateTagsValue(a+a2+a3+e+d+b+c)=GetTime(Now())
 
+	ReDim Preserve aryTemplateTagsName(a+a2+a3+e+d+b+c+f)
+	ReDim Preserve aryTemplateTagsValue(a+a2+a3+e+d+b+c+f)
+
+	aryTemplateTagsName(a+a2+a3+e+d+b+c+f)="CACHE_INCLUDE_CALENDAR_NOW"
+	aryTemplateTagsValue(a+a2+a3+e+d+b+c+f)=""
 
 	Application.Lock
 	Application(ZC_BLOG_CLSID & "TemplateTagsName")=aryTemplateTagsName
@@ -2743,6 +2756,8 @@ Function BlogReBuild_Functions
 
 	Call GetFunction()
 
+	Call SaveFunctionType()
+
 	Dim i,j,s,t,f
 
 	For Each f In Functions
@@ -3149,6 +3164,37 @@ Function GetFunctionOrder()
 	If i=0 Then GetFunctionOrder=Array()
 
 	Erase aryCateInOrder
+
+End Function
+'*********************************************************
+
+
+
+
+'*********************************************************
+' 目的：
+'*********************************************************
+Function SaveFunctionType()
+
+	Call GetFunction()
+
+	Dim t 
+
+	Set t=New TMeta
+
+	Dim i
+
+	For i=1 To UBound(Functions)
+		If IsObject(Functions(i))=True Then
+
+			Call t.SetValue(Functions(i).FileName,Functions(i).FType)
+
+		End If
+	Next
+
+	Call SaveToFile(BlogPath & "zb_users/CACHE/functionstype.html",t.SaveString,"utf-8",False)
+
+	SaveFunctionType=True
 
 End Function
 '*********************************************************
