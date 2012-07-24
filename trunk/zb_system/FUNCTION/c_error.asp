@@ -24,7 +24,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta http-equiv="Content-Language" content="<%=ZC_BLOG_LANGUAGE%>" />
-	<link rel="stylesheet" rev="stylesheet" href="../css/login.css" type="text/css" media="screen" />
+	<link rel="stylesheet" rev="stylesheet" href="../css/admin.css" type="text/css" media="screen" />
 	<title><%=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG045%></title>
 </head>
 <body class="short">
