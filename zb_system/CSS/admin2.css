@@ -424,18 +424,21 @@ span.title{
 
 /* 网站设置页 */
 .content-box ul{
-	padding:10px 0 0 0;
+	padding:10px 0 0 10px;
 }
 
 .content-box li{
-	float:left;padding:0 0 0 0;height:2em;
+	float:left;
+	padding:0 0 0 0;
+	height:2em;
 	line-height:2em;
+	margin:0;
 }
 
 
 .content-box .content-box-tabs a{
-	border:1px solid #e8f6ff;
-	background:#d8e6ef;
+	border:0px solid #e8f6ff;
+	background:#ededed;
 	padding:5px 10px;
 	margin:0 5px 0 0;
 	line-height:2em;
@@ -445,8 +448,8 @@ span.title{
 	color:#3a6ea5;
 	font-weight:bolder;
 	padding:5px;
-	border:1px solid #7190ba;
-	background:#7190ba;
-	margin:1px 5px 0 0;
+	border:0px solid #7190ba;
+	background:#3399cc;
+	margin:0 5px 0 0;
 	color:white;
 }
