@@ -39,6 +39,17 @@ For Each sAction_Plugin_Default_Begin in Action_Plugin_Default_Begin
 	If Not IsEmpty(sAction_Plugin_Default_Begin) Then Call Execute(sAction_Plugin_Default_Begin)
 Next
 
+Function Default_AutoHostUrl(ByRef aryTemplateTagsName,ByRef aryTemplateTagsValue)
+	Dim i
+	For i=0 To UBound(aryTemplateTagsName)
+		If aryTemplateTagsName(i)="ZC_BLOG_HOST" Then
+			aryTemplateTagsValue(i)=GetCurrentHost
+		End If 
+	Next
+End Function
+
+Call Add_Filter_Plugin("Filter_Plugin_TArticleList_Build_TemplateTags","Default_AutoHostUrl")
+
 Dim ArtList
 Set ArtList=New TArticleList
 

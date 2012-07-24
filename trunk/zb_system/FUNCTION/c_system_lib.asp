@@ -2526,9 +2526,8 @@ Class TUser
 
 		'校检
 		If Len(strUserName) >ZC_USERNAME_MAX Then Call ShowError(7)
-		If Len(strPassWord)<>ZC_PASSWORD_MAX Then Call ShowError(7)
+		If Len(strPassWord)<>32 Then Call ShowError(55)
 		If Not CheckRegExp(strUserName,"[username]") Then Call ShowError(7)
-		If Not CheckRegExp(strPassWord,"[password]") Then Call ShowError(7)
 
 		Dim objRS
 		Set objRS=objConn.Execute("SELECT [mem_ID],[mem_Level],[mem_Password],[mem_Guid] FROM [blog_Member] WHERE [mem_Name]='"&strUserName & "'" )
@@ -2619,8 +2618,7 @@ Class TUser
 
 		Call CheckParameter(ID,"int",0)
 		Call CheckParameter(Level,"int",0)
-		Dim Guid
-		Guid=RndGuid()
+
 		If ((Level<1) Or (Level>5)) Then Call ShowError(16)
 		If (Name="") Then Call ShowError(7)
 		If Len(Name) >ZC_USERNAME_MAX Then Call ShowError(7)
@@ -2643,13 +2641,17 @@ Class TUser
 		IF Len(HomePage)>0 Then
 			If Not CheckRegExp(HomePage,"[homepage]") Then Call ShowError(30)
 		End If
-		'PassWord=MD5(PassWord & Guid)
 
 		If ID=0 Then
 
+			Dim Guid
+			Guid=RndGuid()
+
+			PassWord=MD5(PassWord & Guid)
+
 			If Level <= currentUser.Level Then ShowError(6)
-			If Len(PassWord)<>ZC_PASSWORD_MAX Then Call ShowError(7)
-			If Not CheckRegExp(PassWord,"[password]") Then Call ShowError(7)
+			If Len(PassWord)<>32 Then Call ShowError(55)
+
 			objConn.Execute("INSERT INTO [blog_Member]([mem_Level],[mem_Name],[mem_PassWord],[mem_Email],[mem_HomePage],[mem_Intro],[mem_Guid],[mem_Meta]) VALUES ("&Level&",'"&Name&"','"&PassWord&"','"&Email&"','"&HomePage&"','"&Alias&"','"&Guid&"','"&MetaString&"')")
 			
 			Dim objRS
@@ -2663,6 +2665,8 @@ Class TUser
 
 		Else
 
+
+
 			If (ID=currentUser.ID) And (Level <> currentUser.Level) Then ShowError(6)
 			If (ID<>currentUser.ID) And (Level <= currentUser.Level) Then ShowError(6)
 
@@ -2670,21 +2674,23 @@ Class TUser
 			Set targetUser=New TUser
 			If targetUser.LoadInfobyID(ID) Then
 
-				If Len(PassWord)=0 Then PassWord=targetUser.PassWord
-				If Len(PassWord)<>ZC_PASSWORD_MAX Then Call ShowError(6)
-				If Not CheckRegExp(PassWord,"[password]") Then Call ShowError(7)
+				If Len(PassWord)=0 Then
+					PassWord=targetUser.PassWord
+				Else
+					PassWord=MD5(PassWord & objConn.Execute("SELECT [mem_Guid] FROM [blog_Member] WHERE [mem_ID]="&ID)(0))
+				End If
 
-			Else
-				Exit Function
-			End If
+				If Len(PassWord)<>32 Then Call ShowError(55)
 
-			objConn.Execute("UPDATE [blog_Member] SET [mem_Level]="&Level&",[mem_Name]='"&Name&"',[mem_PassWord]='"&PassWord&"',[mem_Email]='"&Email&"',[mem_HomePage]='"&HomePage&"',[mem_Intro]='"&Alias&"',[mem_Guid]='"&Guid&"',[mem_Meta]='"&MetaString&"' WHERE [mem_ID]="&ID)
+				objConn.Execute("UPDATE [blog_Member] SET [mem_Level]="&Level&",[mem_Name]='"&Name&"',[mem_PassWord]='"&PassWord&"',[mem_Email]='"&Email&"',[mem_HomePage]='"&HomePage&"',[mem_Intro]='"&Alias&"',[mem_Meta]='"&MetaString&"' WHERE [mem_ID]="&ID)
 
-			If Name <> targetUser.Name Then
-				objConn.Execute("UPDATE [blog_Comment] SET [comm_Author]='"&Name&"' WHERE [comm_AuthorID]="&ID)
-			End If
-			If Email <> targetUser.Email Then
-				objConn.Execute("UPDATE [blog_Comment] SET [comm_Email]='"&Email&"' WHERE [comm_AuthorID]="&ID)
+				If Name <> targetUser.Name Then
+					objConn.Execute("UPDATE [blog_Comment] SET [comm_Author]='"&Name&"' WHERE [comm_AuthorID]="&ID)
+				End If
+				If Email <> targetUser.Email Then
+					objConn.Execute("UPDATE [blog_Comment] SET [comm_Email]='"&Email&"' WHERE [comm_AuthorID]="&ID)
+				End If
+
 			End If
 
 			Edit=True
@@ -2703,6 +2709,8 @@ Class TUser
 
 		Dim Guid
 		Guid=RndGuid()
+		PassWord=MD5(Password & Guid)
+
 		If (Level<>4) Then Call ShowError(16)
 		If (Name="") Then Call ShowError(7)
 		If Len(Name) >ZC_USERNAME_MAX Then Call ShowError(7)
@@ -2726,12 +2734,11 @@ Class TUser
 			If Not CheckRegExp(HomePage,"[homepage]") Then Call ShowError(30)
 		End If
 
-		'PassWord=MD5(Password & Guid)
+
 		If ID=0 Then
 
 			If Level <= 1 Then ShowError(6)
-			If Len(PassWord)<>ZC_PASSWORD_MAX Then Call ShowError(7)
-			If Not CheckRegExp(PassWord,"[password]") Then Call ShowError(7)
+			If Len(PassWord)<>32 Then Call ShowError(55)
 
 			objConn.Execute("INSERT INTO [blog_Member]([mem_Level],[mem_Name],[mem_PassWord],[mem_Email],[mem_HomePage],[mem_Intro],[mem_Guid],[mem_Meta]) VALUES ("&Level&",'"&Name&"','"&PassWord&"','"&Email&"','"&HomePage&"','"&Alias&"','"&Guid&"','"&MetaString&"')")
 
@@ -4836,7 +4843,7 @@ Class TFunction
 
 	Public Function Save()
 
-		Call SaveToFile(BlogPath & "zb_users/include/"&FileName&".asp",Content,"utf-8",False)
+		Call SaveToFile(BlogPath & "zb_users/include/"&FileName&".asp",TransferHTML(Content,"[anti-zc_blog_host]"),"utf-8",False)
 
 		Save=True
 

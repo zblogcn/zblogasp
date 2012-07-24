@@ -69,7 +69,7 @@ Function CheckRegExp(source,para)
 		para="^[.A-Za-z0-9\u4e00-\u9fa5]+$"
 	End If
 	If para="[password]" Then
-		para="^[a-z0-9]+$"
+		para="^[A-Za-z0-9`~!@#$%^&*-_]+$"
 	End If
 	If para="[email]" Then
 		para="^([0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*@([0-9a-zA-Z][-\w]*\.)+[a-zA-Z]*)$"
