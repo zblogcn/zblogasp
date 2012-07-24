@@ -1,36 +1,45 @@
-﻿<!-- #include file="../../c_option.asp" -->
+﻿<%@ CODEPAGE=65001 %>
+<% Option Explicit %>
+<% On Error Resume Next %>
+<% Response.Charset="UTF-8" %>
+<% Response.Buffer=True %>
+<!-- #include file="../../c_option.asp" -->
 <!-- #include file="../../../ZB_SYSTEM/function/c_function.asp" -->
 <!-- #include file="../../../ZB_SYSTEM/function/c_system_lib.asp" -->
 <!-- #include file="../../../ZB_SYSTEM/function/c_system_base.asp" -->
 <!-- #include file="../../../ZB_SYSTEM/function/c_system_plugin.asp" -->
 <!-- #include file="../../../ZB_SYSTEM/function/c_system_event.asp" -->
-<!-- #include file="../../plugin/p_config.asp" -->
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- #include file="../../plugin/p_config.asp" --><%
+%><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" lang="zh-CN">
 <head>
-<script language="JavaScript" src="../../ZB_SYSTEM/SCRIPT/common.js" type="text/javascript"></script>
-<script language="JavaScript" src="../../ZB_SYSTEM/SCRIPT/md5.js" type="text/javascript"></script>
-<link href="../../ZB_SYSTEM/css/admin.css" type="text/css" rel="stylesheet" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta http-equiv="Content-Language" content="zh-CN" />
-<liNK href="style.css" type="text/css" rel="stylesheet">
 <title>Z-Blog 注册页面</title>
+<link rel="stylesheet" rev="stylesheet" href="<%=GetCurrentHost%>ZB_SYSTEM/css/login.css" type="text/css" media="screen" />
+<link rel="stylesheet" rev="stylesheet" href="style.css" type="text/css" media="screen" />
+<script language="JavaScript" src="<%=GetCurrentHost%>ZB_SYSTEM/SCRIPT/common.js" type="text/javascript"></script>
+<script language="JavaScript" src="<%=GetCurrentHost%>ZB_SYSTEM/SCRIPT/md5.js" type="text/javascript"></script>
 </head>
-<body>
-<div id="divMain">
-  <div class="Header">Z-Blog 注册</div>
-  <div class="SubMenu"></div>
-  <div id="divMain2">
+<body class="short">
+<div class="bg"></div>
+<div id="wrapper">
+  <div class="logo"><img src="<%=GetCurrentHost%>ZB_SYSTEM/image/admin/none.gif" title="Z-Blog<%=ZC_MSG009%>" alt="Z-Blog<%=ZC_MSG009%>"/></div>
+  <div class="login">
+
+
+
+	<div class="divHeader">Z-Blog 注册</div>
+
+
     <form name="zblogform" action="reg_save.asp?act=regedit" method="post" onSubmit="return chk_reg()">
-     <center>
-      <table width="700" align="center">
+
       
-            <div id="ob_reg">
           
             <ul>
               <li class="r_left">用户名<font color="red">(*)</font>：</li>
               <li class="r_right">
-                <input id="uname" onBlur="out_uname();" onFocus="on_input('d_uname');" maxlength="30" size="15" name="username">
+                <input style="width:150px;" id="uname" onBlur="out_uname();" onFocus="on_input('d_uname');" maxlength="30" size="15" name="username">
               </li>
               <li class="r_msg">
                 <div class="d_default" id="d_uname"></div>
@@ -43,7 +52,7 @@
           <ul>
             <li class="r_left">密码<font color="red">(*)</font>：</li>
             <li class="r_right">
-              <input id="upwd" onBlur="out_upwd1();" onChange="EvalPwdStrength(this.value);" onFocus="EvalPwdStrength(this.value);on_input('d_upwd1');" type="password" maxlength="12" name="password">
+              <input style="width:150px;" id="upwd" onBlur="out_upwd1();" onChange="EvalPwdStrength(this.value);" onFocus="EvalPwdStrength(this.value);on_input('d_upwd1');" type="password" maxlength="12" name="password">
             </li>
             <li class="r_msg">
               <div class="d_default" id="d_upwd1"></div>
@@ -62,7 +71,7 @@
           <ul>
             <li class="r_left">确认密码<font color="red">(*)</font>：</li>
             <li class="r_right">
-              <input id="repassword" onBlur="out_upwd2();" onFocus="on_input('d_upwd2');" type="password" maxlength="12" name="repassword">
+              <input style="width:150px;" id="repassword" onBlur="out_upwd2();" onFocus="on_input('d_upwd2');" type="password" maxlength="12" name="repassword">
             </li>
             <li class="r_msg">
               <div class="d_default" id="d_upwd2"></div>
@@ -72,7 +81,7 @@
           <ul>
             <li class="r_left">电子邮箱<font color="red">(*)</font>：</li>
             <li class="r_right">
-              <input id="email" onBlur="out_email();" onFocus="on_input('d_email');" maxlength="32" size="30" name="email">
+              <input style="width:150px;" id="email" onBlur="out_email();" onFocus="on_input('d_email');" maxlength="32" size="30" name="email">
             </li>
             <li class="r_msg">
               <div class="d_email" id="d_email"></div>
@@ -81,32 +90,23 @@
           <ul>
             <li class="r_left">网站：</li>
             <li class="r_right">
-              <input id="site" name="site" size="30" />
+              <input style="width:250px;" id="site" name="site" size="30" />
             </li>
             <li class="r_msg">
               <div class="d_website" id="d_website"></div>
             </li>
+			<li class="r_left"><span id="save_stat"></span></li>
           </ul>
-          <li class="r_left"><span id="save_stat"></span>　</li>
           <ul>
             <li class="r_left">验证<font color="red">(*)</font></li>
             <li class="r_right">
-              <input type="text" id="edtCheckOut" name="edtCheckOut" size="10" />
+              <input style="width:150px;" type="text" id="edtCheckOut" name="edtCheckOut" size="10" />
             </li>
-            <li class="r_msg">              <img style="border:1px solid black" src="../ZB_SYSTEM/function/c_validcode.asp?name=loginvalid" height="20" width="60" alt="" title=""/></li>
-</li>
+            <li class="r_msg"> &nbsp;&nbsp;<img style="border:1px solid black" src="<%=GetCurrentHost%>ZB_SYSTEM/function/c_validcode.asp?name=loginvalid" height="20" width="60" alt="" title=""/></li>
           </ul>
-
-      </table>
-        
-      </li>
-      </ul>
-                <p>
-                    <input id="regbotton" type="submit" value="同意以下注册条款并提交" name="submit" onClick="return chk_reg()"/>
-                    
-      </p>
-                <p>
-                  <label for="textarea"></label>
+          <p style="height:32px;text-align:right;"><input id="regbotton" type="submit" value="同意以下注册条款并提交" name="submit" onClick="return chk_reg()"/></li>
+          </p>
+			<p>
                   <textarea name="textarea" id="textarea" cols="45" rows="5">
 一、总则
 
@@ -170,12 +170,17 @@
 6．4　如本协议中的任何条款无论因何种原因完全或部分无效或不具有执行力，本协议的其余条款仍应有效并且有约束力。
 
 请您在发现任何违反本服务协议以及其他任何单项服务的服务条款、本站各类公告之情形时，通知本站。</textarea>
+
                 </p>
-      </center>
-      </form>
-      
+
+
+
+
+    </form>
   </div>
-  <SCRIPT language="javascript">
+</div>
+
+  <script language="javascript">
 <!--
 $(document).ready(function(){ 
 	if(document.getElementById("edtCheckOut")){
@@ -194,7 +199,7 @@ function init_reg(){
 	"请输入4-14位字符，英文、数字的组合。",	
 	"请输入6-14位字符，不允许空格。",
 	"请重复输入一次密码。",
-    "请输入电子邮箱地址",	
+    "请输入电子邮箱地址。",	
 	"只有同意注册条款才能完成注册。",
     "两次输入的密码不一致。",
     "邮箱地址不正确。",
@@ -357,8 +362,8 @@ return 0;//pass
 }
 
 -->
-</SCRIPT> 
-  <SCRIPT type="text/javascript">
+</script> 
+  <script type="text/javascript">
 function GEId(id){return document.getElementById(id);}
 function DispPwdStrength(iN,sHL){
 	if(iN>3){ iN=3;}
@@ -753,7 +758,8 @@ function ClientSideWeakPassword()
 return (IsLongEnough(ClientSideWeakPassword.arguments[0], "6") ||
 (!(IsLongEnough(ClientSideWeakPassword.arguments[0], "0"))));
 }
-</SCRIPT> 
-  </div>
-</BODY>
-</HTML>
+</script> 
+
+
+</body>
+</html>
