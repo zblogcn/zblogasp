@@ -1190,6 +1190,7 @@ Class TArticle
 
 		TemplateName=UCase(FilterSQL(TemplateName))
 		If TemplateName="SINGLE" Then TemplateName=""
+
 		If ID=0 Then
 			objConn.Execute("INSERT INTO [blog_Article]([log_CateID],[log_AuthorID],[log_Level],[log_Title],[log_Intro],[log_Content],[log_PostTime],[log_IP],[log_Tag],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_ViewNums],[log_IsAnonymous],[log_Meta]) VALUES ("&CateID&","&AuthorID&","&Level&",'"&Title&"','"&Intro&"','"&Content&"','"&PostTime&"','"&IP&"','"&Tag&"','"&Alias&"',"&CInt(Istop)&",'"&TemplateName&"','"&FullUrl&"',0,"&CInt(IsAnonymous)&",'"&MetaString&"')")
 			Dim objRS

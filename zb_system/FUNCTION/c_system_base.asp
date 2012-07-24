@@ -2256,6 +2256,8 @@ Function BlogReBuild_Archives()
 
 	Dim ArtList
 
+	Call GetFunction()
+
 	'Archives
 	Dim strArchives
 	Set objRS=objConn.Execute("SELECT * FROM [blog_Article] WHERE ([log_CateID]>0) And ([log_Level]>1) ORDER BY [log_PostTime] DESC")
@@ -2287,18 +2289,18 @@ Function BlogReBuild_Archives()
 			Set objRS=objConn.Execute("SELECT COUNT([log_ID]) FROM [blog_Article] WHERE ([log_CateID]>0) And ([log_Level]>1) AND [log_PostTime] BETWEEN "& ZC_SQL_POUND_KEY & Year(dtmYM(i)) &"-"& Month(dtmYM(i)) &"-1"& ZC_SQL_POUND_KEY &" AND "& ZC_SQL_POUND_KEY & l &"-"& n &"-1" & ZC_SQL_POUND_KEY)
 
 			If (Not objRS.bof) And (Not objRS.eof) Then
-				If CheckPluginState("STACentre") Then
-					Dim objPostTime
-					Set objPostTime=New STACentre_Archives
-					If objPostTime.LoadInfoByID(Year(dtmYM(i)) & "-" & Month(dtmYM(i))) Then
-						strArchives=strArchives & "<li><a href="""& objPostTime.Url & """>" & Year(dtmYM(i)) & " " & ZVA_Month(Month(dtmYM(i))) & "<span class=""article-nums""> (" & objRS(0) & ")</span>" +"</a></li>"
-					End If
-					Set objPostTime=Nothing
-				Else
+				'If CheckPluginState("STACentre") Then
+				'	Dim objPostTime
+				'	Set objPostTime=New STACentre_Archives
+				'	If objPostTime.LoadInfoByID(Year(dtmYM(i)) & "-" & Month(dtmYM(i))) Then
+				'		strArchives=strArchives & "<li><a href="""& objPostTime.Url & """>" & Year(dtmYM(i)) & " " & ZVA_Month(Month(dtmYM(i))) & "<span class=""article-nums""> (" & objRS(0) & ")</span>" +"</a></li>"
+				'	End If
+				'	Set objPostTime=Nothing
+				'Else
 					strArchives=strArchives & "<li><a href="""& ZC_BLOG_HOST &"catalog.asp?date=" & Year(dtmYM(i)) & "-" & Month(dtmYM(i)) & """>" & Year(dtmYM(i)) & " " & ZVA_Month(Month(dtmYM(i))) & "<span class=""article-nums""> (" & objRS(0) & ")</span>" +"</a></li>"
-				End If
-				If ZC_ARCHIVE_COUNT>0 Then
-					If i=ZC_ARCHIVE_COUNT Then Exit For
+				'End If
+				If Functions(FunctionMetas.GetValue("archives")).MaxLi>0 Then
+					If i=Functions(FunctionMetas.GetValue("archives")).MaxLi Then Exit For
 				End If
 			End If
 
@@ -2310,7 +2312,6 @@ Function BlogReBuild_Archives()
 	strArchives=TransferHTML(strArchives,"[no-asp]")
 
 
-	Call GetFunction()
 	Functions(FunctionMetas.GetValue("archives")).Content=strArchives
 
 	'Call SaveToFile(BlogPath & "zb_users/include/archives.asp",strArchives,"utf-8",True)
@@ -2416,12 +2417,12 @@ Function BlogReBuild_Categorys()
 
 		If IsObject(Category) Then
 
-			Set objRS=objConn.Execute("SELECT [log_ID] FROM [blog_Article] WHERE ([log_CateID]>0) And ([log_ID]>0) AND ([log_Level]>1) AND ([log_CateID]="&Category.ID&") ORDER BY [log_PostTime] DESC")
+			Set objRS=objConn.Execute("SELECT [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_IsAnonymous],[log_Meta] FROM [blog_Article] WHERE ([log_CateID]>0) And ([log_ID]>0) AND ([log_Level]>1) AND ([log_CateID]="&Category.ID&") ORDER BY [log_PostTime] DESC")
 
 			If (Not objRS.bof) And (Not objRS.eof) Then
 				For i=1 to ZC_PREVIOUS_COUNT
 					Set objArticle=New TArticle
-					If objArticle.LoadInfoByID(objRS("log_ID")) Then
+					If objArticle.LoadInfoByArray(Array(objRS(0),objRS(1),objRS(2),objRS(3),objRS(4),objRS(5),objRS(6),objRS(7),objRS(8),objRS(9),objRS(10),objRS(11),objRS(12),objRS(13),objRS(14),objRS(15),objRS(16),objRS(17))) Then
 						strCategory=strCategory & "<li><a href="""& objArticle.Url & """>" & objArticle.Title & "</a></li>"
 					End If
 					Set objArticle=Nothing
@@ -2501,12 +2502,14 @@ Function BlogReBuild_Tags()
 		If bAction_Plugin_BlogReBuild_Tags_Begin=True Then Exit Function
 	Next
 
+	Call GetFunction()
+
 	Dim objRS
 	Dim objStream
 
 	Dim i,j
-	i=GetSettingFormName("ZC_TAGS_DISPLAY_COUNT")
-	If i="" Then i=50
+	i=Functions(FunctionMetas.GetValue("tags")).MaxLi
+	If i=0 Then i=ZC_TAGS_DISPLAY_COUNT
 	j=0
 	'Authors
 	Dim strTag
@@ -2514,10 +2517,10 @@ Function BlogReBuild_Tags()
 	Set objRS=objConn.Execute("SELECT * FROM [blog_Tag] ORDER BY [tag_Count] DESC,[tag_ID] ASC")
 	If (Not objRS.bof) And (Not objRS.eof) Then
 		Do While Not objRS.eof
-			If j=i Then Exit Do'objRS("tag_FullUrl")
 			strTag=strTag & "<li><a href="""& ZC_BLOG_HOST & "catalog.asp?"& "tags=" & Server.URLEncode(objRS("tag_Name")) & """>"+objRS("tag_Name") + " <span class=""tag-count"">(" & objRS("tag_Count") & ")</span>" +"</a></li>"
 			objRS.MoveNext
 			j=j+1
+			If j>i Then Exit Do
 		Loop
 	End If
 	objRS.Close
@@ -2525,7 +2528,7 @@ Function BlogReBuild_Tags()
 
 	strTag=TransferHTML(strTag,"[no-asp]")
 
-	Call GetFunction()
+
 	Functions(FunctionMetas.GetValue("tags")).Content=strTag
 
 	'Call SaveToFile(BlogPath & "zb_users/include/tags.asp",strTag,"utf-8",True)
@@ -2550,19 +2553,25 @@ Function BlogReBuild_Previous()
 		If bAction_Plugin_BlogReBuild_Previous_Begin=True Then Exit Function
 	Next
 
-	Dim i
+	Call GetFunction()
+
+	Dim i,j
 	Dim objRS
 	Dim objStream
 	Dim objArticle
 
+	j=Functions(FunctionMetas.GetValue("tags")).MaxLi
+
+	If j=0 Then j=ZC_PREVIOUS_COUNT
+
 	'Previous
 	Dim strPrevious
-	Set objRS=objConn.Execute("SELECT [log_ID] FROM [blog_Article] WHERE ([log_CateID]>0) And ([log_ID]>0) AND ([log_Level]>1) ORDER BY [log_PostTime] DESC")
+	Set objRS=objConn.Execute("SELECT [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_IsAnonymous],[log_Meta] FROM [blog_Article] WHERE ([log_CateID]>0) And ([log_ID]>0) AND ([log_Level]>1) ORDER BY [log_PostTime] DESC")
 
 	If (Not objRS.bof) And (Not objRS.eof) Then
-		For i=1 to ZC_PREVIOUS_COUNT
+		For i=1 to j
 			Set objArticle=New TArticle
-			If objArticle.LoadInfoByID(objRS("log_ID")) Then
+			If objArticle.LoadInfoByArray(Array(objRS(0),objRS(1),objRS(2),objRS(3),objRS(4),objRS(5),objRS(6),objRS(7),objRS(8),objRS(9),objRS(10),objRS(11),objRS(12),objRS(13),objRS(14),objRS(15),objRS(16),objRS(17))) Then
 				strPrevious=strPrevious & "<li><a href="""& objArticle.Url & """ title="""& objArticle.HtmlTitle &"""><span class=""article-date"">["& Right("0" & Month(objArticle.PostTime),2) & "/" & Right("0" & Day(objArticle.PostTime),2) &"]</span>" & objArticle.Title & "</a></li>"
 			End If
 			Set objArticle=Nothing
@@ -2574,7 +2583,6 @@ Function BlogReBuild_Previous()
 
 	strPrevious=TransferHTML(strPrevious,"[no-asp]")
 
-	Call GetFunction()
 	Functions(FunctionMetas.GetValue("previous")).Content=strPrevious
 
 	'Call SaveToFile(BlogPath & "zb_users/include/previous.asp",strPrevious,"utf-8",True)
@@ -2599,6 +2607,8 @@ Function BlogReBuild_Comments()
 		If bAction_Plugin_BlogReBuild_Comments_Begin=True Then Exit Function
 	Next
 
+	Call GetFunction()
+
 	Dim objRS
 	Dim objStream
 	Dim objArticle
@@ -2607,18 +2617,22 @@ Function BlogReBuild_Comments()
 	Dim strComments
 
 	Dim s
-	Dim i
-	Set objRS=objConn.Execute("SELECT [log_ID],[comm_ID],[comm_Content],[comm_PostTime],[comm_Author] FROM [blog_Comment] WHERE [log_ID]>0 ORDER BY [comm_PostTime] DESC,[comm_ID] DESC")
+	Dim i,j
+
+	j=Functions(FunctionMetas.GetValue("comments")).MaxLi
+	If j=0 Then ZC_MSG_COUNT
+
+	Set objRS=objConn.Execute("SELECT [blog_Comment].[log_ID],[comm_ID],[comm_Content],[comm_PostTime],[comm_Author],[blog_Article].[log_FullUrl] FROM [blog_Comment],[blog_Article] WHERE [blog_Comment].[log_ID]=[blog_Comment].[log_ID] AND [blog_Article].[log_ID]>0 ORDER BY [comm_PostTime] DESC,[comm_ID] DESC")
 	If (Not objRS.bof) And (Not objRS.eof) Then
-		For i=1 to ZC_MSG_COUNT
+		For i=1 to j
 			s=objRS("comm_Content")
 			s=Replace(s,vbCrlf,"")
 			If (Len(s)>ZC_RECENT_COMMENT_WORD_MAX) And (ZC_RECENT_COMMENT_WORD_MAX>(Len(ZC_MSG305)+1)) Then s=Left(s,ZC_RECENT_COMMENT_WORD_MAX-(Len(ZC_MSG305)+1))&ZC_MSG305
 
-			Set objArticle=New TArticle
-			If objArticle.LoadInfoByID(objRS("log_ID")) Then
-				strComments=strComments & "<li><a href="""& objArticle.Url & "#cmt" & objRS("comm_ID") & """ title=""" & objRS("comm_PostTime") & " post by " & objRS("comm_Author") & """>"+s+"</a></li>"
-			End If
+			'Set objArticle=New TArticle
+			'If objArticle.LoadInfoByID(objRS("log_ID")) Then
+				strComments=strComments & "<li><a href="""& objRS("log_FullUrl") & "#cmt" & objRS("comm_ID") & """ title=""" & objRS("comm_PostTime") & " post by " & objRS("comm_Author") & """>"+s+"</a></li>"
+			'End If
 			Set objArticle=Nothing
 			objRS.MoveNext
 			If objRS.eof Then Exit For
@@ -2629,7 +2643,6 @@ Function BlogReBuild_Comments()
 
 	strComments=TransferHTML(strComments,"[no-asp]")
 
-	Call GetFunction()
 	Functions(FunctionMetas.GetValue("comments")).Content=strComments
 
 	'Call SaveToFile(BlogPath & "zb_users/include/comments.asp",strComments,"utf-8",True)
