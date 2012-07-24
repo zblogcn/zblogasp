@@ -2470,8 +2470,10 @@ Function BlogReBuild_Authors()
 	Dim strAuthor
 	Dim User
 	For Each User in Users
-		If IsObject(User) And User.ID>0 Then
+		If IsObject(User)
+			If User.ID>0 Then
 				strAuthor=strAuthor & "<li><a href="""& User.Url & """>"+User.Name + " (" & User.Count & ")" +"</a></li>"
+			End If
 		End If
 	Next
 
