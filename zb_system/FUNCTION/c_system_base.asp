@@ -2620,7 +2620,7 @@ Function BlogReBuild_Comments()
 	Dim i,j
 
 	j=Functions(FunctionMetas.GetValue("comments")).MaxLi
-	If j=0 Then ZC_MSG_COUNT
+	If j=0 Then j=ZC_MSG_COUNT
 
 	Set objRS=objConn.Execute("SELECT [blog_Comment].[log_ID],[comm_ID],[comm_Content],[comm_PostTime],[comm_Author],[blog_Article].[log_FullUrl] FROM [blog_Comment],[blog_Article] WHERE [blog_Comment].[log_ID]=[blog_Comment].[log_ID] AND [blog_Article].[log_ID]>0 ORDER BY [comm_PostTime] DESC,[comm_ID] DESC")
 	If (Not objRS.bof) And (Not objRS.eof) Then

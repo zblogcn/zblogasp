@@ -24,7 +24,7 @@ c=Request.Form("txaContent")
 Call CheckParameter(a,"int",1)
 Execute "Set d=New T" & f(a)
 d.LoadInfoById b
-d.Meta.SetValue "pagemeta",EsCaPe_(c)
+d.Meta.SetValue "pagemeta",pAgEmEtA_EsCaPe_(c)
 If a=3 Then
 	Execute "Call Filter_Plugin_EditUser_Core(d)"
 Else
@@ -47,6 +47,3 @@ Call SetBlogHint(True,True,Empty)
 Response.Redirect "List.asp?act="&f(a)&"Mng"
 
 %>
-<script type="text/javascript"  language="javascript" runat="server">
-function EsCaPe_(str){	return escape(str)}
-</script>

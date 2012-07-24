@@ -8,7 +8,7 @@
 '*********************************************************
 ' 挂口: 注册插件和接口
 '*********************************************************
-Dim PageMeta_Meta
+Dim PageMeta_Meta,PageMeta_ArticleList,PageMeta_Value
 
 '注册插件
 Call RegisterPlugin("PageMeta","ActivePlugin_PageMeta")
@@ -18,8 +18,26 @@ Function ActivePlugin_PageMeta()
 	Call Add_Action_Plugin("Action_Plugin_TArticle_Export_Begin","PageMeta_Meta=Meta.GetValue(""pagemeta"")")
 	Call Add_Filter_Plugin("Filter_Plugin_TArticleList_ExportByMixed","PageMeta_GetMeta2")
 	Call Add_Filter_Plugin("Filter_Plugin_TArticleList_Build_Template","PageMeta_P")
-
+	Call Add_Action_Plugin("Action_Plugin_Edit_ueditor_getArticleInfo","Set PageMeta_ArticleList=EditArticle:Call PageMeta_addForm()")
 	Call Add_Filter_Plugin("Filter_Plugin_TArticle_Export_Template","PageMeta_AddMeta")
+	
+	Call Add_Action_Plugin("Action_Plugin_ArticlePst_Begin","PageMeta_Value=Request.Form(""PageMeta_ta""):Call Add_Filter_Plugin(""Filter_Plugin_PostArticle_Core"",""PageMeta_ArticlePst"")")
+
+
+End Function
+Function PageMeta_ArticlePst(Core)
+	Core.Meta.setvalue "pagemeta",pAgEmEtA_EsCaPe_(PageMeta_Value)
+End Function
+
+Function PageMeta_addForm()
+
+Dim ResponseText,TextStart,TextEnd,Text1,Text2
+	Text1="<textarea id='PageMeta_ta' style='width:100%' name='PageMeta_ta'>" & TransferHTML(PageMeta_ArticleList.Meta.GetValue("pagemeta"),"[no-html]") &"</textarea>"
+	TextStart="<span class='editinputname' style=""cursor:pointer;"" onClick=""$(this).next().toggleClass('hidden');"">PageMeta</span>"
+	TextEnd="</span>"
+	ResponseText=TextStart&Text1&TextEnd
+	Call Add_Response_Plugin("Response_Plugin_Edit_Form3",ResponseText)
+	set PageMeta_ArticleList=nothing
 End Function
 
 Function PageMeta_AddMeta(ByRef Ftemplate,Template_Article_Single,Template_Article_Multi, Template_Article_Istop)
@@ -76,3 +94,6 @@ Function PageMeta_P(Ftemplate)
 End Function
 
 %>
+<script type="text/javascript"  language="javascript" runat="server">
+function pAgEmEtA_EsCaPe_(str){	return escape(str)}
+</script>
