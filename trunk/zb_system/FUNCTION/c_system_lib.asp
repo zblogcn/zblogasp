@@ -2307,7 +2307,7 @@ Class TArticleList
 
 			strPageBar=GetTemplate("TEMPLATE_B_PAGEBAR")
 			strPageBar=Replace(strPageBar,"<#pagebar/page/url#>",s)
-			strPageBar=Replace(strPageBar,"<#pagebar/page/number#>",ZC_MSG285)
+			strPageBar=Replace(strPageBar,"<#pagebar/page/number#>","<span class=""page first-page"">"&ZC_MSG285&"</span>")
 			Template_PageBar=Template_PageBar & strPageBar
 
 			If intAllPage>ZC_PAGEBAR_COUNT Then
@@ -2324,10 +2324,10 @@ Class TArticleList
 
 				strPageBar=GetTemplate("TEMPLATE_B_PAGEBAR")
 				If i=intNowPage then
-					Template_PageBar=Template_PageBar & "<span class=""now-page"">" & i & "</span>"
+					Template_PageBar=Template_PageBar & "<span class=""page now-page"">" & i & "</span>"
 				Else
 					strPageBar=Replace(strPageBar,"<#pagebar/page/url#>",s)
-					strPageBar=Replace(strPageBar,"<#pagebar/page/number#>",i)
+					strPageBar=Replace(strPageBar,"<#pagebar/page/number#>","<span class=""page"">"&i&"</span>")
 					Template_PageBar=Template_PageBar & strPageBar
 				End If
 
@@ -2337,7 +2337,7 @@ Class TArticleList
 
 			strPageBar=GetTemplate("TEMPLATE_B_PAGEBAR")
 			strPageBar=Replace(strPageBar,"<#pagebar/page/url#>",s)
-			strPageBar=Replace(strPageBar,"<#pagebar/page/number#>",ZC_MSG286)
+			strPageBar=Replace(strPageBar,"<#pagebar/page/number#>","<span class=""page last-page"">"&ZC_MSG286&"</span>")
 			Template_PageBar=Template_PageBar & strPageBar
 
 			If intNowPage=1 Then

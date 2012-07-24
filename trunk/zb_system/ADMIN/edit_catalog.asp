@@ -14,7 +14,7 @@
 '///////////////////////////////////////////////////////////////////////////////
 %>
 <% Option Explicit %>
-<% On Error Resume Next %>
+<% 'On Error Resume Next %>
 <% Response.Charset="UTF-8" %>
 <% Response.Buffer=True %>
 <!-- #include file="../../zb_users/c_option.asp" -->
@@ -74,7 +74,7 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG066
 	Response.Write "<option value=""0"" "
 	If EditCategory.ParentID=0 Then Response.Write "selected=""selected"" "
 	Response.Write ">"& ZC_MSG322 &"</option>"
-	Dim Category,bolHasSubCatehttp://192.168.1.14/ZB_SYSTEM/cmd.asp?act=CategoryMng
+	Dim Category,bolHasSubCate
 	bolHasSubCate=False
 	For Each Category in Categorys
 		If IsObject(Category) Then

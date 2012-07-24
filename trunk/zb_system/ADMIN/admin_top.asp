@@ -11,14 +11,12 @@
       <ul>
         <li><a href="<%=GetCurrentHost%>zb_system/cmd.asp?act=admin"><%=ZC_MSG245%></a></li>
         <li><a href="<%=GetCurrentHost%>zb_system/cmd.asp?act=SettingMng"><%=ZC_MSG247%></a></li>
-        <li><a href="http://www.rainbowsoft.org/" target="_blank"><%=ZC_MSG340%></a></li>
         <%=Response_Plugin_Admin_Top%>
+        <li><a href="http://www.rainbowsoft.org/" target="_blank"><%=ZC_MSG340%></a></li>
       </ul>
     </div>
   </div>
 </div>
-
-
 <div id="main">
 <!--#include file="admin_left.asp"-->
 <div class="main_right">
