@@ -1075,6 +1075,8 @@ Function LoadGlobeCache()
 
 	'On Error Resume Next
 
+	Dim ii,jj
+
 	Dim bolReLoadCache
 	Application.Lock
 	bolReLoadCache=Application(ZC_BLOG_CLSID & "SIGNAL_RELOADCACHE")
@@ -1091,7 +1093,6 @@ Function LoadGlobeCache()
 		TemplatesContent=Application(ZC_BLOG_CLSID & "TemplatesContent")
 		Application.UnLock
 
-		Dim ii,jj
 		jj=UBound(TemplatesName)
 		For ii=1 to jj
 			If TemplateDic.Exists(TemplatesName(ii))=False Then TemplateDic.Add TemplatesName(ii), TemplatesContent(ii)
@@ -1420,6 +1421,16 @@ Function LoadGlobeCache()
 	Application.Lock
 	Application(ZC_BLOG_CLSID & "SIGNAL_RELOADCACHE")=bolReLoadCache
 	Application.UnLock
+
+	jj=UBound(TemplatesName)
+	For ii=1 to jj
+		If TemplateDic.Exists(TemplatesName(ii))=False Then TemplateDic.Add TemplatesName(ii), TemplatesContent(ii)
+	Next
+
+	jj=UBound(TemplateTagsName)
+	For ii=1 to jj
+		If TemplateTagsDic.Exists(TemplateTagsName(ii))=False Then TemplateTagsDic.Add TemplateTagsName(ii), TemplateTagsValue(ii)
+	Next
 
 	LoadGlobeCache=True
 
@@ -2624,7 +2635,7 @@ Function BlogReBuild_Comments()
 	j=Functions(FunctionMetas.GetValue("comments")).MaxLi
 	If j=0 Then j=ZC_MSG_COUNT
 
-	Set objRS=objConn.Execute("SELECT [blog_Comment].[log_ID],[comm_ID],[comm_Content],[comm_PostTime],[comm_Author],[blog_Article].[log_FullUrl] FROM [blog_Comment],[blog_Article] WHERE [blog_Comment].[log_ID]=[blog_Comment].[log_ID] AND [blog_Article].[log_ID]>0 ORDER BY [comm_PostTime] DESC,[comm_ID] DESC")
+	Set objRS=objConn.Execute("SELECT [log_ID],[comm_ID],[comm_Content],[comm_PostTime],[comm_Author] FROM [blog_Comment] WHERE [log_ID]>0 ORDER BY [comm_PostTime] DESC,[comm_ID] DESC")
 	If (Not objRS.bof) And (Not objRS.eof) Then
 		For i=1 to j
 			s=objRS("comm_Content")
@@ -2633,7 +2644,7 @@ Function BlogReBuild_Comments()
 
 			'Set objArticle=New TArticle
 			'If objArticle.LoadInfoByID(objRS("log_ID")) Then
-				strComments=strComments & "<li><a href="""& objRS("log_FullUrl") & "#cmt" & objRS("comm_ID") & """ title=""" & objRS("comm_PostTime") & " post by " & objRS("comm_Author") & """>"+s+"</a></li>"
+				strComments=strComments & "<li><a href="""& GetCurrentHost & "zb_system/view.asp?nav=" & objRS("log_ID") & "#cmt" & objRS("comm_ID") & """ title=""" & objRS("comm_PostTime") & " post by " & objRS("comm_Author") & """>"+s+"</a></li>"
 			'End If
 			Set objArticle=Nothing
 			objRS.MoveNext

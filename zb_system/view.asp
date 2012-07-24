@@ -36,6 +36,21 @@ Dim objRS
 Dim Article
 Set Article=New TArticle
 
+'nvap
+If IsEmpty(Request.QueryString("nav"))=False Then
+
+	If Article.LoadInfoByID(Request.QueryString("nav")) Then
+		Set objRS=objConn.Execute("SELECT TOP 1 [log_FullUrl] FROM [blog_Article] WHERE ([log_Level]>2) AND ([log_ID]="& Request.QueryString("nav") &")")
+		If (Not objRS.bof) And (Not objRS.eof) Then
+			Response.Redirect Replace(objRS("log_FullUrl"),"<#ZC_BLOG_HOST#>",ZC_BLOG_HOST)
+		Else
+			Response.Redirect ZC_BLOG_HOST
+		End If
+	End If
+
+End If
+
+
 
 'nvap
 If IsEmpty(Request.QueryString("navp"))=False Then
