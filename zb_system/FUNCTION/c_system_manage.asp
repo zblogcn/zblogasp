@@ -407,7 +407,7 @@ Function ExportCategoryList(intPage)
 			Response.Write "<td>" & Categorys(aryCateInOrder(i)).Order & "</td>"
 			Response.Write "<td><a href=""../catalog.asp?cate="& Categorys(aryCateInOrder(i)).ID &"""  target=""_blank"">" & Categorys(aryCateInOrder(i)).Name & "</a></td>"
 			Response.Write "<td>" & Categorys(aryCateInOrder(i)).Alias & "</td>"
-			Response.Write "<td align=""center""><a href=""../cmd.asp?act=CategoryEdt&amp;id="& Categorys(aryCateInOrder(i)).ID &"""><img src=""../image/admin/folder_edit.png"" alt=""" & ZC_MSG078 & """ title=""" & ZC_MSG078 & """ width=""16"" /></a>&nbsp;&nbsp;&nbsp;&nbsp;<a onclick='return window.confirm("""& ZC_MSG058 &""");' href=""../cmd.asp?act=CategoryDel&amp;id="& Categorys(aryCateInOrder(i)).ID &"""></a><img src=""../image/admin/delete.png"" alt=""" & ZC_MSG063 & """ title=""" & ZC_MSG063 & """ width=""16"" /></td>"
+			Response.Write "<td align=""center""><a href=""../cmd.asp?act=CategoryEdt&amp;id="& Categorys(aryCateInOrder(i)).ID &"""><img src=""../image/admin/folder_edit.png"" alt=""" & ZC_MSG078 & """ title=""" & ZC_MSG078 & """ width=""16"" /></a>&nbsp;&nbsp;&nbsp;&nbsp;<a onclick='return window.confirm("""& ZC_MSG058 &""");' href=""../cmd.asp?act=CategoryDel&amp;id="& Categorys(aryCateInOrder(i)).ID &"""><img src=""../image/admin/delete.png"" alt=""" & ZC_MSG063 & """ title=""" & ZC_MSG063 & """ width=""16"" /></a></td>"
 			Response.Write "</tr>"
 
 			For j=1 To UBound(aryCateInOrder)
@@ -418,7 +418,7 @@ Function ExportCategoryList(intPage)
 					Response.Write "<td>" & Categorys(aryCateInOrder(j)).Order & "</td>"
 					Response.Write "<td><a href=""../../catalog.asp?cate="& Categorys(aryCateInOrder(j)).ID &"""  target=""_blank"">" & Categorys(aryCateInOrder(j)).Name & "</a></td>"
 					Response.Write "<td>" & Categorys(aryCateInOrder(j)).Alias & "</td>"
-					Response.Write "<td align=""center""><a href=""../cmd.asp?act=CategoryEdt&amp;id="& Categorys(aryCateInOrder(j)).ID &"""><img src=""../image/admin/folder_edit.png"" alt=""" & ZC_MSG078 & """ title=""" & ZC_MSG078 & """ width=""16"" /></a>&nbsp;&nbsp;&nbsp;&nbsp;<a onclick='return window.confirm("""& ZC_MSG058 &""");' href=""../cmd.asp?act=CategoryDel&amp;id="& Categorys(aryCateInOrder(j)).ID &"""></a><img src=""../image/admin/delete.png"" alt=""" & ZC_MSG063 & """ title=""" & ZC_MSG063 & """ width=""16"" /></td>"
+					Response.Write "<td align=""center""><a href=""../cmd.asp?act=CategoryEdt&amp;id="& Categorys(aryCateInOrder(j)).ID &"""><img src=""../image/admin/folder_edit.png"" alt=""" & ZC_MSG078 & """ title=""" & ZC_MSG078 & """ width=""16"" /></a>&nbsp;&nbsp;&nbsp;&nbsp;<a onclick='return window.confirm("""& ZC_MSG058 &""");' href=""../cmd.asp?act=CategoryDel&amp;id="& Categorys(aryCateInOrder(j)).ID &"""><img src=""../image/admin/delete.png"" alt=""" & ZC_MSG063 & """ title=""" & ZC_MSG063 & """ width=""16"" /></a></td>"
 					Response.Write "</tr>"
 				End If
 
