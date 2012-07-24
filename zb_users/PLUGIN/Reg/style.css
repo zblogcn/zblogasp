@@ -1,4 +1,3 @@
-
 #main {
 	MARGIN: 0px auto; WIDTH: 860px
 }
@@ -342,17 +341,24 @@ FIELDSET .line .usertxt .input_radio INPUT {
 	DISPLAY: none; VERTICAL-ALIGN: top
 }
 .d_default {
-	BORDER-RIGHT: #fff 1px solid; PADDING-RIGHT: 0px; BORDER-TOP: #fff 1px solid;  PADDING-BOTTOM: 2px;PADDING-TOP: 2px; BORDER-BOTTOM: #fff 1px solid
+	float:right;BORDER-RIGHT: #fff 1px solid; PADDING-RIGHT: 0px; BORDER-TOP: #fff 1px solid;  PADDING-BOTTOM: 2px;PADDING-TOP: 2px; BORDER-BOTTOM: #fff 1px solid
 }
 .d_on {
-	BORDER-RIGHT: #ffcc00 1px solid; PADDING-RIGHT: 0px; BORDER-TOP: #ffcc00 1px solid;  PADDING-BOTTOM: 2px; BORDER-LEFT: #ffcc00 1px solid; PADDING-TOP: 2px; BORDER-BOTTOM: #ffcc00 1px solid; BACKGROUND-COLOR: #ffffdd
+	float:right;BORDER-RIGHT: #ffcc00 1px solid; PADDING-RIGHT: 0px; BORDER-TOP: #ffcc00 1px solid;  PADDING-LEFT: 10px;PADDING-BOTTOM: 2px; BORDER-LEFT: #ffcc00 1px solid; PADDING-TOP: 2px; BORDER-BOTTOM: #ffcc00 1px solid; BACKGROUND-COLOR: #ffffdd
 }
 .d_ok {
-	BORDER-RIGHT: #00be00 1px solid; PADDING-RIGHT: 0px; BORDER-TOP: #00be00 1px solid; PADDING-LEFT: 24px; BACKGROUND: url(li_ok.gif) #e6ffe6 no-repeat 4px 50%; PADDING-BOTTOM: 2px; BORDER-LEFT: #00be00 1px solid; PADDING-TOP: 2px; BORDER-BOTTOM: #00be00 1px solid
+	float:right;BORDER-RIGHT: #00be00 1px solid; PADDING-RIGHT: 0px; BORDER-TOP: #00be00 1px solid; PADDING-LEFT: 10px; BACKGROUND: url(li_ok.gif) #e6ffe6 no-repeat 4px 50%; PADDING-BOTTOM: 2px; BORDER-LEFT: #00be00 1px solid; PADDING-TOP: 2px; BORDER-BOTTOM: #00be00 1px solid
 }
 .d_err {
-	BORDER-RIGHT: #ff3300 1px solid; PADDING-RIGHT: 0px; BORDER-TOP: #ff3300 1px solid; PADDING-LEFT: 24px; BACKGROUND: url(li_err.gif) #fff1e4 no-repeat 4px 50%; PADDING-BOTTOM: 2px; BORDER-LEFT: #ff3300 1px solid; PADDING-TOP: 2px; BORDER-BOTTOM: #ff3300 1px solid
+	float:right;BORDER-RIGHT: #ff3300 1px solid; PADDING-RIGHT: 0px; BORDER-TOP: #ff3300 1px solid; PADDING-LEFT: 10px; BACKGROUND: url(li_err.gif) #fff1e4 no-repeat 4px 50%; PADDING-BOTTOM: 2px; BORDER-LEFT: #ff3300 1px solid; PADDING-TOP: 2px; BORDER-BOTTOM: #ff3300 1px solid
 }
+.d_email {
+	float:right;
+}
+.d_website {
+	float:right;
+}
+
 #upwd {
 	FLOAT: left
 }
@@ -374,3 +380,17 @@ FIELDSET .line .usertxt .input_radio INPUT {
 .ob_pws3 {
 	DISPLAY: inline; FLOAT: left; WIDTH: 60px; BACKGROUND-COLOR: #00cc66
 }
+
+.divHeader{border-bottom:2px solid #3399CC;margin-bottom:3px;}
+
+ul{clear:both;margin-bottom:20px;line-height:24px;}
+p{clear:both;margin-bottom:10px;}
+
+
+input{height:20px;}
+textarea{width:510px;}
+
+li.r_left{font-weight:bolder;}
+
+#regbotton{width:510px;height:28px;}
+/* background:#66ccff;border:1px solid #3399cc; */

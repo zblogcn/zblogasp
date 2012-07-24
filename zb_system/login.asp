@@ -43,7 +43,7 @@ Call CheckReference("")
       <dd><label for="edtPassWord"><%=ZC_MSG002%>:</label><input type="password" id="edtPassWord" name="edtPassWord" size="20" tabindex="2" /></dd>
     </dl>
     <dl>
-      <dd class="checkbox"><input type="checkbox" checked="checked" name="chkRemember" id="chkRemember"  tabindex="3" /><label for="chkRemember"><%=ZC_MSG004%></label></dd>
+      <dd class="checkbox"><input type="checkbox" checked="checked" name="chkRemember" id="chkRemember"  tabindex="3" /><label for="chkRemember"><%=ZC_MSG114%></label></dd>
       <dd class="submit"><input id="btnPost" name="btnPost" type="submit" value="<%=ZC_MSG260%>" class="button" tabindex="4"/></dd>
     </dl>
 <input type="hidden" name="username" id="username" value="" />
