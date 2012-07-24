@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<plugin>
+<id>Reg</id>
+<name>注册组件</name>
+<url>http://www.zsxsoft.com/</url>
+<note>注册组件</note>
+<type>inline</type>
+<path>main.asp</path>
+<include>include.asp</include>
+<level>1</level>
+<author>
+	<name>ZSXSOFT</name>
+	<url>http://www.zsxsoft.com/</url>
+	<email>zsx@zsxsoft.com</email>
+</author>
+<version>1.0</version>
+<adapted>Z-Blog 1.9</adapted>
+<pubdate>2012-7-24</pubdate>
+<modified>2011-7-24</modified>
+</plugin>

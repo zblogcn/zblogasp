@@ -4298,7 +4298,10 @@ ReDim Action_Plugin_UEditor_getcontent_End(0)
 Dim bAction_Plugin_UEditor_getcontent_End
 Dim sAction_Plugin_UEditor_getcontent_End
 
-
+Dim Action_Plugin_Edit_ueditor_getArticleInfo()
+ReDim Action_Plugin_Edit_ueditor_getArticleInfo(0)
+Dim bAction_Plugin_Edit_ueditor_getArticleInfo
+Dim sAction_Plugin_Edit_ueditor_getArticleInfo
 
 Dim sFilter_Plugin_UEditor_Config
 Function Filter_Plugin_UEditor_Config(ByRef strJSContent)
