@@ -12,8 +12,7 @@
 '// 备    注:
 '///////////////////////////////////////////////////////////////////////////////
 '当前 Z-Blog 版本
-Const ZC_BLOG_VERSION="1.9 Beta1 Build 110401"
-
+Const ZC_BLOG_VERSION="2.0 Beta Build 120725"
 
 '定义全局变量
 Dim objConn
