@@ -945,13 +945,17 @@ End Function
 '*********************************************************
 Function LoadIncludeFiles(strDir)
 
-	On Error Resume Next
-
 	Dim aryFileList()
-	ReDim aryFileList(0)
+	ReDim aryFileList(-1)
 
 	Dim fso, f, f1, fc, s, i
 	Set fso = CreateObject("Scripting.FileSystemObject")
+
+	If fso.FolderExists(BlogPath & strDir)=False Then
+		LoadIncludeFiles=Array()
+		Exit Function
+	End If
+
 	Set f = fso.GetFolder(BlogPath & strDir)
 	Set fc = f.Files
 
@@ -968,8 +972,6 @@ Function LoadIncludeFiles(strDir)
 	LoadIncludeFiles=aryFileList
 
 	Set fso=nothing
-
-	Err.Clear
 
 End Function
 '*********************************************************
@@ -1051,6 +1053,7 @@ Function CheckTemplateModified()
 	Dim d,nd
 
 	Set fso = CreateObject("Scripting.FileSystemObject")
+	If fso.FolderExists(BlogPath & "zb_users\" & "theme" & "/" & ZC_BLOG_THEME & "/" & ZC_TEMPLATE_DIRECTORY)=False Then Exit Function
 	Set f = fso.GetFolder(BlogPath & "zb_users\" & "theme" & "/" & ZC_BLOG_THEME & "/" & ZC_TEMPLATE_DIRECTORY)
 	Set fc = f.Files
 
@@ -1150,39 +1153,46 @@ Function LoadGlobeCache()
 
 		j=UBound(aryFileList)
 
-		ReDim aryFileNameTemplate(j)
-		ReDim aryFileNameTemplate_Variable(j)
+		If j>0 Then
 
-		ReDim Preserve aryTemplatesName(3+j)
-		ReDim Preserve aryTemplatesContent(3+j)
+			ReDim aryFileNameTemplate(j)
+			ReDim aryFileNameTemplate_Variable(j)
 
-		For i=1 to j
+			ReDim Preserve aryTemplatesName(3+j)
+			ReDim Preserve aryTemplatesContent(3+j)
 
-			aryFileNameTemplate(i)="theme" & "/" & ZC_BLOG_THEME & "/" & ZC_TEMPLATE_DIRECTORY & "/" & aryFileList(i)
-			aryFileNameTemplate_Variable(i)="TEMPLATE_" & UCase(Left(aryFileList(i),InStr(aryFileList(i),".")-1))
-			If InStr(aryFileList(i),".")=0 Then
-				aryFileNameTemplate_Variable(i)="TEMPLATE_" & UCase(aryFileList(i))
-			End If
-			aryTemplatesName(3+i)=aryFileNameTemplate_Variable(i)
+			For i=1 to j
 
-			strContent=""
-			strContent=LoadFromFile(BlogPath & "zb_users\" & aryFileNameTemplate(i),"utf-8")
+				aryFileNameTemplate(i)="theme" & "/" & ZC_BLOG_THEME & "/" & ZC_TEMPLATE_DIRECTORY & "/" & aryFileList(i)
+				aryFileNameTemplate_Variable(i)="TEMPLATE_" & UCase(Left(aryFileList(i),InStr(aryFileList(i),".")-1))
+				If InStr(aryFileList(i),".")=0 Then
+					aryFileNameTemplate_Variable(i)="TEMPLATE_" & UCase(aryFileList(i))
+				End If
+				aryTemplatesName(3+i)=aryFileNameTemplate_Variable(i)
 
-			'Application.Lock
-			'Application(ZC_BLOG_CLSID & aryFileNameTemplate_Variable(i))=strContent
-			'Application.UnLock
+				strContent=""
+				strContent=LoadFromFile(BlogPath & "zb_users\" & aryFileNameTemplate(i),"utf-8")
 
-			aryTemplatesContent(3+i)=strContent
-		Next
+				'Application.Lock
+				'Application(ZC_BLOG_CLSID & aryFileNameTemplate_Variable(i))=strContent
+				'Application.UnLock
 
-		'在模板文件中先替换当前模版内的文件标签
-		For i=1 To UBound(aryTemplatesName)
-			For j=1 to UBound(aryTemplatesName)
-				aryTemplatesContent(i)=Replace(aryTemplatesContent(i),"<#"+aryTemplatesName(j)+"#>",aryTemplatesContent(j))
+				aryTemplatesContent(3+i)=strContent
 			Next
-			aryTemplatesContent(i)=Replace(aryTemplatesContent(i),"<#ZC_BLOG_HOST#>themes/","<#ZC_BLOG_HOST#>zb_users/theme/")
-		Next
-		j=UBound(aryFileList)
+
+			'在模板文件中先替换当前模版内的文件标签
+			For i=1 To UBound(aryTemplatesName)
+				For j=1 to UBound(aryTemplatesName)
+					aryTemplatesContent(i)=Replace(aryTemplatesContent(i),"<#"+aryTemplatesName(j)+"#>",aryTemplatesContent(j))
+				Next
+				aryTemplatesContent(i)=Replace(aryTemplatesContent(i),"<#ZC_BLOG_HOST#>themes/","<#ZC_BLOG_HOST#>zb_users/theme/")
+			Next
+			j=UBound(aryFileList)
+
+		Else
+			j=0
+		End If
+
 	End If
 
 
@@ -1219,7 +1229,6 @@ Function LoadGlobeCache()
 	a3=0
 	f=1
 
-
 	'读取TEMPLATE下的Include目录下的所有文件并写入Cache
 	'Dim aryFileList
 	Dim aryFileNameTemplateInclude()
@@ -1231,32 +1240,38 @@ Function LoadGlobeCache()
 
 		e=UBound(aryFileList)
 
-		ReDim aryFileNameTemplateInclude(e)
-		ReDim aryFileNameTemplateInclude_Variable(e)
-		ReDim aryFileNameTemplateInclude_Content(e)
-		ReDim s(e)
-		ReDim Preserve aryTemplateTagsName(e)
-		ReDim Preserve aryTemplateTagsValue(e)
+		If e>0 Then
 
-		For i=1 to e
+			ReDim aryFileNameTemplateInclude(e)
+			ReDim aryFileNameTemplateInclude_Variable(e)
+			ReDim aryFileNameTemplateInclude_Content(e)
+			ReDim s(e)
+			ReDim Preserve aryTemplateTagsName(e)
+			ReDim Preserve aryTemplateTagsValue(e)
 
-			aryFileNameTemplateInclude(i)="theme" & "/" & ZC_BLOG_THEME & "/" & "INCLUDE" & "/" & aryFileList(i)
-			aryFileNameTemplateInclude_Variable(i)="TEMPLATE_INCLUDE_" & UCase(Left(aryFileList(i),InStr(aryFileList(i),".")-1))
-			If InStr(aryFileList(i),".")=0 Then
-				aryFileNameTemplateInclude_Variable(i)="TEMPLATE_INCLUDE_" & UCase(aryFileList(i))
-			End If
+			For i=1 to e
 
-			s(i)=aryFileNameTemplateInclude_Variable(i)
+				aryFileNameTemplateInclude(i)="theme" & "/" & ZC_BLOG_THEME & "/" & "INCLUDE" & "/" & aryFileList(i)
+				aryFileNameTemplateInclude_Variable(i)="TEMPLATE_INCLUDE_" & UCase(Left(aryFileList(i),InStr(aryFileList(i),".")-1))
+				If InStr(aryFileList(i),".")=0 Then
+					aryFileNameTemplateInclude_Variable(i)="TEMPLATE_INCLUDE_" & UCase(aryFileList(i))
+				End If
 
-			strContent=""
-			strContent=LoadFromFile(BlogPath & "zb_users\" & aryFileNameTemplateInclude(i),"utf-8")
-			strContent=Replace(strContent,"<"&"%=ZC_BLOG_HOST%"&">",ZC_BLOG_HOST)
+				s(i)=aryFileNameTemplateInclude_Variable(i)
 
-			aryFileNameTemplateInclude_Content(i)=strContent
+				strContent=""
+				strContent=LoadFromFile(BlogPath & "zb_users\" & aryFileNameTemplateInclude(i),"utf-8")
+				strContent=Replace(strContent,"<"&"%=ZC_BLOG_HOST%"&">",ZC_BLOG_HOST)
 
-			aryTemplateTagsName(i)=s(i)
-			aryTemplateTagsValue(i)=aryFileNameTemplateInclude_Content(i)
-		Next
+				aryFileNameTemplateInclude_Content(i)=strContent
+
+				aryTemplateTagsName(i)=s(i)
+				aryTemplateTagsValue(i)=aryFileNameTemplateInclude_Content(i)
+			Next
+
+		Else
+			e=0
+		End If
 
 	End If
 
@@ -1274,72 +1289,78 @@ Function LoadGlobeCache()
 	Dim aryFileNameInclude_Variable()
 	Dim aryFileNameInclude_Content()
 
-	aryFileList=LoadIncludeFiles("zb_users/INCLUDE")
+	aryFileList=LoadIncludeFiles("zb_users\INCLUDE")
 
 	If IsArray(aryFileList) Then
 
 		a=UBound(aryFileList)
+		
+		If a>0 Then
 
-		ReDim aryFileNameInclude(a)
-		ReDim aryFileNameInclude_Variable(a)
-		ReDim aryFileNameInclude_Content(a)
-		ReDim s(a)
-		ReDim Preserve aryTemplateTagsName(e+a)
-		ReDim Preserve aryTemplateTagsValue(e+a)
+			ReDim aryFileNameInclude(a)
+			ReDim aryFileNameInclude_Variable(a)
+			ReDim aryFileNameInclude_Content(a)
+			ReDim s(a)
+			ReDim Preserve aryTemplateTagsName(e+a)
+			ReDim Preserve aryTemplateTagsValue(e+a)
 
-		For i=1 to a
+			For i=1 to a
 
-			aryFileNameInclude(i)="INCLUDE/" & aryFileList(i)
-			aryFileNameInclude_Variable(i)="CACHE_INCLUDE_" & UCase(Left(aryFileList(i),InStr(aryFileList(i),".")-1))
-			If InStr(aryFileList(i),".")=0 Then
-				aryFileNameInclude_Variable(i)="CACHE_INCLUDE_" & UCase(aryFileList(i))
-			End If
+				aryFileNameInclude(i)="INCLUDE/" & aryFileList(i)
+				aryFileNameInclude_Variable(i)="CACHE_INCLUDE_" & UCase(Left(aryFileList(i),InStr(aryFileList(i),".")-1))
+				If InStr(aryFileList(i),".")=0 Then
+					aryFileNameInclude_Variable(i)="CACHE_INCLUDE_" & UCase(aryFileList(i))
+				End If
 
-			s(i)=aryFileNameInclude_Variable(i)
+				s(i)=aryFileNameInclude_Variable(i)
 
-			strContent=""
-			strContent=LoadFromFile(BlogPath & "zb_users\" & aryFileNameInclude(i),"utf-8")
-			strContent=Replace(strContent,"<"&"%=ZC_BLOG_HOST%"&">",ZC_BLOG_HOST)
-			aryFileNameInclude_Content(i)=strContent
+				strContent=""
+				strContent=LoadFromFile(BlogPath & "zb_users\" & aryFileNameInclude(i),"utf-8")
+				strContent=Replace(strContent,"<"&"%=ZC_BLOG_HOST%"&">",ZC_BLOG_HOST)
+				aryFileNameInclude_Content(i)=strContent
 
-			aryTemplateTagsName(e+i)=s(i)
-			aryTemplateTagsValue(e+i)=aryFileNameInclude_Content(i)
-		Next
+				aryTemplateTagsName(e+i)=s(i)
+				aryTemplateTagsValue(e+i)=aryFileNameInclude_Content(i)
 
-
-		a2=a
-		ReDim Preserve aryTemplateTagsName(e+a+a2)
-		ReDim Preserve aryTemplateTagsValue(e+a+a2)
-
-		For i=1 to a
-			aryTemplateTagsName(e+i+a)=aryFileNameInclude_Variable(i) & "_JS"
-
-			Dim modname
-			modname=LCase(Replace(aryFileNameInclude_Variable(i),"CACHE_INCLUDE_",""))
-
-			Dim functionstype
-
-			Set functionstype=New TMeta
-			functionstype.LoadString=LoadFromFile(BlogPath & "zb_users\cache\functionstype.html","utf-8")
-			
-			If functionstype.GetValue(modname)="div" Then
-				aryTemplateTagsValue(e+i+a)="<div id=""mod_"+modname+""" style=""display:none;""><script type=""text/javascript"">LoadFunction('"&modname&"');</script></div>"
-			Else
-				aryTemplateTagsValue(e+i+a)="<li id=""mod_"+modname+""" style=""display:none;""><script type=""text/javascript"">LoadFunction('"&modname&"');</script></li>"
-			End If
-
-		Next
-
-		a3=a
-		ReDim Preserve aryTemplateTagsName(e+a+a2+a3)
-		ReDim Preserve aryTemplateTagsValue(e+a+a2+a3)
-
-		For i=1 to a
-			aryTemplateTagsName(e+i+a+a2)=aryFileNameInclude_Variable(i) & "_HTML"
-			aryTemplateTagsValue(e+i+a+a2)=aryFileNameInclude_Content(i)
-		Next
+			Next
 
 
+			a2=a
+			ReDim Preserve aryTemplateTagsName(e+a+a2)
+			ReDim Preserve aryTemplateTagsValue(e+a+a2)
+
+			For i=1 to a
+
+				aryTemplateTagsName(e+i+a)=aryFileNameInclude_Variable(i) & "_JS"
+
+				Dim modname
+				modname=LCase(Replace(aryFileNameInclude_Variable(i),"CACHE_INCLUDE_",""))
+
+				Dim functionstype
+
+				Set functionstype=New TMeta
+				functionstype.LoadString=LoadFromFile(BlogPath & "zb_users\cache\functionstype.html","utf-8")
+				
+				If functionstype.GetValue(modname)="div" Then
+					aryTemplateTagsValue(e+i+a)="<div id=""mod_"+modname+""" style=""display:none;""><script type=""text/javascript"">LoadFunction('"&modname&"');</script></div>"
+				Else
+					aryTemplateTagsValue(e+i+a)="<li id=""mod_"+modname+""" style=""display:none;""><script type=""text/javascript"">LoadFunction('"&modname&"');</script></li>"
+				End If
+
+			Next
+
+			a3=a
+			ReDim Preserve aryTemplateTagsName(e+a+a2+a3)
+			ReDim Preserve aryTemplateTagsValue(e+a+a2+a3)
+
+			For i=1 to a
+				aryTemplateTagsName(e+i+a+a2)=aryFileNameInclude_Variable(i) & "_HTML"
+				aryTemplateTagsValue(e+i+a+a2)=aryFileNameInclude_Content(i)
+			Next
+
+		Else
+			a=0
+		End If
 
 	End If
 
@@ -2290,6 +2311,8 @@ Function BlogReBuild_Archives()
 	objRS.Close
 	Set objRS=Nothing
 
+	j=Functions(FunctionMetas.GetValue("archives")).MaxLi
+
 	If Not IsEmpty(dtmYM) Then
 		For i=1 to UBound(dtmYM)
 
@@ -2310,8 +2333,8 @@ Function BlogReBuild_Archives()
 				'Else
 					strArchives=strArchives & "<li><a href="""& ZC_BLOG_HOST &"catalog.asp?date=" & Year(dtmYM(i)) & "-" & Month(dtmYM(i)) & """>" & Year(dtmYM(i)) & " " & ZVA_Month(Month(dtmYM(i))) & "<span class=""article-nums""> (" & objRS(0) & ")</span>" +"</a></li>"
 				'End If
-				If Functions(FunctionMetas.GetValue("archives")).MaxLi>0 Then
-					If i=Functions(FunctionMetas.GetValue("archives")).MaxLi Then Exit For
+				If j>0 Then
+					If i=j Then Exit For
 				End If
 			End If
 
