@@ -1420,6 +1420,18 @@ End Function
 '*********************************************************
 Function RemoveLibyUrl(ByVal s,ByVal url)
 
+		If CateID=0 Then
+			Dim oReg
+			Set oReg=New RegExp
+			oReg.Global=True
+			oReg.IgnoreCase=True
+			oReg.Pattern="<li.+?id=[""page']?" & id & "[""']?.+?</li>"
+			Call SaveToFile(BlogPath & "/ZB_USERS/INCLUDE/navbar.asp",oReg.Replace(LoadFromFile(BlogPath & "/ZB_USERS/INCLUDE/navbar.asp","utf-8"),""),"utf-8",False)
+			Set oReg=Nothing
+		EnD If
+
+		RemoveLibyUrl=s
+
 End Function
 '*********************************************************
 

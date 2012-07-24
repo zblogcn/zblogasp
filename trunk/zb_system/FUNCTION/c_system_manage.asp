@@ -450,6 +450,10 @@ Function ExportCommentList(intPage,intContent)
 
 	'Call Add_Response_Plugin("Response_Plugin_CommentMng_SubMenu",MakeSubMenu(ZC_MSG211 & "","../cmd.asp?act=CommentEdt","m-left",False))
 
+	Dim ArtDic
+
+	Set ArtDic=CreateObject("Scripting.Dictionary")
+
 	Dim i
 	Dim objRS
 	Dim strSQL
@@ -486,11 +490,11 @@ Function ExportCommentList(intPage,intContent)
 	Response.Write "</p></form>"
 
 	Response.Write "<table border=""1"" width=""100%"" cellspacing=""0"" cellpadding=""0"" class=""tableBorder"">"
-	Response.Write "<tr><th width=""5%""></th><th width='5%'>"& ZC_MSG076 &"</th><th width=""5%"">"&ZC_MSG331&"</th><th width='14%'>"& ZC_MSG001 &"</th><th>"& ZC_MSG055 &"</th><th width='15%'></th><th width='5%'  align='center'><a href='' onclick='BatchSelectAll();return false'>"& ZC_MSG229 &"</a></th></tr>"'
+	Response.Write "<tr><th width=""5%""></th><th width='5%'>"& ZC_MSG076 &"</th><th width=""5%"">"&ZC_MSG331&"</th><th width='10%'>"& ZC_MSG001 &"</th><th>"& ZC_MSG055 &"</th><th>"& ZC_MSG048 &"</th><th width='14%'></th><th width='5%'  align='center'><a href='' onclick='BatchSelectAll();return false'>"& ZC_MSG229 &"</a></th></tr>"'
 
 	objRS.Open("SELECT * FROM [blog_Comment] "& strSQL &" ORDER BY [comm_ID] DESC")
-	Dim objArticle
-	Set objArticle=New TArticle
+	'Dim objArticle
+	'Set objArticle=New TArticle
 
 	objRS.PageSize=ZC_MANAGE_COUNT
 	If objRS.PageCount>0 Then objRS.AbsolutePage = intPage
@@ -499,8 +503,15 @@ Function ExportCommentList(intPage,intContent)
 	If (Not objRS.bof) And (Not objRS.eof) Then
 
 		For i=1 to objRS.PageSize
+			Dim objArticle
+			Set objArticle=New TArticle
+			If ArtDic.Exists(objRs("log_ID"))=False Then
+				objArticle.LoadInfoById objRs("log_ID")
+				ArtDic.Add objRs("log_ID"), objArticle
+			Else
+				Set objArticle=ArtDic.Item(objRs("log_ID"))
+			End If
 
-			objArticle.LoadInfoById objRs("log_ID")
 
 			Response.Write "<tr>"
 			Response.Write "<td align=""center""><a href="""&objArticle.URL&"#cmt"&objRS("comm_ID")&""" target=""_blank""><img src=""../image/admin/comment.png"" alt=""" & ZC_MSG212& " @ " & objArticle.HtmlTitle & """ title=""" & ZC_MSG212& " @ " & objArticle.HtmlTitle & """ width=""16"" /></a></td>"
@@ -513,12 +524,15 @@ Function ExportCommentList(intPage,intContent)
 			End If
 
 			Response.Write "<td><a id=""mylink"&objRS("comm_ID")&""" href=""$div"&objRS("comm_ID")&"tip?width=400"" class=""betterTip"" title="""&ZC_MSG055&""">" & Left(objRS("comm_Content"),30) & "...</a><div id=""div"&objRS("comm_ID")&"tip"" style=""display:none;""><p>"& objRS("comm_Content") &"</p><br/><p>" & ZC_MSG080 & " : " &objRS("comm_IP") & "</p><p>" & ZC_MSG075 & " : " &objRS("comm_PostTime") & "</p></div></td>"
+			Response.Write "<td>"& objArticle.HtmlTitle &"</td>"
 			Response.Write "<td align=""center""><a href=""../cmd.asp?act=CommentEdt&amp;revid="&objRs("comm_ID")&"&amp;log_id="& objRS("log_ID") &"""><img src=""../image/admin/comments.png"" alt=""" & ZC_MSG333 & """ title=""" & ZC_MSG333 & """ width=""16"" /></a>&nbsp;&nbsp;&nbsp;&nbsp;<a href=""../cmd.asp?act=CommentEdt&amp;amp;id=" & objRS("comm_ID") & "&amp;log_id="& objRS("log_ID") &"&amp;revid="& objRS("comm_ParentID") &"""><img src=""../image/admin/comment_edit.png"" alt=""" & ZC_MSG078 & """ title=""" & ZC_MSG078 & """ width=""16"" /></a>&nbsp;&nbsp;&nbsp;&nbsp;<a href=""../cmd.asp?act=CommentDel&amp;id=" & objRS("comm_ID") & "&amp;log_id="& objRS("log_ID")  &"&amp;revid="& objRS("comm_ParentID") &""" onclick='return window.confirm("""& ZC_MSG058 &""");'><img src=""../image/admin/delete.png"" alt=""" & ZC_MSG063 & """ title=""" & ZC_MSG063 & """ width=""16"" /></a></td>"
 			Response.Write "<td align=""center"" ><input type=""checkbox"" name=""edtDel"" value="""&objRS("comm_ID")&"""/></td>"
 			Response.Write "</tr>"
 
 			objRS.MoveNext
 			If objRS.eof Then Exit For
+
+			Set objArticle=NoThing
 
 		Next
 	Set objArticle=Nothing
@@ -1536,6 +1550,11 @@ End Function
 Function ExportFunctionList()
 
 	Call Add_Response_Plugin("Response_Plugin_FunctionMng_SubMenu",MakeSubMenu(ZC_MSG349 & "","../cmd.asp?act=FunctionEdt","m-left",False))
+
+Call Add_Response_Plugin("Response_Plugin_FunctionMng_SubMenu",MakeSubMenu(ZC_MSG233 & "","../cmd.asp?act=FunctionEdt&amp;id="&Functions(FunctionMetas.GetValue("navbar")).ID,"m-left",False))
+Call Add_Response_Plugin("Response_Plugin_FunctionMng_SubMenu",MakeSubMenu(ZC_MSG030 & "","../cmd.asp?act=FunctionEdt&amp;id="&Functions(FunctionMetas.GetValue("favorite")).ID,"m-left",False))
+Call Add_Response_Plugin("Response_Plugin_FunctionMng_SubMenu",MakeSubMenu(ZC_MSG031 & "","../cmd.asp?act=FunctionEdt&amp;id="&Functions(FunctionMetas.GetValue("link")).ID,"m-left",False))
+Call Add_Response_Plugin("Response_Plugin_FunctionMng_SubMenu",MakeSubMenu(ZC_MSG039 & "","../cmd.asp?act=FunctionEdt&amp;id="&Functions(FunctionMetas.GetValue("misc")).ID,"m-left",False))
 
 	Dim i,j,s
 
