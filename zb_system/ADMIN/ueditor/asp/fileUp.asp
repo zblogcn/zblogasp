@@ -10,7 +10,7 @@
 <%
 dim upload,file,state,uploadPath,PostTime
 Randomize
-
+Call System_Initialize
 PostTime=GetTime(Now())
 Dim strUPLOADDIR
 If ZC_UPLOAD_DIRBYMONTH Then
@@ -26,14 +26,13 @@ upload.FileType=Replace(ZC_UPLOAD_FILETYPE,"|","/")
 upload.savepath=BlogPath & "zb_users\"& strUPLOADDIR &"\"
 upload.maxsize=1024*1024*1024
 upload.open
-Call System_Initialize
+
 Set BlogUser=Nothing
 Set BlogUser =New TUser
 BlogUser.LoginType="Self"
 BlogUser.name=CStr(Trim(upload.form("username")))
 BlogUser.Password=CStr(Trim(upload.form("password")))
 BlogUser.Verify()
-Call SetBlogHInt_Custom("Username="&BlogUser.name&"<br/>Password="&BlogUser.Password&"<br/>Level="&BlogUser.level)
 
 
 
