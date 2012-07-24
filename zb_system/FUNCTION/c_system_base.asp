@@ -3149,7 +3149,13 @@ End Function
 '*********************************************************
 ' 目的：    
 '*********************************************************
+Dim CurrentHostUrl
 Function GetCurrentHost()
+
+	If CurrentHostUrl<>"" Then
+		GetCurrentHost=CurrentHostUrl
+		Exit Function
+	End If
 
 	Call GetReallyDirectory()
 
@@ -3172,8 +3178,10 @@ Function GetCurrentHost()
 	end If
 
 	If Right(u,1)<>"/" Then u=u & "/"
+
+	CurrentHostUrl=u
 		
-	GetCurrentHost=u
+	GetCurrentHost=CurrentHostUrl
 
 End Function
 '*********************************************************

@@ -68,6 +68,7 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG070
 
 %>
 <!--#include file="admin_header.asp"-->
+<script type="text/javascript" src="../script/md5.js"></script>
 <!--#include file="admin_top.asp"-->
 			<div id="divMain">
 <%	Call GetBlogHint()	%>
@@ -76,7 +77,7 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG070
 	Response.Write "<div class=""SubMenu"">" & Response_Plugin_UserEdt_SubMenu & "</div>"
 %>
 <div id="divMain2">
-<form id="edit" name="edit" method="post">
+<form id="edit" name="edit" method="post" action="">
 <%
 	Dim i
 	Response.Write "<p>"& ZC_MSG249 &":<input id=""edtID"" name=""edtID""  type=""hidden"" value="""& EditUser.ID &""" />"
@@ -112,8 +113,8 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG070
 </div>
 
 			</div>
-<script>
-
+<script type="text/javascript">
+<!-- 
 
 	var str13="<%=ZC_MSG118%>";
 	var str14="<%=ZC_MSG119%>";
@@ -136,7 +137,7 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG070
 				return false;
 			}
 			else{
-				if((document.getElementById("edtPassWord").value).length<=5){
+				if((document.getElementById("edtPassWord").value).length<=7){
 					alert(str16);
 					return false;
 				}
@@ -166,7 +167,7 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG070
 			}
 
 			if(document.getElementById("edtPassWord").value){
-				if((document.getElementById("edtPassWord").value).length<=8){
+				if((document.getElementById("edtPassWord").value).length<=7){
 					alert(str16);
 					return false;
 				}
@@ -177,12 +178,14 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG070
 			}
 		};
 
-		if(document.getElementById("edtPassWord").value){
-			document.getElementById("edtPassWord").value=MD5(document.getElementById("edtPassWord").value);
-		}
+		//if(document.getElementById("edtPassWord").value){
+		//	document.getElementById("edtPassWord").value=MD5(document.getElementById("edtPassWord").value);
+		//}
 
-		return false;
+		return true;
 	}
+
+ -->
 </script>
 <script type="text/javascript">ActiveLeftMenu("aUserMng");</script>
 

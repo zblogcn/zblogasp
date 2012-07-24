@@ -699,13 +699,7 @@ li.msgarticle div.quote-title{
 }
 
 
-/*--------------------------分页条-------------------------------*/
 
-.pagebar a{ text-align:center;text-decoration:none;margin:0 3px;padding:1px 2px}
-.pagebar .now-page{text-align:center;font-family:Verdana;text-decoration:none;margin:0 3px;padding:1px 2px}
-.pagebar a:hover{color:#666;text-decoration:none;background:#F4F4F4}
-.pagebar span{background-color:#fff;margin:3px;padding:5px}
-.extend{display:none;}
 
 
 
@@ -752,3 +746,22 @@ blockquote{
 #txaArticle{margin-top:10px;width:95%;height:150px;}
 
 input.button { ;color:#FFFFFF; font-size:14px; width:100px; height:32px; background:#3a6ea5; border:1px solid #3399CC;cursor: pointer;}
+
+
+
+/*--------------------------分页条-------------------------------*/
+span.page{
+	color:#3a6ea5;
+	font-weight:bolder;
+	padding:2px 5px 2px 5px;
+	background:#99b6dd;
+	margin:4px;
+}
+
+span.now-page{
+	color:#3a6ea5;
+	font-weight:bolder;
+	padding:2px 5px 2px 5px;
+	background:#e0e0e0;
+	margin:5px;
+}

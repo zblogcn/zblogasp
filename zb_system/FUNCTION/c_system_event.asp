@@ -591,7 +591,7 @@ objComment.LoadInfoByID intID
 		objComment.Author=Request.Form("inpName")
 		objComment.Email=Request.Form("inpEmail")
 		objComment.HomePage=Request.Form("inpHomePage")
-		objComment.Content=Request.Form("txaArticle") '& vbCrlf  & Replace(Replace(ZC_MSG273,"%s",BlogUser.Name,1,1),"%s",GetTime(Now()),1,1)
+		objComment.Content=Request.Form("txaArticle")
 		objComment.Reply=Request.Form("txaReply")
 
 	'End If
@@ -832,10 +832,12 @@ Function EditUser()
 	objUser.ID=Request.Form("edtID")
 	objUser.Level=Request.Form("edtLevel")
 	objUser.Name=Request.Form("edtName")
-	objUser.PassWord=Request.Form("edtPassWord")
+	objUser.PassWord=MD5(Request.Form("edtPassWord"))
 	objUser.Email=Request.Form("edtEmail")
 	objUser.HomePage=Request.Form("edtHomePage")
 	objUser.Alias=Request.Form("edtAlias")
+
+	If Not CheckRegExp(Request.Form("edtPassWord"),"[password]") Then Call ShowError(54)
 
 	If Not((CInt(objUser.ID)=BlogUser.ID) Or (CheckRights("Root")=True)) Then Exit Function
 
