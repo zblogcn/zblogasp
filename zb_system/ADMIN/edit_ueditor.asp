@@ -140,22 +140,22 @@ Next
 
 <div id="divEditTitle">
                       <input type="hidden" name="edtID" id="edtID" value="<%=EditArticle.ID%>" />
-<!-- title -->
+
+
+<!-- title( -->
                       <p><span class='editinputname'><%=ZC_MSG060%>:</span>
                         <input type="text" name="edtTitle" id="edtTitle" style="width:400px"  onblur="if(this.value=='') this.value='<%=ZC_MSG099%>'" onFocus="if(this.value=='<%=ZC_MSG099%>') this.value=''" value="<%=EditArticle.Title%>" /></p>
-                        <%
-On Error Resume Next
-If Err.Number=0 Then
-%>
-<!-- alias -->
+<!-- )title -->
+
+
+
+<!-- alias( -->
                         <p><span class='editinputname'><%=ZC_MSG147%>:</span>
-                        <input type="text" style="width:400px" name="edtAlias" id="edtAlias" value="<%=TransferHTML(EditArticle.Alias,"[html-format]")%>" />
-                        .<%=ZC_STATIC_TYPE%>
-<%
-End If
-Err.Clear
-%>
-                      </p>
+                        <input type="text" style="width:400px" name="edtAlias" id="edtAlias" value="<%=TransferHTML(EditArticle.Alias,"[html-format]")%>" />.<%=ZC_STATIC_TYPE%>
+                        </p>
+<!-- )alias -->
+
+
 
 <!-- tags( -->
 <% If Request.QueryString("type")<>"Page" Then %>
@@ -176,7 +176,7 @@ Err.Clear
 
 
 
-
+<!-- 1号输出接口 -->
 <% If Response_Plugin_Edit_Form<>"" Then %>
 <div id="divEditForm1"><%=Response_Plugin_Edit_Form%></div>
 <% End If %>
@@ -197,6 +197,8 @@ Err.Clear
                         <textarea id="ueditor2" name="txaIntro" rows="50" cols="250"><%=EditArticle.Intro%></textarea>
                       </div>
 
+
+<!-- 2号输出接口 -->
 <% If Response_Plugin_Edit_Form2<>"" Then %>
 <div id="divEditForm2"><%=Response_Plugin_Edit_Form2%></div>
 <% End If %>
@@ -204,6 +206,7 @@ Err.Clear
 
 
 </div><!-- divEditLeft -->
+
 
 <div id="divEditRight">
 
@@ -319,9 +322,8 @@ End If
 %>
                           </select>
                           <input type="hidden" name="edtLevel" id="edtLevel" value="<%=EditArticle.Level%>" />
-                          <%
-Err.Clear
-%>
+
+
 <!-- )level -->
                       </p>
 
@@ -397,7 +399,7 @@ Err.Clear
 
 
 
-
+<!-- 3号输出接口 -->
 <% If Response_Plugin_Edit_Form3<>"" Then %>
 <div id="divEditForm3"><%=Response_Plugin_Edit_Form3%></div>
 <% End If %>
