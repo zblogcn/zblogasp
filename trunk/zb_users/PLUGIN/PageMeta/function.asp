@@ -334,8 +334,5 @@ Function pAgEmEtA_eXpOrTtAgLiSt(InTpAgE)
 	PAGEMETA_ExportTagList=True
 
 end function
-function vbsunescape2(v)
-	vbsunescape2=vbsunescape(v)
-	if vbsunescape2="null" or vbsunescape2="undefined" then vbsunescape2=""
-end function
+
 %>
