@@ -902,7 +902,7 @@ Function MakeBlogReBuild()
 
 	Response.Write "<!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 1.0 Transitional//EN"" ""http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd""><html><head><meta http-equiv=""Content-Type"" content=""text/html; charset=utf-8"" /><link rel=""stylesheet"" rev=""stylesheet"" href=""CSS/admin2.css"" type=""text/css"" media=""screen"" /></head><body>"
 
-	Response.Write "<div id=""divMain""><div class=""divHeader2"">" & ZC_MSG072 & "</div>"
+	Response.Write "<div id=""divMain"">"
 	Response.Write "<div id=""divMain2"">"
 	Call GetBlogHint()
 	Response.Write "<form  name=""edit"" id=""edit"">"
@@ -932,6 +932,45 @@ End Function
 '*********************************************************
 ' 目的：    All Files ReBuild
 '*********************************************************
+Function MakeFileReBuildAsk()
+
+
+	'Call Add_Response_Plugin("Response_Plugin_AskFileReBuild_SubMenu",MakeSubMenu(ZC_MSG072,"cmd.asp?act=BlogReBuild","m-left",False))
+
+	Response.Write "<!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 1.0 Transitional//EN"" ""http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd""><html><head><meta http-equiv=""Content-Type"" content=""text/html; charset=utf-8"" /><link rel=""stylesheet"" rev=""stylesheet"" href=""CSS/admin2.css"" type=""text/css"" media=""screen"" /><script language=""JavaScript"" src=""script/common.js"" type=""text/javascript""></script></head><body>"
+
+	If Request.Cookies("FileReBuild_Step")<>"" Then
+		Call SetBlogHint_Custom(Replace(ZC_MSG273,ZC_MSG036,Request.Cookies("FileReBuild_Step")))
+	End If
+
+	Call GetBlogHint()
+
+
+	Response.Write "<div class=""SubMenu"">" & Response_Plugin_AskFileReBuild_SubMenu & "</div>"
+
+	Response.Write "<form id=""edit"" name=""edit"" method=""post"" action=""cmd.asp?act=FileReBuild"">" & vbCrlf
+	Response.Write "<p>"& ZC_MSG112 &"</p>" & vbCrlf
+	Response.Write "<p><input class=""button"" type=""submit"" value="""&ZC_MSG087&""" id=""btnPost""/></p>" & vbCrlf
+
+
+	Response.Write "</form>" 
+
+	Response.Write "<script language=""JavaScript"" type=""text/javascript"">if($('.SubMenu').find('span').length==0){$('.SubMenu').hide()};</script>"
+
+	Response.Write "</body></html>"
+
+
+
+	MakeFileReBuildAsk=True
+
+End Function
+'*********************************************************
+
+
+
+'*********************************************************
+' 目的：    All Files ReBuild
+'*********************************************************
 Function MakeFileReBuild()
 
 	'On Error Resume Next
@@ -955,7 +994,7 @@ Function MakeFileReBuild()
 	If intPage=0 Then
 		Call MakeBlogReBuild_Core()
 		intPage=1
-		Response.Redirect GetCurrentHost&"zb_system/cmd.asp?act=FileReBuild&page="&intPage&"&all="&intAllTime
+		Response.Redirect "cmd.asp?act=FileReBuild&page="&intPage&"&all="&intAllTime
 	End If
 
 	Dim i,j
