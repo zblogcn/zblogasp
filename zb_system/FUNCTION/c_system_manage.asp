@@ -1312,16 +1312,13 @@ End Function
 '*********************************************************
 Function ExportFileReBuildAsk()
 
-'Call Add_Response_Plugin("Response_Plugin_AskFileReBuild_SubMenu",MakeSubMenu(ZC_MSG072,"../cmd.asp?act=BlogReBuild","m-left",False))
-
+	'SubMenu转至MakeFileReBuildAsk()函数里了
 
 	Response.Write "<div class=""divHeader2"">" & ZC_MSG073 & "</div>"
-	Response.Write "<div class=""SubMenu"">" & Response_Plugin_AskFileReBuild_SubMenu & "</div>"
+
 	Response.Write "<div id=""divMain2"">"
 
-	Response.Write "<iframe frameborder='0' height='500' marginheight='0' marginwidth='0' scrolling='no' width='100%' src='../cmd.asp?act=AskFileReBuild&amp;iframe=1'>"
-
-
+	Response.Write "<iframe frameborder='0' height='600' style='' marginheight='0' marginwidth='0' scrolling='no' width='100%' src='../cmd.asp?act=AskFileReBuild&amp;iframe=true'>"
 
 	Response.Write "</iframe>"
 

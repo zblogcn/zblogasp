@@ -21,9 +21,9 @@
 <!-- #include file="../../zb_users/c_option.asp" -->
 
 <% Response.Clear %>
+
 <%=LoadFromFile(Server.MapPath("../admin/ueditor/third-party/SyntaxHighlighter/shCore.js"),"utf-8")%>
 
-document.write("<link rel='stylesheet' type='text/css' href='<%=ZC_BLOG_HOST%>/zb_system/ADMIN/ueditor/third-party/SyntaxHighlighter/shCoreDefault.css'");
 SyntaxHighlighter.all();
 
 var str00="<%=ZC_BLOG_HOST%>";
@@ -53,9 +53,15 @@ $(document).ready(function(){
 			} );
 		};
 
+
+
 	}catch(e){};
 
 });
+
+$("head").append("<link rel='stylesheet' type='text/css' href='<%=ZC_BLOG_HOST%>/zb_system/ADMIN/ueditor/third-party/SyntaxHighlighter/shCoreDefault.css'/>");
+
+//$.getScript("<%=ZC_BLOG_HOST%>zb_system/admin/ueditor/third-party/SyntaxHighlighter/shCore.js",function(){SyntaxHighlighter.all();});
 <%
 Function LoadFromFile(strFullName,strCharset)
 

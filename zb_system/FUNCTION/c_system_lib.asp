@@ -3121,7 +3121,7 @@ Class TComment
 		aryTemplateTagsName(  6)="article/comment/posttime"
 		aryTemplateTagsValue( 6)=PostTime
 		aryTemplateTagsName(  7)="article/comment/content"
-		aryTemplateTagsValue( 7)=HtmlContent & "<!--rev"&id&"-->" & "<span style=""display:none;"" id=""AjaxCommentEnd"&id&"""></span>"
+		aryTemplateTagsValue( 7)=HtmlContent & "<!--rev"&id&"-->" & "<a style=""display:none;"" id=""AjaxCommentEnd"&id&"""></a>"
 		aryTemplateTagsName(  8)="article/comment/count"
 		aryTemplateTagsValue( 8)="<!--(count-->"& Count &"<!--count)-->"
 		aryTemplateTagsName(  9)="article/comment/authorid"

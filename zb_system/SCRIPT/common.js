@@ -218,6 +218,7 @@ function VerifyMessage() {
 					$(s).insertBefore("#AjaxCommentEnd");
 				}else{
 					$(s).insertBefore("#AjaxCommentEnd"+intRevID);
+					window.location="#cmt"+intRevID
 				}
 				$("#divAjaxComment"+i).fadeIn("slow");
 				//$("#divAjaxComment"+i).fadeTo("normal", 0);
