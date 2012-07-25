@@ -961,11 +961,9 @@ Function LoadIncludeFiles(strDir)
 	i=0
 
 	For Each f1 in fc
-		'If Right(f1.name,5)=".html" Or Right(f1.name,4)=".asp" Or Right(f1.name,4)=".htm"  Then
-			i=i+1
-			ReDim Preserve aryFileList(i)
-			aryFileList(i)=f1.name
-		'End If
+		i=i+1
+		ReDim Preserve aryFileList(i)
+		aryFileList(i)=f1.name
 	Next
 
 	LoadIncludeFiles=aryFileList
@@ -2849,7 +2847,7 @@ Function BlogReBuild_Functions
 	For Each f In Functions
 		If IsObject(f)=True Then
 			If f.id>0 Then
-				f.Save
+				f.SaveFile
 			End If
 		End If 
 	Next

@@ -1210,8 +1210,6 @@ Class TArticle
 			Set objRS=objConn.Execute("SELECT MAX([log_ID]) FROM [blog_Article]")
 			If (Not objRS.bof) And (Not objRS.eof) Then
 				ID=objRS(0)
-				If Len(FullUrl)>255 Then FullUrl=Left(FullUrl,255)
-
 			End If
 			Set objRS=Nothing
 		Else
@@ -2709,7 +2707,10 @@ Class TUser
 	End Function
 
 
-	Function Register(currentUser)
+	Function Register()
+
+		Dim currentUser
+		Set currentUser=BlogUser
 
 		Call Filter_Plugin_TUser_Register(ID,Name,Level,Password,Email,HomePage,Count,Alias,MetaString,currentUser)
 
@@ -4696,6 +4697,13 @@ Class TFunction
 
 		If ID=0 Then
 			objConn.Execute("INSERT INTO [blog_Function]([fn_Name],[fn_FileName],[fn_Order],[fn_Content],[fn_IsSystem],[fn_SidebarID],[fn_HtmlID],[fn_Ftype],[fn_MaxLi],[fn_Meta]) VALUES ('"&Name&"','"&FileName&"',"&Order&",'"&Content&"',"&CInt(IsSystem)&","&SidebarID&",'"&HtmlID&"','"&Ftype&"',"&MaxLi&",'"&MetaString&"')")
+
+			Dim objRS
+			Set objRS=objConn.Execute("SELECT MAX([fn_ID]) FROM [blog_Function]")
+			If (Not objRS.bof) And (Not objRS.eof) Then
+				ID=objRS(0)
+			End If
+
 		Else
 			objConn.Execute("UPDATE [blog_Function] SET [fn_Name]='"&Name&"',[fn_FileName]='"&FileName&"',[fn_Order]="&Order&",[fn_Content]='"&Content&"',[fn_IsSystem]="&CInt(IsSystem)&",[fn_SidebarID]="&SidebarID&",[fn_HtmlID]='"&HtmlID&"',[fn_Ftype]='"&Ftype&"',[fn_MaxLi]="&MaxLi&",[fn_Meta]='"&MetaString&"' WHERE [fn_ID] =" & ID)
 		End If
@@ -4850,12 +4858,21 @@ Class TFunction
 	End Function
 
 
-
 	Public Function Save()
+
+		Call Post()
+		Call SaveFile()
+
+		Save=True
+
+	End Function
+
+
+	Public Function SaveFile()
 
 		Call SaveToFile(BlogPath & "zb_users/include/"&FileName&".asp",TransferHTML(Content,"[anti-zc_blog_host]"),"utf-8",False)
 
-		Save=True
+		SaveFile=True
 
 	End Function
 
