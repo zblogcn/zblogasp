@@ -32,7 +32,7 @@ End Function
 Function PageMeta_addForm()
 
 Dim ResponseText,TextStart,TextEnd,Text1,Text2
-	Text1="<textarea id='PageMeta_ta' style='width:100%' name='PageMeta_ta'>" & TransferHTML(PageMeta_ArticleList.Meta.GetValue("pagemeta"),"[no-html]") &"</textarea>"
+	Text1="<textarea id='PageMeta_ta' style='width:100%' name='PageMeta_ta'>" & TransferHTML(vbsunescape(PageMeta_ArticleList.Meta.GetValue("pagemeta")),"[no-html]") &"</textarea>"
 	TextStart="<span class='editinputname' style=""cursor:pointer;"" onClick=""$(this).next().toggleClass('hidden');"">PageMeta</span>"
 	TextEnd="</span>"
 	ResponseText=TextStart&Text1&TextEnd
