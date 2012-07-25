@@ -453,3 +453,10 @@ span.title{
 	margin:0 5px 0 0;
 	color:white;
 }
+
+
+
+.totoro { padding:10px;} 
+.totoro dd { line-height:28px; margin-bottom:5px;}
+.totoro .totorotxt { font-size:12px;}
+#totorobox textarea { background:#FFFFFF; padding:10px 0; border:none;}
