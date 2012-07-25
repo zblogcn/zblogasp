@@ -115,6 +115,7 @@ function GetCookie(sName) {
 // 返回：    无
 //*********************************************************
 var strFormAction;
+var intRevID=0;
 function VerifyMessage() {
 
 	var strName=document.getElementById("inpName").value;
@@ -201,7 +202,8 @@ function VerifyMessage() {
 		"inpEmail":strEmail,
 		"inpName":strName,
 		"inpArticle":strArticle,
-		"inpHomePage":strHomePage
+		"inpHomePage":strHomePage,
+		"inpRevID":intRevID
 		},
 		function(data){
 			var s =data;
@@ -212,7 +214,11 @@ function VerifyMessage() {
 			else{
 				var i=Math.round(Math.random()*1000);
 				var s =data;
-				$(s).insertBefore("#AjaxCommentEnd");
+				if(intRevID==0){
+					$(s).insertBefore("#AjaxCommentEnd");
+				}else{
+					$(s).insertBefore("#AjaxCommentEnd"+intRevID);
+				}
 				$("#divAjaxComment"+i).fadeIn("slow");
 				//$("#divAjaxComment"+i).fadeTo("normal", 0);
 				//$("#divAjaxComment"+i).fadeTo("normal", 1);
@@ -594,23 +600,8 @@ try{
 // 输入：    无
 // 返回：    无
 //*********************************************************
-function RevertComment(intRevertID) {
-	var f;
-	if(objActive){
-		f=document.getElementById(objActive).form;
-	}
-	else{
-		f=document.getElementsByTagName("form")[document.getElementsByTagName("form").length-1];
-	}
-
-	if(f.action.search("act=cmt")>0){
-		f.action=f.action.replace("cmd.asp?act=cmt","cmd.asp?act=cmt&id="+intRevertID);
-		return true;
-	}
-	else{
-		f.action=f.action.substr(0,f.action.search("id=")) + "id="+intRevertID +"&" + f.action.substr(f.action.search("key="));
-		return true;
-	}
+function RevertComment(i) {
+	intRevID=i;
 }
 //*********************************************************
 
