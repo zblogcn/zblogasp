@@ -644,7 +644,7 @@ function LoadFunction(name){
 //*********************************************************
 function LoadViewCount(id){
 
-	strBatchView+="spn"+id+"="+id+","
+	strBatchCount+="spn"+id+"="+id+","
 
 }
 //*********************************************************
