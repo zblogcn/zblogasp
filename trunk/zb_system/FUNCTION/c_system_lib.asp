@@ -50,12 +50,12 @@ Class TCategory
 			If Not IsEmpty(sAction_Plugin_TCategory_Url) Then Call Execute(sAction_Plugin_TCategory_Url)
 			If bAction_Plugin_TCategory_Url=True Then Exit Property
 		Next
-
-		Url = ZC_BLOG_HOST & "catalog.asp?"& "cate=" & ID
-
-		'If CheckPluginState("STACentre") Then
-		'	'Dim objCate : Set objCate=New STACentre_Categorys : If objCate.LoadInfoByID(ID) Then Url=objCate.Url : Set objCate=Nothing
-		'End If
+		
+		If Len(FullUrl)>0 Then
+			Url=Replace(FullUrl,"<#ZC_BLOG_HOST#>",ZC_BLOG_HOST)
+		Else
+			Url = ZC_BLOG_HOST & "catalog.asp?"& "cate=" & ID
+		End If
 
 		Call Filter_Plugin_TCategory_Url(Url)
 
@@ -355,14 +355,18 @@ Class TArticle
 			If bAction_Plugin_TArticle_Url=True Then Exit Property
 		Next
 
-		If Level<=2 Then
-			Url = ZC_BLOG_HOST & "view.asp?id=" & ID
+		If Len(FullUrl)>0 Then
+			Url=Replace(FullUrl,"<#ZC_BLOG_HOST#>",ZC_BLOG_HOST)
 		Else
-		'Mark0.0
-			Url = ZC_BLOG_HOST & Directory & FileName
-			If ZC_CUSTOM_DIRECTORY_ENABLE And ZC_CUSTOM_DIRECTORY_ANONYMOUS Then
-				Url = ZC_BLOG_HOST & Directory
-			End If				
+			If Level<=2 Then
+				Url = ZC_BLOG_HOST & "view.asp?id=" & ID
+			Else
+			'Mark0.0
+				Url = ZC_BLOG_HOST & Directory & FileName
+				If ZC_CUSTOM_DIRECTORY_ENABLE And ZC_CUSTOM_DIRECTORY_ANONYMOUS Then
+					Url = ZC_BLOG_HOST & Directory
+				End If				
+			End If
 		End If
 
 		Call Filter_Plugin_TArticle_Url(Url)
@@ -831,16 +835,21 @@ Class TArticle
 			Dim comments_ID()
 			Dim comments_ParentID()
 			Dim comments_Template()
-			Dim comments_ID2Array()
+
+
+			Dim IDandTemp
+			Set IDandTemp = CreateObject("Scripting.Dictionary")
+
+			Dim treed
+			Set treed = CreateObject("Scripting.Dictionary")
+
+			Dim alld
+			Set alld = CreateObject("Scripting.Dictionary")
+
 
 
 			Dim objRS
 
-			Set objRS=objConn.Execute("SELECT MAX([comm_ID]) FROM [blog_Comment]")
-			If (Not objRS.bof) And (Not objRS.eof) Then
-				ReDim comments_ID2Array(objRS(0))
-			End If
-			Set objRS=Nothing
 
 
 			strC_Count=0
@@ -848,12 +857,15 @@ Class TArticle
 			objRS.CursorType = adOpenKeyset
 			objRS.LockType = adLockReadOnly
 			objRS.ActiveConnection=objConn
-			objRS.Source="SELECT [comm_ID],[log_ID],[comm_AuthorID],[comm_Author],[comm_Content],[comm_Email],[comm_HomePage],[comm_PostTime],[comm_IP],[comm_Agent],[comm_Reply],[comm_LastReplyIP],[comm_LastReplyTime],[comm_ParentID],[comm_IsCheck],[comm_Meta] FROM [blog_Comment] WHERE ([blog_Comment].[log_ID]=" & ID &" )"
+			objRS.Source="SELECT [comm_ID],[log_ID],[comm_AuthorID],[comm_Author],[comm_Content],[comm_Email],[comm_HomePage],[comm_PostTime],[comm_IP],[comm_Agent],[comm_Reply],[comm_LastReplyIP],[comm_LastReplyTime],[comm_ParentID],[comm_IsCheck],[comm_Meta] FROM [blog_Comment] WHERE ([blog_Comment].[log_ID]=" & ID &")  ORDER BY [comm_PostTime] DESC"
 			objRS.Open()
 
 			If (not objRS.bof) And (not objRS.eof) Then
 
+				
 				j=objRS.RecordCount
+				'j=30
+
 				'ReDim comments(i)
 				ReDim comments_ID(j)
 				ReDim comments_ParentID(j)
@@ -861,27 +873,27 @@ Class TArticle
 
 				For i=1 To j
 
-					If IsNumeric(objRS("comm_AuthorID")) Then
 
-						Set objComment=New TComment
-						objComment.LoadInfoByArray(Array(objRS("comm_ID"),objRS("log_ID"),objRS("comm_AuthorID"),objRS("comm_Author"),objRS("comm_Content"),objRS("comm_Email"),objRS("comm_HomePage"),objRS("comm_PostTime"),objRS("comm_IP"),objRS("comm_Agent"),objRS("comm_Reply"),objRS("comm_LastReplyIP"),objRS("comm_LastReplyTime"),objRS("comm_ParentID"),objRS("comm_IsCheck"),objRs("comm_Meta")))
+					Set objComment=New TComment
+					objComment.LoadInfoByArray(Array(objRS("comm_ID"),objRS("log_ID"),objRS("comm_AuthorID"),objRS("comm_Author"),objRS("comm_Content"),objRS("comm_Email"),objRS("comm_HomePage"),objRS("comm_PostTime"),objRS("comm_IP"),objRS("comm_Agent"),objRS("comm_Reply"),objRS("comm_LastReplyIP"),objRS("comm_LastReplyTime"),objRS("comm_ParentID"),objRS("comm_IsCheck"),objRs("comm_Meta")))
 
-						strC_Count=strC_Count+1
+					strC_Count=strC_Count+1
 
-						strC=GetTemplate("TEMPLATE_B_ARTICLE_COMMENT")
+					strC=GetTemplate("TEMPLATE_B_ARTICLE_COMMENT")
 'Mark3
-						objComment.Count=0'strC_Count
-						strC=objComment.MakeTemplate(strC)
+					objComment.Count=0'strC_Count
+					strC=objComment.MakeTemplate(strC)
 
-						'Set comments(i)=objComment
-						comments_ID(i)=objComment.ID
-						comments_ParentID(i)=objComment.ParentID
-						comments_Template(i)=strC
-						comments_ID2Array(objComment.ID)=i
+					'Set comments(i)=objComment
+					comments_ID(i)=objComment.ID
+					comments_ParentID(i)=objComment.ParentID
+					comments_Template(i)=strC
 
-						Set objComment=Nothing
+					IDandTemp.add comments_ID(i), comments_Template(i)
+					alld.add comments_ID(i), comments_ParentID(i)
 
-					End If
+					Set objComment=Nothing
+
 
 					objRS.MoveNext
 					If objRS.eof Then Exit For
@@ -898,49 +910,48 @@ Class TArticle
 			intPages=Int(intAll/ZC_COMMENTS_DISPLAY_COUNT)+1
 			intPageNow=1
 
-			'Response.Write intAll & ":" & intPages
-			
-			'If intAll>0 Then
 
-				For Each i in comments_ID
-					For Each j in comments_ID
-						If comments_ID(comments_ID2Array(i))= comments_ParentID(comments_ID2Array(j)) Then
-							comments_Template(comments_ID2Array(i))=Replace(comments_Template(comments_ID2Array(i)),"<!--rev-->","<!--rev"&j&"--><!--rev-->")
-							'comments_Template(comments_ID2Array(i))=Replace(comments_Template(comments_ID2Array(i)),"<!--rev-->",comments_Template(comments_ID2Array(j)) & "<!--rev-->")
-						End If
-					Next
-					If comments_ParentID(comments_ID2Array(i))= 0 Then
-						n=n+1
-					End If
-					If n>ZC_COMMENTS_DISPLAY_COUNT Then
-						'Exit For
+			Dim b
+			For i=1 To UBound(comments_ParentID)
+				b=False
+				For j=1 To UBound(comments_ID)
+					If comments_ParentID(i)=comments_ID(j) Then
+						b=True 
+					End If 
+				next
+				If b=False Then
+					alld.Remove comments_ID(i)
+					treed.Add comments_ID(i), comments_Template(i)
+				End If
+			Next
+
+
+
+			Do Until alld.count=0
+			For Each i In alld.keys
+				b=0
+				For Each j In treed.keys
+					If InStr(treed.item(j),"<!--rev"&alld.item(i)&"-->")>0 Then
+					'If alld.item(i)=j Then
+						b=i	
+						treed.item(j)=Replace(treed.item(j),"<!--rev"&alld.item(i)&"-->","<!--rev"&alld.item(i)&"-->"&IDandTemp.Item(i) )
 					End If
 				Next
+				If b>0 Then
+					alld.remove b
+				End If
+			Next
+			Loop
 
-				For Each i in comments_ID
-					For Each j in comments_ID
-						comments_Template(comments_ID2Array(i))=Replace(comments_Template(comments_ID2Array(i)),"<!--rev"&j&"-->",comments_Template(comments_ID2Array(j)))
-					Next
-				Next
 
-				For Each i in comments_ID
-					If comments_ParentID(comments_ID2Array(i))= 0 Then
-						If ZC_COMMENT_REVERSE_ORDER_EXPORT=True Then
-							Template_Article_Comment=comments_Template(comments_ID2Array(i)) & Template_Article_Comment
-						Else
-							Template_Article_Comment=Template_Article_Comment & comments_Template(comments_ID2Array(i))
-						End If
-					End If
-					'If UBound(Split(Template_Article_Comment,"<!--rev-->"))>10+3 Then Exit For
-					If comments_ParentID(comments_ID2Array(i))= 0 Then
-						m=m+1
-					End If
-					If m>ZC_COMMENTS_DISPLAY_COUNT Then
-						'Exit For
-					End If
-				Next
 
-			'End If
+			For Each s In treed.Items
+				If ZC_COMMENT_REVERSE_ORDER_EXPORT=True Then
+					Template_Article_Comment=s & Template_Article_Comment
+				Else
+					Template_Article_Comment=Template_Article_Comment & s
+				End If
+			Next
 
 			Template_Article_Comment="<span style=""display:none;"" id=""AjaxCommentBegin""></span>" & Template_Article_Comment & "<span style=""display:none;"" id=""AjaxCommentEnd""></span>"
 
@@ -949,6 +960,8 @@ Class TArticle
 				i=i+1
 				Template_Article_Comment=Replace(Template_Article_Comment,"<!--(count-->0<!--count)-->",i,1,1)
 			Loop
+
+
 
 		End If
 
@@ -2440,10 +2453,6 @@ Class TUser
 
 		Url = ZC_BLOG_HOST & "catalog.asp?"& "auth=" & ID
 
-		'If CheckPluginState("STACentre") Then
-		'	'Dim objAuth : Set objAuth=New STACentre_Authors : If objAuth.LoadInfoByID(ID) Then Url=objAuth.Url : Set objAuth=Nothing
-		'End If
-
 		Call Filter_Plugin_TUser_Url(Url)
 
 	End Property
@@ -3111,7 +3120,7 @@ Class TComment
 		aryTemplateTagsName(  6)="article/comment/posttime"
 		aryTemplateTagsValue( 6)=PostTime
 		aryTemplateTagsName(  7)="article/comment/content"
-		aryTemplateTagsValue( 7)=HtmlContent & "<!--rev-->"
+		aryTemplateTagsValue( 7)=HtmlContent & "<!--rev"&id&"-->" & "<span style=""display:none;"" id=""AjaxCommentEnd"&id&"""></span>"
 		aryTemplateTagsName(  8)="article/comment/count"
 		aryTemplateTagsValue( 8)="<!--(count-->"& Count &"<!--count)-->"
 		aryTemplateTagsName(  9)="article/comment/authorid"
@@ -3778,13 +3787,14 @@ Class TTag
 			If bAction_Plugin_TTag_Url=True Then Exit Property
 		Next
 
-		Url = ZC_BLOG_HOST & "catalog.asp?"& "tags=" & Server.URLEncode(Name)
-
-		'If CheckPluginState("STACentre") Then
-		'	'Dim objTag : Set objTag=New STACentre_Tags : If objTag.LoadInfoById(ID) Then Url=objTag.Url : Set objTag=Nothing
-		'End If
+		If Len(FullUrl)>0 Then
+			Url=Replace(FullUrl,"<#ZC_BLOG_HOST#>",ZC_BLOG_HOST)
+		Else
+			Url = ZC_BLOG_HOST & "catalog.asp?"& "tags=" & Server.URLEncode(Name)
+		End If
 
 		Call Filter_Plugin_TTag_Url(Url)
+
 	End Property
 
 	Public Property Get HtmlUrl

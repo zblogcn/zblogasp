@@ -85,7 +85,7 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG347
 	Response.Write "<p><span class='title'>"& "HTML ID" &"</span>:<br/><input "&t&" type=""text"" name=""inpHtmlID"" value="""&  EditFunction.HtmlId &""" size=""40""  />(*)<br/>("&ZC_MSG351&")</p>"
 
 	Response.Write "<p><span class='title'>"& ZC_MSG061 &"</span>:<br/>"
-	Response.Write "<input "&u&" name=""inpFtype"" type=""radio"" value=""div"" "&IIF(EditFunction.Ftype="div","checked=""checked""","")&" onclick=""$('#pMaxLi').css('display','none');"" />DIV &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input "&u&"  type=""radio"" name=""inpFtype"" value=""ul"" "&IIF(EditFunction.Ftype<>"div","checked=""checked""","")&" onclick=""$('#pMaxLi').css('display','block');"" />UL"
+	Response.Write "<label><input "&u&" name=""inpFtype"" type=""radio"" value=""div"" "&IIF(EditFunction.Ftype="div","checked=""checked""","")&" onclick=""$('#pMaxLi').css('display','none');"" />&nbsp;DIV </label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label><input "&u&"  type=""radio"" name=""inpFtype"" value=""ul"" "&IIF(EditFunction.Ftype<>"div","checked=""checked""","")&" onclick=""$('#pMaxLi').css('display','block');"" />&nbsp;UL</label>"
 	Response.Write "</p>"
 	Response.Write "<p id=""pMaxLi"" "&IIF(EditFunction.Ftype="div","style='display:none;'","")&"><span class='title'>"& ZC_MSG348 &"</span>:<br/><input type=""text"" name=""inpMaxLi"" value="""& EditFunction.MaxLi &""" size=""40""  />("&ZC_MSG350&")</p>"
 
@@ -97,7 +97,7 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG347
 	Response.Write "<label><input id=""inpSidebar4"" type=""checkbox"" "&IIf(EditFunction.InSidebar4=True,"checked=""checked""","") & " />&nbsp;&nbsp;"  & ZC_MSG344 & "4&nbsp;&nbsp;&nbsp;&nbsp;</label>"
 	Response.Write "<label><input id=""inpSidebar5"" type=""checkbox"" "&IIf(EditFunction.InSidebar5=True,"checked=""checked""","") & " />&nbsp;&nbsp;"  & ZC_MSG344 & "5&nbsp;&nbsp;&nbsp;&nbsp;</label>"
 
-	Response.Write "</p>"
+	Response.Write "<br/><br/>"&ZC_MSG288&"</p>"
 
 	
 	Response.Write "<p><span class='title'>"& ZC_MSG090 &":</span><br/><textarea name=""inpContent"" id=""inpContent"" onchange=""GetActiveText(this.id);"" onclick=""GetActiveText(this.id);"" onfocus=""GetActiveText(this.id);"" cols=""80"" rows=""12"">"&s&"</textarea></p>"
