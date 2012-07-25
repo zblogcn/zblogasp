@@ -10,6 +10,15 @@
 <!-- #include file="../../../ZB_SYSTEM/function/c_system_plugin.asp" -->
 <!-- #include file="../../../ZB_SYSTEM/function/c_system_event.asp" -->
 <!-- #include file="../../plugin/p_config.asp" --><%
+
+
+'检查非法链接
+Call CheckReference("")
+
+If CheckPluginState("Reg")=False Then Call ShowError(48)
+
+
+
 %><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" lang="zh-CN">
 <head>
@@ -197,7 +206,7 @@ var bname_m=false;
 function init_reg(){
 	msg=new Array(
 	"请输入4-14位字符，英文、数字的组合。",	
-	"请输入6-14位字符，不允许空格。",
+	"请输入8-14位字符，不允许空格。",
 	"请重复输入一次密码。",
     "请输入电子邮箱地址。",	
 	"只有同意注册条款才能完成注册。",
@@ -259,7 +268,7 @@ function out_upwd1(){
 	var obj=document.getElementById("d_upwd1");
 	var str=document.getElementById("upwd").value;
 	var chk=true;
-	if (str=='' || str.length<6 || str.length>14){chk=false;}
+	if (str=='' || str.length<8 || str.length>14){chk=false;}
 	if (chk){
 		obj.className="d_ok";
 		obj.innerHTML='密码已经输入。';
@@ -739,7 +748,7 @@ gDictionary.Add(16,
 
 function ClientSideStrongPassword()
 {
-return (IsLongEnough(ClientSideStrongPassword.arguments[0], "7") &&
+return (IsLongEnough(ClientSideStrongPassword.arguments[0], "10") &&
 SpansEnoughCharacterSets(ClientSideStrongPassword.arguments[0], "3") &&
 (!(IsCloseVariationOfAWordInDictionary(ClientSideStrongPassword.arguments[0], "0.6",
 ClientSideStrongPassword.arguments[1], ClientSideStrongPassword.arguments[2]))));
@@ -747,7 +756,7 @@ ClientSideStrongPassword.arguments[1], ClientSideStrongPassword.arguments[2]))))
 
 function ClientSideMediumPassword()
 {
-return (IsLongEnough(ClientSideMediumPassword.arguments[0], "7") &&
+return (IsLongEnough(ClientSideMediumPassword.arguments[0], "9") &&
 SpansEnoughCharacterSets(ClientSideMediumPassword.arguments[0], "2") &&
 (!(FoundInDictionary(ClientSideMediumPassword.arguments[0], ClientSideMediumPassword.arguments[1],
 ClientSideMediumPassword.arguments[2]))));
@@ -755,7 +764,7 @@ ClientSideMediumPassword.arguments[2]))));
 
 function ClientSideWeakPassword()
 {
-return (IsLongEnough(ClientSideWeakPassword.arguments[0], "6") ||
+return (IsLongEnough(ClientSideWeakPassword.arguments[0], "8") ||
 (!(IsLongEnough(ClientSideWeakPassword.arguments[0], "0"))));
 }
 </script> 

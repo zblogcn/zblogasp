@@ -16,4 +16,29 @@ Call RegisterPlugin("Reg","ActivePlugin_Reg")
 Function ActivePlugin_Reg()
 
 End Function
+
+Function InstallPlugin_Reg()
+
+	Call GetFunction()
+	Functions(FunctionMetas.GetValue("navbar")).Content=Functions(FunctionMetas.GetValue("navbar")).Content & "<li><a href=""<#ZC_BLOG_HOST#>zb_users/plugin/reg/reg.asp"">注册</a></li>"
+	Functions(FunctionMetas.GetValue("navbar")).Save
+
+	Call ClearGlobeCache
+	Call LoadGlobeCache
+
+End Function
+
+
+Function UninstallPlugin_Reg()
+
+	Call GetFunction()
+	Functions(FunctionMetas.GetValue("navbar")).Content=RemoveLibyUrl(Functions(FunctionMetas.GetValue("navbar")).Content,"<#ZC_BLOG_HOST#>zb_users/plugin/reg/reg.asp")
+
+
+	Functions(FunctionMetas.GetValue("navbar")).Save
+
+	Call ClearGlobeCache
+	Call LoadGlobeCache
+
+End Function
 %>

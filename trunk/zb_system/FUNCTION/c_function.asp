@@ -69,7 +69,7 @@ Function CheckRegExp(source,para)
 		para="^[.A-Za-z0-9\u4e00-\u9fa5]+$"
 	End If
 	If para="[password]" Then
-		para="^[A-Za-z0-9`~!@#$%^&*-_]+$"
+		para="^[A-Za-z0-9`~!@#\$%\^&\*\-_]+$"
 	End If
 	If para="[email]" Then
 		para="^([0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*@([0-9a-zA-Z][-\w]*\.)+[a-zA-Z]*)$"
@@ -1420,17 +1420,23 @@ End Function
 '*********************************************************
 Function RemoveLibyUrl(ByVal s,ByVal url)
 
-		If CateID=0 Then
-			Dim oReg
-			Set oReg=New RegExp
-			oReg.Global=True
-			oReg.IgnoreCase=True
-			oReg.Pattern="<li.+?id=[""page']?" & id & "[""']?.+?</li>"
-			Call SaveToFile(BlogPath & "/ZB_USERS/INCLUDE/navbar.asp",oReg.Replace(LoadFromFile(BlogPath & "/ZB_USERS/INCLUDE/navbar.asp","utf-8"),""),"utf-8",False)
-			Set oReg=Nothing
-		EnD If
+	Dim i,b
+	b=Split(s,"</li>")
+	If UBound(b)>0 then
+		For i=0 To UBound(b)-1
+			b(i)=b(i) & "</li>"
+			If InStr(b(i),"href="""&url)>0 Then
+				b(i)=""
+			End If
+			If InStr(b(i),"href='"&url)>0 Then
+				b(i)=""
+			End If
+		Next
+		RemoveLibyUrl=Join(b)
+		Exit Function
+	End if
 
-		RemoveLibyUrl=s
+	RemoveLibyUrl=s
 
 End Function
 '*********************************************************

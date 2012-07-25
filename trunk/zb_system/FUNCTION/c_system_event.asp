@@ -832,12 +832,16 @@ Function EditUser()
 	objUser.ID=Request.Form("edtID")
 	objUser.Level=Request.Form("edtLevel")
 	objUser.Name=Request.Form("edtName")
-	objUser.PassWord=MD5(Request.Form("edtPassWord"))
 	objUser.Email=Request.Form("edtEmail")
 	objUser.HomePage=Request.Form("edtHomePage")
 	objUser.Alias=Request.Form("edtAlias")
 
-	If Not CheckRegExp(Request.Form("edtPassWord"),"[password]") Then Call ShowError(54)
+	If Trim(Request.Form("edtPassWord"))<>"" Then
+		objUser.PassWord=MD5(Request.Form("edtPassWord"))
+		If Not CheckRegExp(Request.Form("edtPassWord"),"[password]") Then Call ShowError(54)
+	Else
+		objUser.PassWord=""
+	End If
 
 	If Not((CInt(objUser.ID)=BlogUser.ID) Or (CheckRights("Root")=True)) Then Exit Function
 

@@ -12,7 +12,10 @@
 <!-- #include file="plugin/p_config.asp" -->
 <%
 Call System_Initialize()
+'检查非法链接
 Call CheckReference("")
+
+If CheckPluginState("Reg")=False Then Call ShowError(48)
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<%=ZC_BLOG_LANGUAGE%>" lang="<%=ZC_BLOG_LANGUAGE%>">

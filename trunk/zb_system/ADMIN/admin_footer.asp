@@ -45,7 +45,14 @@ $(document).ready(function(){
 
 	bmx2table();
 
-	if($('.SubMenu').find('span').length==0){$('.SubMenu').hide()}
+	if($('.SubMenu').find('span').length==0){$('.SubMenu').hide()};
+
+
+
+
+	$("#avatar").attr("src","<%="http://www.gravatar.com/avatar/"& MD5(BlogUser.Email) &"?s=40&d="& Server.urlEncode(GetCurrentHost & "ZB_SYSTEM/image/admin/avatar.png")%>");
+
+
 
 });
 // ]]>
