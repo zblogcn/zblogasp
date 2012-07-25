@@ -127,7 +127,7 @@ Function Totoro_chkComment(ByRef objComment)
 	Call Totoro_checkInterval(Request.ServerVariables("REMOTE_ADDR"),now,true)
 	Call Totoro_checkNumLong(strTemp)
 	Call Totoro_checkChinese(strTemp)
-	objComment.Content=Totoro_replaceWord(strTemp)
+	objComment.Content=Totoro_replaceWord(objComment.Content)
 
 	If Totoro_SV>=TOTORO_SV_THRESHOLD Then
 		ZVA_ErrorMsg(14)="Totoro Ⅲ" & ZC_MSG339 & ZVA_ErrorMsg(14)
