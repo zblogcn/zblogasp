@@ -71,7 +71,7 @@ Function InstallPlugin_Totoro()
 		Totoro_Config.Write "TOTORO_NAME_VALUE",45
 		Totoro_Config.Write "TOTORO_LEVEL_VALUE",100
 		Totoro_Config.Write "TOTORO_SV_THRESHOLD",50
-		Totoro_Config.Write "TOTORO_SV_THRESHOLD2",50
+		Totoro_Config.Write "TOTORO_SV_THRESHOLD2",150
 
 		Totoro_Config.Write "TOTORO_DEL_DIRECTLY","False"
 		Totoro_Config.Write "TOTORO_ConHuoxingwen","True"
@@ -79,10 +79,10 @@ Function InstallPlugin_Totoro()
 		Totoro_Config.Write "TOTORO_NUMBER_VALUE",10
 		Totoro_Config.Write "TOTORO_REPLACE_KEYWORD","**"
 		Totoro_Config.Write "TOTORO_REPLACE_LIST","无界|自由门|Free.+?Gate|大纪元|九评|江泽民|胡锦涛|温家宝|李洪志|法轮|民运|独裁|中?.*?共.*?党|64|马列|政府|Gov|示威|天安门|达赖|喇嘛|党|茉莉花|革命|十大|中革|Fuck|草泥马|Shit|操|QNMLGB|妈逼|你妈|尼玛|(台|藏|疆)独"
-		Totoro_Config.Write "TOTORO_CHINESESV",150
+		Totoro_Config.Write "TOTORO_CHINESESV",50
 
 		Totoro_Config.Save
-		Call SetBlogHint_Custom("〓 您是第一次安装Totoro，已经为您导入初始配置。")
+		Call SetBlogHint_Custom("您是第一次安装Totoro，已经为您导入初始配置。")
 	End If
 End Function
 
@@ -146,7 +146,7 @@ End Function
 
 Function Totoro_checkChinese(Content)
 	Dim a
-	a=CheckRegExp(Content,"[u4e00-u9fa5]")
+	a=CheckRegExp(Content,"[\u4e00-\u9fa5]")
 	If a=False Then Totoro_SV=Totoro_SV+TOTORO_CHINESESV
 End Function
 
