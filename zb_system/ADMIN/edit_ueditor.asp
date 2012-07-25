@@ -275,7 +275,7 @@ End If
 
 	Dim aryFileList
 
-	aryFileList=LoadIncludeFiles("zb_users\theme" & "/" & ZC_BLOG_THEME & "/" & ZC_TEMPLATE_DIRECTORY)
+	aryFileList=LoadIncludeFilesOnlyType("zb_users\theme" & "/" & ZC_BLOG_THEME & "/" & ZC_TEMPLATE_DIRECTORY)
 
 	If IsArray(aryFileList) Then
 		Dim j,t

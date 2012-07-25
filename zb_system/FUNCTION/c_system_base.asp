@@ -961,6 +961,44 @@ Function LoadIncludeFiles(strDir)
 	i=0
 
 	For Each f1 in fc
+		'If Right(f1.name,5)=".html" Or Right(f1.name,4)=".asp" Or Right(f1.name,4)=".htm"  Then
+			i=i+1
+			ReDim Preserve aryFileList(i)
+			aryFileList(i)=f1.name
+		'End If
+	Next
+
+	LoadIncludeFiles=aryFileList
+
+	Set fso=nothing
+
+End Function
+'*********************************************************
+
+
+
+'*********************************************************
+' 目的：    加载指定目录的文件列表
+'*********************************************************
+Function LoadIncludeFilesOnlyType(strDir)
+
+	Dim aryFileList()
+	ReDim aryFileList(-1)
+
+	Dim fso, f, f1, fc, s, i
+	Set fso = CreateObject("Scripting.FileSystemObject")
+
+	If fso.FolderExists(BlogPath & strDir)=False Then
+		LoadIncludeFilesOnlyType=Array()
+		Exit Function
+	End If
+
+	Set f = fso.GetFolder(BlogPath & strDir)
+	Set fc = f.Files
+
+	i=0
+
+	For Each f1 in fc
 		If Right(f1.name,5)=".html" Or Right(f1.name,4)=".asp" Or Right(f1.name,4)=".htm"  Then
 			i=i+1
 			ReDim Preserve aryFileList(i)
@@ -968,7 +1006,7 @@ Function LoadIncludeFiles(strDir)
 		End If
 	Next
 
-	LoadIncludeFiles=aryFileList
+	LoadIncludeFilesOnlyType=aryFileList
 
 	Set fso=nothing
 
@@ -1146,7 +1184,7 @@ Function LoadGlobeCache()
 	Dim aryFileNameTemplate()
 	Dim aryFileNameTemplate_Variable()
 
-	aryFileList=LoadIncludeFiles("zb_users\theme" & "/" & ZC_BLOG_THEME & "/" & ZC_TEMPLATE_DIRECTORY)
+	aryFileList=LoadIncludeFilesOnlyType("zb_users\theme" & "/" & ZC_BLOG_THEME & "/" & ZC_TEMPLATE_DIRECTORY)
 
 	If IsArray(aryFileList) Then
 
@@ -1233,7 +1271,7 @@ Function LoadGlobeCache()
 	Dim aryFileNameTemplateInclude()
 	Dim aryFileNameTemplateInclude_Variable()
 
-	aryFileList=LoadIncludeFiles("zb_users\theme" & "/" & ZC_BLOG_THEME & "/" & "INCLUDE")
+	aryFileList=LoadIncludeFilesOnlyType("zb_users\theme" & "/" & ZC_BLOG_THEME & "/" & "INCLUDE")
 
 	If IsArray(aryFileList) Then
 
@@ -1288,7 +1326,7 @@ Function LoadGlobeCache()
 	Dim aryFileNameInclude_Variable()
 	Dim aryFileNameInclude_Content()
 
-	aryFileList=LoadIncludeFiles("zb_users\INCLUDE")
+	aryFileList=LoadIncludeFilesOnlyType("zb_users\INCLUDE")
 
 	If IsArray(aryFileList) Then
 
