@@ -1304,11 +1304,14 @@ Class TArticle
 
 		Call Filter_Plugin_TArticle_Build_Template(html)
 
-		aryTemplateTagsName=TemplateTagsName
-		aryTemplateTagsValue=TemplateTagsValue
+		If TemplateTagsDic.Exists(BlogTitle)=True Then
+			Call TemplateTagsDic.add("BlogTitle",HtmlTitle)
+		Else
+			TemplateTagsDic.Item("BlogTitle")=HtmlTitle
+		End If
 
-		aryTemplateTagsName(0)="BlogTitle"
-		aryTemplateTagsValue(0)=HtmlTitle
+		aryTemplateTagsName=TemplateTagsDic.Keys
+		aryTemplateTagsValue=TemplateTagsDic.Items
 
 		Call Filter_Plugin_TArticle_Build_TemplateTags(aryTemplateTagsName,aryTemplateTagsValue)
 
@@ -1333,10 +1336,10 @@ Class TArticle
 
 		j=UBound(aryTemplateTagsName)
 
-		For i=1 to j
+		For i=0 to j-1
 			html=Replace(html,"<#" & aryTemplateTagsName(i) & "#>",aryTemplateTagsValue(i))
 		Next
-		html=Replace(html,"<#" & aryTemplateTagsName(0) & "#>",aryTemplateTagsValue(0))
+		html=Replace(html,"<#" & aryTemplateTagsName(j) & "#>",aryTemplateTagsValue(j))
 
 		Build=True
 
@@ -2125,11 +2128,14 @@ Class TArticleList
 			html=Replace(html,"<#" & aryTemplateSubName(i) & "#>",aryTemplateSubValue(i))
 		Next
 
-		aryTemplateTagsName=TemplateTagsName
-		aryTemplateTagsValue=TemplateTagsValue
+		If TemplateTagsDic.Exists(BlogTitle)=True Then
+			Call TemplateTagsDic.add("BlogTitle",Title)
+		Else
+			TemplateTagsDic.Item("BlogTitle")=Title
+		End If
 
-		aryTemplateTagsName(0)="BlogTitle"
-		aryTemplateTagsValue(0)=Title
+		aryTemplateTagsName=TemplateTagsDic.Keys
+		aryTemplateTagsValue=TemplateTagsDic.Items
 
 		Call Filter_Plugin_TArticleList_Build_TemplateTags(aryTemplateTagsName,aryTemplateTagsValue)
 
@@ -2160,10 +2166,10 @@ Class TArticleList
 		End If
 
 		j=UBound(aryTemplateTagsName)
-		For i=1 to j
+		For i=0 to j-1
 			html=Replace(html,"<#" & aryTemplateTagsName(i) & "#>",aryTemplateTagsValue(i))
 		Next
-		html=Replace(html,"<#" & aryTemplateTagsName(0) & "#>",aryTemplateTagsValue(0))
+		html=Replace(html,"<#" & aryTemplateTagsName(j) & "#>",aryTemplateTagsValue(j))
 
 
 		Build=True
