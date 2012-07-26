@@ -35,16 +35,9 @@ If CheckPluginState("Totoro")=False Then Call ShowError(48)
 
 BlogTitle="TotoroⅢ（基于TotoroⅡ的Z-Blog的评论管理审核系统增强版）"
 
-%><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<%=ZC_BLOG_LANGUAGE%>" lang="<%=ZC_BLOG_LANGUAGE%>">
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<meta http-equiv="Content-Language" content="<%=ZC_BLOG_LANGUAGE%>" />
-	<link rel="stylesheet" rev="stylesheet" href="../../../ZB_SYSTEM/CSS/admin.css" type="text/css" media="screen" />
-	<script language="JavaScript" src="../../../ZB_SYSTEM/script/common.js" type="text/javascript"></script>
-	<title><%=BlogTitle%></title>
-</head>
-<body>
+%><!--#include file="..\..\..\zb_system\admin\admin_header.asp"-->
+<!--#include file="..\..\..\zb_system\admin\admin_top.asp"-->
+
 
 			<div id="divMain">
 <div class="Header"><%=BlogTitle%></div>
@@ -59,79 +52,124 @@ BlogTitle="TotoroⅢ（基于TotoroⅡ的Z-Blog的评论管理审核系统增强
 
 <div id="divMain2">
 <form id="edit" name="edit" method="post">
+			<div class="content-box"><!-- Start Content Box -->
+				
+				<div class="content-box-header">
+			
+					<ul class="content-box-tabs">
+    
+	<li><a href="#tab1" class="default-tab"><span>加分减分细则设置</span></a></li>
+	<li><a href="#tab2"><span>黑词列表设置</span></a></li>
+	<li><a href="#tab3"><span>关于TotoroⅢ</span></a></li>
+					</ul>
+					
+					<div class="clear"></div>
+					
+				</div> <!-- End .content-box-header -->
+				
+				<div class="content-box-content" id="totorobox">
+
+<div class="tab-content default-tab" style='border:none;padding:0px;margin:0;' id="tab1">
+  <table width='100%' style='padding:0px;margin:1px;' cellspacing='0' cellpadding='0'>
+    <tr height="40">
+      <td width='50'>序号</td>
+      <td width='200' align="center">规则</td>
+      <td width="80" align="center">分数</td>
+      <td align="center">说明</td>
+    </tr>
+
 <%
 
 	Call Totoro_Initialize
 
-	Response.Write "<p><b>关于TotoroⅢ</b></p>"
-	Response.Write "<p>Totoro是个采用评分机制的防止垃圾留言的插件，原作<a href=""http://www.rainbowsoft.org/"" target=""_blank"">zx.asd</a>。<br/>TotoroⅡ是<a href=""http://ZxMYS.COM"" target=""_blank"">Zx.MYS</a>在Totoro的基础上修改而成的增强版，加入了诸多新特性，同时修正一些问题。<br/>TotoroⅢ是由<a href=""http://www.zsxsoft.com"" target=""_blank"">ZSXSOFT</a>将TotoroII升级到1.9版本后增添新特性的版本。</p>"
-	Response.Write "<p>Spam Value(SV)初始值为0，经过相关运算后的SV分值越高Spam嫌疑越大，超过设定的阈值这条评论就进入审核状态或直接被删除。</p>"
-	Response.Write "<p>配置完成之后，请一定要测试，切记切记！</p>"
-
-	Response.Write "<p></p>"
-	Response.Write "<p><b>加分减分细则：</b></p>"
 	
 	Dim strZC_TOTORO_HYPERLINK_VALUE
 	strZC_TOTORO_HYPERLINK_VALUE=Totoro_Config.Read("TOTORO_HYPERLINK_VALUE")
 	strZC_TOTORO_HYPERLINK_VALUE=TransferHTML(strZC_TOTORO_HYPERLINK_VALUE,"[html-format]")
-	Response.Write "<p>1.评论里有链接就加<input name=""strZC_TOTORO_HYPERLINK_VALUE"" style=""width:25px"" type=""text"" value=""" & strZC_TOTORO_HYPERLINK_VALUE & """/>分(默认：10)，每多一个链接SV翻倍加分</p>"
+	Response.Write "<tr><td>1</td><td>链接评分</td><td><input name=""strZC_TOTORO_HYPERLINK_VALUE""type=""text"" value=""" & strZC_TOTORO_HYPERLINK_VALUE & """/></td><td>(默认：10)，每多一个链接SV翻倍加分</td></tr>"
 	
 	
 	Dim strTOTORO_INTERVAL_VALUE
 	strTOTORO_INTERVAL_VALUE=Totoro_Config.Read("TOTORO_INTERVAL_VALUE")
 	strTOTORO_INTERVAL_VALUE=TransferHTML(strTOTORO_INTERVAL_VALUE,"[html-format]")
-	Response.Write "<p>2.提交频率评分:基数为<input name=""strZC_TOTORO_INTERVAL_VALUE"" style=""width:25px"" type=""text"" value=""" & strTOTORO_INTERVAL_VALUE & """/>分(默认：25)，根据1小时内同一IP的评论数量加分。(每条评论最多加基数的5/6，最少加基数的1/5，按时间间隔递减。)</p>"
+	Response.Write "<tr><td>2</td><td>提交频率平分<td><input name=""strZC_TOTORO_INTERVAL_VALUE""type=""text"" value=""" & strTOTORO_INTERVAL_VALUE & """/></td><Td>(默认：25)，根据1小时内同一IP的评论数量加分。(每条评论最多加基数的5/6，最少加基数的1/5，按时间间隔递减。)</td></tr>"
 	
 	Dim strTOTORO_BADWORD_VALUE
 	strTOTORO_BADWORD_VALUE=Totoro_Config.Read("TOTORO_BADWORD_VALUE")
 	strTOTORO_BADWORD_VALUE=TransferHTML(strTOTORO_BADWORD_VALUE,"[html-format]")
-	Response.Write "<p>3.评论里的每一个黑词都加<input name=""strZC_TOTORO_BADWORD_VALUE"" style=""width:25px"" type=""text"" value=""" & strTOTORO_BADWORD_VALUE & """/>分(默认：50)</p>"
+	Response.Write "<tr><td>3</td><td>评论里的每一个黑词都加</td><td><input name=""strZC_TOTORO_BADWORD_VALUE""type=""text"" value=""" & strTOTORO_BADWORD_VALUE & """/></td><td>(默认：50)</td></tr>"
 	
 	Dim strTOTORO_LEVEL_VALUE
 	strTOTORO_LEVEL_VALUE=Totoro_Config.Read("TOTORO_LEVEL_VALUE")
 	strTOTORO_LEVEL_VALUE=TransferHTML(strTOTORO_LEVEL_VALUE,"[html-format]")
-	Response.Write "<p>4.用户信任度评分:基数为<input name=""strZC_TOTORO_LEVEL_VALUE"" style=""width:25px"" type=""text"" value=""" & strTOTORO_LEVEL_VALUE & """/>分(默认：100)，初级用户评论时SV减基数×1，中级用户SV减基数×2，高级用户减SV减基数×3，管理员SV减基数×4</p>"
+	Response.Write "<tr><td>4</td><td>用户信任度评分</td><td><input name=""strZC_TOTORO_LEVEL_VALUE""type=""text"" value=""" & strTOTORO_LEVEL_VALUE & """/></td><td>(默认：100)，初级用户评论时SV减基数×1，中级用户SV减基数×2，高级用户减SV减基数×3，管理员SV减基数×4</td></tr>"
 
 	Dim strTOTORO_NAME_VALUE
 	strTOTORO_NAME_VALUE=Totoro_Config.Read("TOTORO_NAME_VALUE")
 	strTOTORO_NAME_VALUE=TransferHTML(strTOTORO_NAME_VALUE,"[html-format]")
-	Response.Write "<p>5.访客熟悉度评分:基数为<input name=""strZC_TOTORO_NAME_VALUE"" style=""width:25px"" type=""text"" value=""" & strTOTORO_NAME_VALUE & """/>分(默认：45)，同一访客在BLOG留言1-10条内的SV减10分,10-20条的SV减10分再减基数×1，20-50条的SV减10分再减基数×2，大于50条的SV减10分再减基数×3</p>"
+	Response.Write "<tr><td>5</td><td>访客熟悉度评分</td><td><input name=""strZC_TOTORO_NAME_VALUE""type=""text"" value=""" & strTOTORO_NAME_VALUE & """/></td><td>(默认：45)，同一访客在BLOG留言1-10条内的SV减10分,10-20条的SV减10分再减基数×1，20-50条的SV减10分再减基数×2，大于50条的SV减10分再减基数×3</td></tr>"
 	
 	Dim strTOTORO_NUMBER_VALUE
 	strTOTORO_NUMBER_VALUE=Totoro_Config.Read("TOTORO_NUMBER_VALUE")
 	strTOTORO_NUMBER_VALUE=TransferHTML(strTOTORO_NUMBER_VALUE,"[html-format]")
-	Response.Write "<p>6.数字长度评分:基数为<input name=""strTOTORO_NUMBER_VALUE"" style=""width:25px"" type=""text"" value=""" & strTOTORO_NUMBER_VALUE & """/>分(默认：10)。若数字长度达到10位，自动加上基数。多几位，加几次基数。"
+	Response.Write "<tr><td>6</td><td>数字长度评分</td><td><input name=""strTOTORO_NUMBER_VALUE""type=""text"" value=""" & strTOTORO_NUMBER_VALUE & """/></td><td>(默认：10)。若数字长度达到10位，自动加上基数。多几位，加几次基数。</td></tr>"
 
 	Dim strZC_TOTORO_REPLACE_KEYWORD
 		strZC_TOTORO_REPLACE_KEYWORD=Totoro_Config.Read("TOTORO_REPLACE_KEYWORD")
 		strZC_TOTORO_REPLACE_KEYWORD=TransferHTML(strZC_TOTORO_REPLACE_KEYWORD,"[html-format]")
-	Response.Write "<p>7.自动把敏感词替换为<input type=""text"" value="""& strZC_TOTORO_REPLACE_KEYWORD &""" name=""strZC_TOTORO_REPLACE_KEYWORD""/></p>"
+	Response.Write "<tr><td>7</td><td>自动把敏感词替换为</td><td><input type=""text"" value="""& strZC_TOTORO_REPLACE_KEYWORD &""" name=""strZC_TOTORO_REPLACE_KEYWORD""/></td><td></td></tr>"
 
 	Dim strZC_TOTORO_CHINESESV
 		strZC_TOTORO_CHINESESV=Totoro_Config.Read("TOTORO_CHINESESV")
 		strZC_TOTORO_CHINESESV=TransferHTML(strZC_TOTORO_CHINESESV,"[html-format]")
-	Response.Write "<p>8.一旦评论内没有汉字自动加SV<input type=""text"" value="""& strZC_TOTORO_CHINESESV &""" name=""strZC_TOTORO_CHINESESV""/>分(默认150)</p>"
+	Response.Write "<tr><td>8</td><td>一旦评论内没有汉字自动加SV</td><td><input type=""text"" value="""& strZC_TOTORO_CHINESESV &""" name=""strZC_TOTORO_CHINESESV""/></td><td>(默认：150)</td></tr>"
 
-	
+	Response.Write "<tr>"
+  	Response.Write "<td>9</td><td>设置系统审核阈值</td>"
 	Dim strZC_TOTORO_SV_THRESHOLD
 	strZC_TOTORO_SV_THRESHOLD=Totoro_Config.Read("TOTORO_SV_THRESHOLD")
 	strZC_TOTORO_SV_THRESHOLD=TransferHTML(strZC_TOTORO_SV_THRESHOLD,"[html-format]")
-	Response.Write "<p>·设置系统审核阈值(默认50，阈值越小越严格，低于0则使游客的评论全进入审核):</p><p><input name=""strZC_TOTORO_SV_THRESHOLD"" style=""width:99%"" type=""text"" value=""" & strZC_TOTORO_SV_THRESHOLD & """/></p><p></p>"
+	Response.Write "<td><input name=""strZC_TOTORO_SV_THRESHOLD"" type=""text"" value=""" & strZC_TOTORO_SV_THRESHOLD & """/></td><td>(默认：50)，阈值越小越严格，低于0则使游客的评论全进入审核</td></tr>"
+	
+  	Response.Write "<tr><td>10</td><td>设置自动删除阙值</td><td>"
 	Dim strZC_TOTORO_SV_THRESHOLD2
 	strZC_TOTORO_SV_THRESHOLD2=Totoro_Config.Read("TOTORO_SV_THRESHOLD2")
 	strZC_TOTORO_SV_THRESHOLD2=TransferHTML(strZC_TOTORO_SV_THRESHOLD2,"[html-format]")
-	Response.Write "<p>·设置自动删除阙值(默认150，一旦阙值达到该值并且阙值达到系统审核阙值则不审核直接删除。为0则不删除):</p><p><input name=""strZC_TOTORO_SV_THRESHOLD2"" style=""width:99%"" type=""text"" value=""" & strZC_TOTORO_SV_THRESHOLD2 & """/></p><p></p>"
+	Response.Write "<input name=""strZC_TOTORO_SV_THRESHOLD2"" type=""text"" value=""" & strZC_TOTORO_SV_THRESHOLD2 & """/></td><td>(默认：150)，阙值达到该值并且阙值达到系统审核阙值则不审核直接删除。为0则不删除)</td></tr></table></div>"
 
+
+%>
+	
+<div class="tab-content" style='border:none;padding:0px;margin:0;' id="tab2">
+<table width='100%' style='padding:0px;margin:1px;' cellspacing='0' cellpadding='0'>
+  <tr>
+    <td height="40">黑词列表(分隔符'|',可使用正则,最后一个字不能是|):</td>
+  </tr>
+  <tr>
+    <td>
+<%
 
 	Dim strZC_TOTORO_BADWORD_LIST
 	strZC_TOTORO_BADWORD_LIST=Totoro_Config.Read("TOTORO_BADWORD_LIST")
 		strZC_TOTORO_BADWORD_LIST=TransferHTML(strZC_TOTORO_BADWORD_LIST,"[html-format]")
-		Response.Write "<p>·黑词列表(分隔符'|',可使用正则,最后一个字不能是|):</p><p><textarea rows=""6"" name=""strZC_TOTORO_BADWORD_LIST"" style=""width:99%"" >"& strZC_TOTORO_BADWORD_LIST &"</textarea></p>"	
+		Response.Write "<textarea rows=""6"" name=""strZC_TOTORO_BADWORD_LIST"" style=""width:99%"" >"& strZC_TOTORO_BADWORD_LIST &"</textarea>"
+%></td>
+  </tr>
+  <tr>
+    <td height="40">敏感词列表(分隔符'|',可使用正则,最后一个字不能是|):</td>
+  </tr>
+  <tr>
+    <td><%	
 
 	Dim strZC_TOTORO_REPLACE_LIST
 	strZC_TOTORO_REPLACE_LIST=Totoro_Config.Read("TOTORO_REPLACE_LIST")
 		strZC_TOTORO_REPLACE_LIST=TransferHTML(strZC_TOTORO_REPLACE_LIST,"[html-format]")
-		Response.Write "<p>·敏感词列表(分隔符'|',可使用正则,最后一个字不能是|):</p><p><textarea rows=""6"" name=""strZC_TOTORO_REPLACE_LIST"" style=""width:99%"" >"& strZC_TOTORO_REPLACE_LIST &"</textarea></p>"	
+		Response.Write "<textarea rows=""6"" name=""strZC_TOTORO_REPLACE_LIST"" style=""width:99%"" >"& strZC_TOTORO_REPLACE_LIST &"</textarea>"	
+%></td>
+  </tr>
+</table>
+<dl class="totoro">
+  <dd><%
 
 	Response.Write "<p>·"
 
@@ -144,9 +182,13 @@ BlogTitle="TotoroⅢ（基于TotoroⅡ的Z-Blog的评论管理审核系统增强
 	else
 		Response.Write "/>"
 	End if
-	Response.Write "<label for=""bolTOTORO_ConHuoxingwen"">自动转换火星文（将把希腊字母、俄文字母、罗马数字、列表符、全角字母数字标点、汉语拼音、?转换为半角英文字母、半角数字、半角符号再进行下一步操作，不影响实际显示的评论）</label></p><p></p>"	
+	Response.Write "<label for=""bolTOTORO_ConHuoxingwen"">自动转换火星文（将把希腊字母、俄文字母、罗马数字、列表符、全角字母数字标点、汉语拼音、?转换为半角英文字母、半角数字、半角符号再进行下一步操作，不影响实际显示的评论）</label>"	
+%>
+</dd>
+  <dd></dd>
 
-	Response.Write "<p>·"
+  <dd>·
+<%
 	Dim bolTOTORO_DEL_DIRECTLY
 	bolTOTORO_DEL_DIRECTLY=Totoro_Config.Read("TOTORO_DEL_DIRECTLY")
 	Response.Write "<input name=""bolTOTORO_DEL_DIRECTLY"" id=""bolTOTORO_DEL_DIRECTLY"" type=""checkbox"" value=""True"""
@@ -156,19 +198,72 @@ BlogTitle="TotoroⅢ（基于TotoroⅡ的Z-Blog的评论管理审核系统增强
 		Response.Write ">"
 	End if
 
-	Response.Write "<label for=""bolTOTORO_DEL_DIRECTLY"">点击[这是SPAM]按钮提取域名后直接删除评论（若不删除则进入审核）</label></p><p></p>"
-	Response.Write "<hr/>"
-	Response.Write "<p><input type=""submit"" class=""button"" value="""& ZC_MSG087 &""" id=""btnPost"" onclick='document.getElementById(""edit"").action=""savesetting.asp"";' /></p>"
+	Response.Write "<label for=""bolTOTORO_DEL_DIRECTLY"">点击[这是SPAM]按钮提取域名后直接删除评论（若不删除则进入审核）</label>"
 
 	
 	'Response.Write "<br/><p><a target='_blank' href='http://bbs.rainbowsoft.org/viewthread.php?tid=11849'>Totoro的相关说明文档</a></p><br/>"
 
 
 %>
-</form>
+</dd>
+</dl>
 </div>
-</body>
-</html>
+
+<div class="tab-content" style='border:none;padding:0px;margin:0;' id="tab3">
+<dl class="totoro">
+  <dd>Totoro是个采用评分机制的防止垃圾留言的插件，原作<a href="http://www.rainbowsoft.org/" target="_blank">zx.asd</a>。<br/>TotoroⅡ是<a href="http://ZxMYS.COM" target="_blank">Zx.MYS</a>在Totoro的基础上修改而成的增强版，加入了诸多新特性，同时修正一些问题。<br/>TotoroⅢ是由<a href="http://www.zsxsoft.com" target="_blank">ZSXSOFT</a>将TotoroII升级到1.9版本后增添新特性的版本。</dd>  <dd>Spam Value(SV)初始值为0，经过相关运算后的SV分值越高Spam嫌疑越大，超过设定的阈值这条评论就进入审核状态或直接被删除。</dd>  <dd>配置完成之后，请一定要测试，切记切记！</dd>  <dd></dd>
+</dl>
+</div>
+				</div> <!-- End .content-box-content -->
+				
+			</div>
+            <p><input type="submit" class="button" value="提交" id="btnPost" onclick='document.getElementById("edit").action="savesetting.asp";' /></p>
+            </form>
+			</div></div>
+<script language="javascript">
+
+
+function ChangeValue(obj){
+
+	if (obj.value=="True")
+	{
+	obj.value="False";
+	return true;
+	}
+
+	if (obj.value=="False")
+	{
+	obj.value="True";
+	return true;
+	}
+}
+
+
+    // Content box tabs:
+		
+		$('.content-box .content-box-content div.tab-content').hide(); // Hide the content divs
+		$('ul.content-box-tabs li a.default-tab').addClass('current'); // Add the class "current" to the default tab
+		$('.content-box-content div.default-tab').show(); // Show the div with class "default-tab"
+		
+		$('.content-box ul.content-box-tabs li a').click( // When a tab is clicked...
+			function() { 
+				$(this).parent().siblings().find("a").removeClass('current'); // Remove "current" class from all tabs
+				$(this).addClass('current'); // Add class "current" to clicked tab
+				var currentTab = $(this).attr('href'); // Set variable "currentTab" to the value of href of clicked tab
+				$(currentTab).siblings().hide(); // Hide all content divs
+				$(currentTab).show(); // Show the content div with the id equal to the id of clicked tab
+				return false; 
+			}
+		);
+
+
+
+
+</script>
+
+
+</div></div><!--#include file="..\..\..\zb_system\admin\admin_footer.asp"-->
+
 <%
 Call System_Terminate()
 
