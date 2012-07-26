@@ -3321,4 +3321,35 @@ Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("Us
 
 End Function
 '*********************************************************
+
+
+
+
+'*********************************************************
+' 目的：    Search Child Comments'递归
+'*********************************************************
+Function SearchChildComments(ByVal id,ByRef allcomm)
+
+	If IsObject(allcomm)=False Then
+		Set allcomm=CreateObject("Scripting.Dictionary")
+	End If
+
+	Dim objRS
+	Set objRS=objConn.Execute("SELECT [comm_ID] FROM [blog_Comment] WHERE [comm_ParentID]="&id)
+	If (Not objRS.bof) And (Not objRS.eof) Then
+		Do While Not objRS.eof
+			If allcomm.Exists(objRS("comm_ID"))=False Then
+				allcomm.add CInt(objRS("comm_ID")),""
+			End If
+			Call SearchChildComments(objRS("comm_ID"),allcomm)
+			objRS.MoveNext
+		Loop
+		SearchChildComments=True
+	Else
+		SearchChildComments=False
+	End If
+
+End Function
+'*********************************************************
+
 %>
