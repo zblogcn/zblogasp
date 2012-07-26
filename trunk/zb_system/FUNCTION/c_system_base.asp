@@ -209,6 +209,8 @@ End Sub
 '如果连接数据库为MSSQL，则应为'，默认连接Access数据库则为#
 Dim ZC_SQL_POUND_KEY
 ZC_SQL_POUND_KEY="#"
+Dim IsDBConnect '数据库是否已连接
+IsDBConnect=False
 Function OpenConnect()
 
 	'plugin node
@@ -232,6 +234,9 @@ Function OpenConnect()
 	Else
 		objConn.Open "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & strDbPath
 	End If
+
+	IsDBConnect=True
+
 	OpenConnect=True
 
 End Function
@@ -248,6 +253,7 @@ Function CloseConnect()
 	objConn.Close
 	Set objConn=Nothing
 
+	IsDBConnect=False
 	CloseConnect=True
 
 End Function
@@ -3369,8 +3375,6 @@ Function SearchChildComments(ByVal id,ByRef allcomm)
 
 End Function
 '*********************************************************
-
-
 
 
 
