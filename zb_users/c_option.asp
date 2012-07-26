@@ -136,13 +136,11 @@ Const ZC_CUSTOM_DIRECTORY_ENABLE=False
 Const ZC_CUSTOM_DIRECTORY_REGEX="{%post%}"
 Const ZC_CUSTOM_DIRECTORY_ANONYMOUS=False
 
-Const ZC_GUESTBOOK_CONTENT="欢迎给我留言。"
-Const ZC_GUESTBOOK_ID=0
 
 Const ZC_UPDATE_INFO_URL="http://update.rainbowsoft.org/info/"
 
 
-Const ZC_USING_PLUGIN_LIST="PluginSapper|FileManage"
+Const ZC_USING_PLUGIN_LIST="PluginSapper|FileManage|Reg"
 
 
 
