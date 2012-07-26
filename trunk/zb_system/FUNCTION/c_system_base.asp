@@ -3388,7 +3388,7 @@ Function AddBatch(name,actioncode)
 	Dim i
 	i=CInt(Session("batch_order"))+1
 	Session("batch_order")=i
-	Call Session("batch").add("<b>" & i & "</b> : " & name,actioncode)
+	Call Session("batch").add("<b>" & i & "</b> : <u>" & name & "</u>",actioncode)
 
 End Function
 '*********************************************************
