@@ -1274,6 +1274,30 @@ Dim sAction_Plugin_FileReBuild_End
 
 '**************************************************<
 '类型:action
+'名称:Action_Plugin_Batch_Begin
+'参数:无
+'说明:
+'**************************************************>
+Dim Action_Plugin_Batch_Begin()
+ReDim Action_Plugin_Batch_Begin(0)
+Dim bAction_Plugin_Batch_Begin
+Dim sAction_Plugin_Batch_Begin
+
+
+'**************************************************<
+'类型:action
+'名称:Action_Plugin_Batch_End
+'参数:无
+'说明:
+'**************************************************>
+Dim Action_Plugin_Batch_End()
+ReDim Action_Plugin_Batch_End(0)
+Dim bAction_Plugin_Batch_End
+Dim sAction_Plugin_Batch_End
+
+
+'**************************************************<
+'类型:action
 '名称:Action_Plugin_SiteInfo_Begin
 '参数:无
 '说明:
