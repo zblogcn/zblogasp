@@ -1213,14 +1213,14 @@ Dim sAction_Plugin_BlogReBuild_Begin
 
 '**************************************************<
 '类型:action
-'名称:Action_Plugin_BlogReBuild_Succeed
+'名称:Action_Plugin_BlogReBuild_End
 '参数:无
 '说明:
 '**************************************************>
-Dim Action_Plugin_BlogReBuild_Succeed()
-ReDim Action_Plugin_BlogReBuild_Succeed(0)
-Dim bAction_Plugin_BlogReBuild_Succeed
-Dim sAction_Plugin_BlogReBuild_Succeed
+Dim Action_Plugin_BlogReBuild_End()
+ReDim Action_Plugin_BlogReBuild_End(0)
+Dim bAction_Plugin_BlogReBuild_End
+Dim sAction_Plugin_BlogReBuild_End
 
 
 '**************************************************<
@@ -1262,14 +1262,14 @@ Dim sAction_Plugin_FileReBuild_Begin
 
 '**************************************************<
 '类型:action
-'名称:Action_Plugin_FileReBuild_Succeed
+'名称:Action_Plugin_FileReBuild_End
 '参数:无
 '说明:
 '**************************************************>
-Dim Action_Plugin_FileReBuild_Succeed()
-ReDim Action_Plugin_FileReBuild_Succeed(0)
-Dim bAction_Plugin_FileReBuild_Succeed
-Dim sAction_Plugin_FileReBuild_Succeed
+Dim Action_Plugin_FileReBuild_End()
+ReDim Action_Plugin_FileReBuild_End(0)
+Dim bAction_Plugin_FileReBuild_End
+Dim sAction_Plugin_FileReBuild_End
 
 
 '**************************************************<
@@ -1655,6 +1655,29 @@ ReDim Action_Plugin_MakeFileReBuild_End(0)
 Dim bAction_Plugin_MakeFileReBuild_End
 Dim sAction_Plugin_MakeFileReBuild_End
 
+
+'**************************************************<
+'类型:action
+'名称:Action_Plugin_BatchAsk_Begin
+'参数:无
+'说明:
+'**************************************************>
+Dim Action_Plugin_BatchAsk_Begin()
+ReDim Action_Plugin_BatchAsk_Begin(0)
+Dim bAction_Plugin_BatchAsk_Begin
+Dim sAction_Plugin_BatchAsk_Begin
+
+
+'**************************************************<
+'类型:action
+'名称:Action_Plugin_BatchAsk_End
+'参数:无
+'说明:
+'**************************************************>
+Dim Action_Plugin_BatchAsk_End()
+ReDim Action_Plugin_BatchAsk_End(0)
+Dim bAction_Plugin_BatchAsk_End
+Dim sAction_Plugin_BatchAsk_End
 
 
 '**************************************************<
