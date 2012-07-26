@@ -1311,7 +1311,7 @@ Function ExportFileReBuildAsk()
 
 	'SubMenu转至MakeFileReBuildAsk()函数里了
 
-	Response.Write "<div class=""divHeader2"">" & ZC_MSG073 & "</div>"
+	Response.Write "<div class=""divHeader2"">" & ZC_MSG110 & "</div>"
 
 	Response.Write "<div id=""divMain2"">"
 

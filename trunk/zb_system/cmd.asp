@@ -32,6 +32,16 @@ For Each sAction_Plugin_Command_Begin in Action_Plugin_Command_Begin
 	If Not IsEmpty(sAction_Plugin_Command_Begin) Then Call Execute(sAction_Plugin_Command_Begin)
 Next
 
+'Set Session("batch")=nothing
+'Set Session("batch_order")=nothing
+
+If IsObject(Session("batch"))=False THen
+	Set Session("batch")=CreateObject("Scripting.Dictionary")
+	Session("batch_order")=0
+	Session("batchtime")=0
+End If
+
+
 Dim strAct
 strAct=Request.QueryString("act")
 
@@ -148,9 +158,6 @@ Select Case strAct
 
 		Call UserDel()
 
-	Case "FileReBuild"
-
-		Call FileReBuild()
 
 	Case "FileMng"
 
@@ -167,10 +174,6 @@ Select Case strAct
 	Case "FileDel"
 
 		Call FileDel()
-
-	Case "BlogReBuild"
-
-		Call BlogReBuild()
 
 	Case "Search"
 
@@ -224,9 +227,6 @@ Select Case strAct
 
 		Call SiteFileDel()
 
-	Case "AskFileReBuild"
-
-		Call AskFileReBuild()
 
 	Case "gettburl"
 		Call TrackBackUrlGet()
@@ -284,6 +284,22 @@ Select Case strAct
 	Case "FunctionDel"
 
 		Call FunctionDel()
+
+	Case "AskFileReBuild"
+
+		Call AskFileReBuild()
+
+	Case "BlogReBuild"
+
+		Call BlogReBuild()
+
+	Case "FileReBuild"
+
+		Call FileReBuild()
+
+	Case "batch"
+
+		Call Batch()
 
 End Select
 
@@ -1017,84 +1033,6 @@ Function TagDel()
 End Function
 
 
-Function BlogReBuild()
-
-	'plugin node
-	For Each sAction_Plugin_BlogReBuild_Begin in Action_Plugin_BlogReBuild_Begin
-		If Not IsEmpty(sAction_Plugin_BlogReBuild_Begin) Then Call Execute(sAction_Plugin_BlogReBuild_Begin)
-		If bAction_Plugin_BlogReBuild_Begin=True Then Exit Function
-	Next
-
-	Server.ScriptTimeout = 1200
-
-	If MakeBlogReBuild Then
-		Call ClearGlobeCache
-		Call LoadGlobeCache
-
-		'plugin node
-		For Each sAction_Plugin_BlogReBuild_Succeed in Action_Plugin_BlogReBuild_Succeed
-			If Not IsEmpty(sAction_Plugin_BlogReBuild_Succeed) Then Call Execute(sAction_Plugin_BlogReBuild_Succeed)
-			If bAction_Plugin_BlogReBuild_Succeed=True Then Exit Function
-		Next
-
-	Else
-		Call ShowError(23)
-	End If
-End Function
-
-Function FileReBuild()
-
-	'plugin node
-	For Each sAction_Plugin_FileReBuild_Begin in Action_Plugin_FileReBuild_Begin
-		If Not IsEmpty(sAction_Plugin_FileReBuild_Begin) Then Call Execute(sAction_Plugin_FileReBuild_Begin)
-		If bAction_Plugin_FileReBuild_Begin=True Then Exit Function
-	Next
-
-	Server.ScriptTimeout = 1200
-
-	If  MakeFileReBuild()=True Then
-
-		'plugin node
-		For Each sAction_Plugin_FileReBuild_Succeed in Action_Plugin_FileReBuild_Succeed
-			If Not IsEmpty(sAction_Plugin_FileReBuild_Succeed) Then Call Execute(sAction_Plugin_FileReBuild_Succeed)
-			If bAction_Plugin_FileReBuild_Succeed=True Then Exit Function
-		Next
-
-	End If
-
-End Function
-
-
-Function AskFileReBuild()
-
-	'plugin node
-	For Each sAction_Plugin_AskFileReBuild_Begin in Action_Plugin_AskFileReBuild_Begin
-		If Not IsEmpty(sAction_Plugin_AskFileReBuild_Begin) Then Call Execute(sAction_Plugin_AskFileReBuild_Begin)
-		If bAction_Plugin_AskFileReBuild_Begin=True Then Exit Function
-	Next
-
-	Call ClearGlobeCache
-	Call LoadGlobeCache
-
-	'Call SetBlogHint(Empty,True,Empty)
-
-
-
-	If Request.QueryString("iframe")="true" Then
-
-		Call MakeFileReBuildAsk()
-
-	Else
-
-		Response.Redirect "admin/admin.asp?act=AskFileReBuild"
-
-	End If 
-
-
-
-End Function
-
-
 Function SiteInfo()
 
 	'plugin node
@@ -1367,7 +1305,173 @@ End Function
 
 
 
+Function BlogReBuild()
 
+	'plugin node
+	For Each sAction_Plugin_BlogReBuild_Begin in Action_Plugin_BlogReBuild_Begin
+		If Not IsEmpty(sAction_Plugin_BlogReBuild_Begin) Then Call Execute(sAction_Plugin_BlogReBuild_Begin)
+		If bAction_Plugin_BlogReBuild_Begin=True Then Exit Function
+	Next
+
+	Call AddBatch(ZC_MSG072,"Call MakeBlogReBuild()")
+
+
+	'plugin node
+	For Each sAction_Plugin_BlogReBuild_End in Action_Plugin_BlogReBuild_End
+		If Not IsEmpty(sAction_Plugin_BlogReBuild_End) Then Call Execute(sAction_Plugin_BlogReBuild_End)
+		If bAction_Plugin_BlogReBuild_End=True Then Exit Function
+	Next
+
+	Response.Redirect "cmd.asp?act=batch"
+
+End Function
+
+Function FileReBuild()
+
+	'plugin node
+	For Each sAction_Plugin_FileReBuild_Begin in Action_Plugin_FileReBuild_Begin
+		If Not IsEmpty(sAction_Plugin_FileReBuild_Begin) Then Call Execute(sAction_Plugin_FileReBuild_Begin)
+		If bAction_Plugin_FileReBuild_Begin=True Then Exit Function
+	Next
+
+	Server.ScriptTimeout = 1200
+
+	Dim objRS
+	Dim objArticle
+
+	Set objRS=Server.CreateObject("ADODB.Recordset")
+	objRS.CursorType = adOpenKeyset
+	objRS.LockType = adLockReadOnly
+	objRS.ActiveConnection=objConn
+	objRS.Source="SELECT [log_ID] FROM [blog_Article] WHERE [log_Level]>1"
+	objRS.Open()
+
+	If (Not objRS.bof) And (Not objRS.eof) Then
+
+		objRS.PageSize = ZC_REBUILD_FILE_COUNT
+
+'Response.Write objRS.RecordCount &"<br/>"
+
+'Response.Write objRS.AbsolutePage &"<br/>"
+
+'Response.Write objRS.PageSize &"<br/>"
+
+'Response.Write objRS.PageCount &"<br/>"
+
+		Call AddBatch(ZC_MSG072,"Call MakeBlogReBuild()")
+
+		Dim i
+		For i=1 To objRS.PageCount
+			Call AddBatch(ZC_MSG073 & "<"&i&">","Call MakeFileReBuild("&i&")")
+		Next
+
+	End If
+
+	'plugin node
+	For Each sAction_Plugin_FileReBuild_End in Action_Plugin_FileReBuild_End
+		If Not IsEmpty(sAction_Plugin_FileReBuild_End) Then Call Execute(sAction_Plugin_FileReBuild_End)
+		If bAction_Plugin_FileReBuild_End=True Then Exit Function
+	Next
+
+	Response.Redirect "cmd.asp?act=batch"
+
+End Function
+
+
+Function AskFileReBuild()
+
+	'plugin node
+	For Each sAction_Plugin_AskFileReBuild_Begin in Action_Plugin_AskFileReBuild_Begin
+		If Not IsEmpty(sAction_Plugin_AskFileReBuild_Begin) Then Call Execute(sAction_Plugin_AskFileReBuild_Begin)
+		If bAction_Plugin_AskFileReBuild_Begin=True Then Exit Function
+	Next
+
+	Call ClearGlobeCache
+	Call LoadGlobeCache
+
+	If Request.QueryString("iframe")="true" Then
+		'进批处理询问页
+		Call BatchAsk()
+	Else
+		Response.Redirect "admin/admin.asp?act=AskFileReBuild"
+	End If 
+
+
+End Function
+
+
+Function Batch()
+
+	Server.ScriptTimeout = 1200
+
+	If Request.QueryString("cancel")="true" Then
+		Session("batch").RemoveAll
+		Session("batch_order")=0
+		Session("batchtime")=0
+	End If 
+
+	Dim i
+	Dim a
+	Set a = Session("batch")
+	Dim b
+	b=a.Keys
+	Dim c
+	c=a.Items
+
+	Dim intAllTime
+
+
+
+
+	'For Each i In a.items
+	'	Response.Write i & "</br>"
+	'Next 
+	'Session.Abandon
+	'Exit Function
+	 
+	If a.Count >0 Then
+
+		For i = 0 To 0
+			Call Execute(c(0))
+			'Response.Write c(0)
+			Session("batch").Remove(b(0))
+
+			Response.Write "<!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 1.0 Transitional//EN"" ""http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd""><html><head><meta http-equiv=""Content-Type"" content=""text/html; charset=utf-8""/><meta http-equiv=""Content-Language"" content=""zh-cn"" /><meta http-equiv=""refresh"" content="""&ZC_REBUILD_FILE_INTERVAL&";URL="&GetCurrentHost & "zb_system/cmd.asp?act=batch"&"&all="&intAllTime&"""/><link rel=""stylesheet"" rev=""stylesheet"" href=""CSS/admin2.css"" type=""text/css"" media=""screen"" /><title>"&ZC_MSG073&"</title></head><body>"
+
+			Response.Write "<div id=""divMain"">"
+			'Call GetBlogHint()
+			Response.Write "<div id=""divMain2"">"
+			Response.Write "<form  name=""edit"" id=""edit"">"
+
+			Response.Write "<p>" & b(0) & ZC_MSG109 &"</p>"
+
+			Response.Write "</form></div></div>"
+			Response.Write "</body></html>"
+
+		Next
+
+	Else
+
+
+		Response.Write "<!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 1.0 Transitional//EN"" ""http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd""><html><head><meta http-equiv=""Content-Type"" content=""text/html; charset=utf-8""/><meta http-equiv=""Content-Language"" content=""zh-cn"" /><link rel=""stylesheet"" rev=""stylesheet"" href=""CSS/admin2.css"" type=""text/css"" media=""screen"" /><title>"&ZC_MSG073&"</title></head><body>"
+
+		Response.Write "<div id=""divMain"">"
+		Call GetBlogHint()
+		Response.Write "<div id=""divMain2"">"
+		Response.Write "<form  name=""edit"" id=""edit"">"
+
+		Response.Write "<p>" & ZC_MSG227 &"</p>"
+		Response.Write "<p>" & Replace(ZC_MSG169,"%n",Session("batchtime")/1000)&"</p>"
+
+		Response.Write "</form></div></div>"
+		Response.Write "</body></html>"
+
+		Session.Abandon
+
+	End If
+
+
+End Function
 
 
 

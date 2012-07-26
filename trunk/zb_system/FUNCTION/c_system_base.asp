@@ -59,7 +59,6 @@ Dim TemplateTagsDic
 Set TemplateDic=CreateObject("Scripting.Dictionary")
 Set TemplateTagsDic=CreateObject("Scripting.Dictionary")
 
-
 '*********************************************************
 ' 目的：    System 初始化
 '*********************************************************
@@ -561,6 +560,8 @@ Function GetRights(strAction)
 			GetRights=5
 		Case "rss"
 			GetRights=5
+		Case "batch"
+			GetRights=4
 		'Case "gettburl"
 		'	GetRights=5
 		Case "ArticleMng"
@@ -3377,4 +3378,22 @@ Function SearchChildComments(ByVal id,ByRef allcomm)
 End Function
 '*********************************************************
 
+
+
+
+
+
+'*********************************************************
+' 目的：    Add Batch 
+'*********************************************************
+Function AddBatch(name,actioncode)
+
+
+	Dim i
+	i=CInt(Session("batch_order"))+1
+	Session("batch_order")=i
+	Call Session("batch").add("<b>" & i & "</b> : " & name,actioncode)
+
+End Function
+'*********************************************************
 %>

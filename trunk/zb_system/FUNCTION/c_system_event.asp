@@ -910,20 +910,9 @@ Function MakeBlogReBuild()
 
 	Call MakeBlogReBuild_Core()
 
+	Session("batchtime")=Session("batchtime")+RunTime
+
 	Call SetBlogHint(True,False,Empty)
-
-	Response.Write "<!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 1.0 Transitional//EN"" ""http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd""><html><head><meta http-equiv=""Content-Type"" content=""text/html; charset=utf-8"" /><link rel=""stylesheet"" rev=""stylesheet"" href=""CSS/admin2.css"" type=""text/css"" media=""screen"" /></head><body>"
-
-	Response.Write "<div id=""divMain"">"
-	Response.Write "<div id=""divMain2"">"
-	Call GetBlogHint()
-	Response.Write "<form  name=""edit"" id=""edit"">"
-
-	Response.Write "<p>" & ZC_MSG225 &"</p>"
-	Response.Write "<p>" & Replace(ZC_MSG169,"%n",RunTime/1000)&"</p>"
-
-	Response.Write "</form></div></div>"
-	Response.Write "</body></html>"
 
 	MakeBlogReBuild=True
 
@@ -942,38 +931,64 @@ End Function
 
 
 '*********************************************************
-' 目的：    All Files ReBuild
+' 目的：    Batch ReBuild
 '*********************************************************
-Function MakeFileReBuildAsk()
+Function BatchAsk()
+
+	'plugin node
+	bAction_Plugin_BatchAsk_Begin=False
+	For Each sAction_Plugin_BatchAsk_Begin in Action_Plugin_BatchAsk_Begin
+		If Not IsEmpty(sAction_Plugin_BatchAsk_Begin) Then Call Execute(sAction_Plugin_BatchAsk_Begin)
+		If bAction_Plugin_BatchAsk_Begin=True Then Exit Function
+	Next
 
 
 	'Call Add_Response_Plugin("Response_Plugin_AskFileReBuild_SubMenu",MakeSubMenu(ZC_MSG072,"cmd.asp?act=BlogReBuild","m-left",False))
 
 	Response.Write "<!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 1.0 Transitional//EN"" ""http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd""><html><head><meta http-equiv=""Content-Type"" content=""text/html; charset=utf-8"" /><link rel=""stylesheet"" rev=""stylesheet"" href=""CSS/admin2.css"" type=""text/css"" media=""screen"" /><script language=""JavaScript"" src=""script/common.js"" type=""text/javascript""></script></head><body>"
 
-	If Request.Cookies("FileReBuild_Step")<>"" Then
-		Call SetBlogHint_Custom(Replace(ZC_MSG273,ZC_MSG036,Request.Cookies("FileReBuild_Step")))
-	End If
-
-	Call GetBlogHint()
-
 
 	Response.Write "<div class=""SubMenu"">" & Response_Plugin_AskFileReBuild_SubMenu & "</div>"
 
-	Response.Write "<form id=""edit"" name=""edit"" method=""post"" action=""cmd.asp?act=FileReBuild"">" & vbCrlf
-	Response.Write "<p>"& ZC_MSG112 &"</p>" & vbCrlf
-	Response.Write "<p><input class=""button"" type=""submit"" value="""&ZC_MSG087&""" id=""btnPost""/></p>" & vbCrlf
+
+	If Session("batch").Count=0 Then
+
+		Response.Write "<form id=""edit"" name=""edit"" method=""post"" action=""cmd.asp?act=FileReBuild"">" & vbCrlf
+		Response.Write "<p>"& ZC_MSG112 &"</p>" & vbCrlf
+
+		Response.Write "<p><input class=""button"" type=""submit"" value="""&ZC_MSG087&""" id=""btnPost""/></p>" & vbCrlf
+		Response.Write "</form>" 
+
+		Session("batch_order")=0
+		Session("batchtime")=0
+
+	Else
+	
+		Response.Write "<form id=""edit"" name=""edit"" method=""post"" action=""cmd.asp?act=batch"">" & vbCrlf
+		
+		Response.Write "<p>"& ZC_MSG273 &"</p>" & vbCrlf
+
+		Response.Write "<p><input class=""button"" type=""submit"" value="""&ZC_MSG087&""" id=""btnPost""/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=""button"" type=""submit"" value="""&ZC_MSG264&""" id=""btnPost"" onclick=""$('#edit').attr('action',$('#edit').attr('action')+'&amp;cancel=true');""/></p>" & vbCrlf
+
+		Response.Write "</form>" 
+
+	End If
 
 
-	Response.Write "</form>" 
 
 	Response.Write "<script language=""JavaScript"" type=""text/javascript"">if($('.SubMenu').find('span').length==0){$('.SubMenu').hide()};</script>"
 
 	Response.Write "</body></html>"
 
+	'plugin node
+	bAction_Plugin_BatchAsk_End=False
+	For Each sAction_Plugin_BatchAsk_End in Action_Plugin_BatchAsk_End
+		If Not IsEmpty(sAction_Plugin_BatchAsk_End) Then Call Execute(sAction_Plugin_BatchAsk_End)
+		If bAction_Plugin_BatchAsk_End=True Then Exit Function
+	Next
 
 
-	MakeFileReBuildAsk=True
+	BatchAsk=True
 
 End Function
 '*********************************************************
@@ -983,9 +998,7 @@ End Function
 '*********************************************************
 ' 目的：    All Files ReBuild
 '*********************************************************
-Function MakeFileReBuild()
-
-	'On Error Resume Next
+Function MakeFileReBuild(intPage)
 
 	'plugin node
 	bAction_Plugin_MakeFileReBuild_Begin=False
@@ -996,18 +1009,6 @@ Function MakeFileReBuild()
 
 	GetCategory()
 	GetUser()
-
-	Dim intPage
-	Dim intAllTime
-
-	intPage=CInt(Request.QueryString("page"))
-	intAllTime=CLng(Request.QueryString("all"))
-
-	If intPage=0 Then
-		Call MakeBlogReBuild_Core()
-		intPage=1
-		Response.Redirect "cmd.asp?act=FileReBuild&page="&intPage&"&all="&intAllTime
-	End If
 
 	Dim i,j
 
@@ -1025,43 +1026,9 @@ Function MakeFileReBuild()
 
 		objRS.PageSize = ZC_REBUILD_FILE_COUNT
 
-		If intPage>objRS.PageCount Then
-
-			Call SetBlogHint(True,Empty,False)
-
-			Response.Write "<!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 1.0 Transitional//EN"" ""http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd""><html><head><meta http-equiv=""Content-Type"" content=""text/html; charset=utf-8"" /><link rel=""stylesheet"" rev=""stylesheet"" href=""CSS/admin2.css"" type=""text/css"" media=""screen"" /></head><body>"
-
-			Response.Write "<div id=""divMain"">"
-			'Response.Write "<div class=""Header"">" & ZC_MSG073 & "</div>"
-			Call GetBlogHint()
-			Response.Write "<div id=""divMain2"">"
-			Response.Write "<form  name=""edit"" id=""edit"">"
-
-			Response.Write "<p>" & ZC_MSG225 &"</p>"
-			Response.Write "<p>" & Replace(ZC_MSG169,"%n",intAllTime/1000)&"</p>"
-
-			Response.Write "</form></div></div>"
-			Response.Write "</body></html>"
-
-			Response.Cookies("FileReBuild_Step")=""
-			Response.Cookies("FileReBuild_Step").Expires= (now()-1)
-
-			MakeFileReBuild=True
-
-			'plugin node
-			bAction_Plugin_MakeFileReBuild_End=False
-			For Each sAction_Plugin_MakeFileReBuild_End in Action_Plugin_MakeFileReBuild_End
-				If Not IsEmpty(sAction_Plugin_MakeFileReBuild_End) Then Call Execute(sAction_Plugin_MakeFileReBuild_End)
-				If bAction_Plugin_MakeFileReBuild_End=True Then Exit Function
-			Next
-
-			Exit Function
-
-		End If
-
 		objRS.AbsolutePage = intPage
 
-		For i = 1 To ZC_REBUILD_FILE_COUNT
+		For i = 1 To objRS.PageSize
 
 			Call BuildArticle(objRS("log_ID"),False,False)
 
@@ -1069,36 +1036,16 @@ Function MakeFileReBuild()
 			If objRS.eof Then Exit For
 		Next
 
-		intAllTime=CLng(intAllTime)+RunTime
-
-		Response.Write "<!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 1.0 Transitional//EN"" ""http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd""><html><head><meta http-equiv=""Content-Type"" content=""text/html; charset=utf-8""/><meta http-equiv=""Content-Language"" content=""zh-cn"" /><meta http-equiv=""refresh"" content="""&ZC_REBUILD_FILE_INTERVAL&";URL=cmd.asp?act=FileReBuild&page="&intPage+1&"&all="&intAllTime&"""/><link rel=""stylesheet"" rev=""stylesheet"" href=""CSS/admin2.css"" type=""text/css"" media=""screen"" /><title>"&ZC_MSG073&"</title></head><body>"
-
-		Response.Write "<div id=""divMain"">"
-		'Response.Write "<div class=""Header"">" & ZC_MSG073 & "</div>"
-		Response.Write "<div id=""divMain2"">"
-		Response.Write "<form  name=""edit"" id=""edit"">"
-
-
-		For j=intPage To intPage
-		Response.Write "<p>" &Replace(ZC_MSG227,"%n",j)&"</p>"
-		Next
-
-		Response.Write "<p>" &Replace(ZC_MSG152,"%n",ZC_REBUILD_FILE_INTERVAL)&"</p>"
-		Response.Write "</form></div></div>"
-		Response.Write "</body></html>"
-
-		Response.Cookies("FileReBuild_Step")=intPage+1
-		Response.Cookies("FileReBuild_Step").Expires= (now()+1)
-
-
-	Else
-
-		Call SetBlogHint(True,Empty,False)
-		Response.Redirect "admin/admin.asp?act=AskFileReBuild"
+		Session("batchtime")=Session("batchtime")+RunTime
 
 	End If
 
-	'Err.Clear
+	'plugin node
+	bAction_Plugin_MakeFileReBuild_End=False
+	For Each sAction_Plugin_MakeFileReBuild_End in Action_Plugin_MakeFileReBuild_End
+		If Not IsEmpty(sAction_Plugin_MakeFileReBuild_End) Then Call Execute(sAction_Plugin_MakeFileReBuild_End)
+		If bAction_Plugin_MakeFileReBuild_End=True Then Exit Function
+	Next
 
 End Function
 '*********************************************************
@@ -1117,7 +1064,7 @@ Function ListUser_Rights()
 	Dim strAction
 	Dim aryAction
 
-	strAction="Root|login|verify|logout|admin|cmt|vrs|rss|BlogReBuild|FileReBuild|ArticleMng|ArticleEdt|ArticlePst|ArticleDel|CategoryMng|CategoryPst|CategoryDel|CommentMng|CommentDel|UserMng|UserEdt|UserCrt|UserDel|FileMng|FileUpload|FileDel|Search|TagMng|TagEdt|TagPst|TagDel|SettingMng|SettingSav|PlugInMng|FunctionMng"
+	strAction="Root|login|verify|logout|admin|cmt|vrs|rss|batch|BlogReBuild|FileReBuild|ArticleMng|ArticleEdt|ArticlePst|ArticleDel|CategoryMng|CategoryPst|CategoryDel|CommentMng|CommentDel|UserMng|UserEdt|UserCrt|UserDel|FileMng|FileUpload|FileDel|Search|TagMng|TagEdt|TagPst|TagDel|SettingMng|SettingSav|PlugInMng|FunctionMng"
 
 	aryAction=Split(strAction, "|")
 
