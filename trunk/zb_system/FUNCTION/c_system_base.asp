@@ -1146,12 +1146,14 @@ Function LoadGlobeCache()
 	If IsEmpty(bolReLoadCache)=True Then
 		bolReLoadCache="ok"
 	Else
-
 		Dim TemplatesName
 		Dim TemplatesContent
 
 		Dim TemplateTagsName
 		Dim TemplateTagsValue
+
+		TemplateTagsDic.RemoveAll
+		TemplateDic.RemoveAll
 
 		Application.Lock
 		TemplateTagsName=Application(ZC_BLOG_CLSID & "TemplateTagsName")
@@ -1171,7 +1173,7 @@ Function LoadGlobeCache()
 			If TemplateTagsDic.Exists(TemplateTagsName(ii))=False Then TemplateTagsDic.Add TemplateTagsName(ii), TemplateTagsValue(ii)
 		Next
 
-		Call LoadDefaultTemplates()
+		'Call LoadDefaultTemplates()
 
 		If IsEmpty(TemplateTagsValue)=False And IsEmpty(TemplateTagsValue)=False And IsEmpty(TemplatesName)=False And IsEmpty(TemplatesContent)=False Then
 			Exit Function
@@ -1481,6 +1483,10 @@ Function LoadGlobeCache()
 	Application(ZC_BLOG_CLSID & "SIGNAL_RELOADCACHE")=bolReLoadCache
 	Application.UnLock
 
+
+	TemplateTagsDic.RemoveAll
+	TemplateDic.RemoveAll
+	TemplateTagsDic.add "BlogTitle",""
 
 	jj=UBound(aryTemplatesName)
 	For ii=1 to jj

@@ -1304,11 +1304,9 @@ Class TArticle
 
 		Call Filter_Plugin_TArticle_Build_Template(html)
 
-		If TemplateTagsDic.Exists(BlogTitle)=True Then
-			Call TemplateTagsDic.add("BlogTitle",HtmlTitle)
-		Else
-			TemplateTagsDic.Item("BlogTitle")=HtmlTitle
-		End If
+
+		TemplateTagsDic.Item("BlogTitle")=HtmlTitle
+
 
 		aryTemplateTagsName=TemplateTagsDic.Keys
 		aryTemplateTagsValue=TemplateTagsDic.Items
@@ -1336,10 +1334,10 @@ Class TArticle
 
 		j=UBound(aryTemplateTagsName)
 
-		For i=0 to j-1
+		For i=1 to j
 			html=Replace(html,"<#" & aryTemplateTagsName(i) & "#>",aryTemplateTagsValue(i))
 		Next
-		html=Replace(html,"<#" & aryTemplateTagsName(j) & "#>",aryTemplateTagsValue(j))
+		html=Replace(html,"<#" & aryTemplateTagsName(0) & "#>",aryTemplateTagsValue(0))
 
 		Build=True
 
@@ -1504,6 +1502,9 @@ Class TArticleList
 		End If
 	End Property
 
+	Public Property Get HtmlTitle
+		HtmlTitle=TransferHTML(Title,"[html-japan][html-format]")
+	End Property
 
 	Public Function Export(intPage,intCateId,intAuthorId,dtmYearMonth,strTagsName,intType)
 
@@ -1583,7 +1584,7 @@ Class TArticleList
 			Dim strSubCateID : strSubCateID=Join(GetSubCateID(intCateId,True),",")
 			objRS.Source=objRS.Source & "AND([log_CateID]IN("&strSubCateID&"))"
 			If CheckCateByID(intCateId) Then
-				Title=TransferHTML(Categorys(intCateId).Name,"[html-format]")
+				Title=Categorys(intCateId).Name
 				TemplateTags_ArticleList_Category_ID=Categorys(intCateId).ID
 				If Categorys(intCateId).TemplateName<>"" Then
 					Categorys(intCateId).html=GetTemplate("TEMPLATE_" & Categorys(intCateId).TemplateName)
@@ -1594,7 +1595,7 @@ Class TArticleList
 		If Not IsEmpty(intAuthorId) Then
 			objRS.Source=objRS.Source & "AND([log_AuthorID]="&intAuthorId&")"
 			If CheckAuthorByID(intAuthorId) Then
-				Title=TransferHTML(Users(intAuthorId).Name,"[html-format]")
+				Title=Users(intAuthorId).Name
 				TemplateTags_ArticleList_Author_ID=Users(intAuthorId).ID
 			End If
 		End if
@@ -1643,7 +1644,7 @@ Class TArticleList
 					If UCase(Tag.Name)=UCase(strTagsName) Then
 						objRS.Source=objRS.Source & "AND([log_Tag] LIKE '%{" & Tag.ID & "}%')"
 						TemplateTags_ArticleList_Tags_ID=Tag.ID
-						Title=Server.HTMLEncode(strTagsName)
+						Title=strTagsName
 						If Tag.TemplateName<>"" Then
 							Tag.html=GetTemplate("TEMPLATE_" & Tag.TemplateName)
 							If Tag.html<>"" Then Template=Tag.TemplateName
@@ -1932,7 +1933,7 @@ Class TArticleList
 			Dim strSubCateID : strSubCateID=Join(GetSubCateID(intCateId,True),",")
 			objRS.Source=objRS.Source & "AND([log_CateID]IN("&strSubCateID&"))"
 			If CheckCateByID(intCateId) Then
-				Title=TransferHTML(Categorys(intCateId).Name,"[html-format]")
+				Title=Categorys(intCateId).Name
 				TemplateTags_ArticleList_Category_ID=Categorys(intCateId).ID
 				If Categorys(intCateId).TemplateName<>"" Then
 					Categorys(intCateId).html=GetTemplate("TEMPLATE_" & Categorys(intCateId).TemplateName)
@@ -1943,7 +1944,7 @@ Class TArticleList
 		If Not IsEmpty(intAuthorId) Then
 			objRS.Source=objRS.Source & "AND([log_AuthorID]="&intAuthorId&")"
 			If CheckAuthorByID(intAuthorId) Then
-				Title=TransferHTML(Users(intAuthorId).Name,"[html-format]")
+				Title=Users(intAuthorId).Name
 				TemplateTags_ArticleList_Author_ID=Users(intAuthorId).ID
 			End If
 		End If
@@ -2005,7 +2006,7 @@ Class TArticleList
 						End If
 				Next
 				'Err.Clear
-				Title=Server.HTMLEncode(strTagsName)
+				Title=strTagsName
 
 		End If
 
@@ -2128,11 +2129,9 @@ Class TArticleList
 			html=Replace(html,"<#" & aryTemplateSubName(i) & "#>",aryTemplateSubValue(i))
 		Next
 
-		If TemplateTagsDic.Exists(BlogTitle)=True Then
-			Call TemplateTagsDic.add("BlogTitle",Title)
-		Else
-			TemplateTagsDic.Item("BlogTitle")=Title
-		End If
+
+		TemplateTagsDic.Item("BlogTitle")=HtmlTitle
+
 
 		aryTemplateTagsName=TemplateTagsDic.Keys
 		aryTemplateTagsValue=TemplateTagsDic.Items
@@ -2166,10 +2165,10 @@ Class TArticleList
 		End If
 
 		j=UBound(aryTemplateTagsName)
-		For i=0 to j-1
+		For i=1 to j
 			html=Replace(html,"<#" & aryTemplateTagsName(i) & "#>",aryTemplateTagsValue(i))
 		Next
-		html=Replace(html,"<#" & aryTemplateTagsName(j) & "#>",aryTemplateTagsValue(j))
+		html=Replace(html,"<#" & aryTemplateTagsName(0) & "#>",aryTemplateTagsValue(0))
 
 
 		Build=True
@@ -2279,7 +2278,7 @@ Class TArticleList
 
 		Template_Article_Multi=Join(aryArticleList)
 
-		Title=TransferHTML(strQuestion,"[html-format]")
+		Title=strQuestion
 
 		Search=True
 
