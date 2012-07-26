@@ -316,6 +316,8 @@ function SaveRememberInfo() {
 //*********************************************************
 function ExportUbbFrame() {
 
+	return false;
+
 	if(!objActive){objActive="txaArticle"};
 
 	document.write("<p id=\"UbbFrame\" style=\"display:none;\"></p>");
