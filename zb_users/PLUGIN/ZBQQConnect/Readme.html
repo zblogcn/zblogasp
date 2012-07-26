@@ -1,0 +1,360 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>TXWBSDK_Readme</title>
+<link rel="stylesheet" rev="stylesheet" href="example_admin.css" type="text/css" media="screen" />
+<style type="text/css">
+ul {
+	line-height: 200%;
+}
+ol {
+	line-height: 220%;
+}
+ol li {
+	margin: 0 0 0 -18px;
+	text-decoration: none;
+}
+b {
+	color: Navy;
+	font-weight: Normal;
+	text-decoration: underline;
+}
+sup {
+	color: Red;
+}
+</style>
+<script language="JavaScript" src="example_jq.js" type="text/javascript"></script>
+<script language="JavaScript" type="text/javascript">
+
+</script>
+</head>
+
+<body>
+<div id="divMain">
+  <div class="Header">ZSXSOFT 腾讯微博SDK说明</div>
+  <div class="SubMenu"><span class="m-left m-now"><a href="#">自述文件</a></span></div>
+  <div id="divMain2">
+    <ul>
+      <li> 程序版本: V2.3。</li>
+      <li> 程序开发者：ZSXSOFT（<a href="http://www.zsxsoft.com">http://www.zsxsoft.com</a> 微博<a href="http://t.qq.com/zhengshixin163">http://t.qq.com/zhengshixin163</a>）、wdssmq(<a href="http://www.wdssmq.com">http://www.wdssmq.com</a> 微博<a href="http://t.qq.com/wdssmq">http://t.qq.com/wdssmq</a>)</li>
+      <li> 该版本SDK基于ZSXSOFT开发的ZBToQQWb插件的2.3版本开发。ZBtoQQWb 2.3版本以及之前版本基于wdssmq制作的SDK所制作。2.4版本之后基于本SDK所制作。</li>
+      <li>该SDK的特点：1.把核心代码封装成一个类 2.附带大部分常用API地址 3.有自定义API地址功能 4.有完善的提交图片功能 5.代码内注释多 6.同时支持Oauth1.0和Oauth2.0 7.简单易用</li>
+      <li>该SDK部分代码来源于网络，在源代码内有具体说明。</li>
+      <li> 任何个人、公司可以修改程序的一个或几个副本或程序的任何部分，以此形成基于程序的作品。但是若将修改过的程序代码发布给他人使用，则必须在程序代码内写明原SDK作者的名字以及网址，但是不得冒用原SDK作者的名义发布任何程序，否则可能负法律责任 </li>
+      <li> 任何个人、公司可以修改程序并以此程序获取一定的报酬，但是若将修改过的程序代码发布给他人使用，需提前知会原SDK作者。 </li>
+      <li> 使用本SDK进行开发，即表示开发者认同上面声明。 </li>
+    </ul>
+    <p>Readme: <a href="#z01">程序结构</a> <a href="#z02">SDK方法以及部分功能实现方法</a> <a href="#z03">API调用方式</a> <a href="#z04">实用小工具</a> <a href="#z05">更新日志</a> <a href="#z06">使用OAUTH 2.0开发必看</a></p>
+    <h2><a href="#z01" name="z01">程序结构</a></h2>
+    <ul>
+      <li>Picture        图片缓存文件夹</li>
+      <li> function       SDK的各个组件
+        <ul>
+          <li> TXWBSDK_Public.asp     生成OAUTH地址等的全局ASP</li>
+          <li> TXWBSDK_PostImage.asp  POST图片的ASP文件</li>
+          <li> TXWBSDK_JSON.asp       处理JSON的ASP文件</li>
+          <li> TXWBSDK_HMACSHA1.asp   HMAC-SHA1加密算法的ASP文件</li>
+        </ul>
+      </li>
+      <li> callback.asp   回调页面</li>
+      <li> include.asp    链接function内文件的ASP</li>
+      <li> example_admin.css      示例页面的CSS（来自Z-Blog），可删除</li>
+      <li> example_index.asp      SDK的示例页面</li>
+      <li> example_jq.js          示例页面需要的JQuery</li>
+      <li> example_log.gif        示例页面的登陆图片</li>
+      <li> Readme.html     自述</li>
+    </ul>
+    <h2><a href="#z02" name="z02">SDK方法</a><a href="#z02">以及部分功能实现方法</a></h2>
+    <ol>
+      <li>首先必须引用include.asp（&lt;!-- #include file=&quot;include.asp&quot; --&gt;） </li>
+      <li>把JSON转换为object</li>
+      <ul>
+        <li> Set a=TXWBSDK_toobject(&quot;JSON内容&quot;)</li>
+      </ul>
+      <li> 把object转换成JSON</li>
+      <ul>
+        <li> TXWBSDK_tojson(object)</li>
+      </ul>
+      <li> 把object转换成xxx=yyy&amp;xxx=yyy格式：</li>
+      <ul>
+        <li> txwbsdk_tostr(object)</li>
+      </ul>
+      <li>上传图片并得到图片在硬盘上的路径
+        <ul>
+          <li> Set objUploadClass=New TXWBSDK_UpLoadClass   '初始化上传图片Class。上传图片用的表单需要enctype=multipart/form-data<br />
+            objUploadClass.autosave=2 '关闭自动保存<br />
+            objUploadClass.FileType=&quot;gif/jpg/jpeg/png&quot; '设置可以上传的扩展名<br />
+            objUploadClass.SavePath=&quot;Picture/&quot; '设置保存文件夹<br />
+            objUploadClass.Charset=&quot;UTF-8&quot; '设置编码<br />
+            objUploadClass.open '如果需要使用上传图片，那么执行这个操作之前绝对不能用Request.Form，执行操作之后可以使用objUploadClass.Form来代替<br />
+          objUploadClass.MaxSize=1024*1024 '设置最大上传大小，不过由于IIS设置，最多不能超过200K<br />
+          If objUploadClass.Save(&quot;TXWBSDK_Picture&quot;,0)=true then 'TXWBSDK_Picture为图片表单的名字<br />
+          Response.Write Server.MapPath(objUploadClass.SavePath &amp; objUploadClass.Form(&quot;TXWBSDK_Picture&quot;))           '输出文件的存放路径<br />
+          End If
+          <br />
+          </li>
+        </ul>
+      </li>
+      <li>删除图片
+        <ul>
+          <li> dim fs<br />
+Set fs = CreateObject(&quot;Scripting.FileSystemObject&quot;)<br />
+fs.deletefile(图片绝对路径)<br />
+set objUploadClass=nothing<br />
+          </li>
+        </ul>
+      </li>
+    </ol>
+    <h2><a href="#z03" name="z03">API调用方式</a></h2><ol>
+    <li> 在需要使用SDK的页面引用文件：在页面头部插入&lt;!-- #include file=&quot;include.asp&quot;--&gt;</li>
+    <li> 然后手动修改include.asp里的appkey、appsecret以及回调地址</li>
+    <li>GB2312用户请修改TXWBSDK_Public.asp的strUrlEnCode函数，修改方法代码里有。同时将所有文件以GB2312编码重新保存</li>
+    <li>TXWBSDK类方法、过程以及函数
+      <ol>
+        <li>Debug
+          <ol>
+            <li>默认值：False </li>
+            <li>作用：开关调试模式</li>
+            <li>使用方法： TXWBSDK_class.Debug=True为开启调试模式 TXWBSDK_class.Debug=False为关闭调试模式</li>
+          </ol>
+          </li>
+        <li>UserAgent
+          <ol>
+            <li>默认值：TXWBSDK ByZSXSOFT</li>
+            <li>作用：配置向腾讯微博发送的UserAgent</li>
+            <li>使用方法：TXWBSDK_Class.UserAgent=&quot;你要配置的UserAgent&quot;</li>
+            </ol>
+        </li>
+        <li>Version
+          <ol>
+            <li>默认值：1.0</li>
+            <li>作用：配置Oauth版本</li>
+            <li>使用方法：TXWBSDK_Class.Version=&quot;1.0&quot; </li>
+            <li>这里可选值有2个，一个是1.0，对应Oauth1.0；一个是2.0，对应Oauth2.0a。<font color="red">如果你的应用需要保存Token，请使用1.0</font></li>
+          </ol>
+        </li>
+        <li>Repeat
+          <ol>
+            <li>默认值：3</li>
+            <li>作用：配置出错重试次数</li>
+            <li>使用方法：TXWBSDK_CLASS.Repeat=3 </li>
+            </ol>
+        </li>
+        <li>app_key
+          <ol>
+            <li>默认值：无</li>
+            <li>作用：配置APPKEY</li>
+            <li>使用方法：TXWBSDK_Class.App_key=&quot;AppKey&quot;</li>
+            </ol>
+        </li>
+        <li>app_secret
+          <ol>
+            <li>默认值：无</li>
+            <li>作用：配置APPSecret</li>
+            <li>使用方法：TXWBSDK_Class.app_secret=&quot;app_secret&quot;</li>
+            </ol>
+        </li>
+        <li>ClsID
+          <ol>
+            <li>默认值：无</li>
+            <li>作用：配置ClsID</li>
+            <li>使用方法：TXWBSDK_Class.ClsID=&quot;&quot; </li>
+            <li>如果配置这里会导致接下来操作失效，所以如果需要配置ClsID，请修改txwbsdk_public.asp，在Class_Initialize()过程中找到strSessionClsID=&quot;&quot;，把&quot;&quot;换成其他字符即可</li>
+            </ol>
+        </li>
+        <li>callbackurl
+          <ol>
+            <li>默认值：无</li>
+            <li>作用：配置回调地址</li>
+            <li>使用方法：TXWBSDK_Class.callbackurl=&quot;&quot;</li>
+            </ol>
+        </li>
+        <li>httptype
+          <ol>
+            <li>默认值：GET&amp;</li>
+            <li>作用：配置BaseString内HttpType(仅限Oauth 1.0)，支持值【GET&amp;】和【POST&amp;】</li>
+            <li>使用方法：TXWBSDK_Class.httptype=&quot;GET&amp;&quot;</li>
+          </ol>
+        </li>
+        <li>About
+          <ol>
+            <li>作用：得到关于</li>
+            <li>使用方法：TXWBSDK_Class.about.author 返回作者 TXWBSDK_Class.about.url 返回作者地址 TXWBSDK_Class.about.version 返回SDK版本</li>
+          </ol>
+        </li>
+        <li>剩余代码请参阅程序注释        </li>
+        </ol>
+    </li>
+    <li>直接使用API:
+      <ol>
+        <li>不带图片请使用txwbsdk_class.api(&quot;API地址&quot;,&quot;APIJSON（不包含oauth算法JSON）&quot;,&quot;HttpType&quot;)</li>
+        <li>带图片使用txwksdk_class.apiwithimg(&quot;API地址&quot;,&quot;APIJSON&quot;,&quot;图片在本地的存放位置&quot;)</li>
+      </ol>
+    </li>
+    <li>调用自带API</li>
+    </ol>
+    <ol>
+      <ol>
+        <li>得到视频信息        </li>
+        <ul>
+          <li> txwbsdk_class.Run(0,&quot;视频地址&quot;,IP,&quot;&quot;,&quot;&quot;) </li>
+        </ul>
+        <li>得到登陆地址<font color="red">（用户必须先用该登陆地址登陆让callback得到accesstoken才可使用其他API）</font></li>
+        <ul>
+          <li> txwbsdk_class.Run(1,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;)  '返回URL，类型为String</li>
+        </ul>
+        <li> 发送文字   </li>       
+        <ul>
+          <li>txwbsdk_class.Run(2,内容,IP,&quot;&quot;,&quot;&quot;) '返回JSON，类型为String，需要手动toobject</li>
+        </ul>
+        
+        <li>发送多媒体（音乐、视频、以URL方式发送的图片）        </li>
+        <ul>
+          <li> txwbsdk_class.Run(3,内容,IP,音乐地址&amp;&quot;||&quot;&amp;音乐名&amp;&quot;||&quot;&amp;歌手&amp;&quot;||&quot;&amp;视频地址&amp;&quot;||&quot;&amp;图片地址,&quot;&quot;)  '返回JSON，类型为String，需要手动toobject </li>
+        </ul>
+        <li>得到用户信息        </li>
+        <ul>
+          <li> txwbsdk_class.Run(5,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;))'返回JSON，类型为String，需要手动toobject</li>
+        </ul>
+        <li> 转播一条微博    </li>  
+        <ul>
+          <li> txwbsdk_class.Run(6,内容,IP,&quot;&quot;,微博ID) '返回JSON，类型为String，需要手动toobject</li>
+        </ul>
+        <li>得到首页第一页全部timeline</li>
+        
+        <ul>
+          <li> txwbsdk_class.Run(4,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;)'返回JSON，类型为String，需要手动toobject </li>
+          <li> 需要格式化请参见index.asp</li>
+        </ul>
+        
+        
+        <li> 评论一条微博        </li>
+        <ul>
+          <li> txwbsdk_class.Run(7,内容,IP,&quot;&quot;,微博ID) '返回JSON，类型为String，需要手动toobject</li>
+        </ul>
+        <li>关注某人        </li>
+        <ul>
+          <li> txwbsdk_class.Run(8,欲关注者微博帐号,&quot;&quot;,&quot;&quot;,&quot;&quot;)'返回JSON，类型为String，需要手动toobject </li>
+        </ul>
+        <li>得到提到我的第一页全部timeline</li>
+        <ul>
+          <li> txwbsdk_class.Run(9,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;)'返回JSON，类型为String，需要手动toobject </li>
+        </ul>
+        <li> 发送图片（上传方式）        </li>
+        <ul>
+          <li> txwbsdk_class.Run(10,IP,内容,图片在硬盘上保存的位置（绝对路径）,&quot;&quot;)</li>
+        </ul>
+        <li> callback获取access_token<font color="red">（必须先得到access_token，才可以得到oauthtoken和secret并保存，才能使用其他API）</font>        </li>
+        <ul>
+          <li> Call TXWBSDK_Run(11,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;)</li>
+          <li> 然后读取Session（参见callback.asp）</li>
+        </ul>
+        <li>得到他人的用户信息        </li>
+        <ul>
+          <li> txwbsdk_class.Run(12,微博账号,&quot;&quot;,&quot;&quot;,&quot;&quot;)'返回JSON，类型为String，需要手动toobject</li>
+        </ul>
+        <li>得到话题热榜        </li>
+        <ul>
+          <li> txwbsdk_class.Run(13,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;)'返回JSON，类型为String，需要手动toobject</li>
+        </ul>
+        <li> 得到转播列表        </li>
+        <ul>
+          <li> txwbsdk_class.Run(14,&quot;&quot;,&quot;&quot;,&quot;&quot;,待转播微博ID)'返回JSON，类型为String，需要手动toobject</li>
+        </ul>
+        <li> 执行上传图片API        </li>
+        <ul>
+          <li> txwbsdk_class.Run(255,API地址,&quot;&quot;,图片在硬盘上保存的位置（绝对路径）,该API需要的参数) '注意：参数必须为JSON形式，包括format参数但不包括pic参数。同时这里的每一个值都必须有单引号或双引号。 
+            <ul>
+              <li>举例（该代码可更新头像）：t_add=txwbsdk_class.Run(255,&quot;http://open.t.qq.com/api/user/update_head&quot;,&quot;&quot;,图片在本地的保存地址,&quot;{&quot;&quot;format&quot;&quot;:&quot;&quot;json&quot;&quot;}&quot;) </li>
+            </ul>
+          </li>
+        </ul>
+        <li> 执行除列表以外的API        </li>
+        <ul>
+          <li> txwbsdk_class.httptype=HTTPTYPE     '这里填GET&amp;或POST&amp;  注意，“&amp;”不能删除，且必须为全大写。</li>
+          <li> txwbsdk_class.Run(256,API地址,&quot;&quot;,&quot;&quot;,该API需要的参数)    '注意：参数必须为JSON形式，且包括format参数。同时这里的每一个值都必须有单引号或双引号。 </li>
+        </ul>
+      </ol>
+    </ol>
+  <h2><a href="#z04" name="z04" id="z04">一些实用小工具</a></h2>
+<ol>
+  <li>微博所有的API   <a href="http://wiki.open.t.qq.com/index.php/API%E6%96%87%E6%A1%A3">http://wiki.open.t.qq.com/index.php/API%E6%96%87%E6%A1%A3</a></li>
+  <li>API调试工具：  <a href="http://wiki.open.t.qq.com/index.php/API%E8%B0%83%E8%AF%95%E5%B7%A5%E5%85%B7">http://wiki.open.t.qq.com/index.php/API%E8%B0%83%E8%AF%95%E5%B7%A5%E5%85%B7</a></li>
+  <li>两个JSON格式化网站：<a href="http://www.bejson.com/go.html?u=http://www.bejson.com/" target="_blank">BeJSON[中文]</a> <a href="http://jsonformat.com/" target="_blank">JSONFormat</a></li>
+  <li>JavaScript美化\净化\压缩\解压：  <a href="http://js.clicki.cn/">http://js.clicki.cn/</a></li>
+</ol>
+<h2><a href="#z05" name="z05" id="z05">更新日志</a></h2>
+<ul>
+  <li>Ver 2.3
+    <ol>
+      <li>升级Extend算法</li>
+      <li>修正使用API时无法GET中文的问题</li>
+      <li>加入API和APIwithImg两个函数，比Run更自由（好吧。。。。）  </li>
+    </ol>
+  </li>
+</ul>
+<ul>
+  <li>Ver 2.2
+    <ol>
+      <li>支持Oauth 2.0</li>
+      <li>修改变量名，删除全部Public变量，转为使用方法</li>
+      <li>增加方法“Debug”“Version”“app_key”“app_secret”“UserAgent”“Repeat”“httptype”“ClsID”</li>
+      <li>提供对ClsID支持，防止一个域名下使用多个TXWBSDK而导致Session重复（修改方法：修改txwbsdk_public.asp下，在Class_Initialize()过程中找到strSessionClsID=&quot;&quot;，把&quot;&quot;换成其他字符即可）</li>
+      <li>增加Debug模式，可以快速发现生成的参数中的错误</li>
+      <li>增加Version方法，可以自由切换Oauth1.0和2.0</li>
+      <li>增加UserAgent方法，可以配置发送到腾讯微博的USERAGENT</li>
+      <li>增加Repeat方法，可以限制出现错误时重试次数</li>
+    </ol>
+    </li>
+  <li>Ver 2.1 
+    <ol>
+      <li>添加注释，修订Readme</li>
+      <li>优化网络连接方式</li>
+      <li>增加方法“UserName”“Logined”“callbackurl”，过程“logout”，删除“setcallbackurl”过程</li>
+      <li>Run函数增加自定义上传图片，并在example_index.asp里以上传头像做了个示范</li>
+      <li>修改PostImage函数的位置，使之移动到Class内</li>
+      <li>删除全局变量，全部移动到Class内</li>
+      <li>修正自带API 添加粉丝提示checksignerror的BUG（不过还是得高级授权才能添加）</li>
+      <li>净化example_index的js，并修改了图片上传部分的代码以及注销部分的代码</li>
+    </ol>
+  </li>
+<ol>
+</ol>
+</ul>
+<h2><a href="#z06" name="z06" id="z06">开发Oauth 2.0必看</a></h2>
+  <p>Oauth 2.0相对1.0来说，更加简单，但是有几个要点需要注意： </p>
+  <ol>
+    <li>用本SDK开发2.0，需要设置TXWBSDK_Class.Version=&quot;2.0&quot;</li>
+    <li>Oauth 2.0的API接口需要全部使用https</li>
+    <li>Oauth 2.0的API有时效性，参见  <a href="http://wiki.open.t.qq.com/index.php/OAuth2.0%E9%89%B4%E6%9D%83#accesstoken.E8.BF.87.E6.9C.9F.E6.97.B6.E9.97.B4">http://wiki.open.t.qq.com/index.php/OAuth2.0%E9%89%B4%E6%9D%83#accesstoken.E8.BF.87.E6.9C.9F.E6.97.B6.E9.97.B4</a> 所以如果要开发需要保存Token的应用，必须使用Oauth 1.0</li>
+    <li>使用本SDK开发没有其他注意事项了，接口等与1.0全部相同。</li>
+  </ol>
+
+  </div>
+</div>
+<script>
+	var tables=document.getElementsByTagName("ol");
+	var b=false;
+	for (var j = 0; j < tables.length; j++){
+		var cells = tables[j].getElementsByTagName("li");
+		for (var i = 0; i < cells.length; i++){
+			if(b){
+				cells[i].style.color="#333366";
+				cells[i].style.background="#F1F4F7";
+				b=false;
+			}
+			else{
+				cells[i].style.color="#666699";
+				cells[i].style.background="#FFFFFF";
+				b=true;
+			};
+		};
+	}
+
+
+
+
+</script>
+</body>
+</html>
