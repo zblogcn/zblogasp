@@ -526,7 +526,7 @@ Function ExportCommentList(intPage,intContent)
 			Response.Write "<td><a id=""mylink"&objRS("comm_ID")&""" href=""$div"&objRS("comm_ID")&"tip?width=400"" class=""betterTip"" title="""&ZC_MSG055&""">" & Left(objRS("comm_Content"),30) & "...</a><div id=""div"&objRS("comm_ID")&"tip"" style=""display:none;""><p>"& objRS("comm_Content") &"</p><br/><p>" & ZC_MSG080 & " : " &objRS("comm_IP") & "</p><p>" & ZC_MSG075 & " : " &objRS("comm_PostTime") & "</p></div></td>"
 			Response.Write "<td>"& objArticle.HtmlTitle &"</td>"
 			Response.Write "<td align=""center""><a href=""../cmd.asp?act=CommentEdt&amp;revid="&objRs("comm_ID")&"&amp;log_id="& objRS("log_ID") &"""><img src=""../image/admin/comments.png"" alt=""" & ZC_MSG333 & """ title=""" & ZC_MSG333 & """ width=""16"" /></a>&nbsp;&nbsp;&nbsp;&nbsp;<a href=""../cmd.asp?act=CommentEdt&amp;amp;id=" & objRS("comm_ID") & "&amp;log_id="& objRS("log_ID") &"&amp;revid="& objRS("comm_ParentID") &"""><img src=""../image/admin/comment_edit.png"" alt=""" & ZC_MSG078 & """ title=""" & ZC_MSG078 & """ width=""16"" /></a>&nbsp;&nbsp;&nbsp;&nbsp;<a href=""../cmd.asp?act=CommentDel&amp;id=" & objRS("comm_ID") & "&amp;log_id="& objRS("log_ID")  &"&amp;revid="& objRS("comm_ParentID") &""" onclick='return window.confirm("""& ZC_MSG058 &""");'><img src=""../image/admin/delete.png"" alt=""" & ZC_MSG063 & """ title=""" & ZC_MSG063 & """ width=""16"" /></a></td>"
-			Response.Write "<td align=""center"" ><input type=""checkbox"" name=""edtDel"" value="""&objRS("comm_ID")&"""/></td>"
+			Response.Write "<td align=""center"" ><input type=""checkbox"" id=""edtDel"&objRS("comm_ID")&""" name=""edtDel"" value="""&objRS("comm_ID")&"""/></td>"
 			Response.Write "</tr>"
 
 			objRS.MoveNext
