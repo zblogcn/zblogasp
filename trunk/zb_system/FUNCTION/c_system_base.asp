@@ -66,16 +66,12 @@ Sub System_Initialize()
 
 	'On Error Resume Next
 
-	Call ActivePlugin()
-
 	'plugin node
 	bAction_Plugin_System_Initialize=False
 	For Each sAction_Plugin_System_Initialize in Action_Plugin_System_Initialize
 		If Not IsEmpty(sAction_Plugin_System_Initialize) Then Call Execute(sAction_Plugin_System_Initialize)
 		If bAction_Plugin_System_Initialize=True Then Exit Sub
 	Next
-
-	Call GetReallyDirectory()
 
 	If OpenConnect()=False Then
 		If Err.Number<>0 Then Call ShowError(4)
@@ -93,12 +89,6 @@ Sub System_Initialize()
 
 	BlogConfig.Load("Blog")
 
-	'BlogConfig.Write "ZC_BLOG_HOST","http://192.168.1.142/"
-
-	'Response.Write BlogConfig.Read("ZC_BLOG_HOST")
-
-	'BlogConfig.Save
-
 	Call LoadGlobeCache()
 
 	Dim bolRebuildIndex
@@ -112,6 +102,9 @@ Sub System_Initialize()
 	End If
 
 	Call CreateAdminLeftMenu()
+
+	'将激活插件后移
+	Call ActivePlugin()
 
 	'plugin node
 	bAction_Plugin_System_Initialize_Succeed=False
@@ -153,10 +146,6 @@ End Sub
 '*********************************************************
 Sub System_Initialize_WithOutDB()
 
-	'On Error Resume Next
-
-	Call ActivePlugin()
-
 	'plugin node
 	bAction_Plugin_System_Initialize_WithOutDB=False
 	For Each sAction_Plugin_System_Initialize_WithOutDB in Action_Plugin_System_Initialize_WithOutDB
@@ -168,17 +157,20 @@ Sub System_Initialize_WithOutDB()
 
 	Call LoadGlobeCache()
 
-	Dim strTemplateModified
-	Application.Lock
-	strTemplateModified=Application(ZC_BLOG_CLSID & "TEMPLATEMODIFIED")
-	Application.UnLock
-	If IsEmpty(strTemplateModified)=False Then
-		If LCase(CStr(strTemplateModified))<>LCase(CStr(CheckTemplateModified)) Then
-			Call ClearGlobeCache()
-			Call LoadGlobeCache()
-		End If
-	End If
+	'Dim strTemplateModified
+	'Application.Lock
+	'strTemplateModified=Application(ZC_BLOG_CLSID & "TEMPLATEMODIFIED")
+	'Application.UnLock
+	'If IsEmpty(strTemplateModified)=False Then
+	'	If LCase(CStr(strTemplateModified))<>LCase(CStr(CheckTemplateModified)) Then
+	'		Call ClearGlobeCache()
+	'		Call LoadGlobeCache()
+	'	End If
+	'End If
 
+
+	'将激活插件后移
+	Call ActivePlugin()
 
 	'plugin node
 	bAction_Plugin_System_Initialize_WithOutDB_Succeed=False
@@ -186,8 +178,6 @@ Sub System_Initialize_WithOutDB()
 		If Not IsEmpty(sAction_Plugin_System_Initialize_WithOutDB_Succeed) Then Call Execute(sAction_Plugin_System_Initialize_WithOutDB_Succeed)
 		If bAction_Plugin_System_Initialize_WithOutDB_Succeed=True Then Exit Sub
 	Next
-
-	Err.Clear
 
 End Sub
 '*********************************************************
@@ -209,6 +199,8 @@ Sub System_Terminate_WithOutDB()
 
 End Sub
 '*********************************************************
+
+
 
 
 '*********************************************************
@@ -679,7 +671,7 @@ Function GetRights(strAction)
 		Case "FunctionDel"
 			GetRights=1
 		Case Else
-			'Call ShowError(1)
+			GetRights=Null
 	End Select
 
 End Function
