@@ -52,11 +52,6 @@ Dim PluginActiveFunction()
 ReDim PluginName(0)
 ReDim PluginActiveFunction(0)
 
-Dim TemplateTagsName
-Dim TemplateTagsValue
-Dim TemplatesName
-Dim TemplatesContent
-
 
 Dim TemplateDic
 Dim TemplateTagsDic
@@ -940,6 +935,51 @@ End Function
 
 
 '*********************************************************
+' 目的：    加载默认的主题模板
+'*********************************************************
+Function LoadDefaultTemplates()
+
+If TemplateDic.Exists("TEMPLATE_WAP_ARTICLE_COMMENT")=False Then Call TemplateDic.add("TEMPLATE_WAP_ARTICLE_COMMENT",LoadFromFile(BlogPath &"zb_system\doc\wap\wap_article_comment","utf-8"))
+If TemplateDic.Exists("TEMPLATE_WAP_ARTICLE-MULTI")=False Then Call TemplateDic.add("TEMPLATE_WAP_ARTICLE-MULTI",LoadFromFile(BlogPath &"zb_system\doc\wap\wap_article-multi.html","utf-8"))
+If TemplateDic.Exists("TEMPLATE_WAP_SINGLE")=False Then Call TemplateDic.add("TEMPLATE_WAP_SINGLE",LoadFromFile(BlogPath &"zb_system\doc\wap\wap_single.html","utf-8"))
+If TemplateDic.Exists("TEMPLATE_B_ARTICLE-ISTOP")=False Then Call TemplateDic.add("TEMPLATE_B_ARTICLE-ISTOP",LoadFromFile(BlogPath &"zb_system\doc\default\b_article-istop.html","utf-8"))
+If TemplateDic.Exists("TEMPLATE_B_ARTICLE-MULTI")=False Then Call TemplateDic.add("TEMPLATE_B_ARTICLE-MULTI",LoadFromFile(BlogPath &"zb_system\doc\default\b_article-multi.html","utf-8"))
+If TemplateDic.Exists("TEMPLATE_B_ARTICLE-SINGLE")=False Then Call TemplateDic.add("TEMPLATE_B_ARTICLE-SINGLE",LoadFromFile(BlogPath &"zb_system\doc\default\b_article-single.html","utf-8"))
+If TemplateDic.Exists("TEMPLATE_B_ARTICLE_COMMENT")=False Then Call TemplateDic.add("TEMPLATE_B_ARTICLE_COMMENT",LoadFromFile(BlogPath &"zb_system\doc\default\b_article_comment.html","utf-8"))
+If TemplateDic.Exists("TEMPLATE_B_ARTICLE_COMMENTPOST-VERIFY")=False Then Call TemplateDic.add("TEMPLATE_B_ARTICLE_COMMENTPOST-VERIFY",LoadFromFile(BlogPath &"zb_system\doc\default\b_article_commentpost-verify.html","utf-8"))
+If TemplateDic.Exists("TEMPLATE_B_ARTICLE_COMMENTPOST")=False Then Call TemplateDic.add("TEMPLATE_B_ARTICLE_COMMENTPOST",LoadFromFile(BlogPath &"zb_system\doc\default\b_article_commentpost.html","utf-8"))
+If TemplateDic.Exists("TEMPLATE_B_ARTICLE_COMMENT_PAGEBAR")=False Then Call TemplateDic.add("TEMPLATE_B_ARTICLE_COMMENT_PAGEBAR",LoadFromFile(BlogPath &"zb_system\doc\default\b_article_comment_pagebar.html","utf-8"))
+If TemplateDic.Exists("TEMPLATE_B_ARTICLE_MUTUALITY")=False Then Call TemplateDic.add("TEMPLATE_B_ARTICLE_MUTUALITY",LoadFromFile(BlogPath &"zb_system\doc\default\b_article_mutuality.html","utf-8"))
+If TemplateDic.Exists("TEMPLATE_B_ARTICLE_NVABAR_L")=False Then Call TemplateDic.add("TEMPLATE_B_ARTICLE_NVABAR_L",LoadFromFile(BlogPath &"zb_system\doc\default\b_article_nvabar_l.html","utf-8"))
+If TemplateDic.Exists("TEMPLATE_B_ARTICLE_NVABAR_R")=False Then Call TemplateDic.add("TEMPLATE_B_ARTICLE_NVABAR_R",LoadFromFile(BlogPath &"zb_system\doc\default\b_article_nvabar_r.html","utf-8"))
+If TemplateDic.Exists("TEMPLATE_B_ARTICLE_TAG")=False Then Call TemplateDic.add("TEMPLATE_B_ARTICLE_TAG",LoadFromFile(BlogPath &"zb_system\doc\default\b_article_tag.html","utf-8"))
+If TemplateDic.Exists("TEMPLATE_B_FUNCTION")=False Then Call TemplateDic.add("TEMPLATE_B_FUNCTION",LoadFromFile(BlogPath &"zb_system\doc\default\b_function.html","utf-8"))
+If TemplateDic.Exists("TEMPLATE_B_PAGEBAR")=False Then Call TemplateDic.add("TEMPLATE_B_PAGEBAR",LoadFromFile(BlogPath &"zb_system\doc\default\b_pagebar.html","utf-8"))
+If TemplateDic.Exists("TEMPLATE_CATALOG")=False Then Call TemplateDic.add("TEMPLATE_CATALOG",LoadFromFile(BlogPath &"zb_system\doc\default\catalog.html","utf-8"))
+If TemplateDic.Exists("TEMPLATE_DEFAULT")=False Then Call TemplateDic.add("TEMPLATE_DEFAULT",LoadFromFile(BlogPath &"zb_system\doc\default\default.html","utf-8"))
+If TemplateDic.Exists("TEMPLATE_FOOTER")=False Then Call TemplateDic.add("TEMPLATE_FOOTER",LoadFromFile(BlogPath &"zb_system\doc\default\footer.html","utf-8"))
+If TemplateDic.Exists("TEMPLATE_HEADER")=False Then Call TemplateDic.add("TEMPLATE_HEADER",LoadFromFile(BlogPath &"zb_system\doc\default\header.html","utf-8"))
+If TemplateDic.Exists("TEMPLATE_SEARCH")=False Then Call TemplateDic.add("TEMPLATE_SEARCH",LoadFromFile(BlogPath &"zb_system\doc\default\search.html","utf-8"))
+If TemplateDic.Exists("TEMPLATE_SIDEBAR")=False Then Call TemplateDic.add("TEMPLATE_SIDEBAR",LoadFromFile(BlogPath &"zb_system\doc\default\.html","utf-8"))
+If TemplateDic.Exists("TEMPLATE_SINGLE")=False Then Call TemplateDic.add("TEMPLATE_SINGLE",LoadFromFile(BlogPath &"zb_system\doc\default\single.html","utf-8"))
+If TemplateDic.Exists("TEMPLATE_TAGS")=False Then Call TemplateDic.add("TEMPLATE_TAGS",LoadFromFile(BlogPath &"zb_system\doc\default\tags.html","utf-8"))
+
+	Dim i,j
+	'在模板文件中先替换一次模板INCLUDE里的文件标签
+	For Each i In TemplateDic.Keys
+		For Each j In TemplateDic.Keys
+			TemplateDic.Item(j)=Replace(TemplateDic.Item(j),"<#"+i+"#>",TemplateDic.Item(i))
+		Next
+	Next
+
+
+End Function
+'*********************************************************
+
+
+
+
+'*********************************************************
 ' 目的：    加载指定目录的文件列表
 '*********************************************************
 Function LoadIncludeFiles(strDir)
@@ -1019,16 +1059,7 @@ End Function
 '*********************************************************
 Function GetTemplate(Name)
 
-
 	GetTemplate=TemplateDic.Item(Name)
-
-'	Dim i,j
-'	j=UBound(TemplatesName)
-'	For i=1 to j
-'		If LCase(TemplatesName(i))=LCase(Name) Then
-'			GetTemplate=TemplatesContent(i)
-'		End If
-'	Next
 
 End Function
 '*********************************************************
@@ -1042,14 +1073,6 @@ End Function
 Function SetTemplate(Name,Value)
 
 	TemplateDic.Item(Name)=Value
-
-'	Dim i,j
-'	j=UBound(TemplatesName)
-'	For i=1 to j
-'		If LCase(TemplatesName(i))=LCase(Name) Then
-'			TemplatesContent(i)=Value
-'		End If
-'	Next
 
 End Function
 '*********************************************************
@@ -1113,6 +1136,7 @@ Function LoadGlobeCache()
 
 	'On Error Resume Next
 
+
 	Dim ii,jj
 
 	Dim bolReLoadCache
@@ -1123,6 +1147,13 @@ Function LoadGlobeCache()
 	If IsEmpty(bolReLoadCache)=True Then
 		bolReLoadCache="ok"
 	Else
+
+		Dim TemplatesName
+		Dim TemplatesContent
+
+		Dim TemplateTagsName
+		Dim TemplateTagsValue
+
 		Application.Lock
 		TemplateTagsName=Application(ZC_BLOG_CLSID & "TemplateTagsName")
 		TemplateTagsValue=Application(ZC_BLOG_CLSID & "TemplateTagsValue")
@@ -1132,16 +1163,16 @@ Function LoadGlobeCache()
 		Application.UnLock
 
 		jj=UBound(TemplatesName)
-		For ii=1 to jj
+		For ii=0 to jj-1
 			If TemplateDic.Exists(TemplatesName(ii))=False Then TemplateDic.Add TemplatesName(ii), TemplatesContent(ii)
 		Next
 
 		jj=UBound(TemplateTagsName)
-		For ii=1 to jj
+		For ii=0 to jj-1
 			If TemplateTagsDic.Exists(TemplateTagsName(ii))=False Then TemplateTagsDic.Add TemplateTagsName(ii), TemplateTagsValue(ii)
 		Next
 
-'Dim TagsDic
+		Call LoadDefaultTemplates()
 
 		If IsEmpty(TemplateTagsValue)=False And IsEmpty(TemplateTagsValue)=False And IsEmpty(TemplatesName)=False And IsEmpty(TemplatesContent)=False Then
 			Exit Function
@@ -1168,13 +1199,9 @@ Function LoadGlobeCache()
 	aryTemplatesName(1)="TEMPLATE_WAP_ARTICLE_COMMENT"
 	aryTemplatesName(2)="TEMPLATE_WAP_ARTICLE-MULTI"
 	aryTemplatesName(3)="TEMPLATE_WAP_SINGLE"
-	aryTemplatesContent(1)=LoadFromFile(BlogPath & "zb_system\" & "WAP/wap_article_comment.html","utf-8")
-	aryTemplatesContent(2)=LoadFromFile(BlogPath & "zb_system\" & "WAP/wap_article-multi.html","utf-8")
-	aryTemplatesContent(3)=LoadFromFile(BlogPath & "zb_system\" & "WAP/wap_single.html","utf-8")
-	'Application(ZC_BLOG_CLSID & "TEMPLATE_WAP_ARTICLE_COMMENT")=aryTemplatesContent(1)
-	'Application(ZC_BLOG_CLSID & "TEMPLATE_WAP_ARTICLE-MULTI")=aryTemplatesContent(2)
-	'Application(ZC_BLOG_CLSID & "TEMPLATE_WAP_SINGLE")=aryTemplatesContent(3)
-	'Application.UnLock
+	aryTemplatesContent(1)=LoadFromFile(BlogPath & "zb_system\doc\wap\wap_article_comment.html","utf-8")
+	aryTemplatesContent(2)=LoadFromFile(BlogPath & "zb_system\doc\wap\wap_article-multi.html","utf-8")
+	aryTemplatesContent(3)=LoadFromFile(BlogPath & "zb_system\doc\wap\wap_single.html","utf-8")
 
 
 	'读取Template目录下的所有文件并写入Cache
@@ -1309,13 +1336,6 @@ Function LoadGlobeCache()
 		End If
 
 	End If
-
-	'在模板文件中先替换一次模板INCLUDE里的文件标签
-	For i=1 To UBound(aryTemplatesName)
-		For j=1 to e
-			aryTemplatesContent(i)=Replace(aryTemplatesContent,"<#"+aryFileNameTemplateInclude_Variable(j)+"#>",aryFileNameTemplateInclude_Content(j))
-		Next
-	Next
 
 
 	'读取Include目录下的所有文件并写入Cache
@@ -1452,23 +1472,7 @@ Function LoadGlobeCache()
 	aryTemplateTagsName(a+a2+a3+e+d+b+c+f)="CACHE_INCLUDE_CALENDAR_NOW"
 	aryTemplateTagsValue(a+a2+a3+e+d+b+c+f)=""
 
-	Application.Lock
-	Application(ZC_BLOG_CLSID & "TemplateTagsName")=aryTemplateTagsName
-	Application(ZC_BLOG_CLSID & "TemplateTagsValue")=aryTemplateTagsValue
 
-
-	Application(ZC_BLOG_CLSID & "TemplatesName")=aryTemplatesName
-	Application(ZC_BLOG_CLSID & "TemplatesContent")=aryTemplatesContent
-
-	Application.UnLock
-
-	TemplateTagsName=aryTemplateTagsName
-	TemplateTagsValue=aryTemplateTagsValue
-
-	TemplatesName=aryTemplatesName
-	TemplatesContent=aryTemplatesContent
-
-	Err.Clear
 
 	Application.Lock
 	Application(ZC_BLOG_CLSID & "TEMPLATEMODIFIED")=CheckTemplateModified()
@@ -1478,15 +1482,36 @@ Function LoadGlobeCache()
 	Application(ZC_BLOG_CLSID & "SIGNAL_RELOADCACHE")=bolReLoadCache
 	Application.UnLock
 
-	jj=UBound(TemplatesName)
+
+	jj=UBound(aryTemplatesName)
 	For ii=1 to jj
-		If TemplateDic.Exists(TemplatesName(ii))=False Then TemplateDic.Add TemplatesName(ii), TemplatesContent(ii)
+		If TemplateDic.Exists(aryTemplatesName(ii))=False Then TemplateDic.Add aryTemplatesName(ii), aryTemplatesContent(ii)
 	Next
 
-	jj=UBound(TemplateTagsName)
+	jj=UBound(aryTemplateTagsName)
 	For ii=1 to jj
-		If TemplateTagsDic.Exists(TemplateTagsName(ii))=False Then TemplateTagsDic.Add TemplateTagsName(ii), TemplateTagsValue(ii)
+		If TemplateTagsDic.Exists(aryTemplateTagsName(ii))=False Then TemplateTagsDic.Add aryTemplateTagsName(ii), aryTemplateTagsValue(ii)
 	Next
+
+	Call LoadDefaultTemplates()
+
+
+	Application.Lock
+	Application(ZC_BLOG_CLSID & "TemplateTagsName")=TemplateTagsDic.Keys
+	Application(ZC_BLOG_CLSID & "TemplateTagsValue")=TemplateTagsDic.Items
+
+
+	Application(ZC_BLOG_CLSID & "TemplatesName")=TemplateDic.Keys
+	Application(ZC_BLOG_CLSID & "TemplatesContent")=TemplateDic.Items
+
+	Application.UnLock
+
+
+	Set TemplatesName=Nothing
+	Set TemplatesContent=Nothing
+
+	Set TemplateTagsName=Nothing
+	Set TemplateTagsValue=Nothing
 
 	LoadGlobeCache=True
 
