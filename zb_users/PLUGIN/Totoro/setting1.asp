@@ -33,16 +33,8 @@ If CheckPluginState("Totoro")=False Then Call ShowError(48)
 
 BlogTitle="TotoroⅢ（基于TotoroⅡ的Z-Blog的评论管理审核系统增强版）"
 
-%><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<%=ZC_BLOG_LANGUAGE%>" lang="<%=ZC_BLOG_LANGUAGE%>">
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<meta http-equiv="Content-Language" content="<%=ZC_BLOG_LANGUAGE%>" />
-	<link rel="stylesheet" rev="stylesheet" href="../../../ZB_SYSTEM/CSS/admin.css" type="text/css" media="screen" />
-	<script language="JavaScript" src="../../../ZB_SYSTEM/script/common.js" type="text/javascript"></script>
-	<title><%=BlogTitle%></title>
-</head>
-<body>
+%><!--#include file="..\..\..\zb_system\admin\admin_header.asp"-->
+<!--#include file="..\..\..\zb_system\admin\admin_top.asp"-->
 
 			<div id="divMain">
 <div class="Header"><%=BlogTitle%></div>
@@ -171,8 +163,7 @@ function ChangeValue(obj){
 	}
 }
 </script>
-</body>
-</html>
+</div><!--#include file="..\..\..\zb_system\admin\admin_footer.asp"-->
 <%
 Call System_Terminate()
 
