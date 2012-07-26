@@ -532,6 +532,18 @@ Function DelComment(intID,intLog_ID)
 				Call ShowError(9)
 			End If
 			Set objTestArticle=Nothing
+
+			Dim allcomm,i
+			If SearchChildComments(intID,allcomm)=True Then
+				For Each i In allcomm.Keys
+					Dim objSubComment
+					Set objSubComment=New TComment
+					If objSubComment.LoadInfobyID(i) Then
+						objSubComment.Del
+					End If
+				Next
+			End If
+
 		End If
 		DelChild objComment.ID
 		If objComment.Del Then
@@ -1757,8 +1769,21 @@ Function DelCommentBatch()
 					Call ShowError(9)
 				End If
 				Set objTestArticle=Nothing
+
+
+				Dim allcomm,ii
+				If SearchChildComments(t(i),allcomm)=True Then
+					For Each ii In allcomm.Keys
+						Dim objSubComment
+						Set objSubComment=New TComment
+						If objSubComment.LoadInfobyID(ii) Then
+							objSubComment.Del
+						End If
+					Next
+				End If
+
 			Else
-				If Not((objComment.log_ID=0) And (CheckRights("GuestBookMng")=True)) Then Exit Function
+
 			End If
 
 			DelChild objComment.ID

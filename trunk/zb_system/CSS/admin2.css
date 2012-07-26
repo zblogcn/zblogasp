@@ -102,7 +102,7 @@ background:#ffffdd;
 /**/
 .logo { width:190px; height:62px; padding:10px 0 0 0; left:20px;}
 /**/
-.user { position: absolute; right:15px; top:10px; width:400px; height:40px; text-align:right; color:#FFFFFF;}
+.user { position: absolute; right:13px; top:10px; width:400px; height:40px; text-align:right; color:#FFFFFF;}
 .user #avatar { float:right; width:40px; height:40px; margin-left:10px;margin-top:0px;}
 .username { height:20px; line-height:20px; overflow:hidden;}
 .userbtn { height:20px;}
