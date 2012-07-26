@@ -40,7 +40,7 @@ BlogTitle="TotoroⅢ（基于TotoroⅡ的Z-Blog的评论管理审核系统增强
 
 
 			<div id="divMain">
-<div class="Header"><%=BlogTitle%></div>
+<div class="divHeader"><%=BlogTitle%></div>
 
 <div class="SubMenu"><span class="m-left m-now"><a href="setting.asp">TotoroⅢ设置</a></span><span class="m-left"><a href="setting1.asp">审核评论<%
 	Dim objRS1
