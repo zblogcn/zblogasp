@@ -1350,14 +1350,6 @@ Function FileReBuild()
 
 		objRS.PageSize = ZC_REBUILD_FILE_COUNT
 
-'Response.Write objRS.RecordCount &"<br/>"
-
-'Response.Write objRS.AbsolutePage &"<br/>"
-
-'Response.Write objRS.PageSize &"<br/>"
-
-'Response.Write objRS.PageCount &"<br/>"
-
 		Call AddBatch(ZC_MSG072,"Call MakeBlogReBuild()")
 
 		Dim i
@@ -1402,6 +1394,12 @@ End Function
 
 Function Batch()
 
+	'plugin node
+	For Each sAction_Plugin_Batch_Begin in Action_Plugin_Batch_Begin
+		If Not IsEmpty(sAction_Plugin_Batch_Begin) Then Call Execute(sAction_Plugin_Batch_Begin)
+		If bAction_Plugin_Batch_Begin=True Then Exit Function
+	Next
+
 	Server.ScriptTimeout = 1200
 
 	If Request.QueryString("cancel")="true" Then
@@ -1420,26 +1418,17 @@ Function Batch()
 
 	Dim intAllTime
 
-
-
-
-	'For Each i In a.items
-	'	Response.Write i & "</br>"
-	'Next 
-	'Session.Abandon
-	'Exit Function
-	 
+ 
 	If a.Count >0 Then
 
 		For i = 0 To 0
 			Call Execute(c(0))
-			'Response.Write c(0)
+
 			Session("batch").Remove(b(0))
 
 			Response.Write "<!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 1.0 Transitional//EN"" ""http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd""><html><head><meta http-equiv=""Content-Type"" content=""text/html; charset=utf-8""/><meta http-equiv=""Content-Language"" content=""zh-cn"" /><meta http-equiv=""refresh"" content="""&ZC_REBUILD_FILE_INTERVAL&";URL="&GetCurrentHost & "zb_system/cmd.asp?act=batch"&"&all="&intAllTime&"""/><link rel=""stylesheet"" rev=""stylesheet"" href=""CSS/admin2.css"" type=""text/css"" media=""screen"" /><title>"&ZC_MSG073&"</title></head><body>"
 
 			Response.Write "<div id=""divMain"">"
-			'Call GetBlogHint()
 			Response.Write "<div id=""divMain2"">"
 			Response.Write "<form  name=""edit"" id=""edit"">"
 
@@ -1469,6 +1458,12 @@ Function Batch()
 		Session.Abandon
 
 	End If
+
+	'plugin node
+	For Each sAction_Plugin_Batch_End in Action_Plugin_Batch_End
+		If Not IsEmpty(sAction_Plugin_Batch_End) Then Call Execute(sAction_Plugin_Batch_End)
+		If bAction_Plugin_Batch_End=True Then Exit Function
+	Next
 
 
 End Function
