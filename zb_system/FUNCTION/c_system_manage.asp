@@ -505,11 +505,11 @@ Function ExportCommentList(intPage,intContent)
 		For i=1 to objRS.PageSize
 			Dim objArticle
 			Set objArticle=New TArticle
-			If ArtDic.Exists(objRs("log_ID"))=False Then
+			If ArtDic.Exists(CInt(objRs("log_ID")))=False Then
 				objArticle.LoadInfoById objRs("log_ID")
-				ArtDic.Add objRs("log_ID"), objArticle
+				ArtDic.Add CInt(objRs("log_ID")), objArticle
 			Else
-				Set objArticle=ArtDic.Item(objRs("log_ID"))
+				Set objArticle=ArtDic.Item(CInt(objRs("log_ID")))
 			End If
 
 
