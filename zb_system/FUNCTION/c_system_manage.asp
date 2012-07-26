@@ -1188,12 +1188,10 @@ Function ExportSiteInfo()
 	<td width="20%">MetaWeblog API</td>
 	<td colspan="3" width="80%"><%=GetCurrentHost%>zb_system/xml-rpc/index.asp</td>
 	</tr>
-<!-- 	<tr>
-	<td colspan="4">
-	<marquee onmouseover="this.stop()" onmouseout="this.start()"></marquee>
-	</td>
-	</tr> -->
 	</table>
+
+
+
 <!--
 	<table border="0" cellspacing="0" cellpadding="0" align='center' width="100%" class="tableBorder">
 	<tr><th height="32" colspan="4">&nbsp;<%=ZC_MSG164%></th></tr>
@@ -1288,11 +1286,10 @@ $(document).ready(function(){updateinfo("");});
 </script>
 	</td></tr>
 	</table>
+<%=LoadFromFile(Server.MapPath("../document/thanks.html"),"utf-8")%>
 <%
 End If
-%>
-	<br />
-<%
+
 	Response.Write "</div>"
 
 	ExportSiteInfo=True

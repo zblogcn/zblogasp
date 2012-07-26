@@ -4870,6 +4870,21 @@ Class TFunction
 
 	Public Function SaveFile()
 
+		If Ftype="ul" And MaxLi>0 Then
+			Dim i,b,j
+			b=Split(Content,"</li>")
+			If UBound(b)>0 then
+				For i=0 To UBound(b)-1
+					j=j+1
+					b(i)=b(i) & "</li>"
+					If j>Maxli Then
+						b(i)=""
+					End If
+				Next
+				Content=Join(b)
+			End if
+		End If
+
 		Call SaveToFile(BlogPath & "zb_users/include/"&FileName&".asp",TransferHTML(Content,"[anti-zc_blog_host]"),"utf-8",False)
 
 		SaveFile=True
