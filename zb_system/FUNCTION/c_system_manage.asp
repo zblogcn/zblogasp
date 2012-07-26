@@ -1180,7 +1180,7 @@ Function ExportSiteInfo()
 	</tr>
 	<tr>
 	<td width="20%"><%=ZC_MSG306%>/<%=ZC_MSG083%></td>
-	<td width="30%"><%=GetNameFormTheme(ZC_BLOG_THEME)%> / <%=ZC_BLOG_CSS%></td>
+	<td width="30%"><%=GetNameFormTheme(ZC_BLOG_THEME)%> / <%=ZC_BLOG_CSS%>.css</td>
 	<td width="20%"><%=ZC_MSG166%></td>
 	<td width="30%"><%=allUserNums%></td>
 	</tr>
@@ -1286,7 +1286,7 @@ $(document).ready(function(){updateinfo("");});
 </script>
 	</td></tr>
 	</table>
-<%=LoadFromFile(Server.MapPath("../document/thanks.html"),"utf-8")%>
+<%=LoadFromFile(Server.MapPath("../doc/thanks.html"),"utf-8")%>
 <%
 End If
 
