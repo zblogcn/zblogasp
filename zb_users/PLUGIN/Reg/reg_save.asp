@@ -6,6 +6,8 @@
 <!-- #include file="../../../ZB_SYSTEM/function/c_function.asp" -->
 <!-- #include file="../../../ZB_SYSTEM/function/c_system_lib.asp" -->
 <!-- #include file="../../../ZB_SYSTEM/function/c_system_base.asp" -->
+<!-- #include file="../../../ZB_SYSTEM/function/c_system_event.asp" -->
+
 <!-- #include file="../../../ZB_SYSTEM/function/c_system_plugin.asp" -->
 <!-- #include file="../../plugin/p_config.asp" -->
 <%
@@ -30,9 +32,9 @@ Sub ExportErr(str)
 	Response.Write "<script type=""text/javascript"">alert('"&replace(str,"'","\'")&"');history.go(-1)</script>"
 	Response.End
 End Sub
-If CheckVerifyNumber(Request.Form("edtCheckOut"))=False Then
-	ExportErr ZVA_ErrorMsg(38)
-End If
+'If CheckVerifyNumber(Request.Form("edtCheckOut"))=False Then
+'	ExportErr ZVA_ErrorMsg(38)
+'End If
 
 dim Username,UserPassword,UserMail,UserHomePage
 Username=TransferHTML(filtersql(request.form("username")),"[no-html]")
@@ -43,8 +45,8 @@ Dim chkUserName,chkPassWord,chkUserMail,chkHomePage
 
 
 chkUserName=CheckRegExp(Username,"[username]")
-If  len(username)<4  Or chkUserName=False or len(username)>ZC_USERNAME_MAX Then
-	ExportErr "用户名格式不正确！\n\n请确认：\n用户名大于4个字符\n用户名小于"&ZC_USERNAME_MAX&"个字符\n用户名没有非法字符"
+If   chkUserName=False or len(username)>ZC_USERNAME_MAX Then
+	ExportErr "用户名格式不正确！\n\n请确认：\n用户名小于"&ZC_USERNAME_MAX&"个字符\n用户名没有非法字符"
 End If
 
 
@@ -73,6 +75,10 @@ End If
 objRs.close
 set objRs = nothing       
 
+For Each sAction_Plugin_RegSave_VerifyOK in Action_Plugin_RegSave_VerifyOK
+	If Not IsEmpty(sAction_Plugin_RegSave_VerifyOK) Then Call Execute(sAction_Plugin_RegSave_VerifyOK)
+Next
+
 Dim RegUser
 Set RegUser=New TUser
 RegUser.Level=4
@@ -80,12 +86,28 @@ RegUser.Name=UserName
 RegUser.Email=UserMail
 RegUser.HomePage=UserHomePage
 RegUser.Password=UserPassword
-RegUser.Register("")
-response.write "<script language='javascript' type='text/javascript'>"
-response.write "alert('恭喜，注册成功。\n欢迎您成为本站一员。\n\n单击确定登陆本站。');location.href="""&ZC_BLOG_HOST&"/zb_system/cmd.asp?act=login"""
-response.write "</script>"
+RegUser.Register
+RegUser.LoginType="Self"
+RegUser.PassWord=RegUser.GetPasswordByMD5(UserPassword)
+Response.Cookies("password")=BlogUser.PassWord
+If Request.Form("savedate")<>0 Then
+	Response.Cookies("password").Expires = DateAdd("d", Request.Form("savedate"), now)
+End If
+Response.Cookies("password").Path = "/"
+
+Login=True
+
+
+
+Dim strResponse
+strResponse="<script language='javascript' type='text/javascript'>alert('恭喜，注册成功。\n欢迎您成为本站一员。\n\n单击确定登陆本站。');location.href="""&ZC_BLOG_HOST&"/zb_system/cmd.asp?act=login""</script>"
 
 For Each sAction_Plugin_RegSave_End in Action_Plugin_RegSave_End
 	If Not IsEmpty(sAction_Plugin_RegSave_End) Then Call Execute(sAction_Plugin_RegSave_End)
 Next
+
+response.write strResponse
+
+
+Set RegUser=Nothing
 %>

@@ -44,7 +44,7 @@ Next
   <div class="logo"><img src="<%=GetCurrentHost%>ZB_SYSTEM/image/admin/none.gif" title="Z-Blog<%=ZC_MSG009%>" alt="Z-Blog<%=ZC_MSG009%>"/></div>
   <div class="login">
     <div class="divHeader">Z-Blog 注册</div>
-    <form name="zblogform" action="reg_save.asp" method="post" onSubmit="return chk_reg()">
+    <form name="zblogform" action="reg_save.asp" method="post" onsubmit="return chk_reg()" id="reg">
       <%=Response_Plugin_RegPage_Begin%>
       <ul>
         <li class="r_left">用户名<font color="red">(*)</font>：</li>
@@ -200,7 +200,7 @@ var msg	;
 var bname_m=false;
 function init_reg(){
 	msg=new Array(
-	"请输入4-14位字符，英文、数字的组合。",	
+	"请输入14位以内字符，允许汉字。",	
 	"请输入8-14位字符，不允许空格。",
 	"请重复输入一次密码。",
     "请输入电子邮箱地址。",	
@@ -340,14 +340,16 @@ function chk_reg(){
 	if (!out_upwd1()){chk=false;return false}
 	if (!out_upwd2()){chk=false;return false}	
 	if (!out_email()){chk=false;return false}
+	if (!out_site()){chk=false;return false}
     if (!out_passregtext()){chk=false;return false}
 	if(chk){
-	document.getElementById('regButton').disabled='disabled';
+	//document.getElementById('regButton').disabled='disabled';
 	var username=document.zblogform.uname.value;
 	var password=document.zblogform.upwd.value;
 	var repassword=document.zblogform.repassword.value;
-    var email=document.zblogform.email.value;        	
-	//reset_code();
+    var email=document.zblogform.email.value;
+	return true;
+	//document.getElementById("reg").submit()
 	}
 
 }

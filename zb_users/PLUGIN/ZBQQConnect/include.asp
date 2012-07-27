@@ -5,20 +5,49 @@
 <%
 Dim ZBQQConnect_CommentCore,ZBQQConnect_AEnable,ZBQQConnect_ACore,ZBQQConnect_CommentName,ZBQQConnect_EmlMD5
 
-dim ZBQQConnect_class,ZBQQConnect_DB
-set ZBQQConnect_class=new ZBQQConnect
-Set ZBQQConnect_DB=New ZBConnectQQ_DB
-ZBQQConnect_class.app_key="100291142"    '设置appkey
-ZBQQConnect_class.app_secret="6e39bee95a58a8c99dce88ad5169a50e"  '设置app_secret
-ZBQQConnect_class.callbackurl="http://www.zsxsoft.com/zblog-1-9/ZB_USERS/PLUGIN/ZBQQConnect/callback.asp"  '设置回调地址
-ZBQQConnect_class.debug=false 'Debug模式设置
 
+dim ZBQQConnect_class,ZBQQConnect_DB
+
+Function ZBQQConnect_Initialize
+	set ZBQQConnect_class=new ZBQQConnect
+	Set ZBQQConnect_DB=New ZBConnectQQ_DB
+	ZBQQConnect_class.app_key="100291142"    '设置appkey
+	ZBQQConnect_class.app_secret="6e39bee95a58a8c99dce88ad5169a50e"  '设置app_secret
+	ZBQQConnect_class.callbackurl="http://www.zsxsoft.com/zblog-1-9/ZB_USERS/PLUGIN/ZBQQConnect/callback.asp"  '设置回调地址
+	ZBQQConnect_class.debug=false 'Debug模式设置
+End Function
 
 Call RegisterPlugin("ZBQQConnect","ActivePlugin_ZBQQConnect")
 
+Sub ZBQQConnect_RegSave
+	
+	If Not IsEmpty(Request.Form("QQOpenID")) Then
+		ZBQQConnect_Initialize
+		ZBQQConnect_DB.OpenID=Request.Form("QQOpenID")
+		If ZBQQConnect_DB.LoadInfo(4)=True Then
+			
+		End If
+	End If
+End Sub
+
 
 Function ActivePlugin_ZBQQConnect() 
+	Dim strQQ,objQQ
+	If CheckPluginState("Reg")=True Then
+			If IsEmpty(Request.QueryString("QQOPENID"))=False Then
+				strQQ=Replace(TransferHTML(FilterSQL(Request.QueryString("QQOPENID")),"[no-html]"),"""","""""")
+				If Len(strQQ)=32 Then
+					ZBQQConnect_Initialize
+					
+					Call Add_Response_Plugin("Response_Plugin_RegPage_End","<input type=""hidden"" value="""&strQQ&""" name=""QQOpenID""/>")
+					Set objQQ=ZBQQConnect_ToObject(ZBQQConnect_class.API("https://graph.qq.com/user/get_user_info","{'format':'json'}","GET&"))
+					Call Add_Action_Plugin("Action_Plugin_RegPage_Begin","dUsername="""&objQQ.nickname&"""")
+				End If
+			End If
+		Call Add_Action_Plugin("sAction_Plugin_RegSave_End","Call ZBQQConnect_RegSave(RegUser.ID)")
+		'Call Add_Action_Plugin("Action_Plugin_RegSave_End","If isQQLogin=True Then ")
 
+	End If
 	'挂上接口
 	'Filter_Plugin_PostArticle_Core
 	'Call Add_Filter_Plugin("Filter_Plugin_PostComment_Core","ZBQQConnect_CommentPst")
@@ -122,7 +151,7 @@ function ZBQQConnect_ArticleToWb(ByRef ZBQQConnect_ACore)
 			Dim objRS
 			Set objRS=objConn.Execute("SELECT TOP 1 log_ID FROM [blog_Article] ORDER BY log_ID desc")
 			If (Not objRS.bof) And (Not objRS.eof) Then
-				ZBQQConnect_ACore.ID=objRS(0) + 1 'ZBQQConnect_ACore.ID对ZBQQConnect_ACore.URL有影响
+				ZBQQConnect_ACore.ID=objRS(0) + 1 
 			Else
 				ZBQQConnect_ACore.ID=1
 			End If

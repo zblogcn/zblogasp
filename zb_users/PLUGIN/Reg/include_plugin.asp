@@ -19,6 +19,11 @@ ReDim Action_Plugin_RegSave_Begin(0)
 Dim bAction_Plugin_RegSave_Begin
 Dim sAction_Plugin_RegSave_Begin
 
+Dim Action_Plugin_RegSave_VerifyOK
+ReDim Action_Plugin_RegSave_VerifyOK(0)
+Dim bAction_Plugin_RegSave_VerifyOK
+Dim sAction_Plugin_RegSave_VerifyOK
+
 Dim Response_Plugin_RegPage_End
 Response_Plugin_RegPage_End=""
 
