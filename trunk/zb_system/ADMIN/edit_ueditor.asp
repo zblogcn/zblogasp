@@ -214,7 +214,7 @@ Next
 <div id="divEditPost">
 
 <p>
-<input class="button" type="submit" value="<%=ZC_MSG087%>" id="btnPost" onclick='return checkArticleInfo();' />
+<input class="button" style="width:150px;height:30px;" type="submit" value="<%=ZC_MSG087%>" id="btnPost" onclick='return checkArticleInfo();' />
 </p>
 
 
@@ -222,14 +222,12 @@ Next
                         <p>
 <!-- cate -->
                       <%
-Err.Clear
-On Error Resume Next
 If Request.QueryString("type")<>"Page" Then
 
 If Err.Number=0 Then
 %>
                       <span class='editinputname' style="cursor:pointer;" onclick="$(this).next().toggleClass('hidden');"><%=ZC_MSG012%>:</span>
-                        <select style="width:140px;" class="edit" size="1" id="cmbCate" onchange="edtCateID.value=this.options[this.selectedIndex].value">
+                        <select style="width:150px;" class="edit" size="1" id="cmbCate" onchange="edtCateID.value=this.options[this.selectedIndex].value">
                           <option value="0"></option>
                           <%
 	'GetCategory()
@@ -309,7 +307,7 @@ End If
 
                         <p>
 <!-- level -->
-                          <span class='editinputname' style="cursor:pointer;" onclick="$(this).next().toggleClass('hidden');"><%=ZC_MSG061%>:</span><select class="edit" style="width:140px;" size="1" id="cmbArticleLevel" onchange="edtLevel.value=this.options[this.selectedIndex].value">
+                          <span class='editinputname' style="cursor:pointer;" onclick="$(this).next().toggleClass('hidden');"><%=ZC_MSG061%>:</span><select class="edit" style="width:150px;" size="1" id="cmbArticleLevel" onchange="edtLevel.value=this.options[this.selectedIndex].value">
                             <%
 	Dim ArticleLevel
 	Dim i:i=0
@@ -332,7 +330,7 @@ End If
                         <p>
 <!-- user( -->
 
-                        <span class='editinputname' style="cursor:pointer;" onclick="$(this).next().toggleClass('hidden');"><%=ZC_MSG003%>:</span><select style="width:100px;" size="1" id="cmbUser" onchange="edtAuthorID.value=this.options[this.selectedIndex].value">
+                        <span class='editinputname' style="cursor:pointer;" onclick="$(this).next().toggleClass('hidden');"><%=ZC_MSG003%>:</span><select style="width:150px;" size="1" id="cmbUser" onchange="edtAuthorID.value=this.options[this.selectedIndex].value">
                           <option value="0"></option>
                           <%
 	GetUser()
