@@ -12,7 +12,7 @@ Class ZBQQConnect
 '*******************************************************************************
 '** 定义变量                                                                    **
 '*******************************************************************************
-Private strOauth1BaseString,strOauthToken,strPostUrl,strOauthSessionUserID,strOauthSessionToken,strOauthSessionSecret,intErrorCount,strOauthTokenSecret
+Private strOauthToken,strPostUrl,strOauthSessionUserID,strOauthSessionToken,strOauthSessionSecret,intErrorCount,strOauthTokenSecret
 Private strMadeUpUrl
 Private strHttptype
 Private strAppKey,strAppSecret
