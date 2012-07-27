@@ -1286,7 +1286,7 @@ $(document).ready(function(){updateinfo("");});
 </script>
 	</td></tr>
 	</table>
-<%=LoadFromFile(BlogPath & ("zb_system\doc\thanks.html"),"utf-8")%>
+<%=LoadFromFile(BlogPath & ("zb_system\defend\thanks.html"),"utf-8")%>
 <%
 End If
 

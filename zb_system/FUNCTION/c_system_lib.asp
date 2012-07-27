@@ -4354,11 +4354,11 @@ meta_split_string_1=Chr(1)
 meta_split_string_2=Chr(2)
 Class TMeta
 
-	Dim Names()
-	Dim Values()
+	Public Names()
+	Public Values()
 
 	Public Property Get Count
-		Count = UBound(names)+1
+		Count = UBound(names)
 	End Property
 
 	Public Function Save()
@@ -4548,20 +4548,24 @@ Class TConfig
 
 	Private Name
 
-	Private Meta
+	Public Meta
 
 	Public Property Get Count
-		Count = Meta.Config
+		Count = Meta.Count
 	End Property
 
 	Public Function Save()
 
+		Dim n,s
+		n=FilterSQL(Name)
+		s=FilterSQL(Meta.SaveString)
+
 		Dim objRS
-		Set objRS=objConn.Execute("SELECT [conf_Name] FROM [blog_Config] WHERE [conf_Name]='"&Name&"'" )
+		Set objRS=objConn.Execute("SELECT [conf_Name] FROM [blog_Config] WHERE [conf_Name]='"&n&"'" )
 		If (Not objRS.bof) And (Not objRS.eof) Then
-			objConn.Execute("UPDATE [blog_Config] SET [conf_Value]='"&Meta.SaveString&"' WHERE [conf_Name]='"&Name&"'")
+			objConn.Execute("UPDATE [blog_Config] SET [conf_Value]='"&s&"' WHERE [conf_Name]='"&n&"'")
 		Else
-			objConn.Execute("INSERT INTO [blog_Config]([conf_Name],[conf_Value]) VALUES ('"&Name&"','"&Meta.SaveString&"')")
+			objConn.Execute("INSERT INTO [blog_Config]([conf_Name],[conf_Value]) VALUES ('"&n&"','"&s&"')")
 		End If
 		Set objRS=Nothing
 
@@ -4588,7 +4592,8 @@ Class TConfig
 
 
 	Public Function Write(name,value)
-	
+		If TypeName(value)="Boolean" And UCase(value)=UCase("true") Then value="True"
+		If TypeName(value)="Boolean" And  UCase(value)=UCase("false") Then value="False"
 		Write=Meta.SetValue(name,value)
 
 	End Function

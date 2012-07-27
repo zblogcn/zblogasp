@@ -11,8 +11,6 @@
 '// 最后修改:
 '// 备    注:
 '///////////////////////////////////////////////////////////////////////////////
-'当前 Z-Blog 版本
-Const ZC_BLOG_VERSION="2.0 Beta Build 120725"
 
 '定义全局变量
 Dim objConn
@@ -58,6 +56,26 @@ Dim TemplateTagsDic
 
 Set TemplateDic=CreateObject("Scripting.Dictionary")
 Set TemplateTagsDic=CreateObject("Scripting.Dictionary")
+
+
+Const ZC_BLOG_WEBEDIT="ueditor"
+Const ZC_TB_EXCERPT_MAX=250
+Const ZC_TRACKBACK_TURNOFF=True
+
+Const ZC_AUTO_NEWLINE=False
+Const ZC_JAPAN_TO_HTML=False
+
+Const ZC_DISPLAY_MODE_ALL=1
+Const ZC_DISPLAY_MODE_INTRO=2
+Const ZC_DISPLAY_MODE_HIDE=3
+Const ZC_DISPLAY_MODE_LIST=4
+Const ZC_DISPLAY_MODE_ONTOP=5
+Const ZC_DISPLAY_MODE_SEARCH=6
+
+'如果连接数据库为MSSQL，则应为'，默认连接Access数据库则为#
+Dim ZC_SQL_POUND_KEY
+ZC_SQL_POUND_KEY="#"
+
 
 '*********************************************************
 ' 目的：    System 初始化
@@ -206,12 +224,13 @@ End Sub
 '*********************************************************
 ' 目的：    数据库连接
 '*********************************************************
-'如果连接数据库为MSSQL，则应为'，默认连接Access数据库则为#
-Dim ZC_SQL_POUND_KEY
-ZC_SQL_POUND_KEY="#"
 Dim IsDBConnect '数据库是否已连接
 IsDBConnect=False
 Function OpenConnect()
+
+	If IsDBConnect=True Then
+		Exit Function
+	End If
 
 	'plugin node
 	bAction_Plugin_OpenConnect=False
@@ -228,7 +247,7 @@ Function OpenConnect()
 	strDbPath=BlogPath & ZC_DATABASE_PATH
 
 	Set objConn = Server.CreateObject("ADODB.Connection")
-	If ZC_MSSQL=True Then
+	If ZC_MSSQL_ENABLE=True Then
 		objConn.Open "Provider=SqlOLEDB;Data Source="&ZC_MSSQL_SERVER&";Initial Catalog="&ZC_MSSQL_DATABASE&";Persist Security Info=True;User ID="&ZC_MSSQL_USERNAME&";Password="&ZC_MSSQL_PASSWORD&";"
 		ZC_SQL_POUND_KEY="'"
 	Else
@@ -250,10 +269,15 @@ End Function
 '*********************************************************
 Function CloseConnect()
 
+	If IsDBConnect=False Then
+		Exit Function
+	End If
+
 	objConn.Close
 	Set objConn=Nothing
 
 	IsDBConnect=False
+
 	CloseConnect=True
 
 End Function
@@ -938,30 +962,30 @@ End Function
 '*********************************************************
 Function LoadDefaultTemplates()
 
-If TemplateDic.Exists("TEMPLATE_WAP_ARTICLE_COMMENT")=False Then Call TemplateDic.add("TEMPLATE_WAP_ARTICLE_COMMENT",LoadFromFile(BlogPath &"zb_system\doc\wap\wap_article_comment","utf-8"))
-If TemplateDic.Exists("TEMPLATE_WAP_ARTICLE-MULTI")=False Then Call TemplateDic.add("TEMPLATE_WAP_ARTICLE-MULTI",LoadFromFile(BlogPath &"zb_system\doc\wap\wap_article-multi.html","utf-8"))
-If TemplateDic.Exists("TEMPLATE_WAP_SINGLE")=False Then Call TemplateDic.add("TEMPLATE_WAP_SINGLE",LoadFromFile(BlogPath &"zb_system\doc\wap\wap_single.html","utf-8"))
-If TemplateDic.Exists("TEMPLATE_B_ARTICLE-ISTOP")=False Then Call TemplateDic.add("TEMPLATE_B_ARTICLE-ISTOP",LoadFromFile(BlogPath &"zb_system\doc\default\b_article-istop.html","utf-8"))
-If TemplateDic.Exists("TEMPLATE_B_ARTICLE-MULTI")=False Then Call TemplateDic.add("TEMPLATE_B_ARTICLE-MULTI",LoadFromFile(BlogPath &"zb_system\doc\default\b_article-multi.html","utf-8"))
-If TemplateDic.Exists("TEMPLATE_B_ARTICLE-SINGLE")=False Then Call TemplateDic.add("TEMPLATE_B_ARTICLE-SINGLE",LoadFromFile(BlogPath &"zb_system\doc\default\b_article-single.html","utf-8"))
-If TemplateDic.Exists("TEMPLATE_B_ARTICLE_COMMENT")=False Then Call TemplateDic.add("TEMPLATE_B_ARTICLE_COMMENT",LoadFromFile(BlogPath &"zb_system\doc\default\b_article_comment.html","utf-8"))
-If TemplateDic.Exists("TEMPLATE_B_ARTICLE_COMMENTPOST-VERIFY")=False Then Call TemplateDic.add("TEMPLATE_B_ARTICLE_COMMENTPOST-VERIFY",LoadFromFile(BlogPath &"zb_system\doc\default\b_article_commentpost-verify.html","utf-8"))
-If TemplateDic.Exists("TEMPLATE_B_ARTICLE_COMMENTPOST")=False Then Call TemplateDic.add("TEMPLATE_B_ARTICLE_COMMENTPOST",LoadFromFile(BlogPath &"zb_system\doc\default\b_article_commentpost.html","utf-8"))
-If TemplateDic.Exists("TEMPLATE_B_ARTICLE_COMMENT_PAGEBAR")=False Then Call TemplateDic.add("TEMPLATE_B_ARTICLE_COMMENT_PAGEBAR",LoadFromFile(BlogPath &"zb_system\doc\default\b_article_comment_pagebar.html","utf-8"))
-If TemplateDic.Exists("TEMPLATE_B_ARTICLE_MUTUALITY")=False Then Call TemplateDic.add("TEMPLATE_B_ARTICLE_MUTUALITY",LoadFromFile(BlogPath &"zb_system\doc\default\b_article_mutuality.html","utf-8"))
-If TemplateDic.Exists("TEMPLATE_B_ARTICLE_NVABAR_L")=False Then Call TemplateDic.add("TEMPLATE_B_ARTICLE_NVABAR_L",LoadFromFile(BlogPath &"zb_system\doc\default\b_article_nvabar_l.html","utf-8"))
-If TemplateDic.Exists("TEMPLATE_B_ARTICLE_NVABAR_R")=False Then Call TemplateDic.add("TEMPLATE_B_ARTICLE_NVABAR_R",LoadFromFile(BlogPath &"zb_system\doc\default\b_article_nvabar_r.html","utf-8"))
-If TemplateDic.Exists("TEMPLATE_B_ARTICLE_TAG")=False Then Call TemplateDic.add("TEMPLATE_B_ARTICLE_TAG",LoadFromFile(BlogPath &"zb_system\doc\default\b_article_tag.html","utf-8"))
-If TemplateDic.Exists("TEMPLATE_B_FUNCTION")=False Then Call TemplateDic.add("TEMPLATE_B_FUNCTION",LoadFromFile(BlogPath &"zb_system\doc\default\b_function.html","utf-8"))
-If TemplateDic.Exists("TEMPLATE_B_PAGEBAR")=False Then Call TemplateDic.add("TEMPLATE_B_PAGEBAR",LoadFromFile(BlogPath &"zb_system\doc\default\b_pagebar.html","utf-8"))
-If TemplateDic.Exists("TEMPLATE_CATALOG")=False Then Call TemplateDic.add("TEMPLATE_CATALOG",LoadFromFile(BlogPath &"zb_system\doc\default\catalog.html","utf-8"))
-If TemplateDic.Exists("TEMPLATE_DEFAULT")=False Then Call TemplateDic.add("TEMPLATE_DEFAULT",LoadFromFile(BlogPath &"zb_system\doc\default\default.html","utf-8"))
-If TemplateDic.Exists("TEMPLATE_FOOTER")=False Then Call TemplateDic.add("TEMPLATE_FOOTER",LoadFromFile(BlogPath &"zb_system\doc\default\footer.html","utf-8"))
-If TemplateDic.Exists("TEMPLATE_HEADER")=False Then Call TemplateDic.add("TEMPLATE_HEADER",LoadFromFile(BlogPath &"zb_system\doc\default\header.html","utf-8"))
-If TemplateDic.Exists("TEMPLATE_SEARCH")=False Then Call TemplateDic.add("TEMPLATE_SEARCH",LoadFromFile(BlogPath &"zb_system\doc\default\search.html","utf-8"))
-If TemplateDic.Exists("TEMPLATE_SIDEBAR")=False Then Call TemplateDic.add("TEMPLATE_SIDEBAR",LoadFromFile(BlogPath &"zb_system\doc\default\.html","utf-8"))
-If TemplateDic.Exists("TEMPLATE_SINGLE")=False Then Call TemplateDic.add("TEMPLATE_SINGLE",LoadFromFile(BlogPath &"zb_system\doc\default\single.html","utf-8"))
-If TemplateDic.Exists("TEMPLATE_TAGS")=False Then Call TemplateDic.add("TEMPLATE_TAGS",LoadFromFile(BlogPath &"zb_system\doc\default\tags.html","utf-8"))
+If TemplateDic.Exists("TEMPLATE_WAP_ARTICLE_COMMENT")=False Then Call TemplateDic.add("TEMPLATE_WAP_ARTICLE_COMMENT",LoadFromFile(BlogPath &"zb_system\defend\wap\wap_article_comment","utf-8"))
+If TemplateDic.Exists("TEMPLATE_WAP_ARTICLE-MULTI")=False Then Call TemplateDic.add("TEMPLATE_WAP_ARTICLE-MULTI",LoadFromFile(BlogPath &"zb_system\defend\wap\wap_article-multi.html","utf-8"))
+If TemplateDic.Exists("TEMPLATE_WAP_SINGLE")=False Then Call TemplateDic.add("TEMPLATE_WAP_SINGLE",LoadFromFile(BlogPath &"zb_system\defend\wap\wap_single.html","utf-8"))
+If TemplateDic.Exists("TEMPLATE_B_ARTICLE-ISTOP")=False Then Call TemplateDic.add("TEMPLATE_B_ARTICLE-ISTOP",LoadFromFile(BlogPath &"zb_system\defend\default\b_article-istop.html","utf-8"))
+If TemplateDic.Exists("TEMPLATE_B_ARTICLE-MULTI")=False Then Call TemplateDic.add("TEMPLATE_B_ARTICLE-MULTI",LoadFromFile(BlogPath &"zb_system\defend\default\b_article-multi.html","utf-8"))
+If TemplateDic.Exists("TEMPLATE_B_ARTICLE-SINGLE")=False Then Call TemplateDic.add("TEMPLATE_B_ARTICLE-SINGLE",LoadFromFile(BlogPath &"zb_system\defend\default\b_article-single.html","utf-8"))
+If TemplateDic.Exists("TEMPLATE_B_ARTICLE_COMMENT")=False Then Call TemplateDic.add("TEMPLATE_B_ARTICLE_COMMENT",LoadFromFile(BlogPath &"zb_system\defend\default\b_article_comment.html","utf-8"))
+If TemplateDic.Exists("TEMPLATE_B_ARTICLE_COMMENTPOST-VERIFY")=False Then Call TemplateDic.add("TEMPLATE_B_ARTICLE_COMMENTPOST-VERIFY",LoadFromFile(BlogPath &"zb_system\defend\default\b_article_commentpost-verify.html","utf-8"))
+If TemplateDic.Exists("TEMPLATE_B_ARTICLE_COMMENTPOST")=False Then Call TemplateDic.add("TEMPLATE_B_ARTICLE_COMMENTPOST",LoadFromFile(BlogPath &"zb_system\defend\default\b_article_commentpost.html","utf-8"))
+If TemplateDic.Exists("TEMPLATE_B_ARTICLE_COMMENT_PAGEBAR")=False Then Call TemplateDic.add("TEMPLATE_B_ARTICLE_COMMENT_PAGEBAR",LoadFromFile(BlogPath &"zb_system\defend\default\b_article_comment_pagebar.html","utf-8"))
+If TemplateDic.Exists("TEMPLATE_B_ARTICLE_MUTUALITY")=False Then Call TemplateDic.add("TEMPLATE_B_ARTICLE_MUTUALITY",LoadFromFile(BlogPath &"zb_system\defend\default\b_article_mutuality.html","utf-8"))
+If TemplateDic.Exists("TEMPLATE_B_ARTICLE_NVABAR_L")=False Then Call TemplateDic.add("TEMPLATE_B_ARTICLE_NVABAR_L",LoadFromFile(BlogPath &"zb_system\defend\default\b_article_nvabar_l.html","utf-8"))
+If TemplateDic.Exists("TEMPLATE_B_ARTICLE_NVABAR_R")=False Then Call TemplateDic.add("TEMPLATE_B_ARTICLE_NVABAR_R",LoadFromFile(BlogPath &"zb_system\defend\default\b_article_nvabar_r.html","utf-8"))
+If TemplateDic.Exists("TEMPLATE_B_ARTICLE_TAG")=False Then Call TemplateDic.add("TEMPLATE_B_ARTICLE_TAG",LoadFromFile(BlogPath &"zb_system\defend\default\b_article_tag.html","utf-8"))
+If TemplateDic.Exists("TEMPLATE_B_FUNCTION")=False Then Call TemplateDic.add("TEMPLATE_B_FUNCTION",LoadFromFile(BlogPath &"zb_system\defend\default\b_function.html","utf-8"))
+If TemplateDic.Exists("TEMPLATE_B_PAGEBAR")=False Then Call TemplateDic.add("TEMPLATE_B_PAGEBAR",LoadFromFile(BlogPath &"zb_system\defend\default\b_pagebar.html","utf-8"))
+If TemplateDic.Exists("TEMPLATE_CATALOG")=False Then Call TemplateDic.add("TEMPLATE_CATALOG",LoadFromFile(BlogPath &"zb_system\defend\default\catalog.html","utf-8"))
+If TemplateDic.Exists("TEMPLATE_DEFAULT")=False Then Call TemplateDic.add("TEMPLATE_DEFAULT",LoadFromFile(BlogPath &"zb_system\defend\default\default.html","utf-8"))
+If TemplateDic.Exists("TEMPLATE_FOOTER")=False Then Call TemplateDic.add("TEMPLATE_FOOTER",LoadFromFile(BlogPath &"zb_system\defend\default\footer.html","utf-8"))
+If TemplateDic.Exists("TEMPLATE_HEADER")=False Then Call TemplateDic.add("TEMPLATE_HEADER",LoadFromFile(BlogPath &"zb_system\defend\default\header.html","utf-8"))
+If TemplateDic.Exists("TEMPLATE_SEARCH")=False Then Call TemplateDic.add("TEMPLATE_SEARCH",LoadFromFile(BlogPath &"zb_system\defend\default\search.html","utf-8"))
+If TemplateDic.Exists("TEMPLATE_SIDEBAR")=False Then Call TemplateDic.add("TEMPLATE_SIDEBAR",LoadFromFile(BlogPath &"zb_system\defend\default\.html","utf-8"))
+If TemplateDic.Exists("TEMPLATE_SINGLE")=False Then Call TemplateDic.add("TEMPLATE_SINGLE",LoadFromFile(BlogPath &"zb_system\defend\default\single.html","utf-8"))
+If TemplateDic.Exists("TEMPLATE_TAGS")=False Then Call TemplateDic.add("TEMPLATE_TAGS",LoadFromFile(BlogPath &"zb_system\defend\default\tags.html","utf-8"))
 
 	Dim i,j
 	'在模板文件中先替换一次模板INCLUDE里的文件标签
@@ -1200,9 +1224,9 @@ Function LoadGlobeCache()
 	aryTemplatesName(1)="TEMPLATE_WAP_ARTICLE_COMMENT"
 	aryTemplatesName(2)="TEMPLATE_WAP_ARTICLE-MULTI"
 	aryTemplatesName(3)="TEMPLATE_WAP_SINGLE"
-	aryTemplatesContent(1)=LoadFromFile(BlogPath & "zb_system\doc\wap\wap_article_comment.html","utf-8")
-	aryTemplatesContent(2)=LoadFromFile(BlogPath & "zb_system\doc\wap\wap_article-multi.html","utf-8")
-	aryTemplatesContent(3)=LoadFromFile(BlogPath & "zb_system\doc\wap\wap_single.html","utf-8")
+	aryTemplatesContent(1)=LoadFromFile(BlogPath & "zb_system\defend\wap\wap_article_comment.html","utf-8")
+	aryTemplatesContent(2)=LoadFromFile(BlogPath & "zb_system\defend\wap\wap_article-multi.html","utf-8")
+	aryTemplatesContent(3)=LoadFromFile(BlogPath & "zb_system\defend\wap\wap_single.html","utf-8")
 
 
 	'读取Template目录下的所有文件并写入Cache
@@ -2506,7 +2530,11 @@ Function BlogReBuild_Categorys()
 	Dim objRS
 	Dim objStream
 	Dim objArticle
-	Dim i
+	Dim i,j
+
+	j=Functions(FunctionMetas.GetValue("previous")).MaxLi
+	If j=0 Then j=10
+
 
 	'Categorys
 	Dim strCategory
@@ -2519,7 +2547,7 @@ Function BlogReBuild_Categorys()
 			Set objRS=objConn.Execute("SELECT [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_IsAnonymous],[log_Meta] FROM [blog_Article] WHERE ([log_CateID]>0) And ([log_ID]>0) AND ([log_Level]>1) AND ([log_CateID]="&Category.ID&") ORDER BY [log_PostTime] DESC")
 
 			If (Not objRS.bof) And (Not objRS.eof) Then
-				For i=1 to ZC_PREVIOUS_COUNT
+				For i=1 to j
 					Set objArticle=New TArticle
 					If objArticle.LoadInfoByArray(Array(objRS(0),objRS(1),objRS(2),objRS(3),objRS(4),objRS(5),objRS(6),objRS(7),objRS(8),objRS(9),objRS(10),objRS(11),objRS(12),objRS(13),objRS(14),objRS(15),objRS(16),objRS(17))) Then
 						strCategory=strCategory & "<li><a href="""& objArticle.Url & """>" & objArticle.Title & "</a></li>"
@@ -2610,7 +2638,7 @@ Function BlogReBuild_Tags()
 
 	Dim i,j
 	i=Functions(FunctionMetas.GetValue("tags")).MaxLi
-	If i=0 Then i=ZC_TAGS_DISPLAY_COUNT
+	If i=0 Then i=20
 	j=0
 	'Authors
 	Dim strTag
@@ -2661,9 +2689,9 @@ Function BlogReBuild_Previous()
 	Dim objStream
 	Dim objArticle
 
-	j=Functions(FunctionMetas.GetValue("tags")).MaxLi
+	j=Functions(FunctionMetas.GetValue("previous")).MaxLi
 
-	If j=0 Then j=ZC_PREVIOUS_COUNT
+	If j=0 Then j=10
 
 	'Previous
 	Dim strPrevious
@@ -2685,6 +2713,8 @@ Function BlogReBuild_Previous()
 	strPrevious=TransferHTML(strPrevious,"[no-asp]")
 
 	Functions(FunctionMetas.GetValue("previous")).Content=strPrevious
+
+	Functions(FunctionMetas.GetValue("previous")).SaveFile
 
 	'Call SaveToFile(BlogPath & "zb_users/include/previous.asp",strPrevious,"utf-8",True)
 
@@ -2721,14 +2751,14 @@ Function BlogReBuild_Comments()
 	Dim i,j
 
 	j=Functions(FunctionMetas.GetValue("comments")).MaxLi
-	If j=0 Then j=ZC_MSG_COUNT
+	If j=0 Then j=10
 
 	Set objRS=objConn.Execute("SELECT [log_ID],[comm_ID],[comm_Content],[comm_PostTime],[comm_Author] FROM [blog_Comment] WHERE [log_ID]>0 ORDER BY [comm_PostTime] DESC,[comm_ID] DESC")
 	If (Not objRS.bof) And (Not objRS.eof) Then
 		For i=1 to j
 			s=objRS("comm_Content")
 			s=Replace(s,vbCrlf,"")
-			If (Len(s)>ZC_RECENT_COMMENT_WORD_MAX) And (ZC_RECENT_COMMENT_WORD_MAX>(Len(ZC_MSG305)+1)) Then s=Left(s,ZC_RECENT_COMMENT_WORD_MAX-(Len(ZC_MSG305)+1))&ZC_MSG305
+			'If (Len(s)>ZC_RECENT_COMMENT_WORD_MAX) And (ZC_RECENT_COMMENT_WORD_MAX>(Len("...")+1)) Then s=Left(s,ZC_RECENT_COMMENT_WORD_MAX-(Len("...")+1))&"..."
 
 			'Set objArticle=New TArticle
 			'If objArticle.LoadInfoByID(objRS("log_ID")) Then
@@ -2745,6 +2775,8 @@ Function BlogReBuild_Comments()
 	strComments=TransferHTML(strComments,"[no-asp]")
 
 	Functions(FunctionMetas.GetValue("comments")).Content=strComments
+
+	Functions(FunctionMetas.GetValue("comments")).SaveFile
 
 	'Call SaveToFile(BlogPath & "zb_users/include/comments.asp",strComments,"utf-8",True)
 

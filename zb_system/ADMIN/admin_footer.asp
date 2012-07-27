@@ -3,7 +3,7 @@
 </div>
 
 			</div>
-<script language="JavaScript" type="text/javascript">
+<script type="text/javascript">
 // <![CDATA[
 
 
@@ -41,6 +41,21 @@ function bmx2table(){
 	};
 };
 
+
+function changeCheckValue(obj){
+
+
+	$(obj).toggleClass('imgcheck-on');
+
+	if($(obj).hasClass('imgcheck-on')){
+		$(obj).prev('input').val('True');
+	}else{
+		$(obj).prev('input').val('False');
+	}
+
+}
+
+
 $(document).ready(function(){ 
 
 	bmx2table();
@@ -48,10 +63,12 @@ $(document).ready(function(){
 	if($('.SubMenu').find('span').length==0){$('.SubMenu').hide()};
 
 
+	//$("#avatar").attr("src","<%="http://www.gravatar.com/avatar/"& MD5(BlogUser.Email) &"?s=40&d="& Server.urlEncode(GetCurrentHost & "ZB_SYSTEM/image/admin/avatar.png")%>");
 
 
-	$("#avatar").attr("src","<%="http://www.gravatar.com/avatar/"& MD5(BlogUser.Email) &"?s=40&d="& Server.urlEncode(GetCurrentHost & "ZB_SYSTEM/image/admin/avatar.png")%>");
-
+	$('input.checkbox').css("display","none");
+	$('input.checkbox[value="True"]').after('<span onclick="changeCheckValue(this)" class="imgcheck imgcheck-on"></span>');
+	$('input.checkbox[value="False"]').after('<span onclick="changeCheckValue(this)" class="imgcheck"></span>');
 
 
 });
