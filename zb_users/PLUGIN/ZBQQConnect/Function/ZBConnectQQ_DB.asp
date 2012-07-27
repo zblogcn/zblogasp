@@ -41,13 +41,13 @@ Class ZBConnectQQ_DB
 				strSQL=strSQL & "QQ_USERID="&objUser.ID
 			Case 3
 				strSQL=strSQL & "QQ_EmlMD5='"&EMailMD5&"'"
-			Case 4
+			Case 4,5
 				strSQL=strSQL & "QQ_OpenID='"&OpenID&"'"
 		End Select
 		Set objRS=objConn.Execute(strSQL)
 		If (Not objRS.bof) And (Not objRS.eof) Then
 			ID=objRS("QQ_ID")
-			objUser.LoadInfoById CInt(objRS("QQ_UserID"))
+			If Typ<>5 Then objUser.LoadInfoById CInt(objRS("QQ_UserID"))
 			EmailMD5=objRs("QQ_EmlMD5")
 			OpenID=objRS("QQ_OpenID")
 			AccessToken=objRs("QQ_AToken")
@@ -75,8 +75,8 @@ Class ZBConnectQQ_DB
 			EmailMD5=MD5(objUser.EMail)
 		End If
 		If OpenID="" Or AccessToken="" Then Bind=False:Exit Function
-		If LoadInfo(3) Then
-			strSQL="UPDATE [blog_Plugin_ZBQQConnect] SET [QQ_UserID]="&objUser.ID&",[QQ_OpenID]='"&OpenID&"',[QQ_AToken]='"&AccessToken&"',[QQ_Head]='"& Head&"' WHERE [QQ_EmlMD5]='"&EmailMD5&"'"
+		If LoadInfo(5) Then
+			strSQL="UPDATE [blog_Plugin_ZBQQConnect] SET [QQ_UserID]="&objUser.ID&",[QQ_OpenID]='"&OpenID&"',[QQ_AToken]='"&AccessToken&"',[QQ_Head]='"& Head&"' WHERE [QQ_OpenID]='"&OpenID&"'"
 		Else
 			strSQL="INSERT INTO [blog_Plugin_ZBQQConnect] ([QQ_UserID],[QQ_OpenID],[QQ_AToken],[QQ_Head],[QQ_EmlMD5]) VALUES ("&objUser.ID&",'"&OpenID&"','"&AccessToken&"','"& Head&"','"&EmailMD5&"')"
 		End If
@@ -91,7 +91,11 @@ Class ZBConnectQQ_DB
 	
 	
 	Function SetHead()
-		objConn.Execute "UPDATE [blog_Plugin_ZBQQConnect] SET [QQ_Head]='"&FilterSQL(Head)&"'"
+		Call CheckParameter(ID,"int",0)
+		If ID>0 Then
+			objConn.Execute "UPDATE [blog_Plugin_ZBQQConnect] SET [QQ_Head]='"&FilterSQL(Head)&"' WHERE [QQ_ID]="&ID
+			SetHead=True
+		End If
 	End Function
 	
 	Function Del()

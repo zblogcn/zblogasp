@@ -19,13 +19,13 @@ End Function
 
 Call RegisterPlugin("ZBQQConnect","ActivePlugin_ZBQQConnect")
 
-Sub ZBQQConnect_RegSave
-	
+Sub ZBQQConnect_RegSave(UID)
 	If Not IsEmpty(Request.Form("QQOpenID")) Then
 		ZBQQConnect_Initialize
 		ZBQQConnect_DB.OpenID=Request.Form("QQOpenID")
 		If ZBQQConnect_DB.LoadInfo(4)=True Then
-			
+			ZBQQConnect_DB.objUser.LoadInfoById UID
+			ZBQQConnect_DB.Bind
 		End If
 	End If
 End Sub
@@ -44,9 +44,8 @@ Function ActivePlugin_ZBQQConnect()
 					Call Add_Action_Plugin("Action_Plugin_RegPage_Begin","dUsername="""&objQQ.nickname&"""")
 				End If
 			End If
-		Call Add_Action_Plugin("sAction_Plugin_RegSave_End","Call ZBQQConnect_RegSave(RegUser.ID)")
+		Call Add_Action_Plugin("Action_Plugin_RegSave_End","Call ZBQQConnect_RegSave(RegUser.ID)")
 		'Call Add_Action_Plugin("Action_Plugin_RegSave_End","If isQQLogin=True Then ")
-
 	End If
 	'挂上接口
 	'Filter_Plugin_PostArticle_Core
