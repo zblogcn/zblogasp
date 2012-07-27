@@ -12,7 +12,7 @@ Class ZBQQConnect
 '*******************************************************************************
 '** 定义变量                                                                    **
 '*******************************************************************************
-Private strOauthToken,strPostUrl,strOauthSessionUserID,strOauthSessionToken,strOauthSessionSecret,intErrorCount,strOauthTokenSecret
+Private strOauthToken,strPostUrl,strOauthSessionUserID,strAccToken,strOpenID,intErrorCount,strOauthTokenSecret
 Private strMadeUpUrl
 Private strHttptype
 Private strAppKey,strAppSecret
@@ -26,16 +26,16 @@ Private strPrototype,strOauthVersion,strSessionClsID
 '** 初始化                                                                **
 '*******************************************************************************
 Sub Class_Initialize()
-	strSessionClsID=""
+	strSessionClsID=ZC_BLOG_CLSID
 	strHttptype = "GET&"
 	intErrorCount=0
 	intRepeatMax=3
 	set objJSON=ZBQQConnect_toobject("{}")
 	
-	strOauthSessionSecret=Session(strSessionClsID&"ZBQQConnect_strOpenID")
-	strOauthSessionToken=Session(strSessionClsID&"ZBQQConnect_strAccessToken")
+	strOpenID=Session(strSessionClsID&"ZBQQConnect_strOpenID")
+	strAccToken=Session(strSessionClsID&"ZBQQConnect_strAccessToken")
 	set objXmlhttp=server.CreateObject("msxml2.serverXmlhttp")
-	version="1.0"
+	version="2.0"
 	strPrototype="http://"
 	strUserAgent="ZBQQConnect ByZSXSOFT"
 	'需要读取数据库等可在这里插入代码
@@ -46,12 +46,6 @@ End Sub
 Sub Class_Terminate()
 	set objXmlhttp=nothing
 End Sub
-'*******************************************************************************
-'** 得到用户名
-'*******************************************************************************
-Public Property Get Username
-	Username = strOauthSessionUserID
-End Property
 '****************************************************************************
 '** 设置CallBackUrl
 '****************************************************************************
@@ -75,7 +69,7 @@ End Property
 '****************************************************************************
 Public Property Let Version(Str)
 		strOauthVersion=str
-		if strOauthVersion="1.0" then strPrototype="http://" else strPrototype="https://"
+		strPrototype="https://"
 End Property
 Public Property Get Version
 		Version=strOauthVersion
@@ -143,21 +137,42 @@ End Function
 '****************************************************************************
 '** 得到是否登陆
 '****************************************************************************
-Public Property Get  logined()
-		if strOauthSessionSecret="" or  request.QueryString("typ")="logout" then
-			logined=false
-		else
-			logined=true
-		end if
+'Public Property Get  logined()
+'		if strOpenID="" or  request.QueryString("typ")="logout" then
+'			logined=false
+'		else
+'			logined=true
+'		end if
+'end Property
+'****************************************************************************
+'** 得到OpenID
+'****************************************************************************
+Public Property Let OpenID(str)
+		strOpenID=str
+End Property
+Public Property Get OpenID
+		OpenID=strOpenID
+End Property
+'****************************************************************************
+'** 得到AccessToken
+'****************************************************************************
+Public Property Let AccessToken(str)
+		strAccToken=str
+End Property
+Public Property Get AccessToken
+		AccessToken=strAccToken
+End Property
 
-end Property
 '****************************************************************************
 '** 注销
 '****************************************************************************
 Public Sub logout()
-	Session(strSessionClsID&"ZBQQConnect_strAccessToken")=""
-	Session(strSessionClsID&"ZBQQConnect_strOpenID")=""
+	'Session(strSessionClsID&"ZBQQConnect_strAccessToken")=""
+	'Session(strSessionClsID&"ZBQQConnect_strOpenID")=""
 	''数据库代码在这里加入
+	ZBQQConnect_DB.OpenID=strOpenID
+	ZBQQConnect_DB.LoadInfo 4
+	ZBQQConnect_DB.Del 
 End Sub
 '*******************************************************************************
 '** 运行插件                                                                **
@@ -183,7 +198,9 @@ End Function
 Function MakeOauthUrl(ByRef oauth_url,ip,content)
 	MakeOauthUrl=MakeOauth2Url(oauth_url,ip,content)
 End Function
-
+'*******************************************************************************
+'** 得到验证URL                                                         **
+'*******************************************************************************
 Function Authorize()
 	Dim a,b,c
 	a="https://graph.qq.com/oauth2.0/authorize"
@@ -197,7 +214,9 @@ Function Authorize()
 	c=ZBQQConnect_toStr(b)
 	Authorize=a&"?"&c'GetHttp(a&"?"&c)
 End Function
-
+'*******************************************************************************
+'** CallBack                                                         **
+'*******************************************************************************
 Function CallBack()
 	Dim a,b,c,d
 	a="https://graph.qq.com/oauth2.0/token"
@@ -214,15 +233,17 @@ Function CallBack()
 	Session(strSessionClsID&"ZBQQConnect_strAccessToken")=CallBack
 	
 End Function
-
-Function OpenId(AccessToken)
+'*******************************************************************************
+'** 得到OpenID                                                         **
+'*******************************************************************************
+Function GetOpenId(AccessToken)
 	Dim a,b,c,d
 	a="https://graph.qq.com/oauth2.0/me"
 	b="?access_token="&AccessToken
 	OpenId=Split(Split(gethttp(a&b),"""openid"":""")(1),"""")(0)
 	Session(strSessionClsID&"ZBQQConnect_strOpenID")=OpenId
-	strOauthSessionSecret=Session(strSessionClsID&"ZBQQConnect_strOpenID")
-	strOauthSessionToken=Session(strSessionClsID&"ZBQQConnect_strAccessToken")
+	strOpenID=Session(strSessionClsID&"ZBQQConnect_strOpenID")
+	strAccToken=Session(strSessionClsID&"ZBQQConnect_strAccessToken")
 End Function
 '*******************************************************************************
 '** 组合Url(Oauth 2.0)                                                         **
@@ -231,8 +252,8 @@ Function MakeOauth2Url(ByRef oauth_url,ip,content)
 	dim iscustom
 	if ip="sdk_custom" then iscustom=true
 	Call ZBQQConnect_addobj(objJSON,"oauth_consumer_key",strAppKey) '设置APPKEY
-	Call ZBQQConnect_addobj(objJSON,"access_token",Session(strSessionClsID&"ZBQQConnect_strAccessToken"))
-	Call ZBQQConnect_addobj(objJSON,"openid",Session(strSessionClsID&"ZBQQConnect_strOpenID"))
+	Call ZBQQConnect_addobj(objJSON,"access_token",strAccToken)
+	Call ZBQQConnect_addobj(objJSON,"openid",strOpenID)
 	Call ZBQQConnect_addobj(objJSON,"oauth_version","2.a")
 	Call ZBQQConnect_addobj(objJSON,"clientip",getIP)
 	Call ZBQQConnect_addobj(objJSON,"scope","all")

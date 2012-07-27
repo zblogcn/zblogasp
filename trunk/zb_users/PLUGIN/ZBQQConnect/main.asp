@@ -9,6 +9,8 @@
 <%
 '
 Call System_Initialize()
+Call ZBQQConnect_Initialize()
+
 Call CheckReference("")
 
 Dim tmpa
@@ -17,16 +19,19 @@ dim tmpbl
 dim for1,for2,obj1
 '判断是否注销
 if request.QueryString("act")="logout" then
+		Set ZBQQConnect_DB.objUser=BlogUser
+		ZBQQConnect_DB.LoadInfo 2
+		ZBQQConnect_class.OpenID=ZBQQConnect_DB.OpenID
  		ZBQQConnect_class.logout
 		response.Redirect("main.asp")
 end if 
 '判断AJAX拉取时用户有无权限，若有则添加codepage
-If ZBQQConnect_class.logined=false and request.QueryString("typ")<>"" Then
-	response.write "error"
-	response.end
-else
-	session.CodePage=65001
-end if
+'If ZBQQConnect_class.logined=false and request.QueryString("typ")<>"" Then
+'	response.write "error"'
+'	response.end
+'else
+'	session.CodePage=65001
+'end if
 
 %>
     
@@ -39,17 +44,23 @@ end if
 
       <%
 	Dim ZBQQConnect_get_authorize_url
-	If ZBQQConnect_class.logined=false Then
-		Dim ZBQQConnect_A
+	Set ZBQQConnect_DB.objUser=BlogUser
+	Dim ZBQQConnect_A
+	If ZBQQConnect_DB.LoadInfo(2)=False Then
+		
 		ZBQQConnect_class.callbackurl=IIf(BlogUser.Level=5,"http://www.zsxsoft.com/zblog-1-9/ZB_USERS/PLUGIN/ZBQQConnect/callback.asp?act=login","http://www.zsxsoft.com/zblog-1-9/ZB_USERS/PLUGIN/ZBQQConnect/callback.asp?act=admin")
 		Response.Write "<a onclick='window.open(""" & ZBQQConnect_class.Authorize & """);$(""#fff"").show();' href='javascript:void(0);'><img src='logo_230_48.png'/></a></div><div id='fff' style='display:none'>如果您无法正常获取到授权码，请<a href='javascript:location.href=""main.asp?""+Math.random()'>点击刷新本页</a>"
 	Else
+		
+		ZBQQConnect_class.OpenID=ZBQQConnect_DB.OpenID
+		ZBQQConnect_class.AccessToken=ZBQQConnect_DB.AccessToken
 		ZBQQConnect_get_authorize_url = "main.asp?act=logout"
 		Response.Write "<a href=""" & ZBQQConnect_get_authorize_url & """>注销</a>"	
-		Set ZBQQConnect_A=ZBQQConnect_ToObject(ZBQQConnect_class.API("https://graph.qq.com/user/get_user_info","{'format':'json'}","GET&"))
+		
+		ZBQQConnect_A=ZBQQConnect_class.API("https://graph.qq.com/user/get_user_info","{'format':'json'}","GET&")
+		Set ZBQQConnect_A=ZBQQConnect_ToObject(ZBQQConnect_A)
 		Response.Write "<br/>你好，"&ZBQQConnect_A.nickname&IIf(ZBQQConnect_A.Gender="男","先生","女士")&"<br/><img src="""&ZBQQConnect_A.figureurl_2&"""/>"
 	End If
-
 %>
 
 
