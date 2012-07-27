@@ -460,3 +460,21 @@ span.title{
 .totoro dd { line-height:28px; margin-bottom:5px;}
 .totoro .totorotxt { font-size:12px;}
 #totorobox textarea { background:#FFFFFF; padding:10px 0; border:none;}
+
+
+
+
+/*checkbox*/
+.imgcheck{
+	background:url("../IMAGE/ADMIN/checkbox.png") no-repeat 0 bottom;
+	width:40px;
+	height:17px;
+	display:inline;
+	float:left;
+	cursor: pointer;
+	margin-bottom:5px;
+	margin-left:5px;
+}
+.imgcheck-on{
+	background:url("../IMAGE/ADMIN/checkbox.png") no-repeat 0 top;
+}

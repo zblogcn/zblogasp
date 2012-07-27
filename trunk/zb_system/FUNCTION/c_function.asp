@@ -663,6 +663,11 @@ End Function
 '*********************************************************
 Function UBBCode(ByVal strContent,strType)
 
+	If ZC_UBB_ENABLE=False Then
+		UBBCode=strContent
+		Exit Function
+	End If
+
 	Dim objRegExp
 	Set objRegExp=new RegExp
 	objRegExp.IgnoreCase =True

@@ -72,6 +72,6 @@
 </html>
 <%
 If Err.Number<>0 Then
-	Response.Redirect ZC_BLOG_HOST & "function/c_error.asp"
+	Response.Redirect ZC_BLOG_HOST & "zb_system/function/c_error.asp"
 End If
 %>

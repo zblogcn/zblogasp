@@ -425,7 +425,6 @@ End If
 
 	var str10="<%=ZC_MSG115%>";
 	var str11="<%=ZC_MSG116%>";
-	var str12="<%=ZC_MSG117%>";
 
 	function checkArticleInfo(){
 		document.getElementById("edit").action="../cmd.asp?act=ArticlePst&webedit=ueditor<%=IIF(Request.QueryString("type")="Page","&type=Page","")%>";

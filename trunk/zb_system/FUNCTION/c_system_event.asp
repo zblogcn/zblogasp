@@ -268,7 +268,7 @@ Function PostArticle()
 				Next
 				s=Replace(s,vbCr,vbCrlf)
 			End If
-			s=s & ZC_MSG305
+			s=s & "..."
 		End If
 		s=TransferHTML(s,"[closehtml]")
 		objArticle.Intro=s
@@ -441,7 +441,7 @@ Function PostComment(strKey,intRevertCommentID)
 		
 		Dim i
 		i=GetCommentFloor(inpParentID)
-		If i>ZC_MAXFLOOR-1 Then	Call ShowError(52)
+		If i>ZC_COMMNET_MAXFLOOR-1 Then	Call ShowError(52)
 
 	End If
 
@@ -581,11 +581,11 @@ Function SaveComment(intID,intLog_ID)
 	Set objComment2=New TComment
 
 
-objComment.LoadInfoByID intID	
-'	If objComment.LoadInfoByID(intID)=True Then
-	if inpParentID>0 And inpParentID<>clng(intID) then
+	objComment.LoadInfoByID intID	
+
+	If inpParentID>0 And inpParentID<>clng(intID) Then
 		If objComment2.LoadInfoByID(inpParentID)=True Then
-			If GetCommentFloor(inpParentID)+1>ZC_MAXFLOOR Then Call SetBlogHint_Custom(ZC_MSG335):SaveComment=True:Exit Function
+			If GetCommentFloor(inpParentID)+1>ZC_COMMNET_MAXFLOOR Then Call SetBlogHint_Custom(ZC_MSG335):SaveComment=True:Exit Function
 
 			If objComment2.log_ID=cLng(intLog_ID) then
 				objComment.ParentID=inpParentID
@@ -595,9 +595,9 @@ objComment.LoadInfoByID intID
 				Exit Function
 			End If
 		End If
-	else	
+	Else
 		If  inpParentID<>clng(intID) then objComment.parentid=0
-	end if
+	End If
 
 		objComment.log_ID=intLog_ID
 		objComment.Author=Request.Form("inpName")
@@ -621,6 +621,7 @@ objComment.LoadInfoByID intID
 
 		Call BuildArticle(objComment.log_ID,False,False)
 		BlogReBuild_Comments
+		Functions(FunctionMetas.GetValue("comments")).SaveFile
 
 		SaveComment=True
 
@@ -1102,397 +1103,53 @@ End Function
 '*********************************************************
 Function SaveSetting()
 
-	On Error Resume Next
-
-	Dim i,j
-	Dim s,t
 	Dim strContent
+	strContent=LoadFromFile(BlogPath & "zb_system\defend\c_option.asp.html","utf-8")
 
-	strContent=LoadFromFile(BlogPath & "zb_users/c_custom.asp","utf-8")
 
-	Dim strZC_BLOG_HOST
-	Dim strZC_BLOG_TITLE
-	Dim strZC_BLOG_SUBTITLE
-	Dim strZC_BLOG_NAME
-	Dim strZC_BLOG_SUB_NAME
-	Dim strZC_BLOG_CSS
-	Dim strZC_BLOG_THEME
-	Dim strZC_BLOG_COPYRIGHT
-	Dim strZC_BLOG_MASTER
+	Dim a,b
 
-
-	strZC_BLOG_HOST=Request.Form("edtZC_BLOG_HOST")
-	If Right(strZC_BLOG_HOST,1)<>"/" Then strZC_BLOG_HOST=strZC_BLOG_HOST & "/"
-	If Left(strZC_BLOG_HOST,8)<>"https://" Then
-		If Left(strZC_BLOG_HOST,7)<>"http://" Then strZC_BLOG_HOST="http://" & strZC_BLOG_HOST
-	End If
-
-	strZC_BLOG_TITLE=Request.Form("edtZC_BLOG_TITLE")
-
-	strZC_BLOG_SUBTITLE=Request.Form("edtZC_BLOG_SUBTITLE")
-
-	strZC_BLOG_NAME=Request.Form("edtZC_BLOG_NAME")
-
-	strZC_BLOG_SUB_NAME=Request.Form("edtZC_BLOG_SUB_NAME")
-
-	strZC_BLOG_CSS=Request.Form("edtZC_BLOG_CSS")
-
-	strZC_BLOG_THEME=Request.Form("edtZC_BLOG_THEME")
-
-	strZC_BLOG_COPYRIGHT=Replace(Replace(Request.Form("edtZC_BLOG_COPYRIGHT"),vbCr,""),vbLf,"")
-
-	strZC_BLOG_MASTER=Request.Form("edtZC_BLOG_MASTER")
-
-	Call ScanPluginToThemeFile(strZC_BLOG_CSS,strZC_BLOG_THEME)
-
-	Call SaveValueForSetting(strContent,True,"String","ZC_BLOG_HOST",strZC_BLOG_HOST)
-	Call SaveValueForSetting(strContent,True,"String","ZC_BLOG_TITLE",strZC_BLOG_TITLE)
-	Call SaveValueForSetting(strContent,True,"String","ZC_BLOG_SUBTITLE",strZC_BLOG_SUBTITLE)
-	Call SaveValueForSetting(strContent,True,"String","ZC_BLOG_NAME",strZC_BLOG_NAME)
-	Call SaveValueForSetting(strContent,True,"String","ZC_BLOG_SUB_NAME",strZC_BLOG_SUB_NAME)
-	Call SaveValueForSetting(strContent,True,"String","ZC_BLOG_CSS",strZC_BLOG_CSS)
-	Call SaveValueForSetting(strContent,True,"String","ZC_BLOG_THEME",strZC_BLOG_THEME)
-	Call SaveValueForSetting(strContent,True,"String","ZC_BLOG_COPYRIGHT",strZC_BLOG_COPYRIGHT)
-	Call SaveValueForSetting(strContent,True,"String","ZC_BLOG_MASTER",strZC_BLOG_MASTER)
-
-	If UCase(strZC_BLOG_HOST)<>UCase("""" & CStr(ZC_BLOG_HOST) & """") Then Call SetBlogHint(Empty,Empty,True)
-	If UCase(strZC_BLOG_TITLE)<>UCase("""" & CStr(ZC_BLOG_TITLE) & """") Then Call SetBlogHint(Empty,Empty,True)
-	If UCase(strZC_BLOG_SUBTITLE)<>UCase("""" & CStr(ZC_BLOG_SUBTITLE) & """") Then Call SetBlogHint(Empty,Empty,Empty)
-	If UCase(strZC_BLOG_NAME)<>UCase("""" & CStr(ZC_BLOG_NAME) & """") Then Call SetBlogHint(Empty,Empty,True)
-	If UCase(strZC_BLOG_SUB_NAME)<>UCase("""" & CStr(ZC_BLOG_SUB_NAME) & """") Then Call SetBlogHint(Empty,Empty,True)
-	If UCase(strZC_BLOG_CSS)<>UCase("""" & CStr(ZC_BLOG_CSS) & """") Then Call SetBlogHint(Empty,True,Empty)
-	If UCase(strZC_BLOG_THEME)<>UCase("""" & CStr(ZC_BLOG_THEME) & """") Then Call SetBlogHint(Empty,True,True)
-	If UCase(strZC_BLOG_COPYRIGHT)<>UCase("""" & CStr(ZC_BLOG_COPYRIGHT) & """") Then Call SetBlogHint(Empty,Empty,True)
-	If UCase(strZC_BLOG_MASTER)<>UCase("""" & CStr(ZC_BLOG_MASTER) & """") Then Call SetBlogHint(Empty,True,Empty)
-
-	Call SaveToFile(BlogPath & "zb_users/c_custom.asp",strContent,"utf-8",False)
-
-	strContent=LoadFromFile(BlogPath & "zb_users/c_option.asp","utf-8")
-
-	Dim strZC_BLOG_CLSID
-	strZC_BLOG_CLSID=Request.Form("edtZC_BLOG_CLSID")
-	If CheckRegExp(strZC_BLOG_CLSID,"[guid]") Then
-	Call SaveValueForSetting(strContent,True,"String","ZC_BLOG_CLSID",strZC_BLOG_CLSID)
-	If UCase(strZC_BLOG_CLSID)<>UCase("""" & CStr(ZC_BLOG_CLSID) & """") Then Call SetBlogHintWithCLSID(True,True,True,Replace(strZC_BLOG_CLSID,"""",""))
-	End If
-
-	Dim strZC_TIME_ZONE
-	strZC_TIME_ZONE=Request.Form("edtZC_TIME_ZONE")
-	Call SaveValueForSetting(strContent,True,"String","ZC_TIME_ZONE",strZC_TIME_ZONE)
-	If UCase(strZC_TIME_ZONE)<>UCase("""" & CStr(ZC_TIME_ZONE) & """") Then Call SetBlogHint(Empty,Empty,True)
-
-	Dim strZC_HOST_TIME_ZONE
-	strZC_HOST_TIME_ZONE=Request.Form("edtZC_HOST_TIME_ZONE")
-	Call SaveValueForSetting(strContent,True,"String","ZC_HOST_TIME_ZONE",strZC_HOST_TIME_ZONE)
-	If UCase(strZC_HOST_TIME_ZONE)<>UCase("""" & CStr(ZC_HOST_TIME_ZONE) & """") Then Call SetBlogHint(Empty,Empty,True)
-
-	Dim strZC_BLOG_LANGUAGE
-	strZC_BLOG_LANGUAGE=Request.Form("edtZC_BLOG_LANGUAGE")
-	Call SaveValueForSetting(strContent,True,"String","ZC_BLOG_LANGUAGE",strZC_BLOG_LANGUAGE)
-	If UCase(strZC_BLOG_LANGUAGE)<>UCase("""" & CStr(ZC_BLOG_LANGUAGE) & """") Then Call SetBlogHint(Empty,Empty,True)
-
-	Dim strZC_UPDATE_INFO_URL
-	strZC_UPDATE_INFO_URL=Request.Form("edtZC_UPDATE_INFO_URL")
-	If (Not CheckRegExp(strZC_UPDATE_INFO_URL,"[homepage]")) And (strZC_UPDATE_INFO_URL<>"") Then strZC_UPDATE_INFO_URL="http://update.rainbowsoft.org/info/"
-	Call SaveValueForSetting(strContent,True,"String","ZC_UPDATE_INFO_URL",strZC_UPDATE_INFO_URL)
-	If UCase(strZC_UPDATE_INFO_URL)<>UCase("""" & CStr(ZC_UPDATE_INFO_URL) & """") Then Call SetBlogHint(Empty,Empty,Empty)
-
-	Dim strZC_STATIC_TYPE
-	strZC_STATIC_TYPE=Request.Form("edtZC_STATIC_TYPE")
-	Call SaveValueForSetting(strContent,True,"String","ZC_STATIC_TYPE",strZC_STATIC_TYPE)
-	If UCase(strZC_STATIC_TYPE)<>UCase("""" & CStr(ZC_STATIC_TYPE) & """") Then Call SetBlogHint(Empty,Empty,True)
-
-	Dim strZC_STATIC_DIRECTORY
-	strZC_STATIC_DIRECTORY=Request.Form("edtZC_STATIC_DIRECTORY")
-	If LCase(Left(strZC_STATIC_DIRECTORY,3))="zb_" Then strZC_STATIC_DIRECTORY=Right(strZC_STATIC_DIRECTORY,Len(strZC_STATIC_DIRECTORY)-3)
-	Call SaveValueForSetting(strContent,True,"String","ZC_STATIC_DIRECTORY",strZC_STATIC_DIRECTORY)
-	If UCase(strZC_STATIC_DIRECTORY)<>UCase("""" & CStr(ZC_STATIC_DIRECTORY) & """") Then Call SetBlogHint(Empty,Empty,True)
-
-
-
-	Dim strZC_BLOG_WEBEDIT
-	strZC_BLOG_WEBEDIT=Request.Form("edtZC_BLOG_WEBEDIT")
-	Call SaveValueForSetting(strContent,True,"String","ZC_BLOG_WEBEDIT",strZC_BLOG_WEBEDIT)
-	If UCase(strZC_BLOG_WEBEDIT)<>UCase("""" & CStr(ZC_BLOG_WEBEDIT) & """") Then Call SetBlogHint(Empty,Empty,Empty)
-
-	Dim strZC_REBUILD_FILE_COUNT
-	strZC_REBUILD_FILE_COUNT=Request.Form("edtZC_REBUILD_FILE_COUNT")
-	Call SaveValueForSetting(strContent,True,"Numeric","ZC_REBUILD_FILE_COUNT",strZC_REBUILD_FILE_COUNT)
-	If UCase(strZC_REBUILD_FILE_COUNT)<>UCase(CStr(ZC_REBUILD_FILE_COUNT)) Then Call SetBlogHint(Empty,Empty,Empty)
-
-	Dim strZC_REBUILD_FILE_INTERVAL
-	strZC_REBUILD_FILE_INTERVAL=Request.Form("edtZC_REBUILD_FILE_INTERVAL")
-	Call SaveValueForSetting(strContent,True,"Numeric","ZC_REBUILD_FILE_INTERVAL",strZC_REBUILD_FILE_INTERVAL)
-	If UCase(strZC_REBUILD_FILE_INTERVAL)<>UCase(CStr(ZC_REBUILD_FILE_INTERVAL)) Then Call SetBlogHint(Empty,Empty,Empty)
-
-	Dim strZC_UPLOAD_FILETYPE
-	strZC_UPLOAD_FILETYPE=Request.Form("edtZC_UPLOAD_FILETYPE")
-	Call SaveValueForSetting(strContent,True,"String","ZC_UPLOAD_FILETYPE",strZC_UPLOAD_FILETYPE)
-	If UCase(strZC_UPLOAD_FILETYPE)<>UCase("""" & CStr(ZC_UPLOAD_FILETYPE) & """") Then Call SetBlogHint(Empty,Empty,Empty)
-
-	Dim strZC_UPLOAD_FILESIZE
-	strZC_UPLOAD_FILESIZE=Request.Form("edtZC_UPLOAD_FILESIZE")
-	Call SaveValueForSetting(strContent,True,"Numeric","ZC_UPLOAD_FILESIZE",strZC_UPLOAD_FILESIZE)
-	If UCase(strZC_UPLOAD_FILESIZE)<>UCase(CStr(ZC_UPLOAD_FILESIZE)) Then Call SetBlogHint(Empty,Empty,Empty)
-
-	Dim strZC_COMMENT_VERIFY_ENABLE
-	strZC_COMMENT_VERIFY_ENABLE=Request.Form("edtZC_COMMENT_VERIFY_ENABLE")
-	Call SaveValueForSetting(strContent,True,"Boolean","ZC_COMMENT_VERIFY_ENABLE",strZC_COMMENT_VERIFY_ENABLE)
-	If UCase(strZC_COMMENT_VERIFY_ENABLE)<>UCase(CStr(ZC_COMMENT_VERIFY_ENABLE)) Then Call SetBlogHint(Empty,Empty,True)
-
-
-
-	Dim strZC_MSG_COUNT
-	strZC_MSG_COUNT=Request.Form("edtZC_MSG_COUNT")
-	Call SaveValueForSetting(strContent,True,"Numeric","ZC_MSG_COUNT",strZC_MSG_COUNT)
-	If UCase(strZC_MSG_COUNT)<>UCase(CStr(ZC_MSG_COUNT)) Then Call SetBlogHint(Empty,True,Empty)
-
-	Dim strZC_ARCHIVE_COUNT
-	strZC_ARCHIVE_COUNT=Request.Form("edtZC_ARCHIVE_COUNT")
-	Call SaveValueForSetting(strContent,True,"Numeric","ZC_ARCHIVE_COUNT",strZC_ARCHIVE_COUNT)
-	If UCase(strZC_ARCHIVE_COUNT)<>UCase(CStr(ZC_ARCHIVE_COUNT)) Then Call SetBlogHint(Empty,True,Empty)
-
-	Dim strZC_PREVIOUS_COUNT
-	strZC_PREVIOUS_COUNT=Request.Form("edtZC_PREVIOUS_COUNT")
-	Call SaveValueForSetting(strContent,True,"Numeric","ZC_PREVIOUS_COUNT",strZC_PREVIOUS_COUNT)
-	If UCase(strZC_PREVIOUS_COUNT)<>UCase(CStr(ZC_PREVIOUS_COUNT)) Then Call SetBlogHint(Empty,True,Empty)
-
-	Dim strZC_DISPLAY_COUNT
-	strZC_DISPLAY_COUNT=Request.Form("edtZC_DISPLAY_COUNT")
-	Call SaveValueForSetting(strContent,True,"Numeric","ZC_DISPLAY_COUNT",strZC_DISPLAY_COUNT)
-	If UCase(strZC_DISPLAY_COUNT)<>UCase(CStr(ZC_DISPLAY_COUNT)) Then Call SetBlogHint(Empty,True,Empty)
-
-	Dim strZC_MANAGE_COUNT
-	strZC_MANAGE_COUNT=Request.Form("edtZC_MANAGE_COUNT")
-	Call SaveValueForSetting(strContent,True,"Numeric","ZC_MANAGE_COUNT",strZC_MANAGE_COUNT)
-	If UCase(strZC_MANAGE_COUNT)<>UCase(CStr(ZC_MANAGE_COUNT)) Then Call SetBlogHint(Empty,Empty,Empty)
-
-	Dim strZC_RSS2_COUNT
-	strZC_RSS2_COUNT=Request.Form("edtZC_RSS2_COUNT")
-	Call SaveValueForSetting(strContent,True,"Numeric","ZC_RSS2_COUNT",strZC_RSS2_COUNT)
-	If UCase(strZC_RSS2_COUNT)<>UCase(CStr(ZC_RSS2_COUNT)) Then Call SetBlogHint(Empty,True,Empty)
-
-	Dim strZC_SEARCH_COUNT
-	strZC_SEARCH_COUNT=Request.Form("edtZC_SEARCH_COUNT")
-	Call SaveValueForSetting(strContent,True,"Numeric","ZC_SEARCH_COUNT",strZC_SEARCH_COUNT)
-	If UCase(strZC_SEARCH_COUNT)<>UCase(CStr(ZC_SEARCH_COUNT)) Then Call SetBlogHint(Empty,Empty,Empty)
-
-	Dim strZC_PAGEBAR_COUNT
-	strZC_PAGEBAR_COUNT=Request.Form("edtZC_PAGEBAR_COUNT")
-	Call SaveValueForSetting(strContent,True,"Numeric","ZC_PAGEBAR_COUNT",strZC_PAGEBAR_COUNT)
-	If UCase(strZC_PAGEBAR_COUNT)<>UCase(CStr(ZC_PAGEBAR_COUNT)) Then Call SetBlogHint(Empty,True,Empty)
-
-	Dim strZC_USE_NAVIGATE_ARTICLE
-	strZC_USE_NAVIGATE_ARTICLE=Request.Form("edtZC_USE_NAVIGATE_ARTICLE")
-	Call SaveValueForSetting(strContent,True,"Boolean","ZC_USE_NAVIGATE_ARTICLE",strZC_USE_NAVIGATE_ARTICLE)
-	If UCase(strZC_USE_NAVIGATE_ARTICLE)<>UCase(CStr(ZC_USE_NAVIGATE_ARTICLE)) Then Call SetBlogHint(Empty,Empty,True)
-
-	Dim strZC_MUTUALITY_COUNT
-	strZC_MUTUALITY_COUNT=Request.Form("edtZC_MUTUALITY_COUNT")
-	Call SaveValueForSetting(strContent,True,"Numeric","ZC_MUTUALITY_COUNT",strZC_MUTUALITY_COUNT)
-	If UCase(strZC_MUTUALITY_COUNT)<>UCase(CStr(ZC_MUTUALITY_COUNT)) Then Call SetBlogHint(Empty,Empty,True)
-
-
-	Dim strZC_UBB_LINK_ENABLE
-	strZC_UBB_LINK_ENABLE=Request.Form("edtZC_UBB_LINK_ENABLE")
-	Call SaveValueForSetting(strContent,True,"Boolean","ZC_UBB_LINK_ENABLE",strZC_UBB_LINK_ENABLE)
-	If UCase(strZC_UBB_LINK_ENABLE)<>UCase(CStr(ZC_UBB_LINK_ENABLE)) Then Call SetBlogHint(Empty,Empty,True)
-
-	Dim strZC_UBB_FONT_ENABLE
-	strZC_UBB_FONT_ENABLE=Request.Form("edtZC_UBB_FONT_ENABLE")
-	Call SaveValueForSetting(strContent,True,"Boolean","ZC_UBB_FONT_ENABLE",strZC_UBB_FONT_ENABLE)
-	If UCase(strZC_UBB_FONT_ENABLE)<>UCase(CStr(ZC_UBB_FONT_ENABLE)) Then Call SetBlogHint(Empty,Empty,True)
-
-	Dim strZC_UBB_CODE_ENABLE
-	strZC_UBB_CODE_ENABLE=Request.Form("edtZC_UBB_CODE_ENABLE")
-	Call SaveValueForSetting(strContent,True,"Boolean","ZC_UBB_CODE_ENABLE",strZC_UBB_CODE_ENABLE)
-	If UCase(strZC_UBB_CODE_ENABLE)<>UCase(CStr(ZC_UBB_CODE_ENABLE)) Then Call SetBlogHint(Empty,Empty,True)
-
-	Dim strZC_UBB_FACE_ENABLE
-	strZC_UBB_FACE_ENABLE=Request.Form("edtZC_UBB_FACE_ENABLE")
-	Call SaveValueForSetting(strContent,True,"Boolean","ZC_UBB_FACE_ENABLE",strZC_UBB_FACE_ENABLE)
-	If UCase(strZC_UBB_FACE_ENABLE)<>UCase(CStr(ZC_UBB_FACE_ENABLE)) Then Call SetBlogHint(Empty,Empty,True)
-
-	Dim strZC_UBB_IMAGE_ENABLE
-	strZC_UBB_IMAGE_ENABLE=Request.Form("edtZC_UBB_IMAGE_ENABLE")
-	Call SaveValueForSetting(strContent,True,"Boolean","ZC_UBB_IMAGE_ENABLE",strZC_UBB_IMAGE_ENABLE)
-	If UCase(strZC_UBB_IMAGE_ENABLE)<>UCase(CStr(ZC_UBB_IMAGE_ENABLE)) Then Call SetBlogHint(Empty,Empty,True)
-
-	Dim strZC_UBB_MEDIA_ENABLE
-	strZC_UBB_MEDIA_ENABLE=Request.Form("edtZC_UBB_MEDIA_ENABLE")
-	Call SaveValueForSetting(strContent,True,"Boolean","ZC_UBB_MEDIA_ENABLE",strZC_UBB_MEDIA_ENABLE)
-	If UCase(strZC_UBB_MEDIA_ENABLE)<>UCase(CStr(ZC_UBB_MEDIA_ENABLE)) Then Call SetBlogHint(Empty,Empty,True)
-
-	Dim strZC_UBB_FLASH_ENABLE
-	strZC_UBB_FLASH_ENABLE=Request.Form("edtZC_UBB_FLASH_ENABLE")
-	Call SaveValueForSetting(strContent,True,"Boolean","ZC_UBB_FLASH_ENABLE",strZC_UBB_FLASH_ENABLE)
-	If UCase(strZC_UBB_FLASH_ENABLE)<>UCase(CStr(ZC_UBB_FLASH_ENABLE)) Then Call SetBlogHint(Empty,Empty,True)
-
-	Dim strZC_UBB_TYPESET_ENABLE
-	strZC_UBB_TYPESET_ENABLE=Request.Form("edtZC_UBB_TYPESET_ENABLE")
-	Call SaveValueForSetting(strContent,True,"Boolean","ZC_UBB_TYPESET_ENABLE",strZC_UBB_TYPESET_ENABLE)
-	If UCase(strZC_UBB_TYPESET_ENABLE)<>UCase(CStr(ZC_UBB_TYPESET_ENABLE)) Then Call SetBlogHint(Empty,Empty,True)
-
-	Dim strZC_UBB_AUTOLINK_ENABLE
-	strZC_UBB_AUTOLINK_ENABLE=Request.Form("edtZC_UBB_AUTOLINK_ENABLE")
-	Call SaveValueForSetting(strContent,True,"Boolean","ZC_UBB_AUTOLINK_ENABLE",strZC_UBB_AUTOLINK_ENABLE)
-	If UCase(strZC_UBB_AUTOLINK_ENABLE)<>UCase(CStr(ZC_UBB_AUTOLINK_ENABLE)) Then Call SetBlogHint(Empty,Empty,True)
-
-	'Dim strZC_AUTO_NEWLINE
-	'strZC_AUTO_NEWLINE=Request.Form("edtZC_AUTO_NEWLINE")
-	'Call SaveValueForSetting(strContent,True,"Boolean","ZC_AUTO_NEWLINE",strZC_AUTO_NEWLINE)
-	'If UCase(strZC_AUTO_NEWLINE)<>UCase(CStr(ZC_AUTO_NEWLINE)) Then Call SetBlogHint(Empty,Empty,True)
-
-	Dim strZC_COMMENT_NOFOLLOW_ENABLE
-	strZC_COMMENT_NOFOLLOW_ENABLE=Request.Form("edtZC_COMMENT_NOFOLLOW_ENABLE")
-	Call SaveValueForSetting(strContent,True,"Boolean","ZC_COMMENT_NOFOLLOW_ENABLE",strZC_COMMENT_NOFOLLOW_ENABLE)
-	If UCase(strZC_COMMENT_NOFOLLOW_ENABLE)<>UCase(CStr(ZC_COMMENT_NOFOLLOW_ENABLE)) Then Call SetBlogHint(Empty,Empty,True)
-
-	Dim strZC_JAPAN_TO_HTML
-	strZC_JAPAN_TO_HTML=Request.Form("edtZC_JAPAN_TO_HTML")
-	Call SaveValueForSetting(strContent,True,"Boolean","ZC_JAPAN_TO_HTML",strZC_JAPAN_TO_HTML)
-	If UCase(strZC_JAPAN_TO_HTML)<>UCase(CStr(ZC_JAPAN_TO_HTML)) Then Call SetBlogHint(Empty,Empty,True)
-
-	Dim strZC_EMOTICONS_FILENAME
-	strZC_EMOTICONS_FILENAME=Request.Form("edtZC_EMOTICONS_FILENAME")
-	Call SaveValueForSetting(strContent,True,"String","ZC_EMOTICONS_FILENAME",strZC_EMOTICONS_FILENAME)
-	If UCase(strZC_EMOTICONS_FILENAME)<>UCase("""" & CStr(ZC_EMOTICONS_FILENAME) & """") Then Call SetBlogHint(Empty,Empty,True)
-
-	Dim strZC_EMOTICONS_FILESIZE
-	strZC_EMOTICONS_FILESIZE=Request.Form("edtZC_EMOTICONS_FILESIZE")
-	Call SaveValueForSetting(strContent,True,"Numeric","ZC_EMOTICONS_FILESIZE",strZC_EMOTICONS_FILESIZE)
-	If UCase(strZC_EMOTICONS_FILESIZE)<>UCase(CStr(ZC_EMOTICONS_FILESIZE)) Then Call SetBlogHint(Empty,Empty,True)
-
-	Dim strZC_COMMENT_REVERSE_ORDER_EXPORT
-	strZC_COMMENT_REVERSE_ORDER_EXPORT=Request.Form("edtZC_COMMENT_REVERSE_ORDER_EXPORT")
-	Call SaveValueForSetting(strContent,True,"Boolean","ZC_COMMENT_REVERSE_ORDER_EXPORT",strZC_COMMENT_REVERSE_ORDER_EXPORT)
-	If UCase(strZC_COMMENT_REVERSE_ORDER_EXPORT)<>UCase(CStr(ZC_COMMENT_REVERSE_ORDER_EXPORT)) Then Call SetBlogHint(Empty,Empty,True)
-
-	Dim strZC_GUESTBOOK_CONTENT
-	strZC_GUESTBOOK_CONTENT=Replace(Replace(Request.Form("edtZC_GUESTBOOK_CONTENT"),vbCr,""),vbLf,"")
-	Call SaveValueForSetting(strContent,True,"String","ZC_GUESTBOOK_CONTENT",strZC_GUESTBOOK_CONTENT)
-	If UCase(strZC_GUESTBOOK_CONTENT)<>UCase("""" & CStr(ZC_GUESTBOOK_CONTENT) & """") Then Call SetBlogHint(Empty,Empty,Empty)
-
-	Dim strZC_CUSTOM_DIRECTORY_ENABLE
-	strZC_CUSTOM_DIRECTORY_ENABLE=Request.Form("edtZC_CUSTOM_DIRECTORY_ENABLE")
-	Call SaveValueForSetting(strContent,True,"Boolean","ZC_CUSTOM_DIRECTORY_ENABLE",strZC_CUSTOM_DIRECTORY_ENABLE)
-	If UCase(strZC_CUSTOM_DIRECTORY_ENABLE)<>UCase(CStr(ZC_CUSTOM_DIRECTORY_ENABLE)) Then Call SetBlogHint(Empty,Empty,True)
-
-	Dim strZC_CUSTOM_DIRECTORY_ANONYMOUS
-	strZC_CUSTOM_DIRECTORY_ANONYMOUS=Request.Form("edtZC_CUSTOM_DIRECTORY_ANONYMOUS")
-	Call SaveValueForSetting(strContent,True,"Boolean","ZC_CUSTOM_DIRECTORY_ANONYMOUS",strZC_CUSTOM_DIRECTORY_ANONYMOUS)
-	If UCase(strZC_CUSTOM_DIRECTORY_ANONYMOUS)<>UCase(CStr(ZC_CUSTOM_DIRECTORY_ANONYMOUS)) Then Call SetBlogHint(Empty,Empty,True)
-
-	Dim strZC_CUSTOM_DIRECTORY_REGEX
-	strZC_CUSTOM_DIRECTORY_REGEX=Request.Form("edtZC_CUSTOM_DIRECTORY_REGEX")
-	If strZC_CUSTOM_DIRECTORY_ANONYMOUS="True" Then
-		If InStr(strZC_CUSTOM_DIRECTORY_REGEX,"{%id%}")=0 And InStr(strZC_CUSTOM_DIRECTORY_REGEX,"{%alias%}")=0 Then
-			strZC_CUSTOM_DIRECTORY_REGEX=strZC_CUSTOM_DIRECTORY_REGEX & "{%id%}"
+	On Error Resume Next
+	For Each a In BlogConfig.Meta.Names
+		If a<>"ZC_BLOG_VERSION" Then
+			Call Execute("Call BlogConfig.Write("""&a&""","&a&")")
 		End If
-	End If
-	Call SaveValueForSetting(strContent,True,"String","ZC_CUSTOM_DIRECTORY_REGEX",strZC_CUSTOM_DIRECTORY_REGEX)
-	If UCase(strZC_CUSTOM_DIRECTORY_REGEX)<>UCase("""" & CStr(ZC_CUSTOM_DIRECTORY_REGEX) & """") Then Call SetBlogHint(Empty,Empty,True)
+	Next
+	Err.Clear
 
+'Response.Write BlogConfig.Count
 
-	'Dim strZC_IE_DISPLAY_WAP
-	'strZC_IE_DISPLAY_WAP=Request.Form("edtZC_IE_DISPLAY_WAP")
-	'Call SaveValueForSetting(strContent,True,"Boolean","ZC_IE_DISPLAY_WAP",strZC_IE_DISPLAY_WAP)
+'Response.end
 
-	Dim strZC_DISPLAY_COUNT_WAP
-	strZC_DISPLAY_COUNT_WAP=Request.Form("edtZC_DISPLAY_COUNT_WAP")
-	Call SaveValueForSetting(strContent,True,"Numeric","ZC_DISPLAY_COUNT_WAP",strZC_DISPLAY_COUNT_WAP)
+'SaveSetting=True
+'Exit function
+'Response.end
 
-	Dim strZC_COMMENT_COUNT_WAP
-	strZC_COMMENT_COUNT_WAP=Request.Form("edtZC_COMMENT_COUNT_WAP")
-	Call SaveValueForSetting(strContent,True,"Numeric","ZC_COMMENT_COUNT_WAP",strZC_COMMENT_COUNT_WAP)
+	For Each a In Request.Form 
+		b=Mid(a,4,Len(a))
+		If BlogConfig.Exists(b)=True Then
+			Call BlogConfig.Write(b,Request.Form(a))
+		End If
+	Next
 
-	Dim strZC_PAGEBAR_COUNT_WAP
-	strZC_PAGEBAR_COUNT_WAP=Request.Form("edtZC_PAGEBAR_COUNT_WAP")
-	Call SaveValueForSetting(strContent,True,"Numeric","ZC_PAGEBAR_COUNT_WAP",strZC_PAGEBAR_COUNT_WAP)
+	Dim i
 
-	Dim strZC_SINGLE_SIZE_WAP
-	strZC_SINGLE_SIZE_WAP=Request.Form("edtZC_SINGLE_SIZE_WAP")
-	Call SaveValueForSetting(strContent,True,"Numeric","ZC_SINGLE_SIZE_WAP",strZC_SINGLE_SIZE_WAP)
+	For i=1 To BlogConfig.Count
 
-	Dim strZC_SINGLE_PAGEBAR_COUNT_WAP
-	strZC_SINGLE_PAGEBAR_COUNT_WAP=Request.Form("edtZC_SINGLE_PAGEBAR_COUNT_WAP")
-	Call SaveValueForSetting(strContent,True,"Numeric","ZC_SINGLE_PAGEBAR_COUNT_WAP",strZC_SINGLE_PAGEBAR_COUNT_WAP)
+		strContent=Replace(strContent,"<#"&BlogConfig.Meta.Names(i)&"#>",BlogConfig.Meta.GetValue(BlogConfig.Meta.Names(i)))
 
-	Dim strZC_COMMENT_PAGEBAR_COUNT_WAP
-	strZC_COMMENT_PAGEBAR_COUNT_WAP=Request.Form("edtZC_COMMENT_PAGEBAR_COUNT_WAP")
-	Call SaveValueForSetting(strContent,True,"Numeric","ZC_COMMENT_PAGEBAR_COUNT_WAP",strZC_COMMENT_PAGEBAR_COUNT_WAP)
+	Next
 
-	Dim strZC_FILENAME_WAP
-	strZC_FILENAME_WAP=Request.Form("edtZC_FILENAME_WAP")
-	Call SaveValueForSetting(strContent,True,"String","ZC_FILENAME_WAP",strZC_FILENAME_WAP)
+	'Response.End
 
-	Dim strZC_WAPCOMMENT_ENABLE
-	strZC_WAPCOMMENT_ENABLE=Request.Form("edtZC_WAPCOMMENT_ENABLE")
-	Call SaveValueForSetting(strContent,True,"Boolean","ZC_WAPCOMMENT_ENABLE",strZC_WAPCOMMENT_ENABLE)
+	Call BlogConfig.Save()
 
-	Dim strZC_UPLOAD_DIRBYMONTH
-	strZC_UPLOAD_DIRBYMONTH=Request.Form("edtZC_UPLOAD_DIRBYMONTH")
-	Call SaveValueForSetting(strContent,True,"Boolean","ZC_UPLOAD_DIRBYMONTH",strZC_UPLOAD_DIRBYMONTH)
-	If UCase(ZC_UPLOAD_DIRBYMONTH)<>UCase(CStr(ZC_UPLOAD_DIRBYMONTH)) Then Call SetBlogHint(Empty,Empty,True)
-
-
-	Dim strZC_IMAGE_WIDTH
-	strZC_IMAGE_WIDTH=Request.Form("edtZC_IMAGE_WIDTH")
-	Call SaveValueForSetting(strContent,True,"Numeric","ZC_IMAGE_WIDTH",strZC_IMAGE_WIDTH)
-	If UCase(strZC_IMAGE_WIDTH)<>UCase(CStr(ZC_IMAGE_WIDTH)) Then Call SetBlogHint(Empty,Empty,True)
-
-	Dim strZC_RSS_EXPORT_WHOLE
-	strZC_RSS_EXPORT_WHOLE=Request.Form("edtZC_RSS_EXPORT_WHOLE")
-	Call SaveValueForSetting(strContent,True,"Boolean","ZC_RSS_EXPORT_WHOLE",strZC_RSS_EXPORT_WHOLE)
-	If UCase(strZC_RSS_EXPORT_WHOLE)<>UCase(CStr(ZC_RSS_EXPORT_WHOLE)) Then Call SetBlogHint(Empty,True,Empty)
-
-	Dim strZC_COMMENT_TURNOFF
-	strZC_COMMENT_TURNOFF=Request.Form("edtZC_COMMENT_TURNOFF")
-	Call SaveValueForSetting(strContent,True,"Boolean","ZC_COMMENT_TURNOFF",strZC_COMMENT_TURNOFF)
-
-	Dim strZC_TRACKBACK_TURNOFF
-	strZC_TRACKBACK_TURNOFF=Request.Form("edtZC_TRACKBACK_TURNOFF")
-	Call SaveValueForSetting(strContent,True,"Boolean","ZC_TRACKBACK_TURNOFF",strZC_TRACKBACK_TURNOFF)
-
-	Dim strZC_GUEST_REVERT_COMMENT_ENABLE
-	strZC_GUEST_REVERT_COMMENT_ENABLE=Request.Form("edtZC_GUEST_REVERT_COMMENT_ENABLE")
-	Call SaveValueForSetting(strContent,True,"Boolean","ZC_GUEST_REVERT_COMMENT_ENABLE",strZC_GUEST_REVERT_COMMENT_ENABLE)
-
-
-	Dim strZC_VERIFYCODE_WIDTH
-	strZC_VERIFYCODE_WIDTH=Request.Form("edtZC_VERIFYCODE_WIDTH")
-	Call SaveValueForSetting(strContent,True,"Numeric","ZC_VERIFYCODE_WIDTH",strZC_VERIFYCODE_WIDTH)
-
-	Dim strZC_VERIFYCODE_HEIGHT
-	strZC_VERIFYCODE_HEIGHT=Request.Form("edtZC_VERIFYCODE_HEIGHT")
-	Call SaveValueForSetting(strContent,True,"Numeric","ZC_VERIFYCODE_HEIGHT",strZC_VERIFYCODE_HEIGHT)
-
-	Dim strZC_VERIFYCODE_STRING
-	strZC_VERIFYCODE_STRING=Request.Form("edtZC_VERIFYCODE_STRING")
-	Call SaveValueForSetting(strContent,True,"String","ZC_VERIFYCODE_STRING",strZC_VERIFYCODE_STRING)
-	If UCase(strZC_VERIFYCODE_STRING)<>UCase(CStr(ZC_VERIFYCODE_STRING)) Then Application.Lock : Application(ZC_BLOG_CLSID & "VERIFY_NUMBER")=Empty : Application.UnLock
-
-	Dim strZC_RECENT_COMMENT_WORD_MAX
-	strZC_RECENT_COMMENT_WORD_MAX=Request.Form("edtZC_RECENT_COMMENT_WORD_MAX")
-	Call SaveValueForSetting(strContent,True,"Numeric","ZC_RECENT_COMMENT_WORD_MAX",strZC_RECENT_COMMENT_WORD_MAX)
-	If UCase(strZC_RECENT_COMMENT_WORD_MAX)<>UCase(CStr(ZC_RECENT_COMMENT_WORD_MAX)) Then Call SetBlogHint(Empty,True,Empty)
-
-	Dim strZC_TAGS_DISPLAY_COUNT
-	strZC_TAGS_DISPLAY_COUNT=Request.Form("edtZC_TAGS_DISPLAY_COUNT")
-	Call SaveValueForSetting(strContent,True,"Numeric","ZC_TAGS_DISPLAY_COUNT",strZC_TAGS_DISPLAY_COUNT)
-	If UCase(strZC_TAGS_DISPLAY_COUNT)<>UCase(CStr(ZC_TAGS_DISPLAY_COUNT)) Then Call SetBlogHint(Empty,True,Empty)
-
-'	Dim str<#>
-'	str<#>=Request.Form("edt<#>")
-'	Call SaveValueForSetting(strContent,True,"Boolean","<#>",str<#>)
-
-	Call SaveToFile(BlogPath & "zb_users/c_option.asp",strContent,"utf-8",False)
+	Call SaveToFile(BlogPath & "zb_users\c_option.asp",strContent,"utf-8",False)
 
 	'Call MakeBlogReBuild_Core()
 
 	SaveSetting=True
 
-	Err.Clear
 
 End Function
 '*********************************************************
@@ -1634,41 +1291,7 @@ End Function
 '*********************************************************
 Function GetRealUrlofTrackBackUrl(intID)
 
-	Call CheckParameter(intID,"int",0)
 
-	If IsEmpty(Request.Form("edtCheckOut")) Then
-
-		Response.Write "<!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 1.0 Transitional//EN"" ""http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd""><html><head><meta http-equiv=""Content-Type"" content=""text/html; charset=utf-8"" /><link rel=""stylesheet"" rev=""stylesheet"" href=""CSS/admin.css"" type=""text/css"" media=""screen"" /></head><body>"
-
-		Response.Write "<div id=""divMain""><div class=""Header"">" & ZC_MSG145 & "</div>"
-		Response.Write "<div id=""divMain2""><form method=""post""  name=""edit"" id=""edit"" action="""& ZC_BLOG_HOST & "cmd.asp?act=gettburl&id=" & intID &""">"
-		Response.Write "<p></p>"
-		Response.Write "<p>"& ZC_MSG161 &"</p>"
-		Response.Write "<p><img style=""border:1px solid black""  src=""function/c_validcode.asp?name=gettburlvalid"" height="""&ZC_VERIFYCODE_HEIGHT&""" width="""&ZC_VERIFYCODE_WIDTH&""" alt="""" title=""""/>&nbsp;<input type=""text"" id=""edtCheckOut"" name=""edtCheckOut"" size=""30"" />&nbsp;<input class=""button"" type=""submit"" value=""" & ZC_MSG087 & """ id=""btnPost""></p>"
-		Response.Write "<p></p>"
-		Response.Write "</form></div></div>"
-		Response.Write "</body></html>"
-
-	ElseIf CheckVerifyNumber(Request.Form("edtCheckOut"))=True Then
-
-
-		Response.Write "<!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 1.0 Transitional//EN"" ""http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd""><html><head><meta http-equiv=""Content-Type"" content=""text/html; charset=utf-8"" /><link rel=""stylesheet"" rev=""stylesheet"" href=""CSS/admin.css"" type=""text/css"" media=""screen"" /></head><body>"
-
-		Response.Write "<div id=""divMain""><div class=""Header"">" & ZC_MSG145 & "</div>"
-		Response.Write "<div id=""divMain2""><form method=""post""  name=""edit"" id=""edit"" action="""& ZC_BLOG_HOST & "cmd.asp?act=gettburl&id=" & intID &""">"
-		Response.Write "<p></p>"
-		Response.Write "<p>" & ZC_BLOG_HOST & "cmd.asp?act=tb&amp;id=" & intID & "&amp;key=" & GetVerifyNumber() &"</p>"
-		Response.Write "<p></p>"
-		Response.Write "</form></div></div>"
-		Response.Write "</body></html>"
-
-		Session("gettburlvalid")=Empty
-
-	Else
-
-		Call ShowError(38)
-
-	End If
 
 End Function
 '*********************************************************

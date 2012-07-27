@@ -14,7 +14,7 @@
 '///////////////////////////////////////////////////////////////////////////////
 %>
 <% Option Explicit %>
-<% On Error Resume Next %>
+<% 'On Error Resume Next %>
 <% Response.Charset="UTF-8" %>
 <% Response.Buffer=True %>
 <!-- #include file="../../zb_users/c_option.asp" -->
@@ -69,8 +69,7 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG247
 	<li><a href="#tab2"><span><%=ZC_MSG173%></span></a></li>
 	<li><a href="#tab3"><span><%=ZC_MSG186%></span></a></li>
 	<li><a href="#tab4"><span><%=ZC_MSG281%></span></a></li>
-	<li><a href="#tab5"><span><%=ZC_MSG195%></span></a></li>
-	<li><a href="#tab6"><span><%=ZC_MSG215%></span></a></li>
+	<li><a href="#tab5"><span><%=ZC_MSG215%></span></a></li>
 					</ul>
 					
 					<div class="clear"></div>
@@ -89,10 +88,10 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG247
 		j=InStr(s,")")
 
 		If i>0 And j>0 Then 
-			SplitNameAndNote="<p  align='left'>·" & Left(s,i-1) & ""
-			SplitNameAndNote=SplitNameAndNote & "<p>" & Mid(s,i+1,Len(s)-i+1-2) & "</p></p>"
+			SplitNameAndNote="<p  align='left'><b>·" & Left(s,i-1) & "</b>"
+			SplitNameAndNote=SplitNameAndNote & "<br/><span style='font-size:0.9em;'>&nbsp;&nbsp;" & Mid(s,i+1,Len(s)-i+1-2) & "</span></p>"
 		Else
-			SplitNameAndNote="<p  align='left'>·" & s & "</p>"
+			SplitNameAndNote="<p  align='left'><b>·" & s & "</b></p>"
 		End If
 		
 	End Function
@@ -108,43 +107,28 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG247
 	Dim strZC_BLOG_SUBTITLE
 	Dim strZC_BLOG_NAME
 	Dim strZC_BLOG_SUB_NAME
-	Dim strZC_BLOG_CSS
 	Dim strZC_BLOG_COPYRIGHT
 	Dim strZC_BLOG_MASTER
-	Dim strZC_BLOG_THEME
-
-	Call LoadValueForSetting(tmpSng,True,"String","ZC_BLOG_HOST",strZC_BLOG_HOST)
-	Call LoadValueForSetting(tmpSng,True,"String","ZC_BLOG_TITLE",strZC_BLOG_TITLE)
-	Call LoadValueForSetting(tmpSng,True,"String","ZC_BLOG_SUBTITLE",strZC_BLOG_SUBTITLE)
-	Call LoadValueForSetting(tmpSng,True,"String","ZC_BLOG_NAME",strZC_BLOG_NAME)
-	Call LoadValueForSetting(tmpSng,True,"String","ZC_BLOG_SUB_NAME",strZC_BLOG_SUB_NAME)
-	Call LoadValueForSetting(tmpSng,True,"String","ZC_BLOG_CSS",strZC_BLOG_CSS)
-	Call LoadValueForSetting(tmpSng,True,"String","ZC_BLOG_COPYRIGHT",strZC_BLOG_COPYRIGHT)
-	Call LoadValueForSetting(tmpSng,True,"String","ZC_BLOG_MASTER",strZC_BLOG_MASTER)
-	Call LoadValueForSetting(tmpSng,True,"String","ZC_BLOG_THEME",strZC_BLOG_THEME)
 
 
-	strZC_BLOG_HOST=TransferHTML(strZC_BLOG_HOST,"[html-format]")
-	strZC_BLOG_TITLE=TransferHTML(strZC_BLOG_TITLE,"[html-format]")
-	strZC_BLOG_SUBTITLE=TransferHTML(strZC_BLOG_SUBTITLE,"[html-format]")
-	strZC_BLOG_NAME=TransferHTML(strZC_BLOG_NAME,"[html-format]")
-	strZC_BLOG_SUB_NAME=TransferHTML(strZC_BLOG_SUB_NAME,"[html-format]")
-	strZC_BLOG_CSS=TransferHTML(strZC_BLOG_CSS,"[html-format]")
-	strZC_BLOG_COPYRIGHT=TransferHTML(strZC_BLOG_COPYRIGHT,"[html-format]")
-	strZC_BLOG_MASTER=TransferHTML(strZC_BLOG_MASTER,"[html-format]")
-	strZC_BLOG_THEME=TransferHTML(strZC_BLOG_THEME,"[html-format]")
+	strZC_BLOG_HOST=TransferHTML(ZC_BLOG_HOST,"[html-format]")
+	strZC_BLOG_TITLE=TransferHTML(ZC_BLOG_TITLE,"[html-format]")
+	strZC_BLOG_SUBTITLE=TransferHTML(ZC_BLOG_SUBTITLE,"[html-format]")
+	strZC_BLOG_NAME=TransferHTML(ZC_BLOG_NAME,"[html-format]")
+	strZC_BLOG_SUB_NAME=TransferHTML(ZC_BLOG_SUB_NAME,"[html-format]")
+	strZC_BLOG_COPYRIGHT=TransferHTML(ZC_BLOG_COPYRIGHT,"[html-format]")
+	strZC_BLOG_MASTER=TransferHTML(ZC_BLOG_MASTER,"[html-format]")
 
 	Response.Write "<div class=""tab-content default-tab"" style='border:none;padding:0px;margin:0;' id=""tab1"">"
 	Response.Write "<table width='100%' style='padding:0px;margin:1px;' cellspacing='0' cellpadding='0'>"
-	Response.Write "<tr><td width='30%'>" & SplitNameAndNote(ZC_MSG104) & "</td><td><p><input id=""edtZC_BLOG_HOST"" name=""edtZC_BLOG_HOST"" style=""width:500px;"" type=""text"" value=""" & strZC_BLOG_HOST & """ /></p></td></tr>"
+	Response.Write "<tr><td width='35%'>" & SplitNameAndNote(ZC_MSG104) & "</td><td><p><input id=""edtZC_BLOG_HOST"" name=""edtZC_BLOG_HOST"" style=""width:500px;"" type=""text"" value=""" & strZC_BLOG_HOST & """ /></p></td></tr>"
 	Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG091) & "</td><td><p><input id=""edtZC_BLOG_NAME"" name=""edtZC_BLOG_NAME"" style=""width:500px;"" type=""text"" value=""" & strZC_BLOG_NAME & """ /></p></td></tr>"
 	Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG092) & "</td><td><p><input id=""edtZC_BLOG_SUB_NAME"" name=""edtZC_BLOG_SUB_NAME"" style=""width:500px;""  type=""text"" value=""" & strZC_BLOG_SUB_NAME & """ /></p></td></tr>"
-	Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG093) & "</td><td><p><input id=""edtZC_BLOG_TITLE"" name=""edtZC_BLOG_TITLE""style=""width:500px;""  type=""text"" value=""" & strZC_BLOG_TITLE &""" /></p></td></tr>"
+	Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG093) & "</td><td><p><input id=""edtZC_BLOG_TITLE"" name=""edtZC_BLOG_TITLE"" style=""width:500px;""  type=""text"" value=""" & strZC_BLOG_TITLE &""" /></p></td></tr>"
 	Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG094) & "</td><td><p><input id=""edtZC_BLOG_SUBTITLE"" name=""edtZC_BLOG_SUBTITLE"" style=""width:500px;""  type=""text"" value=""" & strZC_BLOG_SUBTITLE & """ /></p></td></tr>"
-	Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG293) & "</td><td><p><input id=""edtZC_BLOG_THEME"" name=""edtZC_BLOG_THEME"" style=""width:500px;"" type=""text"" value=""" & strZC_BLOG_THEME & """ /></p></td></tr>"
-	Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG095) & "</td><td><p><input id=""edtZC_BLOG_CSS"" name=""edtZC_BLOG_CSS"" style=""width:500px;"" type=""text"" value=""" & strZC_BLOG_CSS & """ /></p></td></tr>"
-	Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG096) & "</td><td><p><textarea rows=""4"" id=""edtZC_BLOG_COPYRIGHT"" name=""edtZC_BLOG_COPYRIGHT"" style=""width:500px;"">" & strZC_BLOG_COPYRIGHT & "</textarea></p></td></tr>"
-	Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG097) & "</td><td><p><input id=""edtZC_BLOG_MASTER"" name=""edtZC_BLOG_MASTER"" style=""width:500px;""  type=""text"" value=""" & strZC_BLOG_MASTER & """ /></p></td></tr>"
+	Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG096) & "</td><td><p><textarea cols=""3"" rows=""6"" id=""edtZC_BLOG_COPYRIGHT"" name=""edtZC_BLOG_COPYRIGHT"" style=""width:500px;"">" & strZC_BLOG_COPYRIGHT & "</textarea></p></td></tr>"
+
+
 	Response.Write "</table>"
 	Response.Write "</div>"
 
@@ -155,251 +139,124 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG247
 	tmpSng=LoadFromFile(BlogPath & "zb_users/c_option.asp","utf-8")
 
 
-	Dim strZC_BLOG_CLSID
-	If LoadValueForSetting(tmpSng,True,"String","ZC_BLOG_CLSID",strZC_BLOG_CLSID) Then
-		strZC_BLOG_CLSID=TransferHTML(strZC_BLOG_CLSID,"[html-format]")
-		Response.Write "<tr><td width='30%'>" & SplitNameAndNote(ZC_MSG174) & "</td><td><p><input id=""edtZC_BLOG_CLSID"" name=""edtZC_BLOG_CLSID"" style=""width:500px;"" type=""text"" value=""" & strZC_BLOG_CLSID & """ /></p></td></tr>"
-	End If
 
-	Dim strZC_TIME_ZONE
-	If LoadValueForSetting(tmpSng,True,"String","ZC_TIME_ZONE",strZC_TIME_ZONE) Then
-		strZC_TIME_ZONE=TransferHTML(strZC_TIME_ZONE,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG175) & "</td><td><p><input id=""edtZC_TIME_ZONE"" name=""edtZC_TIME_ZONE"" style=""width:500px;"" type=""text"" value=""" & strZC_TIME_ZONE & """ /></p></td></tr>"
-	End If
-
-	Dim strZC_HOST_TIME_ZONE
-	If LoadValueForSetting(tmpSng,True,"String","ZC_HOST_TIME_ZONE",strZC_HOST_TIME_ZONE) Then
-		strZC_HOST_TIME_ZONE=TransferHTML(strZC_HOST_TIME_ZONE,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG303) & "</td><td><p><input id=""edtZC_HOST_TIME_ZONE"" name=""edtZC_HOST_TIME_ZONE"" style=""width:500px;"" type=""text"" value=""" & strZC_HOST_TIME_ZONE & """ /></p></td></tr>"
-	End If
-
-	Dim strZC_BLOG_LANGUAGE
-	If LoadValueForSetting(tmpSng,True,"String","ZC_BLOG_LANGUAGE",strZC_BLOG_LANGUAGE) Then
-		strZC_BLOG_LANGUAGE=TransferHTML(strZC_BLOG_LANGUAGE,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG176) & "</td><td><p><input id=""edtZC_BLOG_LANGUAGE"" name=""edtZC_BLOG_LANGUAGE"" style=""width:500px;"" type=""text"" value=""" & strZC_BLOG_LANGUAGE & """ /></p></td></tr>"
-	End If
+		ZC_BLOG_CLSID=TransferHTML(ZC_BLOG_CLSID,"[html-format]")
+		Response.Write "<tr><td width='35%'>" & SplitNameAndNote(ZC_MSG174) & "</td><td><p><input id=""edtZC_BLOG_CLSID"" name=""edtZC_BLOG_CLSID"" style=""width:500px;"" type=""text"" value=""" & ZC_BLOG_CLSID & """ /></p></td></tr>"
 
 
-	Dim strZC_UPDATE_INFO_URL
-	If LoadValueForSetting(tmpSng,True,"String","ZC_UPDATE_INFO_URL",strZC_UPDATE_INFO_URL) Then
-		strZC_UPDATE_INFO_URL=TransferHTML(strZC_UPDATE_INFO_URL,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG290) & "</td><td><p><input id=""edtZC_UPDATE_INFO_URL"" name=""edtZC_UPDATE_INFO_URL"" style=""width:500px;"" type=""text"" value=""" & strZC_UPDATE_INFO_URL & """/></p></td></tr>"
-	End If
-
-	Dim strZC_BLOG_WEBEDIT
-	If LoadValueForSetting(tmpSng,True,"String","ZC_BLOG_WEBEDIT",strZC_BLOG_WEBEDIT) Then
-		strZC_BLOG_WEBEDIT=TransferHTML(strZC_BLOG_WEBEDIT,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG180) & "</td><td><p><input id=""edtZC_BLOG_WEBEDIT"" name=""edtZC_BLOG_WEBEDIT"" style=""width:500px;"" type=""text"" value=""" & strZC_BLOG_WEBEDIT & """ /></p></td></tr>"
-	End If
-
-	Dim strZC_UPLOAD_FILETYPE
-	If LoadValueForSetting(tmpSng,True,"String","ZC_UPLOAD_FILETYPE",strZC_UPLOAD_FILETYPE) Then
-		strZC_UPLOAD_FILETYPE=TransferHTML(strZC_UPLOAD_FILETYPE,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG183) & "</td><td><p><input id=""edtZC_UPLOAD_FILETYPE"" name=""edtZC_UPLOAD_FILETYPE"" style=""width:500px;"" type=""text"" value=""" & strZC_UPLOAD_FILETYPE & """ /></p></td></tr>"
-	End If
-
-	Dim strZC_UPLOAD_FILESIZE
-	If LoadValueForSetting(tmpSng,True,"Numeric","ZC_UPLOAD_FILESIZE",strZC_UPLOAD_FILESIZE) Then
-		strZC_UPLOAD_FILESIZE=TransferHTML(strZC_UPLOAD_FILESIZE,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG184) & "</td><td><p><input id=""edtZC_UPLOAD_FILESIZE"" name=""edtZC_UPLOAD_FILESIZE"" style=""width:500px;"" type=""text"" value=""" & strZC_UPLOAD_FILESIZE & """ /></p></td></tr>"
-	End If
-
-	Dim strZC_UPLOAD_DIRBYMONTH
-	If LoadValueForSetting(tmpSng,True,"Boolean","ZC_UPLOAD_DIRBYMONTH",strZC_UPLOAD_DIRBYMONTH) Then
-		strZC_UPLOAD_DIRBYMONTH=TransferHTML(strZC_UPLOAD_DIRBYMONTH,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG292) & "</td><td><p><input id=""edtZC_UPLOAD_DIRBYMONTH"" name=""edtZC_UPLOAD_DIRBYMONTH"" style="""" type=""checkbox"" "&IIf(CBool(strZC_UPLOAD_DIRBYMONTH),"checked","")&" value=""" & strZC_UPLOAD_DIRBYMONTH & """ class=""pointer"" ONCLICK=""ChangeValue(this);""/></p></td></tr>"
-	End If
-
-	Dim strZC_RSS_EXPORT_WHOLE
-	If LoadValueForSetting(tmpSng,True,"Boolean","ZC_RSS_EXPORT_WHOLE",strZC_RSS_EXPORT_WHOLE) Then
-		strZC_RSS_EXPORT_WHOLE=TransferHTML(strZC_RSS_EXPORT_WHOLE,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG226) & "</td><td><p><input id=""edtZC_RSS_EXPORT_WHOLE"" name=""edtZC_RSS_EXPORT_WHOLE"" style="""" type=""checkbox"" "&IIf(CBool(strZC_RSS_EXPORT_WHOLE),"checked","")&" value=""" & strZC_RSS_EXPORT_WHOLE & """ ONCLICK=""ChangeValue(this);""/></p></td></tr>"
-	End If
-
-	Dim strZC_GUEST_REVERT_COMMENT_ENABLE
-	If LoadValueForSetting(tmpSng,True,"Boolean","ZC_GUEST_REVERT_COMMENT_ENABLE",strZC_GUEST_REVERT_COMMENT_ENABLE) Then
-		strZC_GUEST_REVERT_COMMENT_ENABLE=TransferHTML(strZC_GUEST_REVERT_COMMENT_ENABLE,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG283) & "</td><td><p><input id=""edtZC_GUEST_REVERT_COMMENT_ENABLE"" name=""edtZC_GUEST_REVERT_COMMENT_ENABLE"" style="""" type=""checkbox"" "&IIf(CBool(strZC_GUEST_REVERT_COMMENT_ENABLE),"checked","")&" value=""" & strZC_GUEST_REVERT_COMMENT_ENABLE & """ ONCLICK=""ChangeValue(this);""/></p></td></tr>"
-	End If
-
-	Dim strZC_COMMENT_TURNOFF
-	If LoadValueForSetting(tmpSng,True,"Boolean","ZC_COMMENT_TURNOFF",strZC_COMMENT_TURNOFF) Then
-		strZC_COMMENT_TURNOFF=TransferHTML(strZC_COMMENT_TURNOFF,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG262) & "</td><td><p><input id=""edtZC_COMMENT_TURNOFF"" name=""edtZC_COMMENT_TURNOFF"" style="""" type=""checkbox"" "&IIf(CBool(strZC_COMMENT_TURNOFF),"checked","")&" value=""" & strZC_COMMENT_TURNOFF & """ ONCLICK=""ChangeValue(this);""/></p></td></tr>"
-	End If
-
-	Dim strZC_TRACKBACK_TURNOFF
-	If LoadValueForSetting(tmpSng,True,"Boolean","ZC_TRACKBACK_TURNOFF",strZC_TRACKBACK_TURNOFF) Then
-		strZC_TRACKBACK_TURNOFF=TransferHTML(strZC_TRACKBACK_TURNOFF,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG263) & "</td><td><p><input id=""edtZC_TRACKBACK_TURNOFF"" name=""edtZC_TRACKBACK_TURNOFF"" style="""" type=""checkbox"" "&IIf(CBool(strZC_TRACKBACK_TURNOFF),"checked","")&" value=""" & strZC_TRACKBACK_TURNOFF & """ ONCLICK=""ChangeValue(this);""/></p></td></tr>"
-	End If
+		ZC_TIME_ZONE=TransferHTML(ZC_TIME_ZONE,"[html-format]")
+		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG175) & "</td><td><p><input id=""edtZC_TIME_ZONE"" name=""edtZC_TIME_ZONE"" style=""width:500px;"" type=""text"" value=""" & ZC_TIME_ZONE & """ /></p></td></tr>"
 
 
-	Dim strZC_GUESTBOOK_CONTENT
-	If LoadValueForSetting(tmpSng,True,"String","ZC_GUESTBOOK_CONTENT",strZC_GUESTBOOK_CONTENT) Then
-		strZC_GUESTBOOK_CONTENT=TransferHTML(strZC_GUESTBOOK_CONTENT,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG276) & "</td><td><p><textarea rows=""6"" id=""edtZC_GUESTBOOK_CONTENT"" name=""edtZC_GUESTBOOK_CONTENT"" style=""width:500px;"" type=""text"" >" & strZC_GUESTBOOK_CONTENT & "</textarea></p></td></tr>"
-	End If
+
+
+		ZC_HOST_TIME_ZONE=TransferHTML(ZC_HOST_TIME_ZONE,"[html-format]")
+		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG303) & "</td><td><p><input id=""edtZC_HOST_TIME_ZONE"" name=""edtZC_HOST_TIME_ZONE"" style=""width:500px;"" type=""text"" value=""" & ZC_HOST_TIME_ZONE & """ /></p></td></tr>"
+
+
+		ZC_BLOG_LANGUAGE=TransferHTML(ZC_BLOG_LANGUAGE,"[html-format]")
+		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG176) & "</td><td><p><input id=""edtZC_BLOG_LANGUAGE"" name=""edtZC_BLOG_LANGUAGE"" style=""width:500px;"" type=""text"" value=""" & ZC_BLOG_LANGUAGE & """ /></p></td></tr>"
+
+
+
+		ZC_UPLOAD_FILETYPE=TransferHTML(ZC_UPLOAD_FILETYPE,"[html-format]")
+		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG183) & "</td><td><p><input id=""edtZC_UPLOAD_FILETYPE"" name=""edtZC_UPLOAD_FILETYPE"" style=""width:500px;"" type=""text"" value=""" & ZC_UPLOAD_FILETYPE & """ /></p></td></tr>"
+
+
+		ZC_UPLOAD_FILESIZE=TransferHTML(ZC_UPLOAD_FILESIZE,"[html-format]")
+		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG184) & "</td><td><p><input id=""edtZC_UPLOAD_FILESIZE"" name=""edtZC_UPLOAD_FILESIZE"" style=""width:500px;"" type=""text"" value=""" & ZC_UPLOAD_FILESIZE & """ /></p></td></tr>"
+
+
+		ZC_UPLOAD_DIRBYMONTH=TransferHTML(ZC_UPLOAD_DIRBYMONTH,"[html-format]")
+		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG292) & "</td><td><p><input id=""edtZC_UPLOAD_DIRBYMONTH"" name=""edtZC_UPLOAD_DIRBYMONTH"" style="""" type=""text"" value=""" & ZC_UPLOAD_DIRBYMONTH & """ class=""checkbox""/></p></td></tr>"
+
+
+
+		ZC_RSS_EXPORT_WHOLE=TransferHTML(ZC_RSS_EXPORT_WHOLE,"[html-format]")
+		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG226) & "</td><td><p><input id=""edtZC_RSS_EXPORT_WHOLE"" name=""edtZC_RSS_EXPORT_WHOLE"" style="""" type=""text"" value=""" & ZC_RSS_EXPORT_WHOLE & """ class=""checkbox""/></p></td></tr>"
+
+
 
 	Response.Write "</table>"
 	Response.Write "</div>"
 	Response.Write "<div class=""tab-content"" style='border:none;padding:0px;margin:0;' id=""tab3"">"
 	Response.Write "<table width='100%' style='padding:0px;margin:1px;' cellspacing='0' cellpadding='0'>"
 
-	Dim strZC_MSG_COUNT
-	If LoadValueForSetting(tmpSng,True,"Numeric","ZC_MSG_COUNT",strZC_MSG_COUNT) Then
-		strZC_MSG_COUNT=TransferHTML(strZC_MSG_COUNT,"[html-format]")
-		Response.Write "<tr><td width='30%'>" & SplitNameAndNote(ZC_MSG187) & "</td><td><p><input id=""edtZC_MSG_COUNT"" name=""edtZC_MSG_COUNT"" style=""width:500px;"" type=""text"" value=""" & strZC_MSG_COUNT & """ /></p></td></tr>"
-	End If
 
-	Dim strZC_ARCHIVE_COUNT
-	If LoadValueForSetting(tmpSng,True,"Numeric","ZC_ARCHIVE_COUNT",strZC_ARCHIVE_COUNT) Then
-		strZC_ARCHIVE_COUNT=TransferHTML(strZC_ARCHIVE_COUNT,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG188) & "</td><td><p><input id=""edtZC_ARCHIVE_COUNT"" name=""edtZC_ARCHIVE_COUNT"" style=""width:500px;"" type=""text"" value=""" & strZC_ARCHIVE_COUNT & """ /></p></td></tr>"
-	End If
+		ZC_DISPLAY_COUNT=TransferHTML(ZC_DISPLAY_COUNT,"[html-format]")
+		Response.Write "<tr><td width='35%'>" & SplitNameAndNote(ZC_MSG190) & "</td><td><p><input id=""edtZC_DISPLAY_COUNT"" name=""edtZC_DISPLAY_COUNT"" style=""width:500px;"" type=""text"" value=""" & ZC_DISPLAY_COUNT & """ /></p></td></tr>"
 
-	Dim strZC_PREVIOUS_COUNT
-	If LoadValueForSetting(tmpSng,True,"Numeric","ZC_PREVIOUS_COUNT",strZC_PREVIOUS_COUNT) Then
-		strZC_PREVIOUS_COUNT=TransferHTML(strZC_PREVIOUS_COUNT,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG189) & "</td><td><p><input id=""edtZC_PREVIOUS_COUNT"" name=""edtZC_PREVIOUS_COUNT"" style=""width:500px;"" type=""text"" value=""" & strZC_PREVIOUS_COUNT & """ /></p></td></tr>"
-	End If
 
-	Dim strZC_DISPLAY_COUNT
-	If LoadValueForSetting(tmpSng,True,"Numeric","ZC_DISPLAY_COUNT",strZC_DISPLAY_COUNT) Then
-		strZC_DISPLAY_COUNT=TransferHTML(strZC_DISPLAY_COUNT,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG190) & "</td><td><p><input id=""edtZC_DISPLAY_COUNT"" name=""edtZC_DISPLAY_COUNT"" style=""width:500px;"" type=""text"" value=""" & strZC_DISPLAY_COUNT & """ /></p></td></tr>"
-	End If
+		ZC_RSS2_COUNT=TransferHTML(ZC_RSS2_COUNT,"[html-format]")
+		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG192) & "</td><td><p><input id=""edtZC_RSS2_COUNT"" name=""edtZC_RSS2_COUNT"" style=""width:500px;"" type=""text"" value=""" & ZC_RSS2_COUNT & """ /></p></td></tr>"
 
-	Dim strZC_MANAGE_COUNT
-	If LoadValueForSetting(tmpSng,True,"Numeric","ZC_MANAGE_COUNT",strZC_MANAGE_COUNT) Then
-		strZC_MANAGE_COUNT=TransferHTML(strZC_MANAGE_COUNT,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG191) & "</td><td><p><input id=""edtZC_MANAGE_COUNT"" name=""edtZC_MANAGE_COUNT"" style=""width:500px;"" type=""text"" value=""" & strZC_MANAGE_COUNT & """ /></p></td></tr>"
-	End If
 
-	Dim strZC_RSS2_COUNT
-	If LoadValueForSetting(tmpSng,True,"Numeric","ZC_RSS2_COUNT",strZC_RSS2_COUNT) Then
-		strZC_RSS2_COUNT=TransferHTML(strZC_RSS2_COUNT,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG192) & "</td><td><p><input id=""edtZC_RSS2_COUNT"" name=""edtZC_RSS2_COUNT"" style=""width:500px;"" type=""text"" value=""" & strZC_RSS2_COUNT & """ /></p></td></tr>"
-	End If
+		ZC_SEARCH_COUNT=TransferHTML(ZC_SEARCH_COUNT,"[html-format]")
+		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG193) & "</td><td><p><input id=""edtZC_SEARCH_COUNT"" name=""edtZC_SEARCH_COUNT"" style=""width:500px;"" type=""text"" value=""" & ZC_SEARCH_COUNT & """ /></p></td></tr>"
 
-	Dim strZC_SEARCH_COUNT
-	If LoadValueForSetting(tmpSng,True,"Numeric","ZC_SEARCH_COUNT",strZC_SEARCH_COUNT) Then
-		strZC_SEARCH_COUNT=TransferHTML(strZC_SEARCH_COUNT,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG193) & "</td><td><p><input id=""edtZC_SEARCH_COUNT"" name=""edtZC_SEARCH_COUNT"" style=""width:500px;"" type=""text"" value=""" & strZC_SEARCH_COUNT & """ /></p></td></tr>"
-	End If
 
-	Dim strZC_PAGEBAR_COUNT
-	If LoadValueForSetting(tmpSng,True,"Numeric","ZC_PAGEBAR_COUNT",strZC_PAGEBAR_COUNT) Then
-		strZC_PAGEBAR_COUNT=TransferHTML(strZC_PAGEBAR_COUNT,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG194) & "</td><td><p><input id=""edtZC_PAGEBAR_COUNT"" name=""edtZC_PAGEBAR_COUNT"" style=""width:500px;"" type=""text"" value=""" & strZC_PAGEBAR_COUNT & """ /></p></td></tr>"
-	End If
+		ZC_USE_NAVIGATE_ARTICLE=TransferHTML(ZC_USE_NAVIGATE_ARTICLE,"[html-format]")
+		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG209) & "</td><td><p><input id=""edtZC_USE_NAVIGATE_ARTICLE"" name=""edtZC_USE_NAVIGATE_ARTICLE"" style="""" type=""text"" value=""" & ZC_USE_NAVIGATE_ARTICLE & """ class=""checkbox""/></p></td></tr>"
 
-	Dim strZC_USE_NAVIGATE_ARTICLE
-	If LoadValueForSetting(tmpSng,True,"Boolean","ZC_USE_NAVIGATE_ARTICLE",strZC_USE_NAVIGATE_ARTICLE) Then
-		strZC_USE_NAVIGATE_ARTICLE=TransferHTML(strZC_USE_NAVIGATE_ARTICLE,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG209) & "</td><td><p><input id=""edtZC_USE_NAVIGATE_ARTICLE"" name=""edtZC_USE_NAVIGATE_ARTICLE"" style="""" type=""checkbox"" "&IIf(CBool(strZC_USE_NAVIGATE_ARTICLE),"checked","")&" value=""" & strZC_USE_NAVIGATE_ARTICLE & """ ONCLICK=""ChangeValue(this);""/></p></td></tr>"
-	End If
 
-	Dim strZC_MUTUALITY_COUNT
-	If LoadValueForSetting(tmpSng,True,"Numeric","ZC_MUTUALITY_COUNT",strZC_MUTUALITY_COUNT) Then
-		strZC_MUTUALITY_COUNT=TransferHTML(strZC_MUTUALITY_COUNT,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG230) & "</td><td><p><input id=""edtZC_MUTUALITY_COUNT"" name=""edtZC_MUTUALITY_COUNT"" style=""width:500px;"" type=""text"" value=""" & strZC_MUTUALITY_COUNT & """ /></p></td></tr>"
-	End If
+		ZC_MUTUALITY_COUNT=TransferHTML(ZC_MUTUALITY_COUNT,"[html-format]")
+		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG230) & "</td><td><p><input id=""edtZC_MUTUALITY_COUNT"" name=""edtZC_MUTUALITY_COUNT"" style=""width:500px;"" type=""text"" value=""" & ZC_MUTUALITY_COUNT & """ /></p></td></tr>"
 
-	Dim strZC_COMMENT_REVERSE_ORDER_EXPORT
-	If LoadValueForSetting(tmpSng,True,"Boolean","ZC_COMMENT_REVERSE_ORDER_EXPORT",strZC_COMMENT_REVERSE_ORDER_EXPORT) Then
-		strZC_COMMENT_REVERSE_ORDER_EXPORT=TransferHTML(strZC_COMMENT_REVERSE_ORDER_EXPORT,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG271) & "</td><td><p><input id=""edtZC_COMMENT_REVERSE_ORDER_EXPORT"" name=""edtZC_COMMENT_REVERSE_ORDER_EXPORT"" style="""" type=""checkbox"" "&IIf(CBool(strZC_COMMENT_REVERSE_ORDER_EXPORT),"checked","")&" value=""" & strZC_COMMENT_REVERSE_ORDER_EXPORT & """ ONCLICK=""ChangeValue(this);""/></p></td></tr>"
-	End If
+		ZC_COMMENT_TURNOFF=TransferHTML(ZC_COMMENT_TURNOFF,"[html-format]")
+		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG262) & "</td><td><p><input id=""edtZC_COMMENT_TURNOFF"" name=""edtZC_COMMENT_TURNOFF"" style="""" type=""text"" value=""" & ZC_COMMENT_TURNOFF & """ class=""checkbox""/></p></td></tr>"
 
-	Dim strZC_COMMENT_VERIFY_ENABLE
-	If LoadValueForSetting(tmpSng,True,"Boolean","ZC_COMMENT_VERIFY_ENABLE",strZC_COMMENT_VERIFY_ENABLE) Then
-		strZC_COMMENT_VERIFY_ENABLE=TransferHTML(strZC_COMMENT_VERIFY_ENABLE,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG185) & "</td><td><p><input id=""edtZC_COMMENT_VERIFY_ENABLE"" name=""edtZC_COMMENT_VERIFY_ENABLE"" style="""" type=""checkbox"" "&IIf(CBool(strZC_COMMENT_VERIFY_ENABLE),"checked","")&" value=""" & strZC_COMMENT_VERIFY_ENABLE & """ ONCLICK=""ChangeValue(this);""/></p></td></tr>"
-	End If
 
-	Dim strZC_VERIFYCODE_STRING
-	If LoadValueForSetting(tmpSng,True,"String","ZC_VERIFYCODE_STRING",strZC_VERIFYCODE_STRING) Then
-		strZC_VERIFYCODE_STRING=TransferHTML(strZC_VERIFYCODE_STRING,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG300) & "</td><td><p><input id=""edtZC_VERIFYCODE_STRING"" name=""edtZC_VERIFYCODE_STRING"" style=""width:500px;"" type=""text"" value=""" & strZC_VERIFYCODE_STRING & """ /></p></td></tr>"
-	End If
+		ZC_COMMENT_REVERSE_ORDER_EXPORT=TransferHTML(ZC_COMMENT_REVERSE_ORDER_EXPORT,"[html-format]")
+		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG271) & "</td><td><p><input id=""edtZC_COMMENT_REVERSE_ORDER_EXPORT"" name=""edtZC_COMMENT_REVERSE_ORDER_EXPORT"" style="""" type=""text"" value=""" & ZC_COMMENT_REVERSE_ORDER_EXPORT & """ class=""checkbox""/></p></td></tr>"
 
-	Dim strZC_VERIFYCODE_WIDTH
-	If LoadValueForSetting(tmpSng,True,"Numeric","ZC_VERIFYCODE_WIDTH",strZC_VERIFYCODE_WIDTH) Then
-		strZC_VERIFYCODE_WIDTH=TransferHTML(strZC_VERIFYCODE_WIDTH,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG301) & "</td><td><p><input id=""edtZC_VERIFYCODE_WIDTH"" name=""edtZC_VERIFYCODE_WIDTH"" style=""width:500px;"" type=""text"" value=""" & strZC_VERIFYCODE_WIDTH & """/></p></td></tr>"
-	End If
 
-	Dim strZC_VERIFYCODE_HEIGHT
-	If LoadValueForSetting(tmpSng,True,"Numeric","ZC_VERIFYCODE_HEIGHT",strZC_VERIFYCODE_HEIGHT) Then
-		strZC_VERIFYCODE_HEIGHT=TransferHTML(strZC_VERIFYCODE_HEIGHT,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG302) & "</td><td><p><input id=""edtZC_VERIFYCODE_HEIGHT"" name=""edtZC_VERIFYCODE_HEIGHT"" style=""width:500px;"" type=""text"" value=""" & strZC_VERIFYCODE_HEIGHT & """/></p></td></tr>"
-	End If
+		ZC_COMMENT_VERIFY_ENABLE=TransferHTML(ZC_COMMENT_VERIFY_ENABLE,"[html-format]")
+		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG185) & "</td><td><p><input id=""edtZC_COMMENT_VERIFY_ENABLE"" name=""edtZC_COMMENT_VERIFY_ENABLE"" style="""" type=""text"" value=""" & ZC_COMMENT_VERIFY_ENABLE & """ class=""checkbox""/></p></td></tr>"
 
-	Dim strZC_IMAGE_WIDTH
-	If LoadValueForSetting(tmpSng,True,"Numeric","ZC_IMAGE_WIDTH",strZC_IMAGE_WIDTH) Then
-		strZC_IMAGE_WIDTH=TransferHTML(strZC_IMAGE_WIDTH,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG171) & "</td><td><p><input id=""edtZC_IMAGE_WIDTH"" name=""edtZC_IMAGE_WIDTH"" style=""width:500px;"" type=""text"" value=""" & strZC_IMAGE_WIDTH & """/></p></td></tr>"
-	End If
 
-	Dim strZC_RECENT_COMMENT_WORD_MAX
-	If LoadValueForSetting(tmpSng,True,"Numeric","ZC_RECENT_COMMENT_WORD_MAX",strZC_RECENT_COMMENT_WORD_MAX) Then
-		strZC_RECENT_COMMENT_WORD_MAX=TransferHTML(strZC_RECENT_COMMENT_WORD_MAX,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG206) & "</td><td><p><input id=""edtZC_RECENT_COMMENT_WORD_MAX"" name=""edtZC_RECENT_COMMENT_WORD_MAX"" style=""width:500px;"" type=""text"" value=""" & strZC_RECENT_COMMENT_WORD_MAX & """/></p></td></tr>"
-	End If
+		ZC_IMAGE_WIDTH=TransferHTML(ZC_IMAGE_WIDTH,"[html-format]")
+		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG171) & "</td><td><p><input id=""edtZC_IMAGE_WIDTH"" name=""edtZC_IMAGE_WIDTH"" style=""width:500px;"" type=""text"" value=""" & ZC_IMAGE_WIDTH & """/></p></td></tr>"
 
-	Dim strZC_TAGS_DISPLAY_COUNT
-	If LoadValueForSetting(tmpSng,True,"Numeric","ZC_TAGS_DISPLAY_COUNT",strZC_TAGS_DISPLAY_COUNT) Then
-		strZC_TAGS_DISPLAY_COUNT=TransferHTML(strZC_TAGS_DISPLAY_COUNT,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(GetSettingFormNameWithDefault("ZC_MSG319","Tags Count in SliderBar")) & "</td><td><p><input id=""edtZC_TAGS_DISPLAY_COUNT"" name=""edtZC_TAGS_DISPLAY_COUNT"" style=""width:500px;"" type=""text"" value=""" & strZC_TAGS_DISPLAY_COUNT & """/></p></td></tr>"
-	End If
+
+
 
 	Response.Write "</table>"
 	Response.Write "</div>"
 	Response.Write "<div class=""tab-content"" style='border:none;padding:0px;margin:0;' id=""tab4"">"
 	Response.Write "<table width='100%' style='padding:0px;margin:1px;' cellspacing='0' cellpadding='0'>"
 
-	Dim strZC_STATIC_TYPE
-	If LoadValueForSetting(tmpSng,True,"String","ZC_STATIC_TYPE",strZC_STATIC_TYPE) Then
-		strZC_STATIC_TYPE=TransferHTML(strZC_STATIC_TYPE,"[html-format]")
-		Response.Write "<tr><td width='30%'>" & SplitNameAndNote(ZC_MSG177) & "</td><td><p><input id=""edtZC_STATIC_TYPE"" name=""edtZC_STATIC_TYPE"" style=""width:500px;"" type=""text"" value=""" & strZC_STATIC_TYPE & """ /></p></td></tr>"
-	End If
 
-	Dim strZC_STATIC_DIRECTORY
-	If LoadValueForSetting(tmpSng,True,"String","ZC_STATIC_DIRECTORY",strZC_STATIC_DIRECTORY) Then
-		strZC_STATIC_DIRECTORY=TransferHTML(strZC_STATIC_DIRECTORY,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG178) & "</td><td><p><input id=""edtZC_STATIC_DIRECTORY"" name=""edtZC_STATIC_DIRECTORY"" style=""width:500px;"" type=""text"" value=""" & strZC_STATIC_DIRECTORY & """ /></p></td></tr>"
-	End If
+		ZC_STATIC_TYPE=TransferHTML(ZC_STATIC_TYPE,"[html-format]")
+		Response.Write "<tr><td width='35%'>" & SplitNameAndNote(ZC_MSG177) & "</td><td><p><input id=""edtZC_STATIC_TYPE"" name=""edtZC_STATIC_TYPE"" style=""width:500px;"" type=""text"" value=""" & ZC_STATIC_TYPE & """ /></p></td></tr>"
 
-	Dim strZC_CUSTOM_DIRECTORY_ENABLE
-	If LoadValueForSetting(tmpSng,True,"Boolean","ZC_CUSTOM_DIRECTORY_ENABLE",strZC_CUSTOM_DIRECTORY_ENABLE) Then
-		strZC_CUSTOM_DIRECTORY_ENABLE=TransferHTML(strZC_CUSTOM_DIRECTORY_ENABLE,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG278) & "<p><a href='http://wiki.rainbowsoft.org/doku.php?id=wiki:config:url' target='_blank'><font color='green'>Z-Wiki:配置Z-Blog的静态URL</font></a></p></td><td><p><input id=""edtZC_CUSTOM_DIRECTORY_ENABLE"" name=""edtZC_CUSTOM_DIRECTORY_ENABLE"" style="""" type=""checkbox"" "&IIf(CBool(strZC_CUSTOM_DIRECTORY_ENABLE),"checked","")&" value=""" & strZC_CUSTOM_DIRECTORY_ENABLE & """ ONCLICK=""ChangeValue(this);""/></p></td></tr>"
-	End If
 
-	Dim strZC_CUSTOM_DIRECTORY_REGEX
-	If LoadValueForSetting(tmpSng,True,"String","ZC_CUSTOM_DIRECTORY_REGEX",strZC_CUSTOM_DIRECTORY_REGEX) Then
-		strZC_CUSTOM_DIRECTORY_REGEX=TransferHTML(strZC_CUSTOM_DIRECTORY_REGEX,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG279) & "</td><td><p><input id=""edtZC_CUSTOM_DIRECTORY_REGEX"" name=""edtZC_CUSTOM_DIRECTORY_REGEX"" style=""width:500px;"" type=""text"" value=""" & strZC_CUSTOM_DIRECTORY_REGEX & """ /></p></td></tr>"
-	End If
 
-	Dim strZC_CUSTOM_DIRECTORY_ANONYMOUS
-	If LoadValueForSetting(tmpSng,True,"Boolean","ZC_CUSTOM_DIRECTORY_ANONYMOUS",strZC_CUSTOM_DIRECTORY_ANONYMOUS) Then
-		strZC_CUSTOM_DIRECTORY_ANONYMOUS=TransferHTML(strZC_CUSTOM_DIRECTORY_ANONYMOUS,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG280) & "</td><td><p><input id=""edtZC_CUSTOM_DIRECTORY_ANONYMOUS"" name=""edtZC_CUSTOM_DIRECTORY_ANONYMOUS"" style="""" type=""checkbox"" "&IIf(CBool(strZC_CUSTOM_DIRECTORY_ANONYMOUS),"checked","")&" value=""" & strZC_CUSTOM_DIRECTORY_ANONYMOUS & """ ONCLICK=""ChangeValue(this);""/></p></td></tr>"
-	End If
+		ZC_STATIC_DIRECTORY=TransferHTML(ZC_STATIC_DIRECTORY,"[html-format]")
+		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG178) & "</td><td><p><input id=""edtZC_STATIC_DIRECTORY"" name=""edtZC_STATIC_DIRECTORY"" style=""width:500px;"" type=""text"" value=""" & ZC_STATIC_DIRECTORY & """ /></p></td></tr>"
 
-	Dim strZC_REBUILD_FILE_COUNT
-	If LoadValueForSetting(tmpSng,True,"Numeric","ZC_REBUILD_FILE_COUNT",strZC_REBUILD_FILE_COUNT) Then
-		strZC_REBUILD_FILE_COUNT=TransferHTML(strZC_REBUILD_FILE_COUNT,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG181) & "</td><td><p><input id=""edtZC_REBUILD_FILE_COUNT"" name=""edtZC_REBUILD_FILE_COUNT"" style=""width:500px;"" type=""text"" value=""" & strZC_REBUILD_FILE_COUNT & """ /></p></td></tr>"
-	End If
 
-	Dim strZC_REBUILD_FILE_INTERVAL
-	If LoadValueForSetting(tmpSng,True,"Numeric","ZC_REBUILD_FILE_INTERVAL",strZC_REBUILD_FILE_INTERVAL) Then
-		strZC_REBUILD_FILE_INTERVAL=TransferHTML(strZC_REBUILD_FILE_INTERVAL,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG182) & "</td><td><p><input id=""edtZC_REBUILD_FILE_INTERVAL"" name=""edtZC_REBUILD_FILE_INTERVAL"" style=""width:500px;"" type=""text"" value=""" & strZC_REBUILD_FILE_INTERVAL & """ /></p></td></tr>"
-	End If
+
+		ZC_CUSTOM_DIRECTORY_ENABLE=TransferHTML(ZC_CUSTOM_DIRECTORY_ENABLE,"[html-format]")
+		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG278) & "&nbsp;&nbsp;<span style='font-size:0.9em;'><a href='http://wiki.rainbowsoft.org/doku.php?id=wiki:config:url' target='_blank'><font color='green'>Z-Wiki:配置Z-Blog的静态URL</font></a></span></td><td><p><input id=""edtZC_CUSTOM_DIRECTORY_ENABLE"" name=""edtZC_CUSTOM_DIRECTORY_ENABLE"" style="""" type=""text"" value=""" & ZC_CUSTOM_DIRECTORY_ENABLE & """ class=""checkbox""/></p></td></tr>"
+
+
+
+		ZC_CUSTOM_DIRECTORY_REGEX=TransferHTML(ZC_CUSTOM_DIRECTORY_REGEX,"[html-format]")
+		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG279) & "</td><td><p><input id=""edtZC_CUSTOM_DIRECTORY_REGEX"" name=""edtZC_CUSTOM_DIRECTORY_REGEX"" style=""width:500px;"" type=""text"" value=""" & ZC_CUSTOM_DIRECTORY_REGEX & """ /></p></td></tr>"
+
+
+		ZC_CUSTOM_DIRECTORY_ANONYMOUS=TransferHTML(ZC_CUSTOM_DIRECTORY_ANONYMOUS,"[html-format]")
+		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG280) & "</td><td><p><input id=""edtZC_CUSTOM_DIRECTORY_ANONYMOUS"" name=""edtZC_CUSTOM_DIRECTORY_ANONYMOUS"" style="""" type=""text"" value=""" & ZC_CUSTOM_DIRECTORY_ANONYMOUS & """ class=""checkbox""/></p></td></tr>"
+
+
+
+		ZC_REBUILD_FILE_COUNT=TransferHTML(ZC_REBUILD_FILE_COUNT,"[html-format]")
+		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG181) & "</td><td><p><input id=""edtZC_REBUILD_FILE_COUNT"" name=""edtZC_REBUILD_FILE_COUNT"" style=""width:500px;"" type=""text"" value=""" & ZC_REBUILD_FILE_COUNT & """ /></p></td></tr>"
+
+
+
+		ZC_REBUILD_FILE_INTERVAL=TransferHTML(ZC_REBUILD_FILE_INTERVAL,"[html-format]")
+		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG182) & "</td><td><p><input id=""edtZC_REBUILD_FILE_INTERVAL"" name=""edtZC_REBUILD_FILE_INTERVAL"" style=""width:500px;"" type=""text"" value=""" & ZC_REBUILD_FILE_INTERVAL & """ /></p></td></tr>"
 
 
 	Response.Write "</table>"
@@ -407,174 +264,52 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG247
 	Response.Write "<div class=""tab-content"" style='border:none;padding:0px;margin:0;' id=""tab5"">"
 	Response.Write "<table width='100%' style='padding:0px;margin:1px;' cellspacing='0' cellpadding='0'>"
 
-	Dim strZC_UBB_LINK_ENABLE
-	If LoadValueForSetting(tmpSng,True,"Boolean","ZC_UBB_LINK_ENABLE",strZC_UBB_LINK_ENABLE) Then
-		strZC_UBB_LINK_ENABLE=TransferHTML(strZC_UBB_LINK_ENABLE,"[html-format]")
-		Response.Write "<tr><td width='30%'>" & SplitNameAndNote(ZC_MSG196) & "</td><td><p><input id=""edtZC_UBB_LINK_ENABLE"" name=""edtZC_UBB_LINK_ENABLE"" style="""" type=""checkbox"" "&IIf(CBool(strZC_UBB_LINK_ENABLE),"checked","")&" value=""" & strZC_UBB_LINK_ENABLE & """ ONCLICK=""ChangeValue(this);""/></p></td></tr>"
-	End If
-
-	Dim strZC_UBB_FONT_ENABLE
-	If LoadValueForSetting(tmpSng,True,"Boolean","ZC_UBB_FONT_ENABLE",strZC_UBB_FONT_ENABLE) Then
-		strZC_UBB_FONT_ENABLE=TransferHTML(strZC_UBB_FONT_ENABLE,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG197) & "</td><td><p><input id=""edtZC_UBB_FONT_ENABLE"" name=""edtZC_UBB_FONT_ENABLE"" style="""" type=""checkbox"" "&IIf(CBool(strZC_UBB_FONT_ENABLE),"checked","")&" value=""" & strZC_UBB_FONT_ENABLE & """ ONCLICK=""ChangeValue(this);""/></p></td></tr>"
-	End If
-
-	Dim strZC_UBB_CODE_ENABLE
-	If LoadValueForSetting(tmpSng,True,"Boolean","ZC_UBB_CODE_ENABLE",strZC_UBB_CODE_ENABLE) Then
-		strZC_UBB_CODE_ENABLE=TransferHTML(strZC_UBB_CODE_ENABLE,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG198) & "</td><td><p><input id=""edtZC_UBB_CODE_ENABLE"" name=""edtZC_UBB_CODE_ENABLE"" style="""" type=""checkbox"" "&IIf(CBool(strZC_UBB_CODE_ENABLE),"checked","")&" value=""" & strZC_UBB_CODE_ENABLE & """ ONCLICK=""ChangeValue(this);""/></p></td></tr>"
-	End If
-
-	Dim strZC_UBB_FACE_ENABLE
-	If LoadValueForSetting(tmpSng,True,"Boolean","ZC_UBB_FACE_ENABLE",strZC_UBB_FACE_ENABLE) Then
-		strZC_UBB_FACE_ENABLE=TransferHTML(strZC_UBB_FACE_ENABLE,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG199) & "</td><td><p><input id=""edtZC_UBB_FACE_ENABLE"" name=""edtZC_UBB_FACE_ENABLE"" style="""" type=""checkbox"" "&IIf(CBool(strZC_UBB_FACE_ENABLE),"checked","")&" value=""" & strZC_UBB_FACE_ENABLE & """ ONCLICK=""ChangeValue(this);""/></p></td></tr>"
-	End If
-
-	Dim strZC_UBB_IMAGE_ENABLE
-	If LoadValueForSetting(tmpSng,True,"Boolean","ZC_UBB_IMAGE_ENABLE",strZC_UBB_IMAGE_ENABLE) Then
-		strZC_UBB_IMAGE_ENABLE=TransferHTML(strZC_UBB_IMAGE_ENABLE,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG200) & "</td><td><p><input id=""edtZC_UBB_IMAGE_ENABLE"" name=""edtZC_UBB_IMAGE_ENABLE"" style="""" type=""checkbox"" "&IIf(CBool(strZC_UBB_IMAGE_ENABLE),"checked","")&" value=""" & strZC_UBB_IMAGE_ENABLE & """ ONCLICK=""ChangeValue(this);""/></p></td></tr>"
-	End If
-
-	Dim strZC_UBB_MEDIA_ENABLE
-	If LoadValueForSetting(tmpSng,True,"Boolean","ZC_UBB_MEDIA_ENABLE",strZC_UBB_MEDIA_ENABLE) Then
-		strZC_UBB_MEDIA_ENABLE=TransferHTML(strZC_UBB_MEDIA_ENABLE,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG201) & "</td><td><p><input id=""edtZC_UBB_MEDIA_ENABLE"" name=""edtZC_UBB_MEDIA_ENABLE"" style="""" type=""checkbox"" "&IIf(CBool(strZC_UBB_MEDIA_ENABLE),"checked","")&" value=""" & strZC_UBB_MEDIA_ENABLE & """ ONCLICK=""ChangeValue(this);""/></p></td></tr>"
-	End If
-
-	Dim strZC_UBB_FLASH_ENABLE
-	If LoadValueForSetting(tmpSng,True,"Boolean","ZC_UBB_FLASH_ENABLE",strZC_UBB_FLASH_ENABLE) Then
-		strZC_UBB_FLASH_ENABLE=TransferHTML(strZC_UBB_FLASH_ENABLE,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG202) & "</td><td><p><input id=""edtZC_UBB_FLASH_ENABLE"" name=""edtZC_UBB_FLASH_ENABLE"" style="""" type=""checkbox"" "&IIf(CBool(strZC_UBB_FLASH_ENABLE),"checked","")&" value=""" & strZC_UBB_FLASH_ENABLE & """ ONCLICK=""ChangeValue(this);""/></p></td></tr>"
-	End If
-
-	Dim strZC_UBB_TYPESET_ENABLE
-	If LoadValueForSetting(tmpSng,True,"Boolean","ZC_UBB_TYPESET_ENABLE",strZC_UBB_TYPESET_ENABLE) Then
-		strZC_UBB_TYPESET_ENABLE=TransferHTML(strZC_UBB_TYPESET_ENABLE,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG203) & "</td><td><p><input id=""edtZC_UBB_TYPESET_ENABLE"" name=""edtZC_UBB_TYPESET_ENABLE"" style="""" type=""checkbox"" "&IIf(CBool(strZC_UBB_TYPESET_ENABLE),"checked","")&" value=""" & strZC_UBB_TYPESET_ENABLE & """ ONCLICK=""ChangeValue(this);""/></p></td></tr>"
-	End If
-
-	Dim strZC_UBB_AUTOLINK_ENABLE
-	If LoadValueForSetting(tmpSng,True,"Boolean","ZC_UBB_AUTOLINK_ENABLE",strZC_UBB_AUTOLINK_ENABLE) Then
-		strZC_UBB_AUTOLINK_ENABLE=TransferHTML(strZC_UBB_AUTOLINK_ENABLE,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG204) & "</td><td><p><input id=""edtZC_UBB_AUTOLINK_ENABLE"" name=""edtZC_UBB_AUTOLINK_ENABLE"" style="""" type=""checkbox"" "&IIf(CBool(strZC_UBB_AUTOLINK_ENABLE),"checked","")&" value=""" & strZC_UBB_AUTOLINK_ENABLE & """ ONCLICK=""ChangeValue(this);""/></p></td></tr>"
-	End If
-
-	'Dim strZC_UBB_AUTOKEY_ENABLE
-	'If LoadValueForSetting(tmpSng,True,"Boolean","ZC_UBB_AUTOKEY_ENABLE",strZC_UBB_AUTOKEY_ENABLE) Then
-	'	strZC_UBB_AUTOKEY_ENABLE=TransferHTML(strZC_UBB_AUTOKEY_ENABLE,"[html-format]")
-	'	Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG205) & "</td><td><p><input id=""edtZC_UBB_AUTOKEY_ENABLE"" name=""edtZC_UBB_AUTOKEY_ENABLE"" style="""" type=""checkbox"" "&IIf(CBool(strZC_UBB_AUTOKEY_ENABLE),"checked","")&" value=""" & strZC_UBB_AUTOKEY_ENABLE & """ ONCLICK=""ChangeValue(this);""/></p></td></tr>"
-	'End If
-
-	Dim strZC_COMMENT_NOFOLLOW_ENABLE
-	If LoadValueForSetting(tmpSng,True,"Boolean","ZC_COMMENT_NOFOLLOW_ENABLE",strZC_COMMENT_NOFOLLOW_ENABLE) Then
-		strZC_COMMENT_NOFOLLOW_ENABLE=TransferHTML(strZC_COMMENT_NOFOLLOW_ENABLE,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG207) & "</td><td><p><input id=""edtZC_COMMENT_NOFOLLOW_ENABLE"" name=""edtZC_COMMENT_NOFOLLOW_ENABLE"" style="""" type=""checkbox"" "&IIf(CBool(strZC_COMMENT_NOFOLLOW_ENABLE),"checked","")&" value=""" & strZC_COMMENT_NOFOLLOW_ENABLE & """ ONCLICK=""ChangeValue(this);""/></p></td></tr>"
-	End If
-
-	Dim strZC_JAPAN_TO_HTML
-	If LoadValueForSetting(tmpSng,True,"Boolean","ZC_JAPAN_TO_HTML",strZC_JAPAN_TO_HTML) Then
-		strZC_JAPAN_TO_HTML=TransferHTML(strZC_JAPAN_TO_HTML,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG208) & "</td><td><p><input id=""edtZC_JAPAN_TO_HTML"" name=""edtZC_JAPAN_TO_HTML"" style="""" type=""checkbox"" "&IIf(CBool(strZC_JAPAN_TO_HTML),"checked","")&" value=""" & strZC_JAPAN_TO_HTML & """ ONCLICK=""ChangeValue(this);""/></p></td></tr>"
-	End If
-
-	Dim strZC_EMOTICONS_FILENAME
-	If LoadValueForSetting(tmpSng,True,"String","ZC_EMOTICONS_FILENAME",strZC_EMOTICONS_FILENAME) Then
-		strZC_EMOTICONS_FILENAME=TransferHTML(strZC_EMOTICONS_FILENAME,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG235) & "</td><td><p><input id=""edtZC_EMOTICONS_FILENAME"" name=""edtZC_EMOTICONS_FILENAME"" style=""width:500px;"" type=""text"" value=""" & strZC_EMOTICONS_FILENAME & """/></p></td></tr>"
-	End If
-
-	Dim strZC_EMOTICONS_FILESIZE
-	If LoadValueForSetting(tmpSng,True,"Numeric","ZC_EMOTICONS_FILESIZE",strZC_EMOTICONS_FILESIZE) Then
-		strZC_EMOTICONS_FILESIZE=TransferHTML(strZC_EMOTICONS_FILESIZE,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG234) & "</td><td><p><input id=""edtZC_EMOTICONS_FILESIZE"" name=""edtZC_EMOTICONS_FILESIZE"" style=""width:500px;"" type=""text"" value=""" & strZC_EMOTICONS_FILESIZE & """ /></p></td></tr>"
-	End If
-
-	Response.Write "</table>"
-	Response.Write "</div>"
-	Response.Write "<div class=""tab-content"" style='border:none;padding:0px;margin:0;' id=""tab6"">"
-	Response.Write "<table width='100%' style='padding:0px;margin:1px;' cellspacing='0' cellpadding='0'>"
-
-	'Dim strZC_IE_DISPLAY_WAP
-
-	Dim strZC_FILENAME_WAP
-	If LoadValueForSetting(tmpSng,True,"String","ZC_FILENAME_WAP",strZC_FILENAME_WAP) Then
-		strZC_FILENAME_WAP=TransferHTML(strZC_FILENAME_WAP,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG223) & "</td><td><p><input id=""edtZC_FILENAME_WAP"" name=""edtZC_FILENAME_WAP"" style=""width:500px;"" type=""text"" value=""" & strZC_FILENAME_WAP & """/></p></td></tr>"
-	End If
-
-	Dim strZC_DISPLAY_COUNT_WAP
-	If LoadValueForSetting(tmpSng,True,"Numeric","ZC_DISPLAY_COUNT_WAP",strZC_DISPLAY_COUNT_WAP) Then
-		strZC_DISPLAY_COUNT_WAP=TransferHTML(strZC_DISPLAY_COUNT_WAP,"[html-format]")
-		Response.Write "<tr><td width='30%'>" & SplitNameAndNote(ZC_MSG217) & "</td><td><p><input id=""edtZC_DISPLAY_COUNT_WAP"" name=""edtZC_DISPLAY_COUNT_WAP"" style=""width:500px;"" type=""text"" value=""" & strZC_DISPLAY_COUNT_WAP & """ /></p></td></tr>"
-	End If
 
 
-	Dim strZC_WAPCOMMENT_ENABLE
-	If LoadValueForSetting(tmpSng,True,"Boolean","ZC_WAPCOMMENT_ENABLE",strZC_WAPCOMMENT_ENABLE) Then
-		strZC_WAPCOMMENT_ENABLE=TransferHTML(strZC_WAPCOMMENT_ENABLE,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG304) & "</td><td><p><input id=""edtZC_WAPCOMMENT_ENABLE"" name=""edtZC_WAPCOMMENT_ENABLE"" style="""" type=""checkbox"" "&IIf(CBool(strZC_WAPCOMMENT_ENABLE),"checked","")&" value=""" & strZC_WAPCOMMENT_ENABLE & """ ONCLICK=""ChangeValue(this);""/></p></td></tr>"
-	End If 
 
-	Dim strZC_COMMENT_COUNT_WAP
-	If LoadValueForSetting(tmpSng,True,"Numeric","ZC_COMMENT_COUNT_WAP",strZC_COMMENT_COUNT_WAP) Then
-		strZC_COMMENT_COUNT_WAP=TransferHTML(strZC_COMMENT_COUNT_WAP,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG218) & "</td><td><p><input id=""edtZC_COMMENT_COUNT_WAP"" name=""edtZC_COMMENT_COUNT_WAP"" style=""width:500px;"" type=""text"" value=""" & strZC_COMMENT_COUNT_WAP & """ /></p></td></tr>"
-	End If
+		ZC_FILENAME_WAP=TransferHTML(ZC_FILENAME_WAP,"[html-format]")
+		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG223) & "</td><td><p><input id=""edtZC_FILENAME_WAP"" name=""edtZC_FILENAME_WAP"" style=""width:500px;"" type=""text"" value=""" & ZC_FILENAME_WAP & """/></p></td></tr>"
 
 
-	Dim strZC_DISPLAY_PAGEBAR_ALL_WAP
-	If LoadValueForSetting(tmpSng,True,"Boolean","ZC_DISPLAY_PAGEBAR_ALL_WAP",strZC_DISPLAY_PAGEBAR_ALL_WAP) Then
-		strZC_DISPLAY_PAGEBAR_ALL_WAP=TransferHTML(strZC_DISPLAY_PAGEBAR_ALL_WAP,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG355) & "</td><td><p><input id=""edtZC_DISPLAY_PAGEBAR_ALL_WAP"" name=""edtZC_DISPLAY_PAGEBAR_ALL_WAP"" style="""" type=""checkbox"" "&IIf(CBool(strZC_DISPLAY_PAGEBAR_ALL_WAP),"checked","")&" value=""" & strZC_DISPLAY_PAGEBAR_ALL_WAP & """ ONCLICK=""ChangeValue(this);""/></p></td></tr>"
-	End If 
+
+		ZC_DISPLAY_COUNT_WAP=TransferHTML(ZC_DISPLAY_COUNT_WAP,"[html-format]")
+		Response.Write "<tr><td width='30%'>" & SplitNameAndNote(ZC_MSG217) & "</td><td><p><input id=""edtZC_DISPLAY_COUNT_WAP"" name=""edtZC_DISPLAY_COUNT_WAP"" style=""width:500px;"" type=""text"" value=""" & ZC_DISPLAY_COUNT_WAP & """ /></p></td></tr>"
 
 
-	Dim strZC_PAGEBAR_COUNT_WAP
-	If LoadValueForSetting(tmpSng,True,"Numeric","ZC_PAGEBAR_COUNT_WAP",strZC_PAGEBAR_COUNT_WAP) Then
-		strZC_PAGEBAR_COUNT_WAP=TransferHTML(strZC_PAGEBAR_COUNT_WAP,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG219) & "</td><td><p><input id=""edtZC_PAGEBAR_COUNT_WAP"" name=""edtZC_PAGEBAR_COUNT_WAP"" style=""width:500px;"" type=""text"" value=""" & strZC_PAGEBAR_COUNT_WAP & """ /></p></td></tr>"
-	End If
 
-'	Dim strZC_SINGLE_SIZE_WAP
-'	If LoadValueForSetting(tmpSng,True,"Numeric","ZC_SINGLE_SIZE_WAP",strZC_SINGLE_SIZE_WAP) Then
-'		strZC_SINGLE_SIZE_WAP=TransferHTML(strZC_SINGLE_SIZE_WAP,"[html-format]")
-'		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG220) & "</td><td><p><input id=""edtZC_SINGLE_SIZE_WAP"" name=""edtZC_SINGLE_SIZE_WAP"" style=""width:500px;"" type=""text"" value=""" & strZC_SINGLE_SIZE_WAP & """ /></p></td></tr>"
-'	End If
-
-'	Dim strZC_SINGLE_PAGEBAR_COUNT_WAP
-
-	Dim strZC_COMMENT_PAGEBAR_COUNT_WAP
-	If LoadValueForSetting(tmpSng,True,"Numeric","ZC_COMMENT_PAGEBAR_COUNT_WAP",strZC_COMMENT_PAGEBAR_COUNT_WAP) Then
-		strZC_COMMENT_PAGEBAR_COUNT_WAP=TransferHTML(strZC_COMMENT_PAGEBAR_COUNT_WAP,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG222) & "</td><td><p><input id=""edtZC_COMMENT_PAGEBAR_COUNT_WAP"" name=""edtZC_COMMENT_PAGEBAR_COUNT_WAP"" style=""width:500px;"" type=""text"" value=""" & strZC_COMMENT_PAGEBAR_COUNT_WAP & """ /></p></td></tr>"
-	End If
-
-	Dim strZC_DISPLAY_MODE_ALL_WAP
-	If LoadValueForSetting(tmpSng,True,"Boolean","ZC_DISPLAY_MODE_ALL_WAP",strZC_DISPLAY_MODE_ALL_WAP) Then
-		strZC_DISPLAY_MODE_ALL_WAP=TransferHTML(strZC_DISPLAY_MODE_ALL_WAP,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG353) & "</td><td><p><input id=""edtZC_DISPLAY_MODE_ALL_WAP"" name=""edtZC_DISPLAY_MODE_ALL_WAP"" style="""" type=""checkbox"" "&IIf(CBool(strZC_DISPLAY_MODE_ALL_WAP),"checked","")&" value=""" & strZC_DISPLAY_MODE_ALL_WAP & """ ONCLICK=""ChangeValue(this);""/></p></td></tr>"
-	End If 
-
-	Dim strZC_DISPLAY_CATE_ALL_WAP
-	If LoadValueForSetting(tmpSng,True,"Boolean","ZC_DISPLAY_CATE_ALL_WAP",strZC_DISPLAY_CATE_ALL_WAP) Then
-		strZC_DISPLAY_CATE_ALL_WAP=TransferHTML(strZC_DISPLAY_CATE_ALL_WAP,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG354) & "</td><td><p><input id=""edtZC_DISPLAY_CATE_ALL_WAP"" name=""edtZC_DISPLAY_CATE_ALL_WAP"" style="""" type=""checkbox"" "&IIf(CBool(strZC_DISPLAY_CATE_ALL_WAP),"checked","")&" value=""" & strZC_DISPLAY_CATE_ALL_WAP & """ ONCLICK=""ChangeValue(this);""/></p></td></tr>"
-	End If 
+		ZC_WAPCOMMENT_ENABLE=TransferHTML(ZC_WAPCOMMENT_ENABLE,"[html-format]")
+		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG304) & "</td><td><p><input id=""edtZC_WAPCOMMENT_ENABLE"" name=""edtZC_WAPCOMMENT_ENABLE"" style="""" type=""text"" value=""" & ZC_WAPCOMMENT_ENABLE & """ class=""checkbox""/></p></td></tr>"
 
 
-	Dim strZC_WAP_MUTUALITY
-	If LoadValueForSetting(tmpSng,True,"Boolean","ZC_WAP_MUTUALITY",strZC_WAP_MUTUALITY) Then
-		strZC_WAP_MUTUALITY=TransferHTML(strZC_WAP_MUTUALITY,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG356) & "</td><td><p><input id=""edtZC_WAP_MUTUALITY"" name=""edtZC_WAP_MUTUALITY"" style="""" type=""checkbox"" "&IIf(CBool(strZC_WAP_MUTUALITY),"checked","")&" value=""" & strZC_WAP_MUTUALITY & """ ONCLICK=""ChangeValue(this);""/></p></td></tr>"
-	End If 
+		ZC_COMMENT_COUNT_WAP=TransferHTML(ZC_COMMENT_COUNT_WAP,"[html-format]")
+		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG218) & "</td><td><p><input id=""edtZC_COMMENT_COUNT_WAP"" name=""edtZC_COMMENT_COUNT_WAP"" style=""width:500px;"" type=""text"" value=""" & ZC_COMMENT_COUNT_WAP & """ /></p></td></tr>"
 
-	Dim strZC_WAP_MUTUALITY_LIMIT
-	If LoadValueForSetting(tmpSng,True,"Numeric","ZC_WAP_MUTUALITY_LIMIT",strZC_WAP_MUTUALITY_LIMIT) Then
-		strZC_WAP_MUTUALITY_LIMIT=TransferHTML(strZC_WAP_MUTUALITY_LIMIT,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG357) & "</td><td><p><input id=""edtZC_WAP_MUTUALITY_LIMIT"" name=""edtZC_WAP_MUTUALITY_LIMIT"" style=""width:500px;"" type=""text"" value=""" & strZC_WAP_MUTUALITY_LIMIT & """ /></p></td></tr>"
-	End If
+
+
+		ZC_DISPLAY_PAGEBAR_ALL_WAP=TransferHTML(ZC_DISPLAY_PAGEBAR_ALL_WAP,"[html-format]")
+		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG355) & "</td><td><p><input id=""edtZC_DISPLAY_PAGEBAR_ALL_WAP"" name=""edtZC_DISPLAY_PAGEBAR_ALL_WAP"" style="""" type=""text"" value=""" & ZC_DISPLAY_PAGEBAR_ALL_WAP & """ class=""checkbox""/></p></td></tr>"
+
+
+
+		ZC_PAGEBAR_COUNT_WAP=TransferHTML(ZC_PAGEBAR_COUNT_WAP,"[html-format]")
+		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG219) & "</td><td><p><input id=""edtZC_PAGEBAR_COUNT_WAP"" name=""edtZC_PAGEBAR_COUNT_WAP"" style=""width:500px;"" type=""text"" value=""" & ZC_PAGEBAR_COUNT_WAP & """ /></p></td></tr>"
+
+
+
+		ZC_DISPLAY_MODE_ALL_WAP=TransferHTML(ZC_DISPLAY_MODE_ALL_WAP,"[html-format]")
+		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG353) & "</td><td><p><input id=""edtZC_DISPLAY_MODE_ALL_WAP"" name=""edtZC_DISPLAY_MODE_ALL_WAP"" style="""" type=""text"" value=""" & ZC_DISPLAY_MODE_ALL_WAP & """ class=""checkbox""/></p></td></tr>"
+
+
+		ZC_DISPLAY_CATE_ALL_WAP=TransferHTML(ZC_DISPLAY_CATE_ALL_WAP,"[html-format]")
+		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG354) & "</td><td><p><input id=""edtZC_DISPLAY_CATE_ALL_WAP"" name=""edtZC_DISPLAY_CATE_ALL_WAP"" style="""" type=""text"" value=""" & ZC_DISPLAY_CATE_ALL_WAP & """ class=""checkbox""/></p></td></tr>"
+
+
+		ZC_WAP_MUTUALITY=TransferHTML(ZC_WAP_MUTUALITY,"[html-format]")
+		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG356) & "</td><td><p><input id=""edtZC_WAP_MUTUALITY"" name=""edtZC_WAP_MUTUALITY"" style="""" type=""text"" value=""" & ZC_WAP_MUTUALITY & """ class=""checkbox""/></p></td></tr>"
+
+
+		ZC_WAP_MUTUALITY_LIMIT=TransferHTML(ZC_WAP_MUTUALITY_LIMIT,"[html-format]")
+		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG357) & "</td><td><p><input id=""edtZC_WAP_MUTUALITY_LIMIT"" name=""edtZC_WAP_MUTUALITY_LIMIT"" style=""width:500px;"" type=""text"" value=""" & ZC_WAP_MUTUALITY_LIMIT & """ /></p></td></tr>"
 
 
 	Response.Write "</table>"
@@ -595,42 +330,27 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG247
 
 
 			</div></form></div>
-<script language="javascript">
+<script type="text/javascript">
 
 
-function ChangeValue(obj){
-
-	if (obj.value=="True")
-	{
-	obj.value="False";
-	return true;
-	}
-
-	if (obj.value=="False")
-	{
-	obj.value="True";
-	return true;
-	}
-}
 
 
-    // Content box tabs:
-		
-		$('.content-box .content-box-content div.tab-content').hide(); // Hide the content divs
-		$('ul.content-box-tabs li a.default-tab').addClass('current'); // Add the class "current" to the default tab
-		$('.content-box-content div.default-tab').show(); // Show the div with class "default-tab"
-		
-		$('.content-box ul.content-box-tabs li a').click( // When a tab is clicked...
-			function() { 
-				$(this).parent().siblings().find("a").removeClass('current'); // Remove "current" class from all tabs
-				$(this).addClass('current'); // Add class "current" to clicked tab
-				var currentTab = $(this).attr('href'); // Set variable "currentTab" to the value of href of clicked tab
-				$(currentTab).siblings().hide(); // Hide all content divs
-				$(currentTab).show(); // Show the content div with the id equal to the id of clicked tab
-				return false; 
-			}
-		);
-
+// Content box tabs:
+	
+	$('.content-box .content-box-content div.tab-content').hide(); // Hide the content divs
+	$('ul.content-box-tabs li a.default-tab').addClass('current'); // Add the class "current" to the default tab
+	$('.content-box-content div.default-tab').show(); // Show the div with class "default-tab"
+	
+	$('.content-box ul.content-box-tabs li a').click( // When a tab is clicked...
+		function() { 
+			$(this).parent().siblings().find("a").removeClass('current'); // Remove "current" class from all tabs
+			$(this).addClass('current'); // Add class "current" to clicked tab
+			var currentTab = $(this).attr('href'); // Set variable "currentTab" to the value of href of clicked tab
+			$(currentTab).siblings().hide(); // Hide all content divs
+			$(currentTab).show(); // Show the content div with the id equal to the id of clicked tab
+			return false; 
+		}
+	);
 
 
 
