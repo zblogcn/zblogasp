@@ -19,6 +19,7 @@
 '*********************************************************
 Function WapMain()
 		
+		'列表页模板暂不考虑
 		Response.Write WapExport(Request("page"),Request("cate"),Request("auth"),Request("date"),Request("tags"),ZC_DISPLAY_MODE_ALL)
 		Response.Write WapExportBar(Request("page"),intPageCount,Request("cate"),Request("auth"),Request("date"),Request("tags"),Request("q"))
 		
@@ -45,19 +46,19 @@ Function WapNav()
 		Response.Write "<div class=""t2""></div>"		
 		Response.Write "<div id=""nav"">"
 		If BlogUser.Level>3 Then		
-		Response.Write "<a  accesskey=""0""  href="""&WapUrlStr&"?act=Login"">"&ZC_MSG009&"</a><b>|</b>"
+		Response.Write "<a href="""&WapUrlStr&"?act=Login"">"&ZC_MSG009&"</a><b>|</b>"
 		End If		
-		Response.Write "<a  accesskey=""7""  href="""&WapUrlStr&"?act=Com"">"&ZC_MSG027&"</a><b>|</b>"		
+		Response.Write "<a href="""&WapUrlStr&"?act=Com"">"&ZC_MSG027&"</a><b>|</b>"		
 '		Response.Write "<p>5 <a  accesskey=""5""  href="""&WapUrlStr&"?act=Prev"">"&ZC_MSG032&"</a></p>"
 		If Not ZC_DISPLAY_CATE_ALL_WAP Then
-		Response.Write "8 <a  accesskey=""6""  href="""&WapUrlStr&"?act=Cate"">"&ZC_MSG214&"</a><b>|</b>"
+		Response.Write "8 <a href="""&WapUrlStr&"?act=Cate"">"&ZC_MSG214&"</a><b>|</b>"
 		End If 
-'		Response.Write "<p>7 <a  accesskey=""7""  href="""&WapUrlStr&"?act=Stat"">"&ZC_MSG029&"</a></p>"	
+'		Response.Write "<p>7 <a href="""&WapUrlStr&"?act=Stat"">"&ZC_MSG029&"</a></p>"	
 		If BlogUser.Level<=3 Then
-		Response.Write "<a  accesskey=""8""  href="""&WapUrlStr&"?act=AddArt"">"&ZC_MSG168&"</a><b>|</b>"	
+		Response.Write "<a  href="""&WapUrlStr&"?act=AddArt"">"&ZC_MSG168&"</a><b>|</b>"	
 		End If
-'		Response.Write "<p>9 <a  accesskey=""9""  href="""&WapUrlStr&""">"&ZC_MSG213&"</a></p>"
-		Response.Write "<a  accesskey=""*""  href="""&ZC_BLOG_HOST&""">电脑版</a>"		
+'		Response.Write "<p>9 <a href="""&WapUrlStr&""">"&ZC_MSG213&"</a></p>"
+		Response.Write "<a href="""&ZC_BLOG_HOST&""">电脑版</a>"		
 		Response.Write "</div><div class=""adm"">" &WapCheckLogin
 		Response.Write "</div>"
 End Function
@@ -439,12 +440,13 @@ End Function
 
 
 '*********************************************************
-' 目的：    评论发表
+' 目的：    评论发表	******有待修改******
 '*********************************************************
 Function WapPostCom()
 
 	If ZC_WAPCOMMENT_ENABLE=False Then Call ShowError(40): Exit Function
 
+	'PostComment(strKey,intRevertCommentID)
 	If Not IsEmpty(Request.Form("inpPass")) Then
 		Response.Cookies("password")=md5(Request.Form("inpPass"))
 		session(ZC_BLOG_CLSID&"password")=md5(Request.Form("inpPass"))
@@ -461,11 +463,15 @@ Function WapPostCom()
 
 	objComment.log_ID=Request("inpID")
 	objComment.AuthorID=BlogUser.ID
+
+	objComment.ParentID=Request("ParentID")
+
 	objComment.Author=Request.Form("inpName")
 	objComment.Content=Request.Form("txaArticle")
 	objComment.Email=Request.Form("inpEmail")
 	objComment.HomePage=Request.Form("inpHomePage")
 
+'	Call CheckParameter(ParentID,"int",0)
 	If Not CheckRegExp(objComment.Author,"[username]") Then Call  WapAddCom(15) :Exit Function
 	
 	IF Len(objComment.Content)=0 Or Len(objComment.Content)>ZC_CONTENT_MAX Then
@@ -550,7 +556,7 @@ End Function
 
 
 '*********************************************************
-' 目的：    查看评论
+' 目的：    查看评论   ******有待修改******
 '*********************************************************
 Function WapCom()
 
@@ -573,6 +579,7 @@ Function WapCom()
 					End If
 				End If
 			End If
+				Response.Write WapTitle(Article.title&"›"&ZC_MSG013,"")
 		End If
 
 		Dim objRS
@@ -581,16 +588,15 @@ Function WapCom()
 		objRS.LockType = adLockReadOnly
 		objRS.ActiveConnection=objConn
 
-		objRS.Source="SELECT [blog_Comment].* , [blog_Article].[log_ID], [blog_Article].[log_Title] FROM [blog_Comment] INNER JOIN [blog_Article] ON [blog_Comment].[log_ID] = [blog_Article].[log_ID] WHERE [blog_Comment].[log_ID]="&log_ID&" ORDER BY [blog_Comment].[comm_PostTime] DESC"
-		Response.Write WapTitle(Article.title&"›"&ZC_MSG013,"")
-
+		objRS.Source="SELECT [comm_ID],[log_ID],[comm_AuthorID],[comm_Author],[comm_Content],[comm_Email],[comm_HomePage],[comm_PostTime],[comm_IP],[comm_Agent],[comm_Reply],[comm_LastReplyIP],[comm_LastReplyTime],[comm_ParentID],[comm_IsCheck],[comm_Meta] FROM [blog_Comment] WHERE ([blog_Comment].[log_ID]=" & log_ID &" )"
 		objRS.Open()
+
 
 		If (Not objRS.bof) And (Not objRS.eof) Then
 		Response.Write "<ul>"		
 		Dim strCTemplate,ComRecordCount
-		strCTemplate=Application(ZC_BLOG_CLSID & "TEMPLATE_WAP_ARTICLE_COMMENT")
-		
+'		strCTemplate=Application(ZC_BLOG_CLSID & "TEMPLATE_WAP_ARTICLE_COMMENT")
+		strCTemplate=GetTemplate("TEMPLATE_WAP_ARTICLE_COMMENT")		
 
 			objRS.PageSize = ZC_COMMENT_COUNT_WAP
 			intPageCount=objRS.PageCount
@@ -608,7 +614,7 @@ Function WapCom()
 					aryStrC(i)=strCTemplate
 					aryStrC(i)=Replace(aryStrC(i),"<#ZC_FILENAME_WAP#>",WapUrlStr)
 					aryStrC(i)=Replace(aryStrC(i),"<#article/id#>",objRS("log_ID"))
-					aryStrC(i)=Replace(aryStrC(i),"<#article/title#>",objRS("log_Title"))
+					aryStrC(i)=Replace(aryStrC(i),"<#article/title#>",Article.title)
 					aryStrC(i)=Replace(aryStrC(i),"<#article/comment/id#>",objComment.ID)
 					aryStrC(i)=Replace(aryStrC(i),"<#article/comment/name#>",objComment.Author)
 					aryStrC(i)=Replace(aryStrC(i),"<#article/comment/url#>",objComment.HomePage)
@@ -811,7 +817,7 @@ End Function
 ' 目的：    相关文章
 '*********************************************************
 Function WapRelateList(intID,strTag)
-	If (intID=0) Or Not WAP_MUTUALITY Then Exit Function
+	If (intID=0) Or Not ZC_WAP_MUTUALITY Then Exit Function
 	If strTag<>"" Then
 
 	Dim strCC_Count,strCC_ID,strCC_Name,strCC_Url,strCC_PostTime,strCC_Title
@@ -821,15 +827,11 @@ Function WapRelateList(intID,strTag)
 	Dim objRS
 	Dim strSQL
 
-	Dim intRelatedpostinfeed_limit
-	Dim strRelatedpostinfeed_before
-	Dim strRelatedpostinfeed_after
-	Dim strRelatedpostinfeed_layout
+	Dim intWapMutualityLimit
+	Dim strWapMutuality
 
-	intRelatedpostinfeed_limit = WAP_MUTUALITY_LIMIT
-	strRelatedpostinfeed_before = WAP_MUTUALITY_BEFORE
-	strRelatedpostinfeed_after = WAP_MUTUALITY_AFTER
-	strRelatedpostinfeed_layout = WAP_MUTUALITY_LAYOUT
+	intWapMutualityLimit = ZC_WAP_MUTUALITY_LIMIT
+	strWapMutuality = GetTemplate("TEMPLATE_WAP_ARTICLE_MUTUALITY")
 
 '	Call Add_Action_Plugin("Action_Plugin_System_Initialize","Call Wap_addMutualityTemplate()")
 
@@ -865,7 +867,7 @@ Function WapRelateList(intID,strTag)
 	objRS.Open()
 	If (Not objRS.bof) And (Not objRS.eof) Then
   
-		For i=1 To intRelatedpostinfeed_limit '相关文章数目
+		For i=1 To intWapMutualityLimit '相关文章数目
 		Dim objArticle
 		Set objArticle=New TArticle
 		If objArticle.LoadInfoByArray(Array(objRS(0),objRS(1),objRS(2),objRS(3),objRS(4),objRS(5),objRS(6),objRS(7),objRS(8),objRS(9),objRS(10),objRS(11),objRS(12),objRS(13),objRS(14),objRS(15),objRS(16),objRS(17))) Then
@@ -876,13 +878,13 @@ Function WapRelateList(intID,strTag)
 		    strCC_PostTime=FormatDateTime(objArticle.PostTime,vbLongDate)
 		    strCC_Title=objArticle.Title
 
-			strCC=strRelatedpostinfeed_layout
+			strCC=strWapMutuality
 
-		    strCC=Replace(strCC,"%article_id%",strCC_ID)    
-		    strCC=Replace(strCC,"%article_url%",WapUrlStr& "?act=View&id="&strCC_ID)  
-		    strCC=Replace(strCC,"%article_time%",strCC_PostTime) 
-		    strCC=Replace(strCC,"%article_title%",strCC_Title) 
-			
+		    strCC=Replace(strCC,"<#article/mutuality/id#>",strCC_ID) 
+		    strCC=Replace(strCC,"<#article/mutuality/posttime#>",strCC_PostTime) 
+		    strCC=Replace(strCC,"<#article/mutuality/name#>",strCC_Title) 
+			strCC=Replace(strCC,"<#ZC_FILENAME_WAP#>",WapUrlStr)
+
 			strOutput=strOutput & strCC
 
 		end if
@@ -898,11 +900,7 @@ Function WapRelateList(intID,strTag)
 	Set objRS=Nothing
 	End If
 
-	If strOutput<>"" then
-		WapRelateList= strRelatedpostinfeed_before + strOutput + strRelatedpostinfeed_after
-	Else
-		WapRelateList = ""
-	End If
+	WapRelateList= strOutput 
 	
 End Function
 
@@ -987,7 +985,8 @@ Function WapExport(intPage,intCateId,intAuthorId,dtmYearMonth,strTagsName,intTyp
 
 			Application.Lock
 			If Year(dtmYearMonth)=Year(GetTime(now())) And Month(dtmYearMonth)=Month(GetTime(now())) Then
-				Template_Calendar=Application(ZC_BLOG_CLSID & "CACHE_INCLUDE_CALENDAR")
+				'Template_Calendar=Application(ZC_BLOG_CLSID & "CACHE_INCLUDE_CALENDAR")
+				Template_Calendar=GetTemplate("CACHE_INCLUDE_CALENDAR")
 			End If
 			Application.UnLock
 
