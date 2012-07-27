@@ -38,11 +38,14 @@ Call ZBQQConnect_Class.GetOpenId(ZBQQConnect_class.CallBack)
 '		'Response.write LCase(Request.QueryString("act"))
 '	End Select
 Function a
+		Dim b
+		Set b=ZBQQConnect_toobject(ZBQQConnect_class.API("https://graph.qq.com/user/get_user_info","{'format':'json'}","GET&"))
+		ZBQQConnect_DB.SetHead Split(b.figureurl,"/")(5)
 		Set ZBQQConnect_DB.objUser=BlogUser
 		ZBQQConnect_DB.Email=MD5(BlogUser.EMail)
 		ZBQQConnect_DB.Bind
 		If BlogUser.Level=5 Then
-			Response.Redirect GetCurrentHost&"/ZB_Users/PLUGIN/Reg/Reg.asp?QQOPENID="&ZBQQConnect_Class.OpenID
+			Response.Redirect "select.asp?QQOPENID="&ZBQQConnect_Class.OpenID
 		Else
 			Response.write "<script>opener.location.href=opener.location.href.replace(""act=logout"","""");window.close()</script>"
 		End If

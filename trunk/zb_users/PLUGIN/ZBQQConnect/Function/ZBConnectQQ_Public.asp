@@ -1,11 +1,6 @@
 <%
 ''*****************************************************
-'   ZSXSOFT 腾讯微博SDK类
-'   设置APPKEY：class.strAppKey=""
-'   设置APPSECRET：class.strAppSecret=""
-'   设置callback地址：class.callbackurl=""
-'   得到是否登陆：class.logined=true 或 false
-'   其他参见Readme.txt
+'   ZSXSOFT ASP QQConnect类
 ''*****************************************************
 Class ZBQQConnect
 
@@ -321,6 +316,7 @@ Function posthttp(posthttp_url)
 	objXmlhttp.SetTimeOuts 10000, 10000, 10000, 10000 
 	objXmlhttp.Open "POST",strPostUrl,False
 	objXmlhttp.SetRequestHeader "User-Agent",strUserAgent
+	objXmlhttp.SetRequestHeader "Content-Type","application/x-www-form-urlencoded"
 	objXmlhttp.Send strMadeUpUrl
     if err.number=0 then
 		posthttp = ZBQQConnect_BytesToBstr(objXmlhttp.responseBody,"utf-8")
