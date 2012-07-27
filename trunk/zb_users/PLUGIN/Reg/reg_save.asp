@@ -2,20 +2,21 @@
 <% Option Explicit %>
 <% 'On Error Resume Next %>
 <% Response.Charset="UTF-8" %>
-<!-- #include file="c_option.asp" -->
-<!-- #include file="../ZB_SYSTEM/function/c_function.asp" -->
-<!-- #include file="../ZB_SYSTEM/function/c_function_md5.asp" -->
-<!-- #include file="../ZB_SYSTEM/function/c_system_lib.asp" -->
-<!-- #include file="../ZB_SYSTEM/function/c_system_base.asp" -->
-<!-- #include file="../ZB_SYSTEM/function/c_system_event.asp" -->
-<!-- #include file="../ZB_SYSTEM/function/c_system_plugin.asp" -->
-<!-- #include file="plugin/p_config.asp" -->
+<!-- #include file="../../c_option.asp" -->
+<!-- #include file="../../../ZB_SYSTEM/function/c_function.asp" -->
+<!-- #include file="../../../ZB_SYSTEM/function/c_system_lib.asp" -->
+<!-- #include file="../../../ZB_SYSTEM/function/c_system_base.asp" -->
+<!-- #include file="../../../ZB_SYSTEM/function/c_system_plugin.asp" -->
+<!-- #include file="../../plugin/p_config.asp" -->
 <%
 Call System_Initialize()
 '检查非法链接
 Call CheckReference("")
 
 If CheckPluginState("Reg")=False Then Call ShowError(48)
+For Each sAction_Plugin_RegSave_Begin in Action_Plugin_RegSave_Begin
+	If Not IsEmpty(sAction_Plugin_RegSave_Begin) Then Call Execute(sAction_Plugin_RegSave_Begin)
+Next
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<%=ZC_BLOG_LANGUAGE%>" lang="<%=ZC_BLOG_LANGUAGE%>">
@@ -83,4 +84,8 @@ RegUser.Register("")
 response.write "<script language='javascript' type='text/javascript'>"
 response.write "alert('恭喜，注册成功。\n欢迎您成为本站一员。\n\n单击确定登陆本站。');location.href="""&ZC_BLOG_HOST&"/zb_system/cmd.asp?act=login"""
 response.write "</script>"
+
+For Each sAction_Plugin_RegSave_End in Action_Plugin_RegSave_End
+	If Not IsEmpty(sAction_Plugin_RegSave_End) Then Call Execute(sAction_Plugin_RegSave_End)
+Next
 %>

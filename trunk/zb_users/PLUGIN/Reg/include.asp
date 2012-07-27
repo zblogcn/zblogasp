@@ -1,3 +1,4 @@
+<!-- #include file="include_plugin.asp"-->
 <%
 '///////////////////////////////////////////////////////////////////////////////
 '// 插件应用:    1.9 其它版本的Z-blog未知
@@ -14,7 +15,7 @@
 Call RegisterPlugin("Reg","ActivePlugin_Reg")
 '挂口部分
 Function ActivePlugin_Reg()
-
+	
 End Function
 
 Function InstallPlugin_Reg()

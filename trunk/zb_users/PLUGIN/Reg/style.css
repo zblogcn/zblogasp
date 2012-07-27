@@ -347,15 +347,15 @@ FIELDSET .line .usertxt .input_radio INPUT {
 	float:right;BORDER-RIGHT: #ffcc00 1px solid; PADDING-RIGHT: 0px; BORDER-TOP: #ffcc00 1px solid;  PADDING-LEFT: 10px;PADDING-BOTTOM: 2px; BORDER-LEFT: #ffcc00 1px solid; PADDING-TOP: 2px; BORDER-BOTTOM: #ffcc00 1px solid; BACKGROUND-COLOR: #ffffdd
 }
 .d_ok {
-	float:right;BORDER-RIGHT: #00be00 1px solid; PADDING-RIGHT: 0px; BORDER-TOP: #00be00 1px solid; PADDING-LEFT: 10px; BACKGROUND: url(li_ok.gif) #e6ffe6 no-repeat 4px 50%; PADDING-BOTTOM: 2px; BORDER-LEFT: #00be00 1px solid; PADDING-TOP: 2px; BORDER-BOTTOM: #00be00 1px solid
+	float:right;BORDER-RIGHT: #00be00 1px solid; PADDING-RIGHT: 0px; BORDER-TOP: #00be00 1px solid; PADDING-LEFT: 10px; BACKGROUND: #e6ffe6 no-repeat 4px 50%; PADDING-BOTTOM: 2px; BORDER-LEFT: #00be00 1px solid; PADDING-TOP: 2px; BORDER-BOTTOM: #00be00 1px solid
 }
 .d_err {
-	float:right;BORDER-RIGHT: #ff3300 1px solid; PADDING-RIGHT: 0px; BORDER-TOP: #ff3300 1px solid; PADDING-LEFT: 10px; BACKGROUND: url(li_err.gif) #fff1e4 no-repeat 4px 50%; PADDING-BOTTOM: 2px; BORDER-LEFT: #ff3300 1px solid; PADDING-TOP: 2px; BORDER-BOTTOM: #ff3300 1px solid
+	float:right;BORDER-RIGHT: #ff3300 1px solid; PADDING-RIGHT: 0px; BORDER-TOP: #ff3300 1px solid; PADDING-LEFT: 10px; BACKGROUND: #fff1e4 no-repeat 4px 50%; PADDING-BOTTOM: 2px; BORDER-LEFT: #ff3300 1px solid; PADDING-TOP: 2px; BORDER-BOTTOM: #ff3300 1px solid
 }
 .d_email {
 	float:right;
 }
-.d_website {
+.d_site {
 	float:right;
 }
 
@@ -392,5 +392,5 @@ textarea{width:510px;}
 
 li.r_left{font-weight:bolder;}
 
-#regbotton{width:510px;height:28px;}
+#regButton{width:510px;height:28px;}
 /* background:#66ccff;border:1px solid #3399cc; */
