@@ -5,7 +5,7 @@
     <div class="logo"><img src="<%=GetCurrentHost%>ZB_SYSTEM/image/admin/logo.png" alt="Z-Blog" title="Z-Blog"/></div>
     <div class="user"> <img src="<%=GetCurrentHost%>ZB_SYSTEM/image/admin/avatar.png" width="40" height="40" id="avatar" alt="Avatar" />
       <div class="username"><%=ZVA_User_Level_Name(BlogUser.Level)%>：<%=BlogUser.Name%></div>
-      <div class="userbtn"><a class="profile" href="<%=GetCurrentHost%>" title="" target="_blank"><%=ZC_MSG065%></a> <a class="logout" href="../cmd.asp?act=logout" title=""><%=ZC_MSG020%></a></div>
+      <div class="userbtn"><a class="profile" href="<%=GetCurrentHost%>" title="" target="_blank"><%=ZC_MSG065%></a> <a class="logout" href="<%=GetCurrentHost%>ZB_SYSTEM/cmd.asp?act=logout" title=""><%=ZC_MSG020%></a></div>
     </div>
     <div class="menu">
       <ul>
