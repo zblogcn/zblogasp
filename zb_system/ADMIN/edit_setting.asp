@@ -497,46 +497,6 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG247
 	Response.Write "<table width='100%' style='padding:0px;margin:1px;' cellspacing='0' cellpadding='0'>"
 
 	'Dim strZC_IE_DISPLAY_WAP
-	'If LoadValueForSetting(tmpSng,True,"Boolean","ZC_IE_DISPLAY_WAP",strZC_IE_DISPLAY_WAP) Then
-	'	strZC_IE_DISPLAY_WAP=TransferHTML(strZC_IE_DISPLAY_WAP,"[html-format]")
-	'	Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG216) & "</td><td><p><input id=""edtZC_IE_DISPLAY_WAP"" name=""edtZC_IE_DISPLAY_WAP"" style="""" type=""checkbox"" "&IIf(CBool(strZC_IE_DISPLAY_WAP),"checked","")&" value=""" & strZC_IE_DISPLAY_WAP & """ ONCLICK=""ChangeValue(this);""/></p></td></tr>"
-	'End If
-
-	Dim strZC_DISPLAY_COUNT_WAP
-	If LoadValueForSetting(tmpSng,True,"Numeric","ZC_DISPLAY_COUNT_WAP",strZC_DISPLAY_COUNT_WAP) Then
-		strZC_DISPLAY_COUNT_WAP=TransferHTML(strZC_DISPLAY_COUNT_WAP,"[html-format]")
-		Response.Write "<tr><td width='30%'>" & SplitNameAndNote(ZC_MSG217) & "</td><td><p><input id=""edtZC_DISPLAY_COUNT_WAP"" name=""edtZC_DISPLAY_COUNT_WAP"" style=""width:500px;"" type=""text"" value=""" & strZC_DISPLAY_COUNT_WAP & """ /></p></td></tr>"
-	End If
-
-	Dim strZC_COMMENT_COUNT_WAP
-	If LoadValueForSetting(tmpSng,True,"Numeric","ZC_COMMENT_COUNT_WAP",strZC_COMMENT_COUNT_WAP) Then
-		strZC_COMMENT_COUNT_WAP=TransferHTML(strZC_COMMENT_COUNT_WAP,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG218) & "</td><td><p><input id=""edtZC_COMMENT_COUNT_WAP"" name=""edtZC_COMMENT_COUNT_WAP"" style=""width:500px;"" type=""text"" value=""" & strZC_COMMENT_COUNT_WAP & """ /></p></td></tr>"
-	End If
-
-	Dim strZC_PAGEBAR_COUNT_WAP
-	If LoadValueForSetting(tmpSng,True,"Numeric","ZC_PAGEBAR_COUNT_WAP",strZC_PAGEBAR_COUNT_WAP) Then
-		strZC_PAGEBAR_COUNT_WAP=TransferHTML(strZC_PAGEBAR_COUNT_WAP,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG219) & "</td><td><p><input id=""edtZC_PAGEBAR_COUNT_WAP"" name=""edtZC_PAGEBAR_COUNT_WAP"" style=""width:500px;"" type=""text"" value=""" & strZC_PAGEBAR_COUNT_WAP & """ /></p></td></tr>"
-	End If
-
-	Dim strZC_SINGLE_SIZE_WAP
-	If LoadValueForSetting(tmpSng,True,"Numeric","ZC_SINGLE_SIZE_WAP",strZC_SINGLE_SIZE_WAP) Then
-		strZC_SINGLE_SIZE_WAP=TransferHTML(strZC_SINGLE_SIZE_WAP,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG220) & "</td><td><p><input id=""edtZC_SINGLE_SIZE_WAP"" name=""edtZC_SINGLE_SIZE_WAP"" style=""width:500px;"" type=""text"" value=""" & strZC_SINGLE_SIZE_WAP & """ /></p></td></tr>"
-	End If
-
-	Dim strZC_SINGLE_PAGEBAR_COUNT_WAP
-	If LoadValueForSetting(tmpSng,True,"Numeric","ZC_SINGLE_PAGEBAR_COUNT_WAP",strZC_SINGLE_PAGEBAR_COUNT_WAP) Then
-		strZC_SINGLE_PAGEBAR_COUNT_WAP=TransferHTML(strZC_SINGLE_PAGEBAR_COUNT_WAP,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG221) & "</td><td><p><input id=""edtZC_SINGLE_PAGEBAR_COUNT_WAP"" name=""edtZC_SINGLE_PAGEBAR_COUNT_WAP"" style=""width:500px;"" type=""text"" value=""" & strZC_SINGLE_PAGEBAR_COUNT_WAP & """ /></p></td></tr>"
-	End If
-
-	Dim strZC_COMMENT_PAGEBAR_COUNT_WAP
-	If LoadValueForSetting(tmpSng,True,"Numeric","ZC_COMMENT_PAGEBAR_COUNT_WAP",strZC_COMMENT_PAGEBAR_COUNT_WAP) Then
-		strZC_COMMENT_PAGEBAR_COUNT_WAP=TransferHTML(strZC_COMMENT_PAGEBAR_COUNT_WAP,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG222) & "</td><td><p><input id=""edtZC_COMMENT_PAGEBAR_COUNT_WAP"" name=""edtZC_COMMENT_PAGEBAR_COUNT_WAP"" style=""width:500px;"" type=""text"" value=""" & strZC_COMMENT_PAGEBAR_COUNT_WAP & """ /></p></td></tr>"
-	End If
 
 	Dim strZC_FILENAME_WAP
 	If LoadValueForSetting(tmpSng,True,"String","ZC_FILENAME_WAP",strZC_FILENAME_WAP) Then
@@ -544,11 +504,78 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG247
 		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG223) & "</td><td><p><input id=""edtZC_FILENAME_WAP"" name=""edtZC_FILENAME_WAP"" style=""width:500px;"" type=""text"" value=""" & strZC_FILENAME_WAP & """/></p></td></tr>"
 	End If
 
+	Dim strZC_DISPLAY_COUNT_WAP
+	If LoadValueForSetting(tmpSng,True,"Numeric","ZC_DISPLAY_COUNT_WAP",strZC_DISPLAY_COUNT_WAP) Then
+		strZC_DISPLAY_COUNT_WAP=TransferHTML(strZC_DISPLAY_COUNT_WAP,"[html-format]")
+		Response.Write "<tr><td width='30%'>" & SplitNameAndNote(ZC_MSG217) & "</td><td><p><input id=""edtZC_DISPLAY_COUNT_WAP"" name=""edtZC_DISPLAY_COUNT_WAP"" style=""width:500px;"" type=""text"" value=""" & strZC_DISPLAY_COUNT_WAP & """ /></p></td></tr>"
+	End If
+
+
 	Dim strZC_WAPCOMMENT_ENABLE
 	If LoadValueForSetting(tmpSng,True,"Boolean","ZC_WAPCOMMENT_ENABLE",strZC_WAPCOMMENT_ENABLE) Then
 		strZC_WAPCOMMENT_ENABLE=TransferHTML(strZC_WAPCOMMENT_ENABLE,"[html-format]")
 		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG304) & "</td><td><p><input id=""edtZC_WAPCOMMENT_ENABLE"" name=""edtZC_WAPCOMMENT_ENABLE"" style="""" type=""checkbox"" "&IIf(CBool(strZC_WAPCOMMENT_ENABLE),"checked","")&" value=""" & strZC_WAPCOMMENT_ENABLE & """ ONCLICK=""ChangeValue(this);""/></p></td></tr>"
 	End If 
+
+	Dim strZC_COMMENT_COUNT_WAP
+	If LoadValueForSetting(tmpSng,True,"Numeric","ZC_COMMENT_COUNT_WAP",strZC_COMMENT_COUNT_WAP) Then
+		strZC_COMMENT_COUNT_WAP=TransferHTML(strZC_COMMENT_COUNT_WAP,"[html-format]")
+		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG218) & "</td><td><p><input id=""edtZC_COMMENT_COUNT_WAP"" name=""edtZC_COMMENT_COUNT_WAP"" style=""width:500px;"" type=""text"" value=""" & strZC_COMMENT_COUNT_WAP & """ /></p></td></tr>"
+	End If
+
+
+	Dim strZC_DISPLAY_PAGEBAR_ALL_WAP
+	If LoadValueForSetting(tmpSng,True,"Boolean","ZC_DISPLAY_PAGEBAR_ALL_WAP",strZC_DISPLAY_PAGEBAR_ALL_WAP) Then
+		strZC_DISPLAY_PAGEBAR_ALL_WAP=TransferHTML(strZC_DISPLAY_PAGEBAR_ALL_WAP,"[html-format]")
+		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG355) & "</td><td><p><input id=""edtZC_DISPLAY_PAGEBAR_ALL_WAP"" name=""edtZC_DISPLAY_PAGEBAR_ALL_WAP"" style="""" type=""checkbox"" "&IIf(CBool(strZC_DISPLAY_PAGEBAR_ALL_WAP),"checked","")&" value=""" & strZC_DISPLAY_PAGEBAR_ALL_WAP & """ ONCLICK=""ChangeValue(this);""/></p></td></tr>"
+	End If 
+
+
+	Dim strZC_PAGEBAR_COUNT_WAP
+	If LoadValueForSetting(tmpSng,True,"Numeric","ZC_PAGEBAR_COUNT_WAP",strZC_PAGEBAR_COUNT_WAP) Then
+		strZC_PAGEBAR_COUNT_WAP=TransferHTML(strZC_PAGEBAR_COUNT_WAP,"[html-format]")
+		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG219) & "</td><td><p><input id=""edtZC_PAGEBAR_COUNT_WAP"" name=""edtZC_PAGEBAR_COUNT_WAP"" style=""width:500px;"" type=""text"" value=""" & strZC_PAGEBAR_COUNT_WAP & """ /></p></td></tr>"
+	End If
+
+'	Dim strZC_SINGLE_SIZE_WAP
+'	If LoadValueForSetting(tmpSng,True,"Numeric","ZC_SINGLE_SIZE_WAP",strZC_SINGLE_SIZE_WAP) Then
+'		strZC_SINGLE_SIZE_WAP=TransferHTML(strZC_SINGLE_SIZE_WAP,"[html-format]")
+'		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG220) & "</td><td><p><input id=""edtZC_SINGLE_SIZE_WAP"" name=""edtZC_SINGLE_SIZE_WAP"" style=""width:500px;"" type=""text"" value=""" & strZC_SINGLE_SIZE_WAP & """ /></p></td></tr>"
+'	End If
+
+'	Dim strZC_SINGLE_PAGEBAR_COUNT_WAP
+
+	Dim strZC_COMMENT_PAGEBAR_COUNT_WAP
+	If LoadValueForSetting(tmpSng,True,"Numeric","ZC_COMMENT_PAGEBAR_COUNT_WAP",strZC_COMMENT_PAGEBAR_COUNT_WAP) Then
+		strZC_COMMENT_PAGEBAR_COUNT_WAP=TransferHTML(strZC_COMMENT_PAGEBAR_COUNT_WAP,"[html-format]")
+		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG222) & "</td><td><p><input id=""edtZC_COMMENT_PAGEBAR_COUNT_WAP"" name=""edtZC_COMMENT_PAGEBAR_COUNT_WAP"" style=""width:500px;"" type=""text"" value=""" & strZC_COMMENT_PAGEBAR_COUNT_WAP & """ /></p></td></tr>"
+	End If
+
+	Dim strZC_DISPLAY_MODE_ALL_WAP
+	If LoadValueForSetting(tmpSng,True,"Boolean","ZC_DISPLAY_MODE_ALL_WAP",strZC_DISPLAY_MODE_ALL_WAP) Then
+		strZC_DISPLAY_MODE_ALL_WAP=TransferHTML(strZC_DISPLAY_MODE_ALL_WAP,"[html-format]")
+		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG353) & "</td><td><p><input id=""edtZC_DISPLAY_MODE_ALL_WAP"" name=""edtZC_DISPLAY_MODE_ALL_WAP"" style="""" type=""checkbox"" "&IIf(CBool(strZC_DISPLAY_MODE_ALL_WAP),"checked","")&" value=""" & strZC_DISPLAY_MODE_ALL_WAP & """ ONCLICK=""ChangeValue(this);""/></p></td></tr>"
+	End If 
+
+	Dim strZC_DISPLAY_CATE_ALL_WAP
+	If LoadValueForSetting(tmpSng,True,"Boolean","ZC_DISPLAY_CATE_ALL_WAP",strZC_DISPLAY_CATE_ALL_WAP) Then
+		strZC_DISPLAY_CATE_ALL_WAP=TransferHTML(strZC_DISPLAY_CATE_ALL_WAP,"[html-format]")
+		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG354) & "</td><td><p><input id=""edtZC_DISPLAY_CATE_ALL_WAP"" name=""edtZC_DISPLAY_CATE_ALL_WAP"" style="""" type=""checkbox"" "&IIf(CBool(strZC_DISPLAY_CATE_ALL_WAP),"checked","")&" value=""" & strZC_DISPLAY_CATE_ALL_WAP & """ ONCLICK=""ChangeValue(this);""/></p></td></tr>"
+	End If 
+
+
+	Dim strZC_WAP_MUTUALITY
+	If LoadValueForSetting(tmpSng,True,"Boolean","ZC_WAP_MUTUALITY",strZC_WAP_MUTUALITY) Then
+		strZC_WAP_MUTUALITY=TransferHTML(strZC_WAP_MUTUALITY,"[html-format]")
+		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG356) & "</td><td><p><input id=""edtZC_WAP_MUTUALITY"" name=""edtZC_WAP_MUTUALITY"" style="""" type=""checkbox"" "&IIf(CBool(strZC_WAP_MUTUALITY),"checked","")&" value=""" & strZC_WAP_MUTUALITY & """ ONCLICK=""ChangeValue(this);""/></p></td></tr>"
+	End If 
+
+	Dim strZC_WAP_MUTUALITY_LIMIT
+	If LoadValueForSetting(tmpSng,True,"Numeric","ZC_WAP_MUTUALITY_LIMIT",strZC_WAP_MUTUALITY_LIMIT) Then
+		strZC_WAP_MUTUALITY_LIMIT=TransferHTML(strZC_WAP_MUTUALITY_LIMIT,"[html-format]")
+		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG357) & "</td><td><p><input id=""edtZC_WAP_MUTUALITY_LIMIT"" name=""edtZC_WAP_MUTUALITY_LIMIT"" style=""width:500px;"" type=""text"" value=""" & strZC_WAP_MUTUALITY_LIMIT & """ /></p></td></tr>"
+	End If
+
 
 	Response.Write "</table>"
 	Response.Write "</div>"

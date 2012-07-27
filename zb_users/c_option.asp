@@ -146,15 +146,22 @@ Const ZC_USING_PLUGIN_LIST="PluginSapper|FileManage|Reg"
 
 '--------------------------------------------------------------------
 
-Const ZC_IE_DISPLAY_WAP=False
-Const ZC_DISPLAY_COUNT_WAP=2
-Const ZC_COMMENT_COUNT_WAP=3
+'Const ZC_IE_DISPLAY_WAP=False
+Const ZC_DISPLAY_COUNT_WAP=5
+Const ZC_COMMENT_COUNT_WAP=5
 Const ZC_PAGEBAR_COUNT_WAP=5
-Const ZC_SINGLE_SIZE_WAP=1000
-Const ZC_SINGLE_PAGEBAR_COUNT_WAP=5
+Const ZC_SINGLE_SIZE_WAP=1000						'暂未使用
+Const ZC_SINGLE_PAGEBAR_COUNT_WAP=5		'暂未使用
 Const ZC_COMMENT_PAGEBAR_COUNT_WAP=5
 Const ZC_FILENAME_WAP="wap.asp"
 Const ZC_WAPCOMMENT_ENABLE=True
+
+Const ZC_DISPLAY_MODE_ALL_WAP=True 
+Const ZC_DISPLAY_CATE_ALL_WAP=True 
+Const ZC_DISPLAY_PAGEBAR_ALL_WAP=True
+
+Const ZC_WAP_MUTUALITY = True
+Const ZC_WAP_MUTUALITY_LIMIT = 5
 
 '--------------------------------------------------------------------
 

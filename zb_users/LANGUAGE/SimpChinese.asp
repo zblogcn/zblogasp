@@ -305,7 +305,7 @@ Const ZC_MSG300="验证码图片中允许出现的字符"
 Const ZC_MSG301="验证码图片宽度"
 Const ZC_MSG302="验证码图片高度"
 Const ZC_MSG303="主机服务器所在的时区"
-Const ZC_MSG304="允许WAP评论(默认不允许)"
+Const ZC_MSG304="开启WAP评论功能"
 Const ZC_MSG305="..."
 Const ZC_MSG306="当前主题"
 Const ZC_MSG307="停用"
@@ -355,6 +355,11 @@ Const ZC_MSG350="为0则不限制LI的输出项数"
 Const ZC_MSG351="ID值是页面唯一的,请不要与其它模块的ID重复,建议以div为前缀加文件名."
 Const ZC_MSG352="不显示在侧栏"
 
+Const ZC_MSG353="开启WAP文章全文显示"
+Const ZC_MSG354="开启WAP显示分类导航"
+Const ZC_MSG355="开启WAP显示页数分页条"
+Const ZC_MSG356="开启WAP显示相关文章"
+Const ZC_MSG357="WAP显示相关文章条数"
 
 
 Dim ZVA_Article_Level_Name(4)
