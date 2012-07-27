@@ -9,17 +9,25 @@
 <!-- #include file="../../../ZB_SYSTEM/function/c_system_base.asp" -->
 <!-- #include file="../../../ZB_SYSTEM/function/c_system_plugin.asp" -->
 <!-- #include file="../../../ZB_SYSTEM/function/c_system_event.asp" -->
-<!-- #include file="../../plugin/p_config.asp" --><%
-
-
+<!-- #include file="../../plugin/p_config.asp" -->
+<%
+'代码部分来源于网络，作者未知
+Call ActivePlugin
 '检查非法链接
 Call CheckReference("")
 
 If CheckPluginState("Reg")=False Then Call ShowError(48)
 
 
+Dim dUsername,dPassword,dEmail,dSite
+	
+For Each sAction_Plugin_RegPage_Begin in Action_Plugin_RegPage_Begin
+	If Not IsEmpty(sAction_Plugin_RegPage_Begin) Then Call Execute(sAction_Plugin_RegPage_Begin)
+Next
 
-%><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" lang="zh-CN">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -35,88 +43,81 @@ If CheckPluginState("Reg")=False Then Call ShowError(48)
 <div id="wrapper">
   <div class="logo"><img src="<%=GetCurrentHost%>ZB_SYSTEM/image/admin/none.gif" title="Z-Blog<%=ZC_MSG009%>" alt="Z-Blog<%=ZC_MSG009%>"/></div>
   <div class="login">
-
-
-
-	<div class="divHeader">Z-Blog 注册</div>
-
-
-    <form name="zblogform" action="reg_save.asp?act=regedit" method="post" onSubmit="return chk_reg()">
-
-      
-          
-            <ul>
-              <li class="r_left">用户名<font color="red">(*)</font>：</li>
-              <li class="r_right">
-                <input style="width:150px;" id="uname" onBlur="out_uname();" onFocus="on_input('d_uname');" maxlength="30" size="15" name="username">
-              </li>
-              <li class="r_msg">
-                <div class="d_default" id="d_uname"></div>
-              </li>
-            </ul>
-            <ul>
-            </ul>
-
-          
-          <ul>
-            <li class="r_left">密码<font color="red">(*)</font>：</li>
-            <li class="r_right">
-              <input style="width:150px;" id="upwd" onBlur="out_upwd1();" onChange="EvalPwdStrength(this.value);" onFocus="EvalPwdStrength(this.value);on_input('d_upwd1');" type="password" maxlength="12" name="password">
-            </li>
-            <li class="r_msg">
-              <div class="d_default" id="d_upwd1"></div>
-            </li>
-          </ul>
-          <ul>
-            <li class="r_left"></li>
-            <li class="r_right">
-              <div class="ob_pws" id="pws">
-                <div class="ob_pws0" id="idSM1"><span style="FONT-SIZE: 1px">&nbsp;</span><span id="idSMT1">弱</span></div>
-                <div class="ob_pws0" id="idSM2" style="BORDER-LEFT: #dedede 1px solid"><span style="FONT-SIZE: 1px">&nbsp;</span><span id="idSMT2">中</span></div>
-                <div class="ob_pws0" id="idSM3" style="BORDER-LEFT: #dedede 1px solid"><span style="FONT-SIZE: 1px">&nbsp;</span><span id="idSMT3">强</span></div>
-              </div>
-            </li>
-          </ul>
-          <ul>
-            <li class="r_left">确认密码<font color="red">(*)</font>：</li>
-            <li class="r_right">
-              <input style="width:150px;" id="repassword" onBlur="out_upwd2();" onFocus="on_input('d_upwd2');" type="password" maxlength="12" name="repassword">
-            </li>
-            <li class="r_msg">
-              <div class="d_default" id="d_upwd2"></div>
-            </li>
-          </ul>
-          
-          <ul>
-            <li class="r_left">电子邮箱<font color="red">(*)</font>：</li>
-            <li class="r_right">
-              <input style="width:150px;" id="email" onBlur="out_email();" onFocus="on_input('d_email');" maxlength="32" size="30" name="email">
-            </li>
-            <li class="r_msg">
-              <div class="d_email" id="d_email"></div>
-            </li>
-          </ul>
-          <ul>
-            <li class="r_left">网站：</li>
-            <li class="r_right">
-              <input style="width:250px;" id="site" name="site" size="30" />
-            </li>
-            <li class="r_msg">
-              <div class="d_website" id="d_website"></div>
-            </li>
-			<li class="r_left"><span id="save_stat"></span></li>
-          </ul>
-          <ul>
-            <li class="r_left">验证<font color="red">(*)</font></li>
-            <li class="r_right">
-              <input style="width:150px;" type="text" id="edtCheckOut" name="edtCheckOut" size="10" />
-            </li>
-            <li class="r_msg"> &nbsp;&nbsp;<img style="border:1px solid black" src="<%=GetCurrentHost%>ZB_SYSTEM/function/c_validcode.asp?name=loginvalid" height="20" width="60" alt="" title=""/></li>
-          </ul>
-          <p style="height:32px;text-align:right;"><input id="regbotton" type="submit" value="同意以下注册条款并提交" name="submit" onClick="return chk_reg()"/></li>
-          </p>
-			<p>
-                  <textarea name="textarea" id="textarea" cols="45" rows="5">
+    <div class="divHeader">Z-Blog 注册</div>
+    <form name="zblogform" action="reg_save.asp" method="post" onSubmit="return chk_reg()">
+      <%=Response_Plugin_RegPage_Begin%>
+      <ul>
+        <li class="r_left">用户名<font color="red">(*)</font>：</li>
+        <li class="r_right">
+          <input style="width:150px;" id="uname" onBlur="out_uname();" onFocus="on_input('d_uname');" maxlength="30" size="15" name="username" value="<%=dUsername%>">
+        </li>
+        <li class="r_msg">
+          <div class="d_default" id="d_uname"></div>
+        </li>
+      </ul>
+      <ul>
+      </ul>
+      <ul>
+        <li class="r_left">密码<font color="red">(*)</font>：</li>
+        <li class="r_right">
+          <input style="width:150px;" id="upwd" onBlur="out_upwd1();" onChange="EvalPwdStrength(this.value);" onFocus="EvalPwdStrength(this.value);on_input('d_upwd1');" type="password" maxlength="12" name="password" value="<%=dPassword%>">
+        </li>
+        <li class="r_msg">
+          <div class="d_default" id="d_upwd1"></div>
+        </li>
+      </ul>
+      <ul>
+        <li class="r_left"></li>
+        <li class="r_right">
+          <div class="ob_pws" id="pws">
+            <div class="ob_pws0" id="idSM1"><span style="FONT-SIZE: 1px">&nbsp;</span><span id="idSMT1">弱</span></div>
+            <div class="ob_pws0" id="idSM2" style="BORDER-LEFT: #dedede 1px solid"><span style="FONT-SIZE: 1px">&nbsp;</span><span id="idSMT2">中</span></div>
+            <div class="ob_pws0" id="idSM3" style="BORDER-LEFT: #dedede 1px solid"><span style="FONT-SIZE: 1px">&nbsp;</span><span id="idSMT3">强</span></div>
+          </div>
+        </li>
+      </ul>
+      <ul>
+        <li class="r_left">确认密码<font color="red">(*)</font>：</li>
+        <li class="r_right">
+          <input style="width:150px;" id="repassword" onBlur="out_upwd2();" onFocus="on_input('d_upwd2');" type="password" maxlength="12" name="repassword" value="<%=dPassword%>">
+        </li>
+        <li class="r_msg">
+          <div class="d_default" id="d_upwd2"></div>
+        </li>
+      </ul>
+      <ul>
+        <li class="r_left">电子邮箱<font color="red">(*)</font>：</li>
+        <li class="r_right">
+          <input style="width:150px;" id="email" onBlur="out_email();" onFocus="on_input('d_email');" maxlength="32" size="30" name="email" value="<%=dEMail%>">
+        </li>
+        <li class="r_msg">
+          <div class="d_email" id="d_email"></div>
+        </li>
+      </ul>
+      <ul>
+        <li class="r_left">网站或博客地址<font color="red">(*)</font>：</li>
+        <li class="r_right">
+          <input style="width:150px;" id="site" name="site" size="30" onBlur="out_site();" onFocus="on_input('d_site');"  value="<%=dSite%>" />
+        </li>
+        <li class="r_msg">
+          <div class="d_site" id="d_site"></div>
+        </li>
+        <li class="r_left"><span id="save_stat"></span></li>
+      </ul>
+      <%=Response_Plugin_RegPage_End%>
+      <ul>
+        <li class="r_left">验证<font color="red">(*)</font></li>
+        <li class="r_right">
+          <input style="width:150px;" type="text" id="edtCheckOut" name="edtCheckOut" size="10" />
+        </li>
+        <li class="r_msg"> &nbsp;&nbsp;<img style="border:1px solid black" src="<%=GetCurrentHost%>ZB_SYSTEM/function/c_validcode.asp?name=loginvalid" height="20" width="60" alt="" title=""/></li>
+      </ul>
+      <p style="height:32px;text-align:right;">
+        <input id="regButton" type="submit" value="同意以下注册条款并提交" name="submit" onClick="return chk_reg()"/>
+        </li>
+      </p>
+      <p>
+        <textarea name="textarea" id="textarea" cols="45" rows="5">
 一、总则
 
 1．1　用户应当同意本协议的条款并按照页面上的提示完成全部的注册程序。用户在进行注册程序过程中点击"同意"按钮即表示用户与本站达成协议，完全接受本协议项下的全部条款。
@@ -179,17 +180,11 @@ If CheckPluginState("Reg")=False Then Call ShowError(48)
 6．4　如本协议中的任何条款无论因何种原因完全或部分无效或不具有执行力，本协议的其余条款仍应有效并且有约束力。
 
 请您在发现任何违反本服务协议以及其他任何单项服务的服务条款、本站各类公告之情形时，通知本站。</textarea>
-
-                </p>
-
-
-
-
+      </p>
     </form>
   </div>
 </div>
-
-  <script language="javascript">
+<script language="javascript">
 <!--
 $(document).ready(function(){ 
 	if(document.getElementById("edtCheckOut")){
@@ -213,13 +208,14 @@ function init_reg(){
     "两次输入的密码不一致。",
     "邮箱地址不正确。",
     "同意注册条款。",
-	"请输入您的网址（非必填）。"
+	"请输入您的网址。",
+	"网址格式不正确。"
 	)
 	document.getElementById("d_uname").innerHTML=msg[0];	
 	document.getElementById("d_upwd1").innerHTML=msg[1];
 	document.getElementById("d_upwd2").innerHTML=msg[2];	
 	document.getElementById("d_email").innerHTML=msg[3];		
-    document.getElementById("d_website").innerHTML=msg[8];
+    document.getElementById("d_site").innerHTML=msg[8];
        
 	
 }
@@ -234,13 +230,16 @@ function on_input(objname){
 			break;		
 		case "d_upwd1":
 			strtxt=msg[1];
-			break;
-               case "d_upwd2":
+		break;
+        case "d_upwd2":
 			strtxt=msg[2];
-			break;	
-               case "d_email":
+		break;	
+        case "d_email":
 			strtxt=msg[3];
-			break;
+		break;
+		case "d_site":
+			strtxt=msg[8];
+		break;
 		
 			
 	}
@@ -313,7 +312,20 @@ function out_email(){
 }
 
 
-
+function out_site(){
+	var obj=$("#d_site");
+	var str=$("#site").attr("value");
+	var chk=true;
+	if (str==''|| !str.match(/^[a-zA-Z]+:\/\/[a-zA-Z0-9\\_\\-\\.\\&\\?\/:=#\u4e00-\u9fa5]+?\/*$/ig)){chk=false}
+	if (chk){
+		obj.attr("class","d_ok");
+		obj.html('网址已经输入。');
+	}else{
+		obj.attr("class","d_err");
+		obj.html(msg[9]);
+	}
+	return chk;
+}
 
 
 
@@ -330,7 +342,7 @@ function chk_reg(){
 	if (!out_email()){chk=false;return false}
     if (!out_passregtext()){chk=false;return false}
 	if(chk){
-	document.getElementById('regbotton').disabled='disabled';
+	document.getElementById('regButton').disabled='disabled';
 	var username=document.zblogform.uname.value;
 	var password=document.zblogform.upwd.value;
 	var repassword=document.zblogform.repassword.value;
@@ -372,7 +384,7 @@ return 0;//pass
 
 -->
 </script> 
-  <script type="text/javascript">
+<script type="text/javascript">
 function GEId(id){return document.getElementById(id);}
 function DispPwdStrength(iN,sHL){
 	if(iN>3){ iN=3;}
@@ -767,8 +779,11 @@ function ClientSideWeakPassword()
 return (IsLongEnough(ClientSideWeakPassword.arguments[0], "8") ||
 (!(IsLongEnough(ClientSideWeakPassword.arguments[0], "0"))));
 }
-</script> 
-
-
+</script>
+<%
+For Each sAction_Plugin_RegPage_End in Action_Plugin_RegPage_End
+	If Not IsEmpty(sAction_Plugin_RegPage_End) Then Call Execute(sAction_Plugin_RegPage_End)
+Next
+%>
 </body>
 </html>
