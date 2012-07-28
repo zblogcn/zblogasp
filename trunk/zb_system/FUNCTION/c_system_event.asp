@@ -651,16 +651,16 @@ On Error Resume Next
 	i=0
 	Dim objArticle
 
-	If objComment.log_ID>0 Then
-		'Filter_Plugin_TArticle_Export_TemplateTags
-		Call Add_Filter_Plugin("Filter_Plugin_TArticle_Export_TemplateTags","ReturnAjaxComment_Plugin")
-		Set objArticle=New TArticle
-		If objArticle.LoadInfoByID(objComment.log_ID) Then
-			Call GetTagsbyTagIDList(objArticle.Tag)
-			Call objArticle.Export(ZC_DISPLAY_MODE_ALL)
-			i=objArticle.CommNums
-		End If
+
+	'Filter_Plugin_TArticle_Export_TemplateTags
+	Call Add_Filter_Plugin("Filter_Plugin_TArticle_Export_TemplateTags","ReturnAjaxComment_Plugin")
+	Set objArticle=New TArticle
+	If objArticle.LoadInfoByID(objComment.log_ID) Then
+		Call GetTagsbyTagIDList(objArticle.Tag)
+		Call objArticle.Export(ZC_DISPLAY_MODE_ALL)
+		i=objArticle.CommNums
 	End If
+
 
 	Dim strC
 	strC=GetTemplate("TEMPLATE_B_ARTICLE_COMMENT")
@@ -671,8 +671,8 @@ On Error Resume Next
 	Dim aryTemplateTagsName2
 	Dim aryTemplateTagsValue2
 
-	aryTemplateTagsName2=TemplateTagsName
-	aryTemplateTagsValue2=TemplateTagsValue
+	aryTemplateTagsName2=TemplateTagsDic.Keys
+	aryTemplateTagsValue2=TemplateTagsDic.Items
 
 	j=UBound(aryTemplateTagsName2)
 

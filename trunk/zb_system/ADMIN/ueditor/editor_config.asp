@@ -17,7 +17,7 @@ Next
 
 	Dim strUPLOADDIR
 
-	strUPLOADDIR = ZC_UPLOAD_DIRECTORY&"/"&Year(GetTime(Now()))&"/"&Month(GetTime(Now()))
+	strUPLOADDIR = Replace(ZC_UPLOAD_DIRECTORY&"/"&Year(GetTime(Now()))&"/"&Month(GetTime(Now())),"\","/")
 
 	Dim Path
 	Path=GetCurrentHost & ""& strUPLOADDIR &"/"
