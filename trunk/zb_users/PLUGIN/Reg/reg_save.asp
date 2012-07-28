@@ -67,13 +67,13 @@ If  chkUserMail=False Then
 	ExportErr "电子邮箱格式不正确！"
 End If
 
-'dim objRs
-'set objRs = objConn.execute ("SELECT * FROM [blog_Member] where mem_Name= '" & Username & "' ")
-'if not (objRs.Bof or objRs.eof) then
-'	ExportErr Username & "已被他人注册，请选用其它用户名！"
-'End If
-'objRs.close
-'set objRs = nothing       
+dim objRs
+set objRs = objConn.execute ("SELECT * FROM [blog_Member] where mem_Name= '" & Username & "' ")
+if not (objRs.Bof or objRs.eof) then
+	ExportErr Username & "已被他人注册，请选用其它用户名！"
+End If
+objRs.close
+set objRs = nothing       
 
 For Each sAction_Plugin_RegSave_VerifyOK in Action_Plugin_RegSave_VerifyOK
 	If Not IsEmpty(sAction_Plugin_RegSave_VerifyOK) Then Call Execute(sAction_Plugin_RegSave_VerifyOK)
@@ -81,13 +81,13 @@ Next
 
 Dim RegUser
 Set RegUser=New TUser
-RegUser.LoadInfoById 18
-'RegUser.Level=4
-'RegUser.Name=UserName
-'RegUser.Email=UserMail
-'RegUser.HomePage=UserHomePage
-'RegUser.Password=UserPassword
-'RegUser.Register
+'RegUser.LoadInfoById 18
+RegUser.Level=4
+RegUser.Name=UserName
+RegUser.Email=UserMail
+RegUser.HomePage=UserHomePage
+RegUser.Password=UserPassword
+RegUser.Register
 'RegUser.LoadInfoById RegUser.ID
 Response.Cookies("password")=RegUser.PassWord
 Response.Cookies("password").Expires = DateAdd("d", 1, now)
@@ -98,7 +98,7 @@ Response.Cookies("username").Path = "/"
 
 
 Dim strResponse
-'strResponse="<script language='javascript' type='text/javascript'>alert('恭喜，注册成功。\n欢迎您成为本站一员。\n\n单击确定登陆本站。');location.href="""&ZC_BLOG_HOST&"/zb_system/cmd.asp?act=login""</script>"
+strResponse="<script language='javascript' type='text/javascript'>alert('恭喜，注册成功。\n欢迎您成为本站一员。\n\n单击确定登陆本站。');location.href="""&ZC_BLOG_HOST&"/zb_system/cmd.asp?act=login""</script>"
 
 For Each sAction_Plugin_RegSave_End in Action_Plugin_RegSave_End
 

@@ -5,8 +5,9 @@ Class ZBConnectQQ_DB
 	Public objUser
 	Public OpenID
 	Public AccessToken
-	Public Head
-			
+	Public tHead
+	Public QzoneHead
+	
 	Private EmailMD5
 	
 	Public Property Let EMail(str)
@@ -19,19 +20,25 @@ Class ZBConnectQQ_DB
 	
 	Sub Class_Initialize()
 		Set objUser=New TUser
+		On Error Resume Next
+		objConn.Execute "SELECT TOP 1 [QQ_ID] FROM [blog_Plugin_ZBQQConnect] "
+		If Err.Number<>0 Then
+			Call CreateDB
+			Err.Clear
+		End If
 	End Sub
 	
 	Sub CreateDB()
-		IF ZC_MSSQL=True Then
-			objConn.execute("CREATE TABLE [blog_Plugin_ZBQQConnect] (QQ_ID int identity(1,1) not null primary key,QQ_UserID int default 0,QQ_EmlMD5 nvarchar(32) default '',QQ_OpenID nvarchar(32) default '',QQ_AToken nvarchar(32) default '',QQ_Head nvarchar(32) default '')")
+		IF ZC_MSSQL_ENABLE=True Then
+			objConn.execute("CREATE TABLE [blog_Plugin_ZBQQConnect] (QQ_ID int identity(1,1) not null primary key,QQ_UserID int default 0,QQ_EmlMD5 nvarchar(32) default '',QQ_OpenID nvarchar(32) default '',QQ_AToken nvarchar(32) default '',QQ_QZoneHead nvarchar(255) default '',QQ_THead nvarchar(255) default '')")
 		Else
-			objConn.execute("CREATE TABLE [blog_Plugin_ZBQQConnect] (QQ_ID AutoIncrement primary key,QQ_UserID int default 0,QQ_EmlMD5 VARCHAR(32) default """",QQ_OpenID VARCHAR(32) default """",QQ_AToken VARCHAR(32) default """",QQ_Head VARCHAR(32) default """"")
+			objConn.execute("CREATE TABLE [blog_Plugin_ZBQQConnect] (QQ_ID AutoIncrement primary key,QQ_UserID int default 0,QQ_EmlMD5 VARCHAR(32) default """",QQ_OpenID VARCHAR(32) default """",QQ_AToken VARCHAR(32) default """",QQ_QZoneHead VARCHAR(255) default """",QQ_THead VARCHAR(255) default """"")
 		End If
 	End Sub
 	
 	Function LoadInfo(Typ)
 		Dim strSQL
-		strSQL="SELECT [QQ_ID],[QQ_UserID],[QQ_EmlMD5],[QQ_OpenID],[QQ_AToken],[QQ_Head] FROM [blog_Plugin_ZBQQConnect] WHERE "
+		strSQL="SELECT [QQ_ID],[QQ_UserID],[QQ_EmlMD5],[QQ_OpenID],[QQ_AToken],[QQ_QZoneHead],[QQ_THead] FROM [blog_Plugin_ZBQQConnect] WHERE "
 		Select Case Typ
 			Case 1
 				Call CheckParameter(ID,"int",0)
@@ -51,7 +58,8 @@ Class ZBConnectQQ_DB
 			EmailMD5=objRs("QQ_EmlMD5")
 			OpenID=objRS("QQ_OpenID")
 			AccessToken=objRs("QQ_AToken")
-			Head=objRs("QQ_Head")
+			tHead=objRs("QQ_tHead")
+			QZoneHead=objRs("QQ_QzoneHead")
 			LoadInfo=True
 		End If
 		objRS.Close
@@ -65,7 +73,8 @@ Class ZBConnectQQ_DB
 		Call CheckParameter(objUser.ID,"int",0)
 		OpenID=FilterSQL(OpenID)
 		AccessToken=FilterSQL(AccessToken)
-		Head=FilterSQL(Head)
+		tHead=FilterSQL(tHead)
+		QzoneHEAD=FilterSQL(QzoneHead)
 		EmailMD5=LCase(FilterSQL(EmailMD5))
 		If objUser.ID=0 And Len(EmailMD5)<>32 Then
 			Bind=False
@@ -76,9 +85,9 @@ Class ZBConnectQQ_DB
 		End If
 		If OpenID="" Or AccessToken="" Then Bind=False:Exit Function
 		If LoadInfo(5) Then
-			strSQL="UPDATE [blog_Plugin_ZBQQConnect] SET [QQ_UserID]="&objUser.ID&",[QQ_OpenID]='"&OpenID&"',[QQ_AToken]='"&AccessToken&"',[QQ_Head]='"& Head&"' WHERE [QQ_OpenID]='"&OpenID&"'"
+			strSQL="UPDATE [blog_Plugin_ZBQQConnect] SET [QQ_UserID]="&objUser.ID&",[QQ_OpenID]='"&OpenID&"',[QQ_AToken]='"&AccessToken&"',[QQ_tHead]='"& tHead&"',[QQ_QzoneHead]='"&QzoneHead&"' WHERE [QQ_OpenID]='"&OpenID&"'"
 		Else
-			strSQL="INSERT INTO [blog_Plugin_ZBQQConnect] ([QQ_UserID],[QQ_OpenID],[QQ_AToken],[QQ_Head],[QQ_EmlMD5]) VALUES ("&objUser.ID&",'"&OpenID&"','"&AccessToken&"','"& Head&"','"&EmailMD5&"')"
+			strSQL="INSERT INTO [blog_Plugin_ZBQQConnect] ([QQ_UserID],[QQ_OpenID],[QQ_AToken],[QQ_tHead],[QQ_QzoneHead],[QQ_EmlMD5]) VALUES ("&objUser.ID&",'"&OpenID&"','"&AccessToken&"','"& tHead&"','"&qzonehead&"','"&EmailMD5&"')"
 		End If
 		objConn.Execute strSQL
 		Dim objRS
@@ -89,14 +98,6 @@ Class ZBConnectQQ_DB
 		Set objRS=Nothing
 	End Function
 	
-	
-	Function SetHead()
-		Call CheckParameter(ID,"int",0)
-		If ID>0 Then
-			objConn.Execute "UPDATE [blog_Plugin_ZBQQConnect] SET [QQ_Head]='"&FilterSQL(Head)&"' WHERE [QQ_ID]="&ID
-			SetHead=True
-		End If
-	End Function
 	
 	Function Del()
 		objConn.Execute "DELETE FROM [blog_Plugin_ZBQQConnect] WHERE [QQ_ID]="&ID

@@ -45,52 +45,6 @@ Call CheckReference("")
 
 <script language="JavaScript" type="text/javascript">
 
-function SetCookie(sName, sValue,iExpireDays) {
-	if (iExpireDays){
-		var dExpire = new Date();
-		dExpire.setTime(dExpire.getTime()+parseInt(iExpireDays*24*60*60*1000));
-		document.cookie = sName + "=" + escape(sValue) + "; expires=" + dExpire.toGMTString()+ "; path=/";
-	}
-	else{
-		document.cookie = sName + "=" + escape(sValue)+ "; path=/";
-	}
-}
-
-if(GetCookie("username")){document.getElementById("edtUserName").value=unescape(GetCookie("username"))};
-
-$("#btnPost").click(function(){
-
-	var strUserName=document.getElementById("edtUserName").value;
-	var strPassWord=document.getElementById("edtPassWord").value;
-	var strSaveDate=document.getElementById("savedate").value
-
-	if((strUserName=="")||(strPassWord=="")){
-		alert("<%=ZC_MSG010%>");
-		return false;
-	}
-
-	strUserName=escape(strUserName);
-
-	strPassWord=MD5(strPassWord);
-
-	SetCookie("username",strUserName,strSaveDate);
-	SetCookie("password",strPassWord,strSaveDate);
-
-	document.getElementById("frmLogin").action="cmd.asp?act=verify"
-	document.getElementById("username").value=unescape(strUserName);
-	document.getElementById("password").value=strPassWord
-	document.getElementById("savedate").value=strSaveDate
-})
-
-$(document).ready(function(){ 
-	if($.browser.msie){
-		$(":checkbox").css("margin-top","4px");
-	}
-});
-
-$("#chkRemember").click(function(){
-	$("#savedate").attr("value",$("#chkRemember").attr("checked")==true?30:0);
-})
 
 </script>
 </body>

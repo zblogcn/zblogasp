@@ -180,7 +180,7 @@ Function API(url,json,httptype)
 	elseif strHttptype="POST&" then
 		API=posthttp(MakeOauthUrl(url,"sdk_custom",json))
 	end if
-	If bolDebugMsg=true then response.write "<font color='darkyellow'>返回结果：" &run & "</font>"
+	If bolDebugMsg=true then response.write "<font color='darkyellow'>返回结果：" &api & "</font>"
 	tempid=""
 	aryMutliContent=""
 	strHttptype = "GET&"
@@ -249,9 +249,9 @@ Function MakeOauth2Url(ByRef oauth_url,ip,content)
 	Call ZBQQConnect_addobj(objJSON,"oauth_consumer_key",strAppKey) '设置APPKEY
 	Call ZBQQConnect_addobj(objJSON,"access_token",strAccToken)
 	Call ZBQQConnect_addobj(objJSON,"openid",strOpenID)
-	Call ZBQQConnect_addobj(objJSON,"oauth_version","2.a")
-	Call ZBQQConnect_addobj(objJSON,"clientip",getIP)
-	Call ZBQQConnect_addobj(objJSON,"scope","all")
+	'Call ZBQQConnect_addobj(objJSON,"oauth_version","2.a")
+	'Call ZBQQConnect_addobj(objJSON,"clientip",getIP)
+	'Call ZBQQConnect_addobj(objJSON,"scope","all")
 	if iscustom<>true then 
 		MakeAPIPar oauth_url,ip,content
 	else
