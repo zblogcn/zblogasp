@@ -653,7 +653,7 @@ Class TArticle
 		aryTemplateTagsName(10)="article/trackback_url"
 		aryTemplateTagsValue(10)=TrackBack
 		aryTemplateTagsName(11)="article/url"
-		aryTemplateTagsValue(11)=HtmlUrl
+		aryTemplateTagsValue(11)=TransferHTML(HtmlUrl,"[anti-zc_blog_host]")
 
 		aryTemplateTagsName(12)="article/category/id"
 		aryTemplateTagsValue(12)=Categorys(CateID).ID
@@ -664,7 +664,7 @@ Class TArticle
 		aryTemplateTagsName(16)="article/category/count"
 		aryTemplateTagsValue(16)=Categorys(CateID).Count
 		aryTemplateTagsName(17)="article/category/url"
-		aryTemplateTagsValue(17)=Categorys(CateID).HtmlUrl
+		aryTemplateTagsValue(17)=TransferHTML(Categorys(CateID).HtmlUrl,"[anti-zc_blog_host]")
 
 		aryTemplateTagsName(18)="article/author/id"
 		aryTemplateTagsValue(18)=Users(AuthorID).ID
@@ -679,7 +679,7 @@ Class TArticle
 		aryTemplateTagsName(23)="article/author/count"
 		aryTemplateTagsValue(23)=Users(AuthorID).Count
 		aryTemplateTagsName(24)="article/author/url"
-		aryTemplateTagsValue(24)=Users(AuthorID).HtmlUrl
+		aryTemplateTagsValue(24)=TransferHTML(Users(AuthorID).HtmlUrl,"[anti-zc_blog_host]")
 
 		aryTemplateTagsName(25)="article/posttime/longdate"
 		aryTemplateTagsValue(25)=FormatDateTime(PostTime,vbLongDate)
@@ -709,11 +709,11 @@ Class TArticle
 		aryTemplateTagsValue(37)=Second(PostTime)
 
 		aryTemplateTagsName(38)="article/commentrss"
-		aryTemplateTagsValue(38)=WfwCommentRss
+		aryTemplateTagsValue(38)=TransferHTML(WfwCommentRss,"[anti-zc_blog_host]")
 		aryTemplateTagsName(39)="article/commentposturl"
-		aryTemplateTagsValue(39)=TransferHTML(CommentPostUrl,"[html-format]")
+		aryTemplateTagsValue(39)=TransferHTML(CommentPostUrl,"[html-format][anti-zc_blog_host]")
 		aryTemplateTagsName(40)="article/pretrackback_url"
-		aryTemplateTagsValue(40)=TransferHTML(PreTrackBack,"[html-format]")
+		aryTemplateTagsValue(40)=TransferHTML(PreTrackBack,"[html-format][anti-zc_blog_host]")
 		aryTemplateTagsName(41)="article/trackbackkey"
 		aryTemplateTagsValue(41)=TrackBackKey
 		aryTemplateTagsName(42)="article/commentkey"
@@ -797,11 +797,11 @@ Class TArticle
 
 			For i=LBound(t) To UBound(t)
 				If t(i)<>"" Then
+					If IsObject(t)=True Then
+						j=GetTemplate("TEMPLATE_B_ARTICLE_TAG")
 
-					j=GetTemplate("TEMPLATE_B_ARTICLE_TAG")
-
-					Template_Article_Tag=Template_Article_Tag & Tags(t(i)).MakeTemplate(j)
-
+						Template_Article_Tag=Template_Article_Tag & Tags(t(i)).MakeTemplate(j)
+					End If
 				End If
 			Next
 
@@ -1308,6 +1308,13 @@ Class TArticle
 
 		TemplateTagsDic.Item("BlogTitle")=HtmlTitle
 
+		'Dim x,y
+		'x=CStr(FullUrl)
+		'For i=1 To UBound(Split(x,"/"))
+		'	y=y & "../"
+		'Next
+		'TemplateTagsDic.Item("ZC_BLOG_HOST")=y
+
 
 		aryTemplateTagsName=TemplateTagsDic.Keys
 		aryTemplateTagsValue=TemplateTagsDic.Items
@@ -1633,7 +1640,7 @@ Class TArticleList
 				objRS.Source=objRS.Source & "AND(Year([log_PostTime])="&y&") AND(Month([log_PostTime])="&m&")"
 			End If
 
-			Template_Calendar="<script language=""JavaScript"" src="""&ZC_BLOG_HOST&"zb_system/function/c_html_js.asp?date="&dtmYearMonth&""" type=""text/javascript""></script>"
+			Template_Calendar="<script language=""JavaScript"" src=""<#ZC_BLOG_HOST#>zb_system/function/c_html_js.asp?date="&dtmYearMonth&""" type=""text/javascript""></script>"
 
 			Title=Year(dtmYearMonth) & " " & ZVA_Month(Month(dtmYearMonth))
 		End If
@@ -1981,7 +1988,7 @@ Class TArticleList
 				objRS.Source=objRS.Source & "AND(Year([log_PostTime])="&y&") AND(Month([log_PostTime])="&m&")"
 			End If
 
-			Template_Calendar="<script language=""JavaScript"" src="""&ZC_BLOG_HOST&"zb_system/function/c_html_js.asp?date="&dtmYearMonth&""" type=""text/javascript""></script>"
+			Template_Calendar="<script language=""JavaScript"" src=""<#ZC_BLOG_HOST#>zb_system/function/c_html_js.asp?date="&dtmYearMonth&""" type=""text/javascript""></script>"
 
 			Title=Year(dtmYearMonth) & " " & ZVA_Month(Month(dtmYearMonth))
 		End If
@@ -2132,7 +2139,6 @@ Class TArticleList
 
 
 		TemplateTagsDic.Item("BlogTitle")=HtmlTitle
-
 
 		aryTemplateTagsName=TemplateTagsDic.Keys
 		aryTemplateTagsValue=TemplateTagsDic.Items
@@ -2435,6 +2441,7 @@ Class TUser
 
 	Public LastVisitTime
 	Public LastVisitIP
+
 	Public Meta
 
 	Public Property Get MetaString
@@ -2445,6 +2452,10 @@ Class TUser
 	End Property
 
 	Public html
+
+	Public Property Get  FullUrl
+		FullUrl=Replace(Url,ZC_BLOG_HOST,"<#ZC_BLOG_HOST#>")
+	End Property
 
 	Public Property Get Url
 
@@ -3121,7 +3132,7 @@ Class TComment
 		aryTemplateTagsName(  3)="article/comment/url"
 		aryTemplateTagsValue( 3)=HomePage
 		aryTemplateTagsName(  4)="article/comment/urlencoder"
-		aryTemplateTagsValue( 4)=HomePageForAntiSpam
+		aryTemplateTagsValue( 4)=TransferHTML(HomePageForAntiSpam,"[anti-zc_blog_host]")
 		aryTemplateTagsName(  5)="article/comment/email"
 		aryTemplateTagsValue( 5)=SafeEmail
 		aryTemplateTagsName(  6)="article/comment/posttime"
@@ -3133,7 +3144,7 @@ Class TComment
 		aryTemplateTagsName(  9)="article/comment/authorid"
 		aryTemplateTagsValue( 9)=AuthorID
 		aryTemplateTagsName( 10)="article/comment/firstcontact"
-		aryTemplateTagsValue(10)=FirstContact
+		aryTemplateTagsValue(10)=TransferHTML(FirstContact,"[anti-zc_blog_host]")
 		aryTemplateTagsName( 11)="article/comment/emailmd5"
 		aryTemplateTagsValue(11)=EmailMD5
 		aryTemplateTagsName( 12)="article/comment/parentid"
@@ -3419,7 +3430,7 @@ Class TTrackBack
 		aryTemplateTagsName(  2)="article/trackback/name"
 		aryTemplateTagsValue( 2)=Blog
 		aryTemplateTagsName(  3)="article/trackback/url"
-		aryTemplateTagsValue( 3)=UrlForAntiSpam
+		aryTemplateTagsValue( 3)=TransferHTML(UrlForAntiSpam,"[anti-zc_blog_host]")
 		aryTemplateTagsName(  4)="article/trackback/title"
 		aryTemplateTagsValue( 4)=Title
 		aryTemplateTagsName(  5)="article/trackback/posttime"

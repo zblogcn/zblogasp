@@ -931,13 +931,13 @@ Function MakeCalendar(dtmYearMonth)
 	If m=12 Then t="catalog.asp?date="&(y+1)&"-1"
 
 	strCalendar=strCalendar & "<div class=""year"&y&" month"&m&""">"
-	strCalendar=strCalendar & "<p class=""y""><a href="""&ZC_BLOG_HOST &s&""">&lt;&lt;</a>  <a href="""& ZC_BLOG_HOST &"catalog.asp?date="&y&"-"&m&""">"&y&"-"&m&"</a>  <a href="""&ZC_BLOG_HOST &t&""">&gt;&gt;</a></p>"
+	strCalendar=strCalendar & "<p class=""y""><a href=""<#ZC_BLOG_HOST#>"&s&""">&lt;&lt;</a>  <a href=""<#ZC_BLOG_HOST#>"&"catalog.asp?date="&y&"-"&m&""">"&y&"-"&m&"</a>  <a href=""<#ZC_BLOG_HOST#>"&t&""">&gt;&gt;</a></p>"
 	strCalendar=strCalendar & "<p class=""w"">"&ZVA_Week_Abbr(1)&"</p><p class=""w"">"&ZVA_Week_Abbr(2)&"</p><p class=""w"">"&ZVA_Week_Abbr(3)&"</p><p class=""w"">"&ZVA_Week_Abbr(4)&"</p><p class=""w"">"&ZVA_Week_Abbr(5)&"</p><p class=""w"">"&ZVA_Week_Abbr(6)&"</p><p class=""w"">"&ZVA_Week_Abbr(7)&"</p>"
 	j=0
 	For i=1 to b
 		If (j=>firw-1) and (k=<d) Then
 			If aryDateLink(k) Then
-				strCalendar=strCalendar & "<p id=""pCalendar_"&y&"_"&m&"_"&k&""" class=""yd""><a class=""l"" href="""& ZC_BLOG_HOST &"catalog.asp?date="&Year(aryDateArticle(k).PostTime)&"-"&Month(aryDateArticle(k).PostTime)&"-"&Day(aryDateArticle(k).PostTime)& """>"&(k)&"</a></p>"
+				strCalendar=strCalendar & "<p id=""pCalendar_"&y&"_"&m&"_"&k&""" class=""yd""><a class=""l"" href=""<#ZC_BLOG_HOST#>"&"catalog.asp?date="&Year(aryDateArticle(k).PostTime)&"-"&Month(aryDateArticle(k).PostTime)&"-"&Day(aryDateArticle(k).PostTime)& """>"&(k)&"</a></p>"
 			Else
 				strCalendar=strCalendar & "<p id=""pCalendar_"&y&"_"&m&"_"&k&""" class=""d"">"&(k)&"</p>"
 			End If
@@ -1349,7 +1349,7 @@ Function LoadGlobeCache()
 
 				strContent=""
 				strContent=LoadFromFile(BlogPath & "zb_users\" & aryFileNameTemplateInclude(i),"utf-8")
-				strContent=Replace(strContent,"<"&"%=ZC_BLOG_HOST%"&">",ZC_BLOG_HOST)
+				strContent=Replace(strContent,"<"&"%=ZC_BLOG_HOST%"&">","<#ZC_BLOG_HOST#>")
 
 				aryFileNameTemplateInclude_Content(i)=strContent
 
@@ -1397,7 +1397,7 @@ Function LoadGlobeCache()
 
 				strContent=""
 				strContent=LoadFromFile(BlogPath & "zb_users\" & aryFileNameInclude(i),"utf-8")
-				strContent=Replace(strContent,"<"&"%=ZC_BLOG_HOST%"&">",ZC_BLOG_HOST)
+				strContent=Replace(strContent,"<"&"%=ZC_BLOG_HOST%"&">","<#ZC_BLOG_HOST#>")
 				aryFileNameInclude_Content(i)=strContent
 
 				aryTemplateTagsName(e+i)=s(i)
@@ -1814,7 +1814,7 @@ Function GetBlogHint()
 	If IsEmpty(bolRebuildFiles)=False Then
 
 		If bolRebuildFiles=True Then
-			Response.Write "<div class='hint'><p class='hint hint_blue'><font color='blue'>" & Replace(ZC_MSG269,"%u",ZC_BLOG_HOST&"zb_system/admin/admin.asp?act=AskFileReBuild") & "</font></p></div>"
+			Response.Write "<div class='hint'><p class='hint hint_blue'><font color='blue'>" & Replace(ZC_MSG269,"%u",GetCurrentHost()&"zb_system/admin/admin.asp?act=AskFileReBuild") & "</font></p></div>"
 		End If
 
 	End If
@@ -2438,7 +2438,7 @@ Function BlogReBuild_Archives()
 				'	End If
 				'	Set objPostTime=Nothing
 				'Else
-					strArchives=strArchives & "<li><a href="""& ZC_BLOG_HOST &"catalog.asp?date=" & Year(dtmYM(i)) & "-" & Month(dtmYM(i)) & """>" & Year(dtmYM(i)) & " " & ZVA_Month(Month(dtmYM(i))) & "<span class=""article-nums""> (" & objRS(0) & ")</span>" +"</a></li>"
+					strArchives=strArchives & "<li><a href=""<#ZC_BLOG_HOST#>catalog.asp?date=" & Year(dtmYM(i)) & "-" & Month(dtmYM(i)) & """>" & Year(dtmYM(i)) & " " & ZVA_Month(Month(dtmYM(i))) & "<span class=""article-nums""> (" & objRS(0) & ")</span>" +"</a></li>"
 				'End If
 				If j>0 Then
 					If i=j Then Exit For
@@ -2664,7 +2664,7 @@ Function BlogReBuild_Tags()
 	Set objRS=objConn.Execute("SELECT * FROM [blog_Tag] ORDER BY [tag_Count] DESC,[tag_ID] ASC")
 	If (Not objRS.bof) And (Not objRS.eof) Then
 		Do While Not objRS.eof
-			strTag=strTag & "<li><a href="""& ZC_BLOG_HOST & "catalog.asp?"& "tags=" & Server.URLEncode(objRS("tag_Name")) & """>"+objRS("tag_Name") + " <span class=""tag-count"">(" & objRS("tag_Count") & ")</span>" +"</a></li>"
+			strTag=strTag & "<li><a href=""<#ZC_BLOG_HOST#>catalog.asp?"& "tags=" & Server.URLEncode(objRS("tag_Name")) & """>"+objRS("tag_Name") + " <span class=""tag-count"">(" & objRS("tag_Count") & ")</span>" +"</a></li>"
 			objRS.MoveNext
 			j=j+1
 			If j>i Then Exit Do

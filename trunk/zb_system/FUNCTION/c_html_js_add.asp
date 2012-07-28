@@ -19,6 +19,7 @@
 <% Response.Buffer=True %>
 <% Response.ContentType="application/x-javascript" %>
 <!-- #include file="../../zb_users/c_option.asp" -->
+<!-- #include file="../function/c_function.asp" -->
 
 <% Response.Clear %>
 
@@ -29,7 +30,7 @@ SyntaxHighlighter.defaults['smart-tabs']=true;
 //SyntaxHighlighter.defaults['auto-links']=false;
 SyntaxHighlighter.all();
 //SyntaxHighlighter.highlight(document.getElementsByTagName("pre"),null,true);
-var str00="<%=ZC_BLOG_HOST%>";
+var str00="<%=GetCurrentHost()%>";
 var str01="<%=ZC_MSG033%>";
 var str02="<%=ZC_MSG034%>";
 var str03="<%=ZC_MSG035%>";
@@ -46,13 +47,13 @@ $(document).ready(function(){
 
 	try{
 
-		$.getScript("<%=ZC_BLOG_HOST%>zb_system/function/c_html_js.asp?act=batch"+unescape("%26")+"view=" + escape(strBatchView)+unescape("%26")+"inculde=" + escape(strBatchInculde)+unescape("%26")+"count=" + escape(strBatchCount));
+		$.getScript("<%=GetCurrentHost()%>zb_system/function/c_html_js.asp?act=batch"+unescape("%26")+"view=" + escape(strBatchView)+unescape("%26")+"inculde=" + escape(strBatchInculde)+unescape("%26")+"count=" + escape(strBatchCount));
 
-		var objImageValid=$("img[src^='<%=ZC_BLOG_HOST%>zb_system/function/c_validcode.asp?name=commentvalid']");
+		var objImageValid=$("img[src^='<%=GetCurrentHost()%>zb_system/function/c_validcode.asp?name=commentvalid']");
 		if(objImageValid.size()>0){
 			objImageValid.css("cursor","pointer");
 			objImageValid.click( function() {
-					objImageValid.attr("src","<%=ZC_BLOG_HOST%>zb_system/function/c_validcode.asp?name=commentvalid"+"&amp;random="+Math.random());
+					objImageValid.attr("src","<%=GetCurrentHost()%>zb_system/function/c_validcode.asp?name=commentvalid"+"&amp;random="+Math.random());
 			} );
 		};
 
@@ -62,9 +63,9 @@ $(document).ready(function(){
 
 });
 
-$("head").append("<link rel='stylesheet' type='text/css' href='<%=ZC_BLOG_HOST%>/zb_system/ADMIN/ueditor/third-party/SyntaxHighlighter/shCoreDefault.css'/>");
+$("head").append("<link rel='stylesheet' type='text/css' href='<%=GetCurrentHost()%>/zb_system/ADMIN/ueditor/third-party/SyntaxHighlighter/shCoreDefault.css'/>");
 
-//$.getScript("<%=ZC_BLOG_HOST%>zb_system/admin/ueditor/third-party/SyntaxHighlighter/shCore.js",function(){SyntaxHighlighter.all();});
+//$.getScript("<%=GetCurrentHost()%>zb_system/admin/ueditor/third-party/SyntaxHighlighter/shCore.js",function(){SyntaxHighlighter.all();});
 <%
 Function LoadFromFile(strFullName,strCharset)
 
