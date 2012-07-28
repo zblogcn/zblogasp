@@ -367,17 +367,17 @@ Function FileManage_ExportSiteFileEdit(tpath,OpenFolderPath)
 		Response.Write "<hr/>"
 		Response.Write "<p><input class=""button"" type=""submit"" value="""&ZC_MSG087&""" id=""btnPost""/><input class=""button"" type=""button"" value=""返回""  onclick=""location.href='main.asp?act=SiteFileMng&path="&Server.URLEncode(OpenFolderPath)&"'""/></p>" & vbCrlf
 		Response.Write "</form>" & vbCrlf
-		If FileManage_CodeMirror Then
-    	Response.Write "<script>var editor = CodeMirror.fromTextArea(document.getElementById(""txaContent""), {mode: {"
-			If CheckRegExp(tpath,".+?html?|.+?xml") Or ct="" Then
-				Response.Write 	"name: ""xml"","
-			ElseIf CheckRegExp(tpath,".+?js(on)?") Then
-				Response.Write  "name: ""javascript"","
-			ElseIf CheckRegExp(tpath,".+?css") Then
-				Response.Write  "name: ""css"","
-			End If
-			Response.write " alignCDATA: true},lineNumbers: true}); </script>"
-		End If
+		'If FileManage_CodeMirror Then
+    	'Response.Write "<script>var editor = CodeMirror.fromTextArea(document.getElementById(""txaContent""), {mode: {"
+	'		If CheckRegExp(tpath,".+?html?|.+?xml") Or ct="" Then
+	'			Response.Write 	"name: ""xml"","
+	'		ElseIf CheckRegExp(tpath,".+?js(on)?") Then
+	'			Response.Write  "name: ""javascript"","
+	'		ElseIf CheckRegExp(tpath,".+?css") Then
+	'			Response.Write  "name: ""css"","
+	'		End If
+	'		Response.write " alignCDATA: true},lineNumbers: true}); </scr"&"ipt>"
+	'	End If
 	End If
 
 
