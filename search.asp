@@ -33,6 +33,7 @@ For Each sAction_Plugin_Searching_Begin in Action_Plugin_Searching_Begin
 	If Not IsEmpty(sAction_Plugin_Searching_Begin) Then Call Execute(sAction_Plugin_Searching_Begin)
 Next
 
+TemplateTagsDic.Item("ZC_BLOG_HOST")=GetCurrentHost()
 
 '检查权限
 If Not CheckRights("Search") Then Call ShowError(6)

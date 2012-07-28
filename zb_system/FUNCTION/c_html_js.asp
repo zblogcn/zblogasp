@@ -126,7 +126,7 @@ If f<>"" Then
 
 	f=Request.QueryString("date")
 
-	s=MakeCalendar(f)
+	s=Replace(MakeCalendar(f),"<#ZC_BLOG_HOST#>",GetCurrentHost())
 
 	Response.Clear
 	Response.Write "document.write(""" & Replace(s,"""","\""") & """)"
@@ -252,6 +252,12 @@ Function LoadFileInfo(name)
 	aryTemplateTagsName=Application(ZC_BLOG_CLSID & "TemplateTagsName")
 	aryTemplateTagsValue=Application(ZC_BLOG_CLSID & "TemplateTagsValue")
 	Application.UnLock
+
+	For i=0 To UBound(aryTemplateTagsName)
+		If aryTemplateTagsName(i)="ZC_BLOG_HOST" Then
+			aryTemplateTagsValue(i)=GetCurrentHost()
+		End If 
+	Next
 
 	j=UBound(aryTemplateTagsName)
 

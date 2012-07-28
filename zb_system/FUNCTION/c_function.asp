@@ -26,7 +26,7 @@ Sub ShowError(id)
 		Execute(ShowError_Custom)
 		Exit Sub
 	End If
-	Response.Redirect ZC_BLOG_HOST & "zb_system/function/c_error.asp?errorid=" & id & "&number=" & Err.Number & "&description=" & Server.URLEncode(Err.Description) & "&source=" & Server.URLEncode(Err.Source) & "&sourceurl="  &Server.URLEncode(Request.ServerVariables("Http_Referer")) 
+	Response.Redirect GetCurrentHost() & "zb_system/function/c_error.asp?errorid=" & id & "&number=" & Err.Number & "&description=" & Server.URLEncode(Err.Description) & "&source=" & Server.URLEncode(Err.Source) & "&sourceurl="  &Server.URLEncode(Request.ServerVariables("Http_Referer")) 
 End Sub
 '*********************************************************
 
@@ -187,7 +187,7 @@ Sub CheckReference(strDestination)
 	Dim strReferer
 	strReferer=CStr(Request.ServerVariables("HTTP_REFERER"))
 
-	If Instr(strReferer,ZC_BLOG_HOST)=0 Then 
+	If Instr(strReferer,GetCurrentHost())=0 Then 
 		ShowError(5)
 	End If
 
@@ -284,7 +284,7 @@ Function TransferHTML(ByVal source,para)
 		source=Replace(source,vbCrLf,"<br/>")
 		source=Replace(source,vbLf,"<br/>")
 	End If
-	If Instr(para,"[vbCrlf]")>0 And ZC_AUTO_NEWLINE Then 
+	If Instr(para,"[vbCrlf]")>0 Then 
 
 		Set objRegExp=New RegExp
 		objRegExp.IgnoreCase =True
@@ -305,11 +305,11 @@ Function TransferHTML(ByVal source,para)
 	End If
 	If Instr(para,"[vbTab]")>0 Then source=Replace(source,vbTab,"&nbsp;&nbsp;")
 	If Instr(para,"[upload]")>0 Then
-		source=Replace(source,"src=""upload/","src="""& ZC_BLOG_HOST & ZC_UPLOAD_DIRECTORY & "/")
-		source=Replace(source,"href=""upload/","href="""& ZC_BLOG_HOST & ZC_UPLOAD_DIRECTORY & "/")
-		source=Replace(source,"value=""upload/","value="""& ZC_BLOG_HOST & ZC_UPLOAD_DIRECTORY & "/")
-		source=Replace(source,"href=""http://upload/","href="""& ZC_BLOG_HOST & ZC_UPLOAD_DIRECTORY & "/")
-		source=Replace(source,"(this.nextSibling,'upload/","(this.nextSibling,'"& ZC_BLOG_HOST & ZC_UPLOAD_DIRECTORY & "/")
+		source=Replace(source,"src=""upload/","src=""<#ZC_BLOG_HOST#>" & ZC_UPLOAD_DIRECTORY & "/")
+		source=Replace(source,"href=""upload/","href=""<#ZC_BLOG_HOST#>" & ZC_UPLOAD_DIRECTORY & "/")
+		source=Replace(source,"value=""upload/","value=""<#ZC_BLOG_HOST#>" & ZC_UPLOAD_DIRECTORY & "/")
+		source=Replace(source,"href=""http://upload/","href=""<#ZC_BLOG_HOST#>" & ZC_UPLOAD_DIRECTORY & "/")
+		source=Replace(source,"(this.nextSibling,'upload/","(this.nextSibling,'<#ZC_BLOG_HOST#>" & ZC_UPLOAD_DIRECTORY & "/")
 
 		source=Replace(source,"src=""image/face/","src="""& ZC_BLOG_HOST & "zb_system/" &  "image/face/")
 	End If
@@ -320,13 +320,10 @@ Function TransferHTML(ByVal source,para)
 		source=Replace(source,"href="""& ZC_BLOG_HOST & ZC_UPLOAD_DIRECTORY & "/","href=""http://upload/")
 		source=Replace(source,"(this.nextSibling,'"& ZC_BLOG_HOST & ZC_UPLOAD_DIRECTORY & "/","(this.nextSibling,'upload/")
 
-		source=Replace(source,"src="""& ZC_BLOG_HOST & "zb_system/" & "image/face/","src=""image/face/")
+		source=Replace(source,"src="""& ZC_BLOG_HOST & "zb_system/" & "image/face/","src=""<#ZC_BLOG_HOST#>/zb_system/image/face/")
 	End If
 	If Instr(para,"[zc_blog_host]")>0 Then
 		source=Replace(source,"<#ZC_BLOG_HOST#>",ZC_BLOG_HOST)
-	End If
-	If Instr(para,"[anti-zc_blog_host]")>0 Then
-		source=Replace(source,ZC_BLOG_HOST,"<#ZC_BLOG_HOST#>")
 	End If
 	If Instr(para,"[no-asp]")>0 Then
 		source=Replace(source,"<"&"%","&lt;"&"%")
@@ -467,7 +464,6 @@ Function TransferHTML(ByVal source,para)
 		objRegExp.Pattern="(\r\n|\n)"
 		source= objRegExp.Replace(source,"<br/>")
 	End If
-
 	If Instr(para,"[nbsp-br]")>0 Then
 		Set objRegExp=New RegExp
 		objRegExp.IgnoreCase =True
@@ -485,7 +481,9 @@ Function TransferHTML(ByVal source,para)
 	If Instr(para,"[closehtml]")>0 Then
 		source=closeHTML(source)
 	End If
-
+	If Instr(para,"[anti-zc_blog_host]")>0 Then
+		source=Replace(source,ZC_BLOG_HOST,"<#ZC_BLOG_HOST#>")
+	End If
 
 	TransferHTML=source
 
@@ -786,7 +784,7 @@ Function UBBCode(ByVal strContent,strType)
 	If ZC_UBB_FACE_ENABLE And Instr(strType,"[face]")>0 Then
 
 		objRegExp.Pattern="(\[F\])(.+?)(\[\/F\])"
-		strContent= objRegExp.Replace(strContent,"<img src="""& ZC_BLOG_HOST &"ZB_SYSTEM/image/face/$2."&ZC_EMOTICONS_FILETYPE&""" style=""padding:2px;border:0;"" width="""&ZC_EMOTICONS_FILESIZE&""" title=""$2"" alt=""$2"" />")
+		strContent= objRegExp.Replace(strContent,"<img src=""<#ZC_BLOG_HOST#>zb_system/image/face/$2."&ZC_EMOTICONS_FILETYPE&""" style=""padding:2px;border:0;"" width="""&ZC_EMOTICONS_FILESIZE&""" title=""$2"" alt=""$2"" />")
 
 	End If
 
@@ -1327,7 +1325,7 @@ Function URLEncodeForAntiSpam(strUrl)
 	For i =1 To Len(strUrl)
 		s=s & Mid(strUrl,i,1) & CStr(Int((10 * Rnd)))
 	Next
-	URLEncodeForAntiSpam=ZC_BLOG_HOST & "../zb_system/function/c_urlredirect.asp?url=" & Server.URLEncode(s)
+	URLEncodeForAntiSpam=ZC_BLOG_HOST & "zb_system/function/c_urlredirect.asp?url=" & Server.URLEncode(s)
 
 End Function
 '*********************************************************

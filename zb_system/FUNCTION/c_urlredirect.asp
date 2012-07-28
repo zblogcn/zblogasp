@@ -24,14 +24,14 @@
 Dim strReferer
 strReferer=CStr(Request.ServerVariables("HTTP_REFERER"))
 
-If Instr(strReferer,ZC_BLOG_HOST)=0 Then 
+If Instr(strReferer,GetCurrentHost())=0 Then 
 	ShowError(5)
 End If
 
 
 Dim strUrl
 strUrl=URLDecodeForAntiSpam(Request.QueryString("url"))
-If strUrl="" Then strUrl="http://www.rainbowsoft.org/"
+If strUrl="" Then strUrl=GetCurrentHost()
 
 Response.Redirect strUrl
 

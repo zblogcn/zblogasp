@@ -14,7 +14,7 @@
 '///////////////////////////////////////////////////////////////////////////////
 %>
 <% Option Explicit %>
-<% 'On Error Resume Next %>
+<% On Error Resume Next %>
 <!-- #include file="../../zb_users/c_option.asp" -->
 <!-- #include file="c_function.asp" -->
 <%
