@@ -3462,4 +3462,47 @@ Function AddBatch(name,actioncode)
 
 End Function
 '*********************************************************
+
+
+
+
+
+'*********************************************************
+' 目的：    Add Batch 
+'*********************************************************
+Function AddBatch(name,actioncode)
+
+
+	Dim i
+	i=CInt(Session("batch_order"))+1
+	Session("batch_order")=i
+	Call Session("batch").add("<b>" & i & "</b> : <u>" & name & "</u>",actioncode)
+
+End Function
+'*********************************************************
+
+
+
+
+'*********************************************************
+' 目的：    Save Config to option.asp
+'*********************************************************
+Function SaveConfig2Option()
+
+	Dim strContent
+	strContent=LoadFromFile(BlogPath & "zb_system\defend\c_option.asp.html","utf-8")
+
+
+	Dim i
+
+	For i=1 To BlogConfig.Count
+		strContent=Replace(strContent,"<#"&BlogConfig.Meta.Names(i)&"#>",Replace(BlogConfig.Meta.GetValue(BlogConfig.Meta.Names(i)),"""",""""""))
+	Next
+
+	Call BlogConfig.Save()
+
+	Call SaveToFile(BlogPath & "zb_users\c_option.asp",strContent,"utf-8",False)
+
+End Function
+'*********************************************************
 %>

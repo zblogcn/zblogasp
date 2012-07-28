@@ -4440,6 +4440,7 @@ Class TMeta
 		For Each n In names
 			If LCase(n)=LCase(name) Then
 				values(i)=vbsescape(value)
+				'If values(i)="undefined" Then values(i)=""
 				Exit function
 			End If
 			i=i+1
@@ -4452,6 +4453,7 @@ Class TMeta
 
 		Names(i+1)=name
 		Values(i+1)=vbsescape(value)
+		'If values(i+1)="undefined" Then values(i+1)=""
 
 	End Function
 
