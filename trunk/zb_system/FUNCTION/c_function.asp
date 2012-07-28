@@ -305,20 +305,20 @@ Function TransferHTML(ByVal source,para)
 	End If
 	If Instr(para,"[vbTab]")>0 Then source=Replace(source,vbTab,"&nbsp;&nbsp;")
 	If Instr(para,"[upload]")>0 Then
-		source=Replace(source,"src=""upload/","src="""& ZC_BLOG_HOST & "zb_users/" & ZC_UPLOAD_DIRECTORY & "/")
-		source=Replace(source,"href=""upload/","href="""& ZC_BLOG_HOST & "zb_users/" &  ZC_UPLOAD_DIRECTORY & "/")
-		source=Replace(source,"value=""upload/","value="""& ZC_BLOG_HOST & "zb_users/" &  ZC_UPLOAD_DIRECTORY & "/")
-		source=Replace(source,"href=""http://upload/","href="""& ZC_BLOG_HOST & "zb_users/" &  ZC_UPLOAD_DIRECTORY & "/")
-		source=Replace(source,"(this.nextSibling,'upload/","(this.nextSibling,'"& ZC_BLOG_HOST & "zb_users/" &  ZC_UPLOAD_DIRECTORY & "/")
+		source=Replace(source,"src=""upload/","src="""& ZC_BLOG_HOST & ZC_UPLOAD_DIRECTORY & "/")
+		source=Replace(source,"href=""upload/","href="""& ZC_BLOG_HOST & ZC_UPLOAD_DIRECTORY & "/")
+		source=Replace(source,"value=""upload/","value="""& ZC_BLOG_HOST & ZC_UPLOAD_DIRECTORY & "/")
+		source=Replace(source,"href=""http://upload/","href="""& ZC_BLOG_HOST & ZC_UPLOAD_DIRECTORY & "/")
+		source=Replace(source,"(this.nextSibling,'upload/","(this.nextSibling,'"& ZC_BLOG_HOST & ZC_UPLOAD_DIRECTORY & "/")
 
 		source=Replace(source,"src=""image/face/","src="""& ZC_BLOG_HOST & "zb_system/" &  "image/face/")
 	End If
 	If Instr(para,"[anti-upload]")>0 Then
-		source=Replace(source,"src="""& ZC_BLOG_HOST & "zb_users/" &  ZC_UPLOAD_DIRECTORY & "/","src=""upload/")
-		source=Replace(source,"href="""& ZC_BLOG_HOST & "zb_users/" &  ZC_UPLOAD_DIRECTORY & "/","href=""upload/")
-		source=Replace(source,"value="""& ZC_BLOG_HOST & "zb_users/" &  ZC_UPLOAD_DIRECTORY & "/","value=""upload/")
-		source=Replace(source,"href="""& ZC_BLOG_HOST & "zb_users/" &  ZC_UPLOAD_DIRECTORY & "/","href=""http://upload/")
-		source=Replace(source,"(this.nextSibling,'"& ZC_BLOG_HOST & "zb_users/" &  ZC_UPLOAD_DIRECTORY & "/","(this.nextSibling,'upload/")
+		source=Replace(source,"src="""& ZC_BLOG_HOST & ZC_UPLOAD_DIRECTORY & "/","src=""upload/")
+		source=Replace(source,"href="""& ZC_BLOG_HOST & ZC_UPLOAD_DIRECTORY & "/","href=""upload/")
+		source=Replace(source,"value="""& ZC_BLOG_HOST & ZC_UPLOAD_DIRECTORY & "/","value=""upload/")
+		source=Replace(source,"href="""& ZC_BLOG_HOST & ZC_UPLOAD_DIRECTORY & "/","href=""http://upload/")
+		source=Replace(source,"(this.nextSibling,'"& ZC_BLOG_HOST & ZC_UPLOAD_DIRECTORY & "/","(this.nextSibling,'upload/")
 
 		source=Replace(source,"src="""& ZC_BLOG_HOST & "zb_system/" & "image/face/","src=""image/face/")
 	End If

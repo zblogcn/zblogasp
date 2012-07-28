@@ -159,7 +159,7 @@ Next
 
 <!-- tags( -->
 <% If Request.QueryString("type")<>"Page" Then %>
-                        <p><span class='editinputname' style='padding-right:2px;'><%=ZC_MSG138%>:</span>
+                        <p><span class='editinputname' style='padding:0 0 0 0;'><%=ZC_MSG138%>:</span>
                         <input type="text" style="width:400px;" name="edtTag" id="edtTag" value="<%=TransferHTML(EditArticle.TagToName,"[html-format]")%>" />
                         <a href="" style="cursor:pointer;" onclick="if(document.getElementById('ulTag').style.display=='none'){document.getElementById('ulTag').style.display='block';if(loaded==false){$.getScript('edit_ueditor.asp?type=tags');loaded=true;}}else{document.getElementById('ulTag').style.display='none'};return false;"><%=ZC_MSG139%><span style="font-size: 1.5em; vertical-align: -1px;"></span></a></p>
                       <ul id="ulTag" style="display:none;">

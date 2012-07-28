@@ -120,6 +120,7 @@ Sub System_Initialize()
 	End If
 
 	Call CreateAdminLeftMenu()
+	Call CreateAdminTopMenu()
 
 	'将激活插件后移
 	Call ActivePlugin()
@@ -1899,10 +1900,13 @@ End Sub
 '*********************************************************
 ' 目的：  生成左侧导航栏
 '*********************************************************
+Dim AdminLeftMenuCount
+AdminLeftMenuCount=0
 Function MakeLeftMenu(requireLevel,strName,strUrl,strLiId,strAName,strImgUrl)
 
 	If BlogUser.Level>requireLevel Then Exit Function
 
+	AdminLeftMenuCount=AdminLeftMenuCount+1
 	dim tmp
 	If Trim(strImgUrl)<>"" Then
 		tmp="<li id="""&strLiId&"""><a id="""&strAName&""" href="""&strUrl&"""><span style=""background-image:url('"&strImgUrl&"')"">"&strName&"</span></a></li>"
@@ -1913,13 +1917,27 @@ Function MakeLeftMenu(requireLevel,strName,strUrl,strLiId,strAName,strImgUrl)
 	
 End Function
 '*********************************************************
+
+
+
+
+'*********************************************************
 ' 目的：  生成头部菜单
 '*********************************************************
-Function MakeTopMenu(strName,strUrl)
+Dim AdminTopMenuCount
+AdminTopMenuCount=0
+Function MakeTopMenu(strName,strUrl,strTarget)
 	Dim tmp
-	tmp="<li><a href="""&strUrl&""">"&strName&"</a></li>"
+	If strTarget="" Then strTarget="_self"
+	AdminTopMenuCount=AdminTopMenuCount+1
+	tmp="<li id=""topmenu"&AdminTopMenuCount&"""><a href="""&strUrl&""" target="""&strTarget&""">"&strName&"</a></li>"
 	MakeTopMenu=tmp
 End Function
+'*********************************************************
+
+
+
+
 '*********************************************************
 ' 目的： 加入二级菜单项
 '*********************************************************
@@ -2758,11 +2776,9 @@ Function BlogReBuild_Comments()
 		For i=1 to j
 			s=objRS("comm_Content")
 			s=Replace(s,vbCrlf,"")
-			'If (Len(s)>ZC_RECENT_COMMENT_WORD_MAX) And (ZC_RECENT_COMMENT_WORD_MAX>(Len("...")+1)) Then s=Left(s,ZC_RECENT_COMMENT_WORD_MAX-(Len("...")+1))&"..."
-
 			'Set objArticle=New TArticle
 			'If objArticle.LoadInfoByID(objRS("log_ID")) Then
-				strComments=strComments & "<li><a href="""& GetCurrentHost & "zb_system/view.asp?nav=" & objRS("log_ID") & "#cmt" & objRS("comm_ID") & """ title=""" & objRS("comm_PostTime") & " post by " & objRS("comm_Author") & """>"+s+"</a></li>"
+				strComments=strComments & "<li style=""text-overflow:ellipsis;""><a href="""& GetCurrentHost & "zb_system/view.asp?nav=" & objRS("log_ID") & "#cmt" & objRS("comm_ID") & """ title=""" & objRS("comm_PostTime") & " post by " & objRS("comm_Author") & """>"+s+"</a></li>"
 			'End If
 			Set objArticle=Nothing
 			objRS.MoveNext
@@ -3380,6 +3396,22 @@ Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("Fu
 Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("PlugInMng"),ZC_MSG107,GetCurrentHost&"zb_system/cmd.asp?act=PlugInMng","nav_plugin","aPlugInMng",""))
 Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("UserMng"),ZC_MSG070,GetCurrentHost&"zb_system/cmd.asp?act=UserMng","nav_user","aUserMng",""))
 
+
+End Function
+'*********************************************************
+
+
+
+
+'*********************************************************
+' 目的：    Create Top Menu
+'*********************************************************
+Function CreateAdminTopMenu()
+
+Response_Plugin_Admin_Top=""
+
+Call Add_Response_Plugin("Response_Plugin_Admin_Top",MakeTopMenu(ZC_MSG245,GetCurrentHost&"zb_system/cmd.asp?act=admin",""))
+Call Add_Response_Plugin("Response_Plugin_Admin_Top",MakeTopMenu(ZC_MSG247,GetCurrentHost&"zb_system/cmd.asp?act=SettingMng",""))
 
 End Function
 '*********************************************************

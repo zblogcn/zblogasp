@@ -7,10 +7,10 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" /> 
 <title><%=BlogTitle%></title>
 <link href="<%=GetCurrentHost%>ZB_SYSTEM/CSS/admin2.css" rel="stylesheet" type="text/css" />
-<script language="JavaScript" src="<%=GetCurrentHost%>ZB_SYSTEM/script/common.js" type="text/javascript"></script>
+<script src="<%=GetCurrentHost%>ZB_SYSTEM/script/common.js" type="text/javascript"></script>
 <link rel="stylesheet" href="<%=GetCurrentHost%>ZB_SYSTEM/CSS/jquery.bettertip.css" type="text/css" media="screen" />
-<script language="JavaScript" src="<%=GetCurrentHost%>ZB_SYSTEM/script/jquery.bettertip.pack.js" type="text/javascript"></script>
-<script language="JavaScript" src="<%=GetCurrentHost%>ZB_SYSTEM/script/jquery-ui-1.8.21.custom.min.js" type="text/javascript"></script>
+<script src="<%=GetCurrentHost%>ZB_SYSTEM/script/jquery.bettertip.pack.js" type="text/javascript"></script>
+<script src="<%=GetCurrentHost%>ZB_SYSTEM/script/jquery-ui-1.8.21.custom.min.js" type="text/javascript"></script>
 <%If InStr(Request.ServerVariables("HTTP_USER_AGENT"),"MSIE 6.0;")>0 Then%>
 <!--[if IE 6]>
 <script src="<%=GetCurrentHost%>zb_system/script/iepng.js" type="text/javascript"></script>

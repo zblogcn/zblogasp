@@ -8,11 +8,11 @@
       <div class="userbtn"><a class="profile" href="<%=GetCurrentHost%>" title="" target="_blank"><%=ZC_MSG065%></a> <a class="logout" href="<%=GetCurrentHost%>ZB_SYSTEM/cmd.asp?act=logout" title=""><%=ZC_MSG020%></a></div>
     </div>
     <div class="menu">
-      <ul>
-        <li><a href="<%=GetCurrentHost%>zb_system/cmd.asp?act=admin"><%=ZC_MSG245%></a></li>
-        <li><a href="<%=GetCurrentHost%>zb_system/cmd.asp?act=SettingMng"><%=ZC_MSG247%></a></li>
+      <ul id="topmenu">
+<%
+Call Add_Response_Plugin("Response_Plugin_Admin_Top",MakeTopMenu(ZC_MSG340,"http://www.rainbowsoft.org/","_blank"))
+%>
         <%=Response_Plugin_Admin_Top%>
-        <li><a href="http://www.rainbowsoft.org/" target="_blank"><%=ZC_MSG340%></a></li>
       </ul>
     </div>
   </div>

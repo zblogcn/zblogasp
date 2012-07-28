@@ -108,14 +108,11 @@ Function UploadFile(bolAutoName,bolReload)
 		Dim strFileName
 		Dim strUPLOADDIR
 		Dim strUPLOADDIR2
-		If ZC_UPLOAD_DIRBYMONTH Then
-			CreatDirectoryByCustomDirectory(ZC_UPLOAD_DIRECTORY&"/"&Year(GetTime(Now()))&"/"&Month(GetTime(Now())))
-			strUPLOADDIR = ZC_UPLOAD_DIRECTORY&"/"&Year(GetTime(Now()))&"/"&Month(GetTime(Now())) & "/"
-			strUPLOADDIR2 = "upload/"&Year(GetTime(Now()))&"/"&Month(GetTime(Now())) & "/"
-		Else
-			strUPLOADDIR = ZC_UPLOAD_DIRECTORY & "/"
-			strUPLOADDIR2 ="upload/"
-		End If
+
+		CreatDirectoryByCustomDirectory(ZC_UPLOAD_DIRECTORY&"/"&Year(GetTime(Now()))&"/"&Month(GetTime(Now())))
+		strUPLOADDIR = ZC_UPLOAD_DIRECTORY&"/"&Year(GetTime(Now()))&"/"&Month(GetTime(Now())) & "/"
+		strUPLOADDIR2 = "upload/"&Year(GetTime(Now()))&"/"&Month(GetTime(Now())) & "/"
+
 		strFileType=LCase(objUpLoadFile.FileName)
 
 		If (CheckRegExp(strFileType,"\.(jpeg|jpg|gif|png|bmp)$")=True) Then
@@ -137,17 +134,17 @@ Function UploadFile(bolAutoName,bolReload)
 		End If
 
 		'edit
-		Response.Write "<script language=""Javascript"">try{parent.document.edit.txaContent.currPos.text+='"&strFileName&"';}catch(e){try{parent.document.edit.txaContent.value+='"&strFileName&"'}catch(e){}}</script>"
+		'Response.Write "<script language=""Javascript"">try{parent.document.edit.txaContent.currPos.text+='"&strFileName&"';}catch(e){try{parent.document.edit.txaContent.value+='"&strFileName&"'}catch(e){}}</script>"
 		'edit_widgeditor
-		Response.Write "<script language=""Javascript"">try{parent.document.getElementById('txaContentWidgIframe').contentWindow.document.getElementsByTagName('body')[0].innerHTML+='"&strFileName&"'}catch(e){}</script>"
+		'Response.Write "<script language=""Javascript"">try{parent.document.getElementById('txaContentWidgIframe').contentWindow.document.getElementsByTagName('body')[0].innerHTML+='"&strFileName&"'}catch(e){}</script>"
 		'edit_fckeditor
-		Response.Write "<script language=""Javascript"">try{parent.CKEDITOR.instances.txaContent.insertHtml('"&Replace(TransferHTML(UBBCode(strFileName,"[link][image][media][flash]"),"[upload]"),"'","\'")&"')}catch(e){}</script>"
+		'Response.Write "<script language=""Javascript"">try{parent.CKEDITOR.instances.txaContent.insertHtml('"&Replace(TransferHTML(UBBCode(strFileName,"[link][image][media][flash]"),"[upload]"),"'","\'")&"')}catch(e){}</script>"
 		'edit_htmlarea
-		Response.Write "<script language=""Javascript"">try{parent.document.getElementById('ta').parentNode.getElementsByTagName('iframe')[0].contentWindow.document.getElementsByTagName('body')[0].innerHTML+='"&strFileName&"'}catch(e){}</script>"
+		'Response.Write "<script language=""Javascript"">try{parent.document.getElementById('ta').parentNode.getElementsByTagName('iframe')[0].contentWindow.document.getElementsByTagName('body')[0].innerHTML+='"&strFileName&"'}catch(e){}</script>"
 		'edit_tinymce
-		Response.Write "<script language=""Javascript"">try{parent.document.getElementById('mce_editor_0').contentWindow.document.getElementsByTagName('body')[0].innerHTML+='"&strFileName&"'}catch(e){}</script>"
+		'Response.Write "<script language=""Javascript"">try{parent.document.getElementById('mce_editor_0').contentWindow.document.getElementsByTagName('body')[0].innerHTML+='"&strFileName&"'}catch(e){}</script>"
 		'edit_ewebeditor
-		Response.Write "<script language=""Javascript"">try{parent.document.getElementById('eWebEditor1').contentWindow.document.getElementsByTagName('body')[0].innerHTML+='"&strFileName&"'}catch(e){}</script>"
+		'Response.Write "<script language=""Javascript"">try{parent.document.getElementById('eWebEditor1').contentWindow.document.getElementsByTagName('body')[0].innerHTML+='"&strFileName&"'}catch(e){}</script>"
 		
 		Response.Write "</body></html>"
 
@@ -1136,7 +1133,7 @@ Function SaveSetting()
 
 	For i=1 To BlogConfig.Count
 
-		strContent=Replace(strContent,"<#"&BlogConfig.Meta.Names(i)&"#>",BlogConfig.Meta.GetValue(BlogConfig.Meta.Names(i)))
+		strContent=Replace(strContent,"<#"&BlogConfig.Meta.Names(i)&"#>",Replace(BlogConfig.Meta.GetValue(BlogConfig.Meta.Names(i)),"""",""""""))
 
 	Next
 

@@ -575,11 +575,29 @@ function RevertComment(i) {
 function ActiveLeftMenu(name){
 
 	name="#"+name;
-	$("#nav li").removeClass("on");
+	$("#leftmenu li").removeClass("on");
 	$(name).parent().addClass("on");
 
 }
 //*********************************************************
+
+
+
+
+//*********************************************************
+// 目的：    ActiveTopMenu
+// 输入：    无
+// 返回：    无
+//*********************************************************
+function ActiveTopMenu(name){
+
+	name="#"+name;
+	$("#topmenu li").removeClass("on");
+	$(name).addClass("on");
+
+}
+//*********************************************************
+
 
 
 
