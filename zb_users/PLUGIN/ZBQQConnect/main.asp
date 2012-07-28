@@ -55,7 +55,7 @@ end if
 		ZBQQConnect_class.OpenID=ZBQQConnect_DB.OpenID
 		ZBQQConnect_class.AccessToken=ZBQQConnect_DB.AccessToken
 		ZBQQConnect_get_authorize_url = "main.asp?act=logout"
-		Response.Write "<a href=""" & ZBQQConnect_get_authorize_url & """>注销</a>"	
+		Response.Write "<a href=""" & ZBQQConnect_get_authorize_url & """>解除QQ与该ID的绑定</a>"	
 		
 		ZBQQConnect_A=ZBQQConnect_class.API("https://graph.qq.com/user/get_user_info","{'format':'json'}","GET&")
 		Set ZBQQConnect_A=ZBQQConnect_ToObject(ZBQQConnect_A)

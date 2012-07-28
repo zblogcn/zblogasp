@@ -49,6 +49,15 @@ Function a
 		ZBQQConnect_DB.Email=MD5(BlogUser.EMail)
 		ZBQQConnect_DB.Bind
 		If BlogUser.Level=5 Then
+			Response.Cookies("QQOPENID")=ZBQQConnect_Class.OpenID
+			Response.Cookies("QQOPENID").Expires = DateAdd("d", 90, now)
+			Response.Cookies("QQOPENID").Path="/"
+			Response.Cookies("QQAccessToken")=ZBQQConnect_Class.AccessToken
+			Response.Cookies("QQAccessToken").Expires = DateAdd("d", 90, now)
+			Response.Cookies("QQAccessToken").Path="/"
+			Response.Cookies("inpName")=b.nickname
+			Response.Cookies("inpName").Expires = DateAdd("d", 365, now)
+			Response.Cookies("inpName").Path="/"
 			Response.Redirect "select.asp?QQOPENID="&ZBQQConnect_Class.OpenID
 		Else
 			Response.write "<script>opener.location.href=opener.location.href.replace(""act=logout"","""");window.close()</script>"

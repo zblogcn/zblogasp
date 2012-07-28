@@ -3,6 +3,10 @@
 <!-- #include file="function\ZBConnectQQ_DB.asp"-->
 
 <%
+'Temp 
+Const ZBQQConnect_notfoundpic=""
+Const ZBQQConnect_PicSendToWb=True
+'Temp
 Dim ZBQQConnect_CommentCore,ZBQQConnect_ACore,ZBQQConnect_CommentName,ZBQQConnect_EmlMD5
 
 Dim ZBQQConnect_SToWb,ZBQQConnect_SToZone
@@ -18,6 +22,8 @@ Function ZBQQConnect_Initialize
 	ZBQQConnect_class.callbackurl="http://www.zsxsoft.com/zblog-1-9/ZB_USERS/PLUGIN/ZBQQConnect/callback.asp"  '设置回调地址
 	ZBQQConnect_class.debug=false 'Debug模式设置
 End Function
+
+
 
 Call RegisterPlugin("ZBQQConnect","ActivePlugin_ZBQQConnect")
 
@@ -53,7 +59,7 @@ Function ActivePlugin_ZBQQConnect()
 	'Filter_Plugin_PostArticle_Core
 	'Call Add_Filter_Plugin("Filter_Plugin_PostComment_Core","ZBQQConnect_CommentPst")
 	'Call Add_Action_Plugin("Action_Plugin_CommentPost_Succeed","Call ZBQQConnect_SendComment()")
-	'Call Add_Action_Plugin("Action_Plugin_ArticlePst_Begin","ZBQQConnect_SToWb=Request.Form(""ZBQQConnect_SToWb"")::Call ZBQQConnect_Main()")
+	Call Add_Action_Plugin("Action_Plugin_ArticlePst_Begin","ZBQQConnect_SToZone=Request.Form(""syn_qq""):ZBQQConnect_SToWb=Request.Form(""syn_tqq""):Call ZBQQConnect_Main()")
 	Call Add_Action_Plugin("Action_Plugin_Edit_ueditor_Begin","Call ZBQQConnect_addForm()")
 	'Call Add_Action_Plugin("Action_Plugin_System_Initialize_Succeed","Call Add_Response_Plugin(""Response_Plugin_SiteInfo_SubMenu"",ZBQQConnect_MakeSM)")
 
@@ -72,7 +78,9 @@ Function ZBQQConnect_LoadPicture(ByVal str)
 		Exit For
 	Next
 	set objregexp=nothing
-	tmp=BlogPath & replace(tmp,ZC_BLOG_HOST,"")
+	If Instr(tmp,"http")<0 And tmp<>"" Then tmp=ZC_BLOG_HOST & "/" & tmp
+	ZBQQConnect_LoadPicture=tmp
+	'tmp=BlogPath & replace(tmp,ZC_BLOG_HOST,"")
 End Function
 
 Function ZBQQConnect_addForm()
@@ -81,16 +89,16 @@ CSS="<style type=""text/css"">.syn_qq, .syn_tqq, .syn_qq_check, .syn_tqq_check{d
 JS="<script type='text/javascript'>var a=true,b=true;var d=$('#connectPost_synQQ');var f=$('#connectPost_synT');function c(){if(a){d.removeClass('syn_qq_check');d.addClass('syn_qq');d.attr('title','未设置同步至QQ空间');$('#syn_qq').attr('value','0');a=false}else{d.removeClass('syn_qq');d.addClass('syn_qq_check');d.attr('title','已设置同步至QQ空间');$('#syn_qq').attr('value','1');a=true}};function e(){if(b){f.removeClass('syn_tqq_check');f.addClass('syn_tqq');f.attr('title','未设置同步至腾讯微博');$('#syn_tqq').attr('value','0');b=false}else{f.removeClass('syn_tqq');f.addClass('syn_tqq_check');f.attr('title','已设置同步至腾讯微博');$('#syn_tqq').attr('value','1');b=true}};$(document).ready(function(){d.bind('click',function(){c()});f.bind('click',function(){e()})});</script>"
 HTML="<a title='已设置同步至QQ空间' class='syn_qq_check' href='javascript:void(0);' id='connectPost_synQQ'>QQ空间</a><input type='hidden' name='syn_qq' id='syn_qq' value='1'/><a title='已设置同步至腾讯微博' class='syn_tqq_check' href='javascript:void(0);' id='connectPost_synT'>腾讯微博</a><input type='hidden' name='syn_tqq' id='syn_tqq' value='1'/>"
 
-	If Request.QueryString("id")="" Then
+	'If Request.QueryString("id")="" Then
 		ResponseText=CSS&HTML&JS
-	Else
+	'Else
 
 		'If ZBQQConnect_EditPostSend=True Then
 		'	ResponseText=TextStart&Text2&TextEnd
-		'Else
-			ResponseText=""
-		'End iF
-	End If
+'		'Else
+'			ResponseText=""
+'		'End iF
+'	End If
 
 	
 
@@ -98,10 +106,15 @@ Call Add_Response_Plugin("Response_Plugin_Edit_Form3",ResponseText)
 
 End Function
 Function ZBQQConnect_Main()
-	If IsEmpty(ZBQQConnect_SToWb)=True Then
+	If ZBQQConnect_SToWb="0" Then
 		ZBQQConnect_SToWb=False
 	Else
 		ZBQQConnect_SToWb=True
+	End If
+	If ZBQQConnect_SToZone="0" Then
+		ZBQQConnect_SToZone=False
+	Else
+		ZBQQConnect_SToZone=True
 	End If
 	Call Add_Filter_Plugin("Filter_Plugin_TArticle_Post","ZBQQConnect_ArticlePst")	
 End Function
@@ -148,26 +161,25 @@ Function ZBQQConnect_ArticlePst(ByRef ID,ByRef Tag,ByRef CateID,ByRef Title,ByRe
 	Dim ZBQQConnect_ACore
 	set ZBQQConnect_acore=new tarticle
 	ZBQQConnect_ACore.id=id
-	ZBQQConnect_ACore.tag=tag
-	ZBQQConnect_ACore.cateid=cateid
 	ZBQQConnect_ACore.title=title
-	ZBQQConnect_ACore.content=content
-	ZBQQConnect_ACore.level=level
+	ZBQQConnect_ACore.CateID=CateID
 	ZBQQConnect_ACore.authorid=authorid
-	ZBQQConnect_ACore.posttime=posttime
-	ZBQQConnect_ACore.commnums=commnums
-	ZBQQConnect_ACore.viewnums=viewnums
-	ZBQQConnect_ACore.alias=alias
-	ZBQQConnect_ACore.istop=istop
 	ZBQQConnect_ACore.intro=intro
+	ZBQQConnect_ACore.Content=Content
 	ZBQQConnect_ArticleToWb ZBQQConnect_ACore
 	set ZBQQConnect_ACore=nothing
 end function
 
 function ZBQQConnect_ArticleToWb(ByRef ZBQQConnect_ACore)
 	Dim strT ,bolN,objTemp,strTemp
+	
+	If ZBQQConnect_ACore.CateID=0 Then Exit Function
 	Call ZBQQConnect_Initialize
-	If ZBQQConnect_class.logined=false Or ZBQQConnect_SToWb=False Or IsObject(ZBQQConnect_ACore)=False Then Exit Function
+	Set ZBQQConnect_DB.objUser=BlogUser
+	ZBQQConnect_DB.LoadInfo 2
+	ZBQQConnect_Class.OpenID=ZBQQConnect_DB.OpenID
+	ZBQQConnect_Class.AccessToken=ZBQQConnect_DB.AccessToken
+	If IsObject(ZBQQConnect_ACore)=False Then Exit Function
 		If ZBQQConnect_ACore.ID=0 then
 			bolN=True
 			Dim objRS
@@ -182,18 +194,13 @@ function ZBQQConnect_ArticleToWb(ByRef ZBQQConnect_ACore)
 		End If
 
 	If int(ZBQQConnect_ACore.level)>2 Then
-		If bolN Then
-			strT=Request.Form("ZBQQConnect_TmpSet1")
-		Else
-			If ZBQQConnect_EditPostSend=False Then Exit Function
-			strT=Request.Form("ZBQQConnect_TmpSet2")
-		End If
 		strTemp=TransferHTML(UBBCode(ZBQQConnect_ACore.Intro,"[link][email][font][code][face][image][flash][typeset][media][autolink][link-antispam]"),"[nohtml]")
 		strTemp=Replace(ZBQQConnect_ReplaceXO(strTemp),"'","\'")
+		
 		dim t_add,tupian
 		if ZBQQConnect_PicSendToWb=true then
 			tupian=UBBCode(ZBQQConnect_ACore.Content,"[image]")
-			tupian=ZBQQConnect_RegExp_Execute2("<img [^>]*src=[""']?([^"">]+)['""]?[^>]+>",tupian,1,0)
+			tupian=ZBQQConnect_LoadPicture(tupian)
 			if tupian="" then tupian=ZBQQConnect_notfoundpic
 			tupian=replace(replace(tupian,"\","/"),"'","\'")
 		else
@@ -203,18 +210,32 @@ function ZBQQConnect_ArticleToWb(ByRef ZBQQConnect_ACore)
 		Dim strJSON
 		
 		if tupian<>"~" then
-			strJSON="{'title':'"&Replace(ZBQQConnect_ACore.Title,"'","\'")&"','url':'"&Replace(ZBQQConnect_ACore.Url,"'","\'")&"','summary':'"&strTemp&"','images':'"&tupian&"'}"
+			strJSON="{'title':'"&Replace(ZBQQConnect_ACore.Title,"'","\'")&"','url':'"&Replace(ZBQQConnect_ACore.Url,"'","\'")&"','summary':'"&strTemp&"','images':'"&tupian&"'"
 		Else
-			strJSON="{'title':'"&Replace(ZBQQConnect_ACore.Title,"'","\'")&"','url':'"&Replace(ZBQQConnect_ACore.Url,"'","\'")&"','summary':'"&strTemp&"'}"
+			strJSON="{'title':'"&Replace(ZBQQConnect_ACore.Title,"'","\'")&"','url':'"&Replace(ZBQQConnect_ACore.Url,"'","\'")&"','summary':'"&strTemp&"'"
 		End If
+		'Call SetBlogHint_Custom(strjSON)
+		strJSON=strJSON & ",'nswb':1"
+		strJSON=strJSON & "}"
 		t_add = ZBQQConnect_class.API("https://graph.qq.com/share/add_share",strJSON,"POST&")
-		If instr(t_add,"ok") Then
-			Call SetBlogHint_Custom("同步到腾讯微博成功,<a href=""http://t.qq.com/p/t/"&ZBQQConnect_toobject(t_add).data.id&""" target=""_blank"">点此查看</a>")
+		Set t_add=ZBQQConnect_Toobject(t_add)
+		If t_add.ret=0 Then
+			Call SetBlogHint_Custom("恭喜，同步到QQ空间成功")
 		else
-			Call SetBlogHint_Custom("同步到腾讯微博出现问题" & t_add)
-			Call SetBlogHint_Custom("要发的微博已经生成完成，您可以手动<A href='"&ZC_BLOG_HOST&"\ZB_USERS\plugin\ZBQQConnect\index.asp'>点我发微博</a>或到<a href='http://t.qq.com/"& ZBQQConnect_class.username & "' target='_blank'>官方平台发微博</a>。内容在下面<br/>" &  transferhtml(strT,"[no-html]"))
-			if tupian<>"~" then Call SetBlogHint_Custom("带图片:"&tupian)
+			Call SetBlogHint_Custom("同步到QQ空间出现问题" & t_add.ret)
+			Call SetBlogHint_Custom("调试信息：<br/>OpenID="&ZBQQConnect_Class.OpenID&"<br/>AccessToken="&ZBQQConnect_Class.AccessToken&"<br/>PrivateJSON="&strJSON)'&"<br/>URL="&)
 	    End If
+		If ZBQQConnect_SToWb=True Then 
+			strJSON="{'format':'json','content':'更新了博客：《"&Replace(ZBQQConnect_ACore.Title,"'","\'")&"》，"&Replace(ZBQQConnect_ACore.Url,"'","\'")&"','clientip':'"&Request.ServerVariables("REMOTE_ADDR")&"'}"
+			t_add = ZBQQConnect_class.API("https://graph.qq.com/t/add_t",strJSON,"POST&")
+			Set t_add=ZBQQConnect_Toobject(t_add)
+			If t_add.ret=0 Then
+			Call SetBlogHint_Custom("恭喜，同步到腾讯微博成功")
+			else
+				Call SetBlogHint_Custom("同步到腾讯微博出现问题" & t_add.ret)
+				Call SetBlogHint_Custom("调试信息：<br/>OpenID="&ZBQQConnect_Class.OpenID&"<br/>AccessToken="&ZBQQConnect_Class.AccessToken&"<br/>PrivateJSON="&strJSON)'&"<br/>URL="&)
+			End If
+		End If
 	End If
 		'If Instr(lcase(ZC_USING_PLUGIN_LIST),"autoposturl") Then
 		'	If InStr(Split(lcase(ZC_USING_PLUGIN_LIST),"autoposturl")(0),"ZBQQConnect") Then
