@@ -23,9 +23,12 @@
 <% Response.Clear %>
 
 <%=LoadFromFile(Server.MapPath("../admin/ueditor/third-party/SyntaxHighlighter/shCore.js"),"utf-8")%>
-
+SyntaxHighlighter.defaults['gutter'] = false;
+SyntaxHighlighter.defaults['smart-tabs']=true;
+//SyntaxHighlighter.defaults['html-script']=true;
+//SyntaxHighlighter.defaults['auto-links']=false;
 SyntaxHighlighter.all();
-
+//SyntaxHighlighter.highlight(document.getElementsByTagName("pre"),null,true);
 var str00="<%=ZC_BLOG_HOST%>";
 var str01="<%=ZC_MSG033%>";
 var str02="<%=ZC_MSG034%>";
