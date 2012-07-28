@@ -394,7 +394,7 @@ Class TArticle
 	Private FTrackBackKey
 	Public Property Get TrackBackKey
 		If IsNull(FTrackBackKey) Or IsEmpty(FTrackBackKey) Or FTrackBackKey="" Then
-			FTrackBackKey=Left(MD5(ZC_BLOG_HOST & ZC_BLOG_CLSID & CStr(ID) & CStr(TrackBackNums)),8)
+			FTrackBackKey=Left(MD5(ZC_BLOG_CLSID & CStr(ID) & CStr(TrackBackNums)),8)
 		End If
 		TrackBackKey=FTrackBackKey
 	End Property
@@ -402,7 +402,7 @@ Class TArticle
 	Private FCommentKey
 	Public Property Get CommentKey
 		If IsNull(FCommentKey) Or IsEmpty(FCommentKey) Or FCommentKey="" Then
-			FCommentKey=Left(MD5(ZC_BLOG_HOST & ZC_BLOG_CLSID & CStr(ID)),8)
+			FCommentKey=Left(MD5(ZC_BLOG_CLSID & CStr(ID)),8)
 		End If
 		CommentKey=FCommentKey
 	End Property
@@ -953,18 +953,15 @@ Class TArticle
 				End If
 			Next
 
-			Template_Article_Comment="<span style=""display:none;"" id=""AjaxCommentBegin""></span>" & Template_Article_Comment & "<span style=""display:none;"" id=""AjaxCommentEnd""></span>"
-
-			i=0
-			Do While InStr(Template_Article_Comment,"<!--(count-->0<!--count)-->")>0
-				i=i+1
-				Template_Article_Comment=Replace(Template_Article_Comment,"<!--(count-->0<!--count)-->",i,1,1)
-			Loop
-
-
-
 		End If
 
+		Template_Article_Comment="<span style=""display:none;"" id=""AjaxCommentBegin""></span>" & Template_Article_Comment & "<span style=""display:none;"" id=""AjaxCommentEnd""></span>"
+
+		i=0
+		Do While InStr(Template_Article_Comment,"<!--(count-->0<!--count)-->")>0
+			i=i+1
+			Template_Article_Comment=Replace(Template_Article_Comment,"<!--(count-->0<!--count)-->",i,1,1)
+		Loop
 
 		Export_CMTandTB=True
 
