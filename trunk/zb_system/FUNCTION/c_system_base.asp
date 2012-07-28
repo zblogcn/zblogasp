@@ -3261,49 +3261,6 @@ End Function
 
 
 '*********************************************************
-' 目的：    
-'*********************************************************
-Dim CurrentHostUrl
-Function GetCurrentHost()
-
-	If CurrentHostUrl<>"" Then
-		GetCurrentHost=CurrentHostUrl
-		Exit Function
-	End If
-
-	Call GetReallyDirectory()
-
-	Dim s,t,u,i,w,x
-
-	s=LCase(Replace(Request.ServerVariables("PATH_TRANSLATED"),"\","/"))
-
-	t=LCase(Request.ServerVariables("HTTP_HOST") & Request.ServerVariables("URL"))
-
-	w=LCase(Replace(BlogPath,"\","/"))
-
-	x=Right(s,Len(s)-Len(w))
-
-	u=Replace(t,x,"")
-
-	if Request.ServerVariables("HTTPS")="off" then
-		u= "http://" & u
-	else
-		u= "https://" & u
-	end If
-
-	If Right(u,1)<>"/" Then u=u & "/"
-
-	CurrentHostUrl=u
-		
-	GetCurrentHost=CurrentHostUrl
-
-End Function
-'*********************************************************
-
-
-
-
-'*********************************************************
 ' 目的：    Get Function Order 输出数组.
 '*********************************************************
 Function GetFunctionOrder()

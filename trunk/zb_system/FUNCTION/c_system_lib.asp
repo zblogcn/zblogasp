@@ -792,15 +792,15 @@ Class TArticle
 		Dim t,i,s,j
 
 		If Tag<>"" Then
-			Tag=Replace(Tag,"}","")
-			t=Split(Tag,"{")
+			s=Replace(Tag,"}","")
+			t=Split(s,"{")
 
 			For i=LBound(t) To UBound(t)
 				If t(i)<>"" Then
 
-					s=GetTemplate("TEMPLATE_B_ARTICLE_TAG")
+					j=GetTemplate("TEMPLATE_B_ARTICLE_TAG")
 
-					Template_Article_Tag=Template_Article_Tag & Tags(t(i)).MakeTemplate(s)
+					Template_Article_Tag=Template_Article_Tag & Tags(t(i)).MakeTemplate(j)
 
 				End If
 			Next
@@ -947,9 +947,9 @@ Class TArticle
 
 			For Each s In treed.Items
 				If ZC_COMMENT_REVERSE_ORDER_EXPORT=True Then
-					Template_Article_Comment=s & Template_Article_Comment
-				Else
 					Template_Article_Comment=Template_Article_Comment & s
+				Else
+					Template_Article_Comment=s & Template_Article_Comment
 				End If
 			Next
 
@@ -1066,23 +1066,27 @@ Class TArticle
 			If bAction_Plugin_TArticle_Export_Mutuality_Begin=True Then Exit Function
 		Next
 
+		If ZC_MUTUALITY_COUNT=0 Then 
+			Export_Mutuality=True
+			Exit Function
+		End If
+
 		If Tag<>"" Then
 
 			Dim strCC_Count,strCC_ID,strCC_Name,strCC_Url,strCC_PostTime,strCC_Title
 			Dim strCC
-			Dim i
-			Dim j
+			Dim i,j,s
 			Dim objRS
 			Dim strSQL
 
 			Set objRS=Server.CreateObject("ADODB.Recordset")
 
-			strSQL="SELECT TOP "& ZC_MUTUALITY_COUNT &" [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_IsAnonymous],[log_Meta] FROM [blog_Article] WHERE ([log_CateID]>0) And ([log_Level]>2) AND [log_ID]<"& ID
+			strSQL="SELECT TOP "& ZC_MUTUALITY_COUNT &" [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_IsAnonymous],[log_Meta] FROM [blog_Article] WHERE ([log_CateID]>0) And ([log_Level]>2)"'& ID
 			strSQL = strSQL & " AND ("
 
 			Dim aryTAGs
-			Tag=Replace(Tag,"}","")
-			aryTAGs=Split(Tag,"{")
+			s=Replace(Tag,"}","")
+			aryTAGs=Split(s,"{")
 
 			For j = LBound(aryTAGs) To UBound(aryTAGs)
 				If aryTAGs(j)<>"" Then
@@ -1112,11 +1116,11 @@ Class TArticle
 
 						strCC_Count=strCC_Count+1
 						strCC_ID=objArticle.ID
-						strCC_Url=objArticle.Url
+						strCC_Url=objArticle.FullUrl
 						strCC_PostTime=objArticle.PostTime
 						strCC_Title=objArticle.Title
 
-						strCC=GetTemplate("TEMPLATE_B_ARTICLE_Mutuality")
+						strCC=GetTemplate("TEMPLATE_B_ARTICLE_MUTUALITY")
 
 						strCC=Replace(strCC,"<#article/mutuality/id#>",strCC_ID)
 						strCC=Replace(strCC,"<#article/mutuality/url#>",strCC_Url)

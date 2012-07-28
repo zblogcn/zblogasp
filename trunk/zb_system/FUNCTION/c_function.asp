@@ -1515,6 +1515,74 @@ End Function
 
 
 '*********************************************************
+' 目的：    
+'*********************************************************
+Dim CurrentHostUrl
+Function GetCurrentHost()
+
+	If CurrentHostUrl<>"" Then
+		GetCurrentHost=CurrentHostUrl
+		Exit Function
+	End If
+
+	Dim PhysicsPath
+
+	PhysicsPath=Server.MapPath(".")
+
+	Dim fso
+	Set fso = CreateObject("Scripting.FileSystemObject")
+	If fso.FolderExists(PhysicsPath & "ZB_SYSTEM\") Then
+		PhysicsPath=PhysicsPath
+	ElseIf fso.FolderExists(PhysicsPath & "..\ZB_SYSTEM\") Then
+		PhysicsPath=PhysicsPath & "..\"
+	ElseIf fso.FolderExists(PhysicsPath & "..\..\ZB_SYSTEM\") Then
+		PhysicsPath=PhysicsPath & "..\..\"
+	ElseIf fso.FolderExists(PhysicsPath & "..\..\..\ZB_SYSTEM\") Then
+		PhysicsPath=PhysicsPath & "..\..\..\"
+	ElseIf fso.FolderExists(PhysicsPath & "..\..\..\..\ZB_SYSTEM\") Then
+		PhysicsPath=PhysicsPath & "..\..\..\..\"
+	ElseIf fso.FolderExists(PhysicsPath & "..\..\..\..\..\ZB_SYSTEM\") Then
+		PhysicsPath=PhysicsPath & "..\..\..\..\..\"
+	ElseIf fso.FolderExists(PhysicsPath & "..\..\..\..\..\..\ZB_SYSTEM\") Then
+		PhysicsPath=PhysicsPath & "..\..\..\..\..\..\"
+	ElseIf fso.FolderExists(PhysicsPath & "..\..\..\..\..\..\..\ZB_SYSTEM\") Then
+		PhysicsPath=PhysicsPath & "..\..\..\..\..\..\..\"
+	End If
+	Set fso=Nothing
+
+	PhysicsPath=CreateObject("Scripting.FileSystemObject").GetFolder(PhysicsPath).Path & "\"
+
+	Dim s,t,u,i,w,x
+
+	s=LCase(Replace(Request.ServerVariables("PATH_TRANSLATED"),"\","/"))
+
+	t=LCase(Request.ServerVariables("HTTP_HOST") & Request.ServerVariables("URL"))
+
+	w=LCase(Replace(PhysicsPath,"\","/"))
+
+	x=Right(s,Len(s)-Len(w))
+
+	u=Replace(t,x,"")
+
+	if Request.ServerVariables("HTTPS")="off" then
+		u= "http://" & u
+	else
+		u= "https://" & u
+	end If
+
+	If Right(u,1)<>"/" Then u=u & "/"
+
+	CurrentHostUrl=u
+
+	GetCurrentHost=CurrentHostUrl
+
+End Function
+'*********************************************************
+
+
+
+
+'*********************************************************
 ' Derived from the RSA Data Security, Inc. MD5 Message-Digest Algorithm,
 ' as set out in the memo RFC1321.
 '

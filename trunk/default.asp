@@ -30,7 +30,7 @@ If CheckMobile() Then Response.Redirect (ZC_BLOG_HOST&ZC_FILENAME_WAP)
 'If (InStr(LCase(Request.ServerVariables("HTTP_ACCEPT")),"text/vnd.wap.wml") > 0) And (InStr(LCase(Request.ServerVariables("HTTP_ACCEPT")),"text/html") = 0)  Then Response.Redirect "wap.asp"
 
 '向导部分wizard
-If ZC_DATABASE_PATH="data/zblog.mdb" Then Response.Redirect "wizard.asp?verify=" & MD5(ZC_DATABASE_PATH & Replace(LCase(Request.ServerVariables("PATH_TRANSLATED")),"default.asp",""))
+If ZC_DATABASE_PATH="data/zblog.mdb" And ZC_MSSQL_ENABLE=False Then Response.Redirect "wizard.asp?verify=" & MD5(ZC_DATABASE_PATH & Replace(LCase(Request.ServerVariables("PATH_TRANSLATED")),"default.asp",""))
 
 Call System_Initialize_WithOutDB()
 
@@ -39,16 +39,7 @@ For Each sAction_Plugin_Default_Begin in Action_Plugin_Default_Begin
 	If Not IsEmpty(sAction_Plugin_Default_Begin) Then Call Execute(sAction_Plugin_Default_Begin)
 Next
 
-Function Default_AutoHostUrl(ByRef aryTemplateTagsName,ByRef aryTemplateTagsValue)
-	Dim i
-	For i=0 To UBound(aryTemplateTagsName)
-		If aryTemplateTagsName(i)="ZC_BLOG_HOST" Then
-			aryTemplateTagsValue(i)=GetCurrentHost
-		End If 
-	Next
-End Function
-
-Call Add_Filter_Plugin("Filter_Plugin_TArticleList_Build_TemplateTags","Default_AutoHostUrl")
+TemplateTagsDic.Item("ZC_BLOG_HOST")=GetCurrentHost()
 
 Dim ArtList
 Set ArtList=New TArticleList
