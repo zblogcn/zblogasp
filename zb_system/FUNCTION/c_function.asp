@@ -1911,9 +1911,13 @@ End Function
 <script language="javascript" runat="server">
 
 	function vbsunescape(source){
+		if(typeof(source)=="undefined"){return ""};
+		if(source==""){return ""};
 		return unescape(source);
 	}
 	function vbsescape(source){
+		if(typeof(source)=="undefined"){return ""};
+		if(source==""){return ""}
 		return escape(source);
 	}
 </script>

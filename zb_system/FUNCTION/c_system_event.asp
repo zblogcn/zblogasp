@@ -1100,9 +1100,6 @@ End Function
 '*********************************************************
 Function SaveSetting()
 
-	Dim strContent
-	strContent=LoadFromFile(BlogPath & "zb_system\defend\c_option.asp.html","utf-8")
-
 
 	Dim a,b
 
@@ -1114,14 +1111,6 @@ Function SaveSetting()
 	Next
 	Err.Clear
 
-'Response.Write BlogConfig.Count
-
-'Response.end
-
-'SaveSetting=True
-'Exit function
-'Response.end
-
 	For Each a In Request.Form 
 		b=Mid(a,4,Len(a))
 		If BlogConfig.Exists(b)=True Then
@@ -1129,21 +1118,9 @@ Function SaveSetting()
 		End If
 	Next
 
-	Dim i
+	Call SaveConfig2Option()
 
-	For i=1 To BlogConfig.Count
-
-		strContent=Replace(strContent,"<#"&BlogConfig.Meta.Names(i)&"#>",Replace(BlogConfig.Meta.GetValue(BlogConfig.Meta.Names(i)),"""",""""""))
-
-	Next
-
-	'Response.End
-
-	Call BlogConfig.Save()
-
-	Call SaveToFile(BlogPath & "zb_users\c_option.asp",strContent,"utf-8",False)
-
-	'Call MakeBlogReBuild_Core()
+	Call MakeBlogReBuild_Core()
 
 	SaveSetting=True
 
@@ -1497,9 +1474,9 @@ Function SaveTheme()
 
 	Dim i,j
 	Dim s,t
-	Dim strContent
+	'Dim strContent
 
-	strContent=LoadFromFile(BlogPath & "zb_users/c_custom.asp","utf-8")
+	'strContent=LoadFromFile(BlogPath & "zb_users/c_custom.asp","utf-8")
 
 	Dim strZC_BLOG_CSS
 	Dim strZC_BLOG_THEME
@@ -1509,13 +1486,23 @@ Function SaveTheme()
 
 	Call ScanPluginToThemeFile(strZC_BLOG_CSS,strZC_BLOG_THEME)
 
-	Call SaveValueForSetting(strContent,True,"String","ZC_BLOG_CSS",strZC_BLOG_CSS)
-	Call SaveValueForSetting(strContent,True,"String","ZC_BLOG_THEME",strZC_BLOG_THEME)
+	'Call SaveValueForSetting(strContent,True,"String","ZC_BLOG_CSS",strZC_BLOG_CSS)
+	'Call SaveValueForSetting(strContent,True,"String","ZC_BLOG_THEME",strZC_BLOG_THEME)
 
-	If UCase(strZC_BLOG_CSS)<>UCase("""" & CStr(ZC_BLOG_CSS) & """") Then Call SetBlogHint(Empty,True,Empty)
-	If UCase(strZC_BLOG_THEME)<>UCase("""" & CStr(ZC_BLOG_THEME) & """") Then Call SetBlogHint(Empty,True,True):Call UninstallPlugin(ZC_BLOG_THEME)
+	'If UCase(strZC_BLOG_CSS)<>UCase("""" & CStr(ZC_BLOG_CSS) & """") Then Call SetBlogHint(Empty,True,Empty)
+	'If UCase(strZC_BLOG_THEME)<>UCase("""" & CStr(ZC_BLOG_THEME) & """") Then Call SetBlogHint(Empty,True,True):Call UninstallPlugin(ZC_BLOG_THEME)
 
-	Call SaveToFile(BlogPath & "zb_users/c_custom.asp",strContent,"utf-8",False)
+	'Call SaveToFile(BlogPath & "zb_users/c_custom.asp",strContent,"utf-8",False)
+
+	If UCase(strZC_BLOG_CSS)<>UCase(CStr(ZC_BLOG_CSS)) Then Call SetBlogHint(Empty,True,Empty)
+	If UCase(strZC_BLOG_THEME)<>UCase(CStr(ZC_BLOG_THEME)) Then Call SetBlogHint(Empty,True,True):Call UninstallPlugin(ZC_BLOG_THEME)
+
+
+	Call BlogConfig.Write("ZC_BLOG_CSS",strZC_BLOG_CSS)
+
+	Call BlogConfig.Write("ZC_BLOG_THEME",strZC_BLOG_THEME)
+
+	Call SaveConfig2Option()
 
 	Call MakeBlogReBuild_Core()
 
@@ -1531,62 +1518,6 @@ End Function
 ' 目的：    Save Links
 '*********************************************************
 Function SaveLink()
-
-	Dim tpath
-	Dim txaContent
-	Dim strContent
-
-
-	tpath="./ZB_USERS/INCLUDE/link.asp"
-	txaContent=Request.Form("txaContent_Link")
-
-	If IsEmpty(txaContent) Then txaContent=Null
-	If Not IsNull(tpath) Then
-		If Not IsNull(txaContent) Then
-			Call SaveToFile(BlogPath & tpath,txaContent,"utf-8",False)
-		End IF
-	End If
-
-	tpath="./ZB_USERS/INCLUDE/favorite.asp"
-	txaContent=Request.Form("txaContent_Favorite")
-
-	If IsEmpty(txaContent) Then txaContent=Null
-	If Not IsNull(tpath) Then
-		If Not IsNull(txaContent) Then
-			Call SaveToFile(BlogPath & tpath,txaContent,"utf-8",False)
-		End IF
-	End If
-
-	tpath="./ZB_USERS/INCLUDE/misc.asp"
-	txaContent=Request.Form("txaContent_Misc")
-
-	If IsEmpty(txaContent) Then txaContent=Null
-	If Not IsNull(tpath) Then
-		If Not IsNull(txaContent) Then
-			Call SaveToFile(BlogPath & tpath,txaContent,"utf-8",False)
-		End IF
-	End If
-
-	tpath="./ZB_USERS/INCLUDE/navbar.asp"
-	txaContent=Request.Form("txaContent_Navbar")
-
-	If IsEmpty(txaContent) Then txaContent=Null
-	If Not IsNull(tpath) Then
-		If Not IsNull(txaContent) Then
-
-			strContent=LoadFromFile(BlogPath & tpath,"utf-8")
-			If txaContent<>strContent Then
-				Call SetBlogHint(Empty,True,True)
-			End If
-
-			Call SaveToFile(BlogPath & tpath,txaContent,"utf-8",False)
-
-		End IF
-	End If
-
-	Call SetBlogHint(Empty,True,Empty)
-
-	Call MakeBlogReBuild_Core()
 
 	SaveLink=True
 
@@ -1622,13 +1553,11 @@ Function ActivePlugInByName(strPluginName)
 	Dim strContent
 	Dim strZC_USING_PLUGIN_LIST
 
-	strContent=LoadFromFile(BlogPath & "zb_users/c_option.asp","utf-8")
-
 	strZC_USING_PLUGIN_LIST=s
 
-	Call SaveValueForSetting(strContent,True,"String","ZC_USING_PLUGIN_LIST",strZC_USING_PLUGIN_LIST)
+	Call BlogConfig.Write("ZC_USING_PLUGIN_LIST",strZC_USING_PLUGIN_LIST)
 
-	Call SaveToFile(BlogPath & "zb_users/c_option.asp",strContent,"utf-8",False)
+	Call SaveConfig2Option()
 
 	Call ScanPluginToIncludeFile(s)
 
@@ -1669,13 +1598,11 @@ Function DisablePlugInByName(strPluginName)
 	Dim strContent
 	Dim strZC_USING_PLUGIN_LIST
 
-	strContent=LoadFromFile(BlogPath & "zb_users/c_option.asp","utf-8")
-
 	strZC_USING_PLUGIN_LIST=t
 
-	Call SaveValueForSetting(strContent,True,"String","ZC_USING_PLUGIN_LIST",strZC_USING_PLUGIN_LIST)
+	Call BlogConfig.Write("ZC_USING_PLUGIN_LIST",strZC_USING_PLUGIN_LIST)
 
-	Call SaveToFile(BlogPath & "zb_users/c_option.asp",strContent,"utf-8",False)
+	Call SaveConfig2Option()
 
 	Call ScanPluginToIncludeFile(t)
 
