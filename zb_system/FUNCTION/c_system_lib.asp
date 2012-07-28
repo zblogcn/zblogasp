@@ -3674,7 +3674,7 @@ Class TUpLoadFile
 			objStreamFile.Open
 			objStreamFile.Write Stream
 
-			objStreamFile.SaveToFile BlogPath & "zb_users/"& strUPLOADDIR &"/" & FileName,adSaveCreateOverWrite
+			objStreamFile.SaveToFile BlogPath & strUPLOADDIR &"/" & FileName,adSaveCreateOverWrite
 			objStreamFile.Close
 
 		'End If
@@ -3700,13 +3700,13 @@ Class TUpLoadFile
 			Dim fso
 			Set fso = CreateObject("Scripting.FileSystemObject")
 
-			strFilePath = BlogPath & "zb_users/"& ZC_UPLOAD_DIRECTORY &"/" & objRS("ul_FileName")
+			strFilePath = BlogPath & ZC_UPLOAD_DIRECTORY &"/" & objRS("ul_FileName")
 
 			If fso.FileExists( strFilePath ) Then
 				fso.DeleteFile( strFilePath )
 			End If
 
-			strFilePath = BlogPath & "zb_users/"& ZC_UPLOAD_DIRECTORY & "/" & Year(objRS("ul_PostTime")) & "/" & Month(objRS("ul_PostTime")) &"/" & objRS("ul_FileName")
+			strFilePath = BlogPath & ZC_UPLOAD_DIRECTORY & "/" & Year(objRS("ul_PostTime")) & "/" & Month(objRS("ul_PostTime")) &"/" & objRS("ul_FileName")
 			If fso.FileExists( strFilePath ) Then
 				fso.DeleteFile( strFilePath )
 			End If
@@ -3732,7 +3732,7 @@ Class TUpLoadFile
 
 		strUPLOADDIR = ZC_UPLOAD_DIRECTORY&"/"&Year(GetTime(Now()))&"/"&Month(GetTime(Now()))
 
-		FullUrlPathName=ZC_BLOG_HOST & "zb_users/" & strUPLOADDIR & "/" & FileName
+		FullUrlPathName=ZC_BLOG_HOST & strUPLOADDIR & "/" & FileName
 
 	End Property
 
