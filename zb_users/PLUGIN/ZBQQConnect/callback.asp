@@ -39,8 +39,12 @@ Call ZBQQConnect_Class.GetOpenId(ZBQQConnect_class.CallBack)
 '	End Select
 Function a
 		Dim b
-		Set b=ZBQQConnect_toobject(ZBQQConnect_class.API("https://graph.qq.com/user/get_user_info","{'format':'json'}","GET&"))
-		ZBQQConnect_DB.SetHead Split(b.figureurl,"/")(5)
+		b=ZBQQConnect_class.API("https://graph.qq.com/user/get_info","{'format':'json'}","GET&")
+		Set b=ZBQQConnect_toobject(b)
+		ZBQQConnect_DB.tHead=b.data.head
+		b=ZBQQConnect_class.API("https://graph.qq.com/user/get_user_info","{'format':'json'}","GET&")
+		Set b=ZBQQConnect_toobject(b)
+		ZBQQConnect_DB.QZoneHead=b.figureurl_2
 		Set ZBQQConnect_DB.objUser=BlogUser
 		ZBQQConnect_DB.Email=MD5(BlogUser.EMail)
 		ZBQQConnect_DB.Bind
