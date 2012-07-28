@@ -164,6 +164,7 @@ dt{
 	margin:0 0 0 0;
 	padding:5px 0 5px 1em;
 	background:url("default/pointblue.gif") no-repeat 0 center;
+	width:205px;
 }
 
 .function .function_c div{
@@ -516,19 +517,6 @@ div.post-body h6{
 	background:url("default/month12.gif") no-repeat center center;
 }
 
-p.w{
-	float:left;
-	width:14%;
-	height:1.8em;
-	line-height:1.8em;
-	margin:0 0 0 0;
-	padding:0 0 0 0;
-	text-align:center;
-	vertical-align :middle;
-	font-size:1em;
-	background:#F4F4F4;
-}
-
 p.y{
 	text-align:center;
 	height:1.7em;
@@ -539,46 +527,21 @@ p.y{
 	font-size:1em;
 	font-weight:bold;
 }
-p.d{
+p.w,p.d,p.yd,p.nd,p.cd{
 	float:left;
 	width:14%;
 	height:1.7em;
 	margin:0 0 0 0;
-	padding:2px 0 0 0;
+	padding:3px 0 0 0;
 	text-align:center;
 	vertical-align :middle;
 }
-p.yd{
-	float:left;
-	width:14%;
-	height:1.7em;
-	margin:0 0 0 0;
-	padding:2px 0 0 0;
-	text-align:center;
-    vertical-align :middle;
-	color:#6090c0;
-	font-weight : bold;
-}
-p.nd{
-	float:left;
-	width:14%;
-	height:1.7em;
-	margin:0 0 0 0;
-	padding:2px 0 0 0;
-	text-align:center;
-	vertical-align :middle;
-}
-
 p.cd{
-	float:left;
-	width:14%;
-	height:1.5em;
-	margin:0 0 0 0;
-	padding:2px 0 0 0;
-	text-align:center;
-	vertical-align :middle;
 	font-weight:bold;
-    color: #01487C;
+}
+p.w{
+	background:#F4F4F4;
+	padding:5px 0 0 0;
 }
 
 /*---------------------------引用\评论----------------------------------*/

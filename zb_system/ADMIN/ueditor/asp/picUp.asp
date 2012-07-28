@@ -20,23 +20,21 @@ Randomize
 
 PostTime=GetTime(Now())
 Dim strUPLOADDIR
-If ZC_UPLOAD_DIRBYMONTH Then
-		strUPLOADDIR = ZC_UPLOAD_DIRECTORY&"\"&Year(GetTime(Now()))&"\"&Month(GetTime(Now()))
-		CreatDirectoryByCustomDirectory("zb_users\"&strUPLOADDIR)
-Else
-		strUPLOADDIR = ZC_UPLOAD_DIRECTORY
-End If
+
+strUPLOADDIR = ZC_UPLOAD_DIRECTORY&"\"&Year(GetTime(Now()))&"\"&Month(GetTime(Now()))
+CreatDirectoryByCustomDirectory(strUPLOADDIR)
+
 Set upload=New UpLoadClass
 upload.AutoSave=2
 upload.Charset="UTF-8"
 upload.FileType=Replace(ZC_UPLOAD_FILETYPE,"|","/")
-upload.savepath=BlogPath & "zb_users\"& strUPLOADDIR &"\"
+upload.savepath=BlogPath & strUPLOADDIR &"\"
 upload.maxsize=1024*1024*1024
 upload.open
 Dim Path
-Path=Replace(BlogPath & "zb_users\"& strUPLOADDIR &"\" & upload.form("edtFileLoad_Name")	,"\","/")
+Path=Replace(BlogPath & strUPLOADDIR &"\" & upload.form("edtFileLoad_Name")	,"\","/")
 Dim s
-FileName=GetCurrentHost&"zb_users\"& strUPLOADDIR &"\" & upload.form("edtFileLoad_Name")
+FileName=GetCurrentHost & strUPLOADDIR &"\" & upload.form("edtFileLoad_Name")
 s=upload.Save("edtFileLoad",0)
 objConn.Execute("INSERT INTO [blog_UpLoad]([ul_AuthorID],[ul_FileSize],[ul_FileName],[ul_PostTime],[ul_FileIntro],[ul_DirByTime]) VALUES ("& BlogUser.ID &",'"& upload.form("edtFileLoad_Size") &"','"& upload.form("edtFileLoad") &"','"& PostTime &"','Attatment',"&CInt(ZC_UPLOAD_DIRBYMONTH)&")")
 

@@ -57,8 +57,6 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG247
 <form method="post" action="../cmd.asp?act=SettingSav">
 <div id="divMain2">
 
-
-
 			<div class="content-box"><!-- Start Content Box -->
 				
 				<div class="content-box-header">
@@ -167,11 +165,6 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG247
 		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG184) & "</td><td><p><input id=""edtZC_UPLOAD_FILESIZE"" name=""edtZC_UPLOAD_FILESIZE"" style=""width:500px;"" type=""text"" value=""" & ZC_UPLOAD_FILESIZE & """ /></p></td></tr>"
 
 
-		ZC_UPLOAD_DIRBYMONTH=TransferHTML(ZC_UPLOAD_DIRBYMONTH,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG292) & "</td><td><p><input id=""edtZC_UPLOAD_DIRBYMONTH"" name=""edtZC_UPLOAD_DIRBYMONTH"" style="""" type=""text"" value=""" & ZC_UPLOAD_DIRBYMONTH & """ class=""checkbox""/></p></td></tr>"
-
-
-
 		ZC_RSS_EXPORT_WHOLE=TransferHTML(ZC_RSS_EXPORT_WHOLE,"[html-format]")
 		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG226) & "</td><td><p><input id=""edtZC_RSS_EXPORT_WHOLE"" name=""edtZC_RSS_EXPORT_WHOLE"" style="""" type=""text"" value=""" & ZC_RSS_EXPORT_WHOLE & """ class=""checkbox""/></p></td></tr>"
 
@@ -226,11 +219,6 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG247
 	Response.Write "<table width='100%' style='padding:0px;margin:1px;' cellspacing='0' cellpadding='0'>"
 
 
-		ZC_STATIC_TYPE=TransferHTML(ZC_STATIC_TYPE,"[html-format]")
-		Response.Write "<tr><td width='35%'>" & SplitNameAndNote(ZC_MSG177) & "</td><td><p><input id=""edtZC_STATIC_TYPE"" name=""edtZC_STATIC_TYPE"" style=""width:500px;"" type=""text"" value=""" & ZC_STATIC_TYPE & """ /></p></td></tr>"
-
-
-
 		ZC_STATIC_DIRECTORY=TransferHTML(ZC_STATIC_DIRECTORY,"[html-format]")
 		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG178) & "</td><td><p><input id=""edtZC_STATIC_DIRECTORY"" name=""edtZC_STATIC_DIRECTORY"" style=""width:500px;"" type=""text"" value=""" & ZC_STATIC_DIRECTORY & """ /></p></td></tr>"
 
@@ -264,11 +252,6 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG247
 	Response.Write "<div class=""tab-content"" style='border:none;padding:0px;margin:0;' id=""tab5"">"
 	Response.Write "<table width='100%' style='padding:0px;margin:1px;' cellspacing='0' cellpadding='0'>"
 
-
-
-
-		ZC_FILENAME_WAP=TransferHTML(ZC_FILENAME_WAP,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG223) & "</td><td><p><input id=""edtZC_FILENAME_WAP"" name=""edtZC_FILENAME_WAP"" style=""width:500px;"" type=""text"" value=""" & ZC_FILENAME_WAP & """/></p></td></tr>"
 
 
 
@@ -332,7 +315,7 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG247
 			</div></form></div>
 <script type="text/javascript">
 
-
+ActiveTopMenu('topmenu2');
 
 
 // Content box tabs:

@@ -3616,7 +3616,7 @@ Class TUpLoadFile
 
 		Call Filter_Plugin_TUpLoadFile_UpLoad(ID,AuthorID,FileSize,FileName,PostTime,FileIntro,DirByTime,Quote,Meta)
 
-		DirByTime=ZC_UPLOAD_DIRBYMONTH
+		DirByTime=True
 
 		If UploadType="Form" Then
 			Call UpLoad_Form()
@@ -3661,12 +3661,10 @@ Class TUpLoadFile
 			objConn.Execute("INSERT INTO [blog_UpLoad]([ul_AuthorID],[ul_FileSize],[ul_FileName],[ul_PostTime],[ul_FileIntro],[ul_DirByTime],[ul_Quote],[ul_Meta]) VALUES ("& AuthorID &","& FileSize &",'"& FileName &"','"& PostTime &"','"&FileIntro&"',"&CInt(DirByTime)&",'"&Quote&"','"&MetaString&"')")
 
 			Dim strUPLOADDIR
-			If ZC_UPLOAD_DIRBYMONTH Then
-				CreatDirectoryByCustomDirectory(ZC_UPLOAD_DIRECTORY&"/"&Year(GetTime(Now()))&"/"&Month(GetTime(Now())))
-				strUPLOADDIR = ZC_UPLOAD_DIRECTORY&"/"&Year(GetTime(Now()))&"/"&Month(GetTime(Now()))
-			Else
-				strUPLOADDIR = ZC_UPLOAD_DIRECTORY
-			End If
+
+			CreatDirectoryByCustomDirectory(ZC_UPLOAD_DIRECTORY&"/"&Year(GetTime(Now()))&"/"&Month(GetTime(Now())))
+			strUPLOADDIR = ZC_UPLOAD_DIRECTORY&"/"&Year(GetTime(Now()))&"/"&Month(GetTime(Now()))
+
 
 			Dim objStreamFile
 			Set objStreamFile = Server.CreateObject("ADODB.Stream")
@@ -3731,13 +3729,11 @@ Class TUpLoadFile
 	Public Property Get FullUrlPathName
 
 		Dim strUPLOADDIR
-		If ZC_UPLOAD_DIRBYMONTH Then
-			strUPLOADDIR = ZC_UPLOAD_DIRECTORY&"/"&Year(GetTime(Now()))&"/"&Month(GetTime(Now()))
-		Else
-			strUPLOADDIR = ZC_UPLOAD_DIRECTORY
-		End If
+
+		strUPLOADDIR = ZC_UPLOAD_DIRECTORY&"/"&Year(GetTime(Now()))&"/"&Month(GetTime(Now()))
 
 		FullUrlPathName=ZC_BLOG_HOST & "zb_users/" & strUPLOADDIR & "/" & FileName
+
 	End Property
 
 	Private Sub Class_Initialize()
