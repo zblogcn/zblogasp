@@ -34,7 +34,7 @@ BlogUser.Verify()
 
 
 
-If Not CheckRights("ArticleEdt") Then Call ShowError(6)
+If Not CheckRights("FileUpload") Then Call ShowError(6)
 For Each sAction_Plugin_FileUpload_Begin in Action_Plugin_FileUpload_Begin
 	If Not IsEmpty(sAction_Plugin_FileUpload_Begin) Then Call Execute(sAction_Plugin_FileUpload_Begin)
 Next

@@ -638,14 +638,12 @@ Function WapCom()
 					End If
 				
 					Dim aryTemplateTagsName,aryTemplateTagsValue
-					Application.Lock
-					aryTemplateTagsName=Application(ZC_BLOG_CLSID & "TemplateTagsName")
-					aryTemplateTagsValue=Application(ZC_BLOG_CLSID & "TemplateTagsValue")
-					Application.UnLock
 
-					aryTemplateTagsName(0)="BlogTitle"
-					aryTemplateTagsValue(0)=ZC_BLOG_TITLE
-					
+					TemplateTagsDic.Item("BlogTitle")=ZC_BLOG_TITLE
+
+					aryTemplateTagsName=TemplateTagsDic.Keys
+					aryTemplateTagsValue=TemplateTagsDic.Items
+
 					Dim k
 					For k=0 to UBound(aryTemplateTagsName)
 					    aryStrC(i)=Replace(aryStrC(i),"<#" & aryTemplateTagsName(k) & "#>",aryTemplateTagsValue(k))
@@ -1065,13 +1063,12 @@ Function WapExport(intPage,intCateId,intAuthorId,dtmYearMonth,strTagsName,intTyp
 		
 
 		Dim aryTemplateTagsName,aryTemplateTagsValue
-		Application.Lock
-		aryTemplateTagsName=Application(ZC_BLOG_CLSID & "TemplateTagsName")
-		aryTemplateTagsValue=Application(ZC_BLOG_CLSID & "TemplateTagsValue")
-		Application.UnLock
 
-		aryTemplateTagsName(0)="BlogTitle"
-		aryTemplateTagsValue(0)=Title
+		TemplateTagsDic.Item("BlogTitle")=Title
+
+		aryTemplateTagsName=TemplateTagsDic.Keys
+		aryTemplateTagsValue=TemplateTagsDic.Items
+
 
 		j=UBound(aryTemplateTagsName)
 
