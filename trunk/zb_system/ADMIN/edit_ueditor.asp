@@ -115,7 +115,7 @@ Next
 	var loaded=false;
 	var editor = new baidu.editor.ui.Editor();
 	var editor2 = new baidu.editor.ui.Editor({
-		toolbars:[['Source', 'Undo', 'Redo','highlightcode']],
+		toolbars:[['Source', 'Undo', 'Redo']],
 		autoClearinitialContent:false,
 		wordCount:false,
 		elementPathEnabled:false,
@@ -123,7 +123,7 @@ Next
 		autoHeightEnabled:false,
 		minFrameHeight:200,
 		highlightJsUrl:"<%=GetCurrentHost%>/ZB_SYSTEM/ADMIN/uEditor/third-party/SyntaxHighlighter/shCore.js" 
-		,highlightCssUrl:"<%=GetCurrentHost%>/ZB_SYSTEM/ADMIN/uEditor/SyntaxHighlighter/shCoreDefault.css"
+		,highlightCssUrl:"<%=GetCurrentHost%>/ZB_SYSTEM/ADMIN/uEditor/third-party/SyntaxHighlighter/shCoreDefault.css"
 	});</script>
 <!--#include file="admin_top.asp"-->
 <%If IsPage=False Then%>
