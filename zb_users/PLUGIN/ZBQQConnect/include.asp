@@ -3,7 +3,9 @@
 <!-- #include file="function\ZBConnectQQ_DB.asp"-->
 
 <%
-Dim ZBQQConnect_CommentCore,ZBQQConnect_AEnable,ZBQQConnect_ACore,ZBQQConnect_CommentName,ZBQQConnect_EmlMD5
+Dim ZBQQConnect_CommentCore,ZBQQConnect_ACore,ZBQQConnect_CommentName,ZBQQConnect_EmlMD5
+
+Dim ZBQQConnect_SToWb,ZBQQConnect_SToZone
 
 
 dim ZBQQConnect_class,ZBQQConnect_DB
@@ -51,8 +53,8 @@ Function ActivePlugin_ZBQQConnect()
 	'Filter_Plugin_PostArticle_Core
 	'Call Add_Filter_Plugin("Filter_Plugin_PostComment_Core","ZBQQConnect_CommentPst")
 	'Call Add_Action_Plugin("Action_Plugin_CommentPost_Succeed","Call ZBQQConnect_SendComment()")
-	'Call Add_Action_Plugin("Action_Plugin_ArticlePst_Begin","ZBQQConnect_AEnable=Request.Form(""ZBQQConnect_AEnable"")::Call ZBQQConnect_Main()")
-	'Call Add_Action_Plugin("Action_Plugin_Edit_ueditor_Begin","Call ZBQQConnect_addForm()")
+	'Call Add_Action_Plugin("Action_Plugin_ArticlePst_Begin","ZBQQConnect_SToWb=Request.Form(""ZBQQConnect_SToWb"")::Call ZBQQConnect_Main()")
+	Call Add_Action_Plugin("Action_Plugin_Edit_ueditor_Begin","Call ZBQQConnect_addForm()")
 	'Call Add_Action_Plugin("Action_Plugin_System_Initialize_Succeed","Call Add_Response_Plugin(""Response_Plugin_SiteInfo_SubMenu"",ZBQQConnect_MakeSM)")
 
 	
@@ -73,12 +75,33 @@ Function ZBQQConnect_LoadPicture(ByVal str)
 	tmp=BlogPath & replace(tmp,ZC_BLOG_HOST,"")
 End Function
 
+Function ZBQQConnect_addForm()
+Dim CSS,JS,HTML,ResponseText
+CSS="<style type=""text/css"">.syn_qq, .syn_tqq, .syn_qq_check, .syn_tqq_check{display: inline-block;margin-top: 3px;width: 19px;height: 19px;background: transparent url(../../zb_users/plugin/zbqqconnect/connect_post_syn.png) no-repeat 0 0;line-height: 64px;overflow: hidden;vertical-align: top;cursor: pointer;}.syn_tqq{background-position: 0 -22px;margin-left: 5px;}.syn_qq_check{background-position: -22px 0;}.syn_tqq_check{background-position: -22px -22px;margin-left: 5px;}</style>"
+JS="<script type='text/javascript'>var a=true,b=true;var d=$('#connectPost_synQQ');var f=$('#connectPost_synT');function c(){if(a){d.removeClass('syn_qq_check');d.addClass('syn_qq');d.attr('title','未设置同步至QQ空间');$('#syn_qq').attr('value','0');a=false}else{d.removeClass('syn_qq');d.addClass('syn_qq_check');d.attr('title','已设置同步至QQ空间');$('#syn_qq').attr('value','1');a=true}};function e(){if(b){f.removeClass('syn_tqq_check');f.addClass('syn_tqq');f.attr('title','未设置同步至腾讯微博');$('#syn_tqq').attr('value','0');b=false}else{f.removeClass('syn_tqq');f.addClass('syn_tqq_check');f.attr('title','已设置同步至腾讯微博');$('#syn_tqq').attr('value','1');b=true}};$(document).ready(function(){d.bind('click',function(){c()});f.bind('click',function(){e()})});</script>"
+HTML="<a title='已设置同步至QQ空间' class='syn_qq_check' href='javascript:void(0);' id='connectPost_synQQ'>QQ空间</a><input type='hidden' name='syn_qq' id='syn_qq' value='1'/><a title='已设置同步至腾讯微博' class='syn_tqq_check' href='javascript:void(0);' id='connectPost_synT'>腾讯微博</a><input type='hidden' name='syn_tqq' id='syn_tqq' value='1'/>"
 
-Function ZBQQConnect_Main()
-	If IsEmpty(ZBQQConnect_AEnable)=True Then
-		ZBQQConnect_AEnable=False
+	If Request.QueryString("id")="" Then
+		ResponseText=CSS&HTML&JS
 	Else
-		ZBQQConnect_AEnable=True
+
+		'If ZBQQConnect_EditPostSend=True Then
+		'	ResponseText=TextStart&Text2&TextEnd
+		'Else
+			ResponseText=""
+		'End iF
+	End If
+
+	
+
+Call Add_Response_Plugin("Response_Plugin_Edit_Form3",ResponseText)
+
+End Function
+Function ZBQQConnect_Main()
+	If IsEmpty(ZBQQConnect_SToWb)=True Then
+		ZBQQConnect_SToWb=False
+	Else
+		ZBQQConnect_SToWb=True
 	End If
 	Call Add_Filter_Plugin("Filter_Plugin_TArticle_Post","ZBQQConnect_ArticlePst")	
 End Function
@@ -144,7 +167,7 @@ end function
 function ZBQQConnect_ArticleToWb(ByRef ZBQQConnect_ACore)
 	Dim strT ,bolN,objTemp,strTemp
 	Call ZBQQConnect_Initialize
-	If ZBQQConnect_class.logined=false Or ZBQQConnect_AEnable=False Or IsObject(ZBQQConnect_ACore)=False Then Exit Function
+	If ZBQQConnect_class.logined=false Or ZBQQConnect_SToWb=False Or IsObject(ZBQQConnect_ACore)=False Then Exit Function
 		If ZBQQConnect_ACore.ID=0 then
 			bolN=True
 			Dim objRS
