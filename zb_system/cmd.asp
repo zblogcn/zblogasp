@@ -865,7 +865,9 @@ Function FileUpload()
 	Next
 
 	Server.ScriptTimeout = 1200
-	If UploadFile(CBool(Request.QueryString("autoname")),CBool(Request.QueryString("reload"))) Then
+	'Response.Write CBool(Request.QueryString("autoname"))
+	'Response.End
+	If UploadFile(CBool(Request.QueryString("autoname"))) Then
 		Call SetBlogHint(True,Empty,Empty)
 
 		'plugin node
@@ -874,11 +876,7 @@ Function FileUpload()
 			If bAction_Plugin_FileUpload_Succeed=True Then Exit Function
 		Next
 
-		If CBool(Request.QueryString("reload"))=True Then
-			Response.End
-		End If
-
-		Response.Redirect "admin/admin.asp?act=FileMng&page=" & Request.QueryString("id")
+		Response.Redirect "admin/admin.asp?act=FileMng"
 	Else
 		Call ShowError(21)
 	End If

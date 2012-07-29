@@ -79,80 +79,17 @@ End Function
 '*********************************************************
 ' 目的：    文件上抟
 '*********************************************************
-Function UploadFile(bolAutoName,bolReload)
+Function UploadFile(bolAutoName)
 
 	Dim objUpLoadFile
 	Set objUpLoadFile=New TUpLoadFile
 
 	objUpLoadFile.AuthorID=BlogUser.ID
+	objUpLoadFile.AutoName=bolAutoName
 
-	If bolReload=True Then
-		ShowError_Custom="Response.Write ""<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'><html xmlns='http://www.w3.org/1999/xhtml' xml:lang='zh-CN' lang='zh-CN'><head>	<link rel='stylesheet' rev='stylesheet' href='CSS/admin.css' type='text/css' media='screen' /></head><body><form id='edit' name='edit' method='post'><p>" & ZC_MSG098 & ":" & """&ZVA_ErrorMsg(id)&""" & "&nbsp;&nbsp;<a href='cmd.asp?act=FileSnd'>" & ZC_MSG295 & "</a></p></form></body></html>"":Response.End"
-	End If
-
-	If objUpLoadFile.UpLoad(bolAutoName) Then
+	If objUpLoadFile.UpLoad() Then
 
 		UploadFile=True
-
-		If bolReload=False Then Exit Function
-
-		Response.Write "<!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 1.0 Transitional//EN"" ""http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd""><html><head><meta http-equiv=""Content-Type"" content=""text/html; charset=utf-8""/><meta http-equiv=""Content-Language"" content=""zh-cn"" /><link rel=""stylesheet"" rev=""stylesheet"" href=""CSS/admin.css"" type=""text/css"" media=""screen"" /></head><body>"
-
-		Response.Write "<form border=""1"" name=""edit"" id=""edit"" method=""post"" enctype=""multipart/form-data"" action="""& GetCurrentHost &"cmd.asp?act=FileSnd"">"
-		Response.Write "<p><input type=""submit"" class=""button"" value="""& ZC_MSG237 &""" name=""B1"" />&nbsp;&nbsp;"& ZC_MSG236 &":"
-		Response.Write ""& "<a href="""& objUpLoadFile.FullUrlPathName &""" target=""_blank"">"& objUpLoadFile.FullUrlPathName &"</a></p>"
-		Response.Write "</form>"
-
-
-		Dim strFileType
-		Dim strFileName
-		Dim strUPLOADDIR
-		Dim strUPLOADDIR2
-
-		CreatDirectoryByCustomDirectory(ZC_UPLOAD_DIRECTORY&"/"&Year(GetTime(Now()))&"/"&Month(GetTime(Now())))
-		strUPLOADDIR = ZC_UPLOAD_DIRECTORY&"/"&Year(GetTime(Now()))&"/"&Month(GetTime(Now())) & "/"
-		strUPLOADDIR2 = "upload/"&Year(GetTime(Now()))&"/"&Month(GetTime(Now())) & "/"
-
-		strFileType=LCase(objUpLoadFile.FileName)
-
-		If (CheckRegExp(strFileType,"\.(jpeg|jpg|gif|png|bmp)$")=True) Then
-			strFileName="[IMG]"&strUPLOADDIR2&objUpLoadFile.FileName&"[/IMG]"
-		ElseIf (CheckRegExp(strFileType,"\.(swf)$")=True) Then
-			strFileName="[FLASH=400,300,True]"&strUPLOADDIR2&objUpLoadFile.FileName&"[/FLASH]"
-		ElseIf (CheckRegExp(strFileType,"\.(wmv|avi|asf)$")=True) Then
-			strFileName="[WMV=400,300,True]"&strUPLOADDIR2&objUpLoadFile.FileName&"[/WMV]"
-		ElseIf (CheckRegExp(strFileType,"\.(qt|mov)$")=True) Then
-			strFileName="[QT=400,300,True]"&strUPLOADDIR2&objUpLoadFile.FileName&"[/QT]"
-		ElseIf (CheckRegExp(strFileType,"\.(rm|rmvb|mpg|mpeg)$")=True) Then
-			strFileName="[RM=400,300,True]"&strUPLOADDIR2&objUpLoadFile.FileName&"[/RM]"
-		ElseIf (CheckRegExp(strFileType,"\.(wma)$")=True) Then
-			strFileName="[WMA=True]"&strUPLOADDIR2&objUpLoadFile.FileName&"[/WMA]"
-		ElseIf (CheckRegExp(strFileType,"\.(rm)$")=True) Then
-			strFileName="[RA=True]"&strUPLOADDIR2&objUpLoadFile.FileName&"[/RA]"
-		Else
-			strFileName="[URL="&strUPLOADDIR2 & objUpLoadFile.FileName &"]"& objUpLoadFile.FileName &"[/URL]"
-		End If
-
-		'edit
-		'Response.Write "<script language=""Javascript"">try{parent.document.edit.txaContent.currPos.text+='"&strFileName&"';}catch(e){try{parent.document.edit.txaContent.value+='"&strFileName&"'}catch(e){}}</script>"
-		'edit_widgeditor
-		'Response.Write "<script language=""Javascript"">try{parent.document.getElementById('txaContentWidgIframe').contentWindow.document.getElementsByTagName('body')[0].innerHTML+='"&strFileName&"'}catch(e){}</script>"
-		'edit_fckeditor
-		'Response.Write "<script language=""Javascript"">try{parent.CKEDITOR.instances.txaContent.insertHtml('"&Replace(TransferHTML(UBBCode(strFileName,"[link][image][media][flash]"),"[upload]"),"'","\'")&"')}catch(e){}</script>"
-		'edit_htmlarea
-		'Response.Write "<script language=""Javascript"">try{parent.document.getElementById('ta').parentNode.getElementsByTagName('iframe')[0].contentWindow.document.getElementsByTagName('body')[0].innerHTML+='"&strFileName&"'}catch(e){}</script>"
-		'edit_tinymce
-		'Response.Write "<script language=""Javascript"">try{parent.document.getElementById('mce_editor_0').contentWindow.document.getElementsByTagName('body')[0].innerHTML+='"&strFileName&"'}catch(e){}</script>"
-		'edit_ewebeditor
-		'Response.Write "<script language=""Javascript"">try{parent.document.getElementById('eWebEditor1').contentWindow.document.getElementsByTagName('body')[0].innerHTML+='"&strFileName&"'}catch(e){}</script>"
-		
-		Response.Write "</body></html>"
-
-		'If bolReload=True Then Response.End
-
-	Else
-
-		If bolReload=True Then Response.Redirect "admin/admin.asp?act=FileSnd"
 
 	End If
 

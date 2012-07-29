@@ -3494,21 +3494,9 @@ Class TUpLoadFile
 
 	Public html
 
-	Private FUploadType
-	Public Property Let UploadType(strUploadType)
-		If (strUploadType="Stream") Then
-			FUploadType=strUploadType
-		Else
-			FUploadType="Form"
-		End If
-	End Property
-	Public Property Get UploadType
-		If IsEmpty(FUploadType)=True Then
-			UploadType="Form"
-		Else
-			UploadType = FUploadType
-		End If
-	End Property
+	Public AutoName
+	Public FullPath
+	Public IsManual
 
 	Public Function LoadInfoByID(ul_ID)
 
@@ -3624,16 +3612,14 @@ Class TUpLoadFile
 	End Function
 
 
-	Public Function UpLoad(bolAutoName)
+	Public Function UpLoad()
 
 		Call Filter_Plugin_TUpLoadFile_UpLoad(ID,AuthorID,FileSize,FileName,PostTime,FileIntro,DirByTime,Quote,Meta)
 
 		DirByTime=True
 
-		If UploadType="Form" Then
+		If IsManual=False Then
 			Call UpLoad_Form()
-		ElseIf UploadType="Stream" Then
-			Call UpLoad_Stream()
 		End If
 
 		If InStrRev(FileName,"\")>0 Then
@@ -3653,7 +3639,8 @@ Class TUpLoadFile
 		If FileSize>ZC_UPLOAD_FILESIZE Then Call ShowError(27)
 
 		FileName=FilterSQL(FileName)
-		If bolAutoName=True Then
+
+		If AutoName=True Then
 			Randomize
 			FileName=Year(GetTime(Now())) & Right("0"&Month(GetTime(Now())),2) & Right("0"&Day(GetTime(Now())),2) & Right("0"&Hour(GetTime(Now())),2) & Right("0"&Minute(GetTime(Now())),2) & Right("0"&Second(GetTime(Now())),2) & Int(9 * Rnd) & Int(9 * Rnd) & Int(9 * Rnd) & Int(9 * Rnd) & Right(FileName,Len(FileName)-InStrRev(FileName,".")+1)
 		End If
@@ -3663,37 +3650,45 @@ Class TUpLoadFile
 		Dim objRS
 		Set objRS=objConn.Execute("SELECT * FROM [blog_UpLoad] WHERE [ul_FileName] = '" & FileName & "'")
 
-		'If (Not objRS.bof) And (Not objRS.eof) Then
-			'不能重名
-		'	 Call ShowError(28)
-		'Else
-			If Len(FileName)>255 Then FileName=Right(FileName,255)
-			PostTime=GetTime(Now())
+		If Len(FileName)>255 Then FileName=Right(FileName,255)
+		PostTime=GetTime(Now())
 
-			objConn.Execute("INSERT INTO [blog_UpLoad]([ul_AuthorID],[ul_FileSize],[ul_FileName],[ul_PostTime],[ul_FileIntro],[ul_DirByTime],[ul_Quote],[ul_Meta]) VALUES ("& AuthorID &","& FileSize &",'"& FileName &"','"& PostTime &"','"&FileIntro&"',"&CInt(DirByTime)&",'"&Quote&"','"&MetaString&"')")
+		objConn.Execute("INSERT INTO [blog_UpLoad]([ul_AuthorID],[ul_FileSize],[ul_FileName],[ul_PostTime],[ul_FileIntro],[ul_DirByTime],[ul_Quote],[ul_Meta]) VALUES ("& AuthorID &","& FileSize &",'"& FileName &"','"& PostTime &"','"&FileIntro&"',"&CInt(DirByTime)&",'"&Quote&"','"&MetaString&"')")
 
-			Dim strUPLOADDIR
+		Dim strUPLOADDIR
 
-			CreatDirectoryByCustomDirectory(ZC_UPLOAD_DIRECTORY&"/"&Year(GetTime(Now()))&"/"&Month(GetTime(Now())))
-			strUPLOADDIR = ZC_UPLOAD_DIRECTORY&"/"&Year(GetTime(Now()))&"/"&Month(GetTime(Now()))
+		strUPLOADDIR = ZC_UPLOAD_DIRECTORY&"/"&Year(GetTime(Now()))&"/"&Month(GetTime(Now()))
+
+		Call CreatDirectoryByCustomDirectory(strUPLOADDIR)
+
+		FullPath=BlogPath & strUPLOADDIR &"/" & FileName
 
 
-			Dim objStreamFile
-			Set objStreamFile = Server.CreateObject("ADODB.Stream")
+		If IsManual=False Then
+			Call SaveFile()
+		End If
 
-			objStreamFile.Type = adTypeBinary
-			objStreamFile.Mode = adModeReadWrite
-			objStreamFile.Open
-			objStreamFile.Write Stream
-
-			objStreamFile.SaveToFile BlogPath & strUPLOADDIR &"/" & FileName,adSaveCreateOverWrite
-			objStreamFile.Close
-
-		'End If
 
 		UpLoad=True
 
 	End Function
+
+
+	Public Function SaveFile()
+
+		Dim objStreamFile
+		Set objStreamFile = Server.CreateObject("ADODB.Stream")
+
+		objStreamFile.Type = adTypeBinary
+		objStreamFile.Mode = adModeReadWrite
+		objStreamFile.Open
+		objStreamFile.Write Stream
+
+		objStreamFile.SaveToFile FullPath,adSaveCreateOverWrite
+		objStreamFile.Close
+
+	End Function
+
 
 
 	Public Function Del()
@@ -3751,6 +3746,8 @@ Class TUpLoadFile
 	Private Sub Class_Initialize()
 
 		Set Meta=New TMeta
+		AutoName=False
+		IsManual=False
 
 	End Sub
 

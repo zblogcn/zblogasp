@@ -684,7 +684,7 @@ Function ExportFileList(intPage)
 
 	Response.Write "<form class=""search"" name=""edit"" id=""edit"" method=""post"" enctype=""multipart/form-data"" action=""../cmd.asp?act=FileUpload"">"
 	Response.Write "<p>"& ZC_MSG108 &": </p>"
-	Response.Write "<p><input type=""file"" id=""edtFileLoad"" name=""edtFileLoad"" size=""40"" />  <input type=""submit"" class=""button"" value="""& ZC_MSG087 &""" name=""B1"" onclick='document.getElementById(""edit"").action=document.getElementById(""edit"").action+""&amp;filename=""+escape(edtFileLoad.value)' /> <input class=""button"" type=""reset"" value="""& ZC_MSG088 &""" name=""B2"" />"
+	Response.Write "<p><input type=""file"" id=""edtFileLoad"" name=""edtFileLoad"" size=""40"" />&nbsp;&nbsp;&nbsp;&nbsp;<input type=""submit"" class=""button"" value="""& ZC_MSG087 &""" name=""B1"" onclick='document.getElementById(""edit"").action=document.getElementById(""edit"").action+""&amp;filename=""+escape(edtFileLoad.value)' />&nbsp;&nbsp;<input class=""button"" type=""reset"" value="""& ZC_MSG088 &""" name=""B2"" />"
 	Response.Write "&nbsp;<input type=""checkbox"" onclick='if(this.checked==true){document.getElementById(""edit"").action=document.getElementById(""edit"").action+""&amp;autoname=1"";}else{document.getElementById(""edit"").action=""../cmd.asp?act=FileUpload"";};SetCookie(""chkAutoFileName"",this.checked,365);' id=""chkAutoName""/><label for=""chkAutoName"">"& ZC_MSG131 &"</label></p></form>"
 
 	Set objRS=Server.CreateObject("ADODB.Recordset")
@@ -735,7 +735,7 @@ Function ExportFileList(intPage)
 	strPage=ExportPageBar(intPage,intPageAll,ZC_PAGEBAR_COUNT,"admin.asp?act=FileMng&amp;page=")
 
 	Response.Write "<hr/><p class=""pagebar"">" & ZC_MSG042 & ": " & strPage & "</p>"
-	Response.Write "</div><script type=""text/javascript"">if(GetCookie(""chkAutoFileName"")==""true""){document.getElementById(""chkAutoName"").checked=true;document.getElementById(""edit"").action=document.getElementById(""edit"").action+""&amp;autoname=1"";};</script>"
+	Response.Write "</div><script type=""text/javascript"">if(GetCookie(""chkAutoFileName"")==""true""){document.getElementById(""chkAutoName"").checked=true;document.getElementById(""edit"").action=document.getElementById(""edit"").action+String.fromCharCode(38)+""autoname=1"";};</script>"
 	objRS.Close
 	Set objRS=Nothing
 

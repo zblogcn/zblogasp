@@ -184,19 +184,20 @@ Next
 <div id="divEditForm1"><%=Response_Plugin_Edit_Form%></div>
 <% End If %>
                       
-                      <hr/>
+
                       <div id="divContent" style="clear:both;">
 						<!-- <p><span class='editinputname'><%=ZC_MSG055%>:</span></p> -->
+						<p style="text-align:left;"><span class='editinputname'><%=ZC_MSG055%>:</span>&nbsp;&nbsp;<span id="timemsg"></span><span id="msg2"></span><span id="msg"></span><span class='editinputname'></span><script type="text/javascript" src="c_autosaverjs.asp?act=edit&amp;type=ueditor"></script></p>
                         <script id="ueditor" name="txaContent"><%=EditArticle.Content%></script>
-						<p style="text-align:right;"><span><a title="<%=ZC_MSG297%>" href="" onClick="try{document.getElementById('divIntro').style.display='block';AutoIntro();return false;}catch(e){}">[<%=ZC_MSG310%>]</a></span><span class='editinputname'></span><span id="timemsg"></span><span id="msg2"></span><span id="msg"></span><span class='editinputname'></span><script type="text/javascript" src="c_autosaverjs.asp?act=edit&amp;type=ueditor"></script></p>
+						<p<span><%=ZC_MSG297%><a href="" onClick="try{document.getElementById('divIntro').style.display='block';AutoIntro();return false;}catch(e){}">[<%=ZC_MSG310%>]</a></span></p>
                       </div>
-                      <hr/>
+
 
 
 
 
                       <div id="divIntro" style="display:<%If EditArticle.Intro="" Then Response.Write "none" Else Response.Write "block"%>;">
-                        <p><span class='editinputname'><%=ZC_MSG016%>:<!--<a title="<%=ZC_MSG297%>" href="javascript:AutoIntro()">[<%=ZC_MSG310%>]</a>--></span></p>
+                        <p><span class='editinputname'><%=ZC_MSG016%>:</span></p>
                         <script id="ueditor2" name="txaIntro"><%=EditArticle.Intro%></script>
                       </div>
 
@@ -469,14 +470,12 @@ End If
 	}
 
 	function AutoIntro() {
-		editor2.setContent(editor.getContent().replace(/<[^>]+>/g, "").substring(0,200) );
+		//editor2.setContent(editor.getContent().replace(/<p>[\u0000-\uffff]+?<\/p>/g, "$1"));
+		editor2.setContent(editor.getContent().split("</p>")[0].concat("</p>"));
+
 		$("#divIntro").show()
 	}
 
-	function Advanced(){
-		$("div.normal").css("display","block");
-		$("div.anti_normal").css("display","none");
-	}
 // ]]>
 </script>
 <!--#include file="admin_footer.asp"-->
