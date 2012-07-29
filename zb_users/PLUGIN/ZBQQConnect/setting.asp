@@ -23,6 +23,11 @@ function showqk(){
 	$("#how").toggleClass('hidden')
 }
 </script>
+<script type="text/javascript" language="javascript" src="../../../zb_system/ADMIN/ueditor/third-party/SyntaxHighlighter/shCore.js"></script>
+<link rel="stylesheet" href="../../../zb_system/ADMIN/ueditor/third-party/SyntaxHighlighter/shCoreDefault.css"/>
+<style type="text/css">
+input[type="text"]{width:100%}
+</style>
 <!--#include file="..\..\..\zb_system\admin\admin_top.asp"-->
     <div id="divMain">
       <div id="ShowBlogHint">
@@ -39,6 +44,7 @@ function showqk(){
               <li><a href="#tab1"><span>同步设置</span></a></li>
               <li><a href="#tab2"><span>评论设置</span></a></li>
               <li><a href="#tab3"><span>QQ登陆设置</span></a></li>
+              <li><a href="#tab5"><span>头像设置</span></a></li>
               <li><a href="#tab4"><span>关于</span></a></li>
             </ul>
             <div class="clear"></div>
@@ -81,15 +87,24 @@ function showqk(){
                   </div>
                 </div>
                 <div class="tab-content" style='border:none;padding:0px;margin:0;' id="tab1">
-                  <input name="a" id="a" type="checkbox" <%=d(ZBQQConnect_Config.Read("a"))%> />
-                  <label for="a">默认同步到QQ空间</label>
-                  <br/>
-                  <input name="b" id="b" type="checkbox" <%=d(ZBQQConnect_Config.Read("b"))%> />
-                  <label for="b">默认同步到腾讯微博</label>
-                  <br />
-                  <input name="c" id="c" type="checkbox" <%=d(ZBQQConnect_Config.Read("c"))%> />
-                  <label for="c">同步时自带文章第一张图片</label>
-                  <br />
+                  <p>
+                    <input name="a" id="a" type="checkbox" <%=d(ZBQQConnect_Config.Read("a"))%> />
+                    <label for="a">发表文章时默认同步到QQ空间</label>
+                    <br/>
+                    <input name="b" id="b" type="checkbox" <%=d(ZBQQConnect_Config.Read("b"))%> />
+                   
+                    <label for="b">发表文章时默认同步到腾讯微博</label>
+                    <br />
+                    <input name="c" id="c" type="checkbox" <%=d(ZBQQConnect_Config.Read("c"))%> />
+                    <label for="c">同步时自带文章第一张图片</label>
+                  </p>
+                  <p>同步到腾讯微博内容（%i——截断字数的摘要；%b——博客名称；%u——文章地址；%t——文章标题；%c——分类）</p>
+                  <p>
+                    <label for="content"></label>
+                    <input type="text" name="content" id="content" value="<%=ZBQQConnect_Config.Read("content")%>"/>
+                  </p>
+                  <p><br />
+                </p>
                 </div>
                 <div class="tab-content" style='border:none;padding:0px;margin:0;' id="tab2">
                   <input name="d" id="d" type="checkbox" <%=d(ZBQQConnect_Config.Read("d"))%> />
@@ -99,7 +114,7 @@ function showqk(){
                   <label for="e">以分享的方式同步到QQ空间</label>
                   <br />
                   <input name="f" id="f" type="checkbox" <%=d(ZBQQConnect_Config.Read("f"))%> />
-                  <label for="f">以评论的方式同步到腾讯微博</label>
+                  <label for="f">以评论的方式同步到腾讯微博（若该文章没有同步到微博则评论也不同步）</label>
                   <br />
                   <input name="g" id="g" type="checkbox" <%=d(ZBQQConnect_Config.Read("g"))%> />
                   <label for="g">使用管理员的身份同步（无论有无勾选，若用户没有绑定QQ，则使用管理员的身份同步）</label>
@@ -111,8 +126,34 @@ function showqk(){
                   <br/>
                   <input name="i" id="i" type="checkbox" <%=d(ZBQQConnect_Config.Read("i"))%> />
                   <label for="i">允许使用QQ注册帐号（不过必须先启用注册组件）</label>
+                  
                   <br/>
                 </div>
+              <div class="tab-content" style='border:none;padding:0px;margin:0;' id="tab5">
+                <p>
+                  <label>
+                    <input type="radio" name="a1" value="0" id="a1_0"<%=e(ZBQQConnect_Config.Read("a1"),0)%>/>
+                    评论显示微博头像（若无，则使用Gravatar）</label>
+                  <br />
+                  <label>
+                    <input type="radio" name="a1" value="1" id="a1_1"<%=e(ZBQQConnect_Config.Read("a1"),1)%>/>
+                    评论显示空间头像（若无，则使用Gravatar）</label>
+                  <br />
+                  <label>
+                    <input type="radio" name="a1" value="2" id="a1_2"<%=e(ZBQQConnect_Config.Read("a1"),2)%>/>
+                    评论显示Gravatar</label>
+                  </p>
+                <p>
+                输入Gravatar地址（用<#EmailMD5#>来代替EMail的MD5,<#ZC_BLOG_HOST#>代替网站域名）
+                  <input name="Gravatar" type="text" id="Gravatar" value="<%=ZBQQConnect_Config.Read("Gravatar")%>"/>
+                </p>
+                <p>调用代码： </p>
+                <pre class="brush:html;toolbar:false">
+&lt;!--此处&lt;#ZBQQConnect_Head#&gt;为调用地址，必须要有。其他视情况而定--&gt;
+&lt;img width=&quot;32&quot; height=&quot;32&quot; alt=&quot;头像&quot; title=&quot;头像&quot; src=&quot;&lt;#ZBQQConnect_Head#&gt;&quot; /&gt;
+                </pre>
+                </p>
+              </div>
                 <div class="tab-content" style='border:none;padding:0px;margin:0;' id="tab4"><br/>
                   插件名：ZBQQConnect<br/>
                   插件版本:v1.0<br/>
@@ -125,7 +166,7 @@ function showqk(){
           </div>
         </div>
         <script language="javascript">
-
+SyntaxHighlighter.all();
 
 function ChangeValue(obj){
 
@@ -167,6 +208,9 @@ function ChangeValue(obj){
 <%
 function d(v)
 	d=iif(v="True"," checked=""checked"" ","")
+end function
+function e(s,b)
+	e=iif(cint(s)=b," checked=""checked"" ","")
 end function
 %>
         <!--#include file="..\..\..\zb_system\admin\admin_footer.asp"-->

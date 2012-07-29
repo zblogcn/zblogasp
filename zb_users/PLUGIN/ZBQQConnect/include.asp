@@ -32,10 +32,9 @@ Function ZBQQConnect_Initialize
 		For i=97 To 105
 			ZBQQConnect_Config.Write i,iIf(chr(i)<>"g",True,False)
 		Next
-		'ZBQQConnect_Config.Write "PicSendToWb",True
-		'ZBQQConnect_Config.Write "strLong",30
-		'ZBQQConnect_Config.Write "CommentToOwner",False
-		'ZBQQConnect_Config.Write "OpenComment",True
+		ZBQQConnect_Config.Write "a1",0
+		ZBQQConnect_Config.Write "Gravatar","http://www.gravatar.com/avatar/<#EmailMD5#>?s=40&d<#ZC_BLOG_HOST#>%2FZB%5FSYSTEM%2Fimage%2Fadmin%2Favatar%2Epng"
+		ZBQQConnect_Config.Write "content","更新了文章：《%c》，%u"
 		ZBQQConnect_Config.Save
 	End If
 	
