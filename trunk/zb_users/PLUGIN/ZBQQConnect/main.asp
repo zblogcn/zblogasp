@@ -12,7 +12,7 @@ Call System_Initialize()
 Call ZBQQConnect_Initialize()
 
 Call CheckReference("")
-
+If CheckPluginState("ZBQQConnect")=False Then Call ShowError(48)
 Dim tmpa
 Dim get_user_info
 dim tmpbl
@@ -25,6 +25,10 @@ if request.QueryString("act")="logout" then
  		ZBQQConnect_class.logout
 		response.Redirect("main.asp")
 end if 
+If  ZBQQConnect_Config.Exists("AppID")=False Then
+	Call SetBlogHint_Custom("请先配置AppID!")
+	Response.Redirect "setting.asp"
+End If 
 '判断AJAX拉取时用户有无权限，若有则添加codepage
 'If ZBQQConnect_class.logined=false and request.QueryString("typ")<>"" Then
 '	response.write "error"'
@@ -37,7 +41,7 @@ end if
     
 <!--#include file="..\..\..\zb_system\admin\admin_header.asp"-->
 <!--#include file="..\..\..\zb_system\admin\admin_top.asp"-->
-<div id="divMain">
+<div id="divMain"><div id="ShowBlogHint"><%Call GetBlogHint()%></div>
 <div class="divHeader">ZBQQConnect</div>
 <div class="SubMenu"><%=ZBQQConnect_SBar(1)%></div>
 <div id="divMain2">
@@ -72,21 +76,7 @@ end if
 <%
 '以下为example页面代码，对SDK开发无用
 '导航栏生成 
-Function ZBQQConnect_SBar(Btype)
-	dim b(1,3),i,j,k
-	b(1,1)="m-left"
-	b(1,2)="main.asp"
-	b(1,3)="首页"
-	
-	For i=1 to 1
-		if btype=i then
-			k=k&"<span class=""" & b(i,1) & " m-now""><a href=""" & b(i,2) & """>" & b(i,3) & "</a></span>"
-		else
-			k=k&"<span class=""" & b(i,1) & """><a href=""" & b(i,2) & """>" & b(i,3) & "</a></span>"
-		end if
-	Next
-	ZBQQConnect_SBar=k
-End Function
+
 '空转判断
 function pdkz(text)
 	if text=null or text=empty or text="" then pdkz="空转" else pdkz=text

@@ -16,21 +16,23 @@ Call ZBQQConnect_Class.GetOpenId(ZBQQConnect_class.CallBack)
 '	Case "login"
 'Response.Write BlogUser.ID
 'Response.end
-		ZBQQConnect_DB.OpenID=ZBQQConnect_Class.OpenID
-		ZBQQConnect_DB.AccessToken=ZBQQConnect_Class.AccessToken
-		If ZBQQConnect_DB.LoadInfo(4) Then
-			If CInt(ZBQQConnect_DB.objUser.ID)<>0 Then
-				If ZBQQConnect_DB.Login=True Then
-					Response.Redirect GetCurrentHost&"/ZB_SYSTEM/ADMIN/ADMIN.ASP?ACT=SiteInfo"
-				Else
-					Response.Write ZBQQConnect_DB.objUser.ID
-				End If
-			Else
-				a
-			End If
+
+ZBQQConnect_DB.OpenID=ZBQQConnect_Class.OpenID
+ZBQQConnect_DB.AccessToken=ZBQQConnect_Class.AccessToken
+
+If ZBQQConnect_DB.LoadInfo(4) Then
+	If CInt(ZBQQConnect_DB.objUser.ID)<>0 Then
+		If ZBQQConnect_DB.Login=True Then
+			Response.Redirect GetCurrentHost&"/ZB_SYSTEM/ADMIN/ADMIN.ASP?ACT=SiteInfo"
 		Else
-			a
+			Response.Write ZBQQConnect_DB.objUser.ID
 		End If
+	Else
+		a
+	End If
+Else
+	a
+End If
 	'Case "admin"
 		
 '	Case Else
@@ -49,18 +51,12 @@ Function a
 		ZBQQConnect_DB.Email=MD5(BlogUser.EMail)
 		ZBQQConnect_DB.Bind
 		If BlogUser.Level=5 Then
-			Response.Cookies("QQOPENID")=ZBQQConnect_Class.OpenID
-			Response.Cookies("QQOPENID").Expires = DateAdd("d", 90, now)
-			Response.Cookies("QQOPENID").Path="/"
-			Response.Cookies("QQAccessToken")=ZBQQConnect_Class.AccessToken
-			Response.Cookies("QQAccessToken").Expires = DateAdd("d", 90, now)
-			Response.Cookies("QQAccessToken").Path="/"
-			Response.Cookies("inpName")=b.nickname
-			Response.Cookies("inpName").Expires = DateAdd("d", 365, now)
-			Response.Cookies("inpName").Path="/"
 			Response.Redirect "select.asp?QQOPENID="&ZBQQConnect_Class.OpenID
 		Else
 			Response.write "<script>opener.location.href=opener.location.href.replace(""act=logout"","""");window.close()</script>"
 		End If
+		Response.Cookies("inpName")=b.nickname
+		Response.Cookies("inpName").Expires = DateAdd("d", 365, now)
+		Response.Cookies("inpName").Path="/"
 End Function
 %>
