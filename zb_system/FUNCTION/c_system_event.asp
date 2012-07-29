@@ -189,20 +189,21 @@ Function PostArticle()
 	objArticle.Intro=Request.Form("txaIntro")
 
 	objArticle.Content=Request.Form("txaContent")
+
 	If objArticle.Intro="" Then
 		s=objArticle.Content
-		If Len(s)>ZC_TB_EXCERPT_MAX Then
-			i=InStr(s,vbCrlf)
-			If i>0 Then
-				t=Split(s,vblf)
-				s=""
-				For k=LBound(t) To UBound(t)
-					s=s & t(k)
-					If Len(s)>ZC_TB_EXCERPT_MAX Then Exit For
-				Next
-				s=Replace(s,vbCr,vbCrlf)
-			End If
-			s=s & "..."
+		i=InStr(s,"<hr />")
+		If i>0 Then
+			objArticle.Content=Replace(s,"<hr />","<!-- intro -->",1,1)
+			s=Left(s,i-1)
+		End If
+		objArticle.Intro=s
+	End If
+
+	If objArticle.Intro="" Then
+		s=objArticle.Content
+		If UBound(Split(s,"</p>"))>0 Then
+			s=Split(s,"</p>")(0)
 		End If
 		s=TransferHTML(s,"[closehtml]")
 		objArticle.Intro=s
