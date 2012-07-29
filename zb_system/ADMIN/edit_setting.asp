@@ -50,10 +50,11 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG247
 <!--#include file="admin_top.asp"-->
 			<div id="divMain">
 <% Call GetBlogHint() %>
-<div class="divHeader"><%=ZC_MSG247%></div>
+
 <%
 	Response.Write "<div class=""SubMenu"">" & Response_Plugin_SettingMng_SubMenu & "</div>"
 %>
+<div class="divHeader2"><%=ZC_MSG247%></div>
 <form method="post" action="../cmd.asp?act=SettingSav">
 <div id="divMain2">
 
