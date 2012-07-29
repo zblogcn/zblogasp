@@ -310,17 +310,17 @@ hr {height:0px;border:none;padding:0;visibility:hidden;}
 /*后台编辑页,文章编辑和页面编辑*/
 #divEditRight{
 	float:right;
-	width:210px;
+	width:220px;
 	text-align:right;
 }
 #divEditLeft{
 	float:left;
 	width:100%;
-	margin-right:-220px;
+	margin-right:-230px;
 }
 
 #divEditTitle,#divContent,#divIntro,#divEditForm,#divEditForm2{
-	padding-right:220px;
+	padding-right:230px;
 }
 
 
