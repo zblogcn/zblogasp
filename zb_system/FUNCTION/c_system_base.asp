@@ -20,8 +20,8 @@ Dim BlogUser
 Set BlogUser =New TUser
 
 Dim BlogPath
-BlogPath=Server.MapPath("c_system_base.asp")
-BlogPath=Left(BlogPath,Len(BlogPath)-Len("c_system_base.asp"))
+BlogPath=GetReallyDirectory()
+
 Dim StarTime
 Dim EndTime
 StarTime = Timer()
@@ -172,21 +172,7 @@ Sub System_Initialize_WithOutDB()
 		If bAction_Plugin_System_Initialize_WithOutDB=True Then Exit Sub
 	Next
 
-	Call GetReallyDirectory()
-
 	Call LoadGlobeCache()
-
-	'Dim strTemplateModified
-	'Application.Lock
-	'strTemplateModified=Application(ZC_BLOG_CLSID & "TEMPLATEMODIFIED")
-	'Application.UnLock
-	'If IsEmpty(strTemplateModified)=False Then
-	'	If LCase(CStr(strTemplateModified))<>LCase(CStr(CheckTemplateModified)) Then
-	'		Call ClearGlobeCache()
-	'		Call LoadGlobeCache()
-	'	End If
-	'End If
-
 
 	'将激活插件后移
 	Call ActivePlugin()
@@ -239,8 +225,6 @@ Function OpenConnect()
 		If Not IsEmpty(sAction_Plugin_OpenConnect) Then Call Execute(sAction_Plugin_OpenConnect)
 		If bAction_Plugin_OpenConnect=True Then Exit Function
 	Next
-
-	GetReallyDirectory()
 
 	'判定是否为子目录调用
 	Dim strDbPath
@@ -1205,8 +1189,6 @@ Function LoadGlobeCache()
 		End If
 	End If
 
-	Call GetReallyDirectory
-
 	Dim i,j
 
 	'加载模板
@@ -1660,7 +1642,7 @@ End Function
 
 
 '*********************************************************
-' 目的：    得到实际上的真实目录
+' 目的：    得到实际上的BLOG的真实物理目录
 '*********************************************************
 Dim IsRunGetReallyDirectory
 IsRunGetReallyDirectory=False
@@ -1668,7 +1650,9 @@ Function GetReallyDirectory()
 
 	If IsRunGetReallyDirectory=True Then Exit Function
 
-	On Error Resume Next
+	'On Error Resume Next
+
+	BlogPath=Server.MapPath(".")
 
 	Dim fso
 	Set fso = CreateObject("Scripting.FileSystemObject")
@@ -1691,13 +1675,11 @@ Function GetReallyDirectory()
 	End If
 	Set fso=Nothing
 
-	BlogPath=CreateObject("Scripting.FileSystemObject").GetFolder(BlogPath).Path & "\"
+	GetReallyDirectory=CreateObject("Scripting.FileSystemObject").GetFolder(BlogPath).Path & "\"
 
 	IsRunGetReallyDirectory=True
 
-	GetReallyDirectory=True
-
-	Err.Clear
+	'Err.Clear
 
 End Function
 '*********************************************************
@@ -3402,24 +3384,6 @@ Function SearchChildComments(ByVal id,ByRef allcomm)
 
 End Function
 '*********************************************************
-
-
-
-
-'*********************************************************
-' 目的：    Add Batch 
-'*********************************************************
-Function AddBatch(name,actioncode)
-
-
-	Dim i
-	i=CInt(Session("batch_order"))+1
-	Session("batch_order")=i
-	Call Session("batch").add("<b>" & i & "</b> : <u>" & name & "</u>",actioncode)
-
-End Function
-'*********************************************************
-
 
 
 
