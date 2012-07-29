@@ -42,8 +42,11 @@ GetCategory()
 GetUser()
 
 Dim IsPage
+Dim IsAutoIntro
 
 IsPage=Request.QueryString("type")="Page"
+
+IsAutoIntro=False
 
 Dim EditArticle
 
@@ -90,11 +93,15 @@ End If
 
 BlogTitle=EditArticle.HtmlUrl
 
-EditArticle.Content=UBBCode(EditArticle.Content,"[link][email][font][code][face][image][flash][typeset][media][autolink][key][link-antispam]")
+'EditArticle.Content=UBBCode(EditArticle.Content,"[link][email][font][code][face][image][flash][typeset][media][autolink][key][link-antispam]")
 
 EditArticle.Title=TransferHTML(EditArticle.Title,"[html-japan]")
-EditArticle.Content=TransferHTML(EditArticle.Content,"[html-japan]")
+EditArticle.Content=TransferHTML(Replace(EditArticle.Content,"<!-- intro -->","<hr />",1,1),"[html-japan]")
+
 EditArticle.Intro=TransferHTML(EditArticle.Intro,"[html-japan]")
+
+If InStr(EditArticle.Content,EditArticle.Intro)>0 Then IsAutoIntro=True
+
 
 EditArticle.Title=TransferHTML(EditArticle.Title,"[html-format]")
 
@@ -196,7 +203,7 @@ Next
 
 
 
-                      <div id="divIntro" style="display:<%If EditArticle.Intro="" Then Response.Write "none" Else Response.Write "block"%>;">
+                      <div id="divIntro" style="display:<%If EditArticle.Intro="" Or IsAutoIntro Then Response.Write "none" Else Response.Write "block"%>;">
                         <p><span class='editinputname'><%=ZC_MSG016%>:</span></p>
                         <script id="ueditor2" name="txaIntro"><%=EditArticle.Intro%></script>
                       </div>

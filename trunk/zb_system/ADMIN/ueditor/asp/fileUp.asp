@@ -58,12 +58,7 @@ If upload.Save("edtFileLoad",0)=True Then
 	uf.UpLoad
 End If
 
-
-
-'objConn.Execute("INSERT INTO [blog_UpLoad]([ul_AuthorID],[ul_FileSize],[ul_FileName],[ul_PostTime],[ul_FileIntro],[ul_DirByTime]) VALUES ("& BlogUser.ID &",'"& upload.form("edtFileLoad_Size") &"','"& upload.form("edtFileLoad") &"','"& PostTime &"','Attatment',"&CInt(ZC_UPLOAD_DIRBYMONTH)&")")
-
 response.Write "{'state':'"& upload.Error2Info("edtFileLoad") & "','url':'"& upload.form("edtFileLoad_Name") &"','fileType':'"&upload.form("edtFileLoad_Ext")&"','original':'"& upload.form("edtFileLoad_Name")&"'}"
-
 	
 For Each sAction_Plugin_uEditor_FileUpload_End in Action_Plugin_uEditor_FileUpload_End
 	If Not IsEmpty(sAction_Plugin_uEditor_FileUpload_End) Then Call Execute(sAction_Plugin_uEditor_FileUpload_End)
