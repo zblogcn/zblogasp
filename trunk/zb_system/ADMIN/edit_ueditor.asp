@@ -100,7 +100,7 @@ EditArticle.Title=UBBCode(EditArticle.Title,"[link][email][font][code][face][ima
 'EditArticle.Title=TransferHTML(EditArticle.Title,"[html-japan]")
 'EditArticle.Intro=TransferHTML(EditArticle.Intro,"[html-japan]")
 
-EditArticle.Content=TransferHTML(Replace(EditArticle.Content,"<!-- intro -->","<hr />",1,1),"[html-japan]")
+EditArticle.Content=TransferHTML(Replace(EditArticle.Content,"<!-- intro -->","<hr />"),"[html-japan]")
 
 
 
@@ -379,7 +379,7 @@ End If
 
                         <p>
 <!-- date( -->
-                          <span class='editinputname' style="cursor:pointer;" onclick="$(this).next().toggleClass('hidden');"><%=ZC_MSG062%>:</span><span><input type="text" name="edtYear" id="edtYear" style="width:30px;" value="<%=Year(EditArticle.PostTime)%>" /><span>-</span><input type="text" name="edtMonth" id="edtMonth" style="width:15px;" value="<%=Month(EditArticle.PostTime)%>" /><span>-</span><input type="text" name="edtDay" id="edtDay" style="width:15px;" value="<%=Day(EditArticle.PostTime)%>" /><span>-</span><input type="text" name="edtTime" id="edtTime" style="width:50px;" value="<%= Hour(EditArticle.PostTime)&":"&Minute(EditArticle.PostTime)&":"&Second(EditArticle.PostTime)%>" /></span>
+                          <span class='editinputname' style="cursor:pointer;" onclick="$(this).next().toggleClass('hidden');"><%=ZC_MSG062%>:</span><span><input type="text" name="edtYear" id="edtYear" style="width:32px;" value="<%=Year(EditArticle.PostTime)%>" /><span>-</span><input type="text" name="edtMonth" id="edtMonth" style="width:17px;" value="<%=Month(EditArticle.PostTime)%>" /><span>-</span><input type="text" name="edtDay" id="edtDay" style="width:17px;" value="<%=Day(EditArticle.PostTime)%>" /><span>-</span><input type="text" name="edtTime" id="edtTime" style="width:50px;" value="<%= Hour(EditArticle.PostTime)&":"&Minute(EditArticle.PostTime)&":"&Second(EditArticle.PostTime)%>" /></span>
 <!-- )date -->
 
                       </p>

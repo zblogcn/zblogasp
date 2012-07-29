@@ -244,7 +244,7 @@ End Function
 '*********************************************************
 Function ExportPageList(intPage,intCate,intLevel,intTitle)
 
-Call Add_Response_Plugin("Response_Plugin_ArticleMng_SubMenu",MakeSubMenu(ZC_MSG112 & "","../cmd.asp?act=ArticleEdt&amp;type=Page&amp;webedit=" & ZC_BLOG_WEBEDIT,"m-left",False))
+Call Add_Response_Plugin("Response_Plugin_ArticleMng_SubMenu",MakeSubMenu(ZC_MSG113 & "","../cmd.asp?act=ArticleEdt&amp;type=Page&amp;webedit=" & ZC_BLOG_WEBEDIT,"m-left",False))
 
 	Dim i
 	Dim objRS

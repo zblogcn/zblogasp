@@ -195,7 +195,7 @@ Function PostArticle()
 		i=InStr(s,"<hr />")
 		s=Left(s,i-1)
 		objArticle.Intro=s
-		objArticle.Content=Replace(objArticle.Content,"<hr />","<!-- intro -->",1,1)
+		objArticle.Content=Replace(objArticle.Content,"<hr />","<!-- intro -->")
 	End If
 
 	If objArticle.Intro="" Then
