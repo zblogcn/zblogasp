@@ -16,7 +16,7 @@ Call ActivePlugin
 '检查非法链接
 Call CheckReference("")
 
-If CheckPluginState("Reg")=False Then Call ShowError(48)
+If CheckPluginState("RegPage")=False Then Call ShowError(48)
 
 
 Dim dUsername,dPassword,dEmail,dSite

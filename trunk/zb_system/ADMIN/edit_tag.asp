@@ -71,9 +71,9 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG066
 	Response.Write "<p>"& ZC_MSG016 &":<br/><input id=""edtIntro"" style='width:300px;' name=""edtIntro""  type=""text"" value="""& TransferHTML(EditTag.Intro,"[html-format]") &""" /></p>"
 	Response.Write "<p>"& ZC_MSG147 &":<br/><input id=""edtAlias"" style='width:300px;' name=""edtAlias""  type=""text"" value="""& TransferHTML(EditTag.Alias,"[html-format]") &""" /></p>"
 
-	Response.Write "<p>"&ZC_MSG324&":<br/><select style='width:310px;' class='edit' size='1' id='cmbTemplate' onchange='edtTemplate.value=this.options[this.selectedIndex].value'>"
+	Response.Write "<p>"&ZC_MSG188&":<br/><select style='width:310px;' class='edit' size='1' id='cmbTemplate' onchange='edtTemplate.value=this.options[this.selectedIndex].value'>"
 
-	'Response.Write "<option value="""">"&ZC_MSG325&"</option>"
+	'Response.Write "<option value="""">"&ZC_MSG187&"</option>"
 
 	Dim aryFileList
 
@@ -93,9 +93,9 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG066
 	End If
 
 	If EditTag.TemplateName="" Then
-	Response.Write "<option value='' selected='selected'>"&ZC_MSG325&"(CATALOG)</option>"
+	Response.Write "<option value='' selected='selected'>"&ZC_MSG187&"(CATALOG)</option>"
 	Else
-	Response.Write "<option value=''>"&ZC_MSG325&"(CATALOG)</option>"
+	Response.Write "<option value=''>"&ZC_MSG187&"(CATALOG)</option>"
 	End If 
 
 	Response.Write "</select><input type='hidden' name='edtTemplate' id='edtTemplate' value='"&EditTag.TemplateName&"' /></p>"

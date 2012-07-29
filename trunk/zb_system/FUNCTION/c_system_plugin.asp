@@ -1966,6 +1966,89 @@ Dim sAction_Plugin_TArticleList_Search_End
 
 
 
+'**************************************************<
+'类型:action
+'名称:Action_Plugin_FunctionMng_Begin
+'参数:无
+'说明:FunctionMng_Begin
+'**************************************************>
+Dim Action_Plugin_FunctionMng_Begin()
+ReDim Action_Plugin_FunctionMng_Begin(0)
+Dim bAction_Plugin_FunctionMng_Begin
+Dim sAction_Plugin_FunctionMng_Begin
+
+
+
+
+'**************************************************<
+'类型:action
+'名称:Action_Plugin_FunctionEdt_Begin
+'参数:无
+'说明:FunctionEdt_Begin
+'**************************************************>
+Dim Action_Plugin_FunctionEdt_Begin()
+ReDim Action_Plugin_FunctionEdt_Begin(0)
+Dim bAction_Plugin_FunctionEdt_Begin
+Dim sAction_Plugin_FunctionEdt_Begin
+
+
+
+
+'**************************************************<
+'类型:action
+'名称:Action_Plugin_FunctionSav_Begin
+'参数:无
+'说明:FunctionSav_Begin
+'**************************************************>
+Dim Action_Plugin_FunctionSav_Begin()
+ReDim Action_Plugin_FunctionSav_Begin(0)
+Dim bAction_Plugin_FunctionSav_Begin
+Dim sAction_Plugin_FunctionSav_Begin
+
+
+
+
+'**************************************************<
+'类型:action
+'名称:Action_Plugin_FunctionSav_Succeed
+'参数:无
+'说明:FunctionSav_Succeed
+'**************************************************>
+Dim Action_Plugin_FunctionSav_Succeed()
+ReDim Action_Plugin_FunctionSav_Succeed(0)
+Dim bAction_Plugin_FunctionSav_Succeed
+Dim sAction_Plugin_FunctionSav_Succeed
+
+
+
+
+'**************************************************<
+'类型:action
+'名称:Action_Plugin_FunctionDel_Begin
+'参数:无
+'说明:FunctionDel_Begin
+'**************************************************>
+Dim Action_Plugin_FunctionDel_Begin()
+ReDim Action_Plugin_FunctionDel_Begin(0)
+Dim bAction_Plugin_FunctionDel_Begin
+Dim sAction_Plugin_FunctionDel_Begin
+
+
+
+
+'**************************************************<
+'类型:action
+'名称:Action_Plugin_FunctionDel_Succeed
+'参数:无
+'说明:FunctionDel_Succeed
+'**************************************************>
+Dim Action_Plugin_FunctionDel_Succeed()
+ReDim Action_Plugin_FunctionDel_Succeed(0)
+Dim bAction_Plugin_FunctionDel_Succeed
+Dim sAction_Plugin_FunctionDel_Succeed
+
+
+
 
 
 '***************
@@ -3634,6 +3717,113 @@ End Function
 
 
 
+'**************************************************<
+'类型:filter
+'名称:Filter_Plugin_TFunction_Post
+'参数:ID,Name,FileName,Order,Content,IsSystem,SidebarID,HtmlID,Ftype,MaxLi,MetaString
+'说明:
+'调用:
+'**************************************************>
+Dim sFilter_Plugin_TFunction_Post
+Function Filter_Plugin_TFunction_Post(ByRef ID,ByRef Name,ByRef FileName,ByRef Order,ByRef Content,ByRef IsSystem,ByRef SidebarID,ByRef HtmlID,ByRef Ftype,ByRef MaxLi,ByRef MetaString)
+
+	Dim s,i
+
+	If sFilter_Plugin_TFunction_Post="" Then Exit Function
+
+	s=Split(sFilter_Plugin_TFunction_Post,"|")
+
+	For i=0 To UBound(s)-1
+		Call Execute(s(i) & " " & "ID,Name,FileName,Order,Content,IsSystem,SidebarID,HtmlID,Ftype,MaxLi,MetaString")
+	Next
+
+End Function
+
+
+
+
+
+'**************************************************<
+'类型:filter
+'名称:Filter_Plugin_TFunction_LoadInfoByArray
+'参数:ID,Name,FileName,Order,Content,IsSystem,SidebarID,HtmlID,Ftype,MaxLi,MetaString
+'说明:
+'调用:
+'**************************************************>
+Dim sFilter_Plugin_TFunction_LoadInfoByArray
+Function Filter_Plugin_TFunction_LoadInfoByArray(ByRef ID,ByRef Name,ByRef FileName,ByRef Order,ByRef Content,ByRef IsSystem,ByRef SidebarID,ByRef HtmlID,ByRef Ftype,ByRef MaxLi,ByRef MetaString)
+
+	Dim s,i
+
+	If sFilter_Plugin_TFunction_LoadInfoByArray="" Then Exit Function
+
+	s=Split(sFilter_Plugin_TFunction_LoadInfoByArray,"|")
+
+	For i=0 To UBound(s)-1
+		Call Execute(s(i) & " " & "ID,Name,FileName,Order,Content,IsSystem,SidebarID,HtmlID,Ftype,MaxLi,MetaString")
+	Next
+
+End Function
+
+
+
+
+
+'**************************************************<
+'类型:filter
+'名称:Filter_Plugin_TFunction_Del
+'参数:ID,Name,FileName,Order,Content,IsSystem,SidebarID,HtmlID,Ftype,MaxLi,MetaString
+'说明:
+'调用:
+'**************************************************>
+Dim sFilter_Plugin_TFunction_Del
+Function Filter_Plugin_TFunction_Del(ByRef ID,ByRef Name,ByRef FileName,ByRef Order,ByRef Content,ByRef IsSystem,ByRef SidebarID,ByRef HtmlID,ByRef Ftype,ByRef MaxLi,ByRef MetaString)
+
+	Dim s,i
+
+	If sFilter_Plugin_TFunction_Del="" Then Exit Function
+
+	s=Split(sFilter_Plugin_TFunction_Del,"|")
+
+	For i=0 To UBound(s)-1
+		Call Execute(s(i) & " " & "ID,Name,FileName,Order,Content,IsSystem,SidebarID,HtmlID,Ftype,MaxLi,MetaString")
+	Next
+
+End Function
+
+
+
+
+
+'**************************************************<
+'类型:filter
+'名称:Filter_Plugin_TFunction_LoadInfoByID
+'参数:ID,Name,FileName,Order,Content,IsSystem,SidebarID,HtmlID,Ftype,MaxLi,MetaString
+'说明:
+'调用:
+'**************************************************>
+Dim sFilter_Plugin_TFunction_LoadInfoByID
+Function Filter_Plugin_TFunction_LoadInfoByID(ByRef ID,ByRef Name,ByRef FileName,ByRef Order,ByRef Content,ByRef IsSystem,ByRef SidebarID,ByRef HtmlID,ByRef Ftype,ByRef MaxLi,ByRef MetaString)
+
+	Dim s,i
+
+	If sFilter_Plugin_TFunction_LoadInfoByID="" Then Exit Function
+
+	s=Split(sFilter_Plugin_TFunction_LoadInfoByID,"|")
+
+	For i=0 To UBound(s)-1
+		Call Execute(s(i) & " " & "ID,Name,FileName,Order,Content,IsSystem,SidebarID,HtmlID,Ftype,MaxLi,MetaString")
+	Next
+
+End Function
+
+
+
+
+
+
+
+
 '***************
 '3.response
 '***************
@@ -4112,133 +4302,15 @@ Dim sAction_Plugin_ExportATOM_Begin
 
 
 
-'**************************************************<
-'类型:action
-'名称:Action_Plugin_TGuestBook_Export_Begin
-'参数:无
-'说明:TGuestBook_Export_Begin
-'**************************************************>
-Dim Action_Plugin_TGuestBook_Export_Begin()
-ReDim Action_Plugin_TGuestBook_Export_Begin(0)
-Dim bAction_Plugin_TGuestBook_Export_Begin
-Dim sAction_Plugin_TGuestBook_Export_Begin
-
-
-
-'**************************************************<
-'类型:action
-'名称:Action_Plugin_TGuestBook_Export_End
-'参数:无
-'说明:TGuestBook_Export_End
-'**************************************************>
-Dim Action_Plugin_TGuestBook_Export_End()
-ReDim Action_Plugin_TGuestBook_Export_End(0)
-Dim bAction_Plugin_TGuestBook_Export_End
-Dim sAction_Plugin_TGuestBook_Export_End
 
 
 
 
 
-'**************************************************<
-'类型:filter
-'名称:Filter_Plugin_TGuestBook_Export_TemplateTags
-'参数:aryTemplateTagsName,aryTemplateTagsValue
-'说明:
-'调用:
-'**************************************************>
-Dim sFilter_Plugin_TGuestBook_Export_TemplateTags
-Function Filter_Plugin_TGuestBook_Export_TemplateTags(ByRef aryTemplateTagsName,ByRef aryTemplateTagsValue)
-
-	Dim s,i
-
-	If sFilter_Plugin_TGuestBook_Export_TemplateTags="" Then Exit Function
-
-	s=Split(sFilter_Plugin_TGuestBook_Export_TemplateTags,"|")
-
-	For i=0 To UBound(s)-1
-		Call Execute(s(i) & " " & "aryTemplateTagsName,aryTemplateTagsValue")
-	Next
-
-End Function
 
 
 
 
-
-'**************************************************<
-'类型:filter
-'名称:Filter_Plugin_TGuestBook_Build_TemplateTags
-'参数:aryTemplateTagsName,aryTemplateTagsValue
-'说明:
-'调用:
-'**************************************************>
-Dim sFilter_Plugin_TGuestBook_Build_TemplateTags
-Function Filter_Plugin_TGuestBook_Build_TemplateTags(ByRef aryTemplateTagsName,ByRef aryTemplateTagsValue)
-
-	Dim s,i
-
-	If sFilter_Plugin_TGuestBook_Build_TemplateTags="" Then Exit Function
-
-	s=Split(sFilter_Plugin_TGuestBook_Build_TemplateTags,"|")
-
-	For i=0 To UBound(s)-1
-		Call Execute(s(i) & " " & "aryTemplateTagsName,aryTemplateTagsValue")
-	Next
-
-End Function
-
-
-
-
-
-'**************************************************<
-'类型:filter
-'名称:Filter_Plugin_TGuestBook_Build_Template
-'参数:html,wapHtml
-'说明:
-'调用:
-'**************************************************>
-Dim sFilter_Plugin_TGuestBook_Build_Template
-Function Filter_Plugin_TGuestBook_Build_Template(ByRef html,ByRef wapHtml)
-
-	Dim s,i
-
-	If sFilter_Plugin_TGuestBook_Build_Template="" Then Exit Function
-
-	s=Split(sFilter_Plugin_TGuestBook_Build_Template,"|")
-
-	For i=0 To UBound(s)-1
-		Call Execute(s(i) & " " & "html,wapHtml")
-	Next
-
-End Function
-
-
-
-
-
-'**************************************************<
-'类型:filter
-'名称:Filter_Plugin_TGuestBook_Build_Template_Sub
-'参数:Template_Article_Single
-'说明:
-'调用:
-'**************************************************>
-Dim sFilter_Plugin_TGuestBook_Build_Template_Sub
-Function Filter_Plugin_TGuestBook_Build_Template_Sub(ByRef Template_Article_Single)
-
-	Dim s,i
-
-	If sFilter_Plugin_TGuestBook_Build_Template_Sub="" Then Exit Function
-
-	s=Split(sFilter_Plugin_TGuestBook_Build_Template_Sub,"|")
-
-	For i=0 To UBound(s)-1
-		Call Execute(s(i) & " " & "Template_Article_Single")
-	Next
-
-End Function
 
 
 
@@ -4282,6 +4354,10 @@ Dim Response_Plugin_Admin_Header
 Response_Plugin_Admin_Header=""
 Dim Response_Plugin_Admin_Footer
 Response_Plugin_Admin_Footer=""
+
+
+
+
 
 
 '以下为uEditor的所有接口：
@@ -4349,6 +4425,8 @@ Dim Action_Plugin_Edit_ueditor_getArticleInfo()
 ReDim Action_Plugin_Edit_ueditor_getArticleInfo(0)
 Dim bAction_Plugin_Edit_ueditor_getArticleInfo
 Dim sAction_Plugin_Edit_ueditor_getArticleInfo
+
+
 
 Dim sFilter_Plugin_UEditor_Config
 Function Filter_Plugin_UEditor_Config(ByRef strJSContent)

@@ -130,8 +130,8 @@ Function Totoro_chkComment(ByRef objComment)
 	objComment.Content=Totoro_replaceWord(objComment.Content)
 
 	If Totoro_SV>=TOTORO_SV_THRESHOLD Then
-		ZVA_ErrorMsg(14)="Totoro Ⅲ" & ZC_MSG339 & ZVA_ErrorMsg(14)
-		ZVA_ErrorMsg(53)="Totoro Ⅲ" & ZC_MSG339 & ZVA_ErrorMsg(53)
+		ZVA_ErrorMsg(14)="Totoro Ⅲ" & "插件大显神威!" & ZVA_ErrorMsg(14)
+		ZVA_ErrorMsg(53)="Totoro Ⅲ" & "插件大显神威!" & ZVA_ErrorMsg(53)
 		If Totoro_SV<TOTORO_SV_THRESHOLD2 Or TOTORO_SV_THRESHOLD2=0 Then
 			objComment.IsCheck=True
 		ElseIf TOTORO_SV_THRESHOLD2<=Totoro_SV Then

@@ -12,16 +12,16 @@
 
 
 '注册插件
-Call RegisterPlugin("Reg","ActivePlugin_Reg")
+Call RegisterPlugin("RegPage","ActivePlugin_RegPage")
 '挂口部分
-Function ActivePlugin_Reg()
+Function ActivePlugin_RegPage()
 	
 End Function
 
-Function InstallPlugin_Reg()
+Function InstallPlugin_RegPage()
 
 	Call GetFunction()
-	Functions(FunctionMetas.GetValue("navbar")).Content=Functions(FunctionMetas.GetValue("navbar")).Content & "<li><a href=""<#ZC_BLOG_HOST#>zb_users/plugin/reg/reg.asp"">注册</a></li>"
+	Functions(FunctionMetas.GetValue("navbar")).Content=Functions(FunctionMetas.GetValue("navbar")).Content & "<li><a href=""<#ZC_BLOG_HOST#>zb_users/plugin/regpage/reg.asp"">注册</a></li>"
 	Functions(FunctionMetas.GetValue("navbar")).Save
 
 	Call ClearGlobeCache
@@ -30,10 +30,10 @@ Function InstallPlugin_Reg()
 End Function
 
 
-Function UninstallPlugin_Reg()
+Function UninstallPlugin_RegPage()
 
 	Call GetFunction()
-	Functions(FunctionMetas.GetValue("navbar")).Content=RemoveLibyUrl(Functions(FunctionMetas.GetValue("navbar")).Content,"<#ZC_BLOG_HOST#>zb_users/plugin/reg/reg.asp")
+	Functions(FunctionMetas.GetValue("navbar")).Content=RemoveLibyUrl(Functions(FunctionMetas.GetValue("navbar")).Content,"<#ZC_BLOG_HOST#>zb_users/plugin/regpage/reg.asp")
 
 
 	Functions(FunctionMetas.GetValue("navbar")).Save

@@ -70,10 +70,10 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG066
 	Response.Write "<input id=""edtID"" name=""edtID""  type=""hidden"" value="""& EditCategory.ID &""" />"
 	Response.Write "<p>"& ZC_MSG001 &":<br/><input id=""edtName"" style='width:300px;' size=""40"" name=""edtName""  type=""text"" value="""& TransferHTML(EditCategory.Name,"[html-format]") &""" />(*)</p>"
 	Response.Write "<p>"& ZC_MSG079 &":<br/><input id=""edtOrder"" style='width:300px;' size=""40"" name=""edtOrder""  type=""text"" value="""& EditCategory.Order &""" /></p>"
-	Response.Write "<p>"& ZC_MSG320 &":<br/><select style='width:310px;' id=""edtPareID"" name=""edtPareID"" class=""edit"" size=""1"">"
+	Response.Write "<p>"& ZC_MSG195 &":<br/><select style='width:310px;' id=""edtPareID"" name=""edtPareID"" class=""edit"" size=""1"">"
 	Response.Write "<option value=""0"" "
 	If EditCategory.ParentID=0 Then Response.Write "selected=""selected"" "
-	Response.Write ">"& ZC_MSG322 &"</option>"
+	Response.Write ">"& ZC_MSG180 &"</option>"
 	Dim Category,bolHasSubCate
 	bolHasSubCate=False
 	For Each Category in Categorys
@@ -99,9 +99,9 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG066
 	Response.Write "</select></p>"
 
 
-	Response.Write "<p>"&ZC_MSG324&":<br/><select style='width:310px;' class='edit' size='1' id='cmbTemplate' onchange='edtTemplate.value=this.options[this.selectedIndex].value'>"
+	Response.Write "<p>"&ZC_MSG188&":<br/><select style='width:310px;' class='edit' size='1' id='cmbTemplate' onchange='edtTemplate.value=this.options[this.selectedIndex].value'>"
 
-	'Response.Write "<option value="""">"&ZC_MSG325&"</option>"
+	'Response.Write "<option value="""">"&ZC_MSG187&"</option>"
 
 	Dim aryFileList
 
@@ -121,9 +121,9 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG066
 	End If
 
 	If EditCategory.TemplateName="" Then
-	Response.Write "<option value='' selected='selected'>"&ZC_MSG325&"(CATALOG)</option>"
+	Response.Write "<option value='' selected='selected'>"&ZC_MSG187&"(CATALOG)</option>"
 	Else
-	Response.Write "<option value=''>"&ZC_MSG325&"(CATALOG)</option>"
+	Response.Write "<option value=''>"&ZC_MSG187&"(CATALOG)</option>"
 	End If
 
 	Response.Write "</select><input type='hidden' name='edtTemplate' id='edtTemplate' value='"&EditCategory.TemplateName&"' />"

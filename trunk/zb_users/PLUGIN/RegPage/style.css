@@ -381,7 +381,11 @@ FIELDSET .line .usertxt .input_radio INPUT {
 	DISPLAY: inline; FLOAT: left; WIDTH: 60px; BACKGROUND-COLOR: #00cc66
 }
 
-.divHeader{border-bottom:2px solid #3399CC;margin-bottom:3px;}
+.divHeader{
+	border-bottom:0px solid #3399CC;
+	margin-bottom:10px;
+	background:#eee;
+}
 
 ul{clear:both;margin-bottom:20px;line-height:24px;}
 p{clear:both;margin-bottom:10px;}

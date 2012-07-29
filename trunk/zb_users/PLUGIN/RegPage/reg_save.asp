@@ -15,7 +15,7 @@ Call System_Initialize()
 '检查非法链接
 Call CheckReference("")
 
-If CheckPluginState("Reg")=False Then Call ShowError(48)
+If CheckPluginState("RegPage")=False Then Call ShowError(48)
 For Each sAction_Plugin_RegSave_Begin in Action_Plugin_RegSave_Begin
 	If Not IsEmpty(sAction_Plugin_RegSave_Begin) Then Call Execute(sAction_Plugin_RegSave_Begin)
 Next
