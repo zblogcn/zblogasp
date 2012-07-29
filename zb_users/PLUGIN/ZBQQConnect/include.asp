@@ -4,25 +4,64 @@
 
 <%
 'Temp 
-Const ZBQQConnect_notfoundpic=""
-Const ZBQQConnect_PicSendToWb=True
+Dim ZBQQConnect_notfoundpic
+Dim ZBQQConnect_PicSendToWb
+Dim ZBQQConnect_strLong
+Dim ZBQQConnect_CommentToOwner
+Dim ZBQQConnect_OpenComment
+Dim ZBQQConnect_DefaultToZone
+Dim ZBQQConnect_DefaultToT
+Dim ZBQQConnect_CommentToZone
+Dim ZBQQConnect_CommentToT
+Dim ZBQQConnect_allowQQLogin
+Dim ZBQQConnect_allowQQReg
 'Temp
-Dim ZBQQConnect_CommentCore,ZBQQConnect_ACore,ZBQQConnect_CommentName,ZBQQConnect_EmlMD5
+Dim ZBQQConnect_CommentCore,ZBQQConnect_ACore,ZBQQConnect_EmlMD5
 
 Dim ZBQQConnect_SToWb,ZBQQConnect_SToZone
 
 
-dim ZBQQConnect_class,ZBQQConnect_DB
+dim ZBQQConnect_class,ZBQQConnect_DB,ZBQQConnect_Config
 
 Function ZBQQConnect_Initialize
+	dim i
+	Set ZBQQConnect_Config=New TConfig
+	ZBQQConnect_Config.Load "ZBQQConnect"
+	If ZBQQConnect_Config.Exists("-。-")=False Then
+		ZBQQConnect_Config.Write "-。-","1.0"
+		For i=97 To 105
+			ZBQQConnect_Config.Write i,iIf(chr(i)<>"g",True,False)
+		Next
+		'ZBQQConnect_Config.Write "PicSendToWb",True
+		'ZBQQConnect_Config.Write "strLong",30
+		'ZBQQConnect_Config.Write "CommentToOwner",False
+		'ZBQQConnect_Config.Write "OpenComment",True
+		ZBQQConnect_Config.Save
+	End If
+	
+	ZBQQConnect_notfoundpic="~"
+	ZBQQConnect_strLong=30
+	
+	ZBQQConnect_DefaultToZone=CBool(ZBQQConnect_Config.Read("a"))
+	ZBQQConnect_DefaultTot=CBool(ZBQQConnect_Config.Read("b"))
+	ZBQQConnect_PicSendToWb=CBool(ZBQQConnect_Config.Read("c"))
+	ZBQQConnect_OpenComment=CBool(ZBQQConnect_Config.Read("d"))
+	ZBQQConnect_CommentToZone=CBool(ZBQQConnect_Config.Read("e"))
+	ZBQQConnect_CommentToT=CBool(ZBQQConnect_Config.Read("f"))
+	ZBQQConnect_CommentToOwner=CBool(ZBQQConnect_Config.Read("g"))
+	ZBQQConnect_allowQQLogin=CBool(ZBQQConnect_Config.Read("h"))
+	ZBQQConnect_allowQQReg=CBool(ZBQQConnect_Config.Read("i"))
+	
 	set ZBQQConnect_class=new ZBQQConnect
 	Set ZBQQConnect_DB=New ZBConnectQQ_DB
 	ZBQQConnect_class.app_key="100291142"    '设置appkey
 	ZBQQConnect_class.app_secret="6e39bee95a58a8c99dce88ad5169a50e"  '设置app_secret
 	ZBQQConnect_class.callbackurl="http://www.zsxsoft.com/zblog-1-9/ZB_USERS/PLUGIN/ZBQQConnect/callback.asp"  '设置回调地址
 	ZBQQConnect_class.debug=false 'Debug模式设置
+	
 End Function
 
+ 
 
 
 Call RegisterPlugin("ZBQQConnect","ActivePlugin_ZBQQConnect")
@@ -53,15 +92,14 @@ Function ActivePlugin_ZBQQConnect()
 				End If
 			End If
 		Call Add_Action_Plugin("Action_Plugin_RegSave_End","Call ZBQQConnect_RegSave(RegUser.ID)")
-		'Call Add_Action_Plugin("Action_Plugin_RegSave_End","If isQQLogin=True Then ")
+	
 	End If
 	'挂上接口
 	'Filter_Plugin_PostArticle_Core
-	'Call Add_Filter_Plugin("Filter_Plugin_PostComment_Core","ZBQQConnect_CommentPst")
-	'Call Add_Action_Plugin("Action_Plugin_CommentPost_Succeed","Call ZBQQConnect_SendComment()")
+	Call Add_Filter_Plugin("Filter_Plugin_PostComment_Core","ZBQQConnect_CommentPst")
+	Call Add_Action_Plugin("Action_Plugin_CommentPost_Succeed","Call ZBQQConnect_SendComment()")
 	Call Add_Action_Plugin("Action_Plugin_ArticlePst_Begin","ZBQQConnect_SToZone=Request.Form(""syn_qq""):ZBQQConnect_SToWb=Request.Form(""syn_tqq""):Call ZBQQConnect_Main()")
 	Call Add_Action_Plugin("Action_Plugin_Edit_ueditor_Begin","Call ZBQQConnect_addForm()")
-	'Call Add_Action_Plugin("Action_Plugin_System_Initialize_Succeed","Call Add_Response_Plugin(""Response_Plugin_SiteInfo_SubMenu"",ZBQQConnect_MakeSM)")
 
 	
 End Function
@@ -128,31 +166,72 @@ End Function
 
 
 Function ZBQQConnect_SendComment()
-	on error resume next
+	'on error resume next
+	If (ZBQQConnect_OpenComment=False) Then Exit Function
 	Call ZBQQConnect_Initialize
-	Dim strT,tea
-	if ZBQQConnect_class.logined=false then exit function
+	If ZBQQConnect_CommentToOwner=True Then
+		Dim o
+		Set o=objConn.Execute("SELECT TOP 1 [mem_ID] FROM [blog_Member] WHERE [mem_Level]=1")
+		ZBQQConnect_DB.objUser.ID=o("mem_id")
+		ZBQQConnect_DB.LoadInfo 2
+		Set o=Nothing
+	Else
+		If (Not IsEmpty(Request.Cookies("QQOPENID"))) And (Not isNull(Request.Cookies("QQOPENID"))) And ( Request.Cookies("QQOPENID")<>"")  Then
+			ZBQQConnect_DB.openID=Request.Cookies("QQOPENID")
+			ZBQQConnect_DB.LoadInfo 4
+		ElseIf BlogUser.Level<5 Then
+			Set ZBQQConnect_DB.objUser=BlogUser
+			ZBQQConnect_DB.LoadInfo 2
+		Else
+			ZBQQConnect_DB.Email=ZBQQConnect_CommentCore.Email
+			ZBQQConnect_DB.LoadInfo 3
+		End If
+	End If
+	Dim tupian
+	If ZBQQConnect_DB.openID="" Then Exit Function
+	Dim strT,tea,strTemp
 	If ZBQQConnect_CommentCore.ID = 0 then Exit Function
-	If ZBQQConnect_CmtSend=False Then Exit Function
-	strT=ZBQQConnect_Ttent
     Dim ZBQQConnect_test
 	set ZBQQConnect_test = new tarticle
 	ZBQQConnect_test.loadinfobyid(ZBQQConnect_CommentCore.Log_Id)
-	strT = Replace(strT,"%u",ZBQQConnect_test.url & "#cmt" & ZBQQConnect_CommentCore.id) 
-	strT = Replace(strT,"%t",ZBQQConnect_test.title) 
-	set ZBQQConnect_test = nothing
-	strT = Replace(strT,"%b",ZC_BLOG_NAME)
-	strT = Replace(strT,"%s",ZBQQConnect_CommentCore.Author)
 	If Len(ZBQQConnect_CommentCore.Content) <= ZBQQConnect_strLong Then
 	    tea=ZBQQConnect_ReplaceXO(UBBCode(replace(replace(replace(ZBQQConnect_CommentCore.Content,vbcrlf," "),vbcr," "),vblf," "),"[link][email][font][face]"))
 	Else
 	    tea=left(ZBQQConnect_ReplaceXO(UBBCode(replace(replace(replace(ZBQQConnect_CommentCore.Content,vbcrlf," "),vbcr," "),vblf," "),"[link][email][font][face]")),ZBQQConnect_strLong) & "..."
 	End If
 	tea=TransferHTML(tea,"[nohtml]")
-	strT=Replace(strT,"%c",tea)
-	call ZBQQConnect_class.Run(2,strT,Request.ServerVariables("REMOTE_ADDR"),"","")
+	strTemp=TransferHTML(UBBCode(ZBQQConnect_test.Intro,"[link][email][font][code][face][image][flash][typeset][media][autolink][link-antispam]"),"[nohtml]")
+	strTemp=Replace(ZBQQConnect_ReplaceXO(strTemp),"'","\'")
+	Dim t_add
+	if ZBQQConnect_PicSendToWb=true then
+		tupian=UBBCode(ZBQQConnect_test.Content,"[image]")
+		tupian=ZBQQConnect_LoadPicture(tupian)
+		if tupian="" then tupian=ZBQQConnect_notfoundpic
+		tupian=replace(replace(tupian,"\","/"),"'","\'")
+	else
+		tupian="~"
+	end if
+	t_add = ZBQQConnect_class.Share(ZBQQConnect_test.Title,ZBQQConnect_test.Url,tea,strTemp,tupian,1)
+	response.write t_add
+	'Set t_add=ZBQQConnect_Toobject(t_add)
+	'If t_add.ret=0 Then
+'		Call SetBlogHint_Custom("恭喜，同步到QQ空间成功")
+'	else
+'		Call SetBlogHint_Custom("同步到QQ空间出现问题" & t_add.ret)
+'		Call SetBlogHint_Custom("调试信息：<br/>"&ZBQQConnect.debugMsg)'&"<br/>URL="&)
+'	End If
+		ZBQQConnect_class.debugMsg=""
+		If ZBQQConnect_SToWb=True Then 
+			t_add = ZBQQConnect_class.t("更新了博客：《"&ZBQQConnect_ACore.Title&"》，"&ZBQQConnect_ACore.Url)
+			Set t_add=ZBQQConnect_Toobject(t_add)
+			If t_add.ret=0 Then
+				Call SetBlogHint_Custom("恭喜，同步到腾讯微博成功")
+			else
+				Call SetBlogHint_Custom("同步到腾讯微博出现问题" & t_add.ret)
+				Call SetBlogHint_Custom("调试信息：<br/>"&ZBQQConnect_class.debugMsg)'&"<br/>URL="&)
+			End If
+		End If
 	set ZBQQConnect_CommentCore = nothing
-	Call ZBQQConnect_Terminate
 End Function
 
 
@@ -206,34 +285,25 @@ function ZBQQConnect_ArticleToWb(ByRef ZBQQConnect_ACore)
 		else
 			tupian="~"
 		end if
-		
-		Dim strJSON
-		
-		if tupian<>"~" then
-			strJSON="{'title':'"&Replace(ZBQQConnect_ACore.Title,"'","\'")&"','url':'"&Replace(ZBQQConnect_ACore.Url,"'","\'")&"','summary':'"&strTemp&"','images':'"&tupian&"'"
-		Else
-			strJSON="{'title':'"&Replace(ZBQQConnect_ACore.Title,"'","\'")&"','url':'"&Replace(ZBQQConnect_ACore.Url,"'","\'")&"','summary':'"&strTemp&"'"
-		End If
-		'Call SetBlogHint_Custom(strjSON)
-		strJSON=strJSON & ",'nswb':1"
-		strJSON=strJSON & "}"
-		t_add = ZBQQConnect_class.API("https://graph.qq.com/share/add_share",strJSON,"POST&")
-		Set t_add=ZBQQConnect_Toobject(t_add)
-		If t_add.ret=0 Then
-			Call SetBlogHint_Custom("恭喜，同步到QQ空间成功")
-		else
-			Call SetBlogHint_Custom("同步到QQ空间出现问题" & t_add.ret)
-			Call SetBlogHint_Custom("调试信息：<br/>OpenID="&ZBQQConnect_Class.OpenID&"<br/>AccessToken="&ZBQQConnect_Class.AccessToken&"<br/>PrivateJSON="&strJSON)'&"<br/>URL="&)
-	    End If
-		If ZBQQConnect_SToWb=True Then 
-			strJSON="{'format':'json','content':'更新了博客：《"&Replace(ZBQQConnect_ACore.Title,"'","\'")&"》，"&Replace(ZBQQConnect_ACore.Url,"'","\'")&"','clientip':'"&Request.ServerVariables("REMOTE_ADDR")&"'}"
-			t_add = ZBQQConnect_class.API("https://graph.qq.com/t/add_t",strJSON,"POST&")
+		If ZBQQConnect_SToZone=True Then
+			t_add = ZBQQConnect_class.Share(ZBQQConnect_ACore.Title,ZBQQConnect_ACore.Url,"",strTemp,tupian,1)
 			Set t_add=ZBQQConnect_Toobject(t_add)
 			If t_add.ret=0 Then
-			Call SetBlogHint_Custom("恭喜，同步到腾讯微博成功")
+				Call SetBlogHint_Custom("恭喜，同步到QQ空间成功")
+			else
+				Call SetBlogHint_Custom("同步到QQ空间出现问题" & t_add.ret)
+				Call SetBlogHint_Custom("调试信息：<br/>"&ZBQQConnect.debugMsg)'&"<br/>URL="&)
+			End If
+		End If
+		ZBQQConnect_class.debugMsg=""
+		If ZBQQConnect_SToWb=True Then 
+			t_add = ZBQQConnect_class.t("更新了博客：《"&ZBQQConnect_ACore.Title&"》，"&ZBQQConnect_ACore.Url)
+			Set t_add=ZBQQConnect_Toobject(t_add)
+			If t_add.ret=0 Then
+				Call SetBlogHint_Custom("恭喜，同步到腾讯微博成功")
 			else
 				Call SetBlogHint_Custom("同步到腾讯微博出现问题" & t_add.ret)
-				Call SetBlogHint_Custom("调试信息：<br/>OpenID="&ZBQQConnect_Class.OpenID&"<br/>AccessToken="&ZBQQConnect_Class.AccessToken&"<br/>PrivateJSON="&strJSON)'&"<br/>URL="&)
+				Call SetBlogHint_Custom("调试信息：<br/>"&ZBQQConnect_class.debugMsg)'&"<br/>URL="&)
 			End If
 		End If
 	End If
