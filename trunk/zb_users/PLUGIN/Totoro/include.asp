@@ -55,7 +55,7 @@ Function ActivePlugin_Totoro()
 	'Action_Plugin_Admin_Begin
 	Call Add_Action_Plugin("Action_Plugin_Admin_Begin","If Request.QueryString(""act"")=""CommentMng"" Then Call Totoro_GetSpamCount_Comment() End If")
 	'网站管理加上二级菜单项
-	Call Add_Response_Plugin("Response_Plugin_SettingMng_SubMenu",MakeSubMenu("Totoro设置","../zb_users/plugin/totoro/setting.asp","m-left",False))
+	Call Add_Response_Plugin("Response_Plugin_SettingMng_SubMenu",MakeSubMenu("Totoro设置",GetCurrentHost() & "zb_users/plugin/totoro/setting.asp","m-left",False))
 
 End Function
 
@@ -78,7 +78,7 @@ Function InstallPlugin_Totoro()
 		Totoro_Config.Write "TOTORO_BADWORD_LIST","虚拟主机|域名注册|服务器托管|host|铃声|彩信|营销|SEO|数据恢复|彩票|手机图片|游戏币|金币|交友中心|成人用品|私服|黄页|出租|求购|显示屏|投影仪|群发|翻译公司|留学咨询|外挂|google排名|婚庆公司|淘宝|皮肤病|不孕不育|性病|怀孕|医院"
 		Totoro_Config.Write "TOTORO_NUMBER_VALUE",10
 		Totoro_Config.Write "TOTORO_REPLACE_KEYWORD","**"
-		Totoro_Config.Write "TOTORO_REPLACE_LIST","无界|自由门|Free.+?Gate|大纪元|九评|江泽民|胡锦涛|温家宝|李洪志|法轮|民运|独裁|中?.*?共.*?党|64|马列|政府|Gov|示威|天安门|达赖|喇嘛|党|茉莉花|革命|十大|中革|Fuck|草泥马|Shit|操|QNMLGB|妈逼|你妈|尼玛|(台|藏|疆)独"
+		Totoro_Config.Write "TOTORO_REPLACE_LIST",""
 		Totoro_Config.Write "TOTORO_CHINESESV",50
 
 		Totoro_Config.Save
@@ -323,8 +323,8 @@ Function Totoro_GetSpamCount_Comment()
 	End If
 
 	'评论管理加上二级菜单项
-	Call Add_Response_Plugin("Response_Plugin_CommentMng_SubMenu",MakeSubMenu("审核评论" & Totoro_SpamCount_Comment,"../plugin/totoro/setting1.asp","m-left",False) & "<scr" & "ipt src=""../plugin/totoro/common.js"" type=""text/javascript""></scr" & "ipt><scr" & "ipt src=""../plugin/totoro/cmmng.js"" type=""text/javascript""></scr" & "ipt>")
-
+	Call Add_Response_Plugin("Response_Plugin_CommentMng_SubMenu",MakeSubMenu("审核评论" & Totoro_SpamCount_Comment,GetCurrentHost() & "zb_users/plugin/totoro/setting1.asp","m-left",False))
+' & "<scr" & "ipt src=""../plugin/totoro/common.js"" type=""text/javascript""></scr" & "ipt><scr" & "ipt src=""../plugin/totoro/cmmng.js"" type=""text/javascript""></scr" & "ipt>"
 End Function
 '*********************************************************
 

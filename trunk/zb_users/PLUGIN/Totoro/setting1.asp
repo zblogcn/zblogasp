@@ -74,7 +74,7 @@ BlogTitle="TotoroⅢ（基于TotoroⅡ的Z-Blog的评论管理审核系统增强
 
 	Call GetBlogHint()
 
-	Response.Write "<form id=""frmBatch"" method=""post"" action=""""><p><input class=""button"" type=""submit"" onclick='this.form.action="""&ZC_BLOG_HOST&"zb_users/plugin/totoro/commentdel.asp?act=delALL"&""";return window.confirm("""& ZC_MSG058 &""");' value=""删除数据库中所有未审核的评论"" id=""btnPost""/></p></form><br/>"
+	Response.Write "<form id=""frmBatch"" method=""post"" action=""""><p><input class=""button button2"" type=""submit"" onclick='this.form.action="""&ZC_BLOG_HOST&"zb_users/plugin/totoro/commentdel.asp?act=delALL"&""";return window.confirm("""& ZC_MSG058 &""");' value=""删除数据库中所有未审核的评论"" id=""btnPost""/></p></form><br/>"
 
 	Response.Write "<table border=""1"" width=""100%"" cellspacing=""1"" cellpadding=""1"">"
 	Response.Write "<tr><td width='5%'>"& ZC_MSG076 &"</td><td width='14%'>"& ZC_MSG001 &"</td><td>"& ZC_MSG055 &"</td><td width='12%'>"& ZC_MSG080 &"</td><td width='15%'>"& ZC_MSG075 &"</td><td width='5%'  align='center'><a href='' onclick='BatchSelectAll();return false'>"& ZC_MSG229 &"</a></td></tr>"'
@@ -115,7 +115,7 @@ BlogTitle="TotoroⅢ（基于TotoroⅡ的Z-Blog的评论管理审核系统增强
 	For i=1 to objRS.PageCount
 		strPage=strPage &"<a href='"&ZC_BLOG_HOST&"/zb_users/plugin/totoro/setting1.asp?page="& i &"'>["& Replace(ZC_MSG036,"%s",i) &"]</a> "
 	Next
-	Response.Write "<br/><form id=""frmBatch"" method=""post"" action=""""><p><input type=""hidden"" id=""edtBatch"" name=""edtBatch"" value=""""/><input class=""button"" type=""submit"" onclick='BatchDeleteAll(""edtBatch"");if(document.getElementById(""edtBatch"").value){this.form.action="""&ZC_BLOG_HOST&"/zb_users/plugin/totoro/commentdel.asp"&""";return window.confirm("""& ZC_MSG058 &""");}else{return false}' value=""删除所选择的评论"" id=""btnPost""/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=""button"" type=""submit"" onclick='BatchDeleteAll(""edtBatch"");if(document.getElementById(""edtBatch"").value){this.form.action="""&ZC_BLOG_HOST&"/zb_users/plugin/totoro/commentpass.asp"&""";return window.confirm("""& ZC_MSG058 &""");}else{return false}' value=""通过所选择的评论"" id=""btnPost""/></p><form><br/>" & vbCrlf
+	Response.Write "<br/><form id=""frmBatch"" method=""post"" action=""""><p><input type=""hidden"" id=""edtBatch"" name=""edtBatch"" value=""""/><input class=""button button2"" type=""submit"" onclick='BatchDeleteAll(""edtBatch"");if(document.getElementById(""edtBatch"").value){this.form.action="""&ZC_BLOG_HOST&"/zb_users/plugin/totoro/commentdel.asp"&""";return window.confirm("""& ZC_MSG058 &""");}else{return false}' value=""删除所选择的评论"" id=""btnPost""/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=""button button2"" type=""submit"" onclick='BatchDeleteAll(""edtBatch"");if(document.getElementById(""edtBatch"").value){this.form.action="""&ZC_BLOG_HOST&"/zb_users/plugin/totoro/commentpass.asp"&""";return window.confirm("""& ZC_MSG058 &""");}else{return false}' value=""通过所选择的评论"" id=""btnPost""/></p><form><br/>" & vbCrlf
 
 	Response.Write "<hr/>" & ZC_MSG042 & ": " & strPage
 
