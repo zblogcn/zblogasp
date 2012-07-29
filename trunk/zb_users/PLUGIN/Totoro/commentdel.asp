@@ -59,7 +59,7 @@ If CheckPluginState("Totoro")=False Then Call ShowError(48)
 	ElseIf request.QueryString("act")="delALL" Then
 
 		Dim strSQL
-		if zc_mssql then
+		if ZC_MSSQL_ENABLE then
 			strSQL="WHERE ([comm_isCheck]=1) "
 		else
 			strsql="WHERE ([comm_isCheck]=FALSE)"

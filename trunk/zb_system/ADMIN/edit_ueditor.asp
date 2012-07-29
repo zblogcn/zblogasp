@@ -122,8 +122,8 @@ Next
 		autoFloatEnabled:false,
 		autoHeightEnabled:false,
 		minFrameHeight:200,
-		highlightJsUrl:"<%=GetCurrentHost%>/ZB_SYSTEM/ADMIN/uEditor/third-party/SyntaxHighlighter/shCore.js" 
-		,highlightCssUrl:"<%=GetCurrentHost%>/ZB_SYSTEM/ADMIN/uEditor/third-party/SyntaxHighlighter/shCoreDefault.css"
+		highlightJsUrl:"<%=GetCurrentHost%>ZB_SYSTEM/ADMIN/uEditor/third-party/SyntaxHighlighter/shCore.js" 
+		,highlightCssUrl:"<%=GetCurrentHost%>ZB_SYSTEM/ADMIN/uEditor/third-party/SyntaxHighlighter/shCoreDefault.css"
 	});</script>
 <!--#include file="admin_top.asp"-->
 <%If IsPage=False Then%>
