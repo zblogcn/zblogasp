@@ -35,8 +35,16 @@ Dim Path
 Path=Replace(BlogPath & strUPLOADDIR &"\" & upload.form("edtFileLoad_Name")	,"\","/")
 Dim s
 FileName=GetCurrentHost & strUPLOADDIR &"\" & upload.form("edtFileLoad_Name")
-s=upload.Save("edtFileLoad",0)
-objConn.Execute("INSERT INTO [blog_UpLoad]([ul_AuthorID],[ul_FileSize],[ul_FileName],[ul_PostTime],[ul_FileIntro],[ul_DirByTime]) VALUES ("& BlogUser.ID &",'"& upload.form("edtFileLoad_Size") &"','"& upload.form("edtFileLoad") &"','"& PostTime &"','Attatment',"&CInt(ZC_UPLOAD_DIRBYMONTH)&")")
+If upload.Save("edtFileLoad",0)=True Then
+	Dim uf
+	Set uf=New TUpLoadFile
+	uf.AuthorID=BlogUser.ID
+	uf.AutoName=False
+	uf.IsManual=True
+	uf.FileSize=upload.form("edtFileLoad_Size")
+	uf.FileName=upload.form("edtFileLoad_Name")
+	uf.UpLoad
+End If
 
 Dim strJSON
 strJSON="{'state':'"& upload.Error2Info("edtFileLoad") & "','url':'"& upload.form("edtFileLoad") &"','fileType':'"&upload.form("edtFileLoad_Ext")&"','title':'"&TransferHTML(upload.form("pictitle"),"[&][<][>][""][space][enter][nohtml]")&"','original':'"&upload.Form("edtFileLoad_Name")&"'}"
