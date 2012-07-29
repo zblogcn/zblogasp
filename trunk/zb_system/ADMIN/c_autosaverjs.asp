@@ -28,7 +28,7 @@ Response.ContentType="application/x-javascript"
 Call System_Initialize()
 
 Public ZC_AUTOSAVE_FILENAME
-ZC_AUTOSAVE_FILENAME="autosave"&"_"&MD5(GetCurrentHost & ZC_BLOG_CLSID & BlogUser.Name)&".txt"  
+ZC_AUTOSAVE_FILENAME="autosave"&"_"&MD5(ZC_BLOG_CLSID & BlogUser.ID)&".txt"  
 
 
 IF IsEmpty(ReQuest.QueryString("act")) Then
@@ -74,7 +74,7 @@ Function SaveContent()
 		.Charset = "utf-8"
 		.Position = objStream.Size
 		.WriteText=BytesToBstr(Request.BinaryRead(Request.TotalBytes),"UTF-8")
-		.SaveToFile Server.MapPath("../../ZB_USERS/CACHE/"&ZC_AUTOSAVE_FILENAME),2
+		.SaveToFile BlogPath & "ZB_USERS/CACHE/"&ZC_AUTOSAVE_FILENAME,2
 		.Close
 		End With
 		Set objStream = NoThing
@@ -94,33 +94,26 @@ Function ExportAutoSaveJS()
 	Response.Clear
 	'//////////////
 	Response.Write "  function init(){"
-	If Request.QueryString("type")="normal" Then Response.Write "init_edit();return postForm.value;"
-	If Request.QueryString("type")="ueditor" Then Response.Write "init_ueditor();return editor.getContent();"
+	Response.Write "init_ueditor();return editor.getContent();"
 	Response.Write "  }"
 	Response.Write "  function restore(obj){"
-	If Request.QueryString("type")="normal" Then Response.Write "init_edit();postForm.value=obj;"
-	If Request.QueryString("type")="ueditor" Then Response.Write "init_ueditor();return editor.setContent(obj);"
-
+	Response.Write "init_ueditor();return editor.setContent(obj);"
 	Response.Write "  }"
 	'/////////////
 	Response.Write "  var AutoSaveTime=60;"
 	Response.Write "  var FileName="""&GetCurrentHost&"zb_users/CACHE/"&ZC_AUTOSAVE_FILENAME&""";"
 	Response.Write "  var postForm = null; "
 	Response.Write "  var msg = null; "
-	Response.Write "  function init_edit(){"
-	Response.Write "  postForm = document.edit.txaContent;"
-	Response.Write "  msg = document.getElementById(""msg"");"
-	Response.Write "  }"
 	Response.Write "  function init_ueditor(){"
 	Response.Write "  msg = document.getElementById(""msg"");"
-	Response.Write "  postForm = document.edit.ueditor;"
+	Response.Write "  postForm = document.edit.editor;"
 	Response.Write "  }"
 	'/////////////
 	'/////////////
 	Response.Write "var ti=AutoSaveTime;"
 	Response.Write "function savedraft()"
 	Response.Write "{	 init();"
-	Response.Write "	if (postForm!=null&&typeof(postForm)!=undefined){"
+	'Response.Write "	if (postForm!=null&&typeof(postForm)!=undefined){"
 	Response.Write "		var url = ""c_autosaverjs.asp"";"
 	Response.Write "		var postStr = init();"
 	Response.Write "		if (postStr){"
@@ -133,13 +126,13 @@ Function ExportAutoSaveJS()
 	Response.Write "		}else{"
 	Response.Write "		msg.innerHTML = """&ZC_MSG256&""";"
 	Response.Write "		ti=-1000;}"
-	Response.Write "	}else{msg.innerHTML = """&ZC_MSG255&""";ti=-1000;}"
+	'Response.Write "	}else{msg.innerHTML = """&ZC_MSG255&""";ti=-1000;}"
 	Response.Write "}"
 	Response.Write "function restoredraft()"
 	Response.Write "{ init();"
 	Response.Write "if (window.confirm('"&ZC_MSG254&"'))"
 	Response.Write "{"
-	Response.Write "	if (postForm!=null&&typeof(postForm)!=undefined){"
+	'Response.Write "	if (postForm!=null&&typeof(postForm)!=undefined){"
 	Response.Write "		var url = FileName;"
 	Response.Write "		var ajax = getHTTPObject();"
 	Response.Write "		ajax.open(""GET"", url+'?random='+Math.random(), true); "
@@ -149,7 +142,7 @@ Function ExportAutoSaveJS()
 	Response.Write "		msg.innerHTML ="""&ZC_MSG253&"""; } } ;"
 	Response.Write "		ajax.send(null); "
 	Response.Write "		ti=-1000;"
-	Response.Write "	}else{msg.innerHTML = """&ZC_MSG255&""";ti=-1000;}"
+	'Response.Write "	}else{msg.innerHTML = """&ZC_MSG255&""";ti=-1000;}"
 	Response.Write ""
 	Response.Write "}"
 	Response.Write "}"
@@ -157,7 +150,7 @@ Function ExportAutoSaveJS()
 	Response.Write "{ "
 	Response.Write "window.open(FileName,'','');"
 	Response.Write "}"
-	Response.Write "document.getElementById(""msg2"").innerHTML =""&nbsp;<a href='javascript:try{Viewdraft()}catch(e){};' style='cursor:hand;'>["&ZC_MSG015&"]</a>&nbsp;<a href='javascript:try{restoredraft()}catch(e){};' style='cursor:hand;'>["&ZC_MSG252&"]</a>&nbsp;<a href='javascript:try{savedraft()}catch(e){};' style='cursor:hand;'>["&ZC_MSG004&"]</a>"";"
+	Response.Write "document.getElementById(""msg2"").innerHTML =""&nbsp;&nbsp;<a href='javascript:try{Viewdraft()}catch(e){};' style='cursor:hand;'>["&ZC_MSG015&"]</a>&nbsp;&nbsp;<a href='javascript:try{restoredraft()}catch(e){};' style='cursor:hand;'>["&ZC_MSG252&"]</a>&nbsp;&nbsp;<a href='javascript:try{savedraft()}catch(e){};' style='cursor:hand;'>["&ZC_MSG004&"]</a>"";"
 	Response.Write "function timer() { "
 	Response.Write "ti=ti-1;"
 	Response.Write "var timemsg=document.getElementById(""timemsg"");timemsg.innerHTML = ti+"""&ZC_MSG251&""";"

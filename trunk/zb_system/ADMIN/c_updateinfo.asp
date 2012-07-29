@@ -28,8 +28,6 @@
 
 	If Len(ZC_UPDATE_INFO_URL)>0 Then
 
-		Call GetReallyDirectory()
-
 		Dim strPingTime
 		Dim strPingContent
 

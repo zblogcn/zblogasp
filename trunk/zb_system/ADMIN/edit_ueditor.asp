@@ -93,12 +93,16 @@ End If
 
 BlogTitle=EditArticle.HtmlUrl
 
-'EditArticle.Content=UBBCode(EditArticle.Content,"[link][email][font][code][face][image][flash][typeset][media][autolink][key][link-antispam]")
 
-EditArticle.Title=TransferHTML(EditArticle.Title,"[html-japan]")
+EditArticle.Content=UBBCode(EditArticle.Content,"[link][email][font][code][face][image][flash][typeset][media][autolink][key][link-antispam]")
+EditArticle.Title=UBBCode(EditArticle.Title,"[link][email][font][code][face][image][flash][typeset][media][autolink][key][link-antispam]")
+
+'EditArticle.Title=TransferHTML(EditArticle.Title,"[html-japan]")
+'EditArticle.Intro=TransferHTML(EditArticle.Intro,"[html-japan]")
+
 EditArticle.Content=TransferHTML(Replace(EditArticle.Content,"<!-- intro -->","<hr />",1,1),"[html-japan]")
 
-EditArticle.Intro=TransferHTML(EditArticle.Intro,"[html-japan]")
+
 
 If InStr(EditArticle.Content,EditArticle.Intro)>0 Then IsAutoIntro=True
 
@@ -154,7 +158,7 @@ Next
 
 <!-- title( -->
                       <p><span class='editinputname'><%=ZC_MSG060%>:</span>
-                        <input type="text" name="edtTitle" id="edtTitle" style="width:400px"  onblur="if(this.value=='') this.value='<%=ZC_MSG099%>'" onFocus="if(this.value=='<%=ZC_MSG099%>') this.value=''" value="<%=EditArticle.Title%>" /></p>
+                        <input type="text" name="edtTitle" id="edtTitle" style="width:400px"  onblur="if(this.value=='') this.value='<%=ZC_MSG099%>'" onfocus="if(this.value=='<%=ZC_MSG099%>') this.value=''" value="<%=EditArticle.Title%>" /></p>
 <!-- )title -->
 
 
@@ -171,7 +175,7 @@ Next
 <% If Request.QueryString("type")<>"Page" Then %>
                         <p><span class='editinputname' style='padding:0 0 0 0;'><%=ZC_MSG138%>:</span>
                         <input type="text" style="width:400px;" name="edtTag" id="edtTag" value="<%=TransferHTML(EditArticle.TagToName,"[html-format]")%>" />
-                        <a href="" style="cursor:pointer;" onClick="if(document.getElementById('ulTag').style.display=='none'){document.getElementById('ulTag').style.display='block';if(loaded==false){$.getScript('edit_ueditor.asp?type=tags');loaded=true;}}else{document.getElementById('ulTag').style.display='none'};return false;"><%=ZC_MSG139%><span style="font-size: 1.5em; vertical-align: -1px;"></span></a></p>
+                        <a href="" style="cursor:pointer;" onclick="if(document.getElementById('ulTag').style.display=='none'){document.getElementById('ulTag').style.display='block';if(loaded==false){$.getScript('edit_ueditor.asp?type=tags');loaded=true;}}else{document.getElementById('ulTag').style.display='none'};return false;"><%=ZC_MSG139%><span style="font-size: 1.5em; vertical-align: -1px;"></span></a></p>
                       <ul id="ulTag" style="display:none;">
                         <li><span id="ajaxtags"><%=ZC_MSG326%></span>&nbsp;&nbsp;(<%=ZC_MSG296%>)</li>
                       </ul>
@@ -196,7 +200,7 @@ Next
 						<!-- <p><span class='editinputname'><%=ZC_MSG055%>:</span></p> -->
 						<p style="text-align:left;"><span class='editinputname'><%=ZC_MSG055%>:</span>&nbsp;&nbsp;<span id="timemsg"></span><span id="msg2"></span><span id="msg"></span><span class='editinputname'></span><script type="text/javascript" src="c_autosaverjs.asp?act=edit&amp;type=ueditor"></script></p>
                         <script id="ueditor" name="txaContent"><%=EditArticle.Content%></script>
-						<p<span><%=ZC_MSG297%><a href="" onClick="try{document.getElementById('divIntro').style.display='block';AutoIntro();return false;}catch(e){}">[<%=ZC_MSG310%>]</a></span></p>
+						<p><span><%=ZC_MSG297%><a href="" onclick="try{document.getElementById('divIntro').style.display='block';AutoIntro();return false;}catch(e){}">[<%=ZC_MSG310%>]</a></span></p>
                       </div>
 
 
@@ -237,7 +241,7 @@ If Request.QueryString("type")<>"Page" Then
 
 If Err.Number=0 Then
 %>
-                      <span class='editinputname' style="cursor:pointer;" onClick="$(this).next().toggleClass('hidden');"><%=ZC_MSG012%>:</span>
+                      <span class='editinputname' style="cursor:pointer;" onclick="$(this).next().toggleClass('hidden');"><%=ZC_MSG012%>:</span>
                         <select style="width:150px;" class="edit" size="1" id="cmbCate" onChange="edtCateID.value=this.options[this.selectedIndex].value">
                           <option value="0"></option>
                           <%
@@ -277,7 +281,7 @@ End If
 
                         <p>
 <!-- template( -->
-                          <span class='editinputname' style="cursor:pointer;" onClick="$(this).next().toggleClass('hidden');"><%=ZC_MSG324%>:</span>
+                          <span class='editinputname' style="cursor:pointer;" onclick="$(this).next().toggleClass('hidden');"><%=ZC_MSG324%>:</span>
                           <select style="width:150px;" class="edit" size="1" id="cmbTemplate" onChange="edtTemplate.value=this.options[this.selectedIndex].value">
                             <%
 	'Response.Write "<option value="""">"&ZC_MSG325&"</option>"
@@ -318,7 +322,7 @@ End If
 
                         <p>
 <!-- level -->
-                          <span class='editinputname' style="cursor:pointer;" onClick="$(this).next().toggleClass('hidden');"><%=ZC_MSG061%>:</span><select class="edit" style="width:150px;" size="1" id="cmbArticleLevel" onChange="edtLevel.value=this.options[this.selectedIndex].value">
+                          <span class='editinputname' style="cursor:pointer;" onclick="$(this).next().toggleClass('hidden');"><%=ZC_MSG061%>:</span><select class="edit" style="width:150px;" size="1" id="cmbArticleLevel" onChange="edtLevel.value=this.options[this.selectedIndex].value">
                             <%
 	Dim ArticleLevel
 	Dim i:i=0
@@ -341,7 +345,7 @@ End If
                         <p>
 <!-- user( -->
 
-                        <span class='editinputname' style="cursor:pointer;" onClick="$(this).next().toggleClass('hidden');"><%=ZC_MSG003%>:</span><select style="width:150px;" size="1" id="cmbUser" onChange="edtAuthorID.value=this.options[this.selectedIndex].value">
+                        <span class='editinputname' style="cursor:pointer;" onclick="$(this).next().toggleClass('hidden');"><%=ZC_MSG003%>:</span><select style="width:150px;" size="1" id="cmbUser" onChange="edtAuthorID.value=this.options[this.selectedIndex].value">
                           <option value="0"></option>
                           <%
 	GetUser()
@@ -375,7 +379,7 @@ End If
 
                         <p>
 <!-- date( -->
-                          <span class='editinputname' style="cursor:pointer;" onClick="$(this).next().toggleClass('hidden');"><%=ZC_MSG062%>:</span><span><input type="text" name="edtYear" id="edtYear" style="width:30px;" value="<%=Year(EditArticle.PostTime)%>" /><span>-</span><input type="text" name="edtMonth" id="edtMonth" style="width:15px;" value="<%=Month(EditArticle.PostTime)%>" /><span>-</span><input type="text" name="edtDay" id="edtDay" style="width:15px;" value="<%=Day(EditArticle.PostTime)%>" /><span>-</span><input type="text" name="edtTime" id="edtTime" style="width:50px;" value="<%= Hour(EditArticle.PostTime)&":"&Minute(EditArticle.PostTime)&":"&Second(EditArticle.PostTime)%>" /></span>
+                          <span class='editinputname' style="cursor:pointer;" onclick="$(this).next().toggleClass('hidden');"><%=ZC_MSG062%>:</span><span><input type="text" name="edtYear" id="edtYear" style="width:30px;" value="<%=Year(EditArticle.PostTime)%>" /><span>-</span><input type="text" name="edtMonth" id="edtMonth" style="width:15px;" value="<%=Month(EditArticle.PostTime)%>" /><span>-</span><input type="text" name="edtDay" id="edtDay" style="width:15px;" value="<%=Day(EditArticle.PostTime)%>" /><span>-</span><input type="text" name="edtTime" id="edtTime" style="width:50px;" value="<%= Hour(EditArticle.PostTime)&":"&Minute(EditArticle.PostTime)&":"&Second(EditArticle.PostTime)%>" /></span>
 <!-- )date -->
 
                       </p>
@@ -477,10 +481,22 @@ End If
 	}
 
 	function AutoIntro() {
-		//editor2.setContent(editor.getContent().replace(/<p>[\u0000-\uffff]+?<\/p>/g, "$1"));
-		editor2.setContent(editor.getContent().split("</p>")[0].concat("</p>"));
+		var s=editor.getContent();
+		editor2.setContent("");
+		if(s.indexOf("<hr />")>0){
+			editor2.setContent(editor.getContent().split("<hr />")[0]);
+		}else{
+			s="";
+			var ss=editor.getContent().split("</p>");
+			for (var t in ss){
+				if(s.length<200){
+					s+=ss[t].concat("</p>");
+				}
+			}
+			editor2.setContent(s);
+		}
 
-		$("#divIntro").show()
+		$("#divIntro").show();
 	}
 
 // ]]>

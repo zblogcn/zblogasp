@@ -190,23 +190,23 @@ Function PostArticle()
 
 	objArticle.Content=Request.Form("txaContent")
 
-	If objArticle.Intro="" Then
+	If InStr(objArticle.Content,"<hr />")>0 Then
 		s=objArticle.Content
 		i=InStr(s,"<hr />")
-		If i>0 Then
-			objArticle.Content=Replace(s,"<hr />","<!-- intro -->",1,1)
-			s=Left(s,i-1)
-		End If
+		s=Left(s,i-1)
 		objArticle.Intro=s
+		objArticle.Content=Replace(objArticle.Content,"<hr />","<!-- intro -->",1,1)
 	End If
 
 	If objArticle.Intro="" Then
 		s=objArticle.Content
-		If UBound(Split(s,"</p>"))>0 Then
-			s=Split(s,"</p>")(0)
-		End If
-		s=TransferHTML(s,"[closehtml]")
-		objArticle.Intro=s
+		For i =0 To UBound(Split(s,"</p>"))
+			If Trim(Split(s,"</p>")(i))<>"" Then
+				t=t & Split(s,"</p>")(i) & "</p>"
+			End If
+			If Len(t)>200 Then Exit for
+		Next 
+		objArticle.Intro=t
 	End If
 
 
