@@ -243,8 +243,8 @@ End Function
 ' 目的：    Manager SinglePages
 '*********************************************************
 Function ExportPageList(intPage,intCate,intLevel,intTitle)
-'Call SetBlogHint_Custom(ZC_MSG334)
-Call Add_Response_Plugin("Response_Plugin_ArticleMng_SubMenu",MakeSubMenu(ZC_MSG328 & "","../cmd.asp?act=ArticleEdt&amp;type=Page&amp;webedit=" & ZC_BLOG_WEBEDIT,"m-left",False))
+
+Call Add_Response_Plugin("Response_Plugin_ArticleMng_SubMenu",MakeSubMenu(ZC_MSG112 & "","../cmd.asp?act=ArticleEdt&amp;type=Page&amp;webedit=" & ZC_BLOG_WEBEDIT,"m-left",False))
 
 	Dim i
 	Dim objRS
@@ -259,7 +259,7 @@ Call Add_Response_Plugin("Response_Plugin_ArticleMng_SubMenu",MakeSubMenu(ZC_MSG
 	intTitle=vbsunescape(intTitle)
 	intTitle=FilterSQL(intTitle)
 
-	Response.Write "<div class=""divHeader"">" & ZC_MSG327 & "</div>"
+	Response.Write "<div class=""divHeader"">" & ZC_MSG111 & "</div>"
 	Response.Write "<div class=""SubMenu"">" & Response_Plugin_ArticleMng_SubMenu & "</div>"
 	Response.Write "<div id=""divMain2"">"
 
@@ -267,13 +267,13 @@ Call Add_Response_Plugin("Response_Plugin_ArticleMng_SubMenu",MakeSubMenu(ZC_MSG
 
 	Response.Write "<form class=""search"" id=""edit"" method=""post"" action=""../admin/admin.asp?act=ArticleMng&amp;type=Page"">"
 
-	Response.Write "<p>"&REPLACE(ZC_MSG158,ZC_MSG048,ZC_MSG330)&":</p><p>"
+	Response.Write "<p>"&REPLACE(ZC_MSG158,ZC_MSG048,ZC_MSG160)&":</p><p>"
 
 	Response.Write ZC_MSG061&" <select class=""edit"" size=""1"" id=""level"" name=""level"" style=""width:80px;"" ><option value=""-1"">"&ZC_MSG157&"</option> "
 
 	For i=LBound(ZVA_Article_Level_Name)+1 to Ubound(ZVA_Article_Level_Name)
 			Response.Write "<option value="""&i&""" "
-			Response.Write ">"&Replace(ZVA_Article_Level_Name(i),ZC_MSG048,ZC_MSG330) &"</option>"
+			Response.Write ">"&Replace(ZVA_Article_Level_Name(i),ZC_MSG048,ZC_MSG160) &"</option>"
 	Next
 	Response.Write "</select>"
 
@@ -482,7 +482,7 @@ Function ExportCommentList(intPage,intContent)
 
 
 	Response.Write "<form class=""search"" id=""edit"" method=""post"" action=""../admin/admin.asp?act=CommentMng"">"
-	Response.Write "<p>"&ZC_MSG287&":</p><p>"
+	Response.Write "<p>"&ZC_MSG234&":</p><p>"
 
 	Response.Write " "&ZC_MSG224&" <input id=""intContent"" name=""intContent"" style=""width:250px;"" type=""text"" value="""" /> "
 	Response.Write "<input type=""submit"" class=""button"" value="""&ZC_MSG087&"""/>"
@@ -490,7 +490,7 @@ Function ExportCommentList(intPage,intContent)
 	Response.Write "</p></form>"
 
 	Response.Write "<table border=""1"" width=""100%"" cellspacing=""0"" cellpadding=""0"" class=""tableBorder"">"
-	Response.Write "<tr><th width=""5%""></th><th width='5%'>"& ZC_MSG076 &"</th><th width=""5%"">"&ZC_MSG331&"</th><th width='10%'>"& ZC_MSG001 &"</th><th>"& ZC_MSG055 &"</th><th>"& ZC_MSG048 &"</th><th width='14%'></th><th width='5%'  align='center'><a href='' onclick='BatchSelectAll();return false'>"& ZC_MSG229 &"</a></th></tr>"'
+	Response.Write "<tr><th width=""5%""></th><th width='5%'>"& ZC_MSG076 &"</th><th width=""5%"">"&ZC_MSG152&"</th><th width='10%'>"& ZC_MSG001 &"</th><th>"& ZC_MSG055 &"</th><th>"& ZC_MSG048 &"</th><th width='14%'></th><th width='5%'  align='center'><a href='' onclick='BatchSelectAll();return false'>"& ZC_MSG229 &"</a></th></tr>"'
 
 	objRS.Open("SELECT * FROM [blog_Comment] "& strSQL &" ORDER BY [comm_ID] DESC")
 	'Dim objArticle
@@ -525,7 +525,7 @@ Function ExportCommentList(intPage,intContent)
 
 			Response.Write "<td><a id=""mylink"&objRS("comm_ID")&""" href=""$div"&objRS("comm_ID")&"tip?width=400"" class=""betterTip"" title="""&ZC_MSG055&""">" & Left(objRS("comm_Content"),30) & "...</a><div id=""div"&objRS("comm_ID")&"tip"" style=""display:none;""><p>"& objRS("comm_Content") &"</p><br/><p>" & ZC_MSG080 & " : " &objRS("comm_IP") & "</p><p>" & ZC_MSG075 & " : " &objRS("comm_PostTime") & "</p></div></td>"
 			Response.Write "<td>"& objArticle.HtmlTitle &"</td>"
-			Response.Write "<td align=""center""><a href=""../cmd.asp?act=CommentEdt&amp;revid="&objRs("comm_ID")&"&amp;log_id="& objRS("log_ID") &"""><img src=""../image/admin/comments.png"" alt=""" & ZC_MSG333 & """ title=""" & ZC_MSG333 & """ width=""16"" /></a>&nbsp;&nbsp;&nbsp;&nbsp;<a href=""../cmd.asp?act=CommentEdt&amp;amp;id=" & objRS("comm_ID") & "&amp;log_id="& objRS("log_ID") &"&amp;revid="& objRS("comm_ParentID") &"""><img src=""../image/admin/comment_edit.png"" alt=""" & ZC_MSG078 & """ title=""" & ZC_MSG078 & """ width=""16"" /></a>&nbsp;&nbsp;&nbsp;&nbsp;<a href=""../cmd.asp?act=CommentDel&amp;id=" & objRS("comm_ID") & "&amp;log_id="& objRS("log_ID")  &"&amp;revid="& objRS("comm_ParentID") &""" onclick='return window.confirm("""& ZC_MSG058 &""");'><img src=""../image/admin/delete.png"" alt=""" & ZC_MSG063 & """ title=""" & ZC_MSG063 & """ width=""16"" /></a></td>"
+			Response.Write "<td align=""center""><a href=""../cmd.asp?act=CommentEdt&amp;revid="&objRs("comm_ID")&"&amp;log_id="& objRS("log_ID") &"""><img src=""../image/admin/comments.png"" alt=""" & ZC_MSG149 & """ title=""" & ZC_MSG149 & """ width=""16"" /></a>&nbsp;&nbsp;&nbsp;&nbsp;<a href=""../cmd.asp?act=CommentEdt&amp;amp;id=" & objRS("comm_ID") & "&amp;log_id="& objRS("log_ID") &"&amp;revid="& objRS("comm_ParentID") &"""><img src=""../image/admin/comment_edit.png"" alt=""" & ZC_MSG078 & """ title=""" & ZC_MSG078 & """ width=""16"" /></a>&nbsp;&nbsp;&nbsp;&nbsp;<a href=""../cmd.asp?act=CommentDel&amp;id=" & objRS("comm_ID") & "&amp;log_id="& objRS("log_ID")  &"&amp;revid="& objRS("comm_ParentID") &""" onclick='return window.confirm("""& ZC_MSG058 &""");'><img src=""../image/admin/delete.png"" alt=""" & ZC_MSG063 & """ title=""" & ZC_MSG063 & """ width=""16"" /></a></td>"
 			Response.Write "<td align=""center"" ><input type=""checkbox"" id=""edtDel"&objRS("comm_ID")&""" name=""edtDel"" value="""&objRS("comm_ID")&"""/></td>"
 			Response.Write "</tr>"
 
@@ -900,7 +900,7 @@ Function ExportPluginMng()
 
 
 	Response.Write "<table border=""1"" width=""100%"" cellspacing=""0"" cellpadding=""0"" class=""tableBorder"">"
-	Response.Write "<tr><th width=""6%"">"& ZC_MSG309 &"</th><th width=""6%"">"& ZC_MSG079 &"</th><th>"& ZC_MSG001 &"</th><th width=""15%"">"& ZC_MSG128 &"</th><th width=""15%"">"& ZC_MSG150 &"</th><th width=""15%"">"& ZC_MSG151 &"</th><th width=""5%""></th><th width=""5%""></th></tr>"
+	Response.Write "<tr><th width=""6%"">"& ZC_MSG201 &"</th><th width=""6%"">"& ZC_MSG079 &"</th><th>"& ZC_MSG001 &"</th><th width=""15%"">"& ZC_MSG128 &"</th><th width=""15%"">"& ZC_MSG150 &"</th><th width=""15%"">"& ZC_MSG151 &"</th><th width=""5%""></th><th width=""5%""></th></tr>"
 
 	Dim objXmlFile,strXmlFile
 
@@ -927,7 +927,7 @@ Function ExportPluginMng()
 					Response.Write "<td>" & "<a target=""_blank"" href=""" & objXmlFile.documentElement.selectSingleNode("author/url").text & """>"& objXmlFile.documentElement.selectSingleNode("author/name").text & "</td>"
 					Response.Write "<td>" & objXmlFile.documentElement.selectSingleNode("version").text & "</td>"
 					Response.Write "<td>"& objXmlFile.documentElement.selectSingleNode("modified").text &"</td>"
-					Response.Write "<td align='center'>"& ZC_MSG311 &"</td>"
+					Response.Write "<td align='center'>"& ZC_MSG199 &"</td>"
 					Response.Write "<td align='center'>"
 					If BlogUser.Level<=CInt(objXmlFile.documentElement.selectSingleNode("plugin/level").text) Then
 						If fso.FileExists(BlogPath & "zb_users/theme/" & ZC_BLOG_THEME & "/plugin/" & objXmlFile.documentElement.selectSingleNode("plugin/path").text) Then
@@ -994,13 +994,13 @@ Function ExportPluginMng()
 				s=s & "<td align='center'>"
 			If CheckPluginState(objXmlFile.documentElement.selectSingleNode("id").text) Then
 				If CheckRights("PlugInDisable")=True Then
-					s=s & "<a href=""../cmd.asp?act=PlugInDisable&amp;name="& Server.URLEncode(objXmlFile.documentElement.selectSingleNode("id").text) &"""><img width='16' title='"&ZC_MSG307&"' alt='"&ZC_MSG307&"' src='../IMAGE/ADMIN/stop.png'/></a>"
+					s=s & "<a href=""../cmd.asp?act=PlugInDisable&amp;name="& Server.URLEncode(objXmlFile.documentElement.selectSingleNode("id").text) &"""><img width='16' title='"&ZC_MSG203&"' alt='"&ZC_MSG203&"' src='../IMAGE/ADMIN/stop.png'/></a>"
 				Else
 
 				End If
 			Else
 				If CheckRights("PlugInActive")=True Then
-					s=s & "<a href=""../cmd.asp?act=PlugInActive&amp;name="& Server.URLEncode(objXmlFile.documentElement.selectSingleNode("id").text) &"""><img width='16' title='"&ZC_MSG308&"' alt='"&ZC_MSG308&"' src='../IMAGE/ADMIN/accept.png'/></a>"
+					s=s & "<a href=""../cmd.asp?act=PlugInActive&amp;name="& Server.URLEncode(objXmlFile.documentElement.selectSingleNode("id").text) &"""><img width='16' title='"&ZC_MSG202&"' alt='"&ZC_MSG202&"' src='../IMAGE/ADMIN/accept.png'/></a>"
 				Else
 				End If
 			End If
@@ -1148,7 +1148,7 @@ Function ExportSiteInfo()
 	<table border="0" cellspacing="0" cellpadding="0" align="center" width="100%" class="tableBorder">
 	<tr><th height="32" colspan="4"  align="center">&nbsp;<%=ZC_MSG167%></th></tr>
 	<tr>
-	<td width="20%"><%=ZC_MSG160%></td>
+	<td width="20%"><%=ZC_MSG005%></td>
 	<td width="30%"><%=BlogUser.Name%> (<%=ZVA_User_Level_Name(BlogUser.Level)%>)</td>
 	<td width="20%"><%=ZC_MSG150%></td>
 	<td width="30%"><%=ZC_BLOG_VERSION%></td>
@@ -1172,7 +1172,7 @@ Function ExportSiteInfo()
 	<td width="30%"><%=allCateNums%></td>
 	</tr>
 	<tr>
-	<td width="20%"><%=ZC_MSG306%>/<%=ZC_MSG083%></td>
+	<td width="20%"><%=ZC_MSG204%>/<%=ZC_MSG083%></td>
 	<td width="30%"><%=GetNameFormTheme(ZC_BLOG_THEME)%> / <%=ZC_BLOG_CSS%>.css</td>
 	<td width="20%"><%=ZC_MSG166%></td>
 	<td width="30%"><%=allUserNums%></td>
@@ -1263,7 +1263,7 @@ Function ExportSiteInfo()
 If Len(ZC_UPDATE_INFO_URL)>0 Then
 %>
 	<table border="0" cellspacing="0" cellpadding="0" align="center" width="100%" class="tableBorder">
-	<tr><th height="32" colspan="4" align="center">&nbsp;<%=ZC_MSG164%>&nbsp;<a href="javascript:updateinfo('?reload');">[<%=ZC_MSG289%>]</a></th></tr>
+	<tr><th height="32" colspan="4" align="center">&nbsp;<%=ZC_MSG164%>&nbsp;<a href="javascript:updateinfo('?reload');">[<%=ZC_MSG225%>]</a></th></tr>
 	<tr><td height="25" colspan="4" id="tdUpdateInfo">
 <script language="JavaScript" type="text/javascript">
 function updateinfo(s){
@@ -1365,7 +1365,7 @@ Function ExportThemeMng()
 	End If
 
 
-	Response.Write "<div class=""divHeader"">" & ZC_MSG291 & "</div>"
+	Response.Write "<div class=""divHeader"">" & ZC_MSG223 & "</div>"
 	Response.Write "<div class=""SubMenu"">" & Response_Plugin_ThemeMng_SubMenu & "</div>"
 	Response.Write "<div id=""divMain2"">"
 
@@ -1447,11 +1447,11 @@ Function ExportThemeMng()
 		Response.Write "<p>"&ZC_MSG001&":" & Theme_Name & "</p>"
 		Response.Write "<p>"&ZC_MSG128&":" & Theme_Author_Name & "</p>"
 		'Response.Write "<p>"&ZC_MSG054&":" & Theme_Author_Url & "</p>"
-		Response.Write "<p>"&ZC_MSG313&":" & Theme_Source_Name & "</p>"
+		Response.Write "<p>"&ZC_MSG197&":" & Theme_Source_Name & "</p>"
 		'Response.Write "<p>"&ZC_MSG054&":" & Theme_Source_Url & "</p>"
 		Response.Write "<p>"&ZC_MSG011&":" & Theme_Pubdate & "</p>"
 		Response.Write "<p>"&ZC_MSG261&":" & Theme_Modified & "</p>"
-		Response.Write "<p>"&ZC_MSG312&":<br />" & TransferHTML(Theme_Description,"[enter]") & "</p>"
+		Response.Write "<p>"&ZC_MSG198&":<br />" & TransferHTML(Theme_Description,"[enter]") & "</p>"
 		Response.Write "</div>"
 
 		If Theme_Url="" Then
@@ -1469,7 +1469,7 @@ Function ExportThemeMng()
 
 		Response.Write "<p>"&ZC_MSG011&":" & Theme_Pubdate & "</p>"
 		Response.Write "<p>"&ZC_MSG016&":" & Theme_Note & "</p>"
-		Response.Write "<p>"&ZC_MSG314&":" & "<select class=""edit"" size=""1"" id=""cate"&Left(md5(Theme_Id),6)&""" name=""cate"&Left(md5(Theme_Id),6)&""" style=""width:120px;"" onchange=""document.getElementById('edtZC_BLOG_THEME').value='"&Theme_Id&"';document.getElementById('edtZC_BLOG_CSS').value=this.options[this.selectedIndex].value""><option value=""""></option>"
+		Response.Write "<p>"&ZC_MSG196&":" & "<select class=""edit"" size=""1"" id=""cate"&Left(md5(Theme_Id),6)&""" name=""cate"&Left(md5(Theme_Id),6)&""" style=""width:120px;"" onchange=""document.getElementById('edtZC_BLOG_THEME').value='"&Theme_Id&"';document.getElementById('edtZC_BLOG_CSS').value=this.options[this.selectedIndex].value""><option value=""""></option>"
 
 
 		aryFileList=LoadIncludeFiles("zb_users\theme" & "/" & Theme_Id & "/style")
@@ -1502,7 +1502,7 @@ Function ExportThemeMng()
 		End If
 
 		Response.Write "</select>"
-		Response.Write "&nbsp;&nbsp;<a href='#' onclick='if(!document.getElementById(""cate"&Left(md5(Theme_Id),6)&""").value){return false;}else{document.getElementById(""edtZC_BLOG_THEME"").value="""&Theme_Id&""";document.getElementById(""edtZC_BLOG_CSS"").value=document.getElementById(""cate"&Left(md5(Theme_Id),6)&""").value};$(""#frmTheme"").submit()'><img width='16' title='"&ZC_MSG308&"' alt='"&ZC_MSG308&"' src='../IMAGE/ADMIN/arrow_rotate_anticlockwise.png' /></a></p>"
+		Response.Write "&nbsp;&nbsp;<a href='#' onclick='if(!document.getElementById(""cate"&Left(md5(Theme_Id),6)&""").value){return false;}else{document.getElementById(""edtZC_BLOG_THEME"").value="""&Theme_Id&""";document.getElementById(""edtZC_BLOG_CSS"").value=document.getElementById(""cate"&Left(md5(Theme_Id),6)&""").value};$(""#frmTheme"").submit()'><img width='16' title='"&ZC_MSG202&"' alt='"&ZC_MSG202&"' src='../IMAGE/ADMIN/arrow_rotate_anticlockwise.png' /></a></p>"
 
 
 		Response.Write "</div>"
@@ -1542,7 +1542,7 @@ End Function
 '*********************************************************
 Function ExportFunctionList()
 
-	Call Add_Response_Plugin("Response_Plugin_FunctionMng_SubMenu",MakeSubMenu(ZC_MSG349 & "","../cmd.asp?act=FunctionEdt","m-left",False))
+	Call Add_Response_Plugin("Response_Plugin_FunctionMng_SubMenu",MakeSubMenu(ZC_MSG142 & "","../cmd.asp?act=FunctionEdt","m-left",False))
 
 Call Add_Response_Plugin("Response_Plugin_FunctionMng_SubMenu",MakeSubMenu(ZC_MSG233 & "","../cmd.asp?act=FunctionEdt&amp;id="&Functions(FunctionMetas.GetValue("navbar")).ID,"m-left",False))
 Call Add_Response_Plugin("Response_Plugin_FunctionMng_SubMenu",MakeSubMenu(ZC_MSG030 & "","../cmd.asp?act=FunctionEdt&amp;id="&Functions(FunctionMetas.GetValue("favorite")).ID,"m-left",False))
@@ -1551,13 +1551,13 @@ Call Add_Response_Plugin("Response_Plugin_FunctionMng_SubMenu",MakeSubMenu(ZC_MS
 
 	Dim i,j,s
 
-	Response.Write "<div class=""divHeader"">" & ZC_MSG343 & "</div>"
+	Response.Write "<div class=""divHeader"">" & ZC_MSG007 & "</div>"
 	Response.Write "<div class=""SubMenu"">" & Response_Plugin_FunctionMng_SubMenu & "</div>"
 	Response.Write "<div id=""divMain2"">"
 
 
 	Response.Write "<table border=""1"" width=""100%"" cellspacing=""0"" cellpadding=""0"" class='tableBorder'>"
-	Response.Write "<tr><th width=""5%""></th><th width=""8%"">"& ZC_MSG079 &"</th><th width=""8%"">"& ZC_MSG076 &"</th><th>"& ZC_MSG001 &"</th><th>Html ID</th><th width=""14%"">"&ZC_MSG061&"</th><th width=""14%"">"&ZC_MSG345&"</th><th width=""14%""></th></tr>"
+	Response.Write "<tr><th width=""5%""></th><th width=""8%"">"& ZC_MSG079 &"</th><th width=""8%"">"& ZC_MSG076 &"</th><th>"& ZC_MSG001 &"</th><th>Html ID</th><th width=""14%"">"&ZC_MSG061&"</th><th width=""14%"">"&ZC_MSG017&"</th><th width=""14%""></th></tr>"
 
 	Dim aryFunctionInOrder
 	aryFunctionInOrder=GetFunctionOrder()
@@ -1568,11 +1568,11 @@ Call Add_Response_Plugin("Response_Plugin_FunctionMng_SubMenu",MakeSubMenu(ZC_MS
 		s=""
 
 		If Functions(aryFunctionInOrder(i)).SidebarID=0 Then s=""
-		If Functions(aryFunctionInOrder(i)).InSidebar Then s=ZC_MSG344
-		If Functions(aryFunctionInOrder(i)).InSidebar2 Then s=s & "," & ZC_MSG344 &"2"
-		If Functions(aryFunctionInOrder(i)).InSidebar3 Then s=s & "," & ZC_MSG344 &"3"
-		If Functions(aryFunctionInOrder(i)).InSidebar4 Then s=s & "," & ZC_MSG344 &"4"
-		If Functions(aryFunctionInOrder(i)).InSidebar5 Then s=s & "," & ZC_MSG344 &"5"
+		If Functions(aryFunctionInOrder(i)).InSidebar Then s=ZC_MSG008
+		If Functions(aryFunctionInOrder(i)).InSidebar2 Then s=s & "," & ZC_MSG008 &"2"
+		If Functions(aryFunctionInOrder(i)).InSidebar3 Then s=s & "," & ZC_MSG008 &"3"
+		If Functions(aryFunctionInOrder(i)).InSidebar4 Then s=s & "," & ZC_MSG008 &"4"
+		If Functions(aryFunctionInOrder(i)).InSidebar5 Then s=s & "," & ZC_MSG008 &"5"
 
 
 		Response.Write "<tr><td align=""center""><img width=""16"" src=""../image/admin/brick.png"" alt="""" /></td>"
@@ -1593,7 +1593,7 @@ Call Add_Response_Plugin("Response_Plugin_FunctionMng_SubMenu",MakeSubMenu(ZC_MS
 
 	Response.Write "</table>"
 
-	Response.Write "<form id=""frmBatch"" method=""post"" action=""""><input type=""hidden"" id=""edtBatch"" name=""edtBatch"" value=""""/><input class=""button"" type=""submit"" onclick='if($(""#edtBatch"").attr(""value"")==""""){return false;}$(""#frmBatch"").attr(""action"",""../cmd.asp?act=FunctionMng"");' value="""&ZC_MSG087&""" id=""btnPost""/>&nbsp;&nbsp;&nbsp;&nbsp;("&ZC_MSG346&")</form>" & vbCrlf
+	Response.Write "<form id=""frmBatch"" method=""post"" action=""""><input type=""hidden"" id=""edtBatch"" name=""edtBatch"" value=""""/><input class=""button"" type=""submit"" onclick='if($(""#edtBatch"").attr(""value"")==""""){return false;}$(""#frmBatch"").attr(""action"",""../cmd.asp?act=FunctionMng"");' value="""&ZC_MSG087&""" id=""btnPost""/>&nbsp;&nbsp;&nbsp;&nbsp;("&ZC_MSG145&")</form>" & vbCrlf
 
 	Response.Write "</div>"
 

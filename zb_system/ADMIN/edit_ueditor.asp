@@ -111,7 +111,7 @@ EditArticle.Title=TransferHTML(EditArticle.Title,"[html-format]")
 
 Call GetTagsbyTagIDList(EditArticle.Tag)
 
-BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & IIf(IsPage,ZC_MSG329,ZC_MSG047)
+BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & IIf(IsPage,ZC_MSG161,ZC_MSG047)
 
 For Each sAction_Plugin_Edit_ueditor_getArticleInfo in Action_Plugin_Edit_ueditor_getArticleInfo
 	If Not IsEmpty(sAction_Plugin_Edit_ueditor_getArticleInfo) Then Call Execute(sAction_Plugin_Edit_ueditor_getArticleInfo)
@@ -144,7 +144,7 @@ Next
 <%End If%>
                 <div id="divMain">
 <%	Call GetBlogHint()	%>
-<div class="divHeader2"><%=IIf(IsPage,ZC_MSG329,ZC_MSG047)%></div>
+<div class="divHeader2"><%=IIf(IsPage,ZC_MSG161,ZC_MSG047)%></div>
 <%
 	Response.Write "<div class=""SubMenu"">" & Response_Plugin_ArticleEdt_SubMenu & "</div>"
 %>
@@ -177,7 +177,7 @@ Next
                         <input type="text" style="width:400px;" name="edtTag" id="edtTag" value="<%=TransferHTML(EditArticle.TagToName,"[html-format]")%>" />
                         <a href="" style="cursor:pointer;" onclick="if(document.getElementById('ulTag').style.display=='none'){document.getElementById('ulTag').style.display='block';if(loaded==false){$.getScript('edit_ueditor.asp?type=tags');loaded=true;}}else{document.getElementById('ulTag').style.display='none'};return false;"><%=ZC_MSG139%><span style="font-size: 1.5em; vertical-align: -1px;"></span></a></p>
                       <ul id="ulTag" style="display:none;">
-                        <li><span id="ajaxtags"><%=ZC_MSG326%></span>&nbsp;&nbsp;(<%=ZC_MSG296%>)</li>
+                        <li><span id="ajaxtags"><%=ZC_MSG165%></span>&nbsp;&nbsp;(<%=ZC_MSG208%>)</li>
                       </ul>
                       
 <% End If %>
@@ -200,7 +200,7 @@ Next
 						<!-- <p><span class='editinputname'><%=ZC_MSG055%>:</span></p> -->
 						<p style="text-align:left;"><span class='editinputname'><%=ZC_MSG055%>:</span>&nbsp;&nbsp;<span id="timemsg"></span><span id="msg2"></span><span id="msg"></span><span class='editinputname'></span><script type="text/javascript" src="c_autosaverjs.asp?act=edit&amp;type=ueditor"></script></p>
                         <script id="ueditor" name="txaContent"><%=EditArticle.Content%></script>
-						<p><span><%=ZC_MSG297%><a href="" onclick="try{document.getElementById('divIntro').style.display='block';AutoIntro();return false;}catch(e){}">[<%=ZC_MSG310%>]</a></span></p>
+						<p><span><%=ZC_MSG216%><a href="" onclick="try{document.getElementById('divIntro').style.display='block';AutoIntro();return false;}catch(e){}">[<%=ZC_MSG200%>]</a></span></p>
                       </div>
 
 
@@ -281,10 +281,10 @@ End If
 
                         <p>
 <!-- template( -->
-                          <span class='editinputname' style="cursor:pointer;" onclick="$(this).next().toggleClass('hidden');"><%=ZC_MSG324%>:</span>
+                          <span class='editinputname' style="cursor:pointer;" onclick="$(this).next().toggleClass('hidden');"><%=ZC_MSG188%>:</span>
                           <select style="width:150px;" class="edit" size="1" id="cmbTemplate" onChange="edtTemplate.value=this.options[this.selectedIndex].value">
                             <%
-	'Response.Write "<option value="""">"&ZC_MSG325&"</option>"
+	'Response.Write "<option value="""">"&ZC_MSG187&"</option>"
 
 	Dim aryFileList
 
@@ -305,11 +305,11 @@ End If
 
 	If EditArticle.TemplateName="" Then
 	%>
-                            <option value="" selected="selected"><%=ZC_MSG325%>(SINGLE)</option>
+                            <option value="" selected="selected"><%=ZC_MSG187%>(SINGLE)</option>
                             <%
 	Else
 	%>
-                            <option value=""><%=ZC_MSG325%>(SINGLE)</option>
+                            <option value=""><%=ZC_MSG187%>(SINGLE)</option>
                             <%
 	End If
 %>

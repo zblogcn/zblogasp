@@ -416,7 +416,7 @@ Function ArticleEdt
 
 	GetCategory()
 	If (Request.QueryString("type")<>"Page") And (Ubound(Categorys)=0) Then 
-		Call SetBlogHint_Custom(ZC_MSG294)
+		Call SetBlogHint_Custom(ZC_MSG222)
 		Response.Redirect "admin/edit_catalog.asp"
 	End If
 
@@ -757,7 +757,7 @@ Function UserMng()
 		If Not IsEmpty(sAction_Plugin_UserMng_Begin) Then Call Execute(sAction_Plugin_UserMng_Begin)
 		If bAction_Plugin_UserMng_Begin=True Then Exit Function
 	Next
-	Call SetBlogHint_Custom(ZC_MSG315)
+	Call SetBlogHint_Custom(ZC_MSG189)
 	Response.Redirect "admin/admin.asp?act=UserMng&page=" & Request.QueryString("id")
 End Function
 
@@ -1254,6 +1254,12 @@ End Function
 
 Function FunctionMng()
 
+	'plugin node
+	For Each sAction_Plugin_FunctionMng_Begin in Action_Plugin_FunctionMng_Begin
+		If Not IsEmpty(sAction_Plugin_FunctionMng_Begin) Then Call Execute(sAction_Plugin_FunctionMng_Begin)
+		If bAction_Plugin_FunctionMng_Begin=True Then Exit Function
+	Next
+
 	If IsEmpty(Request.Form("edtBatch"))=False Then
 		Call SaveFunctionType()
 		Call SortFunction(Request.Form("edtBatch"))
@@ -1269,6 +1275,12 @@ End Function
 
 Function FunctionEdt()
 
+	'plugin node
+	For Each sAction_Plugin_FunctionEdt_Begin in Action_Plugin_FunctionEdt_Begin
+		If Not IsEmpty(sAction_Plugin_FunctionEdt_Begin) Then Call Execute(sAction_Plugin_FunctionEdt_Begin)
+		If bAction_Plugin_FunctionEdt_Begin=True Then Exit Function
+	Next
+
 	Response.Redirect "admin/edit_function.asp?id=" & Request.QueryString("id")
 
 End Function
@@ -1278,10 +1290,23 @@ End Function
 
 Function FunctionSav()
 
+	'plugin node
+	For Each sAction_Plugin_FunctionSav_Begin in Action_Plugin_FunctionSav_Begin
+		If Not IsEmpty(sAction_Plugin_FunctionSav_Begin) Then Call Execute(sAction_Plugin_FunctionSav_Begin)
+		If bAction_Plugin_FunctionSav_Begin=True Then Exit Function
+	Next
+
 	If SaveFunction()=True Then
 		Call SetBlogHint(True,True,Empty)
 		Call SaveFunctionType()
 		Call MakeBlogReBuild_Core()
+
+		'plugin node
+		For Each sAction_Plugin_FunctionSav_Succeed in Action_Plugin_FunctionSav_Succeed
+			If Not IsEmpty(sAction_Plugin_FunctionSav_Succeed) Then Call Execute(sAction_Plugin_FunctionSav_Succeed)
+			If bAction_Plugin_FunctionSav_Succeed=True Then Exit Function
+		Next
+
 		Response.Redirect "cmd.asp?act=FunctionMng"
 	End If
 
@@ -1292,10 +1317,23 @@ End Function
 
 Function FunctionDel()
 
+	'plugin node
+	For Each sAction_Plugin_FunctionDel_Begin in Action_Plugin_FunctionDel_Begin
+		If Not IsEmpty(sAction_Plugin_FunctionDel_Begin) Then Call Execute(sAction_Plugin_FunctionDel_Begin)
+		If bAction_Plugin_FunctionDel_Begin=True Then Exit Function
+	Next
+
+
 	If DelFunction(CInt(Request.QueryString("id")))=True Then
 		Call SetBlogHint(True,True,Empty)
 		Call SaveFunctionType()
 		Call MakeBlogReBuild_Core()
+
+		For Each sAction_Plugin_FunctionDel_Succeed in Action_Plugin_FunctionDel_Succeed
+			If Not IsEmpty(sAction_Plugin_FunctionDel_Succeed) Then Call Execute(sAction_Plugin_FunctionDel_Succeed)
+			If bAction_Plugin_FunctionDel_Succeed=True Then Exit Function
+		Next
+
 		Response.Redirect "cmd.asp?act=FunctionMng"
 	End If
 

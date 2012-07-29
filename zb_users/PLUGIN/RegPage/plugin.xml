@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <plugin>
-<id>Reg</id>
+<id>RegPage</id>
 <name>注册组件</name>
 <url>http://www.zsxsoft.com/</url>
 <note>注册组件</note>

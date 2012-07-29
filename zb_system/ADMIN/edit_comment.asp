@@ -74,8 +74,8 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG066
 <form id="edit" name="edit" method="post" action="">
 <%
 	Response.Write "<input id=""edtID"" name=""edtID""  type=""hidden"" value="""& EditComment.ID &""" />"
-	Response.Write "<p>"& ZC_MSG277 &":<br/><input type=""text"" id=""inpID"" name=""inpID"" value="""& EditComment.log_ID &""" size=""40"" />(*)</p>"
-	Response.Write "<p>"& ZC_MSG342 &":<br/><input type=""text"" name=""intRepComment"" value="""& TransferHTML(EditComment.ParentID,"[html-format]") &""" size=""40""  /></p>"
+	Response.Write "<p>"& ZC_MSG270 &":<br/><input type=""text"" id=""inpID"" name=""inpID"" value="""& EditComment.log_ID &""" size=""40"" />(*)</p>"
+	Response.Write "<p>"& ZC_MSG095 &":<br/><input type=""text"" name=""intRepComment"" value="""& TransferHTML(EditComment.ParentID,"[html-format]") &""" size=""40""  /></p>"
 
 	Response.Write "<p>"& ZC_MSG001 &":<br/><input type=""text"" id=""inpName"" name=""inpName"" value="""& TransferHTML(EditComment.Author,"[html-format]") &""" size=""40"" />(*)</p>"
 	Response.Write "<p>"& ZC_MSG053 &":<br/><input type=""text"" name=""inpEmail"" value="""& TransferHTML(EditComment.Email,"[html-format]") &""" size=""40""  /></p>"

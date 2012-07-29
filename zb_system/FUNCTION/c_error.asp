@@ -46,9 +46,9 @@
 	End If
 		Response.Write "<p><br/></p>"
 	If CheckRegExp(Request.QueryString("sourceurl"),"[homepage]")=True Then
-		Response.Write "<p style='text-align:right;'><a href=""" & TransferHTML(Request.QueryString("sourceurl"),"[html-format]") & """>" & ZC_MSG295 & "</a></p>"
+		Response.Write "<p style='text-align:right;'><a href=""" & TransferHTML(Request.QueryString("sourceurl"),"[html-format]") & """>" & ZC_MSG207 & "</a></p>"
 	Else
-		Response.Write "<p style='text-align:right;'><a href=""" & ZC_BLOG_HOST & """>" & ZC_MSG295 & "</a></p>"
+		Response.Write "<p style='text-align:right;'><a href=""" & ZC_BLOG_HOST & """>" & ZC_MSG207 & "</a></p>"
 	End If
 
 	If CLng(Request.QueryString("errorid"))=6 Then

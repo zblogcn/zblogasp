@@ -815,7 +815,7 @@ End Function
 ' 目的：    相关文章
 '*********************************************************
 Function WapRelateList(intID,strTag)
-	If (intID=0) Or Not ZC_WAP_MUTUALITY Then Exit Function
+	If (intID=0) Or Not ZC_WAP_MUTUALITY_LIMIT=0 Then Exit Function
 	If strTag<>"" Then
 
 	Dim strCC_Count,strCC_ID,strCC_Name,strCC_Url,strCC_PostTime,strCC_Title

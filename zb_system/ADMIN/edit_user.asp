@@ -99,7 +99,7 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG070
 	Response.Write "(*)"
 	End If
 	Response.Write "</p>"
-	Response.Write "<p>"& ZC_MSG282 &":<br/><input id=""edtPassWordRe"" size=""25"" name=""edtPassWordRe""  type=""password"" value="""" />"
+	Response.Write "<p>"& ZC_MSG237 &":<br/><input id=""edtPassWordRe"" size=""25"" name=""edtPassWordRe""  type=""password"" value="""" />"
 	If EditUser.ID=0 Then
 	Response.Write "(*)"
 	End If
@@ -120,7 +120,7 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG070
 	var str14="<%=ZC_MSG119%>";
 	var str15="<%=ZC_MSG120%>";
 	var str16="<%=ZC_MSG038%>";
-	var str17="<%=ZC_MSG282%>";
+	var str17="<%=ZC_MSG237%>";
 
 	function checkUserInfo(){
 

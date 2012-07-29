@@ -520,12 +520,13 @@ Function SaveComment(intID,intLog_ID)
 
 	If inpParentID>0 And inpParentID<>clng(intID) Then
 		If objComment2.LoadInfoByID(inpParentID)=True Then
-			If GetCommentFloor(inpParentID)+1>ZC_COMMNET_MAXFLOOR Then Call SetBlogHint_Custom(ZC_MSG335):SaveComment=True:Exit Function
-
+			If GetCommentFloor(inpParentID)+1>ZC_COMMNET_MAXFLOOR Then
+				Call ShowError(56)
+			End If
 			If objComment2.log_ID=cLng(intLog_ID) then
 				objComment.ParentID=inpParentID
 			Else
-				Call SetBlogHint_Custom(ZC_MSG336)
+				 Call ShowError(57)
 				SaveComment=True
 				Exit Function
 			End If

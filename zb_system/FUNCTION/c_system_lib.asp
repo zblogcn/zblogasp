@@ -1005,7 +1005,7 @@ Class TArticle
 			s=GetTemplate("TEMPLATE_B_ARTICLE_NVABAR_L")
 			
 			s=Replace(s,"<#article/nav_l/url#>","<#ZC_BLOG_HOST#>zb_system/view.asp?navp="&ID)
-			s=Replace(s,"<#article/nav_l/name#>",ZC_MSG337)
+			s=Replace(s,"<#article/nav_l/name#>",ZC_MSG146)
 
 			Template_Article_Navbar_L=s
 
@@ -1018,7 +1018,7 @@ Class TArticle
 			t=GetTemplate("TEMPLATE_B_ARTICLE_NVABAR_R")
 
 			t=Replace(t,"<#article/nav_r/url#>","<#ZC_BLOG_HOST#>zb_system/view.asp?navn="&ID)
-			t=Replace(t,"<#article/nav_r/name#>",ZC_MSG338)
+			t=Replace(t,"<#article/nav_r/name#>",ZC_MSG148)
 
 			Template_Article_Navbar_R=t
 
@@ -2330,7 +2330,7 @@ Class TArticleList
 
 			strPageBar=GetTemplate("TEMPLATE_B_PAGEBAR")
 			strPageBar=Replace(strPageBar,"<#pagebar/page/url#>",s)
-			strPageBar=Replace(strPageBar,"<#pagebar/page/number#>","<span class=""page first-page"">"&ZC_MSG285&"</span>")
+			strPageBar=Replace(strPageBar,"<#pagebar/page/number#>","<span class=""page first-page"">"&ZC_MSG235&"</span>")
 			Template_PageBar=Template_PageBar & strPageBar
 
 			If intAllPage>ZC_PAGEBAR_COUNT Then
@@ -2360,7 +2360,7 @@ Class TArticleList
 
 			strPageBar=GetTemplate("TEMPLATE_B_PAGEBAR")
 			strPageBar=Replace(strPageBar,"<#pagebar/page/url#>",s)
-			strPageBar=Replace(strPageBar,"<#pagebar/page/number#>","<span class=""page last-page"">"&ZC_MSG286&"</span>")
+			strPageBar=Replace(strPageBar,"<#pagebar/page/number#>","<span class=""page last-page"">"&ZC_MSG236&"</span>")
 			Template_PageBar=Template_PageBar & strPageBar
 
 			If intNowPage=1 Then
@@ -4669,6 +4669,9 @@ Class TFunction
 	End Property
 
 	Public Function Post()
+
+		Call Filter_Plugin_TFunction_Post(ID,Name,FileName,Order,Content,IsSystem,SidebarID,HtmlID,Ftype,MaxLi,MetaString)
+
 		Call CheckParameter(ID,"int",0)
 		Call CheckParameter(Order,"int",0)
 		Call CheckParameter(SidebarID,"int",1)
@@ -4758,6 +4761,8 @@ Class TFunction
 		objRS.Close
 		Set objRS=Nothing
 
+		Call Filter_Plugin_TFunction_LoadInfoByID(ID,Name,FileName,Order,Content,IsSystem,SidebarID,HtmlID,Ftype,MaxLi,MetaString)
+
 	End Function
 
 
@@ -4779,6 +4784,8 @@ Class TFunction
 		End If
 
 		LoadInfoByArray=True
+
+		Call Filter_Plugin_TFunction_LoadInfoByArray(ID,Name,FileName,Order,Content,IsSystem,SidebarID,HtmlID,Ftype,MaxLi,MetaString)
 
 	End Function
 
@@ -4910,6 +4917,8 @@ Class TFunction
 
 
 	Public Function Del()
+
+		Call Filter_Plugin_TFunction_Del(ID,Name,FileName,Order,Content,IsSystem,SidebarID,HtmlID,Ftype,MaxLi,MetaString)
 
 		Call CheckParameter(ID,"int",0)
 

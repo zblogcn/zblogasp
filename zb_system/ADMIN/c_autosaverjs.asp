@@ -61,7 +61,7 @@ End Function
 '*********************************************************
 Function SaveContent()
 		If BlogUser.Level>3 Then
-		Response.Write ZC_MSG259
+		Response.Write ZVA_ErrorMsg(6)
 		Response.End 
 		End If
 		On Error Resume Next
@@ -80,8 +80,6 @@ Function SaveContent()
 		Set objStream = NoThing
 		If Err.Number=0 then
 		Response.Write "<span style="""">&nbsp;"&formatdatetime(now,4)&":"&Right("0"&second(now),2)&"<a href="""&GetCurrentHost&"zb_users/CACHE/"&ZC_AUTOSAVE_FILENAME&""" target=""_blank"" style=""text-decoration: none;"">"&ZC_MSG258&"</a>&nbsp;</span>"
-		Else
-		Response.Write "<span style="""">&nbsp;"&formatdatetime(now,4)&""&ZC_MSG257&"&nbsp;"&Err.Number&Err.description&"</span>"
 		End If
 		Response.End
 End Function

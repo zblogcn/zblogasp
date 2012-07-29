@@ -55,12 +55,12 @@ End If
 
 
 
-BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG347
+BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG144
 
 %><!--#include file="admin_header.asp"-->
 <!--#include file="admin_top.asp"-->
 			<div id="divMain">
-<div class="divHeader2"><%=ZC_MSG347%></div>
+<div class="divHeader2"><%=ZC_MSG144%></div>
 <%
 	Response.Write "<div class=""SubMenu"">" & Response_Plugin_Function_SubMenu & "</div>"
 %>
@@ -82,22 +82,22 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG347
 	Response.Write "<input id=""inpSidebarID"" name=""inpSidebarID""  type=""hidden"" value="""& EditFunction.SidebarID &""" />"
 	Response.Write "<p><span class='title'>"& ZC_MSG001 &"</span>:<br/><input type=""text"" id=""inpName"" name=""inpName"" value="""& EditFunction.Name &""" size=""40"" />(*)</p>"
 	Response.Write "<p><span class='title'>"& ZC_MSG170 &"</span>:<br/><input "&t&" type=""text"" id=""inpFileName"" name=""inpFileName"" value="""& EditFunction.FileName &""" size=""40"" />(*)</p>"
-	Response.Write "<p><span class='title'>"& "HTML ID" &"</span>:<br/><input "&t&" type=""text"" name=""inpHtmlID"" value="""&  EditFunction.HtmlId &""" size=""40""  />(*)<br/>("&ZC_MSG351&")</p>"
+	Response.Write "<p><span class='title'>"& "HTML ID" &"</span>:<br/><input "&t&" type=""text"" name=""inpHtmlID"" value="""&  EditFunction.HtmlId &""" size=""40""  />(*)<br/>("&ZC_MSG137&")</p>"
 
 	Response.Write "<p><span class='title'>"& ZC_MSG061 &"</span>:<br/>"
 	Response.Write "<label><input "&u&" name=""inpFtype"" type=""radio"" value=""div"" "&IIF(EditFunction.Ftype="div","checked=""checked""","")&" onclick=""$('#pMaxLi').css('display','none');"" />&nbsp;DIV </label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label><input "&u&"  type=""radio"" name=""inpFtype"" value=""ul"" "&IIF(EditFunction.Ftype<>"div","checked=""checked""","")&" onclick=""$('#pMaxLi').css('display','block');"" />&nbsp;UL</label>"
 	Response.Write "</p>"
-	Response.Write "<p id=""pMaxLi"" "&IIF(EditFunction.Ftype="div","style='display:none;'","")&"><span class='title'>"& ZC_MSG348 &"</span>:<br/><input type=""text"" name=""inpMaxLi"" value="""& EditFunction.MaxLi &""" size=""40""  />("&ZC_MSG350&")</p>"
+	Response.Write "<p id=""pMaxLi"" "&IIF(EditFunction.Ftype="div","style='display:none;'","")&"><span class='title'>"& ZC_MSG143 &"</span>:<br/><input type=""text"" name=""inpMaxLi"" value="""& EditFunction.MaxLi &""" size=""40""  />("&ZC_MSG140&")</p>"
 
-	Response.Write "<p><span class='title'>"& ZC_MSG345 &"</span>:<label>&nbsp;&nbsp;<input id=""inpNoSidebar"" type=""checkbox"" "&IIf(EditFunction.SidebarID=0, "checked=""checked""","") & " />&nbsp;&nbsp;"&ZC_MSG352&"</label><br/><br/>"
+	Response.Write "<p><span class='title'>"& ZC_MSG017 &"</span>:<label>&nbsp;&nbsp;<input id=""inpNoSidebar"" type=""checkbox"" "&IIf(EditFunction.SidebarID=0, "checked=""checked""","") & " />&nbsp;&nbsp;"&ZC_MSG074&"</label><br/><br/>"
 	
-	Response.Write "<label><input id=""inpSidebar""  type=""checkbox"" "&IIf(EditFunction.InSidebar=True, "checked=""checked""","") & " />&nbsp;&nbsp;"  & ZC_MSG344 & "&nbsp;&nbsp;&nbsp;&nbsp;</label>"
-	Response.Write "<label><input id=""inpSidebar2"" type=""checkbox"" "&IIf(EditFunction.InSidebar2=True,"checked=""checked""","") & " />&nbsp;&nbsp;"  & ZC_MSG344 & "2&nbsp;&nbsp;&nbsp;&nbsp;</label>"
-	Response.Write "<label><input id=""inpSidebar3"" type=""checkbox"" "&IIf(EditFunction.InSidebar3=True,"checked=""checked""","") & " />&nbsp;&nbsp;"  & ZC_MSG344 & "3&nbsp;&nbsp;&nbsp;&nbsp;</label>"
-	Response.Write "<label><input id=""inpSidebar4"" type=""checkbox"" "&IIf(EditFunction.InSidebar4=True,"checked=""checked""","") & " />&nbsp;&nbsp;"  & ZC_MSG344 & "4&nbsp;&nbsp;&nbsp;&nbsp;</label>"
-	Response.Write "<label><input id=""inpSidebar5"" type=""checkbox"" "&IIf(EditFunction.InSidebar5=True,"checked=""checked""","") & " />&nbsp;&nbsp;"  & ZC_MSG344 & "5&nbsp;&nbsp;&nbsp;&nbsp;</label>"
+	Response.Write "<label><input id=""inpSidebar""  type=""checkbox"" "&IIf(EditFunction.InSidebar=True, "checked=""checked""","") & " />&nbsp;&nbsp;"  & ZC_MSG008 & "&nbsp;&nbsp;&nbsp;&nbsp;</label>"
+	Response.Write "<label><input id=""inpSidebar2"" type=""checkbox"" "&IIf(EditFunction.InSidebar2=True,"checked=""checked""","") & " />&nbsp;&nbsp;"  & ZC_MSG008 & "2&nbsp;&nbsp;&nbsp;&nbsp;</label>"
+	Response.Write "<label><input id=""inpSidebar3"" type=""checkbox"" "&IIf(EditFunction.InSidebar3=True,"checked=""checked""","") & " />&nbsp;&nbsp;"  & ZC_MSG008 & "3&nbsp;&nbsp;&nbsp;&nbsp;</label>"
+	Response.Write "<label><input id=""inpSidebar4"" type=""checkbox"" "&IIf(EditFunction.InSidebar4=True,"checked=""checked""","") & " />&nbsp;&nbsp;"  & ZC_MSG008 & "4&nbsp;&nbsp;&nbsp;&nbsp;</label>"
+	Response.Write "<label><input id=""inpSidebar5"" type=""checkbox"" "&IIf(EditFunction.InSidebar5=True,"checked=""checked""","") & " />&nbsp;&nbsp;"  & ZC_MSG008 & "5&nbsp;&nbsp;&nbsp;&nbsp;</label>"
 
-	Response.Write "<br/><br/>"&ZC_MSG288&"</p>"
+	Response.Write "<br/><br/>"&ZC_MSG232&"</p>"
 
 	
 	Response.Write "<p><span class='title'>"& ZC_MSG090 &":</span><br/><textarea name=""inpContent"" id=""inpContent"" onchange=""GetActiveText(this.id);"" onclick=""GetActiveText(this.id);"" onfocus=""GetActiveText(this.id);"" cols=""80"" rows=""12"">"&s&"</textarea></p>"
