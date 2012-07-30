@@ -831,7 +831,6 @@ Class TArticle
 
 			Dim i,j,s
 
-			'Dim comments()
 			Dim comments_ID()
 			Dim comments_ParentID()
 			Dim comments_Template()
@@ -840,16 +839,14 @@ Class TArticle
 			Dim IDandTemp
 			Set IDandTemp = CreateObject("Scripting.Dictionary")
 
-			Dim treed
-			Set treed = CreateObject("Scripting.Dictionary")
+			Dim tree
+			Set tree = CreateObject("Scripting.Dictionary")
 
-			Dim alld
-			Set alld = CreateObject("Scripting.Dictionary")
-
+			Dim all
+			Set all = CreateObject("Scripting.Dictionary")
 
 
 			Dim objRS
-
 
 
 			strC_Count=0
@@ -866,43 +863,38 @@ Class TArticle
 				j=objRS.RecordCount
 				'j=30
 
-				'ReDim comments(i)
 				ReDim comments_ID(j)
 				ReDim comments_ParentID(j)
 				ReDim comments_Template(j)
 
-				For i=1 To j
+				strC=GetTemplate("TEMPLATE_B_ARTICLE_COMMENT")
 
+				For i=1 To j
 
 					Set objComment=New TComment
 					objComment.LoadInfoByArray(Array(objRS("comm_ID"),objRS("log_ID"),objRS("comm_AuthorID"),objRS("comm_Author"),objRS("comm_Content"),objRS("comm_Email"),objRS("comm_HomePage"),objRS("comm_PostTime"),objRS("comm_IP"),objRS("comm_Agent"),objRS("comm_Reply"),objRS("comm_LastReplyIP"),objRS("comm_LastReplyTime"),objRS("comm_ParentID"),objRS("comm_IsCheck"),objRs("comm_Meta")))
 
-					strC_Count=strC_Count+1
+					objComment.Count=0
 
-					strC=GetTemplate("TEMPLATE_B_ARTICLE_COMMENT")
-'Mark3
-					objComment.Count=0'strC_Count
-					strC=objComment.MakeTemplate(strC)
-
-					'Set comments(i)=objComment
 					comments_ID(i)=objComment.ID
 					comments_ParentID(i)=objComment.ParentID
-					comments_Template(i)=strC
+					comments_Template(i)=objComment.MakeTemplate(strC)
 
 					IDandTemp.add comments_ID(i), comments_Template(i)
-					alld.add comments_ID(i), comments_ParentID(i)
+					all.add comments_ID(i), comments_ParentID(i)
 
 					Set objComment=Nothing
 
-
 					objRS.MoveNext
 					If objRS.eof Then Exit For
+
 				Next
 
 			End if
 
 			objRS.Close()
 			Set objRS=Nothing
+
 
 			Dim m,n
 			Dim intAll,intPages,intPageNow
@@ -911,41 +903,45 @@ Class TArticle
 			intPageNow=1
 
 
+			'建构基础树
 			Dim b
 			For i=1 To UBound(comments_ParentID)
 				b=False
 				For j=1 To UBound(comments_ID)
 					If comments_ParentID(i)=comments_ID(j) Then
 						b=True 
+						'Exit For
 					End If 
 				next
 				If b=False Then
-					alld.Remove comments_ID(i)
-					treed.Add comments_ID(i), comments_Template(i)
+					all.Remove comments_ID(i)
+					tree.Add comments_ID(i), comments_Template(i)
 				End If
 			Next
 
 
-
-			Do Until alld.count=0
-			For Each i In alld.keys
-				b=0
-				For Each j In treed.keys
-					If InStr(treed.item(j),"<!--rev"&alld.item(i)&"-->")>0 Then
-					'If alld.item(i)=j Then
-						b=i	
-						treed.item(j)=Replace(treed.item(j),"<!--rev"&alld.item(i)&"-->","<!--rev"&alld.item(i)&"-->"&IDandTemp.Item(i) )
+			'将未被使用的节点安插在树上
+			Do Until all.count=0
+				For Each i In all.keys
+					b=0
+					For Each j In tree.keys
+						If InStr(tree.item(j),"<!--rev"&all.item(i)&"-->")>0 Then
+						'If all.item(i)=j Then
+							b=i	
+							tree.item(j)=Replace(tree.item(j),"<!--rev"&all.item(i)&"-->","<!--rev"&all.item(i)&"-->"&IDandTemp.Item(i) )
+							'Exit For
+						End If
+					Next
+					If b>0 Then
+						all.remove b
+						'Exit For
 					End If
 				Next
-				If b>0 Then
-					alld.remove b
-				End If
-			Next
 			Loop
 
 
-
-			For Each s In treed.Items
+			'输出树
+			For Each s In tree.Items
 				If ZC_COMMENT_REVERSE_ORDER_EXPORT=True Then
 					Template_Article_Comment=Template_Article_Comment & s
 				Else

@@ -329,7 +329,7 @@ Function TransferHTML(ByVal source,para)
 		source=Replace(source,"<"&"%","&lt;"&"%")
 		source=Replace(source,"%"&">","%"&"&gt;")
 	End If
-	If ZC_COMMENT_NOFOLLOW_ENABLE And Instr(para,"[nofollow]")>0 Then
+	If Instr(para,"[nofollow]")>0 Then
 		source=Replace(source,"<a ","<a rel=""nofollow"" ")
 	End If
 	If Instr(para,"[nohtml]")>0  Then
@@ -383,7 +383,7 @@ Function TransferHTML(ByVal source,para)
 		source=Replace(source,"<","&lt;")
 		source=Replace(source,">","&gt;")
 	End If
-	If ZC_JAPAN_TO_HTML And Instr(para,"[japan-html]")>0 Then
+	If Instr(para,"[japan-html]")>0 Then
 		source=Replace(source,"ガ","&#12460;")
 		source=Replace(source,"ギ","&#12462;")
 		source=Replace(source,"ア","&#12450;")
@@ -412,7 +412,7 @@ Function TransferHTML(ByVal source,para)
 		source=Replace(source,"ポ","&#12509;")
 		source=Replace(source,"ヴ","&#12532;")
 	End If
-	If ZC_JAPAN_TO_HTML And Instr(para,"[html-japan]")>0 Then
+	If Instr(para,"[html-japan]")>0 Then
 		source=Replace(source,"&#12460;","ガ")
 		source=Replace(source,"&#12462;","ギ")
 		source=Replace(source,"&#12450;","ア")

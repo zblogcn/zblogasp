@@ -34,8 +34,8 @@ Const ZC_MSG029="站点统计"'Blog Statistics
 Const ZC_MSG030="网站收藏"'Favorites
 Const ZC_MSG031="友情链接"'Linkage
 Const ZC_MSG032="最近发表"'Previous
-Const ZC_MSG033="名称或邮箱不能为空"
-Const ZC_MSG034="名称或邮箱格式不对"
+Const ZC_MSG033="名称不能为空"
+Const ZC_MSG034="名称或邮箱,网址格式不对"
 Const ZC_MSG035="留言不能为空或过长"
 Const ZC_MSG036="%s"
 Const ZC_MSG037="UBB标签"
@@ -96,7 +96,7 @@ Const ZC_MSG091="BLOG的名称"
 Const ZC_MSG092="BLOG的简介"
 Const ZC_MSG093="网站的标题"
 Const ZC_MSG094="网站的子标题"
-Const ZC_MSG095="回复评论ID(设置为0则单独为一个评论，同时该ID不能为其他文章评论的ID)"
+Const ZC_MSG095="回复评论ID"
 Const ZC_MSG096="BLOG版权说明(可以放置备案号和统计代码,支持HTML代码,可用'&lt;br/&gt;'标签换行)"
 Const ZC_MSG097="BLOG所有者"
 Const ZC_MSG098="错误原因"
@@ -179,7 +179,7 @@ Const ZC_MSG174="BLOG CLSID(Blog的唯一标识符,防止和同一空间其它Z-
 Const ZC_MSG175="BLOG用户所在的时区"
 Const ZC_MSG176="BLOG 页面语言"
 Const ZC_MSG177="静态文件后缀名 (asp,html,shtml,htm)"
-Const ZC_MSG178="日志存放目录(该目录必须已存在)"
+Const ZC_MSG178="日志存放目录"
 Const ZC_MSG179="当前Z-Blog程序版本"
 Const ZC_MSG180="无"
 Const ZC_MSG181="单次重建文件数目"
@@ -368,7 +368,7 @@ ZVA_Week_Abbr(7)="Sat"
 
 '自定义错误信息
 
-Dim ZVA_ErrorMsg(59)
+Dim ZVA_ErrorMsg(61)
 
 ZVA_ErrorMsg(0)="未知错误"
 ZVA_ErrorMsg(1)="未知命令"
@@ -430,5 +430,6 @@ ZVA_ErrorMsg(56)="超出了设置的回复层数！"
 ZVA_ErrorMsg(57)="父评论和子评论不在同一篇文章!"
 ZVA_ErrorMsg(58)="不存在父分类"
 ZVA_ErrorMsg(59)="不存在子分类"
-
+ZVA_ErrorMsg(60)="回复评论失败"
+ZVA_ErrorMsg(61)="该记录不存在"
 %>

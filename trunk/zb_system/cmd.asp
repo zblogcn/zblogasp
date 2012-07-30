@@ -32,12 +32,10 @@ For Each sAction_Plugin_Command_Begin in Action_Plugin_Command_Begin
 	If Not IsEmpty(sAction_Plugin_Command_Begin) Then Call Execute(sAction_Plugin_Command_Begin)
 Next
 
-'Set Session("batch")=nothing
-'Set Session("batch_order")=nothing
 
 If IsObject(Session("batch"))=False THen
 	Set Session("batch")=CreateObject("Scripting.Dictionary")
-	Session("batch_order")=0
+	Session("batchorder")=0
 	Session("batchtime")=0
 End If
 
@@ -655,19 +653,36 @@ Function CommentSav
 		If bAction_Plugin_CommentSav_Begin=True Then Exit Function
 	Next
 
-	If SaveComment(Request.Form("edtID"),Request.Form("inpID")) Then
-		Call SetBlogHint(True,True,Empty)
-		Call MakeBlogReBuild_Core()
+	If CInt(Request.QueryString("revid"))<>0 Then
+		If SaveRevComment() Then
+			Call SetBlogHint(True,True,Empty)
+			Call MakeBlogReBuild_Core()
 
-		'plugin node
-		For Each sAction_Plugin_CommentSav_Succeed in Action_Plugin_CommentSav_Succeed
-			If Not IsEmpty(sAction_Plugin_CommentSav_Succeed) Then Call Execute(sAction_Plugin_CommentSav_Succeed)
-			If bAction_Plugin_CommentSav_Succeed=True Then Exit Function
-		Next
+			'plugin node
+			For Each sAction_Plugin_CommentSav_Succeed in Action_Plugin_CommentSav_Succeed
+				If Not IsEmpty(sAction_Plugin_CommentSav_Succeed) Then Call Execute(sAction_Plugin_CommentSav_Succeed)
+				If bAction_Plugin_CommentSav_Succeed=True Then Exit Function
+			Next
 
-		Response.Redirect "cmd.asp?act=CommentMng"
+			Response.Redirect "cmd.asp?act=CommentMng"
+		Else
+			Call ShowError(60)
+		End If
 	Else
-		Call ShowError(42)
+		If SaveComment() Then
+			Call SetBlogHint(True,True,Empty)
+			Call MakeBlogReBuild_Core()
+
+			'plugin node
+			For Each sAction_Plugin_CommentSav_Succeed in Action_Plugin_CommentSav_Succeed
+				If Not IsEmpty(sAction_Plugin_CommentSav_Succeed) Then Call Execute(sAction_Plugin_CommentSav_Succeed)
+				If bAction_Plugin_CommentSav_Succeed=True Then Exit Function
+			Next
+
+			Response.Redirect "cmd.asp?act=CommentMng"
+		Else
+			Call ShowError(42)
+		End If
 	End If
 
 End Function
@@ -1417,6 +1432,8 @@ Function AskFileReBuild()
 	Call ClearGlobeCache
 	Call LoadGlobeCache
 
+	Call SetBlogHint(Empty,Empty,False)
+
 	If Request.QueryString("iframe")="true" Then
 		'进批处理询问页
 		Call BatchAsk()
@@ -1440,7 +1457,7 @@ Function Batch()
 
 	If Request.QueryString("cancel")="true" Then
 		Session("batch").RemoveAll
-		Session("batch_order")=0
+		Session("batchorder")=0
 		Session("batchtime")=0
 	End If 
 

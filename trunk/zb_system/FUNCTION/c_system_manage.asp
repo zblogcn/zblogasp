@@ -471,14 +471,17 @@ Function ExportCommentList(intPage,intContent)
 
 	strSQL=strSQL&" WHERE  ([log_ID]>0) "
 
-	If CheckRights("Root")=False Then strSQL=strSQL & "AND( ([comm_AuthorID] = " & BlogUser.ID & " ) OR ((SELECT [log_AuthorID] FROM [blog_Article] WHERE [blog_Article].[log_ID]=[blog_Comment].[log_ID])=" & BlogUser.ID & " )) "
+	If CheckRights("Root")=False Then
+		strSQL=strSQL & "AND( ([comm_AuthorID] = " & BlogUser.ID & " ) OR ((SELECT [log_AuthorID] FROM [blog_Article] WHERE [blog_Article].[log_ID]=[blog_Comment].[log_ID])=" & BlogUser.ID & " )) "
+	End If
 
-	If Trim(intContent)<>"" Then strSQL=strSQL & " AND ( ([comm_Author] LIKE '%" & intContent & "%') OR ([comm_Content] LIKE '%" & intContent & "%') OR ([comm_HomePage] LIKE '%" & intContent & "%') ) "
+	If Trim(intContent)<>"" Then
+		strSQL=strSQL & " AND ( ([comm_Author] LIKE '%" & intContent & "%') OR ([comm_Content] LIKE '%" & intContent & "%') OR ([comm_HomePage] LIKE '%" & intContent & "%') ) "
+	End If
 
 	Response.Write "<div class=""divHeader"">" & ZC_MSG068 & "</div>"
 	Response.Write "<div class=""SubMenu"">" & Response_Plugin_CommentMng_SubMenu & "</div>"
 	Response.Write "<div id=""divMain2"">"
-
 
 
 	Response.Write "<form class=""search"" id=""edit"" method=""post"" action=""../admin/admin.asp?act=CommentMng"">"
@@ -493,8 +496,7 @@ Function ExportCommentList(intPage,intContent)
 	Response.Write "<tr><th width=""5%""></th><th width='5%'>"& ZC_MSG076 &"</th><th width=""5%"">"&ZC_MSG152&"</th><th width='10%'>"& ZC_MSG001 &"</th><th>"& ZC_MSG055 &"</th><th>"& ZC_MSG048 &"</th><th width='14%'></th><th width='5%'  align='center'><a href='' onclick='BatchSelectAll();return false'>"& ZC_MSG229 &"</a></th></tr>"'
 
 	objRS.Open("SELECT * FROM [blog_Comment] "& strSQL &" ORDER BY [comm_ID] DESC")
-	'Dim objArticle
-	'Set objArticle=New TArticle
+
 
 	objRS.PageSize=ZC_MANAGE_COUNT
 	If objRS.PageCount>0 Then objRS.AbsolutePage = intPage
@@ -525,7 +527,7 @@ Function ExportCommentList(intPage,intContent)
 
 			Response.Write "<td><a id=""mylink"&objRS("comm_ID")&""" href=""$div"&objRS("comm_ID")&"tip?width=400"" class=""betterTip"" title="""&ZC_MSG055&""">" & Left(objRS("comm_Content"),30) & "...</a><div id=""div"&objRS("comm_ID")&"tip"" style=""display:none;""><p>"& objRS("comm_Content") &"</p><br/><p>" & ZC_MSG080 & " : " &objRS("comm_IP") & "</p><p>" & ZC_MSG075 & " : " &objRS("comm_PostTime") & "</p></div></td>"
 			Response.Write "<td>"& objArticle.HtmlTitle &"</td>"
-			Response.Write "<td align=""center""><a href=""../cmd.asp?act=CommentEdt&amp;revid="&objRs("comm_ID")&"&amp;log_id="& objRS("log_ID") &"""><img src=""../image/admin/comments.png"" alt=""" & ZC_MSG149 & """ title=""" & ZC_MSG149 & """ width=""16"" /></a>&nbsp;&nbsp;&nbsp;&nbsp;<a href=""../cmd.asp?act=CommentEdt&amp;amp;id=" & objRS("comm_ID") & "&amp;log_id="& objRS("log_ID") &"&amp;revid="& objRS("comm_ParentID") &"""><img src=""../image/admin/comment_edit.png"" alt=""" & ZC_MSG078 & """ title=""" & ZC_MSG078 & """ width=""16"" /></a>&nbsp;&nbsp;&nbsp;&nbsp;<a href=""../cmd.asp?act=CommentDel&amp;id=" & objRS("comm_ID") & "&amp;log_id="& objRS("log_ID")  &"&amp;revid="& objRS("comm_ParentID") &""" onclick='return window.confirm("""& ZC_MSG058 &""");'><img src=""../image/admin/delete.png"" alt=""" & ZC_MSG063 & """ title=""" & ZC_MSG063 & """ width=""16"" /></a></td>"
+			Response.Write "<td align=""center""><a href=""../cmd.asp?act=CommentEdt&amp;id=" & objRS("comm_ID") &"&amp;revid="&objRs("comm_ID")&"&amp;log_id="& objRS("log_ID") &"""><img src=""../image/admin/comments.png"" alt=""" & ZC_MSG149 & """ title=""" & ZC_MSG149 & """ width=""16"" /></a>&nbsp;&nbsp;&nbsp;&nbsp;<a href=""../cmd.asp?act=CommentEdt&amp;id=" & objRS("comm_ID") & "&amp;log_id="& objRS("log_ID") &"&amp;revid="& objRS("comm_ParentID") &"""><img src=""../image/admin/comment_edit.png"" alt=""" & ZC_MSG078 & """ title=""" & ZC_MSG078 & """ width=""16"" /></a>&nbsp;&nbsp;&nbsp;&nbsp;<a href=""../cmd.asp?act=CommentDel&amp;id=" & objRS("comm_ID") & "&amp;log_id="& objRS("log_ID")  &"&amp;revid="& objRS("comm_ParentID") &""" onclick='return window.confirm("""& ZC_MSG058 &""");'><img src=""../image/admin/delete.png"" alt=""" & ZC_MSG063 & """ title=""" & ZC_MSG063 & """ width=""16"" /></a></td>"
 			Response.Write "<td align=""center"" ><input type=""checkbox"" id=""edtDel"&objRS("comm_ID")&""" name=""edtDel"" value="""&objRS("comm_ID")&"""/></td>"
 			Response.Write "</tr>"
 
