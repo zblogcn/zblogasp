@@ -48,17 +48,18 @@ input[type="text"]{width:100%}
               <li><a href="#tab4"><span>关于</span></a></li>
             </ul>
             <div class="clear"></div>
+            蓝色字体部分为需要QQ登录，绿色为需要登录微博。其他颜色则为不需要。
             <form id="form1" name="form1" method="post" action="savesetting.asp">
               <div class="content-box-content" id="qqcbox">
                 <div class="tab-content default-tab" style='border:none;padding:0px;margin:0;' id="tab0">
-                  <p>APP ID:
+                  <p>QQ登录APP ID:
                     <input name="AppId" type="text" id="ap" value="<%=ZBQQConnect_Config.Read("AppID")%>"/>
                   </p>
                   <p><br />
-                    KEY:
+                    QQ登录KEY:
                     <input name="KEY" type="text" id="as" value="<%=ZBQQConnect_Config.Read("KEY")%>"/>
                   </p>
-                  <p><a href="javascript:void(0)" onclick="showqk()">如何获得？</a></p>
+                  <p><a href="javascript:void(0)" onClick="showqk()">如何获得？</a></p>
                   <div class="hidden" id="how">
                     <ol style="list-style-type:decimal;">
                       <li>
@@ -89,16 +90,16 @@ input[type="text"]{width:100%}
                 <div class="tab-content" style='border:none;padding:0px;margin:0;' id="tab1">
                   <p>
                     <input name="a" id="a" type="checkbox" <%=d(ZBQQConnect_Config.Read("a"))%> />
-                    <label for="a">发表文章时默认同步到QQ空间</label>
+                    <label for="a"><font color="#0000CC">发表文章时默认同步到QQ空间</font></label>
                     <br/>
                     <input name="b" id="b" type="checkbox" <%=d(ZBQQConnect_Config.Read("b"))%> />
                    
-                    <label for="b">发表文章时默认同步到腾讯微博</label>
+                    <label for="b"><font color="#009900">发表文章时默认同步到腾讯微博</font></label>
                     <br />
                     <input name="c" id="c" type="checkbox" <%=d(ZBQQConnect_Config.Read("c"))%> />
                     <label for="c">同步时自带文章第一张图片</label>
                   </p>
-                  <p>同步到腾讯微博内容（%i——截断字数的摘要；%b——博客名称；%u——文章地址；%t——文章标题；%c——分类）</p>
+                  <p><font color="#009900">同步到微博内容（%i——截断字数的摘要；%b——博客名称；%u——文章地址；%t——文章标题）</font></p>
                   <p>
                     <label for="content"></label>
                     <input type="text" name="content" id="content" value="<%=ZBQQConnect_Config.Read("content")%>"/>
@@ -111,21 +112,21 @@ input[type="text"]{width:100%}
                   <label for="d">发表评论时自动同步</label>
                   <br/>
                   <input name="e" id="e" type="checkbox" <%=d(ZBQQConnect_Config.Read("e"))%> />
-                  <label for="e">以分享的方式同步到QQ空间</label>
+                  <label for="e"><font color="#0000CC">以分享的方式同步到QQ空间</font></label>
                   <br />
                   <input name="f" id="f" type="checkbox" <%=d(ZBQQConnect_Config.Read("f"))%> />
-                  <label for="f">以评论的方式同步到腾讯微博（若该文章没有同步到微博则评论也不同步）</label>
+                  <label for="f"><font color="#009900">以评论的方式同步到腾讯微博（若该文章没有同步到微博则评论也不同步）</font></label>
                   <br />
                   <input name="g" id="g" type="checkbox" <%=d(ZBQQConnect_Config.Read("g"))%> />
-                  <label for="g">使用管理员的身份同步（无论有无勾选，若用户没有绑定QQ，则使用管理员的身份同步）</label>
+                  <label for="g"><font color="#0000CC">使用管理员的身份同步到空间（无论有无勾选，若用户没有绑定QQ，则使用管理员的身份同步。微博暂只能使用管理员的身份同步）</font></label>
                   <br />
                 </div>
                 <div class="tab-content" style='border:none;padding:0px;margin:0;' id="tab3">
                   <input name="h" id="h" type="checkbox" <%=d(ZBQQConnect_Config.Read("h"))%> />
-                  <label for="h">允许使用QQ登录</label>
+                  <label for="h"><font color="#0000CC">允许使用QQ登录</font></label>
                   <br/>
                   <input name="i" id="i" type="checkbox" <%=d(ZBQQConnect_Config.Read("i"))%> />
-                  <label for="i">允许使用QQ注册帐号（不过必须先启用注册组件）</label>
+                  <label for="i"><font color="#0000CC">允许使用QQ注册帐号（不过必须先启用注册组件）</font></label>
                   
                   <br/>
                 </div>
@@ -133,11 +134,11 @@ input[type="text"]{width:100%}
                 <p>
                   <label>
                     <input type="radio" name="a1" value="0" id="a1_0"<%=e(ZBQQConnect_Config.Read("a1"),0)%>/>
-                    评论显示微博头像（若无，则使用Gravatar）</label>
+                   <font color="#0000CC"> 评论显示微博头像（若无，则使用Gravatar）</font></label>
                   <br />
                   <label>
                     <input type="radio" name="a1" value="1" id="a1_1"<%=e(ZBQQConnect_Config.Read("a1"),1)%>/>
-                    评论显示空间头像（若无，则使用Gravatar）</label>
+                    <font color="#0000CC">评论显示空间头像（若无，则使用Gravatar）</font></label>
                   <br />
                   <label>
                     <input type="radio" name="a1" value="2" id="a1_2"<%=e(ZBQQConnect_Config.Read("a1"),2)%>/>

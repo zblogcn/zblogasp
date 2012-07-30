@@ -11,34 +11,35 @@
 <%
 Call System_Initialize
 Call ZBQQConnect_Initialize()
-Call ZBQQConnect_Class.GetOpenId(ZBQQConnect_class.CallBack)
-'Select Case LCase(Request.QueryString("act"))
-'	Case "login"
-'Response.Write BlogUser.ID
-'Response.end
-
-ZBQQConnect_DB.OpenID=ZBQQConnect_Class.OpenID
-ZBQQConnect_DB.AccessToken=ZBQQConnect_Class.AccessToken
-
-If ZBQQConnect_DB.LoadInfo(4) Then
-	If CInt(ZBQQConnect_DB.objUser.ID)<>0 Then
-		If ZBQQConnect_DB.Login=True Then
-			Response.Redirect GetCurrentHost&"/ZB_SYSTEM/ADMIN/ADMIN.ASP?ACT=SiteInfo"
-		Else
-			Response.Write ZBQQConnect_DB.objUser.ID
-		End If
-	Else
-		a
-	End If
-Else
-	a
-End If
-	'Case "admin"
+Select Case Request.QueryString("tp")
+	Case "wb"
+		Call ZBQQConnect_Class.fakeQQConnect.Run(11,"","","","")
+		ZBQQConnect_Config.Write "WBToken",ZBQQConnect_Class.fakeQQConnect.Token
+		ZBQQConnect_Config.Write "WBSecret",ZBQQConnect_Class.fakeQQConnect.Secret
+		ZBQQConnect_Config.Write "WBName",ZBQQConnect_Class.fakeQQConnect.UserID
+		ZBQQConnect_Config.Save
+		'Response.end
+		Response.write "<script>opener.location.href=opener.location.href.replace(""act=wblogout"","""");window.close()</script>"
 		
-'	Case Else
-		'Response.Write "a"
-'		'Response.write LCase(Request.QueryString("act"))
-'	End Select
+	Case else
+		Call ZBQQConnect_Class.GetOpenId(ZBQQConnect_class.CallBack)
+		ZBQQConnect_DB.OpenID=ZBQQConnect_Class.OpenID
+		ZBQQConnect_DB.AccessToken=ZBQQConnect_Class.AccessToken
+		
+		If ZBQQConnect_DB.LoadInfo(4) Then
+			If CInt(ZBQQConnect_DB.objUser.ID)<>0 Then
+				If ZBQQConnect_DB.Login=True Then
+					Response.Redirect GetCurrentHost&"/ZB_SYSTEM/ADMIN/ADMIN.ASP?ACT=SiteInfo"
+				Else
+					Response.Write ZBQQConnect_DB.objUser.ID
+				End If
+			Else
+				a
+			End If
+		Else
+			a
+		End If
+End Select
 Function a
 		Dim b
 		b=ZBQQConnect_class.API("https://graph.qq.com/user/get_info","{'format':'json'}","GET&")

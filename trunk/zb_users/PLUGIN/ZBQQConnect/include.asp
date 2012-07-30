@@ -1,6 +1,8 @@
 ﻿<!-- #include file="function\ZBConnectQQ_Public.asp"-->
+<!-- #include file="function\ZBConnectQQ_Wb.asp"-->
 <!-- #include file="function\ZBConnectQQ_JSON.asp"-->
 <!-- #include file="function\ZBConnectQQ_DB.asp"-->
+<!-- #include file="function\ZBConnectQQ_HMACSHA1.asp"-->
 
 <%
 'Temp 
@@ -15,6 +17,11 @@ Dim ZBQQConnect_CommentToZone
 Dim ZBQQConnect_CommentToT
 Dim ZBQQConnect_allowQQLogin
 Dim ZBQQConnect_allowQQReg
+Dim ZBQQConnect_HeadMode
+Dim ZBQQConnect_Head
+Dim ZBQQConnect_Content
+Dim ZBQQConnect_WBKey
+Dim ZBQQConnect_WBSecret
 'Temp
 Dim ZBQQConnect_CommentCore,ZBQQConnect_ACore,ZBQQConnect_EmlMD5
 
@@ -30,17 +37,18 @@ Function ZBQQConnect_Initialize
 	If ZBQQConnect_Config.Exists("-。-")=False Then
 		ZBQQConnect_Config.Write "-。-","1.0"
 		For i=97 To 105
-			ZBQQConnect_Config.Write i,iIf(chr(i)<>"g",True,False)
+			ZBQQConnect_Config.Write Chr(i),iIf(chr(i)<>"g",True,False)
 		Next
-		ZBQQConnect_Config.Write "a1",0
+		ZBQQConnect_Config.Write "a1","0"
 		ZBQQConnect_Config.Write "Gravatar","http://www.gravatar.com/avatar/<#EmailMD5#>?s=40&d<#ZC_BLOG_HOST#>%2FZB%5FSYSTEM%2Fimage%2Fadmin%2Favatar%2Epng"
-		ZBQQConnect_Config.Write "content","更新了文章：《%c》，%u"
+		ZBQQConnect_Config.Write "content","更新了文章：《%t》，%u"
+		ZBQQConnect_Config.Write "WBKEY","2e21c7b056f341b080d4d3691f3d50fb"
+		ZBQQConnect_Config.Write "WBAPPSecret","1b84a3016c132a6839d082605b854bbe"
 		ZBQQConnect_Config.Save
 	End If
 	
 	ZBQQConnect_notfoundpic="~"
 	ZBQQConnect_strLong=30
-	
 	ZBQQConnect_DefaultToZone=CBool(ZBQQConnect_Config.Read("a"))
 	ZBQQConnect_DefaultTot=CBool(ZBQQConnect_Config.Read("b"))
 	ZBQQConnect_PicSendToWb=CBool(ZBQQConnect_Config.Read("c"))
@@ -50,14 +58,23 @@ Function ZBQQConnect_Initialize
 	ZBQQConnect_CommentToOwner=CBool(ZBQQConnect_Config.Read("g"))
 	ZBQQConnect_allowQQLogin=CBool(ZBQQConnect_Config.Read("h"))
 	ZBQQConnect_allowQQReg=CBool(ZBQQConnect_Config.Read("i"))
-	
+	ZBQQConnect_HeadMode=CInt(ZBQQConnect_Config.Read("a1"))
+	ZBQQConnect_Head=ZBQQConnect_Config.Read("Gravatar")
+	ZBQQConnect_Content=ZBQQConnect_Config.Read("content")
+	ZBQQConnect_WBKey=ZBQQConnect_Config.Read("WBKEY")
+	ZBQQConnect_WBSecret=ZBQQConnect_Config.Read("WBAPPSecret")
+
 	set ZBQQConnect_class=new ZBQQConnect
 	Set ZBQQConnect_DB=New ZBConnectQQ_DB
 	ZBQQConnect_class.app_key="100291142"    '设置appkey
 	ZBQQConnect_class.app_secret="6e39bee95a58a8c99dce88ad5169a50e"  '设置app_secret
 	ZBQQConnect_class.callbackurl="http://www.zsxsoft.com/zblog-1-9/ZB_USERS/PLUGIN/ZBQQConnect/callback.asp"  '设置回调地址
 	ZBQQConnect_class.debug=false 'Debug模式设置
-	
+	ZBQQConnect_class.fakeQQConnect.app_key=ZBQQConnect_WBKey
+	ZBQQConnect_class.fakeQQConnect.app_secret=ZBQQConnect_WBSecret
+	ZBQQConnect_class.fakeQQConnect.Token=ZBQQConnect_Config.Read("WBToken")
+	ZBQQConnect_class.fakeQQConnect.Secret=ZBQQConnect_Config.Read("WBSecret")
+	ZBQQConnect_class.fakeQQConnect.UserID=ZBQQConnect_Config.Read("WBName")
 End Function
 
  
@@ -121,25 +138,14 @@ Function ZBQQConnect_LoadPicture(ByVal str)
 End Function
 
 Function ZBQQConnect_addForm()
-Dim CSS,JS,HTML,ResponseText
-CSS="<style type=""text/css"">.syn_qq, .syn_tqq, .syn_qq_check, .syn_tqq_check{display: inline-block;margin-top: 3px;width: 19px;height: 19px;background: transparent url(../../zb_users/plugin/zbqqconnect/connect_post_syn.png) no-repeat 0 0;line-height: 64px;overflow: hidden;vertical-align: top;cursor: pointer;}.syn_tqq{background-position: 0 -22px;margin-left: 5px;}.syn_qq_check{background-position: -22px 0;}.syn_tqq_check{background-position: -22px -22px;margin-left: 5px;}</style>"
-JS="<script type='text/javascript'>var a=true,b=true;var d=$('#connectPost_synQQ');var f=$('#connectPost_synT');function c(){if(a){d.removeClass('syn_qq_check');d.addClass('syn_qq');d.attr('title','未设置同步至QQ空间');$('#syn_qq').attr('value','0');a=false}else{d.removeClass('syn_qq');d.addClass('syn_qq_check');d.attr('title','已设置同步至QQ空间');$('#syn_qq').attr('value','1');a=true}};function e(){if(b){f.removeClass('syn_tqq_check');f.addClass('syn_tqq');f.attr('title','未设置同步至腾讯微博');$('#syn_tqq').attr('value','0');b=false}else{f.removeClass('syn_tqq');f.addClass('syn_tqq_check');f.attr('title','已设置同步至腾讯微博');$('#syn_tqq').attr('value','1');b=true}};$(document).ready(function(){d.bind('click',function(){c()});f.bind('click',function(){e()})});</script>"
-HTML="<a title='已设置同步至QQ空间' class='syn_qq_check' href='javascript:void(0);' id='connectPost_synQQ'>QQ空间</a><input type='hidden' name='syn_qq' id='syn_qq' value='1'/><a title='已设置同步至腾讯微博' class='syn_tqq_check' href='javascript:void(0);' id='connectPost_synT'>腾讯微博</a><input type='hidden' name='syn_tqq' id='syn_tqq' value='1'/>"
-
-	'If Request.QueryString("id")="" Then
-		ResponseText=CSS&HTML&JS
-	'Else
-
-		'If ZBQQConnect_EditPostSend=True Then
-		'	ResponseText=TextStart&Text2&TextEnd
-'		'Else
-'			ResponseText=""
-'		'End iF
-'	End If
-
-	
-
-Call Add_Response_Plugin("Response_Plugin_Edit_Form3",ResponseText)
+	ZBQQConnect_Initialize
+	Dim CSS,JS,HTML,ResponseText
+	CSS="<style type=""text/css"">.syn_qq, .syn_tqq, .syn_qq_check, .syn_tqq_check{display: inline-block;margin-top: 3px;width: 19px;height: 19px;background: transparent url(../../zb_users/plugin/zbqqconnect/connect_post_syn.png) no-repeat 0 0;line-height: 64px;overflow: hidden;vertical-align: top;cursor: pointer;}.syn_tqq{background-position: 0 -22px;margin-left: 5px;}.syn_qq_check{background-position: -22px 0;}.syn_tqq_check{background-position: -22px -22px;margin-left: 5px;}</style>"
+	JS="<script type='text/javascript'>var a="&IIf(ZBQQConnect_DefaultToZone=True,"true","false")&",b="&IIf(ZBQQConnect_DefaultToT=True,"true","false")&";var d=$('#connectPost_synQQ');var f=$('#connectPost_synT');function c(){if(a){d.removeClass('syn_qq_check');d.addClass('syn_qq');d.attr('title','未设置同步至QQ空间');$('#syn_qq').attr('value','0');a=false}else{d.removeClass('syn_qq');d.addClass('syn_qq_check');d.attr('title','已设置同步至QQ空间');$('#syn_qq').attr('value','1');a=true}};function e(){if(b){f.removeClass('syn_tqq_check');f.addClass('syn_tqq');f.attr('title','未设置同步至腾讯微博');$('#syn_tqq').attr('value','0');b=false}else{f.removeClass('syn_tqq');f.addClass('syn_tqq_check');f.attr('title','已设置同步至腾讯微博');$('#syn_tqq').attr('value','1');b=true}};$(document).ready(c();e();function(){d.bind('click',function(){c()});f.bind('click',function(){e()})});</script>"
+	HTML=IIF(ZBQQConnect_DefaultToZone=True,"<a title='已设置同步至QQ空间' class='syn_qq_check' href='javascript:void(0);' id='connectPost_synQQ'>QQ空间</a><input type='hidden' name='syn_qq' id='syn_qq' value='1'/>","<a title='未设置同步至QQ空间' class='syn_qq' href='javascript:void(0);' id='connectPost_synQQ'>QQ空间</a><input type='hidden' name='syn_qq' id='syn_qq' value='0'/>")
+	Html=html&iif(ZBQQConnect_DefaultTot=True,"<a title='已设置同步至腾讯微博' class='syn_tqq_check' href='javascript:void(0);' id='connectPost_synT'>腾讯微博</a><input type='hidden' name='syn_tqq' id='syn_tqq' value='1'/>","<a title='未设置同步至腾讯微博' class='syn_tqq' href='javascript:void(0);' id='connectPost_synT'>腾讯微博</a><input type='hidden' name='syn_tqq' id='syn_tqq' value='0'/>")
+	ResponseText=CSS&HTML&JS
+	Call Add_Response_Plugin("Response_Plugin_Edit_Form3",ResponseText)
 
 End Function
 Function ZBQQConnect_Main()
@@ -221,14 +227,14 @@ Function ZBQQConnect_SendComment()
 '	End If
 		ZBQQConnect_class.debugMsg=""
 		If ZBQQConnect_SToWb=True Then 
-			t_add = ZBQQConnect_class.t("更新了博客：《"&ZBQQConnect_ACore.Title&"》，"&ZBQQConnect_ACore.Url)
-			Set t_add=ZBQQConnect_Toobject(t_add)
-			If t_add.ret=0 Then
-				Call SetBlogHint_Custom("恭喜，同步到腾讯微博成功")
-			else
-				Call SetBlogHint_Custom("同步到腾讯微博出现问题" & t_add.ret)
-				Call SetBlogHint_Custom("调试信息：<br/>"&ZBQQConnect_class.debugMsg)'&"<br/>URL="&)
-			End If
+'			t_add = ZBQQConnect_class.t(Replace(ZBQQConnect_Content,"%t",ZBQQConnect_ACore.Title&"》，"&ZBQQConnect_ACore.Url)
+'			Set t_add=ZBQQConnect_Toobject(t_add)
+'			If t_add.ret=0 Then
+'				Call SetBlogHint_Custom("恭喜，同步到腾讯微博成功")
+'			else
+'				Call SetBlogHint_Custom("同步到腾讯微博出现问题" & t_add.ret)
+'				Call SetBlogHint_Custom("调试信息：<br/>"&ZBQQConnect_class.debugMsg)'&"<br/>URL="&)
+'			End If
 		End If
 	set ZBQQConnect_CommentCore = nothing
 End Function
@@ -248,7 +254,7 @@ Function ZBQQConnect_ArticlePst(ByRef ID,ByRef Tag,ByRef CateID,ByRef Title,ByRe
 	set ZBQQConnect_ACore=nothing
 end function
 
-function ZBQQConnect_ArticleToWb(ByRef ZBQQConnect_ACore)
+Function ZBQQConnect_ArticleToWb(ByRef ZBQQConnect_ACore)
 	Dim strT ,bolN,objTemp,strTemp
 	
 	If ZBQQConnect_ACore.CateID=0 Then Exit Function
@@ -272,8 +278,7 @@ function ZBQQConnect_ArticleToWb(ByRef ZBQQConnect_ACore)
 		End If
 
 	If int(ZBQQConnect_ACore.level)>2 Then
-		strTemp=TransferHTML(UBBCode(ZBQQConnect_ACore.Intro,"[link][email][font][code][face][image][flash][typeset][media][autolink][link-antispam]"),"[nohtml]")
-		strTemp=Replace(ZBQQConnect_ReplaceXO(strTemp),"'","\'")
+		strTemp=ZBQQConnect_r(ZBQQConnect_ACore.Intro)
 		
 		dim t_add,tupian
 		if ZBQQConnect_PicSendToWb=true then
@@ -296,13 +301,12 @@ function ZBQQConnect_ArticleToWb(ByRef ZBQQConnect_ACore)
 		End If
 		ZBQQConnect_class.debugMsg=""
 		If ZBQQConnect_SToWb=True Then 
-			t_add = ZBQQConnect_class.t("更新了博客：《"&ZBQQConnect_ACore.Title&"》，"&ZBQQConnect_ACore.Url)
+			t_add = ZBQQConnect_class.fakeQQConnect.t(Replace(Replace(Replace(Replace(ZBQQConnect_Content,"%t",ZBQQConnect_r(ZBQQConnect_ACore.Title)),"%u",ZBQQConnect_ACore.Url),"%b",ZBQQConnect_r(BlogTitle)),"%i",strTemp),tupian)
 			Set t_add=ZBQQConnect_Toobject(t_add)
 			If t_add.ret=0 Then
 				Call SetBlogHint_Custom("恭喜，同步到腾讯微博成功")
 			else
 				Call SetBlogHint_Custom("同步到腾讯微博出现问题" & t_add.ret)
-				Call SetBlogHint_Custom("调试信息：<br/>"&ZBQQConnect_class.debugMsg)'&"<br/>URL="&)
 			End If
 		End If
 	End If
@@ -315,5 +319,13 @@ function ZBQQConnect_ArticleToWb(ByRef ZBQQConnect_ACore)
 	Call ZBQQConnect_Terminate
 end function
 
+
+Function ZBQQConnect_r(c)
+	dim a
+	a=c
+	a=TransferHTML(UBBCode(a,"[link][email][font][code][face][image][flash][typeset][media][autolink][link-antispam]"),"[nohtml]")
+	a=ZBQQConnect_ReplaceXO(a)
+	ZBQQConnect_r=a
+end function
 
 %>
