@@ -14,7 +14,7 @@
 '///////////////////////////////////////////////////////////////////////////////
 %>
 <% Option Explicit %>
-<% On Error Resume Next %>
+<% 'On Error Resume Next %>
 <% Response.Charset="UTF-8" %>
 <% Response.Buffer=True %>
 <!-- #include file="../../zb_users/c_option.asp" -->
@@ -44,22 +44,30 @@ GetUser()
 Dim EditComment
 Set EditComment=New TComment
 
-If Not  (IsEmpty(Request.QueryString("id")) Or Request.QueryString("id")="") Then
+Dim IsRev
+IsRev=False
 
-	If EditComment.LoadInfoByID(Request.QueryString("id"))=False Then Call ShowError(12)
-Else
-	If Not  (IsEmpty(Request.QueryString("revid")) Or Request.QueryString("revid")="") Then
-		EditComment.ParentID=Trim(Request.QueryString("revid"))
-		EditComment.log_ID=Trim(Request.QueryString("log_id"))
-		EditComment.ID=0
-		EditComment.Author=BlogUser.Name
-		EditComment.EMail=BlogUser.Email
-		EditComment.HomePage=BlogUser.HomePage
+If Request.QueryString("id")<>0 Then
+	If EditComment.LoadInfoByID(Request.QueryString("id"))=False Then
+		Call ShowError(12)
 	End If
 End If
 
+If Request.QueryString("revid")<>0 Then
+	Set EditComment=New TComment
+	EditComment.ParentID=Trim(Request.QueryString("revid"))
+	EditComment.log_ID=Trim(Request.QueryString("log_id"))
+	EditComment.ID=0
+	EditComment.Author=BlogUser.Name
+	EditComment.EMail=BlogUser.Email
+	EditComment.HomePage=BlogUser.HomePage
+	EditComment.Content=""
+	IsRev=True
+Else
+	IsRev=False
+End If
 
-BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG066
+BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG272
 
 %>
 <!--#include file="admin_header.asp"-->
@@ -73,15 +81,24 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG066
 <div id="divMain2">
 <form id="edit" name="edit" method="post" action="">
 <%
-	Response.Write "<input id=""edtID"" name=""edtID""  type=""hidden"" value="""& EditComment.ID &""" />"
-	Response.Write "<p>"& ZC_MSG270 &":<br/><input type=""text"" id=""inpID"" name=""inpID"" value="""& EditComment.log_ID &""" size=""40"" />(*)</p>"
-	Response.Write "<p>"& ZC_MSG095 &":<br/><input type=""text"" name=""intRepComment"" value="""& TransferHTML(EditComment.ParentID,"[html-format]") &""" size=""40""  /></p>"
+	Response.Write "<input id=""inpID"" name=""inpID""  type=""hidden"" value="""& EditComment.ID &""" />"
+If IsRev=False Then
+	Response.Write "<p>"& ZC_MSG270 &":<br/><input type=""text"" id=""inpLogID"" name=""inpLogID"" value="""& EditComment.log_ID &""" size=""40"" />(*)</p>"
+Else
+	Response.Write "<input type=""hidden"" id=""inpLogID"" name=""inpLogID"" value="""& EditComment.log_ID &""" />"
+End If
 
+	Response.Write "<p>"& ZC_MSG095 &":<br/><input type=""text"" readonly=""readonly"" id=""intRevID"" name=""intRevID"" value="""& TransferHTML(EditComment.ParentID,"[html-format]") &""" size=""40""  /></p>"
+If IsRev=False Then
 	Response.Write "<p>"& ZC_MSG001 &":<br/><input type=""text"" id=""inpName"" name=""inpName"" value="""& TransferHTML(EditComment.Author,"[html-format]") &""" size=""40"" />(*)</p>"
 	Response.Write "<p>"& ZC_MSG053 &":<br/><input type=""text"" name=""inpEmail"" value="""& TransferHTML(EditComment.Email,"[html-format]") &""" size=""40""  /></p>"
 	Response.Write "<p>"& ZC_MSG054 &":<br/><input type=""text"" name=""inpHomePage"" value="""& TransferHTML(EditComment.HomePage,"[html-format]") &""" size=""40""  /></p>"
-	
-	Response.Write "<p>"& ZC_MSG055 &":<br/><textarea name=""txaArticle"" id=""txaArticle"" onchange=""GetActiveText(this.id);"" onclick=""GetActiveText(this.id);"" onfocus=""GetActiveText(this.id);"" cols=""80"" rows=""12"">"&EditComment.Content&"</textarea>(*)</p>"
+Else
+	Response.Write "<input type=""hidden"" id=""inpName"" name=""inpName"" value="""& TransferHTML(EditComment.Author,"[html-format]") &""" />"
+	Response.Write "<input type=""hidden"" name=""inpEmail"" value="""& TransferHTML(EditComment.Email,"[html-format]") &""" />"
+	Response.Write "<input type=""hidden"" name=""inpHomePage"" value="""& TransferHTML(EditComment.HomePage,"[html-format]") &""" />"
+End If
+	Response.Write "<p>"& ZC_MSG090 &":<br/><textarea name=""txaContent"" id=""txaContent"" onchange=""GetActiveText(this.id);"" onclick=""GetActiveText(this.id);"" onfocus=""GetActiveText(this.id);"" cols=""80"" rows=""12"">"&EditComment.Content&"</textarea>(*)</p>"
 
 	Response.Write "<p><input type=""submit"" class=""button"" value="""& ZC_MSG087 &""" id=""btnPost"" onclick='return checkCateInfo();' /><br/><script language=""JavaScript"" type=""text/javascript"">objActive=""txaArticle"";ExportUbbFrame();</script></p>"
 %>
@@ -89,14 +106,14 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG066
 </div>
 
 			</div>
-<script>
-
+<script type="text/javascript">
+// <![CDATA[
 	var str17="<%=ZC_MSG118%>";
 	var str18="<%=ZC_MSG035%>";
 	var str19="<%=ZVA_ErrorMsg(9)%>";
 
 	function checkCateInfo(){
-		document.getElementById("edit").action="../cmd.asp?act=CommentSav";
+		document.getElementById("edit").action="../cmd.asp?act=CommentSav&revid=<%=Request.QueryString("revid")%>";
 
 		if(!document.getElementById("inpID").value){
 			alert(str19);
@@ -114,9 +131,9 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG066
 		}
 
 	}
+// ]]>
 </script>
 <script type="text/javascript">ActiveLeftMenu("aCommentMng");</script>
-
 <!--#include file="admin_footer.asp"-->
 <% 
 Call System_Terminate()

@@ -104,7 +104,6 @@ Sub System_Initialize()
 	Call GetConfigs()
 	'Call GetFunction()
 
-
 	BlogConfig.Load("Blog")
 
 	Call LoadGlobeCache()
@@ -3393,10 +3392,9 @@ End Function
 '*********************************************************
 Function AddBatch(name,actioncode)
 
-
 	Dim i
-	i=CInt(Session("batch_order"))+1
-	Session("batch_order")=i
+	i=CInt(Session("batchorder"))+1
+	Session("batchorder")=i
 	Call Session("batch").add("<b>" & i & "</b> : <u>" & name & "</u>",actioncode)
 
 End Function

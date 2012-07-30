@@ -122,7 +122,6 @@ End Function
 
 
 
-
 '*********************************************************
 ' 目的：     文件删除
 '*********************************************************
@@ -389,7 +388,6 @@ Function PostComment(strKey,intRevertCommentID)
 	objComment.Email=inpEmail
 	objComment.HomePage=inpHomePage
 	objComment.ParentID=inpParentID
-	objComment.Count=objConn.Execute("SELECT COUNT([comm_ID]) FROM [blog_Comment] WHERE [comm_IsCheck]=0 AND [log_ID] =" & inpID)(0)
 
 
 	'接口
@@ -398,7 +396,9 @@ Function PostComment(strKey,intRevertCommentID)
 	If objComment.IsThrow=True Then Call ShowError(14)
 
 	If objComment.AuthorID>0 Then
-		objComment.Author=Users(objComment.AuthorID).Name
+		objComment.Author  =Users(objComment.AuthorID).Name
+		objComment.EMail   =Users(objComment.AuthorID).Email
+		objComment.HomePage=Users(objComment.AuthorID).HomePage
 	End If
 
 	If objComment.log_ID>0 Then
@@ -503,48 +503,25 @@ End Function
 '*********************************************************
 ' 目的：    Save Comment
 '*********************************************************
-Function SaveComment(intID,intLog_ID)
+Function SaveComment()
 
 	Call GetCategory()
 	Call GetUser()
 
-	Dim objComment,objComment2
+	Dim objComment
 	Dim objArticle
-	Dim inpParentID,tmpCount
-	inpParentID=clng( Request.Form("intRepComment"))
-	
+
 	Set objComment=New TComment
-	Set objComment2=New TComment
 
-
-	objComment.LoadInfoByID intID	
-
-	If inpParentID>0 And inpParentID<>clng(intID) Then
-		If objComment2.LoadInfoByID(inpParentID)=True Then
-			If GetCommentFloor(inpParentID)+1>ZC_COMMNET_MAXFLOOR Then
-				Call ShowError(56)
-			End If
-			If objComment2.log_ID=cLng(intLog_ID) then
-				objComment.ParentID=inpParentID
-			Else
-				 Call ShowError(57)
-				SaveComment=True
-				Exit Function
-			End If
-		End If
-	Else
-		If  inpParentID<>clng(intID) then objComment.parentid=0
-	End If
-
-		objComment.log_ID=intLog_ID
+	If objComment.LoadInfoByID(Request.Form("inpID")) Then
 		objComment.Author=Request.Form("inpName")
 		objComment.Email=Request.Form("inpEmail")
 		objComment.HomePage=Request.Form("inpHomePage")
-		objComment.Content=Request.Form("txaArticle")
-		objComment.Reply=Request.Form("txaReply")
+		objComment.Content=Request.Form("txaContent")
+	Else
+		Call ShowError(61)
+	End If
 
-	'End If
-	Set objComment2=Nothing
 
 	If objComment.log_ID>0 Then
 		Set objArticle=New TArticle
@@ -553,6 +530,8 @@ Function SaveComment(intID,intLog_ID)
 		End If
 		Set objArticle=Nothing
 	End If
+
+	Call Filter_Plugin_PostComment_Core(objComment)
 
 	If objComment.Post Then
 
@@ -570,6 +549,70 @@ Function SaveComment(intID,intLog_ID)
 
 End Function
 '*********************************************************
+
+
+
+'*********************************************************
+' 目的：    Save Rev Comment
+'*********************************************************
+Function SaveRevComment()
+
+	Call GetCategory()
+	Call GetUser()
+
+	Dim objRevComment
+	Dim objNewComment
+	Dim objArticle
+
+	Set objNewComment=New TComment
+	Set objRevComment=New TComment
+
+	If objRevComment.LoadInfoByID(Request.Form("intRevID")) Then
+
+		objNewComment.ParentID=objRevComment.ID
+		objNewComment.log_ID=objRevComment.log_ID
+		objNewComment.AuthorID=BlogUser.ID
+		objNewComment.Author=BlogUser.Name
+		objNewComment.Email=BlogUser.Email
+		objNewComment.HomePage=BlogUser.HomePage
+		objNewComment.Content=Request.Form("txaContent")
+
+	Else
+		Call ShowError(61)
+	End If
+
+	If Len(objNewComment.Content)=0 Or Len(objNewComment.Content)>ZC_CONTENT_MAX Then
+		Call ShowError(46)
+	End If
+
+	If objNewComment.log_ID>0 Then
+		Set objArticle=New TArticle
+		If objArticle.LoadInfoByID(objNewComment.log_ID) Then
+			If Not ((objArticle.AuthorID=BlogUser.ID) Or (objNewComment.AuthorID=BlogUser.ID) Or (CheckRights("Root")=True)) Then Exit Function
+		End If
+		Set objArticle=Nothing
+	End If
+
+	Call Filter_Plugin_PostComment_Core(objNewComment)
+
+	If objNewComment.Post Then
+
+		Call BuildArticle(objNewComment.log_ID,False,False)
+		BlogReBuild_Comments
+		Functions(FunctionMetas.GetValue("comments")).SaveFile
+
+		SaveRevComment=True
+
+		Call Filter_Plugin_PostComment_Succeed(objNewComment)
+
+	End if
+
+	Set objNewComment=Nothing
+	Set objRevComment=Nothing
+
+End Function
+'*********************************************************
+
 
 
 
@@ -1041,7 +1084,9 @@ End Function
 Function SaveSetting()
 
 
-	Dim a,b
+	Dim a,b,c,d
+
+	Set d=CreateObject("Scripting.Dictionary")
 
 	On Error Resume Next
 	For Each a In BlogConfig.Meta.Names
@@ -1054,9 +1099,39 @@ Function SaveSetting()
 	For Each a In Request.Form 
 		b=Mid(a,4,Len(a))
 		If BlogConfig.Exists(b)=True Then
-			Call BlogConfig.Write(b,Request.Form(a))
+			d.add b,Request.Form(a)
 		End If
 	Next
+
+
+	For Each a In d.Keys
+
+		If BlogConfig.Read("ZC_STATIC_DIRECTORY")<>d.Item("ZC_STATIC_DIRECTORY")Then
+			Call CreatDirectoryByCustomDirectory(d.Item("ZC_STATIC_DIRECTORY"))
+			Call SetBlogHint(Empty,Empty,True)
+		End If
+
+		If BlogConfig.Read("ZC_BLOG_HOST")<>d.Item("ZC_BLOG_HOST")Then Call SetBlogHint(Empty,Empty,True)
+		If BlogConfig.Read("ZC_BLOG_TITLE")<>d.Item("ZC_BLOG_TITLE")Then Call SetBlogHint(Empty,Empty,True)
+		If BlogConfig.Read("ZC_BLOG_SUBTITLE")<>d.Item("ZC_BLOG_SUBTITLE")Then Call SetBlogHint(Empty,Empty,True)
+		If BlogConfig.Read("ZC_BLOG_NAME")<>d.Item("ZC_BLOG_NAME")Then Call SetBlogHint(Empty,Empty,True)
+		If BlogConfig.Read("ZC_BLOG_SUB_NAME")<>d.Item("ZC_BLOG_SUB_NAME")Then Call SetBlogHint(Empty,Empty,True)
+
+		If BlogConfig.Read("ZC_BLOG_COPYRIGHT")<>d.Item("ZC_BLOG_COPYRIGHT")Then Call SetBlogHint(Empty,Empty,True)
+		If BlogConfig.Read("ZC_BLOG_LANGUAGE")<>d.Item("ZC_BLOG_LANGUAGE")Then Call SetBlogHint(Empty,Empty,True)
+		If BlogConfig.Read("ZC_BLOG_LANGUAGE")<>d.Item("ZC_BLOG_LANGUAGE")Then Call SetBlogHint(Empty,Empty,True)
+
+
+		If BlogConfig.Read("ZC_BLOG_CLSID")<>d.Item("ZC_BLOG_CLSID")Then
+			If CheckRegExp(d.Item("ZC_BLOG_CLSID"),"[guid]")=False Then d.Item("ZC_BLOG_CLSID")=RndGuid()
+			Call SetBlogHint(Empty,Empty,True)
+		End If
+
+		Call BlogConfig.Write(a,d.Item(a))
+
+	Next
+
+
 
 	Call SaveConfig2Option()
 
@@ -1414,9 +1489,6 @@ Function SaveTheme()
 
 	Dim i,j
 	Dim s,t
-	'Dim strContent
-
-	'strContent=LoadFromFile(BlogPath & "zb_users/c_custom.asp","utf-8")
 
 	Dim strZC_BLOG_CSS
 	Dim strZC_BLOG_THEME
@@ -1426,17 +1498,8 @@ Function SaveTheme()
 
 	Call ScanPluginToThemeFile(strZC_BLOG_CSS,strZC_BLOG_THEME)
 
-	'Call SaveValueForSetting(strContent,True,"String","ZC_BLOG_CSS",strZC_BLOG_CSS)
-	'Call SaveValueForSetting(strContent,True,"String","ZC_BLOG_THEME",strZC_BLOG_THEME)
-
-	'If UCase(strZC_BLOG_CSS)<>UCase("""" & CStr(ZC_BLOG_CSS) & """") Then Call SetBlogHint(Empty,True,Empty)
-	'If UCase(strZC_BLOG_THEME)<>UCase("""" & CStr(ZC_BLOG_THEME) & """") Then Call SetBlogHint(Empty,True,True):Call UninstallPlugin(ZC_BLOG_THEME)
-
-	'Call SaveToFile(BlogPath & "zb_users/c_custom.asp",strContent,"utf-8",False)
-
 	If UCase(strZC_BLOG_CSS)<>UCase(CStr(ZC_BLOG_CSS)) Then Call SetBlogHint(Empty,True,Empty)
 	If UCase(strZC_BLOG_THEME)<>UCase(CStr(ZC_BLOG_THEME)) Then Call SetBlogHint(Empty,True,True):Call UninstallPlugin(ZC_BLOG_THEME)
-
 
 	Call BlogConfig.Write("ZC_BLOG_CSS",strZC_BLOG_CSS)
 
