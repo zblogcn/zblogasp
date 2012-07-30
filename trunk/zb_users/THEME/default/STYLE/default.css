@@ -367,8 +367,9 @@ div.post-body code{
 }
 
 div.post-body img{
-    max-width:600px;
- }
+   max-width:600px;
+   width: expression(this.width > 600 ? 600: true);   /*IE6*/ 
+}
 
 div.post-body h1{
 	color: #000000;
