@@ -18,24 +18,22 @@ Dim get_user_info
 dim tmpbl
 dim for1,for2,obj1
 '判断是否注销
-if request.QueryString("act")="logout" then
+if request.QueryString("act")="qqlogout" then
 		Set ZBQQConnect_DB.objUser=BlogUser
 		ZBQQConnect_DB.LoadInfo 2
 		ZBQQConnect_class.OpenID=ZBQQConnect_DB.OpenID
  		ZBQQConnect_class.logout
 		response.Redirect("main.asp")
 end if 
-If  ZBQQConnect_Config.Exists("AppID")=False Then
-	Call SetBlogHint_Custom("请先配置AppID!")
-	Response.Redirect "setting.asp"
-End If 
-'判断AJAX拉取时用户有无权限，若有则添加codepage
-'If ZBQQConnect_class.logined=false and request.QueryString("typ")<>"" Then
-'	response.write "error"'
-'	response.end
-'else
-'	session.CodePage=65001
-'end if
+if request.QueryString("act")="wblogout" then
+		ZBQQConnect_Config.Write "WBToken",""
+		ZBQQConnect_Config.Write "WBName",""
+		ZBQQConnect_Config.Write "WBSecret",""
+		ZBQQConnect_Config.Save
+		'response.end
+		response.Redirect("main.asp")
+end if 
+
 
 %>
     
@@ -50,20 +48,39 @@ End If
 	Dim ZBQQConnect_get_authorize_url
 	Set ZBQQConnect_DB.objUser=BlogUser
 	Dim ZBQQConnect_A
-	If ZBQQConnect_DB.LoadInfo(2)=False Then
-		
-		ZBQQConnect_class.callbackurl=IIf(BlogUser.Level=5,"http://www.zsxsoft.com/zblog-1-9/ZB_USERS/PLUGIN/ZBQQConnect/callback.asp?act=login","http://www.zsxsoft.com/zblog-1-9/ZB_USERS/PLUGIN/ZBQQConnect/callback.asp?act=admin")
-		Response.Write "<a onclick='window.open(""" & ZBQQConnect_class.Authorize & """);$(""#fff"").show();' href='javascript:void(0);'><img src='logo_230_48.png'/></a></div><div id='fff' style='display:none'>如果您无法正常获取到授权码，请<a href='javascript:location.href=""main.asp?""+Math.random()'>点击刷新本页</a>"
+	If ZBQQConnect_Config.Exists("AppID")=True Then
+		If ZBQQConnect_DB.LoadInfo(2)=False Then
+			
+			ZBQQConnect_class.callbackurl=IIf(BlogUser.Level=5,GetCurrentHOst&"/ZB_USERS/PLUGIN/ZBQQConnect/callback.asp?act=login",GetCurrentHOst&"/ZB_USERS/PLUGIN/ZBQQConnect/callback.asp?act=admin")
+			Response.Write "<a onclick='window.open(""" & ZBQQConnect_class.Authorize & """);$(""#fff"").show();' href='javascript:void(0);'><img src='logo_230_48.png'/></a></div><div id='fff' style='display:none'>如果您无法正常获取到授权码，请<a href='javascript:location.href=""main.asp?""+Math.random()'>点击刷新本页</a></div>"
+		Else
+			
+			ZBQQConnect_class.OpenID=ZBQQConnect_DB.OpenID
+			ZBQQConnect_class.AccessToken=ZBQQConnect_DB.AccessToken
+			ZBQQConnect_get_authorize_url = "main.asp?act=qqlogout"
+			Response.Write "<a href=""" & ZBQQConnect_get_authorize_url & """>解除QQ与该ID的绑定</a>"	
+			
+			ZBQQConnect_A=ZBQQConnect_class.API("https://graph.qq.com/user/get_user_info","{'format':'json'}","GET&")
+			Set ZBQQConnect_A=ZBQQConnect_ToObject(ZBQQConnect_A)
+			Response.Write "<br/>空间信息：<br/>姓名"&ZBQQConnect_A.nickname&"<br/>性别"&ZBQQConnect_A.Gender
+		End If
 	Else
-		
-		ZBQQConnect_class.OpenID=ZBQQConnect_DB.OpenID
-		ZBQQConnect_class.AccessToken=ZBQQConnect_DB.AccessToken
-		ZBQQConnect_get_authorize_url = "main.asp?act=logout"
-		Response.Write "<a href=""" & ZBQQConnect_get_authorize_url & """>解除QQ与该ID的绑定</a>"	
-		
-		ZBQQConnect_A=ZBQQConnect_class.API("https://graph.qq.com/user/get_user_info","{'format':'json'}","GET&")
-		Set ZBQQConnect_A=ZBQQConnect_ToObject(ZBQQConnect_A)
-		Response.Write "<br/>你好，"&ZBQQConnect_A.nickname&IIf(ZBQQConnect_A.Gender="男","先生","女士")&"<br/><img src="""&ZBQQConnect_A.figureurl_2&"""/>"
+		Response.Write "您还没有配置APPID，无法使用QQ登录功能。<br/>"
+	End If
+	response.write "<br/><br/>"
+	If BlogUser.Level=1 Then
+		Dim wbToken,wbSecret,wbName
+		If ZBQQConnect_Config.Exists("WBToken")=True And CStr(ZBQQConnect_Config.Read("WBToken"))<>"" Then
+			ZBQQConnect_get_authorize_url = "main.asp?act=wblogout"
+			Response.Write "<a href=""" & ZBQQConnect_get_authorize_url & """>注销微博</a>"	
+			ZBQQConnect_A=ZBQQConnect_class.fakeQQConnect.API("http://open.t.qq.com/api/user/info","{'format':'json'}","GET&")
+			Set ZBQQConnect_A=ZBQQConnect_ToObject(ZBQQConnect_A)
+			Response.Write "<br/>微博信息：<br/>帐号"&ZBQQConnect_A.data.name&"<br/>性别"&IIf(ZBQQConnect_A.data.sex=2,"女","男")
+
+		Else
+			ZBQQConnect_class.fakeQQConnect.callbackurl=GetCurrentHOst&"/ZB_USERS/PLUGIN/ZBQQConnect/callback.asp?act=login&tp=wb"
+			Response.Write "<a onclick='window.open(""" & ZBQQConnect_class.fakeQQConnect.Run(1,"","","","") & """);$(""#fff"").show();' href='javascript:void(0);'><img src='wblogin.gif'/></a></div><div id='fff' style='display:none'>如果您无法正常获取到授权码，请<a href='javascript:location.href=""main.asp?""+Math.random()'>点击刷新本页</a></div>"
+		End If
 	End If
 %>
 
@@ -74,10 +91,7 @@ End If
 <!--#include file="..\..\..\zb_system\admin\admin_footer.asp"-->
 
 <%
-'以下为example页面代码，对SDK开发无用
-'导航栏生成 
 
-'空转判断
 function pdkz(text)
 	if text=null or text=empty or text="" then pdkz="空转" else pdkz=text
 end function
