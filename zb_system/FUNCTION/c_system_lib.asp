@@ -1200,7 +1200,7 @@ Class TArticle
 
 		If Len(Title)=0 Then Post=False:Exit Function
 		If Len(Content)=0 Then Post=False:Exit Function
-		If Len(Intro)=0 Then Intro=Left(Content,ZC_TB_EXCERPT_MAX) & "..."
+		'If Len(Intro)=0 Then Intro=Left(Content,ZC_TB_EXCERPT_MAX) & "..."
 
 		TemplateName=UCase(FilterSQL(TemplateName))
 		If TemplateName="SINGLE" Then TemplateName=""

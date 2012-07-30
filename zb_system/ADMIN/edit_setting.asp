@@ -181,16 +181,16 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG247
 		Response.Write "<tr><td width='35%'>" & SplitNameAndNote(ZC_MSG190) & "</td><td><p><input id=""edtZC_DISPLAY_COUNT"" name=""edtZC_DISPLAY_COUNT"" style=""width:500px;"" type=""text"" value=""" & ZC_DISPLAY_COUNT & """ /></p></td></tr>"
 
 
-		ZC_RSS2_COUNT=TransferHTML(ZC_RSS2_COUNT,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG192) & "</td><td><p><input id=""edtZC_RSS2_COUNT"" name=""edtZC_RSS2_COUNT"" style=""width:500px;"" type=""text"" value=""" & ZC_RSS2_COUNT & """ /></p></td></tr>"
-
-
 		ZC_SEARCH_COUNT=TransferHTML(ZC_SEARCH_COUNT,"[html-format]")
 		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG193) & "</td><td><p><input id=""edtZC_SEARCH_COUNT"" name=""edtZC_SEARCH_COUNT"" style=""width:500px;"" type=""text"" value=""" & ZC_SEARCH_COUNT & """ /></p></td></tr>"
 
 
 		ZC_USE_NAVIGATE_ARTICLE=TransferHTML(ZC_USE_NAVIGATE_ARTICLE,"[html-format]")
 		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG209) & "</td><td><p><input id=""edtZC_USE_NAVIGATE_ARTICLE"" name=""edtZC_USE_NAVIGATE_ARTICLE"" style="""" type=""text"" value=""" & ZC_USE_NAVIGATE_ARTICLE & """ class=""checkbox""/></p></td></tr>"
+
+
+		ZC_COMMENTS_DISPLAY_COUNT=TransferHTML(ZC_COMMENTS_DISPLAY_COUNT,"[html-format]")
+		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG171) & "</td><td><p><input id=""edtZC_COMMENTS_DISPLAY_COUNT"" name=""edtZC_COMMENTS_DISPLAY_COUNT"" style=""width:500px;"" type=""text"" value=""" & ZC_COMMENTS_DISPLAY_COUNT & """/></p></td></tr>"
 
 
 		ZC_MUTUALITY_COUNT=TransferHTML(ZC_MUTUALITY_COUNT,"[html-format]")
@@ -206,10 +206,6 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG247
 
 		ZC_COMMENT_VERIFY_ENABLE=TransferHTML(ZC_COMMENT_VERIFY_ENABLE,"[html-format]")
 		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG185) & "</td><td><p><input id=""edtZC_COMMENT_VERIFY_ENABLE"" name=""edtZC_COMMENT_VERIFY_ENABLE"" style="""" type=""text"" value=""" & ZC_COMMENT_VERIFY_ENABLE & """ class=""checkbox""/></p></td></tr>"
-
-
-		ZC_IMAGE_WIDTH=TransferHTML(ZC_IMAGE_WIDTH,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG171) & "</td><td><p><input id=""edtZC_IMAGE_WIDTH"" name=""edtZC_IMAGE_WIDTH"" style=""width:500px;"" type=""text"" value=""" & ZC_IMAGE_WIDTH & """/></p></td></tr>"
 
 
 
