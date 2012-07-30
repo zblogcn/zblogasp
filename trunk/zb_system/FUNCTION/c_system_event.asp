@@ -190,25 +190,26 @@ Function PostArticle()
 
 	objArticle.Content=Request.Form("txaContent")
 
-	If InStr(objArticle.Content,"<hr />")>0 Then
-		s=objArticle.Content
-		i=InStr(s,"<hr />")
-		s=Left(s,i-1)
-		objArticle.Intro=s
-		objArticle.Content=Replace(objArticle.Content,"<hr />","<!-- intro -->")
-	End If
+	If objArticle.CateID>0 Then
+		If InStr(objArticle.Content,"<hr />")>0 Then
+			s=objArticle.Content
+			i=InStr(s,"<hr />")
+			s=Left(s,i-1)
+			objArticle.Intro=s
+			objArticle.Content=Replace(objArticle.Content,"<hr />","<!-- intro -->")
+		End If
 
-	If objArticle.Intro="" Then
-		s=objArticle.Content
-		For i =0 To UBound(Split(s,"</p>"))
-			If Trim(Split(s,"</p>")(i))<>"" Then
-				t=t & Split(s,"</p>")(i) & "</p>"
-			End If
-			If Len(t)>200 Then Exit for
-		Next 
-		objArticle.Intro=t
+		If objArticle.Intro="" Then
+			s=objArticle.Content
+			For i =0 To UBound(Split(s,"</p>"))
+				If Trim(Split(s,"</p>")(i))<>"" Then
+					t=t & Split(s,"</p>")(i) & "</p>"
+				End If
+				If Len(t)>ZC_TB_EXCERPT_MAX Then Exit for
+			Next 
+			objArticle.Intro=t
+		End If
 	End If
-
 
 	'接口
 	Call Filter_Plugin_PostArticle_Core(objArticle)

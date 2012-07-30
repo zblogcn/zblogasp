@@ -100,11 +100,12 @@ EditArticle.Title=UBBCode(EditArticle.Title,"[link][email][font][code][face][ima
 'EditArticle.Title=TransferHTML(EditArticle.Title,"[html-japan]")
 'EditArticle.Intro=TransferHTML(EditArticle.Intro,"[html-japan]")
 
+If InStr(EditArticle.Content,EditArticle.Intro)>0 Then IsAutoIntro=True
+If Len(EditArticle.Intro)="" Then IsAutoIntro=True
+
 EditArticle.Content=TransferHTML(Replace(EditArticle.Content,"<!-- intro -->","<hr />"),"[html-japan]")
 
 
-
-If InStr(EditArticle.Content,EditArticle.Intro)>0 Then IsAutoIntro=True
 
 
 EditArticle.Title=TransferHTML(EditArticle.Title,"[html-format]")
@@ -483,13 +484,13 @@ End If
 	function AutoIntro() {
 		var s=editor.getContent();
 		editor2.setContent("");
-		if(s.indexOf("<hr />")>0){
+		if(s.indexOf("<hr />")>-1){
 			editor2.setContent(editor.getContent().split("<hr />")[0]);
 		}else{
 			s="";
 			var ss=editor.getContent().split("</p>");
 			for (var t in ss){
-				if(s.length<200){
+				if(s.length<<%=ZC_TB_EXCERPT_MAX%>){
 					s+=ss[t].concat("</p>");
 				}
 			}
