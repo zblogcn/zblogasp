@@ -12,8 +12,7 @@ Class ZBQQConnect_Wb
 '*******************************************************************************
 '** 定义变量                                                                    **
 '*******************************************************************************
-Private strOauth1BaseString,strOauthToken,strPostUrl,strOauthSessionUserID,strOauthSessionToken,strOauthSessionSecret,intErrorCount,strOauthTokenSecret
-Private strMadeUpUrl
+Private strOauth1BaseString,strOauthToken,strOauthSessionUserID,strOauthSessionToken,strOauthSessionSecret,intErrorCount,strOauthTokenSecret
 Private strHttptype
 Private Oauth1_RequestToken_url ,Oauth1_authorize_url ,Oauth1_accesstoken_url 
 Private Oauth2_authorize_url,Oauth2_accesstoken_url
@@ -23,6 +22,7 @@ Private strContentWithReplaceEnter,strContentWithOutEncode,strOauthCallbackUrl,s
 Private strPictureAddressInServer,tempid,objJSON,bolDebugMsg
 Private objXmlhttp,strUserAgent
 Private strPrototype,strOauthVersion,ZC_BLOG_CLSID
+Public strPostUrl,strMadeUpUrl
 
 '*******************************************************************************
 '** 初始化                                                                **
@@ -180,6 +180,31 @@ End Sub
 '*******************************************************************************
 '** RunAPI                                                                **
 '*******************************************************************************
+Function t(content,pic)
+	Dim b
+	Set b=ZBQQConnect_ToObject("{}")
+	Call ZBQQConnect_addObj(b,"content",content)
+	Call ZBQQConnect_addObj(b,"clientip",getip)
+	Call ZBQQConnect_addObj(b,"format","json")
+	Call ZBQQConnect_addObj(b,"syncflag",1)
+	
+	If pic<>"~" and  pic<>"" Then
+		Call ZBQQConnect_addObj(b,"pic_url",pic)
+		t=API("http://open.t.qq.com/api/t/add_pic_url",ZBQQConnect_TOJSON(b),"POST&")
+	Else
+		t=API("http://open.t.qq.com/api/t/add",ZBQQConnect_TOJSON(b),"POST&")
+	End If
+End Function
+Function r(content,id)
+	Dim b
+	Set b=ZBQQConnect_ToObject("{}")
+	Call ZBQQConnect_addObj(b,"content",content)
+	Call ZBQQConnect_addObj(b,"clientip",getip)
+	Call ZBQQConnect_addObj(b,"format","json")
+	Call ZBQQConnect_addObj(b,"syncflag",1)
+	Call ZBQQConnect_addObj(b,"reid",id)
+	r=API("http://open.t.qq.com/api/t/re_add",ZBQQConnect_TOJSON(b),"POST&")
+End Function
 Function API(url,json,httptype)
 	If Right(httptype,1)<>"&" Then httptype=httptype&"&"
 	strHttpType=httptype
@@ -395,6 +420,7 @@ Public Function posthttp(posthttp_url)
 	objXmlhttp.SetTimeOuts 10000, 10000, 10000, 10000 
 	objXmlhttp.Open "POST",strPostUrl,False
 	objXmlhttp.SetRequestHeader "User-Agent",strUserAgent
+	objXmlhttp.SetRequestHeader "Content-Type","application/x-www-form-urlencoded"
 	objXmlhttp.Send strMadeUpUrl
     if err.number=0 then
 		posthttp = ZBQQConnect_BytesToBstr(objXmlhttp.responseBody,"utf-8")
@@ -405,11 +431,15 @@ Public Function posthttp(posthttp_url)
 End Function 
 
 
-Function ZBQQConnect_getIP
+Public Function getIP
+	getip="122.90.170.194"
+	exit function
 	dim a,b
 	a=Request.ServerVariables("HTTP_X_FORWARDED_FOR")
 	b=Request.ServerVariables("REMOTE_ADDR")
-	if b="" then ZBQQConnect_getIP=a else ZBQQConnect_getIP=b
+	if b="" then getIP=a else getIP=b
 End Function
 End Class
+response.Charset="utf-8"
+
 %>
