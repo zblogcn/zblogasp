@@ -44,7 +44,7 @@ Next
   <div class="logo"><img src="<%=GetCurrentHost%>ZB_SYSTEM/image/admin/none.gif" title="Z-Blog<%=ZC_MSG009%>" alt="Z-Blog<%=ZC_MSG009%>"/></div>
   <div class="login">
     <div class="divHeader">Z-Blog 注册</div>
-    <form name="zblogform" action="reg_save.asp" method="post" onsubmit="return chk_reg()" id="reg">
+    <form name="zblogform" action="reg_save.asp" method="post" onSubmit="return chk_reg()" id="reg">
       <%=Response_Plugin_RegPage_Begin%>
       <ul>
         <li class="r_left">用户名<font color="red">(*)</font>：</li>
@@ -188,11 +188,14 @@ Next
 <!--
 $(document).ready(function(){ 
 	if(document.getElementById("edtCheckOut")){
-		var objImageValid=$("img[src='../ZB_SYSTEM/function/c_validcode.asp?name=loginvalid']");
-		objImageValid.css("cursor","pointer");
-		objImageValid.click( function() {
-				objImageValid.attr("src","../ZB_SYSTEM/function/c_validcode.asp?name=loginvalid"+"&random="+Math.random());
-		} );
+
+		var objImageValid=$("img[src^='<%=GetCurrentHost%>/zb_system/function/c_validcode.asp?name=commentvalid']");
+		if(objImageValid.size()>0){
+			objImageValid.css("cursor","pointer");
+			objImageValid.click( function() {
+					objImageValid.attr("src","<%=GetCurrentHost%>/zb_system/function/c_validcode.asp?name=commentvalid"+"&amp;random="+Math.random());
+			} );
+		};
 	}
 });
 

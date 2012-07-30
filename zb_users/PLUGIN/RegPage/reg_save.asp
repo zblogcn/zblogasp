@@ -32,9 +32,9 @@ Sub ExportErr(str)
 	Response.Write "<script type=""text/javascript"">alert('"&replace(str,"'","\'")&"');history.go(-1)</script>"
 	Response.End
 End Sub
-'If CheckVerifyNumber(Request.Form("edtCheckOut"))=False Then
-'	ExportErr ZVA_ErrorMsg(38)
-'End If
+If CheckVerifyNumber(Request.Form("edtCheckOut"))=False Then
+	ExportErr ZVA_ErrorMsg(38)
+End If
 
 dim Username,UserPassword,UserMail,UserHomePage
 Username=TransferHTML(filtersql(request.form("username")),"[no-html]")
