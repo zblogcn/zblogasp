@@ -366,9 +366,8 @@ div.post-body code{
     border:1px #F4F4F4 solid;
 }
 
-code {
-    background: #e9f0fa;
-    cursor: text;
+div.post-body img{
+    max-width:600px;
  }
 
 div.post-body h1{
