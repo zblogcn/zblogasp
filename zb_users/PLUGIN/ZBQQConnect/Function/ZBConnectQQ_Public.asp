@@ -170,6 +170,7 @@ Function API(url,json,httptype)
 	MUrl=MakeOauthUrl(url,"sdk_custom",json)
 	AddDebug "URL2="&MUrl
 	AddDebug "PostData="&strMadeUpUrl
+	fakeQQConnect.strMadeUpUrl=strMadeUpUrl
 	if strHttptype="GET&" then
 		API=fakeQQConnect.GetHttp(Murl)
 	elseif strHttptype="POST&" then
@@ -213,7 +214,7 @@ Function t(content)
 	Set b=ZBQQConnect_toObject("{}")
 	Call ZBQQConnect_addobj(b,"format","json")
 	Call ZBQQConnect_addobj(b,"content",content)
-	Call ZBQQConnect_addobj(b,"clientip",ZBQQConnect_getIP)
+	Call ZBQQConnect_addobj(b,"clientip",fakeQQConnect.getIP)
 	b=ZBQQConnect_toJSON(b)
 	t=API("https://graph.qq.com/t/add_t",b,"POST&")
 End Function
@@ -277,19 +278,10 @@ Function MakeOauth2Url(ByRef oauth_url,ip,content)
 	strMadeUpUrl=ZBQQConnect_toStr(objJSON)
 	if bolDebugMsg=true then response.write "<div class='ZBQQConnect_Debug'><font color='black'>最终生成：" & oauth_url&"?"&strMadeUpUrl & "</font></div>"
 	MakeOauth2Url=oauth_url&"?"&strMadeUpUrl
-	strPostUrl = oauth_url
+	fakeQQConnect.strPostUrl = oauth_url
 End Function
 
 End Class
-'*******************************************************************************
-'** IP得到                                                                **
-'*******************************************************************************
-Function ZBQQConnect_getIP
-	dim a,b
-	a=Request.ServerVariables("HTTP_X_FORWARDED_FOR")
-	b=Request.ServerVariables("REMOTE_ADDR")
-	if b="" then ZBQQConnect_getIP=a else ZBQQConnect_getIP=b
-End Function
 '*******************************************************************************
 '** 源代码处理                                                                **
 '*******************************************************************************

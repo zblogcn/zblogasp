@@ -119,6 +119,12 @@ input[type="text"]{width:100%}
                   <br />
                   <input name="g" id="g" type="checkbox" <%=d(ZBQQConnect_Config.Read("g"))%> />
                   <label for="g"><font color="#0000CC">使用管理员的身份同步到空间（无论有无勾选，若用户没有绑定QQ，则使用管理员的身份同步。微博暂只能使用管理员的身份同步）</font></label>
+                   <p><font color="#009900">同步到微博内容（%a—评论作者；%c——评论摘要）</font></p>
+                  <p>
+                    <label for="pl"></label>
+                    <input type="text" name="pl" id="pl" value="<%=ZBQQConnect_Config.Read("pl")%>"/>
+                  </p>
+
                   <br />
                 </div>
                 <div class="tab-content" style='border:none;padding:0px;margin:0;' id="tab3">

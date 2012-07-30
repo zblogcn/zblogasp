@@ -23,6 +23,7 @@ a.Write "KEY",Request.Form("Key")
 a.Write "a1",Request.Form("a1")
 a.Write "Gravatar",Request.Form("Gravatar")
 a.Write "content",Request.Form("content")
+a.Write "pl",Request.Form("p1")
 a.Save
 Call SetBlogHint(True,True,Empty)
 Response.Redirect "setting.asp"
