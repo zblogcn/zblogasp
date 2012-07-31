@@ -1,4 +1,4 @@
-<%
+﻿<%
 Function ZBQQConnect_jsonExtendBasic(jsonobj1,ByVal strjson2)
 	dim j,k,l,n,m
 	set j=	jsonobj1
@@ -14,7 +14,7 @@ JS部分核心组件之一——JSON读取、删除、修改、添加
 */
 function ZBQQConnect_JSONE(a,b){return ZBQQConnect_JSONExtend({}, [a,b]);}
 function ZBQQConnect_JSONExtend(des, src, override){if(src instanceof Array){for(var i = 0, len = src.length; i < len; i++)ZBQQConnect_JSONExtend(des, src[i], override);}  for( var i in src){if(override || !(i in des)){des[i] = src[i];}} delete des["0"];delete des["1"];return des;	}
-function ZBQQConnect_toObject(json) {	var o = eval('('+json+')');return o;}
+function ZBQQConnect_toObject(json) {var o = eval('('+json+')');return o;}
 function ZBQQConnect_addObj(o,attr,str){o[attr] = str;}
 function ZBQQConnect_delObj(o,attr) {delete o[attr];}
 function ZBQQConnect_isObj(o,attr){if(typeof(o[attr])!="undefined") return true;}

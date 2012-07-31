@@ -1,4 +1,4 @@
-<%@LANGUAGE="VBSCRIPT" CODEPAGE="65001"%>
+﻿<%@LANGUAGE="VBSCRIPT" CODEPAGE="65001"%>
 <%option explicit%>
 <!-- #include file="../../c_option.asp" -->
 <!-- #include file="../../../ZB_SYSTEM/function/c_function.asp" -->
@@ -48,8 +48,9 @@ end if
 	Dim ZBQQConnect_get_authorize_url
 	Set ZBQQConnect_DB.objUser=BlogUser
 	Dim ZBQQConnect_A
+
 	If ZBQQConnect_Config.Exists("AppID")=True Then
-		If ZBQQConnect_DB.LoadInfo(2)=False Then
+		If ZBQQConnect_DB.LoadInfo(2)=False Or BlogUser.Level=5 Then
 			
 			ZBQQConnect_class.callbackurl=IIf(BlogUser.Level=5,GetCurrentHOst&"/ZB_USERS/PLUGIN/ZBQQConnect/callback.asp?act=login",GetCurrentHOst&"/ZB_USERS/PLUGIN/ZBQQConnect/callback.asp?act=admin")
 			Response.Write "<a onclick='window.open(""" & ZBQQConnect_class.Authorize & """);$(""#fff"").show();' href='javascript:void(0);'><img src='logo_230_48.png'/></a></div><div id='fff' style='display:none'>如果您无法正常获取到授权码，请<a href='javascript:location.href=""main.asp?""+Math.random()'>点击刷新本页</a></div>"

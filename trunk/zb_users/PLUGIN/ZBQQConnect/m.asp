@@ -1,4 +1,4 @@
-<%@LANGUAGE="VBSCRIPT" CODEPAGE="65001"%>
+﻿<%@LANGUAGE="VBSCRIPT" CODEPAGE="65001"%>
 <%option explicit%>
 <!-- #include file="../../c_option.asp" -->
 <!-- #include file="../../../ZB_SYSTEM/function/c_function.asp" -->
@@ -142,6 +142,8 @@ Function ExportQQList(intPage,intId,intUid,strOid,strUn)
 	ExportQQList=True
 
 End Function
+
+
 %>
 
 
