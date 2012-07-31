@@ -110,7 +110,7 @@ Next
         <li class="r_right">
           <input style="width:150px;" type="text" id="edtCheckOut" name="edtCheckOut" size="10" />
         </li>
-        <li class="r_msg"> &nbsp;&nbsp;<img style="border:1px solid black" src="<%=GetCurrentHost%>ZB_SYSTEM/function/c_validcode.asp?name=loginvalid" height="20" width="60" alt="" title=""/></li>
+        <li class="r_msg"> &nbsp;&nbsp;<img style="border:1px solid black" src="<%=GetCurrentHost%>zb_system/function/c_validcode.asp?name=commentvalid" height="20" width="60" alt="" title=""/></li>
       </ul>
       <p style="height:32px;text-align:right;">
         <input id="regButton" type="submit" value="同意以下注册条款并提交" name="submit" onClick="return chk_reg()"/>
@@ -187,16 +187,16 @@ Next
 <script language="javascript">
 <!--
 $(document).ready(function(){ 
-	if(document.getElementById("edtCheckOut")){
 
-		var objImageValid=$("img[src^='<%=GetCurrentHost%>/zb_system/function/c_validcode.asp?name=commentvalid']");
+
+		var objImageValid=$("img[src^='<%=GetCurrentHost%>zb_system/function/c_validcode.asp?name=commentvalid']");
 		if(objImageValid.size()>0){
 			objImageValid.css("cursor","pointer");
 			objImageValid.click( function() {
-					objImageValid.attr("src","<%=GetCurrentHost%>/zb_system/function/c_validcode.asp?name=commentvalid"+"&amp;random="+Math.random());
+					objImageValid.attr("src","<%=GetCurrentHost%>zb_system/function/c_validcode.asp?name=commentvalid"+"&amp;random="+Math.random());
 			} );
 		};
-	}
+
 });
 
 var msg	;
