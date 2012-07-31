@@ -3,6 +3,7 @@
 <!-- #include file="function\ZBConnectQQ_JSON.asp"-->
 <!-- #include file="function\ZBConnectQQ_DB.asp"-->
 <!-- #include file="function\ZBConnectQQ_HMACSHA1.asp"-->
+<!-- #include file="function\ZBConnectQQ_NetWork.asp"-->
 
 <%
 'Temp 
@@ -29,7 +30,7 @@ Dim ZBQQConnect_tmpObj,ZBQQConnect_Eml
 Dim ZBQQConnect_SToWb,ZBQQConnect_SToZone
 
 
-dim ZBQQConnect_class,ZBQQConnect_DB,ZBQQConnect_Config
+dim ZBQQConnect_class,ZBQQConnect_DB,ZBQQConnect_Config,ZBQQConnect_Net
 
 Function ZBQQConnect_Initialize
 	dim i
@@ -66,11 +67,11 @@ Function ZBQQConnect_Initialize
 	ZBQQConnect_WBKey=ZBQQConnect_Config.Read("WBKEY")
 	ZBQQConnect_WBSecret=ZBQQConnect_Config.Read("WBAPPSecret")
 	ZBQQConnect_CommentTemplate=ZBQQConnect_Config.Read("pl")
-
+	Set ZBQQConnect_Net=New ZBQQConnect_NetWork
 	set ZBQQConnect_class=new ZBQQConnect
 	Set ZBQQConnect_DB=New ZBConnectQQ_DB
-	ZBQQConnect_class.app_key="100291142"    '设置appkey
-	ZBQQConnect_class.app_secret="6e39bee95a58a8c99dce88ad5169a50e"  '设置app_secret
+	ZBQQConnect_class.app_key=ZBQQConnect_Config.Read("AppID")    '设置appkey
+	ZBQQConnect_class.app_secret=ZBQQConnect_Config.Read("KEY")  '设置app_secret
 	ZBQQConnect_class.callbackurl="http://www.zsxsoft.com/zblog-1-9/ZB_USERS/PLUGIN/ZBQQConnect/callback.asp"  '设置回调地址
 	ZBQQConnect_class.debug=false 'Debug模式设置
 	ZBQQConnect_class.fakeQQConnect.app_key=ZBQQConnect_WBKey
@@ -263,7 +264,7 @@ End Function
 
 Function ZBQQConnect_ArticleToWb(ByRef objArticle)
 	Dim strT ,bolN,objTemp,strTemp
-	
+	If objArticle.ID<>0 Then Exit Function
 	If objArticle.CateID=0 Then Exit Function
 	Call ZBQQConnect_Initialize
 	Set ZBQQConnect_DB.objUser=BlogUser
