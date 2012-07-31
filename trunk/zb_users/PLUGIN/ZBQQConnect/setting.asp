@@ -26,7 +26,7 @@ function showqk(){
 <script type="text/javascript" language="javascript" src="../../../zb_system/ADMIN/ueditor/third-party/SyntaxHighlighter/shCore.js"></script>
 <link rel="stylesheet" href="../../../zb_system/ADMIN/ueditor/third-party/SyntaxHighlighter/shCoreDefault.css"/>
 <style type="text/css">
-input[type="text"]{width:100%}
+input[type="text"]{width:90%}
 </style>
 <!--#include file="..\..\..\zb_system\admin\admin_top.asp"-->
     <div id="divMain">
@@ -34,10 +34,11 @@ input[type="text"]{width:100%}
         <%Call GetBlogHint()%>
       </div>
       <div class="divHeader">ZBQQConnect</div>
-      <div class="SubMenu"><%=ZBQQConnect_SBar(3)%></div>
+      <div class="SubMenu" style="border-bottom:5px solid #3399cc;"><%=ZBQQConnect_SBar(3)%></div>
+            <form id="form1" name="form1" method="post" action="savesetting.asp">  
       <div id="divMain2">
+
         <div class="content-box"><!-- Start Content Box -->
-          
           <div class="content-box-header">
             <ul class="content-box-tabs">
               <li><a href="#tab0" class="default-tab"><span>全局配置</span></a></li>
@@ -47,16 +48,20 @@ input[type="text"]{width:100%}
               <li><a href="#tab5"><span>头像设置</span></a></li>
               <li><a href="#tab4"><span>关于</span></a></li>
             </ul>
-            <div class="clear"></div>
-            蓝色字体部分为需要QQ登录，绿色为需要登录微博。其他颜色则为不需要。
-            <form id="form1" name="form1" method="post" action="savesetting.asp">
+			<div class="clear"></div>				
+		    </div> <!-- End .content-box-header -->
+
+
               <div class="content-box-content" id="qqcbox">
+
+
                 <div class="tab-content default-tab" style='border:none;padding:0px;margin:0;' id="tab0">
-                  <p>QQ登录APP ID:
+					<table class="tableBorder"  style='padding:0px;margin:0px;' cellspacing='0' cellpadding='0' width="100%"><tr><td width="100%">
+                  <p>QQ登录APP ID:<BR>
                     <input name="AppId" type="text" id="ap" value="<%=ZBQQConnect_Config.Read("AppID")%>"/>
                   </p>
                   <p><br />
-                    QQ登录KEY:
+                    QQ登录KEY:<BR>
                     <input name="KEY" type="text" id="as" value="<%=ZBQQConnect_Config.Read("KEY")%>"/>
                   </p>
                   <p><a href="javascript:void(0)" onClick="showqk()">如何获得？</a></p>
@@ -86,8 +91,17 @@ input[type="text"]{width:100%}
                       </li>
                     </ol>
                   </div>
+					</td></tr></table>
+					<div class="clear"></div>
                 </div>
+
+
+
+
+
+
                 <div class="tab-content" style='border:none;padding:0px;margin:0;' id="tab1">
+					<table class="tableBorder"  style='padding:0px;margin:0px;' cellspacing='0' cellpadding='0' width="100%"><tr><td width="100%">
                   <p>
                     <input name="a" id="a" type="checkbox" <%=d(ZBQQConnect_Config.Read("a"))%> />
                     <label for="a"><font color="#0000CC">发表文章时默认同步到QQ空间</font></label>
@@ -106,8 +120,18 @@ input[type="text"]{width:100%}
                   </p>
                   <p><br />
                 </p>
+					</td></tr></table>
                 </div>
+
+
+
+
+
+
+
+
                 <div class="tab-content" style='border:none;padding:0px;margin:0;' id="tab2">
+					<table class="tableBorder"  style='padding:0px;margin:0px;' cellspacing='0' cellpadding='0' width="100%"><tr><td width="100%">
                   <input name="d" id="d" type="checkbox" <%=d(ZBQQConnect_Config.Read("d"))%> />
                   <label for="d">发表评论时自动同步</label>
                   <br/>
@@ -126,8 +150,17 @@ input[type="text"]{width:100%}
                   </p>
 
                   <br />
+					</td></tr></table>
                 </div>
+
+
+
+
+
+
+
                 <div class="tab-content" style='border:none;padding:0px;margin:0;' id="tab3">
+					<table class="tableBorder"  style='padding:0px;margin:0px;' cellspacing='0' cellpadding='0' width="100%"><tr><td width="100%">
                   <input name="h" id="h" type="checkbox" <%=d(ZBQQConnect_Config.Read("h"))%> />
                   <label for="h"><font color="#0000CC">允许使用QQ登录</font></label>
                   <br/>
@@ -135,8 +168,17 @@ input[type="text"]{width:100%}
                   <label for="i"><font color="#0000CC">允许使用QQ注册帐号（不过必须先启用注册组件）</font></label>
                   
                   <br/>
+					</td></tr></table>
                 </div>
+
+
+
+
+
+
+
               <div class="tab-content" style='border:none;padding:0px;margin:0;' id="tab5">
+					<table class="tableBorder"  style='padding:0px;margin:0px;' cellspacing='0' cellpadding='0' width="100%"><tr><td width="100%">
                 <p>
                   <label>
                     <input type="radio" name="a1" value="0" id="a1_0"<%=e(ZBQQConnect_Config.Read("a1"),0)%>/>
@@ -159,19 +201,37 @@ input[type="text"]{width:100%}
 &lt;!--此处&lt;#ZBQQConnect_Head#&gt;为调用地址，必须要有。其他视情况而定--&gt;
 &lt;img width=&quot;32&quot; height=&quot;32&quot; alt=&quot;头像&quot; title=&quot;头像&quot; src=&quot;&lt;#ZBQQConnect_Head#&gt;&quot; /&gt;
                 </pre>
-                </p>
+					</td></tr></table>
               </div>
-                <div class="tab-content" style='border:none;padding:0px;margin:0;' id="tab4"><br/>
+
+
+
+
+
+
+
+                <div class="tab-content" style='border:none;padding:0px;margin:0;' id="tab4">
+					<table class="tableBorder"  style='padding:0px;margin:0px;' cellspacing='0' cellpadding='0' width="100%"><tr><td width="100%">
                   插件名：ZBQQConnect<br/>
                   插件版本:v1.0<br/>
                   插件制作者：ZSXSOFT<br/>
                   微博：<a href="http://t.qq.com/zhengshixin163" target="_blank">http://t.qq.com/zhengshixin163</a><br/>
-                  网站：<a href="http://www.zsxsoft.com" target="_blank">http://www.zsxsoft.com</a> </div>
+                  网站：<a href="http://www.zsxsoft.com" target="_blank">http://www.zsxsoft.com</a>
+					</td></tr></table>
               </div>
-              <input type="submit" value="提交" class="button"/>
-            </form>
-          </div>
-        </div>
+
+
+              <p><input type="submit" value="提交" class="button"/></p>
+
+
+              <p>蓝色字体部分为需要QQ登录，绿色为需要登录微博。其他颜色则为不需要。</p>
+
+              </div><!-- content-box-content -->
+            </div><!-- content-box -->
+
+
+         </form>
+ </div>
         <script language="javascript">
 SyntaxHighlighter.all();
 
