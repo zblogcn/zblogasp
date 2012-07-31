@@ -151,6 +151,8 @@ Function FileManage_ExportInformation(foldername,path)
 			case "b_article_nvabar_r" n= "“下一篇”日志链接"
 			case "b_article_tag" n="Tag显示样式"
 			case "b_pagebar" n="分页条模板"
+			case "b_function" n="单个侧边栏模板"
+			case "b_article_comment_pagebar" n="评论分页模板"
 			case "catalog" n="分类页整页模板"
 			case "default" n="首页整页模板"
 			case "search" n="搜索页整页模板"

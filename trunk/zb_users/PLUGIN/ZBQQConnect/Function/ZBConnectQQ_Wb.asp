@@ -205,10 +205,12 @@ Function r(content,id)
 	Call ZBQQConnect_addObj(b,"reid",id)
 	r=API("http://open.t.qq.com/api/t/re_add",ZBQQConnect_TOJSON(b),"POST&")
 End Function
+
 Function API(url,json,httptype)
 	If Right(httptype,1)<>"&" Then httptype=httptype&"&"
 	strHttpType=httptype
 	API=Run(256,url,"","",json)
+	strMadeUpUrl=""
 End Function
 
 
@@ -229,9 +231,10 @@ Function Run(type0,content,ip,pic,id)
 		end if
 	case 256
 		if strHttptype="GET&" then
-			Run=gethttp(MakeOauthUrl(content,"sdk_custom",id))
+			Run=ZBQQConnect_Net.gethttp(MakeOauthUrl(content,"sdk_custom",id))
 		elseif strHttptype="POST&" then
-			Run=posthttp(MakeOauthUrl(content,"sdk_custom",id))
+			Call MakeOauthUrl(content,"sdk_custom",id)
+			Run=ZBQQConnect_Net.posthttp(strPostUrl,strMadeUpUrl)
 		End If
 	end select
 	If bolDebugMsg=true then response.write "<font color='darkyellow'>返回结果：" &run & "</font>"
@@ -381,55 +384,6 @@ function get_oauth_http(byval oauthUrl)
 	'需要录入数据库等可在这里插入代码
 	get_oauth_http=objXmlhttp.responseText
 End function
-'*******************************************************************************
-'** GetHttp                                                                   **
-'*******************************************************************************
-Public Function gethttp(gethttp_url)
-    on error resume next
-	dim a
-	a=gethttp_url
-	If intErrorCount>intRepeatMax Then 
-		gethttp=False
-		exit function
-	End If 
-	If Instr(a,"<strPrototype>") then a=replace(a,"<strPrototype>",strPrototype)
-	objXmlhttp.SetTimeOuts 10000, 10000, 10000, 10000 
-	objXmlhttp.Open "GET",a,False
-	objXmlhttp.SetRequestHeader "User-Agent",strUserAgent
-	objXmlhttp.Send
-
-    if err.number=0 then
-		gethttp = ZBQQConnect_BytesToBstr(objXmlhttp.responseBody,"utf-8")
-	else
-		gethttp = gethttp(gethttp_url)
-	end if
-End Function
-
-'*******************************************************************************
-'** PostHttp                                                                  **
-'*******************************************************************************
-Public Function posthttp(posthttp_url)
-    'on error resume next
-	If intErrorCount>intRepeatMax Then 
-		posthttp=False
-		exit function
-	End If 
-	dim a
-	a=strPostUrl
-	If Instr(a,"<strPrototype>") then a=replace(a,"<strPrototype>",strPrototype)
-	objXmlhttp.SetTimeOuts 10000, 10000, 10000, 10000 
-	objXmlhttp.Open "POST",strPostUrl,False
-	objXmlhttp.SetRequestHeader "User-Agent",strUserAgent
-	objXmlhttp.SetRequestHeader "Content-Type","application/x-www-form-urlencoded"
-	objXmlhttp.Send strMadeUpUrl
-    if err.number=0 then
-		posthttp = ZBQQConnect_BytesToBstr(objXmlhttp.responseBody,"utf-8")
-	else
-		posthttp = posthttp(posthttp_url)
-	end if
-	strMadeUpUrl=""
-End Function 
-
 
 Public Function getIP
 	getip="122.90.170.194"
