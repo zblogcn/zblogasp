@@ -429,9 +429,8 @@ span.title{
 }
 
 .SubMenu span.m-now a{
-	border:1px solid #FFFFFF;
-	margin-bottom: -2px;
-	border-bottom:3px solid #FFFFFF;
+	background:#b0cdee;
+	color:black;
 }
 
 
@@ -463,7 +462,7 @@ span.title{
 	color:#3a6ea5;
 	font-weight:bolder;
 	border:0px solid #7190ba;
-	background:#3399cc;
+	background:#666;
 	padding:5px 10px;
 	margin:0 5px 0 0;
 	line-height:2em;
