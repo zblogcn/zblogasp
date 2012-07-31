@@ -49,7 +49,7 @@ Function a
 		Set b=ZBQQConnect_toobject(b)
 		ZBQQConnect_DB.QZoneHead=b.figureurl_2
 		Set ZBQQConnect_DB.objUser=BlogUser
-		ZBQQConnect_DB.Email=MD5(BlogUser.EMail)
+		ZBQQConnect_DB.Email=BlogUser.EMail
 		ZBQQConnect_DB.Bind
 		If BlogUser.Level=5 Then
 			Response.Redirect "select.asp?QQOPENID="&ZBQQConnect_Class.OpenID
