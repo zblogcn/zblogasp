@@ -394,7 +394,8 @@ Class TArticle
 	Private FTrackBackKey
 	Public Property Get TrackBackKey
 		If IsNull(FTrackBackKey) Or IsEmpty(FTrackBackKey) Or FTrackBackKey="" Then
-			FTrackBackKey=Left(MD5(ZC_BLOG_CLSID & CStr(ID) & CStr(TrackBackNums)),8)
+			'FTrackBackKey=Left(MD5(ZC_BLOG_CLSID & CStr(ID) & CStr(TrackBackNums)),8)
+			FTrackBackKey=Empty
 		End If
 		TrackBackKey=FTrackBackKey
 	End Property
@@ -2449,6 +2450,20 @@ Class TUser
 
 	Public html
 
+	Private FEmailMD5
+	Public Property Get EmailMD5
+		If FEmailMD5<>"" Then
+			FEmailMD5=MD5(Email)
+		Else
+			If (Email="") Or IsEmpty(Email) Or IsNull(Email) Then
+				FEmailMD5=""
+			Else
+				FEmailMD5=MD5(Email)
+			End If
+		End If
+		EmailMD5=FEmailMD5
+	End Property
+
 	Public Property Get  FullUrl
 		FullUrl=Replace(Url,ZC_BLOG_HOST,"<#ZC_BLOG_HOST#>")
 	End Property
@@ -2889,7 +2904,7 @@ Class TComment
 	Private FAvatar
 	Public Property Get Avatar
 		Avatar=FAvatar
-		If Avatar="" Then Avatar="http://www.gravatar.com/avatar/" & MD5(Email) & "?s=32&d=" & Server.urlEncode(GetCurrentHost & "zb_system/image/logo/avatar.png")
+		If Avatar="" Then Avatar="http://www.gravatar.com/avatar/" & EmailMD5 & "?s=32&d=" & Server.urlEncode(GetCurrentHost & "zb_system/image/logo/avatar.png")
 	End Property
 	Public Property Let Avatar(s)
 		FAvatar=s
@@ -2910,15 +2925,15 @@ Class TComment
 
 
 	Public Property Get EmailMD5
-		'If AuthorID>0 Then
-			EmailMD5=MD5(Users(AuthorID).Email)
-		'Else
+		If AuthorID>0 Then
+			EmailMD5=Users(AuthorID).EmailMD5
+		Else
 			If (Email="") Or IsEmpty(Email) Or IsNull(Email) Then
 				EmailMD5=""
 			Else
 				EmailMD5=MD5(Email)
 			End If
-		'End If
+		End If
 	End Property
 
 	Public Property Get FirstContact
