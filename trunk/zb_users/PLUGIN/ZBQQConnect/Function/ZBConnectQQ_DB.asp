@@ -41,8 +41,10 @@ Class ZBConnectQQ_DB
 				Call CheckParameter(objUser.ID,"int",0)
 				strSQL=strSQL & "QQ_USERID="&objUser.ID
 			Case 3,3000
+				Email=FilterSQL(Email)
 				strSQL=strSQL & "QQ_Eml='"&EMail&"'"
 			Case 4,5,4000
+				OpenID=FilterSQL(OpenID)
 				strSQL=strSQL & "QQ_OpenID='"&OpenID&"'"
 		End Select
 		Set objRS=objConn.Execute(strSQL)
@@ -63,6 +65,11 @@ Class ZBConnectQQ_DB
 		Set objRS=Nothing
 	End Function
 
+	Function Del()
+		Call CheckParameter(ID,"int",0)
+		If ID=0 Then Exit Function
+		objConn.Execute "DELETE FROM [blog_Plugin_ZBQQConnect] WHERE [QQ_ID]="&ID
+	End Function
 
 	Function Bind()
 		Dim strSQL
@@ -120,9 +127,6 @@ Class ZBConnectQQ_DB
 	End Function
 	
 	
-	Function Del()
-		objConn.Execute "DELETE FROM [blog_Plugin_ZBQQConnect] WHERE [QQ_ID]="&ID
-	End Function
 	
 	Function Login()
 		LoadInfo 4
