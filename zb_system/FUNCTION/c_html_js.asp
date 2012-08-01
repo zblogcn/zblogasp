@@ -22,7 +22,6 @@
 <!-- #include file="../function/c_function.asp" -->
 <!-- #include file="../function/c_system_lib.asp" -->
 <!-- #include file="../function/c_system_base.asp" -->
-<!-- #include file="../function/c_system_event.asp" -->
 <!-- #include file="../function/c_system_plugin.asp" -->
 <!-- #include file="../../zb_users/plugin/p_config.asp" -->
 <%

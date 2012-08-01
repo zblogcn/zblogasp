@@ -24,7 +24,7 @@ If CheckPluginState("ZBQQConnect")=False Then Call ShowError(48)
 <!--#include file="..\..\..\zb_system\admin\admin_top.asp"-->
 <div id="divMain"><div id="ShowBlogHint"><%Call GetBlogHint()%></div>
 <div class="divHeader">ZBQQConnect</div>
-<div class="SubMenu" style="border-bottom:5px solid #3399cc;"><%=ZBQQConnect_SBar(2)%></div>
+<div class="SubMenu"><%=ZBQQConnect_SBar(2)%></div>
 <div id="divMain2">
 
       <%

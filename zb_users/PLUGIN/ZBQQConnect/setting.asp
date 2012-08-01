@@ -34,7 +34,7 @@ input[type="text"]{width:90%}
         <%Call GetBlogHint()%>
       </div>
       <div class="divHeader">ZBQQConnect</div>
-      <div class="SubMenu" style="border-bottom:5px solid #3399cc;"><%=ZBQQConnect_SBar(3)%></div>
+      <div class="SubMenu"><%=ZBQQConnect_SBar(3)%></div>
             <form id="form1" name="form1" method="post" action="savesetting.asp">  
       <div id="divMain2">
 

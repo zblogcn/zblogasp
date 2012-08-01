@@ -912,64 +912,32 @@ End Function
 
 
 '*********************************************************
-' 目的：    Batch ReBuild
+' 目的：    文件重建 批处理 前置
 '*********************************************************
-Function BatchAsk()
+Function BeforeFileReBuild()
 
-	'plugin node
-	bAction_Plugin_BatchAsk_Begin=False
-	For Each sAction_Plugin_BatchAsk_Begin in Action_Plugin_BatchAsk_Begin
-		If Not IsEmpty(sAction_Plugin_BatchAsk_Begin) Then Call Execute(sAction_Plugin_BatchAsk_Begin)
-		If bAction_Plugin_BatchAsk_Begin=True Then Exit Function
-	Next
+	Dim objRS
+	Dim objArticle
 
+	Set objRS=Server.CreateObject("ADODB.Recordset")
+	objRS.CursorType = adOpenKeyset
+	objRS.LockType = adLockReadOnly
+	objRS.ActiveConnection=objConn
+	objRS.Source="SELECT [log_ID] FROM [blog_Article] WHERE [log_Level]>1"
+	objRS.Open()
 
-	'Call Add_Response_Plugin("Response_Plugin_AskFileReBuild_SubMenu",MakeSubMenu(ZC_MSG072,"cmd.asp?act=BlogReBuild","m-left",False))
+	If (Not objRS.bof) And (Not objRS.eof) Then
 
-	Response.Write "<!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 1.0 Transitional//EN"" ""http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd""><html><head><meta http-equiv=""Content-Type"" content=""text/html; charset=utf-8"" /><link rel=""stylesheet"" rev=""stylesheet"" href=""CSS/admin2.css"" type=""text/css"" media=""screen"" /><script language=""JavaScript"" src=""script/common.js"" type=""text/javascript""></script></head><body>"
+		objRS.PageSize = ZC_REBUILD_FILE_COUNT
 
+		Call AddBatch(ZC_MSG072,"Call MakeBlogReBuild()")
 
-	Response.Write "<div class=""SubMenu"">" & Response_Plugin_AskFileReBuild_SubMenu & "</div>"
-
-
-	If Session("batch").Count=0 Then
-
-		Response.Write "<form id=""edit"" name=""edit"" method=""post"" action=""cmd.asp?act=FileReBuild"">" & vbCrlf
-		Response.Write "<p>"& ZC_MSG112 &"</p>" & vbCrlf
-
-		Response.Write "<p><input class=""button"" type=""submit"" value="""&ZC_MSG087&""" id=""btnPost""/></p>" & vbCrlf
-		Response.Write "</form>" 
-
-		Session("batch_order")=0
-		Session("batchtime")=0
-
-	Else
-	
-		Response.Write "<form id=""edit"" name=""edit"" method=""post"" action=""cmd.asp?act=batch"">" & vbCrlf
-		
-		Response.Write "<p>"& ZC_MSG273 &"</p>" & vbCrlf
-
-		Response.Write "<p><input class=""button"" type=""submit"" value="""&ZC_MSG087&""" id=""btnPost""/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=""button"" type=""submit"" value="""&ZC_MSG264&""" id=""btnPost"" onclick=""$('#edit').attr('action',$('#edit').attr('action')+'&amp;cancel=true');""/></p>" & vbCrlf
-
-		Response.Write "</form>" 
+		Dim i
+		For i=1 To objRS.PageCount
+			Call AddBatch(ZC_MSG073 & "<"&i&">","Call MakeFileReBuild("&i&")")
+		Next
 
 	End If
-
-
-
-	Response.Write "<script language=""JavaScript"" type=""text/javascript"">if($('.SubMenu').find('span').length==0){$('.SubMenu').hide()};</script>"
-
-	Response.Write "</body></html>"
-
-	'plugin node
-	bAction_Plugin_BatchAsk_End=False
-	For Each sAction_Plugin_BatchAsk_End in Action_Plugin_BatchAsk_End
-		If Not IsEmpty(sAction_Plugin_BatchAsk_End) Then Call Execute(sAction_Plugin_BatchAsk_End)
-		If bAction_Plugin_BatchAsk_End=True Then Exit Function
-	Next
-
-
-	BatchAsk=True
 
 End Function
 '*********************************************************

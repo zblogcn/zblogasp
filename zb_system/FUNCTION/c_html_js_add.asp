@@ -20,6 +20,10 @@
 <% Response.ContentType="application/x-javascript" %>
 <!-- #include file="../../zb_users/c_option.asp" -->
 <!-- #include file="../function/c_function.asp" -->
+<!-- #include file="../function/c_system_lib.asp" -->
+<!-- #include file="../function/c_system_base.asp" -->
+<!-- #include file="../function/c_system_plugin.asp" -->
+<!-- #include file="../../zb_users/plugin/p_config.asp" -->
 
 <% Response.Clear %>
 
@@ -30,6 +34,9 @@ SyntaxHighlighter.defaults['smart-tabs']=true;
 //SyntaxHighlighter.defaults['auto-links']=false;
 SyntaxHighlighter.all();
 //SyntaxHighlighter.highlight(document.getElementsByTagName("pre"),null,true);
+
+
+
 var str00="<%=GetCurrentHost()%>";
 var str01="<%=ZC_MSG033%>";
 var str02="<%=ZC_MSG034%>";
@@ -49,7 +56,7 @@ $(document).ready(function(){
 
 		$.getScript("<%=GetCurrentHost()%>zb_system/function/c_html_js.asp?act=batch"+unescape("%26")+"view=" + escape(strBatchView)+unescape("%26")+"inculde=" + escape(strBatchInculde)+unescape("%26")+"count=" + escape(strBatchCount));
 
-		var objImageValid=$("img[src^='<%=GetCurrentHost()%>zb_system/function/c_validcode.asp?name=commentvalid']");
+		var objImageValid=$("img[src*='zb_system/function/c_validcode.asp?name=commentvalid']");
 		if(objImageValid.size()>0){
 			objImageValid.css("cursor","pointer");
 			objImageValid.click( function() {
@@ -66,27 +73,3 @@ $(document).ready(function(){
 $("head").append("<link rel='stylesheet' type='text/css' href='<%=GetCurrentHost()%>/zb_system/ADMIN/ueditor/third-party/SyntaxHighlighter/shCoreDefault.css'/>");
 
 //$.getScript("<%=GetCurrentHost()%>zb_system/admin/ueditor/third-party/SyntaxHighlighter/shCore.js",function(){SyntaxHighlighter.all();});
-<%
-Function LoadFromFile(strFullName,strCharset)
-
-	On Error Resume Next
-
-	Dim objStream
-
-	Set objStream = Server.CreateObject("ADODB.Stream")
-	With objStream
-	.Type = adTypeText
-	.Mode = adModeReadWrite
-	.Open
-	.Charset = strCharset
-	.Position = objStream.Size
-	.LoadFromFile strFullName
-	LoadFromFile=.ReadText
-	.Close
-	End With
-	Set objStream = Nothing
-
-	Err.Clear
-
-End Function
-%>

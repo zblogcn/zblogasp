@@ -41,7 +41,7 @@ end if
 <!--#include file="..\..\..\zb_system\admin\admin_top.asp"-->
 <div id="divMain"><div id="ShowBlogHint"><%Call GetBlogHint()%></div>
 <div class="divHeader">ZBQQConnect</div>
-<div class="SubMenu" style="border-bottom:5px solid #3399cc;"><%=ZBQQConnect_SBar(1)%></div>
+<div class="SubMenu"><%=ZBQQConnect_SBar(1)%></div>
 <div id="divMain2">
 
       <%
