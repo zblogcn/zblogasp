@@ -1645,32 +1645,31 @@ Function GetReallyDirectory()
 
 	If IsRunGetReallyDirectory=True Then Exit Function
 
-	'On Error Resume Next
-
-	BlogPath=Server.MapPath(".")
+	Dim p	
+	p=Server.MapPath(".")
 
 	Dim fso
 	Set fso = CreateObject("Scripting.FileSystemObject")
-	If fso.FolderExists(BlogPath & "ZB_SYSTEM\") Then
-		BlogPath=BlogPath
-	ElseIf fso.FolderExists(BlogPath & "..\ZB_SYSTEM\") Then
-		BlogPath=BlogPath & "..\"
-	ElseIf fso.FolderExists(BlogPath & "..\..\ZB_SYSTEM\") Then
-		BlogPath=BlogPath & "..\..\"
-	ElseIf fso.FolderExists(BlogPath & "..\..\..\ZB_SYSTEM\") Then
-		BlogPath=BlogPath & "..\..\..\"
-	ElseIf fso.FolderExists(BlogPath & "..\..\..\..\ZB_SYSTEM\") Then
-		BlogPath=BlogPath & "..\..\..\..\"
-	ElseIf fso.FolderExists(BlogPath & "..\..\..\..\..\ZB_SYSTEM\") Then
-		BlogPath=BlogPath & "..\..\..\..\..\"
-	ElseIf fso.FolderExists(BlogPath & "..\..\..\..\..\..\ZB_SYSTEM\") Then
-		BlogPath=BlogPath & "..\..\..\..\..\..\"
-	ElseIf fso.FolderExists(BlogPath & "..\..\..\..\..\..\..\ZB_SYSTEM\") Then
-		BlogPath=BlogPath & "..\..\..\..\..\..\..\"
+	If fso.FolderExists(p & "ZB_SYSTEM\") Then
+		p=p
+	ElseIf fso.FolderExists(p & "..\ZB_SYSTEM\") Then
+		p=p & "..\"
+	ElseIf fso.FolderExists(p & "..\..\ZB_SYSTEM\") Then
+		p=p & "..\..\"
+	ElseIf fso.FolderExists(p & "..\..\..\ZB_SYSTEM\") Then
+		p=p & "..\..\..\"
+	ElseIf fso.FolderExists(p & "..\..\..\..\ZB_SYSTEM\") Then
+		p=p & "..\..\..\..\"
+	ElseIf fso.FolderExists(p & "..\..\..\..\..\ZB_SYSTEM\") Then
+		p=p & "..\..\..\..\..\"
+	ElseIf fso.FolderExists(p & "..\..\..\..\..\..\ZB_SYSTEM\") Then
+		p=p & "..\..\..\..\..\..\"
+	ElseIf fso.FolderExists(p & "..\..\..\..\..\..\..\ZB_SYSTEM\") Then
+		p=p & "..\..\..\..\..\..\..\"
 	End If
 	Set fso=Nothing
 
-	GetReallyDirectory=CreateObject("Scripting.FileSystemObject").GetFolder(BlogPath).Path & "\"
+	GetReallyDirectory=CreateObject("Scripting.FileSystemObject").GetFolder(p).Path & "\"
 
 	IsRunGetReallyDirectory=True
 

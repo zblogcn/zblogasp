@@ -950,11 +950,11 @@ End Function
 Function MakeFileReBuild(intPage)
 
 	'plugin node
-	bAction_Plugin_MakeFileReBuild_Begin=False
-	For Each sAction_Plugin_MakeFileReBuild_Begin in Action_Plugin_MakeFileReBuild_Begin
-		If Not IsEmpty(sAction_Plugin_MakeFileReBuild_Begin) Then Call Execute(sAction_Plugin_MakeFileReBuild_Begin)
-		If bAction_Plugin_MakeFileReBuild_Begin=True Then Exit Function
-	Next
+	'bAction_Plugin_MakeFileReBuild_Begin=False
+	'For Each sAction_Plugin_MakeFileReBuild_Begin in Action_Plugin_MakeFileReBuild_Begin
+	'	If Not IsEmpty(sAction_Plugin_MakeFileReBuild_Begin) Then Call Execute(sAction_Plugin_MakeFileReBuild_Begin)
+	'	If bAction_Plugin_MakeFileReBuild_Begin=True Then Exit Function
+	'Next
 
 	GetCategory()
 	GetUser()
@@ -990,15 +990,95 @@ Function MakeFileReBuild(intPage)
 	End If
 
 	'plugin node
-	bAction_Plugin_MakeFileReBuild_End=False
-	For Each sAction_Plugin_MakeFileReBuild_End in Action_Plugin_MakeFileReBuild_End
-		If Not IsEmpty(sAction_Plugin_MakeFileReBuild_End) Then Call Execute(sAction_Plugin_MakeFileReBuild_End)
-		If bAction_Plugin_MakeFileReBuild_End=True Then Exit Function
-	Next
+	'bAction_Plugin_MakeFileReBuild_End=False
+	'For Each sAction_Plugin_MakeFileReBuild_End in Action_Plugin_MakeFileReBuild_End
+	'	If Not IsEmpty(sAction_Plugin_MakeFileReBuild_End) Then Call Execute(sAction_Plugin_MakeFileReBuild_End)
+	'	If bAction_Plugin_MakeFileReBuild_End=True Then Exit Function
+	'Next
 
 End Function
 '*********************************************************
 
+
+'*********************************************************
+' 目的：    Batch ALL
+'*********************************************************
+Function BatchAll()
+
+	Server.ScriptTimeout = 1200
+
+	If Request.QueryString("cancel")="true" Then
+		Session("batch").RemoveAll
+		Session("batchorder")=0
+		Session("batchtime")=0
+	End If 
+
+	Dim i
+	Dim a
+	Set a = Session("batch")
+	Dim b
+	b=a.Keys
+	Dim c
+	c=a.Items
+
+	Dim intAllTime
+
+ 
+	If a.Count >0 Then
+
+		For i = 0 To 0
+
+			Response.Write "<!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 1.0 Transitional//EN"" ""http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd""><html><head><meta http-equiv=""Content-Type"" content=""text/html; charset=utf-8""/><meta http-equiv=""refresh"" content="""&ZC_REBUILD_FILE_INTERVAL&";URL="&GetCurrentHost & "zb_system/cmd.asp?act=batch"&"&all="&intAllTime&"""/><style>body{padding:0; margin:0;background:#dbe3ff;}img{border:0;padding:0; margin:0;}</style></head><body>"
+			Response.Write "<img src='image/admin/loading.gif'>"
+			Response.Write "<script type=""text/javascript"">parent.Batch2Tip("""&b(0) & ZC_MSG109&""")</script>"
+
+			Response.Write "<div class=""hidden"">"
+			Call GetBlogHint()
+			Response.Write "</div>"
+
+			Response.Flush
+			'Response.Write "<div id=""divMain"">"
+			'Response.Write "<div id=""divMain2"">"
+			'Response.Write "<form  name=""edit"" id=""edit"">"
+
+			'Response.Write "<p>" & b(0) & ZC_MSG109 &"</p>"
+
+			'Response.Write "</form></div></div>"
+			Response.Write "</body></html>"
+
+			Call Execute(c(0))
+			Session("batch").Remove(b(0))
+
+		Next
+
+	Else
+
+
+		Response.Write "<!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 1.0 Transitional//EN"" ""http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd""><html><head><meta http-equiv=""Content-Type"" content=""text/html; charset=utf-8""/><style>body{padding:0; margin:0;background:#dbe3ff;}img{border:0;padding:0; margin:0;}</style></head><body>"
+		Response.Write "<img src='image/admin/okay.png'>"
+		Response.Write "<script type=""text/javascript"">parent.Batch2Tip("""&ZC_MSG227 & Replace(ZC_MSG169,"%n",Session("batchtime")/1000) &""")</script>"
+
+		'Response.Write "<div id=""divMain"">"
+
+		Response.Write "<div class=""hidden"">"
+		Call GetBlogHint()
+		Response.Write "</div>"
+
+		'Response.Write "<div id=""divMain2"">"
+		'Response.Write "<form  name=""edit"" id=""edit"">"
+
+		'Response.Write "<p>" & ZC_MSG227 &"</p>"
+		'Response.Write "<p>" & Replace(ZC_MSG169,"%n",Session("batchtime")/1000)&"</p>"
+
+		'Response.Write "</form></div></div>"
+		Response.Write "</body></html>"
+
+		Session.Abandon
+
+	End If
+
+End Function
+'*********************************************************
 
 
 
