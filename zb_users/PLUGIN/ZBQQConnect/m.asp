@@ -18,7 +18,13 @@ If BlogUser.Level>1 Then Call ShowError(6)
 If CheckPluginState("ZBQQConnect")=False Then Call ShowError(48)
 
 
-%>
+%>      <%
+Sub DelQQ(id)
+	ZBQQConnect_DB.ID=id
+	ZBQQConnect_DB.Del
+	Call SetBlogHint(True,True,Empty)
+End Sub
+If Request.QueryString("act")="del" Then Call DelQQ(Request.QueryString("id"))  %>
     
 <!--#include file="..\..\..\zb_system\admin\admin_header.asp"-->
 <!--#include file="..\..\..\zb_system\admin\admin_top.asp"-->
@@ -27,8 +33,8 @@ If CheckPluginState("ZBQQConnect")=False Then Call ShowError(48)
 <div class="SubMenu"><%=ZBQQConnect_SBar(2)%></div>
 <div id="divMain2">
 
-      <%
-If Request.QueryString("act")="del" Then Call DelQQ(Request.QueryString("id")) Else Call ExportQQList(Request.QueryString("page"),Request("qq_id"),Request("qq_uid"),Request("qq_oid"),Request("qq_un"))
+<%
+Call ExportQQList(Request.QueryString("page"),Request("qq_id"),Request("qq_uid"),Request("qq_oid"),Request("qq_un"))
 Function ExportQQList(intPage,intId,intUid,strOid,strUn)
 
 'Call Add_Response_Plugin("Response_Plugin_ArticleMng_SubMenu",MakeSubMenu(ZC_MSG168 & "","../cmd.asp?act=ArticleEdt&amp;webedit=" & ZC_BLOG_WEBEDIT,"m-left",False))
