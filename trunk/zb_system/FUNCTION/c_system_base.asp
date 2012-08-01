@@ -1550,7 +1550,6 @@ Function ClearGlobeCache()
 
 	Application(ZC_BLOG_CLSID & "CACHE_ARTICLE_VIEWCOUNT")=Empty
 
-
 	Application.UnLock
 
 	ClearGlobeCache=True

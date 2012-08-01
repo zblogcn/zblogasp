@@ -1453,6 +1453,10 @@ Function Batch()
 			Response.Write "<img src='image/admin/loading.gif'>"
 			Response.Write "<script type=""text/javascript"">parent.Batch2Tip("""&b(0) & ZC_MSG109&""")</script>"
 
+			Response.Write "<div class=""hidden"">"
+			Call GetBlogHint()
+			Response.Write "</div>"
+
 			'Response.Write "<div id=""divMain"">"
 			'Response.Write "<div id=""divMain2"">"
 			'Response.Write "<form  name=""edit"" id=""edit"">"

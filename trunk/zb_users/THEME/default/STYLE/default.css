@@ -591,7 +591,10 @@ li.msgtime{
 	font-weight: normal; 
 	font-size:0.8em;
 }
-
+ul.msg ul.msg img.avatar{
+	width:16px;
+	height:16px;
+}
 
 
 /*---------------------------相关文章----------------------------------*/

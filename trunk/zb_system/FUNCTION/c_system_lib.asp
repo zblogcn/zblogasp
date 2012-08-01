@@ -2885,30 +2885,40 @@ Class TComment
 		Meta.LoadString=s
 	End Property
 
+
+	Private FAvatar
+	Public Property Get Avatar
+		Avatar=FAvatar
+		If Avatar="" Then Avatar="http://www.gravatar.com/avatar/" & MD5(Email) & "?s=32&d=" & Server.urlEncode(GetCurrentHost & "zb_system/image/logo/avatar.png")
+	End Property
+	Public Property Let Avatar(s)
+		FAvatar=s
+	End Property
+
+
 	Public html
 
 	Public Property Get HomePageForAntiSpam
 		HomePageForAntiSpam=URLEncodeForAntiSpam(HomePage)
 	End Property
 
+
 	Public Property Get SafeEmail
 		If (Email="") Or IsEmpty(Email) Or IsNull(Email) Then Email="null@null.com"
 		SafeEmail=Replace(Email,"@","[AT]")
 	End Property
 
-	Public Property Get EmailMD5
 
-		If AuthorID>0 Then
+	Public Property Get EmailMD5
+		'If AuthorID>0 Then
 			EmailMD5=MD5(Users(AuthorID).Email)
-		Else
+		'Else
 			If (Email="") Or IsEmpty(Email) Or IsNull(Email) Then
 				EmailMD5=""
 			Else
 				EmailMD5=MD5(Email)
 			End If
-		End If
-
-
+		'End If
 	End Property
 
 	Public Property Get FirstContact
@@ -3116,8 +3126,8 @@ Class TComment
 		Dim aryTemplateTagsName()
 		Dim aryTemplateTagsValue()
 
-		ReDim aryTemplateTagsName(12)
-		ReDim aryTemplateTagsValue(12)
+		ReDim aryTemplateTagsName(13)
+		ReDim aryTemplateTagsValue(13)
 
 		If ParentID="" Then ParentID=0
 
@@ -3145,6 +3155,8 @@ Class TComment
 		aryTemplateTagsValue(11)=EmailMD5
 		aryTemplateTagsName( 12)="article/comment/parentid"
 		aryTemplateTagsValue(12)=ParentID
+		aryTemplateTagsName( 13)="article/comment/avatar"
+		aryTemplateTagsValue(13)=Avatar
 
 		'plugin node
 		Call Filter_Plugin_TComment_MakeTemplate_TemplateTags(aryTemplateTagsName,aryTemplateTagsValue)
