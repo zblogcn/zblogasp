@@ -34,19 +34,19 @@ Class ZBConnectQQ_DB
 		Dim strSQL
 		strSQL="SELECT [QQ_ID],[QQ_UserID],[QQ_Eml],[QQ_OpenID],[QQ_AToken],[QQ_QZoneHead],[QQ_THead] FROM [blog_Plugin_ZBQQConnect] WHERE "
 		Select Case Typ
-			Case 1
+			Case 1,1000
 				Call CheckParameter(ID,"int",0)
 				strSQL=strSQL & "QQ_ID="&ID
-			Case 2
+			Case 2,2000
 				Call CheckParameter(objUser.ID,"int",0)
 				strSQL=strSQL & "QQ_USERID="&objUser.ID
-			Case 3
+			Case 3,3000
 				strSQL=strSQL & "QQ_Eml='"&EMail&"'"
-			Case 4,5
+			Case 4,5,4000
 				strSQL=strSQL & "QQ_OpenID='"&OpenID&"'"
 		End Select
 		Set objRS=objConn.Execute(strSQL)
-		If (Not objRS.bof) And (Not objRS.eof) Then
+		If (Not objRS.bof) And (Not objRS.eof) And Typ<1000 Then
 			ID=objRS("QQ_ID")
 			If Typ<>5 Then objUser.LoadInfoById CInt(objRS("QQ_UserID"))
 			Email=objRs("QQ_Eml")
@@ -78,7 +78,31 @@ Class ZBConnectQQ_DB
 			Email=objUser.EMail
 		End If
 		If OpenID="" Or AccessToken="" Then Bind=False:Exit Function
-		If LoadInfo(5) Then
+		If LoadInfo(4000) Then
+			strSQL="UPDATE [blog_Plugin_ZBQQConnect] SET [QQ_Eml]='"&Email&"',[QQ_UserID]="&objUser.ID&",[QQ_OpenID]='"&OpenID&"',[QQ_AToken]='"&AccessToken&"',[QQ_tHead]='"& tHead&"',[QQ_QzoneHead]='"&QzoneHead&"' WHERE [QQ_OpenID]='"&OpenID&"'"
+		Else
+			strSQL="INSERT INTO [blog_Plugin_ZBQQConnect] ([QQ_UserID],[QQ_OpenID],[QQ_AToken],[QQ_tHead],[QQ_QzoneHead],[QQ_Eml]) VALUES ("&objUser.ID&",'"&OpenID&"','"&AccessToken&"','"& tHead&"','"&qzonehead&"','"&Email&"')"
+		End If
+		objConn.Execute strSQL
+		Dim objRS
+		Set objRS=objConn.Execute("SELECT MAX([QQ_ID]) FROM [blog_Plugin_ZBQQConnect]")
+		If (Not objRS.bof) And (Not objRS.eof) Then
+			ID=objRS(0)
+		End If
+		Set objRS=Nothing
+	End Function
+
+	Function BindWithOutEmAIL()
+		Dim strSQL
+		'Call CheckParameter(ID,"int",0)
+		Call CheckParameter(objUser.ID,"int",0)
+		OpenID=FilterSQL(OpenID)
+		AccessToken=FilterSQL(AccessToken)
+		tHead=FilterSQL(tHead)
+		QzoneHEAD=FilterSQL(QzoneHead)
+		Email=FilterSQL(Email)
+		If OpenID="" Or AccessToken="" Then Bind=False:Exit Function
+		If LoadInfo(4000) Then
 			strSQL="UPDATE [blog_Plugin_ZBQQConnect] SET [QQ_Eml]='"&Email&"',[QQ_UserID]="&objUser.ID&",[QQ_OpenID]='"&OpenID&"',[QQ_AToken]='"&AccessToken&"',[QQ_tHead]='"& tHead&"',[QQ_QzoneHead]='"&QzoneHead&"' WHERE [QQ_OpenID]='"&OpenID&"'"
 		Else
 			strSQL="INSERT INTO [blog_Plugin_ZBQQConnect] ([QQ_UserID],[QQ_OpenID],[QQ_AToken],[QQ_tHead],[QQ_QzoneHead],[QQ_Eml]) VALUES ("&objUser.ID&",'"&OpenID&"','"&AccessToken&"','"& tHead&"','"&qzonehead&"','"&Email&"')"
