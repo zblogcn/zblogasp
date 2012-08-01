@@ -6,6 +6,7 @@
 <!-- #include file="function\ZBConnectQQ_NetWork.asp"-->
 
 <%
+Session.CodePage=65001
 'Temp 
 Dim ZBQQConnect_notfoundpic
 Dim ZBQQConnect_PicSendToWb
@@ -143,21 +144,17 @@ Function ZBQQConnect_AddCommentCode(ByRef a)
 		ZBQQConnect_Initialize
 		ZBQQConnect_DB.Email=ZBQQConnect_Eml
 		call setbloghint_custom(ZBQQConnect_Eml)
-		If ZBQQConnect_DB.LoadInfo(3)=True And ZBQQConnect_Eml<>"" Then 'And ZBQQConnect_HeadMode<>2   Then
-				'If ZBQQConnect_HeadMode=0 Then
+		If ZBQQConnect_DB.LoadInfo(3)=True And ZBQQConnect_Eml<>"" Then 
 					If ZBQQConnect_DB.tHead<>"" Then
 						a=Replace(a,"<#ZBQQConnect_tHead#>",ZBQQConnect_DB.tHead&"/100")
 					Else
 						a=Replace(a,"<#ZBQQConnect_tHead#>",Replace(Replace(ZBQQConnect_Head,"<#EmailMD5#>",MD5(ZBQQConnect_Eml)),"<#ZC_BLOG_HOST#>",GetCurrentHost))
 					End If
-				'Else
 					If ZBQQConnect_DB.QzoneHead<>"" Then
 						a=Replace(a,"<#ZBQQConnect_zHead#>",ZBQQConnect_DB.QzoneHead)
 					Else
 						a=Replace(a,"<#ZBQQConnect_zHead#>",Replace(Replace(ZBQQConnect_Head,"<#EmailMD5#>",MD5(ZBQQConnect_Eml)),"<#ZC_BLOG_HOST#>",GetCurrentHost))
 					End If
-				'End If
-			'Else
 		End If
 		a=Replace(a,"<#ZBQQConnect_Head#>",Replace(Replace(ZBQQConnect_Head,"<#EmailMD5#>",MD5(ZBQQConnect_Eml)),"<#ZC_BLOG_HOST#>",GetCurrentHost))
 		a=Replace(a,"<#ZBQQConnect_zHead#>",Replace(Replace(ZBQQConnect_Head,"<#EmailMD5#>",MD5(ZBQQConnect_Eml)),"<#ZC_BLOG_HOST#>",GetCurrentHost))

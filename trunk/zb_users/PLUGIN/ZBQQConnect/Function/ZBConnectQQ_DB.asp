@@ -46,15 +46,18 @@ Class ZBConnectQQ_DB
 				strSQL=strSQL & "QQ_OpenID='"&OpenID&"'"
 		End Select
 		Set objRS=objConn.Execute(strSQL)
-		If (Not objRS.bof) And (Not objRS.eof) And Typ<1000 Then
-			ID=objRS("QQ_ID")
-			If Typ<>5 Then objUser.LoadInfoById CInt(objRS("QQ_UserID"))
-			Email=objRs("QQ_Eml")
-			OpenID=objRS("QQ_OpenID")
-			AccessToken=objRs("QQ_AToken")
-			tHead=objRs("QQ_tHead")
-			QZoneHead=objRs("QQ_QzoneHead")
+		If (Not objRS.bof) And (Not objRS.eof) Then
+			If Typ<1000 Then
+				ID=objRS("QQ_ID")
+				If Typ<>5 Then objUser.LoadInfoById CInt(objRS("QQ_UserID"))
+				Email=objRs("QQ_Eml")
+				OpenID=objRS("QQ_OpenID")
+				AccessToken=objRs("QQ_AToken")
+				tHead=objRs("QQ_tHead")
+				QZoneHead=objRs("QQ_QzoneHead")
+			End If
 			LoadInfo=True
+			
 		End If
 		objRS.Close
 		Set objRS=Nothing

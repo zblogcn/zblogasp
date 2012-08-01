@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <plugin>
 <id>ZBQQConnect</id>
 <name>QQ互联</name>
@@ -14,7 +14,7 @@
 	<email>zsx@zsxsoft.com</email>
 </author>
 <version>1.0</version>
-<adapted>Z-Blog 1.9</adapted>
+<adapted>Z-Blog 2.0</adapted>
 <pubdate>2012-7-1</pubdate>
 <modified>2011-7-1</modified>
 </plugin>

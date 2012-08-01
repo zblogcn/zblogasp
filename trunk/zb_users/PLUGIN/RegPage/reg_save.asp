@@ -9,7 +9,6 @@
 <!-- #include file="../../../ZB_SYSTEM/function/c_system_plugin.asp" -->
 <!-- #include file="../../../ZB_SYSTEM/function/c_system_event.asp" -->
 <!-- #include file="../p_config.asp" -->
-<!-- #include file="include_plugin.asp" -->
 <%
 Call System_Initialize()
 '检查非法链接
@@ -98,7 +97,7 @@ Response.Cookies("username").Path = "/"
 
 
 Dim strResponse
-strResponse="<script language='javascript' type='text/javascript'>alert('恭喜，注册成功。\n欢迎您成为本站一员。\n\n单击确定登陆本站。');location.href="""&ZC_BLOG_HOST&"/zb_system/cmd.asp?act=login""</script>"
+strResponse="<script language='javascript' type='text/javascript'>alert('恭喜，注册成功。\n欢迎您成为本站一员。\n\n单击确定登陆本站。');location.href="""&GetCurrentHost&"""</script>"
 
 For Each sAction_Plugin_RegSave_End in Action_Plugin_RegSave_End
 
