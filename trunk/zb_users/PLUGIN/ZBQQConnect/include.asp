@@ -89,6 +89,7 @@ Call RegisterPlugin("ZBQQConnect","ActivePlugin_ZBQQConnect")
 
 Sub ZBQQConnect_RegSave(UID)
 	If Not IsEmpty(Request.Form("QQOpenID")) Then
+call setbloghint_custom(uid)
 		ZBQQConnect_Initialize
 		ZBQQConnect_DB.OpenID=Request.Form("QQOpenID")
 		If ZBQQConnect_DB.LoadInfo(4)=True Then
@@ -112,8 +113,9 @@ Function ActivePlugin_ZBQQConnect()
 						ZBQQConnect_Class.OpenID=strQQ
 						ZBQQConnect_Class.AccessToken=ZBQQConnect_DB.AccessToken
 						Call Add_Response_Plugin("Response_Plugin_RegPage_End","<input type=""hidden"" value="""&strQQ&""" name=""QQOpenID""/>")
-						Set objQQ=ZBQQConnect_ToObject(ZBQQConnect_class.API("https://graph.qq.com/user/get_user_info","{'format':'json'}","GET&"))
-						Call Add_Action_Plugin("Action_Plugin_RegPage_Begin","dUsername="""&objQQ.nickname&"""")
+						'objQQ=ZBQQConnect_class.API("https://graph.qq.com/user/get_user_info","{'format':'json'}","GET&")
+						'Set objQQ=ZBQQConnect_ToObject(objqq)
+						'Call Add_Action_Plugin("Action_Plugin_RegPage_Begin","dUsername="""&objQQ.nickname&"""")
 					End If
 				End If
 
@@ -143,7 +145,6 @@ Function ZBQQConnect_AddCommentCode(ByRef a)
 	If Instr(a,"<#ZBQQConnect_") Then
 		ZBQQConnect_Initialize
 		ZBQQConnect_DB.Email=ZBQQConnect_Eml
-		call setbloghint_custom(ZBQQConnect_Eml)
 		If ZBQQConnect_DB.LoadInfo(3)=True And ZBQQConnect_Eml<>"" Then 
 					If ZBQQConnect_DB.tHead<>"" Then
 						a=Replace(a,"<#ZBQQConnect_tHead#>",ZBQQConnect_DB.tHead&"/100")

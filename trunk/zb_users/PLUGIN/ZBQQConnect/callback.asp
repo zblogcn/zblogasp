@@ -55,7 +55,7 @@ Function a
 			
 		If BlogUser.Level=5 Then
 			ZBQQConnect_DB.BindWithOutEmail
-			Response.Redirect "select.asp?QQOPENID="&ZBQQConnect_Class.OpenID
+			Response.Redirect "select.asp?QQOPENID="&ZBQQConnect_Class.OpenID&"&dname="&TransferHTML(b.nickname,"[nohtml]")
 		Else
 			ZBQQConnect_DB.Email=BlogUser.EMail
 			ZBQQConnect_DB.Bind

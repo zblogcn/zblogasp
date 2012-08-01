@@ -12,7 +12,7 @@
 <!-- #include file="../../plugin/p_config.asp" -->
 <%
 '代码部分来源于网络，作者未知
-Call ActivePlugin
+Call System_Initialize
 '检查非法链接
 Call CheckReference("")
 
@@ -21,11 +21,17 @@ If CheckPluginState("RegPage")=False Then Call ShowError(48)
 
 Dim dUsername,dPassword,dEmail,dSite
 	
+dUsername=Replace(TransferHTML(Request.QueryString("dName"),"[nohtml]"),"""","&quot;")
+
+dPassword=Replace(TransferHTML(Request.QueryString("dPassword"),"[nohtml]"),"""","&quot;")
+
+dEmail=Replace(TransferHTML(Request.QueryString("dEmail"),"[nohtml]"),"""","&quot;")
+
+dSite=Replace(TransferHTML(Request.QueryString("dSite"),"[nohtml]"),"""","&quot;")
+
 For Each sAction_Plugin_RegPage_Begin in Action_Plugin_RegPage_Begin
 	If Not IsEmpty(sAction_Plugin_RegPage_Begin) Then Call Execute(sAction_Plugin_RegPage_Begin)
 Next
-
-
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" lang="zh-CN">
