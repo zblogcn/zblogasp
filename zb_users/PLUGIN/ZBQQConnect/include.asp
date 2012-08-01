@@ -26,7 +26,7 @@ Dim ZBQQConnect_WBKey
 Dim ZBQQConnect_WBSecret
 Dim ZBQQConnect_CommentTemplate
 'Temp
-Dim ZBQQConnect_tmpObj,ZBQQConnect_Eml
+Dim ZBQQConnect_tmpObj,ZBQQConnect_Eml(1)
 
 Dim ZBQQConnect_SToWb,ZBQQConnect_SToZone
 
@@ -138,28 +138,37 @@ Function ActivePlugin_ZBQQConnect()
 End Function
 
 Function ZBQQConnect_getcmt(ID,log_ID,AuthorID,Author,Content,Email,HomePage,PostTime,IP,Agent,Reply,LastReplyIP,LastReplyTime,ParentID,IsCheck,MetaString)
-	ZBQQConnect_Eml=Email
+	ZBQQConnect_Eml(0)=Email
+	ZBQQConnect_Eml(1)=AuthorID
 End Function
 Function ZBQQConnect_AddCommentCode(ByRef a)
-
+	Dim c
 	If Instr(a,"<#ZBQQConnect_") Then
 		ZBQQConnect_Initialize
-		ZBQQConnect_DB.Email=ZBQQConnect_Eml
-		If ZBQQConnect_DB.LoadInfo(3)=True And ZBQQConnect_Eml<>"" Then 
+		ZBQQConnect_DB.Email=ZBQQConnect_Eml(0)
+		If ZBQQConnect_Eml(0)="" Then
+			If ZBQQConnect_Eml(1)>0 Then
+				Set c=New TUser
+				c.LoadInfoById ZBQQConnect_Eml(1)
+				ZBQQConnect_DB.Email=c.Email
+				Set c=Nothing
+			End If
+		End If
+		If ZBQQConnect_DB.LoadInfo(3)=True And ZBQQConnect_DB.EMail<>"" Then 
 					If ZBQQConnect_DB.tHead<>"" Then
 						a=Replace(a,"<#ZBQQConnect_tHead#>",ZBQQConnect_DB.tHead&"/100")
 					Else
-						a=Replace(a,"<#ZBQQConnect_tHead#>",Replace(Replace(ZBQQConnect_Head,"<#EmailMD5#>",MD5(ZBQQConnect_Eml)),"<#ZC_BLOG_HOST#>",GetCurrentHost))
+						a=Replace(a,"<#ZBQQConnect_tHead#>",Replace(Replace(ZBQQConnect_Head,"<#EmailMD5#>",MD5(ZBQQConnect_Eml(0))),"<#ZC_BLOG_HOST#>",GetCurrentHost))
 					End If
 					If ZBQQConnect_DB.QzoneHead<>"" Then
 						a=Replace(a,"<#ZBQQConnect_zHead#>",ZBQQConnect_DB.QzoneHead)
 					Else
-						a=Replace(a,"<#ZBQQConnect_zHead#>",Replace(Replace(ZBQQConnect_Head,"<#EmailMD5#>",MD5(ZBQQConnect_Eml)),"<#ZC_BLOG_HOST#>",GetCurrentHost))
+						a=Replace(a,"<#ZBQQConnect_zHead#>",Replace(Replace(ZBQQConnect_Head,"<#EmailMD5#>",MD5(ZBQQConnect_Eml(0))),"<#ZC_BLOG_HOST#>",GetCurrentHost))
 					End If
 		End If
-		a=Replace(a,"<#ZBQQConnect_Head#>",Replace(Replace(ZBQQConnect_Head,"<#EmailMD5#>",MD5(ZBQQConnect_Eml)),"<#ZC_BLOG_HOST#>",GetCurrentHost))
-		a=Replace(a,"<#ZBQQConnect_zHead#>",Replace(Replace(ZBQQConnect_Head,"<#EmailMD5#>",MD5(ZBQQConnect_Eml)),"<#ZC_BLOG_HOST#>",GetCurrentHost))
-		a=Replace(a,"<#ZBQQConnect_tHead#>",Replace(Replace(ZBQQConnect_Head,"<#EmailMD5#>",MD5(ZBQQConnect_Eml)),"<#ZC_BLOG_HOST#>",GetCurrentHost))
+		a=Replace(a,"<#ZBQQConnect_Head#>",Replace(Replace(ZBQQConnect_Head,"<#EmailMD5#>",MD5(ZBQQConnect_Eml(0))),"<#ZC_BLOG_HOST#>",GetCurrentHost))
+		a=Replace(a,"<#ZBQQConnect_zHead#>",Replace(Replace(ZBQQConnect_Head,"<#EmailMD5#>",MD5(ZBQQConnect_Eml(0))),"<#ZC_BLOG_HOST#>",GetCurrentHost))
+		a=Replace(a,"<#ZBQQConnect_tHead#>",Replace(Replace(ZBQQConnect_Head,"<#EmailMD5#>",MD5(ZBQQConnect_Eml(0))),"<#ZC_BLOG_HOST#>",GetCurrentHost))
 
 	End If
 End Function
