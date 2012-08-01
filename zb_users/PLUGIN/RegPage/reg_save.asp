@@ -9,6 +9,7 @@
 <!-- #include file="../../../ZB_SYSTEM/function/c_system_plugin.asp" -->
 <!-- #include file="../../../ZB_SYSTEM/function/c_system_event.asp" -->
 <!-- #include file="../p_config.asp" -->
+<!-- #include file="include_plugin.asp" -->
 <%
 Call System_Initialize()
 '检查非法链接
@@ -36,10 +37,10 @@ If CheckVerifyNumber(Request.Form("edtCheckOut"))=False Then
 End If
 
 dim Username,UserPassword,UserMail,UserHomePage
-Username=TransferHTML(filtersql(request.form("username")),"[no-html]")
-UserPassword=TransferHTML(filtersql(request.form("password")),"[no-html]")
-UserMail=TransferHTML(filtersql(request.form("email")),"[no-html]")
-UserHomePage=TransferHTML(filtersql(request.Form("site")),"[no-html]")
+Username=TransferHTML(filtersql(request.form("username")),"[nohtml]")
+UserPassword=TransferHTML(filtersql(request.form("password")),"[nohtml]")
+UserMail=TransferHTML(filtersql(request.form("email")),"[nohtml]")
+UserHomePage=TransferHTML(filtersql(request.Form("site")),"[nohtml]")
 Dim chkUserName,chkPassWord,chkUserMail,chkHomePage
 
 
