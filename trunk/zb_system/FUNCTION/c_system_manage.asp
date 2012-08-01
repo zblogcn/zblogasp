@@ -1312,13 +1312,19 @@ Function ExportFileReBuildAsk()
 
 	'SubMenu转至MakeFileReBuildAsk()函数里了
 
-	Response.Write "<div class=""divHeader2"">" & ZC_MSG110 & "</div>"
+	Response.Write "<div class=""divHeader2"">" & ZC_MSG073 & "</div>"
 
 	Response.Write "<div id=""divMain2"">"
 
-	Response.Write "<iframe frameborder='0' height='600' style='' marginheight='0' marginwidth='0' scrolling='no' width='100%' src='../cmd.asp?act=AskFileReBuild&amp;iframe=true'>"
+	'Response.Write "<iframe frameborder='0' height='600' style='' marginheight='0' marginwidth='0' scrolling='no' width='100%' src='../cmd.asp?act=AskFileReBuild&amp;iframe=true'>"
 
-	Response.Write "</iframe>"
+	'Response.Write "</iframe>"
+
+	Response.Write "<form id=""edit"" name=""edit"" method=""post"" action=""../cmd.asp?act=FileReBuild"">" & vbCrlf
+	Response.Write "<p>"& ZC_MSG112 &"</p>" & vbCrlf
+
+	Response.Write "<p><input class=""button"" type=""submit"" value="""&ZC_MSG087&""" id=""btnPost""/></p>" & vbCrlf
+	Response.Write "</form>" 
 
 	Response.Write "</div>"
 

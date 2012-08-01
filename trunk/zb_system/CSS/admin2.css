@@ -220,7 +220,7 @@ color:white;
 
 
 /*表   单*/
-form {background:#fff;border:0px solid black;padding:0.5em;margin:0 0 0.5em 0;}
+form {background:#fff;border:0px solid black;padding:0.0em;margin:0 0 0.5em 0;}
 
 form p{padding:0.5em 0  0.5em 0;line-height:1.5em;}
 
@@ -297,6 +297,7 @@ div.hint p.hint_teal{
 /*后台*/
 form.search {
 background:#f0f0f0;
+padding:0.5em;
 /*
 background:#ffcc66;
 */
@@ -383,18 +384,21 @@ span.title{
 
 /*正文DIV下的导航条*/
 .SubMenu{
-	padding:0 0 5px 0;
-	margin:0 0 0 0;
+	padding:0 0 0px 0;
+	margin:0 0 5px 0;
 	width:100%;
 	text-align:left;
 	font-size:1em;
-	height:32px;
+	height:30px;
+	line-height:30px;
+	border-bottom:0px solid #3399cc;
+	background:;
 }
 
 .SubMenu span {
 	float:left;
 	font-weight:bold;
-	padding:2px 4px 2px 0px;
+	padding:0px 5px 0px 0px;
 	margin:0 5px 0 0;
 	text-align:center;
 }
@@ -419,7 +423,6 @@ span.title{
 }
 
 .SubMenu span a{
-	height:40px;
 	background:#3399cc;
 	padding:5px 10px;
 	float:left;
@@ -437,7 +440,7 @@ span.title{
 
 /* 网站设置页 */
 .content-box ul{
-	padding:10px 0 0 10px;
+	padding:10px 0 0 1px;
 }
 
 .content-box li{
@@ -453,7 +456,7 @@ span.title{
 	border:0px solid #e8f6ff;
 	background:#ededed;
 	padding:5px 10px;
-	margin:0 5px 0 0;
+	margin:0 9px 0 0;
 	line-height:2em;
 	height:2em;
 }
@@ -464,7 +467,7 @@ span.title{
 	border:0px solid #7190ba;
 	background:#666;
 	padding:5px 10px;
-	margin:0 5px 0 0;
+	margin:0 9px 0 0;
 	line-height:2em;
 	height:2em;
 	color:white;
@@ -494,3 +497,8 @@ span.title{
 .imgcheck-on{
 	background:url("../IMAGE/ADMIN/checkbox.png") no-repeat 0 top;
 }
+
+
+#batch iframe{float:left;margin:3px 5px 0 0;}
+#batch p{float:left;}
+#batch img{float:left;margin:3px 5px 0 0;}

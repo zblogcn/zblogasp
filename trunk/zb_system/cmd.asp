@@ -32,13 +32,11 @@ For Each sAction_Plugin_Command_Begin in Action_Plugin_Command_Begin
 	If Not IsEmpty(sAction_Plugin_Command_Begin) Then Call Execute(sAction_Plugin_Command_Begin)
 Next
 
-
 If IsObject(Session("batch"))=False THen
 	Set Session("batch")=CreateObject("Scripting.Dictionary")
 	Session("batchorder")=0
 	Session("batchtime")=0
 End If
-
 
 Dim strAct
 strAct=Request.QueryString("act")
@@ -1385,30 +1383,7 @@ Function FileReBuild()
 		If bAction_Plugin_FileReBuild_Begin=True Then Exit Function
 	Next
 
-	Server.ScriptTimeout = 1200
-
-	Dim objRS
-	Dim objArticle
-
-	Set objRS=Server.CreateObject("ADODB.Recordset")
-	objRS.CursorType = adOpenKeyset
-	objRS.LockType = adLockReadOnly
-	objRS.ActiveConnection=objConn
-	objRS.Source="SELECT [log_ID] FROM [blog_Article] WHERE [log_Level]>1"
-	objRS.Open()
-
-	If (Not objRS.bof) And (Not objRS.eof) Then
-
-		objRS.PageSize = ZC_REBUILD_FILE_COUNT
-
-		Call AddBatch(ZC_MSG072,"Call MakeBlogReBuild()")
-
-		Dim i
-		For i=1 To objRS.PageCount
-			Call AddBatch(ZC_MSG073 & "<"&i&">","Call MakeFileReBuild("&i&")")
-		Next
-
-	End If
+	Call BeforeFileReBuild()
 
 	'plugin node
 	For Each sAction_Plugin_FileReBuild_End in Action_Plugin_FileReBuild_End
@@ -1416,9 +1391,10 @@ Function FileReBuild()
 		If bAction_Plugin_FileReBuild_End=True Then Exit Function
 	Next
 
-	Response.Redirect "cmd.asp?act=batch"
+	Response.Redirect "admin/admin.asp?act=AskFileReBuild"
 
 End Function
+
 
 
 Function AskFileReBuild()
@@ -1434,13 +1410,7 @@ Function AskFileReBuild()
 
 	Call SetBlogHint(Empty,Empty,False)
 
-	If Request.QueryString("iframe")="true" Then
-		'进批处理询问页
-		Call BatchAsk()
-	Else
-		Response.Redirect "admin/admin.asp?act=AskFileReBuild"
-	End If 
-
+	Response.Redirect "admin/admin.asp?act=AskFileReBuild"
 
 End Function
 
@@ -1479,15 +1449,17 @@ Function Batch()
 
 			Session("batch").Remove(b(0))
 
-			Response.Write "<!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 1.0 Transitional//EN"" ""http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd""><html><head><meta http-equiv=""Content-Type"" content=""text/html; charset=utf-8""/><meta http-equiv=""Content-Language"" content=""zh-cn"" /><meta http-equiv=""refresh"" content="""&ZC_REBUILD_FILE_INTERVAL&";URL="&GetCurrentHost & "zb_system/cmd.asp?act=batch"&"&all="&intAllTime&"""/><link rel=""stylesheet"" rev=""stylesheet"" href=""CSS/admin2.css"" type=""text/css"" media=""screen"" /><title>"&ZC_MSG073&"</title></head><body>"
+			Response.Write "<!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 1.0 Transitional//EN"" ""http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd""><html><head><meta http-equiv=""Content-Type"" content=""text/html; charset=utf-8""/><meta http-equiv=""refresh"" content="""&ZC_REBUILD_FILE_INTERVAL&";URL="&GetCurrentHost & "zb_system/cmd.asp?act=batch"&"&all="&intAllTime&"""/><link rel=""stylesheet"" rev=""stylesheet"" href=""CSS/admin2.css"" type=""text/css"" media=""screen"" /></head><body>"
+			Response.Write "<img src='image/admin/loading.gif'>"
+			Response.Write "<script type=""text/javascript"">parent.Batch2Tip("""&b(0) & ZC_MSG109&""")</script>"
 
-			Response.Write "<div id=""divMain"">"
-			Response.Write "<div id=""divMain2"">"
-			Response.Write "<form  name=""edit"" id=""edit"">"
+			'Response.Write "<div id=""divMain"">"
+			'Response.Write "<div id=""divMain2"">"
+			'Response.Write "<form  name=""edit"" id=""edit"">"
 
-			Response.Write "<p>" & b(0) & ZC_MSG109 &"</p>"
+			'Response.Write "<p>" & b(0) & ZC_MSG109 &"</p>"
 
-			Response.Write "</form></div></div>"
+			'Response.Write "</form></div></div>"
 			Response.Write "</body></html>"
 
 		Next
@@ -1495,17 +1467,23 @@ Function Batch()
 	Else
 
 
-		Response.Write "<!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 1.0 Transitional//EN"" ""http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd""><html><head><meta http-equiv=""Content-Type"" content=""text/html; charset=utf-8""/><meta http-equiv=""Content-Language"" content=""zh-cn"" /><link rel=""stylesheet"" rev=""stylesheet"" href=""CSS/admin2.css"" type=""text/css"" media=""screen"" /><title>"&ZC_MSG073&"</title></head><body>"
+		Response.Write "<!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 1.0 Transitional//EN"" ""http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd""><html><head><meta http-equiv=""Content-Type"" content=""text/html; charset=utf-8""/><link rel=""stylesheet"" rev=""stylesheet"" href=""CSS/admin2.css"" type=""text/css"" media=""screen"" /></head><body>"
+		Response.Write "<img src='image/admin/okay.png'>"
+		Response.Write "<script type=""text/javascript"">parent.Batch2Tip("""&ZC_MSG227 & Replace(ZC_MSG169,"%n",Session("batchtime")/1000) &""")</script>"
 
-		Response.Write "<div id=""divMain"">"
+		'Response.Write "<div id=""divMain"">"
+
+		Response.Write "<div class=""hidden"">"
 		Call GetBlogHint()
-		Response.Write "<div id=""divMain2"">"
-		Response.Write "<form  name=""edit"" id=""edit"">"
+		Response.Write "</div>"
 
-		Response.Write "<p>" & ZC_MSG227 &"</p>"
-		Response.Write "<p>" & Replace(ZC_MSG169,"%n",Session("batchtime")/1000)&"</p>"
+		'Response.Write "<div id=""divMain2"">"
+		'Response.Write "<form  name=""edit"" id=""edit"">"
 
-		Response.Write "</form></div></div>"
+		'Response.Write "<p>" & ZC_MSG227 &"</p>"
+		'Response.Write "<p>" & Replace(ZC_MSG169,"%n",Session("batchtime")/1000)&"</p>"
+
+		'Response.Write "</form></div></div>"
 		Response.Write "</body></html>"
 
 		Session.Abandon

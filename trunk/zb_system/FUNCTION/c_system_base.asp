@@ -62,9 +62,6 @@ Const ZC_BLOG_WEBEDIT="ueditor"
 Const ZC_TB_EXCERPT_MAX=250
 Const ZC_TRACKBACK_TURNOFF=True
 
-Const ZC_AUTO_NEWLINE=False
-Const ZC_JAPAN_TO_HTML=False
-
 Const ZC_DISPLAY_MODE_ALL=1
 Const ZC_DISPLAY_MODE_INTRO=2
 Const ZC_DISPLAY_MODE_HIDE=3
@@ -1704,7 +1701,7 @@ Function SetBlogHint_Custom(strInfo)
 
 	Application.Lock
 
-	Application(ZC_BLOG_CLSID & "SIGNAL_OPERATEINFO")=Application(ZC_BLOG_CLSID & "SIGNAL_OPERATEINFO") & vbCrlf &  strInfo
+	Application(ZC_BLOG_CLSID & BlogUser.ID & "SIGNAL_OPERATEINFO")=Application(ZC_BLOG_CLSID & "SIGNAL_OPERATEINFO") & vbCrlf &  strInfo
 
 	Application.UnLock
 
@@ -1720,7 +1717,7 @@ Function SetBlogHintWithCLSID(bolOperateSuccess,bolRebuildIndex,bolRebuildFiles,
 
 	Application.Lock
 
-	Application(newCLSID & "SIGNAL_OPERATESUCCESS")=bolOperateSuccess
+	Application(newCLSID  & BlogUser.ID & "SIGNAL_OPERATESUCCESS")=bolOperateSuccess
 
 	If IsEmpty(bolRebuildIndex)=False Then
 		Application(newCLSID & "SIGNAL_REBUILDINDEX")=bolRebuildIndex
@@ -1746,11 +1743,11 @@ Function GetBlogHint()
 	Dim bolOperateSuccess,bolRebuildIndex,bolRebuildFiles,strOperateInfo
 
 	Application.Lock
-	bolOperateSuccess=Application(ZC_BLOG_CLSID & "SIGNAL_OPERATESUCCESS")
+	bolOperateSuccess=Application(ZC_BLOG_CLSID & BlogUser.ID & "SIGNAL_OPERATESUCCESS")
 	bolRebuildIndex=Application(ZC_BLOG_CLSID & "SIGNAL_REBUILDINDEX")
 	bolRebuildFiles=Application(ZC_BLOG_CLSID & "SIGNAL_REBUILDFILES")
-	strOperateInfo=Application(ZC_BLOG_CLSID & "SIGNAL_OPERATEINFO")
-	Application(ZC_BLOG_CLSID & "SIGNAL_OPERATEINFO")=Empty
+	strOperateInfo=Application(ZC_BLOG_CLSID & BlogUser.ID & "SIGNAL_OPERATEINFO")
+	Application(ZC_BLOG_CLSID & BlogUser.ID & "SIGNAL_OPERATEINFO")=Empty
 	Application.UnLock
 
 
@@ -1765,7 +1762,7 @@ Function GetBlogHint()
 		End If
 
 		Application.Lock
-		Application(ZC_BLOG_CLSID & "SIGNAL_OPERATESUCCESS")=Empty
+		Application(ZC_BLOG_CLSID & BlogUser.ID & "SIGNAL_OPERATESUCCESS")=Empty
 		Application.UnLock
 
 	End If
@@ -2198,7 +2195,7 @@ Function MakeBlogReBuild_Core()
 	Dim bolOperateSuccess
 
 	Application.Lock
-	bolOperateSuccess=Application(ZC_BLOG_CLSID & "SIGNAL_OPERATESUCCESS")
+	bolOperateSuccess=Application(ZC_BLOG_CLSID  & BlogUser.ID & "SIGNAL_OPERATESUCCESS")
 	Application.UnLock
 
 	Call SetBlogHint(bolOperateSuccess,False,Empty)
