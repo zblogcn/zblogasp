@@ -72,7 +72,7 @@ Function ZBQQConnect_Initialize
 	Set ZBQQConnect_DB=New ZBConnectQQ_DB
 	ZBQQConnect_class.app_key=ZBQQConnect_Config.Read("AppID")    '设置appkey
 	ZBQQConnect_class.app_secret=ZBQQConnect_Config.Read("KEY")  '设置app_secret
-	ZBQQConnect_class.callbackurl="http://www.zsxsoft.com/zblog-1-9/ZB_USERS/PLUGIN/ZBQQConnect/callback.asp"  '设置回调地址
+	ZBQQConnect_class.callbackurl="http://www.zsxsoft.com/ZB_USERS/PLUGIN/ZBQQConnect/callback.asp"  '设置回调地址
 	ZBQQConnect_class.debug=false 'Debug模式设置
 	ZBQQConnect_class.fakeQQConnect.app_key=ZBQQConnect_WBKey
 	ZBQQConnect_class.fakeQQConnect.app_secret=ZBQQConnect_WBSecret
@@ -92,6 +92,7 @@ Sub ZBQQConnect_RegSave(UID)
 		ZBQQConnect_DB.OpenID=Request.Form("QQOpenID")
 		If ZBQQConnect_DB.LoadInfo(4)=True Then
 			ZBQQConnect_DB.objUser.LoadInfoById UID
+			ZBQQConnect_DB.Email=ZBQQConnect_DB.objUser.Email
 			ZBQQConnect_DB.Bind
 		End If
 	End If
@@ -100,16 +101,21 @@ End Sub
 
 Function ActivePlugin_ZBQQConnect() 
 	Dim strQQ,objQQ
-	If CheckPluginState("Reg")=True Then
+	If CheckPluginState("RegPage")=True Then
 			If IsEmpty(Request.QueryString("QQOPENID"))=False Then
 				strQQ=Replace(TransferHTML(FilterSQL(Request.QueryString("QQOPENID")),"[no-html]"),"""","""""")
 				If Len(strQQ)=32 Then
 					ZBQQConnect_Initialize
-					
-					Call Add_Response_Plugin("Response_Plugin_RegPage_End","<input type=""hidden"" value="""&strQQ&""" name=""QQOpenID""/>")
-					Set objQQ=ZBQQConnect_ToObject(ZBQQConnect_class.API("https://graph.qq.com/user/get_user_info","{'format':'json'}","GET&"))
-					Call Add_Action_Plugin("Action_Plugin_RegPage_Begin","dUsername="""&objQQ.nickname&"""")
+					ZBQQConnect_DB.OpenID=strQQ
+					If ZBQQConnect_DB.LoadInfo(4)=True Then
+						ZBQQConnect_Class.OpenID=strQQ
+						ZBQQConnect_Class.AccessToken=ZBQQConnect_DB.AccessToken
+						Call Add_Response_Plugin("Response_Plugin_RegPage_End","<input type=""hidden"" value="""&strQQ&""" name=""QQOpenID""/>")
+						Set objQQ=ZBQQConnect_ToObject(ZBQQConnect_class.API("https://graph.qq.com/user/get_user_info","{'format':'json'}","GET&"))
+						Call Add_Action_Plugin("Action_Plugin_RegPage_Begin","dUsername="""&objQQ.nickname&"""")
+					End If
 				End If
+
 			End If
 		Call Add_Action_Plugin("Action_Plugin_RegSave_End","Call ZBQQConnect_RegSave(RegUser.ID)")
 	
@@ -133,20 +139,30 @@ Function ZBQQConnect_getcmt(ID,log_ID,AuthorID,Author,Content,Email,HomePage,Pos
 End Function
 Function ZBQQConnect_AddCommentCode(ByRef a)
 
-	If Instr(a,"<#ZBQQConnect_Head#>") Then
+	If Instr(a,"<#ZBQQConnect_") Then
 		ZBQQConnect_Initialize
 		ZBQQConnect_DB.Email=ZBQQConnect_Eml
-		
-		If ZBQQConnect_DB.LoadInfo(3)=True And ZBQQConnect_HeadMode<>2 Then
-				If ZBQQConnect_HeadMode=0 Then
-					a=Replace(a,"<#ZBQQConnect_Head#>",ZBQQConnect_DB.tHead&"/100")
-				Else
-					a=Replace(a,"<#ZBQQConnect_Head#>",ZBQQConnect_DB.QzoneHead)
-				End If
-			Else
-				a=Replace(a,"<#ZBQQConnect_Head#>",Replace(Replace(ZBQQConnect_Head,"<#EmailMD5#>",MD5(ZBQQConnect_Eml)),"<#ZC_BLOG_HOST#>",GetCurrentHost))
+		call setbloghint_custom(ZBQQConnect_Eml)
+		If ZBQQConnect_DB.LoadInfo(3)=True And ZBQQConnect_Eml<>"" Then 'And ZBQQConnect_HeadMode<>2   Then
+				'If ZBQQConnect_HeadMode=0 Then
+					If ZBQQConnect_DB.tHead<>"" Then
+						a=Replace(a,"<#ZBQQConnect_tHead#>",ZBQQConnect_DB.tHead&"/100")
+					Else
+						a=Replace(a,"<#ZBQQConnect_tHead#>",Replace(Replace(ZBQQConnect_Head,"<#EmailMD5#>",MD5(ZBQQConnect_Eml)),"<#ZC_BLOG_HOST#>",GetCurrentHost))
+					End If
+				'Else
+					If ZBQQConnect_DB.QzoneHead<>"" Then
+						a=Replace(a,"<#ZBQQConnect_zHead#>",ZBQQConnect_DB.QzoneHead)
+					Else
+						a=Replace(a,"<#ZBQQConnect_zHead#>",Replace(Replace(ZBQQConnect_Head,"<#EmailMD5#>",MD5(ZBQQConnect_Eml)),"<#ZC_BLOG_HOST#>",GetCurrentHost))
+					End If
+				'End If
+			'Else
 		End If
-		
+		a=Replace(a,"<#ZBQQConnect_Head#>",Replace(Replace(ZBQQConnect_Head,"<#EmailMD5#>",MD5(ZBQQConnect_Eml)),"<#ZC_BLOG_HOST#>",GetCurrentHost))
+		a=Replace(a,"<#ZBQQConnect_zHead#>",Replace(Replace(ZBQQConnect_Head,"<#EmailMD5#>",MD5(ZBQQConnect_Eml)),"<#ZC_BLOG_HOST#>",GetCurrentHost))
+		a=Replace(a,"<#ZBQQConnect_tHead#>",Replace(Replace(ZBQQConnect_Head,"<#EmailMD5#>",MD5(ZBQQConnect_Eml)),"<#ZC_BLOG_HOST#>",GetCurrentHost))
+
 	End If
 End Function
 
