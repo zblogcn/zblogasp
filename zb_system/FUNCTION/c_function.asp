@@ -1579,6 +1579,44 @@ End Function
 
 
 
+'*********************************************************
+' 目的：    
+'*********************************************************
+Function SetValueByNameInArrays(ByRef arrayname,ByRef arrayvalue,name,value)
+
+	Dim IsFind
+	IsFind=False
+
+	Dim i,j
+	j=UBound(arrayname)
+	For i=1 To j
+		If LCase(arrayname(i))=LCase(name) Then
+			arrayvalue(i)=value
+			IsFind=True
+			Exit For
+		End If 
+	Next
+
+
+	If IsFind=True Then
+		SetValueByNameInArrays=True
+		Exit Function
+	End If
+
+	j=j+1
+	ReDim Preserve arrayname(j)
+	ReDim Preserve arrayvalue(j)
+	arrayname(j)=name
+	arrayvalue(j)=value
+
+	SetValueByNameInArrays=True
+
+End Function
+'*********************************************************
+
+
+
+
 
 '*********************************************************
 ' Derived from the RSA Data Security, Inc. MD5 Message-Digest Algorithm,

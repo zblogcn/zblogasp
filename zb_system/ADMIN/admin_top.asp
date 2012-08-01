@@ -29,10 +29,9 @@ function BatchContinue(){$("#batch p").before("<iframe style='width:16px;height:
 <%
 If IsObject(Session("batch"))=True Then
 If Session("batch").Count>0 Then
-		If Session("batch").Count= Session("batchorder") Then
+	If Session("batch").Count= Session("batchorder") Then
 		Session("batchorder")=0
 		Session("batchtime")=0
-
 %>
 <div id="batch">
 <iframe style="width:16px;height:16px;" frameborder="0" scrolling="no" src="<%=GetCurrentHost%>zb_system/cmd.asp?act=batch"></iframe><p><%=ZC_MSG110%>...</p>
