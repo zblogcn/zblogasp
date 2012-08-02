@@ -80,7 +80,7 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG070
 <form id="edit" name="edit" method="post" action="">
 <%
 	Dim i
-	Response.Write "<p>"& ZC_MSG249 &":<input id=""edtID"" name=""edtID""  type=""hidden"" value="""& EditUser.ID &""" />"
+	Response.Write "<p><span class='title'>"& ZC_MSG249 &":</span><input id=""edtID"" name=""edtID""  type=""hidden"" value="""& EditUser.ID &""" />"
 	Response.Write "<input id=""edtLevel"" name=""edtLevel"" type=""hidden"" value="""& EditUser.Level &""" /><select size=""1"" id=""cmbUserLevel"" onchange=""edtLevel.value=this.options[this.selectedIndex].value"">"
 	Dim UserLevel
 	i=0
@@ -93,20 +93,16 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG070
 		If i=5 Then Exit For
 	Next
 	Response.Write "</select></p>"
-	Response.Write "<p>"& ZC_MSG001 &":<br/><input id=""edtName"" size=""50"" name=""edtName""  type=""text"" value="""& TransferHTML(EditUser.Name,"[html-format]") &""" />(*)</p>"
-	Response.Write "<p>"& ZC_MSG002 &":<br/><input id=""edtPassWord"" size=""25"" name=""edtPassWord""  type=""password"" value="""" />"
-	If EditUser.ID=0 Then
-	Response.Write "(*)"
-	End If
+	Response.Write "<p><span class='title'>"& ZC_MSG001 &":</span><span class='star'>(*)</span><br/><input id=""edtName"" size=""40"" name=""edtName""  type=""text"" value="""& TransferHTML(EditUser.Name,"[html-format]") &""" /></p>"
+	Response.Write "<p><span class='title'>"& ZC_MSG002 &":</span>"&IIF(EditUser.ID<>0,"","<span class='star'>(*)</span>")&"<br/><input id=""edtPassWord"" size=""40"" name=""edtPassWord""  type=""password"" value="""" />"
+
 	Response.Write "</p>"
-	Response.Write "<p>"& ZC_MSG237 &":<br/><input id=""edtPassWordRe"" size=""25"" name=""edtPassWordRe""  type=""password"" value="""" />"
-	If EditUser.ID=0 Then
-	Response.Write "(*)"
-	End If
+	Response.Write "<p><span class='title'>"& ZC_MSG237 &":</span>"&IIF(EditUser.ID<>0,"","<span class='star'>(*)</span>")&"<br/><input id=""edtPassWordRe"" size=""40"" name=""edtPassWordRe""  type=""password"" value="""" />"
+
 	Response.Write "</p>"
-	Response.Write "<p>"& ZC_MSG147 &":<br/><input id=""edtAlias"" size=""50"" name=""edtAlias""  type=""text"" value="""& TransferHTML(EditUser.Alias,"[html-format]") &""" /></p>"
-	Response.Write "<p>"& ZC_MSG053 &":<br/><input id=""edtEmail"" size=""50"" name=""edtEmail""  type=""text"" value="""& TransferHTML(EditUser.Email,"[html-format]") &""" />(*)</p>"
-	Response.Write "<p>"& ZC_MSG054 &":<br/><input id=""edtHomePage"" size=""50"" name=""edtHomePage""  type=""text"" value="""& TransferHTML(EditUser.HomePage,"[html-format]") &""" /></p>"
+	Response.Write "<p><span class='title'>"& ZC_MSG147 &":</span><br/><input id=""edtAlias"" size=""40"" name=""edtAlias""  type=""text"" value="""& TransferHTML(EditUser.Alias,"[html-format]") &""" /></p>"
+	Response.Write "<p><span class='title'>"& ZC_MSG053 &":</span><span class='star'>(*)</span><br/><input id=""edtEmail"" size=""40"" name=""edtEmail""  type=""text"" value="""& TransferHTML(EditUser.Email,"[html-format]") &""" /></p>"
+	Response.Write "<p><span class='title'>"& ZC_MSG054 &":</span><br/><input id=""edtHomePage"" size=""60"" name=""edtHomePage""  type=""text"" value="""& TransferHTML(EditUser.HomePage,"[html-format]") &""" /></p>"
 	Response.Write "<p><input type=""submit"" class=""button"" value="""& ZC_MSG078 &""" id=""btnPost"" onclick='return checkUserInfo();' /></p>"
 %>
 </form>

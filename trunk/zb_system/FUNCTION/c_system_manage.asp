@@ -642,6 +642,8 @@ Function ExportUserList(intPage)
 		Response.Write "</table>"
 
 	End If
+	
+	Response.Write "<p>"& ZC_MSG189 &"</p>"
 
 	'For i=1 to objRS.PageCount
 	'	strPage=strPage &"<a href='admin.asp?act=UserMng&amp;page="& i &"'>["& Replace(ZC_MSG036,"%s",i) &"]</a> "
