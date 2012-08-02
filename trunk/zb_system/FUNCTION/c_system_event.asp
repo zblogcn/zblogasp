@@ -629,7 +629,9 @@ Function ReturnAjaxComment_Plugin(aryTemplateTagsName,aryTemplateTagsValue)
 End Function
 'Mark5
 Function ReturnAjaxComment(objComment)
-On Error Resume Next
+
+	On Error Resume Next
+
 	Dim i,j
 	i=0
 	Dim objArticle
@@ -637,6 +639,7 @@ On Error Resume Next
 
 	'Filter_Plugin_TArticle_Export_TemplateTags
 	Call Add_Filter_Plugin("Filter_Plugin_TArticle_Export_TemplateTags","ReturnAjaxComment_Plugin")
+
 	Set objArticle=New TArticle
 	If objArticle.LoadInfoByID(objComment.log_ID) Then
 		Call GetTagsbyTagIDList(objArticle.Tag)
@@ -649,7 +652,7 @@ On Error Resume Next
 	strC=GetTemplate("TEMPLATE_B_ARTICLE_COMMENT")
 	objComment.Count=objComment.Count+1
 	strC=objComment.MakeTemplate(strC)
-	strC=Replace(strC,"<#ZC_BLOG_HOST#>",ZC_BLOG_HOST)
+	strC=Replace(strC,"<#ZC_BLOG_HOST#>",GetCurrentHost())
 
 	Dim aryTemplateTagsName2
 	Dim aryTemplateTagsValue2
@@ -657,18 +660,19 @@ On Error Resume Next
 	aryTemplateTagsName2=TemplateTagsDic.Keys
 	aryTemplateTagsValue2=TemplateTagsDic.Items
 
-	j=UBound(aryTemplateTagsName2)
-
-	For i=1 to j
-		strC=Replace(strC,"<#" & aryTemplateTagsName2(i) & "#>",aryTemplateTagsValue2(i))
-	Next
-
 	j=UBound(ReturnAjaxComment_aryTemplateTagsName)
 	For i=1 to j
 		If IsNull(ReturnAjaxComment_aryTemplateTagsValue(i))=False Then
 			strC = Replace(strC,"<#" & ReturnAjaxComment_aryTemplateTagsName(i) & "#>", ReturnAjaxComment_aryTemplateTagsValue(i))
 		End If
 	Next
+
+	j=UBound(aryTemplateTagsName2)
+
+	For i=1 to j
+		strC=Replace(strC,"<#" & aryTemplateTagsName2(i) & "#>",aryTemplateTagsValue2(i))
+	Next
+
 
 	strC= Replace(strC,vbCrLf,"")
 	strC= Replace(strC,vbLf,"")
@@ -679,6 +683,66 @@ On Error Resume Next
 
 End Function
 '*********************************************************
+
+
+
+
+
+'*********************************************************
+' 目的：    Get Comment Ajax
+'*********************************************************
+Function GetComment(logid,page)
+
+
+	Call GetCategory()
+	Call GetUser()
+
+	Dim objArticle
+	Set objArticle=New TArticle
+
+	'Filter_Plugin_TArticle_Export_TemplateTags
+	Call Add_Filter_Plugin("Filter_Plugin_TArticle_Export_TemplateTags","ReturnAjaxComment_Plugin")
+
+	If objArticle.LoadInfoByID(logid) Then
+		Call GetTagsbyTagIDList(objArticle.Tag)
+		objArticle.CommentsPage=page
+		Call objArticle.Export(ZC_DISPLAY_MODE_ALL)
+		s=objArticle.Template_Article_Comment
+	End If
+
+	Dim i,j,s
+	Dim aryTemplateTagsName2
+	Dim aryTemplateTagsValue2
+
+	aryTemplateTagsName2=TemplateTagsDic.Keys
+	aryTemplateTagsValue2=TemplateTagsDic.Items
+
+	j=UBound(ReturnAjaxComment_aryTemplateTagsName)
+	For i=1 to j
+		If IsNull(ReturnAjaxComment_aryTemplateTagsValue(i))=False Then
+			s = Replace(s,"<#" & ReturnAjaxComment_aryTemplateTagsName(i) & "#>", ReturnAjaxComment_aryTemplateTagsValue(i))
+		End If
+	Next
+
+	j=UBound(aryTemplateTagsName2)
+
+	For i=1 to j
+		s=Replace(s,"<#" & aryTemplateTagsName2(i) & "#>",aryTemplateTagsValue2(i))
+	Next
+
+
+	s= Replace(s,vbCrLf,"")
+	s= Replace(s,vbLf,"")
+	s= Replace(s,vbTab,"")
+
+	Response.Write s
+
+End Function
+'*********************************************************
+'*********************************************************
+
+
+
 
 
 '/////////////////////////////////////////////////////////////////////////////////////////
@@ -1000,6 +1064,8 @@ End Function
 '*********************************************************
 
 
+
+
 '*********************************************************
 ' 目的：    Batch ALL
 '*********************************************************
@@ -1031,7 +1097,9 @@ Function BatchAll()
 			Response.Write "<!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 1.0 Transitional//EN"" ""http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd""><html><head><meta http-equiv=""Content-Type"" content=""text/html; charset=utf-8""/><meta http-equiv=""refresh"" content="""&ZC_REBUILD_FILE_INTERVAL&";URL="&GetCurrentHost & "zb_system/cmd.asp?act=batch"&"&all="&intAllTime&"""/><style>body{padding:0; margin:0;background:#dbe3ff;}img{border:0;padding:0; margin:0;}</style></head><body>"
 			Response.Write "<img src='image/admin/loading.gif'>"
 			Response.Write "<script type=""text/javascript"">parent.Batch2Tip("""&b(0) & ZC_MSG109&""")</script>"
-
+			If Session("batchorder")=Session("batch").Count Then
+				Response.Write "<script type=""text/javascript"">parent.BatchBegin()</script>"
+			End If
 			Response.Write "<div class=""hidden"">"
 			Call GetBlogHint()
 			Response.Write "</div>"
@@ -1057,7 +1125,7 @@ Function BatchAll()
 		Response.Write "<!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 1.0 Transitional//EN"" ""http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd""><html><head><meta http-equiv=""Content-Type"" content=""text/html; charset=utf-8""/><style>body{padding:0; margin:0;background:#dbe3ff;}img{border:0;padding:0; margin:0;}</style></head><body>"
 		Response.Write "<img src='image/admin/okay.png'>"
 		Response.Write "<script type=""text/javascript"">parent.Batch2Tip("""&ZC_MSG227 & Replace(ZC_MSG169,"%n",Session("batchtime")/1000) &""")</script>"
-
+		Response.Write "<script type=""text/javascript"">parent.BatchEnd()</script>"
 		'Response.Write "<div id=""divMain"">"
 
 		Response.Write "<div class=""hidden"">"
@@ -1079,6 +1147,7 @@ Function BatchAll()
 
 End Function
 '*********************************************************
+
 
 
 
@@ -1151,32 +1220,38 @@ Function SaveSetting()
 		End If
 	Next
 
+	If BlogConfig.Read("ZC_STATIC_DIRECTORY")<>d.Item("ZC_STATIC_DIRECTORY")Then
+		Call CreatDirectoryByCustomDirectory(d.Item("ZC_STATIC_DIRECTORY"))
+		Call SetBlogHint(Empty,Empty,True)
+	End If
+
+	If BlogConfig.Read("ZC_BLOG_HOST")<>d.Item("ZC_BLOG_HOST")Then
+		If Left(d.Item("ZC_BLOG_HOST"),7)<>"http://" And Left(d.Item("ZC_BLOG_HOST"),8)<>"https://" Then
+			d.Item("ZC_BLOG_HOST")="http://" & d.Item("ZC_BLOG_HOST")
+		End If
+		If Right(d.Item("ZC_BLOG_HOST"),1)<>"/" Then
+			d.Item("ZC_BLOG_HOST")=d.Item("ZC_BLOG_HOST") & "/"
+		End If
+		Call SetBlogHint(Empty,Empty,True)
+	End If
+	If BlogConfig.Read("ZC_BLOG_TITLE")<>d.Item("ZC_BLOG_TITLE")Then Call SetBlogHint(Empty,Empty,True)
+	If BlogConfig.Read("ZC_BLOG_SUBTITLE")<>d.Item("ZC_BLOG_SUBTITLE")Then Call SetBlogHint(Empty,Empty,True)
+	If BlogConfig.Read("ZC_BLOG_NAME")<>d.Item("ZC_BLOG_NAME")Then Call SetBlogHint(Empty,Empty,True)
+	If BlogConfig.Read("ZC_BLOG_SUB_NAME")<>d.Item("ZC_BLOG_SUB_NAME")Then Call SetBlogHint(Empty,Empty,True)
+
+	If BlogConfig.Read("ZC_BLOG_COPYRIGHT")<>d.Item("ZC_BLOG_COPYRIGHT")Then Call SetBlogHint(Empty,Empty,True)
+	If BlogConfig.Read("ZC_BLOG_LANGUAGE")<>d.Item("ZC_BLOG_LANGUAGE")Then Call SetBlogHint(Empty,Empty,True)
+	If BlogConfig.Read("ZC_BLOG_LANGUAGE")<>d.Item("ZC_BLOG_LANGUAGE")Then Call SetBlogHint(Empty,Empty,True)
+
+
+	If BlogConfig.Read("ZC_BLOG_CLSID")<>d.Item("ZC_BLOG_CLSID")Then
+		If CheckRegExp(d.Item("ZC_BLOG_CLSID"),"[guid]")=False Then d.Item("ZC_BLOG_CLSID")=RndGuid()
+		Call SetBlogHint(Empty,Empty,True)
+	End If
+
 
 	For Each a In d.Keys
-
-		If BlogConfig.Read("ZC_STATIC_DIRECTORY")<>d.Item("ZC_STATIC_DIRECTORY")Then
-			Call CreatDirectoryByCustomDirectory(d.Item("ZC_STATIC_DIRECTORY"))
-			Call SetBlogHint(Empty,Empty,True)
-		End If
-
-		If BlogConfig.Read("ZC_BLOG_HOST")<>d.Item("ZC_BLOG_HOST")Then Call SetBlogHint(Empty,Empty,True)
-		If BlogConfig.Read("ZC_BLOG_TITLE")<>d.Item("ZC_BLOG_TITLE")Then Call SetBlogHint(Empty,Empty,True)
-		If BlogConfig.Read("ZC_BLOG_SUBTITLE")<>d.Item("ZC_BLOG_SUBTITLE")Then Call SetBlogHint(Empty,Empty,True)
-		If BlogConfig.Read("ZC_BLOG_NAME")<>d.Item("ZC_BLOG_NAME")Then Call SetBlogHint(Empty,Empty,True)
-		If BlogConfig.Read("ZC_BLOG_SUB_NAME")<>d.Item("ZC_BLOG_SUB_NAME")Then Call SetBlogHint(Empty,Empty,True)
-
-		If BlogConfig.Read("ZC_BLOG_COPYRIGHT")<>d.Item("ZC_BLOG_COPYRIGHT")Then Call SetBlogHint(Empty,Empty,True)
-		If BlogConfig.Read("ZC_BLOG_LANGUAGE")<>d.Item("ZC_BLOG_LANGUAGE")Then Call SetBlogHint(Empty,Empty,True)
-		If BlogConfig.Read("ZC_BLOG_LANGUAGE")<>d.Item("ZC_BLOG_LANGUAGE")Then Call SetBlogHint(Empty,Empty,True)
-
-
-		If BlogConfig.Read("ZC_BLOG_CLSID")<>d.Item("ZC_BLOG_CLSID")Then
-			If CheckRegExp(d.Item("ZC_BLOG_CLSID"),"[guid]")=False Then d.Item("ZC_BLOG_CLSID")=RndGuid()
-			Call SetBlogHint(Empty,Empty,True)
-		End If
-
 		Call BlogConfig.Write(a,d.Item(a))
-
 	Next
 
 

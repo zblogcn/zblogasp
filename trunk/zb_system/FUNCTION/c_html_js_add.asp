@@ -27,13 +27,12 @@
 
 <% Response.Clear %>
 
+
 <%=LoadFromFile(Server.MapPath("../admin/ueditor/third-party/SyntaxHighlighter/shCore.js"),"utf-8")%>
-SyntaxHighlighter.defaults['gutter'] = false;
-SyntaxHighlighter.defaults['smart-tabs']=true;
-//SyntaxHighlighter.defaults['html-script']=true;
-//SyntaxHighlighter.defaults['auto-links']=false;
 SyntaxHighlighter.all();
-//SyntaxHighlighter.highlight(document.getElementsByTagName("pre"),null,true);
+
+//$.getScript("<%=GetCurrentHost()%>zb_system/admin/ueditor/third-party/SyntaxHighlighter/shCore.js",function(){SyntaxHighlighter.all();});
+$("head").append("<link rel='stylesheet' type='text/css' href='<%=GetCurrentHost()%>/zb_system/admin/ueditor/third-party/SyntaxHighlighter/shCoreDefault.css'/>");
 
 
 
@@ -60,16 +59,11 @@ $(document).ready(function(){
 		if(objImageValid.size()>0){
 			objImageValid.css("cursor","pointer");
 			objImageValid.click( function() {
-					objImageValid.attr("src","<%=GetCurrentHost()%>zb_system/function/c_validcode.asp?name=commentvalid"+"&amp;random="+Math.random());
+				objImageValid.attr("src","<%=GetCurrentHost()%>zb_system/function/c_validcode.asp?name=commentvalid"+"&amp;random="+Math.random());
 			} );
 		};
-
 
 
 	}catch(e){};
 
 });
-
-$("head").append("<link rel='stylesheet' type='text/css' href='<%=GetCurrentHost()%>/zb_system/ADMIN/ueditor/third-party/SyntaxHighlighter/shCoreDefault.css'/>");
-
-//$.getScript("<%=GetCurrentHost()%>zb_system/admin/ueditor/third-party/SyntaxHighlighter/shCore.js",function(){SyntaxHighlighter.all();});

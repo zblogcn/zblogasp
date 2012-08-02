@@ -611,6 +611,8 @@ Function GetRights(strAction)
 			GetRights=4
 		Case "CommentSav"
 			GetRights=4
+		Case "CommentGet"
+			GetRights=5
 		Case "CommentDelBatch"
 			GetRights=4
 		'Case "TrackBackMng"
@@ -1790,7 +1792,7 @@ Function GetBlogHint()
 	If IsEmpty(bolRebuildFiles)=False Then
 
 		If bolRebuildFiles=True Then
-			Response.Write "<div class='hint'><p class='hint hint_blue'><font color='blue'>" & Replace(ZC_MSG269,"%u",GetCurrentHost()&"zb_system/admin/admin.asp?act=AskFileReBuild") & "</font></p></div>"
+			Response.Write "<div class='hint'><p class='hint hint_blue'><font color='blue'>" & Replace(ZC_MSG269,"%u",GetCurrentHost()&"zb_system/cmd.asp?act=AskFileReBuild") & "</font></p></div>"
 		End If
 
 	End If
@@ -3388,7 +3390,8 @@ End Function
 Function AddBatch(name,actioncode)
 
 	Dim i
-	i=CInt(Session("batchorder"))+1
+	i=Session("batchorder")+1
+
 	Session("batchorder")=i
 	Call Session("batch").add("<b>" & i & "</b> : <u>" & name & "</u>",actioncode)
 
