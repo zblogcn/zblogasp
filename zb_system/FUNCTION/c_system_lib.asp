@@ -4431,7 +4431,7 @@ Class TMeta
 		Count = UBound(names)
 	End Property
 
-	Public Function Save()
+	Private Function Save()
 
 		Dim n,v
 		If UBound(names)>0 Then
