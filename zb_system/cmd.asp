@@ -775,7 +775,6 @@ Function UserMng()
 		If Not IsEmpty(sAction_Plugin_UserMng_Begin) Then Call Execute(sAction_Plugin_UserMng_Begin)
 		If bAction_Plugin_UserMng_Begin=True Then Exit Function
 	Next
-	Call SetBlogHint_Custom(ZC_MSG189)
 	Response.Redirect "admin/admin.asp?act=UserMng&page=" & Request.QueryString("id")
 End Function
 

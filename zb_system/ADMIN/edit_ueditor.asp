@@ -259,7 +259,7 @@ If Err.Number=0 Then
 				If Categorys(aryCateInOrder(n)).ParentID=Categorys(aryCateInOrder(m)).ID Then
 					Response.Write "<option value="""&Categorys(aryCateInOrder(n)).ID&""" "
 					If EditArticle.CateID=Categorys(aryCateInOrder(n)).ID Then Response.Write "selected=""selected"""
-					Response.Write ">&nbsp;┄ "&TransferHTML( Categorys(aryCateInOrder(n)).Name,"[html-format]")&"</option>"
+					Response.Write ">&nbsp;└ "&TransferHTML( Categorys(aryCateInOrder(n)).Name,"[html-format]")&"</option>"
 				End If
 			Next
 		End If
@@ -390,7 +390,7 @@ End If
                         <p>
 <!-- Istop( -->
 <% If Request.QueryString("type")<>"Page" Then %>
-                          <span class='editinputname'><%=ZC_MSG051%>
+                          <span class='editinputname'><%=ZC_MSG051%>:
                           <%If EditArticle.Istop Then%>
                           <input type="checkbox" name="edtIstop" id="edtIstop" value="True" checked=""/>
                           <%Else%>

@@ -361,7 +361,10 @@ font-weight:bold;
 span.title{
 	font-weight:bold;
 }
-
+span.star{
+	color:red;
+	font-size:0.8em;
+}
 
 .pagebar span{
 	color:#3a6ea5;
@@ -397,7 +400,6 @@ span.title{
 
 .SubMenu span {
 	float:left;
-	font-weight:bold;
 	padding:0px 5px 0px 0px;
 	margin:0 5px 0 0;
 	text-align:center;
@@ -440,7 +442,7 @@ span.title{
 
 /* 网站设置页 */
 .content-box ul{
-	padding:10px 0 0 1px;
+	padding:10px 0 0 0px;
 }
 
 .content-box li{
@@ -452,25 +454,23 @@ span.title{
 }
 
 
-.content-box .content-box-tabs a{
-	border:0px solid #e8f6ff;
-	background:#ededed;
+.content-box .content-box-tabs a.current{
+	background:#e1e1e1;
 	padding:5px 10px;
 	margin:0 9px 0 0;
 	line-height:2em;
 	height:2em;
+	color:black;
+	font-weight:bolder;
 }
 
-.content-box .content-box-tabs a.current{
-	color:#3a6ea5;
-	font-weight:bolder;
+.content-box .content-box-tabs a{
 	border:0px solid #7190ba;
-	background:#666;
 	padding:5px 10px;
 	margin:0 9px 0 0;
 	line-height:2em;
 	height:2em;
-	color:white;
+
 }
 
 
