@@ -1243,6 +1243,10 @@ Function SaveSetting()
 	If BlogConfig.Read("ZC_BLOG_LANGUAGE")<>d.Item("ZC_BLOG_LANGUAGE")Then Call SetBlogHint(Empty,Empty,True)
 	If BlogConfig.Read("ZC_BLOG_LANGUAGE")<>d.Item("ZC_BLOG_LANGUAGE")Then Call SetBlogHint(Empty,Empty,True)
 
+	If BlogConfig.Read("ZC_COMMENT_TURNOFF")<>d.Item("ZC_COMMENT_TURNOFF")Then Call SetBlogHint(Empty,Empty,True)
+	If BlogConfig.Read("ZC_COMMENT_REVERSE_ORDER_EXPORT")<>d.Item("ZC_COMMENT_REVERSE_ORDER_EXPORT")Then Call SetBlogHint(Empty,Empty,True)
+	If BlogConfig.Read("ZC_COMMENTS_DISPLAY_COUNT")<>d.Item("ZC_COMMENTS_DISPLAY_COUNT")Then Call SetBlogHint(Empty,Empty,True)
+
 
 	If BlogConfig.Read("ZC_BLOG_CLSID")<>d.Item("ZC_BLOG_CLSID")Then
 		If CheckRegExp(d.Item("ZC_BLOG_CLSID"),"[guid]")=False Then d.Item("ZC_BLOG_CLSID")=RndGuid()
