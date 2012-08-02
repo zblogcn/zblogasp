@@ -293,17 +293,21 @@ Function ZBQQConnect_SBar(Btype)
 	b(2,1)="m-left"
 	b(2,2)="m.asp"
 	b(2,3)="绑定管理"
-	b(3,1)="m-left"
-	b(3,2)="setting.asp"
-	b(3,3)="插件配置"
+	If BlogUser.Level=1 Then
+		b(3,1)="m-left"
+		b(3,2)="setting.asp"
+		b(3,3)="插件配置"
+	End If
 	For i=1 to 3
-		if btype=i then
-			k=k&"<span class=""" & b(i,1) & " m-now""><a href=""" & b(i,2) & """>" & b(i,3) & "</a></span>"
-		else
-			k=k&"<span class=""" & b(i,1) & """><a href=""" & b(i,2) & """>" & b(i,3) & "</a></span>"
+		if b(i,1)<>"" then
+			if btype=i then
+				k=k&"<span class=""" & b(i,1) & " m-now""><a href=""" & b(i,2) & """>" & b(i,3) & "</a></span>"
+			else
+				k=k&"<span class=""" & b(i,1) & """><a href=""" & b(i,2) & """>" & b(i,3) & "</a></span>"
+			end if
 		end if
 	Next
-	k=k&"<script type=""text/javascript"">ActiveLeftMenu(""aPlugInMng"");</script>"
+	k=k&"<script type=""text/javascript"">ActiveLeftMenu(""aQQConnect"");</script>"
 	ZBQQConnect_SBar=k
 End Function
 %>

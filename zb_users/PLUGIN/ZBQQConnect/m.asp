@@ -14,7 +14,7 @@ Call ZBQQConnect_Initialize()
 
 Call CheckReference("")
 
-If BlogUser.Level>1 Then Call ShowError(6)
+If BlogUser.Level=5 Then Call ShowError(6)
 If CheckPluginState("ZBQQConnect")=False Then Call ShowError(48)
 
 
