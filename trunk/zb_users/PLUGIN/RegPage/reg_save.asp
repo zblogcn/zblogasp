@@ -9,6 +9,7 @@
 <!-- #include file="../../../ZB_SYSTEM/function/c_system_plugin.asp" -->
 <!-- #include file="../../../ZB_SYSTEM/function/c_system_event.asp" -->
 <!-- #include file="../p_config.asp" -->
+<!-- #include file="include_plugin.asp" -->
 <%
 Call System_Initialize()
 '检查非法链接
@@ -50,7 +51,7 @@ End If
 
 
 chkPassWord=CheckRegExp(UserPassWord,"[password]")
-If  len(UserPassWord)<6  or len(UserPassWord)>14 Or chkPassWord=False Then
+If  len(UserPassWord)<8  or len(UserPassWord)>14 Or chkPassWord=False Then
 	ExportErr "密码格式不正确！"
 End If
 UserPassWord=MD5(UserPassWord)
