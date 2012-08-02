@@ -1094,8 +1094,8 @@ Function BatchAll()
 
 		For i = 0 To 0
 
-			Response.Write "<!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 1.0 Transitional//EN"" ""http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd""><html><head><meta http-equiv=""Content-Type"" content=""text/html; charset=utf-8""/><meta http-equiv=""refresh"" content="""&ZC_REBUILD_FILE_INTERVAL&";URL="&GetCurrentHost & "zb_system/cmd.asp?act=batch"&"&all="&intAllTime&"""/><style>body{padding:0; margin:0;background:#dbe3ff;}img{border:0;padding:0; margin:0;}</style></head><body>"
-			Response.Write "<img src='image/admin/loading.gif'>"
+			Response.Write "<!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 1.0 Transitional//EN"" ""http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd""><html><head><meta http-equiv=""Content-Type"" content=""text/html; charset=utf-8""/><meta http-equiv=""refresh"" content="""&ZC_REBUILD_FILE_INTERVAL&";URL="&GetCurrentHost & "zb_system/cmd.asp?act=batch"&"&all="&intAllTime&"""/><style>body{padding:0; margin:0;background:#fffbcc;}img{border:0;padding:0; margin:0;background:#fffbcc;}</style></head><body>"
+			Response.Write "<img src='image/admin/loading.gif' width='16'>"
 			Response.Write "<script type=""text/javascript"">parent.Batch2Tip("""&b(0) & ZC_MSG109&""")</script>"
 			If Session("batchorder")=Session("batch").Count Then
 				Response.Write "<script type=""text/javascript"">parent.BatchBegin()</script>"
@@ -1122,7 +1122,7 @@ Function BatchAll()
 	Else
 
 
-		Response.Write "<!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 1.0 Transitional//EN"" ""http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd""><html><head><meta http-equiv=""Content-Type"" content=""text/html; charset=utf-8""/><style>body{padding:0; margin:0;background:#dbe3ff;}img{border:0;padding:0; margin:0;}</style></head><body>"
+		Response.Write "<!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 1.0 Transitional//EN"" ""http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd""><html><head><meta http-equiv=""Content-Type"" content=""text/html; charset=utf-8""/><style>body{padding:0; margin:0;background:#fffbcc;}img{border:0;padding:0; margin:0;}</style></head><body>"
 		Response.Write "<img src='image/admin/okay.png'>"
 		Response.Write "<script type=""text/javascript"">parent.Batch2Tip("""&ZC_MSG227 & Replace(ZC_MSG169,"%n",Session("batchtime")/1000) &""")</script>"
 		Response.Write "<script type=""text/javascript"">parent.BatchEnd()</script>"
