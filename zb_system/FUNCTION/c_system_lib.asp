@@ -973,7 +973,7 @@ Class TArticle
 
 		Template_Article_Comment="<span style=""display:none;"" id=""AjaxCommentBegin""></span>" & Template_Article_Comment & s &"<span style=""display:none;"" id=""AjaxCommentEnd""></span>"
 
-		i=0
+		i=ZC_COMMENTS_DISPLAY_COUNT*(intPage-1)
 		Do While InStr(Template_Article_Comment,"<!--(count-->0<!--count)-->")>0
 			i=i+1
 			Template_Article_Comment=Replace(Template_Article_Comment,"<!--(count-->0<!--count)-->",i,1,1)
@@ -2706,6 +2706,13 @@ Class TUser
 			If Level <= currentUser.Level Then ShowError(6)
 			If Len(PassWord)<>32 Then Call ShowError(55)
 
+			Dim objRS2
+			Set objRS2 = objConn.execute ("SELECT * FROM [blog_Member] WHERE [mem_Name]='" & Name & "' ")
+			If (Not objRS2.bof) And (Not objRS2.eof) Then
+				Call ShowError(62)
+			End If
+			Set objRS2=Nothing
+
 			objConn.Execute("INSERT INTO [blog_Member]([mem_Level],[mem_Name],[mem_PassWord],[mem_Email],[mem_HomePage],[mem_Intro],[mem_Guid],[mem_Meta]) VALUES ("&Level&",'"&Name&"','"&PassWord&"','"&Email&"','"&HomePage&"','"&Alias&"','"&Guid&"','"&MetaString&"')")
 			
 			Dim objRS
@@ -2719,10 +2726,18 @@ Class TUser
 
 		Else
 
-
-
 			If (ID=currentUser.ID) And (Level <> currentUser.Level) Then ShowError(6)
 			If (ID<>currentUser.ID) And (Level <= currentUser.Level) Then ShowError(6)
+
+			If ID<>currentUser.ID Then
+				Dim objRS3
+				Set objRS3 = objConn.execute ("SELECT * FROM [blog_Member] WHERE [mem_Name]='" & Name & "' ")
+				If (Not objRS3.bof) And (Not objRS3.eof) Then
+					Call ShowError(62)
+				End If
+				Set objRS3=Nothing
+			End If
+
 
 			Dim targetUser
 			Set targetUser=New TUser
@@ -2796,6 +2811,13 @@ Class TUser
 
 			If Level <= 1 Then ShowError(6)
 			If Len(PassWord)<>32 Then Call ShowError(55)
+
+			Dim objRS2
+			Set objRS2 = objConn.execute ("SELECT * FROM [blog_Member] WHERE [mem_Name]='" & Name & "' ")
+			If (Not objRS2.bof) And (Not objRS2.eof) Then
+				Call ShowError(62)
+			End If
+			Set objRS2=Nothing
 
 			objConn.Execute("INSERT INTO [blog_Member]([mem_Level],[mem_Name],[mem_PassWord],[mem_Email],[mem_HomePage],[mem_Intro],[mem_Guid],[mem_Meta]) VALUES ("&Level&",'"&Name&"','"&PassWord&"','"&Email&"','"&HomePage&"','"&Alias&"','"&Guid&"','"&MetaString&"')")
 

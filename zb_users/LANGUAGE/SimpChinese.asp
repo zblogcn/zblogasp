@@ -368,7 +368,7 @@ ZVA_Week_Abbr(7)="Sat"
 
 '自定义错误信息
 
-Dim ZVA_ErrorMsg(61)
+Dim ZVA_ErrorMsg(62)
 
 ZVA_ErrorMsg(0)="未知错误"
 ZVA_ErrorMsg(1)="未知命令"
@@ -432,4 +432,5 @@ ZVA_ErrorMsg(58)="不存在父分类"
 ZVA_ErrorMsg(59)="不存在子分类"
 ZVA_ErrorMsg(60)="回复评论失败"
 ZVA_ErrorMsg(61)="该记录不存在"
+ZVA_ErrorMsg(62)="同名用户已存在,请修改用户名."
 %>
