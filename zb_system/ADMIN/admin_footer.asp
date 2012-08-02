@@ -73,54 +73,6 @@ $(document).ready(function(){
 
 });
 
-
-
-//*********************************************************
-// 目的：    全选
-// 输入：    无
-// 返回：    无
-//*********************************************************
-function BatchSelectAll() {
-	var aryChecks = document.getElementsByTagName("input");
-
-	for (var i = 0; i < aryChecks.length; i++){
-		if((aryChecks[i].type=="checkbox")&&(aryChecks[i].id.indexOf("edt")!==-1)){
-			if(aryChecks[i].checked==true){
-				aryChecks[i].checked=false;
-			}
-			else{
-				aryChecks[i].checked=true;
-			};
-		}
-	}
-}
-//*********************************************************
-
-
-
-
-//*********************************************************
-// 目的：    
-// 输入：    无
-// 返回：    无
-//*********************************************************
-function BatchDeleteAll(objEdit) {
-
-	objEdit=document.getElementById(objEdit);
-	objEdit.value="";
-	var aryChecks = document.getElementsByTagName("input");
-	for (var i = 0; i < aryChecks.length; i++){
-		if((aryChecks[i].type=="checkbox")&&(aryChecks[i].id.indexOf("edt")!==-1)){
-			if(aryChecks[i].checked){
-				objEdit.value=aryChecks[i].value+","+objEdit.value;
-			}
-		}
-	}
-
-}
-//*********************************************************
-
-
 // ]]>
 </script>
 <%=Response_Plugin_Admin_Footer%>

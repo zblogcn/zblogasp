@@ -565,6 +565,10 @@ li.msgname{
     border-bottom:1px solid #eaeaea;
 }
 
+li.msgname *{
+	vertical-align:text-bottom ;
+}
+
 li.msgurl{
 	text-align:right;
 	padding:2px 10px 2px 10px;
@@ -595,7 +599,9 @@ ul.msg ul.msg img.avatar{
 	width:16px;
 	height:16px;
 }
-
+li.pagebar{
+	text-align:right;
+}
 
 /*---------------------------相关文章----------------------------------*/
 

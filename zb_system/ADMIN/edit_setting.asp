@@ -118,7 +118,7 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG247
 	strZC_BLOG_MASTER=TransferHTML(ZC_BLOG_MASTER,"[html-format]")
 
 	Response.Write "<div class=""tab-content default-tab"" style='border:none;padding:0px;margin:0;' id=""tab1"">"
-	Response.Write "<table width='100%' style='padding:0px;margin:1px;' cellspacing='0' cellpadding='0'>"
+	Response.Write "<table width='100%' style='padding:0px;margin:0px;' cellspacing='0' cellpadding='0'>"
 	Response.Write "<tr><td width='35%'>" & SplitNameAndNote(ZC_MSG104) & "</td><td><p><input id=""edtZC_BLOG_HOST"" name=""edtZC_BLOG_HOST"" style=""width:500px;"" type=""text"" value=""" & strZC_BLOG_HOST & """ /></p></td></tr>"
 	Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG091) & "</td><td><p><input id=""edtZC_BLOG_NAME"" name=""edtZC_BLOG_NAME"" style=""width:500px;"" type=""text"" value=""" & strZC_BLOG_NAME & """ /></p></td></tr>"
 	Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG092) & "</td><td><p><input id=""edtZC_BLOG_SUB_NAME"" name=""edtZC_BLOG_SUB_NAME"" style=""width:500px;""  type=""text"" value=""" & strZC_BLOG_SUB_NAME & """ /></p></td></tr>"
@@ -133,7 +133,7 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG247
 
 
 	Response.Write "<div class=""tab-content"" style='border:none;padding:0px;margin:0;' id=""tab2"">"
-	Response.Write "<table width='100%' style='padding:0px;margin:1px;' cellspacing='0' cellpadding='0'>"
+	Response.Write "<table width='100%' style='padding:0px;margin:0px;' cellspacing='0' cellpadding='0'>"
 	tmpSng=LoadFromFile(BlogPath & "zb_users/c_option.asp","utf-8")
 
 
@@ -173,7 +173,7 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG247
 	Response.Write "</table>"
 	Response.Write "</div>"
 	Response.Write "<div class=""tab-content"" style='border:none;padding:0px;margin:0;' id=""tab3"">"
-	Response.Write "<table width='100%' style='padding:0px;margin:1px;' cellspacing='0' cellpadding='0'>"
+	Response.Write "<table width='100%' style='padding:0px;margin:0px;' cellspacing='0' cellpadding='0'>"
 
 
 		ZC_DISPLAY_COUNT=TransferHTML(ZC_DISPLAY_COUNT,"[html-format]")
@@ -188,15 +188,15 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG247
 		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG209) & "</td><td><p><input id=""edtZC_USE_NAVIGATE_ARTICLE"" name=""edtZC_USE_NAVIGATE_ARTICLE"" style="""" type=""text"" value=""" & ZC_USE_NAVIGATE_ARTICLE & """ class=""checkbox""/></p></td></tr>"
 
 
-		ZC_COMMENTS_DISPLAY_COUNT=TransferHTML(ZC_COMMENTS_DISPLAY_COUNT,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG171) & "</td><td><p><input id=""edtZC_COMMENTS_DISPLAY_COUNT"" name=""edtZC_COMMENTS_DISPLAY_COUNT"" style=""width:500px;"" type=""text"" value=""" & ZC_COMMENTS_DISPLAY_COUNT & """/></p></td></tr>"
-
-
 		ZC_MUTUALITY_COUNT=TransferHTML(ZC_MUTUALITY_COUNT,"[html-format]")
 		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG230) & "</td><td><p><input id=""edtZC_MUTUALITY_COUNT"" name=""edtZC_MUTUALITY_COUNT"" style=""width:500px;"" type=""text"" value=""" & ZC_MUTUALITY_COUNT & """ /></p></td></tr>"
 
 		ZC_COMMENT_TURNOFF=TransferHTML(ZC_COMMENT_TURNOFF,"[html-format]")
 		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG262) & "</td><td><p><input id=""edtZC_COMMENT_TURNOFF"" name=""edtZC_COMMENT_TURNOFF"" style="""" type=""text"" value=""" & ZC_COMMENT_TURNOFF & """ class=""checkbox""/></p></td></tr>"
+
+
+		ZC_COMMENTS_DISPLAY_COUNT=TransferHTML(ZC_COMMENTS_DISPLAY_COUNT,"[html-format]")
+		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG171) & "</td><td><p><input id=""edtZC_COMMENTS_DISPLAY_COUNT"" name=""edtZC_COMMENTS_DISPLAY_COUNT"" style=""width:500px;"" type=""text"" value=""" & ZC_COMMENTS_DISPLAY_COUNT & """/></p></td></tr>"
 
 
 		ZC_COMMENT_REVERSE_ORDER_EXPORT=TransferHTML(ZC_COMMENT_REVERSE_ORDER_EXPORT,"[html-format]")
@@ -212,7 +212,7 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG247
 	Response.Write "</table>"
 	Response.Write "</div>"
 	Response.Write "<div class=""tab-content"" style='border:none;padding:0px;margin:0;' id=""tab4"">"
-	Response.Write "<table width='100%' style='padding:0px;margin:1px;' cellspacing='0' cellpadding='0'>"
+	Response.Write "<table width='100%' style='padding:0px;margin:0px;' cellspacing='0' cellpadding='0'>"
 
 
 		ZC_STATIC_DIRECTORY=TransferHTML(ZC_STATIC_DIRECTORY,"[html-format]")
@@ -246,7 +246,7 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG247
 	Response.Write "</table>"
 	Response.Write "</div>"
 	Response.Write "<div class=""tab-content"" style='border:none;padding:0px;margin:0;' id=""tab5"">"
-	Response.Write "<table width='100%' style='padding:0px;margin:1px;' cellspacing='0' cellpadding='0'>"
+	Response.Write "<table width='100%' style='padding:0px;margin:0px;' cellspacing='0' cellpadding='0'>"
 
 
 

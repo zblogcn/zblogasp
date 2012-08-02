@@ -299,6 +299,7 @@ Class TArticle
 	Public html
 
 	Public IsDynamicLoadSildbar
+	Public CommentsPage
 
 	Private Ftemplate
 	Public Property Let Template(strFileName)
@@ -584,7 +585,7 @@ Class TArticle
 		If IsEmpty(html)=True Then html=Template
 
 		Call Export_Tag
-		Call Export_CMTandTB
+		Call Export_CMTandTB(CommentsPage)
 		Call Export_CommentPost
 		Call Export_Mutuality
 		Call Export_NavBar
@@ -813,9 +814,11 @@ Class TArticle
 	End Function
 
 
-	Function Export_CMTandTB()
+	Function Export_CMTandTB(intPage)
 
 		If Disable_Export_CMTandTB=True Then Exit Function
+
+		Call CheckParameter(intPage,"int",1)
 
 		'plugin node
 		bAction_Plugin_TArticle_Export_CMTandTB_Begin=False
@@ -858,25 +861,45 @@ Class TArticle
 			objRS.Source="SELECT [comm_ID],[log_ID],[comm_AuthorID],[comm_Author],[comm_Content],[comm_Email],[comm_HomePage],[comm_PostTime],[comm_IP],[comm_Agent],[comm_Reply],[comm_LastReplyIP],[comm_LastReplyTime],[comm_ParentID],[comm_IsCheck],[comm_Meta] FROM [blog_Comment] WHERE ([blog_Comment].[log_ID]=" & ID &")  ORDER BY [comm_PostTime] DESC"
 			objRS.Open()
 
-			If (not objRS.bof) And (not objRS.eof) Then
 
-				
+			If ZC_COMMENTS_DISPLAY_COUNT>0 Then
+
+				Dim intPageAll
+				objRS.PageSize=ZC_COMMENTS_DISPLAY_COUNT
+				If intPage<1 Then intPage=1
+				intPageAll=objRS.PageCount
+				j=objRS.PageSize
+
+				If intPage>intPageAll Then
+					objRS.Close()
+					Set objRS=Nothing
+					Template_Article_Comment="<span style=""display:none;"" id=""AjaxCommentBegin""></span>" & Template_Article_Comment & "<span style=""display:none;"" id=""AjaxCommentEnd""></span>"
+					Export_CMTandTB=True
+					Exit Function
+				End If
+
+				objRS.AbsolutePage = intPage
+
+			Else
 				j=objRS.RecordCount
-				'j=30
+			End If
 
-				ReDim comments_ID(j)
-				ReDim comments_ParentID(j)
-				ReDim comments_Template(j)
+
+			If (Not objRS.bof) And (Not objRS.eof) Then
+
 
 				strC=GetTemplate("TEMPLATE_B_ARTICLE_COMMENT")
 
 				For i=1 To j
 
+				ReDim Preserve comments_ID(i)
+				ReDim Preserve comments_ParentID(i)
+				ReDim Preserve comments_Template(i)
+
 					Set objComment=New TComment
 					objComment.LoadInfoByArray(Array(objRS("comm_ID"),objRS("log_ID"),objRS("comm_AuthorID"),objRS("comm_Author"),objRS("comm_Content"),objRS("comm_Email"),objRS("comm_HomePage"),objRS("comm_PostTime"),objRS("comm_IP"),objRS("comm_Agent"),objRS("comm_Reply"),objRS("comm_LastReplyIP"),objRS("comm_LastReplyTime"),objRS("comm_ParentID"),objRS("comm_IsCheck"),objRs("comm_Meta")))
 
 					objComment.Count=0
-
 					comments_ID(i)=objComment.ID
 					comments_ParentID(i)=objComment.ParentID
 					comments_Template(i)=objComment.MakeTemplate(strC)
@@ -897,13 +920,6 @@ Class TArticle
 			Set objRS=Nothing
 
 
-			Dim m,n
-			Dim intAll,intPages,intPageNow
-			intAll=j
-			intPages=Int(intAll/ZC_COMMENTS_DISPLAY_COUNT)+1
-			intPageNow=1
-
-
 			'建构基础树
 			Dim b
 			For i=1 To UBound(comments_ParentID)
@@ -913,13 +929,12 @@ Class TArticle
 						b=True 
 						'Exit For
 					End If 
-				next
+				Next
 				If b=False Then
 					all.Remove comments_ID(i)
 					tree.Add comments_ID(i), comments_Template(i)
 				End If
 			Next
-
 
 			'将未被使用的节点安插在树上
 			Do Until all.count=0
@@ -930,16 +945,15 @@ Class TArticle
 						'If all.item(i)=j Then
 							b=i	
 							tree.item(j)=Replace(tree.item(j),"<!--rev"&all.item(i)&"-->","<!--rev"&all.item(i)&"-->"&IDandTemp.Item(i) )
-							'Exit For
+							Exit For
 						End If
 					Next
 					If b>0 Then
 						all.remove b
-						'Exit For
+						Exit For
 					End If
 				Next
 			Loop
-
 
 			'输出树
 			For Each s In tree.Items
@@ -952,7 +966,12 @@ Class TArticle
 
 		End If
 
-		Template_Article_Comment="<span style=""display:none;"" id=""AjaxCommentBegin""></span>" & Template_Article_Comment & "<span style=""display:none;"" id=""AjaxCommentEnd""></span>"
+		If intPageAll>intPage Then
+			s=GetTemplate("TEMPLATE_B_ARTICLE_COMMENT_PAGEBAR")
+			s=Replace(s,"<#template:pagebar#>","<a class="""" onclick=""GetComments("&ID&","&(intPage+1)&")"" href=""#cmt""><span class=""commentspage"">"&ZC_MSG192&"</span></a>")
+		End If
+
+		Template_Article_Comment="<span style=""display:none;"" id=""AjaxCommentBegin""></span>" & Template_Article_Comment & s &"<span style=""display:none;"" id=""AjaxCommentEnd""></span>"
 
 		i=0
 		Do While InStr(Template_Article_Comment,"<!--(count-->0<!--count)-->")>0
@@ -2904,7 +2923,8 @@ Class TComment
 	Private FAvatar
 	Public Property Get Avatar
 		Avatar=FAvatar
-		If Avatar="" Then Avatar="http://www.gravatar.com/avatar/" & EmailMD5 & "?s=32&d=" & Server.urlEncode(GetCurrentHost & "zb_system/image/logo/avatar.png")
+		'If Avatar="" Then Avatar="http://www.gravatar.com/avatar/" & EmailMD5 & "?s=32&d=" & Server.urlEncode(GetCurrentHost & "zb_users/avatar/0.png")
+		If Avatar="" Then Avatar="<#ZC_BLOG_HOST#>zb_users/avatar/0.png"
 	End Property
 	Public Property Let Avatar(s)
 		FAvatar=s

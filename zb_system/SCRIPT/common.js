@@ -188,7 +188,7 @@ function VerifyMessage() {
 	}
 
 	var strSubmit=$("#frmSumbit :submit").val();
-	$("#frmSumbit :submit").val("Waiting...");
+	$("#frmSumbit :submit").val("Waitting...");
 	$("#frmSumbit :submit").attr("disabled","disabled");
 	$("#frmSumbit :submit").addClass("btnloading");
 
@@ -549,6 +549,51 @@ try{
 
 
 
+//*********************************************************
+// 目的：    全选
+// 输入：    无
+// 返回：    无
+//*********************************************************
+function BatchSelectAll() {
+	var aryChecks = document.getElementsByTagName("input");
+
+	for (var i = 0; i < aryChecks.length; i++){
+		if((aryChecks[i].type=="checkbox")&&(aryChecks[i].id.indexOf("edt")!==-1)){
+			if(aryChecks[i].checked==true){
+				aryChecks[i].checked=false;
+			}
+			else{
+				aryChecks[i].checked=true;
+			};
+		}
+	}
+}
+//*********************************************************
+
+
+
+
+//*********************************************************
+// 目的：    
+// 输入：    无
+// 返回：    无
+//*********************************************************
+function BatchDeleteAll(objEdit) {
+
+	objEdit=document.getElementById(objEdit);
+	objEdit.value="";
+	var aryChecks = document.getElementsByTagName("input");
+	for (var i = 0; i < aryChecks.length; i++){
+		if((aryChecks[i].type=="checkbox")&&(aryChecks[i].id.indexOf("edt")!==-1)){
+			if(aryChecks[i].checked){
+				objEdit.value=aryChecks[i].value+","+objEdit.value;
+			}
+		}
+	}
+
+}
+//*********************************************************
+
 
 
 
@@ -633,6 +678,23 @@ function LoadViewCount(id){
 function AddViewCount(id){
 
 	strBatchCount+="spn"+id+"="+id+","
+
+}
+//*********************************************************
+
+
+
+//*********************************************************
+// 目的：    
+//*********************************************************
+function GetComments(logid,page){
+
+	 $('span.commentspage').html("Waitting...");
+
+	$.get(str00+"zb_system/cmd.asp?act=CommentGet&logid="+logid+"&page="+page, function(data){
+	  $('#AjaxCommentBegin').nextUntil('#AjaxCommentEnd').remove();
+	  $('#AjaxCommentBegin').after(data);
+	});
 
 }
 //*********************************************************

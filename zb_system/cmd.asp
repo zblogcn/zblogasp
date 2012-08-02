@@ -126,6 +126,11 @@ Select Case strAct
 
 		Call CommentSav()
 
+	Case "CommentGet"
+
+		Call CommentGet()
+
+
 	Case "TrackBackMng"
 
 		Call TrackBackMng()
@@ -1433,6 +1438,15 @@ Function Batch()
 
 
 End Function
+
+
+
+Function CommentGet()
+
+	Call GetComment(Request.QueryString("logid"),CInt(Request.QueryString("page")))
+
+End Function
+
 
 
 
