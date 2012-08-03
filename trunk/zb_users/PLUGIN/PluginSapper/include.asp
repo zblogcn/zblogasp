@@ -13,11 +13,11 @@ Call RegisterPlugin("PluginSapper","ActivePlugin_PluginSapper")
 Function ActivePlugin_PluginSapper() 
 
 	'加上二级菜单项
-	Call Add_Response_Plugin("Response_Plugin_PluginMng_SubMenu",MakeSubMenu("获得更多插件","../../ZB_USERS/plugin/PluginSapper/Xml_List.asp","m-left",False))
+	Call Add_Response_Plugin("Response_Plugin_PluginMng_SubMenu",MakeSubMenu("获得更多插件",GetCurrentHost&"ZB_USERS/plugin/PluginSapper/Xml_List.asp","m-left",False))
 
-	Call Add_Response_Plugin("Response_Plugin_PluginMng_SubMenu",MakeSubMenu("从本地安装插件","../../ZB_USERS/plugin/PluginSapper/Xml_Upload.asp","m-left",False))
+	Call Add_Response_Plugin("Response_Plugin_PluginMng_SubMenu",MakeSubMenu("从本地安装插件",GetCurrentHost&"ZB_USERS/plugin/PluginSapper/Xml_Upload.asp","m-left",False))
 
-	Call Add_Response_Plugin("Response_Plugin_PluginMng_SubMenu",MakeSubMenu("插件管理扩展","../../ZB_USERS/plugin/PluginSapper/PluginList.asp","m-left",False))
+	Call Add_Response_Plugin("Response_Plugin_PluginMng_SubMenu",MakeSubMenu("插件管理扩展",GetCurrentHost&"ZB_USERS/plugin/PluginSapper/PluginList.asp","m-left",False))
 
 	'Action_Plugin_Admin_End
 	Call Add_Action_Plugin("Action_Plugin_Admin_End","Call PluginSapper_AutoChk()")
@@ -57,11 +57,11 @@ Function PluginSapper_NewVersionFound()
 
 	If s Then
 		If Request.QueryString("act")="PlugInMng" Then
-			Call SetBlogHint_Custom("? 提示:您安装的插件发现了可用更新, <a href="""& ZC_BLOG_HOST &"PLUGIN/PluginSapper/Xml_ChkVer.asp"">[请点击这里查看].</a>")
+			Call SetBlogHint_Custom("? 提示:您安装的插件发现了可用更新, <a href="""& GetCurrentHost &"ZB_USERS/PLUGIN/PluginSapper/Xml_ChkVer.asp"">[请点击这里查看].</a>")
 		End If
 
 		If Request.QueryString("act")="SiteInfo" Then
-			Call Add_Response_Plugin("Response_Plugin_SiteInfo_SubMenu",MakeSubMenu("<font color=""red"">!! 发现插件的可用更新</font>","../PLUGIN/PluginSapper/Xml_ChkVer.asp","m-left",False))
+			Call Add_Response_Plugin("Response_Plugin_SiteInfo_SubMenu",MakeSubMenu("<font color=""red"">!! 发现插件的可用更新</font>",GetCurrentHost &"ZB_USERS/PLUGIN/PluginSapper/Xml_ChkVer.asp","m-left",False))
 		End If
 	End If
 
@@ -75,7 +75,7 @@ Function PluginSapper_AutoChk()
 	Dim objXmlVerChk
 	Dim Resource_URL
 
-	Resource_URL="http://download.rainbowsoft.org/Plugins/"
+	Resource_URL="http://download.rainbowsoft.org/Plugins/?v=2"
 	n=BlogPath & "/ZB_USERS/PLUGIN/PluginSapper/Export/log.txt"
 	s=LoadFromFile(n,"utf-8")
 
@@ -94,7 +94,7 @@ Function PluginSapper_AutoChk()
 		Set f = fso.GetFolder(BlogPath & "/ZB_USERS/PLUGIN/")
 		Set fc = f.SubFolders
 
-		If fso.FileExists(BlogPath & "/ZB_USERS/PLUGIN/" & s & "/" & "Plugin.xml") Then
+		If fso.FileExists(BlogPath & "/ZB_USERS/PLUGIN/" & s & "/Plugin.xml") Then
 		Else
 			fso.DeleteFile(n)
 		End If

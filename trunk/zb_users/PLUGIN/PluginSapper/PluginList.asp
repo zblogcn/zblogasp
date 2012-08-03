@@ -30,23 +30,15 @@ If BlogUser.Level>1 Then Call ShowError(6)
 If CheckPluginState("PluginSapper")=False Then Call ShowError(48)
 
 BlogTitle="Plugin Sapper"
+PS_Head
+%>
 
-%><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<%=ZC_BLOG_LANGUAGE%>" lang="<%=ZC_BLOG_LANGUAGE%>">
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<meta http-equiv="Content-Language" content="<%=ZC_BLOG_LANGUAGE%>" />
-	<meta name="robots" content="noindex,nofollow"/>
-	<link rel="stylesheet" rev="stylesheet" href="../../../ZB_SYSTEM/CSS/admin.css" type="text/css" media="screen" />
-	<link rel="stylesheet" rev="stylesheet" href="images/style.css" type="text/css" media="screen" />
-	<title><%=BlogTitle%></title>
-</head>
-<body>
-<div id="divMain">
-	<div class="Header">Plugin Sapper - 管理您已安装的插件. <a href="help.asp#pluginlist" title="插件管理页帮助">[页面帮助]</a></div>
+<div id="divMain"><div id="ShowBlogHint">
+      <%Call GetBlogHint()%>
+    </div>
+	<div class="divHeader">Plugin Sapper - 管理您已安装的插件. <a href="help.asp#pluginlist" title="插件管理页帮助">[页面帮助]</a></div>
 	<%Call SapperMenu("2")%>
 <div id="divMain2">
-<%Call GetBlogHint()%>
 	<div>
 <%
 Action=Request.QueryString("act")
@@ -71,7 +63,7 @@ If Action = "plugindel" Then
 		Response.Flush
 
 		Response.Write "<p>"
-		DelError = DelError + DeleteFolder(BlogPath & "/Plugin/" & SelectedPlugin)
+		DelError = DelError + DeleteFolder(BlogPath & "zb_users/Plugin/" & SelectedPlugin)
 		Response.Write "</p>"
 	Else
 		Response.Write "<p class=""status-box notice"">请求的参数错误, 正在退出...</p>"
@@ -100,7 +92,7 @@ Else
 	Dim objXmlFile,strXmlFile
 	Dim fso, f, f1, fc, s, t
 	Set fso = CreateObject("Scripting.FileSystemObject")
-	Set f = fso.GetFolder(BlogPath & "/PLUGIN/")
+	Set f = fso.GetFolder(BlogPath & "zb_users/PLUGIN/")
 	Set fc = f.SubFolders
 
 	Dim aryPL
@@ -259,10 +251,10 @@ Else
 			If CheckPluginState(Plugin_ID) Then
 			Else
 
-			If fso.FileExists(BlogPath & "/PLUGIN/" & Plugin_ID & "/" & "verchk.xml") Then
+			If fso.FileExists(BlogPath & "zb_users/PLUGIN/" & Plugin_ID & "/" & "verchk.xml") Then
 				t="<a href=""Xml_Install.asp?act=update&amp;url=" & Server.URLEncode(Update_URL & Plugin_ID) & """ title=""升级插件""><b class=""notice"">发现新版本!</b></a>"
 				NewVersionExists=True
-			ElseIf fso.FileExists(BlogPath & "/PLUGIN/" & Plugin_ID & "/" & "error.log") Then
+			ElseIf fso.FileExists(BlogPath & "zb_users/PLUGIN/" & Plugin_ID & "/" & "error.log") Then
 				t="<b class=""somehow"">不支持在线更新.</b>"
 			Else
 				t=""
@@ -362,13 +354,10 @@ Else
 	Set fso = nothing
 	Err.Clear
 %>
-<!-- 		<div class="PluginPanel" style="background-color:#FFFFFF;">
-		<p><a href="Xml_Upload.asp" title="导入本地的 ZPI 文件"><img src="Images/import.png" alt="ScreenShot" width="200" height="160" /></a></p>
-			<p><b>从本地导入 ZPI 文件:</b><br />	<form border="1" name="edit" method="post" enctype="multipart/form-data" action="XML_Upload.asp?act=FileUpload"><p>选择插件安装包文件,TS 将从该文件导入插件并安装到 Plugin 目录下: </p><p><input type="file" id="edtFileLoad" name="edtFileLoad" size="15"></p><p><input type="submit" class="button" value="提交" name="B1" onclick="return window.confirm('确定导入该插件数据包??');" /> <input class="button" type="reset" value="重置" name="B2" /></p></form></p>
-		</div> -->
+
 
 		<hr style="clear:both;"/><p><form name="edit" method="get" action="#"  class="status-box">
-			<p><input onclick="window.scrollTo(0,0);" type="button" class="button" value="TOP" title="返回页面顶部" /> <input onclick="self.location.href='Xml_ChkVer.asp?act=check&n=0';" type="button" class="button" value="查找更新" title="开始查找插件的可用更新" /></p>
+			<p><input onClick="window.scrollTo(0,0);" type="button" class="button" value="TOP" title="返回页面顶部" /> <input onClick="self.location.href='Xml_ChkVer.asp?act=check&n=0';" type="button" class="button" value="查找更新" title="开始查找插件的可用更新" /></p>
 		</form></p>
 <%
 	If NewVersionExists Then
@@ -391,9 +380,8 @@ Else
 
 End If
 %>
-	</div>
-</div>
-</div>
+</div></div>
+
 <SCRIPT type="text/javascript">
 function showhidediv(id){
 	try{
@@ -407,12 +395,4 @@ function showhidediv(id){
 	}catch(e){}
 } 
 </SCRIPT>
-</body>
-</html>
-<%
-Call System_Terminate()
-
-If Err.Number<>0 then
-	Call ShowError(0)
-End If
-%>
+<!--#include file="..\..\..\zb_system\admin\admin_footer.asp"-->

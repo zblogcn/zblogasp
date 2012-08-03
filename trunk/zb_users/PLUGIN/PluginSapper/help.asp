@@ -31,15 +31,7 @@ If CheckPluginState("PluginSapper")=False Then Call ShowError(48)
 
 BlogTitle="Plugin Sapper"
 
-%><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<%=ZC_BLOG_LANGUAGE%>" lang="<%=ZC_BLOG_LANGUAGE%>">
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<meta http-equiv="Content-Language" content="<%=ZC_BLOG_LANGUAGE%>" />
-	<meta name="roboPS" content="noindex,nofollow"/>
-	<link rel="stylesheet" rev="stylesheet" href="../../../ZB_SYSTEM/CSS/admin.css" type="text/css" media="screen" />
-	<link rel="stylesheet" rev="stylesheet" href="images/style.css" type="text/css" media="screen" />
-	<title><%=BlogTitle%></title>
+%><!--#include file="..\..\..\zb_system\admin\admin_header.asp"-->
 	<style>
 		ul {list-style:Upper-Alpha;line-height:200%;}
 		ol {line-height:220%;}
@@ -47,13 +39,15 @@ BlogTitle="Plugin Sapper"
 		b {color:Navy;font-weight:Normal;text-decoration: underline;}
 		sup {color:Red;}
 	</style>
-</head>
-<body>
-<div id="divMain">
-	<div class="Header">Plugin Sapper - 帮助说明页</div>
+<!--#include file="..\..\..\zb_system\admin\admin_top.asp"-->
+
+<div id="divMain"> <div id="ShowBlogHint">
+      <%Call GetBlogHint()%>
+    </div>
+	<div class="divHeader">Plugin Sapper - 帮助说明页</div>
 	<%Call SapperMenu("8")%>
 <div id="divMain2">
-<%Call GetBlogHint()%>
+
 <form id="edit" name="edit">
 
 
@@ -330,12 +324,5 @@ Plugin Sapper, (以下简称 PS), 提供了一些有关插件的辅助功能, �
 document.close();
 
 </script>
-</body>
-</html>
-<%
-Call System_Terminate()
+<!--#include file="..\..\..\zb_system\admin\admin_footer.asp"-->
 
-If Err.Number<>0 then
-	Call ShowError(0)
-End If
-%>

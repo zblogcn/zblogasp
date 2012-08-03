@@ -14,13 +14,13 @@ Dim Plugin_Author_Name,Plugin_Author_Url,Plugin_Author_Email
 Dim Action,SelectedPlugin,SelectedPluginName
 Dim objXmlVerChk,NewVersionExists
 
-Const DownLoad_URL="http://download.rainbowsoft.org/Plugins/ps.asp"
-Const Resource_URL="http://download.rainbowsoft.org/Plugins/"    '注意. Include 文件里还有一同名变量要修改
-Const Update_URL="http://download.rainbowsoft.org/Plugin/dlcs/download2.asp?plugin="
+Const DownLoad_URL="http://download.rainbowsoft.org/Plugins/ps.asp?v=2"
+Const Resource_URL="http://download.rainbowsoft.org/Plugins/?v=2"    '注意. Include 文件里还有一同名变量要修改
+Const Update_URL="http://download.rainbowsoft.org/Plugin/dlcs/download2.asp?v=2&plugin="
 
 Const XML_Pack_Ver="1.0"
 Const XML_Pack_Type="Plugin"
-Const XML_Pack_Version="Z-Blog_1_9"
+Const XML_Pack_Version="Z-Blog_2"
 
 '定义超时时间
 Const SiteResolve = 5    'UNISON_SiteResolve(Msxml2.ServerXMLHTTP有效)域名分析超时(秒)推荐为"5"	'提示 1秒=1000毫秒
@@ -30,7 +30,11 @@ Const SiteReceive = 10    'UNISON_SiteReceive(Msxml2.ServerXMLHTTP有效)等待�
 
 '***************************************************************************************
 
-
+Sub PS_Head()
+%><!--#include file="..\..\..\zb_system\admin\admin_header.asp"-->
+	<link rel="stylesheet" rev="stylesheet" href="images/style.css" type="text/css" media="screen" />
+<!--#include file="..\..\..\zb_system\admin\admin_top.asp"--><%
+End Sub
 
 '***************************************************************************************
 ' 目的：    页面上部导航 
@@ -46,14 +50,14 @@ Sub SapperMenu(strCata)
 	If strCata="8" Then Cata_8=Cata_8 & " m-now"
 	Response.Write "<div class=""SubMenu"">"
 
-	Response.Write "<span class="""& Cata_1 &"""><a href="""&ZC_BLOG_HOST&"ZB_USERS/Plugin/PluginSapper/Xml_List.asp"" title=""从服务器安装插件"">获取更多插件</a></span>"
-	Response.Write "<span class="""& Cata_2 &"""><a href="""&ZC_BLOG_HOST&"ZB_USERS/Plugin/PluginSapper/PluginList.asp"" title=""插件管理页面"">插件管理扩展面板</a></span>"
-	Response.Write "<span class="""& Cata_3 &"""><a href="""&ZC_BLOG_HOST&"ZB_USERS/Plugin/PluginSapper/Xml_Upload.asp"" title=""从本地导入ZPI文件并安装插件"">从本地导入ZPI文件</a></span>"
-	Response.Write "<span class="""& Cata_4 &"""><a href="""&ZC_BLOG_HOST&"ZB_USERS/Plugin/PluginSapper/Xml_Restor.asp"" title=""管理主机上的ZPI文件"">管理主机上的ZPI文件</a></span>"
-	Response.Write "<span class="""& Cata_5 &"""><a href="""&ZC_BLOG_HOST&"ZB_USERS/Plugin/PluginSapper/Xml_ChkVer.asp"" title=""查看已安装插件的可用更新"">查看插件的可用更新</a></span>"
+	Response.Write "<span class="""& Cata_1 &"""><a href="""&GetCurrentHost&"ZB_USERS/Plugin/PluginSapper/Xml_List.asp"" title=""从服务器安装插件"">获取更多插件</a></span>"
+	Response.Write "<span class="""& Cata_2 &"""><a href="""&GetCurrentHost&"ZB_USERS/Plugin/PluginSapper/PluginList.asp"" title=""插件管理页面"">插件管理扩展面板</a></span>"
+	Response.Write "<span class="""& Cata_3 &"""><a href="""&GetCurrentHost&"ZB_USERS/Plugin/PluginSapper/Xml_Upload.asp"" title=""从本地导入ZPI文件并安装插件"">从本地导入ZPI文件</a></span>"
+	Response.Write "<span class="""& Cata_4 &"""><a href="""&GetCurrentHost&"ZB_USERS/Plugin/PluginSapper/Xml_Restor.asp"" title=""管理主机上的ZPI文件"">管理主机上的ZPI文件</a></span>"
+	Response.Write "<span class="""& Cata_5 &"""><a href="""&GetCurrentHost&"ZB_USERS/Plugin/PluginSapper/Xml_ChkVer.asp"" title=""查看已安装插件的可用更新"">查看插件的可用更新</a></span>"
 
-	Response.Write "<span class="""& Cata_9 &"""><a href="""&ZC_BLOG_HOST&"ZB_SYSTEM/cmd.asp?act=PlugInMng"" title=""退出到插件管理页面"">退出 PluginSapper</a></span>"
-	Response.Write "<span class="""& Cata_8 &"""><a href="""&ZC_BLOG_HOST&"ZB_USERS/Plugin/PluginSapper/help.asp"" title=""帮助文件"">帮助说明</a></span>"
+	Response.Write "<span class="""& Cata_9 &"""><a href="""&GetCurrentHost&"ZB_SYSTEM/cmd.asp?act=PlugInMng"" title=""退出到插件管理页面"">退出 PluginSapper</a></span>"
+	Response.Write "<span class="""& Cata_8 &"""><a href="""&GetCurrentHost&"ZB_USERS/Plugin/PluginSapper/help.asp"" title=""帮助文件"">帮助说明</a></span>"
 
 	Response.Write "</div>"
 end Sub

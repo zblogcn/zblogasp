@@ -36,22 +36,16 @@ If SelectedPluginName = "" Then SelectedPluginName = SelectedPlugin
 
 BlogTitle="Plugin Sapper"
 
-%><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<%=ZC_BLOG_LANGUAGE%>" lang="<%=ZC_BLOG_LANGUAGE%>">
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<meta http-equiv="Content-Language" content="<%=ZC_BLOG_LANGUAGE%>" />
-	<meta name="robots" content="noindex,nofollow"/>
-	<link rel="stylesheet" rev="stylesheet" href="../../../ZB_SYSTEM/CSS/admin.css" type="text/css" media="screen" />
-	<link rel="stylesheet" rev="stylesheet" href="images/style.css" type="text/css" media="screen" />
-	<title><%=BlogTitle%></title>
-</head>
-<body>
-<div id="divMain">
-	<div class="Header">Plugin Sapper - 插件: "<%=SelectedPluginName%>" 的详细信息.</div>
+%>
+<!--#include file="..\..\..\zb_system\admin\admin_header.asp"-->
+<!--#include file="..\..\..\zb_system\admin\admin_top.asp"-->
+<div id="divMain">    <div id="ShowBlogHint">
+      <%Call GetBlogHint()%>
+    </div>
+	<div class="divHeader">Plugin Sapper - 插件: "<%=SelectedPluginName%>" 的详细信息.</div>
 	<%Call SapperMenu("0")%>
 <div id="divMain2">
-<%Call GetBlogHint()%>
+
 	<div>
 <%
 Response.Write "<p id=""loading"">正在载入插件信息, 请稍候... 如果长时间停止响应, 请 <a href=""javascript:window.location.reload();"" title=""点此重试"">[点此重试]</a></p>"
@@ -181,15 +175,5 @@ Set fso = CreateObject("Scripting.FileSystemObject")
 
 Response.Write "<script language=""JavaScript"" type=""text/javascript"">try{document.getElementById('loading').style.display = 'none';}catch(e){};</script>"
 %>
-	</div>
-</div>
-</div>
-</body>
-</html>
-<%
-Call System_Terminate()
+</div></div><!--#include file="..\..\..\zb_system\admin\admin_footer.asp"-->
 
-If Err.Number<>0 then
-	Call ShowError(0)
-End If
-%>

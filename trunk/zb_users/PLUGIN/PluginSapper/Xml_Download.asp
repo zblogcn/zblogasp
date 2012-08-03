@@ -34,7 +34,7 @@ SelectedPlugin=Request.QueryString("plugin")
 Response.ContentType = "application/octet-stream"
 Response.AddHeader "Content-Disposition:", "attachment; filename="""& SelectedPlugin &""""
 
-Server.Transfer "Export/"& SelectedPlugin
+Server.Transfer "zb_users/Export/"& SelectedPlugin
 
 Call System_Terminate()
 
