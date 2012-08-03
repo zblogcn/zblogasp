@@ -132,7 +132,7 @@ Function ActivePlugin_ZBQQConnect()
 	Call Add_Filter_Plugin("Filter_Plugin_TComment_LoadInfoByArray","ZBQQConnect_getcmt")
 	
 	Call Add_Filter_Plugin("Filter_Plugin_TComment_MakeTemplate_Template","ZBQQConnect_AddCommentCode")
-	Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(5,"QQ互联",GetCurrentHost&"zb_users/plugin/zbqqconnect/main.asp","","aQQConnect",GetCurrentHost&"zb_users/plugin/zbqqconnect/Connect_logo_1.png"))
+	Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(5,"QQ互联",GetCurrentHost&"zb_users/plugin/zbqqconnect/main.asp","nav_QQConnect","aQQConnect",GetCurrentHost&"zb_users/plugin/zbqqconnect/Connect_logo_1.png"))
 
 	
 End Function

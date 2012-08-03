@@ -17,7 +17,7 @@ Call CheckReference("")
 If BlogUser.Level=5 Then Call ShowError(6)
 If CheckPluginState("ZBQQConnect")=False Then Call ShowError(48)
 
-
+BlogTitle="ZBQQConnect-绑定管理"
 %>      <%
 Sub DelQQ(id)
 	ZBQQConnect_DB.ID=id
@@ -86,10 +86,10 @@ Function ExportQQList(intPage,intId,intUid,strOid,strUn)
 		End If
 		Response.Write "<form class=""search"" id=""edit"" method=""post"" action=""m.asp"">"
 		Response.Write "<p>搜索符合条件的用户</p><p>"
-		Response.Write "ID<input type=""text"" name=""qq_id"" style=""width:30px;"" value="""&IIf(intId<>-1,intId,"")&""" />&nbsp;&nbsp;"
-		Response.Write "用户ID<input type=""text"" name=""qq_uid"" style=""width:30px;"" value="""&IIf(intUid<>-1,intuId,"")&"""/>&nbsp;&nbsp;&nbsp;&nbsp;"
-		Response.Write "E-Mail<input id=""qq_un"" name=""qq_un"" style=""width:250px;"" type=""text"" value="""&IIf(strUn<>"-1",strUn,"")&""" /> "		
-		Response.Write "OpenID<input type=""text"" name=""qq_oid"" style=""width:250px;"" value="""&IIf(strOid<>"-1",strOid,"")&""" />&nbsp;&nbsp;&nbsp;&nbsp;"
+		Response.Write "ID:&nbsp;<input type=""text"" name=""qq_id"" style=""width:30px;"" value="""&IIf(intId<>-1,intId,"")&""" />&nbsp;&nbsp;"
+		Response.Write "用户ID:&nbsp;<input type=""text"" name=""qq_uid"" style=""width:30px;"" value="""&IIf(intUid<>-1,intuId,"")&"""/>&nbsp;&nbsp;&nbsp;&nbsp;"
+		Response.Write "E-Mail:&nbsp;<input id=""qq_un"" name=""qq_un"" style=""width:180px;"" type=""text"" value="""&IIf(strUn<>"-1",strUn,"")&""" /> "		
+		Response.Write "OpenID:&nbsp;<input type=""text"" name=""qq_oid"" style=""width:220px;"" value="""&IIf(strOid<>"-1",strOid,"")&""" />&nbsp;&nbsp;&nbsp;&nbsp;"
 		Response.Write "<input type=""submit"" class=""button"" value="""&ZC_MSG087&"""/>"
 		Response.Write "</p></form>"
 	Else
