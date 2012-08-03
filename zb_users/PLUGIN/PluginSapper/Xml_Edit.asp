@@ -30,32 +30,16 @@ If BlogUser.Level>1 Then Call ShowError(6)
 If CheckPluginState("PluginSapper")=False Then Call ShowError(48)
 
 BlogTitle = "编辑插件信息"
+PS_Head
 %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<%=ZC_BLOG_LANGUAGE%>" lang="<%=ZC_BLOG_LANGUAGE%>">
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<meta http-equiv="Content-Language" content="<%=ZC_BLOG_LANGUAGE%>" />
-	<meta name="robots" content="noindex,nofollow"/>
-	<link rel="stylesheet" rev="stylesheet" href="../../../ZB_SYSTEM/CSS/admin.css" type="text/css" media="screen" />
-	<link rel="stylesheet" rev="stylesheet" href="images/style.css" type="text/css" media="screen" />
 
-	<script language="JavaScript" src="../../script/common.js" type="text/javascript"></script>
-	<script language="JavaScript" src="../../script/jquery.tabs.pack.js" type="text/javascript"></script>
-	<link rel="stylesheet" href="../../CSS/jquery.tabs.css" type="text/css" media="print, projection, screen">
-	<!--[if lte IE 7]>
-	<link rel="stylesheet" href="../../CSS/jquery.tabs-ie.css" type="text/css" media="projection, screen">
-	<![endif]-->
-	<title><%=BlogTitle%></title>
-</head>
-<body>
 <script language="javascript">
 $(document).ready(function(){
 	$("#divMain2").tabs({ fxFade: true, fxSpeed: 'fast' });
 });
 </script>
-<div id="divMain">
-	<div class="Header">Plugin Sapper - 插件信息编辑 - 编辑插件的 Plugin.xml 信息文档. <a href="help.asp#editinfo" title="编辑插件信息页帮助">[页面帮助]</a></div>
+<div id="divMain"><div id="ShowBlogHint"><%Call GetBlogHint()%></div>
+	<div class="divHeader">Plugin Sapper - 插件信息编辑 - 编辑插件的 Plugin.xml 信息文档. <a href="help.asp#editinfo" title="编辑插件信息页帮助">[页面帮助]</a></div>
 	<%Call SapperMenu("0")%>
 <%
 Action=Request.QueryString("act")
@@ -119,8 +103,8 @@ End If
 Response.Write "</div>"
 %>
 </div>
-</body>
-</html>
+<!--#include file="..\..\..\zb_system\admin\admin_footer.asp"-->
+
 <%
 '编辑XML安装包内的信息
 Sub EditXMLPackInfo()
@@ -184,7 +168,7 @@ On Error Resume Next
 			Plugin_Include="include.asp"
 			Plugin_Level="1"
 
-			Plugin_Adapted="Z-Blog 1.8"
+			Plugin_Adapted="Z-Blog 2"
 			Plugin_Version=Empty
 			Plugin_PubDate=Date()
 			Plugin_Modified=Date()
@@ -199,13 +183,28 @@ On Error Resume Next
 
 	Call GetBlogHint()
 %>
-<ul>
-	<li class="tabs-selected"><a href="#fragment-1"><span>插件信息</span></a></li>
+
+			<div class="content-box"><!-- Start Content Box -->
+				
+				<div class="content-box-header">
+			
+					<ul class="content-box-tabs">
+
+
+	<li><a href="#fragment-1" class="default-tab"><span>插件信息</span></a></li>
 	<li><a href="#fragment-2"><span>作者信息</span></a></li>
 	<li><a href="#fragment-3"><span>插件系统信息</span></a></li>
 </ul>
+</ul>
+					
+					<div class="clear"></div>
+					
+				</div> <!-- End .content-box-header -->
+				
+				<div class="content-box-content">
+
 <%
-	Response.Write "<div class=""tabs-div"" id=""fragment-1"">"
+	Response.Write "<div class=""tab-content default-tab"" style='border:none;padding:0px;margin:0;'  id=""fragment-1"">"
 
 	Response.Write "<p>※插件ID: (插件ID应为插件文件夹名称, 由编辑器自动完成填写, 不可修改.)</p><p><input name=""PluginID"" style=""width:99%"" type=""text"" value="""&SelectedPlugin&""" readonly /></p><p></p>"
 
@@ -215,7 +214,7 @@ On Error Resume Next
 
 	Response.Write "<p>※插件简介 (可以使用 &lt;br /&gt; 换行, 可以使用 html 标签):</p><p><textarea name=""PluginNote"" style=""width:99%"" rows=""5"">"&Plugin_Note&"</textarea></p><p></p>"
 
-	Response.Write "<p>※适用的 Z-Blog 版本: (要求写法: ""Z-Blog 1.8 Spirit"")</p><p><input name=""PluginAdapted"" style=""width:99%"" type=""text"" value="""&Plugin_Adapted&""" /></p><p></p>"
+	Response.Write "<p>※适用的 Z-Blog 版本: (要求写法: ""Z-Blog 2.0"")</p><p><input name=""PluginAdapted"" style=""width:99%"" type=""text"" value="""&Plugin_Adapted&""" /></p><p></p>"
 
 	Response.Write "<p><b>以下信息对查找插件可用更新极为重要, 建议在每次升级插件后更新这些信息!</a></b></p><hr />"
 
@@ -226,7 +225,7 @@ On Error Resume Next
 	Response.Write "<p>※最后修改日期: (日期标准格式:"""&Date()&""")</p><p><input name=""PluginModified"" style=""width:99%"" type=""text"" value="""&Plugin_Modified&""" /></p><p></p>"
 
 	Response.Write "</div>"
-	Response.Write "<div class=""tabs-div"" id=""fragment-2"">"
+	Response.Write "<div class=""tab-content"" style='border:none;padding:0px;margin:0;'  id=""fragment-2"">"
 
 	Response.Write "<p>※作者名称:</p><p><input name=""PluginAuthor_Name"" style=""width:99%"" type=""text"" value="""&Plugin_Author_Name&""" /></p><p></p>"
 
@@ -239,7 +238,7 @@ On Error Resume Next
 
 	Response.Write "<div class=""tabs-div"" id=""fragment-3"">"
 
-	Response.Write "<p>※插件类型: (挂上接口为 ""inline"", 挂入接口为 ""outline"".)</p><p><input name=""PluginType"" style=""width:99%"" type=""text"" value="""&Plugin_Type&""" /></p><p></p>"
+	Response.Write "<p>※插件类型: (挂上接口为 ""inline""，即有include, 挂入接口为 ""outline""，即无include.)</p><p><input name=""PluginType"" style=""width:99%"" type=""text"" value="""&Plugin_Type&""" /></p><p></p>"
 
 	Response.Write "<p>※插件路径: (插件首页, 如 ""main.asp"".)</p><p><input name=""PluginPath"" style=""width:99%"" type=""text"" value="""&Plugin_Path&""" /></p><p></p>"
 
@@ -250,8 +249,8 @@ On Error Resume Next
 	Response.Write "</div>"
 
 	Response.Write "<hr /><p><b>修改 ID 为 "&Plugin_ID&" 的插件的信息文档. <a href=""help.asp#pluginxml"">[关于插件信息文档 (Plugin.xml)]</a></b></p>"
-	Response.Write "<p><b>这些信息将被 (按插件信息文档规范版本 0.1) 保存为 Plugin.xml 文件, 该文件将位于插件目录内. <a href=""help.asp#editinfo"">[如何编辑插件信息]</a></b></p><hr />"
-	Response.Write "<p><input type=""submit"" class=""button"" value=""完成编辑并保存信息"" id=""btnPost"" title=""完成编辑并保存信息"" /> <input onclick=""self.location.href='PluginList.asp';"" type=""button"" class=""button"" value=""取消并返回插件管理"" title=""取消并返回插件管理页"" /> <input onclick=""window.scrollTo(0,0);"" type=""button"" class=""button"" value=""TOP"" title=""返回页面顶部"" /></p>"
+	Response.Write "<p><b>这些信息将被 (按插件信息文档规范版本 0.1) 保存为 Plugin.xml 文件, 该文件将位于插件目录内. <a href=""help.asp#editinfo"">[如何编辑插件信息]</a></b></p></div><hr />"
+	Response.Write "<p><input type=""submit"" class=""button"" value=""保存信息"" id=""btnPost"" title=""保存信息"" /> <input onclick=""self.location.href='PluginList.asp';"" type=""button"" class=""button"" value=""取消"" title=""取消"" /> <input onclick=""window.scrollTo(0,0);"" type=""button"" class=""button"" value=""TOP"" title=""TOP"" /></p>"
 
 
 	Response.Write "</form>"
@@ -365,9 +364,4 @@ Sub CreateXml(FilePath)
 	Response.Write("<p>页面执行时间：" & TS_PageTime & "秒</p>")
 End Sub
 
-Call System_Terminate()
-
-If Err.Number<>0 Then
-	Call ShowError(0)
-End If
-%>
+%><!--#include file="..\..\..\zb_system\admin\admin_footer.asp"-->

@@ -32,17 +32,11 @@ If BlogUser.Level>1 Then Call ShowError(6)
 If CheckPluginState("PluginSapper")=False Then Call ShowError(48)
 
 BlogTitle = "从服务器安装插件"
-%><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<%=ZC_BLOG_LANGUAGE%>" lang="<%=ZC_BLOG_LANGUAGE%>">
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<meta http-equiv="Content-Language" content="<%=ZC_BLOG_LANGUAGE%>" />
-	<meta name="robots" content="noindex,nofollow"/>
-	<link rel="stylesheet" rev="stylesheet" href="../../../ZB_SYSTEM/CSS/admin.css" type="text/css" media="screen" />
-	<link rel="stylesheet" rev="stylesheet" href="images/style.css" type="text/css" media="screen" />
-	<title><%=BlogTitle%></title>
-</head>
-<body>
+PS_Head
+%>
+
+
+
 <div id="divMain">
 	<div class="Header">Plugin Sapper-插件安装 - 在线安装您选择的插件.</div>
 	<%Call SapperMenu("0")%>
@@ -253,12 +247,5 @@ Response.Write "<script language=""JavaScript"" type=""text/javascript"">documen
 	</div>
 </div>
 </div>
-</body>
-</html>
-<%
-Call System_Terminate()
 
-If Err.Number<>0 Then
-	Call ShowError(0)
-End If
-%>
+<!--#include file="..\..\..\zb_system\admin\admin_footer.asp"-->

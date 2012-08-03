@@ -1,12 +1,12 @@
 /* 干预后台背景, ~ 如 asd 不改后台背景就别动这段~ */
-/* div.Header{color:#FFFFFF;background-color:#AFB9CF;} */
+/* div.Header{color:#FFFFFF;background-color:#AFB9CF;}
 div.Header a{font-size:15px;}
 body {background-color:#F8F8F6;}
 div.SubMenu span.m-now a{background-color:#F8F8F6;border-bottom:3px solid #F8F8F6;}
 div#divMain2 {line-height:120%;}
 #edit{background-color:#FFFFFF;clear:both;}
 div.plugin-other{background-color:#FFFFFF;}
-
+ */
 
 /*---------------------------------------------------------------*/
 /* 定义选择主题页样式 */

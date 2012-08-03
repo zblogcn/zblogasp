@@ -34,15 +34,9 @@ Action=Request.QueryString("act")
 PageUrl=Request.QueryString("url")
 If PageUrl="" Then PageUrl=DownLoad_URL
 
-%><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<%=ZC_BLOG_LANGUAGE%>" lang="<%=ZC_BLOG_LANGUAGE%>">
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<meta http-equiv="Content-Language" content="<%=ZC_BLOG_LANGUAGE%>" />
-	<meta name="robots" content="noindex,nofollow"/>
-	<link rel="stylesheet" rev="stylesheet" href="../../../ZB_SYSTEM/CSS/admin.css" type="text/css" media="screen" />
+%>
+<!--#include file="..\..\..\zb_system\admin\admin_header.asp"-->
 	<link rel="stylesheet" rev="stylesheet" href="images/style.css" type="text/css" media="screen" />
-	<title><%=BlogTitle%></title>
 <%
 	'为已安装的插件指定样式
 	Response.Write "<style type=""text/css"">"& vbCrlf
@@ -55,10 +49,13 @@ If PageUrl="" Then PageUrl=DownLoad_URL
 	Next
 	Response.Write "</style>"
 %>
-</head>
-<body>
-<div id="divMain">
-	<div class="Header">Plugin Sapper - 获取更多插件 - 从服务器选择安装插件. <a href="help.asp#installonline" title="在线安装指南">[页面帮助]</a></div>
+<!--#include file="..\..\..\zb_system\admin\admin_top.asp"-->
+
+
+<div id="divMain"><div id="ShowBlogHint">
+      <%Call GetBlogHint()%>
+    </div>
+	<div class="divHeader">Plugin Sapper - 获取更多插件 - 从服务器选择安装插件. <a href="help.asp#installonline" title="在线安装指南">[页面帮助]</a></div>
 	<%Call SapperMenu("1")%>
 <div id="divMain2">
 <%
@@ -72,7 +69,7 @@ Response.Flush
 
 
 PageContent=getHTTPPage(PageUrl)
-PageContent=Replace(PageContent,"<#ZC_BLOG_HOST#>",ZC_BLOG_HOST)
+PageContent=Replace(PageContent,"<#ZC_BLOG_HOST#>",GetCurrentHost)
 
 Response.Write PageContent
 
@@ -121,12 +118,4 @@ end function
 	</div>
 </div>
 </div>
-</body>
-</html>
-<%
-Call System_Terminate()
-
-If Err.Number<>0 then
-	Call ShowError(0)
-End If
-%>
+<!--#include file="..\..\..\zb_system\admin\admin_footer.asp"-->
