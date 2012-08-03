@@ -124,7 +124,7 @@ Function ExportQQList(intPage,intId,intUid,strOid,strUn)
 			Response.Write "<td><img src=""" & objRs("QQ_QZoneHead") & """ width=""32px"" height=""32px""/></td>"
 			Response.Write "<td><img src="""&objRs("QQ_THead")&"/30"" width=""32px"" height=""32px""/></td>"
 			Response.Write "<td><img src=""http://www.gravatar.com/avatar/"&MD5(objRs("QQ_Eml"))&""" width=""32px"" height=""32px""/></td>"
-			Response.Write "<td><a onclick='return window.confirm("""& ZC_MSG058 &""");' href=""m.asp?act=del&id=" & objRS("Qq_ID") & """><img src=""../../../ZB_SYSTEM/image/admin/delete.png"" alt=""" & ZC_MSG063 & """ title=""" & ZC_MSG063 & """ width=""16"" /></a></td>"
+			Response.Write "<td><a href=""edit.asp?id="&objRs("QQ_ID")&"""><img src=""../../../ZB_SYSTEM/image/admin/page_edit.png"" title=""编辑""/></a>  <a onclick='return window.confirm("""& ZC_MSG058 &""");' href=""m.asp?act=del&id=" & objRS("Qq_ID") & """><img src=""../../../ZB_SYSTEM/image/admin/delete.png"" alt=""" & ZC_MSG063 & """ title=""" & ZC_MSG063 & """ width=""16"" /></a></td>"
 			Response.Write "</tr>"
 
 			objRS.MoveNext
