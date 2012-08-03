@@ -44,7 +44,6 @@ function bmx2table(){
 
 function changeCheckValue(obj){
 
-
 	$(obj).toggleClass('imgcheck-on');
 
 	if($(obj).hasClass('imgcheck-on')){
@@ -65,11 +64,15 @@ $(document).ready(function(){
 
 	//$("#avatar").attr("src","<%="http://www.gravatar.com/avatar/"& MD5(BlogUser.Email) &"?s=40&d="& Server.urlEncode(GetCurrentHost & "ZB_SYSTEM/image/admin/avatar.png")%>");
 
-
+if(!(($.browser.msie)&&($.browser.version)=='6.0')){
 	$('input.checkbox').css("display","none");
 	$('input.checkbox[value="True"]').after('<span onclick="changeCheckValue(this)" class="imgcheck imgcheck-on"></span>');
 	$('input.checkbox[value="False"]').after('<span onclick="changeCheckValue(this)" class="imgcheck"></span>');
-
+}else{
+	$('input.checkbox').attr('readonly','readonly');
+	$('input.checkbox').css('cursor','pointer');
+	$('input.checkbox').click(function(){  if($(this).val()=='True'){$(this).val('False')}else{$(this).val('True')} })
+}
 
 });
 
