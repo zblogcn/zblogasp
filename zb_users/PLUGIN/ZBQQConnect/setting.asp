@@ -29,6 +29,7 @@ function showqk(){
 <link rel="stylesheet" href="../../../zb_system/ADMIN/ueditor/third-party/SyntaxHighlighter/shCoreDefault.css"/>
 <style type="text/css">
 input[type="text"]{width:90%}
+
 </style>
 <!--#include file="..\..\..\zb_system\admin\admin_top.asp"-->
     <div id="divMain">
@@ -65,8 +66,8 @@ input[type="text"]{width:90%}
                   <p>QQ登录KEY:</p>
                   <p><input name="KEY" type="text" id="as" value="<%=ZBQQConnect_Config.Read("KEY")%>"/></p>
                   
-                  <p><a href="javascript:void(0)" onclick="showqk()">如何获得？</a></p>
-                  <div id="how">
+                  <p><a href="javascript:void(0)" onClick="showqk()">如何获得？</a></p>
+                  <div id="how" class="hidden">
 
 
                         <p>1.首先打开<a href="http://connect.qq.com/intro/login/" target="_blank">http://connect.qq.com/intro/login/</a>，点击申请加入 </p>
@@ -75,13 +76,12 @@ input[type="text"]{width:90%}
 
                         <p>3.打开<a href="http://connect.qq.com/manage/" target="_blank">http://connect.qq.com/manage/</a>，点击右上角的“添加网站/应用” </p>
 
-                        <p>4.填写你的网站名称、域名。域名需要认证。如图 </p><p><img src="a.jpg" alt="" width="486" height="365" /></p>
+                        <p>4.填写你的网站名称、域名，保存。把得到的APP ID和KEY填写入插件即可使用QQ登录。另：域名需要认证。如图 </p><p><img src="a.jpg" alt="" width="486" height="365" /></p>
 
 
 						<p>5.认证方法： </p>
                         <p> 主题管理--&gt;修改主题--&gt;TEMPLATE--&gt;default.html，在&lt;#TEMPLATE_HEADER#&gt;下插入代码 </p>
 
-                        <p> 把得到的APP ID和KEY填写入插件即可过＂验证＂ </p>
 
                   </div>
 					</td></tr></table>

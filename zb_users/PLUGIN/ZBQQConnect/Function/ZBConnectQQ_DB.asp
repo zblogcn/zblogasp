@@ -26,7 +26,7 @@ Class ZBConnectQQ_DB
 		IF ZC_MSSQL_ENABLE=True Then
 			objConn.execute("CREATE TABLE [blog_Plugin_ZBQQConnect] (QQ_ID int identity(1,1) not null primary key,QQ_UserID int default 0,QQ_Eml nvarchar(255) default '',QQ_OpenID nvarchar(32) default '',QQ_AToken nvarchar(32) default '',QQ_QZoneHead nvarchar(255) default '',QQ_THead nvarchar(255) default '')")
 		Else
-			objConn.execute("CREATE TABLE [blog_Plugin_ZBQQConnect] (QQ_ID AutoIncrement primary key,QQ_UserID int default 0,QQ_Eml VARCHAR(255) default """",QQ_OpenID VARCHAR(32) default """",QQ_AToken VARCHAR(32) default """",QQ_QZoneHead VARCHAR(255) default """",QQ_THead VARCHAR(255) default """"")
+			objConn.execute("CREATE TABLE [blog_Plugin_ZBQQConnect] (QQ_ID AutoIncrement primary key,QQ_UserID int default 0,QQ_Eml VARCHAR(255) default """",QQ_OpenID VARCHAR(32) default """",QQ_AToken VARCHAR(32) default """",QQ_QZoneHead VARCHAR(255) default """",QQ_THead VARCHAR(255) default """")")
 		End If
 	End Sub
 	
@@ -42,10 +42,18 @@ Class ZBConnectQQ_DB
 				strSQL=strSQL & "QQ_USERID="&objUser.ID
 			Case 3,3000
 				Email=FilterSQL(Email)
-				strSQL=strSQL & "QQ_Eml='"&EMail&"'"
+				If CheckRegExp(Email,"[email]") Then
+					strSQL=strSQL & "QQ_Eml='"&EMail&"'"
+				Else
+					Call ShowError(3)
+				End If
 			Case 4,5,4000
-				OpenID=FilterSQL(OpenID)
-				strSQL=strSQL & "QQ_OpenID='"&OpenID&"'"
+				If CheckRegExp(OpenID,"^[0-9A-Z]{32}$") Then
+					OpenID=FilterSQL(OpenID)
+					strSQL=strSQL & "QQ_OpenID='"&OpenID&"'"
+				Else
+					Call ShowError(3)
+				End If
 		End Select
 		Set objRS=objConn.Execute(strSQL)
 		If (Not objRS.bof) And (Not objRS.eof) Then
@@ -86,6 +94,9 @@ Class ZBConnectQQ_DB
 		ElseIf objUser.ID>0 And Len(Email)=0 Then
 			objUser.LoadInfoById objUser.ID
 			Email=objUser.EMail
+		End If
+		If Not (CheckRegExp(EMail,"[email]") Or CheckRegExp(OpenID,"^[0-9A-Z]{32}$") ) Then
+			Call ShowError(3)
 		End If
 		If OpenID="" Or AccessToken="" Then Bind=False:Exit Function
 		If LoadInfo(4000) Then
