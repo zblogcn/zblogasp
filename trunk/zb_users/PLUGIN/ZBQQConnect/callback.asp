@@ -59,7 +59,7 @@ Function a
 		Else
 			ZBQQConnect_DB.Email=BlogUser.EMail
 			ZBQQConnect_DB.Bind
-			Response.write "<script>if(opener!=null&&opener!=undefined){opener.location.href=opener.location.href.replace(""act=logout"","""");window.close()}else{location.href='"&GetCurrentHost&"'}</script>"
+			Response.write "<script>try{opener.location.href=opener.location.href.replace(""act=logout"","""");window.close()}catch(e){location.href='"&GetCurrentHost&"'}</script>"
 		End If
 		Response.Cookies("inpName")=b.nickname
 		Response.Cookies("inpName").Expires = DateAdd("d", 365, now)
