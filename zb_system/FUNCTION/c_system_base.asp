@@ -1701,7 +1701,7 @@ Function SetBlogHint_Custom(strInfo)
 
 	Application.Lock
 
-	Application(ZC_BLOG_CLSID & BlogUser.ID & "SIGNAL_OPERATEINFO")=Application(ZC_BLOG_CLSID & "SIGNAL_OPERATEINFO") & vbCrlf &  strInfo
+	Application(ZC_BLOG_CLSID & BlogUser.ID & "SIGNAL_OPERATEINFO")=Application(ZC_BLOG_CLSID & BlogUser.ID & "SIGNAL_OPERATEINFO") & vbCrlf &  strInfo
 
 	Application.UnLock
 
@@ -1923,15 +1923,16 @@ Function MakeSubMenu(strName,strUrl,strType,isNewWindows)
 
 	Dim strSource
 
-	strSource=strSource & "<span class=""" & strType & """>"
-
 	strSource=strSource & "<a " & "href=""" & strUrl  & """"
 
 	If isNewWindows=True Then strSource=strSource & " target=""_blank"""
 
-	strSource=strSource & ">" & strName
+	strSource=strSource & ">" & "<span class=""" & strType & """>"
 
-	strSource=strSource & "</a></span>"
+
+	strSource=strSource & strName
+
+	strSource=strSource & "</span></a>"
 
 	MakeSubMenu=strSource
 
@@ -3088,8 +3089,6 @@ End Function
 Function GetTagsbyTagIDList(strTags)
 'strTags={1}{2}{3}{4}
 
-strTags=Trim(FilterSQL(strTags))
-
 If strTags="" Then Exit Function
 If strTags="{}" Then Exit Function
 
@@ -3100,12 +3099,23 @@ t=Split(strTags,"{")
 
 For i=LBound(t) To UBound(t)
 	If Trim(t(i))<>"" Then
-		s=s & "([tag_ID]="&t(i)&") Or"
+		If UBound(Tags)>=CInt(t(i)) Then
+			If IsObject(Tags(t(i)))=True Then 
+			
+			Else
+				s=s & "([tag_ID]="&CInt(t(i))&") Or"
+			End If
+		Else
+			s=s & "([tag_ID]="&CInt(t(i))&") Or"
+		End If
 	End If
 Next
 
-s=Left(s,Len(s)-2)
-
+If Len(s)>2 Then 
+	s=Left(s,Len(s)-2)
+Else
+	Exit Function
+End If
 
 Dim objRS
 Dim objTag
@@ -3113,7 +3123,6 @@ Dim objTag
 Set objRS=objConn.Execute("SELECT [tag_ID],[tag_Name],[tag_Intro],[tag_Order],[tag_Count],[tag_ParentID],[tag_URL],[tag_Template],[tag_FullUrl],[tag_Meta] FROM [blog_Tag] WHERE (" & s & ")")
 
 If (Not objRS.bof) And (Not objRS.eof) Then
-
 
 	Do While Not objRS.eof
 
@@ -3152,8 +3161,6 @@ Function GetTagsbyTagNameList(strTags)
 
 Set Tags(0)=New TTag
 
-strTags=Trim(FilterSQL(strTags))
-
 If strTags="" Then Exit Function
 
 Dim s,t,i
@@ -3161,7 +3168,7 @@ t=Split(strTags,",")
 
 For i=LBound(t) To UBound(t)
 	If Trim(t(i))<>"" Then
-		s=s & "([tag_Name]='"&t(i)&"') Or"
+		s=s & "([tag_Name]='"&FilterSQL(t(i))&"') Or"
 	End If
 Next
 

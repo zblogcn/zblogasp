@@ -319,7 +319,7 @@ Function Totoro_GetSpamCount_Comment()
 	Dim objRS1
 	Set objRS1=objConn.Execute("SELECT COUNT([comm_ID]) FROM [blog_Comment] WHERE [comm_isCheck]=1")
 	If (Not objRS1.bof) And (Not objRS1.eof) Then
-		Totoro_SpamCount_Comment="("&objRS1(0)&"条未审核的评论)"
+		Totoro_SpamCount_Comment="("&objRS1(0)&"条未审核)"
 	End If
 
 	'评论管理加上二级菜单项
