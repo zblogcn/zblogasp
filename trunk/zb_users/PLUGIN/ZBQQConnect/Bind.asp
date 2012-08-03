@@ -46,7 +46,7 @@ If Request.QueryString("act")="verify" Then
 	
 	If Login=True Then
 		Call ZBQQConnect_RegSave(BlogUser.ID)
-		Response.Write "<script>alert('绑定成功！');location.href="""&GETCurrentHost&"/ZB_SYSTEM/ADMIN/ADMIN.ASP?ACT=SiteInfo""</script>"
+		Response.Write "<script>alert('绑定成功！');location.href="""&GETCurrentHost&"/zb_system/cmd.asp?act=admin""</script>"
 		Response.End
 	End iF
 End If

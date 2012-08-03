@@ -159,7 +159,7 @@ Next
 
 <!-- title( -->
                       <p><span class='editinputname'><%=ZC_MSG060%>:</span>
-                        <input type="text" name="edtTitle" id="edtTitle" style="width:400px"  onblur="if(this.value=='') this.value='<%=ZC_MSG099%>'" onfocus="if(this.value=='<%=ZC_MSG099%>') this.value=''" value="<%=EditArticle.Title%>" /></p>
+                        <input type="text" name="edtTitle" id="edtTitle" style="width:400px"  onblur="if(this.value=='') this.value='<%=ZC_MSG099%>'" onFocus="if(this.value=='<%=ZC_MSG099%>') this.value=''" value="<%=EditArticle.Title%>" /></p>
 <!-- )title -->
 
 
@@ -176,7 +176,7 @@ Next
 <% If Request.QueryString("type")<>"Page" Then %>
                         <p><span class='editinputname' style='padding:0 0 0 0;'><%=ZC_MSG138%>:</span>
                         <input type="text" style="width:400px;" name="edtTag" id="edtTag" value="<%=TransferHTML(EditArticle.TagToName,"[html-format]")%>" />
-                        <a href="" style="cursor:pointer;" onclick="if(document.getElementById('ulTag').style.display=='none'){document.getElementById('ulTag').style.display='block';if(loaded==false){$.getScript('edit_ueditor.asp?type=tags');loaded=true;}}else{document.getElementById('ulTag').style.display='none'};return false;"><%=ZC_MSG139%><span style="font-size: 1.5em; vertical-align: -1px;"></span></a></p>
+                        <a href="" style="cursor:pointer;" onClick="if(document.getElementById('ulTag').style.display=='none'){document.getElementById('ulTag').style.display='block';if(loaded==false){$.getScript('edit_ueditor.asp?type=tags');loaded=true;}}else{document.getElementById('ulTag').style.display='none'};return false;"><%=ZC_MSG139%><span style="font-size: 1.5em; vertical-align: -1px;"></span></a></p>
                       <ul id="ulTag" style="display:none;">
                         <li><span id="ajaxtags"><%=ZC_MSG165%></span>&nbsp;&nbsp;(<%=ZC_MSG208%>)</li>
                       </ul>
@@ -201,7 +201,7 @@ Next
 						<!-- <p><span class='editinputname'><%=ZC_MSG055%>:</span></p> -->
 						<p style="text-align:left;"><span class='editinputname'><%=ZC_MSG055%>:</span>&nbsp;&nbsp;<span id="timemsg"></span><span id="msg2"></span><span id="msg"></span><span class='editinputname'></span><script type="text/javascript" src="c_autosaverjs.asp?act=edit&amp;type=ueditor"></script></p>
                         <script id="ueditor" name="txaContent"><%=EditArticle.Content%></script>
-						<p><span><%=ZC_MSG216%><a href="" onclick="try{document.getElementById('divIntro').style.display='block';AutoIntro();return false;}catch(e){}">[<%=ZC_MSG200%>]</a></span></p>
+						<p><span><%=ZC_MSG216%><a href="" onClick="try{document.getElementById('divIntro').style.display='block';AutoIntro();return false;}catch(e){}">[<%=ZC_MSG200%>]</a></span></p>
                       </div>
 
 
@@ -228,21 +228,22 @@ Next
 
 
 <div id="divEditPost">
-
+<div id="divBox">
+<div id="divFloat">
 <p>
-<input class="button" style="width:150px;height:30px;" type="submit" value="<%=ZC_MSG087%>" id="btnPost" onclick='return checkArticleInfo();' />
+  <input class="button" style="width:150px;height:30px;" type="submit" value="<%=ZC_MSG087%>" id="btnPost" onclick='return checkArticleInfo();' />
 </p>
 
 
 
-                        <p>
+                  <p>
 <!-- cate -->
                       <%
 If Request.QueryString("type")<>"Page" Then
 
 If Err.Number=0 Then
 %>
-                      <span class='editinputname' style="cursor:pointer;" onclick="$(this).next().toggleClass('hidden');"><%=ZC_MSG012%>:</span>
+                      <span class='editinputname' style="cursor:pointer;" onClick="$(this).next().toggleClass('hidden');"><%=ZC_MSG012%>:</span>
                         <select style="width:150px;" class="edit" size="1" id="cmbCate" onChange="edtCateID.value=this.options[this.selectedIndex].value">
                           <option value="0"></option>
                           <%
@@ -282,7 +283,7 @@ End If
 
                         <p>
 <!-- template( -->
-                          <span class='editinputname' style="cursor:pointer;" onclick="$(this).next().toggleClass('hidden');"><%=ZC_MSG188%>:</span>
+                          <span class='editinputname' style="cursor:pointer;" onClick="$(this).next().toggleClass('hidden');"><%=ZC_MSG188%>:</span>
                           <select style="width:150px;" class="edit" size="1" id="cmbTemplate" onChange="edtTemplate.value=this.options[this.selectedIndex].value">
                             <%
 	'Response.Write "<option value="""">"&ZC_MSG187&"</option>"
@@ -323,7 +324,7 @@ End If
 
                         <p>
 <!-- level -->
-                          <span class='editinputname' style="cursor:pointer;" onclick="$(this).next().toggleClass('hidden');"><%=ZC_MSG061%>:</span><select class="edit" style="width:150px;" size="1" id="cmbArticleLevel" onChange="edtLevel.value=this.options[this.selectedIndex].value">
+                          <span class='editinputname' style="cursor:pointer;" onClick="$(this).next().toggleClass('hidden');"><%=ZC_MSG061%>:</span><select class="edit" style="width:150px;" size="1" id="cmbArticleLevel" onChange="edtLevel.value=this.options[this.selectedIndex].value">
                             <%
 	Dim ArticleLevel
 	Dim i:i=0
@@ -346,7 +347,7 @@ End If
                         <p>
 <!-- user( -->
 
-                        <span class='editinputname' style="cursor:pointer;" onclick="$(this).next().toggleClass('hidden');"><%=ZC_MSG003%>:</span><select style="width:150px;" size="1" id="cmbUser" onChange="edtAuthorID.value=this.options[this.selectedIndex].value">
+                        <span class='editinputname' style="cursor:pointer;" onClick="$(this).next().toggleClass('hidden');"><%=ZC_MSG003%>:</span><select style="width:150px;" size="1" id="cmbUser" onChange="edtAuthorID.value=this.options[this.selectedIndex].value">
                           <option value="0"></option>
                           <%
 	GetUser()
@@ -380,7 +381,7 @@ End If
 
                         <p>
 <!-- date( -->
-                          <span class='editinputname' style="cursor:pointer;" onclick="$(this).next().toggleClass('hidden');"><%=ZC_MSG062%>:</span><span><input type="text" name="edtYear" id="edtYear" style="width:32px;" value="<%=Year(EditArticle.PostTime)%>" /><span>-</span><input type="text" name="edtMonth" id="edtMonth" style="width:17px;" value="<%=Month(EditArticle.PostTime)%>" /><span>-</span><input type="text" name="edtDay" id="edtDay" style="width:17px;" value="<%=Day(EditArticle.PostTime)%>" /><span>-</span><input type="text" name="edtTime" id="edtTime" style="width:50px;" value="<%= Hour(EditArticle.PostTime)&":"&Minute(EditArticle.PostTime)&":"&Second(EditArticle.PostTime)%>" /></span>
+                          <span class='editinputname' style="cursor:pointer;" onClick="$(this).next().toggleClass('hidden');"><%=ZC_MSG062%>:</span><span><input type="text" name="edtYear" id="edtYear" style="width:32px;" value="<%=Year(EditArticle.PostTime)%>" /><span>-</span><input type="text" name="edtMonth" id="edtMonth" style="width:17px;" value="<%=Month(EditArticle.PostTime)%>" /><span>-</span><input type="text" name="edtDay" id="edtDay" style="width:17px;" value="<%=Day(EditArticle.PostTime)%>" /><span>-</span><input type="text" name="edtTime" id="edtTime" style="width:50px;" value="<%= Hour(EditArticle.PostTime)&":"&Minute(EditArticle.PostTime)&":"&Second(EditArticle.PostTime)%>" /></span>
 <!-- )date -->
 
                       </p>
@@ -421,8 +422,8 @@ End If
 
 
 
-
-
+</div>
+</div>
 </div>
 
 
@@ -502,6 +503,23 @@ End If
 
 // ]]>
 </script>
+<!--文章编辑提交区随动JS开始-->
+<script type="text/javascript">
+function tools(){
+ var top=$(document).scrollTop();
+ if(($.browser.msie==true)&&($.browser.version==6.0)){
+  if(top>138)$("#divFloat").css({position:"absolute",top:top-138});
+ }else{
+  if(top>138)$("#divFloat").css({position:"fixed",top:0});
+ }
+ if(top<=138)$("#divFloat").css({position:"static",top:0});
+}
+$(function(){
+ window.onscroll=tools;
+ window.onresize=tools;
+});
+</script>
+<!--文章编辑提交区随动JS结束-->
 <!--#include file="admin_footer.asp"-->
 <%
 Call System_Terminate()

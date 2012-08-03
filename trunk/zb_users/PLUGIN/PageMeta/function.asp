@@ -253,9 +253,6 @@ Function PageMeta_ExportUserList(intPage)
 
 	End If
 
-	'For i=1 to objRS.PageCount
-	'	strPage=strPage &"<a href='admin.asp?act=UserMng&amp;page="& i &"'>["& Replace(ZC_MSG036,"%s",i) &"]</a> "
-	'Next
 	strPage=ExportPageBar(intPage,intPageAll,ZC_PAGEBAR_COUNT,"list.asp?act=UserMng&page=")
 
 	Response.Write "<hr/><p class=""pagebar"">" & ZC_MSG042 & ": " & strPage
@@ -320,9 +317,6 @@ Function pAgEmEtA_eXpOrTtAgLiSt(InTpAgE)
 
 	Response.Write "</table>"
 
-	'For i=1 to objRS.PageCount
-	'	strPage=strPage &"<a href='admin.asp?act=TagMng&amp;page="& i &"'>["& Replace(ZC_MSG036,"%s",i) &"]</a> "
-	'Next
 	strPage=ExportPageBar(intPage,intPageAll,ZC_PAGEBAR_COUNT,"list.asp?act=TagMng&amp;page=")
 
 	Response.Write "<hr/><p class=""pagebar"">" & ZC_MSG042 & ": " & strPage
