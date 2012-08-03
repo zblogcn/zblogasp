@@ -6,7 +6,6 @@
 <!-- #include file="function\ZBConnectQQ_NetWork.asp"-->
 
 <%
-Session.CodePage=65001
 'Temp 
 Dim ZBQQConnect_notfoundpic
 Dim ZBQQConnect_PicSendToWb
@@ -239,15 +238,16 @@ Function ZBQQConnect_SendComment()
 		ZBQQConnect_DB.LoadInfo 2
 		Set o=Nothing
 	Else
-		If (Not IsEmpty(Request.Cookies("QQOPENID"))) And (Not isNull(Request.Cookies("QQOPENID"))) And ( Request.Cookies("QQOPENID")<>"")  Then
-			ZBQQConnect_DB.openID=Request.Cookies("QQOPENID")
-			ZBQQConnect_DB.LoadInfo 4
-		ElseIf BlogUser.Level<5 Then
+'		If (Not IsEmpty(Request.Cookies("QQOPENID"))) And (Not isNull(Request.Cookies("QQOPENID"))) And ( Request.Cookies("QQOPENID")<>"")  Then
+'			ZBQQConnect_DB.openID=Request.Cookies("QQOPENID")
+'			ZBQQConnect_DB.LoadInfo 4
+		If BlogUser.Level<5 Then
 			Set ZBQQConnect_DB.objUser=BlogUser
+			If CBool(BlogUser.Meta.GetValue("ZBQQConnect_a"))=False Then Exit Function
 			ZBQQConnect_DB.LoadInfo 2
-		Else
-			ZBQQConnect_DB.Email=ZBQQConnect_tmpObj.Email
-			ZBQQConnect_DB.LoadInfo 3
+		'Else
+		'	ZBQQConnect_DB.Email=ZBQQConnect_tmpObj.Email
+		'	ZBQQConnect_DB.LoadInfo 3
 		End If
 	End If
 	ZBQQConnect_class.OpenID=ZBQQConnect_DB.OpenID
