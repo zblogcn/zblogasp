@@ -23,10 +23,12 @@ Call Add_Response_Plugin("Response_Plugin_Admin_Top",MakeTopMenu(ZC_MSG006,"http
   <div class="yui">
     <div class="content">
 <script type="text/javascript">
+<!--
 function Batch2Tip(s){$("#batch p").html(s)}
 function BatchContinue(){$("#batch p").before("<iframe style='width:16px;height:16px;' frameborder='0' scrolling='no' src='<%=GetCurrentHost%>zb_system/cmd.asp?act=batch'></iframe>");$("#batch img").remove();}
 function BatchBegin(){};
 function BatchEnd(){};
+-->
 </script>
 <%
 If IsObject(Session("batch"))=True Then

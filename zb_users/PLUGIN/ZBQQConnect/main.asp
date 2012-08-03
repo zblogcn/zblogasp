@@ -34,7 +34,7 @@ if request.QueryString("act")="wblogout" then
 		response.Redirect("main.asp")
 end if 
 
-
+BlogTitle="ZBQQConnect-首页"
 %>
     
 <!--#include file="..\..\..\zb_system\admin\admin_header.asp"-->
