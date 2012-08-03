@@ -136,7 +136,30 @@ background:#ffffdd;
 /*导航高亮*/
 #main .main_left #leftmenu .on a,#main .main_left #leftmenu #on a:hover { color:#FFFFFF; background:#3399cc;}
 
+#main .main_left #leftmenu li.sub {
+	float:left; width:140px; height:auto; margin-bottom:0;border-bottom:5px solid #fff;cursor:pointer;
+	background:white;
+}
+#main .main_left #leftmenu li.sub span{
+height:25px; line-height:25px;
+text-align:left;
+width:105px;
+padding-left:35px;
+padding-right:0px;
+background:url(../image/admin/pointgray.gif) no-repeat 20px 8px;
+overflow:hidden;
+}
 
+#main .main_left #leftmenu li.sub a{
+height:25px; line-height:25px;
+}
+#main .main_left #leftmenu li.sub a:hover{
+background:white;
+}
+#main .main_left #leftmenu li.sub span.m-now{
+background:url(../image/admin/pointblue.gif) no-repeat 20px 8px;
+font-weight:bold;
+}
 
 /*导航图标区*/
 #leftmenu li span{
@@ -180,6 +203,13 @@ background-image: url(../image/common/window_2.png);
 #leftmenu #nav_function.on span { background-image: url(../image/common/link_2.png);}
 #leftmenu #nav_file.on span { background-image: url(../image/common/file_2.png);}
 #leftmenu #nav_user.on span { background-image: url(../image/common/user_2.png);}
+
+
+#leftmenu li span{
+background-repeat:no-repeat;
+background-position: 100px 8px;
+background-image: url();
+}
 
 
 /*主要内容区*/
@@ -396,13 +426,14 @@ span.star{
 	line-height:30px;
 	border-bottom:0px solid #3399cc;
 	background:;
+	display:none;
 }
 
 .SubMenu span {
 	float:left;
-	padding:0px 5px 0px 0px;
-	margin:0 5px 0 0;
+	margin:0 0 0 0;
 	text-align:center;
+	padding:0px 10px;
 }
 
 .SubMenu span.m-left {
@@ -412,30 +443,28 @@ span.star{
 	float:right;
 }
 
-.SubMenu span a:hover {
+.SubMenu a:hover {
 	background:#b0cdee;
 	text-decoration : none; 
 	color:white;
 
 }
-.SubMenu span a:active {
+.SubMenu a:active {
 	background:#b0cdee; 
 	text-decoration : none;
 	color:white;
 }
 
-.SubMenu span a{
+.SubMenu a{
 	background:#3399cc;
-	padding:5px 10px;
+	margin:0 10px 0 0;
 	float:left;
 	color:white;
-	height:20px;
-	line-height:20px;
 }
 
-.SubMenu span.m-now a{
-	background:#b0cdee;
+.SubMenu span.m-now{
 	color:black;
+	background:#b0cdee; 
 }
 
 
@@ -506,7 +535,7 @@ span.star{
 #batch{
 	width:100%;
 	margin:0 0 5px 0;
-	background:#fffbcc;
+	background:#dbe3ff;
 	float:left;
 	padding:0 0 0 0;
 }

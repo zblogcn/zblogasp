@@ -306,9 +306,9 @@ Function ZBQQConnect_SBar(Btype)
 	For i=1 to 4
 		if b(i,1)<>"" then
 			if btype=i then
-				k=k&"<span class=""" & b(i,1) & " m-now""><a href=""" & b(i,2) & """>" & b(i,3) & "</a></span>"
+				k=k&"<a href=""" & b(i,2) & """><span class=""" & b(i,1) & " m-now"">" & b(i,3) & "</span></a>"
 			else
-				k=k&"<span class=""" & b(i,1) & """><a href=""" & b(i,2) & """>" & b(i,3) & "</a></span>"
+				k=k&"<a href=""" & b(i,2) & """><span class=""" & b(i,1) & """>" & b(i,3) & "</span></a>"
 			end if
 		end if
 	Next

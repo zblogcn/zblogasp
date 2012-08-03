@@ -796,10 +796,10 @@ Class TArticle
 		If Tag<>"" Then
 			s=Replace(Tag,"}","")
 			t=Split(s,"{")
-
 			For i=LBound(t) To UBound(t)
 				If t(i)<>"" Then
-					If IsObject(t)=True Then
+
+					If IsObject(Tags(t(i)))=True Then
 						j=GetTemplate("TEMPLATE_B_ARTICLE_TAG")
 
 						Template_Article_Tag=Template_Article_Tag & Tags(t(i)).MakeTemplate(j)
