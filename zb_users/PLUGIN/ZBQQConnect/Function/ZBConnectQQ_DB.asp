@@ -45,14 +45,16 @@ Class ZBConnectQQ_DB
 				If CheckRegExp(Email,"[email]") Then
 					strSQL=strSQL & "QQ_Eml='"&EMail&"'"
 				Else
-					Call ShowError(3)
+					LoadInfo=False
+					Exit Function
 				End If
 			Case 4,5,4000
 				If CheckRegExp(OpenID,"^[0-9A-Z]{32}$") Then
 					OpenID=FilterSQL(OpenID)
 					strSQL=strSQL & "QQ_OpenID='"&OpenID&"'"
 				Else
-					Call ShowError(3)
+					LoadInfo=False
+					Exit Function
 				End If
 		End Select
 		Set objRS=objConn.Execute(strSQL)
