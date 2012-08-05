@@ -966,12 +966,24 @@ Class TArticle
 
 		End If
 
-		If intPageAll>intPage Then
+		If intPageAll>1 Then
+			Dim lp,rp
+
+			lp="<a class=""l"" onclick=""GetComments("&ID&","&(intPage-1)&")"" href=""#AjaxCommentBegin""><span class=""commentspage"">"&ZC_MSG192&"</span></a>"
+			rp="<a class=""r"" onclick=""GetComments("&ID&","&(intPage+1)&")"" href=""#AjaxCommentBegin""><span class=""commentspage"">"&ZC_MSG193&"</span></a>"
+
+			If intPage=1 Then
+				lp=""
+			End If
+			If intPage=intPageAll Then
+				rp=""
+			End If
+			
 			s=GetTemplate("TEMPLATE_B_ARTICLE_COMMENT_PAGEBAR")
-			s=Replace(s,"<#template:pagebar#>","<a class="""" onclick=""GetComments("&ID&","&(intPage+1)&")"" href=""#cmt""><span class=""commentspage"">"&ZC_MSG192&"</span></a>")
+			s=Replace(s,"<#template:pagebar#>",lp&rp&"<div style=""height:0px;clear:both;""></div>")
 		End If
 
-		Template_Article_Comment="<span style=""display:none;"" id=""AjaxCommentBegin""></span>" & Template_Article_Comment & s &"<span style=""display:none;"" id=""AjaxCommentEnd""></span>"
+		Template_Article_Comment="<span style=""height:0px;clear:both;"" id=""AjaxCommentBegin""></span>" & Template_Article_Comment & s &"<span style=""height:0px;clear:both;"" id=""AjaxCommentEnd""></span>"
 
 		i=ZC_COMMENTS_DISPLAY_COUNT*(intPage-1)
 		Do While InStr(Template_Article_Comment,"<!--(count-->0<!--count)-->")>0
@@ -1018,7 +1030,7 @@ Class TArticle
 		Set objRS=objConn.Execute("SELECT TOP 1 [log_ID] FROM [blog_Article] WHERE ([log_CateID]>0) And ([log_Level]>2) AND ([log_PostTime]<" & ZC_SQL_POUND_KEY & PostTime & ZC_SQL_POUND_KEY &") ORDER BY [log_PostTime] DESC")
 		If (Not objRS.bof) And (Not objRS.eof) Then
 
-			s=GetTemplate("TEMPLATE_B_ARTICLE_NVABAR_L")
+			s="<a class=""l"" href=""<#article/nav_l/url#>""><#article/nav_l/name#></a>"
 			
 			s=Replace(s,"<#article/nav_l/url#>","<#ZC_BLOG_HOST#>zb_system/view.asp?navp="&ID)
 			s=Replace(s,"<#article/nav_l/name#>",ZC_MSG146)
@@ -1031,7 +1043,7 @@ Class TArticle
 		Set objRS=objConn.Execute("SELECT TOP 1 [log_ID] FROM [blog_Article] WHERE ([log_CateID]>0) And ([log_Level]>2) AND ([log_PostTime]>" & ZC_SQL_POUND_KEY & PostTime & ZC_SQL_POUND_KEY &") ORDER BY [log_PostTime] ASC")
 		If (Not objRS.bof) And (Not objRS.eof) Then
 
-			t=GetTemplate("TEMPLATE_B_ARTICLE_NVABAR_R")
+			t="<a class=""r"" href=""<#article/nav_r/url#>""><#article/nav_r/name#></a>"
 
 			t=Replace(t,"<#article/nav_r/url#>","<#ZC_BLOG_HOST#>zb_system/view.asp?navn="&ID)
 			t=Replace(t,"<#article/nav_r/name#>",ZC_MSG148)
@@ -2579,12 +2591,12 @@ Class TUser
 		strPassWord=FilterSQL(strPassWord)
 
 		'校检
-		If Len(strUserName) >ZC_USERNAME_MAX Then Call ShowError(7)
-		If Len(strPassWord)<>32 Then Call ShowError(55)
-		If Not CheckRegExp(strUserName,"[username]") Then Call ShowError(7)
+		'If Len(strUserName) >ZC_USERNAME_MAX Then Call ShowError(7)
+		'If Len(strPassWord)<>32 Then Call ShowError(55)
+		'If Not CheckRegExp(strUserName,"[username]") Then Call ShowError(7)
 
 		Dim objRS
-		Set objRS=objConn.Execute("SELECT [mem_ID],[mem_Level],[mem_Password],[mem_Guid] FROM [blog_Member] WHERE [mem_Name]='"&strUserName & "'" )
+		Set objRS=objConn.Execute("SELECT * FROM [blog_Member] WHERE [mem_Name]='"&strUserName & "'" )
 		If (Not objRS.Bof) And (Not objRS.Eof) Then
 
 			If StrComp(strPassWord,objRS("mem_Password"))=0 Then
@@ -2729,9 +2741,9 @@ Class TUser
 			If (ID=currentUser.ID) And (Level <> currentUser.Level) Then ShowError(6)
 			If (ID<>currentUser.ID) And (Level <= currentUser.Level) Then ShowError(6)
 
-			If ID<>currentUser.ID Then
+			If ID>0 Then
 				Dim objRS3
-				Set objRS3 = objConn.execute ("SELECT * FROM [blog_Member] WHERE [mem_Name]='" & Name & "' ")
+				Set objRS3 = objConn.execute ("SELECT * FROM [blog_Member] WHERE [mem_Name]='" & Name & "' AND [mem_ID]<>" & ID)
 				If (Not objRS3.bof) And (Not objRS3.eof) Then
 					Call ShowError(62)
 				End If

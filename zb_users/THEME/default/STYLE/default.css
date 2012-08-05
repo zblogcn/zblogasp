@@ -219,30 +219,7 @@ div.post-nav {
 }
 
 
-/*---------------------------文章翻条左------------------------*/
-div.post-nav a.l{
-	float:left;
-    margin:0 0 0 0;
-	padding-right:10px;
-	padding:2px 0 2px 0;
-         width:40%;
-         overflow: hidden;
-         text-overflow: ellipsis;
-         white-space: nowrap;
-}
 
-/*---------------------------文章翻条右------------------------*/
-div.post-nav a.r{
-	float:right;
-    margin:0 0 0 0;
-	padding-left:10px;
-	padding:2px 0 2px 0;
-	width:40%;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-	text-align:right;
-}
 
 /*---------------------------文章内容------------------------*/
 
@@ -544,6 +521,18 @@ p.w{
 	padding:5px 0 0 0;
 }
 
+/*---------------------------文章和评论翻页条------------------------*/
+a.l{
+	text-align:left;
+	float:left;
+}
+
+a.r{
+	text-align:right;
+	float:right;
+}
+
+
 /*---------------------------引用\评论----------------------------------*/
 ul.msg{
 	width:95%;
@@ -598,9 +587,6 @@ li.msgtime{
 ul.msg ul.msg img.avatar{
 	width:16px;
 	height:16px;
-}
-li.pagebar{
-	text-align:right;
 }
 
 /*---------------------------相关文章----------------------------------*/

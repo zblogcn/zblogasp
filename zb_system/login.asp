@@ -56,17 +56,6 @@ Call CheckReference("")
 
 <script language="JavaScript" type="text/javascript">
 
-function SetCookie(sName, sValue,iExpireDays) {
-	if (iExpireDays){
-		var dExpire = new Date();
-		dExpire.setTime(dExpire.getTime()+parseInt(iExpireDays*24*60*60*1000));
-		document.cookie = sName + "=" + escape(sValue) + "; expires=" + dExpire.toGMTString()+ "; path=/";
-	}
-	else{
-		document.cookie = sName + "=" + escape(sValue)+ "; path=/";
-	}
-}
-
 if(GetCookie("username")){document.getElementById("edtUserName").value=unescape(GetCookie("username"))};
 
 $("#btnPost").click(function(){
@@ -80,15 +69,13 @@ $("#btnPost").click(function(){
 		return false;
 	}
 
-	strUserName=escape(strUserName);
+	strUserName=strUserName;
 
 	strPassWord=MD5(strPassWord);
 
-	SetCookie("username",strUserName,strSaveDate);
-	SetCookie("password",strPassWord,strSaveDate);
 
 	document.getElementById("frmLogin").action="cmd.asp?act=verify"
-	document.getElementById("username").value=unescape(strUserName);
+	document.getElementById("username").value=strUserName;
 	document.getElementById("password").value=strPassWord
 	document.getElementById("savedate").value=strSaveDate
 })
