@@ -181,7 +181,7 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG247
 
 
 		ZC_SEARCH_COUNT=TransferHTML(ZC_SEARCH_COUNT,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG193) & "</td><td><p><input id=""edtZC_SEARCH_COUNT"" name=""edtZC_SEARCH_COUNT"" style=""width:500px;"" type=""text"" value=""" & ZC_SEARCH_COUNT & """ /></p></td></tr>"
+		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG274) & "</td><td><p><input id=""edtZC_SEARCH_COUNT"" name=""edtZC_SEARCH_COUNT"" style=""width:500px;"" type=""text"" value=""" & ZC_SEARCH_COUNT & """ /></p></td></tr>"
 
 
 		ZC_USE_NAVIGATE_ARTICLE=TransferHTML(ZC_USE_NAVIGATE_ARTICLE,"[html-format]")

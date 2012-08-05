@@ -103,7 +103,7 @@ EditArticle.Title=UBBCode(EditArticle.Title,"[link][email][font][code][face][ima
 If InStr(EditArticle.Content,EditArticle.Intro)>0 Then IsAutoIntro=True
 If Len(EditArticle.Intro)="" Then IsAutoIntro=True
 
-EditArticle.Content=TransferHTML(Replace(EditArticle.Content,"<!-- intro -->","<hr />"),"[html-japan]")
+EditArticle.Content=TransferHTML(Replace(EditArticle.Content,"<!–more–>","<hr />"),"[html-japan]")
 
 
 
