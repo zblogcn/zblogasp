@@ -297,10 +297,12 @@ End If
 		j=UBound(aryFileList)
 		For i=1 to j
 			t=UCase(Left(aryFileList(i),InStr(aryFileList(i),".")-1))
-			If EditArticle.TemplateName=t Then
-				Response.Write "<option value="""&t&""" selected=""selected"">"&t&"</option>"
-			Else
-				Response.Write "<option value="""&t&""">"&t&"</option>"
+			If Left(t,2)<>"B_" Then
+				If EditArticle.TemplateName=t Then
+					Response.Write "<option value="""&t&""" selected=""selected"">"&t&"</option>"
+				Else
+					Response.Write "<option value="""&t&""">"&t&"</option>"
+				End If
 			End If
 		Next
 	End If
@@ -501,10 +503,10 @@ End If
 		$("#divIntro").show();
 	}
 
-// ]]>
-</script>
-<!--文章编辑提交区随动JS开始-->
-<script type="text/javascript">
+
+
+//文章编辑提交区随动JS开始
+
 function tools(){
  var top=$(document).scrollTop();
  if(($.browser.msie==true)&&($.browser.version==6.0)){
@@ -518,6 +520,8 @@ $(function(){
  window.onscroll=tools;
  window.onresize=tools;
 });
+
+// ]]>
 </script>
 <!--文章编辑提交区随动JS结束-->
 <!--#include file="admin_footer.asp"-->
