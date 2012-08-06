@@ -434,6 +434,7 @@ span.star{
 	margin:0 0 0 0;
 	text-align:center;
 	padding:0px 10px;
+	cursor: pointer;
 }
 
 .SubMenu span.m-left {
