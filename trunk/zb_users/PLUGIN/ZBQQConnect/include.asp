@@ -88,13 +88,12 @@ Call RegisterPlugin("ZBQQConnect","ActivePlugin_ZBQQConnect")
 
 Sub ZBQQConnect_RegSave(UID)
 	If Not IsEmpty(Request.Form("QQOpenID")) Then
-call setbloghint_custom(uid)
 		ZBQQConnect_Initialize
 		ZBQQConnect_DB.OpenID=Request.Form("QQOpenID")
 		If ZBQQConnect_DB.LoadInfo(4)=True Then
 			ZBQQConnect_DB.objUser.LoadInfoById UID
 			ZBQQConnect_DB.Email=ZBQQConnect_DB.objUser.Email
-			ZBQQConnect_DB.Bind
+			
 		End If
 	End If
 End Sub
@@ -141,9 +140,10 @@ Function ZBQQConnect_getcmt(ID,log_ID,AuthorID,Author,Content,Email,HomePage,Pos
 	ZBQQConnect_Eml(0)=Email
 	ZBQQConnect_Eml(1)=AuthorID
 End Function
+
 Function ZBQQConnect_AddCommentCode(ByRef a)
 	Dim c
-	If Instr(a,"<#ZBQQConnect_") Then
+	If Instr(a,"article/comment/avatar") Then
 		ZBQQConnect_Initialize
 		ZBQQConnect_DB.Email=ZBQQConnect_Eml(0)
 		If ZBQQConnect_Eml(0)="" Then
@@ -156,20 +156,11 @@ Function ZBQQConnect_AddCommentCode(ByRef a)
 		End If
 		If ZBQQConnect_DB.LoadInfo(3)=True And ZBQQConnect_DB.EMail<>"" Then 
 					If ZBQQConnect_DB.tHead<>"" Then
-						a=Replace(a,"<#ZBQQConnect_tHead#>",ZBQQConnect_DB.tHead&"/100")
-					Else
-						a=Replace(a,"<#ZBQQConnect_tHead#>",Replace(Replace(ZBQQConnect_Head,"<#EmailMD5#>",MD5(ZBQQConnect_Eml(0))),"<#ZC_BLOG_HOST#>",GetCurrentHost))
-					End If
-					If ZBQQConnect_DB.QzoneHead<>"" Then
-						a=Replace(a,"<#ZBQQConnect_zHead#>",ZBQQConnect_DB.QzoneHead)
-					Else
-						a=Replace(a,"<#ZBQQConnect_zHead#>",Replace(Replace(ZBQQConnect_Head,"<#EmailMD5#>",MD5(ZBQQConnect_Eml(0))),"<#ZC_BLOG_HOST#>",GetCurrentHost))
+						a=Replace(a,"<#article/comment/avatar#>",ZBQQConnect_DB.tHead&"/100")
+					ElseIf ZBQQConnect_DB.QzoneHead<>"" Then
+						a=Replace(a,"<#article/comment/avatar#>",ZBQQConnect_DB.QzoneHead)
 					End If
 		End If
-		a=Replace(a,"<#ZBQQConnect_Head#>",Replace(Replace(ZBQQConnect_Head,"<#EmailMD5#>",MD5(ZBQQConnect_Eml(0))),"<#ZC_BLOG_HOST#>",GetCurrentHost))
-		a=Replace(a,"<#ZBQQConnect_zHead#>",Replace(Replace(ZBQQConnect_Head,"<#EmailMD5#>",MD5(ZBQQConnect_Eml(0))),"<#ZC_BLOG_HOST#>",GetCurrentHost))
-		a=Replace(a,"<#ZBQQConnect_tHead#>",Replace(Replace(ZBQQConnect_Head,"<#EmailMD5#>",MD5(ZBQQConnect_Eml(0))),"<#ZC_BLOG_HOST#>",GetCurrentHost))
-
 	End If
 End Function
 
@@ -231,29 +222,7 @@ Function ZBQQConnect_SendComment()
 	
 	Call ZBQQConnect_Initialize
 	If (ZBQQConnect_OpenComment=False) Then Exit Function
-	If ZBQQConnect_CommentToOwner=True Then
-		Dim o
-		Set o=objConn.Execute("SELECT TOP 1 [mem_ID] FROM [blog_Member] WHERE [mem_Level]=1")
-		ZBQQConnect_DB.objUser.ID=o("mem_id")
-		ZBQQConnect_DB.LoadInfo 2
-		Set o=Nothing
-	Else
-'		If (Not IsEmpty(Request.Cookies("QQOPENID"))) And (Not isNull(Request.Cookies("QQOPENID"))) And ( Request.Cookies("QQOPENID")<>"")  Then
-'			ZBQQConnect_DB.openID=Request.Cookies("QQOPENID")
-'			ZBQQConnect_DB.LoadInfo 4
-		If BlogUser.Level<5 Then
-			Set ZBQQConnect_DB.objUser=BlogUser
-			If CBool(BlogUser.Meta.GetValue("ZBQQConnect_a"))=False Then Exit Function
-			ZBQQConnect_DB.LoadInfo 2
-		'Else
-		'	ZBQQConnect_DB.Email=ZBQQConnect_tmpObj.Email
-		'	ZBQQConnect_DB.LoadInfo 3
-		End If
-	End If
-	ZBQQConnect_class.OpenID=ZBQQConnect_DB.OpenID
-	ZBQQConnect_class.AccessToken=ZBQQConnect_DB.AccessToken
 	Dim tupian
-	If ZBQQConnect_DB.openID="" Then Exit Function
 	Dim strT,tea,strTemp
 	If ZBQQConnect_tmpObj.ID = 0 then Exit Function
     Dim objArticle
@@ -276,10 +245,30 @@ Function ZBQQConnect_SendComment()
 	else
 		tupian="~"
 	end if
-	If ZBQQConnect_CommentToZone Then t_add = ZBQQConnect_class.Share(objArticle.Title,objArticle.Url,tea,strTemp,tupian,1)
+
+	If BlogUser.Level<5 And ZBQQConnect_CommentToZone Then
+		
+		If ZBQQConnect_CommentToOwner=True Then
+			Dim o
+			Set o=objConn.Execute("SELECT TOP 1 [mem_ID] FROM [blog_Member] WHERE [mem_Level]=1")
+			ZBQQConnect_DB.objUser.ID=o("mem_id")
+			ZBQQConnect_DB.LoadInfo 2
+			Set o=Nothing
+		Else
+			Set ZBQQConnect_DB.objUser=BlogUser
+			If BlogUser.Meta.Exists("ZBQQConnect_a")=False Or (BlogUser.Meta.Exists("ZBQQConnect_a")=True And CBool(BlogUser.Meta.GetValue("ZBQQConnect_a"))=True) Then	ZBQQConnect_DB.LoadInfo 2
+		End If
+		
+		ZBQQConnect_class.OpenID=ZBQQConnect_DB.OpenID
+		ZBQQConnect_class.AccessToken=ZBQQConnect_DB.AccessToken
+		If ZBQQConnect_DB.openID="" Then Exit Function
+		t_add = ZBQQConnect_class.Share(objArticle.Title,objArticle.Url,tea,strTemp,tupian,1)
+	End If
 	If ZBQQConnect_CommentToT Then
 		t_Add=objArticle.Meta.GetValue("ZBQQConnect_WBID")
+		
 		t_Add=ZBQQConnect_class.fakeQQConnect.r(Replace(Replace(ZBQQConnect_CommentTemplate,"%a",ZBQQConnect_tmpObj.Author),"%c",tea),t_Add)
+		Call SetBlogHint_Custom(t_Add)
 	End If
 	set ZBQQConnect_tmpObj = nothing
 End Function
