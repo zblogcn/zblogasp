@@ -78,13 +78,13 @@ $(document).ready(function(){
 	bmx2table();
 
 	//if($('.SubMenu').find('span').length==0){$('.SubMenu').hide()};
-	if($('.SubMenu').find('span').length>0){
+	/*if($('.SubMenu').find('span').length>0){
 		if($('#leftmenu').find('li.on').length>0){
 			$('#leftmenu li.on').after('<li class="sub">'+$('.SubMenu').html()+'</li>');
 		}else{
 			$('.SubMenu').show();
 		}
-	}
+	}*/
 
 	//$("#avatar").attr("src","<%="http://www.gravatar.com/avatar/"& MD5(BlogUser.Email) &"?s=40&d="& Server.urlEncode(GetCurrentHost & "ZB_SYSTEM/image/admin/avatar.png")%>");
 
