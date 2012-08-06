@@ -44,7 +44,6 @@ If Session("batch").Count>0 Then
 	Else
 %>
 <div id="batch"><img src="<%=GetCurrentHost%>zb_system/image/admin/warning.png"/><p><%=ZC_MSG273%></p></div>
-
 <script type="text/javascript">
 $("#batch a").bind("click", function(){ BatchContinue();$("#batch p").html("<%=ZC_MSG109%>...");});
 </script>
