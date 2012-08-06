@@ -980,10 +980,10 @@ Class TArticle
 			End If
 			
 			s=GetTemplate("TEMPLATE_B_ARTICLE_COMMENT_PAGEBAR")
-			s=Replace(s,"<#template:pagebar#>",lp&rp&"<div style=""height:0px;clear:both;""></div>")
+			s=Replace(s,"<#template:pagebar#>",lp&rp&"<div style=""visibility:hidden;height:0px;clear:both;""></div>")
 		End If
 
-		Template_Article_Comment="<span style=""height:0px;clear:both;"" id=""AjaxCommentBegin""></span>" & Template_Article_Comment & s &"<span style=""height:0px;clear:both;"" id=""AjaxCommentEnd""></span>"
+		Template_Article_Comment="<div id=""AjaxCommentBegin"" style=""visibility:hidden;height:0px;clear:both;""></div>" & Template_Article_Comment & s &"<div id=""AjaxCommentEnd"" style=""visibility:hidden;height:0px;clear:both;""></div>"
 
 		i=ZC_COMMENTS_DISPLAY_COUNT*(intPage-1)
 		Do While InStr(Template_Article_Comment,"<!--(count-->0<!--count)-->")>0

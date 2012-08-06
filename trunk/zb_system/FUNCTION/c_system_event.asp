@@ -730,6 +730,13 @@ Function GetComment(logid,page)
 		s=Replace(s,"<#" & aryTemplateTagsName2(i) & "#>",aryTemplateTagsValue2(i))
 	Next
 
+	Dim objRegExp
+	Set objRegExp=New RegExp
+	objRegExp.IgnoreCase =True
+	objRegExp.Global=True
+	objRegExp.Pattern="<div id=""AjaxComment[\D\d]+?</div>"
+	s= objRegExp.Replace(s,"")
+
 
 	s= Replace(s,vbCrLf,"")
 	s= Replace(s,vbLf,"")
