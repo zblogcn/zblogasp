@@ -60,7 +60,7 @@ End If
     <dl>
       <dd><label for="edtUserName"><%=ZC_MSG003%>:</label><input type="text" id="edtUserName" name="edtUserName" size="20" tabindex="1" /></dd>
       <dd><label for="edtPassWord"><%=ZC_MSG002%>:</label><input type="password" id="edtPassWord" name="edtPassWord" size="20" tabindex="2" /></dd>
-      <input type="hidden" name="QQOPENID" value="<%=TransferHTML(Request.QueryString("QQOPENID"),"[nohtml]")%>"/>
+      <input type="hidden" name="QQOPENID" value="<%=Replace(TransferHTML(Request.QueryString("QQOPENID"),"[nohtml]"),"""","'")%>"/>
     </dl>
     <dl>
       <dd class="submit"><input id="btnPost" name="btnPost" type="submit" value="<%=ZC_MSG260%>" class="button" tabindex="4"/></dd>
