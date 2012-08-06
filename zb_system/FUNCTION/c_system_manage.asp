@@ -1269,6 +1269,7 @@ If Len(ZC_UPDATE_INFO_URL)>0 Then
 	<tr><th height="32" colspan="4" align="center">&nbsp;<%=ZC_MSG164%>&nbsp;<a href="javascript:updateinfo('?reload');">[<%=ZC_MSG225%>]</a></th></tr>
 	<tr><td height="25" colspan="4" id="tdUpdateInfo">
 <script language="JavaScript" type="text/javascript">
+<!-- 
 function updateinfo(s){
 	$.post("c_updateinfo.asp"+s,{},
 		function(data){
@@ -1278,13 +1279,9 @@ function updateinfo(s){
 };
 
 $(document).ready(function(){
-
-	ActiveTopMenu('topmenu1');
-
 	updateinfo("");
-
 });
-
+ -->
 </script>
 	</td></tr>
 	</table>
@@ -1297,6 +1294,7 @@ End If
 	ExportSiteInfo=True
 
 	Response.Write "<script type=""text/javascript"">ActiveLeftMenu(""aSiteInfo"");</script>"
+	Response.Write "<script type=""text/javascript"">ActiveTopMenu(""topmenu1"");</script>"
 
 	Err.Clear
 
@@ -1311,15 +1309,9 @@ End Function
 '*********************************************************
 Function ExportFileReBuildAsk()
 
-	'SubMenu转至MakeFileReBuildAsk()函数里了
-
 	Response.Write "<div class=""divHeader2"">" & ZC_MSG073 & "</div>"
-
+	Response.Write "<div class=""SubMenu"">" & Response_Plugin_AskFileReBuild_SubMenu & "</div>"
 	Response.Write "<div id=""divMain2"">"
-
-	'Response.Write "<iframe frameborder='0' height='600' style='' marginheight='0' marginwidth='0' scrolling='no' width='100%' src='../cmd.asp?act=AskFileReBuild&amp;iframe=true'>"
-
-	'Response.Write "</iframe>"
 
 	Response.Write "<form id=""edit"" name=""edit"" method=""post"" action=""../cmd.asp?act=FileReBuild"">" & vbCrlf
 	Response.Write "<p>"& ZC_MSG112 &"</p>" & vbCrlf
@@ -1330,10 +1322,10 @@ Function ExportFileReBuildAsk()
 	Response.Write "</div>"
 
 	Response.Write "<script type=""text/javascript"">ActiveLeftMenu(""aAskFileReBuild"");</script>"
+	Response.Write "<script type=""text/javascript"">	ActiveTopMenu(""topmenu3"");</script>"
 
-
-		Response.Write "<script type=""text/javascript"">function BatchBegin(){$(""input[type='submit']"").prop({disabled: true});};</script>"
-		Response.Write "<script type=""text/javascript"">function BatchEnd(){$(""input[type='submit']"").prop({disabled: false});};</script>"
+	Response.Write "<script type=""text/javascript"">function BatchBegin(){$(""input[type='submit']"").prop({disabled: true});};</script>"
+	Response.Write "<script type=""text/javascript"">function BatchEnd(){$(""input[type='submit']"").prop({disabled: false});};</script>"
 
 	ExportFileReBuildAsk=True
 
