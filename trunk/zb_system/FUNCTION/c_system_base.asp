@@ -1878,16 +1878,16 @@ End Sub
 '*********************************************************
 Dim AdminLeftMenuCount
 AdminLeftMenuCount=0
-Function MakeLeftMenu(requireLevel,strName,strUrl,strLiId,strAName,strImgUrl)
+Function MakeLeftMenu(requireLevel,strName,strUrl,strLiId,strAId,strImgUrl)
 
 	If BlogUser.Level>requireLevel Then Exit Function
 
 	AdminLeftMenuCount=AdminLeftMenuCount+1
 	dim tmp
 	If Trim(strImgUrl)<>"" Then
-		tmp="<li id="""&strLiId&"""><a id="""&strAName&""" href="""&strUrl&"""><span style=""background-image:url('"&strImgUrl&"')"">"&strName&"</span></a></li>"
+		tmp="<li id="""&strLiId&"""><a id="""&strAId&""" href="""&strUrl&"""><span style=""background-image:url('"&strImgUrl&"')"">"&strName&"</span></a></li>"
 	Else
-		tmp="<li id="""&strLiId&"""><a id="""&strAName&""" href="""&strUrl&"""><span>"&strName&"</span></a></li>"
+		tmp="<li id="""&strLiId&"""><a id="""&strAId&""" href="""&strUrl&"""><span>"&strName&"</span></a></li>"
 	End If
 	MakeLeftMenu=tmp
 	
@@ -1902,11 +1902,12 @@ End Function
 '*********************************************************
 Dim AdminTopMenuCount
 AdminTopMenuCount=0
-Function MakeTopMenu(strName,strUrl,strTarget)
+Function MakeTopMenu(strName,strUrl,strLiId,strTarget)
 	Dim tmp
 	If strTarget="" Then strTarget="_self"
 	AdminTopMenuCount=AdminTopMenuCount+1
-	tmp="<li id=""topmenu"&AdminTopMenuCount&"""><a href="""&strUrl&""" target="""&strTarget&""">"&strName&"</a></li>"
+	If strLiId="" Then strLiId="topmenu"&AdminTopMenuCount
+	tmp="<li id="""&strLiId&"""><a href="""&strUrl&""" target="""&strTarget&""">"&strName&"</a></li>"
 	MakeTopMenu=tmp
 End Function
 '*********************************************************
@@ -3321,7 +3322,7 @@ Function CreateAdminLeftMenu()
 Response_Plugin_Admin_Left=""
 
 Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("ArticleEdt"),ZC_MSG168,GetCurrentHost&"zb_system/cmd.asp?act=ArticleEdt&amp;webedit="&ZC_BLOG_WEBEDIT,"nav_new","aArticleEdt",""))
-Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("FileReBuild"),ZC_MSG073,GetCurrentHost&"zb_system/cmd.asp?act=AskFileReBuild","nav_build","aAskFileReBuild",""))
+'Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("FileReBuild"),ZC_MSG073,GetCurrentHost&"zb_system/cmd.asp?act=AskFileReBuild","nav_build","aAskFileReBuild",""))
 Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("ArticleMng"),ZC_MSG067,GetCurrentHost&"zb_system/cmd.asp?act=ArticleMng","nav_article","aArticleMng",""))
 Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("ArticleMng"),ZC_MSG111,GetCurrentHost&"zb_system/cmd.asp?act=ArticleMng&amp;type=Page","nav_page","aPageMng",""))
 Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("CategoryMng"),ZC_MSG066,GetCurrentHost&"zb_system/cmd.asp?act=CategoryMng","nav_category","aCategoryMng",""))
@@ -3350,8 +3351,9 @@ Function CreateAdminTopMenu()
 
 Response_Plugin_Admin_Top=""
 
-Call Add_Response_Plugin("Response_Plugin_Admin_Top",MakeTopMenu(ZC_MSG245,GetCurrentHost&"zb_system/cmd.asp?act=admin",""))
-Call Add_Response_Plugin("Response_Plugin_Admin_Top",MakeTopMenu(ZC_MSG247,GetCurrentHost&"zb_system/cmd.asp?act=SettingMng",""))
+Call Add_Response_Plugin("Response_Plugin_Admin_Top",MakeTopMenu(ZC_MSG245,GetCurrentHost&"zb_system/cmd.asp?act=admin","",""))
+Call Add_Response_Plugin("Response_Plugin_Admin_Top",MakeTopMenu(ZC_MSG247,GetCurrentHost&"zb_system/cmd.asp?act=SettingMng","",""))
+Call Add_Response_Plugin("Response_Plugin_Admin_Top",MakeTopMenu(ZC_MSG073,GetCurrentHost&"zb_system/cmd.asp?act=AskFileReBuild","",""))
 
 End Function
 '*********************************************************
