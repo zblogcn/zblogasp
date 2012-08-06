@@ -3394,6 +3394,9 @@ End Function
 '*********************************************************
 Function AddBatch(name,actioncode)
 
+	'检则是否未完成批操作,未完成的话不新增加批操作.
+	If Session("batch").Count <> CInt(Session("batchorder")) Then Exit Function
+
 	Dim i
 	i=Session("batchorder")+1
 
