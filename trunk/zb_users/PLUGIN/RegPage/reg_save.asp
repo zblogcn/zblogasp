@@ -67,6 +67,11 @@ If  chkUserMail=False Then
 	ExportErr "电子邮箱格式不正确！"
 End If
 
+If request.Form("chkRemember")=false Then
+	ExportErr "请认真阅读并同意本站的《使用条款》！"
+End If
+
+
 dim objRs
 set objRs = objConn.execute ("SELECT * FROM [blog_Member] where mem_Name= '" & Username & "' ")
 if not (objRs.Bof or objRs.eof) then
