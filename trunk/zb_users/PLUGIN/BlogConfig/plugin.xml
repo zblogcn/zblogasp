@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<plugin>
+<id>BlogConfig</id>
+<name>配置文件管理</name>
+<url>http://www.zsxsoft.com/</url>
+<note>管理记录在数据库里的配置</note>
+<type>inline</type>
+<path>main.asp</path>
+<include>include.asp</include>
+<level>1</level>
+<author>
+	<name>ZSXSOFT</name>
+	<url>http://www.zsxsoft.com/</url>
+	<email>zsx@zsxsoft.com</email>
+</author>
+<version>1.0</version>
+<adapted>Z-Blog 2.0</adapted>
+<pubdate>2012-7-1</pubdate>
+<modified>2011-7-1</modified>
+</plugin>
