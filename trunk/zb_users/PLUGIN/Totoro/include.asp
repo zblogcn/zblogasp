@@ -96,8 +96,8 @@ Function Totoro_Initialize()
 	TOTORO_LEVEL_VALUE=CLng(Totoro_Config.Read ("TOTORO_LEVEL_VALUE"))
 	TOTORO_SV_THRESHOLD=CLng(Totoro_Config.Read ("TOTORO_SV_THRESHOLD"))
 	TOTORO_SV_THRESHOLD2=CLng(Totoro_Config.Read ("TOTORO_SV_THRESHOLD2"))
-	TOTORO_DEL_DIRECTLY=Totoro_Config.Read ("TOTORO_DEL_DIRECTLY")
-	TOTORO_ConHuoxingwen=Totoro_Config.Read ("TOTORO_ConHuoxingwen")
+	TOTORO_DEL_DIRECTLY=CBool(Totoro_Config.Read ("TOTORO_DEL_DIRECTLY"))
+	TOTORO_ConHuoxingwen=CBool(Totoro_Config.Read ("TOTORO_ConHuoxingwen"))
 	TOTORO_BADWORD_LIST=Totoro_Config.Read ("TOTORO_BADWORD_LIST")
 	TOTORO_NUMBER_VALUE=CLng(Totoro_Config.Read ("TOTORO_NUMBER_VALUE"))
 	TOTORO_REPLACE_KEYWORD=Totoro_Config.Read ("TOTORO_REPLACE_KEYWORD")
@@ -317,14 +317,13 @@ End Function
 Function Totoro_GetSpamCount_Comment()
 	If IsEmpty(objConn)=True Then Exit Function
 	Dim objRS1
-	Set objRS1=objConn.Execute("SELECT COUNT([comm_ID]) FROM [blog_Comment] WHERE [comm_isCheck]=1")
+	Set objRS1=objConn.Execute("SELECT COUNT([comm_ID]) FROM [blog_Comment] WHERE [comm_isCheck]=-1")
 	If (Not objRS1.bof) And (Not objRS1.eof) Then
 		Totoro_SpamCount_Comment="("&objRS1(0)&"条未审核)"
 	End If
 
 	'评论管理加上二级菜单项
-	Call Add_Response_Plugin("Response_Plugin_CommentMng_SubMenu",MakeSubMenu("审核评论" & Totoro_SpamCount_Comment,GetCurrentHost() & "zb_users/plugin/totoro/setting1.asp","m-left",False))
-' & "<scr" & "ipt src=""../plugin/totoro/common.js"" type=""text/javascript""></scr" & "ipt><scr" & "ipt src=""../plugin/totoro/cmmng.js"" type=""text/javascript""></scr" & "ipt>"
+	Call Add_Response_Plugin("Response_Plugin_CommentMng_SubMenu",MakeSubMenu("审核评论" & Totoro_SpamCount_Comment,GetCurrentHost() & "zb_users/plugin/totoro/setting1.asp","m-left",False)& "<scr" & "ipt src="""&GetCurrentHost&"/zb_users/plugin/totoro/common.js"" type=""text/javascript""></scr" & "ipt><scr" & "ipt src="""&GetCurrentHost&"/zb_users/plugin/totoro/cmmng.js"" type=""text/javascript""></scr" & "ipt>")
 End Function
 '*********************************************************
 

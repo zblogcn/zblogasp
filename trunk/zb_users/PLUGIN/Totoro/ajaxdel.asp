@@ -38,9 +38,10 @@ act=Request.Form("act")
 delid=Request.Form("id")
 Dim strContent
 Dim strZC_TOTORO_BADWORD_LIST,StrTMP,NEW_BADWORD,bolTOTORO_DEL_DIRECTLY
-strContent=LoadFromFile(BlogPath & "/PLUGIN/totoro/include.asp","utf-8")
-Call LoadValueForSetting(strContent,True,"String","TOTORO_BADWORD_LIST",strZC_TOTORO_BADWORD_LIST)
-Call LoadValueForSetting(strContent,True,"Boolean","TOTORO_DEL_DIRECTLY",bolTOTORO_DEL_DIRECTLY)
+
+Call Totoro_Initialize
+strZC_TOTORO_BADWORD_LIST=TOTORO_BADWORD_LIST
+bolTOTORO_DEL_DIRECTLY=TOTORO_DEL_DIRECTLY
 If act="delcm" then
 
 	Dim objComment
@@ -54,24 +55,12 @@ If act="delcm" then
 
 	End If		
 		
-Elseif act="deltb" then
-
-	Dim objTrackBack
-	Set objTrackBack=New TTrackBack
-	If objTrackBack.LoadInfobyID(delid) Then
-	
-		StrTMP=TOTORO_checkStr(objTrackBack.URL & "|" & objTrackBack.Excerpt,strZC_TOTORO_BADWORD_LIST)
-		strZC_TOTORO_BADWORD_LIST=strZC_TOTORO_BADWORD_LIST & StrTMP
-		NEW_BADWORD=StrTMP
-		Response.Write Totoro_dealIt(objTrackBack,bolTOTORO_DEL_DIRECTLY)
-	
-	End If
-	
 End If
 
 If left(strZC_TOTORO_BADWORD_LIST,1)="|" then strZC_TOTORO_BADWORD_LIST=Right(strZC_TOTORO_BADWORD_LIST, Len(strZC_TOTORO_BADWORD_LIST) - 1)
-Call SaveValueForSetting(strContent,True,"String","TOTORO_BADWORD_LIST",strZC_TOTORO_BADWORD_LIST)
-Call SaveToFile(BlogPath & "/PLUGIN/totoro/include.asp",strContent,"utf-8",False)
+
+Totoro_Config.Write "TOTORO_BADWORD_LIST",strZC_TOTORO_BADWORD_LIST
+Totoro_Config.Save
 'If NEW_BADWORD<>"" Then Response.write ",TotoroⅡ新增下列黑词： " & Right(NEW_BADWORD, Len(NEW_BADWORD) - 1)
 
 %>
@@ -118,9 +107,9 @@ Function Totoro_dealIt(objToDeal,bolDel)
 	logId=objToDeal.log_ID
 
 	If bolDel Then
-		If objToDeal.Del() Then Totoro_dealIt = "删除成功"
+		If objToDeal.Del Then Totoro_dealIt = "删除成功"
 	Else
-		objToDeal.log_ID=-1-objToDeal.log_ID
+		objToDeal.IsCheck=True
 		If objToDeal.Post Then Totoro_dealIt = "已加入审核"
 	End If
 	

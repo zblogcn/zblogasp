@@ -1,9 +1,9 @@
-totoro_statsbar("Loading TotoroⅡ....");
+totoro_statsbar("Loading Totoro....");
 
 function totoro_cmmnginit(){
 	$("tr").each(function(i){
 		if(i!=0){
-		var cmid=$(this).children("td:first-child").html();
+		var cmid=$(this).children("td:eq(1)").html();
 		$(this).append("<td align=\"center\" id=\"totoro_" + cmid + "\"><a href=\"javascript:ThisCmIsSpam(" + cmid + ")\">[这是SPAM]</a></td>");
 		}else{
 		$(this).append("<td width=\"10%\" align=\"center\">Totoro<a href=\"javascript:alert('点击[这是SPAM]将此评论中包含的网址加入TotoroⅡ黑词列表，并按照设置将其删除或进入审核')\">Ⅱ</a></td>");
@@ -25,8 +25,8 @@ function totoro_statsbar(stats){
 
 function ThisCmIsSpam(cmid){
 	$("#totoro_" + cmid).html("<span style=\"color:#800000;\">提交中</span>").prev().html("").prev().html("").prev().html("");
-	$.post("../zb_users/plugin/totoro/ajaxdel.asp", { act: "delcm", id: cmid } ,
+	$.post("../../zb_users/plugin/totoro/ajaxdel.asp", { act: "delcm", id: cmid } ,
 	function(data){
-	$("#totoro_" + cmid).html("<span style=\"color:#008000;\">已提交</span>").prev().prev().prev().prev().prev().prev().html(data);
+	$("#totoro_" + cmid).html("<span style=\"color:#008000;\">已提交</span>").parent().children("td:eq(1)").html(data);
 	});
 }

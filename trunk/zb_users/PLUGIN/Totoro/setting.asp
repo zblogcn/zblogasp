@@ -44,7 +44,7 @@ BlogTitle="TotoroⅢ（基于TotoroⅡ的Z-Blog的评论管理审核系统增强
 
 <div class="SubMenu"><a href="setting.asp"><span class="m-left m-now">TotoroⅢ设置</span></a><a href="setting1.asp"><span class="m-left">审核评论<%
 	Dim objRS1
-	Set objRS1=objConn.Execute("SELECT COUNT([comm_ID]) FROM [blog_Comment] WHERE [comm_isCheck]=1")
+	Set objRS1=objConn.Execute("SELECT COUNT([comm_ID]) FROM [blog_Comment] WHERE [comm_isCheck]=-1")
 	If (Not objRS1.bof) And (Not objRS1.eof) Then
 		Response.Write "("&objRS1(0)&"条未审核的评论)"
 	End If
@@ -92,7 +92,7 @@ BlogTitle="TotoroⅢ（基于TotoroⅡ的Z-Blog的评论管理审核系统增强
 	Dim strTOTORO_INTERVAL_VALUE
 	strTOTORO_INTERVAL_VALUE=Totoro_Config.Read("TOTORO_INTERVAL_VALUE")
 	strTOTORO_INTERVAL_VALUE=TransferHTML(strTOTORO_INTERVAL_VALUE,"[html-format]")
-	Response.Write "<tr><td>2</td><td>提交频率平分<td><input name=""strZC_TOTORO_INTERVAL_VALUE""type=""text"" value=""" & strTOTORO_INTERVAL_VALUE & """/></td><Td>(默认：25)，根据1小时内同一IP的评论数量加分。(每条评论最多加基数的5/6，最少加基数的1/5，按时间间隔递减。)</td></tr>"
+	Response.Write "<tr><td>2</td><td>提交频率评分<td><input name=""strZC_TOTORO_INTERVAL_VALUE""type=""text"" value=""" & strTOTORO_INTERVAL_VALUE & """/></td><Td>(默认：25)，根据1小时内同一IP的评论数量加分。(每条评论最多加基数的5/6，最少加基数的1/5，按时间间隔递减。)</td></tr>"
 	
 	Dim strTOTORO_BADWORD_VALUE
 	strTOTORO_BADWORD_VALUE=Totoro_Config.Read("TOTORO_BADWORD_VALUE")
