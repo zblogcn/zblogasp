@@ -485,7 +485,7 @@ span.star{
 
 
 .content-box .content-box-tabs a.current{
-	background:#e1e1e1;
+	background:#ededed;
 	padding:5px 10px;
 	margin:0 9px 0 0;
 	line-height:2em;
@@ -500,7 +500,6 @@ span.star{
 	margin:0 9px 0 0;
 	line-height:2em;
 	height:2em;
-
 }
 
 

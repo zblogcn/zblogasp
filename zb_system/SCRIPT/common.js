@@ -698,3 +698,74 @@ function GetComments(logid,page){
 
 }
 //*********************************************************
+
+
+
+
+
+//*********************************************************
+// 目的：    
+//*********************************************************
+function bmx2table(){
+
+	//斑马线
+	var tables=document.getElementsByTagName("table");
+	for (var j = 0; j < tables.length; j++){
+
+		var cells = tables[j].getElementsByTagName("tr");
+		var b=false;
+		if(cells[0].getElementsByTagName("th").length>0){
+
+			cells[0].className="color1";
+			for (var i = 1; i < cells.length; i++){
+				if(b){
+					cells[i].className="color2";
+					b=false;
+					cells[i].onmouseover=function(){
+						this.className="color4";
+					}
+					cells[i].onmouseout=function(){
+						this.className="color2";
+					}
+				}
+				else{
+					cells[i].className="color3";
+					b=true;
+					cells[i].onmouseover=function(){
+						this.className="color4";
+					}
+					cells[i].onmouseout=function(){
+						this.className="color3";
+					}
+				};
+			};
+
+		}else{
+			var b=true;
+			for (var i = 0; i < cells.length; i++){
+				if(b){
+					cells[i].className="color2";
+					b=false;
+					cells[i].onmouseover=function(){
+						this.className="color4";
+					}
+					cells[i].onmouseout=function(){
+						this.className="color2";
+					}
+				}
+				else{
+					cells[i].className="color3";
+					b=true;
+					cells[i].onmouseover=function(){
+						this.className="color4";
+					}
+					cells[i].onmouseout=function(){
+						this.className="color3";
+					}
+				};
+			};
+		
+		}
+	};
+};
+//*********************************************************
