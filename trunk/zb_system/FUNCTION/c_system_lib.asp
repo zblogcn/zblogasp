@@ -584,6 +584,15 @@ Class TArticle
 
 		If IsEmpty(html)=True Then html=Template
 
+		If (ZC_DISPLAY_MODE_INTRO=intType) Or (ZC_DISPLAY_MODE_ONTOP=intType) Or (ZC_DISPLAY_MODE_SEARCH=intType) Then
+			Disable_Export_Tag=False
+			Disable_Export_CMTandTB=True
+			Disable_Export_CommentPost=True
+			Disable_Export_Mutuality=True
+			Disable_Export_NavBar=True
+			If ZC_DISPLAY_MODE_ONTOP=intType Then Disable_Export_Tag=True
+		End If
+
 		Call Export_Tag
 		Call Export_CMTandTB(CommentsPage)
 		Call Export_CommentPost
@@ -1270,12 +1279,12 @@ Class TArticle
 		End If
 		Set fso=Nothing
 
-		Set fso = CreateObject("Scripting.FileSystemObject")
-		If fso.FileExists(BlogPath & "zb_users/cache/" & ID & ".html") Then
-			Set TxtFile = fso.GetFile(BlogPath & "zb_users/cache/" & ID & ".html")
-			TxtFile.Delete
-		End If
-		Set fso=Nothing
+		'Set fso = CreateObject("Scripting.FileSystemObject")
+		'If fso.FileExists(BlogPath & "zb_users/cache/" & ID & ".html") Then
+		'	Set TxtFile = fso.GetFile(BlogPath & "zb_users/cache/" & ID & ".html")
+		'	TxtFile.Delete
+		'End If
+		'Set fso=Nothing
 
 		DelFile=True
 
@@ -1414,18 +1423,18 @@ Class TArticle
 
 	Function SaveCache()
 
-		If Not(Level>1) Then SaveCache=True:Exit Function
+		'If Not(Level>1) Then SaveCache=True:Exit Function
 
-		Dim strList
+		'Dim strList
 
-		If Istop Then
-			strList=Template_Article_Istop
-		Else
-			strList=Template_Article_Multi
-		End If
-		strList=TransferHTML(strList,"[no-asp]")
+		'If Istop Then
+		'	strList=Template_Article_Istop
+		'Else
+		'	strList=Template_Article_Multi
+		'End If
+		'strList=TransferHTML(strList,"[no-asp]")
 
-		Call SaveToFile(BlogPath & "zb_users/cache/" & ID & ".html",strList,"utf-8",False)
+		'Call SaveToFile(BlogPath & "zb_users/cache/" & ID & ".html",strList,"utf-8",False)
 
 		SaveCache=True
 
@@ -1490,6 +1499,7 @@ Class TArticleList
 
 	Public Template_PageBar
 	Public Template_Article_Multi
+	Public Template_Article_Istop
 	Public Template_PageBar_Next
 	Public Template_PageBar_Previous
 	Public Template_Calendar
@@ -1551,8 +1561,7 @@ Class TArticleList
 			If bAction_Plugin_TArticleList_Export_Begin=True Then Exit Function
 		Next
 
-		Call Add_Action_Plugin("Action_Plugin_TArticle_Export_Begin","Disable_Export_Tag=False:Disable_Export_CMTandTB=True:Disable_Export_CommentPost=True:Disable_Export_Mutuality=True:Disable_Export_NavBar=True:")
-
+		'Call Add_Action_Plugin("Action_Plugin_TArticle_Export_Begin","Disable_Export_Tag=False:Disable_Export_CMTandTB=True:Disable_Export_CommentPost=True:Disable_Export_Mutuality=True:Disable_Export_NavBar=True:")
 
 		If IsEmpty(html)=True Then html=Template
 
@@ -1596,6 +1605,7 @@ Class TArticleList
 
 				Set objArticle=New TArticle
 				If objArticle.LoadInfoByArray(Array(objRS(0),objRS(1),objRS(2),objRS(3),objRS(4),objRS(5),objRS(6),objRS(7),objRS(8),objRS(9),objRS(10),objRS(11),objRS(12),objRS(13),objRS(14),objRS(15),objRS(16),objRS(17))) Then
+					Call GetTagsbyTagIDList(objArticle.Tag)
 					If objArticle.Export(intType)= True Then
 						aryArticleList(i)=objArticle.Template_Article_Istop
 					End If
@@ -1672,7 +1682,7 @@ Class TArticleList
 
 			Title=Year(dtmYearMonth) & " " & ZVA_Month(Month(dtmYearMonth))
 		End If
-		If Not IsEmpty(strTagsName) Then
+		If Not (IsEmpty(strTagsName) Or strTagsName="" )Then
 			GetTagsbyTagNameList(strTagsName)
 			Dim Tag
 			For Each Tag in Tags
@@ -1724,7 +1734,8 @@ Class TArticleList
 		objRS.Close()
 		Set objRS=Nothing
 
-		Template_Article_Multi=k & Join(aryArticleList)
+		Template_Article_Istop=k
+		Template_Article_Multi=Join(aryArticleList)
 
 		TemplateTags_ArticleList_Page_Now=intPage
 		TemplateTags_ArticleList_Page_All=intPageCount
@@ -1743,360 +1754,6 @@ Class TArticleList
 	End Function
 
 
-	Public Function ExportByCache(intPage,intCateId,intAuthorId,dtmYearMonth,strTagsName,intType)
-
-		'plugin node
-		bAction_Plugin_TArticleList_ExportByCache_Begin=False
-		For Each sAction_Plugin_TArticleList_ExportByCache_Begin in Action_Plugin_TArticleList_ExportByCache_Begin
-			If Not IsEmpty(sAction_Plugin_TArticleList_ExportByCache_Begin) Then Call Execute(sAction_Plugin_TArticleList_ExportByCache_Begin)
-			If bAction_Plugin_TArticleList_ExportByCache_Begin=True Then Exit Function
-		Next
-
-		If IsEmpty(html)=True Then html=Template
-
-		'plugin node
-		Call Filter_Plugin_TArticleList_ExportByCache(intPage,intCateId,intAuthorId,dtmYearMonth,strTagsName,intType)
-
-
-		Dim strType
-		Dim i,j,s,t,k,l
-		Dim intAllPage
-		Dim intTagsID
-		Dim objArticle
-
-		Call CheckParameter(intPage,"int",1)
-		Call CheckParameter(intCateId,"int",Empty)
-		Call CheckParameter(intAuthorId,"int",Empty)
-		Call CheckParameter(dtmYearMonth,"dtm",Empty)
-
-
-		i=InStr(1,TagsList,vbTab & strTagsName & vbVerticalTab,vbBinaryCompare)
-		If i>0 Then
-			j=Left(TagsList,i-1)
-			i=InStrRev(j,vbTab)
-			intTagsID=Right(j,Len(j)-i)
-			Call CheckParameter(intTagsID,"int",Empty)
-		End If
-
-
-		'//////////////////////////
-		'ontop
-		If True Then
-			strType="Istop" & "Page1" & "["
-			s="Istop" & "Page"
-
-			i=InStrRev(AllList,s)
-			If i>0 Then
-				j=InStr(i,AllList,"[",vbBinaryCompare)
-				s=Mid(AllList,i+Len(s),j-i-Len(s))
-				intAllPage=CInt(s)
-			End If
-
-			i=InStr(1,AllList,strType,vbBinaryCompare)
-			If i>0 Then
-				i=Len(strType)+i
-				j=InStr(i,AllList,"]",vbBinaryCompare)
-				s=Mid(AllList,i,j-i)
-				aryArticle=Split(s,";")
-			End If
-
-
-			If IsArray(aryArticle) Then
-
-				Redim aryArticleList(UBound(aryArticle))
-
-				For i=LBound(aryArticle) To UBound(aryArticle)-1
-					Set objArticle = New TArticle
-					objArticle.ID=aryArticle(i)
-					If objArticle.LoadCache Then
-						aryArticleList(i)=objArticle.Template_Article_Multi
-					End if
-					Set objArticle = Nothing
-				Next
-
-				k=Join(aryArticleList)
-				Erase aryArticleList
-				ReDim aryArticle(0)
-
-			End If
-
-		End If
-		'////////////////////////////
-
-
-		strType="All" & "Page" & CStr(intPage) & "["
-		s="All" & "Page"
-
-		Title=ZC_BLOG_SUBTITLE
-
-
-		i=InStrRev(AllList,s)
-		If i>0 Then
-			j=InStr(i,AllList,"[",vbBinaryCompare)
-			s=Mid(AllList,i+Len(s),j-i-Len(s))
-			intAllPage=CInt(s)
-		End If
-
-		i=InStr(1,AllList,strType,vbBinaryCompare)
-		If i>0 Then
-			i=Len(strType)+i
-			j=InStr(i,AllList,"]",vbBinaryCompare)
-			s=Mid(AllList,i,j-i)
-			aryArticle=Split(s,";")
-		End If
-
-
-		If IsArray(aryArticle) Then
-
-
-			Redim aryArticleList(UBound(aryArticle))
-
-			For i=LBound(aryArticle) To UBound(aryArticle)-1
-				Set objArticle = New TArticle
-				objArticle.ID=aryArticle(i)
-				If objArticle.LoadCache Then
-					aryArticleList(i)=objArticle.Template_Article_Multi
-				End if
-				Set objArticle = Nothing
-			Next
-
-			Template_Article_Multi=k & Join(aryArticleList)
-
-		End If
-
-		TemplateTags_ArticleList_Page_Now=intPage
-		TemplateTags_ArticleList_Page_All=intAllPage
-
-		Call ExportBar(intPage,intAllPage,intCateId,intAuthorId,dtmYearMonth,strTagsName)
-
-		ExportByCache=True
-
-		'plugin node
-		bAction_Plugin_TArticleList_ExportByCache_End=False
-		For Each sAction_Plugin_TArticleList_ExportByCache_End in Action_Plugin_TArticleList_ExportByCache_End
-			If Not IsEmpty(sAction_Plugin_TArticleList_ExportByCache_End) Then Call Execute(sAction_Plugin_TArticleList_ExportByCache_End)
-			If bAction_Plugin_TArticleList_ExportByCache_End=True Then Exit Function
-		Next
-
-	End Function
-
-
-	Public Function ExportByMixed(intPage,intCateId,intAuthorId,dtmYearMonth,strTagsName,intType)
-
-		'plugin node
-		bAction_Plugin_TArticleList_ExportByMixed_Begin=False
-		For Each sAction_Plugin_TArticleList_ExportByMixed_Begin in Action_Plugin_TArticleList_ExportByMixed_Begin
-			If Not IsEmpty(sAction_Plugin_TArticleList_ExportByMixed_Begin) Then Call Execute(sAction_Plugin_TArticleList_ExportByMixed_Begin)
-			If bAction_Plugin_TArticleList_ExportByMixed_Begin=True Then Exit Function
-		Next
-
-		If IsEmpty(html)=True Then html=Template
-
-		Call GetCategory()
-		Call GetUser()
-
-		'plugin node
-		Call Filter_Plugin_TArticleList_ExportByMixed(intPage,intCateId,intAuthorId,dtmYearMonth,strTagsName,intType)
-
-		Dim strType
-		Dim i,j,k,l,s
-		Dim objRS
-		Dim intPageCount
-		Dim objArticle
-		Dim intAllPage
-
-		Call CheckParameter(intPage,"int",1)
-		Call CheckParameter(intCateId,"int",Empty)
-		Call CheckParameter(intAuthorId,"int",Empty)
-		Call CheckParameter(dtmYearMonth,"dtm",Empty)
-
-		Title=ZC_BLOG_SUBTITLE
-
-		Set objRS=Server.CreateObject("ADODB.Recordset")
-		objRS.CursorType = adOpenKeyset
-		objRS.LockType = adLockReadOnly
-		objRS.ActiveConnection=objConn
-
-
-		'//////////////////////////
-		'ontop
-		If True Then
-			strType="Istop" & "Page1" & "["
-			s="Istop" & "Page"
-
-			i=InStrRev(AllList,s)
-			If i>0 Then
-				j=InStr(i,AllList,"[",vbBinaryCompare)
-				s=Mid(AllList,i+Len(s),j-i-Len(s))
-				intAllPage=CInt(s)
-			End If
-
-			i=InStr(1,AllList,strType,vbBinaryCompare)
-			If i>0 Then
-				i=Len(strType)+i
-				j=InStr(i,AllList,"]",vbBinaryCompare)
-				s=Mid(AllList,i,j-i)
-				aryArticle=Split(s,";")
-			End If
-
-
-			If IsArray(aryArticle) Then
-
-				Redim aryArticleList(UBound(aryArticle))
-
-				For i=LBound(aryArticle) To UBound(aryArticle)-1
-					Set objArticle = New TArticle
-					objArticle.ID=aryArticle(i)
-					If objArticle.LoadCache Then
-						aryArticleList(i)=objArticle.Template_Article_Multi
-					End if
-					Set objArticle = Nothing
-				Next
-
-				k=Join(aryArticleList)
-				Erase aryArticleList
-				ReDim aryArticle(0)
-
-			End If
-
-		End If
-		'////////////////////////////
-
-
-		objRS.Source="SELECT [log_ID] FROM [blog_Article] WHERE ([log_CateID]>0) And ([log_ID]>0) AND ([log_Istop]=0) AND ([log_Level]>1)"
-
-		If Not IsEmpty(intCateId) Then
-			Dim strSubCateID : strSubCateID=Join(GetSubCateID(intCateId,True),",")
-			objRS.Source=objRS.Source & "AND([log_CateID]IN("&strSubCateID&"))"
-			If CheckCateByID(intCateId) Then
-				Title=Categorys(intCateId).Name
-				TemplateTags_ArticleList_Category_ID=Categorys(intCateId).ID
-				If Categorys(intCateId).TemplateName<>"" Then
-					Categorys(intCateId).html=GetTemplate("TEMPLATE_" & Categorys(intCateId).TemplateName)
-					If Categorys(intCateId).html<>"" Then Template=Categorys(intCateId).TemplateName
-				End If
-			End If
-		End if
-		If Not IsEmpty(intAuthorId) Then
-			objRS.Source=objRS.Source & "AND([log_AuthorID]="&intAuthorId&")"
-			If CheckAuthorByID(intAuthorId) Then
-				Title=Users(intAuthorId).Name
-				TemplateTags_ArticleList_Author_ID=Users(intAuthorId).ID
-			End If
-		End If
-
-		If IsDate(dtmYearMonth) Then
-			Dim y
-			Dim m
-			Dim d
-			Dim ny
-			Dim nm
-
-			If IsDate(dtmYearMonth) Then
-			'	dtmYearMonth=CDate(dtmYearMonth)
-			Else
-				Call showError(3)
-			End If
-
-			y=Year(dtmYearMonth)
-			m=Month(dtmYearMonth)
-			d=Day(dtmYearMonth)
-
-			TemplateTags_ArticleList_Date_ShortDate=dtmYearMonth
-			TemplateTags_ArticleList_Date_Year=y
-			TemplateTags_ArticleList_Date_Month=m
-			TemplateTags_ArticleList_Date_Day=d
-			ny=y
-			nm=m+1
-			If m=12 Then ny=ny+1:nm=1
-
-			If InstrRev(CStr(dtmYearMonth),"-")>=7 Then
-				objRS.Source=objRS.Source & "AND(Year([log_PostTime])="&y&") AND(Month([log_PostTime])="&m&") AND(Day([log_PostTime])="&d&")"
-			Else
-				objRS.Source=objRS.Source & "AND(Year([log_PostTime])="&y&") AND(Month([log_PostTime])="&m&")"
-			End If
-
-			Template_Calendar="<script language=""JavaScript"" src=""<#ZC_BLOG_HOST#>zb_system/function/c_html_js.asp?date="&dtmYearMonth&""" type=""text/javascript""></script>"
-
-			Title=Year(dtmYearMonth) & " " & ZVA_Month(Month(dtmYearMonth))
-		End If
-
-		If Not IsEmpty(strTagsName) Then
-				GetTagsbyTagNameList(strTagsName)
-				Dim Tag
-				For Each Tag in Tags
-						If IsObject(Tag) Then
-								Dim arrTagsName, Tag_i
-								arrTagsName = split(strTagsName, ",")
-								For Tag_i = 0 To UBound(arrTagsName)
-								strTagsName = arrTagsName(Tag_i)
-								If UCase(Tag.Name)=UCase(strTagsName) Then
-										objRS.Source=objRS.Source & "AND([log_Tag] LIKE '%{" & Tag.ID & "}%')"
-										TemplateTags_ArticleList_Tags_ID=Tag.ID
-										If Tag.TemplateName<>"" Then
-											Tag.html=GetTemplate("TEMPLATE_" & Tag.TemplateName)
-											If Tag.html<>"" Then Template=Tag.TemplateName
-										End If
-								End If
-								Next'Tag_i
-						End If
-				Next
-				'Err.Clear
-				Title=strTagsName
-
-		End If
-
-		objRS.Source=objRS.Source & "ORDER BY [log_PostTime] DESC,[log_ID] DESC"
-
-		objRS.Open()
-
-		If (Not objRS.bof) And (Not objRS.eof) Then
-
-			objRS.PageSize = ZC_DISPLAY_COUNT
-			intPageCount=objRS.PageCount
-			objRS.AbsolutePage = intPage
-
-			For i = 1 To objRS.PageSize
-
-				If intPage>intPageCount Then Exit For
-
-				ReDim Preserve aryArticleList(i)
-
-				Set objArticle = New TArticle
-				objArticle.ID=objRS(0)
-				If objArticle.LoadCache Then
-					aryArticleList(i)=objArticle.Template_Article_Multi
-				End if
-				Set objArticle = Nothing
-
-				objRS.MoveNext
-				If objRS.EOF Then Exit For
-
-			Next
-
-		End If
-
-		objRS.Close()
-		Set objRS=Nothing
-
-		Template_Article_Multi=k & Join(aryArticleList)
-
-		TemplateTags_ArticleList_Page_Now=intPage
-		TemplateTags_ArticleList_Page_All=intPageCount
-
-		Call ExportBar(intPage,intPageCount,intCateId,intAuthorId,dtmYearMonth,strTagsName)
-
-		ExportByMixed=True
-
-		'plugin node
-		bAction_Plugin_TArticleList_ExportByMixed_End=False
-		For Each sAction_Plugin_TArticleList_ExportByMixed_End in Action_Plugin_TArticleList_ExportByMixed_End
-			If Not IsEmpty(sAction_Plugin_TArticleList_ExportByMixed_End) Then Call Execute(sAction_Plugin_TArticleList_ExportByMixed_End)
-			If bAction_Plugin_TArticleList_ExportByMixed_End=True Then Exit Function
-		Next
-
-	End Function
-
 
 
 	Public Function Build()
@@ -2112,8 +1769,8 @@ Class TArticleList
 		'plugin node
 		Call Filter_Plugin_TArticleList_Build_Template(html)
 
-		ReDim aryTemplateSubName(19)
-		ReDim aryTemplateSubValue(19)
+		ReDim aryTemplateSubName(20)
+		ReDim aryTemplateSubValue(20)
 
 		aryTemplateSubName(  1)="template:article-multi"
 		aryTemplateSubValue( 1)=Template_Article_Multi
@@ -2153,6 +1810,8 @@ Class TArticleList
 		aryTemplateSubValue(18)=GetTemplate("CACHE_SIDEBAR4")
 		aryTemplateSubName( 19)="template:sidebar5"
 		aryTemplateSubValue(19)=GetTemplate("CACHE_SIDEBAR5")
+		aryTemplateSubName( 20)="template:article-istop"
+		aryTemplateSubValue(20)=Template_Article_Istop
 
 
 		'plugin node

@@ -79,33 +79,6 @@ Dim sAction_Plugin_System_Terminate
 
 
 
-'**************************************************<
-'类型:action
-'名称:Action_Plugin_System_Initialize_WithOutDB
-'参数:无
-'说明:在系统初始化时被调用_WithOutDB
-'**************************************************>
-Dim Action_Plugin_System_Initialize_WithOutDB()
-ReDim Action_Plugin_System_Initialize_WithOutDB(0)
-Dim bAction_Plugin_System_Initialize_WithOutDB
-Dim sAction_Plugin_System_Initialize_WithOutDB
-
-
-
-
-'**************************************************<
-'类型:action
-'名称:Action_Plugin_System_Initialize_WithOutDB_Succeed
-'参数:无
-'说明:在系统初始化成功时被调用_WithOutDB
-'**************************************************>
-Dim Action_Plugin_System_Initialize_WithOutDB_Succeed()
-ReDim Action_Plugin_System_Initialize_WithOutDB_Succeed(0)
-Dim bAction_Plugin_System_Initialize_WithOutDB_Succeed
-Dim sAction_Plugin_System_Initialize_WithOutDB_Succeed
-
-
-
 
 '**************************************************<
 '类型:action
@@ -1837,57 +1810,6 @@ ReDim Action_Plugin_TArticleList_Export_End(0)
 Dim bAction_Plugin_TArticleList_Export_End
 Dim sAction_Plugin_TArticleList_Export_End
 
-
-
-'**************************************************<
-'类型:action
-'名称:Action_Plugin_TArticleList_ExportByCache_Begin
-'参数:无
-'说明:TArticleList_ExportByCache_Begin
-'**************************************************>
-Dim Action_Plugin_TArticleList_ExportByCache_Begin()
-ReDim Action_Plugin_TArticleList_ExportByCache_Begin(0)
-Dim bAction_Plugin_TArticleList_ExportByCache_Begin
-Dim sAction_Plugin_TArticleList_ExportByCache_Begin
-
-
-
-'**************************************************<
-'类型:action
-'名称:TArticleList_ExportByMixed_Begin
-'参数:无
-'说明:
-'**************************************************>
-Dim Action_Plugin_TArticleList_ExportByMixed_Begin()
-ReDim Action_Plugin_TArticleList_ExportByMixed_Begin(0)
-Dim bAction_Plugin_TArticleList_ExportByMixed_Begin
-Dim sAction_Plugin_TArticleList_ExportByMixed_Begin
-
-
-
-'**************************************************<
-'类型:action
-'名称:Action_Plugin_TArticleList_ExportByCache_End
-'参数:无
-'说明:TArticleList_ExportByCache_End
-'**************************************************>
-Dim Action_Plugin_TArticleList_ExportByCache_End()
-ReDim Action_Plugin_TArticleList_ExportByCache_End(0)
-Dim bAction_Plugin_TArticleList_ExportByCache_End
-Dim sAction_Plugin_TArticleList_ExportByCache_End
-
-
-
-'**************************************************<
-'类型:action
-'名称:Action_Plugin_TArticleList_ExportByMixed_End
-'参数:无
-'说明:TArticleList_ExportByMixed_End
-'**************************************************>
-Dim Action_Plugin_TArticleList_ExportByMixed_End()
-ReDim Action_Plugin_TArticleList_ExportByMixed_End(0)
-Dim bAction_Plugin_TArticleList_ExportByMixed_End
-Dim sAction_Plugin_TArticleList_ExportByMixed_End
 
 
 
@@ -4247,6 +4169,35 @@ Dim Action_Plugin_BlogReBuild_Statistics_Begin()
 ReDim Action_Plugin_BlogReBuild_Statistics_Begin(0)
 Dim bAction_Plugin_BlogReBuild_Statistics_Begin
 Dim sAction_Plugin_BlogReBuild_Statistics_Begin
+
+
+
+
+'**************************************************<
+'类型:action
+'名称:Action_Plugin_BlogReBuild_Functions_Begin
+'参数:无
+'说明:c_system_base.asp
+'**************************************************>
+Dim Action_Plugin_BlogReBuild_Functions_Begin()
+ReDim Action_Plugin_BlogReBuild_Functions_Begin(0)
+Dim bAction_Plugin_BlogReBuild_Functions_Begin
+Dim sAction_Plugin_BlogReBuild_Functions_Begin
+
+
+
+
+'**************************************************<
+'类型:action
+'名称:Action_Plugin_BlogReBuild_Default_Begin
+'参数:无
+'说明:c_system_base.asp
+'**************************************************>
+Dim Action_Plugin_BlogReBuild_Default_Begin()
+ReDim Action_Plugin_BlogReBuild_Default_Begin(0)
+Dim bAction_Plugin_BlogReBuild_Default_Begin
+Dim sAction_Plugin_BlogReBuild_Default_Begin
+
 
 
 

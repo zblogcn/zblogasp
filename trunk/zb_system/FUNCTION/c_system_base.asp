@@ -64,10 +64,8 @@ Const ZC_TRACKBACK_TURNOFF=True
 
 Const ZC_DISPLAY_MODE_ALL=1
 Const ZC_DISPLAY_MODE_INTRO=2
-Const ZC_DISPLAY_MODE_HIDE=3
-Const ZC_DISPLAY_MODE_LIST=4
-Const ZC_DISPLAY_MODE_ONTOP=5
-Const ZC_DISPLAY_MODE_SEARCH=6
+Const ZC_DISPLAY_MODE_ONTOP=4
+Const ZC_DISPLAY_MODE_SEARCH=8
 
 '如果连接数据库为MSSQL，则应为'，默认连接Access数据库则为#
 Dim ZC_SQL_POUND_KEY
@@ -149,54 +147,6 @@ Sub System_Terminate()
 	Next
 
 	Call CloseConnect()
-
-End Sub
-'*********************************************************
-
-
-
-
-'*********************************************************
-' 目的：    System 初始化 WithOutDB
-'*********************************************************
-Sub System_Initialize_WithOutDB()
-
-	'plugin node
-	bAction_Plugin_System_Initialize_WithOutDB=False
-	For Each sAction_Plugin_System_Initialize_WithOutDB in Action_Plugin_System_Initialize_WithOutDB
-		If Not IsEmpty(sAction_Plugin_System_Initialize_WithOutDB) Then Call Execute(sAction_Plugin_System_Initialize_WithOutDB)
-		If bAction_Plugin_System_Initialize_WithOutDB=True Then Exit Sub
-	Next
-
-	Call LoadGlobeCache()
-
-	'将激活插件后移
-	Call ActivePlugin()
-
-	'plugin node
-	bAction_Plugin_System_Initialize_WithOutDB_Succeed=False
-	For Each sAction_Plugin_System_Initialize_WithOutDB_Succeed in Action_Plugin_System_Initialize_WithOutDB_Succeed
-		If Not IsEmpty(sAction_Plugin_System_Initialize_WithOutDB_Succeed) Then Call Execute(sAction_Plugin_System_Initialize_WithOutDB_Succeed)
-		If bAction_Plugin_System_Initialize_WithOutDB_Succeed=True Then Exit Sub
-	Next
-
-End Sub
-'*********************************************************
-
-
-
-
-'*********************************************************
-' 目的：    System 释放 WithOutDB
-'*********************************************************
-Sub System_Terminate_WithOutDB()
-
-	'plugin node
-	bAction_Plugin_System_Terminate_WithOutDB=False
-	For Each sAction_Plugin_System_Terminate_WithOutDB in Action_Plugin_System_Terminate_WithOutDB
-		If Not IsEmpty(sAction_Plugin_System_Terminate_WithOutDB) Then Call Execute(sAction_Plugin_System_Terminate_WithOutDB)
-		If bAction_Plugin_System_Terminate_WithOutDB=True Then Exit Sub
-	Next
 
 End Sub
 '*********************************************************
@@ -2185,6 +2135,8 @@ Function MakeBlogReBuild_Core()
 
 	BlogReBuild_Functions
 
+	BlogReBuild_Default
+
 	BuildAllCache
 
 	ExportRSS
@@ -2230,82 +2182,6 @@ Function BuildAllCache()
 	Next
 
 	Call GetFunction()
-
-	Dim strList
-
-	Dim ArticleList
-	Dim AuthList
-	Dim CateList
-	Dim TagsList
-
-	Dim aryAllList()
-
-	Dim objRS
-	Dim i
-	Dim j
-	Dim n
-	Dim l
-	Dim k
-
-	Set objRS=Server.CreateObject("ADODB.Recordset")
-	objRS.CursorType = adOpenKeyset
-	objRS.LockType = adLockReadOnly
-	objRS.ActiveConnection=objConn
-	objRS.Source=""
-
-	objRS.Open("SELECT [log_ID] FROM [blog_Article] WHERE ([log_CateID]>0) And ([log_Level]>1) AND ([log_Istop]=0) ORDER BY [log_PostTime] DESC")
-
-	If (Not objRS.bof) And (Not objRS.eof) Then
-
-		objRS.PageSize = ZC_DISPLAY_COUNT
-		ReDim aryAllList(objRS.PageCount+1)
-
-		For i=1 to objRS.PageCount
-			objRS.AbsolutePage=i
-			For j = 1 To objRS.PageSize
-				If j=1 Then aryAllList(i)="AllPage" & i & "["
-
-				If i=1 Then
-					aryAllList(i)=aryAllList(i) & objRS("log_ID") & ";"
-				End If
-
-				If j=objRS.PageSize Then aryAllList(i)=aryAllList(i) & "]"
-				objRS.MoveNext
-				If objRS.EOF Then aryAllList(i)=aryAllList(i) & "]":Exit For
-			Next
-		Next
-
-	End If
-	objRS.Close
-	strList=strList & Join(aryAllList)
-	Erase aryAllList
-
-
-
-	objRS.Open("SELECT [log_ID] FROM [blog_Article] WHERE ([log_CateID]>0) And ([log_Level]>1) AND ([log_Istop]<>0) ORDER BY [log_PostTime] DESC")
-
-	If (Not objRS.bof) And (Not objRS.eof) Then
-
-		objRS.PageSize = ZC_DISPLAY_COUNT
-		ReDim aryAllList(objRS.PageCount+1)
-
-		For i=1 to objRS.PageCount
-			objRS.AbsolutePage=i
-			For j = 1 To objRS.PageSize
-				If j=1 Then aryAllList(i)="IstopPage" & i & "["
-				aryAllList(i)=aryAllList(i) & objRS("log_ID") & ";"
-				If j=objRS.PageSize Then aryAllList(i)=aryAllList(i) & "]"
-				objRS.MoveNext
-				If objRS.EOF Then aryAllList(i)=aryAllList(i) & "]":Exit For
-			Next
-		Next
-
-	End If
-	objRS.Close
-	strList=strList & Join(aryAllList)
-	Erase aryAllList
-
-	Call SaveToFile(BlogPath & "zb_users/CACHE/cache_list_"&ZC_BLOG_CLSID&".html",strList,"utf-8",False)
 
 	BuildAllCache=True
 
@@ -2520,6 +2396,8 @@ Function BlogReBuild_Categorys()
 		If Not IsEmpty(sAction_Plugin_BlogReBuild_Categorys_Begin) Then Call Execute(sAction_Plugin_BlogReBuild_Categorys_Begin)
 		If bAction_Plugin_BlogReBuild_Categorys_Begin=True Then Exit Function
 	Next
+
+	Exit Function
 
 	GetCategory()
 
@@ -2894,6 +2772,13 @@ End Function
 '*********************************************************
 Function BlogReBuild_Functions
 
+	'plugin node
+	bAction_Plugin_BlogReBuild_Functions_Begin=False
+	For Each sAction_Plugin_BlogReBuild_Functions_Begin in Action_Plugin_BlogReBuild_Functions_Begin
+		If Not IsEmpty(sAction_Plugin_BlogReBuild_Functions_Begin) Then Call Execute(sAction_Plugin_BlogReBuild_Functions_Begin)
+		If bAction_Plugin_BlogReBuild_Functions_Begin=True Then Exit Function
+	Next
+
 	Call GetFunction()
 
 	Call SaveFunctionType()
@@ -2933,6 +2818,46 @@ Function BlogReBuild_Functions
 
 End Function
 '*********************************************************
+
+
+
+
+
+'*********************************************************
+' 目的：    BlogReBuild Default
+'*********************************************************
+Function BlogReBuild_Default
+
+	'plugin node
+	bAction_Plugin_BlogReBuild_Default_Begin=False
+	For Each sAction_Plugin_BlogReBuild_Default_Begin in Action_Plugin_BlogReBuild_Default_Begin
+		If Not IsEmpty(sAction_Plugin_BlogReBuild_Default_Begin) Then Call Execute(sAction_Plugin_BlogReBuild_Default_Begin)
+		If bAction_Plugin_BlogReBuild_Default_Begin=True Then Exit Function
+	Next
+
+	TemplateTagsDic.Item("ZC_BLOG_HOST")="<#ZC_BLOG_HOST#>"
+
+	Dim ArtList
+	Set ArtList=New TArticleList
+
+	ArtList.LoadCache
+
+	ArtList.template="DEFAULT"
+
+	If ArtList.Export("","","","","",ZC_DISPLAY_MODE_INTRO) Then
+
+		ArtList.Build
+
+		Call SaveToFile(BlogPath & "zb_users/CACHE/default.html",ArtList.html,"utf-8",False) 
+
+	End If
+
+
+	BlogReBuild_Default=True
+
+End Function
+'*********************************************************
+
 
 
 

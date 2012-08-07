@@ -81,7 +81,7 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG070
 <%
 	Dim i
 	Response.Write "<p><span class='title'>"& ZC_MSG249 &":</span><input id=""edtID"" name=""edtID""  type=""hidden"" value="""& EditUser.ID &""" />"
-	Response.Write "<input id=""edtLevel"" name=""edtLevel"" type=""hidden"" value="""& EditUser.Level &""" /><select size=""1"" id=""cmbUserLevel"" onchange=""edtLevel.value=this.options[this.selectedIndex].value"">"
+	Response.Write "<input id=""edtLevel"" name=""edtLevel"" type=""hidden"" value="""& EditUser.Level &""" /><select "&IIF(CheckRights("root"),"","disabled=""disabled""")&" size=""1"" id=""cmbUserLevel"" onchange=""edtLevel.value=this.options[this.selectedIndex].value"">"
 	Dim UserLevel
 	i=0
 	If EditUser.Level<>1 Then i=2
