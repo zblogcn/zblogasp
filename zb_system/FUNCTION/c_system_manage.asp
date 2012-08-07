@@ -469,7 +469,7 @@ Function ExportCommentList(intPage,intContent)
 	objRS.ActiveConnection=objConn
 	objRS.Source=""
 
-	strSQL=strSQL&" WHERE  ([log_ID]>0) "
+	strSQL=strSQL&" WHERE  ([log_ID]>0) AND ([comm_isCheck]=0) "
 
 	If CheckRights("Root")=False Then
 		strSQL=strSQL & "AND( ([comm_AuthorID] = " & BlogUser.ID & " ) OR ((SELECT [log_AuthorID] FROM [blog_Article] WHERE [blog_Article].[log_ID]=[blog_Comment].[log_ID])=" & BlogUser.ID & " )) "
