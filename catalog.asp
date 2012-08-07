@@ -41,7 +41,7 @@ ArtList.LoadCache
 
 ArtList.template="CATALOG"
 
-If ArtList.ExportByMixed(Request.QueryString("page"),Request.QueryString("cate"),Request.QueryString("auth"),Request.QueryString("date"),Request.QueryString("tags"),ZC_DISPLAY_MODE_ALL) Then
+If ArtList.Export(Request.QueryString("page"),Request.QueryString("cate"),Request.QueryString("auth"),Request.QueryString("date"),Request.QueryString("tags"),ZC_DISPLAY_MODE_INTRO) Then
 	ArtList.Build
 	Response.Write ArtList.html
 End If

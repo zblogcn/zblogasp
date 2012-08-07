@@ -32,7 +32,17 @@ If CheckMobile() Then Response.Redirect (ZC_BLOG_HOST&ZC_FILENAME_WAP)
 '向导部分wizard
 If ZC_DATABASE_PATH="data/zblog.mdb" And ZC_MSSQL_ENABLE=False Then Response.Redirect "wizard.asp?verify=" & MD5(ZC_DATABASE_PATH & Replace(LCase(Request.ServerVariables("PATH_TRANSLATED")),"default.asp",""))
 
-Call System_Initialize_WithOutDB()
+Dim s
+s=LoadFromFile(BlogPath & "zb_users\cache\default.html","utf-8")
+
+If Len(s)>0 Then
+	Response.Write Replace(s,"<#ZC_BLOG_HOST#>",GetCurrentHost())
+	Response.Write "<!-- " & RunTime() & "ms -->"
+	Response.End
+End If
+
+
+Call System_Initialize()
 
 'plugin node
 For Each sAction_Plugin_Default_Begin in Action_Plugin_Default_Begin
@@ -48,7 +58,7 @@ ArtList.LoadCache
 
 ArtList.template="DEFAULT"
 
-If ArtList.ExportByCache("","","","","","") Then
+If ArtList.Export("","","","","",ZC_DISPLAY_MODE_INTRO) Then
 
 	ArtList.Build
 
@@ -61,10 +71,10 @@ For Each sAction_Plugin_Default_End in Action_Plugin_Default_End
 	If Not IsEmpty(sAction_Plugin_Default_End) Then Call Execute(sAction_Plugin_Default_End)
 Next
 
-Call System_Terminate_WithOutDB()
+Call System_Terminate()
 
 %><!-- <%=RunTime()%>ms --><%
 If Err.Number<>0 then
-	Call ShowError(0)
+	'Call ShowError(0)
 End If
 %>
