@@ -341,32 +341,23 @@ FIELDSET .line .usertxt .input_radio INPUT {
 	DISPLAY: none; VERTICAL-ALIGN: top
 }
 .d_default {
-	float:right;BORDER-RIGHT: #fff 1px solid; PADDING-RIGHT: 0px; BORDER-TOP: #fff 1px solid;  PADDING-BOTTOM: 2px;PADDING-TOP: 2px; BORDER-BOTTOM: #fff 1px solid
+	BORDER-RIGHT: #fff 1px solid; PADDING-RIGHT: 0px; BORDER-TOP: #fff 1px solid;  PADDING-BOTTOM: 2px;PADDING-TOP: 2px; BORDER-BOTTOM: #fff 1px solid
 }
 .d_on {
-	float:right;BORDER-RIGHT: #ffcc00 1px solid; PADDING-RIGHT: 0px; BORDER-TOP: #ffcc00 1px solid;  PADDING-LEFT: 10px;PADDING-BOTTOM: 2px; BORDER-LEFT: #ffcc00 1px solid; PADDING-TOP: 2px; BORDER-BOTTOM: #ffcc00 1px solid; BACKGROUND-COLOR: #ffffdd
+	BORDER-RIGHT: #ffcc00 1px solid; PADDING-RIGHT: 0px; BORDER-TOP: #ffcc00 1px solid;  PADDING-LEFT: 10px;PADDING-BOTTOM: 2px; BORDER-LEFT: #ffcc00 1px solid; PADDING-TOP: 2px; BORDER-BOTTOM: #ffcc00 1px solid; BACKGROUND-COLOR: #ffffdd
 }
 .d_ok {
-	float:right;BORDER-RIGHT: #00be00 1px solid; PADDING-RIGHT: 0px; BORDER-TOP: #00be00 1px solid; PADDING-LEFT: 10px; BACKGROUND: #e6ffe6 no-repeat 4px 50%; PADDING-BOTTOM: 2px; BORDER-LEFT: #00be00 1px solid; PADDING-TOP: 2px; BORDER-BOTTOM: #00be00 1px solid
+	BORDER-RIGHT: #00be00 1px solid; PADDING-RIGHT: 0px; BORDER-TOP: #00be00 1px solid; PADDING-LEFT: 10px; BACKGROUND: #e6ffe6 no-repeat 4px 50%; PADDING-BOTTOM: 2px; BORDER-LEFT: #00be00 1px solid; PADDING-TOP: 2px; BORDER-BOTTOM: #00be00 1px solid
 }
 .d_err {
-	float:right;BORDER-RIGHT: #ff3300 1px solid; PADDING-RIGHT: 0px; BORDER-TOP: #ff3300 1px solid; PADDING-LEFT: 10px; BACKGROUND: #fff1e4 no-repeat 4px 50%; PADDING-BOTTOM: 2px; BORDER-LEFT: #ff3300 1px solid; PADDING-TOP: 2px; BORDER-BOTTOM: #ff3300 1px solid
-}
-.d_email {
-	float:right;
-}
-.d_site {
-	float:right;
+	BORDER-RIGHT: #ff3300 1px solid; PADDING-RIGHT: 0px; BORDER-TOP: #ff3300 1px solid; PADDING-LEFT: 10px; BACKGROUND: #fff1e4 no-repeat 4px 50%; PADDING-BOTTOM: 2px; BORDER-LEFT: #ff3300 1px solid; PADDING-TOP: 2px; BORDER-BOTTOM: #ff3300 1px solid
 }
 
-#upwd {
-	FLOAT: left
-}
 #ssnbotton {
 	FONT-SIZE: 10pt; WIDTH: 180px; BACKGROUND-COLOR: #ffffff
 }
 .ob_pws {
-	DISPLAY: inline; FONT-SIZE: 9pt; FLOAT: left; WIDTH: 183px; BACKGROUND-COLOR: #f1f1f1; TEXT-ALIGN: center
+	DISPLAY: inline; FONT-SIZE: 9pt; FLOAT: left; WIDTH: 183px; BACKGROUND-COLOR: #f1f1f1; TEXT-ALIGN: center;margin-left: 55px;
 }
 .ob_pws0 {
 	DISPLAY: inline; FLOAT: left; WIDTH: 60px
@@ -381,20 +372,18 @@ FIELDSET .line .usertxt .input_radio INPUT {
 	DISPLAY: inline; FLOAT: left; WIDTH: 60px; BACKGROUND-COLOR: #00cc66
 }
 
-.divHeader{
-	border-bottom:0px solid #3399CC;
-	margin-bottom:10px;
-	background:#eee;
-}
+.divHeader{	font-weight:bolder;font-size: 1.8em;margin:5px 0 20px -5px;text-align: left;}
+
 
 ul{clear:both;margin-bottom:20px;line-height:24px;}
 p{clear:both;margin-bottom:10px;}
+label{margin-left:10px}
 
-
-input{height:20px;}
+input{float: left;width: 170px;height: 25px;padding: 0 5px;line-height: 27px;}
 textarea{width:510px;}
 
 li.r_left{font-weight:bolder;}
-
-#regButton{width:510px;height:28px;}
+dd.checkbox {padding-left:55px;width: 240px;text-align: left;}
+input[type="checkbox"]{margin:0px 0 3px 55px;padding: 0;height:30px;width:13px}
+#regButton{float:left;width:130px;	margin-left:55px;}
 /* background:#66ccff;border:1px solid #3399cc; */
