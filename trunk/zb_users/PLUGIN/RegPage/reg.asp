@@ -71,22 +71,22 @@ Next
 		</div></dd>
 	</dl>
     <dl>
-		<dd><label for="uname">确认:</label><input id="repassword" onBlur="out_upwd2();" onFocus="on_input('d_upwd2');" type="password" maxlength="14" size="20" tabindex="3" name="repassword" value="<%=dPassword%>"></dd>
+		<dd><label for="repassword">确认:</label><input id="repassword" onBlur="out_upwd2();" onFocus="on_input('d_upwd2');" type="password" maxlength="14" size="20" tabindex="3" name="repassword" value="<%=dPassword%>"></dd>
 		<dd><div class="d_default" id="d_upwd2"></div></dd>
 	</dl>
 
     <dl>
-		<dd><label for="uname">邮箱:</label><input id="email" onBlur="out_email();" onFocus="on_input('d_email');" maxlength="32" size="20"  tabindex="4" name="email" value="<%=dEMail%>"></dd>
+		<dd><label for="email">邮箱:</label><input id="email" onBlur="out_email();" onFocus="on_input('d_email');" maxlength="32" size="20"  tabindex="4" name="email" value="<%=dEMail%>"></dd>
 		<dd><div class="d_email" id="d_email"></div></dd>
 	</dl>
 
     <dl>
-		<dd><label for="uname">网站:</label><input id="site" name="site" size="20" tabindex="5" onBlur="out_site();" onFocus="on_input('d_site');"  value="<%=dSite%>" /></dd>
+		<dd><label for="site">网站:</label><input id="site" name="site" size="20" tabindex="5" onBlur="out_site();" onFocus="on_input('d_site');"  value="<%=dSite%>" /></dd>
 		<dd><div class="d_site" id="d_site"></div></dd>
 	</dl>
 
     <dl>
-		<dd><label for="uname">验证:</label><input  type="text" id="edtCheckOut" name="edtCheckOut" size="20"  tabindex="6"/></dd>
+		<dd><label for="edtCheckOut">验证:</label><input  type="text" id="edtCheckOut" name="edtCheckOut" size="20"  tabindex="6"/></dd>
 		<dd><img style="border:5px solid #ededed" src="<%=GetCurrentHost%>zb_system/function/c_validcode.asp?name=commentvalid" alt="点击刷新" title=""/></dd>
 	</dl>
 
