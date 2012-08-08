@@ -443,7 +443,7 @@ Class TArticle
 	End Property
 
 	Public Property Get HtmlUrl
-		HtmlUrl=TransferHTML(Url,"[html-format]")
+		HtmlUrl=TransferHTML(TransferHTML(FullUrl,"[zc_blog_host]"),"[html-format]")
 	End Property
 
 	Public Property Get TagToName
