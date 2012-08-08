@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Plugin version="1.0">
+<id>dztaotao</id>
+<name>大猪淘淘</name>
+<url>http://www.izhu.org/t.asp</url>
+<note>大猪的淘淘</note>
+<author>
+  <name>大猪</name>
+  <url>http://www.izhu.org</url>
+  <email>myllop@gmail.com</email>
+</author>
+<type>inline</type>
+<path>setting.asp</path>
+<include>include.asp</include>
+<level>1</level>
+<adapted>Z-Blog 1.8</adapted>
+<version>1.0</version>
+<pubdate>2009-7-13</pubdate>
+<modified>2009-7-13</modified>
+</Plugin>
