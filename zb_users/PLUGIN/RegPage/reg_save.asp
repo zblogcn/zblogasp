@@ -84,10 +84,12 @@ For Each sAction_Plugin_RegSave_VerifyOK in Action_Plugin_RegSave_VerifyOK
 	If Not IsEmpty(sAction_Plugin_RegSave_VerifyOK) Then Call Execute(sAction_Plugin_RegSave_VerifyOK)
 Next
 
-Dim RegUser
+Dim RegUser,objConfig
 Set RegUser=New TUser
+Set objConfig=New TConfig
+objConfig.Load "RegPage"
 'RegUser.LoadInfoById 18
-RegUser.Level=4
+RegUser.Level=CInt(objConfig.Read("Level"))
 RegUser.Name=UserName
 RegUser.Email=UserMail
 RegUser.HomePage=UserHomePage

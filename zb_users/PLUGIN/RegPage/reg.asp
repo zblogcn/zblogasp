@@ -1,4 +1,9 @@
 ﻿<%@ CODEPAGE=65001 %>
+<%
+'关于注册组件：
+'原作者http://down.cnzz.cn/info/63651.aspx
+'经过Rainbowsoft修正以及美化
+%>
 <% Option Explicit %>
 <% On Error Resume Next %>
 <% Response.Charset="UTF-8" %>
@@ -11,7 +16,7 @@
 <!-- #include file="../../../ZB_SYSTEM/function/c_system_event.asp" -->
 <!-- #include file="../../plugin/p_config.asp" -->
 <%
-'代码部分来源于网络，作者未知
+
 Call System_Initialize
 '检查非法链接
 Call CheckReference("")
