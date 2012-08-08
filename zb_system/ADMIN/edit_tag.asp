@@ -39,9 +39,6 @@ Call CheckReference("")
 '检查权限
 If Not CheckRights("TagEdt") Then Call ShowError(6)
 
-GetCategory()
-GetUser()
-
 Dim EditTag
 Set EditTag=New TTag
 

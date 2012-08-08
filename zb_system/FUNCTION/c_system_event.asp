@@ -157,9 +157,6 @@ Function PostArticle()
 	Dim s,i,t,k
 	Dim strTag
 
-	GetCategory()
-	GetUser()
-
 	If Request.Form("edtID")<>"0" Then
 		Dim objTestArticle
 		Set objTestArticle=New TArticle
@@ -235,9 +232,6 @@ Function DelArticle(intID)
 
 	Dim strTag
 
-	GetCategory()
-	GetUser()
-
 	If intID<>"" Then
 		Dim objTestArticle
 		Set objTestArticle=New TArticle
@@ -277,8 +271,6 @@ End Function
 '*********************************************************
 Function PostCategory()
 
-	GetCategory()
-
 	Dim objCategory
 	Set objCategory=New TCategory
 	objCategory.ID=Request.Form("edtID")
@@ -313,8 +305,6 @@ End Function
 '*********************************************************
 Function DelCategory(intID)
 
-	GetCategory()
-
 	Dim objCategory
 	Set objCategory=New TCategory
 
@@ -337,7 +327,6 @@ End Function
 '*********************************************************
 Function PostComment(strKey,intRevertCommentID)
 
-	Call GetCategory()
 	Call GetUser()
 
 	If IsEmpty(Request.Form("inpAjax"))=False Then
@@ -448,9 +437,6 @@ End Function
 '*********************************************************
 Function DelComment(intID,intLog_ID)
 
-	Call GetCategory()
-	Call GetUser()
-
 	Dim objComment
 	Dim objArticle
 
@@ -505,9 +491,6 @@ End Function
 '*********************************************************
 Function SaveComment()
 
-	Call GetCategory()
-	Call GetUser()
-
 	Dim objComment
 	Dim objArticle
 
@@ -556,9 +539,6 @@ End Function
 ' 目的：    Save Rev Comment
 '*********************************************************
 Function SaveRevComment()
-
-	Call GetCategory()
-	Call GetUser()
 
 	Dim objRevComment
 	Dim objNewComment
@@ -642,7 +622,6 @@ Function ReturnAjaxComment(objComment)
 
 	Set objArticle=New TArticle
 	If objArticle.LoadInfoByID(objComment.log_ID) Then
-		Call GetTagsbyTagIDList(objArticle.Tag)
 		Call objArticle.Export(ZC_DISPLAY_MODE_ALL)
 		i=objArticle.CommNums
 	End If
@@ -693,10 +672,6 @@ End Function
 '*********************************************************
 Function GetComment(logid,page)
 
-
-	Call GetCategory()
-	Call GetUser()
-
 	Dim objArticle
 	Set objArticle=New TArticle
 
@@ -704,7 +679,6 @@ Function GetComment(logid,page)
 	Call Add_Filter_Plugin("Filter_Plugin_TArticle_Export_TemplateTags","ReturnAjaxComment_Plugin")
 
 	If objArticle.LoadInfoByID(logid) Then
-		Call GetTagsbyTagIDList(objArticle.Tag)
 		objArticle.CommentsPage=page
 		Call objArticle.Export(ZC_DISPLAY_MODE_ALL)
 		s=objArticle.Template_Article_Comment
@@ -889,8 +863,6 @@ End Function
 '*********************************************************
 Function EditUser()
 
-	GetUser()
-
 	Dim objUser
 	Set objUser=New TUser
 	objUser.ID=Request.Form("edtID")
@@ -929,8 +901,6 @@ End Function
 ' 目的：    Del User
 '*********************************************************
 Function DelUser(intID)
-
-	GetUser()
 
 	Dim objRS
 	Dim objUser
@@ -1026,9 +996,6 @@ Function MakeFileReBuild(intPage)
 	'	If Not IsEmpty(sAction_Plugin_MakeFileReBuild_Begin) Then Call Execute(sAction_Plugin_MakeFileReBuild_Begin)
 	'	If bAction_Plugin_MakeFileReBuild_Begin=True Then Exit Function
 	'Next
-
-	GetCategory()
-	GetUser()
 
 	Dim i,j
 
@@ -1862,8 +1829,6 @@ Function ScanTagCount(strTags)
 
 	If strTags<>"" Then
 
-		Call GetTagsbyTagIDList(strTags)
-
 		s=strTags
 		s=Replace(s,"}","")
 		t=Split(s,"{")
@@ -1872,13 +1837,12 @@ Function ScanTagCount(strTags)
 
 			If t(i)<>"" Then
 
-				If IsObject(Tags(t(i))) Then
-					k=Tags(t(i)).ID
-					Set objRS=objConn.Execute("SELECT COUNT([log_ID]) FROM [blog_Article] WHERE [log_Level]>1 AND [log_Tag] LIKE '%{" & k & "}%'")
-					j=objRS(0)
-					objConn.Execute("UPDATE [blog_Tag] SET [tag_Count]="&j&" WHERE [tag_ID] =" & k)
-					Set objRS=Nothing
-				End If
+				k=t(i)
+				Set objRS=objConn.Execute("SELECT COUNT([log_ID]) FROM [blog_Article] WHERE [log_Level]>1 AND [log_Tag] LIKE '%{" & k & "}%'")
+				j=objRS(0)
+				objConn.Execute("UPDATE [blog_Tag] SET [tag_Count]="&j&" WHERE [tag_ID] =" & k)
+				Set objRS=Nothing
+
 			End If
 
 		Next
@@ -1887,6 +1851,7 @@ Function ScanTagCount(strTags)
 		s=Right(s,Len(s)-1)
 
 		strTags=s
+
 	End If
 
 End Function

@@ -65,9 +65,6 @@ End If
 '/////////////////////////////////////////////////////////////////////////////////
 Function ExportRSSbyCate(CateID)
 
-	Call GetCategory()
-	Call GetUser()
-
 	Dim Rss2Export
 	Dim objArticle
 
@@ -129,8 +126,7 @@ End Function
 
 Function ExportRSSbyUser(UserID)
 
-	Call GetCategory()
-	Call GetUser()
+	Call GetUsersbyUserIDList(UserID)
 
 	Dim Rss2Export
 	Dim objArticle
@@ -193,9 +189,6 @@ End Function
 
 Function ExportRSSbyDate(YearMonth)
 
-	Call GetCategory()
-	Call GetUser()
-
 	Dim Rss2Export
 	Dim objArticle
 
@@ -255,8 +248,6 @@ End Function
 
 Function ExportRSSbyTags(TagsID)
 
-	Call GetCategory()
-	Call GetUser()
 	Call GetTagsbyTagIDList("{"&TagsID&"}")
 
 
@@ -320,9 +311,6 @@ End Function
 
 
 Function ExportRSSbyCmt(intID)
-
-	Call GetCategory()
-	Call GetUser()
 
 	Dim Rss2Export
 	Dim objArticle

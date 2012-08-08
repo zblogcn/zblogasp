@@ -309,9 +309,9 @@ ZVA_Article_Level_Name(4)="普通文章"
 
 Dim ZVA_User_Level_Name(5)
 ZVA_User_Level_Name(1)="管理员"
-ZVA_User_Level_Name(2)="高级用户"
-ZVA_User_Level_Name(3)="中级用户"
-ZVA_User_Level_Name(4)="普通用户"
+ZVA_User_Level_Name(2)="网站编辑"
+ZVA_User_Level_Name(3)="作者"
+ZVA_User_Level_Name(4)="评论者"
 ZVA_User_Level_Name(5)="游客"
 
 

@@ -42,8 +42,6 @@ strAct=Request.QueryString("act")
 '检查权限
 If Not CheckRights(strAct) Then Call ShowError(6)
 
-Call GetCategory()
-Call GetUser()
 Call GetFunction()
 
 BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG046

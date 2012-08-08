@@ -92,7 +92,7 @@ Sub System_Initialize()
 
 	BlogUser.Verify()
 
-	'Call GetCategory()
+	Call GetCategory()
 	'Call GetUser()
 	'Call GetTags()
 	'Call GetKeyWords()
@@ -2332,8 +2332,6 @@ Function BlogReBuild_Catalogs()
 	Next
 
 	IsRunGetCategory=False
-	GetCategory()
-
 
 	Dim objRS
 	Dim objStream
@@ -2399,8 +2397,6 @@ Function BlogReBuild_Categorys()
 
 	Exit Function
 
-	GetCategory()
-
 	Dim objRS
 	Dim objStream
 	Dim objArticle
@@ -2462,7 +2458,7 @@ Function BlogReBuild_Authors()
 		If bAction_Plugin_BlogReBuild_Authors_Begin=True Then Exit Function
 	Next
 
-	GetUser
+	Call GetUser()
 
 	Dim objRS
 	Dim objStream
@@ -2472,7 +2468,7 @@ Function BlogReBuild_Authors()
 	Dim User
 	For Each User in Users
 		If IsObject(User) Then''''''
-			If User.ID>0 Then
+			If User.ID>0 And User.Level<4 Then
 				strAuthor=strAuthor & "<li><a href="""& User.Url & """>"+User.Name + " (" & User.Count & ")" +"</a></li>"
 			End If
 		End If
@@ -2966,11 +2962,7 @@ Function BuildArticle(intID,bolBuildNavigate,bolBuildCategory)
 	Dim objArticle
 	Set objArticle=New TArticle
 
-	Call GetCategory()
-	Call GetUser()
-
 	If objArticle.LoadInfoByID(intID) Then
-		Call GetTagsbyTagIDList(objArticle.Tag)
 		objArticle.Statistic
 		If objArticle.Export(ZC_DISPLAY_MODE_ALL) Then
 			objArticle.SaveCache
@@ -3005,6 +2997,100 @@ End Function
 '*********************************************************
 
 
+'*********************************************************
+' 目的：    GetUsersbyUserIDList
+'*********************************************************
+Function GetUsersbyUserIDList(strUsers)
+'strTags=1,2,3,4,5,6,7,8
+
+If strUsers="" Then Exit Function
+
+Dim s,t,i,j,d
+
+t=Split(strUsers,",")
+
+Set d = CreateObject("Scripting.Dictionary")
+
+For i=LBound(t) To UBound(t)
+	If Trim(t(i))<>"" Then
+		If d.Exists(t(i))=False Then Call d.add(t(i),t(i))
+	End If
+Next
+
+t = d.Keys
+For i = 0 To d.Count -1
+
+	If UBound(Users)>=CInt(t(i)) Then
+		If IsObject(Users(t(i)))=False Then 
+			j=j+1
+			s=s & "([mem_ID]="&CInt(t(i))&") Or"
+		End If
+	Else
+		j=j+1
+		s=s & "([mem_ID]="&CInt(t(i))&") Or"
+	End If
+	If j=100 Then
+		Call GetUsers_Sub(s)
+		j=0
+		s=""
+	End If
+Next
+
+Call GetUsers_Sub(s)
+
+GetUsersbyUserIDList=True
+
+
+
+End Function
+'*********************************************************
+
+
+
+
+'*********************************************************
+' 目的：    GetUsersbyUser子函数
+'*********************************************************
+Sub GetUsers_Sub(s)
+
+If Len(s)>2 Then 
+	s=Left(s,Len(s)-2)
+Else
+	Exit Sub
+End If
+
+Dim objRS
+Dim objUser
+
+Set objRS=objConn.Execute("SELECT [mem_ID],[mem_Name],[mem_Level],[mem_Password],[mem_Email],[mem_HomePage],[mem_PostLogs],[mem_Intro],[mem_Meta] FROM [blog_Member] WHERE (" & s & ")")
+
+If (Not objRS.bof) And (Not objRS.eof) Then
+
+	Do While Not objRS.eof
+
+		Set objUser=New TUser
+		Call objUser.LoadInfoByArray(Array(objRS(0),objRS(1),objRS(2),objRS(3),objRS(4),objRS(5),objRS(6),objRS(7),objRS(8)))
+
+		If UBound(Users)<objUser.ID Then
+			ReDim Preserve Users(objUser.ID)
+		End If
+
+		Set Users(objUser.ID)=objUser
+
+		Set objUser=Nothing
+
+		objRS.MoveNext
+	Loop
+
+End If
+
+objRS.Close
+Set objRS=Nothing
+
+End Sub
+'*********************************************************
+
+
 
 
 '*********************************************************
@@ -3017,28 +3103,56 @@ If strTags="" Then Exit Function
 If strTags="{}" Then Exit Function
 
 
-Dim s,t,i
+Dim s,t,i,j,d
 strTags=Replace(strTags,"}","")
 t=Split(strTags,"{")
 
+Set d = CreateObject("Scripting.Dictionary")
+
 For i=LBound(t) To UBound(t)
 	If Trim(t(i))<>"" Then
-		If UBound(Tags)>=CInt(t(i)) Then
-			If IsObject(Tags(t(i)))=True Then 
-			
-			Else
-				s=s & "([tag_ID]="&CInt(t(i))&") Or"
-			End If
-		Else
-			s=s & "([tag_ID]="&CInt(t(i))&") Or"
-		End If
+		If d.Exists(t(i))=False Then Call d.add(t(i),t(i))
 	End If
 Next
+
+t = d.Keys
+For i = 0 To d.Count -1
+
+	If UBound(Tags)>=CInt(t(i)) Then
+		If IsObject(Tags(t(i)))=False Then 
+			j=j+1
+			s=s & "([tag_ID]="&CInt(t(i))&") Or"
+		End If
+	Else
+		j=j+1
+		s=s & "([tag_ID]="&CInt(t(i))&") Or"
+	End If
+	If j=100 Then
+		Call GetTags_Sub(s)
+		j=0
+		s=""
+	End If
+Next
+
+Call GetTags_Sub(s)
+
+GetTagsbyTagIDList=True
+
+End Function
+'*********************************************************
+
+
+
+
+'*********************************************************
+' 目的：    GetTagsbyTag子函数
+'*********************************************************
+Sub GetTags_Sub(s)
 
 If Len(s)>2 Then 
 	s=Left(s,Len(s)-2)
 Else
-	Exit Function
+	Exit Sub
 End If
 
 Dim objRS
@@ -3069,9 +3183,7 @@ End If
 objRS.Close
 Set objRS=Nothing
 
-GetTagsbyTagIDList=True
-
-End Function
+End Sub
 '*********************************************************
 
 
@@ -3096,36 +3208,7 @@ For i=LBound(t) To UBound(t)
 	End If
 Next
 
-s=Left(s,Len(s)-2)
-
-Dim objRS
-Dim objTag
-
-Set objRS=objConn.Execute("SELECT [tag_ID],[tag_Name],[tag_Intro],[tag_Order],[tag_Count],[tag_ParentID],[tag_URL],[tag_Template],[tag_FullUrl],[tag_Meta] FROM [blog_Tag] WHERE (" & s & ")")
-
-If (Not objRS.bof) And (Not objRS.eof) Then
-
-
-	Do While Not objRS.eof
-
-		Set objTag=New TTag
-		Call objTag.LoadInfoByArray(Array(objRS(0),objRS(1),objRS(2),objRS(3),objRS(4),objRS(5),objRS(6),objRS(7),objRS(8),objRS(9)))
-
-		If UBound(Tags)<objTag.ID Then
-			ReDim Preserve Tags(objTag.ID)
-		End If
-
-		Set Tags(objTag.ID)=objTag
-
-		Set objTag=Nothing
-
-		objRS.MoveNext
-	Loop
-
-End If
-
-objRS.Close
-Set objRS=Nothing
+Call GetTags_Sub(s)
 
 GetTagsbyTagNameList=True
 

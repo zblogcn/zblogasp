@@ -44,8 +44,6 @@ BlogTitle="PageMeta"
     <!--<table border="1" width="100%" cellspacing="1" cellpadding="1">
 	<tr><td>Name</td><td>Value</td></tr>-->
     <%
-	Call GetUser
-	Call GetCategory
 	Dim oA,j,k,a,f
 	a=Request.QueryString("act")
 	Call CheckParameter(a,"int",1)

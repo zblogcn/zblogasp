@@ -516,9 +516,6 @@ End Function
 '/////////////////////////////////////////////////////////////////////////////////////////
 Call System_Initialize()
 
-Call GetCategory()
-Call GetUser()
-
 Dim strXmlCall
 Dim objXmlFile
 

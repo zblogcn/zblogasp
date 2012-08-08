@@ -9,8 +9,6 @@
 <!-- #include file="../../../ZB_SYSTEM/function/c_system_manage.asp" -->
 <%
 Call System_Initialize()
-Call GetCategory
-Call GetUser
 Call CheckReference("")
 If BlogUser.Level>1 Then Call ShowError(6)
 If CheckPluginState("PageMeta")=False Then Call ShowError(48)
