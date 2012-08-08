@@ -2482,7 +2482,7 @@ Function BlogReBuild_Categorys()
 				For i=1 to j
 					Set objArticle=New TArticle
 					If objArticle.LoadInfoByArray(Array(objRS(0),objRS(1),objRS(2),objRS(3),objRS(4),objRS(5),objRS(6),objRS(7),objRS(8),objRS(9),objRS(10),objRS(11),objRS(12),objRS(13),objRS(14),objRS(15),objRS(16),objRS(17))) Then
-						strCategory=strCategory & "<li><a href="""& objArticle.FullUrl & """>" & objArticle.Title & "</a></li>"
+						strCategory=strCategory & "<li><a href="""& objArticle.HtmlUrl & """>" & objArticle.Title & "</a></li>"
 					End If
 					Set objArticle=Nothing
 					objRS.MoveNext
@@ -2633,7 +2633,7 @@ Function BlogReBuild_Previous()
 		For i=1 to j
 			Set objArticle=New TArticle
 			If objArticle.LoadInfoByArray(Array(objRS(0),objRS(1),objRS(2),objRS(3),objRS(4),objRS(5),objRS(6),objRS(7),objRS(8),objRS(9),objRS(10),objRS(11),objRS(12),objRS(13),objRS(14),objRS(15),objRS(16),objRS(17))) Then
-				strPrevious=strPrevious & "<li><a href="""& objArticle.FullUrl & """ title="""& objArticle.HtmlTitle &"""><span class=""article-date"">["& Right("0" & Month(objArticle.PostTime),2) & "/" & Right("0" & Day(objArticle.PostTime),2) &"]</span>" & objArticle.Title & "</a></li>"
+				strPrevious=strPrevious & "<li><a href="""& objArticle.HtmlUrl & """ title="""& objArticle.HtmlTitle &"""><span class=""article-date"">["& Right("0" & Month(objArticle.PostTime),2) & "/" & Right("0" & Day(objArticle.PostTime),2) &"]</span>" & objArticle.Title & "</a></li>"
 			End If
 			Set objArticle=Nothing
 			objRS.MoveNext
