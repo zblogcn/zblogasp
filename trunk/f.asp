@@ -14,7 +14,6 @@
 
 Call System_Initialize()
 
-
 '---------------------------------网站基本设置-----------------------------------
 Call BlogConfig.Write("ZC_BLOG_HOST","http://loacalhost/")
 Call BlogConfig.Write("ZC_BLOG_TITLE","Your Blog")
@@ -32,7 +31,7 @@ Call BlogConfig.Write("ZC_BLOG_LANGUAGE","zh-CN")
 
 
 '----------------------------数据库配置---------------------------------------
-Call BlogConfig.Write("ZC_DATABASE_PATH","zb_users/data/#%20768d53283c63b13403f0.mdb")
+Call BlogConfig.Write("ZC_DATABASE_PATH","zb_users\data\#%20768d53283c63b13403f0.mdb")
 Call BlogConfig.Write("ZC_MSSQL_ENABLE",False)
 Call BlogConfig.Write("ZC_MSSQL_DATABASE","zb")
 Call BlogConfig.Write("ZC_MSSQL_USERNAME","sa")
@@ -188,6 +187,13 @@ Call BlogConfig.Write("ZC_CUSTOM_DIRECTORY_ANONYMOUS",False)
 
 
 
+Call BlogConfig.Write("ZC_ARTICLE_REGEX","{%host%}/{%post%}/{%alias%}.html")
+Call BlogConfig.Write("ZC_PAGE_REGEX","{%host%}/{%alias%}.html")
+Call BlogConfig.Write("ZC_CATEGORY_REGEX","{%host%}/catalog.asp?cate={%id%}")
+Call BlogConfig.Write("ZC_USER_REGEX","{%host%}/catalog.asp?user={%id%}")
+Call BlogConfig.Write("ZC_TAGS_REGEX","{%host%}/catalog.asp?tags={%alias%}")
+Call BlogConfig.Write("ZC_DATE_REGEX","{%host%}/catalog.asp?date={%date%}")
+Call BlogConfig.Write("ZC_DEFAULT_REGEX","{%host%}/catalog.asp")
 
 
 
