@@ -38,6 +38,12 @@ Next
 
 Select Case Request.QueryString("act")
 		Case "SiteFileDownload" Call FileManage_DownloadFile(strPath)
+		Case "SiteFilePst" Call FileManage_PostSiteFile(Request.Form("path"),Request.QueryString("OpenFolderPath"))
+		Case "SiteFileDel" Call FileManage_DeleteSiteFile(strPath)
+		Case "SiteFileRename" Call FileManage_RenameFile(strPath,Request.QueryString("newfilename"))
+		Case "SiteFileUpload" Call FileManage_Upload
+		Case "SiteCreateFolder" Call FileManage_CreateFolder(strPath,strOpenFolderPath)
+
 End Select
 
 Call SetBlogHint_Custom(" 提示:错误的编辑或删除系统文件会导致Blog无法运行;请保护好管理员账号,防止他人通过此功能威胁空间安全.")
@@ -75,12 +81,7 @@ Call SetBlogHint_Custom(" 若需要修改的数据>200K，请使用文件上传�
 
 		Case "SiteFileMng","" Call FileManage_ExportSiteFileList(strPath,strOpenFolderPath)
 		Case "SiteFileEdt" Call FileManage_ExportSiteFileEdit(strPath,strOpenFolderPath)
-		Case "SiteFileDel" Call FileManage_DeleteSiteFile(strPath)
 		Case "SiteFileUploadShow" Call FileManage_ExportSiteUpload(strPath)
-		Case "SiteFileUpload" Call FileManage_Upload
-		Case "SiteFileRename" Call FileManage_RenameFile(strPath,Request.QueryString("newfilename"))
-		Case "SiteFilePst" Call FileManage_PostSiteFile(Request.Form("path"),Request.QueryString("OpenFolderPath"))
-		Case "SiteCreateFolder" Call FileManage_CreateFolder(strPath,strOpenFolderPath)
 		Case "Help" Call FileManage_Help
 		Case "ThemeEditor" Response.Redirect "?act=SiteFileMng&path="&server.URLEncode(blogpath&"\zb_users\theme\"&zc_blog_theme)
 		Case Else Response.Write "未知的命令"

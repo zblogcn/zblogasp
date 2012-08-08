@@ -55,7 +55,7 @@ Function FileManage_GetTypeIco(FileName)
 			Dim strFound
 			For Each sAction_Plugin_FileManage_GetTypeIco_NotFound in Action_Plugin_FileManage_GetTypeIco_NotFound
 				If Not IsEmpty(sAction_Plugin_FileManage_GetTypeIco_NotFound) Then
-					sAction_Plugin_FileManage_GetTypeIco_NotFound=Replace(Replace(sAction_Plugin_FileManage_ExportInformation_NotFound,"{path}",replace(path,"""","""""")),"{f}",replace(foldername,"""",""""""))
+					sAction_Plugin_FileManage_GetTypeIco_NotFound=Replace(Replace(sAction_Plugin_FileManage_GetTypeIco_NotFound,"{path}",replace(path,"""","""""")),"{f}",replace(foldername,"""",""""""))
 					Execute "strFound="&sAction_Plugin_FileManage_GetTypeIco_NotFound&vbcrlf&"if strFound<>"""" then Tag=strfound"
 				End If
 			Next
@@ -81,6 +81,10 @@ Function FileManage_ExportInformation(foldername,path)
 	z=LCase(foldername)
 	k=LCase(path)
 	l=lcase(blogpath)
+	
+	dim h
+	h=replace(lcase(ZC_DATABASE_PATH),"/","\")
+
 	if k=l then
 	
 		select case z
@@ -95,6 +99,10 @@ Function FileManage_ExportInformation(foldername,path)
 			case "tags.asp" n="Tags列表"
 			case "wap.asp" n="Wap"
 		end select
+	elseif k&"\"&z=l&"\"&lcase(ZC_UPLOAD_DIRECTORY) then
+		n="上传文件夹"
+	elseif k&"\"&z=l&"\"&h then
+		n="当前数据库"
 	elseif k=l & "\zb_system" then
 		select case z
 			case "admin" n="Z-Blog管理文件"
@@ -104,19 +112,24 @@ Function FileManage_ExportInformation(foldername,path)
 			case "script" n="后台脚本文件夹"
 			case "wap" n="Wap组件"
 			case "xml-rpc" n="Xml-Rpc组件"
+			case "defend" n="默认调用文件夹"
+			case "cmd.asp" n="命令执行跳转"
+			case "login.asp" n="登录"
+			case "view.asp" n="动态文章浏览"
 		end select
 	elseif k=l & "\zb_users" then
 		select case z
+			case "avatar" n="头像缓存文件夹"
 			case "cache" n="缓存文件夹"
 			case "data" n="数据库存放位置"
 			case "include" n="Z-Blog引用文件夹"
 			case "language" n="Language Pack"
 			case "plugin" n="插件文件夹"
 			case "theme" n="主题文件夹"
-			case lcase(ZC_UPLOAD_DIRECTORY) n="上传文件文件夹"
-			case "c_custom.asp" n="用户配置文件"
+			'case Replace(lcase(ZC_UPLOAD_DIRECTORY),"zb_users\") n="上传文件文件夹"
+			'case "c_custom.asp" n="用户配置文件"
 			case "c_option.asp" n="网站设置文件"
-			case "c_option_wap.asp" n="Wap设置文件"
+			'case "c_option_wap.asp" n="Wap设置文件"
 		end select
 	elseif k=l &  "\zb_users\include" then
 		select case z
@@ -126,7 +139,7 @@ Function FileManage_ExportInformation(foldername,path)
 			case "misc.asp" n="图标汇总"
 		end select
 	elseif k=l &  "\zb_users\data" then
-			if CheckRegExp(z,".+?mdb|.+?asp") then n="可能是Z-Blog数据库"
+			'if CheckRegExp(z,".+?mdb|.+?asp") then n="可能是Z-Blog数据库"
 	elseif k=l & "\zb_users\theme\" & lcase(ZC_BLOG_THEME) then 
 		select case z
 			case "include" n="引用"
@@ -181,7 +194,10 @@ Function FileManage_ExportInformation(foldername,path)
 			case "edit_tag.asp" n="Tag修改页"
 			case "edit_ueditor.asp" n="新建文章页"
 			case "edit_user.asp" n="用户编辑页"
-			case "ueditor" n="Ueditor主文件"
+			case "ueditor" n="uEditor主文件"
+			case "admin_footer.asp" n="后台底部引用文件"
+			case "admin_header.asp" n="后台头部引用文件"
+			case "edit_function.asp" n="编辑侧栏页"
 		end select
 	elseif k=l & "\zb_system\admin\ueditor" then
 		select case z
