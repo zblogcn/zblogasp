@@ -27,6 +27,14 @@ Function InstallPlugin_RegPage()
 	Call ClearGlobeCache
 	Call LoadGlobeCache
 
+	Dim a
+	Set a=New TConfig
+	a.Load "RegPage"
+	If a.Exists("Version")=False Then
+		a.Write "Level",4
+		a.Write "Version","1.0"
+		a.Save
+	End If
 End Function
 
 

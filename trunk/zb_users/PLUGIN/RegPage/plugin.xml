@@ -2,19 +2,19 @@
 <plugin>
 <id>RegPage</id>
 <name>注册组件</name>
-<url>http://www.zsxsoft.com/</url>
+<url>http://www.rainbowsoft.org/</url>
 <note>注册组件</note>
 <type>inline</type>
 <path>main.asp</path>
 <include>include.asp</include>
 <level>1</level>
 <author>
-	<name>ZSXSOFT</name>
-	<url>http://www.zsxsoft.com/</url>
-	<email>zsx@zsxsoft.com</email>
+	<name>Z-Blog</name>
+	<url>http://www.rainbowsoft.org/</url>
+	<email></email>
 </author>
 <version>1.0</version>
-<adapted>Z-Blog 1.9</adapted>
+<adapted>Z-Blog 2.0</adapted>
 <pubdate>2012-7-24</pubdate>
 <modified>2011-7-24</modified>
 </plugin>
