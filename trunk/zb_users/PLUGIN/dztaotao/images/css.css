@@ -1,0 +1,610 @@
+@charset "utf-8";
+.item {
+    border: 1px solid #E1E1E1;
+    margin: 0 2px 8px;
+    text-align: left;
+}
+.item-list, .disclaimer {
+    margin: 18px 20px;
+}
+.list-text {
+   /* line-height: 24px;*/
+    word-wrap: break-word;
+}
+.item-infor {
+    background: none repeat scroll 0 0 #F9F9F9;
+    border-top: 1px solid #E1E1E1;
+    font-size: 12px;
+    height: 25px;
+    padding-top: 5px;
+}
+.infor-text {
+    color: #7B7B7B;
+    float: left;
+    padding-left: 5px;
+}
+.infor-text img {
+    height: 18px;
+    vertical-align: middle;
+    width: 18px;
+}
+fieldset, img {
+    border: 0 none;
+}
+.infor-set {
+    float: right;
+    overflow: hidden;
+    padding-right: 5px;
+    text-align: right;
+    width: 312px;
+}
+.infor-set a, .infor-set span {
+    display: inline-block;
+}
+.btn-up, .btn-down, .infor-set .up-disable, .infor-set .down-disable {
+    height: 20px;
+    line-height: 20px;
+    text-indent: 20px;
+    vertical-align: middle;
+    width: 51px;
+}
+.btn-up, .btn-down, .comment {
+    background: url("icon.png") no-repeat scroll 0 0 transparent;
+    text-align: left;
+}
+
+.btn-up {
+    background-position: left -30px!important;
+}
+.btn-down {
+    background-position: -105px -30px;
+}
+.comment {
+    background-position: -228px -27px;
+    color: #7B7B7B;
+    padding-left: 18px;
+}
+.btn-up, .scroe-up {
+    color: #48960F;
+}
+a {
+    text-decoration: none;
+}
+
+
+.highlight {
+    font-weight: bold;
+}
+
+
+element.style {
+    display: none;
+}
+.item-comment {
+	background:#EFF2F4;
+    color: #7B7B7B;
+    font-size: 12px;
+    padding: 10px;
+    text-align: right;
+}
+.item-comment {
+    border-top: 1px solid #E1E1E1;
+}
+
+.item-comment .item {
+    border: 0 none;
+    margin: 0;
+    width: 635px;
+}
+
+
+
+.item-comment .item .comment-box {
+    border-bottom: 1px solid #E7E7E7;
+    margin-bottom: 0;
+    text-align: left;
+}
+
+.discuss-pic {
+    border: 1px solid #E1E1E1;
+    float: left;
+}
+
+.discuss-pic img {
+    display: block;
+    margin: 1px;
+}
+
+fieldset, img {
+    border: 0 none;
+}
+
+.discuss-con {
+    margin-left: 45px;
+}
+
+.item-comment .item .dash-boder {
+    border: medium none;
+}
+
+.item-comment .item .con-bar {
+    margin-bottom: 0;
+}
+
+.dash-boder {
+    border-bottom: 1px dashed #D6D6D6;
+}
+
+.con-bar {
+    font-size: 12px;
+    height: 23px;
+    margin: 2px 0 5px;
+}
+.discuss-con p {
+    line-height: 22px;
+    word-wrap: break-word;
+	font-size:12px;
+}
+
+.name {
+    color: #3271C0;
+    float: left;
+}
+.name, .time, .btn-reply {
+    display: block;
+}
+a {
+    text-decoration: none;
+}
+
+
+.btn-reply, .joke-delete {
+    color: #3271C0;
+    padding: 0 2px 0 5px;
+}
+.time, .btn-reply, .joke-delete {
+    float: right;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+.comment-box {
+    margin-bottom: 10px;
+    padding: 10px 10px 0;
+}
+
+.item-comment .item-comment-title-img {
+    display: block;
+    float: right;
+    margin: 0 24px 0 0;
+}
+.clear {
+    clear: both;
+}
+
+element.style {
+    padding: 0 10px;
+}
+.item-comment .blue-con {
+    font-weight: normal;
+    width: 610px;
+}
+.blue-title, .blue-con {
+    background: #FFFFE7;
+    border: 1px solid #EDE2D0;
+    font-weight: bold;
+}
+
+.item-comment .comment-textarea {
+    color: #000000;
+    height: 48px;
+    width: 590px;
+}
+.comment-textarea {
+    border: 1px solid #AACBE4;
+    color: #999999;
+    display: block;
+    font-size: 12px;
+    height: 96px;
+    line-height: 24px;
+    margin: 0 auto 5px;
+    overflow: auto;
+    padding: 0 0 0 8px;
+    width: 561px;
+    word-wrap: break-word;
+}
+
+.item-comment .discuss-login {
+    padding: 6px 0 0;
+}
+
+.comments-leave {
+    float: left;
+}
+
+.discuss-login {
+    font-size: 12px;
+    font-weight: normal;
+    height: 23px;
+    margin: 0 0 10px;
+    padding: 0 12px;
+}
+.comments-leave .highlight {
+    color: #FF3300;
+    font-size: 16px;
+    padding: 0 6px;
+}
+
+.shortcut-key {
+    color: #999999;
+    float: right;
+    padding-right: 12px;
+}
+
+.discuss-login .btn-send {
+    background: url("btn-discuss2.png") repeat scroll left top transparent;
+    display: block;
+    float: right;
+    height: 23px;
+    line-height: 23px;
+    text-align: center;
+    width: 85px;
+}
+.btn-send {
+    background: url("btn-discuss.png") no-repeat scroll left top transparent;
+    border: medium none;
+    color: #FFFFFF!important;
+    cursor: pointer;
+    float: right;
+    font-size: 12px;
+    height: 20px;
+    line-height: 20px;
+    margin-right: 5px;
+    text-decoration: none;
+    width: 65px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.comment-all {
+    padding-top: 8px;
+}
+
+.list-interaction {
+    color: #D1D1D1;
+    float: right;
+    padding-top: 10px;
+	
+}
+
+
+.list-interaction .btn-share {
+    background: url("icon-share.png") no-repeat scroll left top transparent;
+    padding: 0 6px 0 20px;
+
+}
+.list-interaction a {
+    color: #7D7D7D;
+    font-size: 12px;
+}
+a {
+    text-decoration: none;
+}
+
+
+.tag {
+    background: url("icon.png") no-repeat scroll -46px 6px transparent;
+    float: left;
+    margin: 10px 0 0;
+    padding-left: 38px;
+}
+.pages{text-align:center;}
+
+
+.dialog {
+    display: none;
+    position: fixed !important;
+    z-index: 99;
+	width:625px;
+	overflow:hidden;
+}
+
+.trans-box {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 4px solid #999999;
+    padding: 11px 21px 14px;
+}
+
+.dialog-title {
+    height: 41px;
+    text-align: left;
+}
+
+.dialog-title img {
+    float: left;
+}
+fieldset, img {
+    border: 0 none;
+}
+
+.dialog-talktip {
+    color: #FF0000;
+    float: left;
+    padding-left: 24px;
+}
+.dialog-close {
+    background: url("login.png") no-repeat scroll left -93px transparent;
+    float: right;
+    height: 20px;
+    width: 27px;
+}
+.comment-textarea {
+    border: 1px solid #EAD0A4;
+    color: #999999;
+    display: block;
+    font-size: 12px;
+    height: 96px;
+    line-height: 24px;
+    margin: 0 auto 5px;
+    overflow: auto;
+    padding: 0 0 0 8px;
+    width: 561px;
+    word-wrap: break-word;
+}
+
+.dialog .comment-textarea {
+    border: 1px solid #BFBFBF;
+    font-size: 14px;
+}
+
+.dialog-set {
+    padding: 16px 0;
+    text-align: left;
+}
+
+.talk-label {
+    float: left;
+}
+
+.btn-talk {
+    float: right;
+}
+
+.user-style {
+    margin-right: 5px;
+    vertical-align: middle;
+}
+
+.btn-talk .submit {
+    margin-left: 20px;
+}
+
+.submit {
+    background: url("btn-popup.png") no-repeat scroll right top transparent;
+}
+
+.btn-dialog {
+    color: #FFFFFF!important;
+    display: inline-block;
+    font-weight: bold;
+    height: 25px;
+    line-height: 25px;
+    text-align: center;
+    width: 81px;
+}
+
+
+.pink-con {
+    background: none repeat scroll 0 0 #FDF7E8;
+    border: 1px solid #E1E1E1;
+    color: #F26B00;
+    font-weight: bold;
+    padding: 25px 0;
+    text-align: center;
+}
+.dialog .pink-con {
+    color: #333333;
+    font-size: 12px;
+    font-weight: normal;
+    line-height: 20px;
+    margin: 0 auto;
+    padding: 12px;
+    text-align: left;
+    width: 553px;
+}
+.dialog .pink-con p{
+	font-size:12px!important;
+}
+
+.blue-title, .pink-title, .pink-con, .blue-con {
+    line-height: 28px;
+    margin: 0 auto 10px;
+    text-align: left;
+    width: 598px;
+}
+
+.btnTablk-box {
+    height: 100px;
+    left: 470px;
+    position: absolute;
+    top: 60px;
+    width: 120px;
+}
+
+#btnTalk {
+    background: none repeat scroll 0 0 ;
+    height: 100px;
+    left: 0;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    width: 120px;
+    z-index: 40;
+}
+.sub-header a {
+    display: block;
+}
+
+#newInsert{
+	display:none;
+}
+
+.t_pages{
+	text-align:center;
+	margin:15px 5px 20px 15px;
+	}
+
+/*广告条*/
+.banner {
+    border: 1px solid #F2F1D7;
+    height: 85px;
+    margin: 0 auto 10px auto;
+    width: 660px;
+	position:relative;
+	
+}
+
+.switch_img {
+    height: 85px;
+    overflow: hidden;
+    position: relative;
+    width: 660px;
+}
+
+.switch_button {
+    bottom: 5px;
+    position: absolute;
+    right: 5px;
+    z-index: 12;
+}
+
+
+.switch_img a {
+    background: none repeat scroll 0 0 #FFFFFF;
+    height: 85px;
+    left: 660px;
+    overflow: hidden;
+    position: absolute;
+    width: 660px;
+    z-index: 0;
+}
+
+.switch_button a {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #C4C4C2;
+    cursor: pointer;
+    display: inline;
+    float: left;
+    font-size: 11px;
+    height: 16px;
+    line-height: 16px;
+    margin-left: 6px;
+    overflow: hidden;
+    text-align: center;
+    width: 16px;
+}
+
+.switch_button a.current {
+    background: none repeat scroll 0 0 #4B787B;
+    border: 1px solid #4B787B;
+    color: #FFFFFF;
+    font-weight: bold;
+}
+
+/*分享按钮*/
+.share-layer {
+    /*background: url("bg-btn-share.png") no-repeat scroll left top transparent;*/
+    font-size: 12px;
+   /* height: 38px;
+    position: absolute;
+    text-align: center;
+    width: 200px;
+     z-index: 100;
+	top:15px;
+	left:-30px;*/
+}
+
+.share-layer .item-share {
+    color: #7B7B7B;
+    padding-top: 12px;
+    width: 150px;
+}
+
+.btn-share-qq, .btn-share-sina, .btn-share-db, .btn-share-kx, .btn-share-rr, .btn-share-tqq {
+    height: 16px;
+    width: 16px;
+}
+
+.item-share dt, .item-share dd {
+    float: left;
+	margin:2px;
+}
+
+.btn-share-sina {
+    background: url("share.png") no-repeat scroll left top transparent;
+}
+
+.btn-share-qq {
+    background: url("share.png") no-repeat scroll left -26px transparent;
+}
+
+.btn-share-rr {
+    background: url("share.png") no-repeat scroll left -78px transparent;
+}
+
+.btn-share-kx {
+    background: url("share.png") no-repeat scroll left -104px transparent;
+}
+
+.btn-share-db {
+    background: url("share.png") no-repeat scroll left -52px transparent;
+}
+
+.btn-share-tqq {
+    background: url("share.png") no-repeat scroll left -130px transparent;
+}
+
+.item-share dd a {
+    display: block;
+    margin: 0 3px;
+}
+
+/*大图按钮样式*/
+.artZoomBox{font-size:12px; margin:8px 8px; background:#f7f7f7; border:1px solid #ccc; padding:10px 10px;}
+.hideImg,.imgLeft,.imgRight,.viewImg{margin-left:12px; padding-left:12px;}
+.hideImg{ background:url(ico.png) no-repeat 0 -4px;}
+.imgLeft{ background:url(ico.png) no-repeat 0 -50px;}
+.imgRight{ background:url(ico.png) no-repeat 0 -79px;}
+.viewImg{ background:url(ico.png) no-repeat 0 -24px;}
+
+.miniImg img { margin: 12px 3px 3px;;border: 1px solid #E1E1E1; padding:3px;}
+
+
+/*评论样式*/
+.comments-order{ height:35px; line-height:35px;margin:0 0 15px 15px}
+.comments-order{background: url("bg-tab.png") repeat-x scroll left -35px #F7F2C2;}
