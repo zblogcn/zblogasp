@@ -869,7 +869,7 @@ Function MakeCalendar(dtmYearMonth)
 	For i=1 to b
 		If (j=>firw-1) and (k=<d) Then
 			If aryDateLink(k) Then
-				strCalendar=strCalendar & "<p id=""pCalendar_"&y&"_"&m&"_"&k&""" class=""yd""><a class=""l"" href=""<#ZC_BLOG_HOST#>"&"catalog.asp?date="&Year(aryDateArticle(k).PostTime)&"-"&Month(aryDateArticle(k).PostTime)&"-"&Day(aryDateArticle(k).PostTime)& """>"&(k)&"</a></p>"
+				strCalendar=strCalendar & "<p id=""pCalendar_"&y&"_"&m&"_"&k&""" class=""yd""><a  href=""<#ZC_BLOG_HOST#>"&"catalog.asp?date="&Year(aryDateArticle(k).PostTime)&"-"&Month(aryDateArticle(k).PostTime)&"-"&Day(aryDateArticle(k).PostTime)& """>"&(k)&"</a></p>"
 			Else
 				strCalendar=strCalendar & "<p id=""pCalendar_"&y&"_"&m&"_"&k&""" class=""d"">"&(k)&"</p>"
 			End If
@@ -1751,6 +1751,30 @@ End Function
 
 
 
+'*********************************************************
+' 目的：    解析 REGEX For Path
+'*********************************************************
+Function ParseCustomDirectoryForPath(strRegex,strPost,strCategory,strUser,strYear,strMonth,strDay,strID,strAlias)
+	Dim s
+	s=ParseCustomDirectory(strRegex,strPost,strCategory,strUser,strYear,strMonth,strDay,strID,strAlias)
+	s=Replace(s,"{%host%}",Left(BlogPath,Len(BlogPath)-1))
+	ParseCustomDirectoryForPath=Replace(s,"/","\")
+End Function
+'*********************************************************
+
+
+'*********************************************************
+' 目的：    解析 REGEX For Url
+'*********************************************************
+Function ParseCustomDirectoryForUrl(strRegex,strPost,strCategory,strUser,strYear,strMonth,strDay,strID,strAlias)
+	Dim s
+	s=ParseCustomDirectory(strRegex,strPost,strCategory,strUser,strYear,strMonth,strDay,strID,strAlias)
+	s=Replace(s,"{%host%}",Left(ZC_BLOG_HOST,Len(ZC_BLOG_HOST)-1))
+	ParseCustomDirectoryForUrl=Replace(s,"\","/")
+End Function
+'*********************************************************
+
+
 
 '*********************************************************
 ' 目的：    解析ZC_CUSTOM_DIRECTORY_REGEX
@@ -1781,10 +1805,58 @@ End Function
 
 
 
+
+'*********************************************************
+' 目的：    按照CustomDirectory指示创建相应的目录
+'*********************************************************
+Sub CreatDirectoryByCustomDirectoryWithFullBlogPath(strCustomDirectory)
+
+	'On Error Resume Next
+
+	Dim s
+	Dim t
+	Dim i
+	Dim j
+
+	Dim fso
+	Set fso = CreateObject("Scripting.FileSystemObject")
+
+	s=BlogPath
+
+	strCustomDirectory=Replace(strCustomDirectory,"/","\")
+
+	strCustomDirectory=Right(strCustomDirectory,Len(strCustomDirectory)-Len(BlogPath))
+
+	t=Split(strCustomDirectory,"\")
+
+	For i=LBound(t) To UBound(t)
+		If (IsEmpty(t(i))=False) And (t(i)<>"") Then
+			If InStr(t(i),".")=0 Then
+				s=s & t(i) & "\"
+				If (fso.FolderExists(s)=False) Then
+					Call fso.CreateFolder(s)
+				End If
+			End If
+		End If
+	Next
+
+	Set fso = Nothing
+
+	'Err.Clear
+
+End Sub
+'*********************************************************
+
+
+
+
+
+
 '*********************************************************
 ' 目的：    按照CustomDirectory指示创建相应的目录
 '*********************************************************
 Sub CreatDirectoryByCustomDirectory(strCustomDirectory)
+
 	On Error Resume Next
 
 	Dim s
@@ -1804,9 +1876,8 @@ Sub CreatDirectoryByCustomDirectory(strCustomDirectory)
 	j=0
 	For i=LBound(t) To UBound(t)
 		If (IsEmpty(t(i))=False) And (t(i)<>"") Then
-			'If j=0 And LCase(Left(t(i),3))="zb_" Then Exit For
 			s=s & t(i) & "\"
-			If (fso.FolderExists(fldr)=False) Then
+			If (fso.FolderExists(s)=False) Then
 				Call fso.CreateFolder(s)
 			End If
 			j=j+1
@@ -2115,6 +2186,8 @@ Function MakeBlogReBuild_Core()
 
 	BlogReBuild_Statistics
 
+	BlogReBuild_Authors
+
 	BlogReBuild_Archives
 
 	BlogReBuild_Previous
@@ -2126,8 +2199,6 @@ Function MakeBlogReBuild_Core()
 	BlogReBuild_Catalogs
 
 	BlogReBuild_Calendar
-
-	BlogReBuild_Authors
 
 	BlogReBuild_Tags
 
@@ -2284,16 +2355,7 @@ Function BlogReBuild_Archives()
 			Set objRS=objConn.Execute("SELECT COUNT([log_ID]) FROM [blog_Article] WHERE ([log_CateID]>0) And ([log_Level]>1) AND [log_PostTime] BETWEEN "& ZC_SQL_POUND_KEY & Year(dtmYM(i)) &"-"& Month(dtmYM(i)) &"-1"& ZC_SQL_POUND_KEY &" AND "& ZC_SQL_POUND_KEY & l &"-"& n &"-1" & ZC_SQL_POUND_KEY)
 
 			If (Not objRS.bof) And (Not objRS.eof) Then
-				'If CheckPluginState("STACentre") Then
-				'	Dim objPostTime
-				'	Set objPostTime=New STACentre_Archives
-				'	If objPostTime.LoadInfoByID(Year(dtmYM(i)) & "-" & Month(dtmYM(i))) Then
-				'		strArchives=strArchives & "<li><a href="""& objPostTime.Url & """>" & Year(dtmYM(i)) & " " & ZVA_Month(Month(dtmYM(i))) & "<span class=""article-nums""> (" & objRS(0) & ")</span>" +"</a></li>"
-				'	End If
-				'	Set objPostTime=Nothing
-				'Else
-					strArchives=strArchives & "<li><a href=""<#ZC_BLOG_HOST#>catalog.asp?date=" & Year(dtmYM(i)) & "-" & Month(dtmYM(i)) & """>" & Year(dtmYM(i)) & " " & ZVA_Month(Month(dtmYM(i))) & "<span class=""article-nums""> (" & objRS(0) & ")</span>" +"</a></li>"
-				'End If
+				strArchives=strArchives & "<li><a href=""<#ZC_BLOG_HOST#>catalog.asp?date=" & Year(dtmYM(i)) & "-" & Month(dtmYM(i)) & """>" & Year(dtmYM(i)) & " " & ZVA_Month(Month(dtmYM(i))) & "<span class=""article-nums""> (" & objRS(0) & ")</span>" +"</a></li>"
 				If j>0 Then
 					If i=j Then Exit For
 				End If
@@ -2420,7 +2482,7 @@ Function BlogReBuild_Categorys()
 				For i=1 to j
 					Set objArticle=New TArticle
 					If objArticle.LoadInfoByArray(Array(objRS(0),objRS(1),objRS(2),objRS(3),objRS(4),objRS(5),objRS(6),objRS(7),objRS(8),objRS(9),objRS(10),objRS(11),objRS(12),objRS(13),objRS(14),objRS(15),objRS(16),objRS(17))) Then
-						strCategory=strCategory & "<li><a href="""& objArticle.Url & """>" & objArticle.Title & "</a></li>"
+						strCategory=strCategory & "<li><a href="""& objArticle.FullUrl & """>" & objArticle.Title & "</a></li>"
 					End If
 					Set objArticle=Nothing
 					objRS.MoveNext
@@ -2571,7 +2633,7 @@ Function BlogReBuild_Previous()
 		For i=1 to j
 			Set objArticle=New TArticle
 			If objArticle.LoadInfoByArray(Array(objRS(0),objRS(1),objRS(2),objRS(3),objRS(4),objRS(5),objRS(6),objRS(7),objRS(8),objRS(9),objRS(10),objRS(11),objRS(12),objRS(13),objRS(14),objRS(15),objRS(16),objRS(17))) Then
-				strPrevious=strPrevious & "<li><a href="""& objArticle.Url & """ title="""& objArticle.HtmlTitle &"""><span class=""article-date"">["& Right("0" & Month(objArticle.PostTime),2) & "/" & Right("0" & Day(objArticle.PostTime),2) &"]</span>" & objArticle.Title & "</a></li>"
+				strPrevious=strPrevious & "<li><a href="""& objArticle.FullUrl & """ title="""& objArticle.HtmlTitle &"""><span class=""article-date"">["& Right("0" & Month(objArticle.PostTime),2) & "/" & Right("0" & Day(objArticle.PostTime),2) &"]</span>" & objArticle.Title & "</a></li>"
 			End If
 			Set objArticle=Nothing
 			objRS.MoveNext

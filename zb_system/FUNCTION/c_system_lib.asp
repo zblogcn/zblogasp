@@ -308,6 +308,7 @@ Class TArticle
 
 	Public IsDynamicLoadSildbar
 	Public CommentsPage
+	Public FullRegex
 
 	Private Ftemplate
 	Public Property Let Template(strFileName)
@@ -334,24 +335,8 @@ Class TArticle
 	End Property
 
 
-	Private FDirectory
-	Public Property Let Directory(strDirectory)
-		FDirectory=strDirectory
-	End Property
-	Public Property Get Directory
-		If IsEmpty(FDirectory)=True Then
-			If ZC_CUSTOM_DIRECTORY_ENABLE=True Then
-				Directory=ParseCustomDirectory(ZC_CUSTOM_DIRECTORY_REGEX,ZC_STATIC_DIRECTORY,Categorys(CateID).StaticName,Users(AuthorID).StaticName,Year(PostTime),Month(PostTime),Day(PostTime),ID,StaticName)
-			Else
-				Directory=ZC_STATIC_DIRECTORY
-			End If
-		Else
-			Directory = FDirectory
-		End If
-		Directory=Replace(Directory,"\","/")
-		If Right(ZC_BLOG_HOST & Directory,1)<>"/" Then
-			Directory=Directory & "/"
-		End If
+	Public Property Get FullPath
+		FullPath=ParseCustomDirectoryForPath(FullRegex,ZC_STATIC_DIRECTORY,Categorys(CateID).StaticName,Users(AuthorID).StaticName,Year(PostTime),Month(PostTime),Day(PostTime),ID,StaticName)
 	End Property
 
 
@@ -364,18 +349,10 @@ Class TArticle
 			If bAction_Plugin_TArticle_Url=True Then Exit Property
 		Next
 
-		If Len(FullUrl)>0 Then
-			Url=Replace(FullUrl,"<#ZC_BLOG_HOST#>",ZC_BLOG_HOST)
+		If Level<=2 Then
+			Url = ZC_BLOG_HOST & "view.asp?id=" & ID
 		Else
-			If Level<=2 Then
-				Url = ZC_BLOG_HOST & "view.asp?id=" & ID
-			Else
-			'Mark0.0
-				Url = ZC_BLOG_HOST & Directory & FileName
-				If ZC_CUSTOM_DIRECTORY_ENABLE And ZC_CUSTOM_DIRECTORY_ANONYMOUS Then
-					Url = ZC_BLOG_HOST & Directory
-				End If				
-			End If
+			Url =ParseCustomDirectoryForUrl(FullRegex,ZC_STATIC_DIRECTORY,Categorys(CateID).StaticName,Users(AuthorID).StaticName,Year(PostTime),Month(PostTime),Day(PostTime),ID,StaticName)
 		End If
 
 		Call Filter_Plugin_TArticle_Url(Url)
@@ -1237,7 +1214,7 @@ Class TArticle
 		Alias=TransferHTML(Alias,"[filename]")
 		Alias=FilterSQL(Alias)
 
-		If ID>0 Then FullUrl=Url
+		Call GetUsersbyUserIDList(AuthorID)
 
 		'检查“别名”是否有重名
 		If Alias<>"" Then
@@ -1418,11 +1395,9 @@ Class TArticle
 			html="<"&"%@ CODEPAGE=65001 %"&">" & html
 		End If
 
-		If ZC_CUSTOM_DIRECTORY_ENABLE=True Then
-			Call CreatDirectoryByCustomDirectory(Directory)
-		End If
+		Call CreatDirectoryByCustomDirectoryWithFullBlogPath(FullPath)
 
-		Call SaveToFile(BlogPath & Directory & FileName,html,"utf-8",False)
+		Call SaveToFile(FullPath,html,"utf-8",False)
 
 		Save=True
 
@@ -1430,19 +1405,6 @@ Class TArticle
 
 
 	Function SaveCache()
-
-		'If Not(Level>1) Then SaveCache=True:Exit Function
-
-		'Dim strList
-
-		'If Istop Then
-		'	strList=Template_Article_Istop
-		'Else
-		'	strList=Template_Article_Multi
-		'End If
-		'strList=TransferHTML(strList,"[no-asp]")
-
-		'Call SaveToFile(BlogPath & "zb_users/cache/" & ID & ".html",strList,"utf-8",False)
 
 		SaveCache=True
 
@@ -1473,6 +1435,8 @@ Class TArticle
 		IsDynamicLoadSildbar=True
 
 		Ftemplate=Empty
+
+		FullRegex=ZC_ARTICLE_REGEX
 
 		Set Meta=New TMeta
 
