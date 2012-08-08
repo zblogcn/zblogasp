@@ -74,6 +74,14 @@ Class TCategory
 	End Property
 	
 
+	Public Property Get StaticName
+		If IsNull(Alias) Or IsEmpty(Alias) Or Alias="" Then
+			StaticName = "cat_" & ID
+		Else
+			StaticName = Alias
+		End If
+	End Property
+
 	Public Function Post()
 
 		Call Filter_Plugin_TCategory_Post(ID,Name,Intro,Order,Count,ParentID,Alias,TemplateName,FullUrl,MetaString)
@@ -466,6 +474,7 @@ Class TArticle
 		Dim t,i,s
 
 		If Tag<>"" Then
+			Call GetTagsbyTagIDList(Tag)
 			s=Tag
 			s=Replace(s,"}","")
 			t=Split(s,"{")
@@ -583,6 +592,8 @@ Class TArticle
 		Next
 
 		If IsEmpty(html)=True Then html=Template
+
+		Call GetUsersbyUserIDList(AuthorID)
 
 		If (ZC_DISPLAY_MODE_INTRO=intType) Or (ZC_DISPLAY_MODE_ONTOP=intType) Or (ZC_DISPLAY_MODE_SEARCH=intType) Then
 			Disable_Export_Tag=False
@@ -733,9 +744,9 @@ Class TArticle
 		aryTemplateTagsName(43)="article/staticname"
 		aryTemplateTagsValue(43)=StaticName
 		aryTemplateTagsName(44)="article/category/staticname"
-		aryTemplateTagsValue(44)=""'Categorys(CateID).StaticName
+		aryTemplateTagsValue(44)=Categorys(CateID).StaticName
 		aryTemplateTagsName(45)="article/author/staticname"
-		aryTemplateTagsValue(45)=""'Users(AuthorID).StaticName
+		aryTemplateTagsValue(45)=Users(AuthorID).StaticName
 		aryTemplateTagsName(46)="article/tagtoname"
 		aryTemplateTagsValue(46)=TagToName
 		aryTemplateTagsName(47)="article/firsttagintro"
@@ -798,6 +809,8 @@ Class TArticle
 			If Not IsEmpty(sAction_Plugin_TArticle_Export_Tag_Begin) Then Call Execute(sAction_Plugin_TArticle_Export_Tag_Begin)
 			If bAction_Plugin_TArticle_Export_Tag_Begin=True Then Exit Function
 		Next
+
+		Call GetTagsbyTagIDList(Tag)
 
 		'Tag
 		Dim t,i,s,j
@@ -907,6 +920,8 @@ Class TArticle
 
 					Set objComment=New TComment
 					objComment.LoadInfoByArray(Array(objRS("comm_ID"),objRS("log_ID"),objRS("comm_AuthorID"),objRS("comm_Author"),objRS("comm_Content"),objRS("comm_Email"),objRS("comm_HomePage"),objRS("comm_PostTime"),objRS("comm_IP"),objRS("comm_Agent"),objRS("comm_Reply"),objRS("comm_LastReplyIP"),objRS("comm_LastReplyTime"),objRS("comm_ParentID"),objRS("comm_IsCheck"),objRs("comm_Meta")))
+
+					Call GetUsersbyUserIDList(objRS("comm_AuthorID"))
 
 					objComment.Count=0
 					comments_ID(i)=objComment.ID
@@ -1279,13 +1294,6 @@ Class TArticle
 		End If
 		Set fso=Nothing
 
-		'Set fso = CreateObject("Scripting.FileSystemObject")
-		'If fso.FileExists(BlogPath & "zb_users/cache/" & ID & ".html") Then
-		'	Set TxtFile = fso.GetFile(BlogPath & "zb_users/cache/" & ID & ".html")
-		'	TxtFile.Delete
-		'End If
-		'Set fso=Nothing
-
 		DelFile=True
 
 		Err.Clear
@@ -1561,12 +1569,7 @@ Class TArticleList
 			If bAction_Plugin_TArticleList_Export_Begin=True Then Exit Function
 		Next
 
-		'Call Add_Action_Plugin("Action_Plugin_TArticle_Export_Begin","Disable_Export_Tag=False:Disable_Export_CMTandTB=True:Disable_Export_CommentPost=True:Disable_Export_Mutuality=True:Disable_Export_NavBar=True:")
-
 		If IsEmpty(html)=True Then html=Template
-
-		Call GetCategory()
-		Call GetUser()
 
 		'plugin node
 		Call Filter_Plugin_TArticleList_Export(intPage,intCateId,intAuthorId,dtmYearMonth,strTagsName,intType)
@@ -1575,6 +1578,7 @@ Class TArticleList
 		Dim objRS
 		Dim intPageCount
 		Dim objArticle
+		Dim ut,ud,dd,dt,tt,td
 
 		Call CheckParameter(intPage,"int",1)
 		Call CheckParameter(intCateId,"int",Empty)
@@ -1588,6 +1592,8 @@ Class TArticleList
 		objRS.LockType = adLockReadOnly
 		objRS.ActiveConnection=objConn
 
+		Set dt = CreateObject("Scripting.Dictionary")
+		Set dd = CreateObject("Scripting.Dictionary")
 
 		'//////////////////////////
 		'ontop
@@ -1605,10 +1611,9 @@ Class TArticleList
 
 				Set objArticle=New TArticle
 				If objArticle.LoadInfoByArray(Array(objRS(0),objRS(1),objRS(2),objRS(3),objRS(4),objRS(5),objRS(6),objRS(7),objRS(8),objRS(9),objRS(10),objRS(11),objRS(12),objRS(13),objRS(14),objRS(15),objRS(16),objRS(17))) Then
-					Call GetTagsbyTagIDList(objArticle.Tag)
-					If objArticle.Export(intType)= True Then
-						aryArticleList(i)=objArticle.Template_Article_Istop
-					End If
+					ut=ut & "," & objRs(7)
+					tt=tt & objRs(1)
+					dt.Add CInt(objRs(0)), objArticle
 				End If
 				Set objArticle=Nothing
 
@@ -1619,8 +1624,7 @@ Class TArticleList
 
 		End If
 		objRS.Close()
-		k=Join(aryArticleList)
-		Erase aryArticleList
+
 		'//////////////////////////
 
 
@@ -1698,7 +1702,6 @@ Class TArticleList
 					End If
 				End If
 			Next
-			'Err.Clear
 		End If
 
 		objRS.Source=objRS.Source & "ORDER BY [log_PostTime] DESC,[log_ID] DESC"
@@ -1717,10 +1720,9 @@ Class TArticleList
 
 				Set objArticle=New TArticle
 				If objArticle.LoadInfoByArray(Array(objRS(0),objRS(1),objRS(2),objRS(3),objRS(4),objRS(5),objRS(6),objRS(7),objRS(8),objRS(9),objRS(10),objRS(11),objRS(12),objRS(13),objRS(14),objRS(15),objRS(16),objRS(17))) Then
-					Call GetTagsbyTagIDList(objArticle.Tag)
-					If objArticle.Export(intType)= True Then
-						aryArticleList(i)=objArticle.Template_Article_Multi
-					End If
+					ud=ud & "," & objRs(7)
+					td=td & objRs(1)
+					dd.Add CInt(objRs(0)), objArticle
 				End If
 				Set objArticle=Nothing
 
@@ -1734,7 +1736,31 @@ Class TArticleList
 		objRS.Close()
 		Set objRS=Nothing
 
-		Template_Article_Istop=k
+
+		Call GetTagsbyTagIDList(tt & td)
+
+		Call GetUsersbyUserIDList(ut & "," & ud)
+
+
+		For i=0 To dt.Count-1
+			j=dt.Keys
+			ReDim Preserve aryArticleList(i)
+			Set objArticle=dt.Item(j(i))
+			If objArticle.Export(intType)= True Then
+				aryArticleList(i)=objArticle.Template_Article_Istop
+			End If
+		Next
+		Template_Article_Istop=Join(aryArticleList)
+
+
+		For i=0 To dd.Count-1
+			j=dd.Keys
+			ReDim Preserve aryArticleList(i)
+			Set objArticle=dd.Item(j(i))
+			If objArticle.Export(intType)= True Then
+				aryArticleList(i)=objArticle.Template_Article_Multi
+			End If
+		Next
 		Template_Article_Multi=Join(aryArticleList)
 
 		TemplateTags_ArticleList_Page_Now=intPage
@@ -1904,9 +1930,6 @@ Class TArticleList
 
 		If IsEmpty(html)=True Then html=Template
 
-		Call GetCategory()
-		Call GetUser()
-
 		Dim i
 		Dim j
 		Dim s
@@ -1953,7 +1976,6 @@ Class TArticleList
 
 				Set objArticle=New TArticle
 				If objArticle.LoadInfoByArray(Array(objRS(0),objRS(1),objRS(2),objRS(3),objRS(4),objRS(5),objRS(6),objRS(7),objRS(8),objRS(9),objRS(10),objRS(11),objRS(12),objRS(13),objRS(14),objRS(15),objRS(16),objRS(17))) Then
-					Call GetTagsbyTagIDList(objArticle.Tag)
 					If objArticle.Export(ZC_DISPLAY_MODE_SEARCH)= True Then
 						aryArticleList(i)=objArticle.Template_Article_Search
 					End If
@@ -2180,6 +2202,16 @@ Class TUser
 	Public Property Get RssUrl
 		RssUrl = ZC_BLOG_HOST & "feed.asp?user=" & ID
 	End Property
+
+
+	Public Property Get StaticName
+		If IsNull(Alias) Or IsEmpty(Alias) Or Alias="" Then
+			StaticName = "user_" & ID
+		Else
+			StaticName = Alias
+		End If
+	End Property
+
 
 	Private FLoginType
 	Public Property Let LoginType(strLoginType)

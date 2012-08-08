@@ -38,9 +38,6 @@ Call CheckReference("")
 '检查权限
 If Not CheckRights("CommentEdt") Then Call ShowError(6)
 
-GetCategory()
-GetUser()
-
 Dim EditComment
 Set EditComment=New TComment
 

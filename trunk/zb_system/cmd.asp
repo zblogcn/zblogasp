@@ -415,7 +415,6 @@ Function ArticleEdt
 		If bAction_Plugin_ArticleEdt_Begin=True Then Exit Function
 	Next
 
-	GetCategory()
 	If (Request.QueryString("type")<>"Page") And (Ubound(Categorys)=0) Then 
 		Call SetBlogHint_Custom(ZC_MSG222)
 		Response.Redirect "admin/edit_catalog.asp"

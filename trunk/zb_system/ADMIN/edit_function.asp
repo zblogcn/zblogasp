@@ -38,8 +38,6 @@ Call CheckReference("")
 '检查权限
 If Not CheckRights("FunctionEdt") Then Call ShowError(6)
 
-GetCategory()
-GetUser()
 GetFunction()
 
 Dim EditFunction

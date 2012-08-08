@@ -38,8 +38,7 @@ Call CheckReference("")
 '检查权限
 If Not CheckRights("ArticleEdt") Then Call ShowError(6)
 
-GetCategory()
-GetUser()
+Call GetUser()
 
 Dim IsPage
 Dim IsAutoIntro
@@ -109,8 +108,6 @@ EditArticle.Content=TransferHTML(Replace(EditArticle.Content,"<!–more–>","<h
 
 
 EditArticle.Title=TransferHTML(EditArticle.Title,"[html-format]")
-
-Call GetTagsbyTagIDList(EditArticle.Tag)
 
 BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & IIf(IsPage,ZC_MSG161,ZC_MSG047)
 
@@ -247,7 +244,6 @@ If Err.Number=0 Then
                         <select style="width:150px;" class="edit" size="1" id="cmbCate" onChange="edtCateID.value=this.options[this.selectedIndex].value">
                           <option value="0"></option>
                           <%
-	'GetCategory()
 	Dim aryCateInOrder : aryCateInOrder=GetCategoryOrder()
 	Dim m,n
 	For m=LBound(aryCateInOrder)+1 To Ubound(aryCateInOrder)
@@ -356,6 +352,7 @@ End If
 	Dim User
 	For Each User in Users
 		If IsObject(User) Then
+			If User.Level<4 Then
 			If CheckRights("Root")=True Then
 				Response.Write "<option value="""&User.ID&""" "
 				If User.ID=EditArticle.AuthorID Then
@@ -368,6 +365,7 @@ End If
 					Response.Write "selected=""selected"""
 					Response.Write ">"&TransferHTML(User.Name,"[html-format]")&"</option>"
 				End If
+			End If
 			End If
 		End If
 	Next

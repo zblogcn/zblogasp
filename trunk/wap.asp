@@ -35,9 +35,6 @@
 <%
 Call System_Initialize()
 
-Call GetCategory()
-Call GetUser()
-
 PubLic intPageCount
 	Select Case Request.QueryString("act")
 		Case "View"

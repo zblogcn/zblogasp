@@ -40,9 +40,6 @@ Call CheckReference("")
 '检查权限
 If Not CheckRights("CategoryEdt") Then Call ShowError(6)
 
-GetCategory()
-GetUser()
-
 Dim EditCategory
 Set EditCategory=New TCategory
 

@@ -15,8 +15,6 @@ Function PageMeta_ExportBar(ID)
 	PageMeta_ExportBar=d
 End Function
 Function PageMeta_ExportArticleList(intPage,intCate,intLevel,intTitle)
-	Call GetUser
-	Call GetCategory
 	Dim i
 	Dim objRS
 	Dim strSQL,strPage

@@ -80,12 +80,7 @@ If IsEmpty(Request.QueryString("navn"))=False Then
 
 End If
 
-Call GetCategory
-Call GetUser
-
 If Article.LoadInfoByID(Request.QueryString("id")) Then
-
-	GetTagsbyTagIDList Article.Tag
 
 	If Article.Level=1 Then Call ShowError(9)
 	If Article.Level=2 Then

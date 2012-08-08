@@ -330,7 +330,7 @@ Function WapEdtArt()
 	Response.Write "</select>"	
 	Response.Write "<p>"&ZC_MSG060&"：<input type=""text"" name=""edtTitle""  class=""i"" value=""""/></p>"
 	Response.Write "<p>"&ZC_MSG012&"：<select name=""edtCateID"">"
-		GetCategory()
+
 		Dim Category
 		For Each Category in Categorys
 			If IsObject(Category) Then
@@ -743,7 +743,6 @@ Function WapView()
 	Set Article=New TArticle
 	If Article.LoadInfoByID(log_ID) Then
 
-			Call GetTagsbyTagIDList(Article.Tag)
 			Article.Template="WAP_SINGLE"
 
 			If Article.Level=1 Then Response.Write WapTitle(ZVA_Article_Level_Name(1),"")&ZVA_ErrorMsg(9):Exit Function
@@ -1030,7 +1029,6 @@ Function WapExport(intPage,intCateId,intAuthorId,dtmYearMonth,strTagsName,intTyp
 				Set objArticle=New TArticle
 				If objArticle.LoadInfoByArray(Array(objRS(0),objRS(1),objRS(2),objRS(3),objRS(4),objRS(5),objRS(6),objRS(7),objRS(8),objRS(9),objRS(10),objRS(11),objRS(12),objRS(13),objRS(14),objRS(15),objRS(16),objRS(17))) Then
 					objArticle.Template="WAP_ARTICLE-MULTI"
-					Call GetTagsbyTagIDList(objArticle.Tag)
 					If objArticle.Export(intType)= True Then
 						aryArticleList(i)=objArticle.html
 					End If
