@@ -1628,6 +1628,7 @@ Class TArticleList
 		If Not IsEmpty(intCateId) Then
 			Dim strSubCateID : strSubCateID=Join(GetSubCateID(intCateId,True),",")
 			objRS.Source=objRS.Source & "AND([log_CateID]IN("&strSubCateID&"))"
+			ListType="CATEGORY"
 			If CheckCateByID(intCateId) Then
 				Title=Categorys(intCateId).Name
 				TemplateTags_ArticleList_Category_ID=Categorys(intCateId).ID
@@ -1636,6 +1637,7 @@ Class TArticleList
 		End if
 		If Not IsEmpty(intAuthorId) Then
 			objRS.Source=objRS.Source & "AND([log_AuthorID]="&intAuthorId&")"
+			ListType="USER"
 			If CheckAuthorByID(intAuthorId) Then
 				Call GetUsersbyUserIDList(intAuthorId)
 				Title=Users(intAuthorId).Name
@@ -1644,6 +1646,8 @@ Class TArticleList
 			End If
 		End if
 		If IsDate(dtmYearMonth) Then
+			ListType="DATE"
+
 			Dim y
 			Dim m
 			Dim d
@@ -1681,6 +1685,7 @@ Class TArticleList
 			Title=Year(dtmYearMonth) & " " & ZVA_Month(Month(dtmYearMonth))
 		End If
 		If Not (IsEmpty(strTagsName) Or strTagsName="" )Then
+			ListType="TAGS"
 			If CheckTagByName(strTagsName) Then
 				i=objConn.Execute("SELECT [tag_ID] FROM [blog_Tag] WHERE [tag_Name]='" & FilterSQL(strTagsName) &"'" )(0)
 				Dim Tag
