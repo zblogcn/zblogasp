@@ -517,7 +517,11 @@ End Sub
 ' 返回：    
 '*********************************************************
 Sub CreateVerifyNumber()
-
+	
+	For Each sAction_Plugin_CreateVerifyNumber_Begin in Action_Plugin_CreateVerifyNumber_Begin
+		If Not IsEmpty(sAction_Plugin_CreateVerifyNumber_Begin) Then Call Execute(sAction_Plugin_CreateVerifyNumber_Begin)
+	Next
+	
 	Dim i,j,s,t
 	Randomize
 
@@ -534,7 +538,10 @@ Sub CreateVerifyNumber()
 	Application.Lock
 	Application(ZC_BLOG_CLSID & "VERIFY_NUMBER")=aryVerifyNumber
 	Application.UnLock
-
+	
+	For Each sAction_Plugin_CreateVerifyNumber_End in Action_Plugin_CreateVerifyNumber_End 
+		If Not IsEmpty(sAction_Plugin_CreateVerifyNumber_End) Then Call Execute(sAction_Plugin_CreateVerifyNumber_End)
+	Next
 End Sub
 '*********************************************************
 
@@ -547,6 +554,9 @@ End Sub
 ' 返回：    
 '*********************************************************
 Function GetVerifyNumber()
+	For Each sAction_Plugin_GetVerifyNumber_Begin in Action_Plugin_GetVerifyNumber_Begin
+		If Not IsEmpty(sAction_Plugin_GetVerifyNumber_Begin) Then Call Execute(sAction_Plugin_GetVerifyNumber_Begin)
+	Next
 
 	Randomize
 	Dim i,j,s,t
@@ -598,7 +608,9 @@ Function GetVerifyNumber()
 	Application.Lock
 	Application(ZC_BLOG_CLSID & "VERIFY_NUMBER")=aryVerifyNumber
 	Application.UnLock
-
+	For Each sAction_Plugin_GetVerifyNumber_End in Action_Plugin_GetVerifyNumber_End 
+		If Not IsEmpty(sAction_Plugin_GetVerifyNumber_End) Then Call Execute(sAction_Plugin_GetVerifyNumber_End)
+	Next
 End Function
 '*********************************************************
 
@@ -612,6 +624,9 @@ End Function
 '*********************************************************
 Function CheckVerifyNumber(ByVal strNumber)
 
+	For Each sAction_Plugin_CheckVerifyNumber_Begin in Action_Plugin_CheckVerifyNumber_Begin
+		If Not IsEmpty(sAction_Plugin_CheckVerifyNumber_Begin) Then Call Execute(sAction_Plugin_CheckVerifyNumber_Begin)
+	Next
 	Dim i,j,s,t
 	Dim aryVerifyNumber
 
@@ -646,7 +661,9 @@ Function CheckVerifyNumber(ByVal strNumber)
 		End If
 
 	Next
-
+	For Each sAction_Plugin_CheckVerifyNumber_End in Action_Plugin_CheckVerifyNumber_End 
+		If Not IsEmpty(sAction_Plugin_CheckVerifyNumber_End) Then Call Execute(sAction_Plugin_CheckVerifyNumber_End)
+	Next
 End Function
 '*********************************************************
 
