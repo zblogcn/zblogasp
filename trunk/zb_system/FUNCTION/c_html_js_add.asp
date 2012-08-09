@@ -55,7 +55,14 @@ $(document).ready(function(){
 
 		$.getScript("<%=GetCurrentHost()%>zb_system/function/c_html_js.asp?act=batch"+unescape("%26")+"view=" + escape(strBatchView)+unescape("%26")+"inculde=" + escape(strBatchInculde)+unescape("%26")+"count=" + escape(strBatchCount));
 
-<%=Response_Plugin_ValidCode_Code%>
+		var objImageValid=$("img[src*='zb_system/function/c_validcode.asp?name=commentvalid']");
+		if(objImageValid.size()>0){
+			objImageValid.css("cursor","pointer");
+			objImageValid.click( function() {
+				objImageValid.attr("src","<%=GetCurrentHost()%>zb_system/function/c_validcode.asp?name=commentvalid"+"&amp;random="+Math.random());
+			} );
+		};
+
 
 	}catch(e){};
 
