@@ -17,13 +17,7 @@
 <% On Error Resume Next %>
 <!-- #include file="../../zb_users/c_option.asp" -->
 <!-- #include file="c_function.asp" -->
-<!-- #include file="c_system_lib.asp" -->
-<!-- #include file="c_system_base.asp" -->
-<!-- #include file="c_system_plugin.asp" -->
-<!-- #include file="../../zb_users/plugin/p_config.asp" -->
-
 <%
-Call ActivePlugin()
 '//////' QQ17862153/////ASP无组件验证码程序开始///////////
 Class Com_GifCode_Class
 Public Noisy, Count, Width, Height, Angle, Offset, Border
@@ -194,17 +188,10 @@ Public Sub Output()
 	Response.BinaryWrite ChrB(128) & ChrB(0) & ChrB(129) & ChrB(0) & ChrB(59)
 End Sub
 End Class
-For Each sAction_Plugin_ExportValidCode_Begin in Action_Plugin_ExportValidCode_Begin
-	If Not IsEmpty(sAction_Plugin_ExportValidCode_Begin) Then Call Execute(sAction_Plugin_ExportValidCode_Begin)
-Next
-
 Dim mCode
 Dim code
 Set mCode = New Com_GifCode_Class
 mCode.Create(GetVerifyNumber)
 mCode.Output()
 Set mCode = Nothing
-For Each sAction_Plugin_ExportValidCode_End in Action_Plugin_ExportValidCode_End 
-	If Not IsEmpty(sAction_Plugin_ExportValidCode_End) Then Call Execute(sAction_Plugin_ExportValidCode_End)
-Next
 %>
