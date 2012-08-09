@@ -40,6 +40,18 @@ Class TCategory
 		Meta.LoadString=s
 	End Property
 
+	Private Ffullregex
+	Public Property Let FullRegex(s)
+		Ffullregex=s
+	End Property
+	Public Property Get FullRegex
+		If Ffullregex<>"" Then 
+			FullRegex=Ffullregex
+		Else
+			FullRegex=ZC_CATEGORY_REGEX
+		End If
+	End Property
+
 	Public html
 
 	Public Property Get Url
@@ -308,7 +320,6 @@ Class TArticle
 
 	Public IsDynamicLoadSildbar
 	Public CommentsPage
-	Public FullRegex
 
 	Private Ftemplate
 	Public Property Let Template(strFileName)
@@ -331,6 +342,22 @@ Class TArticle
 				Ftemplate=GetTemplate("TEMPLATE_SINGLE")
 			End If
 			Template = Ftemplate
+		End If
+	End Property
+
+	Private Ffullregex
+	Public Property Let FullRegex(s)
+		Ffullregex=s
+	End Property
+	Public Property Get FullRegex
+		If Ffullregex<>"" Then 
+			FullRegex=Ffullregex
+		Else
+			If CateID<>0 Then
+				FullRegex=ZC_ARTICLE_REGEX
+			Else
+				FullRegex=ZC_PAGE_REGEX
+			End If
 		End If
 	End Property
 
@@ -1436,8 +1463,6 @@ Class TArticle
 
 		Ftemplate=Empty
 
-		FullRegex=ZC_ARTICLE_REGEX
-
 		Set Meta=New TMeta
 
 	End Sub
@@ -1496,11 +1521,23 @@ Class TArticleList
 	End Property
 	Public Property Get Template
 		If Ftemplate="" Then
-			Ftemplate=GetTemplate("TEMPLATE_CATALOG")
+			Ftemplate=GetTemplate("TEMPLATE_DEFAULT")
 		End If
 
 		Template = Ftemplate
 
+	End Property
+
+	Private Ffullregex
+	Public Property Let FullRegex(s)
+		Ffullregex=s
+	End Property
+	Public Property Get FullRegex
+		If Ffullregex<>"" Then 
+			FullRegex=Ffullregex
+		Else
+			FullRegex=ZC_DEFAULT_REGEX
+		End If
 	End Property
 
 
@@ -2125,6 +2162,18 @@ Class TUser
 	End Property
 
 	Public html
+
+	Private Ffullregex
+	Public Property Let FullRegex(s)
+		Ffullregex=s
+	End Property
+	Public Property Get FullRegex
+		If Ffullregex<>"" Then 
+			FullRegex=Ffullregex
+		Else
+			FullRegex=ZC_USER_REGEX
+		End If
+	End Property
 
 	Private FEmailMD5
 	Public Property Get EmailMD5
@@ -3538,6 +3587,18 @@ Class TTag
 
 		Call Filter_Plugin_TTag_Url(Url)
 
+	End Property
+
+	Private Ffullregex
+	Public Property Let FullRegex(s)
+		Ffullregex=s
+	End Property
+	Public Property Get FullRegex
+		If Ffullregex<>"" Then 
+			FullRegex=Ffullregex
+		Else
+			FullRegex=ZC_TAGS_REGEX
+		End If
 	End Property
 
 	Public Property Get HtmlUrl

@@ -2394,6 +2394,7 @@ Function BlogReBuild_Catalogs()
 	Next
 
 	IsRunGetCategory=False
+	Call GetCategory()
 
 	Dim objRS
 	Dim objStream
