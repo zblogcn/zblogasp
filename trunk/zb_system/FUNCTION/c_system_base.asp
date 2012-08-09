@@ -314,7 +314,7 @@ Function GetUser()
 	Set objRS=Nothing
 
 
-	Set objRS=objConn.Execute("SELECT [mem_ID],[mem_Name],[mem_Level],[mem_Password],[mem_Email],[mem_HomePage],[mem_PostLogs],[mem_Intro],[mem_Meta] FROM [blog_Member] ORDER BY [mem_ID] ASC")
+	Set objRS=objConn.Execute("SELECT [mem_ID],[mem_Name],[mem_Level],[mem_Password],[mem_Email],[mem_HomePage],[mem_PostLogs],[mem_Intro],[mem_Template],[mem_FullUrl],[mem_Meta] FROM [blog_Member] ORDER BY [mem_ID] ASC")
 	If (Not objRS.bof) And (Not objRS.eof) Then
 
 		aryAllData=objRS.GetRows(objRS.RecordCount)
@@ -325,7 +325,7 @@ Function GetUser()
 		l=UBound(aryAllData,2)
 		For i=0 To l
 			Set Users(aryAllData(0,i))=New TUser
-			Users(aryAllData(0,i)).LoadInfoByArray(Array(aryAllData(0,i),aryAllData(1,i),aryAllData(2,i),aryAllData(3,i),aryAllData(4,i),aryAllData(5,i),aryAllData(6,i),aryAllData(7,i),aryAllData(8,i)))
+			Users(aryAllData(0,i)).LoadInfoByArray(Array(aryAllData(0,i),aryAllData(1,i),aryAllData(2,i),aryAllData(3,i),aryAllData(4,i),aryAllData(5,i),aryAllData(6,i),aryAllData(7,i),aryAllData(8,i),aryAllData(9,i),aryAllData(10,i)))
 		Next
 
 	End If
@@ -672,10 +672,7 @@ End Function
 '*********************************************************
 Function CheckAuthorByID(intAuthorId)
 
-	CheckAuthorByID=False
-	If intAuthorId<=UBound(Users) Then
-		If IsObject(Users(intAuthorId)) Then CheckAuthorByID=True
-	End If
+	CheckAuthorByID=Not objConn.Execute("SELECT [mem_ID] FROM [blog_Member] WHERE [mem_ID]=" & CInt(intAuthorId) ).BOF
 
 End Function
 '*********************************************************
@@ -688,10 +685,20 @@ End Function
 '*********************************************************
 Function CheckCateByID(intCateId)
 
-	CheckCateByID=False
-	If intCateId<=UBound(Categorys) Then
-		If IsObject(Categorys(intCateId)) Then CheckCateByID=True
-	End If
+	CheckCateByID=Not objConn.Execute("SELECT [cate_ID] FROM [blog_Category] WHERE [cate_ID]=" & CInt(intCateId) ).BOF
+
+End Function
+'*********************************************************
+
+
+
+
+'*********************************************************
+' 目的：    检查分类是否存在
+'*********************************************************
+Function CheckTagByName(strName)
+
+	CheckTagByName=Not objConn.Execute("SELECT [tag_ID] FROM [blog_Tag] WHERE [tag_Name]='" & FilterSQL(strName) &"'" ).BOF
 
 End Function
 '*********************************************************
@@ -3026,12 +3033,11 @@ Function BuildArticle(intID,bolBuildNavigate,bolBuildCategory)
 	Set objArticle=New TArticle
 
 	If objArticle.LoadInfoByID(intID) Then
-		objArticle.Statistic
 		If objArticle.Export(ZC_DISPLAY_MODE_ALL) Then
 			objArticle.SaveCache
 			objArticle.Build
 			objArticle.Save
-
+			objArticle.Statistic
 		End If
 
 		If (bolBuildNavigate=True) And (ZC_USE_NAVIGATE_ARTICLE=True) Then
@@ -3125,14 +3131,14 @@ End If
 Dim objRS
 Dim objUser
 
-Set objRS=objConn.Execute("SELECT [mem_ID],[mem_Name],[mem_Level],[mem_Password],[mem_Email],[mem_HomePage],[mem_PostLogs],[mem_Intro],[mem_Meta] FROM [blog_Member] WHERE (" & s & ")")
+Set objRS=objConn.Execute("SELECT [mem_ID],[mem_Name],[mem_Level],[mem_Password],[mem_Email],[mem_HomePage],[mem_PostLogs],[mem_Intro],[mem_Template],[mem_FullUrl],[mem_Meta] FROM [blog_Member] WHERE (" & s & ")")
 
 If (Not objRS.bof) And (Not objRS.eof) Then
 
 	Do While Not objRS.eof
 
 		Set objUser=New TUser
-		Call objUser.LoadInfoByArray(Array(objRS(0),objRS(1),objRS(2),objRS(3),objRS(4),objRS(5),objRS(6),objRS(7),objRS(8)))
+		Call objUser.LoadInfoByArray(Array(objRS(0),objRS(1),objRS(2),objRS(3),objRS(4),objRS(5),objRS(6),objRS(7),objRS(8),objRS(9),objRS(10)))
 
 		If UBound(Users)<objUser.ID Then
 			ReDim Preserve Users(objUser.ID)

@@ -36,9 +36,9 @@ Dim s
 s=LoadFromFile(BlogPath & "zb_users\cache\default.html","utf-8")
 
 If Len(s)>0 Then
-	Response.Write Replace(s,"<#ZC_BLOG_HOST#>",GetCurrentHost())
-	Response.Write "<!-- " & RunTime() & "ms -->"
-	Response.End
+	'Response.Write Replace(s,"<#ZC_BLOG_HOST#>",GetCurrentHost())
+	'Response.Write "<!-- " & RunTime() & "ms -->"
+	'Response.End
 End If
 
 
@@ -53,10 +53,6 @@ TemplateTagsDic.Item("ZC_BLOG_HOST")=GetCurrentHost()
 
 Dim ArtList
 Set ArtList=New TArticleList
-
-ArtList.LoadCache
-
-ArtList.template="DEFAULT"
 
 If ArtList.Export("","","","","",ZC_DISPLAY_MODE_INTRO) Then
 

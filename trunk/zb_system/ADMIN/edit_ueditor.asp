@@ -293,7 +293,7 @@ End If
 		j=UBound(aryFileList)
 		For i=1 to j
 			t=UCase(Left(aryFileList(i),InStr(aryFileList(i),".")-1))
-			If Left(t,2)<>"B_" Then
+			If Left(t,2)<>"B_" AND t<>"FOOTER" And t<>"HEADER" Then
 				If EditArticle.TemplateName=t Then
 					Response.Write "<option value="""&t&""" selected=""selected"">"&t&"</option>"
 				Else

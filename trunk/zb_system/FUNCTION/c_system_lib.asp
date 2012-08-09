@@ -40,6 +40,32 @@ Class TCategory
 		Meta.LoadString=s
 	End Property
 
+
+	Private Ftemplate
+	Public Property Let Template(strFileName)
+		Ftemplate=GetTemplate("TEMPLATE_" & strFileName)
+	End Property
+	Public Property Get Template
+		If Ftemplate<>"" Then
+			Template = Ftemplate
+			Exit Property
+		Else
+			If TemplateName<>"" Then
+				Dim s
+				s=GetTemplate("TEMPLATE_" &TemplateName)
+				If s<>"" Then
+					Ftemplate = s
+				Else
+					Ftemplate=GetTemplate("TEMPLATE_CATALOG")
+				End If
+			Else
+				Ftemplate=GetTemplate("TEMPLATE_CATALOG")
+			End If
+			Template = Ftemplate
+		End If
+	End Property
+
+
 	Private Ffullregex
 	Public Property Let FullRegex(s)
 		Ffullregex=s
@@ -363,6 +389,7 @@ Class TArticle
 
 
 	Public Property Get FullPath
+		Call GetUsersbyUserIDList(AuthorID)
 		FullPath=ParseCustomDirectoryForPath(FullRegex,ZC_STATIC_DIRECTORY,Categorys(CateID).StaticName,Users(AuthorID).StaticName,Year(PostTime),Month(PostTime),Day(PostTime),ID,StaticName)
 	End Property
 
@@ -379,6 +406,7 @@ Class TArticle
 		If Level<=2 Then
 			Url = ZC_BLOG_HOST & "view.asp?id=" & ID
 		Else
+			Call GetUsersbyUserIDList(AuthorID)
 			Url =ParseCustomDirectoryForUrl(FullRegex,ZC_STATIC_DIRECTORY,Categorys(CateID).StaticName,Users(AuthorID).StaticName,Year(PostTime),Month(PostTime),Day(PostTime),ID,StaticName)
 		End If
 
@@ -392,16 +420,6 @@ Class TArticle
 		Else
 			StaticName = Alias
 		End If
-	End Property
-
-	Public Property Get FileName
-
-		FileName = StaticName
-
-		If ZC_CUSTOM_DIRECTORY_ENABLE And ZC_CUSTOM_DIRECTORY_ANONYMOUS Then
-			FileName = "default"
-		End If
-		FileName = FileName & "." & ZC_STATIC_TYPE
 	End Property
 
 	Private FTrackBackKey
@@ -547,6 +565,7 @@ Class TArticle
 	End Function
 
 
+
 	Public Function LoadInfoByArray(aryArticleInfo)
 
 		'[log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_IsAnonymous],[log_Meta]
@@ -586,221 +605,79 @@ Class TArticle
 	End Function
 
 
-	Public Function Export(intType)
 
-		'plugin node
-		bAction_Plugin_TArticle_Export_Begin=False
-		For Each sAction_Plugin_TArticle_Export_Begin in Action_Plugin_TArticle_Export_Begin
-			If Not IsEmpty(sAction_Plugin_TArticle_Export_Begin) Then Call Execute(sAction_Plugin_TArticle_Export_Begin)
-			If bAction_Plugin_TArticle_Export_Begin=True Then Exit Function
-		Next
+	Public Function Post()
 
-		If IsEmpty(html)=True Then html=Template
+		Call Filter_Plugin_TArticle_Post(ID,Tag,CateID,Title,Intro,Content,Level,AuthorID,PostTime,CommNums,ViewNums,TrackBackNums,Alias,Istop,TemplateName,FullUrl,IsAnonymous,MetaString)
+
+		Call CheckParameter(ID,"int",0)
+		Call CheckParameter(CateID,"int",0)
+		Call CheckParameter(AuthorID,"int",0)
+		Call CheckParameter(Level,"int",0)
+		Call CheckParameter(PostTime,"dtm",Empty)
+		Call CheckParameter(Istop,"bool",False)
+
+		'ID可以为0
+		'If (CateID=0) Then Post=False:Exit Function
+		If (AuthorID=0) Then Post=False:Exit Function
+		If IsEmpty(PostTime) Then Post=False:Exit Function
+
+		Title=FilterSQL(Title)
+		Intro=FilterSQL(Intro)
+		Content=FilterSQL(Content)
+		Tag=FilterSQL(Tag)
+		IP=FilterSQL(IP)
+
+		Title=TransferHTML(Title,"[japan-html]")
+		Intro=TransferHTML(Intro,"[japan-html]")
+		Content=TransferHTML(Content,"[japan-html]")
+
+		Intro=TransferHTML(Intro,"[anti-upload]")
+		Content=TransferHTML(Content,"[anti-upload]")
+
+		'先进行"[anti-upload]"，再替换<#ZC_BLOG_HOST#>
+		Intro=TransferHTML(Intro,"[anti-zc_blog_host]")
+		Content=TransferHTML(Content,"[anti-zc_blog_host]")
+
+		Alias=TransferHTML(Alias,"[filename]")
+		Alias=FilterSQL(Alias)
 
 		Call GetUsersbyUserIDList(AuthorID)
 
-		If (ZC_DISPLAY_MODE_INTRO=intType) Or (ZC_DISPLAY_MODE_ONTOP=intType) Or (ZC_DISPLAY_MODE_SEARCH=intType) Then
-			Disable_Export_Tag=False
-			Disable_Export_CMTandTB=True
-			Disable_Export_CommentPost=True
-			Disable_Export_Mutuality=True
-			Disable_Export_NavBar=True
-			If ZC_DISPLAY_MODE_ONTOP=intType Then Disable_Export_Tag=True
-		End If
-
-		Call Export_Tag
-		Call Export_CMTandTB(CommentsPage)
-		Call Export_CommentPost
-		Call Export_Mutuality
-		Call Export_NavBar
-
-		Template_Article_Single=GetTemplate("TEMPLATE_B_ARTICLE-SINGLE")
-		Template_Article_Multi=GetTemplate("TEMPLATE_B_ARTICLE-MULTI")
-		Template_Article_Istop=GetTemplate("TEMPLATE_B_ARTICLE-ISTOP")
-
-		'plugin node
-		Call Filter_Plugin_TArticle_Export_Template(html,Template_Article_Single,Template_Article_Multi,Template_Article_Istop)
-
-		'plugin node
-		Call Filter_Plugin_TArticle_Export_Template_Sub(Template_Article_Comment,Template_Article_Trackback,Template_Article_Tag,Template_Article_Commentpost,Template_Article_Navbar_L,Template_Article_Navbar_R,Template_Article_Mutuality)
-
-		Template_Article_Single=Replace(Template_Article_Single,"<#template:article_comment#>",Template_Article_Comment)
-		Template_Article_Single=Replace(Template_Article_Single,"<#template:article_trackback#>",Template_Article_Trackback)
-		Template_Article_Single=Replace(Template_Article_Single,"<#template:article_comment_pagebar#>",Template_Article_Comment_Pagebar)
-		Template_Article_Single=Replace(Template_Article_Single,"<#template:article_commentpost#>",Template_Article_Commentpost)
-		Template_Article_Single=Replace(Template_Article_Single,"<#template:article_tag#>",Template_Article_Tag)
-		Template_Article_Single=Replace(Template_Article_Single,"<#template:article_navbar_l#>",Template_Article_Navbar_L)
-		Template_Article_Single=Replace(Template_Article_Single,"<#template:article_navbar_r#>",Template_Article_Navbar_R)
-		Template_Article_Single=Replace(Template_Article_Single,"<#template:article_mutuality#>",Template_Article_Mutuality)
-
-		Template_Article_Multi=Replace(Template_Article_Multi,"<#template:article_tag#>",Template_Article_Tag)
-		Template_Article_Istop=Replace(Template_Article_Istop,"<#template:article_tag#>",Template_Article_Tag)
-
-		Dim aryTemplateTagsName()
-		Dim aryTemplateTagsValue()
-		Dim i,j
-		ReDim aryTemplateTagsName(54)
-		ReDim aryTemplateTagsValue(54)
-
-		aryTemplateTagsName(1)="article/id"
-		aryTemplateTagsValue(1)=ID
-		aryTemplateTagsName(2)="article/level"
-		aryTemplateTagsValue(2)=Level
-		aryTemplateTagsName(3)="article/title"
-		If intType=ZC_DISPLAY_MODE_SEARCH Then
-			aryTemplateTagsValue(3)=Search(Title,Request.QueryString("q"))
-		Else
-			aryTemplateTagsValue(3)=HtmlTitle
-		End If
-		aryTemplateTagsName(4)="article/intro"
-		If intType=ZC_DISPLAY_MODE_SEARCH Then
-			'aryTemplateTagsValue(4)=Search(TransferHTML(Intro & Content,"[html-format]"),Request.QueryString("q"))
-			aryTemplateTagsValue(4)=Search(TransferHTML(Intro & Content,"[nohtml]"),Request.QueryString("q"))
-		Else
-			If Level=2 Then
-				aryTemplateTagsValue(4)=ZC_MSG043
-			Else
-				aryTemplateTagsValue(4)=HtmlIntro
+		'检查“别名”是否有重名
+		If Alias<>"" Then
+			Dim objRSsub
+			Set objRSsub=objConn.Execute("SELECT [log_ID] FROM [blog_Article] WHERE [log_ID]<>"& ID &" AND [log_Url]='"& Alias &"'" )
+			If (Not objRSsub.bof) And (Not objRSsub.eof) Then
+				Randomize
+				Alias=Alias & "_" & CStr(Int((9 * Rnd) + 1)) & CStr(Int((9 * Rnd) + 1)) & CStr(Int((9 * Rnd) + 1)) & CStr(Int((9 * Rnd) + 1))
 			End If
+			Set objRSsub=Nothing
 		End If
-		aryTemplateTagsName(5)="article/content"
-		aryTemplateTagsValue(5)=HtmlContent
-		If intType=ZC_DISPLAY_MODE_SEARCH Then
-			aryTemplateTagsValue(5)=aryTemplateTagsValue(4)
-		End If
-		aryTemplateTagsName(6)="article/posttime"
-		aryTemplateTagsValue(6)=PostTime
-		aryTemplateTagsName(7)="article/commnums"
-		aryTemplateTagsValue(7)=Commnums
-		aryTemplateTagsName(8)="article/viewnums"
-		aryTemplateTagsValue(8)=Viewnums
-		aryTemplateTagsName(9)="article/trackbacknums"
-		aryTemplateTagsValue(9)=Trackbacknums
-		aryTemplateTagsName(10)="article/trackback_url"
-		aryTemplateTagsValue(10)=TrackBack
-		aryTemplateTagsName(11)="article/url"
-		aryTemplateTagsValue(11)=TransferHTML(HtmlUrl,"[anti-zc_blog_host]")
 
-		aryTemplateTagsName(12)="article/category/id"
-		aryTemplateTagsValue(12)=Categorys(CateID).ID
-		aryTemplateTagsName(13)="article/category/name"
-		aryTemplateTagsValue(13)=Categorys(CateID).HtmlName
-		aryTemplateTagsName(15)="article/category/order"
-		aryTemplateTagsValue(15)=Categorys(CateID).Order
-		aryTemplateTagsName(16)="article/category/count"
-		aryTemplateTagsValue(16)=Categorys(CateID).Count
-		aryTemplateTagsName(17)="article/category/url"
-		aryTemplateTagsValue(17)=TransferHTML(Categorys(CateID).HtmlUrl,"[anti-zc_blog_host]")
+		If Len(Title)=0 Then Post=False:Exit Function
+		If Len(Content)=0 Then Post=False:Exit Function
+		'If Len(Intro)=0 Then Intro=Left(Content,ZC_TB_EXCERPT_MAX) & "..."
 
-		aryTemplateTagsName(18)="article/author/id"
-		aryTemplateTagsValue(18)=Users(AuthorID).ID
-		aryTemplateTagsName(19)="article/author/name"
-		aryTemplateTagsValue(19)=Users(AuthorID).Name
-		aryTemplateTagsName(20)="article/author/level"
-		aryTemplateTagsValue(20)=ZVA_User_Level_Name(Users(AuthorID).Level)
-		aryTemplateTagsName(21)="article/author/email"
-		aryTemplateTagsValue(21)=Users(AuthorID).Email
-		aryTemplateTagsName(22)="article/author/homepage"
-		aryTemplateTagsValue(22)=Users(AuthorID).HomePage
-		aryTemplateTagsName(23)="article/author/count"
-		aryTemplateTagsValue(23)=Users(AuthorID).Count
-		aryTemplateTagsName(24)="article/author/url"
-		aryTemplateTagsValue(24)=TransferHTML(Users(AuthorID).HtmlUrl,"[anti-zc_blog_host]")
+		TemplateName=UCase(FilterSQL(TemplateName))
+		If TemplateName="SINGLE" Then TemplateName=""
 
-		aryTemplateTagsName(25)="article/posttime/longdate"
-		aryTemplateTagsValue(25)=FormatDateTime(PostTime,vbLongDate)
-		aryTemplateTagsName(26)="article/posttime/shortdate"
-		aryTemplateTagsValue(26)=FormatDateTime(PostTime,vbShortDate)
-		aryTemplateTagsName(27)="article/posttime/longtime"
-		aryTemplateTagsValue(27)=FormatDateTime(PostTime,vbLongTime)
-		aryTemplateTagsName(28)="article/posttime/shorttime"
-		aryTemplateTagsValue(28)=FormatDateTime(PostTime,vbShortTime)
-		aryTemplateTagsName(29)="article/posttime/year"
-		aryTemplateTagsValue(29)=Year(PostTime)
-		aryTemplateTagsName(30)="article/posttime/month"
-		aryTemplateTagsValue(30)=Month(PostTime)
-		aryTemplateTagsName(31)="article/posttime/monthname"
-		aryTemplateTagsValue(31)=ZVA_Month(Month(PostTime))
-		aryTemplateTagsName(32)="article/posttime/day"
-		aryTemplateTagsValue(32)=Day(PostTime)
-		aryTemplateTagsName(33)="article/posttime/weekday"
-		aryTemplateTagsValue(33)=Weekday(PostTime)
-		aryTemplateTagsName(34)="article/posttime/weekdayname"
-		aryTemplateTagsValue(34)=ZVA_Week(Weekday(PostTime))
-		aryTemplateTagsName(35)="article/posttime/hour"
-		aryTemplateTagsValue(35)=Hour(PostTime)
-		aryTemplateTagsName(36)="article/posttime/minute"
-		aryTemplateTagsValue(36)=Minute(PostTime)
-		aryTemplateTagsName(37)="article/posttime/second"
-		aryTemplateTagsValue(37)=Second(PostTime)
-
-		aryTemplateTagsName(38)="article/commentrss"
-		aryTemplateTagsValue(38)=TransferHTML(WfwCommentRss,"[anti-zc_blog_host]")
-		aryTemplateTagsName(39)="article/commentposturl"
-		aryTemplateTagsValue(39)=TransferHTML(CommentPostUrl,"[html-format][anti-zc_blog_host]")
-		aryTemplateTagsName(40)="article/pretrackback_url"
-		aryTemplateTagsValue(40)=TransferHTML(PreTrackBack,"[html-format][anti-zc_blog_host]")
-		aryTemplateTagsName(41)="article/trackbackkey"
-		aryTemplateTagsValue(41)=TrackBackKey
-		aryTemplateTagsName(42)="article/commentkey"
-		aryTemplateTagsValue(42)=CommentKey
-
-		aryTemplateTagsName(43)="article/staticname"
-		aryTemplateTagsValue(43)=StaticName
-		aryTemplateTagsName(44)="article/category/staticname"
-		aryTemplateTagsValue(44)=Categorys(CateID).StaticName
-		aryTemplateTagsName(45)="article/author/staticname"
-		aryTemplateTagsValue(45)=Users(AuthorID).StaticName
-		aryTemplateTagsName(46)="article/tagtoname"
-		aryTemplateTagsValue(46)=TagToName
-		aryTemplateTagsName(47)="article/firsttagintro"
-		aryTemplateTagsValue(47)=FirstTagIntro
-
-		aryTemplateTagsName(48)="article/posttime/monthnameabbr"
-		aryTemplateTagsValue(48)=ZVA_Month_Abbr(Month(PostTime))
-		aryTemplateTagsName(49)="article/posttime/weekdaynameabbr"
-		aryTemplateTagsValue(49)=ZVA_Week_Abbr(Weekday(PostTime))
-
-		aryTemplateTagsName(50)="template:sidebar"
-		aryTemplateTagsValue(50)=GetTemplate("CACHE_SIDEBAR")
-		aryTemplateTagsName(51)="template:sidebar2"
-		aryTemplateTagsValue(51)=GetTemplate("CACHE_SIDEBAR2")
-		aryTemplateTagsName(52)="template:sidebar3"
-		aryTemplateTagsValue(52)=GetTemplate("CACHE_SIDEBAR3")
-		aryTemplateTagsName(53)="template:sidebar4"
-		aryTemplateTagsValue(53)=GetTemplate("CACHE_SIDEBAR4")
-		aryTemplateTagsName(54)="template:sidebar5"
-		aryTemplateTagsValue(54)=GetTemplate("CACHE_SIDEBAR5")
-
-
-		Call Filter_Plugin_TArticle_Export_TemplateTags(aryTemplateTagsName,aryTemplateTagsValue)
-
-		j=UBound(aryTemplateTagsName)
-		For i=1 to j
-			If IsNull(aryTemplateTagsValue(i))=False Then
-				Template_Article_Istop=Replace(Template_Article_Istop,"<#" & aryTemplateTagsName(i) & "#>",aryTemplateTagsValue(i))
-				Template_Article_Multi=Replace(Template_Article_Multi,"<#" & aryTemplateTagsName(i) & "#>",aryTemplateTagsValue(i))
-				Template_Article_Single=Replace(Template_Article_Single,"<#" & aryTemplateTagsName(i) & "#>",aryTemplateTagsValue(i))
-				html = Replace(html,"<#" & aryTemplateTagsName(i) & "#>", aryTemplateTagsValue(i))
+		If ID=0 Then
+			objConn.Execute("INSERT INTO [blog_Article]([log_CateID],[log_AuthorID],[log_Level],[log_Title],[log_Intro],[log_Content],[log_PostTime],[log_IP],[log_Tag],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_ViewNums],[log_IsAnonymous],[log_Meta]) VALUES ("&CateID&","&AuthorID&","&Level&",'"&Title&"','"&Intro&"','"&Content&"','"&PostTime&"','"&IP&"','"&Tag&"','"&Alias&"',"&CInt(Istop)&",'"&TemplateName&"','"&FullUrl&"',0,"&CInt(IsAnonymous)&",'"&MetaString&"')")
+			Dim objRS
+			Set objRS=objConn.Execute("SELECT MAX([log_ID]) FROM [blog_Article]")
+			If (Not objRS.bof) And (Not objRS.eof) Then
+				ID=objRS(0)
 			End If
-		Next
-
-		If intType=ZC_DISPLAY_MODE_SEARCH Then
-			Template_Article_Search=Template_Article_Multi
+			Set objRS=Nothing
+		Else
+			objConn.Execute("UPDATE [blog_Article] SET [log_CateID]="&CateID&",[log_AuthorID]="&AuthorID&",[log_Level]="&Level&",[log_Title]='"&Title&"',[log_Intro]='"&Intro&"',[log_Content]='"&Content&"',[log_PostTime]='"&PostTime&"',[log_IP]='"&IP&"',[log_Tag]='"&Tag&"',[log_Url]='"&Alias&"',[log_Istop]="&CInt(Istop)&",[log_Template]='"&TemplateName&"',[log_FullUrl]='"&FullUrl&"',[log_IsAnonymous]="&CInt(IsAnonymous)&",[log_Meta]='"&MetaString&"' WHERE [log_ID] =" & ID)
 		End If
 
-		html=Replace(html,"<#template:article-single#>",Template_Article_Single)
-
-		Export=True
-
-		'plugin node
-		bAction_Plugin_TArticle_Export_End=False
-		For Each sAction_Plugin_TArticle_Export_End in Action_Plugin_TArticle_Export_End
-			If Not IsEmpty(sAction_Plugin_TArticle_Export_End) Then Call Execute(sAction_Plugin_TArticle_Export_End)
-			If bAction_Plugin_TArticle_Export_End=True Then Exit Function
-		Next
+		Post=True
 
 	End Function
+
 
 
 	Public Function Export_Tag
@@ -1204,145 +1081,223 @@ Class TArticle
 	End Function
 
 
+	Public Function Export(intType)
 
-	Public Function Post()
+		'plugin node
+		bAction_Plugin_TArticle_Export_Begin=False
+		For Each sAction_Plugin_TArticle_Export_Begin in Action_Plugin_TArticle_Export_Begin
+			If Not IsEmpty(sAction_Plugin_TArticle_Export_Begin) Then Call Execute(sAction_Plugin_TArticle_Export_Begin)
+			If bAction_Plugin_TArticle_Export_Begin=True Then Exit Function
+		Next
 
-		Call Filter_Plugin_TArticle_Post(ID,Tag,CateID,Title,Intro,Content,Level,AuthorID,PostTime,CommNums,ViewNums,TrackBackNums,Alias,Istop,TemplateName,FullUrl,IsAnonymous,MetaString)
-
-		Call CheckParameter(ID,"int",0)
-		Call CheckParameter(CateID,"int",0)
-		Call CheckParameter(AuthorID,"int",0)
-		Call CheckParameter(Level,"int",0)
-		Call CheckParameter(PostTime,"dtm",Empty)
-		Call CheckParameter(Istop,"bool",False)
-
-		'ID可以为0
-		'If (CateID=0) Then Post=False:Exit Function
-		If (AuthorID=0) Then Post=False:Exit Function
-		If IsEmpty(PostTime) Then Post=False:Exit Function
-
-		Title=FilterSQL(Title)
-		Intro=FilterSQL(Intro)
-		Content=FilterSQL(Content)
-		Tag=FilterSQL(Tag)
-		IP=FilterSQL(IP)
-
-		Title=TransferHTML(Title,"[japan-html]")
-		Intro=TransferHTML(Intro,"[japan-html]")
-		Content=TransferHTML(Content,"[japan-html]")
-
-		Intro=TransferHTML(Intro,"[anti-upload]")
-		Content=TransferHTML(Content,"[anti-upload]")
-
-		'先进行"[anti-upload]"，再替换<#ZC_BLOG_HOST#>
-		Intro=TransferHTML(Intro,"[anti-zc_blog_host]")
-		Content=TransferHTML(Content,"[anti-zc_blog_host]")
-
-		Alias=TransferHTML(Alias,"[filename]")
-		Alias=FilterSQL(Alias)
+		If IsEmpty(html)=True Then html=Template
 
 		Call GetUsersbyUserIDList(AuthorID)
 
-		'检查“别名”是否有重名
-		If Alias<>"" Then
-			Dim objRSsub
-			Set objRSsub=objConn.Execute("SELECT [log_ID] FROM [blog_Article] WHERE [log_ID]<>"& ID &" AND [log_Url]='"& Alias &"'" )
-			If (Not objRSsub.bof) And (Not objRSsub.eof) Then
-				Randomize
-				Alias=Alias & "_" & CStr(Int((9 * Rnd) + 1)) & CStr(Int((9 * Rnd) + 1)) & CStr(Int((9 * Rnd) + 1)) & CStr(Int((9 * Rnd) + 1))
-			End If
-			Set objRSsub=Nothing
+		If (ZC_DISPLAY_MODE_INTRO=intType) Or (ZC_DISPLAY_MODE_ONTOP=intType) Or (ZC_DISPLAY_MODE_SEARCH=intType) Then
+			Disable_Export_Tag=False
+			Disable_Export_CMTandTB=True
+			Disable_Export_CommentPost=True
+			Disable_Export_Mutuality=True
+			Disable_Export_NavBar=True
+			If ZC_DISPLAY_MODE_ONTOP=intType Then Disable_Export_Tag=True
 		End If
 
-		If Len(Title)=0 Then Post=False:Exit Function
-		If Len(Content)=0 Then Post=False:Exit Function
-		'If Len(Intro)=0 Then Intro=Left(Content,ZC_TB_EXCERPT_MAX) & "..."
+		Call Export_Tag
+		Call Export_CMTandTB(CommentsPage)
+		Call Export_CommentPost
+		Call Export_Mutuality
+		Call Export_NavBar
 
-		TemplateName=UCase(FilterSQL(TemplateName))
-		If TemplateName="SINGLE" Then TemplateName=""
+		Template_Article_Single=GetTemplate("TEMPLATE_B_ARTICLE-SINGLE")
+		Template_Article_Multi=GetTemplate("TEMPLATE_B_ARTICLE-MULTI")
+		Template_Article_Istop=GetTemplate("TEMPLATE_B_ARTICLE-ISTOP")
 
-		If ID=0 Then
-			objConn.Execute("INSERT INTO [blog_Article]([log_CateID],[log_AuthorID],[log_Level],[log_Title],[log_Intro],[log_Content],[log_PostTime],[log_IP],[log_Tag],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_ViewNums],[log_IsAnonymous],[log_Meta]) VALUES ("&CateID&","&AuthorID&","&Level&",'"&Title&"','"&Intro&"','"&Content&"','"&PostTime&"','"&IP&"','"&Tag&"','"&Alias&"',"&CInt(Istop)&",'"&TemplateName&"','"&FullUrl&"',0,"&CInt(IsAnonymous)&",'"&MetaString&"')")
-			Dim objRS
-			Set objRS=objConn.Execute("SELECT MAX([log_ID]) FROM [blog_Article]")
-			If (Not objRS.bof) And (Not objRS.eof) Then
-				ID=objRS(0)
-			End If
-			Set objRS=Nothing
+		'plugin node
+		Call Filter_Plugin_TArticle_Export_Template(html,Template_Article_Single,Template_Article_Multi,Template_Article_Istop)
+
+		'plugin node
+		Call Filter_Plugin_TArticle_Export_Template_Sub(Template_Article_Comment,Template_Article_Trackback,Template_Article_Tag,Template_Article_Commentpost,Template_Article_Navbar_L,Template_Article_Navbar_R,Template_Article_Mutuality)
+
+		Template_Article_Single=Replace(Template_Article_Single,"<#template:article_comment#>",Template_Article_Comment)
+		Template_Article_Single=Replace(Template_Article_Single,"<#template:article_trackback#>",Template_Article_Trackback)
+		Template_Article_Single=Replace(Template_Article_Single,"<#template:article_comment_pagebar#>",Template_Article_Comment_Pagebar)
+		Template_Article_Single=Replace(Template_Article_Single,"<#template:article_commentpost#>",Template_Article_Commentpost)
+		Template_Article_Single=Replace(Template_Article_Single,"<#template:article_tag#>",Template_Article_Tag)
+		Template_Article_Single=Replace(Template_Article_Single,"<#template:article_navbar_l#>",Template_Article_Navbar_L)
+		Template_Article_Single=Replace(Template_Article_Single,"<#template:article_navbar_r#>",Template_Article_Navbar_R)
+		Template_Article_Single=Replace(Template_Article_Single,"<#template:article_mutuality#>",Template_Article_Mutuality)
+
+		Template_Article_Multi=Replace(Template_Article_Multi,"<#template:article_tag#>",Template_Article_Tag)
+		Template_Article_Istop=Replace(Template_Article_Istop,"<#template:article_tag#>",Template_Article_Tag)
+
+		Dim aryTemplateTagsName()
+		Dim aryTemplateTagsValue()
+		Dim i,j
+		ReDim aryTemplateTagsName(54)
+		ReDim aryTemplateTagsValue(54)
+
+		aryTemplateTagsName(1)="article/id"
+		aryTemplateTagsValue(1)=ID
+		aryTemplateTagsName(2)="article/level"
+		aryTemplateTagsValue(2)=Level
+		aryTemplateTagsName(3)="article/title"
+		If intType=ZC_DISPLAY_MODE_SEARCH Then
+			aryTemplateTagsValue(3)=Search(Title,Request.QueryString("q"))
 		Else
-			objConn.Execute("UPDATE [blog_Article] SET [log_CateID]="&CateID&",[log_AuthorID]="&AuthorID&",[log_Level]="&Level&",[log_Title]='"&Title&"',[log_Intro]='"&Intro&"',[log_Content]='"&Content&"',[log_PostTime]='"&PostTime&"',[log_IP]='"&IP&"',[log_Tag]='"&Tag&"',[log_Url]='"&Alias&"',[log_Istop]="&CInt(Istop)&",[log_Template]='"&TemplateName&"',[log_FullUrl]='"&FullUrl&"',[log_IsAnonymous]="&CInt(IsAnonymous)&",[log_Meta]='"&MetaString&"' WHERE [log_ID] =" & ID)
+			aryTemplateTagsValue(3)=HtmlTitle
+		End If
+		aryTemplateTagsName(4)="article/intro"
+		If intType=ZC_DISPLAY_MODE_SEARCH Then
+			'aryTemplateTagsValue(4)=Search(TransferHTML(Intro & Content,"[html-format]"),Request.QueryString("q"))
+			aryTemplateTagsValue(4)=Search(TransferHTML(Intro & Content,"[nohtml]"),Request.QueryString("q"))
+		Else
+			If Level=2 Then
+				aryTemplateTagsValue(4)=ZC_MSG043
+			Else
+				aryTemplateTagsValue(4)=HtmlIntro
+			End If
+		End If
+		aryTemplateTagsName(5)="article/content"
+		aryTemplateTagsValue(5)=HtmlContent
+		If intType=ZC_DISPLAY_MODE_SEARCH Then
+			aryTemplateTagsValue(5)=aryTemplateTagsValue(4)
+		End If
+		aryTemplateTagsName(6)="article/posttime"
+		aryTemplateTagsValue(6)=PostTime
+		aryTemplateTagsName(7)="article/commnums"
+		aryTemplateTagsValue(7)=Commnums
+		aryTemplateTagsName(8)="article/viewnums"
+		aryTemplateTagsValue(8)=Viewnums
+		aryTemplateTagsName(9)="article/trackbacknums"
+		aryTemplateTagsValue(9)=Trackbacknums
+		aryTemplateTagsName(10)="article/trackback_url"
+		aryTemplateTagsValue(10)=TrackBack
+		aryTemplateTagsName(11)="article/url"
+		aryTemplateTagsValue(11)=TransferHTML(HtmlUrl,"[anti-zc_blog_host]")
+
+		aryTemplateTagsName(12)="article/category/id"
+		aryTemplateTagsValue(12)=Categorys(CateID).ID
+		aryTemplateTagsName(13)="article/category/name"
+		aryTemplateTagsValue(13)=Categorys(CateID).HtmlName
+		aryTemplateTagsName(15)="article/category/order"
+		aryTemplateTagsValue(15)=Categorys(CateID).Order
+		aryTemplateTagsName(16)="article/category/count"
+		aryTemplateTagsValue(16)=Categorys(CateID).Count
+		aryTemplateTagsName(17)="article/category/url"
+		aryTemplateTagsValue(17)=TransferHTML(Categorys(CateID).HtmlUrl,"[anti-zc_blog_host]")
+
+		aryTemplateTagsName(18)="article/author/id"
+		aryTemplateTagsValue(18)=Users(AuthorID).ID
+		aryTemplateTagsName(19)="article/author/name"
+		aryTemplateTagsValue(19)=Users(AuthorID).Name
+		aryTemplateTagsName(20)="article/author/level"
+		aryTemplateTagsValue(20)=ZVA_User_Level_Name(Users(AuthorID).Level)
+		aryTemplateTagsName(21)="article/author/email"
+		aryTemplateTagsValue(21)=Users(AuthorID).Email
+		aryTemplateTagsName(22)="article/author/homepage"
+		aryTemplateTagsValue(22)=Users(AuthorID).HomePage
+		aryTemplateTagsName(23)="article/author/count"
+		aryTemplateTagsValue(23)=Users(AuthorID).Count
+		aryTemplateTagsName(24)="article/author/url"
+		aryTemplateTagsValue(24)=TransferHTML(Users(AuthorID).HtmlUrl,"[anti-zc_blog_host]")
+
+		aryTemplateTagsName(25)="article/posttime/longdate"
+		aryTemplateTagsValue(25)=FormatDateTime(PostTime,vbLongDate)
+		aryTemplateTagsName(26)="article/posttime/shortdate"
+		aryTemplateTagsValue(26)=FormatDateTime(PostTime,vbShortDate)
+		aryTemplateTagsName(27)="article/posttime/longtime"
+		aryTemplateTagsValue(27)=FormatDateTime(PostTime,vbLongTime)
+		aryTemplateTagsName(28)="article/posttime/shorttime"
+		aryTemplateTagsValue(28)=FormatDateTime(PostTime,vbShortTime)
+		aryTemplateTagsName(29)="article/posttime/year"
+		aryTemplateTagsValue(29)=Year(PostTime)
+		aryTemplateTagsName(30)="article/posttime/month"
+		aryTemplateTagsValue(30)=Month(PostTime)
+		aryTemplateTagsName(31)="article/posttime/monthname"
+		aryTemplateTagsValue(31)=ZVA_Month(Month(PostTime))
+		aryTemplateTagsName(32)="article/posttime/day"
+		aryTemplateTagsValue(32)=Day(PostTime)
+		aryTemplateTagsName(33)="article/posttime/weekday"
+		aryTemplateTagsValue(33)=Weekday(PostTime)
+		aryTemplateTagsName(34)="article/posttime/weekdayname"
+		aryTemplateTagsValue(34)=ZVA_Week(Weekday(PostTime))
+		aryTemplateTagsName(35)="article/posttime/hour"
+		aryTemplateTagsValue(35)=Hour(PostTime)
+		aryTemplateTagsName(36)="article/posttime/minute"
+		aryTemplateTagsValue(36)=Minute(PostTime)
+		aryTemplateTagsName(37)="article/posttime/second"
+		aryTemplateTagsValue(37)=Second(PostTime)
+
+		aryTemplateTagsName(38)="article/commentrss"
+		aryTemplateTagsValue(38)=TransferHTML(WfwCommentRss,"[anti-zc_blog_host]")
+		aryTemplateTagsName(39)="article/commentposturl"
+		aryTemplateTagsValue(39)=TransferHTML(CommentPostUrl,"[html-format][anti-zc_blog_host]")
+		aryTemplateTagsName(40)="article/pretrackback_url"
+		aryTemplateTagsValue(40)=TransferHTML(PreTrackBack,"[html-format][anti-zc_blog_host]")
+		aryTemplateTagsName(41)="article/trackbackkey"
+		aryTemplateTagsValue(41)=TrackBackKey
+		aryTemplateTagsName(42)="article/commentkey"
+		aryTemplateTagsValue(42)=CommentKey
+
+		aryTemplateTagsName(43)="article/staticname"
+		aryTemplateTagsValue(43)=StaticName
+		aryTemplateTagsName(44)="article/category/staticname"
+		aryTemplateTagsValue(44)=Categorys(CateID).StaticName
+		aryTemplateTagsName(45)="article/author/staticname"
+		aryTemplateTagsValue(45)=Users(AuthorID).StaticName
+		aryTemplateTagsName(46)="article/tagtoname"
+		aryTemplateTagsValue(46)=TagToName
+		aryTemplateTagsName(47)="article/firsttagintro"
+		aryTemplateTagsValue(47)=FirstTagIntro
+
+		aryTemplateTagsName(48)="article/posttime/monthnameabbr"
+		aryTemplateTagsValue(48)=ZVA_Month_Abbr(Month(PostTime))
+		aryTemplateTagsName(49)="article/posttime/weekdaynameabbr"
+		aryTemplateTagsValue(49)=ZVA_Week_Abbr(Weekday(PostTime))
+
+		aryTemplateTagsName(50)="template:sidebar"
+		aryTemplateTagsValue(50)=GetTemplate("CACHE_SIDEBAR")
+		aryTemplateTagsName(51)="template:sidebar2"
+		aryTemplateTagsValue(51)=GetTemplate("CACHE_SIDEBAR2")
+		aryTemplateTagsName(52)="template:sidebar3"
+		aryTemplateTagsValue(52)=GetTemplate("CACHE_SIDEBAR3")
+		aryTemplateTagsName(53)="template:sidebar4"
+		aryTemplateTagsValue(53)=GetTemplate("CACHE_SIDEBAR4")
+		aryTemplateTagsName(54)="template:sidebar5"
+		aryTemplateTagsValue(54)=GetTemplate("CACHE_SIDEBAR5")
+
+
+		Call Filter_Plugin_TArticle_Export_TemplateTags(aryTemplateTagsName,aryTemplateTagsValue)
+
+		j=UBound(aryTemplateTagsName)
+		For i=1 to j
+			If IsNull(aryTemplateTagsValue(i))=False Then
+				Template_Article_Istop=Replace(Template_Article_Istop,"<#" & aryTemplateTagsName(i) & "#>",aryTemplateTagsValue(i))
+				Template_Article_Multi=Replace(Template_Article_Multi,"<#" & aryTemplateTagsName(i) & "#>",aryTemplateTagsValue(i))
+				Template_Article_Single=Replace(Template_Article_Single,"<#" & aryTemplateTagsName(i) & "#>",aryTemplateTagsValue(i))
+				html = Replace(html,"<#" & aryTemplateTagsName(i) & "#>", aryTemplateTagsValue(i))
+			End If
+		Next
+
+		If intType=ZC_DISPLAY_MODE_SEARCH Then
+			Template_Article_Search=Template_Article_Multi
 		End If
 
-		FullUrl=Replace(Url,ZC_BLOG_HOST,"<#ZC_BLOG_HOST#>")
-		objConn.Execute("UPDATE [blog_Article] SET [log_FullUrl]='"&FullUrl&"' WHERE [log_ID] =" & ID)
+		html=Replace(html,"<#template:article-single#>",Template_Article_Single)
 
-		Post=True
+		Export=True
+
+		'plugin node
+		bAction_Plugin_TArticle_Export_End=False
+		For Each sAction_Plugin_TArticle_Export_End in Action_Plugin_TArticle_Export_End
+			If Not IsEmpty(sAction_Plugin_TArticle_Export_End) Then Call Execute(sAction_Plugin_TArticle_Export_End)
+			If bAction_Plugin_TArticle_Export_End=True Then Exit Function
+		Next
 
 	End Function
 
 
-	Public Function DelFile()
-
-		On Error Resume Next
-
-		Dim fso, TxtFile
-
-		Set fso = CreateObject("Scripting.FileSystemObject")
-		If fso.FileExists(BlogPath & Directory & FileName) Then
-			Set TxtFile = fso.GetFile(BlogPath & Directory & FileName)
-			TxtFile.Delete
-		End If
-		If fso.FileExists(BlogPath & Left(FileName,Len(FileName)-Len("."&ZC_STATIC_TYPE)) & "\") Then
-			Set TxtFile = fso.GetFile(BlogPath &  Left(FileName,Len(FileName)-Len("."&ZC_STATIC_TYPE)) & "\default.asp")
-			TxtFile.Delete
-		End If
-		Set fso=Nothing
-
-		DelFile=True
-
-		Err.Clear
-
-	End Function
-
-
-	Public Function Del()
-
-		Call Filter_Plugin_TArticle_Del(ID,Tag,CateID,Title,Intro,Content,Level,AuthorID,PostTime,CommNums,ViewNums,TrackBackNums,Alias,Istop,TemplateName,FullUrl,IsAnonymous,MetaString)
-
-		Call DelFile()
-
-		Call CheckParameter(ID,"int",0)
-		If (ID=0) Then Del=False:Exit Function
-
-		objConn.Execute("DELETE FROM [blog_Article] WHERE [log_ID] =" & ID)
-		objConn.Execute("DELETE FROM [blog_Comment] WHERE [log_ID] =" & ID)
-		objConn.Execute("DELETE FROM [blog_TrackBack] WHERE [log_ID] =" & ID)
-
-		Del=True
-
-	End Function
-
-
-	Public Function Statistic()
-
-		Dim objRS
-		Set objRS=objConn.Execute("SELECT COUNT([log_ID]) FROM [blog_Comment] WHERE [log_ID] =" & ID)
-		If (Not objRS.bof) And (Not objRS.eof) Then
-			CommNums=objRS(0)
-		End If
-		objConn.Execute("UPDATE [blog_Article] SET [log_CommNums]="& CommNums &" WHERE [log_ID] =" & ID)
-		Set objRS=Nothing
-
-		Set objRS=objConn.Execute("SELECT COUNT([log_ID]) FROM [blog_TrackBack] WHERE [log_ID] =" & ID)
-		If (Not objRS.bof) And (Not objRS.eof) Then
-			TrackBackNums=objRS(0)
-		End If
-		objConn.Execute("UPDATE [blog_Article] SET [log_TrackBackNums]="& TrackBackNums &" WHERE [log_ID] =" & ID)
-		Set objRS=Nothing
-
-		Statistic=True
-
-	End Function
 
 
 	Function Build()
@@ -1401,6 +1356,74 @@ Class TArticle
 	End Function
 
 
+
+
+
+	Public Function DelFile()
+
+		On Error Resume Next
+
+		Dim fso, TxtFile
+
+		Set fso = CreateObject("Scripting.FileSystemObject")
+		If fso.FileExists(FullPath) Then
+			Set TxtFile = fso.GetFile(FullPath)
+			TxtFile.Delete
+		End If
+		Set fso=Nothing
+
+		DelFile=True
+
+		Err.Clear
+
+	End Function
+
+
+	Public Function Del()
+
+		Call Filter_Plugin_TArticle_Del(ID,Tag,CateID,Title,Intro,Content,Level,AuthorID,PostTime,CommNums,ViewNums,TrackBackNums,Alias,Istop,TemplateName,FullUrl,IsAnonymous,MetaString)
+
+		Call DelFile()
+
+		Call CheckParameter(ID,"int",0)
+		If (ID=0) Then Del=False:Exit Function
+
+		objConn.Execute("DELETE FROM [blog_Article] WHERE [log_ID] =" & ID)
+		objConn.Execute("DELETE FROM [blog_Comment] WHERE [log_ID] =" & ID)
+		objConn.Execute("DELETE FROM [blog_TrackBack] WHERE [log_ID] =" & ID)
+
+		Del=True
+
+	End Function
+
+
+	Public Function Statistic()
+
+		Dim objRS
+		Set objRS=objConn.Execute("SELECT COUNT([log_ID]) FROM [blog_Comment] WHERE [log_ID] =" & ID)
+		If (Not objRS.bof) And (Not objRS.eof) Then
+			CommNums=objRS(0)
+		End If
+		objConn.Execute("UPDATE [blog_Article] SET [log_CommNums]="& CommNums &" WHERE [log_ID] =" & ID)
+		Set objRS=Nothing
+
+		'Set objRS=objConn.Execute("SELECT COUNT([log_ID]) FROM [blog_TrackBack] WHERE [log_ID] =" & ID)
+		'If (Not objRS.bof) And (Not objRS.eof) Then
+		'	TrackBackNums=objRS(0)
+		'End If
+		'objConn.Execute("UPDATE [blog_Article] SET [log_TrackBackNums]="& TrackBackNums &" WHERE [log_ID] =" & ID)
+		'Set objRS=Nothing
+
+		Call GetUsersbyUserIDList(AuthorID)
+
+		FullUrl=Replace(Url,ZC_BLOG_HOST,"<#ZC_BLOG_HOST#>")
+		objConn.Execute("UPDATE [blog_Article] SET [log_FullUrl]='"&FullUrl&"' WHERE [log_ID] =" & ID)
+
+		Statistic=True
+
+	End Function
+
+
 	Function SetVar(TemplateTag,TemplateValue)
 
 		If IsEmpty(html) Then html=Template
@@ -1432,20 +1455,10 @@ Class TArticle
 
 
 	Function SaveCache()
-
-		SaveCache=True
-
 	End Function
 
 
 	Function LoadCache()
-
-		Dim objStream
-
-		Template_Article_Multi=LoadFromFile(BlogPath & "zb_users/CACHE/" & ID & ".html","utf-8")
-
-		LoadCache=True
-
 	End Function
 
 
@@ -1483,16 +1496,6 @@ Class TArticleList
 
 	Public Title
 
-	Public FileName
-
-	Public AllList
-	Public AuthList
-	Public CateList
-	Public TagsList
-
-	Public aryArticle
-	Public aryArticleList()
-
 
 	Public Template_PageBar
 	Public Template_Article_Multi
@@ -1514,6 +1517,7 @@ Class TArticleList
 	Public html
 
 	Public IsDynamicLoadSildbar
+	Public ListType
 
 	Private Ftemplate
 	Public Property Let Template(strFileName)
@@ -1541,25 +1545,13 @@ Class TArticleList
 	End Property
 
 
-	Private FDirectory
-	Public Property Let Directory(strDirectory)
-		FDirectory=strDirectory
-	End Property
-	Public Property Get Directory
-		If IsEmpty(FDirectory)=True Then
-			Directory=ZC_STATIC_DIRECTORY
-		Else
-			Directory = FDirectory
-		End If
-		Directory=Replace(Directory,"\","/")
-		If Right(ZC_BLOG_HOST & Directory,1)<>"/" Then
-			Directory=Directory & "/"
-		End If
-	End Property
+	Public Url
+
 
 	Public Property Get HtmlTitle
 		HtmlTitle=TransferHTML(Title,"[html-japan][html-format]")
 	End Property
+
 
 	Public Function Export(intPage,intCateId,intAuthorId,dtmYearMonth,strTagsName,intType)
 
@@ -1570,7 +1562,9 @@ Class TArticleList
 			If bAction_Plugin_TArticleList_Export_Begin=True Then Exit Function
 		Next
 
-		If IsEmpty(html)=True Then html=Template
+		Dim aryArticle
+		Dim aryArticleList()
+
 
 		'plugin node
 		Call Filter_Plugin_TArticleList_Export(intPage,intCateId,intAuthorId,dtmYearMonth,strTagsName,intType)
@@ -1637,17 +1631,16 @@ Class TArticleList
 			If CheckCateByID(intCateId) Then
 				Title=Categorys(intCateId).Name
 				TemplateTags_ArticleList_Category_ID=Categorys(intCateId).ID
-				If Categorys(intCateId).TemplateName<>"" Then
-					Categorys(intCateId).html=GetTemplate("TEMPLATE_" & Categorys(intCateId).TemplateName)
-					If Categorys(intCateId).html<>"" Then Template=Categorys(intCateId).TemplateName
-				End If
+				If IsEmpty(html)=True Then html=Categorys(intCateId).Template
 			End If
 		End if
 		If Not IsEmpty(intAuthorId) Then
 			objRS.Source=objRS.Source & "AND([log_AuthorID]="&intAuthorId&")"
 			If CheckAuthorByID(intAuthorId) Then
+				Call GetUsersbyUserIDList(intAuthorId)
 				Title=Users(intAuthorId).Name
 				TemplateTags_ArticleList_Author_ID=Users(intAuthorId).ID
+				If IsEmpty(html)=True Then html=Users(intAuthorId).Template
 			End If
 		End if
 		If IsDate(dtmYearMonth) Then
@@ -1688,21 +1681,16 @@ Class TArticleList
 			Title=Year(dtmYearMonth) & " " & ZVA_Month(Month(dtmYearMonth))
 		End If
 		If Not (IsEmpty(strTagsName) Or strTagsName="" )Then
-			GetTagsbyTagNameList(strTagsName)
-			Dim Tag
-			For Each Tag in Tags
-				If IsObject(Tag) Then
-					If UCase(Tag.Name)=UCase(strTagsName) Then
-						objRS.Source=objRS.Source & "AND([log_Tag] LIKE '%{" & Tag.ID & "}%')"
-						TemplateTags_ArticleList_Tags_ID=Tag.ID
-						Title=strTagsName
-						If Tag.TemplateName<>"" Then
-							Tag.html=GetTemplate("TEMPLATE_" & Tag.TemplateName)
-							If Tag.html<>"" Then Template=Tag.TemplateName
-						End If
-					End If
-				End If
-			Next
+			If CheckTagByName(strTagsName) Then
+				i=objConn.Execute("SELECT [tag_ID] FROM [blog_Tag] WHERE [tag_Name]='" & FilterSQL(strTagsName) &"'" )(0)
+				Dim Tag
+				Set Tag=New TTag
+				Call Tag.LoadInfoByID(i)
+				objRS.Source=objRS.Source & "AND([log_Tag] LIKE '%{" & Tag.ID & "}%')"
+				Title=strTagsName
+				TemplateTags_ArticleList_Tags_ID=Tag.ID
+				If IsEmpty(html)=True Then html=Tag.Template
+			End If
 		End If
 
 		objRS.Source=objRS.Source & "ORDER BY [log_PostTime] DESC,[log_ID] DESC"
@@ -1743,6 +1731,8 @@ Class TArticleList
 		Call GetUsersbyUserIDList(ut & "," & ud)
 
 
+
+
 		For i=0 To dt.Count-1
 			j=dt.Keys
 			ReDim Preserve aryArticleList(i)
@@ -1752,6 +1742,8 @@ Class TArticleList
 			End If
 		Next
 		Template_Article_Istop=Join(aryArticleList)
+
+
 
 
 		For i=0 To dd.Count-1
@@ -1764,10 +1756,16 @@ Class TArticleList
 		Next
 		Template_Article_Multi=Join(aryArticleList)
 
+
+
 		TemplateTags_ArticleList_Page_Now=intPage
 		TemplateTags_ArticleList_Page_All=intPageCount
 
+
+
 		Call ExportBar(intPage,intPageCount,intCateId,intAuthorId,dtmYearMonth,strTagsName)
+
+		If IsEmpty(html)=True Then html=Template
 
 		Export=True
 
@@ -1780,144 +1778,6 @@ Class TArticleList
 
 	End Function
 
-
-
-
-	Public Function Build()
-
-		Dim aryTemplateTagsName
-		Dim aryTemplateTagsValue
-
-		Dim aryTemplateSubName()
-		Dim aryTemplateSubValue()
-
-		Dim i,j
-
-		'plugin node
-		Call Filter_Plugin_TArticleList_Build_Template(html)
-
-		ReDim aryTemplateSubName(20)
-		ReDim aryTemplateSubValue(20)
-
-		aryTemplateSubName(  1)="template:article-multi"
-		aryTemplateSubValue( 1)=Template_Article_Multi
-		aryTemplateSubName(  2)="template:pagebar"
-		aryTemplateSubValue( 2)=Template_PageBar
-		aryTemplateSubName(  3)="template:pagebar_next"
-		aryTemplateSubValue( 3)=Template_PageBar_Next
-		aryTemplateSubName(  4)="template:pagebar_previous"
-		aryTemplateSubValue( 4)=Template_PageBar_Previous
-		aryTemplateSubName(  5)="articlelist/author/id"
-		aryTemplateSubValue( 5)=TemplateTags_ArticleList_Author_ID
-		aryTemplateSubName(  6)="articlelist/tags/id"
-		aryTemplateSubValue( 6)=TemplateTags_ArticleList_Tags_ID
-		aryTemplateSubName(  7)="articlelist/category/id"
-		aryTemplateSubValue( 7)=TemplateTags_ArticleList_Category_ID
-		aryTemplateSubName(  8)="articlelist/date/year"
-		aryTemplateSubValue( 8)=TemplateTags_ArticleList_Date_Year
-		aryTemplateSubName(  9)="articlelist/date/month"
-		aryTemplateSubValue( 9)=TemplateTags_ArticleList_Date_Month
-		aryTemplateSubName( 10)="articlelist/date/day"
-		aryTemplateSubValue(10)=TemplateTags_ArticleList_Date_Day
-		aryTemplateSubName( 11)="articlelist/date/shortdate"
-		aryTemplateSubValue(11)=TemplateTags_ArticleList_Date_ShortDate
-		aryTemplateSubName( 12)="articlelist/page/now"
-		aryTemplateSubValue(12)=TemplateTags_ArticleList_Page_Now
-		aryTemplateSubName( 13)="articlelist/page/all"
-		aryTemplateSubValue(13)=TemplateTags_ArticleList_Page_All
-		aryTemplateSubName( 14)="articlelist/page/count"
-		aryTemplateSubValue(14)=ZC_DISPLAY_COUNT
-		aryTemplateSubName( 15)="template:sidebar"
-		aryTemplateSubValue(15)=GetTemplate("CACHE_SIDEBAR")
-		aryTemplateSubName( 16)="template:sidebar2"
-		aryTemplateSubValue(16)=GetTemplate("CACHE_SIDEBAR2")
-		aryTemplateSubName( 17)="template:sidebar3"
-		aryTemplateSubValue(17)=GetTemplate("CACHE_SIDEBAR3")
-		aryTemplateSubName( 18)="template:sidebar4"
-		aryTemplateSubValue(18)=GetTemplate("CACHE_SIDEBAR4")
-		aryTemplateSubName( 19)="template:sidebar5"
-		aryTemplateSubValue(19)=GetTemplate("CACHE_SIDEBAR5")
-		aryTemplateSubName( 20)="template:article-istop"
-		aryTemplateSubValue(20)=Template_Article_Istop
-
-
-		'plugin node
-		Call Filter_Plugin_TArticleList_Build_TemplateSub(aryTemplateSubName,aryTemplateSubValue)
-
-
-
-		j=UBound(aryTemplateSubName)
-		For i=0 to j
-			html=Replace(html,"<#" & aryTemplateSubName(i) & "#>",aryTemplateSubValue(i))
-		Next
-
-
-		TemplateTagsDic.Item("BlogTitle")=HtmlTitle
-
-		aryTemplateTagsName=TemplateTagsDic.Keys
-		aryTemplateTagsValue=TemplateTagsDic.Items
-
-		Call Filter_Plugin_TArticleList_Build_TemplateTags(aryTemplateTagsName,aryTemplateTagsValue)
-
-		Dim s,t
-		j=UBound(aryTemplateTagsName)
-		For i=1 to j
-			If (InStr(aryTemplateTagsName(i),"CACHE_INCLUDE_")>0) And (Right(aryTemplateTagsName(i),5)<>"_HTML") And (Right(aryTemplateTagsName(i),3)<>"_JS") Then
-				s=s & aryTemplateTagsName(i) & "|"
-			End If
-			If IsEmpty(Template_Calendar)=False Then 
-				If ("<#" & aryTemplateTagsName(i) & "#>"="<#CACHE_INCLUDE_CALENDAR#>") Or ("<#" & aryTemplateTagsName(i) & "#>"="<#CACHE_INCLUDE_CALENDAR_JS#>") Then
-					aryTemplateTagsValue(i)=Template_Calendar
-				End If
-			Else
-				If ("<#" & aryTemplateTagsName(i) & "#>"="<#CACHE_INCLUDE_CALENDAR_NOW#>") Then
-					aryTemplateTagsValue(i)=TemplateTagsDic.Item("CACHE_INCLUDE_CALENDAR")
-				End If
-			End If
-		Next
-
-		If IsDynamicLoadSildbar=True Then
-			For Each t In Split(s,"|")
-				If t="" Then Exit For
-				If t<>"CACHE_INCLUDE_NAVBAR" Then
-					html=Replace(html,"<#"&t&"#>","<#"&t&"_JS#>")
-				End If
-			Next
-		End If
-
-		j=UBound(aryTemplateTagsName)
-		For i=1 to j
-			html=Replace(html,"<#" & aryTemplateTagsName(i) & "#>",aryTemplateTagsValue(i))
-		Next
-		html=Replace(html,"<#" & aryTemplateTagsName(0) & "#>",aryTemplateTagsValue(0))
-
-
-		Build=True
-
-	End Function
-
-
-	Function Save()
-
-		html=TransferHTML(html,"[no-asp]")
-		If ZC_STATIC_TYPE="asp" Then
-			html="<"&"%@ CODEPAGE=65001 %"&">" & html
-		End If
-
-		Call SaveToFile(BlogPath & Directory & FileName,html,"utf-8",False)
-
-		Save=True
-
-	End Function
-
-
-	Function SetVar(TemplateTag,TemplateValue)
-
-		If IsEmpty(html) Then html=Template
-
-		html=Replace(html,"<#" & TemplateTag & "#>",TemplateValue)
-
-	End Function
 
 
 	Public Function Search(strQuestion)
@@ -2100,24 +1960,157 @@ Class TArticleList
 	End Function
 
 
-	Public Function LoadCache()
 
-		Dim strContent
+	Public Function Build()
 
-		strContent=""
-		strContent=LoadFromFile(BlogPath & "zb_users/CACHE/cache_list_"&ZC_BLOG_CLSID&".html","utf-8")
-		AllList=strContent
+		Dim aryTemplateTagsName
+		Dim aryTemplateTagsValue
 
-		LoadCache=True
+		Dim aryTemplateSubName()
+		Dim aryTemplateSubValue()
 
+		Dim i,j
+
+		'plugin node
+		Call Filter_Plugin_TArticleList_Build_Template(html)
+
+		ReDim aryTemplateSubName(20)
+		ReDim aryTemplateSubValue(20)
+
+		aryTemplateSubName(  1)="template:article-multi"
+		aryTemplateSubValue( 1)=Template_Article_Multi
+		aryTemplateSubName(  2)="template:pagebar"
+		aryTemplateSubValue( 2)=Template_PageBar
+		aryTemplateSubName(  3)="template:pagebar_next"
+		aryTemplateSubValue( 3)=Template_PageBar_Next
+		aryTemplateSubName(  4)="template:pagebar_previous"
+		aryTemplateSubValue( 4)=Template_PageBar_Previous
+		aryTemplateSubName(  5)="articlelist/author/id"
+		aryTemplateSubValue( 5)=TemplateTags_ArticleList_Author_ID
+		aryTemplateSubName(  6)="articlelist/tags/id"
+		aryTemplateSubValue( 6)=TemplateTags_ArticleList_Tags_ID
+		aryTemplateSubName(  7)="articlelist/category/id"
+		aryTemplateSubValue( 7)=TemplateTags_ArticleList_Category_ID
+		aryTemplateSubName(  8)="articlelist/date/year"
+		aryTemplateSubValue( 8)=TemplateTags_ArticleList_Date_Year
+		aryTemplateSubName(  9)="articlelist/date/month"
+		aryTemplateSubValue( 9)=TemplateTags_ArticleList_Date_Month
+		aryTemplateSubName( 10)="articlelist/date/day"
+		aryTemplateSubValue(10)=TemplateTags_ArticleList_Date_Day
+		aryTemplateSubName( 11)="articlelist/date/shortdate"
+		aryTemplateSubValue(11)=TemplateTags_ArticleList_Date_ShortDate
+		aryTemplateSubName( 12)="articlelist/page/now"
+		aryTemplateSubValue(12)=TemplateTags_ArticleList_Page_Now
+		aryTemplateSubName( 13)="articlelist/page/all"
+		aryTemplateSubValue(13)=TemplateTags_ArticleList_Page_All
+		aryTemplateSubName( 14)="articlelist/page/count"
+		aryTemplateSubValue(14)=ZC_DISPLAY_COUNT
+		aryTemplateSubName( 15)="template:sidebar"
+		aryTemplateSubValue(15)=GetTemplate("CACHE_SIDEBAR")
+		aryTemplateSubName( 16)="template:sidebar2"
+		aryTemplateSubValue(16)=GetTemplate("CACHE_SIDEBAR2")
+		aryTemplateSubName( 17)="template:sidebar3"
+		aryTemplateSubValue(17)=GetTemplate("CACHE_SIDEBAR3")
+		aryTemplateSubName( 18)="template:sidebar4"
+		aryTemplateSubValue(18)=GetTemplate("CACHE_SIDEBAR4")
+		aryTemplateSubName( 19)="template:sidebar5"
+		aryTemplateSubValue(19)=GetTemplate("CACHE_SIDEBAR5")
+		aryTemplateSubName( 20)="template:article-istop"
+		aryTemplateSubValue(20)=Template_Article_Istop
+
+
+		'plugin node
+		Call Filter_Plugin_TArticleList_Build_TemplateSub(aryTemplateSubName,aryTemplateSubValue)
+
+
+
+		j=UBound(aryTemplateSubName)
+		For i=0 to j
+			html=Replace(html,"<#" & aryTemplateSubName(i) & "#>",aryTemplateSubValue(i))
+		Next
+
+
+		TemplateTagsDic.Item("BlogTitle")=HtmlTitle
+
+		aryTemplateTagsName=TemplateTagsDic.Keys
+		aryTemplateTagsValue=TemplateTagsDic.Items
+
+		Call Filter_Plugin_TArticleList_Build_TemplateTags(aryTemplateTagsName,aryTemplateTagsValue)
+
+		Dim s,t
+		j=UBound(aryTemplateTagsName)
+		For i=1 to j
+			If (InStr(aryTemplateTagsName(i),"CACHE_INCLUDE_")>0) And (Right(aryTemplateTagsName(i),5)<>"_HTML") And (Right(aryTemplateTagsName(i),3)<>"_JS") Then
+				s=s & aryTemplateTagsName(i) & "|"
+			End If
+			If IsEmpty(Template_Calendar)=False Then 
+				If ("<#" & aryTemplateTagsName(i) & "#>"="<#CACHE_INCLUDE_CALENDAR#>") Or ("<#" & aryTemplateTagsName(i) & "#>"="<#CACHE_INCLUDE_CALENDAR_JS#>") Then
+					aryTemplateTagsValue(i)=Template_Calendar
+				End If
+			Else
+				If ("<#" & aryTemplateTagsName(i) & "#>"="<#CACHE_INCLUDE_CALENDAR_NOW#>") Then
+					aryTemplateTagsValue(i)=TemplateTagsDic.Item("CACHE_INCLUDE_CALENDAR")
+				End If
+			End If
+		Next
+
+		If IsDynamicLoadSildbar=True Then
+			For Each t In Split(s,"|")
+				If t="" Then Exit For
+				If t<>"CACHE_INCLUDE_NAVBAR" Then
+					html=Replace(html,"<#"&t&"#>","<#"&t&"_JS#>")
+				End If
+			Next
+		End If
+
+		j=UBound(aryTemplateTagsName)
+		For i=1 to j
+			html=Replace(html,"<#" & aryTemplateTagsName(i) & "#>",aryTemplateTagsValue(i))
+		Next
+		html=Replace(html,"<#" & aryTemplateTagsName(0) & "#>",aryTemplateTagsValue(0))
+
+
+		Build=True
+
+	End Function
+
+
+	Function SetVar(TemplateTag,TemplateValue)
+
+		If IsEmpty(html) Then html=Template
+
+		html=Replace(html,"<#" & TemplateTag & "#>",TemplateValue)
+
+	End Function
+
+
+	Function Save()
+
+		html=TransferHTML(html,"[no-asp]")
+		If ZC_STATIC_TYPE="asp" Then
+			html="<"&"%@ CODEPAGE=65001 %"&">" & html
+		End If
+
+		Call CreatDirectoryByCustomDirectoryWithFullBlogPath(FullPath)
+
+		Call SaveToFile(FullPath,html,"utf-8",False)
+
+		Save=True
+
+	End Function
+
+
+	Function SaveCache()
+	End Function
+
+	Function LoadCache()
 	End Function
 
 
 	Private Sub Class_Initialize()
 
-		Redim Article(ZC_DISPLAY_COUNT)
-
 		IsDynamicLoadSildbar=False
+		ListType="DEFAULT"'CATEGORY'USER'DATE'TAGS
 
 	End Sub
 
@@ -2175,22 +2168,32 @@ Class TUser
 		End If
 	End Property
 
-	Private FEmailMD5
-	Public Property Get EmailMD5
-		If FEmailMD5<>"" Then
-			FEmailMD5=MD5(Email)
-		Else
-			If (Email="") Or IsEmpty(Email) Or IsNull(Email) Then
-				FEmailMD5=""
-			Else
-				FEmailMD5=MD5(Email)
-			End If
-		End If
-		EmailMD5=FEmailMD5
-	End Property
+	Public FullUrl
+	Public TemplateName
 
-	Public Property Get  FullUrl
-		FullUrl=Replace(Url,ZC_BLOG_HOST,"<#ZC_BLOG_HOST#>")
+
+	Private Ftemplate
+	Public Property Let Template(strFileName)
+		Ftemplate=GetTemplate("TEMPLATE_" & strFileName)
+	End Property
+	Public Property Get Template
+		If Ftemplate<>"" Then
+			Template = Ftemplate
+			Exit Property
+		Else
+			If TemplateName<>"" Then
+				Dim s
+				s=GetTemplate("TEMPLATE_" &TemplateName)
+				If s<>"" Then
+					Ftemplate = s
+				Else
+					Ftemplate=GetTemplate("TEMPLATE_CATALOG")
+				End If
+			Else
+				Ftemplate=GetTemplate("TEMPLATE_CATALOG")
+			End If
+			Template = Ftemplate
+		End If
 	End Property
 
 	Public Property Get Url
@@ -2223,6 +2226,21 @@ Class TUser
 		Else
 			StaticName = Alias
 		End If
+	End Property
+
+
+	Private FEmailMD5
+	Public Property Get EmailMD5
+		If FEmailMD5<>"" Then
+			FEmailMD5=MD5(Email)
+		Else
+			If (Email="") Or IsEmpty(Email) Or IsNull(Email) Then
+				FEmailMD5=""
+			Else
+				FEmailMD5=MD5(Email)
+			End If
+		End If
+		EmailMD5=FEmailMD5
 	End Property
 
 
@@ -2327,7 +2345,7 @@ Class TUser
 		Call CheckParameter(user_ID,"int",0)
 
 		Dim objRS
-		Set objRS=objConn.Execute("SELECT [mem_ID],[mem_Name],[mem_Level],[mem_Password],[mem_Email],[mem_HomePage],[mem_PostLogs],[mem_Intro],[mem_Meta] FROM [blog_Member] WHERE [mem_ID]=" & user_ID)
+		Set objRS=objConn.Execute("SELECT [mem_ID],[mem_Name],[mem_Level],[mem_Password],[mem_Email],[mem_HomePage],[mem_PostLogs],[mem_Intro],[mem_Template],[mem_FullUrl],[mem_Meta] FROM [blog_Member] WHERE [mem_ID]=" & user_ID)
 		If (Not objRS.bof) And (Not objRS.eof) Then
 
 			ID=objRS("mem_ID")
@@ -2338,6 +2356,8 @@ Class TUser
 			HomePage=objRS("mem_HomePage")
 			Count=objRS("mem_PostLogs")
 			Alias=objRS("mem_Intro")
+			TemplateName=objRS("mem_Template")
+			FullUrl=objRS("mem_FullUrl")
 			MetaString=objRS("mem_Meta")
 
 			If IsNull(Email) Or IsEmpty(Email) Or Len(Email)=0 Then Email="null@null.com"
@@ -2350,7 +2370,7 @@ Class TUser
 		Set objRS=Nothing
 
 
-		Call Filter_Plugin_TUser_LoadInfobyID(ID,Name,Level,Password,Email,HomePage,Count,Alias,MetaString)
+		Call Filter_Plugin_TUser_LoadInfobyID(ID,Name,Level,Password,Email,HomePage,Count,Alias,TemplateName,FullUrl,MetaString)
 
 	End Function
 
@@ -2367,7 +2387,9 @@ Class TUser
 			HomePage=aryUserInfo(5)
 			Count=aryUserInfo(6)
 			Alias=aryUserInfo(7)
-			MetaString=aryUserInfo(8)
+			TemplateName=aryUserInfo(8)
+			FullUrl=aryUserInfo(9)
+			MetaString=aryUserInfo(10)
 
 		End If
 
@@ -2377,14 +2399,14 @@ Class TUser
 
 		LoadInfoByArray=True
 
-		Call Filter_Plugin_TUser_LoadInfoByArray(ID,Name,Level,Password,Email,HomePage,Count,Alias,MetaString)
+		Call Filter_Plugin_TUser_LoadInfoByArray(ID,Name,Level,Password,Email,HomePage,Count,Alias,TemplateName,FullUrl,MetaString)
 
 	End Function
 
 
 	Function Edit(currentUser)
 
-		Call Filter_Plugin_TUser_Edit(ID,Name,Level,Password,Email,HomePage,Count,Alias,MetaString,currentUser)
+		Call Filter_Plugin_TUser_Edit(ID,Name,Level,Password,Email,HomePage,Count,Alias,TemplateName,FullUrl,MetaString,currentUser)
 
 		Call CheckParameter(ID,"int",0)
 		Call CheckParameter(Level,"int",0)
@@ -2402,6 +2424,9 @@ Class TUser
 
 		Alias=TransferHTML(Alias,"[filename]")
 		Alias=FilterSQL(Alias)
+
+		TemplateName=UCase(FilterSQL(TemplateName))
+		If TemplateName="CATALOG" Then TemplateName=""
 
 		If Len(Email)=0 Then Call ShowError(29)
 		If Len(Email)>ZC_EMAIL_MAX Then Call ShowError(29)
@@ -2437,8 +2462,6 @@ Class TUser
 				ID=objRS(0)
 			End If
 			Set objRS=Nothing
-
-			Edit=True
 
 		Else
 
@@ -2478,9 +2501,12 @@ Class TUser
 
 			End If
 
-			Edit=True
-
 		End If
+
+		FullUrl=Replace(Url,ZC_BLOG_HOST,"<#ZC_BLOG_HOST#>")
+		objConn.Execute("UPDATE [blog_Member] SET [mem_FullUrl]='"&FullUrl&"' WHERE [mem_ID] =" & ID)
+
+		Edit=True
 
 	End Function
 
@@ -2490,7 +2516,7 @@ Class TUser
 		Dim currentUser
 		Set currentUser=BlogUser
 
-		Call Filter_Plugin_TUser_Register(ID,Name,Level,Password,Email,HomePage,Count,Alias,MetaString,currentUser)
+		Call Filter_Plugin_TUser_Register(ID,Name,Level,Password,Email,HomePage,Count,Alias,TemplateName,FullUrl,MetaString,currentUser)
 
 		Call CheckParameter(ID,"int",0)
 		Call CheckParameter(Level,"int",0)
@@ -2512,6 +2538,9 @@ Class TUser
 
 		Alias=TransferHTML(Alias,"[filename]")
 		Alias=FilterSQL(Alias)
+
+		TemplateName=UCase(FilterSQL(TemplateName))
+		If TemplateName="CATALOG" Then TemplateName=""
 
 		If Len(Email)=0 Then Call ShowError(29)
 		If Len(Email)>ZC_EMAIL_MAX Then Call ShowError(29)
@@ -2544,6 +2573,9 @@ Class TUser
 			End If
 			Set objRS=Nothing
 
+			FullUrl=Replace(Url,ZC_BLOG_HOST,"<#ZC_BLOG_HOST#>")
+			objConn.Execute("UPDATE [blog_Member] SET [mem_FullUrl]='"&FullUrl&"' WHERE [mem_ID] =" & ID)
+
 			Register=True
 
 		End If
@@ -2553,7 +2585,7 @@ Class TUser
 
 	Function Del(currentUser)
 
-		Call Filter_Plugin_TUser_Del(ID,Name,Level,Password,Email,HomePage,Count,Alias,MetaString,currentUser)
+		Call Filter_Plugin_TUser_Del(ID,Name,Level,Password,Email,HomePage,Count,Alias,TemplateName,FullUrl,MetaString,currentUser)
 
 		Dim objRS
 		Dim objUpLoadFile
@@ -3568,6 +3600,30 @@ Class TTag
 
 	Public Property Get EncodeName
 		EncodeName = Server.URLEncode(Name)
+	End Property
+
+	Private Ftemplate
+	Public Property Let Template(strFileName)
+		Ftemplate=GetTemplate("TEMPLATE_" & strFileName)
+	End Property
+	Public Property Get Template
+		If Ftemplate<>"" Then
+			Template = Ftemplate
+			Exit Property
+		Else
+			If TemplateName<>"" Then
+				Dim s
+				s=GetTemplate("TEMPLATE_" &TemplateName)
+				If s<>"" Then
+					Ftemplate = s
+				Else
+					Ftemplate=GetTemplate("TEMPLATE_CATALOG")
+				End If
+			Else
+				Ftemplate=GetTemplate("TEMPLATE_CATALOG")
+			End If
+			Template = Ftemplate
+		End If
 	End Property
 
 	Public Property Get Url
