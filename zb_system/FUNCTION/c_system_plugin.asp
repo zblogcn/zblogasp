@@ -2765,7 +2765,7 @@ End Function
 '调用:
 '**************************************************>
 Dim sFilter_Plugin_TUser_LoadInfobyID
-Function Filter_Plugin_TUser_LoadInfobyID(ByRef ID,ByRef Name,ByRef Level,ByRef Password,ByRef Email,ByRef HomePage,ByRef Count,ByRef Alias,ByRef MetaString)
+Function Filter_Plugin_TUser_LoadInfobyID(ByRef ID,ByRef Name,ByRef Level,ByRef Password,ByRef Email,ByRef HomePage,ByRef Count,ByRef Alias,ByRef TemplateName,ByRef FullUrl,ByRef MetaString)
 
 	Dim s,i
 
@@ -2774,7 +2774,7 @@ Function Filter_Plugin_TUser_LoadInfobyID(ByRef ID,ByRef Name,ByRef Level,ByRef 
 	s=Split(sFilter_Plugin_TUser_LoadInfobyID,"|")
 
 	For i=0 To UBound(s)-1
-		Call Execute(s(i) & " " & "ID,Name,Level,Password,Email,HomePage,Count,Alias,MetaString")
+		Call Execute(s(i) & " " & "ID,Name,Level,Password,Email,HomePage,Count,Alias,TemplateName,FullUrl,MetaString")
 	Next
 
 End Function
@@ -2791,7 +2791,7 @@ End Function
 '调用:
 '**************************************************>
 Dim sFilter_Plugin_TUser_LoadInfoByArray
-Function Filter_Plugin_TUser_LoadInfoByArray(ByRef ID,ByRef Name,ByRef Level,ByRef Password,ByRef Email,ByRef HomePage,ByRef Count,ByRef Alias,ByRef MetaString)
+Function Filter_Plugin_TUser_LoadInfoByArray(ByRef ID,ByRef Name,ByRef Level,ByRef Password,ByRef Email,ByRef HomePage,ByRef Count,ByRef Alias,ByRef TemplateName,ByRef FullUrl,ByRef MetaString)
 
 	Dim s,i
 
@@ -2800,7 +2800,7 @@ Function Filter_Plugin_TUser_LoadInfoByArray(ByRef ID,ByRef Name,ByRef Level,ByR
 	s=Split(sFilter_Plugin_TUser_LoadInfoByArray,"|")
 
 	For i=0 To UBound(s)-1
-		Call Execute(s(i) & " " & "ID,Name,Level,Password,Email,HomePage,Count,Alias,MetaString")
+		Call Execute(s(i) & " " & "ID,Name,Level,Password,Email,HomePage,Count,Alias,TemplateName,FullUrl,MetaString")
 	Next
 
 End Function
@@ -2817,7 +2817,7 @@ End Function
 '调用:
 '**************************************************>
 Dim sFilter_Plugin_TUser_Edit
-Function Filter_Plugin_TUser_Edit(ByRef ID,ByRef Name,ByRef Level,ByRef Password,ByRef Email,ByRef HomePage,ByRef Count,ByRef Alias,ByRef MetaString,ByRef currentUser)
+Function Filter_Plugin_TUser_Edit(ByRef ID,ByRef Name,ByRef Level,ByRef Password,ByRef Email,ByRef HomePage,ByRef Count,ByRef Alias,ByRef TemplateName,ByRef FullUrl,ByRef MetaString,ByRef currentUser)
 
 	Dim s,i
 
@@ -2826,7 +2826,7 @@ Function Filter_Plugin_TUser_Edit(ByRef ID,ByRef Name,ByRef Level,ByRef Password
 	s=Split(sFilter_Plugin_TUser_Edit,"|")
 
 	For i=0 To UBound(s)-1
-		Call Execute(s(i) & " " & "ID,Name,Level,Password,Email,HomePage,Count,Alias,MetaString,currentUser")
+		Call Execute(s(i) & " " & "ID,Name,Level,Password,Email,HomePage,Count,Alias,TemplateName,FullUrl,MetaString,currentUser")
 	Next
 
 End Function
@@ -2843,7 +2843,7 @@ End Function
 '调用:
 '**************************************************>
 Dim sFilter_Plugin_TUser_Register
-Function Filter_Plugin_TUser_Register(ByRef ID,ByRef Name,ByRef Level,ByRef Password,ByRef Email,ByRef HomePage,ByRef Count,ByRef Alias,ByRef MetaString,ByRef currentUser)
+Function Filter_Plugin_TUser_Register(ByRef ID,ByRef Name,ByRef Level,ByRef Password,ByRef Email,ByRef HomePage,ByRef Count,ByRef Alias,ByRef TemplateName,ByRef FullUrl,ByRef MetaString,ByRef currentUser)
 
 	Dim s,i
 
@@ -2852,7 +2852,7 @@ Function Filter_Plugin_TUser_Register(ByRef ID,ByRef Name,ByRef Level,ByRef Pass
 	s=Split(sFilter_Plugin_TUser_Register,"|")
 
 	For i=0 To UBound(s)-1
-		Call Execute(s(i) & " " & "ID,Name,Level,Password,Email,HomePage,Count,Alias,MetaString,currentUser")
+		Call Execute(s(i) & " " & "ID,Name,Level,Password,Email,HomePage,Count,Alias,TemplateName,FullUrl,MetaString,currentUser")
 	Next
 
 End Function
@@ -2869,7 +2869,7 @@ End Function
 '调用:
 '**************************************************>
 Dim sFilter_Plugin_TUser_Del
-Function Filter_Plugin_TUser_Del(ByRef ID,ByRef Name,ByRef Level,ByRef Password,ByRef Email,ByRef HomePage,ByRef Count,ByRef Alias,ByRef MetaString,ByRef currentUser)
+Function Filter_Plugin_TUser_Del(ByRef ID,ByRef Name,ByRef Level,ByRef Password,ByRef Email,ByRef HomePage,ByRef Count,ByRef Alias,ByRef TemplateName,ByRef FullUrl,ByRef MetaString,ByRef currentUser)
 
 	Dim s,i
 
@@ -2878,7 +2878,7 @@ Function Filter_Plugin_TUser_Del(ByRef ID,ByRef Name,ByRef Level,ByRef Password,
 	s=Split(sFilter_Plugin_TUser_Del,"|")
 
 	For i=0 To UBound(s)-1
-		Call Execute(s(i) & " " & "ID,Name,Level,Password,Email,HomePage,Count,Alias,MetaString,currentUser")
+		Call Execute(s(i) & " " & "ID,Name,Level,Password,Email,HomePage,Count,Alias,TemplateName,FullUrl,MetaString,currentUser")
 	Next
 
 End Function

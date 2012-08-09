@@ -37,10 +37,6 @@ TemplateTagsDic.Item("ZC_BLOG_HOST")=GetCurrentHost()
 Dim ArtList
 Set ArtList=New TArticleList
 
-ArtList.LoadCache
-
-ArtList.template="CATALOG"
-
 If ArtList.Export(Request.QueryString("page"),Request.QueryString("cate"),Request.QueryString("auth"),Request.QueryString("date"),Request.QueryString("tags"),ZC_DISPLAY_MODE_INTRO) Then
 	ArtList.Build
 	Response.Write ArtList.html

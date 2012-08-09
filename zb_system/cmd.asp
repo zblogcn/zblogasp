@@ -1374,7 +1374,7 @@ Function BlogReBuild()
 		If bAction_Plugin_BlogReBuild_End=True Then Exit Function
 	Next
 
-	Response.Redirect "cmd.asp?act=batch"
+	Response.Redirect "admin/admin.asp?act=AskFileReBuild"
 
 End Function
 
