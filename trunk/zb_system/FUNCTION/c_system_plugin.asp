@@ -4372,4 +4372,50 @@ Function Filter_Plugin_UEditor_Config(ByRef strJSContent)
 
 End Function
 
+
+Dim Action_Plugin_CreateVerifyNumber_Begin()
+ReDim Action_Plugin_CreateVerifyNumber_Begin(0)
+Dim bAction_Plugin_CreateVerifyNumber_Begin
+Dim sAction_Plugin_CreateVerifyNumber_Begin
+
+Dim Action_Plugin_CreateVerifyNumber_End()
+ReDim Action_Plugin_CreateVerifyNumber_End(0)
+Dim bAction_Plugin_CreateVerifyNumber_End
+Dim sAction_Plugin_CreateVerifyNumber_End
+
+Dim Action_Plugin_GetVerifyNumber_Begin()
+ReDim Action_Plugin_GetVerifyNumber_Begin(0)
+Dim bAction_Plugin_GetVerifyNumber_Begin
+Dim sAction_Plugin_GetVerifyNumber_Begin
+
+Dim Action_Plugin_GetVerifyNumber_End()
+ReDim Action_Plugin_GetVerifyNumber_End(0)
+Dim bAction_Plugin_GetVerifyNumber_End
+Dim sAction_Plugin_GetVerifyNumber_End
+
+Dim Action_Plugin_CheckVerifyNumber_Begin()
+ReDim Action_Plugin_CheckVerifyNumber_Begin(0)
+Dim bAction_Plugin_CheckVerifyNumber_Begin
+Dim sAction_Plugin_CheckVerifyNumber_Begin
+
+Dim Action_Plugin_CheckVerifyNumber_End()
+ReDim Action_Plugin_CheckVerifyNumber_End(0)
+Dim bAction_Plugin_CheckVerifyNumber_End
+Dim sAction_Plugin_CheckVerifyNumber_End
+
+Dim Action_Plugin_ExportValidCode_Begin()
+ReDim Action_Plugin_ExportValidCode_Begin(0)
+Dim bAction_Plugin_ExportValidCode_Begin
+Dim sAction_Plugin_ExportValidCode_Begin
+
+Dim Action_Plugin_ExportValidCode_End()
+ReDim Action_Plugin_ExportValidCode_End(0)
+Dim bAction_Plugin_ExportValidCode_End
+Dim sAction_Plugin_ExportValidCode_End
+
+
+Dim Response_Plugin_ValidCode_Code
+
+Response_Plugin_ValidCode_Code="		var objImageValid=$(""img[src*='zb_system/function/c_validcode.asp?name=commentvalid']"");"&vbcrlf&"		if(objImageValid.size()>0){"&vbcrlf&"			objImageValid.css(""cursor"",""pointer"");"&vbcrlf&"			objImageValid.click( function() {"&vbcrlf&"				objImageValid.attr(""src"","""&GetCurrentHost&"zb_system/function/c_validcode.asp?name=commentvalid""+""&amp;random=""+Math.random());"&vbcrlf&"			} );"&vbcrlf&"		};"
 %>
+
