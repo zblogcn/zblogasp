@@ -114,7 +114,7 @@ var YT = {
 									data: { t:Math.random() },
 									success: function(xml) {
 										var _b = document.createElement('select');
-											_b.options.add(new Option('「块」','-1'));
+											_b.options.add(new Option('「模块」','-1'));
 										$('Block', xml).each(function(i) {
 											var Block = $('Block', xml).get(i);
 											_b.options.add(new Option($('Name',Block).text(),'<#CACHE_INCLUDE_'+$('Name',Block).text().toUpperCase()+'#>'));
@@ -552,7 +552,7 @@ var YT = {
 							_Json.Name=$(t).find('input').eq(0).val();
 							_Json.Content=$(t).find('textarea').val();
 						if(_Json.Name==''){
-							$(t).find('input').eq(0).attr('title','请输入块名称').css('border','red 1px solid').focus();
+							$(t).find('input').eq(0).attr('title','请输入模块名称').css('border','red 1px solid').focus();
 							return;
 						}
 						$.ajax({
@@ -570,7 +570,7 @@ var YT = {
 									}
 								});
 								if(b&&!/\d+/.test(n)){
-									$(t).find('input').eq(0).attr('title','存在相同名称的块').css('border','red 1px solid').focus();
+									$(t).find('input').eq(0).attr('title','存在相同名称的模块').css('border','red 1px solid').focus();
 								}else{
 									$(t).find('input').eq(0).attr('title','').css('border','');	
 									$.ajax({
