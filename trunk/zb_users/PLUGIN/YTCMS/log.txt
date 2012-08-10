@@ -1,0 +1,24 @@
+1.b_article-multi-XXXX.html绑定子块列表
+2.b_aarticle-single-XXX.html绑定子块文章页
+说明：更新前，YT.CMS 1.3.4版本（含3.4以下）任何文件都可触发绑定子块，更新后，只有满足以上命名规则的文件才可以触发绑定
+
+1.MODEL.XML 模型存储文件
+2.TPL.XML 子块存储文件
+3.BLOCK.XML 模块存储文件
+说明：更新前，YT.CMS 1.3.4版本（含3.4以下）以上3文件保存在插件目录，更新后，存储在主题目录中，避免发布主题时再拷贝存储文件的麻烦
+
+
+1.Alipay支付宝（未来考虑独立制作基于YT.CMS的插件YT.Alipay）
+2.预装载SQL语句（可从ACCESS表中导出的XML数据直接入库）
+3.公告，帮助，收费主题（更多帮助请关注ZBLOG官网）
+说明：以上为去除的功能
+
+1.Template_Article_Istop
+2.Template_Article_Single
+3.Template_Article_Multi
+4.Template_Article_Comment
+5.Template_Article_Tag
+6.Template_Article_Navbar_L
+7.Template_Article_Navbar_R
+8.Template_Article_Mutuality
+说明：优化标签替换，取消部分变量的YT标签解析
