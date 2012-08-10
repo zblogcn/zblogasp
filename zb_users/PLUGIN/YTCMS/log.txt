@@ -22,3 +22,7 @@
 7.Template_Article_Navbar_R
 8.Template_Article_Mutuality
 说明：优化标签替换，取消部分变量的YT标签解析
+
+1.<#template:yt-single#>
+2.<#template:yt-multi#>
+说明：去掉旧版中自定义子块需要使用的这俩标签，新版直接使用系统默认标签即可
