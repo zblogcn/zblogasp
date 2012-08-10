@@ -178,21 +178,15 @@ Call BlogConfig.Write("ZC_TEMPLATE_DIRECTORY","template")
 
 
 
-Call BlogConfig.Write("ZC_CUSTOM_DIRECTORY_ENABLE",False)
-
-'{%post%},{%category%},{%user%},{%year%},{%month%},{%day%},{%id%},{%alias%}之间的组合,可以用/分隔
-Call BlogConfig.Write("ZC_CUSTOM_DIRECTORY_REGEX","{%post%}")
-
-Call BlogConfig.Write("ZC_CUSTOM_DIRECTORY_ANONYMOUS",False)
-
-
+'ACTIVE MIX REWRITE
+Call BlogConfig.Write("ZC_STATIC_MODE","ACTIVE")
 
 Call BlogConfig.Write("ZC_ARTICLE_REGEX","{%host%}/{%post%}/{%alias%}.html")
 Call BlogConfig.Write("ZC_PAGE_REGEX","{%host%}/{%alias%}.html")
 Call BlogConfig.Write("ZC_CATEGORY_REGEX","{%host%}/catalog.asp?cate={%id%}")
 Call BlogConfig.Write("ZC_USER_REGEX","{%host%}/catalog.asp?user={%id%}")
 Call BlogConfig.Write("ZC_TAGS_REGEX","{%host%}/catalog.asp?tags={%alias%}")
-Call BlogConfig.Write("ZC_DATE_REGEX","{%host%}/catalog.asp?date={%date%}")
+Call BlogConfig.Write("ZC_DATE_REGEX","{%host%}/catalog.asp?date={%year%}-{%month%}")
 Call BlogConfig.Write("ZC_DEFAULT_REGEX","{%host%}/catalog.asp")
 
 

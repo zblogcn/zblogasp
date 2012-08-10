@@ -269,6 +269,7 @@ Function this_newPost(structPost,bolPublish)
 	Call Filter_Plugin_PostArticle_Core(objArticle)
 
 	If objArticle.Post=True Then
+		Call Filter_Plugin_PostArticle_Succeed(objArticle)
 		Call BuildArticle(objArticle.ID,true,true)
 
 		Call MakeBlogReBuild_Core()
@@ -353,6 +354,7 @@ Function this_editPost(intPostID,structPost,bolPublish)
 	Call Filter_Plugin_PostArticle_Core(objArticle)
 
 	If objArticle.Post=True Then
+		Call Filter_Plugin_PostArticle_Succeed(objArticle)
 		Call BuildArticle(objArticle.ID,true,true)
 
 		Call MakeBlogReBuild_Core()

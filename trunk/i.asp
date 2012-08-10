@@ -11,8 +11,15 @@
 <!-- #include file="zb_system/function/c_system_plugin.asp" -->
 <!-- #include file="zb_users/plugin/p_config.asp" -->
 <%
-
 Call System_Initialize()
+
+'ACTIVE MIX REWRITE
+Call BlogConfig.Write("ZC_STATIC_MODE","ACTIVE")
+BlogConfig.Save
+Call SaveConfig2Option()
+
+
+
 If ZC_MSSQL_ENABLE=False Then
 	objConn.execute("ALTER TABLE [blog_Member] ADD COLUMN [mem_Template] VARCHAR(50) default """"")
 	objConn.execute("ALTER TABLE [blog_Member] ADD COLUMN [mem_FullUrl] VARCHAR(255) default """"")

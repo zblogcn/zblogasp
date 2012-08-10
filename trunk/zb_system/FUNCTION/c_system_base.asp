@@ -864,19 +864,19 @@ Function MakeCalendar(dtmYearMonth)
 	Set objRS=Nothing
 '//////////////////////////////////////////////////////////
 
-	s="catalog.asp?date="&y&"-"&(m-1)
-	t="catalog.asp?date="&y&"-"&(m+1)
-	If m=1 Then s="catalog.asp?date="&(y-1)&"-12"
-	If m=12 Then t="catalog.asp?date="&(y+1)&"-1"
+	s=UrlbyDateAuto(y,m-1,"")
+	t=UrlbyDateAuto(y,m+1,"")
+	If m=1 Then s=UrlbyDateAuto(y-1,12,"")
+	If m=12 Then t=UrlbyDateAuto(y+1,1,"")
 
 	strCalendar=strCalendar & "<div class=""year"&y&" month"&m&""">"
-	strCalendar=strCalendar & "<p class=""y""><a href=""<#ZC_BLOG_HOST#>"&s&""">&lt;&lt;</a>  <a href=""<#ZC_BLOG_HOST#>"&"catalog.asp?date="&y&"-"&m&""">"&y&"-"&m&"</a>  <a href=""<#ZC_BLOG_HOST#>"&t&""">&gt;&gt;</a></p>"
+	strCalendar=strCalendar & "<p class=""y""><a href="""&s&""">&lt;&lt;</a>  <a href="""&UrlbyDateAuto(y,m,"")&""">"&y&"-"&m&"</a>  <a href="""&t&""">&gt;&gt;</a></p>"
 	strCalendar=strCalendar & "<p class=""w"">"&ZVA_Week_Abbr(1)&"</p><p class=""w"">"&ZVA_Week_Abbr(2)&"</p><p class=""w"">"&ZVA_Week_Abbr(3)&"</p><p class=""w"">"&ZVA_Week_Abbr(4)&"</p><p class=""w"">"&ZVA_Week_Abbr(5)&"</p><p class=""w"">"&ZVA_Week_Abbr(6)&"</p><p class=""w"">"&ZVA_Week_Abbr(7)&"</p>"
 	j=0
 	For i=1 to b
 		If (j=>firw-1) and (k=<d) Then
 			If aryDateLink(k) Then
-				strCalendar=strCalendar & "<p id=""pCalendar_"&y&"_"&m&"_"&k&""" class=""yd""><a  href=""<#ZC_BLOG_HOST#>"&"catalog.asp?date="&Year(aryDateArticle(k).PostTime)&"-"&Month(aryDateArticle(k).PostTime)&"-"&Day(aryDateArticle(k).PostTime)& """>"&(k)&"</a></p>"
+				strCalendar=strCalendar & "<p id=""pCalendar_"&y&"_"&m&"_"&k&""" class=""yd""><a  href="""&aryDateArticle(k).FullUrl& """>"&(k)&"</a></p>"
 			Else
 				strCalendar=strCalendar & "<p id=""pCalendar_"&y&"_"&m&"_"&k&""" class=""d"">"&(k)&"</p>"
 			End If
@@ -1816,7 +1816,7 @@ End Function
 '*********************************************************
 ' 目的：    按照CustomDirectory指示创建相应的目录
 '*********************************************************
-Sub CreatDirectoryByCustomDirectoryWithFullBlogPath(strCustomDirectory)
+Sub CreatDirectoryByCustomDirectoryWithFullBlogPath(ByVal strCustomDirectory)
 
 	'On Error Resume Next
 
@@ -1836,13 +1836,11 @@ Sub CreatDirectoryByCustomDirectoryWithFullBlogPath(strCustomDirectory)
 
 	t=Split(strCustomDirectory,"\")
 
-	For i=LBound(t) To UBound(t)
+	For i=LBound(t) To UBound(t)-1
 		If (IsEmpty(t(i))=False) And (t(i)<>"") Then
-			If InStr(t(i),".")=0 Then
-				s=s & t(i) & "\"
-				If (fso.FolderExists(s)=False) Then
-					Call fso.CreateFolder(s)
-				End If
+			s=s & t(i) & "\"
+			If (fso.FolderExists(s)=False) Then
+				Call fso.CreateFolder(s)
 			End If
 		End If
 	Next
@@ -1862,7 +1860,7 @@ End Sub
 '*********************************************************
 ' 目的：    按照CustomDirectory指示创建相应的目录
 '*********************************************************
-Sub CreatDirectoryByCustomDirectory(strCustomDirectory)
+Sub CreatDirectoryByCustomDirectory(ByVal strCustomDirectory)
 
 	On Error Resume Next
 
@@ -2209,8 +2207,6 @@ Function MakeBlogReBuild_Core()
 
 	BlogReBuild_Tags
 
-	BlogReBuild_Categorys
-
 	BlogReBuild_Functions
 
 	BlogReBuild_Default
@@ -2362,7 +2358,7 @@ Function BlogReBuild_Archives()
 			Set objRS=objConn.Execute("SELECT COUNT([log_ID]) FROM [blog_Article] WHERE ([log_CateID]>0) And ([log_Level]>1) AND [log_PostTime] BETWEEN "& ZC_SQL_POUND_KEY & Year(dtmYM(i)) &"-"& Month(dtmYM(i)) &"-1"& ZC_SQL_POUND_KEY &" AND "& ZC_SQL_POUND_KEY & l &"-"& n &"-1" & ZC_SQL_POUND_KEY)
 
 			If (Not objRS.bof) And (Not objRS.eof) Then
-				strArchives=strArchives & "<li><a href=""<#ZC_BLOG_HOST#>catalog.asp?date=" & Year(dtmYM(i)) & "-" & Month(dtmYM(i)) & """>" & Year(dtmYM(i)) & " " & ZVA_Month(Month(dtmYM(i))) & "<span class=""article-nums""> (" & objRS(0) & ")</span>" +"</a></li>"
+				strArchives=strArchives & "<li><a href="""& UrlbyDate(Year(dtmYM(i)),Month(dtmYM(i)),"") &""">" & Year(dtmYM(i)) & " " & ZVA_Month(Month(dtmYM(i))) & "<span class=""article-nums""> (" & objRS(0) & ")</span>" +"</a></li>"
 				If j>0 Then
 					If i=j Then Exit For
 				End If
@@ -2464,8 +2460,6 @@ Function BlogReBuild_Categorys()
 		If Not IsEmpty(sAction_Plugin_BlogReBuild_Categorys_Begin) Then Call Execute(sAction_Plugin_BlogReBuild_Categorys_Begin)
 		If bAction_Plugin_BlogReBuild_Categorys_Begin=True Then Exit Function
 	Next
-
-	Exit Function
 
 	Dim objRS
 	Dim objStream
@@ -2576,7 +2570,7 @@ Function BlogReBuild_Tags()
 	Dim objRS
 	Dim objStream
 
-	Dim i,j
+	Dim i,j,s,t
 	i=Functions(FunctionMetas.GetValue("tags")).MaxLi
 	If i=0 Then i=20
 	j=0
@@ -2586,7 +2580,8 @@ Function BlogReBuild_Tags()
 	Set objRS=objConn.Execute("SELECT * FROM [blog_Tag] ORDER BY [tag_Count] DESC,[tag_ID] ASC")
 	If (Not objRS.bof) And (Not objRS.eof) Then
 		Do While Not objRS.eof
-			strTag=strTag & "<li><a href=""<#ZC_BLOG_HOST#>catalog.asp?"& "tags=" & Server.URLEncode(objRS("tag_Name")) & """>"+objRS("tag_Name") + " <span class=""tag-count"">(" & objRS("tag_Count") & ")</span>" +"</a></li>"
+			s=s & "{" & objRS("tag_ID") & "}"
+			t=t & objRS("tag_ID") & ","
 			objRS.MoveNext
 			j=j+1
 			If j>i Then Exit Do
@@ -2594,6 +2589,16 @@ Function BlogReBuild_Tags()
 	End If
 	objRS.Close
 	Set objRS=Nothing
+
+	Call GetTagsbyTagIDList(s)
+
+	s=Split(t,",")
+	For i=0 To UBound(s)-1
+		If s(i)<>"" Then
+		strTag=strTag & "<li><a href="""&Tags(s(i)).Url&""">"+Tags(s(i)).Name + " <span class=""tag-count"">(" & Tags(s(i)).Count & ")</span>" +"</a></li>"
+		End If
+	Next
+
 
 	strTag=TransferHTML(strTag,"[no-asp]")
 
@@ -3507,6 +3512,50 @@ Function SaveConfig2Option()
 
 	Call SaveToFile(BlogPath & "zb_users\c_option.asp",strContent,"utf-8",False)
 
+End Function
+'*********************************************************
+
+
+
+
+
+'*********************************************************
+' 目的：    日期类的简化函数 Regex
+'*********************************************************
+Function RegexbyDate(y,m,d)
+
+	RegexbyDate=ZC_DATE_REGEX
+
+End Function
+'*********************************************************
+
+'*********************************************************
+' 目的：    日期类的简化函数 FullPath
+'*********************************************************
+Function FullPath(y,m,d)
+	FullPath=ParseCustomDirectoryForPath(FullRegex,ZC_STATIC_DIRECTORY,"","",y,m,d,"","")
+End Function
+'*********************************************************
+
+'*********************************************************
+' 目的：    日期类的简化函数 Url
+'*********************************************************
+Function UrlbyDate(y,m,d)
+
+	UrlbyDate=ParseCustomDirectoryForUrl(RegexbyDate(y,m,d),ZC_STATIC_DIRECTORY,"","",y,m,d,"","")
+
+End Function
+'*********************************************************
+
+'*********************************************************
+' 目的：    日期类的简化函数 Url auto
+'*********************************************************
+Function UrlbyDateAuto(y,m,d)
+	If ZC_STATIC_MODE="MIX" Then
+		UrlbyDateAuto=ParseCustomDirectoryForUrl("{%host%}/catalog.asp?date={%year%}-{%month%}",ZC_STATIC_DIRECTORY,"","",y,m,d,"","")
+	Else
+		UrlbyDateAuto=UrlbyDate(y,m,d)
+	End If
 End Function
 '*********************************************************
 %>
