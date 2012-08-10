@@ -816,7 +816,7 @@ var YT = {
 				}
 			});
 			return $('#Panel');
-		},
+		}
 	},
 	Copyright:function(){
 		$.ajax({
