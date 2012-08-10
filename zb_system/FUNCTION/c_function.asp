@@ -353,6 +353,18 @@ Function TransferHTML(ByVal source,para)
 		source=Replace(source,"|","")
 		source=Replace(source," ","")
 	End If
+	If Instr(para,"[directory&file]")>0  Then
+		source=Replace(source,"/","/")
+		source=Replace(source,"\","/")
+		source=Replace(source,":","")
+		source=Replace(source,"?","")
+		source=Replace(source,"*","")
+		source=Replace(source,"""","")
+		source=Replace(source,"<","")
+		source=Replace(source,">","")
+		source=Replace(source,"|","")
+		source=Replace(source," ","")
+	End If
 	If Instr(para,"[normalname]")>0  Then
 		source=Replace(source,"$","")
 		source=Replace(source,"(","")

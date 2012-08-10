@@ -216,21 +216,6 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG247
 		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG178) & "</td><td><p><input id=""edtZC_STATIC_DIRECTORY"" name=""edtZC_STATIC_DIRECTORY"" style=""width:500px;"" type=""text"" value=""" & ZC_STATIC_DIRECTORY & """ /></p></td></tr>"
 
 
-
-		ZC_CUSTOM_DIRECTORY_ENABLE=TransferHTML(ZC_CUSTOM_DIRECTORY_ENABLE,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG263) & "&nbsp;&nbsp;<span style='font-size:0.9em;'><a href='http://wiki.rainbowsoft.org/doku.php?id=wiki:config:url' target='_blank'><font color='green'>Z-Wiki:配置Z-Blog的静态URL</font></a></span></td><td><p><input id=""edtZC_CUSTOM_DIRECTORY_ENABLE"" name=""edtZC_CUSTOM_DIRECTORY_ENABLE"" style="""" type=""text"" value=""" & ZC_CUSTOM_DIRECTORY_ENABLE & """ class=""checkbox""/></p></td></tr>"
-
-
-
-		ZC_CUSTOM_DIRECTORY_REGEX=TransferHTML(ZC_CUSTOM_DIRECTORY_REGEX,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG259) & "</td><td><p><input id=""edtZC_CUSTOM_DIRECTORY_REGEX"" name=""edtZC_CUSTOM_DIRECTORY_REGEX"" style=""width:500px;"" type=""text"" value=""" & ZC_CUSTOM_DIRECTORY_REGEX & """ /></p></td></tr>"
-
-
-		ZC_CUSTOM_DIRECTORY_ANONYMOUS=TransferHTML(ZC_CUSTOM_DIRECTORY_ANONYMOUS,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG257) & "</td><td><p><input id=""edtZC_CUSTOM_DIRECTORY_ANONYMOUS"" name=""edtZC_CUSTOM_DIRECTORY_ANONYMOUS"" style="""" type=""text"" value=""" & ZC_CUSTOM_DIRECTORY_ANONYMOUS & """ class=""checkbox""/></p></td></tr>"
-
-
-
 		ZC_REBUILD_FILE_COUNT=TransferHTML(ZC_REBUILD_FILE_COUNT,"[html-format]")
 		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG181) & "</td><td><p><input id=""edtZC_REBUILD_FILE_COUNT"" name=""edtZC_REBUILD_FILE_COUNT"" style=""width:500px;"" type=""text"" value=""" & ZC_REBUILD_FILE_COUNT & """ /></p></td></tr>"
 

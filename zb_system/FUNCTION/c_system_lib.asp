@@ -80,6 +80,10 @@ Class TCategory
 
 	Public html
 
+	Public Property Get FullPath
+		FullPath=ParseCustomDirectoryForPath(FullRegex,ZC_STATIC_DIRECTORY,"","","","","",ID,StaticName)
+	End Property
+
 	Public Property Get Url
 
 		'plugin node
@@ -89,11 +93,7 @@ Class TCategory
 			If bAction_Plugin_TCategory_Url=True Then Exit Property
 		Next
 		
-		If Len(FullUrl)>0 Then
-			Url=Replace(FullUrl,"<#ZC_BLOG_HOST#>",ZC_BLOG_HOST)
-		Else
-			Url = ZC_BLOG_HOST & "catalog.asp?"& "cate=" & ID
-		End If
+		Url =ParseCustomDirectoryForUrl(FullRegex,ZC_STATIC_DIRECTORY,"","","","","",ID,StaticName)
 
 		Call Filter_Plugin_TCategory_Url(Url)
 
@@ -114,7 +114,7 @@ Class TCategory
 
 	Public Property Get StaticName
 		If IsNull(Alias) Or IsEmpty(Alias) Or Alias="" Then
-			StaticName = "cat_" & ID
+			StaticName = ID
 		Else
 			StaticName = Alias
 		End If
@@ -130,7 +130,9 @@ Class TCategory
 
 		'ID可以为0
 		Name=FilterSQL(Name)
-		Alias=TransferHTML(Alias,"[filename]")
+		Alias=TransferHTML(Alias,"[directory&file]")
+		If Left(Alias,1)="/" Then Alias=Right(Alias,Len(Alias)-1)
+		If Right(Alias,1)="/" Then Alias=Left(Alias,Len(Alias)-1)
 		Alias=FilterSQL(Alias)
 		Intro=FilterSQL(Intro)
 
@@ -408,6 +410,8 @@ Class TArticle
 		Else
 			Call GetUsersbyUserIDList(AuthorID)
 			Url =ParseCustomDirectoryForUrl(FullRegex,ZC_STATIC_DIRECTORY,Categorys(CateID).StaticName,Users(AuthorID).StaticName,Year(PostTime),Month(PostTime),Day(PostTime),ID,StaticName)
+			If Right(Url,12)="default.html" Then Url=Left(Url,Len(Url)-12)
+			'If Right(Url,10)="index.html" Then Url=Left(Url,Len(Url)-10)
 		End If
 
 		Call Filter_Plugin_TArticle_Url(Url)
@@ -517,6 +521,8 @@ Class TArticle
 	End Property
 
 	Public FirstTagIntro
+
+
 
 	Public Function LoadInfobyID(log_ID)
 
@@ -639,7 +645,9 @@ Class TArticle
 		Intro=TransferHTML(Intro,"[anti-zc_blog_host]")
 		Content=TransferHTML(Content,"[anti-zc_blog_host]")
 
-		Alias=TransferHTML(Alias,"[filename]")
+		Alias=TransferHTML(Alias,"[directory&file]")
+		If Left(Alias,1)="/" Then Alias=Right(Alias,Len(Alias)-1)
+		If Right(Alias,1)="/" Then Alias=Left(Alias,Len(Alias)-1)
 		Alias=FilterSQL(Alias)
 
 		Call GetUsersbyUserIDList(AuthorID)
@@ -1356,47 +1364,6 @@ Class TArticle
 	End Function
 
 
-
-
-
-	Public Function DelFile()
-
-		On Error Resume Next
-
-		Dim fso, TxtFile
-
-		Set fso = CreateObject("Scripting.FileSystemObject")
-		If fso.FileExists(FullPath) Then
-			Set TxtFile = fso.GetFile(FullPath)
-			TxtFile.Delete
-		End If
-		Set fso=Nothing
-
-		DelFile=True
-
-		Err.Clear
-
-	End Function
-
-
-	Public Function Del()
-
-		Call Filter_Plugin_TArticle_Del(ID,Tag,CateID,Title,Intro,Content,Level,AuthorID,PostTime,CommNums,ViewNums,TrackBackNums,Alias,Istop,TemplateName,FullUrl,IsAnonymous,MetaString)
-
-		Call DelFile()
-
-		Call CheckParameter(ID,"int",0)
-		If (ID=0) Then Del=False:Exit Function
-
-		objConn.Execute("DELETE FROM [blog_Article] WHERE [log_ID] =" & ID)
-		objConn.Execute("DELETE FROM [blog_Comment] WHERE [log_ID] =" & ID)
-		objConn.Execute("DELETE FROM [blog_TrackBack] WHERE [log_ID] =" & ID)
-
-		Del=True
-
-	End Function
-
-
 	Public Function Statistic()
 
 		Dim objRS
@@ -1452,6 +1419,45 @@ Class TArticle
 		Save=True
 
 	End Function
+
+
+	Public Function DelFile()
+
+		On Error Resume Next
+
+		Dim fso, TxtFile
+
+		Set fso = CreateObject("Scripting.FileSystemObject")
+		If fso.FileExists(FullPath) Then
+			Set TxtFile = fso.GetFile(FullPath)
+			TxtFile.Delete
+		End If
+		Set fso=Nothing
+
+		DelFile=True
+
+		Err.Clear
+
+	End Function
+
+
+	Public Function Del()
+
+		Call Filter_Plugin_TArticle_Del(ID,Tag,CateID,Title,Intro,Content,Level,AuthorID,PostTime,CommNums,ViewNums,TrackBackNums,Alias,Istop,TemplateName,FullUrl,IsAnonymous,MetaString)
+
+		Call DelFile()
+
+		Call CheckParameter(ID,"int",0)
+		If (ID=0) Then Del=False:Exit Function
+
+		objConn.Execute("DELETE FROM [blog_Article] WHERE [log_ID] =" & ID)
+		objConn.Execute("DELETE FROM [blog_Comment] WHERE [log_ID] =" & ID)
+		objConn.Execute("DELETE FROM [blog_TrackBack] WHERE [log_ID] =" & ID)
+
+		Del=True
+
+	End Function
+
 
 
 	Function SaveCache()
@@ -1546,6 +1552,7 @@ Class TArticleList
 
 
 	Public Url
+	Private MixUrl
 
 
 	Public Property Get HtmlTitle
@@ -1562,13 +1569,16 @@ Class TArticleList
 			If bAction_Plugin_TArticleList_Export_Begin=True Then Exit Function
 		Next
 
+		Call Filter_Plugin_TArticleList_Export(intPage,intCateId,intAuthorId,dtmYearMonth,strTagsName,intType)
+
+		ListType="DEFAULT"
+		Url =ParseCustomDirectoryForUrl(FullRegex,ZC_STATIC_DIRECTORY,"","","","","","","")
+		MixUrl=ParseCustomDirectoryForUrl("{%host%}/catalog.asp",ZC_STATIC_DIRECTORY,"","","","","","","")
+
 		Dim aryArticle
 		Dim aryArticleList()
 
-
 		'plugin node
-		Call Filter_Plugin_TArticleList_Export(intPage,intCateId,intAuthorId,dtmYearMonth,strTagsName,intType)
-
 		Dim i,j,k,l
 		Dim objRS
 		Dim intPageCount
@@ -1602,8 +1612,6 @@ Class TArticleList
 
 			For i = 1 To objRS.PageSize
 
-				ReDim Preserve aryArticleList(i)
-
 				Set objArticle=New TArticle
 				If objArticle.LoadInfoByArray(Array(objRS(0),objRS(1),objRS(2),objRS(3),objRS(4),objRS(5),objRS(6),objRS(7),objRS(8),objRS(9),objRS(10),objRS(11),objRS(12),objRS(13),objRS(14),objRS(15),objRS(16),objRS(17))) Then
 					ut=ut & "," & objRs(7)
@@ -1633,6 +1641,8 @@ Class TArticleList
 				Title=Categorys(intCateId).Name
 				TemplateTags_ArticleList_Category_ID=Categorys(intCateId).ID
 				If IsEmpty(html)=True Then html=Categorys(intCateId).Template
+				Url =ParseCustomDirectoryForUrl(Categorys(intCateId).FullRegex,ZC_STATIC_DIRECTORY,"","","","","",Categorys(intCateId).ID,Categorys(intCateId).Alias)
+				MixUrl =ParseCustomDirectoryForUrl("{%host%}/catalog.asp?cate={%id%}",ZC_STATIC_DIRECTORY,"","","","","",Categorys(intCateId).ID,Categorys(intCateId).Alias)
 			End If
 		End if
 		If Not IsEmpty(intAuthorId) Then
@@ -1643,6 +1653,8 @@ Class TArticleList
 				Title=Users(intAuthorId).Name
 				TemplateTags_ArticleList_Author_ID=Users(intAuthorId).ID
 				If IsEmpty(html)=True Then html=Users(intAuthorId).Template
+				Url =ParseCustomDirectoryForUrl(Users(intAuthorId).FullRegex,ZC_STATIC_DIRECTORY,"","","","","",Users(intAuthorId).ID,Users(intAuthorId).Alias)
+				MixUrl=ParseCustomDirectoryForUrl("{%host%}/catalog.asp?user={%id%}",ZC_STATIC_DIRECTORY,"","","","","",Users(intAuthorId).ID,Users(intAuthorId).Alias)
 			End If
 		End if
 		If IsDate(dtmYearMonth) Then
@@ -1663,6 +1675,9 @@ Class TArticleList
 			y=Year(dtmYearMonth)
 			m=Month(dtmYearMonth)
 			d=Day(dtmYearMonth)
+
+			Url =UrlbyDate(y,m,d)
+			MixUrl =UrlbyDateAuto(y,m,d)
 
 			TemplateTags_ArticleList_Date_ShortDate=dtmYearMonth
 			TemplateTags_ArticleList_Date_Year=y
@@ -1695,6 +1710,8 @@ Class TArticleList
 				Title=strTagsName
 				TemplateTags_ArticleList_Tags_ID=Tag.ID
 				If IsEmpty(html)=True Then html=Tag.Template
+				Url =ParseCustomDirectoryForUrl(Tag.FullRegex,ZC_STATIC_DIRECTORY,"","","","","",Tag.ID,Tag.EncodeName)
+				MixUrl =ParseCustomDirectoryForUrl("{%host%}/catalog.asp?tags={%alias%}",ZC_STATIC_DIRECTORY,"","","","","",Tag.ID,Tag.EncodeName)
 			End If
 		End If
 
@@ -1709,8 +1726,6 @@ Class TArticleList
 			For i = 1 To objRS.PageSize
 
 				If intPage>intPageCount Then Exit For
-
-				ReDim Preserve aryArticleList(i)
 
 				Set objArticle=New TArticle
 				If objArticle.LoadInfoByArray(Array(objRS(0),objRS(1),objRS(2),objRS(3),objRS(4),objRS(5),objRS(6),objRS(7),objRS(8),objRS(9),objRS(10),objRS(11),objRS(12),objRS(13),objRS(14),objRS(15),objRS(16),objRS(17))) Then
@@ -1737,7 +1752,7 @@ Class TArticleList
 
 
 
-
+		ReDim aryArticleList(-1)
 		For i=0 To dt.Count-1
 			j=dt.Keys
 			ReDim Preserve aryArticleList(i)
@@ -1750,7 +1765,7 @@ Class TArticleList
 
 
 
-
+		ReDim aryArticleList(-1)
 		For i=0 To dd.Count-1
 			j=dd.Keys
 			ReDim Preserve aryArticleList(i)
@@ -1768,7 +1783,7 @@ Class TArticleList
 
 
 
-		Call ExportBar(intPage,intPageCount,intCateId,intAuthorId,dtmYearMonth,strTagsName)
+		Call ExportBar(intPage,intPageCount)
 
 		If IsEmpty(html)=True Then html=Template
 
@@ -1794,8 +1809,6 @@ Class TArticleList
 			If bAction_Plugin_TArticleList_Search_Begin=True Then Exit Function
 		Next
 
-		If IsEmpty(html)=True Then html=Template
-
 		Dim i
 		Dim j
 		Dim s
@@ -1807,7 +1820,6 @@ Class TArticleList
 		strQuestion=Trim(strQuestion)
 
 		If Len(strQuestion)=0 Then Search=True:Exit Function
-		'If CheckRegExp(strQuestion,"[nojapan]") Then Exit Function
 
 		strQuestion=FilterSQL(strQuestion)
 
@@ -1862,6 +1874,8 @@ Class TArticleList
 
 		Title=strQuestion
 
+		If IsEmpty(html)=True Then html=Template
+
 		Search=True
 
 		'plugin node
@@ -1874,7 +1888,7 @@ Class TArticleList
 	End Function
 
 
-	Public Function ExportBar(intNowPage,intAllPage,intCateId,intAuthorId,dtmYearMonth,strTagsName)
+	Public Function ExportBar(intNowPage,intAllPage)
 
 		'plugin node
 		bAction_Plugin_TArticleList_ExportBar_Begin=False
@@ -1888,20 +1902,41 @@ Class TArticleList
 		Dim t
 		Dim strPageBar
 
-		If Not IsEmpty(intCateId) Then t=t & "cate=" & intCateId & "&amp;"
-		If Not IsEmpty(dtmYearMonth) Then
-			t=t & "date=" & Year(dtmYearMonth) & "-" & Month(dtmYearMonth)
-			If InstrRev(CStr(dtmYearMonth),"-")>=7 Then
-				t=t & "-" &  Day(dtmYearMonth)
+		t=Url
+
+		'ListType="DEFAULT"'CATEGORY'USER'DATE'TAGS
+		If ListType="DEFAULT" Then
+			If ZC_STATIC_MODE="ACTIVE" Then
+				t=t & "?page=%n"
 			End If
-			t=t & "&amp;"
+			If ZC_STATIC_MODE="REWRITE" Then
+				t=Replace(t,".html","_%n.html")
+			End If
+			If ZC_STATIC_MODE="MIX" Then
+				t=MixUrl
+				t=t & "?page=%n"
+			End If
 		End If
-		If Not IsEmpty(intAuthorId) Then t=t & "auth=" & intAuthorId & "&amp;"
-		If Not (strTagsName="") Then t=t & "tags=" & Server.URLEncode(strTagsName) & "&amp;"
+
+		If ListType="CATEGORY" Or ListType="USER" Or ListType="DATE" Or ListType="TAGS" Then
+			If ZC_STATIC_MODE="ACTIVE" Then
+				t=t & "&page=%n"
+			End If
+			If ZC_STATIC_MODE="REWRITE" Then
+				t=Replace(t,".html","_%n.html")
+			End If
+			If ZC_STATIC_MODE="MIX" Then
+				t=MixUrl
+				t=t & "&page=%n"
+			End If
+		End If
+
 		If intAllPage>0 Then
 			Dim a,b
 
-			s=ZC_BLOG_HOST & "catalog.asp?"& t &"page=1"
+			s=Replace(t,"%n",1)
+			If ListType="DEFAULT" Then s=ZC_BLOG_HOST
+			If (ListType="CATEGORY" Or ListType="USER" Or ListType="DATE" Or ListType="TAGS") Then s=Url
 
 			strPageBar=GetTemplate("TEMPLATE_B_PAGEBAR")
 			strPageBar=Replace(strPageBar,"<#pagebar/page/url#>",s)
@@ -1918,7 +1953,10 @@ Class TArticleList
 			End If
 			For i=a to b
 
-				s=ZC_BLOG_HOST & "catalog.asp?"& t &"page="& i
+				s=Replace(t,"%n",i)
+				If ListType="DEFAULT" And i=1 Then s=ZC_BLOG_HOST
+				If (ListType="CATEGORY" Or ListType="USER" Or ListType="DATE" Or ListType="TAGS") And i=1 Then s=Url
+
 
 				strPageBar=GetTemplate("TEMPLATE_B_PAGEBAR")
 				If i=intNowPage then
@@ -1931,7 +1969,7 @@ Class TArticleList
 
 			Next
 
-			s=ZC_BLOG_HOST & "catalog.asp?"& t &"page="& intAllPage
+			s=Replace(t,"%n",intAllPage)
 
 			strPageBar=GetTemplate("TEMPLATE_B_PAGEBAR")
 			strPageBar=Replace(strPageBar,"<#pagebar/page/url#>",s)
@@ -1941,14 +1979,20 @@ Class TArticleList
 			If intNowPage=1 Then
 				Template_PageBar_Previous=""
 			Else
-				Template_PageBar_Previous="<span class=""pagebar-previous""><a href="""& ZC_BLOG_HOST &"catalog.asp?"& t &"page="& intNowPage-1 &"""><span>"&ZC_MSG156&"</span></a></span>"
+				s=Replace(t,"%n",intNowPage-1)
+
+				If ListType="DEFAULT" And intNowPage-1=1 Then s=ZC_BLOG_HOST
+				If (ListType="CATEGORY" Or ListType="USER" Or ListType="DATE" Or ListType="TAGS") And intNowPage-1=1 Then s=Url
+
+				Template_PageBar_Previous="<span class=""pagebar-previous""><a href="""& s &"""><span>"&ZC_MSG156&"</span></a></span>"
 
 			End If
 
 			If intNowPage=intAllPage Then
 				Template_PageBar_Next=""
 			Else
-				Template_PageBar_Next="<span class=""pagebar-next""><a href="""& ZC_BLOG_HOST &"catalog.asp?"& t &"page="& intNowPage+1 &"""><span>"&ZC_MSG155&"</span></a></span>"
+				s=Replace(t,"%n",intNowPage+1)
+				Template_PageBar_Next="<span class=""pagebar-next""><a href="""& s &"""><span>"&ZC_MSG155&"</span></a></span>"
 			End If
 
 		End If
@@ -1968,16 +2012,13 @@ Class TArticleList
 
 	Public Function Build()
 
-		Dim aryTemplateTagsName
-		Dim aryTemplateTagsValue
-
-		Dim aryTemplateSubName()
-		Dim aryTemplateSubValue()
-
 		Dim i,j
 
 		'plugin node
 		Call Filter_Plugin_TArticleList_Build_Template(html)
+
+		Dim aryTemplateSubName()
+		Dim aryTemplateSubValue()
 
 		ReDim aryTemplateSubName(20)
 		ReDim aryTemplateSubValue(20)
@@ -2028,12 +2069,14 @@ Class TArticleList
 		Call Filter_Plugin_TArticleList_Build_TemplateSub(aryTemplateSubName,aryTemplateSubValue)
 
 
-
 		j=UBound(aryTemplateSubName)
 		For i=0 to j
 			html=Replace(html,"<#" & aryTemplateSubName(i) & "#>",aryTemplateSubValue(i))
 		Next
 
+
+		Dim aryTemplateTagsName
+		Dim aryTemplateTagsValue
 
 		TemplateTagsDic.Item("BlogTitle")=HtmlTitle
 
@@ -2201,6 +2244,10 @@ Class TUser
 		End If
 	End Property
 
+	Public Property Get FullPath
+		FullPath=ParseCustomDirectoryForPath(FullRegex,ZC_STATIC_DIRECTORY,"","","","","",ID,StaticName)
+	End Property
+
 	Public Property Get Url
 
 		'plugin node
@@ -2210,7 +2257,7 @@ Class TUser
 			If bAction_Plugin_TUser_Url=True Then Exit Property
 		Next
 
-		Url = ZC_BLOG_HOST & "catalog.asp?"& "auth=" & ID
+		Url =ParseCustomDirectoryForUrl(FullRegex,ZC_STATIC_DIRECTORY,"","","","","",ID,StaticName)
 
 		Call Filter_Plugin_TUser_Url(Url)
 
@@ -2227,7 +2274,7 @@ Class TUser
 
 	Public Property Get StaticName
 		If IsNull(Alias) Or IsEmpty(Alias) Or Alias="" Then
-			StaticName = "user_" & ID
+			StaticName = ID
 		Else
 			StaticName = Alias
 		End If
@@ -2427,7 +2474,9 @@ Class TUser
 		Email=TransferHTML(Email,"[html-format]")
 		HomePage=TransferHTML(HomePage,"[html-format]")
 
-		Alias=TransferHTML(Alias,"[filename]")
+		Alias=TransferHTML(Alias,"[directory&file]")
+		If Left(Alias,1)="/" Then Alias=Right(Alias,Len(Alias)-1)
+		If Right(Alias,1)="/" Then Alias=Left(Alias,Len(Alias)-1)
 		Alias=FilterSQL(Alias)
 
 		TemplateName=UCase(FilterSQL(TemplateName))
@@ -2541,7 +2590,9 @@ Class TUser
 		Email=TransferHTML(Email,"[html-format]")
 		HomePage=TransferHTML(HomePage,"[html-format]")
 
-		Alias=TransferHTML(Alias,"[filename]")
+		Alias=TransferHTML(Alias,"[directory&file]")
+		If Left(Alias,1)="/" Then Alias=Right(Alias,Len(Alias)-1)
+		If Right(Alias,1)="/" Then Alias=Left(Alias,Len(Alias)-1)
 		Alias=FilterSQL(Alias)
 
 		TemplateName=UCase(FilterSQL(TemplateName))
@@ -3631,6 +3682,10 @@ Class TTag
 		End If
 	End Property
 
+	Public Property Get FullPath
+		FullPath=ParseCustomDirectoryForPath(FullRegex,ZC_STATIC_DIRECTORY,"","","","","",ID,StaticName)
+	End Property
+
 	Public Property Get Url
 
 		'plugin node
@@ -3640,15 +3695,22 @@ Class TTag
 			If bAction_Plugin_TTag_Url=True Then Exit Property
 		Next
 
-		If Len(FullUrl)>0 Then
-			Url=Replace(FullUrl,"<#ZC_BLOG_HOST#>",ZC_BLOG_HOST)
-		Else
-			Url = ZC_BLOG_HOST & "catalog.asp?"& "tags=" & Server.URLEncode(Name)
-		End If
+
+		Url =ParseCustomDirectoryForUrl(FullRegex,ZC_STATIC_DIRECTORY,"","","","","",ID,EncodeName)
 
 		Call Filter_Plugin_TTag_Url(Url)
 
 	End Property
+
+
+	Public Property Get StaticName
+		If IsNull(Alias) Or IsEmpty(Alias) Or Alias="" Then
+			StaticName = ID
+		Else
+			StaticName = Alias
+		End If
+	End Property
+
 
 	Private Ffullregex
 	Public Property Let FullRegex(s)

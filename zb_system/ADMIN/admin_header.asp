@@ -11,12 +11,4 @@
 <link rel="stylesheet" href="<%=GetCurrentHost%>ZB_SYSTEM/CSS/jquery.bettertip.css" type="text/css" media="screen" />
 <script src="<%=GetCurrentHost%>ZB_SYSTEM/script/jquery.bettertip.pack.js" type="text/javascript"></script>
 <script src="<%=GetCurrentHost%>ZB_SYSTEM/script/jquery-ui-1.8.21.custom.min.js" type="text/javascript"></script>
-<%If InStr(Request.ServerVariables("HTTP_USER_AGENT"),"MSIE 6.0;")>0 Then%>
-<!--[if IE 6]>
-<script src="<%=GetCurrentHost%>zb_system/script/iepng.js" type="text/javascript"></script>
-<script type="text/javascript">
-   GtPNG.fix('div, ul, img, li, input, span, a');  //EvPNG.fix('包含透明PNG图片的标签'); 多个标签之间用英文逗号隔开。
-</script>
-<![endif]-->
-<%End If%>
 <%=Response_Plugin_Admin_Header%>
