@@ -111,9 +111,6 @@ Function ActivePlugin_ZBQQConnect()
 						ZBQQConnect_Class.OpenID=strQQ
 						ZBQQConnect_Class.AccessToken=ZBQQConnect_DB.AccessToken
 						Call Add_Response_Plugin("Response_Plugin_RegPage_End","<input type=""hidden"" value="""&strQQ&""" name=""QQOpenID""/>")
-						'objQQ=ZBQQConnect_class.API("https://graph.qq.com/user/get_user_info","{'format':'json'}","GET&")
-						'Set objQQ=ZBQQConnect_ToObject(objqq)
-						'Call Add_Action_Plugin("Action_Plugin_RegPage_Begin","dUsername="""&objQQ.nickname&"""")
 					End If
 				End If
 
@@ -127,9 +124,7 @@ Function ActivePlugin_ZBQQConnect()
 	Call Add_Action_Plugin("Action_Plugin_CommentPost_Succeed","Call ZBQQConnect_SendComment()")
 	Call Add_Action_Plugin("Action_Plugin_ArticlePst_Begin","ZBQQConnect_SToZone=Request.Form(""syn_qq""):ZBQQConnect_SToWb=Request.Form(""syn_tqq""):Call ZBQQConnect_Main()")
 	Call Add_Action_Plugin("Action_Plugin_Edit_ueditor_getArticleInfo","Set ZBQQConnect_tmpObj=EditArticle:Call ZBQQConnect_addForm()")
-	
 	Call Add_Filter_Plugin("Filter_Plugin_TComment_LoadInfoByArray","ZBQQConnect_getcmt")
-	
 	Call Add_Filter_Plugin("Filter_Plugin_TComment_MakeTemplate_Template","ZBQQConnect_AddCommentCode")
 	Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(5,"QQ互联",GetCurrentHost&"zb_users/plugin/zbqqconnect/main.asp","nav_QQConnect","aQQConnect",GetCurrentHost&"zb_users/plugin/zbqqconnect/Connect_logo_1.png"))
 
@@ -176,7 +171,7 @@ Function ZBQQConnect_LoadPicture(ByVal str)
 		Exit For
 	Next
 	set objregexp=nothing
-	If Instr(tmp,"http")<0 And tmp<>"" Then tmp=ZC_BLOG_HOST & "/" & tmp
+	If Instr(tmp,"http")<0 And tmp<>"" Then tmp=GetCurrentHost & "/" & tmp
 	ZBQQConnect_LoadPicture=tmp
 	'tmp=BlogPath & replace(tmp,ZC_BLOG_HOST,"")
 End Function
@@ -206,7 +201,10 @@ Function ZBQQConnect_Main()
 	Else
 		ZBQQConnect_SToZone=True
 	End If
-	Call Add_Filter_Plugin("Filter_Plugin_PostArticle_Core","ZBQQConnect_ArticleToWb")	
+	Application(ZC_BLOG_CLSID&"ZBQQConnect_a")=ZBQQConnect_SToWb
+	Application(ZC_BLOG_CLSID&"ZBQQConnect_b")=ZBQQConnect_SToZone
+	Call Add_Filter_Plugin("Filter_Plugin_PostArticle_Core","ZBQQConnect_ArticleToWb")
+	
 End Function
 
 
@@ -276,31 +274,34 @@ End Function
 
 
 Function ZBQQConnect_ArticleToWb(ByRef objArticle)
+	Application(ZC_BLOG_CLSID&"ZBQQConnect_c")=objArticle.ID
+	If objArticle.ID=0 Then Call Add_Filter_Plugin("Filter_Plugin_PostArticle_Succeed","ZBQQConnect_GetArticleID")
+End Function
+
+Function ZBQQConnect_GetArticleID(ByRef objArticle)
+	If CInt(Application(ZC_BLOG_CLSID&"ZBQQConnect_c"))=0 Then Call AddBatch("ZBQQConnect正在提交数据<br/>","ZBQQConnect_Batch "&objArticle.ID)	
+End Function
+
+Function ZBQQConnect_Batch(id)
 	Dim strT ,bolN,objTemp,strTemp
-	If objArticle.ID<>0 Then Exit Function
+	Dim objArticle
+	Set objArticle=New TArticle
+	SetBlogHint_custom ID
+	objArticle.LoadInfoById id
+	'If objArticle.ID<>0 Then Exit Function
 	If objArticle.CateID=0 Then Exit Function
+	
+	ZBQQConnect_SToWb=Application(ZC_BLOG_CLSID&"ZBQQConnect_a")
+	ZBQQConnect_SToZone=Application(ZC_BLOG_CLSID&"ZBQQConnect_b")
+	
 	Call ZBQQConnect_Initialize
 	Set ZBQQConnect_DB.objUser=BlogUser
 	ZBQQConnect_DB.LoadInfo 2
 	ZBQQConnect_Class.OpenID=ZBQQConnect_DB.OpenID
 	ZBQQConnect_Class.AccessToken=ZBQQConnect_DB.AccessToken
 	If IsObject(objArticle)=False Then Exit Function
-		If objArticle.ID=0 then
-			bolN=True
-			Dim objRS
-			Set objRS=objConn.Execute("SELECT TOP 1 log_ID FROM [blog_Article] ORDER BY log_ID desc")
-			If (Not objRS.bof) And (Not objRS.eof) Then
-				objArticle.ID=objRS(0) + 1 
-			Else
-				objArticle.ID=1
-			End If
-		Else
-			bolN=False
-		End If
-
 	If int(objArticle.level)>2 Then
 		strTemp=ZBQQConnect_r(objArticle.Intro)
-		
 		dim t_add,tupian
 		if ZBQQConnect_PicSendToWb=true then
 			tupian=UBBCode(objArticle.Content,"[image]")
@@ -311,24 +312,24 @@ Function ZBQQConnect_ArticleToWb(ByRef objArticle)
 			tupian="~"
 		end if
 		If ZBQQConnect_SToZone=True Then
-			t_add = ZBQQConnect_class.Share(objArticle.Title,objArticle.Url,"",strTemp,tupian,1)
+			t_add = ZBQQConnect_class.Share(objArticle.Title,Replace(objArticle.FullUrl,"<#ZC_BLOG_HOST#>",ZC_BLOG_HOST),"",strTemp,tupian,1)
 			Set t_add=ZBQQConnect_Toobject(t_add)
 			If t_add.ret=0 Then
-				Call SetBlogHint_Custom("恭喜，同步到QQ空间成功")
+				Response.Write "恭喜，同步到QQ空间成功"
 			else
-				Call SetBlogHint_Custom("同步到QQ空间出现问题" & t_add.ret)
-				Call SetBlogHint_Custom("调试信息：<br/>"&ZBQQConnect_class.debugMsg)'&"<br/>URL="&)
+				Response.Write "同步到QQ空间出现问题" & t_add.ret
+				Response.Write "调试信息：<br/>"&ZBQQConnect_class.debugMsg
 			End If
 		End If
 		ZBQQConnect_class.debugMsg=""
 		If ZBQQConnect_SToWb=True Then 
-			t_add = ZBQQConnect_class.fakeQQConnect.t(Replace(Replace(Replace(Replace(ZBQQConnect_Content,"%t",ZBQQConnect_r(objArticle.Title)),"%u",objArticle.Url),"%b",ZBQQConnect_r(BlogTitle)),"%i",strTemp),tupian)
+			t_add = ZBQQConnect_class.fakeQQConnect.t(Replace(Replace(Replace(Replace(Replace(ZBQQConnect_Content,"%t",ZBQQConnect_r(objArticle.Title)),"%u",objArticle.FullUrl),"%b",ZBQQConnect_r(BlogTitle)),"%i",strTemp),"<#ZC_BLOG_HOST#>",ZC_BLOG_HOST),tupian)
 			Set t_add=ZBQQConnect_Toobject(t_add)
 			If t_add.ret=0 Then
-				Call SetBlogHint_Custom("恭喜，同步到腾讯微博成功")
+				Response.Write  "恭喜，同步到腾讯微博成功"
 				objArticle.Meta.SetValue "ZBQQConnect_WBID",t_add.data.id
 			else
-				Call SetBlogHint_Custom("同步到腾讯微博出现问题" & t_add.ret)
+				Response.Write "同步到腾讯微博出现问题" & t_add.ret
 			End If
 		End If
 	End If
@@ -337,7 +338,6 @@ Function ZBQQConnect_ArticleToWb(ByRef objArticle)
 		'		Call SetBlogHint_Custom("<span style='color:red'>发现自动文章别名插件！请<a href='" & zc_blog_host & "/ZB_SYSTEM/cmd.asp?act=PlugInDisable&name=ZBQQConnect' target='_blank'>点击这里停用</a>ZBQQConnect然后<a href='" & zc_blog_host & "/ZB_SYSTEM/cmd.asp?act=PlugInActive&name=ZBQQConnect' target='_blank'>重新启用以使ZBQQConnect兼容该插件！</a></span>")
 		'	End If
 		'End If
-	if bolN=true Then objArticle.ID=0
 end function
 
 

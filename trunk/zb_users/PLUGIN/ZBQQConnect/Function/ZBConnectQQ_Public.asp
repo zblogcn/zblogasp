@@ -152,12 +152,12 @@ End Sub
 '** RunAPI                                                                **
 '*******************************************************************************
 Function API(url,json,httptype)
-	Response.Cookies("QQOPENID")=strOpenID
-	Response.Cookies("QQOPENID").Expires = DateAdd("d", 90, now)
-	Response.Cookies("QQOPENID").Path="/"
-	Response.Cookies("QQAccessToken")=strAccToken
-	Response.Cookies("QQAccessToken").Expires = DateAdd("d", 90, now)
-	Response.Cookies("QQAccessToken").Path="/"
+'	Response.Cookies("QQOPENID")=strOpenID
+'	Response.Cookies("QQOPENID").Expires = DateAdd("d", 90, now)
+'	Response.Cookies("QQOPENID").Path="/"
+'	Response.Cookies("QQAccessToken")=strAccToken
+'	Response.Cookies("QQAccessToken").Expires = DateAdd("d", 90, now)
+'	Response.Cookies("QQAccessToken").Path="/"
 	AddDebug "RunAPI"
 	AddDebug "OpenID="&strOpenID
 	AddDebug "AccessToken="&strAccToken
