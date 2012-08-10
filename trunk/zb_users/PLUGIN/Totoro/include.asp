@@ -207,6 +207,7 @@ End Function
 
 Function Totoro_replaceWord(content)
 	Dim o
+	If TOTORO_REPLACE_LIST="" Then Totoro_replaceWord=content
 	Set o=New RegExp
 	o.Pattern=TOTORO_REPLACE_LIST&"|"&TOTORO_BADWORD_LIST
 	o.Global=True
