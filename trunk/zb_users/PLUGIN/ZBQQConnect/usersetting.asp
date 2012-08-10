@@ -43,8 +43,6 @@ function showqk(){
           <div class="SubMenu"><%=ZBQQConnect_SBar(4)%></div>
           <form id="form1" name="form1" method="post" action="usersetting.asp?act=save">
             <div id="divMain2">
-
-
             <input name="a" id="a" type="checkbox" <%=d(BlogUser.Meta.GetValue("ZBQQConnect_a"))%> />
             <label for="a">评论同步到QQ空间</label>
 			<p><input type="submit" class="button" value="提交"/></p>

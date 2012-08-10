@@ -1,102 +1,24 @@
-﻿<!-- #include file="function\ZBConnectQQ_Public.asp"-->
-<!-- #include file="function\ZBConnectQQ_Wb.asp"-->
-<!-- #include file="function\ZBConnectQQ_JSON.asp"-->
-<!-- #include file="function\ZBConnectQQ_DB.asp"-->
-<!-- #include file="function\ZBConnectQQ_HMACSHA1.asp"-->
-<!-- #include file="function\ZBConnectQQ_NetWork.asp"-->
+﻿<!-- #include file="function\ZBConnectQQ_QQConnect.asp"--><%'QQ连接主程序%>
+<!-- #include file="function\ZBConnectQQ_Wb.asp"--><%'微博程序%>
+<!-- #include file="function\ZBConnectQQ_JSON.asp"--><%'JSON处理类%>
+<!-- #include file="function\ZBConnectQQ_DB.asp"--><%'数据库类%>
+<!-- #include file="function\ZBConnectQQ_HMACSHA1.asp"--><%'微博oAuth1 HMAC-SHA1%>
+<!-- #include file="function\ZBConnectQQ_NetWork.asp"--><%'网络操作类%>
+<!-- #include file="function\ZBConnectQQ_Public.asp"--><%'公共函数%>
 
 <%
-'Temp 
-Dim ZBQQConnect_notfoundpic
-Dim ZBQQConnect_PicSendToWb
-Dim ZBQQConnect_strLong
-Dim ZBQQConnect_CommentToOwner
-Dim ZBQQConnect_OpenComment
-Dim ZBQQConnect_DefaultToZone
-Dim ZBQQConnect_DefaultToT
-Dim ZBQQConnect_CommentToZone
-Dim ZBQQConnect_CommentToT
-Dim ZBQQConnect_allowQQLogin
-Dim ZBQQConnect_allowQQReg
-Dim ZBQQConnect_HeadMode
-Dim ZBQQConnect_Head
-Dim ZBQQConnect_Content
-Dim ZBQQConnect_WBKey
-Dim ZBQQConnect_WBSecret
-Dim ZBQQConnect_CommentTemplate
-'Temp
-Dim ZBQQConnect_tmpObj,ZBQQConnect_Eml(1)
+'ZBQQConnect插件配置全局变量，必须先ZBQQConnect_Initialize
+Dim ZBQQConnect_notfoundpic,ZBQQConnect_PicSendToWb, ZBQQConnect_strLong, ZBQQConnect_CommentToOwner, ZBQQConnect_OpenComment, ZBQQConnect_DefaultToZone, ZBQQConnect_DefaultToT, ZBQQConnect_CommentToZone, ZBQQConnect_CommentToT, ZBQQConnect_allowQQLogin, ZBQQConnect_allowQQReg, ZBQQConnect_HeadMode, ZBQQConnect_Head, ZBQQConnect_Content, ZBQQConnect_WBKey, ZBQQConnect_WBSecret, ZBQQConnect_CommentTemplate
 
+'同步时使用临时变量
+Dim ZBQQConnect_tmpObj,ZBQQConnect_Eml(1)
 Dim ZBQQConnect_SToWb,ZBQQConnect_SToZone
 
+'定义各种Class，包括QQ连接、数据库、配置和网络
+Dim ZBQQConnect_class,ZBQQConnect_DB,ZBQQConnect_Config,ZBQQConnect_Net
 
-dim ZBQQConnect_class,ZBQQConnect_DB,ZBQQConnect_Config,ZBQQConnect_Net
-
-Function ZBQQConnect_Initialize
-	dim i
-	Set ZBQQConnect_Config=New TConfig
-	ZBQQConnect_Config.Load "ZBQQConnect"
-	If ZBQQConnect_Config.Exists("-。-")=False Then
-		ZBQQConnect_Config.Write "-。-","1.0"
-		For i=97 To 105
-			ZBQQConnect_Config.Write Chr(i),iIf(chr(i)<>"g",True,False)
-		Next
-		ZBQQConnect_Config.Write "a1","0"
-		ZBQQConnect_Config.Write "Gravatar","http://www.gravatar.com/avatar/<#EmailMD5#>?s=40&d=<#ZC_BLOG_HOST#>%2FZB%5FSYSTEM%2Fimage%2Fadmin%2Favatar%2Epng"
-		ZBQQConnect_Config.Write "content","更新了文章：《%t》，%u"
-		ZBQQConnect_Config.Write "WBKEY","2e21c7b056f341b080d4d3691f3d50fb"
-		ZBQQConnect_Config.Write "WBAPPSecret","1b84a3016c132a6839d082605b854bbe"
-		ZBQQConnect_Config.Write "pl","@%a 评论 %c"
-		ZBQQConnect_Config.Save
-	End If
-	
-	ZBQQConnect_notfoundpic="~"
-	ZBQQConnect_strLong=30
-	ZBQQConnect_DefaultToZone=CBool(ZBQQConnect_Config.Read("a"))
-	ZBQQConnect_DefaultTot=CBool(ZBQQConnect_Config.Read("b"))
-	ZBQQConnect_PicSendToWb=CBool(ZBQQConnect_Config.Read("c"))
-	ZBQQConnect_OpenComment=CBool(ZBQQConnect_Config.Read("d"))
-	ZBQQConnect_CommentToZone=CBool(ZBQQConnect_Config.Read("e"))
-	ZBQQConnect_CommentToT=CBool(ZBQQConnect_Config.Read("f"))
-	ZBQQConnect_CommentToOwner=CBool(ZBQQConnect_Config.Read("g"))
-	ZBQQConnect_allowQQLogin=CBool(ZBQQConnect_Config.Read("h"))
-	ZBQQConnect_allowQQReg=CBool(ZBQQConnect_Config.Read("i"))
-	ZBQQConnect_HeadMode=CInt(ZBQQConnect_Config.Read("a1"))
-	ZBQQConnect_Head=ZBQQConnect_Config.Read("Gravatar")
-	ZBQQConnect_Content=ZBQQConnect_Config.Read("content")
-	ZBQQConnect_WBKey=ZBQQConnect_Config.Read("WBKEY")
-	ZBQQConnect_WBSecret=ZBQQConnect_Config.Read("WBAPPSecret")
-	ZBQQConnect_CommentTemplate=ZBQQConnect_Config.Read("pl")
-	Set ZBQQConnect_Net=New ZBQQConnect_NetWork
-	set ZBQQConnect_class=new ZBQQConnect
-	Set ZBQQConnect_DB=New ZBConnectQQ_DB
-	ZBQQConnect_class.app_key=ZBQQConnect_Config.Read("AppID")    '设置appkey
-	ZBQQConnect_class.app_secret=ZBQQConnect_Config.Read("KEY")  '设置app_secret
-	ZBQQConnect_class.callbackurl="http://www.zsxsoft.com/ZB_USERS/PLUGIN/ZBQQConnect/callback.asp"  '设置回调地址
-	ZBQQConnect_class.debug=false 'Debug模式设置
-	ZBQQConnect_class.fakeQQConnect.app_key=ZBQQConnect_WBKey
-	ZBQQConnect_class.fakeQQConnect.app_secret=ZBQQConnect_WBSecret
-	ZBQQConnect_class.fakeQQConnect.Token=ZBQQConnect_Config.Read("WBToken")
-	ZBQQConnect_class.fakeQQConnect.Secret=ZBQQConnect_Config.Read("WBSecret")
-	ZBQQConnect_class.fakeQQConnect.UserID=ZBQQConnect_Config.Read("WBName")
-End Function
-
- 
-
-
+'注册插件
 Call RegisterPlugin("ZBQQConnect","ActivePlugin_ZBQQConnect")
-
-Sub ZBQQConnect_RegSave(UID)
-	If Not IsEmpty(Request.Form("QQOpenID")) Then
-		ZBQQConnect_Initialize
-		ZBQQConnect_DB.OpenID=Request.Form("QQOpenID")
-		If ZBQQConnect_DB.LoadInfo(4)=True Then
-			ZBQQConnect_DB.objUser.LoadInfoById UID
-			ZBQQConnect_DB.Email=ZBQQConnect_DB.objUser.Email
-			
-		End If
-	End If
-End Sub
 
 
 Function ActivePlugin_ZBQQConnect() 
@@ -118,8 +40,6 @@ Function ActivePlugin_ZBQQConnect()
 		Call Add_Action_Plugin("Action_Plugin_RegSave_End","Call ZBQQConnect_RegSave(RegUser.ID)")
 	
 	End If
-	'挂上接口
-	'Filter_Plugin_PostArticle_Core
 	Call Add_Filter_Plugin("Filter_Plugin_PostComment_Core","ZBQQConnect_CommentPst")
 	Call Add_Action_Plugin("Action_Plugin_CommentPost_Succeed","Call ZBQQConnect_SendComment()")
 	Call Add_Action_Plugin("Action_Plugin_ArticlePst_Begin","ZBQQConnect_SToZone=Request.Form(""syn_qq""):ZBQQConnect_SToWb=Request.Form(""syn_tqq""):Call ZBQQConnect_Main()")
@@ -131,14 +51,16 @@ Function ActivePlugin_ZBQQConnect()
 	
 End Function
 
+'得到评论者的E-Mail和登录帐号
 Function ZBQQConnect_getcmt(ID,log_ID,AuthorID,Author,Content,Email,HomePage,PostTime,IP,Agent,Reply,LastReplyIP,LastReplyTime,ParentID,IsCheck,MetaString)
 	ZBQQConnect_Eml(0)=Email
 	ZBQQConnect_Eml(1)=AuthorID
 End Function
 
+'添加评论代码
 Function ZBQQConnect_AddCommentCode(ByRef a)
 	Dim c
-	If Instr(a,"article/comment/avatar") Then
+	If Instr(a,"article/comment/avatar") And ZBQQConnect_HeadMode=2 Then
 		ZBQQConnect_Initialize
 		ZBQQConnect_DB.Email=ZBQQConnect_Eml(0)
 		If ZBQQConnect_Eml(0)="" Then
@@ -150,35 +72,18 @@ Function ZBQQConnect_AddCommentCode(ByRef a)
 			End If
 		End If
 		If ZBQQConnect_DB.LoadInfo(3)=True And ZBQQConnect_DB.EMail<>"" Then 
-					If ZBQQConnect_DB.tHead<>"" Then
+					If ZBQQConnect_HeadMode=0 Then
 						a=Replace(a,"<#article/comment/avatar#>",ZBQQConnect_DB.tHead&"/100")
-					ElseIf ZBQQConnect_DB.QzoneHead<>"" Then
+					ElseIf ZBQQConnect_HeadMode=1 Then
 						a=Replace(a,"<#article/comment/avatar#>",ZBQQConnect_DB.QzoneHead)
 					End If
 		End If
 	End If
 End Function
 
-Function ZBQQConnect_LoadPicture(ByVal str)
-	Dim objRegExp,Match,Matches,tmp
-	Set objRegExp=new RegExp
-	objRegExp.IgnoreCase =True
-	objRegExp.Global=True
-	objRegExp.Pattern="<img.*src\s*=\s*[\""|\']?\s*([^>\""\'\s]*)" 
-	Set Matches=objRegExp.Execute(str)
-	For Each Match in Matches 
-		tmp=objRegExp.Replace(Match.Value,"$1") 
-		Exit For
-	Next
-	set objregexp=nothing
-	If Instr(tmp,"http")<0 And tmp<>"" Then tmp=GetCurrentHost & "/" & tmp
-	ZBQQConnect_LoadPicture=tmp
-	'tmp=BlogPath & replace(tmp,ZC_BLOG_HOST,"")
-End Function
-
+'添加文章发布页的右侧图标
 Function ZBQQConnect_addForm()
 	ZBQQConnect_Initialize
-	
 	Dim CSS,JS,HTML,ResponseText
 	CSS="<style type=""text/css"">.syn_qq, .syn_tqq, .syn_qq_check, .syn_tqq_check{display: inline-block;margin-top: 3px;width: 19px;height: 19px;background: transparent url(../../zb_users/plugin/zbqqconnect/connect_post_syn.png) no-repeat 0 0;line-height: 64px;overflow: hidden;vertical-align: top;cursor: pointer;}.syn_tqq{background-position: 0 -22px;margin-left: 5px;}.syn_qq_check{background-position: -22px 0;}.syn_tqq_check{background-position: -22px -22px;margin-left: 5px;}</style>"
 	JS="<script type='text/javascript'>var a="&IIf(ZBQQConnect_DefaultToZone=True,"true","false")&",b="&IIf(ZBQQConnect_DefaultToT=True,"true","false")&";var d=$('#connectPost_synQQ');var f=$('#connectPost_synT');function c(){if(a){d.removeClass('syn_qq_check');d.addClass('syn_qq');d.attr('title','未设置同步至QQ空间');$('#syn_qq').attr('value','0');a=false}else{d.removeClass('syn_qq');d.addClass('syn_qq_check');d.attr('title','已设置同步至QQ空间');$('#syn_qq').attr('value','1');a=true}};function e(){if(b){f.removeClass('syn_tqq_check');f.addClass('syn_tqq');f.attr('title','未设置同步至腾讯微博');$('#syn_tqq').attr('value','0');b=false}else{f.removeClass('syn_tqq');f.addClass('syn_tqq_check');f.attr('title','已设置同步至腾讯微博');$('#syn_tqq').attr('value','1');b=true}};$(document).ready(function(){c();e();d.bind('click',function(){c()});f.bind('click',function(){e()})});</script>"
@@ -190,6 +95,8 @@ Function ZBQQConnect_addForm()
 	End If
 	Set ZBQQConnect_tmpObj=nothing
 End Function
+
+'判断是否同步
 Function ZBQQConnect_Main()
 	If ZBQQConnect_SToWb="0" Then
 		ZBQQConnect_SToWb=False
@@ -204,20 +111,18 @@ Function ZBQQConnect_Main()
 	Application(ZC_BLOG_CLSID&"ZBQQConnect_a")=ZBQQConnect_SToWb
 	Application(ZC_BLOG_CLSID&"ZBQQConnect_b")=ZBQQConnect_SToZone
 	Call Add_Filter_Plugin("Filter_Plugin_PostArticle_Core","ZBQQConnect_ArticleToWb")
-	
 End Function
 
-
+'得到评论object并赋值给临时变量
 Function ZBQQConnect_CommentPst(objA)
 	on error resume next
 	Set ZBQQConnect_tmpObj=objA
 End Function
 
 
-
+'提交评论
 Function ZBQQConnect_SendComment()
-	'on error resume next
-	
+	on error resume next
 	Call ZBQQConnect_Initialize
 	If (ZBQQConnect_OpenComment=False) Then Exit Function
 	Dim tupian
@@ -227,9 +132,9 @@ Function ZBQQConnect_SendComment()
 	set objArticle = new tarticle
 	objArticle.loadinfobyid(ZBQQConnect_tmpObj.Log_Id)
 	If Len(ZBQQConnect_tmpObj.Content) <= ZBQQConnect_strLong Then
-	    tea=ZBQQConnect_ReplaceXO(UBBCode(replace(replace(replace(ZBQQConnect_tmpObj.Content,vbcrlf," "),vbcr," "),vblf," "),"[link][email][font][face]"))
+	    tea=ZBQQConnect_ReplaceXO(replace(replace(replace(ZBQQConnect_tmpObj.Content,vbcrlf," "),vbcr," "),vblf," "))
 	Else
-	    tea=left(ZBQQConnect_ReplaceXO(UBBCode(replace(replace(replace(ZBQQConnect_tmpObj.Content,vbcrlf," "),vbcr," "),vblf," "),"[link][email][font][face]")),ZBQQConnect_strLong) & "..."
+	    tea=left(ZBQQConnect_ReplaceXO(replace(replace(replace(ZBQQConnect_tmpObj.Content,vbcrlf," "),vbcr," "),vblf," ")),ZBQQConnect_strLong) & "..."
 	End If
 	tea=TransferHTML(tea,"[nohtml]")
 	strTemp=TransferHTML(UBBCode(objArticle.Intro,"[link][email][font][code][face][image][flash][typeset][media][autolink][link-antispam]"),"[nohtml]")
@@ -264,31 +169,31 @@ Function ZBQQConnect_SendComment()
 	End If
 	If ZBQQConnect_CommentToT Then
 		t_Add=objArticle.Meta.GetValue("ZBQQConnect_WBID")
-		
 		t_Add=ZBQQConnect_class.fakeQQConnect.r(Replace(Replace(ZBQQConnect_CommentTemplate,"%a",ZBQQConnect_tmpObj.Author),"%c",tea),t_Add)
-		Call SetBlogHint_Custom(t_Add)
 	End If
 	set ZBQQConnect_tmpObj = nothing
 End Function
 
 
-
+'确认是否是新建文章，如果是修改则不同步
 Function ZBQQConnect_ArticleToWb(ByRef objArticle)
 	Application(ZC_BLOG_CLSID&"ZBQQConnect_c")=objArticle.ID
 	If objArticle.ID=0 Then Call Add_Filter_Plugin("Filter_Plugin_PostArticle_Succeed","ZBQQConnect_GetArticleID")
 End Function
 
+'得到最新文章ID并发布批处理事件
 Function ZBQQConnect_GetArticleID(ByRef objArticle)
 	If CInt(Application(ZC_BLOG_CLSID&"ZBQQConnect_c"))=0 Then Call AddBatch("ZBQQConnect正在提交数据<br/>","ZBQQConnect_Batch "&objArticle.ID)	
 End Function
 
+'批处理
 Function ZBQQConnect_Batch(id)
+	On Error Resume Next
 	Dim strT ,bolN,objTemp,strTemp
 	Dim objArticle
 	Set objArticle=New TArticle
 	SetBlogHint_custom ID
 	objArticle.LoadInfoById id
-	'If objArticle.ID<>0 Then Exit Function
 	If objArticle.CateID=0 Then Exit Function
 	
 	ZBQQConnect_SToWb=Application(ZC_BLOG_CLSID&"ZBQQConnect_a")
@@ -340,7 +245,7 @@ Function ZBQQConnect_Batch(id)
 		'End If
 end function
 
-
+'处理西欧字符和HTML代码
 Function ZBQQConnect_r(c)
 	dim a
 	a=c

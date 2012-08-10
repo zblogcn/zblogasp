@@ -53,7 +53,7 @@ BlogTitle="ZBQQConnect-首页"
 		If ZBQQConnect_DB.LoadInfo(2)=False Or BlogUser.Level=5 Then
 			
 			ZBQQConnect_class.callbackurl=IIf(BlogUser.Level=5,GetCurrentHOst&"/ZB_USERS/PLUGIN/ZBQQConnect/callback.asp?act=login",GetCurrentHOst&"/ZB_USERS/PLUGIN/ZBQQConnect/callback.asp?act=admin")
-			Response.Write "<a onclick='window.open(""" & ZBQQConnect_class.Authorize & """);$(""#fff"").show();' href='javascript:void(0);'><img src='logo_230_48.png'/></a></div><div id='fff' style='display:none'>若已经成功登陆，请<a href='javascript:location.href=""main.asp?""+Math.random()'>点击刷新本页</a></div>"
+			Response.Write "<a onclick='window.open(""" & ZBQQConnect_class.Authorize & """);$(""#fff"").show();' href='javascript:void(0);'><img src='logo_170_32.png'/></a><div id='fff' style='display:none'>若已经成功登陆，请<a href='javascript:location.href=""main.asp?""+Math.random()'>点击刷新本页</a></div>"
 		Else
 			
 			ZBQQConnect_class.OpenID=ZBQQConnect_DB.OpenID
@@ -80,7 +80,7 @@ BlogTitle="ZBQQConnect-首页"
 
 		Else
 			ZBQQConnect_class.fakeQQConnect.callbackurl=GetCurrentHOst&"/ZB_USERS/PLUGIN/ZBQQConnect/callback.asp?act=login&tp=wb"
-			Response.Write "<a onclick='window.open(""" & ZBQQConnect_class.fakeQQConnect.Run(1,"","","","") & """);$(""#fff"").show();' href='javascript:void(0);'><img src='wblogin.gif'/></a></div><div id='fff' style='display:none'>如果您无法正常获取到授权码，请<a href='javascript:location.href=""main.asp?""+Math.random()'>点击刷新本页</a></div>"
+			Response.Write "<a onclick='window.open(""" & ZBQQConnect_class.fakeQQConnect.Run(1,"","","","") & """);$(""#fff"").show();' href='javascript:void(0);'><img src='wb_170_32.png'/></a></div><div id='fff' style='display:none'>如果您无法正常获取到授权码，请<a href='javascript:location.href=""main.asp?""+Math.random()'>点击刷新本页</a></div>"
 		End If
 	End If
 %>

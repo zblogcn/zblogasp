@@ -1,4 +1,7 @@
 <%
+''*****************************************************
+'   ZSXSOFT 网络操作类
+''*****************************************************
 Class ZBQQConnect_NetWork
 Dim objXmlhttp
 'Dim objWinhttp
@@ -8,14 +11,15 @@ Public CharSet
 Public Par
 Public UA
 
-Sub Class_Initialize
+Sub Class_Initialize '创建xmlhttp对象
 	Set objXmlhttp=Server.CreateObject("msxml2.serverxmlhttp")
 	CharSet="utf-8"
 	UA="ZSXSOFT"
 	Set Par=ZBQQConnect_Toobject("{}")
 End Sub
 
-Public Sub setRequestHeader()
+
+Public Sub setRequestHeader() '设置request头部
 	Dim a
 	a=ZBQQConnect_ToStr(Par)
 	Dim b,c,d
@@ -26,7 +30,7 @@ Public Sub setRequestHeader()
 	Next
 End Sub
 
-Public Function GetHttp(Url)
+Public Function GetHttp(Url) '用Get的方式发送信息
 	objXmlhttp.SetTimeOuts 10000, 10000, 10000, 10000 
 	objXmlhttp.Open "GET",url
 	Call ZBQQConnect_addObj(Par,"User-Agent",UA)
@@ -38,7 +42,7 @@ Public Function GetHttp(Url)
 	Set Par=ZBQQConnect_Toobject("{}")
 End Function
 
-Public Function PostHttp(Url,Data)
+Public Function PostHttp(Url,Data) '用POST的方式发送信息
 	objXmlhttp.SetTimeOuts 10000, 10000, 10000, 10000 
 	objXmlhttp.Open "POST",url
 	Call ZBQQConnect_addObj(Par,"Content-type","application/x-www-form-urlencoded")
@@ -52,9 +56,9 @@ Public Function PostHttp(Url,Data)
 End Function
 
 
-Function BytesToBstr(body,Cset)
+Function BytesToBstr(body,Cset)  '格式化信息
 	dim objstream
-	set objstream=createobject("adodb.stream")
+	set objstream=server.createobject("adodb.stream")
 	objstream.Type = 1
 	objstream.Mode =3
 	objstream.Open
