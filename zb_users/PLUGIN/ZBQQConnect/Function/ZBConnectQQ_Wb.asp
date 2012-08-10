@@ -5,7 +5,7 @@
 '   设置APPSECRET：class.strAppSecret=""
 '   设置callback地址：class.callbackurl=""
 '   得到是否登陆：class.logined=true 或 false
-'   其他参见Readme.txt
+'   其他参见http://www.zsxsoft.com/archives/202.html
 ''*****************************************************
 Class ZBQQConnect_Wb
 

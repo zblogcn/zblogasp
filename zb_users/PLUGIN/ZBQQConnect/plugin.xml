@@ -9,9 +9,9 @@
 <include>include.asp</include>
 <level>1</level>
 <author>
-	<name>ZSXSOFT</name>
-	<url>http://www.zsxsoft.com/</url>
-	<email>zsx@zsxsoft.com</email>
+<name>ZSXSOFT</name>
+<url>http://www.zsxsoft.com/</url>
+<email>zsx@zsxsoft.com</email>
 </author>
 <version>1.0</version>
 <adapted>Z-Blog 2.0</adapted>

@@ -1,4 +1,7 @@
 <%
+''*****************************************************
+'   ZSXSOFT 数据库操作类
+''*****************************************************
 Class ZBConnectQQ_DB
 	Dim objRS
 	Public ID
@@ -7,12 +10,9 @@ Class ZBConnectQQ_DB
 	Public AccessToken
 	Public tHead
 	Public QzoneHead
-	
 	Public Email
 	
-	
-	
-	Sub Class_Initialize()
+	Sub Class_Initialize()  '初始化类并创建数据库
 		Set objUser=New TUser
 		On Error Resume Next
 		objConn.Execute "SELECT TOP 1 [QQ_ID] FROM [blog_Plugin_ZBQQConnect] "
@@ -22,7 +22,7 @@ Class ZBConnectQQ_DB
 		End If
 	End Sub
 	
-	Sub CreateDB()
+	Sub CreateDB() '创建数据库
 		IF ZC_MSSQL_ENABLE=True Then
 			objConn.execute("CREATE TABLE [blog_Plugin_ZBQQConnect] (QQ_ID int identity(1,1) not null primary key,QQ_UserID int default 0,QQ_Eml nvarchar(255) default '',QQ_OpenID nvarchar(32) default '',QQ_AToken nvarchar(32) default '',QQ_QZoneHead nvarchar(255) default '',QQ_THead nvarchar(255) default '')")
 		Else
@@ -30,7 +30,7 @@ Class ZBConnectQQ_DB
 		End If
 	End Sub
 	
-	Function LoadInfo(Typ)
+	Function LoadInfo(Typ) '读取用户信息，使用ID、OPENID、EMAIL、用户ID来读取，同时兼备判断是否存在功能
 		Dim strSQL
 		strSQL="SELECT [QQ_ID],[QQ_UserID],[QQ_Eml],[QQ_OpenID],[QQ_AToken],[QQ_QZoneHead],[QQ_THead] FROM [blog_Plugin_ZBQQConnect] WHERE "
 		Select Case Typ
@@ -69,21 +69,19 @@ Class ZBConnectQQ_DB
 				QZoneHead=objRs("QQ_QzoneHead")
 			End If
 			LoadInfo=True
-			
 		End If
 		objRS.Close
 		Set objRS=Nothing
 	End Function
 
-	Function Del()
+	Function Del()  '删除某个ID的绑定
 		Call CheckParameter(ID,"int",0)
 		If ID=0 Then Exit Function
 		objConn.Execute "DELETE FROM [blog_Plugin_ZBQQConnect] WHERE [QQ_ID]="&ID
 	End Function
 
-	Function Bind()
+	Function Bind()   '将数据库里OpenID与现有帐号绑定
 		Dim strSQL
-		'Call CheckParameter(ID,"int",0)
 		Call CheckParameter(objUser.ID,"int",0)
 		OpenID=FilterSQL(OpenID)
 		AccessToken=FilterSQL(AccessToken)
@@ -115,9 +113,8 @@ Class ZBConnectQQ_DB
 		Set objRS=Nothing
 	End Function
 
-	Function BindWithOutEmAIL()
+	Function BindWithOutEmAIL()  '新建账号时使用，不使用email绑定
 		Dim strSQL
-		'Call CheckParameter(ID,"int",0)
 		Call CheckParameter(objUser.ID,"int",0)
 		OpenID=FilterSQL(OpenID)
 		AccessToken=FilterSQL(AccessToken)
@@ -139,31 +136,24 @@ Class ZBConnectQQ_DB
 		Set objRS=Nothing
 	End Function
 	
-	
-	
-	Function Login()
+	Function Login() '用QQ登录
 		LoadInfo 4
 		BlogUser.LoginType="Self"
 		BlogUser.Name=objUser.name
 		BlogUser.PassWord=objUser.Password
-
 		If BlogUser.Verify=True Then
-
 			Response.Cookies("password")=BlogUser.PassWord
 			If Request.Form("savedate")<>0 Then
 				Response.Cookies("password").Expires = DateAdd("d", 1, now)
 			End If
 			Response.Cookies("password").Path = "/"
 			Login=True
-
 		End If
-
 		Response.Cookies("username")=escape(BlogUser.name)
 		If Request.Form("savedate")<>0 Then
 			Response.Cookies("username").Expires = DateAdd("d", 1, now)
 		End If
 		Response.Cookies("username").Path = "/"
-
 	End Function
 End Class
 %>

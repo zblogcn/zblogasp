@@ -1,4 +1,11 @@
 ﻿<%
+''*****************************************************
+'   ZSXSOFT JSON操作处理类
+'   主要功能：（oAuth1）排序、添加删除数据避免&=&=麻烦，直接addobj即可
+''*****************************************************
+%>
+<%
+'合并JSON，将oauth基本参数与api参数合并
 Function ZBQQConnect_jsonExtendBasic(jsonobj1,ByVal strjson2)
 	dim j,k,l,n,m
 	set j=	jsonobj1
