@@ -39,7 +39,7 @@ End Sub
 Sub YT_CMS_Filter_Plugin_TArticle_Export_Template_Sub(ByRef Template_Article_Comment,ByRef Template_Article_Trackback,ByRef Template_Article_Tag,ByRef Template_Article_Commentpost,ByRef Template_Article_Navbar_L,ByRef Template_Article_Navbar_R,ByRef Template_Article_Mutuality)
 	'If Not IsEmpty(Template_Article_Comment) Then Template_Article_Comment = new YT_Template.AnalysisTab(Template_Article_Comment)
 	'If Not IsEmpty(Template_Article_Tag) Then Template_Article_Tag = new YT_Template.AnalysisTab(Template_Article_Tag)
-	If Not IsEmpty(Template_Article_Commentpost) Then Template_Article_Commentpost = new YT_Template.AnalysisTab(Template_Article_Commentpost)
+	'If Not IsEmpty(Template_Article_Commentpost) Then Template_Article_Commentpost = new YT_Template.AnalysisTab(Template_Article_Commentpost)
 	'If Not IsEmpty(Template_Article_Navbar_L) Then Template_Article_Navbar_L = new YT_Template.AnalysisTab(Template_Article_Navbar_L)
 	'If Not IsEmpty(Template_Article_Navbar_R) Then Template_Article_Navbar_R = new YT_Template.AnalysisTab(Template_Article_Navbar_R)
 	'If Not IsEmpty(Template_Article_Mutuality) Then Template_Article_Mutuality = new YT_Template.AnalysisTab(Template_Article_Mutuality)
