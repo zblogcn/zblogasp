@@ -40,12 +40,11 @@ BlogTitle="dztaotao - 查看/操作淘淘"
 <!--#include file="..\..\..\zb_system\admin\admin_top.asp"-->
 
 	<div id="divMain">
-		<div class="Header"><%=BlogTitle%></div>
+		<div class="divHeader"><%=BlogTitle%></div>
         <div id="ShowBlogHint"><%Call GetBlogHint()%></div>
 			<div class="SubMenu">
 				<a href="<%=ZC_BLOG_HOST%>zb_users/PLUGIN/dztaotao/admin.asp?a=list"><span class="m-left">淘淘管理</span></a>
                 <a href="<%=ZC_BLOG_HOST%>zb_users/PLUGIN/dztaotao/admin_cmt.asp?a=list&page=1"><span class="m-left">评论管理</span></a>
-				<a href="<%=ZC_BLOG_HOST%>zb_users/PLUGIN/dztaotao/admin.asp?a=p"><span class="m-left">发布说说</span></a>
                 <a href="<%=ZC_BLOG_HOST%>zb_users/PLUGIN/dztaotao/setting.asp"><span class="m-left m-now">配置管理</span></a>
 				<a href="<%=ZC_BLOG_HOST%>zb_users/PLUGIN/dztaotao/help.asp"><span class="m-left">帮助说明</span></a>
 			</div>
@@ -60,7 +59,18 @@ BlogTitle="dztaotao - 查看/操作淘淘"
 <%
 
 	Call dztaotao_Initialize
+	
+	Dim strZC_DZTAOTAO_TITLE_VALUE
+	strZC_DZTAOTAO_TITLE_VALUE=dztaotao_Config.Read("DZTAOTAO_TITLE_VALUE")
+	strZC_DZTAOTAO_TITLE_VALUE=TransferHTML(strZC_DZTAOTAO_TITLE_VALUE,"[html-format]")
+%>	
+<tr>
+<td width="10%">标题：</td>
+<td colspan="3" width="90%"><input name="strZC_DZTAOTAO_TITLE_VALUE" type="text" id="is_release" value="<%=strZC_DZTAOTAO_TITLE_VALUE%>" />
 
+</td>
+</tr>	
+<%
 	
 	Dim strZC_DZTAOTAO_RELEASE_VALUE
 	strZC_DZTAOTAO_RELEASE_VALUE=dztaotao_Config.Read("DZTAOTAO_RELEASE_VALUE")
@@ -132,139 +142,6 @@ BlogTitle="dztaotao - 查看/操作淘淘"
     评论一次
     <input name="strDZTAOTAO_CMTLIMIT_VALUE" type="radio" id="cmt_limt2" value="999"<%if clng(strDZTAOTAO_CMTLIMIT_VALUE)=999 then response.write " checked"%> />
     评论多次</td>
-</tr>
-<%
-	Dim strZC_DZTAOTAO_ADSIMG1_VALUE
-		strZC_DZTAOTAO_ADSIMG1_VALUE=dztaotao_Config.Read("DZTAOTAO_ADSIMG1_VALUE")
-		strZC_DZTAOTAO_ADSIMG1_VALUE=TransferHTML(strZC_DZTAOTAO_ADSIMG1_VALUE,"[html-format]")
-		
-	Dim strZC_DZTAOTAO_ADSURL1_VALUE
-		strZC_DZTAOTAO_ADSURL1_VALUE=dztaotao_Config.Read("DZTAOTAO_ADSURL1_VALUE")
-		strZC_DZTAOTAO_ADSURL1_VALUE=TransferHTML(strZC_DZTAOTAO_ADSURL1_VALUE,"[html-format]")
-
-%>
-<tr>
-  <td colspan="2"><strong>广告设置</strong></td>
-</tr>
-<tr>
-  <td>顶部广告1：</td>
-  <td><table width="100%" border="1">
-    <tr>
-      <td width="9%">图片：</td>
-      <td width="91%"><input name="strZC_DZTAOTAO_ADSIMG1_VALUE" type="text" id="ads_img1" value="<%=strZC_DZTAOTAO_ADSIMG1_VALUE%>" size="60" /></td>
-    </tr>
-    <tr>
-      <td>链接：</td>
-      <td><input name="strZC_DZTAOTAO_ADSURL1_VALUE" type="text" id="ads_url1" value="<%=strZC_DZTAOTAO_ADSURL1_VALUE%>" size="60" /></td>
-    </tr>
-  </table></td>
-</tr>
-
-<%
-	Dim strZC_DZTAOTAO_ADSIMG2_VALUE
-		strZC_DZTAOTAO_ADSIMG2_VALUE=dztaotao_Config.Read("DZTAOTAO_ADSIMG2_VALUE")
-		strZC_DZTAOTAO_ADSIMG2_VALUE=TransferHTML(strZC_DZTAOTAO_ADSIMG2_VALUE,"[html-format]")
-		
-	Dim strZC_DZTAOTAO_ADSURL2_VALUE
-		strZC_DZTAOTAO_ADSURL2_VALUE=dztaotao_Config.Read("DZTAOTAO_ADSURL2_VALUE")
-		strZC_DZTAOTAO_ADSURL2_VALUE=TransferHTML(strZC_DZTAOTAO_ADSURL2_VALUE,"[html-format]")
-
-%>
-
-
-<tr>
-  <td>顶部广告2：</td>
-  <td><table width="100%" border="1">
-    <tr>
-      <td width="9%">图片：</td>
-      <td width="91%"><input name="strZC_DZTAOTAO_ADSIMG2_VALUE" type="text" id="ads_img2" value="<%=strZC_DZTAOTAO_ADSIMG2_VALUE%>" size="60" /></td>
-    </tr>
-    <tr>
-      <td>链接：</td>
-      <td><input name="strZC_DZTAOTAO_ADSURL2_VALUE" type="text" id="ads_url2" value="<%=strZC_DZTAOTAO_ADSURL2_VALUE%>" size="60" /></td>
-    </tr>
-  </table></td>
-</tr>
-
-
-<%
-	Dim strZC_DZTAOTAO_ADSIMG3_VALUE
-		strZC_DZTAOTAO_ADSIMG3_VALUE=dztaotao_Config.Read("DZTAOTAO_ADSIMG3_VALUE")
-		strZC_DZTAOTAO_ADSIMG3_VALUE=TransferHTML(strZC_DZTAOTAO_ADSIMG3_VALUE,"[html-format]")
-		
-	Dim strZC_DZTAOTAO_ADSURL3_VALUE
-		strZC_DZTAOTAO_ADSURL3_VALUE=dztaotao_Config.Read("DZTAOTAO_ADSURL3_VALUE")
-		strZC_DZTAOTAO_ADSURL3_VALUE=TransferHTML(strZC_DZTAOTAO_ADSURL3_VALUE,"[html-format]")
-
-%>
-
-
-<tr>
-  <td>顶部广告3：</td>
-  <td><table width="100%" border="1">
-    <tr>
-      <td width="9%">图片：</td>
-      <td width="91%"><input name="strZC_DZTAOTAO_ADSIMG3_VALUE" type="text" id="ads_img3" value="<%=strZC_DZTAOTAO_ADSIMG3_VALUE%>" size="60" /></td>
-    </tr>
-    <tr>
-      <td>链接：</td>
-      <td><input name="strZC_DZTAOTAO_ADSURL3_VALUE" type="text" id="ads_url3" value="<%=strZC_DZTAOTAO_ADSURL3_VALUE%>" size="60" /></td>
-    </tr>
-  </table></td>
-</tr>
-
-
-
-
-<%
-	Dim strZC_DZTAOTAO_ADSIMG4_VALUE
-		strZC_DZTAOTAO_ADSIMG4_VALUE=dztaotao_Config.Read("DZTAOTAO_ADSIMG4_VALUE")
-		strZC_DZTAOTAO_ADSIMG4_VALUE=TransferHTML(strZC_DZTAOTAO_ADSIMG4_VALUE,"[html-format]")
-		
-	Dim strZC_DZTAOTAO_ADSURL4_VALUE
-		strZC_DZTAOTAO_ADSURL4_VALUE=dztaotao_Config.Read("DZTAOTAO_ADSURL4_VALUE")
-		strZC_DZTAOTAO_ADSURL4_VALUE=TransferHTML(strZC_DZTAOTAO_ADSURL4_VALUE,"[html-format]")
-
-%>
-
-
-<tr>
-  <td>顶部广告4：</td>
-  <td><table width="100%" border="1">
-    <tr>
-      <td width="9%">图片：</td>
-      <td width="91%"><input name="strZC_DZTAOTAO_ADSIMG4_VALUE" type="text" id="ads_img4" value="<%=strZC_DZTAOTAO_ADSIMG4_VALUE%>" size="60" /></td>
-    </tr>
-    <tr>
-      <td>链接：</td>
-      <td><input name="strZC_DZTAOTAO_ADSURL4_VALUE" type="text" id="ads_url4" value="<%=strZC_DZTAOTAO_ADSURL4_VALUE%>" size="60" /></td>
-    </tr>
-  </table></td>
-</tr>
-
-
-<%
-	Dim strZC_DZTAOTAO_ADSCOUNT_VALUE
-		strZC_DZTAOTAO_ADSCOUNT_VALUE=dztaotao_Config.Read("DZTAOTAO_ADSCOUNT_VALUE")
-		strZC_DZTAOTAO_ADSCOUNT_VALUE=TransferHTML(strZC_DZTAOTAO_ADSCOUNT_VALUE,"[html-format]")
-%>
-<tr>
-  <td colspan="2"><strong>内容广告</strong></td>
-  </tr>
-<tr>
-  <td>显示位置：</td>
-  <td>在第
-    <input name="strZC_DZTAOTAO_ADSCOUNT_VALUE" type="text" id="content_adscount" value="<%=strZC_DZTAOTAO_ADSCOUNT_VALUE%>" size="4" />
-    条淘淘之后显示广告</td>
-</tr>
-<%
-	Dim strDZTAOTAO_ADSCONTENT_VALUE
-	strDZTAOTAO_ADSCONTENT_VALUE=dztaotao_Config.Read("DZTAOTAO_ADSCONTENT_VALUE")
-	strDZTAOTAO_ADSCONTENT_VALUE=TransferHTML(strDZTAOTAO_ADSCONTENT_VALUE,"[html-format]")
-%>
-<tr>
-  <td>广告代码：</td>
-  <td><textarea name="strDZTAOTAO_ADSCONTENT_VALUE" cols="60" rows="4" id="content_ads"><%=strDZTAOTAO_ADSCONTENT_VALUE%></textarea></td>
 </tr>
 <%
 	Dim strZC_DZTAOTAO_ISIMG_VALUE

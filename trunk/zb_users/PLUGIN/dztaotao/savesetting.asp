@@ -32,22 +32,13 @@ If BlogUser.Level>1 Then Call ShowError(6)
 If CheckPluginState("dztaotao")=False Then Call ShowError(48)
 
 	Call dztaotao_Initialize
+	dztaotao_Config.Write "DZTAOTAO_TITLE_VALUE",Request.Form("strZC_DZTAOTAO_TITLE_VALUE")
 	dztaotao_Config.Write "DZTAOTAO_RELEASE_VALUE",Request.Form("strZC_DZTAOTAO_RELEASE_VALUE")
 	dztaotao_Config.Write "DZTAOTAO_PAGECOUNT_VALUE",Request.Form("strDZTAOTAO_PAGECOUNT_VALUE")
 	dztaotao_Config.Write "DZTAOTAO_PAGEWIDTH_VALUE",Request.Form("strDZTAOTAO_PAGEWIDTH_VALUE")
 	dztaotao_Config.Write "DZTAOTAO_CHK_VALUE",Request.Form("strDZTAOTAO_CHK_VALUE")
 	dztaotao_Config.Write "DZTAOTAO_CMTCHK_VALUE",Request.Form("strDZTAOTAO_CMTCHK_VALUE")	
 	dztaotao_Config.Write "DZTAOTAO_CMTLIMIT_VALUE",Request.Form("strDZTAOTAO_CMTLIMIT_VALUE")	
-	dztaotao_Config.Write "DZTAOTAO_ADSIMG1_VALUE",Request.Form("strZC_DZTAOTAO_ADSIMG1_VALUE")
-	dztaotao_Config.Write "DZTAOTAO_ADSURL1_VALUE",Request.Form("strZC_DZTAOTAO_ADSURL1_VALUE")
-	dztaotao_Config.Write "DZTAOTAO_ADSIMG2_VALUE",Request.Form("strZC_DZTAOTAO_ADSIMG2_VALUE")
-	dztaotao_Config.Write "DZTAOTAO_ADSURL2_VALUE",Request.Form("strZC_DZTAOTAO_ADSURL2_VALUE")
-	dztaotao_Config.Write "DZTAOTAO_ADSIMG3_VALUE",Request.Form("strZC_DZTAOTAO_ADSIMG3_VALUE")
-	dztaotao_Config.Write "DZTAOTAO_ADSURL3_VALUE",Request.Form("strZC_DZTAOTAO_ADSURL3_VALUE")
-	dztaotao_Config.Write "DZTAOTAO_ADSIMG4_VALUE",Request.Form("strZC_DZTAOTAO_ADSIMG4_VALUE")
-	dztaotao_Config.Write "DZTAOTAO_ADSURL4_VALUE",Request.Form("strZC_DZTAOTAO_ADSURL4_VALUE")
-	dztaotao_Config.Write "DZTAOTAO_ADSCOUNT_VALUE",Request.Form("strZC_DZTAOTAO_ADSCOUNT_VALUE")
-	dztaotao_Config.Write "DZTAOTAO_ADSCONTENT_VALUE",Replace(Replace(Request.Form("strDZTAOTAO_ADSCONTENT_VALUE"),vbCrlf,""),vbLf,"")
 	dztaotao_Config.Write "DZTAOTAO_ISIMG_VALUE",Request.Form("strZC_DZTAOTAO_ISIMG_VALUE")
 	dztaotao_Config.Save
 	Set dztaotao_Config=Nothing

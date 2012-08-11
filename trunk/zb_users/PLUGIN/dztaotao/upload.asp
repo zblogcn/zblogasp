@@ -8,14 +8,12 @@ Server.ScriptTimeOut=5000
 <!-- #include file="../../../ZB_SYSTEM/function/c_system_lib.asp" -->
 <!-- #include file="../../../ZB_SYSTEM/function/c_system_base.asp" -->
 <!-- #include file="../../../ZB_SYSTEM/function/c_system_plugin.asp" -->
-<!-- #include file="../../plugin/p_config.asp" -->
-
 <!-- #include file="UpLoadClass.asp" -->
 <%
 
 
 Dim f_Name,f_SaveName,f_Path,f_Size,f_Ext,f_Err,f_Save,f_Time
-dim FileUpload , FormName , rndtime
+dim FileUpload , FormName , rndtime , strUpload
 rndtime = Year(Now())&Month(Now()) 
 CreatDirectoryByCustomDirectory("upload/" & rndtime)	'创建目录
 FormName = "Filedata"		'文件域名称

@@ -5,12 +5,12 @@
 '// 作    者:   大猪(myllop)
 '// 版权所有:    www.izhu.org
 '// 技术支持:    myllop@qq.com
-'// 程序名称:    大猪淘淘
+'// 程序名称:    大猪滔滔
 '// 程序版本:    1.0
 '///////////////////////////////////////////////////////////////////////////////
 %>
 <% Option Explicit %>
-<% 'On Error Resume Next %>
+<% On Error Resume Next %>
 <% Response.Charset="UTF-8" %>
 <% Response.Buffer=True %>
 <!-- #include file="../../c_option.asp" -->
@@ -36,7 +36,7 @@ ArtList.LoadCache
 
 ArtList.template="SINGLE"
 
-ArtList.Title="淘淘"
+ArtList.Title="滔滔"
 
 Dim taotao
 Dim strTagCloud()
@@ -49,7 +49,6 @@ t_rndName = rndName(t_rndnumber)
 
 
 taotao = "<link rel=""stylesheet"" type=""text/css"" media=""all"" href="""&ZC_BLOG_HOST&"zb_users/plugin/dztaotao/images/css.css"" />"&vbcrlf
-
 taotao = taotao & "<link rel=""Stylesheet"" href="""&ZC_BLOG_HOST&"zb_users/plugin/dztaotao/uploadify.css"" />"&vbcrlf
 taotao = taotao & "<script type=""text/javascript"" src="""&ZC_BLOG_HOST&"zb_users/plugin/dztaotao/swfobject.js""></script>"&vbcrlf
 taotao = taotao & "<script type=""text/javascript"" src="""&ZC_BLOG_HOST&"zb_users/plugin/dztaotao/jquery.uploadify.js""></script>"&vbcrlf
@@ -74,30 +73,6 @@ taotao = taotao & "<div class=""btnTablk-box""><object height=""100"" width=""12
 
 end if
 
-'banner条
-taotao = taotao & "<div id=""banner"" class=""banner"" style=""width:"&DZTAOTAO_PAGEWIDTH_VALUE&"px;""><div id=""switch_img"" class=""switch_img"">"
-if DZTAOTAO_ADSIMG1_VALUE <> "" and DZTAOTAO_ADSURL1_VALUE <> "" then
-taotao = taotao & "<a target=""_blank"" href="""&DZTAOTAO_ADSURL1_VALUE&""" style=""z-index: 0; left: 650px;""><img src="""&DZTAOTAO_ADSIMG1_VALUE&""" width=""660"" height=""90""></a>"
-adc1 = "{l:"""&DZTAOTAO_ADSURL1_VALUE&""",s:"""&DZTAOTAO_ADSIMG1_VALUE&"""}"
-end if
-if DZTAOTAO_ADSIMG2_VALUE <> "" and DZTAOTAO_ADSURL2_VALUE <> "" then
-taotao = taotao & "<a target=""_blank"" href="""&DZTAOTAO_ADSURL2_VALUE&""" style=""z-index: 1; left: 0px;""><img  width=""660"" height=""90""  src="""&DZTAOTAO_ADSIMG2_VALUE&"""></a>"
-adc2 = ",{l:"""&DZTAOTAO_ADSURL2_VALUE&""",s:"""&DZTAOTAO_ADSIMG2_VALUE&"""}"
-end if
-if DZTAOTAO_ADSIMG3_VALUE <> "" and DZTAOTAO_ADSURL3_VALUE <> "" then
-taotao = taotao & "<a target=""_blank"" href="""&DZTAOTAO_ADSURL3_VALUE&""" style=""z-index: 0; left: 650px;""><img src="""&DZTAOTAO_ADSIMG3_VALUE&""" width=""660"" height=""90""></a>"
-adc3 = ",{l:"""&DZTAOTAO_ADSURL3_VALUE&""",s:"""&DZTAOTAO_ADSIMG3_VALUE&"""}"
-end if
-if DZTAOTAO_ADSIMG4_VALUE <> "" and DZTAOTAO_ADSURL4_VALUE <> "" then
-taotao = taotao & "<a target=""_blank"" href="""&DZTAOTAO_ADSURL4_VALUE&""" style=""z-index: 0; left: 650px;""><img src="""&DZTAOTAO_ADSIMG4_VALUE&""" width=""660"" height=""90""></a>"
-adc4 = ",{l:"""&DZTAOTAO_ADSURL4_VALUE&""",s:"""&DZTAOTAO_ADSIMG4_VALUE&"""}"
-end if
-taotao = taotao & "</div><span id=""switchButton"" class=""switch_button"">"
-if DZTAOTAO_ADSIMG1_VALUE <> "" and DZTAOTAO_ADSURL1_VALUE <> "" then taotao = taotao & "<a href=""###"" class="""">1</a>" end if
-if DZTAOTAO_ADSIMG2_VALUE <> "" and DZTAOTAO_ADSURL2_VALUE <> "" then taotao = taotao & "<a href=""###"" class=""current"">2</a>" end if
-if DZTAOTAO_ADSIMG3_VALUE <> "" and DZTAOTAO_ADSURL3_VALUE <> "" then taotao = taotao & "<a href=""###"" class="""">3</a>" end if
-if DZTAOTAO_ADSIMG4_VALUE <> "" and DZTAOTAO_ADSURL4_VALUE <> "" then taotao = taotao & "<a href=""###"" class="""">4</a>" end if
-taotao = taotao & "</span></div>"&vbcrlf
 
 '发表成功后插入新增内容
 taotao = taotao & "<div id=""newInsert""></div>"&vbcrlf
@@ -135,12 +110,7 @@ If (Not objRS.bof) And (Not objRS.eof) Then
 	End If
 	For F=1 To DZTAOTAO_PAGECOUNT_VALUE
 	If Not objRS.Eof Then
-	dz_ii = dz_ii+1
 	
-	if (dz_ii mod DZTAOTAO_ADSCOUNT_VALUE)=0 then
-	'广告
-	taotao = taotao & "<div id=""item-ad1"" class=""item""><div style=""margin:5px 6px;"">"&DZTAOTAO_ADSCONTENT_VALUE&"</div></div>"&vbcrlf
-	end if
 
 	if objRS("img")<>"" then dz_img = "<img src=""upload/"&objRS("s_img")&""">" else dz_img = ""  end if
 	
@@ -163,7 +133,7 @@ If (Not objRS.bof) And (Not objRS.eof) Then
 		set r_rs=objConn.execute("select * from dz_comment where tt_id = "&objRS("id")&" and itype=0 order by id desc")
 		if not r_rs.eof then
 		do while not r_rs.eof
-		taotao = taotao & "<!--comment start--><div id=""jitem-"&r_rs("id")&""" class=""item""><div class=""comment-box""><a href="""&r_rs("u_site")&""" class=""discuss-pic""><img height=""32"" width=""32"" src=""http://passport.maxthon.cn/_image/avatar-demo.png""></a><div class=""discuss-con""><div class=""con-bar dash-boder""><a href="""&r_rs("u_site")&""" class=""name"">"&r_rs("u_sername")&"</a><span class=""time"">"&r_rs("addtime")&"发表</span> </div><p>"&r_rs("content")&"</p></div><div class=""clear""></div></div></div><!-- end comment-->"&vbcrlf & vbcrlf
+		taotao = taotao & "<!--comment start--><div id=""jitem-"&r_rs("id")&""" class=""item""><div class=""comment-box""><a href="""&r_rs("u_site")&""" class=""discuss-pic""><img height=""32"" width=""32"" src=""images/default.png""></a><div class=""discuss-con""><div class=""con-bar dash-boder""><a href="""&r_rs("u_site")&""" class=""name"">"&r_rs("u_sername")&"</a><span class=""time"">"&r_rs("addtime")&"发表</span> </div><p>"&r_rs("content")&"</p></div><div class=""clear""></div></div></div><!-- end comment-->"&vbcrlf & vbcrlf
 		r_rs.movenext
 		loop
 		end if
@@ -189,13 +159,12 @@ taotao = taotao & "<div class=""t_pages"">" &ExportPageBar(k,n,10,"index.asp?pag
 taotao = taotao & "<script type=""text/javascript"" src="""&ZC_BLOG_HOST&"zb_users/plugin/dztaotao/core.js""></script>"&vbcrlf & vbcrlf
 
 
-taotao = taotao & "<script>var banner=(function(){var b=["&adc1&adc2&adc3&adc4&"];var a=function(c){this.build(b);this.setOptions(c);this.oSwithButton=this.options.oSwithButton;this.oSwithImg=this.options.oSwithImg;this.iSwithButton=$(this.oSwithButton).find(""a"");this.iSwithImg=$(this.oSwithImg).find(""a"");this.timer=null;this.init();var d=this;$(this.oSwithButton).bind(""mouseover"",function(){d.stop();}).bind(""mouseout"",function(){d.autoButton(""auto"");});this.clickButton();this.autoButton(""auto"");};a.prototype={build:function(f){var c=f.length;var h="""";var g="""";var d=0;for(var e=0;e<c;e++){d=e+1;if(f[e].l===""""){h+='<a href=""###""><img width=""660"" height=""85"" src=""'+f[e].s+'"" /></a>';}else{h+='<a href=""'+f[e].l+'"" target=""_blank""><img width=""660"" height=""85"" src=""'+f[e].s+'"" /></a>';}g+='<a href=""###"">'+d+""</a>"";}$(""#banner"").html('<div class=""switch_img"" id=""switch_img"">'+h+'</div><span class=""switch_button"" id=""switchButton"">'+g+""</span>"");},setOptions:function(c){this.options={oSwithButton:""#switchButton"",oSwithImg:""#switch_img""};$.extend(this.options,c||{});},init:function(){$(this.iSwithButton[0]).addClass(""current"");$(this.iSwithImg[0]).css({""z-index"":1,left:0});},clickButton:function(){var d=this;for(var c=0;c<this.iSwithButton.length;c++){(function(){var e=c;$(d.iSwithButton[e]).click(function(){if($(d.iSwithButton[e]).attr(""class"")==""current""){return;}for(var f=0;f<c;f++){if(e==f){$(this).addClass(""current"");$(d.iSwithImg[e]).css({""z-index"":3});$(d.iSwithImg[e]).animate({left:""-=650px""},{duration:500,complete:function(){for(var g=0;g<f;g++){g==e?$(this).css({""z-index"":1}):$(d.iSwithImg[g]).css({""z-index"":0,left:""650px""});}}});}else{$(d.iSwithImg[f]).stop(true,true);$(d.iSwithButton[f]).removeClass();}}});})();}},pointer:function(){for(var c=0;c<this.iSwithButton.length;c++){if($(this.iSwithButton[c]).attr(""class"")==""current""){return c;}}},action:function(e,f){var h=this;var g=this.pointer();switch(e.toLowerCase()){case""right"":if(g>=(h.iSwithButton.length-1)){g=-1;}break;case""left"":if(g<=0){g=h.iSwithButton.length;}break;}var c=g+f;for(var d=0;d<h.iSwithButton.length;d++){if(d==(c)){$(h.iSwithButton[c]).addClass(""current"");$(h.iSwithImg[c]).css({""z-index"":3});$(h.iSwithImg[c]).animate({left:""-=650px""},{duration:500,complete:function(){for(var i=0;i<d;i++){i==(c)?$(this).css({""z-index"":1}):$(h.iSwithImg[i]).css({""z-index"":0,left:""650px""});}}});}else{$(h.iSwithImg[d]).stop(true,true);$(h.iSwithButton[d]).removeClass();}}},stop:function(){clearTimeout(this.timer);},autoButton:function(){var c=this;if(arguments[0]==""auto""){this.timer=window.setTimeout(function(){c.autoButton(""auto"");c.action(""right"",1);},3000);}}};return{init:function(){var c=new a();}};})();$(document).ready(function(){banner.init();});</script>"&vbcrlf & vbcrlf
-
-
 
 ArtList.SetVar "template:article-single",taotao
 	
-ArtList.html = replace(ArtList.html,"<#article/title#>","大猪淘淘")
+ArtList.html = replace(ArtList.html,"<#article/title#>",DZTAOTAO_TITLE_VALUE)
+
+ArtList.html = replace(ArtList.html,"<#BlogTitle#>",DZTAOTAO_TITLE_VALUE)
 
 ArtList.Build
 
