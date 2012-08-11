@@ -803,4 +803,5 @@ span.now-page{
 
 a:hover span.page{
 	color:red;
+	border:1px solid red;
 }
