@@ -367,13 +367,6 @@ div.post .post-tags{
     text-indent:0em;
 }
 
-body.multi div.post .post-tags{
-	display:none;
-}
-
-
-
-
 div.post div.post-body{
     text-indent:2em;
 	width:100%;
