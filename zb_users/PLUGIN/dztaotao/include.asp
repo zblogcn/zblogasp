@@ -4,30 +4,20 @@
 '// 作    者:    myllop-大猪
 '// 版权所有:    www.izhu.org
 '// 技术支持:    myllop#gmail.com
-'// 程序名称:    留言增加gravatar头像
+'// 程序名称:    大猪滔滔插件
 '// 英文名称:    dztaotao
-'// 开始时间:    2009-5-10
+'// 开始时间:    2012-8-10
 '// 最后修改:    
-'// 备    注:    only for zblog1.8
+'// 备    注:    only for zblog2.0
 '///////////////////////////////////////////////////////////////////////////////
 
-
+Dim DZTAOTAO_TITLE_VALUE
 Dim DZTAOTAO_RELEASE_VALUE
 Dim DZTAOTAO_PAGECOUNT_VALUE
 Dim DZTAOTAO_PAGEWIDTH_VALUE
 Dim DZTAOTAO_CHK_VALUE
 Dim DZTAOTAO_CMTCHK_VALUE
 Dim DZTAOTAO_CMTLIMIT_VALUE
-Dim DZTAOTAO_ADSIMG1_VALUE
-Dim DZTAOTAO_ADSURL1_VALUE
-Dim DZTAOTAO_ADSIMG2_VALUE
-Dim DZTAOTAO_ADSURL2_VALUE
-Dim DZTAOTAO_ADSIMG3_VALUE
-Dim DZTAOTAO_ADSURL3_VALUE
-Dim DZTAOTAO_ADSIMG4_VALUE
-Dim DZTAOTAO_ADSURL4_VALUE
-Dim DZTAOTAO_ADSCOUNT_VALUE
-Dim DZTAOTAO_ADSCONTENT_VALUE
 Dim DZTAOTAO_ISIMG_VALUE
 
 Dim dztaotao_Config
@@ -49,8 +39,8 @@ Function ActivePlugin_dztaotao()
 	Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(5,"大猪滔滔",GetCurrentHost&"zb_users/plugin/dztaotao/setting.asp","nav_dztaotao","adztaotao",GetCurrentHost&"zb_users/plugin/dztaotao/images/navlogo_1.png"))
 	
 	'网站管理加上二级菜单项
-    Call Add_Response_Plugin("Response_Plugin_SettingMng_SubMenu", MakeSubMenu("淘淘设置", "../zb_users/plugin/dztaotao/setting.asp", "m-left", FALSE))
-    Call Add_Response_Plugin("Response_Plugin_SiteInfo_SubMenu",MakeSubMenu("[淘淘管理]","../zb_users/plugin/dztaotao/admin.asp?a=list&page=1","m-left",False))
+    Call Add_Response_Plugin("Response_Plugin_SettingMng_SubMenu", MakeSubMenu("淘淘设置", GetCurrentHost&"zb_users/plugin/dztaotao/setting.asp", "m-left", FALSE))
+    Call Add_Response_Plugin("Response_Plugin_SiteInfo_SubMenu",MakeSubMenu("[淘淘管理]",GetCurrentHost&"/zb_users/plugin/dztaotao/admin.asp?a=list&page=1","m-left",False))
 
 
 End Function
@@ -63,23 +53,13 @@ function dztaotao_UpdateConfig()
 	dztaotao_Config.Load("dztaotao")
 	If dztaotao_Config.Exists("DZTAOTAO_VERSION")=False Then
 		dztaotao_Config.Write "DZTAOTAO_VERSION","1.0"
+		dztaotao_Config.Write "DZTAOTAO_TITLE_VALUE","大猪滔滔"
 		dztaotao_Config.Write "DZTAOTAO_RELEASE_VALUE","5"
 		dztaotao_Config.Write "DZTAOTAO_PAGECOUNT_VALUE","12"
 		dztaotao_Config.Write "DZTAOTAO_PAGEWIDTH_VALUE","660"
 		dztaotao_Config.Write "DZTAOTAO_CHK_VALUE","4"
 		dztaotao_Config.Write "DZTAOTAO_CMTCHK_VALUE","4"
 		dztaotao_Config.Write "DZTAOTAO_CMTLIMIT_VALUE","999"
-		dztaotao_Config.Write "DZTAOTAO_ADSIMG1_VALUE","http://c1.neweggimages.com.cn/NeweggPic2/Marketing/201202/afc/0201/728x90_h.jpg"
-		dztaotao_Config.Write "DZTAOTAO_ADSURL1_VALUE","http://www.newegg.com.cn/Promotion-3657-%C4%EA%BA%F3%B3%F6%C7%E5%20%C8%AB%B3%A10%C0%FB%C8%F3.htm?cm_mmc=CPS-_-myllop-_-myllop-_-201202clean0"
-
-		dztaotao_Config.Write "DZTAOTAO_ADSIMG2_VALUE","http://show.union.360buy.com/source/books/book-A-728x90.gif"
-		dztaotao_Config.Write "DZTAOTAO_ADSURL2_VALUE","http://click.union.360buy.com/JdClick/?unionId=16381&t=2&to=http://www.360buy.com/book.html"
-		dztaotao_Config.Write "DZTAOTAO_ADSIMG3_VALUE","http://www.izhu.org/IMAGES/ads/fanke.jpg"
-		dztaotao_Config.Write "DZTAOTAO_ADSURL3_VALUE","http://mkt.vancl.com/activity/lovefromspring.htm?source=myllop"
-		dztaotao_Config.Write "DZTAOTAO_ADSIMG4_VALUE","http://www.izhu.org/IMAGES/ads/okbuy.jpg"
-		dztaotao_Config.Write "DZTAOTAO_ADSURL4_VALUE","http://www.okbuy.com?from=trackingid_myllop-25899"
-		dztaotao_Config.Write "DZTAOTAO_ADSCOUNT_VALUE","9"
-		dztaotao_Config.Write "DZTAOTAO_ADSCONTENT_VALUE","<script type=""text/javascript"">nuffnang_bid = '4f78320b3ea73b9ee5df3f0cbe01c43d';document.write( ""<div id='nuffnang_bn'></div>"" );(function() {	var nn = document.createElement('script'); nn.type = 'text/javascript';   nn.src = 'http://synad2.nuffnang.com.cn/bn2.js';    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(nn, s.nextSibling);})();</script>"
 		dztaotao_Config.Write "DZTAOTAO_ISIMG_VALUE","1"
 
 		dztaotao_Config.Save
@@ -93,22 +73,13 @@ end function
 Function dztaotao_Initialize()
 	Set dztaotao_Config = New TConfig
 	dztaotao_Config.Load("dztaotao")
+	DZTAOTAO_TITLE_VALUE = dztaotao_Config.Read ("DZTAOTAO_TITLE_VALUE")
 	DZTAOTAO_RELEASE_VALUE=dztaotao_Config.Read ("DZTAOTAO_RELEASE_VALUE")
 	DZTAOTAO_PAGECOUNT_VALUE=dztaotao_Config.Read ("DZTAOTAO_PAGECOUNT_VALUE")
 	DZTAOTAO_PAGEWIDTH_VALUE=dztaotao_Config.Read ("DZTAOTAO_PAGEWIDTH_VALUE")
 	DZTAOTAO_CHK_VALUE=dztaotao_Config.Read ("DZTAOTAO_CHK_VALUE")
 	DZTAOTAO_CMTCHK_VALUE=dztaotao_Config.Read ("DZTAOTAO_CMTCHK_VALUE")
 	DZTAOTAO_CMTLIMIT_VALUE=dztaotao_Config.Read ("DZTAOTAO_CMTLIMIT_VALUE")
-	DZTAOTAO_ADSIMG1_VALUE=dztaotao_Config.Read ("DZTAOTAO_ADSIMG1_VALUE")
-	DZTAOTAO_ADSURL1_VALUE=dztaotao_Config.Read ("DZTAOTAO_ADSURL1_VALUE")
-	DZTAOTAO_ADSIMG2_VALUE=dztaotao_Config.Read ("DZTAOTAO_ADSIMG2_VALUE")
-	DZTAOTAO_ADSURL2_VALUE=dztaotao_Config.Read ("DZTAOTAO_ADSURL2_VALUE")
-	DZTAOTAO_ADSIMG3_VALUE=dztaotao_Config.Read ("DZTAOTAO_ADSIMG3_VALUE")
-	DZTAOTAO_ADSURL3_VALUE=dztaotao_Config.Read ("DZTAOTAO_ADSURL3_VALUE")
-	DZTAOTAO_ADSIMG4_VALUE=dztaotao_Config.Read ("DZTAOTAO_ADSIMG4_VALUE")
-	DZTAOTAO_ADSURL4_VALUE=dztaotao_Config.Read("DZTAOTAO_ADSURL4_VALUE")
-	DZTAOTAO_ADSCOUNT_VALUE=dztaotao_Config.Read("DZTAOTAO_ADSCOUNT_VALUE")
-	DZTAOTAO_ADSCONTENT_VALUE=dztaotao_Config.Read("DZTAOTAO_ADSCONTENT_VALUE")
 	DZTAOTAO_ISIMG_VALUE=dztaotao_Config.Read("DZTAOTAO_ISIMG_VALUE")
 	
 End Function
@@ -137,6 +108,7 @@ function dztaotao_CreateDB()
 
 	If Not CheckUpdateDB("[id]","[dz_taotao]") Then
 		objConn.execute("CREATE TABLE [dz_taotao] (id AutoIncrement primary key,username VARCHAR(50),site VARCHAR(250),content text,addtime TIME DEFAULT Now(),ttop int DEFAULT 0, tread int DEFAULT 0,comments int DEFAULT 0,itype int DEFAULT 0,img VARCHAR(250),s_img VARCHAR(250))")
+		
 		objConn.execute("insert into dz_taotao (username,site,content) values ('大猪','http://www.izhu.org','请保证最少保留一条滔滔信息，否则可能出现奇怪的问题。')")
 	End If
 

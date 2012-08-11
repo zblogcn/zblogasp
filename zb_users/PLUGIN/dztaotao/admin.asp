@@ -40,12 +40,11 @@ BlogTitle="dztaotao - 查看/操作淘淘"
 <!--#include file="..\..\..\zb_system\admin\admin_header.asp"-->
 <!--#include file="..\..\..\zb_system\admin\admin_top.asp"-->
 	<div id="divMain">
-		<div class="Header"><%=BlogTitle%></div>
+		<div class="divHeader"><%=BlogTitle%></div>
         <div id="ShowBlogHint"><%Call GetBlogHint()%></div>
 			<div class="SubMenu">
 				<a href="<%=ZC_BLOG_HOST%>zb_users/PLUGIN/dztaotao/admin.asp?a=list&page=1"><span class="m-left m-now">淘淘管理</span></a>
                 <a href="<%=ZC_BLOG_HOST%>zb_users/PLUGIN/dztaotao/admin_cmt.asp?a=list&page=1"><span class="m-left">评论管理</span></a>
-				<a href="<%=ZC_BLOG_HOST%>zb_users/PLUGIN/dztaotao/admin.asp?a=p"><span class="m-left">发布说说</span></a>
                 <a href="<%=ZC_BLOG_HOST%>zb_users/PLUGIN/dztaotao/setting.asp"><span class="m-left">配置管理</span></a>
 				<a href="<%=ZC_BLOG_HOST%>zb_users/PLUGIN/dztaotao/help.asp"><span class="m-left">帮助说明</span></a>
 			</div>

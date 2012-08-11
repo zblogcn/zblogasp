@@ -1,25 +1,25 @@
+'///////////////////////////////////////////////////////////////////////////////
+'//              Z-Blog
+'// 作    者:   大猪(myllop)
+'// 版权所有:    www.izhu.org
+'// 技术支持:    myllop@qq.com
+'// 程序名称:    大猪滔滔
+'// 程序版本:    1.0
+'///////////////////////////////////////////////////////////////////////////////
 <%@ CODEPAGE=65001 %>
 <% Option Explicit %>
 <% 'On Error Resume Next %>
 <% Response.Charset="UTF-8" %>
 <% Response.Buffer=True %>
 <%
-'dim server_v1,server_v2
-'server_v1=Cstr(Request.ServerVariables("HTTP_REFERER"))
-'server_v2=Cstr(Request.ServerVariables("SERVER_NAME"))
-'if mid(server_v1,8,len(server_v2))<>server_v2 then
-'response.write "error"
-'response.end
-'end if
+dim server_v1,server_v2
+server_v1=Cstr(Request.ServerVariables("HTTP_REFERER"))
+server_v2=Cstr(Request.ServerVariables("SERVER_NAME"))
+if mid(server_v1,8,len(server_v2))<>server_v2 then
+response.write "error"
+response.end
+end if
 
-'///////////////////////////////////////////////////////////////////////////////
-'//              Z-Blog
-'// 作    者:   大猪(myllop)
-'// 版权所有:    www.izhu.org
-'// 技术支持:    myllop@qq.com
-'// 程序名称:    大猪淘淘
-'// 程序版本:    1.0
-'///////////////////////////////////////////////////////////////////////////////
 %>
 <!-- #include file="../../c_option.asp" -->
 <!-- #include file="../../../zb_system/function/c_function.asp" -->
@@ -107,7 +107,7 @@ case "r"'提交评论
 	response.write "0"'信息没写全
 	response.end
 	end if
-	if cmt_limt =1 then
+	if DZTAOTAO_CMTLIMIT_VALUE =1 then
 		if request.Cookies("is_cmt"&t&"") <> "" then
 		response.write "-111"'已经评论过
 		response.End

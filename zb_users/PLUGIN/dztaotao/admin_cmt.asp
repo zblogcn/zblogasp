@@ -41,12 +41,11 @@ BlogTitle="dztaotao - 查看/操作淘淘"
 <!--#include file="..\..\..\zb_system\admin\admin_top.asp"-->
 
 	<div id="divMain">
-		<div class="Header"><%=BlogTitle%></div>
+		<div class="divHeader"><%=BlogTitle%></div>
         <div id="ShowBlogHint"><%Call GetBlogHint()%></div>
 			<div class="SubMenu">
 				<a href="<%=ZC_BLOG_HOST%>zb_users/PLUGIN/dztaotao/admin.asp?a=list&page=1"><span class="m-left">淘淘管理</span></a>
                 <a href="<%=ZC_BLOG_HOST%>zb_users/PLUGIN/dztaotao/admin_cmt.asp?a=list&page=1"><span class="m-left m-now">评论管理</span></a>
-				<a href="<%=ZC_BLOG_HOST%>zb_users/PLUGIN/dztaotao/admin.asp?a=p"><span class="m-left">发布说说</span></a>
                 <a href="<%=ZC_BLOG_HOST%>zb_users/PLUGIN/dztaotao/setting.asp"><span class="m-left">配置管理</span></a>
 				<a href="<%=ZC_BLOG_HOST%>zb_users/PLUGIN/dztaotao/help.asp"><span class="m-left">帮助说明</span></a>
 			</div>
@@ -115,7 +114,7 @@ case "list"
 </tr>
 <%
 Dim objRS,page
-dim r_rs
+dim r_rs,t
 dim r_recordcount
 page = Request.Querystring("Page")
 Set objRS=objConn.Execute("SELECT * FROM [dz_comment] ORDER BY [id] desc")
@@ -241,6 +240,7 @@ case "p"
 %>
 <%
 case "del"
+dim id,cc
 t=request.QueryString("t")
 id=request.QueryString("id")
 page=request.QueryString("page")
