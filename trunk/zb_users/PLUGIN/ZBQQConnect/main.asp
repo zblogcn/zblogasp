@@ -62,7 +62,7 @@ BlogTitle="ZBQQConnect-首页"
 			Response.Write "<a href=""" & ZBQQConnect_get_authorize_url & """>解除QQ与该ID的绑定</a>"	
 			
 			ZBQQConnect_A=ZBQQConnect_class.API("https://graph.qq.com/user/get_user_info","{'format':'json'}","GET&")
-			Set ZBQQConnect_A=ZBQQConnect_ToObject(ZBQQConnect_A)
+			Set ZBQQConnect_A=ZBQQConnect_json.toobject(ZBQQConnect_A)
 			Response.Write "<br/>空间信息：<br/>姓名"&ZBQQConnect_A.nickname&"<br/>性别"&ZBQQConnect_A.Gender
 		End If
 	Else
@@ -75,7 +75,7 @@ BlogTitle="ZBQQConnect-首页"
 			ZBQQConnect_get_authorize_url = "main.asp?act=wblogout"
 			Response.Write "<a href=""" & ZBQQConnect_get_authorize_url & """>注销微博</a>"	
 			ZBQQConnect_A=ZBQQConnect_class.fakeQQConnect.API("http://open.t.qq.com/api/user/info","{'format':'json'}","GET&")
-			Set ZBQQConnect_A=ZBQQConnect_ToObject(ZBQQConnect_A)
+			Set ZBQQConnect_A=ZBQQConnect_json.toobject(ZBQQConnect_A)
 			Response.Write "<br/>微博信息：<br/>帐号"&ZBQQConnect_A.data.name&"<br/>性别"&IIf(ZBQQConnect_A.data.sex=2,"女","男")
 
 		Else
