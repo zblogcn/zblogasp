@@ -4,11 +4,11 @@
 body{
 	margin:0;
 	padding:0;
-	color:#353434;
-    background:#F4F4F4;
+	color:#555;
 	font-size:14px;
-    font-family: "微软雅黑","宋体","Trebuchet MS", Tahoma, Arial, sans-serif; 
-
+    font-family: "微软雅黑","宋体","Trebuchet MS", Tahoma, Arial, sans-serif;
+	background:url("default/bg-top.png") repeat-x 0 0;
+    
 }
 a{
 	text-decoration: none;
@@ -20,11 +20,11 @@ a:visited {
 	color: #0273C6;
 }
 a:hover {
-	color: #DC143C;
+	color: red;
 	text-decoration: underline;
 }
 a:active {
-	color: #DC143C;
+	color: red;
 	text-decoration: underline;
 }
 
@@ -60,33 +60,37 @@ dt{
 	margin:0 0 0 0;
 	padding:0 0 0 0;
 }
+h1,h2,h3,h4,h5,h6{
+	font-weight:normal;
+}
+.clear{
+    clear:both;
+}
 
 
 /*---------------------------各模块设定-------------------------------*/
 #divAll{
-	width:980px;
+	width:100%;
 	margin:0 auto;
-	padding:5px 0 0 0;
+	padding:0 0 0 0;
+	text-align:center;
+	background:url("default/bg-nav.jpg") no-repeat center 84px;
 }
 
 #divPage{
-	width:980px;
-	margin:0 0 0 0;
+	width:100%;
+	margin:0 auto;
 	padding:0 0 0 0;
-	text-align:left;
-	float:left;
+	text-align:center;
+	text-align:center;
+	background:url("default/bg-bottom.png") repeat-x 0 bottom;
 }
 
 #divMiddle{
 	width:980px;
-	margin:15px 0 20px 0;
+	margin:0 auto 0 auto;
 	padding:0 0 0 0;
 	text-align:left;
-	float:left;
-	background:#FFFFFF;
-	border-right:1px solid  #F4F4F4;
-	border-left:1px solid #F4F4F4;
-	border-top:1px solid #F4F4F4;
 }
 
 
@@ -94,27 +98,26 @@ dt{
 #divTop{
 	width:980px;
 	margin:0 auto;
-	padding:0;
+	padding:30px 0 0 0;
 	text-align:left;
 	float:left;
-	height:220px;
-	background:#FFF url("default/firefox.jpg") no-repeat left bottom;
-
+	height:234px;
+    clear:both;
 }
 
 #divSidebar{
-    width:240px;
+    width:230px;
 	margin:10px 0 0 0;
-	padding:0 0 10px 10px;
+	padding:0 0 0 0;
 	text-align:left;
 	float:left;
-	
+
 }
 
 #divMain{
-	width:700px;
+	width:720px;
 	margin:10px 0 0 0;
-	padding:0 10px 10px 10px;
+	padding:0 20px 30px 10px;
 	text-align:left;
 	float:left;
 
@@ -124,9 +127,63 @@ dt{
 #divBottom{
 	width:100%;
 	margin:0 0 0 0;
-	padding:0 0 20px 0;
+	padding:45px 0 0 0;
 	text-align:center;
     float:left;
+    clear:both;
+    height:75px;
+}
+
+
+
+/*-------------------------------导航栏--------------------------------*/
+#divNavBar{
+	float:right;
+	width:100%;
+	height:36px;
+	color:#fff;
+}
+
+
+#divNavBar h3{
+	display:none;
+}
+
+#divNavBar ul{
+	margin:0;
+	padding:0 0 0 0;
+	float:left;
+}
+
+#divNavBar li{
+	float:left;
+	padding:0 0 0 0;
+	margin:0 0 0 0;
+	font-size:1em;
+}
+
+#divNavBar a{
+	float:left;
+	margin:0 0 0px 0px;
+	padding:6px 25px 8px 25px;
+	text-decoration: none;
+	line-height:22px;
+}
+
+#divNavBar a:link {
+	color: white;
+}
+#divNavBar a:visited {
+	color: white;
+}
+#divNavBar a:hover {
+	color: white;
+	background:#226bb8;
+}
+
+#divNavBar a:active {
+	color: white;
+	background:#226bb8;
 }
 
 
@@ -135,18 +192,19 @@ dt{
 .function {
 	float:left;
 	width:100%;
-	margin:0 0 20px 0;
+	margin:0 0 10px 0;
 	padding:0;
 	text-align:left;
 }
 .function .function_t{
-	font-size:1em;
+	font-size:1.15em;
 	height:24px;
 	line-height:24px;
 	margin:0 0 2px 0;
 	padding:5px 0 5px 1em;
-	color:#284259;
-	background:#F4F4F4;
+	color:#444;
+	background:#fbfbfb;
+	border:1px solid #eeeeee;
 }
 
 
@@ -154,7 +212,7 @@ dt{
 	text-align:left;
 	width:95%;
 	margin:0 0 0 0;
-	padding:0 0 5px 5%;
+	padding:0 0 0 5%;
     border-top:1px solid #FFFFFF;
 	list-style-position:outside;
 	list-style-type:none;
@@ -162,16 +220,21 @@ dt{
 .function li{
 	font-size:1em;
 	margin:0 0 0 0;
-	padding:5px 0 5px 1em;
+	padding:8px 0 8px 0.9em;
 	background:url("default/pointblue.gif") no-repeat 0 center;
-	width:205px;
+	width:auto;
 }
 
 .function .function_c div{
 	padding:0.5em 0 0.5em 1em;
 }
 
-
+.function a{
+	color:gray;
+}
+.function a:hover{
+	color:red;
+}
 
 /*------------------------------网站目录定义---------------------------*/
 
@@ -196,7 +259,20 @@ body.single #divMisc{
 #divCalendar .function_t{
 	display:none;
 }
-
+#divSearchPanel input[type="text"]{
+	border:1px solid #bfd0d7;
+	height:24px;
+	line-height:24px;
+	width:150px;
+}
+#divSearchPanel input[type="submit"]{
+	border:1px solid #bfd0d7;
+	height:28px;
+	line-height:24px;
+	width:50px;
+	margin-left:10px;
+	background:#e5f0f6;
+}
 
 
 /*------------------------------文章模块---------------------------*/
@@ -205,8 +281,18 @@ body.single #divMisc{
 div.post {
 	width:98%;
 	margin:0 0 0 0;
-	padding:10px 1% 0 1%;
+	padding:20px 1% 0 1%;
 	text-align:left;
+	clear:both;
+}
+
+div.istop-post{
+	padding-top:0px;
+	padding-bottom:35px;
+}
+
+div.pagebar{
+	border-top:2px solid #dbe0e6;
 }
 
 /*---------------------------文章上下翻条------------------------*/
@@ -225,43 +311,46 @@ div.post-nav {
 
 
 div.post .post-title{
-	width:94%;
-    margin:0 0 12px 0;
-    padding:0 4% 5px 2%;
-    font-size:1.3em;
-	font-weight:bold;
-    line-height:1.3em; 
+    margin:0 0 0 0;
+    padding:0 0 5px 0;
+    font-size:1.4em;
+    line-height:1.4em; 
 	color: #284259;
     text-align:left;
 	background:#FFF;
-	border-bottom:2px solid #f0f0f0;
+	width:80%;
+	float:left;
+
 }
+
 div.istop-post .post-title{
     text-align:left;
 	border-bottom:none;
     margin:0 0 0 0;
-	padding-bottom:5px;
+	padding-bottom:0px;
 }
 
 div.post .post-date{
     height:1em;
 	line-height:1em;
 	margin:0 0 0 0;
-	padding:0px 0 0px 0;
+	padding:10px 0 0 0;
 	font-size:0.9em;
-	color: #979595;
 	font-weight: normal;
-    text-align:right;     
+    text-align:right;
+	width:20%;
+	float:right;
+	color:#666;
 }
 
 
 div.post .post-footer{
 	width:100%;
-	margin:20px 0 40px 0;
+	margin:30px 0 40px 0;
 	padding:0 0 5px 0;
 	font-size:0.9em;
     font-weight: normal;
-	color:gray;
+	color:#aaa;
 	text-align:right;
 }
 
@@ -275,7 +364,7 @@ div.post .post-tags{
 	color:gray;
 	height:20px;
 	text-align:left;
-    text-indent:2em;
+    text-indent:0em;
 }
 
 body.multi div.post .post-tags{
@@ -293,7 +382,9 @@ div.post div.post-body{
 	font-size:1em;
     text-align:justify;
     text-justify:inter-ideograph; 
-	line-height:160%; 
+	line-height:160%;
+	clear:both;
+	border-top:1px solid #dbe0e6;
 }
 
 div.post-body a{
@@ -336,6 +427,10 @@ div.post-body p.inscript{
 
 
 /*----------文章中引用code------*/
+
+div.post-body div.syntaxhighlighter{
+	overflow:hidden;
+}
 
 div.post-body code{
 	padding:5px;
@@ -396,27 +491,27 @@ div.post-body h6{
 /*---------------------------blog标题-----------------------------*/
 
 #BlogTitle{
-	font-size:1.6em;
-	margin:5px 0 0 10px;
+	font-size:2.2em;
+	margin:0 0 0 0;
 	padding:0 0 0 0;
-	font-weight:bold;
+	font-weight:normal;
 	float:left;
 	line-height:1.6em;
 }
 #BlogTitle a{
-	color:#000; 
+	color:#3a6da4; 
 }
 #BlogTitle a:hover {
-	color: #DC143C;
+	color: red;
 	text-decoration: none;
 }
 #BlogTitle a:active {
-	color: #DC143C;
+	color: red;
 	text-decoration: none;
 }
 #BlogSubTitle{
-	color:#000; 
-	font-size:1em;
+	color:gray; 
+	font-size:1.2em;
     font-weight:normal;
 	margin:18px 0 0 10px;
 	padding:0;
@@ -427,20 +522,30 @@ div.post-body h6{
 /*---------------------------版权-----------------------------*/
 
 #BlogPowerBy{
-	font-size:1em;
-	height:20px;
+	font-size:0.9em;
+	height:25px;
 	margin:0;
-	padding:15px 10px 0 10px;
-	text-align:center;
+	padding:0;
+	text-align:left;
 	font-weight:normal;
 }
 #BlogCopyRight{
-	font-size:1em;
-	height:18px;
+	font-size:0.9em;
+	height:20px;
 	margin:0;
-	text-align:center;
+	padding:0;
+	text-align:left;
 	font-weight:normal;
 }
+#BlogPowerBy a,#BlogCopyRight a{
+	color:#666;
+	text-decoration: underline;
+}
+#BlogPowerBy a:hover,#BlogCopyRight a:hover{
+	color:red;
+	text-decoration: underline;
+}
+
 
 
 /*-----------------------------日历-----------------------------*/
@@ -452,9 +557,9 @@ div.post-body h6{
 
 
 #divCalendar div{
-    width:100%;
+    width:225px;
 	margin:0 0 0 0;
-	padding:5px 0 5px 0;
+	padding:5px 0 5px 5px;
 	float:left;
 }
 #divCalendar div.month1{
@@ -509,7 +614,7 @@ p.w,p.d,p.yd,p.nd,p.cd{
 	width:14%;
 	height:1.7em;
 	margin:0 0 0 0;
-	padding:3px 0 0 0;
+	padding:2px 0 0 0;
 	text-align:center;
 	vertical-align :middle;
 }
@@ -518,7 +623,8 @@ p.cd{
 }
 p.w{
 	background:#F4F4F4;
-	padding:5px 0 0 0;
+	padding:5px 0 3px 0;
+	font-size:0.9em;
 }
 
 /*---------------------------文章和评论翻页条------------------------*/
@@ -535,14 +641,13 @@ a.r{
 
 /*---------------------------引用\评论----------------------------------*/
 ul.msg{
-	width:95%;
-	margin:10px 0 20px 10px;
-	padding:5px 10px 5px 10px;
+	width:98%;
+	margin:10px 0 20px 0;
+	padding:5px 1% 5px 1%;
 	text-align:left;
 	list-style-position : outside;
     table-layout: fixed;
     word-wrap:break-word;
-    border:1px solid #eaeaea;
 
 }
 
@@ -590,14 +695,19 @@ ul.msg ul.msg img.avatar{
 }
 
 /*---------------------------相关文章----------------------------------*/
-
+ul.mutuality,ul.pagebar,ul.msghead{
+	border:none;
+}
+ul.mutuality li.tbname,ul.msghead li.tbname{
+	color:#3c6da7;
+	padding-bottom:10px;
+	border-bottom:1px solid #dbe0e6;
+	
+}
 ul.mutuality li.msgarticle{
 
 }
-ul.mutuality li.tbname{
-    padding:5px 0 2px 10px;
-	margin:0px;
-}
+
 
 
 
@@ -612,58 +722,8 @@ li.msgarticle div.quote-title{
 	margin:0;
 	padding:0;
 	font-size:1em;
-    color: #DC143C;
+    color: red;
 }
-
-/*-------------------------------导航栏--------------------------------*/
-#divNavBar{
-	float:right;
-	width:100%;
-	height:40px;
-	background:#244466;
-	color:#fff;
-}
-
-
-#divNavBar h3{
-	display:none;
-}
-
-#divNavBar ul{
-	margin:0;
-	padding:0 0 0 10px;
-}
-
-#divNavBar li{
-	float:left;
-	padding:0 0 0 0;
-	margin:0 0 0 0;
-	font-size:1em;
-}
-
-#divNavBar a{
-	float:left;
-	margin:10px 15px 10px 5px;;
-	padding:0 0 0px 0px;
-	text-decoration: none;
-	line-height:22px;
-}
-
-#divNavBar a:link {
-	color: white;
-}
-#divNavBar a:visited {
-	color: white;
-}
-#divNavBar a:hover {
-	color: #DC143C;         
-}
-
-#divNavBar a:active {
-	color: #DC143C;
-	
-}
-
 
 
 
@@ -701,33 +761,46 @@ blockquote{
 
 
 #divCommentPost{
-    background:#F4F4F4;
-	width:95%;
-	margin:0 0 0 10px;
-	padding:5px 0px 15px 20px;
+	width:98%;
+	margin:0 0 0 0;
+	padding:5px 1% 15px 1%;
 }
 
 #divCommentPost p{margin-top:10px;}
 #divCommentPost label{margin-top:5px;}
-#txaArticle{margin-top:10px;width:95%;height:150px;}
 
+#divCommentPost p.posttop{
+color:#3c6da7;
+padding-bottom:10px;
+border-bottom:1px solid #dbe0e6;
+}
+
+input.text{
+border:1px solid #d7d7d7;
+line-height:20px;
+}
+#txaArticle{margin-top:10px;width:95%;height:150px;border:1px solid #d7d7d7;}
 input.button { ;color:#FFFFFF; font-size:14px; width:100px; height:32px; background:#3a6ea5; border:1px solid #3399CC;cursor: pointer;}
 
 
 
 /*--------------------------分页条-------------------------------*/
 span.page{
-	color:#3a6ea5;
+	color:#666;
 	font-weight:bolder;
 	padding:2px 5px 2px 5px;
-	background:#99b6dd;
 	margin:4px;
+	border:1px solid #cccccc;
 }
 
 span.now-page{
-	color:#3a6ea5;
+	color:#666;
 	font-weight:bolder;
 	padding:2px 5px 2px 5px;
-	background:#e0e0e0;
 	margin:5px;
+	border:1px solid #666;
+}
+
+a:hover span.page{
+	color:red;
 }

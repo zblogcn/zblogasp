@@ -452,7 +452,7 @@ End Function
 '*********************************************************
 Function ExportCommentList(intPage,intContent)
 
-	'Call Add_Response_Plugin("Response_Plugin_CommentMng_SubMenu",MakeSubMenu(ZC_MSG211 & "","../cmd.asp?act=CommentEdt","m-left",False))
+	'Call Add_Response_Plugin("Response_Plugin_CommentMng_SubMenu",MakeSubMenu(ZC_MSG024 & "","../cmd.asp?act=CommentEdt","m-left",False))
 
 	Dim ArtDic
 

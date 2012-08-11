@@ -405,7 +405,7 @@ Function WapAddCom(PostType)
 		End If
 	End If
 
-	Response.Write WapTitle(Article.Title &" › "& ZC_MSG211,"")
+	Response.Write WapTitle(Article.Title &" › "& ZC_MSG024,"")
 
     If PostType<>0 Then
     Response.Write "<p class=""n"">"&ZVA_ErrorMsg(PostType)&"</p>"
@@ -541,7 +541,7 @@ Function WapPostCom()
 		End If
 	End if
 
-	Response.Write WapTitle(ZC_MSG211,"")&"<p class=""n"">"&ZC_MSG266&"</p>"
+	Response.Write WapTitle(ZC_MSG024,"")&"<p class=""n"">"&ZC_MSG266&"</p>"
 
 
     Response.Write "<a href="""&WapUrlStr&"?act=View&amp;id="&objComment.log_ID&""">"&ZC_MSG065&ZC_MSG048&"</a>"
@@ -662,7 +662,7 @@ Function WapCom()
 		Else
 			Response.Write "<span class=""t"">"& ZC_MSG256
 			If ZC_WAPCOMMENT_ENABLE Then 
-				Response.Write " | <a href="""& WapUrlStr &"?act=AddCom&amp;inpId="&log_ID&""">"&ZC_MSG211&"</a></span>"
+				Response.Write " | <a href="""& WapUrlStr &"?act=AddCom&amp;inpId="&log_ID&""">"&ZC_MSG024&"</a></span>"
 			Else 
 				Response.Write "</span>"
 			End If 
@@ -718,7 +718,7 @@ Function WapCom()
 
 		strC=strC&"</ul><div class=""a"">"&PageBar&"</div>"
 
-		If log_ID<>0 Then strC=strC&"<p class=""t""><a href="""& WapUrlStr &"?act=AddCom&amp;inpId="&log_ID&""">"&ZC_MSG211&"</a></p>"
+		If log_ID<>0 Then strC=strC&"<p class=""t""><a href="""& WapUrlStr &"?act=AddCom&amp;inpId="&log_ID&""">"&ZC_MSG024&"</a></p>"
 		
 		Response.Write strC
 
