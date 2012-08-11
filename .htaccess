@@ -1,0 +1,25 @@
+#ISAPI Rewrite 3
+#c_option.asp里的设置项,需要和重写规则匹配
+#ZC_STATIC_MODE="REWRITE"
+#ZC_DEFAULT_REGEX="{%host%}/default.html"
+#ZC_CATEGORY_REGEX="{%host%}/category-{%id%}.html"
+#ZC_USER_REGEX="{%host%}/author-{%id%}.html"
+#ZC_DATE_REGEX="{%host%}/{%year%}-{%month%}.html"
+#ZC_TAGS_REGEX="{%host%}/tags-{%alias%}.html"
+
+
+RewriteBase /
+
+RewriteRule ^default_([0-9]+).html$ /catalog.asp\?page=$1
+
+RewriteRule ^category-([0-9]+)\.html$ /catalog.asp\?cate=$1
+RewriteRule ^category-([0-9]+)_([0-9]+)\.html$ /catalog.asp\?cate=$1&page=$2
+
+RewriteRule ^author-([0-9]+)\.html$ /catalog.asp\?auth=$1
+RewriteRule ^author-([0-9]+)_([0-9]+)\.html$ /catalog.asp\?auth=$1&page=$2
+
+RewriteRule ^([0-9]+)-([0-9]+).html$ /catalog.asp\?date=$1-$2
+RewriteRule ^([0-9]+)-([0-9]+)_([0-9]+).html$ /catalog.asp\?date=$1-$2&page=$3
+
+RewriteRule ^tags-(.*)\.html$ /catalog.asp\?tags=$1 [NU]
+RewriteRule ^tags-(.*)_([0-9]+)\.html$ /catalog.asp\?tags=$1&page=$2 [NU]

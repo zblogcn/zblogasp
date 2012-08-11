@@ -2703,10 +2703,7 @@ Function BlogReBuild_Comments()
 		For i=1 to j
 			s=objRS("comm_Content")
 			s=Replace(s,vbCrlf,"")
-			'Set objArticle=New TArticle
-			'If objArticle.LoadInfoByID(objRS("log_ID")) Then
-				strComments=strComments & "<li style=""text-overflow:ellipsis;""><a href="""& GetCurrentHost & "zb_system/view.asp?nav=" & objRS("log_ID") & "#cmt" & objRS("comm_ID") & """ title=""" & objRS("comm_PostTime") & " post by " & objRS("comm_Author") & """>"+s+"</a></li>"
-			'End If
+			strComments=strComments & "<li style=""text-overflow:ellipsis;""><a href="""& objConn.Execute("SELECT [log_FullUrl] FROM [blog_Article] WHERE [log_ID]=" & objRS("log_ID"))(0) & "#cmt" & objRS("comm_ID") & """ title=""" & objRS("comm_PostTime") & " post by " & objRS("comm_Author") & """>"+s+"</a></li>"
 			Set objArticle=Nothing
 			objRS.MoveNext
 			If objRS.eof Then Exit For
