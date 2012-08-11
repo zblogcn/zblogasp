@@ -190,10 +190,14 @@ var YT = {
 						}
 						if(e.val()==2){
 							_Panel.find('#Add').trigger('click');
+							var jsonAry=[];
 							var p=_Panel.find('#Step1').find('div').find('p:last');
 								p.find('input').eq(0).val('YT_Logistics_Type');
 								p.find('input').eq(1).val('物流类型');
-								p.find('input').eq(2).val('EXPRESS,POST,EMS');
+								jsonAry.push({t:'平邮',v:'POST'});
+								jsonAry.push({t:'EMS',v:'EMS'});
+								jsonAry.push({t:'快递',v:'EXPRESS'});
+								p.find('input').eq(2).val($.toJSONString(jsonAry));
 								p.find('select').eq(0).val('VARCHAR');
 								p.find('select').eq(1).val('select');
 							_Panel.find('#Add').trigger('click');
@@ -207,7 +211,10 @@ var YT = {
 							var p=_Panel.find('#Step1').find('div').find('p:last');
 								p.find('input').eq(0).val('YT_Logistics_Payment');
 								p.find('input').eq(1).val('物流支付方式');
-								p.find('input').eq(2).val('SELLER_PAY,BUYER_PAY');
+								jsonAry=[];
+								jsonAry.push({t:'卖方付款',v:'SELLER_PAY'});
+								jsonAry.push({t:'买方付款',v:'BUYER_PAY'});
+								p.find('input').eq(2).val($.toJSONString(jsonAry));
 								p.find('select').eq(0).val('VARCHAR');
 								p.find('select').eq(1).val('select');
 								
@@ -277,8 +284,9 @@ var YT = {
 														$.ajax({
 															url: 'YT.Ajax.asp',
 															type: 'POST',
-															dataType: 'html',
-															data: { Action: (/\d+/.test(n)?'Update':'Save')+'Model' ,Index:n,Json:$.toJSONString(_Json), t:Math.random() },
+															dataType: 'json',
+															data: { Action: (/\d+/.test(n)?'Update':'Save')+'Model' ,
+															Index:n,Json:$.toJSONString(_Json), t:Math.random() },
 															success: function(result) {
 																if(result){
 																	$(_Panel).find('span').trigger('click');
@@ -455,23 +463,41 @@ var YT = {
 										case 'select':
 											var _s = document.createElement('select');
 												_s.name = $(this).find('Name').text();
-											var _v = $(this).find('Value').text().split(',');
-												for(var _i=0;_i<_v.length;_i++){
-													_s.options.add(new Option(_v[_i],_v[_i]));	
+												try{
+													var _v = jsonToObject($(this).find('Value').text());
+													for(var _i=0;_i<_v.length;_i++){
+														_s.options.add(new Option(_v[_i].t,_v[_i].v));	
+													}
+												}catch(e){
+													_v = $(this).find('Value').text().split(',');	
+													for(var _i=0;_i<_v.length;_i++){
+														_s.options.add(new Option(_v[_i],_v[_i]));	
+													}
 												}
 												$('#model').parent().append('<p>'+$(this).find('Description').text()
 												 +':</p>').find('p').eq(ii+1).attr('title',$(this).find('Type').text()).append(_s);
 										break;
 										case 'checkbox':
-											var __v = $(this).find('Value').text().split(',');
 											var row = $('#model').parent().append('<p>'+$(this).find('Description').text()
 												 +':</p>').find('p').eq(ii+1).attr('title',$(this).find('Type').text());
-												for(var _i=0;_i<__v.length;_i++){
-													var __i = document.createElement('input');
-														__i.type = $(this).find('Type').text();
-														__i.value = __v[_i];
-														__i.name = $(this).find('Name').text();
-														row.append(__v[_i]).append(__i);
+												try{
+													var __v = jsonToObject($(this).find('Value').text());
+													for(var _i=0;_i<__v.length;_i++){
+														var __i = document.createElement('input');
+															__i.type = $(this).find('Type').text();
+															__i.value = __v[_i].v;
+															__i.name = $(this).find('Name').text();
+															row.append(__v[_i].t).append(__i);
+													}
+												}catch(e){
+													__v = $(this).find('Value').text().split(',');	
+													for(var _i=0;_i<__v.length;_i++){
+														var __i = document.createElement('input');
+															__i.type = $(this).find('Type').text();
+															__i.value = __v[_i];
+															__i.name = $(this).find('Name').text();
+															row.append(__v[_i]).append(__i);
+													}	
 												}
 										break;
 										case 'textarea':
