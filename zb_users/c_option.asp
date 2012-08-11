@@ -284,18 +284,9 @@ ZC_STATIC_DIRECTORY="post"
 Dim ZC_TEMPLATE_DIRECTORY
 ZC_TEMPLATE_DIRECTORY="template"
 
-
-Dim ZC_CUSTOM_DIRECTORY_ENABLE
-ZC_CUSTOM_DIRECTORY_ENABLE=False
-
-'{%post%},{%category%},{%user%},{%year%},{%month%},{%day%},{%id%},{%alias%}之间的组合,可以用/分隔
-Dim ZC_CUSTOM_DIRECTORY_REGEX
-ZC_CUSTOM_DIRECTORY_REGEX="{%post%}"
-
-Dim ZC_CUSTOM_DIRECTORY_ANONYMOUS
-ZC_CUSTOM_DIRECTORY_ANONYMOUS=False
-
-
+'ACTIVE or MIX or REWRITE
+Dim ZC_STATIC_MODE
+ZC_STATIC_MODE="ACTIVE"
 
 Dim ZC_ARTICLE_REGEX
 ZC_ARTICLE_REGEX="{%host%}/{%post%}/{%alias%}.html"
@@ -313,7 +304,7 @@ Dim ZC_TAGS_REGEX
 ZC_TAGS_REGEX="{%host%}/catalog.asp?tags={%alias%}"
 
 Dim ZC_DATE_REGEX
-ZC_DATE_REGEX="{%host%}/catalog.asp?date={%date%}"
+ZC_DATE_REGEX="{%host%}/catalog.asp?date={%year%}-{%month%}"
 
 Dim ZC_DEFAULT_REGEX
 ZC_DEFAULT_REGEX="{%host%}/catalog.asp"
