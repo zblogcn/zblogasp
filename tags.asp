@@ -14,7 +14,7 @@
 '///////////////////////////////////////////////////////////////////////////////
 %>
 <% Option Explicit %>
-<% On Error Resume Next %>
+<% 'On Error Resume Next %>
 <% Response.Charset="UTF-8" %>
 <% Response.Buffer=True %>
 <!-- #include file="zb_users/c_option.asp" -->
@@ -41,9 +41,6 @@ Set ArtList=New TArticleList
 
 ArtList.LoadCache
 
-If GetTemplate("TEMPLATE_PAGE")<>empty Then
-ArtList.template="PAGE"
-End If
 
 If GetTemplate("TEMPLATE_TAGS")<>empty Then
 ArtList.template="TAGS"
