@@ -30,7 +30,7 @@ Sub Class_Initialize()
 	intErrorCount=0
 	intRepeatMax=3
 	set fakeQQConnect=New ZBQQConnect_Wb
-	set objJSON=ZBQQConnect_toobject("{}")
+	set objJSON=ZBQQConnect_json.toobject("{}")
 	strOpenID=Session(ZC_BLOG_CLSID&"ZBQQConnect_strOpenID")
 	strAccToken=Session(ZC_BLOG_CLSID&"ZBQQConnect_strAccessToken")
 	version="2.0"
@@ -113,7 +113,7 @@ End Property
 '** 关于
 '****************************************************************************
 Public Function About
-	Set About=ZBQQConnect_Toobject("{'author':'ZSXSOFT','url':'http://www.zsxsoft.com','version':'ZBQQConnect 1.0'}")
+	Set About=ZBQQConnect_json.Toobject("{'author':'ZSXSOFT','url':'http://www.zsxsoft.com','version':'ZBQQConnect 1.0'}")
 End Function
 
 '****************************************************************************
@@ -176,7 +176,7 @@ Function API(url,json,httptype)
 	tempid=""
 	aryMutliContent=""
 	strHttptype = "GET&"
-	set objjson=zbqqconnect_toobject("{}")
+	set objjson=ZBQQConnect_json.toObject("{}")
 End Function
 
 
@@ -191,15 +191,15 @@ End Function
 '*******************************************************************************
 Function Share(title,url,comment,summary,images,nswb)
 	Dim b
-	Set b=ZBQQConnect_toObject("{}")
-	Call ZBQQConnect_addobj(b,"title",title)
-	Call ZBQQConnect_addobj(b,"url",url)
-	Call ZBQQConnect_addobj(b,"comment",comment)
-	Call ZBQQConnect_addobj(b,"summary",summary)
+	Set b=ZBQQConnect_json.toObject("{}")
+	Call ZBQQConnect_json.addobj(b,"title",title)
+	Call ZBQQConnect_json.addobj(b,"url",url)
+	Call ZBQQConnect_json.addobj(b,"comment",comment)
+	Call ZBQQConnect_json.addobj(b,"summary",summary)
 	If images="~" Then images=""
-	Call ZBQQConnect_addobj(b,"images",images)
-	Call ZBQQConnect_addobj(b,"nswb",nswb)
-	b=ZBQQConnect_toJSON(b)
+	Call ZBQQConnect_json.addobj(b,"images",images)
+	Call ZBQQConnect_json.addobj(b,"nswb",nswb)
+	b=ZBQQConnect_json.toJSON(b)
 	Share=API("https://graph.qq.com/share/add_share",b,"POST&")
 End Function
 '*******************************************************************************
@@ -207,11 +207,11 @@ End Function
 '*******************************************************************************
 Function t(content)
 	Dim b
-	Set b=ZBQQConnect_toObject("{}")
-	Call ZBQQConnect_addobj(b,"format","json")
-	Call ZBQQConnect_addobj(b,"content",content)
-	Call ZBQQConnect_addobj(b,"clientip",fakeQQConnect.getIP)
-	b=ZBQQConnect_toJSON(b)
+	Set b=ZBQQConnect_json.toObject("{}")
+	Call ZBQQConnect_json.addobj(b,"format","json")
+	Call ZBQQConnect_json.addobj(b,"content",content)
+	Call ZBQQConnect_json.addobj(b,"clientip",fakeQQConnect.getIP)
+	b=ZBQQConnect_json.toJSON(b)
 	t=API("https://graph.qq.com/t/add_t",b,"POST&")
 End Function
 '*******************************************************************************
@@ -220,14 +220,14 @@ End Function
 Function Authorize()
 	Dim a,b,c
 	a="https://graph.qq.com/oauth2.0/authorize"
-	set b=ZBQQConnect_ToObject("{}")
-	Call ZBQQConnect_addobj(b,"response_type","code")
-	Call ZBQQConnect_addobj(b,"client_id",strAppKey)
-	Call ZBQQConnect_addobj(b,"redirect_uri",strOauthCallBackUrl)
-	Call ZBQQConnect_addobj(b,"scope","get_user_info,add_share,get_info,add_idol,add_t")
-	Call ZBQQConnect_addobj(b,"state","zsxsoft")
+	set b=ZBQQConnect_json.toObject("{}")
+	Call ZBQQConnect_json.addobj(b,"response_type","code")
+	Call ZBQQConnect_json.addobj(b,"client_id",strAppKey)
+	Call ZBQQConnect_json.addobj(b,"redirect_uri",strOauthCallBackUrl)
+	Call ZBQQConnect_json.addobj(b,"scope","get_user_info,add_share,get_info,add_idol,add_t")
+	Call ZBQQConnect_json.addobj(b,"state","zsxsoft")
 
-	c=ZBQQConnect_toStr(b)
+	c=ZBQQConnect_json.toStr(b)
 	Authorize=a&"?"&c'ZBQQConnect_Net.GetHttp(a&"?"&c)
 End Function
 '*******************************************************************************
@@ -236,14 +236,14 @@ End Function
 Function CallBack()
 	Dim a,b,c,d
 	a="https://graph.qq.com/oauth2.0/token"
-	Set b=ZBQQConnect_toObject("{}")
-	Call ZBQQConnect_addobj(b,"grant_type","authorization_code")
-	Call ZBQQConnect_addobj(b,"client_id",strAppKey)
-	Call ZBQQConnect_addobj(b,"client_secret",strAppSecret)
-	Call ZBQQConnect_addobj(b,"code",Request.QueryString("code"))
-	Call ZBQQConnect_addobj(b,"state","zsxsoft")
-	Call ZBQQConnect_addobj(b,"redirect_uri",strOauthCallBackUrl)
-	c=ZBQQConnect_toStr(b)
+	Set b=ZBQQConnect_json.toObject("{}")
+	Call ZBQQConnect_json.addobj(b,"grant_type","authorization_code")
+	Call ZBQQConnect_json.addobj(b,"client_id",strAppKey)
+	Call ZBQQConnect_json.addobj(b,"client_secret",strAppSecret)
+	Call ZBQQConnect_json.addobj(b,"code",Request.QueryString("code"))
+	Call ZBQQConnect_json.addobj(b,"state","zsxsoft")
+	Call ZBQQConnect_json.addobj(b,"redirect_uri",strOauthCallBackUrl)
+	c=ZBQQConnect_json.toStr(b)
 	d=ZBQQConnect_Net.GetHttp(a&"?"&c)
 	
 	CallBack=Split(Split(d,"=")(1),"&")(0)
@@ -267,12 +267,12 @@ End Function
 '*******************************************************************************
 Function MakeOauth2Url(ByRef oauth_url,ip,content)
 	dim iscustom
-	Call ZBQQConnect_addobj(objJSON,"oauth_consumer_key",strAppKey) '设置APPKEY
-	Call ZBQQConnect_addobj(objJSON,"access_token",strAccToken)
-	Call ZBQQConnect_addobj(objJSON,"openid",strOpenID)
-	set objJSON=ZBQQConnect_toObject(ZBQQConnect_JSONExtendBasic(objJSON,content))
+	Call ZBQQConnect_json.addobj(objJSON,"oauth_consumer_key",strAppKey) '设置APPKEY
+	Call ZBQQConnect_json.addobj(objJSON,"access_token",strAccToken)
+	Call ZBQQConnect_json.addobj(objJSON,"openid",strOpenID)
+	set objJSON=ZBQQConnect_json.toObject(ZBQQConnect_JSONExtendBasic(objJSON,content))
 	oauth_url=replace(oauth_url,"<strPrototype>",strPrototype)
-	strMadeUpUrl=ZBQQConnect_toStr(objJSON)
+	strMadeUpUrl=ZBQQConnect_json.toStr(objJSON)
 	if bolDebugMsg=true then response.write "<div class='ZBQQConnect_Debug'><font color='black'>最终生成：" & oauth_url&"?"&strMadeUpUrl & "</font></div>"
 	MakeOauth2Url=oauth_url&"?"&strMadeUpUrl
 	strPostUrl = oauth_url

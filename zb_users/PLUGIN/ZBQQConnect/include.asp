@@ -218,7 +218,7 @@ Function ZBQQConnect_Batch(id)
 		end if
 		If ZBQQConnect_SToZone=True Then
 			t_add = ZBQQConnect_class.Share(objArticle.Title,Replace(objArticle.FullUrl,"<#ZC_BLOG_HOST#>",ZC_BLOG_HOST),"",strTemp,tupian,1)
-			Set t_add=ZBQQConnect_Toobject(t_add)
+			Set t_add=ZBQQConnect_json.toobject(t_add)
 			If t_add.ret=0 Then
 				Response.Write "恭喜，同步到QQ空间成功"
 			else
@@ -229,7 +229,7 @@ Function ZBQQConnect_Batch(id)
 		ZBQQConnect_class.debugMsg=""
 		If ZBQQConnect_SToWb=True Then 
 			t_add = ZBQQConnect_class.fakeQQConnect.t(Replace(Replace(Replace(Replace(Replace(ZBQQConnect_Content,"%t",ZBQQConnect_r(objArticle.Title)),"%u",objArticle.FullUrl),"%b",ZBQQConnect_r(BlogTitle)),"%i",strTemp),"<#ZC_BLOG_HOST#>",ZC_BLOG_HOST),tupian)
-			Set t_add=ZBQQConnect_Toobject(t_add)
+			Set t_add=ZBQQConnect_json.toobject(t_add)
 			If t_add.ret=0 Then
 				Response.Write  "恭喜，同步到腾讯微博成功"
 				objArticle.Meta.SetValue "ZBQQConnect_WBID",t_add.data.id

@@ -42,13 +42,14 @@ Select Case Request.QueryString("tp")
 End Select
 Function a
 		Dim b
+
 		ZBQQConnect_DB.OpenID=ZBQQConnect_Class.OpenID
 		ZBQQConnect_DB.AccessToken=ZBQQConnect_Class.AccessToken
 		b=ZBQQConnect_class.API("https://graph.qq.com/user/get_info","{'format':'json'}","GET&")
-		Set b=ZBQQConnect_toobject(b)
+		Set b=ZBQQConnect_json.toobject(b)
 		ZBQQConnect_DB.tHead=b.data.head
 		b=ZBQQConnect_class.API("https://graph.qq.com/user/get_user_info","{'format':'json'}","GET&")
-		Set b=ZBQQConnect_toobject(b)
+		Set b=ZBQQConnect_json.toobject(b)
 		ZBQQConnect_DB.QZoneHead=b.figureurl_2
 		Set ZBQQConnect_DB.objUser=BlogUser
 

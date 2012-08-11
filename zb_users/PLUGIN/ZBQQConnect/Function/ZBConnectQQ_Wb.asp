@@ -41,7 +41,7 @@ Sub Class_Initialize()
 	strHttptype = "GET&"
 	intErrorCount=0
 	intRepeatMax=3
-	set objJSON=ZBQQConnect_toobject("{}")
+	set objJSON=ZBQQConnect_json.toobject("{}")
 	set objXmlhttp=server.CreateObject("msxml2.serverXmlhttp")
 	version="1.0"
 	strPrototype="http://"
@@ -156,7 +156,7 @@ End Property
 '** 关于
 '****************************************************************************
 Public Function About
-	Set About=ZBQQConnect_Toobject("{'author':'ZSXSOFT','url':'http://www.zsxsoft.com','version':'ZBQQConnect 2.3'}")
+	Set About=ZBQQConnect_json.toobject("{'author':'ZSXSOFT','url':'http://www.zsxsoft.com','version':'ZBQQConnect 2.3'}")
 End Function
 '****************************************************************************
 '** 得到是否登陆
@@ -182,28 +182,28 @@ End Sub
 '*******************************************************************************
 Function t(content,pic)
 	Dim b
-	Set b=ZBQQConnect_ToObject("{}")
-	Call ZBQQConnect_addObj(b,"content",content)
-	Call ZBQQConnect_addObj(b,"clientip",getip)
-	Call ZBQQConnect_addObj(b,"format","json")
-	Call ZBQQConnect_addObj(b,"syncflag",1)
+	Set b=ZBQQConnect_json.toobject("{}")
+	Call ZBQQConnect_json.addObj(b,"content",content)
+	Call ZBQQConnect_json.addObj(b,"clientip",getip)
+	Call ZBQQConnect_json.addObj(b,"format","json")
+	Call ZBQQConnect_json.addObj(b,"syncflag",1)
 	
 	If pic<>"~" and  pic<>"" Then
-		Call ZBQQConnect_addObj(b,"pic_url",pic)
-		t=API("http://open.t.qq.com/api/t/add_pic_url",ZBQQConnect_TOJSON(b),"POST&")
+		Call ZBQQConnect_json.addObj(b,"pic_url",pic)
+		t=API("http://open.t.qq.com/api/t/add_pic_url",ZBQQConnect_json.TOJSON(b),"POST&")
 	Else
-		t=API("http://open.t.qq.com/api/t/add",ZBQQConnect_TOJSON(b),"POST&")
+		t=API("http://open.t.qq.com/api/t/add",ZBQQConnect_json.TOJSON(b),"POST&")
 	End If
 End Function
 Function r(content,id)
 	Dim b
-	Set b=ZBQQConnect_ToObject("{}")
-	Call ZBQQConnect_addObj(b,"content",content)
-	Call ZBQQConnect_addObj(b,"clientip",getip)
-	Call ZBQQConnect_addObj(b,"format","json")
-	Call ZBQQConnect_addObj(b,"syncflag",1)
-	Call ZBQQConnect_addObj(b,"reid",id)
-	r=API("http://open.t.qq.com/api/t/re_add",ZBQQConnect_TOJSON(b),"POST&")
+	Set b=ZBQQConnect_json.toobject("{}")
+	Call ZBQQConnect_json.addObj(b,"content",content)
+	Call ZBQQConnect_json.addObj(b,"clientip",getip)
+	Call ZBQQConnect_json.addObj(b,"format","json")
+	Call ZBQQConnect_json.addObj(b,"syncflag",1)
+	Call ZBQQConnect_json.addObj(b,"reid",id)
+	r=API("http://open.t.qq.com/api/t/re_add",ZBQQConnect_json.TOJSON(b),"POST&")
 End Function
 
 Function API(url,json,httptype)
@@ -258,20 +258,20 @@ End Function
 Function MakeOauth2Url(ByRef oauth_url,ip,content)
 	dim iscustom
 	if ip="sdk_custom" then iscustom=true
-	Call ZBQQConnect_addobj(objJSON,"oauth_consumer_key",strAppKey) '设置APPKEY
-	Call ZBQQConnect_addobj(objJSON,"access_token",Session(ZC_BLOG_CLSID&"ZBQQConnect_strOauthToken"))
-	Call ZBQQConnect_addobj(objJSON,"openid",Session(ZC_BLOG_CLSID&"ZBQQConnect_strOauthTokenSecret"))
-	Call ZBQQConnect_addobj(objJSON,"oauth_version","2.a")
-	Call ZBQQConnect_addobj(objJSON,"clientip",ZBQQConnect_getIP)
-	Call ZBQQConnect_addobj(objJSON,"scope","all")
+	Call ZBQQConnect_json.addObj(objJSON,"oauth_consumer_key",strAppKey) '设置APPKEY
+	Call ZBQQConnect_json.addObj(objJSON,"access_token",Session(ZC_BLOG_CLSID&"ZBQQConnect_strOauthToken"))
+	Call ZBQQConnect_json.addObj(objJSON,"openid",Session(ZC_BLOG_CLSID&"ZBQQConnect_strOauthTokenSecret"))
+	Call ZBQQConnect_json.addObj(objJSON,"oauth_version","2.a")
+	Call ZBQQConnect_json.addObj(objJSON,"clientip",ZBQQConnect_getIP)
+	Call ZBQQConnect_json.addObj(objJSON,"scope","all")
 	if iscustom<>true then 
 		MakeAPIPar oauth_url,ip,content
 	else
-		set objJSON=ZBQQConnect_toObject(ZBQQConnect_JSONExtendBasic(objJSON,content))
+		set objJSON=ZBQQConnect_json.toobject(ZBQQConnect_JSONExtendBasic(objJSON,content))
 	End If
 	oauth_url=replace(oauth_url,"<strPrototype>",strPrototype)
-	strMadeUpUrl=ZBQQConnect_toStr(objJSON)
-	strMadeUpUrl=ZBQQConnect_toStr(objJSON)
+	strMadeUpUrl=ZBQQConnect_json.toStr(objJSON)
+	strMadeUpUrl=ZBQQConnect_json.toStr(objJSON)
 	if bolDebugMsg=true then response.write "<div class='ZBQQConnect_Debug'><font color='black'>最终生成：" & oauth_url&"?"&strMadeUpUrl & "</font></div>"
 	MakeOauth2Url=oauth_url&"?"&strMadeUpUrl
 	strPostUrl = oauth_url
@@ -283,37 +283,37 @@ Function MakeOauth1Url(ByRef oauth_url,ip,content)
 	dim iscustom
 	if ip="sdk_custom" then iscustom=true
 
-	Call ZBQQConnect_addobj(objJSON,"oauth_nonce",makePassword(12))   '添加随机码
-	Call ZBQQConnect_addobj(objJSON,"oauth_timestamp",DateDiff("s","01/01/1970 08:00:00",Now()))  '添加时间戳
-	Call ZBQQConnect_addobj(objJSON,"oauth_version","1.0")   '设置oauth版本
-	Call ZBQQConnect_addobj(objJSON,"oauth_consumer_key",strAppKey) '设置APPKEY
-	Call ZBQQConnect_addobj(objJSON,"oauth_signature_method","HMAC-SHA1") '设置加密方法
+	Call ZBQQConnect_json.addObj(objJSON,"oauth_nonce",makePassword(12))   '添加随机码
+	Call ZBQQConnect_json.addObj(objJSON,"oauth_timestamp",DateDiff("s","01/01/1970 08:00:00",Now()))  '添加时间戳
+	Call ZBQQConnect_json.addObj(objJSON,"oauth_version","1.0")   '设置oauth版本
+	Call ZBQQConnect_json.addObj(objJSON,"oauth_consumer_key",strAppKey) '设置APPKEY
+	Call ZBQQConnect_json.addObj(objJSON,"oauth_signature_method","HMAC-SHA1") '设置加密方法
 		If oauth_url<>Oauth1_RequestToken_url Then
 			strOauthCallbackUrl = ""  
 			if iscustom=true then
 				strOauthTokenSecret=Secret
-				Call ZBQQConnect_addobj(objJSON,"oauth_token",Token) '设置token
-				set objJSON=ZBQQConnect_toObject(ZBQQConnect_JSONExtendBasic(objJSON,content))
+				Call ZBQQConnect_json.addObj(objJSON,"oauth_token",Token) '设置token
+				set objJSON=ZBQQConnect_json.toobject(ZBQQConnect_JSONExtendBasic(objJSON,content))
 			end if
 			If oauth_url=Oauth1_accesstoken_url Then
-				Call ZBQQConnect_addobj(objJSON,"oauth_token",Session(ZC_BLOG_CLSID&"ZBQQConnect_strOauthToken")) '设置token
+				Call ZBQQConnect_json.addObj(objJSON,"oauth_token",Session(ZC_BLOG_CLSID&"ZBQQConnect_strOauthToken")) '设置token
 				strOauthTokenSecret = Session(ZC_BLOG_CLSID&"ZBQQConnect_strOauthTokenSecret") 
-				Call ZBQQConnect_addobj(objJSON,"oauth_verifier",Request.QueryString("oauth_verifier")) '设置verifier
+				Call ZBQQConnect_json.addObj(objJSON,"oauth_verifier",Request.QueryString("oauth_verifier")) '设置verifier
 			'Else
 			'	MakeAPIPar oauth_url,ip,content
 			End If
 		Else
-			Call ZBQQConnect_addobj(objJSON,"oauth_callback",strOauthCallbackUrl) '回调地址
+			Call ZBQQConnect_json.addObj(objJSON,"oauth_callback",strOauthCallbackUrl) '回调地址
 		End If
 
 	oauth_url=replace(oauth_url,"<strPrototype>",strPrototype)
-	strMadeUpUrl=ZBQQConnect_toStr(objJSON)
+	strMadeUpUrl=ZBQQConnect_json.toStr(objJSON)
 	if bolDebugMsg=true then response.write "<div class='ZBQQConnect_Debug'><font color='red'>不包含signature：" & strMadeUpUrl & "</font></br>"
 	strOauth1BaseString=strHttptype & strUrlEnCode(oauth_url) & "&" & strUrlEnCode(strMadeUpUrl)
 	if bolDebugMsg=true then response.write "<font color='blue'>BaseString：" & strOauth1BaseString & "</font></br><font color='green'>密钥：" & strAppSecret&"&"&strOauthTokenSecret & "</font><br/>"
 	strWithOutOauthSignature=strUrlEnCode(ZBQQConnect_b64_hmac_sha1(strAppSecret&"&"&strOauthTokenSecret,strOauth1BaseString))
-	Call ZBQQConnect_addobj(objJSON,"oauth_signature",strWithOutOauthSignature)
-	strMadeUpUrl=ZBQQConnect_toStr(objJSON)
+	Call ZBQQConnect_json.addObj(objJSON,"oauth_signature",strWithOutOauthSignature)
+	strMadeUpUrl=ZBQQConnect_json.toStr(objJSON)
 	if bolDebugMsg=true then response.write "<font color='black'>最终生成：" & strMadeUpUrl & "</font></div>"
 	MakeOauth1Url=oauth_url&"?"&strMadeUpUrl
 	strPostUrl = oauth_url

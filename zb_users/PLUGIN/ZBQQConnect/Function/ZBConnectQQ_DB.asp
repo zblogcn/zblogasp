@@ -104,6 +104,7 @@ Class ZBConnectQQ_DB
 		Else
 			strSQL="INSERT INTO [blog_Plugin_ZBQQConnect] ([QQ_UserID],[QQ_OpenID],[QQ_AToken],[QQ_tHead],[QQ_QzoneHead],[QQ_Eml]) VALUES ("&objUser.ID&",'"&OpenID&"','"&AccessToken&"','"& tHead&"','"&qzonehead&"','"&Email&"')"
 		End If
+		response.write strsql
 		objConn.Execute strSQL
 		Dim objRS
 		Set objRS=objConn.Execute("SELECT MAX([QQ_ID]) FROM [blog_Plugin_ZBQQConnect]")
