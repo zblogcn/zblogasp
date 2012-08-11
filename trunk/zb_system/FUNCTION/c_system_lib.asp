@@ -1970,6 +1970,8 @@ Class TArticleList
 			Next
 
 			s=Replace(t,"%n",intAllPage)
+			If ListType="DEFAULT" And intAllPage=1 Then s=ZC_BLOG_HOST
+			If (ListType="CATEGORY" Or ListType="USER" Or ListType="DATE" Or ListType="TAGS") And intAllPage=1 Then s=Url
 
 			strPageBar=GetTemplate("TEMPLATE_B_PAGEBAR")
 			strPageBar=Replace(strPageBar,"<#pagebar/page/url#>",s)

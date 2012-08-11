@@ -1818,7 +1818,7 @@ End Function
 '*********************************************************
 Sub CreatDirectoryByCustomDirectoryWithFullBlogPath(ByVal strCustomDirectory)
 
-	'On Error Resume Next
+	On Error Resume Next
 
 	Dim s
 	Dim t
@@ -1847,7 +1847,7 @@ Sub CreatDirectoryByCustomDirectoryWithFullBlogPath(ByVal strCustomDirectory)
 
 	Set fso = Nothing
 
-	'Err.Clear
+	Err.Clear
 
 End Sub
 '*********************************************************
@@ -2209,14 +2209,14 @@ Function MakeBlogReBuild_Core()
 
 	BlogReBuild_Functions
 
-	BlogReBuild_Default
-
 	BuildAllCache
 
 	ExportRSS
 
 	Call ClearGlobeCache()
 	Call LoadGlobeCache()
+
+	BlogReBuild_Default
 
 	Dim bolOperateSuccess
 
