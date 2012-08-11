@@ -106,6 +106,21 @@ End Function
 '插入数据表
 function dztaotao_CreateDB()
 
+IF ZC_MSSQL_ENABLE=True Then
+'sql server
+	If Not CheckUpdateDB("[id]","[dz_taotao]") Then
+		objConn.execute("CREATE TABLE [dz_taotao] (id int identity(1,1) not null primary key,username nvarchar(50) default '',site nvarchar(250) default '',content ntext default '',addtime datetime default getdate(),ttop int default 0,tread int DEFAULT 0,comments int DEFAULT 0,itype int DEFAULT 0,img nvarchar(250) default '',s_img nvarchar(250) default '')")
+		objConn.execute("insert into [dz_taotao] (username,site,content) values ('大猪','http://www.izhu.org','请保证最少保留一条滔滔信息，否则可能出现奇怪的问题。')")
+	End If
+
+	If Not CheckUpdateDB("[id]","[dz_comment]") Then
+		
+		objConn.execute("CREATE TABLE [dz_comment] (id int identity(1,1) not null primary key,tt_id int default 0,u_sername nvarchar(50) default '',u_site nvarchar(250) default '',content ntext default '',addtime datetime default getdate(),itype int DEFAULT 0)")
+		
+	End If
+
+else
+'access
 	If Not CheckUpdateDB("[id]","[dz_taotao]") Then
 		objConn.execute("CREATE TABLE [dz_taotao] (id AutoIncrement primary key,username VARCHAR(50),site VARCHAR(250),content text,addtime TIME DEFAULT Now(),ttop int DEFAULT 0, tread int DEFAULT 0,comments int DEFAULT 0,itype int DEFAULT 0,img VARCHAR(250),s_img VARCHAR(250))")
 		
@@ -115,6 +130,8 @@ function dztaotao_CreateDB()
 	If Not CheckUpdateDB("[id]","[dz_comment]") Then
 		objConn.execute("CREATE TABLE [dz_comment] (id AutoIncrement primary key,tt_id int DEFAULT 0,u_sername VARCHAR(50),u_site VARCHAR(250),content text,addtime TIME DEFAULT Now(),itype int DEFAULT 0)")
 	End If
+	
+end if
 end function
 
 
