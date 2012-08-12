@@ -11,7 +11,7 @@
 On Error Resume Next
 Call System_Initialize()
 Call CheckReference("")
-If Not CheckRights("ArticleEdt") Then Call ShowError(6)
+If Not CheckRights("FileUpload") Then Call ShowError(6)
 
 For Each sAction_Plugin_getremoteimage_Begin in Action_Plugin_getremoteimage_Begin
 	If Not IsEmpty(sAction_Plugin_getremoteimage_Begin) Then Call Execute(sAction_Plugin_getremoteimage_Begin)

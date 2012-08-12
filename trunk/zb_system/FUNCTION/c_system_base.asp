@@ -3555,4 +3555,23 @@ Function UrlbyDateAuto(y,m,d)
 	End If
 End Function
 '*********************************************************
+
+
+
+
+'*********************************************************
+' 目的：  刷新c_option.asp至数据库  
+'*********************************************************
+Function RefreshOptionFormFileToDB()
+	On Error Resume Next
+	Dim a
+	For Each a In BlogConfig.Meta.Names
+		If a<>"ZC_BLOG_VERSION" Then
+			Call Execute("Call BlogConfig.Write("""&a&""","&a&")")
+		End If
+	Next
+	Call BlogConfig.Save()
+	Err.Clear
+End Function
+'*********************************************************
 %>

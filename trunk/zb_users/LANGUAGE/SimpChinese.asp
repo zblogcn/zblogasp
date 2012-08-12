@@ -299,10 +299,11 @@ Const ZC_MSG274="显示搜索文章的数量"
 
 
 Dim ZVA_Article_Level_Name(4)
+ZVA_Article_Level_Name(0)="无"
 ZVA_Article_Level_Name(1)="草稿"
 ZVA_Article_Level_Name(2)="私人浏览"
 ZVA_Article_Level_Name(3)="禁止评论"
-ZVA_Article_Level_Name(4)="普通文章"
+ZVA_Article_Level_Name(4)="普通"
 
 
 
@@ -369,7 +370,7 @@ ZVA_Week_Abbr(7)="Sat"
 
 '自定义错误信息
 
-Dim ZVA_ErrorMsg(62)
+Dim ZVA_ErrorMsg(63)
 
 ZVA_ErrorMsg(0)="未知错误"
 ZVA_ErrorMsg(1)="未知命令"
@@ -434,4 +435,5 @@ ZVA_ErrorMsg(59)="不存在子分类"
 ZVA_ErrorMsg(60)="回复评论失败"
 ZVA_ErrorMsg(61)="该记录不存在"
 ZVA_ErrorMsg(62)="同名用户已存在,请修改用户名."
+ZVA_ErrorMsg(63)="草稿禁止浏览"
 %>
