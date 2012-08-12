@@ -1095,3 +1095,4 @@ span.edui-unclickable {
 .edui-for-emotion .edui-popup-content iframe{width:514px;height:380px;overflow:hidden;}
 .edui-for-emotion .edui-splitborder{display:none}
 .edui-for-emotion .edui-splitbutton-body .edui-arrow{width:0}   /*去除了表情的下拉箭头*/
+.edui-for-insertintro .edui-icon {background-position: -460px -40px;}
