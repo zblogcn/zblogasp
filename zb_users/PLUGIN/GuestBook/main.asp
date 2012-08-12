@@ -47,7 +47,8 @@ If Request.QueryString("act")="save" Then
 	End If
 	objConfig.Write "g",a
 	objConfig.Save
-	Call SaveToFile(BlogPath&"\guestbook.asp",LoadFromFile(Server.MapPath("guestbook.asp"),"utf-8"),"utf-8",false)
+	Call SaveToFile(BlogPath&"guestbook.asp",LoadFromFile(Server.MapPath("guestbook.asp"),"utf-8"),"utf-8",false)
+	Call MakeBlogReBuild()
 End If
 Dim objRS
 Set objRs=objConn.Execute("SELECT [log_ID] FROM [blog_Comment] WHERE [log_ID]=0")

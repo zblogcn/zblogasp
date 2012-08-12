@@ -485,8 +485,8 @@ End If
 	function AutoIntro() {
 		var s=editor.getContent();
 		editor2.setContent("");
-		if(s.indexOf("<hr />")>-1){
-			editor2.setContent(editor.getContent().split("<hr />")[0]);
+		if(s.indexOf("<hr class=\"more\" />")>-1){
+			editor2.setContent(editor.getContent().split("<hr class=\"more\" />")[0]);
 		}else{
 			s="";
 			var ss=editor.getContent().split("</p>");
