@@ -91,6 +91,9 @@ Class YT_Table
 		For Each Field In Node.selectNodes("Field")
 			Sql = Sql & "["&Field.selectSingleNode("Name").Text&"] "
 			Sql = Sql & Field.selectSingleNode("Property").Text
+			If ZC_MSSQL_ENABLE Then
+				Sql=Replace(Sql,"COUNTER(1,1)","INT IDENTITY(1,1) NOT NULL")
+			End If
 			Sql = Sql & ","
 		Next
 		Sql = Sql & "[log_ID] INT)"
