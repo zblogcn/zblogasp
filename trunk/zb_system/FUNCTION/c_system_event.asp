@@ -189,10 +189,10 @@ Function PostArticle()
 	If objArticle.CateID>0 Then
 		If InStr(objArticle.Content,"<hr class=""more"" />")>0 Then
 			s=objArticle.Content
-			i=InStr(s,"<hr />")
+			i=InStr(s,"<hr class=""more"" />")
 			s=Left(s,i-1)
 			objArticle.Intro=s
-			objArticle.Content=Replace(objArticle.Content,"<hr />","<!–more–>",1,1)
+			objArticle.Content=Replace(objArticle.Content,"<hr class=""more"" />","<!–more–>",1,1)
 		End If
 
 		If objArticle.Intro="" Then
@@ -254,6 +254,7 @@ Function DelArticle(intID)
 		Call ScanTagCount(strTag)
 
 		Call BlogReBuild_Comments
+		Call BlogReBuild_Default
 
 	End If
 
@@ -411,8 +412,8 @@ Function PostComment(strKey,intRevertCommentID)
 		If objComment.IsCheck=True Then Call ShowError(53)
 
 		Call BuildArticle(objComment.log_ID,False,True)
-		BlogReBuild_Comments
-
+		Call BlogReBuild_Comments
+		Call BlogReBuild_Default
 		PostComment=True
 		Call Filter_Plugin_PostComment_Succeed(objComment)
 
@@ -471,7 +472,8 @@ Function DelComment(intID,intLog_ID)
 		If objComment.Del Then
 
 			Call BuildArticle(objComment.log_ID,False,True)
-			BlogReBuild_Comments
+			Call BlogReBuild_Comments
+			Call BlogReBuild_Default
 
 			DelComment=True
 		End If
@@ -519,8 +521,8 @@ Function SaveComment()
 	If objComment.Post Then
 
 		Call BuildArticle(objComment.log_ID,False,False)
-		BlogReBuild_Comments
-		Functions(FunctionMetas.GetValue("comments")).SaveFile
+		Call BlogReBuild_Comments
+		Call BlogReBuild_Default
 
 		SaveComment=True
 
@@ -578,8 +580,8 @@ Function SaveRevComment()
 	If objNewComment.Post Then
 
 		Call BuildArticle(objNewComment.log_ID,False,False)
-		BlogReBuild_Comments
-		Functions(FunctionMetas.GetValue("comments")).SaveFile
+		Call BlogReBuild_Comments
+		Call BlogReBuild_Default
 
 		SaveRevComment=True
 
@@ -1465,7 +1467,8 @@ Function DelCommentBatch()
 		End If
 	Next
 
-	BlogReBuild_Comments
+	Call BlogReBuild_Comments
+	Call BlogReBuild_Default
 
 	DelCommentBatch=True
 

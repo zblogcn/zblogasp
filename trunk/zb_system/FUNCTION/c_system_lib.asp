@@ -4827,7 +4827,9 @@ Class TFunction
 			End if
 		End If
 
-		Call SaveToFile(BlogPath & "zb_users/include/"&FileName&".asp",TransferHTML(Content,"[anti-zc_blog_host]"),"utf-8",False)
+		Content=TransferHTML(Content,"[anti-zc_blog_host]")
+
+		Call SaveToFile(BlogPath & "zb_users/include/"&FileName&".asp",Content,"utf-8",False)
 
 		SaveFile=True
 

@@ -2079,6 +2079,7 @@ Function Add_Action_Plugin(plugname,actioncode)
 	On Error Resume Next
 	actioncode=Replace(actioncode,"Exit Function","b" & plugname & "=True")
 	actioncode=Replace(actioncode,"Exit Sub","b" & plugname & "=True")
+	actioncode=Replace(actioncode,"Exit Property","b" & plugname & "=True")
 	Call Execute("ReDim Preserve " & plugname & "(UBound("& plugname &")+1)")
 	Call Execute(plugname & "(UBound("& plugname &"))=" & plugname & "(UBound("& plugname &"))&""" & Replace(actioncode,"""","""""") & """" & ":")
 	Err.Clear
@@ -2209,14 +2210,14 @@ Function MakeBlogReBuild_Core()
 
 	BlogReBuild_Functions
 
+	BlogReBuild_Default
+
 	BuildAllCache
 
 	ExportRSS
 
 	Call ClearGlobeCache()
 	Call LoadGlobeCache()
-
-	BlogReBuild_Default
 
 	Dim bolOperateSuccess
 
@@ -2291,8 +2292,6 @@ Function BlogReBuild_Calendar()
 
 	Call GetFunction()
 	Functions(FunctionMetas.GetValue("calendar")).Content=strCalendar
-
-	'Call SaveToFile(BlogPath & "zb_users/include/calendar.asp",strCalendar,"utf-8",True)
 
 	BlogReBuild_Calendar=True
 
@@ -2374,8 +2373,6 @@ Function BlogReBuild_Archives()
 
 	Functions(FunctionMetas.GetValue("archives")).Content=strArchives
 
-	'Call SaveToFile(BlogPath & "zb_users/include/archives.asp",strArchives,"utf-8",True)
-
 	BlogReBuild_Archives=True
 
 End Function
@@ -2438,8 +2435,6 @@ Function BlogReBuild_Catalogs()
 
 	Call GetFunction()
 	Functions(FunctionMetas.GetValue("catalog")).Content=strCatalog
-
-	'Call SaveToFile(BlogPath & "zb_users/include/catalog.asp",strCatalog,"utf-8",True)
 
 	BlogReBuild_Catalogs=True
 
@@ -2543,8 +2538,6 @@ Function BlogReBuild_Authors()
 	Call GetFunction()
 	Functions(FunctionMetas.GetValue("authors")).Content=strAuthor
 
-	'Call SaveToFile(BlogPath & "zb_users/include/authors.asp",strAuthor,"utf-8",True)
-
 	BlogReBuild_Authors=True
 
 End Function
@@ -2605,8 +2598,6 @@ Function BlogReBuild_Tags()
 
 	Functions(FunctionMetas.GetValue("tags")).Content=strTag
 
-	'Call SaveToFile(BlogPath & "zb_users/include/tags.asp",strTag,"utf-8",True)
-
 	BlogReBuild_Tags=True
 
 End Function
@@ -2660,8 +2651,6 @@ Function BlogReBuild_Previous()
 	Functions(FunctionMetas.GetValue("previous")).Content=strPrevious
 
 	Functions(FunctionMetas.GetValue("previous")).SaveFile
-
-	'Call SaveToFile(BlogPath & "zb_users/include/previous.asp",strPrevious,"utf-8",True)
 
 	BlogReBuild_Previous=True
 
@@ -2717,8 +2706,6 @@ Function BlogReBuild_Comments()
 	Functions(FunctionMetas.GetValue("comments")).Content=strComments
 
 	Functions(FunctionMetas.GetValue("comments")).SaveFile
-
-	'Call SaveToFile(BlogPath & "zb_users/include/comments.asp",strComments,"utf-8",True)
 
 	BlogReBuild_Comments=True
 
@@ -2825,8 +2812,6 @@ Function BlogReBuild_Statistics()
 	Call GetFunction()
 	Functions(FunctionMetas.GetValue("statistics")).Content=strStatistics
 
-	'Call SaveToFile(BlogPath & "zb_users/include/statistics.asp",strStatistics,"utf-8",False)
-
 	BlogReBuild_Statistics=True
 
 End Function
@@ -2857,6 +2842,8 @@ Function BlogReBuild_Functions
 		If IsObject(f)=True Then
 			If f.id>0 Then
 				f.SaveFile
+				Call SetTemplateTags("CACHE_INCLUDE_" & UCase(f.FileName),f.Content)
+				Call SetTemplateTags("CACHE_INCLUDE_"& UCase(f.FileName) &"_HTML",f.Content)
 			End If
 		End If 
 	Next
@@ -2904,6 +2891,7 @@ Function BlogReBuild_Default
 	Next
 
 	TemplateTagsDic.Item("ZC_BLOG_HOST")="<#ZC_BLOG_HOST#>"
+	TemplateTagsDic.Item("CACHE_INCLUDE_COMMENTS")=LoadFromFile(BlogPath & "zb_users\include\comments.asp","utf-8" )
 
 	Dim ArtList
 	Set ArtList=New TArticleList

@@ -4,7 +4,7 @@
 <name>留言本</name>
 <url>http://www.zsxsoft.com/</url>
 <note>延续1.8的guestbook.asp</note>
-<type>outline</type>
+<type>inline</type>
 <path>main.asp</path>
 <include>include.asp</include>
 <level>1</level>
