@@ -158,7 +158,7 @@ Function ExportArticleList(intPage,intCate,intLevel,intTitle)
 	End If
 
 	Response.Write "<table border=""1"" width=""100%"" cellspacing=""0"" cellpadding=""0"" class=""tableBorder"">"
-	Response.Write "<tr><th width=""5%"">"& ZC_MSG076 &"</th><th width=""14%"">"& ZC_MSG012 &"</th><th width=""14%"">"& ZC_MSG003 &"</th><th>"& ZC_MSG060 &"</th><th width=""14%"">"& ZC_MSG075 &"</th><th width=""8%"">"& ZC_MSG013 &"</th><th width=""14%""></th></tr>"
+	Response.Write "<tr><th width=""5%"">"& ZC_MSG076 &"</th><th width=""14%"">"& ZC_MSG012 &"</th><th width=""12%"">"& ZC_MSG003 &"</th><th>"& ZC_MSG060 &"</th><th width=""14%"">"& ZC_MSG075 &"</th><th width=""6%"">"& ZC_MSG013 &"</th><th width=""9%"">"& ZC_MSG061 &"</th><th width=""12%""></th></tr>"
 
 	objRS.Open("SELECT * FROM [blog_Article] "& strSQL &" ORDER BY [log_PostTime] DESC")
 	objRS.PageSize=ZC_MANAGE_COUNT
@@ -204,12 +204,13 @@ Function ExportArticleList(intPage,intCate,intLevel,intTitle)
 
 			'Response.Write "<td>" & ZVA_Article_Level_Name(objRS("log_Level")) & "</td>"
 			If Len(objRS("log_Title"))>28 Then
-				Response.Write "<td><a href=""../view.asp?id=" & objRS("log_ID") & """ title="""& Replace(objRS("log_Title"),"""","") &""" target=""_blank"">" & Left(objRS("log_Title"),14) & "..." & "</a></td>"
+				Response.Write "<td><a href=""../view.asp?nav=" & objRS("log_ID") & """ title="""& Replace(objRS("log_Title"),"""","") &""" target=""_blank"">" & Left(objRS("log_Title"),14) & "..." & "</a></td>"
 			Else
-				Response.Write "<td><a href=""../view.asp?id=" & objRS("log_ID") & """ title="""& Replace(objRS("log_Title"),"""","") &""" target=""_blank"">" & objRS("log_Title") & "</a></td>"
+				Response.Write "<td><a href=""../view.asp?nav=" & objRS("log_ID") & """ title="""& Replace(objRS("log_Title"),"""","") &""" target=""_blank"">" & objRS("log_Title") & "</a></td>"
 			End If
 			Response.Write "<td>" & FormatDateTime(objRS("log_PostTime"),vbShortDate) & "</td>"
 			Response.Write "<td>" & objRS("log_CommNums") & "</td>"
+			Response.Write "<td>" & ZVA_Article_Level_Name(objRS("log_Level")) & "</td>"
 			Response.Write "<td align=""center""><a href=""../cmd.asp?act=ArticleEdt&amp;webedit="& ZC_BLOG_WEBEDIT &"&amp;id=" & objRS("log_ID") & """><img src=""../image/admin/page_edit.png"" alt=""" & ZC_MSG100 & """ title=""" & ZC_MSG100 & """ width=""16"" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
 			Response.Write "<a onclick='return window.confirm("""& ZC_MSG058 &""");' href=""../cmd.asp?act=ArticleDel&amp;id=" & objRS("log_ID") & """><img src=""../image/admin/delete.png"" alt=""" & ZC_MSG063 & """ title=""" & ZC_MSG063 & """ width=""16"" /></a></td>"
 			Response.Write "</tr>"
@@ -314,7 +315,7 @@ Call Add_Response_Plugin("Response_Plugin_ArticleMng_SubMenu",MakeSubMenu(ZC_MSG
 	End If
 
 	Response.Write "<table border=""1"" width=""100%"" cellspacing=""0"" cellpadding=""0""  class=""tableBorder"">"
-	Response.Write "<tr><th width='5%'>"& ZC_MSG076 &"</th><th width='14%'>"& ZC_MSG003 &"</th><th>"& ZC_MSG060 &"</th><th width='14%'>"& ZC_MSG075 &"</th><th width=""8%"">"& ZC_MSG013 &"</th><th width='14%'></th></tr>"
+	Response.Write "<tr><th width='5%'>"& ZC_MSG076 &"</th><th width='14%'>"& ZC_MSG003 &"</th><th>"& ZC_MSG060 &"</th><th width='14%'>"& ZC_MSG075 &"</th><th width=""6%"">"& ZC_MSG013 &"</th><th width=""9%"">"& ZC_MSG061 &"</th><th width=""12%""></th></tr>"
 
 	objRS.Open("SELECT * FROM [blog_Article] "& strSQL &" ORDER BY [log_PostTime] DESC")
 	objRS.PageSize=ZC_MANAGE_COUNT
@@ -341,12 +342,13 @@ Call Add_Response_Plugin("Response_Plugin_ArticleMng_SubMenu",MakeSubMenu(ZC_MSG
 
 			'Response.Write "<td>" & ZVA_Article_Level_Name(objRS("log_Level")) & "</td>"
 			If Len(objRS("log_Title"))>28 Then
-				Response.Write "<td><a href=""../view.asp?id=" & objRS("log_ID") & """ title="""& Replace(objRS("log_Title"),"""","") &""" target=""_blank"">" & Left(objRS("log_Title"),14) & "..." & "</a></td>"
+				Response.Write "<td><a href=""../view.asp?nav=" & objRS("log_ID") & """ title="""& Replace(objRS("log_Title"),"""","") &""" target=""_blank"">" & Left(objRS("log_Title"),14) & "..." & "</a></td>"
 			Else
-				Response.Write "<td><a href=""../view.asp?id=" & objRS("log_ID") & """ title="""& Replace(objRS("log_Title"),"""","") &""" target=""_blank"">" & objRS("log_Title") & "</a></td>"
+				Response.Write "<td><a href=""../view.asp?nav=" & objRS("log_ID") & """ title="""& Replace(objRS("log_Title"),"""","") &""" target=""_blank"">" & objRS("log_Title") & "</a></td>"
 			End If
 			Response.Write "<td>" & FormatDateTime(objRS("log_PostTime"),vbShortDate) & "</td>"
 			Response.Write "<td>" & objRS("log_CommNums") & "</td>"
+			Response.Write "<td>" & ZVA_Article_Level_Name(objRS("log_Level")) & "</td>"
 			Response.Write "<td align=""center""><a href=""../cmd.asp?act=ArticleEdt&amp;type=Page&amp;webedit="& ZC_BLOG_WEBEDIT &"&amp;id=" & objRS("log_ID") & """><img src=""../image/admin/page_edit.png"" alt=""" & ZC_MSG100 & """ title=""" & ZC_MSG100 & """ width=""16"" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
 			Response.Write "<a onclick='return window.confirm("""& ZC_MSG058 &""");' href=""../cmd.asp?act=ArticleDel&amp;type=Page&amp;id=" & objRS("log_ID") & """><img src=""../image/admin/delete.png"" alt=""" & ZC_MSG063 & """ title=""" & ZC_MSG063 & """ width=""16"" /></a></td>"
 			Response.Write "</tr>"

@@ -468,7 +468,7 @@ Function this_newMediaObject(strFileName,strFileType,strFileBits)
 
 	If objUpLoadFile.UpLoad(False) Then
 
-		strXML=Replace(strXML,"$%#1#%$",TransferHTML(objUpLoadFile.FullUrlPathName,"[html-format]"))
+		strXML=Replace(strXML,"$%#1#%$",TransferHTML(objUpLoadFile.FullUrl,"[html-format]"))
 
 		Response.Write strXML
 

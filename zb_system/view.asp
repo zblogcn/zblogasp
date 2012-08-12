@@ -40,7 +40,7 @@ Set Article=New TArticle
 If IsEmpty(Request.QueryString("nav"))=False Then
 
 	If Article.LoadInfoByID(Request.QueryString("nav")) Then
-		Set objRS=objConn.Execute("SELECT TOP 1 [log_FullUrl] FROM [blog_Article] WHERE ([log_Level]>2) AND ([log_ID]="& Request.QueryString("nav") &")")
+		Set objRS=objConn.Execute("SELECT TOP 1 [log_FullUrl] FROM [blog_Article] WHERE ([log_ID]="& Request.QueryString("nav") &")")
 		If (Not objRS.bof) And (Not objRS.eof) Then
 			Response.Redirect Replace(objRS("log_FullUrl"),"<#ZC_BLOG_HOST#>",GetCurrentHost())
 		Else
@@ -82,7 +82,7 @@ End If
 
 If Article.LoadInfoByID(Request.QueryString("id")) Then
 
-	If Article.Level=1 Then Call ShowError(9)
+	If Article.Level=1 Then Call ShowError(63)
 	If Article.Level=2 Then
 		If Not CheckRights("Root") Then
 			If (Article.AuthorID<>BlogUser.ID) Then Call ShowError(6)

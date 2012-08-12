@@ -85,6 +85,11 @@ End If
 		Case "ThemeMng" Call ExportThemeMng()
 		Case "FunctionMng" Call ExportFunctionList()
 	End Select
+
+
+	Call RefreshOptionFormFileToDB()
+
+
 %>
     </div>
 <!--#include file="admin_footer.asp"-->

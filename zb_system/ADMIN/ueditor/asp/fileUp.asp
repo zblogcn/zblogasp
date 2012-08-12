@@ -8,10 +8,13 @@
 <!-- #include file="..\..\..\function\c_system_plugin.asp" -->
 <!-- #include file="..\..\..\..\zb_users\plugin\p_config.asp" -->
 <%
+Call System_Initialize
+
 dim upload,file,state,uploadPath,PostTime
 Randomize
-Call System_Initialize
+
 PostTime=GetTime(Now())
+
 Dim strUPLOADDIR
 
 strUPLOADDIR = ZC_UPLOAD_DIRECTORY&"\"&Year(GetTime(Now()))&"\"&Month(GetTime(Now()))

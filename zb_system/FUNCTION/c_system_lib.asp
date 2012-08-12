@@ -189,8 +189,8 @@ Class TCategory
 
 		End If
 
-		FullUrl=Replace(Url,ZC_BLOG_HOST,"<#ZC_BLOG_HOST#>")
-		objConn.Execute("UPDATE [blog_Category] SET [cate_FullUrl]='"&FullUrl&"' WHERE [cate_ID] =" & ID)
+		'FullUrl=Replace(Url,ZC_BLOG_HOST,"<#ZC_BLOG_HOST#>")
+		'objConn.Execute("UPDATE [blog_Category] SET [cate_FullUrl]='"&FullUrl&"' WHERE [cate_ID] =" & ID)
 
 		Post=True
 
@@ -406,7 +406,7 @@ Class TArticle
 		Next
 
 		If Level<=2 Then
-			Url = ZC_BLOG_HOST & "view.asp?id=" & ID
+			Url = ZC_BLOG_HOST & "zb_system/view.asp?id=" & ID
 		Else
 			Call GetUsersbyUserIDList(AuthorID)
 			Url =ParseCustomDirectoryForUrl(FullRegex,ZC_STATIC_DIRECTORY,Categorys(CateID).StaticName,Users(AuthorID).StaticName,Year(PostTime),Month(PostTime),Day(PostTime),ID,StaticName)
@@ -1161,7 +1161,7 @@ Class TArticle
 			aryTemplateTagsValue(4)=Search(TransferHTML(Intro & Content,"[nohtml]"),Request.QueryString("q"))
 		Else
 			If Level=2 Then
-				aryTemplateTagsValue(4)=ZC_MSG043
+				aryTemplateTagsValue(4)="<p>"&ZC_MSG043&"</p>"
 			Else
 				aryTemplateTagsValue(4)=HtmlIntro
 			End If
@@ -2559,8 +2559,8 @@ Class TUser
 
 		End If
 
-		FullUrl=Replace(Url,ZC_BLOG_HOST,"<#ZC_BLOG_HOST#>")
-		objConn.Execute("UPDATE [blog_Member] SET [mem_FullUrl]='"&FullUrl&"' WHERE [mem_ID] =" & ID)
+		'FullUrl=Replace(Url,ZC_BLOG_HOST,"<#ZC_BLOG_HOST#>")
+		'objConn.Execute("UPDATE [blog_Member] SET [mem_FullUrl]='"&FullUrl&"' WHERE [mem_ID] =" & ID)
 
 		Edit=True
 
@@ -2631,8 +2631,8 @@ Class TUser
 			End If
 			Set objRS=Nothing
 
-			FullUrl=Replace(Url,ZC_BLOG_HOST,"<#ZC_BLOG_HOST#>")
-			objConn.Execute("UPDATE [blog_Member] SET [mem_FullUrl]='"&FullUrl&"' WHERE [mem_ID] =" & ID)
+			'FullUrl=Replace(Url,ZC_BLOG_HOST,"<#ZC_BLOG_HOST#>")
+			'objConn.Execute("UPDATE [blog_Member] SET [mem_FullUrl]='"&FullUrl&"' WHERE [mem_ID] =" & ID)
 
 			Register=True
 
@@ -3604,13 +3604,13 @@ Class TUpLoadFile
 
 	End Function
 
-	Public Property Get FullUrlPathName
+	Public Property Get FullUrl
 
 		Dim strUPLOADDIR
 
 		strUPLOADDIR = ZC_UPLOAD_DIRECTORY&"/"&Year(GetTime(Now()))&"/"&Month(GetTime(Now()))
 
-		FullUrlPathName=ZC_BLOG_HOST & strUPLOADDIR & "/" & FileName
+		FullUrl=ZC_BLOG_HOST & strUPLOADDIR & "/" & FileName
 
 	End Property
 
@@ -3773,8 +3773,8 @@ Class TTag
 			objConn.Execute("UPDATE [blog_Tag] SET [tag_Name]='"&Name&"',[tag_Order]="&Order&",[tag_Intro]='"&Intro&"',[tag_ParentID]="&ParentID&",[tag_URL]='"&Alias&"',[tag_Template]='"&TemplateName&"',[tag_Meta]='"&MetaString&"' WHERE [tag_ID] =" & ID)
 		End If
 
-		FullUrl=Replace(Url,ZC_BLOG_HOST,"<#ZC_BLOG_HOST#>")
-		objConn.Execute("UPDATE [blog_Tag] SET [tag_FullUrl]='"&FullUrl&"' WHERE [tag_ID] =" & ID)
+		'FullUrl=Replace(Url,ZC_BLOG_HOST,"<#ZC_BLOG_HOST#>")
+		'objConn.Execute("UPDATE [blog_Tag] SET [tag_FullUrl]='"&FullUrl&"' WHERE [tag_ID] =" & ID)
 
 		Post=True
 
