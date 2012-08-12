@@ -187,7 +187,7 @@ Function PostArticle()
 	objArticle.Content=Request.Form("txaContent")
 
 	If objArticle.CateID>0 Then
-		If InStr(objArticle.Content,"<hr />")>0 Then
+		If InStr(objArticle.Content,"<hr class=""more"" />")>0 Then
 			s=objArticle.Content
 			i=InStr(s,"<hr />")
 			s=Left(s,i-1)
