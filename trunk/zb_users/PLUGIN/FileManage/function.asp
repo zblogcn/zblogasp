@@ -383,7 +383,7 @@ Function FileManage_ExportSiteFileEdit(tpath,OpenFolderPath)
 		Response.Write "<p><textarea class=""resizable"" style=""height:300px;width:100%"" name=""txaContent"" id=""txaContent"">"&ct&"</textarea></p>" & vbCrlf
 
 		Response.Write "<hr/>"
-		Response.Write "<p><input class=""button"" type=""submit"" value="""&ZC_MSG087&""" id=""btnPost""/><input class=""button"" type=""button"" value=""返回""  onclick=""location.href='main.asp?act=SiteFileMng&path="&Server.URLEncode(OpenFolderPath)&"'""/></p>" & vbCrlf
+		Response.Write "<p><input class=""button"" type=""submit"" value="""&ZC_MSG087&""" id=""btnPost""/>&nbsp;&nbsp;<input class=""button"" type=""button"" value=""返回""  onclick=""location.href='main.asp?act=SiteFileMng&path="&Server.URLEncode(OpenFolderPath)&"'""/></p>" & vbCrlf
 		Response.Write "</form>" & vbCrlf
 		'If FileManage_CodeMirror Then
     	'Response.Write "<script>var editor = CodeMirror.fromTextArea(document.getElementById(""txaContent""), {mode: {"
