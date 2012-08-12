@@ -59,19 +59,38 @@ End Function
 
 '添加评论代码
 Function ZBQQConnect_AddCommentCode(ByRef a)
-	Dim c
-	If Instr(a,"article/comment/avatar") And ZBQQConnect_HeadMode=2 Then
+	Dim c,d
+	If Instr(a,"article/comment/avatar") And ZBQQConnect_HeadMode<>2 Then
 		ZBQQConnect_Initialize
 		ZBQQConnect_DB.Email=ZBQQConnect_Eml(0)
-		If ZBQQConnect_Eml(0)="" Then
-			If ZBQQConnect_Eml(1)>0 Then
-				Set c=New TUser
-				c.LoadInfoById ZBQQConnect_Eml(1)
-				ZBQQConnect_DB.Email=c.Email
-				Set c=Nothing
+		'这段太混乱了，写点注释吧……
+		If ZBQQConnect_Eml(1)<>"" Then       '判断BlogUser.ID是否为空       
+			If CInt(ZBQQConnect_Eml(1))>0 Then     '如果不为空则判断是否合法
+				ZBQQConnect_DB.objUser.ID=ZBQQConnect_Eml(1)  '如果合法则查看该用户是否有绑定QQ
+				d=ZBQQConnect_DB.LoadInfo(2)
+				If d=False Then    '如果没绑定QQ
+					If ZBQQConnect_Eml(0)<>"" Then '并且有填写E-Mail
+						d=ZBQQConnect_DB.LoadInfo(3)  '则根据E-Mail调取头像
+					Else  '如果没写E-mail
+						Set c=New TUser  
+						c.LoadInfoById ZBQQConnect_Eml(1)
+						ZBQQConnect_DB.Email=c.Email
+						d=ZBQQConnect_DB.LoadInfo(3)  '就从用户表里找
+						Set c=Nothing
+					End If
+				End If
+			Else    '如果ID不合法
+				If ZBQQConnect_Eml(0)<>"" Then '判断E-Mail是否为空
+					d=ZBQQConnect_DB.LoadInfo(3) 
+				Else  '如果为空，嗯。
+					d=False
+				End If
 			End If
+		Else    '如果用户ID为空，则根据E-Mail调用
+			ZBQQConnect_DB.Email=ZBQQConnect_Eml(0)
+			d=ZBQQConnect_DB.LoadInfo(3)
 		End If
-		If ZBQQConnect_DB.LoadInfo(3)=True And ZBQQConnect_DB.EMail<>"" Then 
+		If d Then 
 					If ZBQQConnect_HeadMode=0 Then
 						a=Replace(a,"<#article/comment/avatar#>",ZBQQConnect_DB.tHead&"/100")
 					ElseIf ZBQQConnect_HeadMode=1 Then
