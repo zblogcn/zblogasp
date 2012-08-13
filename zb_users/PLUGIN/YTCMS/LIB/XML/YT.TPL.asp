@@ -4,7 +4,7 @@ Class YT_TPL_XML
 	Private RootNode
 	Private Sub Class_Initialize()
 		Set XmlDom = CreateObject("Msxml2.DOMDocument")
-		If Not XmlDom.load(BlogPath&"ZB_USERS/THEME/"&ZC_BLOG_THEME&"/"&Config.TPL) Then
+		If Not XmlDom.load(BlogPath&"ZB_USERS/THEME/"&ZC_BLOG_THEME&"/"&YTConfig.TPL) Then
 			Call Create()
 		Else
 			Set RootNode = XmlDom.SelectSingleNode("//Root")
@@ -17,9 +17,9 @@ Class YT_TPL_XML
 		Dim Node
 		For Each Node In RootNode.selectNodes("TPL")
 			If Node.selectSingleNode("Type").Text="Single" Then
-				Config.Single.push(jsonToObject("{t:'"&Node.selectSingleNode("File").Text&"',v:["&Node.selectSingleNode("Bind").Text&"]}"))
+				YTConfig.Single.push(jsonToObject("{t:'"&Node.selectSingleNode("File").Text&"',v:["&Node.selectSingleNode("Bind").Text&"]}"))
 			Else
-				Config.Multi.push(jsonToObject("{t:'"&Node.selectSingleNode("File").Text&"',v:["&Node.selectSingleNode("Bind").Text&"]}"))
+				YTConfig.Multi.push(jsonToObject("{t:'"&Node.selectSingleNode("File").Text&"',v:["&Node.selectSingleNode("Bind").Text&"]}"))
 			End If
 		Next
 	End Sub
@@ -67,7 +67,7 @@ Class YT_TPL_XML
 	Function Save()
 		On Error Resume Next
 		Save=false
-		XmlDom.Save BlogPath&"ZB_USERS/THEME/"&ZC_BLOG_THEME&"/"&Config.TPL
+		XmlDom.Save BlogPath&"ZB_USERS/THEME/"&ZC_BLOG_THEME&"/"&YTConfig.TPL
 		If Err.number<>0 then
 			'//Response.Write Err.Description
 			Err.clear

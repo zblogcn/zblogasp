@@ -276,7 +276,7 @@ YT.CMS.push({
 //使用接口加载模型字段
 //==================
 $.ajax({
-	url: YT_CMS_XML_URL+Config.Model,
+	url: YT_CMS_XML_URL+YTConfig.Model,
 	type: 'GET',
 	dataType: 'xml',
 	data: { t:Math.random() },

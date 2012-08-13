@@ -4,7 +4,7 @@ Class YT_Block_XML
 	Private RootNode
 	Private Sub Class_Initialize()
 		Set XmlDom = CreateObject("Msxml2.DOMDocument")
-		If Not XmlDom.load(BlogPath&"ZB_USERS/THEME/"&ZC_BLOG_THEME&"/"&Config.Block) Then
+		If Not XmlDom.load(BlogPath&"ZB_USERS/THEME/"&ZC_BLOG_THEME&"/"&YTConfig.Block) Then
 			Call Create()
 		Else
 			Set RootNode = XmlDom.SelectSingleNode("//Root")
@@ -62,7 +62,7 @@ Class YT_Block_XML
 	Function Save()
 		On Error Resume Next
 		Save=false
-		XmlDom.Save BlogPath&"ZB_USERS/THEME/"&ZC_BLOG_THEME&"/"&Config.Block
+		XmlDom.Save BlogPath&"ZB_USERS/THEME/"&ZC_BLOG_THEME&"/"&YTConfig.Block
 		If Err.number<>0 then
 			'//Response.Write Err.Description
 			Err.clear
