@@ -48,7 +48,7 @@ Call CheckReference("")
     </dl>
 <input type="hidden" name="username" id="username" value="" />
 <input type="hidden" name="password" id="password" value="" />
-<input type="hidden" name="savedate" id="savedate" value="30" />
+<input type="hidden" name="savedate" id="savedate" value="0" />
     </form>
   </div>
 </div>
@@ -87,7 +87,7 @@ $(document).ready(function(){
 });
 
 $("#chkRemember").click(function(){
-	$("#savedate").attr("value",$("#chkRemember").attr("checked")==true?30:0);
+	$("#savedate").attr("value",$("#chkRemember").attr("checked")=="checked"?30:0);
 })
 
 </script>

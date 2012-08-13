@@ -3,8 +3,8 @@
 <id>STACentre</id>
 <name>静态化中心</name>
 <url>http://www.esloy.com/</url>
-<note>将博客首页, 分类首页, 标签首页, 作者首页静态化成 HTML 页面.</note>
-<type>inline</type>
+<note>将博客, 分类页, 标签页, 作者页静态化成 HTML 页面.</note>
+<type>outline</type>
 <path>main.asp</path>
 <include>include.asp</include>
 <level>1</level>
@@ -13,8 +13,8 @@
 	<url>http://www.esloy.com/</url>
 	<email>haphic@gmail.com</email>
 </author>
-<version>0.1</version>
+<version>1.0</version>
 <adapted>Z-Blog 1.8 Arwen</adapted>
 <pubdate>2011-5-1</pubdate>
-<modified>2011-5-1</modified>
+<modified>2011-8-13</modified>
 </plugin>

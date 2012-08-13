@@ -84,7 +84,7 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG247
 
 		If i>0 And j>0 Then 
 			SplitNameAndNote="<p  align='left'><b>·" & Left(s,i-1) & "</b>"
-			SplitNameAndNote=SplitNameAndNote & "<br/><span style='font-size:0.9em;'>&nbsp;&nbsp;" & Mid(s,i+1,Len(s)-i+1-2) & "</span></p>"
+			SplitNameAndNote=SplitNameAndNote & "<br/><span class='note'>&nbsp;&nbsp;" & Mid(s,i+1,Len(s)-i+1-2) & "</span></p>"
 		Else
 			SplitNameAndNote="<p  align='left'><b>·" & s & "</b></p>"
 		End If
