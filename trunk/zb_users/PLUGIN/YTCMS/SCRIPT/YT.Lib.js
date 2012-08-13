@@ -921,13 +921,20 @@ var YT = {
 						if(this.value != -1){
 							var _Parameters = _ds[parseInt(this.value.split('|')[0])].DataSource[parseInt(this.value.split('|')[1])].Parameters;
 							for(var _i=0;_i<_Parameters.length;_i++){
-								var _input = document.createElement('input');
-									_input.className = 'Parameters';
-									_input.type = 'text';
-									_input.lang = typeof(_Parameters[_i].Value);
-									_input.title = _Parameters[_i].Text+',类型'+_input.lang;
-									_input.value = _Parameters[_i].Value;
-									$(t).find('li')[1].appendChild(_input);
+								if(_Parameters[_i].Text.indexOf('分类')==0){
+									var _select = $('#Step2').find('select').clone();
+										_select.attr('class','Parameters').attr('lang',typeof(_Parameters[_i].Value)).attr('title',_Parameters[_i].Text).attr('size',5).css({width:'100%'});
+										$(t).find('li')[1].appendChild(_select[0]);
+								}
+								if(_Parameters[_i].Text.indexOf('分类')==-1){
+									var _input = document.createElement('input');
+										_input.className = 'Parameters';
+										_input.type = 'text';
+										_input.lang = typeof(_Parameters[_i].Value);
+										_input.title = _Parameters[_i].Text+',类型'+_input.lang;
+										_input.value = _Parameters[_i].Value;
+										$(t).find('li')[1].appendChild(_input);
+								}
 							}
 							var ___s = document.createElement('select');
 								___s.className = 'Fields';
