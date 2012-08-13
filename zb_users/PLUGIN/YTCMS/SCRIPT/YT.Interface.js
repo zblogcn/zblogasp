@@ -170,11 +170,11 @@ YT.CMS.push({
 		Text:'调用数量',
 		Value:5
 	},{
-		Text:'分类标识,多个请用逗号分割',
-		Value:'0'
-	},{
 		Text:'TAG标识',
 		Value:0
+	},{
+		Text:'分类标识,多个请用逗号分割',
+		Value:'0'
 	}]},{Text:'置顶文章列表',Value:'GetArticleTop',Parameters:[{
 		Text:'调用数量',
 		Value:5
