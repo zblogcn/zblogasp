@@ -125,7 +125,7 @@ YT.CMS.push({
 		Text:'索引（排除前几条）',
 		Value:1
 	},{
-		Text:'分类标识,多个请用逗号分割',
+		Text:'分类标识,按Ctrl+鼠标左键,可多选',
 		Value:'0'
 	}]},{Text:'最新文章',Value:'GetArticleRandomSortNew',Parameters:[{
 		Text:'调用数量',
@@ -152,13 +152,13 @@ YT.CMS.push({
 		Text:'调用数量',
 		Value:5
 	},{
-		Text:'分类标识,多个请用逗号分割',
+		Text:'分类标识,按Ctrl+鼠标左键,可多选',
 		Value:'0'
 	}]},{Text:'分类热门文章列表',Value:'GetArticleCategorysTophot',Parameters:[{
 		Text:'调用数量',
 		Value:5
 	},{
-		Text:'分类标识,多个请用逗号分割',
+		Text:'分类标识,按Ctrl+鼠标左键,可多选',
 		Value:'0'
 	}]},{Text:'Tag文章列表',Value:'GetArticleTag',Parameters:[{
 		Text:'调用数量',
@@ -173,7 +173,7 @@ YT.CMS.push({
 		Text:'TAG标识',
 		Value:0
 	},{
-		Text:'分类标识,多个请用逗号分割',
+		Text:'分类标识,按Ctrl+鼠标左键,可多选',
 		Value:'0'
 	}]},{Text:'置顶文章列表',Value:'GetArticleTop',Parameters:[{
 		Text:'调用数量',
@@ -182,7 +182,7 @@ YT.CMS.push({
 		Text:'调用数量',
 		Value:5
 	},{
-		Text:'分类标识,多个请用逗号分割',
+		Text:'分类标识,按Ctrl+鼠标左键,可多选',
 		Value:'0'
 	}]}]}]
 });
@@ -236,13 +236,13 @@ YT.CMS.push({
 		Text:'调用数量',
 		Value:5
 	},{
-		Text:'分类标识,多个请用逗号分割',
+		Text:'分类标识,按Ctrl+鼠标左键,可多选',
 		Value:'0'
 	}]},{Text:'文章评论列表',Value:'GetCommentArticleComments',Parameters:[{
 		Text:'调用数量',
 		Value:5
 	},{
-		Text:'文章标识,多个请用逗号分割',
+		Text:'文章标识,按Ctrl+鼠标左键,可多选',
 		Value:'0'
 	}]}]}]
 });
