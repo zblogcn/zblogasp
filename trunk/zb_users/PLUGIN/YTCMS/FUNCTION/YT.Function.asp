@@ -28,8 +28,8 @@ Sub YT_CMS_Filter_Plugin_TArticle_Export_Template(ByRef html,ByRef Template_Arti
 	If Not IsEmpty(html) Then html = new YT_Template.AnalysisTab(html)
 	'If Not IsEmpty(Template_Article_Istop) Then Template_Article_Istop = new YT_Template.AnalysisTab(Template_Article_Istop)
 	Call new YT_TPL_XML.Load()
-	YT_CMS_Template_Article_Single=YT_Template_GetConfigBlock(YT_CMS_Global_Numeric,Config.Single)
-	YT_CMS_Template_Article_Multi=YT_Template_GetConfigBlock(YT_CMS_Global_Numeric,Config.Multi)
+	YT_CMS_Template_Article_Single=YT_Template_GetConfigBlock(YT_CMS_Global_Numeric,YTConfig.Single)
+	YT_CMS_Template_Article_Multi=YT_Template_GetConfigBlock(YT_CMS_Global_Numeric,YTConfig.Multi)
 	If Not IsEmpty(YT_CMS_Template_Article_Single) Then Template_Article_Single=YT_CMS_Template_Article_Single
 	If Not IsEmpty(YT_CMS_Template_Article_Multi) Then Template_Article_Multi=YT_CMS_Template_Article_Multi
 	'If Not IsEmpty(Template_Article_Single) Then Template_Article_Single = new YT_Template.AnalysisTab(Template_Article_Single)

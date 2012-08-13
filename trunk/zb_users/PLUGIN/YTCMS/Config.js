@@ -7,7 +7,7 @@ function jsEscape(Text){
 function jsUnEscape(Text){
 	return unescape(Text);
 }
-var Config = {
+var YTConfig = {
 	Global:{
 		Url:[
 			'HTTP://SHOP.PUGUWANG.COM/',

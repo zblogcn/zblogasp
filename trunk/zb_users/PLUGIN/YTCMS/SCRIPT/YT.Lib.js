@@ -108,7 +108,7 @@ var YT = {
 								$($(t).find('li')[0]).text(e.title);
 								YT.S(t);
 								$.ajax({
-									url: YT_CMS_XML_URL+Config.Block,
+									url: YT_CMS_XML_URL+YTConfig.Block,
 									type: 'GET',
 									dataType: 'xml',
 									data: { t:Math.random() },
@@ -233,7 +233,7 @@ var YT = {
 								return;
 							}
 							$.ajax({
-								url: YT_CMS_XML_URL+Config.Model,
+								url: YT_CMS_XML_URL+YTConfig.Model,
 								type: 'GET',
 								dataType: 'xml',
 								data: { t:Math.random() },
@@ -302,7 +302,7 @@ var YT = {
 				});	
 				if(/\d+/.test(n)){
 					$.ajax({
-						url: YT_CMS_XML_URL+Config.Model,
+						url: YT_CMS_XML_URL+YTConfig.Model,
 						type: 'GET',
 						dataType: 'xml',
 						data: { t:Math.random() },
@@ -339,7 +339,7 @@ var YT = {
 				var _Panel = YT.Panel.ModalDialog($('.Model').eq(1).html());
 				$('.readyModel').remove();
 				$.ajax({
-					url: YT_CMS_XML_URL+Config.Model,
+					url: YT_CMS_XML_URL+YTConfig.Model,
 					type: 'GET',
 					dataType: 'xml',
 					data: { t:Math.random() },
@@ -361,8 +361,8 @@ var YT = {
 								}
 								r.find('td').eq(2).append(j.join(','));	//绑定
 							var a=false;
-								for(var i2=0;i2<Config.Table.length;i2++){
-									if(Config.Table[i2]==$('Table>Name',Model).text()){a=true;break;}	
+								for(var i2=0;i2<YTConfig.Table.length;i2++){
+									if(YTConfig.Table[i2]==$('Table>Name',Model).text()){a=true;break;}	
 								}
 								r.find('td').eq(3).text(a?'系统':'用户');
 								if(a){
@@ -433,7 +433,7 @@ var YT = {
 				});
 				var _Cate = $(this).val();
 				$.ajax({
-					url:YT_CMS_XML_URL+Config.Model,
+					url:YT_CMS_XML_URL+YTConfig.Model,
 					type: 'GET',
 					dataType: 'xml',
 					data: { t:Math.random() },
@@ -582,7 +582,7 @@ var YT = {
 							return;
 						}
 						$.ajax({
-							url: YT_CMS_XML_URL+Config.Block,
+							url: YT_CMS_XML_URL+YTConfig.Block,
 							type: 'GET',
 							dataType: 'xml',
 							data: { t:Math.random() },
@@ -616,7 +616,7 @@ var YT = {
 					});
 					if(/\d+/.test(n)){
 						$.ajax({
-							url: YT_CMS_XML_URL+Config.Block,
+							url: YT_CMS_XML_URL+YTConfig.Block,
 							type: 'GET',
 							dataType: 'xml',
 							data: { t:Math.random() },
@@ -637,7 +637,7 @@ var YT = {
 				var _Panel = YT.Panel.ModalDialog($('.Block').html());
 				$('.readyBlock').remove();
 				$.ajax({
-					url: YT_CMS_XML_URL+Config.Block,
+					url: YT_CMS_XML_URL+YTConfig.Block,
 					type: 'GET',
 					dataType: 'xml',
 					data: { t:Math.random() },
@@ -694,7 +694,7 @@ var YT = {
 						_Json.Bind=j;
 						_Json.Type=s.value;
 						$.ajax({
-							url: YT_CMS_XML_URL+Config.TPL,
+							url: YT_CMS_XML_URL+YTConfig.TPL,
 							type: 'GET',
 							dataType: 'xml',
 							data: { t:Math.random() },
@@ -738,7 +738,7 @@ var YT = {
 					}
 					function l(_Json){
 						$.ajax({
-							url: YT_CMS_XML_URL+Config.TPL,
+							url: YT_CMS_XML_URL+YTConfig.TPL,
 							type: 'GET',
 							dataType: 'xml',
 							data: { t:Math.random() },
@@ -774,7 +774,7 @@ var YT = {
 				var _Panel = YT.Panel.ModalDialog($('.TPL').html());
 				$('.readyTPL').remove();
 				$.ajax({
-					url: YT_CMS_XML_URL+Config.TPL,
+					url: YT_CMS_XML_URL+YTConfig.TPL,
 					type: 'GET',
 					dataType: 'xml',
 					data: { t:Math.random() },
