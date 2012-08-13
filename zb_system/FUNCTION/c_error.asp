@@ -37,10 +37,15 @@
 	  <div class="divHeader"><%=ZC_MSG045%></div>
 
 <%
-	Response.Write "<p>" & ZC_MSG098 & ":" & ZVA_ErrorMsg(Request.QueryString("errorid")) & "</p>"
+	Dim a,b
+	a=Request.QueryString("errorid")
+	b=Request.QueryString("number")
+	Call CheckParameter(a,"int",0)
+	Call CheckParameter(b,"int",0)
+	Response.Write "<p>" & ZC_MSG098 & ":" & ZVA_ErrorMsg(a) & "</p>"
 
-	If CLng(Request.QueryString("number"))<>0 Then
-		Response.Write "<p>" & ZC_MSG076 & ":" & "" & CLng(Request.QueryString("number")) & "</p>"
+	If b<>0 Then
+		Response.Write "<p>" & ZC_MSG076 & ":" & "" & a & "</p>"
 		Response.Write "<p>" & ZC_MSG016 & ":" & "<br/>" & TransferHTML(Request.QueryString("description"),"[html-format]") & "</p>"
 		Response.Write "<p>" & TransferHTML(Request.QueryString("source"),"[html-format]") & "</p>"
 	End If
@@ -51,7 +56,7 @@
 		Response.Write "<p style='text-align:right;'><a href=""" & ZC_BLOG_HOST & """>" & ZC_MSG207 & "</a></p>"
 	End If
 
-	If CLng(Request.QueryString("errorid"))=6 Then
+	If a=6 Then
 		Response.Write "<p style='text-align:right;'><a href=""../cmd.asp?act=login"" target=""_top"">"& ZC_MSG009 & "</a></p>"
 	End If
 %>
