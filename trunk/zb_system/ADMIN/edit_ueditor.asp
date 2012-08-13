@@ -281,9 +281,7 @@ End If
 <!-- template( -->
                           <span class='editinputname' style="cursor:pointer;" onClick="$(this).next().toggleClass('hidden');"><%=ZC_MSG188%>:</span>
                           <select style="width:150px;" class="edit" size="1" id="cmbTemplate" onChange="edtTemplate.value=this.options[this.selectedIndex].value">
-                            <%
-	'Response.Write "<option value="""">"&ZC_MSG187&"</option>"
-
+<%
 	Dim aryFileList
 
 	aryFileList=LoadIncludeFilesOnlyType("zb_users\theme" & "/" & ZC_BLOG_THEME & "/" & ZC_TEMPLATE_DIRECTORY)
@@ -305,12 +303,12 @@ End If
 
 	If EditArticle.TemplateName="" Then
 	%>
-                            <option value="" selected="selected"><%=ZC_MSG187%>(SINGLE)</option>
-                            <%
+                            <option value="" selected="selected"><%=IIF(IsPage,ZC_MSG187&"(PAGE)",ZC_MSG187&"(SINGLE)")%></option>
+    <%
 	Else
 	%>
-                            <option value=""><%=ZC_MSG187%>(SINGLE)</option>
-                            <%
+                             <option value=""><%=IIF(IsPage,ZC_MSG187&"(PAGE)",ZC_MSG187&"(SINGLE)")%></option>
+    <%
 	End If
 %>
                           </select>

@@ -322,21 +322,15 @@ Class TArticle
 		Meta.LoadString=s
 	End Property
 
-	Public Template_Article_Trackback
-	Public Template_Article_Comment
-	Public Template_Article_Comment_Pagebar
-	Public Template_Article_Commentpost
-	Public Template_Article_Tag
-	Public Template_Article_Navbar_L
-	Public Template_Article_Navbar_R
-	Public Template_Article_Commentpost_Verify
-	Public Template_Article_Mutuality
-
-
-	Public Template_Article_Single
-	Public Template_Article_Multi
-	Public Template_Article_Istop
-	Public Template_Article_Search
+	Private Template_Article_Trackback
+	Private Template_Article_Comment
+	Private Template_Article_Comment_Pagebar
+	Private Template_Article_Commentpost
+	Private Template_Article_Tag
+	Private Template_Article_Navbar_L
+	Private Template_Article_Navbar_R
+	Private Template_Article_Commentpost_Verify
+	Private Template_Article_Mutuality
 
 	Private Disable_Export_Tag
 	Private Disable_Export_CMTandTB
@@ -345,9 +339,19 @@ Class TArticle
 	Private Disable_Export_NavBar
 
 	Public html
+	Public subhtml
+	Public subhtml_TemplateName
 
 	Public IsDynamicLoadSildbar
+	Public SearchText
 	Public CommentsPage
+	Public Property Get IsPage
+		If CateID=0 Then
+			IsPage=True
+		Else 
+			IsPage=False
+		End If
+	End Property
 
 	Private Ftemplate
 	Public Property Let Template(strFileName)
@@ -364,10 +368,18 @@ Class TArticle
 				If s<>"" Then
 					Ftemplate = s
 				Else
-					Ftemplate=GetTemplate("TEMPLATE_SINGLE")
+					If IsPage=True Then
+						Ftemplate=GetTemplate("TEMPLATE_PAGE")
+					Else
+						Ftemplate=GetTemplate("TEMPLATE_SINGLE")
+					End If
 				End If
 			Else
-				Ftemplate=GetTemplate("TEMPLATE_SINGLE")
+					If IsPage=True Then
+						Ftemplate=GetTemplate("TEMPLATE_PAGE")
+					Else
+						Ftemplate=GetTemplate("TEMPLATE_SINGLE")
+					End If
 			End If
 			Template = Ftemplate
 		End If
@@ -381,10 +393,10 @@ Class TArticle
 		If Ffullregex<>"" Then 
 			FullRegex=Ffullregex
 		Else
-			If CateID<>0 Then
-				FullRegex=ZC_ARTICLE_REGEX
-			Else
+			If IsPage=True Then
 				FullRegex=ZC_PAGE_REGEX
+			Else
+				FullRegex=ZC_ARTICLE_REGEX
 			End If
 		End If
 	End Property
@@ -921,7 +933,7 @@ Class TArticle
 		Next
 
 
-		If ZC_USE_NAVIGATE_ARTICLE=False Or CateID=0 Then
+		If ZC_USE_NAVIGATE_ARTICLE=False Or IsPage=True Then
 
 			Template_Article_Navbar_L=""
 			Template_Article_Navbar_R=""
@@ -1102,13 +1114,31 @@ Class TArticle
 
 		Call GetUsersbyUserIDList(AuthorID)
 
-		If (ZC_DISPLAY_MODE_INTRO=intType) Or (ZC_DISPLAY_MODE_ONTOP=intType) Or (ZC_DISPLAY_MODE_SEARCH=intType) Then
+		If (ZC_DISPLAY_MODE_INTRO=intType) Or (ZC_DISPLAY_MODE_ONTOP=intType) Or (ZC_DISPLAY_MODE_SEARCH=intType) Or (ZC_DISPLAY_MODE_ONLYPAGE=intType) Then
 			Disable_Export_Tag=False
 			Disable_Export_CMTandTB=True
 			Disable_Export_CommentPost=True
 			Disable_Export_Mutuality=True
 			Disable_Export_NavBar=True
-			If ZC_DISPLAY_MODE_ONTOP=intType Then Disable_Export_Tag=True
+			If ZC_DISPLAY_MODE_ONLYPAGE=intType Then
+				Disable_Export_Tag=True
+			End If
+			If ZC_DISPLAY_MODE_ONTOP=intType Then
+				Disable_Export_Tag=True
+				subhtml_TemplateName=""
+				subhtml=GetTemplate("TEMPLATE_B_ARTICLE-ISTOP")
+			End If
+			If ZC_DISPLAY_MODE_SEARCH=intType Then
+				Disable_Export_Tag=True
+				subhtml_TemplateName=""
+				subhtml=GetTemplate("TEMPLATE_B_ARTICLE-SEARCH")
+			End If
+		End If
+
+		If IsPage=True Then
+			Disable_Export_Tag=True
+			Disable_Export_Mutuality=True
+			Disable_Export_NavBar=True
 		End If
 
 		Call Export_Tag
@@ -1117,27 +1147,35 @@ Class TArticle
 		Call Export_Mutuality
 		Call Export_NavBar
 
-		Template_Article_Single=GetTemplate("TEMPLATE_B_ARTICLE-SINGLE")
-		Template_Article_Multi=GetTemplate("TEMPLATE_B_ARTICLE-MULTI")
-		Template_Article_Istop=GetTemplate("TEMPLATE_B_ARTICLE-ISTOP")
+		Dim RE ,Match,Matches
+		Set RE = New RegExp 
+			RE.Pattern = "\<\#template\:(article\-(multi|single|page)(\-[a-z])*)\#\>"
+			RE.IgnoreCase = True 
+			RE.Global = True 
+			Set Matches = RE.Execute(html) 
+			For Each Match in Matches
+				If IsEmpty(subhtml_TemplateName) Then subhtml_TemplateName="<#template:"&Match.SubMatches(0)&"#>"
+				If IsEmpty(subhtml) Then subhtml=GetTemplate("TEMPLATE_B_"& UCase(Match.SubMatches(0)))
+				Exit For
+			Next
+			Set Matches = Nothing
+		Set RE = Nothing
+
 
 		'plugin node
-		Call Filter_Plugin_TArticle_Export_Template(html,Template_Article_Single,Template_Article_Multi,Template_Article_Istop)
+		Call Filter_Plugin_TArticle_Export_Template(html,subhtml)
 
 		'plugin node
 		Call Filter_Plugin_TArticle_Export_Template_Sub(Template_Article_Comment,Template_Article_Trackback,Template_Article_Tag,Template_Article_Commentpost,Template_Article_Navbar_L,Template_Article_Navbar_R,Template_Article_Mutuality)
 
-		Template_Article_Single=Replace(Template_Article_Single,"<#template:article_comment#>",Template_Article_Comment)
-		Template_Article_Single=Replace(Template_Article_Single,"<#template:article_trackback#>",Template_Article_Trackback)
-		Template_Article_Single=Replace(Template_Article_Single,"<#template:article_comment_pagebar#>",Template_Article_Comment_Pagebar)
-		Template_Article_Single=Replace(Template_Article_Single,"<#template:article_commentpost#>",Template_Article_Commentpost)
-		Template_Article_Single=Replace(Template_Article_Single,"<#template:article_tag#>",Template_Article_Tag)
-		Template_Article_Single=Replace(Template_Article_Single,"<#template:article_navbar_l#>",Template_Article_Navbar_L)
-		Template_Article_Single=Replace(Template_Article_Single,"<#template:article_navbar_r#>",Template_Article_Navbar_R)
-		Template_Article_Single=Replace(Template_Article_Single,"<#template:article_mutuality#>",Template_Article_Mutuality)
-
-		Template_Article_Multi=Replace(Template_Article_Multi,"<#template:article_tag#>",Template_Article_Tag)
-		Template_Article_Istop=Replace(Template_Article_Istop,"<#template:article_tag#>",Template_Article_Tag)
+		subhtml=Replace(subhtml,"<#template:article_comment#>",Template_Article_Comment)
+		subhtml=Replace(subhtml,"<#template:article_trackback#>",Template_Article_Trackback)
+		subhtml=Replace(subhtml,"<#template:article_comment_pagebar#>",Template_Article_Comment_Pagebar)
+		subhtml=Replace(subhtml,"<#template:article_commentpost#>",Template_Article_Commentpost)
+		subhtml=Replace(subhtml,"<#template:article_tag#>",Template_Article_Tag)
+		subhtml=Replace(subhtml,"<#template:article_navbar_l#>",Template_Article_Navbar_L)
+		subhtml=Replace(subhtml,"<#template:article_navbar_r#>",Template_Article_Navbar_R)
+		subhtml=Replace(subhtml,"<#template:article_mutuality#>",Template_Article_Mutuality)
 
 		Dim aryTemplateTagsName()
 		Dim aryTemplateTagsValue()
@@ -1151,14 +1189,14 @@ Class TArticle
 		aryTemplateTagsValue(2)=Level
 		aryTemplateTagsName(3)="article/title"
 		If intType=ZC_DISPLAY_MODE_SEARCH Then
-			aryTemplateTagsValue(3)=Search(Title,Request.QueryString("q"))
+			aryTemplateTagsValue(3)=Search(Title,SearchText)
 		Else
 			aryTemplateTagsValue(3)=HtmlTitle
 		End If
 		aryTemplateTagsName(4)="article/intro"
 		If intType=ZC_DISPLAY_MODE_SEARCH Then
 			'aryTemplateTagsValue(4)=Search(TransferHTML(Intro & Content,"[html-format]"),Request.QueryString("q"))
-			aryTemplateTagsValue(4)=Search(TransferHTML(Intro & Content,"[nohtml]"),Request.QueryString("q"))
+			aryTemplateTagsValue(4)=Trim(Search(TransferHTML(Intro & Content,"[nohtml]"),SearchText))
 		Else
 			If Level=2 Then
 				aryTemplateTagsValue(4)="<p>"&ZC_MSG043&"</p>"
@@ -1281,18 +1319,12 @@ Class TArticle
 		j=UBound(aryTemplateTagsName)
 		For i=1 to j
 			If IsNull(aryTemplateTagsValue(i))=False Then
-				Template_Article_Istop=Replace(Template_Article_Istop,"<#" & aryTemplateTagsName(i) & "#>",aryTemplateTagsValue(i))
-				Template_Article_Multi=Replace(Template_Article_Multi,"<#" & aryTemplateTagsName(i) & "#>",aryTemplateTagsValue(i))
-				Template_Article_Single=Replace(Template_Article_Single,"<#" & aryTemplateTagsName(i) & "#>",aryTemplateTagsValue(i))
+				subhtml=Replace(subhtml,"<#" & aryTemplateTagsName(i) & "#>",aryTemplateTagsValue(i))
 				html = Replace(html,"<#" & aryTemplateTagsName(i) & "#>", aryTemplateTagsValue(i))
 			End If
 		Next
 
-		If intType=ZC_DISPLAY_MODE_SEARCH Then
-			Template_Article_Search=Template_Article_Multi
-		End If
-
-		html=Replace(html,"<#template:article-single#>",Template_Article_Single)
+		html=Replace(html,subhtml_TemplateName,subhtml)
 
 		Export=True
 
@@ -1502,10 +1534,7 @@ Class TArticleList
 
 	Public Title
 
-
 	Public Template_PageBar
-	Public Template_Article_Multi
-	Public Template_Article_Istop
 	Public Template_PageBar_Next
 	Public Template_PageBar_Previous
 	Public Template_Calendar
@@ -1521,6 +1550,7 @@ Class TArticleList
 	Public TemplateTags_ArticleList_Page_All
 
 	Public html
+	Public subhtml
 
 	Public IsDynamicLoadSildbar
 	Public ListType
@@ -1577,6 +1607,7 @@ Class TArticleList
 
 		Dim aryArticle
 		Dim aryArticleList()
+		Dim  Template_Article_Istop
 
 		'plugin node
 		Dim i,j,k,l
@@ -1627,7 +1658,6 @@ Class TArticleList
 
 		End If
 		objRS.Close()
-
 		'//////////////////////////
 
 
@@ -1746,6 +1776,9 @@ Class TArticleList
 		Set objRS=Nothing
 
 
+
+		If IsEmpty(html)=True Then html=Template
+
 		Call GetTagsbyTagIDList(tt & td)
 
 		Call GetUsersbyUserIDList(ut & "," & ud)
@@ -1757,8 +1790,9 @@ Class TArticleList
 			j=dt.Keys
 			ReDim Preserve aryArticleList(i)
 			Set objArticle=dt.Item(j(i))
-			If objArticle.Export(intType)= True Then
-				aryArticleList(i)=objArticle.Template_Article_Istop
+			objArticle.html=html
+			If objArticle.Export(ZC_DISPLAY_MODE_ONTOP)= True Then
+				aryArticleList(i)=objArticle.subhtml
 			End If
 		Next
 		Template_Article_Istop=Join(aryArticleList)
@@ -1770,22 +1804,79 @@ Class TArticleList
 			j=dd.Keys
 			ReDim Preserve aryArticleList(i)
 			Set objArticle=dd.Item(j(i))
+			objArticle.html=html
 			If objArticle.Export(intType)= True Then
-				aryArticleList(i)=objArticle.Template_Article_Multi
+				aryArticleList(i)=objArticle.subhtml
 			End If
 		Next
-		Template_Article_Multi=Join(aryArticleList)
+		subhtml=Join(aryArticleList)
 
+
+		If ListType="DEFAULT" Then subhtml=Template_Article_Istop & subhtml
 
 
 		TemplateTags_ArticleList_Page_Now=intPage
 		TemplateTags_ArticleList_Page_All=intPageCount
 
 
-
 		Call ExportBar(intPage,intPageCount)
 
-		If IsEmpty(html)=True Then html=Template
+
+		Dim aryTemplateSubName()
+		Dim aryTemplateSubValue()
+
+
+		ReDim aryTemplateSubName(19)
+		ReDim aryTemplateSubValue(19)
+
+		aryTemplateSubName(  1)="template:article-multi"
+		aryTemplateSubValue( 1)=subhtml
+		aryTemplateSubName(  2)="template:pagebar"
+		aryTemplateSubValue( 2)=Template_PageBar
+		aryTemplateSubName(  3)="template:pagebar_next"
+		aryTemplateSubValue( 3)=Template_PageBar_Next
+		aryTemplateSubName(  4)="template:pagebar_previous"
+		aryTemplateSubValue( 4)=Template_PageBar_Previous
+		aryTemplateSubName(  5)="articlelist/author/id"
+		aryTemplateSubValue( 5)=TemplateTags_ArticleList_Author_ID
+		aryTemplateSubName(  6)="articlelist/tags/id"
+		aryTemplateSubValue( 6)=TemplateTags_ArticleList_Tags_ID
+		aryTemplateSubName(  7)="articlelist/category/id"
+		aryTemplateSubValue( 7)=TemplateTags_ArticleList_Category_ID
+		aryTemplateSubName(  8)="articlelist/date/year"
+		aryTemplateSubValue( 8)=TemplateTags_ArticleList_Date_Year
+		aryTemplateSubName(  9)="articlelist/date/month"
+		aryTemplateSubValue( 9)=TemplateTags_ArticleList_Date_Month
+		aryTemplateSubName( 10)="articlelist/date/day"
+		aryTemplateSubValue(10)=TemplateTags_ArticleList_Date_Day
+		aryTemplateSubName( 11)="articlelist/date/shortdate"
+		aryTemplateSubValue(11)=TemplateTags_ArticleList_Date_ShortDate
+		aryTemplateSubName( 12)="articlelist/page/now"
+		aryTemplateSubValue(12)=TemplateTags_ArticleList_Page_Now
+		aryTemplateSubName( 13)="articlelist/page/all"
+		aryTemplateSubValue(13)=TemplateTags_ArticleList_Page_All
+		aryTemplateSubName( 14)="articlelist/page/count"
+		aryTemplateSubValue(14)=ZC_DISPLAY_COUNT
+		aryTemplateSubName( 15)="template:sidebar"
+		aryTemplateSubValue(15)=GetTemplate("CACHE_SIDEBAR")
+		aryTemplateSubName( 16)="template:sidebar2"
+		aryTemplateSubValue(16)=GetTemplate("CACHE_SIDEBAR2")
+		aryTemplateSubName( 17)="template:sidebar3"
+		aryTemplateSubValue(17)=GetTemplate("CACHE_SIDEBAR3")
+		aryTemplateSubName( 18)="template:sidebar4"
+		aryTemplateSubValue(18)=GetTemplate("CACHE_SIDEBAR4")
+		aryTemplateSubName( 19)="template:sidebar5"
+		aryTemplateSubValue(19)=GetTemplate("CACHE_SIDEBAR5")
+
+
+		'plugin node
+		Call Filter_Plugin_TArticleList_Export_TemplateTags(aryTemplateSubName,aryTemplateSubValue)
+
+		j=UBound(aryTemplateSubName)
+		For i=0 to j
+			html=Replace(html,"<#" & aryTemplateSubName(i) & "#>",aryTemplateSubValue(i))
+		Next
+
 
 		Export=True
 
@@ -1800,91 +1891,57 @@ Class TArticleList
 
 
 
-	Public Function Search(strQuestion)
+	Public Function Build()
+
+		Dim i,j
 
 		'plugin node
-		bAction_Plugin_TArticleList_Search_Begin=False
-		For Each sAction_Plugin_TArticleList_Search_Begin in Action_Plugin_TArticleList_Search_Begin
-			If Not IsEmpty(sAction_Plugin_TArticleList_Search_Begin) Then Call Execute(sAction_Plugin_TArticleList_Search_Begin)
-			If bAction_Plugin_TArticleList_Search_Begin=True Then Exit Function
-		Next
+		Call Filter_Plugin_TArticleList_Build_Template(html)
 
-		Dim i
-		Dim j
-		Dim s
+		Dim aryTemplateTagsName
+		Dim aryTemplateTagsValue
 
-		Dim objRS
-		Dim intPageCount
-		Dim objArticle
+		TemplateTagsDic.Item("BlogTitle")=HtmlTitle
 
-		strQuestion=Trim(strQuestion)
+		aryTemplateTagsName=TemplateTagsDic.Keys
+		aryTemplateTagsValue=TemplateTagsDic.Items
 
-		If Len(strQuestion)=0 Then Search=True:Exit Function
+		Call Filter_Plugin_TArticleList_Build_TemplateTags(aryTemplateTagsName,aryTemplateTagsValue)
 
-		strQuestion=FilterSQL(strQuestion)
-
-		Set objRS=Server.CreateObject("ADODB.Recordset")
-		objRS.CursorType = adOpenKeyset
-		objRS.LockType = adLockReadOnly
-		objRS.ActiveConnection=objConn
-
-		objRS.Source="SELECT [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_IsAnonymous],[log_Meta] FROM [blog_Article] WHERE ([log_CateID]>0) And ([log_ID]>0) AND ([log_Level]>2)"
-
-		If ZC_MSSQL_ENABLE=False Then
-			objRS.Source=objRS.Source & "AND( (InStr(1,LCase([log_Title]),LCase('"&strQuestion&"'),0)<>0) OR (InStr(1,LCase([log_Intro]),LCase('"&strQuestion&"'),0)<>0) OR (InStr(1,LCase([log_Content]),LCase('"&strQuestion&"'),0)<>0) )"
-		Else
-			objRS.Source=objRS.Source & "AND( (CHARINDEX('"&strQuestion&"',[log_Title])<>0) OR (CHARINDEX('"&strQuestion&"',[log_Intro])<>0) OR (CHARINDEX('"&strQuestion&"',[log_Content])<>0) )"
-		End If
-
-		objRS.Source=objRS.Source & "ORDER BY [log_PostTime] DESC,[log_ID] DESC"
-		objRS.Open()
-
-		's=Replace(Replace(ZC_MSG086,"%s","<strong>" & TransferHTML(Replace(strQuestion,Chr(39)&Chr(39),Chr(39)),"[html-format]") & "</strong>",vbTextCompare,1),"%s","<strong>" & objRS.RecordCount & "</strong>")
-		s=Replace(Replace(ZC_MSG086,"%s","<strong>" & TransferHTML(Replace(strQuestion,Chr(39)&Chr(39),Chr(39),1,-1,0),"[html-format]") & "</strong>",vbTextCompare,1),"%s","<strong>" & objRS.RecordCount & "</strong>",1,-1,0)
-
-		If (Not objRS.bof) And (Not objRS.eof) Then
-			objRS.PageSize = ZC_SEARCH_COUNT
-			intPageCount=objRS.PageCount
-			objRS.AbsolutePage = 1
-
-			For i = 1 To objRS.PageSize
-
-				ReDim Preserve aryArticleList(i)
-
-				Set objArticle=New TArticle
-				If objArticle.LoadInfoByArray(Array(objRS(0),objRS(1),objRS(2),objRS(3),objRS(4),objRS(5),objRS(6),objRS(7),objRS(8),objRS(9),objRS(10),objRS(11),objRS(12),objRS(13),objRS(14),objRS(15),objRS(16),objRS(17))) Then
-					If objArticle.Export(ZC_DISPLAY_MODE_SEARCH)= True Then
-						aryArticleList(i)=objArticle.Template_Article_Search
-					End If
+		Dim s,t
+		j=UBound(aryTemplateTagsName)
+		For i=1 to j
+			If (InStr(aryTemplateTagsName(i),"CACHE_INCLUDE_")>0) And (Right(aryTemplateTagsName(i),5)<>"_HTML") And (Right(aryTemplateTagsName(i),3)<>"_JS") Then
+				s=s & aryTemplateTagsName(i) & "|"
+			End If
+			If IsEmpty(Template_Calendar)=False Then 
+				If ("<#" & aryTemplateTagsName(i) & "#>"="<#CACHE_INCLUDE_CALENDAR#>") Or ("<#" & aryTemplateTagsName(i) & "#>"="<#CACHE_INCLUDE_CALENDAR_JS#>") Then
+					aryTemplateTagsValue(i)=Template_Calendar
 				End If
-				Set objArticle=Nothing
+			Else
+				If ("<#" & aryTemplateTagsName(i) & "#>"="<#CACHE_INCLUDE_CALENDAR_NOW#>") Then
+					aryTemplateTagsValue(i)=TemplateTagsDic.Item("CACHE_INCLUDE_CALENDAR")
+				End If
+			End If
+		Next
 
-				objRS.MoveNext
-				If objRS.EOF Then Exit For
-
+		If IsDynamicLoadSildbar=True Then
+			For Each t In Split(s,"|")
+				If t="" Then Exit For
+				If t<>"CACHE_INCLUDE_NAVBAR" Then
+					html=Replace(html,"<#"&t&"#>","<#"&t&"_JS#>")
+				End If
 			Next
-
-		Else
-			ReDim Preserve aryArticleList(0)
 		End If
 
-		objRS.Close()
-		Set objRS=Nothing
-
-		Template_Article_Multi=Join(aryArticleList)
-
-		Title=strQuestion
-
-		If IsEmpty(html)=True Then html=Template
-
-		Search=True
-
-		'plugin node
-		bAction_Plugin_TArticleList_Search_End=False
-		For Each sAction_Plugin_TArticleList_Search_End in Action_Plugin_TArticleList_Search_End
-			If Not IsEmpty(sAction_Plugin_TArticleList_Search_End) Then Call Execute(sAction_Plugin_TArticleList_Search_End)
-			If bAction_Plugin_TArticleList_Search_End=True Then Exit Function
+		j=UBound(aryTemplateTagsName)
+		For i=1 to j
+			html=Replace(html,"<#" & aryTemplateTagsName(i) & "#>",aryTemplateTagsValue(i))
 		Next
+		html=Replace(html,"<#" & aryTemplateTagsName(0) & "#>",aryTemplateTagsValue(0))
+
+
+		Build=True
 
 	End Function
 
@@ -2008,120 +2065,6 @@ Class TArticleList
 			If Not IsEmpty(sAction_Plugin_TArticleList_ExportBar_End) Then Call Execute(sAction_Plugin_TArticleList_ExportBar_End)
 			If bAction_Plugin_TArticleList_ExportBar_End=True Then Exit Function
 		Next
-
-	End Function
-
-
-
-	Public Function Build()
-
-		Dim i,j
-
-		'plugin node
-		Call Filter_Plugin_TArticleList_Build_Template(html)
-
-		Dim aryTemplateSubName()
-		Dim aryTemplateSubValue()
-
-		ReDim aryTemplateSubName(20)
-		ReDim aryTemplateSubValue(20)
-
-		aryTemplateSubName(  1)="template:article-multi"
-		aryTemplateSubValue( 1)=Template_Article_Multi
-		aryTemplateSubName(  2)="template:pagebar"
-		aryTemplateSubValue( 2)=Template_PageBar
-		aryTemplateSubName(  3)="template:pagebar_next"
-		aryTemplateSubValue( 3)=Template_PageBar_Next
-		aryTemplateSubName(  4)="template:pagebar_previous"
-		aryTemplateSubValue( 4)=Template_PageBar_Previous
-		aryTemplateSubName(  5)="articlelist/author/id"
-		aryTemplateSubValue( 5)=TemplateTags_ArticleList_Author_ID
-		aryTemplateSubName(  6)="articlelist/tags/id"
-		aryTemplateSubValue( 6)=TemplateTags_ArticleList_Tags_ID
-		aryTemplateSubName(  7)="articlelist/category/id"
-		aryTemplateSubValue( 7)=TemplateTags_ArticleList_Category_ID
-		aryTemplateSubName(  8)="articlelist/date/year"
-		aryTemplateSubValue( 8)=TemplateTags_ArticleList_Date_Year
-		aryTemplateSubName(  9)="articlelist/date/month"
-		aryTemplateSubValue( 9)=TemplateTags_ArticleList_Date_Month
-		aryTemplateSubName( 10)="articlelist/date/day"
-		aryTemplateSubValue(10)=TemplateTags_ArticleList_Date_Day
-		aryTemplateSubName( 11)="articlelist/date/shortdate"
-		aryTemplateSubValue(11)=TemplateTags_ArticleList_Date_ShortDate
-		aryTemplateSubName( 12)="articlelist/page/now"
-		aryTemplateSubValue(12)=TemplateTags_ArticleList_Page_Now
-		aryTemplateSubName( 13)="articlelist/page/all"
-		aryTemplateSubValue(13)=TemplateTags_ArticleList_Page_All
-		aryTemplateSubName( 14)="articlelist/page/count"
-		aryTemplateSubValue(14)=ZC_DISPLAY_COUNT
-		aryTemplateSubName( 15)="template:sidebar"
-		aryTemplateSubValue(15)=GetTemplate("CACHE_SIDEBAR")
-		aryTemplateSubName( 16)="template:sidebar2"
-		aryTemplateSubValue(16)=GetTemplate("CACHE_SIDEBAR2")
-		aryTemplateSubName( 17)="template:sidebar3"
-		aryTemplateSubValue(17)=GetTemplate("CACHE_SIDEBAR3")
-		aryTemplateSubName( 18)="template:sidebar4"
-		aryTemplateSubValue(18)=GetTemplate("CACHE_SIDEBAR4")
-		aryTemplateSubName( 19)="template:sidebar5"
-		aryTemplateSubValue(19)=GetTemplate("CACHE_SIDEBAR5")
-		aryTemplateSubName( 20)="template:article-istop"
-		aryTemplateSubValue(20)=Template_Article_Istop
-
-
-		'plugin node
-		Call Filter_Plugin_TArticleList_Build_TemplateSub(aryTemplateSubName,aryTemplateSubValue)
-
-
-		j=UBound(aryTemplateSubName)
-		For i=0 to j
-			html=Replace(html,"<#" & aryTemplateSubName(i) & "#>",aryTemplateSubValue(i))
-		Next
-
-
-		Dim aryTemplateTagsName
-		Dim aryTemplateTagsValue
-
-		TemplateTagsDic.Item("BlogTitle")=HtmlTitle
-
-		aryTemplateTagsName=TemplateTagsDic.Keys
-		aryTemplateTagsValue=TemplateTagsDic.Items
-
-		Call Filter_Plugin_TArticleList_Build_TemplateTags(aryTemplateTagsName,aryTemplateTagsValue)
-
-		Dim s,t
-		j=UBound(aryTemplateTagsName)
-		For i=1 to j
-			If (InStr(aryTemplateTagsName(i),"CACHE_INCLUDE_")>0) And (Right(aryTemplateTagsName(i),5)<>"_HTML") And (Right(aryTemplateTagsName(i),3)<>"_JS") Then
-				s=s & aryTemplateTagsName(i) & "|"
-			End If
-			If IsEmpty(Template_Calendar)=False Then 
-				If ("<#" & aryTemplateTagsName(i) & "#>"="<#CACHE_INCLUDE_CALENDAR#>") Or ("<#" & aryTemplateTagsName(i) & "#>"="<#CACHE_INCLUDE_CALENDAR_JS#>") Then
-					aryTemplateTagsValue(i)=Template_Calendar
-				End If
-			Else
-				If ("<#" & aryTemplateTagsName(i) & "#>"="<#CACHE_INCLUDE_CALENDAR_NOW#>") Then
-					aryTemplateTagsValue(i)=TemplateTagsDic.Item("CACHE_INCLUDE_CALENDAR")
-				End If
-			End If
-		Next
-
-		If IsDynamicLoadSildbar=True Then
-			For Each t In Split(s,"|")
-				If t="" Then Exit For
-				If t<>"CACHE_INCLUDE_NAVBAR" Then
-					html=Replace(html,"<#"&t&"#>","<#"&t&"_JS#>")
-				End If
-			Next
-		End If
-
-		j=UBound(aryTemplateTagsName)
-		For i=1 to j
-			html=Replace(html,"<#" & aryTemplateTagsName(i) & "#>",aryTemplateTagsValue(i))
-		Next
-		html=Replace(html,"<#" & aryTemplateTagsName(0) & "#>",aryTemplateTagsValue(0))
-
-
-		Build=True
 
 	End Function
 

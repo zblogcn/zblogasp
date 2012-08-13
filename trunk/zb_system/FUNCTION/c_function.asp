@@ -222,12 +222,12 @@ Function Search(strText,strQuestion)
 		Do While InStr(i,s,strQuestion,vbTextCompare)>0
 			j=InStr(i,s,strQuestion,vbTextCompare)
 			If Len(s)-j-Len(strQuestion)<0 Then
-				s=Left(s,j-1) & "<b style='color:#FF6347'>" & strQuestion & "</b>"
+				s=Left(s,j-1) & "<b style='color:red'>" & strQuestion & "</b>"
 				Exit Do
 			Else
-				s=Left(s,j-1) & "<b style='color:#FF6347'>" & strQuestion & "</b>" & Right(s,Len(s)-j-Len(strQuestion)+1)
+				s=Left(s,j-1) & "<b style='color:red'>" & strQuestion & "</b>" & Right(s,Len(s)-j-Len(strQuestion)+1)
 			End If
-			i=j+Len("<b style='color:#FF6347'>" & strQuestion & "</b>")-1
+			i=j+Len("<b style='color:red'>" & strQuestion & "</b>")-1
 			If i>=Len(s) Then Exit Do
 		Loop
 
