@@ -41,6 +41,7 @@
   position: static !important;
   right: auto !important;
   text-align: left !important;
+  text-indent: 0 !important;
   top: auto !important;
   /*vertical-align: baseline !important;*/
   width: auto !important;
