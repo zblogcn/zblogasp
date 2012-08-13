@@ -41,28 +41,95 @@ If Not CheckRights("Search") Then Call ShowError(6)
 Dim strQuestion
 strQuestion=TransferHTML(Request.QueryString("q"),"[nohtml]")
 
-Dim ArtList
-Set ArtList=New TArticleList
+Dim objArticle
+Set objArticle=New TArticle
 
-ArtList.LoadCache
+objArticle.LoadCache
 
 
-If GetTemplate("TEMPLATE_PAGE")<>empty Then
-ArtList.template="PAGE"
+
+
+Dim i
+Dim j
+Dim s
+Dim aryArticleList()
+
+Dim objRS
+Dim intPageCount
+Dim objSubArticle
+
+Dim cate
+If IsEmpty(Request.QueryString("cate"))=False Then
+cate=CInt(Request.QueryString("cate"))
 End If
 
-If GetTemplate("TEMPLATE_SEARCH")<>empty Then
-ArtList.template="SEARCH"
+
+strQuestion=Trim(strQuestion)
+
+'If Len(strQuestion)=0 Then Search=True:Exit Function
+
+strQuestion=FilterSQL(strQuestion)
+
+Set objRS=Server.CreateObject("ADODB.Recordset")
+objRS.CursorType = adOpenKeyset
+objRS.LockType = adLockReadOnly
+objRS.ActiveConnection=objConn
+
+objRS.Source="SELECT [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_IsAnonymous],[log_Meta] FROM [blog_Article] WHERE ([log_CateID]>0) And ([log_ID]>0) AND ([log_Level]>2)"
+
+If ZC_MSSQL_ENABLE=False Then
+	objRS.Source=objRS.Source & "AND( (InStr(1,LCase([log_Title]),LCase('"&strQuestion&"'),0)<>0) OR (InStr(1,LCase([log_Intro]),LCase('"&strQuestion&"'),0)<>0) OR (InStr(1,LCase([log_Content]),LCase('"&strQuestion&"'),0)<>0) )"
+Else
+	objRS.Source=objRS.Source & "AND( (CHARINDEX('"&strQuestion&"',[log_Title])<>0) OR (CHARINDEX('"&strQuestion&"',[log_Intro])<>0) OR (CHARINDEX('"&strQuestion&"',[log_Content])<>0) )"
 End If
 
-If ArtList.Search(strQuestion) Then
+If IsEmpty(cate)=False Then
+	objRS.Source=objRS.Source & "AND ([log_CateID]="&cate&")"
+End If
 
-	ArtList.Title=ZC_MSG085 + ":" + TransferHTML(strQuestion,"[html-format]")
+objRS.Source=objRS.Source & "ORDER BY [log_PostTime] DESC,[log_ID] DESC"
+objRS.Open()
 
-	ArtList.Build
+'s=Replace(Replace(ZC_MSG086,"%s","<strong>" & TransferHTML(Replace(strQuestion,Chr(39)&Chr(39),Chr(39)),"[html-format]") & "</strong>",vbTextCompare,1),"%s","<strong>" & objRS.RecordCount & "</strong>")
+s=Replace(Replace(ZC_MSG086,"%s","<strong>" & TransferHTML(Replace(strQuestion,Chr(39)&Chr(39),Chr(39),1,-1,0),"[html-format]") & "</strong>",vbTextCompare,1),"%s","<strong>" & objRS.RecordCount & "</strong>",1,-1,0)
 
-	Response.Write ArtList.html
+If (Not objRS.bof) And (Not objRS.eof) Then
+	objRS.PageSize = ZC_SEARCH_COUNT
+	intPageCount=objRS.PageCount
+	objRS.AbsolutePage = 1
 
+	For i = 1 To objRS.PageSize
+
+		ReDim Preserve aryArticleList(i)
+
+		Set objSubArticle=New TArticle
+		If objSubArticle.LoadInfoByArray(Array(objRS(0),objRS(1),objRS(2),objRS(3),objRS(4),objRS(5),objRS(6),objRS(7),objRS(8),objRS(9),objRS(10),objRS(11),objRS(12),objRS(13),objRS(14),objRS(15),objRS(16),objRS(17))) Then
+			objSubArticle.SearchText=Request.QueryString("q")
+			If objSubArticle.Export(ZC_DISPLAY_MODE_SEARCH)= True Then
+				aryArticleList(i)=objSubArticle.subhtml
+			End If
+		End If
+		Set objSubArticle=Nothing
+
+		objRS.MoveNext
+		If objRS.EOF Then Exit For
+
+	Next
+
+Else
+	ReDim Preserve aryArticleList(0)
+End If
+
+objRS.Close()
+Set objRS=Nothing
+
+objArticle.Content=Join(aryArticleList)
+
+objArticle.Title=ZC_MSG085 + ":" + TransferHTML(strQuestion,"[html-format]")
+
+If objArticle.Export(ZC_DISPLAY_MODE_ONLYPAGE) Then
+	objArticle.Build
+	Response.Write objArticle.html
 End If
 
 'plugin node

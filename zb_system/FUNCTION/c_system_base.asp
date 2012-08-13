@@ -36,6 +36,8 @@ ReDim Users(0)
 ReDim Tags(0)
 ReDim Functions(0)
 
+Set Users(0)=New TUser
+
 Dim FunctionMetas
 Set FunctionMetas=New TMeta
 
@@ -66,6 +68,7 @@ Const ZC_DISPLAY_MODE_ALL=1
 Const ZC_DISPLAY_MODE_INTRO=2
 Const ZC_DISPLAY_MODE_ONTOP=4
 Const ZC_DISPLAY_MODE_SEARCH=8
+Const ZC_DISPLAY_MODE_ONLYPAGE=16
 
 '如果连接数据库为MSSQL，则应为'，默认连接Access数据库则为#
 Dim ZC_SQL_POUND_KEY
@@ -920,10 +923,11 @@ If TemplateDic.Exists("TEMPLATE_CATALOG")=False Then Call TemplateDic.add("TEMPL
 If TemplateDic.Exists("TEMPLATE_DEFAULT")=False Then Call TemplateDic.add("TEMPLATE_DEFAULT",LoadFromFile(BlogPath &"zb_system\defend\default\default.html","utf-8"))
 If TemplateDic.Exists("TEMPLATE_FOOTER")=False Then Call TemplateDic.add("TEMPLATE_FOOTER",LoadFromFile(BlogPath &"zb_system\defend\default\footer.html","utf-8"))
 If TemplateDic.Exists("TEMPLATE_HEADER")=False Then Call TemplateDic.add("TEMPLATE_HEADER",LoadFromFile(BlogPath &"zb_system\defend\default\header.html","utf-8"))
-If TemplateDic.Exists("TEMPLATE_SEARCH")=False Then Call TemplateDic.add("TEMPLATE_SEARCH",LoadFromFile(BlogPath &"zb_system\defend\default\search.html","utf-8"))
 If TemplateDic.Exists("TEMPLATE_SIDEBAR")=False Then Call TemplateDic.add("TEMPLATE_SIDEBAR",LoadFromFile(BlogPath &"zb_system\defend\default\.html","utf-8"))
 If TemplateDic.Exists("TEMPLATE_SINGLE")=False Then Call TemplateDic.add("TEMPLATE_SINGLE",LoadFromFile(BlogPath &"zb_system\defend\default\single.html","utf-8"))
-If TemplateDic.Exists("TEMPLATE_TAGS")=False Then Call TemplateDic.add("TEMPLATE_TAGS",LoadFromFile(BlogPath &"zb_system\defend\default\tags.html","utf-8"))
+If TemplateDic.Exists("TEMPLATE_B_ARTICLE-SEARCH")=False Then Call TemplateDic.add("TEMPLATE_B_ARTICLE-SEARCH",LoadFromFile(BlogPath &"zb_system\defend\default\b_article-search.html","utf-8"))
+If TemplateDic.Exists("TEMPLATE_B_ARTICLE-PAGE")=False Then Call TemplateDic.add("TEMPLATE_B_ARTICLE-PAGE",LoadFromFile(BlogPath &"zb_system\defend\default\b_article-page.html","utf-8"))
+If TemplateDic.Exists("TEMPLATE_PAGE")=False Then Call TemplateDic.add("TEMPLATE_PAGE",LoadFromFile(BlogPath &"zb_system\defend\default\page.html","utf-8"))
 
 	Dim i,j
 	'在模板文件中先替换一次模板INCLUDE里的文件标签
@@ -1126,12 +1130,12 @@ Function LoadGlobeCache()
 		Application.UnLock
 
 		jj=UBound(TemplatesName)
-		For ii=0 to jj-1
+		For ii=0 to jj
 			If TemplateDic.Exists(TemplatesName(ii))=False Then TemplateDic.Add TemplatesName(ii), TemplatesContent(ii)
 		Next
 
 		jj=UBound(TemplateTagsName)
-		For ii=0 to jj-1
+		For ii=0 to jj
 			If TemplateTagsDic.Exists(TemplateTagsName(ii))=False Then TemplateTagsDic.Add TemplateTagsName(ii), TemplateTagsValue(ii)
 		Next
 
@@ -2890,8 +2894,10 @@ Function BlogReBuild_Default
 		If bAction_Plugin_BlogReBuild_Default_Begin=True Then Exit Function
 	Next
 
+	Call ClearGlobeCache()
+	Call LoadGlobeCache()
+
 	TemplateTagsDic.Item("ZC_BLOG_HOST")="<#ZC_BLOG_HOST#>"
-	TemplateTagsDic.Item("CACHE_INCLUDE_COMMENTS")=LoadFromFile(BlogPath & "zb_users\include\comments.asp","utf-8" )
 
 	Dim ArtList
 	Set ArtList=New TArticleList

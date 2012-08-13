@@ -930,7 +930,18 @@ Function Search()
 		If bAction_Plugin_Search_Begin=True Then Exit Function
 	Next
 
-	RedirectBy301(GetCurrentHost & "search.asp?q=" & Server.URLEncode(Request.Form("edtSearch")))
+	Dim a,s
+	For Each a In Request.Form 
+		If a="edtSearch" Then
+			s=s & "q" & "=" & Server.URLEncode(Request.Form(a)) & "&"
+		Else
+			If a<>"btnPost" Then
+				s=s & a & "=" & Server.URLEncode(Request.Form(a)) & "&"
+			End If
+		End If
+	Next
+
+	RedirectBy301(GetCurrentHost & "search.asp?" & s)
 End Function
 
 Function SettingMng()

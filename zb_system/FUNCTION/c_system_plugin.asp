@@ -2268,12 +2268,12 @@ End Function
 '**************************************************<
 '类型:filter
 '名称:Filter_Plugin_TArticle_Export_Template
-'参数:html,Template_Article_Single,Template_Article_Multi,Template_Article_Istop
+'参数:html,Template_Article_Single,Template_Article_Multi,Template_Article_Istop,Template_Article_Page
 '说明:
 '调用:
 '**************************************************>
 Dim sFilter_Plugin_TArticle_Export_Template
-Function Filter_Plugin_TArticle_Export_Template(ByRef html,ByRef Template_Article_Single,ByRef Template_Article_Multi,ByRef Template_Article_Istop)
+Function Filter_Plugin_TArticle_Export_Template(ByRef html,ByRef subhtml)
 
 	Dim s,i
 
@@ -2282,7 +2282,7 @@ Function Filter_Plugin_TArticle_Export_Template(ByRef html,ByRef Template_Articl
 	s=Split(sFilter_Plugin_TArticle_Export_Template,"|")
 
 	For i=0 To UBound(s)-1
-		Call Execute(s(i) & " "& "html,Template_Article_Single,Template_Article_Multi,Template_Article_Istop")
+		Call Execute(s(i) & " "& "html,subhtml")
 	Next
 
 End Function
@@ -2501,19 +2501,19 @@ End Function
 
 '**************************************************<
 '类型:filter
-'名称:Filter_Plugin_TArticleList_Build_TemplateSub
+'名称:Filter_Plugin_TArticleList_Export_TemplateTags
 '参数:aryTemplateSubName,aryTemplateSubValue
 '说明:
 '调用:
 '**************************************************>
-Dim sFilter_Plugin_TArticleList_Build_TemplateSub
-Function Filter_Plugin_TArticleList_Build_TemplateSub(ByRef aryTemplateSubName,ByRef aryTemplateSubValue)
+Dim sFilter_Plugin_TArticleList_Export_TemplateTags
+Function Filter_Plugin_TArticleList_Export_TemplateTags(ByRef aryTemplateSubName,ByRef aryTemplateSubValue)
 
 	Dim s,i
 
-	If sFilter_Plugin_TArticleList_Build_TemplateSub="" Then Exit Function
+	If sFilter_Plugin_TArticleList_Export_TemplateTags="" Then Exit Function
 
-	s=Split(sFilter_Plugin_TArticleList_Build_TemplateSub,"|")
+	s=Split(sFilter_Plugin_TArticleList_Export_TemplateTags,"|")
 
 	For i=0 To UBound(s)-1
 		Call Execute(s(i) & " " & "aryTemplateSubName,aryTemplateSubValue")

@@ -36,17 +36,17 @@ TemplateTagsDic.Item("ZC_BLOG_HOST")=GetCurrentHost()
 
 Call GetTags()
 
-Dim ArtList
-Set ArtList=New TArticleList
+Dim objArticle
+Set objArticle=New TArticle
 
-ArtList.LoadCache
+objArticle.LoadCache
 
 
 If GetTemplate("TEMPLATE_TAGS")<>empty Then
-ArtList.template="TAGS"
+objArticle.template="TAGS"
 End If
 
-ArtList.Title="TagCloud"
+objArticle.Title="TagCloud"
 
 Dim Tag
 Dim strTagCloud()
@@ -57,18 +57,25 @@ Set objRS=objConn.Execute("SELECT [tag_ID] FROM [blog_Tag] ORDER BY [tag_Name] A
 If (Not objRS.bof) And (Not objRS.eof) Then
 	Do While Not objRS.eof
 
-		If Tags(objRS("tag_ID")).Count<=50 Then
-			i=Tags(objRS("tag_ID")).Count*4
+
+		If Tags(objRS("tag_ID")).Count<=1 Then
+			i=0
+		ElseIf Tags(objRS("tag_ID")).Count>5 And Tags(objRS("tag_ID")).Count<=10 Then
+			i=1
+		ElseIf Tags(objRS("tag_ID")).Count>10 And Tags(objRS("tag_ID")).Count<=25 Then
+			i=2
+		ElseIf Tags(objRS("tag_ID")).Count>25 And Tags(objRS("tag_ID")).Count<=50 Then
+			i=3
 		ElseIf Tags(objRS("tag_ID")).Count>50 And Tags(objRS("tag_ID")).Count<=100 Then
-			i=Tags(objRS("tag_ID")).Count*2
+			i=4
 		ElseIf Tags(objRS("tag_ID")).Count>100 And Tags(objRS("tag_ID")).Count<=200 Then
-			i=Tags(objRS("tag_ID")).Count*1.5
+			i=5
 		ElseIf Tags(objRS("tag_ID")).Count>200 Then
-			i=Tags(objRS("tag_ID")).Count*1
+			i=6
 		End If
 
 		ReDim Preserve strTagCloud(j+1)
-		strTagCloud(j) = "<span style='font-family:verdana,sans-serif;line-height:150%;font-size:"& (100 + (i)) &"%;margin:10px;'><a title='" & Tags(objRS("tag_ID")).Count & "' href='" & Tags(objRS("tag_ID")).Url &"'>" & Tags(objRS("tag_ID")).name & "</a></span> "
+		strTagCloud(j) = "<font size='+"&i&"'><a title='" & Tags(objRS("tag_ID")).Count & "' href='" & Tags(objRS("tag_ID")).Url &"'>" & Tags(objRS("tag_ID")).name & "</a></font>&nbsp;&nbsp;"
 		j=j+1
 		objRS.MoveNext
 	Loop
@@ -76,15 +83,13 @@ End If
 objRS.Close
 Set objRS=Nothing
 
-ArtList.SetVar "CUSTOM_TAGS",Join(strTagCloud)
+objArticle.Content="<br/>" & Join(strTagCloud)
+objArticle.Title="TagCloud"
 
-ArtList.SetVar "CUSTOM_TAGS_TITLE","TagCloud"
-
-ArtList.Build
-
-ArtList.SetVar "CUSTOM_TAGS_DESC","TagCloud"
-
-Response.Write ArtList.html
+If objArticle.Export(ZC_DISPLAY_MODE_ONLYPAGE) Then
+	objArticle.Build
+	Response.Write objArticle.html
+End If
 
 'plugin node
 For Each sAction_Plugin_Tags_End in Action_Plugin_Tags_End
