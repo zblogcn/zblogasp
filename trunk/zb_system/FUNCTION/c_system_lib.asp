@@ -1837,7 +1837,6 @@ Class TArticleList
 		End If
 
 		objRS.Source=objRS.Source & "ORDER BY [log_PostTime] DESC,[log_ID] DESC"
-
 		objRS.Open()
 
 		's=Replace(Replace(ZC_MSG086,"%s","<strong>" & TransferHTML(Replace(strQuestion,Chr(39)&Chr(39),Chr(39)),"[html-format]") & "</strong>",vbTextCompare,1),"%s","<strong>" & objRS.RecordCount & "</strong>")
@@ -1865,6 +1864,8 @@ Class TArticleList
 
 			Next
 
+		Else
+			ReDim Preserve aryArticleList(0)
 		End If
 
 		objRS.Close()
