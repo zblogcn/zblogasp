@@ -29,7 +29,6 @@
 
 
 <%=LoadFromFile(Server.MapPath("../admin/ueditor/third-party/SyntaxHighlighter/shCore.js"),"utf-8")%>
-SyntaxHighlighter.all();
 
 //$.getScript("<%=GetCurrentHost()%>zb_system/admin/ueditor/third-party/SyntaxHighlighter/shCore.js",function(){SyntaxHighlighter.all();});
 $("head").append("<link rel='stylesheet' type='text/css' href='<%=GetCurrentHost()%>/zb_system/admin/ueditor/third-party/SyntaxHighlighter/shCoreDefault.css'/>");
@@ -64,7 +63,16 @@ $(document).ready(function(){
 		$(".post-tags").each(function(){if(!$(this).find(".tags").html()){$(this).hide()}});
 
 		$.getScript("<%=GetCurrentHost()%>zb_system/function/c_html_js.asp?act=batch"+unescape("%26")+"view=" + escape(strBatchView)+unescape("%26")+"inculde=" + escape(strBatchInculde)+unescape("%26")+"count=" + escape(strBatchCount));
-
+		 //为了在编辑器之外能展示高亮代码
+    	 SyntaxHighlighter.highlight();
+    	 //调整左右对齐
+    	 for(var i=0,di;di=SyntaxHighlighter.highlightContainers[i++];){
+         	   var tds = di.getElementsByTagName('td');
+            	for(var j=0,li,ri;li=tds[0].childNodes[j];j++){
+                	ri = tds[1].firstChild.childNodes[j];
+                	ri.style.height = li.style.height = ri.offsetHeight + 'px';
+            	}
+    	 }
 	}catch(e){};
 
 });
