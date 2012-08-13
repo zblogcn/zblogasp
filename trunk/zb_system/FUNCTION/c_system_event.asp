@@ -973,8 +973,6 @@ Function BeforeFileReBuild()
 
 		objRS.PageSize = ZC_REBUILD_FILE_COUNT
 
-		Call AddBatch(ZC_MSG072,"Call MakeBlogReBuild()")
-
 		Dim i
 		For i=1 To objRS.PageCount
 			Call AddBatch(ZC_MSG073 & "<"&i&">","Call MakeFileReBuild("&i&")")

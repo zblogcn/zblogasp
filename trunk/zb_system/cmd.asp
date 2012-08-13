@@ -1386,6 +1386,8 @@ Function FileReBuild()
 		If bAction_Plugin_FileReBuild_Begin=True Then Exit Function
 	Next
 
+	Call AddBatch(ZC_MSG072,"Call MakeBlogReBuild()")
+
 	Call BeforeFileReBuild()
 
 	'plugin node
@@ -1393,6 +1395,8 @@ Function FileReBuild()
 		If Not IsEmpty(sAction_Plugin_FileReBuild_End) Then Call Execute(sAction_Plugin_FileReBuild_End)
 		If bAction_Plugin_FileReBuild_End=True Then Exit Function
 	Next
+
+	Call AddBatch(ZC_MSG259,"Call BlogReBuild_Default()")
 
 	Response.Redirect "admin/admin.asp?act=AskFileReBuild"
 

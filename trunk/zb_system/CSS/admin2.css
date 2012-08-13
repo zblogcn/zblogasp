@@ -68,6 +68,9 @@ ol {
 	list-style-type: decimal;
 	margin-left: 2em;
 }
+label{
+	cursor:pointer;
+}
 /**/
 table {
 	border-collapse: collapse;
@@ -95,6 +98,13 @@ background:#FFFFFF;
 tr.color4{
 background:#ffffdd;
 }
+
+
+
+
+
+
+
 /**/
 #main { width:100%;}
 /*后台顶部*/
@@ -263,6 +273,10 @@ form input {
 	background:#fff;
 	font-size:1em;
 }
+form input[type="radio"] {
+	border:none;
+	background:none;
+}
 form select{
 	padding: 0.15em 0.25em 0.20em 0.25em;
 	border: 1px double #aaaaaa;
@@ -395,7 +409,9 @@ span.star{
 	color:red;
 	font-size:0.8em;
 }
-
+span.note{
+	font-size:0.9em;
+}
 .pagebar span{
 	color:#3a6ea5;
 	font-weight:bolder;
@@ -447,25 +463,18 @@ span.star{
 .SubMenu a:hover {
 	background:#b0cdee;
 	text-decoration : none; 
-	color:white;
-
+	color:black;
 }
-.SubMenu a:active {
-	background:#b0cdee; 
-	text-decoration : none;
-	color:white;
-}
-
 .SubMenu a{
-	background:#3399cc;
-	margin:0 10px 0 0;
+	color:black;
+	background:#e0e1e2; 
+	margin:0 5px 0 0;
 	float:left;
-	color:white;
 }
 
 .SubMenu span.m-now{
-	color:black;
-	background:#b0cdee; 
+	background:#3399cc;
+	color:white;
 }
 
 
