@@ -140,6 +140,9 @@ var YT = {
 								});
 							});
 						});
+						if(/b_article\-(multi|single)\-[a-z]+\.html/i.test(r.text())){
+							r.css({'font-weight':'bold'});
+						}
 						r.attr('class','ready').fadeIn('slow').hover(function() {
 							$(this).addClass('color2')
 						}, function() {
