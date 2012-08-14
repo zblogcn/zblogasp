@@ -2662,7 +2662,7 @@ End Function
 '调用:
 '**************************************************>
 Dim sFilter_Plugin_TArticle_LoadInfobyID
-Function Filter_Plugin_TArticle_LoadInfobyID(ByRef ID,ByRef Tag,ByRef CateID,ByRef Title,ByRef Intro,ByRef Content,ByRef Level,ByRef AuthorID,ByRef PostTime,ByRef CommNums,ByRef ViewNums,ByRef TrackBackNums,ByRef Alias,ByRef Istop,ByRef TemplateName,ByRef FullUrl,ByRef IsAnonymous,ByRef MetaString)
+Function Filter_Plugin_TArticle_LoadInfobyID(ByRef ID,ByRef Tag,ByRef CateID,ByRef Title,ByRef Intro,ByRef Content,ByRef Level,ByRef AuthorID,ByRef PostTime,ByRef CommNums,ByRef ViewNums,ByRef TrackBackNums,ByRef Alias,ByRef Istop,ByRef TemplateName,ByRef FullUrl,ByRef FType,ByRef MetaString)
 
 	Dim s,i
 
@@ -2671,7 +2671,7 @@ Function Filter_Plugin_TArticle_LoadInfobyID(ByRef ID,ByRef Tag,ByRef CateID,ByR
 	s=Split(sFilter_Plugin_TArticle_LoadInfobyID,"|")
 
 	For i=0 To UBound(s)-1
-		Call Execute(s(i) & " " & "ID,Tag,CateID,Title,Intro,Content,Level,AuthorID,PostTime,CommNums,ViewNums,TrackBackNums,Alias,Istop,TemplateName,FullUrl,IsAnonymous,MetaString")
+		Call Execute(s(i) & " " & "ID,Tag,CateID,Title,Intro,Content,Level,AuthorID,PostTime,CommNums,ViewNums,TrackBackNums,Alias,Istop,TemplateName,FullUrl,FType,MetaString")
 	Next
 
 End Function
@@ -2688,7 +2688,7 @@ End Function
 '调用:
 '**************************************************>
 Dim sFilter_Plugin_TArticle_LoadInfoByArray
-Function Filter_Plugin_TArticle_LoadInfoByArray(ByRef ID,ByRef Tag,ByRef CateID,ByRef Title,ByRef Intro,ByRef Content,ByRef Level,ByRef AuthorID,ByRef PostTime,ByRef CommNums,ByRef ViewNums,ByRef TrackBackNums,ByRef Alias,ByRef Istop,ByRef TemplateName,ByRef FullUrl,ByRef IsAnonymous,ByRef MetaString)
+Function Filter_Plugin_TArticle_LoadInfoByArray(ByRef ID,ByRef Tag,ByRef CateID,ByRef Title,ByRef Intro,ByRef Content,ByRef Level,ByRef AuthorID,ByRef PostTime,ByRef CommNums,ByRef ViewNums,ByRef TrackBackNums,ByRef Alias,ByRef Istop,ByRef TemplateName,ByRef FullUrl,ByRef FType,ByRef MetaString)
 
 	Dim s,i
 
@@ -2697,7 +2697,7 @@ Function Filter_Plugin_TArticle_LoadInfoByArray(ByRef ID,ByRef Tag,ByRef CateID,
 	s=Split(sFilter_Plugin_TArticle_LoadInfoByArray,"|")
 
 	For i=0 To UBound(s)-1
-		Call Execute(s(i) & " " & "ID,Tag,CateID,Title,Intro,Content,Level,AuthorID,PostTime,CommNums,ViewNums,TrackBackNums,Alias,Istop,TemplateName,FullUrl,IsAnonymous,MetaString")
+		Call Execute(s(i) & " " & "ID,Tag,CateID,Title,Intro,Content,Level,AuthorID,PostTime,CommNums,ViewNums,TrackBackNums,Alias,Istop,TemplateName,FullUrl,FType,MetaString")
 	Next
 
 End Function
@@ -2714,7 +2714,7 @@ End Function
 '调用:
 '**************************************************>
 Dim sFilter_Plugin_TArticle_Del
-Function Filter_Plugin_TArticle_Del(ByRef ID,ByRef Tag,ByRef CateID,ByRef Title,ByRef Intro,ByRef Content,ByRef Level,ByRef AuthorID,ByRef PostTime,ByRef CommNums,ByRef ViewNums,ByRef TrackBackNums,ByRef Alias,ByRef Istop,ByRef TemplateName,ByRef FullUrl,ByRef IsAnonymous,ByRef MetaString)
+Function Filter_Plugin_TArticle_Del(ByRef ID,ByRef Tag,ByRef CateID,ByRef Title,ByRef Intro,ByRef Content,ByRef Level,ByRef AuthorID,ByRef PostTime,ByRef CommNums,ByRef ViewNums,ByRef TrackBackNums,ByRef Alias,ByRef Istop,ByRef TemplateName,ByRef FullUrl,ByRef FType,ByRef MetaString)
 
 	Dim s,i
 
@@ -2723,7 +2723,7 @@ Function Filter_Plugin_TArticle_Del(ByRef ID,ByRef Tag,ByRef CateID,ByRef Title,
 	s=Split(sFilter_Plugin_TArticle_Del,"|")
 
 	For i=0 To UBound(s)-1
-		Call Execute(s(i) & " " & "ID,Tag,CateID,Title,Intro,Content,Level,AuthorID,PostTime,CommNums,ViewNums,TrackBackNums,Alias,Istop,TemplateName,FullUrl,IsAnonymous,MetaString")
+		Call Execute(s(i) & " " & "ID,Tag,CateID,Title,Intro,Content,Level,AuthorID,PostTime,CommNums,ViewNums,TrackBackNums,Alias,Istop,TemplateName,FullUrl,FType,MetaString")
 	Next
 
 End Function
@@ -2740,7 +2740,7 @@ End Function
 '调用:
 '**************************************************>
 Dim sFilter_Plugin_TArticle_Post
-Function Filter_Plugin_TArticle_Post(ByRef ID,ByRef Tag,ByRef CateID,ByRef Title,ByRef Intro,ByRef Content,ByRef Level,ByRef AuthorID,ByRef PostTime,ByRef CommNums,ByRef ViewNums,ByRef TrackBackNums,ByRef Alias,ByRef Istop,ByRef TemplateName,ByRef FullUrl,ByRef IsAnonymous,ByRef MetaString)
+Function Filter_Plugin_TArticle_Post(ByRef ID,ByRef Tag,ByRef CateID,ByRef Title,ByRef Intro,ByRef Content,ByRef Level,ByRef AuthorID,ByRef PostTime,ByRef CommNums,ByRef ViewNums,ByRef TrackBackNums,ByRef Alias,ByRef Istop,ByRef TemplateName,ByRef FullUrl,ByRef FType,ByRef MetaString)
 
 	Dim s,i
 
@@ -2749,7 +2749,7 @@ Function Filter_Plugin_TArticle_Post(ByRef ID,ByRef Tag,ByRef CateID,ByRef Title
 	s=Split(sFilter_Plugin_TArticle_Post,"|")
 
 	For i=0 To UBound(s)-1
-		Call Execute(s(i) & " " & "ID,Tag,CateID,Title,Intro,Content,Level,AuthorID,PostTime,CommNums,ViewNums,TrackBackNums,Alias,Istop,TemplateName,FullUrl,IsAnonymous,MetaString")
+		Call Execute(s(i) & " " & "ID,Tag,CateID,Title,Intro,Content,Level,AuthorID,PostTime,CommNums,ViewNums,TrackBackNums,Alias,Istop,TemplateName,FullUrl,FType,MetaString")
 	Next
 
 End Function

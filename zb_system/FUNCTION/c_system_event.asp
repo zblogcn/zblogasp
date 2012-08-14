@@ -181,12 +181,13 @@ Function PostArticle()
 	objArticle.Alias=Request.Form("edtAlias")
 	objArticle.Istop=Request.Form("edtIstop")
 	objArticle.TemplateName=Request.Form("edtTemplate")
+	objArticle.FType=Request.Form("edtFType")
 
 	objArticle.Intro=Request.Form("txaIntro")
 
 	objArticle.Content=Request.Form("txaContent")
 
-	If objArticle.CateID>0 Then
+	If objArticle.FType=ZC_POST_TYPE_ARTICLE Then
 		If InStr(objArticle.Content,"<hr class=""more"" />")>0 Then
 			s=objArticle.Content
 			i=InStr(s,"<hr class=""more"" />")

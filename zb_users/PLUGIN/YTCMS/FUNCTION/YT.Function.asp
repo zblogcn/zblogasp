@@ -9,11 +9,11 @@ Dim YT_CMS_Global_Article
 Dim YT_CMS_Global_Bool
 Dim YT_CMS_Global_Numeric
 
-Function YT_CMS_Filter_Plugin_TArticle_LoadInfobyID(ByRef ID,ByRef Tag,ByRef CateID,ByRef Title,ByRef Intro,ByRef Content,ByRef Level,ByRef AuthorID,ByRef PostTime,ByRef CommNums,ByRef ViewNums,ByRef TrackBackNums,ByRef Alias,ByRef Istop,ByRef TemplateName,ByRef FullUrl,ByRef IsAnonymous,ByRef MetaString)
+Function YT_CMS_Filter_Plugin_TArticle_LoadInfobyID(ByRef ID,ByRef Tag,ByRef CateID,ByRef Title,ByRef Intro,ByRef Content,ByRef Level,ByRef AuthorID,ByRef PostTime,ByRef CommNums,ByRef ViewNums,ByRef TrackBackNums,ByRef Alias,ByRef Istop,ByRef TemplateName,ByRef FullUrl,ByRef FType,ByRef MetaString)
 	YT_CMS_Global_Numeric=CateID
 End Function
 
-Function YT_CMS_Filter_Plugin_TArticle_LoadInfoByArray(ByRef ID,ByRef Tag,ByRef CateID,ByRef Title,ByRef Intro,ByRef Content,ByRef Level,ByRef AuthorID,ByRef PostTime,ByRef CommNums,ByRef ViewNums,ByRef TrackBackNums,ByRef Alias,ByRef Istop,ByRef TemplateName,ByRef FullUrl,ByRef IsAnonymous,ByRef MetaString)
+Function YT_CMS_Filter_Plugin_TArticle_LoadInfoByArray(ByRef ID,ByRef Tag,ByRef CateID,ByRef Title,ByRef Intro,ByRef Content,ByRef Level,ByRef AuthorID,ByRef PostTime,ByRef CommNums,ByRef ViewNums,ByRef TrackBackNums,ByRef Alias,ByRef Istop,ByRef TemplateName,ByRef FullUrl,ByRef FType,ByRef MetaString)
 	YT_CMS_Global_Numeric=CateID
 End Function
 Sub YT_CMS_Filter_Plugin_TArticle_Build_Template(ByRef html)
@@ -44,7 +44,7 @@ Sub YT_CMS_Filter_Plugin_TArticle_Export_Template_Sub(ByRef Template_Article_Com
 	'If Not IsEmpty(Template_Article_Navbar_R) Then Template_Article_Navbar_R = new YT_Template.AnalysisTab(Template_Article_Navbar_R)
 	'If Not IsEmpty(Template_Article_Mutuality) Then Template_Article_Mutuality = new YT_Template.AnalysisTab(Template_Article_Mutuality)
 End Sub
-Sub YT_CMS_Filter_Plugin_TArticle_Del(ByRef ID,ByRef Tag,ByRef CateID,ByRef Title,ByRef Intro,ByRef Content,ByRef Level,ByRef AuthorID,ByRef PostTime,ByRef CommNums,ByRef ViewNums,ByRef TrackBackNums,ByRef Alias,ByRef Istop,ByRef TemplateName,ByRef FullUrl,ByRef IsAnonymous,ByRef MetaString)
+Sub YT_CMS_Filter_Plugin_TArticle_Del(ByRef ID,ByRef Tag,ByRef CateID,ByRef Title,ByRef Intro,ByRef Content,ByRef Level,ByRef AuthorID,ByRef PostTime,ByRef CommNums,ByRef ViewNums,ByRef TrackBackNums,ByRef Alias,ByRef Istop,ByRef TemplateName,ByRef FullUrl,ByRef FType,ByRef MetaString)
 	Dim YTModelXML,Node,Sql
 	Set YTModelXML = new YT_Model_XML
 	Set Node = YTModelXML.GetModel(CateID)
@@ -98,7 +98,7 @@ Sub YT_CMS_Action_Plugin_ArticlePst_Succeed()
 		End If
 	End If
 End Sub
-Sub YT_CMS_Filter_Plugin_TArticle_Post(ByRef ID,ByRef Tag,ByRef CateID,ByRef Title,ByRef Intro,ByRef Content,ByRef Level,ByRef AuthorID,ByRef PostTime,ByRef CommNums,ByRef ViewNums,ByRef TrackBackNums,ByRef Alias,ByRef Istop,ByRef TemplateName,ByRef FullUrl,ByRef IsAnonymous,ByRef MetaString)
+Sub YT_CMS_Filter_Plugin_TArticle_Post(ByRef ID,ByRef Tag,ByRef CateID,ByRef Title,ByRef Intro,ByRef Content,ByRef Level,ByRef AuthorID,ByRef PostTime,ByRef CommNums,ByRef ViewNums,ByRef TrackBackNums,ByRef Alias,ByRef Istop,ByRef TemplateName,ByRef FullUrl,ByRef FType,ByRef MetaString)
 	If ID > 0 Then
 		Dim Sql:Sql=YT_Data_GetSql(CateID,ID)
 		If Not IsEmpty(Sql) Then objConn.Execute(Sql)
