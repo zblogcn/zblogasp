@@ -3469,6 +3469,12 @@ End Function
 '*********************************************************
 Function AddBatch(name,actioncode)
 
+	If IsObject(Session("batch"))=False THen
+		Set Session("batch")=CreateObject("Scripting.Dictionary")
+		Session("batchorder")=0
+		Session("batchtime")=0
+	End If
+
 	'检则是否未完成批操作,未完成的话不新增加批操作.
 	If Session("batch").Count <> CInt(Session("batchorder")) Then Exit Function
 

@@ -2209,6 +2209,24 @@ Class TUser
 
 	End Property
 
+
+	Private Function GetAvatar
+	  Dim fso
+	  Set fso = CreateObject("Scripting.FileSystemObject")
+	  If (fso.FileExists(BlogPath & "zb_users/avatar/"&ID&".png")) Then
+		GetAvatar=GetCurrentHost() & "zb_users/avatar/"&ID&".png"
+	  Else
+		GetAvatar=GetCurrentHost() & "zb_users/avatar/0.png"
+	  End If
+	End Function
+
+
+	Public Property Get Avatar
+
+		Avatar=GetAvatar
+		
+	End Property
+
 	Public Property Get HtmlUrl
 		HtmlUrl=TransferHTML(Url,"[html-format]")
 	End Property
@@ -2229,10 +2247,8 @@ Class TUser
 
 	Private FEmailMD5
 	Public Property Get EmailMD5
-		If FEmailMD5<>"" Then
-			FEmailMD5=MD5(Email)
-		Else
-			If (Email="") Or IsEmpty(Email) Or IsNull(Email) Then
+		If FEmailMD5="" Then
+			If Email="" Then
 				FEmailMD5=""
 			Else
 				FEmailMD5=MD5(Email)
@@ -2694,12 +2710,17 @@ Class TComment
 
 	Private FAvatar
 	Public Property Get Avatar
+		'plugin node
+		bAction_Plugin_TComment_Avatar=False
+		For Each sAction_Plugin_TComment_Avatar in Action_Plugin_TComment_Avatar
+			If Not IsEmpty(sAction_Plugin_TComment_Avatar) Then Call Execute(sAction_Plugin_TComment_Avatar)
+			If bAction_Plugin_TComment_Avatar=True Then Exit Property
+		Next
+
+		If FAvatar="" Then FAvatar=Users(AuthorID).Avatar
+
 		Avatar=FAvatar
-		'If Avatar="" Then Avatar="http://www.gravatar.com/avatar/" & EmailMD5 & "?s=32&d=" & Server.urlEncode(GetCurrentHost & "zb_users/avatar/0.png")
-		If Avatar="" Then Avatar="<#ZC_BLOG_HOST#>zb_users/avatar/0.png"
-	End Property
-	Public Property Let Avatar(s)
-		FAvatar=s
+
 	End Property
 
 
@@ -2711,8 +2732,9 @@ Class TComment
 
 
 	Public Property Get SafeEmail
-		If (Email="") Or IsEmpty(Email) Or IsNull(Email) Then Email="null@null.com"
-		SafeEmail=Replace(Email,"@","[AT]")
+		Dim s
+		If Email="" Then s="null@null.com"
+		SafeEmail=Replace(s,"@","[AT]")
 	End Property
 
 
@@ -2720,7 +2742,7 @@ Class TComment
 		If AuthorID>0 Then
 			EmailMD5=Users(AuthorID).EmailMD5
 		Else
-			If (Email="") Or IsEmpty(Email) Or IsNull(Email) Then
+			If Email="" Then
 				EmailMD5=""
 			Else
 				EmailMD5=MD5(Email)
@@ -2732,11 +2754,7 @@ Class TComment
 		If Len(HomePage)>0 Then
 			FirstContact=HomePageForAntiSpam
 		Else
-			If (Email="") Or IsEmpty(Email) Or IsNull(Email) Then
-				FirstContact=""
-			Else
-				FirstContact="mailto:" & SafeEmail
-			End If
+			FirstContact="mailto:" & SafeEmail
 		End If
 	End Property
 

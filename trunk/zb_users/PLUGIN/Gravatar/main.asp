@@ -21,14 +21,27 @@ Call CheckReference("")
 '检查权限
 If BlogUser.Level>1 Then Call ShowError(6)
 If CheckPluginState("Gravatar")=False Then Call ShowError(48)
-BlogTitle="Gravatar"
+BlogTitle="Gravatar头像"
 Dim c
 Set c=New TConfig
 c.Load "Gravatar"
 If Request.QueryString("act")="save" Then
-	c.Write "c",Request.Form("a")
+	Gravatar_Enable=Request.Form("Gravatar_Enable")
+	Gravatar_EmailMD5=Request.Form("Gravatar_EmailMD5")
+	c.Write "c",Gravatar_EmailMD5
+	c.Write "e",Gravatar_Enable
 	c.Save
 	Call SetBlogHint(True,Empty,Empty)
+	If Request.Form("Gravatar_Refresh")="True" Then
+		Dim objRS
+		Set objRS=objConn.Execute("SELECT [mem_ID],[mem_Name] FROM [blog_Member] ORDER BY [mem_ID] ASC")
+		If (Not objRS.bof) And (Not objRS.eof) Then
+			Do While Not objRS.eof
+				Call AddBatch("缓存用户"& objRS("mem_Name")&"的Gravatar头像","Gravatar_GetImage "& objRS("mem_ID"))
+				objRS.MoveNext
+			Loop
+		End If
+	End If
 EnD iF
 %>
 <!--#include file="..\..\..\zb_system\admin\admin_header.asp"-->
@@ -40,19 +53,24 @@ EnD iF
       <%Call GetBlogHint()%>
     </div>
   <div class="divHeader"><%=BlogTitle%></div>
-  <div class="SubMenu"> 
-   <a href="main.asp"> <span class="m-left m-now">[插件后台管理页] </span></a>
-  </div>
   <div id="divMain2">
    <script type="text/javascript">ActiveLeftMenu("aPlugInMng");</script>
 
-<form id="form1" name="form1" method="post" action="?act=save">
-<label for="a">请输入Gravatar头像地址</label><br/><br/>
-<input type="text" name="a" id="a" style="width:100%" value="<%=c.read("c")%>" /><br/><br/>
-<input name="" type="submit" class="button" value="提交" />
+<form id="form" name="form" method="post" action="?act=save">
+
+<input type="hidden" name="edtZC_STATIC_MODE" id="edtZC_STATIC_MODE" value="<%=ZC_STATIC_MODE%>" />
+<table width='100%' style='padding:0px;margin:0px;' cellspacing='0' cellpadding='0'>
+<tr><td><p  align='left'><b>·启用Gravatar头像</b></p></td><td><p><input id="Gravatar_Enable" name="Gravatar_Enable" style="" type="text" value="<%=Gravatar_Enable%>" class="checkbox"/></p></td></tr>
+
+
+<tr><td width='30%'><p align='left'><b>·首页的URL配置</b><br/><span class='note'>一般无需改动</span></p></td><td><p><input id='Gravatar_EmailMD5' name='Gravatar_EmailMD5' style='width:90%;' type='text' value='<%=Gravatar_EmailMD5%>' /></p></td></tr>
+<tr><td width='30%'><p align='left'><b>·缓存注册用户Gravatar头像</b><br/><span class='note'>如果用户数多会比较耗费时间和占用AVATAR目录空间</span></p></td><td><p><input id="Gravatar_Refresh" name="Gravatar_Refresh" style="" type="text" value="<%=Gravatar_Refresh%>" class="checkbox"/></p></td></tr>
+</table>
+
+<br/>
+<input name="" type="submit" class="button" value="保存"/>
 </form>
 
-<a href="LoadHeader.asp?act=refresh">刷新后台头像</a>
 </div>
 </div>
 <!--#include file="..\..\..\zb_system\admin\admin_footer.asp"-->

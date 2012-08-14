@@ -9,33 +9,90 @@
 ' 挂口: 注册插件和接口
 '*********************************************************
 Dim Gravatar_EmailMD5
+Dim Gravatar_Enable
+Dim Gravatar_Refresh
+
 '注册插件
 Call RegisterPlugin("Gravatar","ActivePlugin_Gravatar")
 '挂口部分
 Function ActivePlugin_Gravatar()	
-	Call Add_Filter_Plugin("Filter_Plugin_TComment_MakeTemplate_TemplateTags","Gravatar_Add")
-	Call Add_Response_Plugin("Response_Plugin_Admin_Footer","<script type=""text/javascript"">$(""#avatar"").attr(""src"","""&GetCurrentHost&"/ZB_USERS/plugin/Gravatar/LoadHeader.asp"")</script>")
-End Function
 
+	Gravatar_Refresh=False
 
-
-Function Gravatar_Add(a,b)
 	Dim c
 	Set c=New TConfig
 	c.Load "Gravatar"
-	b(13)=Replace(c.Read("c"),"<#article/comment/emailmd5#>",b(11))
-	Set c=Nothing
+	Gravatar_EmailMD5=c.Read("c")
+	Gravatar_Enable=CBool(c.Read("e"))
+
+	If Gravatar_Enable=True Then
+		Call Add_Action_Plugin("Action_Plugin_TComment_Avatar","If FAvatar="" Then FAvatar=Gravatar_Add(AuthorID,EmailMD5)")
+	End If
+
 End Function
 
-Function InstallPlugin_Gravatar
-	Dim a
-	Set a=New TConfig
-	a.Load "Gravatar"
-	If a.Exists("v")=False Then
-		a.Write "v","1.0"
-		a.Write "c","http://cn.gravatar.com/avatar/<#article/comment/emailmd5#>?s=32&d=<#ZC_BLOG_HOST#>zb_users/avatar/0.png"
-		a.Save
+
+
+Function Gravatar_Add(AuthorID,EmailMD5)
+
+	If AuthorID>0 Then
+	  Dim fso
+	  Set fso = CreateObject("Scripting.FileSystemObject")
+	  If (fso.FileExists(BlogPath & "zb_users/avatar/"&AuthorID&".png")) Then
+		Gravatar_Add=GetCurrentHost() & "zb_users/avatar/"&AuthorID&".png"
+	  Else
+		Gravatar_Add=Replace(Gravatar_EmailMD5,"{%emailmd5%}",EmailMD5)
+	  End If
+	Else
+		If EmailMD5<>"" Then
+			Gravatar_Add=Replace(Gravatar_EmailMD5,"{%emailmd5%}",EmailMD5)
+		Else
+			Gravatar_Add=GetCurrentHost() & "zb_users/avatar/0.png"
+		End If
 	End If
+
+End Function
+
+Sub Gravatar_GetImage(ID)
+
+	On Error Resume Next
+
+	Dim k
+
+	k=Replace(Replace(Gravatar_EmailMD5,"{%emailmd5%}",MD5(objConn.Execute("SELECT [mem_Email] FROM [blog_Member] WHERE [mem_ID]="&ID)(0))),"<#ZC_BLOG_HOST#>",GetCurrentHost)
+
+	dim u,v,w
+	set u=server.createobject("msxml2.serverxmlhttp")
+	u.open "GET",k
+	u.send
+	If u.Readystate =4 Then
+		If u.status=200 Then 
+			v=u.ResponseBody 
+			set w=server.createObject("Adodb.Stream") 
+			w.Type = 1 
+			w.Open 
+			w.Write v 
+			w.SaveToFile BlogPath & "zb_users/avatar/"&ID&".png",2 
+			w.Close() 
+		End If
+	End If
+	Set w=nothing 
+	Set u=nothing
+
+	Err.Clear
+
+End Sub
+
+
+
+Function InstallPlugin_Gravatar
+	Dim c
+	Set c=New TConfig
+	c.Load "Gravatar"
+	c.Write "v","1.0"
+	c.Write "e","True"
+	c.Write "c","http://cn.gravatar.com/avatar/{%emailmd5%}?s=40&d=<#ZC_BLOG_HOST#>zb_users/avatar/0.png"
+	c.Save
 End Function
 
 

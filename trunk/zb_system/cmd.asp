@@ -32,12 +32,6 @@ For Each sAction_Plugin_Command_Begin in Action_Plugin_Command_Begin
 	If Not IsEmpty(sAction_Plugin_Command_Begin) Then Call Execute(sAction_Plugin_Command_Begin)
 Next
 
-If IsObject(Session("batch"))=False THen
-	Set Session("batch")=CreateObject("Scripting.Dictionary")
-	Session("batchorder")=0
-	Session("batchtime")=0
-End If
-
 Dim strAct
 strAct=Request.QueryString("act")
 
