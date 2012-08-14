@@ -163,19 +163,16 @@ Function FileManage_ExportInformation(foldername,path)
 			case "b_article_nvabar_l" n= "“上一篇”日志链接"
 			case "b_article_nvabar_r" n= "“下一篇”日志链接"
 			case "b_article_tag" n="Tag显示样式"
+			case "b_article-page" n="独立页面内容模板"
 			case "b_pagebar" n="分页条模板"
 			case "b_function" n="单个侧边栏模板"
 			case "b_article_comment_pagebar" n="评论分页模板"
 			case "catalog" n="分类页整页模板"
 			case "default" n="首页整页模板"
-			case "search" n="搜索页整页模板"
+			case "page" n="独立页面模板"
 			case "single" n="日志页整页模板"
-			case "tags" n="标签页整页模板"
-			case "sidebar" n="侧边栏模板"
 			case "header" n="头部模板"
 			case "footer" n="底部模板"
-			'case "guestbook" n="留言页整页模板"
-			'case else n="自建非默认模板"
 		end select
 	elseif k=l & "\zb_users\theme\"&lcase(zc_blog_theme)&"\include" then
 		n="<#TEMPLATE_INCLUDE_"&ucasE(split(z,".")(0))&"#>"
@@ -422,12 +419,13 @@ Function FileManage_DeleteSiteFile(tpath)
 	If FileManage_CheckFile(tpath)=True Then FileManage_ExportError "不能删除Global.asa和Global.asax和Z-Blog以外的文件夹内的文件",SuccessPath
 	FileManage_FSO.DeleteFile(tpath)
 	If Err.Number=0 Then
-		Call SetBlogHint(True,True,Empty)
+		Call SetBlogHint(True,Empty,Empty)
 	Else
 		Call FileManage_ExportError("出现错误" & Hex(Err.Number) & "，描述为" & Err.Description & "，操作没有生效",SuccessPath)
 	End If
 	
 	Response.Write "<script type=""text/javascript"">location.href="""&SuccessPath&"""</script>"
+	Response.End
 	 	
 
 	For Each sAction_Plugin_FileManage_DeleteSiteFile_End in Action_Plugin_FileManage_DeleteSiteFile_End
@@ -490,12 +488,13 @@ Function FileManage_RenameFile(tpath,newname)
 	If FileManage_CheckFile(tpath)=True Then FileManage_ExportError "不能重命名Global.asa和Global.asax和Z-Blog以外的文件夹内的文件",SuccessPath
 	FileManage_FSO.GetFile(tpath).name=newname
 	If Err.Number=0 Then
-		Call SetBlogHint(True,True,Empty)
+		Call SetBlogHint(True,Empty,Empty)
 	Else
 		Call FileManage_ExportError("出现错误" & Hex(Err.Number) & "，描述为" & Err.Description & "，操作没有生效",SuccessPath)
 	End If
 	
 	Response.Write "<script type=""text/javascript"">location.href="""&SuccessPath&"""</script>"
+	Response.End
 	Set objGetFile=Nothing 
 	 
 
@@ -556,7 +555,7 @@ Function FileManage_Upload()
 	objUpload.open
 	objUpload.save "edtFileLoad",1
 	If Err.Number=0 Then
-		Call SetBlogHint(True,True,Empty)
+		Call SetBlogHint(True,Empty,Empty)
 	Else
 		FileManage_ExportError "<font color='red'>出现错误" & Hex(Err.Number) & "，描述为" & Err.Description & "，操作没有生效。</font>",SuccessPath
 	End If
@@ -594,7 +593,7 @@ Function FileManage_PostSiteFile(tpath,OpenFolderPath)
 		If Not IsNull(txaContent) Then
 				Call SaveToFile(tpath,txaContent,"utf-8",False)
 			If Err.Number=0 Then
-				Call SetBlogHint(True,True,Empty)
+				Call SetBlogHint(True,Empty,Empty)
 				FileManage_PostSiteFile=True
 			Else
 				FileManage_ExportError "出现错误" & Hex(Err.Number) & "，描述为" & Err.Description & "，操作没有生效。",SuccessPath
@@ -602,6 +601,7 @@ Function FileManage_PostSiteFile(tpath,OpenFolderPath)
 		End IF
 	End If
 	Response.Write "<script type=""text/javascript"">location.href="""&SuccessPath&"""</script>"
+	Response.End
 
 
 	For Each sAction_Plugin_FileManage_PostSiteFile_End in Action_Plugin_FileManage_PostSiteFile_End
@@ -621,11 +621,12 @@ Function FileManage_CreateFolder(tpath,openpath)
 	On Error Resume Next
 	FileManage_FSO.CreateFolder tpath
 	If Err.Number=0 Then
-		Call SetBlogHint(True,True,Empty)
+		Call SetBlogHint(True,Empty,Empty)
 	Else
 		Call FileManage_ExportError("<font color='red'>出现错误" & Hex(Err.Number) & "，描述为" & Err.Description & "，操作没有生效。</font>","main.asp?act=SiteFileMng&path="&Server.URLEncode(openpath))
 	End If
 	Response.Write "<script type=""text/javascript"">location.href="""&SuccessPath&"""</script>"
+	Response.End
 
 	For Each sAction_Plugin_FileManage_CreateFolder_End in Action_Plugin_FileManage_CreateFolder_End
 		If Not IsEmpty(sAction_Plugin_FileManage_CreateFolder_End) Then Call Execute(sAction_Plugin_FileManage_CreateFolder_End)
