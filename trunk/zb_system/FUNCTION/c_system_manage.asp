@@ -1330,7 +1330,11 @@ Function ExportFileReBuildAsk()
 	Response.Write "<form id=""edit"" name=""edit"" method=""post"" action=""../cmd.asp?act=FileReBuild"">" & vbCrlf
 	Response.Write "<p>"& ZC_MSG112 &"</p>" & vbCrlf
 
-	Response.Write "<p><input class=""button"" type=""submit"" value="""&ZC_MSG087&""" id=""btnPost""/></p>" & vbCrlf
+	Response.Write "<p><input class=""button"" type=""submit"" value="""&ZC_MSG087&""" id=""btnPost""/>"
+
+	Response.Write "<script type=""text/javascript"">if(window.webkitNotifications&&(!window.webkitNotifications.checkPermission() == 0)){document.write('&nbsp;&nbsp;&nbsp;&nbsp;<input class=""button"" onclick=""window.webkitNotifications.requestPermission();return false;"" type=""submit"" value="""&ZC_MSG263&""" id=""btnPost""/>')}</script>"	
+
+	Response.Write "</p>" & vbCrlf
 	Response.Write "</form>" 
 
 	Response.Write "</div>"
