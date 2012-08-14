@@ -4232,6 +4232,16 @@ Dim sAction_Plugin_ExportATOM_Begin
 
 
 
+'**************************************************<
+'类型:action
+'名称:Action_Plugin_TComment_Avatar
+'参数:无
+'说明:Wap.asp
+'**************************************************>
+Dim Action_Plugin_TComment_Avatar()
+ReDim Action_Plugin_TComment_Avatar(0)
+Dim bAction_Plugin_TComment_Avatar
+Dim sAction_Plugin_TComment_Avatar
 
 
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <plugin>
 <id>GuestBook</id>
-<name>留言本</name>
+<name>留言本 for 1.8升级版</name>
 <url>http://www.zsxsoft.com/</url>
 <note>延续1.8的guestbook.asp</note>
 <type>inline</type>
