@@ -42,7 +42,7 @@ Dim objRS,rndPwd,Guid
 <p>&nbsp;</p>
 <p>注意：升级数据库可能会有未知的风险，在升级数据库之前请做好备份！<br/>
 <br/>
-<input type="button" style="width:100%" value="如果准备好了，请点击这里升级数据库" class="button" onclick="location.href='?step=2'"/>
+<input type="button" style="width:100%" value="如果准备好了，请点击这里升级数据库" class="button" onClick="location.href='?step=2'"/>
 <%case 2%>
 <%
 	Dim objFile,objFolder,i
@@ -165,7 +165,7 @@ Dim objRS,rndPwd,Guid
 			End If
 			ExportOK "升级数据库结构成功！"
 			ExportOK "正在自动跳转到升级数据库内容"
-			%><input type="button" style="width:100%" value="请点击这里升级内容" class="button" onclick="location.href='?step=4&mdb=<%=Server.URLEncode(Request.QueryString("mdb"))%>'"/>
+			%><input type="button" style="width:100%" value="请点击这里升级内容" class="button" onClick="location.href='?step=4&mdb=<%=Server.URLEncode(Request.QueryString("mdb"))%>'"/>
 <script>location.href='?step=4&mdb=<%=Server.URLEncode(Request.QueryString("mdb"))%>'</script>
 <%
 		Else
@@ -177,27 +177,39 @@ Dim objRS,rndPwd,Guid
 	%>
 <%case 4%>
 <%
+	Dim objArticle
 	If fso.Exists(path) Then
 		ExportOK "找到数据库"
 		ZC_MSSQL_ENABLE=False
 		ZC_DATABASE_PATH="zb_users\data\"&Request.QueryString("mdb")
 		If OpenConnect Then
 			ExportOK "初始化数据库成功！"
-			rndPwD=GetRndPassword()
-			Guid=RndGuid()
-			objConn.Execute "UPDATE [blog_Member] SET mem_Password='"&MD5(rndPwD & Guid)&"',mem_Guid='"&Guid&"' WHERE mem_Level=1"
-			ExportOK "更改所有管理员密码为"&rndPwd&"成功！"
-			Set objRs=objConn.Execute("SELECT [mem_Name] FROM [blog_Member] WHERE mem_Level=1")
+			Set objRs=objConn.Execute("SELECT MAX([log_ID]) FROM [blog_Article]")
+			Call SetAllFullUrl(objRs(0))
+			ExportOK "设置Template成功"
+			
+			
+			Set objRs=Server.CreateObject("adodb.recordset")
+			objRs.Open "SELECT [mem_Password],[mem_Guid] FROM [blog_Member]",obJConn,1,3
+			Do Until objRs.Eof
+				Guid=RndGuid()
+				objRs("mem_Password")=MD5(objRs("mem_Password")&Guid)
+				objRs("mem_Guid")=Guid
+				objRs.MoveNext
+			Loop
+			ExportOK "升级密码成功！"
+			Set objRs=Nothing
+			Set objRs=objConn.Execute("SELECT [mem_Name],[mem_Password] FROM [blog_Member] WHERE mem_Level=1")
 
-			Response.Cookies("password")=MD5(rndPwD & Guid)
+			Response.Cookies("password")=objRs("mem_Password")
 			Response.Cookies("password").Expires = DateAdd("d", 1, now)
 			Response.Cookies("password").Path = "/"
 			Response.Cookies("username")=escape(objRs("mem_Name"))
 			Response.Cookies("username").Expires = DateAdd("d", 1, now)
 			Response.Cookies("username").Path = "/"
-			
-			Response.Write "<script>alert('所有的管理员密码已经被更改为"&rndPwd&"，请及时更改密码！')</script>"
+			Call SetBlogHint(True,True,True)
 			Response.Write "<br/><br/><a href='../zb_system/cmd.asp?act=login'>点击这里进入后台</a>"
+
 		Else
 			ExportError "初始化数据库失败！"
 		End If
@@ -274,4 +286,12 @@ Function GetRndPassword()
 	GetRndPassword=k
 End Function
 
+Sub SetAllFullUrl(j)
+	Dim i,a
+	For i=0 to j	
+		Set a=New TArticle
+		If (a.LoadInfoById(i)) Then a.TemplateName="":a.Post
+		Set a=Nothing
+	Next
+End Sub
 %>
