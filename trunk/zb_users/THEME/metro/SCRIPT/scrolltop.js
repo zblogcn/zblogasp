@@ -16,3 +16,12 @@ function goTopEx(){
                 }
         }
     }
+
+
+$(document).ready(function(){ 
+
+		if($(".commentlist .msg").length==0){$(".commentlist").hide()}
+
+		if($(".commentpost").children().length==1){$(".commentpost").hide()}
+
+});
