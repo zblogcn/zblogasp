@@ -44,23 +44,20 @@ Function ActivePlugin_ZBQQConnect()
 	Call Add_Action_Plugin("Action_Plugin_CommentPost_Succeed","Call ZBQQConnect_SendComment()")
 	Call Add_Action_Plugin("Action_Plugin_ArticlePst_Begin","ZBQQConnect_SToZone=Request.Form(""syn_qq""):ZBQQConnect_SToWb=Request.Form(""syn_tqq""):Call ZBQQConnect_Main()")
 	Call Add_Action_Plugin("Action_Plugin_Edit_ueditor_getArticleInfo","Set ZBQQConnect_tmpObj=EditArticle:Call ZBQQConnect_addForm()")
-	Call Add_Filter_Plugin("Filter_Plugin_TComment_LoadInfoByArray","ZBQQConnect_getcmt")
-	Call Add_Filter_Plugin("Filter_Plugin_TComment_MakeTemplate_Template","ZBQQConnect_AddCommentCode")
+
+Call Add_Action_Plugin("Action_Plugin_TComment_Avatar","If FAvatar="""" Then FAvatar=ZBQQConnect_AddCommentCode(AuthorID,Email)")
+
 	Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(5,"QQ互联",GetCurrentHost&"zb_users/plugin/zbqqconnect/main.asp","nav_QQConnect","aQQConnect",GetCurrentHost&"zb_users/plugin/zbqqconnect/Connect_logo_1.png"))
 
 	
 End Function
 
-'得到评论者的E-Mail和登录帐号
-Function ZBQQConnect_getcmt(ID,log_ID,AuthorID,Author,Content,Email,HomePage,PostTime,IP,Agent,Reply,LastReplyIP,LastReplyTime,ParentID,IsCheck,MetaString)
-	ZBQQConnect_Eml(0)=Email
-	ZBQQConnect_Eml(1)=AuthorID
-End Function
+
 
 '添加评论代码
-Function ZBQQConnect_AddCommentCode(ByRef a)
+Function ZBQQConnect_AddCommentCode(ByRef a,ByRef b)
 	Dim c,d
-	If Instr(a,"article/comment/avatar") And ZBQQConnect_HeadMode<>2 Then
+	If ZBQQConnect_HeadMode<>2 Then
 		ZBQQConnect_Initialize
 		ZBQQConnect_DB.Email=ZBQQConnect_Eml(0)
 		'这段太混乱了，写点注释吧……
@@ -92,9 +89,9 @@ Function ZBQQConnect_AddCommentCode(ByRef a)
 		End If
 		If d Then 
 					If ZBQQConnect_HeadMode=0 Then
-						a=Replace(a,"<#article/comment/avatar#>",ZBQQConnect_DB.tHead&"/100")
+						ZBQQConnect_AddCommentCode=ZBQQConnect_DB.tHead&"/100")
 					ElseIf ZBQQConnect_HeadMode=1 Then
-						a=Replace(a,"<#article/comment/avatar#>",ZBQQConnect_DB.QzoneHead)
+						ZBQQConnect_AddCommentCode=ZBQQConnect_DB.QzoneHead)
 					End If
 		End If
 	End If
