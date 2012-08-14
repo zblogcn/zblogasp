@@ -20,7 +20,7 @@ img { border: none;}
 #headerbg { height:100px; background:#3A6EA5;} 
 #content { width:960px; padding:20px 0; margin:0 auto; background: url(images/sidebar.png) repeat-y right top;}
 #main { float:left; width:703px;}
-#sidebar { float:right; width:240px; background:#e0e1e2; overflow:hidden;}
+#sidebar { float:right; width:240px; background:#E0E1E2; overflow:hidden;}
 #footer { width:960px; margin:0 auto; color:#FFFFFF; background: #3A6EA5 url(images/foot.png) no-repeat right top;}
 /*网站顶部*/
 .header { width:960px; height:65px; padding-top:25px; margin:0 auto; color:#FFFFFF;}
@@ -29,9 +29,9 @@ img { border: none;}
 .header a { color:#FFFFFF;}
 .logo { float:left;}
 /*导航*/
-.nevbarbg { width:100%; height:40px; background:#b0cdee;}
-.navbar { width:960px; height:40px; line-height:40px; margin:0 auto; background:#b0cdee; overflow:hidden;}
-.navbar a { color:#3A6EA5;}
+.nevbarbg { width:100%; height:40px; background:#B0CDEE;}
+.navbar { width:960px; height:40px; line-height:40px; margin:0 auto; background:#B0CDEE; overflow:hidden;}
+.navbar a { color:#00639C;}
 .navbar ul li { float:left; font-size:16px; padding:0 20px 0 0;}
 .navbar ul li a { display:block; float:left; padding:0 10px;}
 .navbar ul li a:hover { background:#FFFFFF; color:#3A6EA5;}
@@ -50,10 +50,12 @@ img { border: none;}
 .post_body p { margin-bottom:10px;}
 .post_tags { padding:10px 0;}
 .post_info { height:30px; line-height:30px; text-align:right; margin-top:10px;}
-.post_time { float:left; overflow:hidden; width:30px; padding:5px; height:auto; background:#3A6EA5;}
-.single .post_time { float:left; overflow:hidden; width:30px; padding:5px; height:auto; background:#3A6EA5;}
-.post_test { float:left; width:30px; padding:10px 0; height:auto; text-align:center; font-size:14px; font-weight:bold; color:#FFFFFF; background:#3A6EA5; line-height:1.3;}
-.post_time_body { -webkit-transform: rotate(90deg); -moz-transform: rotate(90deg); -o-transform: rotate(90deg); -ms-transform: rotate(90deg); transform: rotate(90deg); line-height:30px; display:block; }
+/**/
+.post_time { float:left; width:30px; padding:5px; overflow:hidden; height:120px; background:#3A6EA5;}
+.single .post_time { float:left; width:30px; padding:5px; overflow:hidden; height:175px; background:#3A6EA5;}
+.page .post_time { float:left; width:30px; padding:5px; overflow:hidden; height:30px; background:#3A6EA5;}
+.post_test { float:left; width:30px; padding:10px 0; height:auto; white-space:nowrap; text-align:center; font-size:14px; font-weight:bold; color:#FFFFFF; background:#3A6EA5; line-height:1.3}
+.post_time_body { -webkit-transform: rotate(90deg); -moz-transform: rotate(90deg); -o-transform: rotate(90deg); -ms-transform: rotate(90deg); transform: rotate(90deg); line-height:30px; display:block; background:#3A6EA5;}
 /*上一篇下一篇*/
 .post_nav { padding:5px 15px; height:22px; background:#FFFFFF; margin-bottom:5px;}
 .post_nav a { color:#3A6EA5;}
