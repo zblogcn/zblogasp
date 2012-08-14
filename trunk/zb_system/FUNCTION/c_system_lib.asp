@@ -274,6 +274,7 @@ Class TCategory
 
 	Private Sub Class_Initialize()
 		ID=0
+		Name=ZC_MSG059
 		Set Meta=New TMeta
 	End Sub
 
@@ -311,7 +312,7 @@ Class TArticle
 
 	Public Istop
 	Public FullUrl
-	Public IsAnonymous
+	Public FType
 	Public Meta
 	Public TemplateName
 
@@ -346,7 +347,7 @@ Class TArticle
 	Public SearchText
 	Public CommentsPage
 	Public Property Get IsPage
-		If CateID=0 Then
+		If FType=1 Then
 			IsPage=True
 		Else 
 			IsPage=False
@@ -541,7 +542,7 @@ Class TArticle
 		Call CheckParameter(log_ID,"int",0)
 
 		Dim objRS
-		Set objRS=objConn.Execute("SELECT [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_IsAnonymous],[log_Meta] FROM [blog_Article] WHERE [log_ID]=" & log_ID)
+		Set objRS=objConn.Execute("SELECT [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_Type],[log_Meta] FROM [blog_Article] WHERE [log_ID]=" & log_ID)
 
 		If (Not objRS.bof) And (Not objRS.eof) Then
 
@@ -561,7 +562,7 @@ Class TArticle
 			Istop=objRS("log_Istop")
 			TemplateName=objRS("log_Template")
 			FullUrl=objRS("log_FullUrl")
-			IsAnonymous=objRS("log_IsAnonymous")
+			FType=objRS("log_Type")
 			MetaString=objRS("log_Meta")
 
 			Content=TransferHTML(Content,"[upload][zc_blog_host]")
@@ -578,7 +579,7 @@ Class TArticle
 
 		LoadInfobyID=True
 
-		Call Filter_Plugin_TArticle_LoadInfobyID(ID,Tag,CateID,Title,Intro,Content,Level,AuthorID,PostTime,CommNums,ViewNums,TrackBackNums,Alias,Istop,TemplateName,FullUrl,IsAnonymous,MetaString)
+		Call Filter_Plugin_TArticle_LoadInfobyID(ID,Tag,CateID,Title,Intro,Content,Level,AuthorID,PostTime,CommNums,ViewNums,TrackBackNums,Alias,Istop,TemplateName,FullUrl,FType,MetaString)
 
 	End Function
 
@@ -586,7 +587,7 @@ Class TArticle
 
 	Public Function LoadInfoByArray(aryArticleInfo)
 
-		'[log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_IsAnonymous],[log_Meta]
+		'[log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_Type],[log_Meta]
 
 		If IsArray(aryArticleInfo)=True Then
 
@@ -606,7 +607,7 @@ Class TArticle
 			Istop=aryArticleInfo(13)
 			TemplateName=aryArticleInfo(14)
 			FullUrl=aryArticleInfo(15)
-			IsAnonymous=aryArticleInfo(16)
+			FType=aryArticleInfo(16)
 			MetaString=aryArticleInfo(17)
 
 			Content=TransferHTML(Content,"[upload][zc_blog_host]")
@@ -618,7 +619,7 @@ Class TArticle
 
 		LoadInfoByArray=True
 
-		Call Filter_Plugin_TArticle_LoadInfoByArray(ID,Tag,CateID,Title,Intro,Content,Level,AuthorID,PostTime,CommNums,ViewNums,TrackBackNums,Alias,Istop,TemplateName,FullUrl,IsAnonymous,MetaString)
+		Call Filter_Plugin_TArticle_LoadInfoByArray(ID,Tag,CateID,Title,Intro,Content,Level,AuthorID,PostTime,CommNums,ViewNums,TrackBackNums,Alias,Istop,TemplateName,FullUrl,FType,MetaString)
 
 	End Function
 
@@ -626,7 +627,7 @@ Class TArticle
 
 	Public Function Post()
 
-		Call Filter_Plugin_TArticle_Post(ID,Tag,CateID,Title,Intro,Content,Level,AuthorID,PostTime,CommNums,ViewNums,TrackBackNums,Alias,Istop,TemplateName,FullUrl,IsAnonymous,MetaString)
+		Call Filter_Plugin_TArticle_Post(ID,Tag,CateID,Title,Intro,Content,Level,AuthorID,PostTime,CommNums,ViewNums,TrackBackNums,Alias,Istop,TemplateName,FullUrl,FType,MetaString)
 
 		Call CheckParameter(ID,"int",0)
 		Call CheckParameter(CateID,"int",0)
@@ -683,7 +684,7 @@ Class TArticle
 		If TemplateName="SINGLE" Then TemplateName=""
 
 		If ID=0 Then
-			objConn.Execute("INSERT INTO [blog_Article]([log_CateID],[log_AuthorID],[log_Level],[log_Title],[log_Intro],[log_Content],[log_PostTime],[log_IP],[log_Tag],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_ViewNums],[log_IsAnonymous],[log_Meta]) VALUES ("&CateID&","&AuthorID&","&Level&",'"&Title&"','"&Intro&"','"&Content&"','"&PostTime&"','"&IP&"','"&Tag&"','"&Alias&"',"&CInt(Istop)&",'"&TemplateName&"','"&FullUrl&"',0,"&CInt(IsAnonymous)&",'"&MetaString&"')")
+			objConn.Execute("INSERT INTO [blog_Article]([log_CateID],[log_AuthorID],[log_Level],[log_Title],[log_Intro],[log_Content],[log_PostTime],[log_IP],[log_Tag],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_ViewNums],[log_Type],[log_Meta]) VALUES ("&CateID&","&AuthorID&","&Level&",'"&Title&"','"&Intro&"','"&Content&"','"&PostTime&"','"&IP&"','"&Tag&"','"&Alias&"',"&CInt(Istop)&",'"&TemplateName&"','"&FullUrl&"',0,"&CInt(FType)&",'"&MetaString&"')")
 			Dim objRS
 			Set objRS=objConn.Execute("SELECT MAX([log_ID]) FROM [blog_Article]")
 			If (Not objRS.bof) And (Not objRS.eof) Then
@@ -691,7 +692,7 @@ Class TArticle
 			End If
 			Set objRS=Nothing
 		Else
-			objConn.Execute("UPDATE [blog_Article] SET [log_CateID]="&CateID&",[log_AuthorID]="&AuthorID&",[log_Level]="&Level&",[log_Title]='"&Title&"',[log_Intro]='"&Intro&"',[log_Content]='"&Content&"',[log_PostTime]='"&PostTime&"',[log_IP]='"&IP&"',[log_Tag]='"&Tag&"',[log_Url]='"&Alias&"',[log_Istop]="&CInt(Istop)&",[log_Template]='"&TemplateName&"',[log_FullUrl]='"&FullUrl&"',[log_IsAnonymous]="&CInt(IsAnonymous)&",[log_Meta]='"&MetaString&"' WHERE [log_ID] =" & ID)
+			objConn.Execute("UPDATE [blog_Article] SET [log_CateID]="&CateID&",[log_AuthorID]="&AuthorID&",[log_Level]="&Level&",[log_Title]='"&Title&"',[log_Intro]='"&Intro&"',[log_Content]='"&Content&"',[log_PostTime]='"&PostTime&"',[log_IP]='"&IP&"',[log_Tag]='"&Tag&"',[log_Url]='"&Alias&"',[log_Istop]="&CInt(Istop)&",[log_Template]='"&TemplateName&"',[log_FullUrl]='"&FullUrl&"',[log_Type]="&CInt(FType)&",[log_Meta]='"&MetaString&"' WHERE [log_ID] =" & ID)
 		End If
 
 		Post=True
@@ -1034,7 +1035,7 @@ Class TArticle
 
 			Set objRS=Server.CreateObject("ADODB.Recordset")
 
-			strSQL="SELECT TOP "& ZC_MUTUALITY_COUNT &" [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_IsAnonymous],[log_Meta] FROM [blog_Article] WHERE ([log_CateID]>0) And ([log_Level]>2) AND [log_ID]<>"& ID
+			strSQL="SELECT TOP "& ZC_MUTUALITY_COUNT &" [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_Type],[log_Meta] FROM [blog_Article] WHERE ([log_CateID]>0) And ([log_Level]>2) AND [log_ID]<>"& ID
 			strSQL = strSQL & " AND ("
 
 			Dim aryTAGs
@@ -1475,7 +1476,7 @@ Class TArticle
 
 	Public Function Del()
 
-		Call Filter_Plugin_TArticle_Del(ID,Tag,CateID,Title,Intro,Content,Level,AuthorID,PostTime,CommNums,ViewNums,TrackBackNums,Alias,Istop,TemplateName,FullUrl,IsAnonymous,MetaString)
+		Call Filter_Plugin_TArticle_Del(ID,Tag,CateID,Title,Intro,Content,Level,AuthorID,PostTime,CommNums,ViewNums,TrackBackNums,Alias,Istop,TemplateName,FullUrl,FType,MetaString)
 
 		Call DelFile()
 
@@ -1513,6 +1514,7 @@ Class TArticle
 		IsDynamicLoadSildbar=True
 
 		Ftemplate=Empty
+		FType=ZC_POST_TYPE_ARTICLE
 
 		Set Meta=New TMeta
 
@@ -1633,7 +1635,7 @@ Class TArticleList
 
 		'//////////////////////////
 		'ontop
-		objRS.Source="SELECT [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_IsAnonymous],[log_Meta] FROM [blog_Article] WHERE ([log_CateID]>0) And ([log_ID]>0) AND ([log_Istop]<>0) AND ([log_Level]>1)"
+		objRS.Source="SELECT [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_Type],[log_Meta] FROM [blog_Article] WHERE ([log_CateID]>0) And ([log_ID]>0) AND ([log_Istop]<>0) AND ([log_Level]>1)"
 		objRS.Source=objRS.Source & "ORDER BY [log_PostTime] DESC,[log_ID] DESC"
 		objRS.Open()
 		If (Not objRS.bof) And (Not objRS.eof) Then
@@ -1661,7 +1663,7 @@ Class TArticleList
 		'//////////////////////////
 
 
-		objRS.Source="SELECT [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_IsAnonymous],[log_Meta] FROM [blog_Article] WHERE ([log_CateID]>0) And ([log_ID]>0) AND ([log_Istop]=0) AND ([log_Level]>1)"
+		objRS.Source="SELECT [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_Type],[log_Meta] FROM [blog_Article] WHERE ([log_CateID]>0) And ([log_ID]>0) AND ([log_Istop]=0) AND ([log_Level]>1)"
 
 		If Not IsEmpty(intCateId) Then
 			Dim strSubCateID : strSubCateID=Join(GetSubCateID(intCateId,True),",")

@@ -75,7 +75,7 @@ objRS.CursorType = adOpenKeyset
 objRS.LockType = adLockReadOnly
 objRS.ActiveConnection=objConn
 
-objRS.Source="SELECT [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_IsAnonymous],[log_Meta] FROM [blog_Article] WHERE ([log_CateID]>0) And ([log_ID]>0) AND ([log_Level]>2)"
+objRS.Source="SELECT [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_Type],[log_Meta] FROM [blog_Article] WHERE ([log_CateID]>0) And ([log_ID]>0) AND ([log_Level]>2)"
 
 If ZC_MSSQL_ENABLE=False Then
 	objRS.Source=objRS.Source & "AND( (InStr(1,LCase([log_Title]),LCase('"&strQuestion&"'),0)<>0) OR (InStr(1,LCase([log_Intro]),LCase('"&strQuestion&"'),0)<>0) OR (InStr(1,LCase([log_Content]),LCase('"&strQuestion&"'),0)<>0) )"
@@ -123,6 +123,7 @@ End If
 objRS.Close()
 Set objRS=Nothing
 
+objArticle.FType=ZC_POST_TYPE_PAGE
 objArticle.Content=Join(aryArticleList)
 
 objArticle.Title=ZC_MSG085 + ":" + TransferHTML(strQuestion,"[html-format]")

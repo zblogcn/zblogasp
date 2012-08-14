@@ -78,6 +78,7 @@ End If
 objRS.Close
 Set objRS=Nothing
 
+objArticle.FType=ZC_POST_TYPE_PAGE
 objArticle.Content="<br/>" & Join(strTagCloud)
 objArticle.Title="TagCloud"
 

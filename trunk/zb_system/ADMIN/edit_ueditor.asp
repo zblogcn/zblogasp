@@ -58,14 +58,13 @@ If Not IsEmpty(Request.QueryString("id")) Then
 				Call ShowError(6)
 			End If
 		End If
-
-
-
+		If EditArticle.FType=ZC_POST_TYPE_PAGE Then IsPage=True
 	Else
 		Call ShowError(9)
 	End If
 Else
 	EditArticle.AuthorID=BlogUser.ID
+	If IsPage=True THen EditArticle.FType=ZC_POST_TYPE_PAGE
 End If
 
 		'ajax tags
@@ -152,6 +151,7 @@ Next
 
 <div id="divEditTitle">
                       <input type="hidden" name="edtID" id="edtID" value="<%=EditArticle.ID%>" />
+                      <input type="hidden" name="edtFType" id="edtFType" value="<%=EditArticle.FType%>" />
 
 
 <!-- title( -->
@@ -445,10 +445,10 @@ End If
 		document.getElementById("edit").action="../cmd.asp?act=ArticlePst&webedit=ueditor<%=IIF(Request.QueryString("type")="Page","&type=Page","")%>";
 
 <%If Request.QueryString("type")="" Then%>
-		if(document.getElementById("edtCateID").value==0){
-			alert(str10);
-			return false
-		}
+		//if(document.getElementById("edtCateID").value==0){
+		//	alert(str10);
+		//	return false
+		//}
 <%End If%>
 		if(!editor.getContent()){
 			alert(str11);

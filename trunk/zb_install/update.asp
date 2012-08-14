@@ -106,7 +106,7 @@ Dim objRS,rndPwd,Guid
 				Call UpdateDB("ALTER TABLE [blog_Article] ADD COLUMN [log_Ratting] int DEFAULT 0","[blog_Article].[log_Ratting]")
 				Call UpdateDB("ALTER TABLE [blog_Article] ADD COLUMN [log_Template] VARCHAR(50) default """"","[blog_Article].[log_Template]")
 				Call UpdateDB("ALTER TABLE [blog_Article] ADD COLUMN [log_FullUrl] VARCHAR(255) default """"","[blog_Article].[log_FullUrl]")
-				Call UpdateDB("ALTER TABLE [blog_Article] ADD COLUMN [log_IsAnonymous] YESNO DEFAULT FALSE","[blog_Article].[log_IsAnonymous]")
+				Call UpdateDB("ALTER TABLE [blog_Article] ADD COLUMN [log_Type] int DEFAULT 0","[blog_Article].[log_Type]")
 				Call UpdateDB("ALTER TABLE [blog_Article] ADD COLUMN [log_Meta] text default """"","[blog_Article].[log_Meta]")
 			End If
 		

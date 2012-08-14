@@ -136,7 +136,7 @@ Function ExportArticleList(intPage,intCate,intLevel,intTitle)
 	objRS.ActiveConnection=objConn
 	objRS.Source=""
 
-	strSQL="WHERE ([log_CateID]>0) AND ([log_Level]>0) AND (1=1) "
+	strSQL="WHERE ([log_Type]=0) AND ([log_Level]>0) AND (1=1) "
 
 	If CheckRights("Root")=False Then strSQL= strSQL & "AND [log_AuthorID] = " & BlogUser.ID
 
@@ -293,7 +293,7 @@ Call Add_Response_Plugin("Response_Plugin_ArticleMng_SubMenu",MakeSubMenu(ZC_MSG
 	objRS.ActiveConnection=objConn
 	objRS.Source=""
 
-	strSQL="WHERE ([log_CateID]=0) AND ([log_Level]>0) AND (1=1) "
+	strSQL="WHERE ([log_Type]=1) AND ([log_Level]>0) AND (1=1) "
 
 	If CheckRights("Root")=False Then strSQL= strSQL & "AND [log_AuthorID] = " & BlogUser.ID
 
