@@ -100,6 +100,7 @@ End If
 </div>
 </div>
 </div>
+<script type="text/javascript">ActiveLeftMenu("aYTAlipayMng");</script>
 <script language="javascript" type="text/javascript">
 $(document).ready(function(){
 	YT.Panel.Alipay.M(({ Action: 'GetJsonList',OrderID:'',OrderName:'',intPage:1,t:Math.random()}));					   
