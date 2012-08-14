@@ -424,6 +424,9 @@ div.post-body p.inscript{
 div.post-body div.syntaxhighlighter{
 	overflow:hidden;
 }
+div.post-body p{
+	overflow:hidden;
+}
 
 div.post-body code{
 	padding:5px;
