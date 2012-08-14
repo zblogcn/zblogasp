@@ -294,7 +294,7 @@ form textarea{
 	font-size:1em;
 }
 
-input.button { color:#FFFFFF; font-size:14px; width:100px;height:1.8em;padding: 0.15em 0.25em 0.20em 0.25em; background:#3a6ea5; border:1px solid #3399CC;cursor: pointer;}
+input.button { color:#FFFFFF; font-size:14px; height:1.8em;padding: 0.15em 2em 0.20em 2em; background:#3a6ea5; border:1px solid #3399CC;cursor: pointer;}
 input.button2 { width:auto;}
 
 form input[disabled]{
