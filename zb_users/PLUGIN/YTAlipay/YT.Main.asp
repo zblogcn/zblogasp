@@ -3,7 +3,7 @@
 <%
 Call RegisterPlugin("YTAlipay","ActivePlugin_YT_Alipay")
 Sub ActivePlugin_YT_Alipay()
-
+	Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(1,"订单管理",GetCurrentHost&"zb_users/plugin/YTAlipay/YT.Panel.asp","nav_quoted","aYTAlipayMng",""))
 End Sub
 '卸载插件
 Function UnInstallPlugin_YTAlipay()
