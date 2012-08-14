@@ -1,13 +1,23 @@
-﻿<div class="post single-post cate<#article/category/id#> auth<#article/author/id#>">
-	<h4 class="post-date"></h4>
-	<h2 class="post-title"><#article/title#></h2>
-	<div class="post-body"><#article/content#></div>
-	<h5 class="post-tags"></h5>
-	<h6 class="post-footer"></h6>
-</div>
-<ul class="msg msghead">
-	<li class="tbname"><#ZC_MSG211#>:</li>
-</ul>
-<#template:article_comment#>
-<#template:article_comment_pagebar#>
-<#template:article_commentpost#>
+﻿<div class="post cate<#article/category/id#> auth<#article/author/id#>">
+      <div class="post_time">
+        <div class="post_test">
+        <span class="post_time_body"></span>
+        </div>
+      </div>
+      <div class="post_r">
+        <div class="post_body">
+          <h2><#article/title#></h2>
+          <#article/content#>
+        </div>
+
+        <div class="commentlist" style="overflow:hidden;">
+          <h4>评论列表:</h4>
+          <#template:article_comment#>
+          <#template:article_comment_pagebar#>
+        </div>
+        
+        <#template:article_commentpost#>
+        
+      </div>
+     <div class="clear"></div>
+    </div>
