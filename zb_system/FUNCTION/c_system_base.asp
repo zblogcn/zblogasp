@@ -1936,7 +1936,10 @@ End Function
 '*********************************************************
 Dim AdminTopMenuCount
 AdminTopMenuCount=0
-Function MakeTopMenu(strName,strUrl,strLiId,strTarget)
+Function MakeTopMenu(requireLevel,strName,strUrl,strLiId,strTarget)
+
+	If BlogUser.Level>requireLevel Then Exit Function
+
 	Dim tmp
 	If strTarget="" Then strTarget="_self"
 	AdminTopMenuCount=AdminTopMenuCount+1
@@ -3428,9 +3431,9 @@ Function CreateAdminTopMenu()
 
 Response_Plugin_Admin_Top=""
 
-Call Add_Response_Plugin("Response_Plugin_Admin_Top",MakeTopMenu(ZC_MSG245,GetCurrentHost&"zb_system/cmd.asp?act=admin","",""))
-Call Add_Response_Plugin("Response_Plugin_Admin_Top",MakeTopMenu(ZC_MSG247,GetCurrentHost&"zb_system/cmd.asp?act=SettingMng","",""))
-Call Add_Response_Plugin("Response_Plugin_Admin_Top",MakeTopMenu(ZC_MSG073,GetCurrentHost&"zb_system/cmd.asp?act=AskFileReBuild","",""))
+Call Add_Response_Plugin("Response_Plugin_Admin_Top",MakeTopMenu(GetRights("admin"),ZC_MSG245,GetCurrentHost&"zb_system/cmd.asp?act=admin","",""))
+Call Add_Response_Plugin("Response_Plugin_Admin_Top",MakeTopMenu(GetRights("SettingMng"),ZC_MSG247,GetCurrentHost&"zb_system/cmd.asp?act=SettingMng","",""))
+Call Add_Response_Plugin("Response_Plugin_Admin_Top",MakeTopMenu(GetRights("AskFileReBuild"),ZC_MSG073,GetCurrentHost&"zb_system/cmd.asp?act=AskFileReBuild","",""))
 
 End Function
 '*********************************************************

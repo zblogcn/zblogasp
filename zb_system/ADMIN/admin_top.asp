@@ -10,7 +10,7 @@
     <div class="menu">
       <ul id="topmenu">
 <%
-Call Add_Response_Plugin("Response_Plugin_Admin_Top",MakeTopMenu(ZC_MSG006,"http://www.rainbowsoft.org/","","_blank"))
+Call Add_Response_Plugin("Response_Plugin_Admin_Top",MakeTopMenu(GetRights("vrs"),ZC_MSG006,"http://www.rainbowsoft.org/","","_blank"))
 %>
         <%=Response_Plugin_Admin_Top%>
       </ul>

@@ -57,16 +57,18 @@ If (Not objRS.bof) And (Not objRS.eof) Then
 			i=0
 		ElseIf Tags(objRS("tag_ID")).Count>5 And Tags(objRS("tag_ID")).Count<=10 Then
 			i=1
-		ElseIf Tags(objRS("tag_ID")).Count>10 And Tags(objRS("tag_ID")).Count<=25 Then
+		ElseIf Tags(objRS("tag_ID")).Count>10 And Tags(objRS("tag_ID")).Count<=20 Then
 			i=2
-		ElseIf Tags(objRS("tag_ID")).Count>25 And Tags(objRS("tag_ID")).Count<=50 Then
+		ElseIf Tags(objRS("tag_ID")).Count>20 And Tags(objRS("tag_ID")).Count<=35 Then
 			i=3
-		ElseIf Tags(objRS("tag_ID")).Count>50 And Tags(objRS("tag_ID")).Count<=100 Then
+		ElseIf Tags(objRS("tag_ID")).Count>35 And Tags(objRS("tag_ID")).Count<=70 Then
 			i=4
-		ElseIf Tags(objRS("tag_ID")).Count>100 And Tags(objRS("tag_ID")).Count<=200 Then
+		ElseIf Tags(objRS("tag_ID")).Count>70 And Tags(objRS("tag_ID")).Count<=130 Then
 			i=5
-		ElseIf Tags(objRS("tag_ID")).Count>200 Then
+		ElseIf Tags(objRS("tag_ID")).Count>130 And Tags(objRS("tag_ID")).Count<=200 Then
 			i=6
+		ElseIf Tags(objRS("tag_ID")).Count>200 Then
+			i=7
 		End If
 
 		ReDim Preserve strTagCloud(j+1)
