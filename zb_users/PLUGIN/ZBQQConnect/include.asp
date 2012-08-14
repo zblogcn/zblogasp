@@ -89,9 +89,9 @@ Function ZBQQConnect_AddCommentCode(ByRef a,ByRef b)
 		End If
 		If d Then 
 					If ZBQQConnect_HeadMode=0 Then
-						ZBQQConnect_AddCommentCode=ZBQQConnect_DB.tHead&"/100")
+						ZBQQConnect_AddCommentCode=ZBQQConnect_DB.tHead&"/100"
 					ElseIf ZBQQConnect_HeadMode=1 Then
-						ZBQQConnect_AddCommentCode=ZBQQConnect_DB.QzoneHead)
+						ZBQQConnect_AddCommentCode=ZBQQConnect_DB.QzoneHead
 					End If
 		End If
 	End If
