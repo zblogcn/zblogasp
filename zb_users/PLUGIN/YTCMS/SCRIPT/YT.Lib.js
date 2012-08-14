@@ -127,7 +127,7 @@ var YT = {
 									}
 								});	
 								$(t).find('textarea').css({height:'380px'}).text(txt);
-								$(t).find('input').click(function(){
+								$(t).find('input').eq(0).click(function(){
 									$.ajax({
 										url: 'YT.Ajax.asp',
 										type: 'POST',
@@ -985,6 +985,22 @@ var YT = {
 			}
 		};
 		$(t).find('li')[1].appendChild(_s);
+		if(isAlipay){
+			var __but = document.createElement('input');
+				__but.type = 'button';
+				__but.value = 'ALIPAY';
+				__but.onclick = function(){
+					$.ajax({
+						url: ZC_BLOG_HOST+'ZB_USERS/PLUGIN/YTAlipay/form.html',
+						type: 'GET',
+						dataType: 'html',
+						success: function(s) {
+							YT.InsertText($(t).find('textarea')[0],s,false);
+						}
+					});
+				};
+				$(t).find('li')[3].appendChild(__but);
+		}
 	}
 };
 jQuery.extend({
