@@ -953,7 +953,7 @@ Class TArticle
 
 		Dim objRS
 
-		Set objRS=objConn.Execute("SELECT TOP 1 [log_ID] FROM [blog_Article] WHERE ([log_CateID]>0) And ([log_Level]>2) AND ([log_PostTime]<" & ZC_SQL_POUND_KEY & PostTime & ZC_SQL_POUND_KEY &") ORDER BY [log_PostTime] DESC")
+		Set objRS=objConn.Execute("SELECT TOP 1 [log_ID] FROM [blog_Article] WHERE ([log_Type]=0) And ([log_Level]>2) AND ([log_PostTime]<" & ZC_SQL_POUND_KEY & PostTime & ZC_SQL_POUND_KEY &") ORDER BY [log_PostTime] DESC")
 		If (Not objRS.bof) And (Not objRS.eof) Then
 
 			s="<a class=""l"" href=""<#article/nav_l/url#>""><#article/nav_l/name#></a>"
@@ -966,7 +966,7 @@ Class TArticle
 		End If
 		Set objRS=Nothing
 
-		Set objRS=objConn.Execute("SELECT TOP 1 [log_ID] FROM [blog_Article] WHERE ([log_CateID]>0) And ([log_Level]>2) AND ([log_PostTime]>" & ZC_SQL_POUND_KEY & PostTime & ZC_SQL_POUND_KEY &") ORDER BY [log_PostTime] ASC")
+		Set objRS=objConn.Execute("SELECT TOP 1 [log_ID] FROM [blog_Article] WHERE ([log_Type]=0) And ([log_Level]>2) AND ([log_PostTime]>" & ZC_SQL_POUND_KEY & PostTime & ZC_SQL_POUND_KEY &") ORDER BY [log_PostTime] ASC")
 		If (Not objRS.bof) And (Not objRS.eof) Then
 
 			t="<a class=""r"" href=""<#article/nav_r/url#>""><#article/nav_r/name#></a>"
@@ -1035,7 +1035,7 @@ Class TArticle
 
 			Set objRS=Server.CreateObject("ADODB.Recordset")
 
-			strSQL="SELECT TOP "& ZC_MUTUALITY_COUNT &" [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_Type],[log_Meta] FROM [blog_Article] WHERE ([log_CateID]>0) And ([log_Level]>2) AND [log_ID]<>"& ID
+			strSQL="SELECT TOP "& ZC_MUTUALITY_COUNT &" [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_Type],[log_Meta] FROM [blog_Article] WHERE ([log_Type]=0) And ([log_Level]>2) AND [log_ID]<>"& ID
 			strSQL = strSQL & " AND ("
 
 			Dim aryTAGs
@@ -1115,13 +1115,13 @@ Class TArticle
 
 		Call GetUsersbyUserIDList(AuthorID)
 
-		If (ZC_DISPLAY_MODE_INTRO=intType) Or (ZC_DISPLAY_MODE_ONTOP=intType) Or (ZC_DISPLAY_MODE_SEARCH=intType) Or (ZC_DISPLAY_MODE_ONLYPAGE=intType) Then
+		If (ZC_DISPLAY_MODE_INTRO=intType) Or (ZC_DISPLAY_MODE_ONTOP=intType) Or (ZC_DISPLAY_MODE_SEARCH=intType) Or (ZC_DISPLAY_MODE_SYSTEMPAGE=intType) Or (ZC_DISPLAY_MODE_COMMENTS=intType) Then
 			Disable_Export_Tag=False
 			Disable_Export_CMTandTB=True
 			Disable_Export_CommentPost=True
 			Disable_Export_Mutuality=True
 			Disable_Export_NavBar=True
-			If ZC_DISPLAY_MODE_ONLYPAGE=intType Then
+			If ZC_DISPLAY_MODE_SYSTEMPAGE=intType Then
 				Disable_Export_Tag=True
 			End If
 			If ZC_DISPLAY_MODE_ONTOP=intType Then
@@ -1134,9 +1134,17 @@ Class TArticle
 				subhtml_TemplateName=""
 				subhtml=GetTemplate("TEMPLATE_B_ARTICLE-SEARCH")
 			End If
+			If ZC_DISPLAY_MODE_COMMENTS=intType Then
+				Disable_Export_Tag=True
+				Disable_Export_CMTandTB=False
+				subhtml_TemplateName=""
+				subhtml="<#template:article_comment#>"
+			End If
 		End If
 
-		If IsPage=True Then
+		If ZC_DISPLAY_MODE_ALL=intType And IsPage=True Then
+			Disable_Export_CMTandTB=False
+			Disable_Export_CommentPost=False
 			Disable_Export_Tag=True
 			Disable_Export_Mutuality=True
 			Disable_Export_NavBar=True
@@ -1635,7 +1643,7 @@ Class TArticleList
 
 		'//////////////////////////
 		'ontop
-		objRS.Source="SELECT [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_Type],[log_Meta] FROM [blog_Article] WHERE ([log_CateID]>0) And ([log_ID]>0) AND ([log_Istop]<>0) AND ([log_Level]>1)"
+		objRS.Source="SELECT [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_Type],[log_Meta] FROM [blog_Article] WHERE ([log_Type]=0) And ([log_ID]>0) AND ([log_Istop]<>0) AND ([log_Level]>1)"
 		objRS.Source=objRS.Source & "ORDER BY [log_PostTime] DESC,[log_ID] DESC"
 		objRS.Open()
 		If (Not objRS.bof) And (Not objRS.eof) Then
@@ -1663,7 +1671,7 @@ Class TArticleList
 		'//////////////////////////
 
 
-		objRS.Source="SELECT [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_Type],[log_Meta] FROM [blog_Article] WHERE ([log_CateID]>0) And ([log_ID]>0) AND ([log_Istop]=0) AND ([log_Level]>1)"
+		objRS.Source="SELECT [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_Type],[log_Meta] FROM [blog_Article] WHERE ([log_Type]=0) And ([log_ID]>0) AND ([log_Istop]=0) AND ([log_Level]>1)"
 
 		If Not IsEmpty(intCateId) Then
 			Dim strSubCateID : strSubCateID=Join(GetSubCateID(intCateId,True),",")

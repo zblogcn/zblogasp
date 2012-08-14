@@ -45,32 +45,15 @@ objArticle.Title="TagCloud"
 
 Dim Tag
 Dim strTagCloud()
-Dim i,j
+Dim i,j,h
 
 Dim objRS
 Set objRS=objConn.Execute("SELECT [tag_ID] FROM [blog_Tag] ORDER BY [tag_Name] ASC")
 If (Not objRS.bof) And (Not objRS.eof) Then
 	Do While Not objRS.eof
 
-
-		If Tags(objRS("tag_ID")).Count<=1 Then
-			i=0
-		ElseIf Tags(objRS("tag_ID")).Count>5 And Tags(objRS("tag_ID")).Count<=10 Then
-			i=1
-		ElseIf Tags(objRS("tag_ID")).Count>10 And Tags(objRS("tag_ID")).Count<=20 Then
-			i=2
-		ElseIf Tags(objRS("tag_ID")).Count>20 And Tags(objRS("tag_ID")).Count<=35 Then
-			i=3
-		ElseIf Tags(objRS("tag_ID")).Count>35 And Tags(objRS("tag_ID")).Count<=70 Then
-			i=4
-		ElseIf Tags(objRS("tag_ID")).Count>70 And Tags(objRS("tag_ID")).Count<=130 Then
-			i=5
-		ElseIf Tags(objRS("tag_ID")).Count>130 And Tags(objRS("tag_ID")).Count<=200 Then
-			i=6
-		ElseIf Tags(objRS("tag_ID")).Count>200 Then
-			i=7
-		End If
-
+		i=TagCloud(Tags(objRS("tag_ID")).Count)
+		If h<i Then h=i
 		ReDim Preserve strTagCloud(j+1)
 		strTagCloud(j) = "<font size='+"&i&"'><a title='" & Tags(objRS("tag_ID")).Count & "' href='" & Tags(objRS("tag_ID")).Url &"'>" & Tags(objRS("tag_ID")).name & "</a></font>&nbsp;&nbsp;"
 		j=j+1
@@ -81,10 +64,10 @@ objRS.Close
 Set objRS=Nothing
 
 objArticle.FType=ZC_POST_TYPE_PAGE
-objArticle.Content="<br/>" & Join(strTagCloud)
+objArticle.Content="<p style='line-height:"&(100+h*30)&"%'><br/>" & Join(strTagCloud) & "</p>"
 objArticle.Title="TagCloud"
 
-If objArticle.Export(ZC_DISPLAY_MODE_ONLYPAGE) Then
+If objArticle.Export(ZC_DISPLAY_MODE_SYSTEMPAGE) Then
 	objArticle.Build
 	Response.Write objArticle.html
 End If

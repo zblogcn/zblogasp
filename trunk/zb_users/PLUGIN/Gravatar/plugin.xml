@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <plugin>
 <id>Gravatar</id>
-<name>Gravatar</name>
+<name>Gravatar头像</name>
 <url>http://www.zsxsoft.com/</url>
 <note>前台评论、后台管理显示Gravatar头像</note>
 <type>inline</type>

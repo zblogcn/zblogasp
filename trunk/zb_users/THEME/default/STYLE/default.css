@@ -252,10 +252,6 @@ h1,h2,h3,h4,h5,h6{
 	margin:0 0 0 1em;
 }
 
-body.single #divMisc{
-	display:none;
-}
-
 #divCalendar .function_t{
 	display:none;
 }
@@ -272,6 +268,21 @@ body.single #divMisc{
 	width:50px;
 	margin-left:10px;
 	background:#e5f0f6;
+}
+#divTags {
+	padding:0 0 0 0;
+}
+#divTags .tag-count{
+	display:none;
+}
+#divTags li{
+	float:left;
+	background:none;
+	padding-left:0;
+	padding-right:0.5em;
+	padding: 5px 8px 5px 0;
+	display: inline;
+	clear : none;
 }
 
 
@@ -644,19 +655,17 @@ ul.msg{
 	list-style-position : outside;
     table-layout: fixed;
     word-wrap:break-word;
-
 }
 
 li.msgname{
-	padding:0 0 5px 5px;
+	padding:0 0 10px 5px;
 	margin:0px;   
 	font-weight: bold;
     font-size:1em;
-    border-bottom:1px solid #eaeaea;
 }
 
 li.msgname *{
-	vertical-align:text-bottom ;
+
 }
 
 li.msgurl{
@@ -679,16 +688,37 @@ li.msgarticle{
 	margin:0;
 	line-height:160%; 
     background:#FFF;
+	padding-left:55px;
+    border-bottom:1px solid #eaeaea;
 }
 li.msgtime{
 	padding:5px 0 0 0;
 	font-weight: normal; 
 	font-size:0.8em;
 }
-ul.msg ul.msg img.avatar{
-	width:16px;
-	height:16px;
+img.avatar{
+	width:40px;
+	height:40px;
+	float:left;
+	padding:4px;
+	border:1px solid #eaeaea;
 }
+ul.msg ul.msg{
+	padding:10px 0 0 0;
+	margin:20px 0 0 0;
+    border-top:1px solid #eaeaea;
+    border-bottom:none;
+}
+ul.msg ul.msg li.msgarticle{
+	padding-bottom:0px;
+    border-bottom:0px solid #eaeaea;
+}
+
+ul.msg ul.msg li.msgname{
+	padding:0px;
+}
+
+
 
 /*---------------------------相关文章----------------------------------*/
 ul.mutuality,ul.pagebar,ul.msghead{
@@ -701,7 +731,7 @@ ul.mutuality li.tbname,ul.msghead li.tbname{
 	
 }
 ul.mutuality li.msgarticle{
-
+	padding-left:0px;
 }
 
 
@@ -773,7 +803,8 @@ border-bottom:1px solid #dbe0e6;
 
 input.text{
 border:1px solid #d7d7d7;
-line-height:20px;
+line-height:24px;
+height:24px;
 }
 #txaArticle{margin-top:10px;width:95%;height:150px;border:1px solid #d7d7d7;}
 input.button { ;color:#FFFFFF; font-size:14px; width:100px; height:32px; background:#3a6ea5; border:1px solid #3399CC;cursor: pointer;}
