@@ -683,8 +683,8 @@ Function GetComment(logid,page)
 
 	If objArticle.LoadInfoByID(logid) Then
 		objArticle.CommentsPage=page
-		Call objArticle.Export(ZC_DISPLAY_MODE_ALL)
-		s=objArticle.Template_Article_Comment
+		Call objArticle.Export(ZC_DISPLAY_MODE_COMMENTS)
+		s=objArticle.subhtml
 	End If
 
 	Dim i,j,s

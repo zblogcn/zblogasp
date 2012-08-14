@@ -59,7 +59,7 @@ Function PageMeta_ExportArticleList(intPage,intCate,intLevel,intTitle)
 	objRS.LockType = adLockReadOnly
 	objRS.ActiveConnection=objConn
 	objRS.Source=""
-	strSQL="WHERE ([log_CateID]>0) AND ([log_Level]>0) AND (1=1) "
+	strSQL="WHERE ([log_Type]=0) AND ([log_Level]>0) AND (1=1) "
 	If CheckRights("Root")=False Then strSQL= strSQL & "AND [log_AuthorID] = " & BlogUser.ID
 	If intCate<>-1 Then
 		Dim strSubCateID : strSubCateID=Join(GetSubCateID(intCate,True),",")

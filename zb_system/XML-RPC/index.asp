@@ -212,6 +212,8 @@ Function this_newPost(structPost,bolPublish)
 
 	On Error Resume Next
 
+	Dim i,j,s,t
+
 	Dim objXmlFile
 	Set objXmlFile = Server.CreateObject("Microsoft.XMLDOM")
 
@@ -241,10 +243,9 @@ Function this_newPost(structPost,bolPublish)
 	strCate=objXmlFile.documentElement.selectSingleNode("member[name=""categories""]/value/array/data/value[0]/string").text
 
 	Dim Cate
-	Dim i
 	For i=UBound(Categorys) To 1 Step -1
 		If IsObject(Categorys(i)) Then
-			objArticle.CateID=Categorys(i).ID
+			'objArticle.CateID=Categorys(i).ID
 			If strCate=Categorys(i).Name Then
 				objArticle.CateID=Categorys(i).ID
 				Exit For
@@ -254,16 +255,26 @@ Function this_newPost(structPost,bolPublish)
 
 	objArticle.Content=objXmlFile.documentElement.selectSingleNode("member[name=""description""]/value/string").text
 
-	Dim objRegExp
-	Dim s
-	s=objArticle.Content
-	Set objRegExp=New RegExp
-	objRegExp.IgnoreCase =True
-	objRegExp.Global=True
-	objRegExp.Pattern="<[^>]*>"
-	s=objRegExp.Replace(s,"")
-	s=Left(s,ZC_TB_EXCERPT_MAX) & "..."
-	objArticle.Intro=objArticle.Content
+	If objArticle.FType=ZC_POST_TYPE_ARTICLE Then
+		If InStr(objArticle.Content,"<hr class=""more"" />")>0 Then
+			s=objArticle.Content
+			i=InStr(s,"<hr class=""more"" />")
+			s=Left(s,i-1)
+			objArticle.Intro=s
+			objArticle.Content=Replace(objArticle.Content,"<hr class=""more"" />","<!–more–>",1,1)
+		End If
+
+		If objArticle.Intro="" Then
+			s=objArticle.Content
+			For i =0 To UBound(Split(s,"</p>"))
+				If Trim(Split(s,"</p>")(i))<>"" Then
+					t=t & Split(s,"</p>")(i) & "</p>"
+				End If
+				If Len(t)>ZC_TB_EXCERPT_MAX Then Exit for
+			Next 
+			objArticle.Intro=t
+		End If
+	End If
 
 	'接口
 	Call Filter_Plugin_PostArticle_Core(objArticle)
@@ -296,6 +307,8 @@ Function this_editPost(intPostID,structPost,bolPublish)
 
 	On Error Resume Next
 
+	Dim i,j,s,t
+
 	Dim objXmlFile
 	Set objXmlFile = Server.CreateObject("Microsoft.XMLDOM")
 
@@ -326,10 +339,9 @@ Function this_editPost(intPostID,structPost,bolPublish)
 	strCate=objXmlFile.documentElement.selectSingleNode("member[name=""categories""]/value/array/data/value[0]/string").text
 	If strCate<>"" Then
 		Dim Cate
-		Dim i
 		For i=UBound(Categorys) To 1 Step -1
 			If IsObject(Categorys(i)) Then
-				objArticle.CateID=Categorys(i).ID
+				'objArticle.CateID=Categorys(i).ID
 				If strCate=Categorys(i).Name Then
 					objArticle.CateID=Categorys(i).ID
 					Exit For
@@ -339,16 +351,26 @@ Function this_editPost(intPostID,structPost,bolPublish)
 	End If
 	objArticle.Content=objXmlFile.documentElement.selectSingleNode("member[name=""description""]/value/string").text
 
-	Dim objRegExp
-	Dim s
-	s=objArticle.Content
-	Set objRegExp=New RegExp
-	objRegExp.IgnoreCase =True
-	objRegExp.Global=True
-	objRegExp.Pattern="<[^>]*>"
-	s=objRegExp.Replace(s,"")
-	s=Left(s,ZC_TB_EXCERPT_MAX) & "..."
-	objArticle.Intro=objArticle.Content
+	If objArticle.FType=ZC_POST_TYPE_ARTICLE Then
+		If InStr(objArticle.Content,"<hr class=""more"" />")>0 Then
+			s=objArticle.Content
+			i=InStr(s,"<hr class=""more"" />")
+			s=Left(s,i-1)
+			objArticle.Intro=s
+			objArticle.Content=Replace(objArticle.Content,"<hr class=""more"" />","<!–more–>",1,1)
+		End If
+
+		If objArticle.Intro="" Then
+			s=objArticle.Content
+			For i =0 To UBound(Split(s,"</p>"))
+				If Trim(Split(s,"</p>")(i))<>"" Then
+					t=t & Split(s,"</p>")(i) & "</p>"
+				End If
+				If Len(t)>ZC_TB_EXCERPT_MAX Then Exit for
+			Next 
+			objArticle.Intro=t
+		End If
+	End If
 
 	'接口
 	Call Filter_Plugin_PostArticle_Core(objArticle)

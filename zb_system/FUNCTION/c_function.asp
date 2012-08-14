@@ -1629,6 +1629,34 @@ End Function
 
 
 
+'*********************************************************
+' 目的：    
+'*********************************************************
+Function TagCloud(Count)
+	Dim i
+	If Count<=5 Then
+		i=0
+	ElseIf Count>5 And Count<=10 Then
+		i=1
+	ElseIf Count>10 And Count<=20 Then
+		i=2
+	ElseIf Count>20 And Count<=35 Then
+		i=3
+	ElseIf Count>35 And Count<=70 Then
+		i=4
+	ElseIf Count>70 And Count<=130 Then
+		i=5
+	ElseIf Count>130 And Count<=200 Then
+		i=6
+	ElseIf Count>200 Then
+		i=7
+	End If
+	TagCloud=i
+End Function
+'*********************************************************
+
+
+
 
 '*********************************************************
 ' Derived from the RSA Data Security, Inc. MD5 Message-Digest Algorithm,

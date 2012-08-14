@@ -66,9 +66,11 @@ Const ZC_TRACKBACK_TURNOFF=True
 
 Const ZC_DISPLAY_MODE_ALL=1
 Const ZC_DISPLAY_MODE_INTRO=2
-Const ZC_DISPLAY_MODE_ONTOP=4
-Const ZC_DISPLAY_MODE_SEARCH=8
-Const ZC_DISPLAY_MODE_ONLYPAGE=16
+Const ZC_DISPLAY_MODE_ONTOP=3
+Const ZC_DISPLAY_MODE_SEARCH=4
+Const ZC_DISPLAY_MODE_SYSTEMPAGE=5
+Const ZC_DISPLAY_MODE_COMMENTS=6
+
 
 Const ZC_POST_TYPE_ARTICLE=0
 Const ZC_POST_TYPE_PAGE=1
@@ -854,7 +856,7 @@ Function MakeCalendar(dtmYearMonth)
 	objRS.LockType = adLockReadOnly
 	objRS.ActiveConnection=objConn
 	objRS.Source=""
-	objRS.Open("select [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_Type],[log_Meta] from [blog_Article] where ([log_CateID]>0) And ([log_Level]>2) And ([log_PostTime] BETWEEN "& ZC_SQL_POUND_KEY &y&"-"&m&"-1"& ZC_SQL_POUND_KEY &" AND "& ZC_SQL_POUND_KEY &ny&"-"&nm&"-1"& ZC_SQL_POUND_KEY &")")
+	objRS.Open("select [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_Type],[log_Meta] from [blog_Article] where ([log_Type]=0) And ([log_Level]>2) And ([log_PostTime] BETWEEN "& ZC_SQL_POUND_KEY &y&"-"&m&"-1"& ZC_SQL_POUND_KEY &" AND "& ZC_SQL_POUND_KEY &ny&"-"&nm&"-1"& ZC_SQL_POUND_KEY &")")
 
 	If (Not objRS.bof) And (Not objRS.eof) Then
 		For i=1 To objRS.RecordCount
@@ -2337,7 +2339,7 @@ Function BlogReBuild_Archives()
 
 	'Archives
 	Dim strArchives
-	Set objRS=objConn.Execute("SELECT * FROM [blog_Article] WHERE ([log_CateID]>0) And ([log_Level]>1) ORDER BY [log_PostTime] DESC")
+	Set objRS=objConn.Execute("SELECT * FROM [blog_Article] WHERE ([log_Type]=0) And ([log_Level]>1) ORDER BY [log_PostTime] DESC")
 	If (Not objRS.bof) And (Not objRS.eof) Then
 		Dim dtmYM()
 		i=0
@@ -2365,7 +2367,7 @@ Function BlogReBuild_Archives()
 			n=Month(dtmYM(i))+1
 			IF n>12 Then l=l+1:n=1
 
-			Set objRS=objConn.Execute("SELECT COUNT([log_ID]) FROM [blog_Article] WHERE ([log_CateID]>0) And ([log_Level]>1) AND [log_PostTime] BETWEEN "& ZC_SQL_POUND_KEY & Year(dtmYM(i)) &"-"& Month(dtmYM(i)) &"-1"& ZC_SQL_POUND_KEY &" AND "& ZC_SQL_POUND_KEY & l &"-"& n &"-1" & ZC_SQL_POUND_KEY)
+			Set objRS=objConn.Execute("SELECT COUNT([log_ID]) FROM [blog_Article] WHERE ([log_Type]=0) And ([log_Level]>1) AND [log_PostTime] BETWEEN "& ZC_SQL_POUND_KEY & Year(dtmYM(i)) &"-"& Month(dtmYM(i)) &"-1"& ZC_SQL_POUND_KEY &" AND "& ZC_SQL_POUND_KEY & l &"-"& n &"-1" & ZC_SQL_POUND_KEY)
 
 			If (Not objRS.bof) And (Not objRS.eof) Then
 				strArchives=strArchives & "<li><a href="""& UrlbyDate(Year(dtmYM(i)),Month(dtmYM(i)),"") &""">" & Year(dtmYM(i)) & " " & ZVA_Month(Month(dtmYM(i))) & "<span class=""article-nums""> (" & objRS(0) & ")</span>" +"</a></li>"
@@ -2484,7 +2486,7 @@ Function BlogReBuild_Categorys()
 
 		If IsObject(Category) Then
 
-			Set objRS=objConn.Execute("SELECT [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_Type],[log_Meta] FROM [blog_Article] WHERE ([log_CateID]>0) And ([log_ID]>0) AND ([log_Level]>1) AND ([log_CateID]="&Category.ID&") ORDER BY [log_PostTime] DESC")
+			Set objRS=objConn.Execute("SELECT [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_Type],[log_Meta] FROM [blog_Article] WHERE ([log_Type]=0) And ([log_ID]>0) AND ([log_Level]>1) AND ([log_CateID]="&Category.ID&") ORDER BY [log_PostTime] DESC")
 
 			If (Not objRS.bof) And (Not objRS.eof) Then
 				For i=1 to j
@@ -2574,9 +2576,9 @@ Function BlogReBuild_Tags()
 	Dim objRS
 	Dim objStream
 
-	Dim i,j,s,t
+	Dim i,j,s,t,h
 	i=Functions(FunctionMetas.GetValue("tags")).MaxLi
-	If i=0 Then i=20
+	If i=0 Then i=25
 	j=0
 	'Authors
 	Dim strTag
@@ -2596,10 +2598,21 @@ Function BlogReBuild_Tags()
 
 	Call GetTagsbyTagIDList(s)
 
+	Set h=CreateObject("Scripting.Dictionary")
+
 	s=Split(t,",")
 	For i=0 To UBound(s)-1
 		If s(i)<>"" Then
-		strTag=strTag & "<li><a href="""&Tags(s(i)).Url&""">"+Tags(s(i)).Name + " <span class=""tag-count"">(" & Tags(s(i)).Count & ")</span>" +"</a></li>"
+		'strTag=strTag & "<li><a href="""&Tags(s(i)).Url&""">"+Tags(s(i)).Name + " <span class=""tag-count"">(" & Tags(s(i)).Count & ")</span>" +"</a></li>"
+			h.add s(i),Tags(s(i))
+		End If
+	Next
+
+	For Each s In Tags
+		If IsObject(s)=True Then
+			If h.Exists(CStr(s.ID)) Then
+				strTag=strTag & "<li><span class=""tag-name tag-name-size"&TagCloud(s.Count)&"""><a href="""&s.Url&""">"+s.Name + "</span><span class=""tag-count""> (" & s.Count & ")</span>" +"</a></li>"
+			End If
 		End If
 	Next
 
@@ -2642,7 +2655,7 @@ Function BlogReBuild_Previous()
 
 	'Previous
 	Dim strPrevious
-	Set objRS=objConn.Execute("SELECT [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_Type],[log_Meta] FROM [blog_Article] WHERE ([log_CateID]>0) And ([log_ID]>0) AND ([log_Level]>1) ORDER BY [log_PostTime] DESC")
+	Set objRS=objConn.Execute("SELECT [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_Type],[log_Meta] FROM [blog_Article] WHERE ([log_Type]=0) And ([log_ID]>0) AND ([log_Level]>1) ORDER BY [log_PostTime] DESC")
 
 	If (Not objRS.bof) And (Not objRS.eof) Then
 		For i=1 to j
@@ -2963,7 +2976,7 @@ Function ExportRSS()
 
 			Dim i
 			Dim objRS
-			Set objRS=objConn.Execute("SELECT [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_Type],[log_Meta] FROM [blog_Article] WHERE ([log_CateID]>0) And ([log_ID]>0) AND ([log_Level]>2) ORDER BY [log_PostTime] DESC")
+			Set objRS=objConn.Execute("SELECT [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_Type],[log_Meta] FROM [blog_Article] WHERE ([log_Type]=0) And ([log_ID]>0) AND ([log_Level]>2) ORDER BY [log_PostTime] DESC")
 
 			If (Not objRS.bof) And (Not objRS.eof) Then
 				For i=1 to ZC_RSS2_COUNT
