@@ -41,11 +41,6 @@ Set objArticle=New TArticle
 
 objArticle.LoadCache
 
-
-If GetTemplate("TEMPLATE_TAGS")<>empty Then
-objArticle.template="TAGS"
-End If
-
 objArticle.Title="TagCloud"
 
 Dim Tag

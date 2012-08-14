@@ -44,8 +44,7 @@ BlogTitle="静态中心配置插件"
 <p><label onclick="changeval(1,2)"><input type="radio" name="radio" />&nbsp;&nbsp;配置2:日期+文章名型 http://www.yourblog/2012/08/articlename.html</label></p>
 <p><label onclick="changeval(1,3)"><input type="radio" name="radio" />&nbsp;&nbsp;配置3:分类别名+文章名型 http://www.yourblog/categroyname/articlename.html</label></p>
 <p><label onclick="changeval(1,4)"><input type="radio" name="radio" />&nbsp;&nbsp;配置4:文章名目录型 http://www.yourblog/post/articlename/</label></p>
-<p><label onclick="changeval(1,5)"><input type="radio" name="radio" />&nbsp;&nbsp;配置5:日期+文章名目录型 http://www.yourblog/2012-08/articlename/</label></p>
-<p><label onclick="changeval(1,6)"><input type="radio" name="radio" />&nbsp;&nbsp;配置6:分类别名+文章ID目录型 http://www.yourblog/categroyname/123/</label></p>
+<p><label onclick="changeval(1,5)"><input type="radio" name="radio" />&nbsp;&nbsp;配置5:分类别名+文章ID目录型 http://www.yourblog/categroyname/123/</label></p>
 </td></tr>
 <tr><td width='30%'><p align='left'><b>·页面类的静态配置</b><br/><span class='note'></span></p></td><td><p><input id='edtZC_PAGE_REGEX' name='edtZC_PAGE_REGEX' style='width:500px;' type='text' value='<%=ZC_PAGE_REGEX%>' /></label></p></td></tr>
 <tr><td width='30%'><p>推荐配置</p></td><td>
@@ -68,8 +67,7 @@ function changeval(a,b){
 		if(b==2){b="{%host%}/{%year%}/{%month%}/{%alias%}.html"};
 		if(b==3){b="{%host%}/{%category%}/{%alias%}.html"};
 		if(b==4){b="{%host%}/{%post%}/{%alias%}/default.html"};
-		if(b==5){b="{%host%}/{%year%}-{%month%}/{%alias%}/default.html"};
-		if(b==6){b="{%host%}/{%category%}/{%id%}/default.html"};
+		if(b==5){b="{%host%}/{%category%}/{%id%}/default.html"};
 	}else{
 		a="#edtZC_PAGE_REGEX";
 		if(b==1){b="{%host%}/{%alias%}.html"};
