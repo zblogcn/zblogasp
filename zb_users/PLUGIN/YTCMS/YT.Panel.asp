@@ -29,7 +29,11 @@ If CheckPluginState("YTCMS") = False Then Call ShowError(48)
 %>
 <!--#include file="..\..\..\zb_system\admin\admin_header.asp"-->
 <link rel="stylesheet" rev="stylesheet" href="STYLE/YT.Style.css" type="text/css" media="screen">
-<script>var ZC_BLOG_HOST='<%=ZC_BLOG_HOST%>';var YT_CMS_XML_URL='<%=ZC_BLOG_HOST&"ZB_USERS/THEME/"&ZC_BLOG_THEME&"/"%>';</script>
+<script language="javascript" type="text/javascript">
+	var ZC_BLOG_HOST='<%=ZC_BLOG_HOST%>';
+	var YT_CMS_XML_URL='<%=ZC_BLOG_HOST&"ZB_USERS/THEME/"&ZC_BLOG_THEME&"/"%>';
+	var isAlipay = <%=LCase(CheckPluginState("YTAlipay"))%>
+</script>
 <script language="javascript" src="Config.js" type="text/javascript"></script>
 <script language="JavaScript" src="../../../ZB_SYSTEM/script/common.js" type="text/javascript"></script>
 <script language="javascript" src="SCRIPT/YT.Lib.js" type="text/javascript"></script>
