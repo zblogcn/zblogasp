@@ -26,7 +26,7 @@ Function ActivePlugin_Gravatar()
 	Gravatar_Enable=CBool(c.Read("e"))
 
 	If Gravatar_Enable=True Then
-		Call Add_Action_Plugin("Action_Plugin_TComment_Avatar","If FAvatar="" Then FAvatar=Gravatar_Add(AuthorID,EmailMD5)")
+		Call Add_Action_Plugin("Action_Plugin_TComment_Avatar","If FAvatar="""" Then FAvatar=Gravatar_Add(AuthorID,EmailMD5)")
 	End If
 
 End Function
