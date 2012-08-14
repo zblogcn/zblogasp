@@ -35,7 +35,6 @@ If CheckPluginState("YTCMS") = False Then Call ShowError(48)
 	var isAlipay = <%=LCase(CheckPluginState("YTAlipay"))%>
 </script>
 <script language="javascript" src="Config.js" type="text/javascript"></script>
-<script language="JavaScript" src="../../../ZB_SYSTEM/script/common.js" type="text/javascript"></script>
 <script language="javascript" src="SCRIPT/YT.Lib.js" type="text/javascript"></script>
 <script language="javascript" src="SCRIPT/YT.Interface.js" type="text/javascript"></script>
 <script language="javascript" src="SCRIPT/YT.Main.js" type="text/javascript"></script>
