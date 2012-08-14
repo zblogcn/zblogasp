@@ -62,16 +62,16 @@ Call SetBlogHint_Custom(" 若需要修改的数据>200K，请使用文件上传�
 <%End If%>
 <!--#include file="..\..\..\zb_system\admin\admin_top.asp"-->
 
-<div id="divMain">
+<div id="divMain"> <div id="ShowBlogHint">
+      <%Call GetBlogHint()%>
+    </div>
   <div class="divHeader"><%=BlogTitle%></div>
   <div class="SubMenu"> 
 <%= Response_Plugin_SiteFileMng_SubMenu%>
     <!--<span class="m-left m-now"><a href="main.asp">[插件后台管理页]</a> </span>--> 
   </div>
   <div id="divMain2">
-    <div id="ShowBlogHint">
-      <%Call GetBlogHint()%>
-    </div><script type="text/javascript">ActiveLeftMenu("aSiteFileMng");</script>
+   <script type="text/javascript">ActiveLeftMenu("aSiteFileMng");</script>
 
     <%
 
