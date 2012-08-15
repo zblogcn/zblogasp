@@ -20,6 +20,23 @@ function changeCheckValue(obj){
 }
 
 
+
+
+function notify(s){
+	if (window.webkitNotifications) {
+		if (window.webkitNotifications.checkPermission() == 0) {
+			var zb_notifications = window.webkitNotifications.createNotification('<%=GetCurrentHost%>zb_system/IMAGE/ADMIN/logo-16.png', '<%=ZC_MSG257%>', s);
+			zb_notifications.onclick = function() {window.parent.focus();this.close();}
+			zb_notifications.replaceId = 'Meteoric';
+			zb_notifications.show();
+		} else {
+			window.webkitNotifications.requestPermission(notify);
+		}
+	} 
+}
+
+
+
 // Content box tabs:
 $('.content-box .content-box-content div.tab-content').hide(); // Hide the content divs
 $('ul.content-box-tabs li a.default-tab').addClass('current'); // Add the class "current" to the default tab

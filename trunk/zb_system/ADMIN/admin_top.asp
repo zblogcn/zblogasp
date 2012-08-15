@@ -31,19 +31,7 @@ function Batch2Tip(s){$("#batch p").html(s)}
 function BatchContinue(){$("#batch p").before("<iframe style='width:20px;height:20px;' frameborder='0' scrolling='no' src='<%=GetCurrentHost%>zb_system/cmd.asp?act=batch'></iframe>");$("#batch img").remove();}
 function BatchBegin(){};
 function BatchEnd(){};
-
-function notify(){
-	if (window.webkitNotifications) {
-		if (window.webkitNotifications.checkPermission() == 0) {
-			var zb_notifications = window.webkitNotifications.createNotification('<%=GetCurrentHost%>zb_system/IMAGE/ADMIN/logo-16.png', '<%=ZC_MSG257%>', $("#batch p").html());
-			zb_notifications.onclick = function() {window.parent.focus();this.close();}
-			zb_notifications.replaceId = 'Meteoric';
-			zb_notifications.show();
-		} else {
-			window.webkitNotifications.requestPermission(notify);
-		}
-	} 
-}
+function BatchNotify(){notify($("#batch p").html())}
 -->
 </script>
 <%
