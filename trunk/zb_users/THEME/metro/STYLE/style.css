@@ -1,4 +1,4 @@
-/*  
+﻿/*  
 作者：新鲜人
 地址：http://www.htmlit.com.cn
 邮箱：service@htmlit.com.cn
@@ -46,7 +46,7 @@ img { border: none;}
 .post a { color:#1E8CBE;}
 .post a:hover { color:#1E8CBE; text-decoration: underline;}
 .post_r { float:left; width:670px;}
-.post_body { width:640px; background:#FFFFFF; padding:15px; line-height:22px;}
+.post_body { width:640px; background:#FFFFFF; padding:15px; line-height:22px; margin-bottom:5px;}
 .post_body img { 
    max-width:640px;  /*IE7,Firefox*/ 
    width: expression(this.width > 640 ? 640: true);   /*IE6*/ 
