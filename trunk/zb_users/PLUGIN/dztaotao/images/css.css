@@ -595,5 +595,5 @@ fieldset, img {
 
 
 /*评论样式*/
-.comments-order{ height:35px; line-height:35px;margin:0 0 15px 15px}
+.comments-order{ height:35px; line-height:35px;margin:0 0 }
 .comments-order{background: url("bg-tab.png") repeat-x scroll left -35px #F7F2C2;}
