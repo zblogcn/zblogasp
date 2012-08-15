@@ -103,6 +103,9 @@ Else
 End If
 	Response.Write "<p><span class='title'>"& ZC_MSG090 &":</span><span class='star'>(*)</span><br/><textarea name=""txaContent"" id=""txaContent"" onchange=""GetActiveText(this.id);"" onclick=""GetActiveText(this.id);"" onfocus=""GetActiveText(this.id);"" cols=""80"" rows=""12"">"&EditComment.Content&"</textarea>(*)</p>"
 
+	'<!-- 1号输出接口 -->
+	If Response_Plugin_EditComment_Form<>"" Then Response.Write "<div id=""divEditForm1"">"&Response_Plugin_EditComment_Form&"</div>"
+
 	Response.Write "<p><input type=""submit"" class=""button"" value="""& ZC_MSG087 &""" id=""btnPost"" onclick='return checkCateInfo();' /><br/><script language=""JavaScript"" type=""text/javascript"">objActive=""txaArticle"";ExportUbbFrame();</script></p>"
 %>
 </form>

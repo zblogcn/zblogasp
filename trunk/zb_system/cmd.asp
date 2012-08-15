@@ -409,24 +409,14 @@ Function ArticleEdt
 		If bAction_Plugin_ArticleEdt_Begin=True Then Exit Function
 	Next
 
-	If (Request.QueryString("type")<>"Page") And (Ubound(Categorys)=0) Then 
-		Call SetBlogHint_Custom(ZC_MSG222)
-		Response.Redirect "admin/edit_catalog.asp"
-	End If
-
 	If Request.QueryString("webedit")<>"" Then
 		If IsEmpty(Request.QueryString("id"))=False Then
 			Response.Redirect "admin/edit_"& ZC_BLOG_WEBEDIT &".asp?id="& Request.QueryString("id") & IIf(Request.QueryString("type")="Page","&type=Page","")
 		Else
 			Response.Redirect "admin/edit_"& ZC_BLOG_WEBEDIT &".asp" & IIf(Request.QueryString("type")="Page","?type=Page","")
 		End If
-	'Else
-	'	If IsEmpty(Request.QueryString("id"))=False Then
-	'		Response.Redirect "admin/edit.asp?id="& Request.QueryString("id")
-	'	Else
-	'		Response.Redirect "admin/edit.asp"
-	'	End If
 	End If
+
 End Function
 
 Function ArticlePst

@@ -1138,7 +1138,7 @@ Class TArticle
 				Disable_Export_Tag=True
 				Disable_Export_CMTandTB=False
 				subhtml_TemplateName=""
-				subhtml="<#template:article_comment#>"
+				subhtml="template:article_comment"
 			End If
 		End If
 
@@ -1158,12 +1158,12 @@ Class TArticle
 
 		Dim RE ,Match,Matches
 		Set RE = New RegExp 
-			RE.Pattern = "\<\#template\:(article\-(multi|single|page)(\-[a-z])*)\#\>"
+			RE.Pattern = "\<\#template\:(article\-(multi|single|page)([\-a-z]*))\#\>"
 			RE.IgnoreCase = True 
 			RE.Global = True 
 			Set Matches = RE.Execute(html) 
 			For Each Match in Matches
-				If IsEmpty(subhtml_TemplateName) Then subhtml_TemplateName="<#template:"&Match.SubMatches(0)&"#>"
+				If IsEmpty(subhtml_TemplateName) Then subhtml_TemplateName="template:"&Match.SubMatches(0)&""
 				If IsEmpty(subhtml) Then subhtml=GetTemplate("TEMPLATE_B_"& UCase(Match.SubMatches(0)))
 				Exit For
 			Next
@@ -1185,6 +1185,40 @@ Class TArticle
 		subhtml=Replace(subhtml,"<#template:article_navbar_l#>",Template_Article_Navbar_L)
 		subhtml=Replace(subhtml,"<#template:article_navbar_r#>",Template_Article_Navbar_R)
 		subhtml=Replace(subhtml,"<#template:article_mutuality#>",Template_Article_Mutuality)
+
+		Dim da
+		Dim s,t
+		Set da=CreateObject("Scripting.Dictionary")
+
+		Set RE = New RegExp 
+			RE.Pattern = "<#article/((category/meta|author/meta|meta)/([a-z0-9_]{1,}))#>"
+			RE.IgnoreCase = True 
+			RE.Global = True 
+			Set Matches = RE.Execute(html&subhtml) 
+			For Each Match in Matches
+				s=Match.SubMatches(0)
+				If da.Exists(s)=False Then da.add s,s
+			Next
+			Set Matches = Nothing
+		Set RE = Nothing
+
+		s=da.Items
+		For t = 0 To da.Count -1
+			If InStr(s(t),"category/meta/")>0 Then
+				s(t)=Replace(s(t),"category/meta/","")
+				subhtml=Replace(subhtml,"<#article/category/meta/" & s(t) & "#>",Categorys(CateID).Meta.GetValue(s(t)) )
+				html = Replace(html,"<#article/category/meta/" & s(t) & "#>",Categorys(CateID).Meta.GetValue(s(t)) )
+			ElseIf InStr(s(t),"author/meta/")>0 Then 
+				s(t)=Replace(s(t),"author/meta/","")
+				subhtml=Replace(subhtml,"<#article/author/meta/" & s(t) & "#>",Users(AuthorID).Meta.GetValue(s(t)) )
+				html = Replace(html,"<#article/author/meta/" & s(t) & "#>",Users(AuthorID).Meta.GetValue(s(t)) )
+			Else
+				s(t)=Replace(s(t),"meta/","")
+				subhtml=Replace(subhtml,"<#article/meta/" & s(t) & "#>",Meta.GetValue(s(t)) )
+				html = Replace(html,"<#article/meta/" & s(t) & "#>",Meta.GetValue(s(t)) )
+			End If
+		Next
+
 
 		Dim aryTemplateTagsName()
 		Dim aryTemplateTagsValue()
@@ -1333,7 +1367,7 @@ Class TArticle
 			End If
 		Next
 
-		html=Replace(html,subhtml_TemplateName,subhtml)
+		html=Replace(html,"<#"&subhtml_TemplateName&"#>",subhtml)
 
 		Export=True
 
@@ -1561,6 +1595,7 @@ Class TArticleList
 
 	Public html
 	Public subhtml
+	Public subhtml_TemplateName
 
 	Public IsDynamicLoadSildbar
 	Public ListType
@@ -1818,6 +1853,7 @@ Class TArticleList
 			If objArticle.Export(intType)= True Then
 				aryArticleList(i)=objArticle.subhtml
 			End If
+			subhtml_TemplateName=objArticle.subhtml_TemplateName
 		Next
 		subhtml=Join(aryArticleList)
 
@@ -1839,7 +1875,7 @@ Class TArticleList
 		ReDim aryTemplateSubName(19)
 		ReDim aryTemplateSubValue(19)
 
-		aryTemplateSubName(  1)="template:article-multi"
+		aryTemplateSubName(  1)=subhtml_TemplateName
 		aryTemplateSubValue( 1)=subhtml
 		aryTemplateSubName(  2)="template:pagebar"
 		aryTemplateSubValue( 2)=Template_PageBar

@@ -104,8 +104,6 @@ If Len(EditArticle.Intro)="" Then IsAutoIntro=True
 EditArticle.Content=TransferHTML(Replace(EditArticle.Content,"<!–more–>","<hr class=""more"" />"),"[html-japan]")
 
 
-
-
 EditArticle.Title=TransferHTML(EditArticle.Title,"[html-format]")
 
 BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & IIf(IsPage,ZC_MSG161,ZC_MSG047)
@@ -113,6 +111,14 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & IIf(IsPage,ZC_MSG161,ZC_MSG047)
 For Each sAction_Plugin_Edit_ueditor_getArticleInfo in Action_Plugin_Edit_ueditor_getArticleInfo
 	If Not IsEmpty(sAction_Plugin_Edit_ueditor_getArticleInfo) Then Call Execute(sAction_Plugin_Edit_ueditor_getArticleInfo)
 Next
+
+
+'为1,2,3号输出输口准备的Action接口
+'plugin node
+For Each sAction_Plugin_Edit_Form in Action_Plugin_Edit_Form
+	If Not IsEmpty(sAction_Plugin_Edit_Form) Then Call Execute(sAction_Plugin_Edit_Form)
+Next
+
 %>
 <!--#include file="admin_header.asp"-->
 	<link rel="stylesheet" type="text/css" href="ueditor/themes/default/ueditor.css"/>
@@ -186,12 +192,12 @@ Next
 </div>
 
 
-
-
 <!-- 1号输出接口 -->
 <% If Response_Plugin_Edit_Form<>"" Then %>
 <div id="divEditForm1"><%=Response_Plugin_Edit_Form%></div>
 <% End If %>
+
+
                       
 
                       <div id="divContent" style="clear:both;">
@@ -215,7 +221,6 @@ Next
 <% If Response_Plugin_Edit_Form2<>"" Then %>
 <div id="divEditForm2"><%=Response_Plugin_Edit_Form2%></div>
 <% End If %>
-
 
 
 </div><!-- divEditLeft -->

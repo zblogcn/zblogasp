@@ -208,6 +208,8 @@ Function PostArticle()
 		End If
 	End If
 
+	Call GetMetaValuewithForm(objArticle)
+
 	'接口
 	Call Filter_Plugin_PostArticle_Core(objArticle)
 
@@ -281,6 +283,8 @@ Function PostCategory()
 	objCategory.ParentID=Request.Form("edtPareID")
 	objCategory.Alias=Request.Form("edtAlias")
 	objCategory.TemplateName=Request.Form("edtTemplate")
+
+	Call GetMetaValuewithForm(objCategory)
 
 	'接口
 	Call Filter_Plugin_PostCategory_Core(objCategory)
@@ -723,8 +727,6 @@ Function GetComment(logid,page)
 
 End Function
 '*********************************************************
-'*********************************************************
-
 
 
 
@@ -881,6 +883,8 @@ Function EditUser()
 	Else
 		objUser.PassWord=""
 	End If
+
+	Call GetMetaValuewithForm(objUser)
 
 	If Not((CInt(objUser.ID)=BlogUser.ID) Or (CheckRights("Root")=True)) Then Exit Function
 
