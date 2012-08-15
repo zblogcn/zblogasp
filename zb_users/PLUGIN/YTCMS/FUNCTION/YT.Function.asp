@@ -165,7 +165,11 @@ Function YT_Data_GetSql(CateID,ID)
 				ReDim Preserve FieldName(j)
 				ReDim Preserve FieldValue(j)
 				FieldName(j) = "["&Field.selectSingleNode("Name").Text&"]"
-				FieldValue(j) = "'"&jsEscape(TransferHTML(FilterSQL(Request.Form(Field.selectSingleNode("Name").Text)),"[anti-upload]"))&"'"
+				If Field.selectSingleNode("Property").Text = "VARCHAR" Then
+					FieldValue(j) = "'"&jsEscape(TransferHTML(FilterSQL(Request.Form(Field.selectSingleNode("Name").Text)),"[anti-upload]"))&"'"
+				Else
+					FieldValue(j) = "'"&TransferHTML(FilterSQL(Request.Form(Field.selectSingleNode("Name").Text)),"[anti-upload]")&"'"
+				End If
 			Next
 			If Not IsEmpty(YT_Data_GetRow(Node.selectSingleNode("Table/Name").Text,FieldValue(0))) Then
 				Sql = "UPDATE ["&Node.selectSingleNode("Table/Name").Text&"] SET "
