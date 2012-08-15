@@ -12,6 +12,7 @@ Class YT_Alipay
 	Private sSign_Type
 	Private sTransAction_Type
 	Private sStatus
+	Private sPageSize
 	Private oTConfig
 	Private Para()
 	Private objArticle,YTModelXML,YT_ALIPAY_TYPE
@@ -44,6 +45,7 @@ Class YT_Alipay
 	End Property
 	
 	Private Sub Class_Initialize()
+		sPageSize = 18
 		Set oTConfig = new TConfig
 			With oTConfig
 				.Load "YTAlipay"
@@ -332,7 +334,7 @@ Class YT_Alipay
 			objRS.Source=objRS.Source & "ORDER BY [Time] DESC,[ID] DESC"
 			objRS.Open()
 			If (Not objRS.bof) And (Not objRS.eof) Then
-				objRS.PageSize = ZC_DISPLAY_COUNT
+				objRS.PageSize = sPageSize
 				intPageCount=objRS.PageCount
 				objRS.AbsolutePage = intPage
 				For i = 1 To objRS.PageSize
