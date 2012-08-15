@@ -1114,7 +1114,7 @@ Function BatchAll()
 		'Response.Write "<p>" & Replace(ZC_MSG169,"%n",Session("batchtime")/1000)&"</p>"
 
 
-		Response.Write "<script type=""text/javascript"">parent.notify();</script>"
+		Response.Write "<script type=""text/javascript"">parent.BatchNotify();</script>"
 
 
 
