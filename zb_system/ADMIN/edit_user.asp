@@ -100,6 +100,10 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG070
 	Response.Write "<p><span class='title'>"& ZC_MSG147 &":</span><br/><input id=""edtAlias"" size=""40"" name=""edtAlias""  type=""text"" value="""& TransferHTML(EditUser.Alias,"[html-format]") &""" /></p>"
 	Response.Write "<p><span class='title'>"& ZC_MSG053 &":</span><span class='star'>(*)</span><br/><input id=""edtEmail"" size=""40"" name=""edtEmail""  type=""text"" value="""& TransferHTML(EditUser.Email,"[html-format]") &""" /></p>"
 	Response.Write "<p><span class='title'>"& ZC_MSG054 &":</span><br/><input id=""edtHomePage"" size=""60"" name=""edtHomePage""  type=""text"" value="""& TransferHTML(EditUser.HomePage,"[html-format]") &""" /></p>"
+
+	'<!-- 1号输出接口 -->
+	If Response_Plugin_EditUser_Form<>"" Then Response.Write "<div id=""divEditForm1"">"&Response_Plugin_EditUser_Form&"</div>"
+
 	Response.Write "<p><input type=""submit"" class=""button"" value="""& ZC_MSG078 &""" id=""btnPost"" onclick='return checkUserInfo();' /></p>"
 %>
 </form>

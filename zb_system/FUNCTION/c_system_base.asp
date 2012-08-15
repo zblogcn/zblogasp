@@ -3594,4 +3594,24 @@ Function RefreshOptionFormFileToDB()
 	Err.Clear
 End Function
 '*********************************************************
+
+
+
+
+'*********************************************************
+' 目的：  
+'*********************************************************
+Function GetMetaValueWithForm(obj)
+
+	Dim a,b
+
+	For Each a In Request.Form 
+		If Left(a,5)="meta_" Then
+			b=Mid(a,5,Len(a))
+			Call obj.Meta.SetValue( b,Request.Form(a) )
+		End If
+	Next
+
+End Function
+'*********************************************************
 %>

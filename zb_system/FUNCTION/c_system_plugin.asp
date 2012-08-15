@@ -3969,6 +3969,57 @@ Dim Response_Plugin_Edit_UbbTag
 Response_Plugin_Edit_UbbTag=""
 
 
+
+
+
+'**************************************************<
+'类型:response
+'名称:Response_Plugin_EditUser_Form
+'参数:无
+'说明:文件编辑页Form标签
+'**************************************************>
+Dim Response_Plugin_EditUser_Form
+Response_Plugin_EditUser_Form=""
+
+
+
+
+'**************************************************<
+'类型:response
+'名称:Response_Plugin_EditCatalog_Form
+'参数:无
+'说明:文件编辑页Form标签
+'**************************************************>
+Dim Response_Plugin_EditCatalog_Form
+Response_Plugin_EditCatalog_Form=""
+
+
+
+
+'**************************************************<
+'类型:response
+'名称:Response_Plugin_EditComment_Form
+'参数:无
+'说明:文件编辑页Form标签
+'**************************************************>
+Dim Response_Plugin_EditComment_Form
+Response_Plugin_EditComment_Form=""
+
+
+
+
+'**************************************************<
+'类型:response
+'名称:Response_Plugin_EditTag_Form
+'参数:无
+'说明:文件编辑页Form标签
+'**************************************************>
+Dim Response_Plugin_EditTag_Form
+Response_Plugin_EditTag_Form=""
+
+
+
+
 '**************************************************<
 '类型:response
 '名称:Response_Plugin_Edit_Form
@@ -4294,6 +4345,19 @@ Response_Plugin_Admin_Header=""
 Dim Response_Plugin_Admin_Footer
 Response_Plugin_Admin_Footer=""
 
+
+
+
+'**************************************************<
+'类型:action
+'名称:Action_Plugin_Edit_Form
+'参数:无
+'说明:c_system_base.asp
+'**************************************************>
+Dim Action_Plugin_Edit_Form()
+ReDim Action_Plugin_Edit_Form(0)
+Dim bAction_Plugin_Edit_Form
+Dim sAction_Plugin_Edit_Form
 
 
 

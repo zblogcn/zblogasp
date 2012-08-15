@@ -97,7 +97,10 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG066
 
 	Response.Write "</select><input type='hidden' name='edtTemplate' id='edtTemplate' value='"&EditTag.TemplateName&"' /></p>"
 
-	Response.Write "<p><input type=""submit"" class=""button"" value="""& ZC_MSG087 &""" id=""btnPost"" onclick='return checkTagInfo();' /></p><p></p>"
+	'<!-- 1号输出接口 -->
+	If Response_Plugin_EditTag_Form<>"" Then Response.Write "<div id=""divEditForm1"">"&Response_Plugin_EditTag_Form&"</div>"
+
+	Response.Write "<p><input type=""submit"" class=""button"" value="""& ZC_MSG087 &""" id=""btnPost"" onclick='return checkTagInfo();' /></p>"
 %>
 </form>
 </div>
