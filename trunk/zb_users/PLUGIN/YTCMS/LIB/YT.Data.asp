@@ -136,7 +136,7 @@ Class YT_Article
 		ID = Split(ID,",")
 		If isArray(ID) Then
 			Dim Rs
-			Set Rs = objConn.Execute("select * from blog_Article WHERE [logType]=1 AND [log_ID] IN ("&Join(ID,",")&")")
+			Set Rs = objConn.Execute("select * from blog_Article WHERE [log_Type]=1 AND [log_ID] IN ("&Join(ID,",")&")")
 				If Not (Rs.EOF and Rs.BOF) Then GetArticleModel = Rs.GetRows
 			Set Rs = Nothing
 		End If
@@ -145,7 +145,7 @@ Class YT_Article
 	Function GetArticleRandomSortNew(Rows)
 		If IsNumeric(Rows) Then
 			Dim Rs
-			Set Rs = objConn.Execute("select top " & CStr(Rows) & " [log_ID] from blog_Article WHERE [logType]=1 AND [log_ID]>0 AND [log_Level]>2 order by log_ID desc")
+			Set Rs = objConn.Execute("select top " & CStr(Rows) & " [log_ID] from blog_Article WHERE [log_Type]=1 AND [log_ID]>0 AND [log_Level]>2 order by log_ID desc")
 				If Not (Rs.EOF and Rs.BOF) Then GetArticleRandomSortNew = Rs.GetRows(Rows)
 			Set Rs = Nothing
 		End If
@@ -156,10 +156,10 @@ Class YT_Article
 		If IsNumeric(Rows) Then
 			Dim Rs,sql
 			If ZC_MSSQL_ENABLE Then
-				sql="select top "& CStr(Rows) &" [log_ID] from blog_Article WHERE [logType]=1 AND [log_Level]>2 order by newid()"
+				sql="select top "& CStr(Rows) &" [log_ID] from blog_Article WHERE [log_Type]=1 AND [log_Level]>2 order by newid()"
 			Else
 				Randomize
-				sql="select top "& CStr(Rows) &" [log_ID] from blog_Article WHERE [logType]=1 AND [log_Level]>2 order by rnd("& (-1 * (Int(1000 * Rnd) + 1)) &" * log_ID)"
+				sql="select top "& CStr(Rows) &" [log_ID] from blog_Article WHERE [log_Type]=1 AND [log_Level]>2 order by rnd("& (-1 * (Int(1000 * Rnd) + 1)) &" * log_ID)"
 			End If
 			Set Rs = objConn.Execute(sql)
 				If Not (Rs.EOF and Rs.BOF) Then GetArticleRandomSortRand = Rs.GetRows(Rows)
@@ -173,9 +173,9 @@ Class YT_Article
 		If IsNumeric(Rows) Then
 			Dim Rs,sql
 			If ZC_MSSQL_ENABLE Then
-				sql="select top " & CStr(Rows) & " [log_ID] from blog_Article WHERE [logType]=1 AND [log_Level]>2 AND log_ID>0 AND DATEDIFF(MONTH,GETDATE(),log_PostTime)=0 ORDER BY log_CommNums DESC"
+				sql="select top " & CStr(Rows) & " [log_ID] from blog_Article WHERE [log_Type]=1 AND [log_Level]>2 AND log_ID>0 AND DATEDIFF(MONTH,GETDATE(),log_PostTime)=0 ORDER BY log_CommNums DESC"
 			Else
-				sql="select top " & CStr(Rows) & " [log_ID] from blog_Article WHERE [logType]=1 AND [log_Level]>2 AND log_ID>0 AND (log_PostTime>Now()-90) ORDER BY log_CommNums DESC"
+				sql="select top " & CStr(Rows) & " [log_ID] from blog_Article WHERE [log_Type]=1 AND [log_Level]>2 AND log_ID>0 AND (log_PostTime>Now()-90) ORDER BY log_CommNums DESC"
 			End If
 			Set Rs = objConn.Execute(sql)
 				If Not (Rs.EOF and Rs.BOF) Then GetArticleRandomSortComMonth = Rs.GetRows(Rows)
@@ -188,9 +188,9 @@ Class YT_Article
 		If IsNumeric(Rows) Then
 			Dim Rs,sql
 			If ZC_MSSQL_ENABLE Then
-				sql="select top " & CStr(Rows) & " [log_ID] from blog_Article WHERE [logType]=1 AND [log_Level]>2 AND log_ID>0 AND DATEDIFF(YEAR,GETDATE(),log_PostTime)=0 ORDER BY log_CommNums DESC"
+				sql="select top " & CStr(Rows) & " [log_ID] from blog_Article WHERE [log_Type]=1 AND [log_Level]>2 AND log_ID>0 AND DATEDIFF(YEAR,GETDATE(),log_PostTime)=0 ORDER BY log_CommNums DESC"
 			Else
-				sql="select top " & CStr(Rows) & " [log_ID] from blog_Article WHERE [logType]=1 AND [log_Level]>2 AND log_ID>0 AND  (log_PostTime>Now()-365) ORDER BY log_CommNums DESC "
+				sql="select top " & CStr(Rows) & " [log_ID] from blog_Article WHERE [log_Type]=1 AND [log_Level]>2 AND log_ID>0 AND  (log_PostTime>Now()-365) ORDER BY log_CommNums DESC "
 			End If
 			Set Rs = objConn.Execute(sql)
 				If Not (Rs.EOF and Rs.BOF) Then GetArticleRandomSortComYear = Rs.GetRows(Rows)
@@ -203,9 +203,9 @@ Class YT_Article
 		If IsNumeric(Rows) Then
 			Dim Rs,sql
 			If ZC_MSSQL_ENABLE Then
-				sql="select top " & CStr(Rows) & " [log_ID] from blog_Article WHERE [logType]=1 AND [log_Level]>2 AND log_ID>0 AND  DATEDIFF(MONTH,GETDATE(),log_PostTime)=0 ORDER BY log_ViewNums DESC "
+				sql="select top " & CStr(Rows) & " [log_ID] from blog_Article WHERE [log_Type]=1 AND [log_Level]>2 AND log_ID>0 AND  DATEDIFF(MONTH,GETDATE(),log_PostTime)=0 ORDER BY log_ViewNums DESC "
 			Else
-				sql="select top " & CStr(Rows) & " [log_ID] from blog_Article WHERE [logType]=1 AND [log_Level]>2 AND log_ID>0 AND  (log_PostTime>Now()-30) ORDER BY log_ViewNums DESC "
+				sql="select top " & CStr(Rows) & " [log_ID] from blog_Article WHERE [log_Type]=1 AND [log_Level]>2 AND log_ID>0 AND  (log_PostTime>Now()-30) ORDER BY log_ViewNums DESC "
 			End If
 			Set Rs = objConn.Execute(sql)
 				If Not (Rs.EOF and Rs.BOF) Then GetArticleRandomSortTopMonth = Rs.GetRows(Rows)
@@ -218,9 +218,9 @@ Class YT_Article
 		If IsNumeric(Rows) Then
 			Dim Rs,sql
 			If ZC_MSSQL_ENABLE Then
-				sql="select top " & CStr(Rows) & " [log_ID] from blog_Article WHERE [logType]=1 AND [log_Level]>2 AND log_ID>0 AND  DATEDIFF(YEAR,GETDATE(),log_PostTime)=0 ORDER BY log_ViewNums DESC "
+				sql="select top " & CStr(Rows) & " [log_ID] from blog_Article WHERE [log_Type]=1 AND [log_Level]>2 AND log_ID>0 AND  DATEDIFF(YEAR,GETDATE(),log_PostTime)=0 ORDER BY log_ViewNums DESC "
 			Else
-				sql="select top " & CStr(Rows) & " [log_ID] from blog_Article WHERE [logType]=1 AND [log_Level]>2 AND log_ID>0 AND  (log_PostTime>Now()-365) ORDER BY log_ViewNums DESC "
+				sql="select top " & CStr(Rows) & " [log_ID] from blog_Article WHERE [log_Type]=1 AND [log_Level]>2 AND log_ID>0 AND  (log_PostTime>Now()-365) ORDER BY log_ViewNums DESC "
 			End If
 			Set Rs = objConn.Execute(sql)
 				If Not (Rs.EOF and Rs.BOF) Then GetArticleRandomSortTopYear = Rs.GetRows(Rows)
@@ -233,9 +233,9 @@ Class YT_Article
 		If IsNumeric(Rows) Then
 			Dim Rs,sql
 			If ZC_MSSQL_ENABLE Then
-				sql="select top " & CStr(Rows) & " [log_ID] from blog_Article WHERE [logType]=1 AND [log_Level]>2 AND log_ID>0 ORDER BY log_CommNums*100 + log_TrackBackNums*200 + SQRT(log_ViewNums)*10 - DATEDIFF(DAY,GETDATE(),Log_PostTime)*DATEDIFF(DAY,GETDATE(),Log_PostTime) DESC"
+				sql="select top " & CStr(Rows) & " [log_ID] from blog_Article WHERE [log_Type]=1 AND [log_Level]>2 AND log_ID>0 ORDER BY log_CommNums*100 + log_TrackBackNums*200 + SQRT(log_ViewNums)*10 - DATEDIFF(DAY,GETDATE(),Log_PostTime)*DATEDIFF(DAY,GETDATE(),Log_PostTime) DESC"
 			Else
-				sql="select top " & CStr(Rows) & " [log_ID] from blog_Article WHERE [logType]=1 AND [log_Level]>2 AND log_ID>0 ORDER BY log_CommNums*100 + log_TrackBackNums*200 + sqr(log_ViewNums)*10 - (date()-Log_PostTime)*(date()-Log_PostTime) DESC "
+				sql="select top " & CStr(Rows) & " [log_ID] from blog_Article WHERE [log_Type]=1 AND [log_Level]>2 AND log_ID>0 ORDER BY log_CommNums*100 + log_TrackBackNums*200 + sqr(log_ViewNums)*10 - (date()-Log_PostTime)*(date()-Log_PostTime) DESC "
 			End If
 			Set Rs = objConn.Execute(sql)
 				If Not (Rs.EOF and Rs.BOF) Then GetArticleRandomSortTopHot = Rs.GetRows(Rows)
@@ -247,7 +247,7 @@ Class YT_Article
 	Function GetArticleCategorys(Rows,CategoryID)
 		If IsNumeric(Rows) Then
 			Dim Rs
-			Set Rs = objConn.Execute("SELECT top "& CStr(Rows) &" [log_ID] FROM [blog_Article] WHERE [logType]=1 AND [log_ID]>0 AND [log_Level]>1 AND ([log_CateID] IN ("& CStr(CategoryID) &")) ORDER BY [log_PostTime] DESC")
+			Set Rs = objConn.Execute("SELECT top "& CStr(Rows) &" [log_ID] FROM [blog_Article] WHERE [log_Type]=1 AND [log_ID]>0 AND [log_Level]>1 AND ([log_CateID] IN ("& CStr(CategoryID) &")) ORDER BY [log_PostTime] DESC")
 				If Not (Rs.EOF and Rs.BOF) Then GetArticleCategorys = Rs.GetRows(Rows)
 			Set Rs = Nothing
 		End If
@@ -258,7 +258,7 @@ Class YT_Article
 	Function GetArticleLimit(Rows,Index)
 		If IsNumeric(Rows) And IsNumeric(Index) Then
 			Dim Rs
-			Set Rs = objConn.Execute("SELECT top "& CStr(Rows) &" [log_ID] FROM [blog_Article] WHERE [logType]=1 AND [log_Level]>2 AND log_ID>0 AND ([log_Istop]=0) AND [log_ID] NOT IN (SELECT top "& CStr(Index) &" [log_ID] FROM [blog_Article] WHERE [logType]=1 AND [log_Level]>2 AND log_ID>0 AND [log_Istop]=0 ORDER BY [log_PostTime] DESC) ORDER BY [log_PostTime] DESC")
+			Set Rs = objConn.Execute("SELECT top "& CStr(Rows) &" [log_ID] FROM [blog_Article] WHERE [log_Type]=1 AND [log_Level]>2 AND log_ID>0 AND ([log_Istop]=0) AND [log_ID] NOT IN (SELECT top "& CStr(Index) &" [log_ID] FROM [blog_Article] WHERE [log_Type]=1 AND [log_Level]>2 AND log_ID>0 AND [log_Istop]=0 ORDER BY [log_PostTime] DESC) ORDER BY [log_PostTime] DESC")
 				If Not (Rs.EOF and Rs.BOF) Then GetArticleLimit = Rs.GetRows(Rows)
 			Set Rs = Nothing
 		End If
@@ -268,7 +268,7 @@ Class YT_Article
 	Function GetArticleCategorysLimit(Rows,Index,CategoryID)
 		If IsNumeric(Rows) And IsNumeric(Index) Then
 			Dim Rs
-			Set Rs = objConn.Execute("SELECT top "& CStr(Rows) &" [log_ID] FROM [blog_Article] WHERE [logType]=1 AND [log_Level]>2 AND log_ID>0 AND [log_Istop]=0 AND [log_CateID] IN ("& CStr(CategoryID) &") AND [log_ID] NOT IN (SELECT top "& CStr(Index) &" [log_ID] FROM [blog_Article] WHERE [logType]=1 AND [log_Level]>2 AND log_ID>0 AND [log_Istop]=0 AND [log_CateID] IN ("& CStr(CategoryID) &") ORDER BY [log_PostTime] DESC) ORDER BY [log_PostTime] DESC")
+			Set Rs = objConn.Execute("SELECT top "& CStr(Rows) &" [log_ID] FROM [blog_Article] WHERE [log_Type]=1 AND [log_Level]>2 AND log_ID>0 AND [log_Istop]=0 AND [log_CateID] IN ("& CStr(CategoryID) &") AND [log_ID] NOT IN (SELECT top "& CStr(Index) &" [log_ID] FROM [blog_Article] WHERE [log_Type]=1 AND [log_Level]>2 AND log_ID>0 AND [log_Istop]=0 AND [log_CateID] IN ("& CStr(CategoryID) &") ORDER BY [log_PostTime] DESC) ORDER BY [log_PostTime] DESC")
 				If Not (Rs.EOF and Rs.BOF) Then GetArticleCategorysLimit = Rs.GetRows(Rows)
 			Set Rs = Nothing
 		End If
@@ -280,9 +280,9 @@ Class YT_Article
 		If IsNumeric(Rows) Then
 			Dim Rs,sql
 			If ZC_MSSQL_ENABLE Then
-				sql="select top " & CStr(Rows) & " [log_ID] from blog_Article WHERE [logType]=1 AND [log_Level]>2 AND log_ID>0 AND ([log_CateID] IN ("&CStr(CategoryID)&")) ORDER BY log_CommNums*100 + log_TrackBackNums*200 + SQRT(log_ViewNums)*10 - DATEDIFF(DAY,GETDATE(),Log_PostTime)*DATEDIFF(DAY,GETDATE(),Log_PostTime) DESC"
+				sql="select top " & CStr(Rows) & " [log_ID] from blog_Article WHERE [log_Type]=1 AND [log_Level]>2 AND log_ID>0 AND ([log_CateID] IN ("&CStr(CategoryID)&")) ORDER BY log_CommNums*100 + log_TrackBackNums*200 + SQRT(log_ViewNums)*10 - DATEDIFF(DAY,GETDATE(),Log_PostTime)*DATEDIFF(DAY,GETDATE(),Log_PostTime) DESC"
 			Else
-				sql="select top " & CStr(Rows) & " [log_ID] from blog_Article WHERE [logType]=1 AND [log_Level]>2 AND log_ID>0 AND ([log_CateID] IN ("&CStr(CategoryID)&")) ORDER BY log_CommNums*100 + log_TrackBackNums*200 + sqr(log_ViewNums)*10 - (date()-Log_PostTime)*(date()-Log_PostTime) DESC"
+				sql="select top " & CStr(Rows) & " [log_ID] from blog_Article WHERE [log_Type]=1 AND [log_Level]>2 AND log_ID>0 AND ([log_CateID] IN ("&CStr(CategoryID)&")) ORDER BY log_CommNums*100 + log_TrackBackNums*200 + sqr(log_ViewNums)*10 - (date()-Log_PostTime)*(date()-Log_PostTime) DESC"
 			End If
 			Set Rs = objConn.Execute(sql)
 				If Not (Rs.EOF and Rs.BOF) Then GetArticleCategorysTophot = Rs.GetRows(Rows)
@@ -294,7 +294,7 @@ Class YT_Article
 	Function GetArticleTag(Rows,TagID)
 		If IsNumeric(Rows) And IsNumeric(TagID) Then
 			Dim Rs
-			Set Rs = objConn.Execute("select top " & CStr(Rows) & " [log_ID] from blog_Article WHERE [logType]=1 AND [log_Level]>2 AND log_ID>0 And log_Tag LIKE '%{"&CStr(TagID)&"}%' ORDER BY Log_PostTime DESC")
+			Set Rs = objConn.Execute("select top " & CStr(Rows) & " [log_ID] from blog_Article WHERE [log_Type]=1 AND [log_Level]>2 AND log_ID>0 And log_Tag LIKE '%{"&CStr(TagID)&"}%' ORDER BY Log_PostTime DESC")
 				If Not (Rs.EOF and Rs.BOF) Then GetArticleTag = Rs.GetRows(Rows)
 			Set Rs = Nothing
 		End If
@@ -304,7 +304,7 @@ Class YT_Article
 	Function GetArticleCategoryTag(Rows,TagID,CategoryID)
 		If IsNumeric(Rows) And IsNumeric(TagID) Then
 			Dim Rs
-			Set Rs = objConn.Execute("select top " & CStr(Rows) & " [log_ID] from blog_Article WHERE [logType]=1 AND [log_Level]>2 AND log_ID>0 AND ([log_CateID] IN ("&CStr(CategoryID)&")) And log_Tag LIKE '%{"&CStr(TagID)&"}%' ORDER BY Log_PostTime DESC")
+			Set Rs = objConn.Execute("select top " & CStr(Rows) & " [log_ID] from blog_Article WHERE [log_Type]=1 AND [log_Level]>2 AND log_ID>0 AND ([log_CateID] IN ("&CStr(CategoryID)&")) And log_Tag LIKE '%{"&CStr(TagID)&"}%' ORDER BY Log_PostTime DESC")
 				If Not (Rs.EOF and Rs.BOF) Then GetArticleCategoryTag = Rs.GetRows(Rows)
 			Set Rs = Nothing
 		End If
@@ -314,7 +314,7 @@ Class YT_Article
 	Function GetArticleTop(Rows)
 		If IsNumeric(Rows) Then
 			Dim Rs
-			Set Rs = objConn.Execute("SELECT top " & CStr(Rows) & " [log_ID] FROM [blog_Article] WHERE [logType]=1 AND [log_Level]>2 AND log_ID>0 AND [log_Istop]=1 ORDER BY [log_PostTime] DESC")
+			Set Rs = objConn.Execute("SELECT top " & CStr(Rows) & " [log_ID] FROM [blog_Article] WHERE [log_Type]=1 AND [log_Level]>2 AND log_ID>0 AND [log_Istop]=1 ORDER BY [log_PostTime] DESC")
 				If Not (Rs.EOF and Rs.BOF) Then GetArticleTop = Rs.GetRows(Rows)
 			Set Rs = Nothing
 		End If
@@ -324,7 +324,7 @@ Class YT_Article
 	Function GetArticleCategoryTop(Rows,CategoryID)
 		If IsNumeric(Rows) Then
 			Dim Rs
-			Set Rs = objConn.Execute("SELECT top " & CStr(Rows) & " [log_ID] FROM [blog_Article] WHERE [logType]=1 AND [log_Level]>2 AND log_ID>0 AND [log_Istop]=1 AND ([log_CateID] IN ("&CStr(CategoryID)&")) ORDER BY [log_PostTime] DESC")
+			Set Rs = objConn.Execute("SELECT top " & CStr(Rows) & " [log_ID] FROM [blog_Article] WHERE [log_Type]=1 AND [log_Level]>2 AND log_ID>0 AND [log_Istop]=1 AND ([log_CateID] IN ("&CStr(CategoryID)&")) ORDER BY [log_PostTime] DESC")
 				If Not (Rs.EOF and Rs.BOF) Then GetArticleCategoryTop = Rs.GetRows(Rows)
 			Set Rs = Nothing
 		End If
