@@ -99,7 +99,7 @@ If (Not objRS.bof) And (Not objRS.eof) Then
 
 	t_content=objRS("content")
 	
-		taotao = taotao & "<div id=""item-"&objRS("id")&""" class=""item""><div class=""item-list""><div id=""listText-"&objRS("id")&""" class=""list-text"">"&UBBCode(objRS("content"),"[face][link][autolink][font][code][image][media][flash]")&"<br><a class=""miniImg artZoom"" rel=""upload/"&objRS("img")&""" href=""upload/"&objRS("img")&""">"&img&"</a></div><div class=""list-text""><div class=""list-interaction""> "&vbcrlf & vbcrlf
+		taotao = taotao & "<div id=""item-"&objRS("id")&""" class=""item"" style=""width:"&DZTAOTAO_PAGEWIDTH_VALUE&"px""><div class=""item-list""><div id=""listText-"&objRS("id")&""" class=""list-text"">"&UBBCode(objRS("content"),"[face][link][autolink][font][code][image][media][flash]")&"<br><a class=""miniImg artZoom"" rel=""upload/"&objRS("img")&""" href=""upload/"&objRS("img")&""">"&img&"</a></div><div class=""list-text""><div class=""list-interaction""> "&vbcrlf & vbcrlf
 		
 		
 		'分享代码
@@ -108,7 +108,7 @@ If (Not objRS.bof) And (Not objRS.eof) Then
 		taotao = taotao & "           </div><div class=""clear""></div></div></div><div class=""item-infor""><div class=""infor-text""><img src=""/PLUGIN/dztaotao/images/default.jpg""> <span>"&objRS("username")&"</span> <span>"&objRS("addtime")&" 发布</span></div><div class=""infor-set""><a onclick=""dingUp("&objRS("id")&")"" class=""btn-up"" onfocus=""this.blur()"" href=""javascript:;"">称赞</a> <span id=""ding_"&objRS("id")&""" class=""scroe-up highlight"">"&objRS("ttop")&"</span> <a onclick=""dingDown("&objRS("id")&")"" class=""btn-down"" onfocus=""this.blur()"" href=""javascript:;"">鄙视</a> <span class=""scroe-down highlight"" id=""tread_"&objRS("id")&""">"&objRS("tread")&"</span> | <a onclick=""showReply("&objRS("id")&")"" class=""comment"" id=""commtent-"&objRS("id")&""" onfocus=""this.blur()"" title=""点击展开评论"" href=""javascript:;"">评论("&objRS("comments")&")</a></div></div>"&vbcrlf
 		
 		'发表评论框
-		taotao = taotao &"<div class=""item-comment"" style=""background:#fff;"" >"
+		taotao = taotao &"<div class=""item-comment"" style=""background:#EFF2F4;"" >"
 		
 		taotao = taotao & "<div id=""blueCon-"&objRS("id")&""" class=""blue-con"" style=""padding: 10px 10px 0pt;"">"&vbcrlf
 		
@@ -134,7 +134,7 @@ If (Not objRS.bof) And (Not objRS.eof) Then
 		taotao = taotao & "<div id=""msg-"&objRS("id")&""" class=""comment-msg""></div>          "&vbcrlf
 		
 		'评论列表
-		taotao = taotao & "<ul id=""comments-order-401083"" class=""comments-order""> <li class=""current"" order=""time""><a href=""###"">评论列表</a></li>                   </ul>"
+		taotao = taotao & "<ul id=""comments-order-401083"" class=""comments-order""> <li class=""current"" order=""time"">评论列表</li>                   </ul>"
 		
 		taotao = taotao & "<div id=""comments-"&objRS("id")&""" class=""comment-list"">"&vbcrlf & vbcrlf
 		
@@ -162,8 +162,8 @@ objRS.Close
 Set objRS=Nothing
 
 
-taotao = taotao & "<script type=""text/javascript"" src="""&ZC_BLOG_HOST&"plugin/dztaotao/core.js""></script>"&vbcrlf & vbcrlf
 
+taotao = taotao & "<script type=""text/javascript"" src="""&ZC_BLOG_HOST&"zb_users/plugin/dztaotao/core.js""></script>"&vbcrlf & vbcrlf
 
 
 
