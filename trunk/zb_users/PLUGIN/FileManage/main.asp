@@ -29,7 +29,7 @@ strAct=Request.QueryString("act")
 If strAct="" Then strAct="SiteFileMng"
 strPath=Request.QueryString("path")
 strOpenFolderPath=Request.QueryString("OpenFolderPath")
-BlogPath=FileManage_FSO.GetFolder(BlogPath).Path
+
 If strPath="" Then strPath=BlogPath: strOpenFolderPath=BlogPath
 
 For Each Action_Plugin_FileManage_Initialize in Action_Plugin_FileManage_Initialize

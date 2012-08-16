@@ -10,7 +10,7 @@ Const ZC_MSG005="当前用户"
 Const ZC_MSG006="官方网站"
 Const ZC_MSG007="侧栏管理"
 Const ZC_MSG008="侧栏"
-Const ZC_MSG009="管理登录"
+Const ZC_MSG009="用户登录"
 Const ZC_MSG010="用户名,密码不能为空"
 Const ZC_MSG011="发布"
 Const ZC_MSG012="分类"
@@ -277,7 +277,7 @@ Const ZC_MSG272="评论编辑"
 Const ZC_MSG273=" 之前的批量操作还未全部执行,请点击""<a href='#'>继续</a>""执行完所有的操作."
 Const ZC_MSG274="显示搜索文章的数量"
 Const ZC_MSG275="发布于"
-
+Const ZC_MSG276="此目录下文章的默认模板"
 
 
 

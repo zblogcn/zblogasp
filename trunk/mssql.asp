@@ -504,13 +504,10 @@ Function UpdateDateBase()
 	End If
 
 	If Not CheckUpdateDB("[cate_Meta]","[blog_Category]") Then
-		objConn.execute("ALTER TABLE [blog_Category] ADD COLUMN [cate_Temp] VARCHAR(255) default """"")
-		objConn.execute("UPDATE [blog_Category] SET [cate_Temp]=[cate_Url]")
-		objConn.execute("UPDATE [blog_Category] SET [cate_URL]=[cate_Intro]")
-		objConn.execute("UPDATE [blog_Category] SET [cate_Intro]=[cate_Temp]")
-		objConn.execute("ALTER TABLE [blog_Category] DROP COLUMN [cate_Temp]")
+		objConn.execute("ALTER TABLE [blog_Category] ADD COLUMN [cate_Url] VARCHAR(255) default """"")
 		objConn.execute("ALTER TABLE [blog_Category] ADD COLUMN [cate_ParentID] int DEFAULT 0")
 		objConn.execute("ALTER TABLE [blog_Category] ADD COLUMN [cate_Template] VARCHAR(50) default """"")
+		objConn.execute("ALTER TABLE [blog_Category] ADD COLUMN [cate_LogTemplate] VARCHAR(50) default """"")
 		objConn.execute("ALTER TABLE [blog_Category] ADD COLUMN [cate_FullUrl] VARCHAR(255) default """"")
 		objConn.execute("ALTER TABLE [blog_Category] ADD COLUMN [cate_Meta] text default """"")
 	End If
@@ -590,7 +587,7 @@ Dim objCat
 
 
 Set objCat=Server.CreateObject("ADOX.Catalog")   
-objCat.Create "Provider=Microsoft.Jet.OLEDB.4.0;Data Source="&Server.MapPath("zblog.mdb")
+objCat.Create "Provider=Microsoft.Jet.OLEDB.4.0;Data Source="&Server.MapPath("zblog.mdb")&";Locale Identifier=0x0804"
 
 
 Set objConn = Server.CreateObject("ADODB.Connection")
@@ -602,7 +599,7 @@ objConn.execute("CREATE TABLE [blog_Tag] (tag_ID AutoIncrement primary key,tag_N
 
 objConn.execute("CREATE TABLE [blog_Article] (log_ID AutoIncrement primary key,log_CateID int default 0,log_AuthorID int default 0,log_Level int default 0,log_Url VARCHAR(255) default """",log_Title VARCHAR(255) default """",log_Intro text default """",log_Content text default """",log_IP VARCHAR(15) default """",log_PostTime datetime default now(),log_CommNums int default 0,log_ViewNums int default 0,log_TrackBackNums int default 0,log_Tag VARCHAR(255) default """",log_IsTop YESNO DEFAULT 0,log_Yea int default 0,log_Nay int default 0,log_Ratting int default 0,log_Template VARCHAR(50) default """",log_FullUrl VARCHAR(255) default """",log_Type int DEFAULT 0,log_Meta text default """")")
 
-objConn.execute("CREATE TABLE [blog_Category] (cate_ID AutoIncrement primary key,cate_Name VARCHAR(50) default """",cate_Order int default 0,cate_Intro VARCHAR(255) default """",cate_Count int default 0,cate_URL VARCHAR(255) default """",cate_ParentID int default 0,cate_Template VARCHAR(50) default """",cate_FullUrl VARCHAR(255) default """",cate_Meta text default """")")
+objConn.execute("CREATE TABLE [blog_Category] (cate_ID AutoIncrement primary key,cate_Name VARCHAR(50) default """",cate_Order int default 0,cate_Intro VARCHAR(255) default """",cate_Count int default 0,cate_URL VARCHAR(255) default """",cate_ParentID int default 0,cate_Template VARCHAR(50) default """",cate_LogTemplate VARCHAR(50) default """",cate_FullUrl VARCHAR(255) default """",cate_Meta text default """")")
 
 objConn.execute("CREATE TABLE [blog_Comment] (comm_ID AutoIncrement primary key,log_ID int default 0,comm_AuthorID int default 0,comm_Author VARCHAR(20) default """",comm_Content text default """",comm_Email VARCHAR(50) default """",comm_HomePage VARCHAR(255) default """",comm_PostTime datetime default now(),comm_IP VARCHAR(15) default """",comm_Agent text default """",comm_Reply text default """",comm_LastReplyIP VARCHAR(15) default """",comm_LastReplyTime datetime default now(),comm_Yea int default 0,comm_Nay int default 0,comm_Ratting int default 0,comm_ParentID int default 0,comm_IsCheck YESNO DEFAULT FALSE,comm_Meta text default """")")
 
@@ -642,7 +639,7 @@ objConn.execute("CREATE TABLE [blog_Tag] (tag_ID int identity(1,1) not null prim
 
 objConn.execute("CREATE TABLE [blog_Article] (log_ID int identity(1,1) not null primary key,log_CateID int default 0,log_AuthorID int default 0,log_Level int default 0,log_Url nvarchar(255) default '',log_Title nvarchar(255) default '',log_Intro ntext default '',log_Content ntext default '',log_IP nvarchar(15) default '',log_PostTime datetime default getdate(),log_CommNums int default 0,log_ViewNums int default 0,log_TrackBackNums int default 0,log_Tag nvarchar(255) default '',log_IsTop bit DEFAULT 0,log_Yea int default 0,log_Nay int default 0,log_Ratting int default 0,log_Template nvarchar(50) default '',log_FullUrl nvarchar(255) default '',log_Type int default 0,log_Meta ntext default '')")
 
-objConn.execute("CREATE TABLE [blog_Category] (cate_ID int identity(1,1) not null primary key,cate_Name nvarchar(50) default '',cate_Order int default 0,cate_Intro nvarchar(255) default '',cate_Count int default 0,cate_URL nvarchar(255) default '',cate_ParentID int default 0,cate_Template nvarchar(50) default '',cate_FullUrl nvarchar(255) default '',cate_Meta ntext default '')")
+objConn.execute("CREATE TABLE [blog_Category] (cate_ID int identity(1,1) not null primary key,cate_Name nvarchar(50) default '',cate_Order int default 0,cate_Intro nvarchar(255) default '',cate_Count int default 0,cate_URL nvarchar(255) default '',cate_ParentID int default 0,cate_Template nvarchar(50) default '',cate_LogTemplate nvarchar(50) default '',cate_FullUrl nvarchar(255) default '',cate_Meta ntext default '')")
 
 objConn.execute("CREATE TABLE [blog_Comment] (comm_ID int identity(1,1) not null primary key,log_ID int default 0,comm_AuthorID int default 0,comm_Author nvarchar(20) default '',comm_Content ntext default '',comm_Email nvarchar(50) default '',comm_HomePage nvarchar(255) default '',comm_PostTime datetime default getdate(),comm_IP nvarchar(15) default '',comm_Agent ntext default '',comm_Reply ntext default '',comm_LastReplyIP nvarchar(15) default '',comm_LastReplyTime datetime default getdate(),comm_Yea int default 0,comm_Nay int default 0,comm_Ratting int default 0,comm_ParentID int default 0,comm_IsCheck bit default 0,comm_Meta ntext default '')")
 
