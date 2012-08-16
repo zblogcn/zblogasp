@@ -275,3 +275,5 @@ $(document).ready(function(){
 	$("#batch a").bind("click", function(){ BatchContinue();$("#batch p").html("<%=ZC_MSG109%>...");});
 
 });
+
+<%=Response_Plugin_Admin_Js_Add%>

@@ -2269,8 +2269,6 @@ Function BuildAllCache()
 		If bAction_Plugin_BuildAllCache_Begin=True Then Exit Function
 	Next
 
-	Call GetFunction()
-
 	BuildAllCache=True
 
 End Function
