@@ -141,7 +141,11 @@ Next
 	});</script>
 <!--#include file="admin_top.asp"-->
 <%If IsPage=False Then%>
+<%If EditArticle.ID=0 Then%>
 <script type="text/javascript">ActiveLeftMenu("aArticleEdt");</script>
+<%Else%>
+<script type="text/javascript">ActiveLeftMenu("aArticleMng");</script>
+<%End If%>
 <%Else%>
 <script type="text/javascript">ActiveLeftMenu("aPageMng");</script>
 <%End If%>
@@ -191,7 +195,6 @@ Next
 
 </div>
 
-
 <!-- 1号输出接口 -->
 <% If Response_Plugin_Edit_Form<>"" Then %>
 <div id="divEditForm1"><%=Response_Plugin_Edit_Form%></div>
@@ -240,15 +243,13 @@ Next
 
                   <p>
 <!-- cate -->
-                      <%
+<%
 If Request.QueryString("type")<>"Page" Then
-
-If Err.Number=0 Then
 %>
                       <span class='editinputname' style="cursor:pointer;" onClick="$(this).next().toggleClass('hidden');"><%=ZC_MSG012%>:</span>
-                        <select style="width:150px;" class="edit" size="1" id="cmbCate" onChange="edtCateID.value=this.options[this.selectedIndex].value">
+                        <select style="width:150px;" class="edit" size="1" id="cmbCate" onChange="edtCateID.value=this.options[this.selectedIndex].value;selectlogtemplate(this.options[this.selectedIndex].value);">
                           <option value="0"></option>
-                          <%
+<%
 	Dim aryCateInOrder : aryCateInOrder=GetCategoryOrder()
 	Dim m,n
 	For m=LBound(aryCateInOrder)+1 To Ubound(aryCateInOrder)
@@ -270,11 +271,10 @@ If Err.Number=0 Then
                         </select>
                         <input type="hidden" name="edtCateID" id="edtCateID" value="<%=EditArticle.CateID%>" />
 <%
- End If
- Else
+Else
 %>
                         <input type="hidden" name="edtCateID" id="edtCateID" value="0" />
-                        <%
+<%
 End If
 %>
 <!-- cate -->
@@ -296,9 +296,9 @@ End If
 		j=UBound(aryFileList)
 		For i=1 to j
 			t=UCase(Left(aryFileList(i),InStr(aryFileList(i),".")-1))
-			If Left(t,2)<>"B_" AND t<>"FOOTER" And t<>"HEADER" Then
-				If EditArticle.TemplateName=t Then
-					Response.Write "<option value="""&t&""" selected=""selected"">"&t&"</option>"
+			If Left(t,2)<>"B_" AND t<>"FOOTER" And t<>"HEADER" And t<>"DEFAULT" And t<>"CATALOG" Then
+				If EditArticle.GetDefaultTemplateName=t Then
+					Response.Write "<option value="""&t&""" selected=""selected"">"&t&IIF(EditArticle.TemplateName="","("&ZC_MSG187&")","")&"</option>"
 				Else
 					Response.Write "<option value="""&t&""">"&t&"</option>"
 				End If
@@ -306,15 +306,6 @@ End If
 		Next
 	End If
 
-	If EditArticle.TemplateName="" Then
-	%>
-                            <option value="" selected="selected"><%=IIF(IsPage,ZC_MSG187&"(PAGE)",ZC_MSG187&"(SINGLE)")%></option>
-    <%
-	Else
-	%>
-                             <option value=""><%=IIF(IsPage,ZC_MSG187&"(PAGE)",ZC_MSG187&"(SINGLE)")%></option>
-    <%
-	End If
 %>
                           </select>
                           <input type="hidden" name="edtTemplate" id="edtTemplate" value="<%=EditArticle.TemplateName%>" />
@@ -449,12 +440,6 @@ End If
 	function checkArticleInfo(){
 		document.getElementById("edit").action="../cmd.asp?act=ArticlePst&webedit=ueditor<%=IIF(Request.QueryString("type")="Page","&type=Page","")%>";
 
-<%If Request.QueryString("type")="" Then%>
-		//if(document.getElementById("edtCateID").value==0){
-		//	alert(str10);
-		//	return false
-		//}
-<%End If%>
 		if(!editor.getContent()){
 			alert(str11);
 			return false
@@ -522,6 +507,21 @@ $(function(){
  window.onresize=tools;
 });
 
+function selectlogtemplate(c){
+<%
+	Dim Category
+	For Each Category in Categorys
+		If IsObject(Category) Then
+			Response.Write "	if(c=="&Category.ID&"){if('"&Category.LogTemplate&"'!=''){selectlogtemplatesub('"&Category.LogTemplate&"')}else{ selectlogtemplatesub('"&Category.GetDefaultLogTemplateName&"') }};" & vbCrlf
+		End If
+	Next
+
+%>
+}
+function selectlogtemplatesub(a){
+	$("#cmbTemplate").find("option[value='"+a+"']").attr("selected","selected");
+	edtTemplate.value=a;
+}
 // ]]>
 </script>
 <!--文章编辑提交区随动JS结束-->

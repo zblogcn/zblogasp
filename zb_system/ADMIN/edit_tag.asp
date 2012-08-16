@@ -85,21 +85,15 @@ Next
 		j=UBound(aryFileList)
 		For i=1 to j
 			t=UCase(Left(aryFileList(i),InStr(aryFileList(i),".")-1))
-			If Left(t,2)<>"B_" AND t<>"FOOTER" And t<>"HEADER" Then
-				If EditTag.TemplateName=t Then
-					Response.Write "<option value="""&t&""" selected=""selected"">"&t&"</option>"
+			If Left(t,2)<>"B_" AND t<>"FOOTER" And t<>"HEADER" And t<>"SINGLE" And t<>"PAGE" Then
+				If EditTag.GetDefaultTemplateName=t Then
+					Response.Write "<option value="""&t&""" selected=""selected"">"&t&IIF(EditTag.TemplateName="","("&ZC_MSG187&")","")&"</option>"
 				Else 
 					Response.Write "<option value="""&t&""">"&t&"</option>"
 				End If
 			End If
 		Next
 	End If
-
-	If EditTag.TemplateName="" Then
-	Response.Write "<option value='' selected='selected'>"&ZC_MSG187&"(CATALOG)</option>"
-	Else
-	Response.Write "<option value=''>"&ZC_MSG187&"(CATALOG)</option>"
-	End If 
 
 	Response.Write "</select><input type='hidden' name='edtTemplate' id='edtTemplate' value='"&EditTag.TemplateName&"' /></p>"
 

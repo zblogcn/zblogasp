@@ -74,6 +74,9 @@ Next
 	Response.Write "<input id=""edtID"" name=""edtID""  type=""hidden"" value="""& EditCategory.ID &""" />"
 	Response.Write "<p><span class='title'>"& ZC_MSG001 &":</span><span class='star'>(*)</span><br/><input id=""edtName"" style='width:300px;' size=""40"" name=""edtName""  type=""text"" value="""& TransferHTML(EditCategory.Name,"[html-format]") &""" /></p>"
 	Response.Write "<p><span class='title'>"& ZC_MSG079 &":</span><br/><input id=""edtOrder"" style='width:300px;' size=""40"" name=""edtOrder""  type=""text"" value="""& EditCategory.Order &""" /></p>"
+
+	Response.Write "<p><span class='title'>"& ZC_MSG147 &":</span><br/><input id=""edtAlias"" style='width:300px;' size=""40"" name=""edtAlias""  type=""text"" value="""& TransferHTML(EditCategory.Alias,"[html-format]") &""" /></p>"
+
 	Response.Write "<p><span class='title'>"& ZC_MSG195 &":</span><br/><select style='width:310px;' id=""edtPareID"" name=""edtPareID"" class=""edit"" size=""1"">"
 	Response.Write "<option value=""0"" "
 	If EditCategory.ParentID=0 Then Response.Write "selected=""selected"" "
@@ -105,10 +108,7 @@ Next
 
 	Response.Write "<p><span class='title'>"&ZC_MSG188&":</span><br/><select style='width:310px;' class='edit' size='1' id='cmbTemplate' onchange='edtTemplate.value=this.options[this.selectedIndex].value'>"
 
-	'Response.Write "<option value="""">"&ZC_MSG187&"</option>"
-
 	Dim aryFileList
-
 	aryFileList=LoadIncludeFilesOnlyType("zb_users\theme" & "/" & ZC_BLOG_THEME & "/" & ZC_TEMPLATE_DIRECTORY)
 
 	If IsArray(aryFileList) Then
@@ -116,9 +116,9 @@ Next
 		j=UBound(aryFileList)
 		For i=1 to j
 			t=UCase(Left(aryFileList(i),InStr(aryFileList(i),".")-1))
-			If Left(t,2)<>"B_" AND t<>"FOOTER" And t<>"HEADER" Then
-				If EditCategory.TemplateName=t Then
-					Response.Write "<option value="""&t&""" selected=""selected"">"&t&"</option>"
+			If Left(t,2)<>"B_" AND t<>"FOOTER" And t<>"HEADER" And t<>"SINGLE" And t<>"PAGE" Then
+				If EditCategory.GetDefaultTemplateName=t Then
+					Response.Write "<option value="""&t&""" selected=""selected"">"&t&IIF(EditCategory.TemplateName=""," ("&ZC_MSG187&")","")&"</option>"
 				Else
 					Response.Write "<option value="""&t&""">"&t&"</option>"
 				End If
@@ -126,20 +126,44 @@ Next
 		Next
 	End If
 
-	If EditCategory.TemplateName="" Then
-	Response.Write "<option value='' selected='selected'>"&ZC_MSG187&"(CATALOG)</option>"
-	Else
-	Response.Write "<option value=''>"&ZC_MSG187&"(CATALOG)</option>"
-	End If
+	'If EditCategory.TemplateName="" Then
+	'Response.Write "<option value='' selected='selected'>"&ZC_MSG187&"(CATALOG)</option>"
+	'Else
+	'Response.Write "<option value=''>"&ZC_MSG187&"(CATALOG)</option>"
+	'End If
 
 	Response.Write "</select><input type='hidden' name='edtTemplate' id='edtTemplate' value='"&EditCategory.TemplateName&"' />"
-
-
-
-
-
 	Response.Write "</p>"
-	Response.Write "<p><span class='title'>"& ZC_MSG147 &":</span><br/><input id=""edtAlias"" style='width:300px;' size=""40"" name=""edtAlias""  type=""text"" value="""& TransferHTML(EditCategory.Alias,"[html-format]") &""" /></p>"
+
+
+	Response.Write "<p><span class='title'>"&ZC_MSG276&":</span><br/><select style='width:310px;' class='edit' size='1' id='cmbLogTemplate' onchange='edtLogTemplate.value=this.options[this.selectedIndex].value'>"
+
+	aryFileList=LoadIncludeFilesOnlyType("zb_users\theme" & "/" & ZC_BLOG_THEME & "/" & ZC_TEMPLATE_DIRECTORY)
+
+	If IsArray(aryFileList) Then
+		j=UBound(aryFileList)
+		For i=1 to j
+			t=UCase(Left(aryFileList(i),InStr(aryFileList(i),".")-1))
+			If Left(t,2)<>"B_" AND t<>"FOOTER" And t<>"HEADER" And  t<>"CATALOG" And t<>"DEFAULT" Then
+				If EditCategory.GetDefaultLogTemplateName=t Then
+					Response.Write "<option value="""&t&""" selected=""selected"">"&t&IIF(EditCategory.LogTemplate=""," ("&ZC_MSG187&")","")&"</option>"
+				Else
+					Response.Write "<option value="""&t&""">"&t&"</option>"
+				End If
+			End If
+		Next
+	End If
+
+	'If EditCategory.LogTemplate="" Then
+	'Response.Write "<option value='' selected='selected'>"&ZC_MSG187&"(SINGLE)</option>"
+	'Else
+	'Response.Write "<option value=''>"&ZC_MSG187&"(SINGLE)</option>"
+	'End If
+
+	Response.Write "</select><input type='hidden' name='edtLogTemplate' id='edtLogTemplate' value='"&EditCategory.LogTemplate&"' />"
+	Response.Write "</p>"
+
+
 
 	'<!-- 1号输出接口 -->
 	If Response_Plugin_EditCatalog_Form<>"" Then Response.Write "<div id=""divEditForm1"">"&Response_Plugin_EditCatalog_Form&"</div>"

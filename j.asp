@@ -12,14 +12,11 @@
 <!-- #include file="zb_users/plugin/p_config.asp" -->
 <%
 
-Call System_Initialize()
+'Call System_Initialize()
+OpenConnect()
+'objConn.execute("ALTER TABLE [blog_Category] ADD [cate_LogTemplate] nvarchar(50) default ''")
 
-objConn.execute("ALTER TABLE [blog_Article] ADD [log_Type] int default 0")
-
-objConn.execute("UPDATE [blog_Article] SET [log_Type]=0")
-
-objConn.execute("UPDATE [blog_Article] SET [log_Type]=1 WHERE [log_CateID]=0")
-
+objConn.execute("UPDATE [blog_Category] SET [cate_LogTemplate]=''")
 
 %>
 <br/><%=RunTime()%>ms<br/>

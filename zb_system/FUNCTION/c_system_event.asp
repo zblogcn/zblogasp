@@ -283,6 +283,7 @@ Function PostCategory()
 	objCategory.ParentID=Request.Form("edtPareID")
 	objCategory.Alias=Request.Form("edtAlias")
 	objCategory.TemplateName=Request.Form("edtTemplate")
+	objCategory.LogTemplate=Request.Form("edtLogTemplate")
 
 	Call GetMetaValuewithForm(objCategory)
 

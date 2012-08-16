@@ -2559,7 +2559,7 @@ End Function
 '调用:
 '**************************************************>
 Dim sFilter_Plugin_TCategory_Post
-Function Filter_Plugin_TCategory_Post(ByRef ID,ByRef Name,ByRef Intro,ByRef Order,ByRef Count,ByRef ParentID,ByRef Alias,ByRef TemplateName,ByRef FullUrl,ByRef MetaString)
+Function Filter_Plugin_TCategory_Post(ByRef ID,ByRef Name,ByRef Intro,ByRef Order,ByRef Count,ByRef ParentID,ByRef Alias,ByRef TemplateName,ByRef LogTemplate,ByRef FullUrl,ByRef MetaString)
 
 	Dim s,i
 
@@ -2568,7 +2568,7 @@ Function Filter_Plugin_TCategory_Post(ByRef ID,ByRef Name,ByRef Intro,ByRef Orde
 	s=Split(sFilter_Plugin_TCategory_Post,"|")
 
 	For i=0 To UBound(s)-1
-		Call Execute(s(i) & " " & "ID,Name,Intro,Order,Count,ParentID,Alias,TemplateName,FullUrl,MetaString")
+		Call Execute(s(i) & " " & "ID,Name,Intro,Order,Count,ParentID,Alias,TemplateName,LogTemplate,FullUrl,MetaString")
 	Next
 
 End Function
@@ -2585,7 +2585,7 @@ End Function
 '调用:
 '**************************************************>
 Dim sFilter_Plugin_TCategory_LoadInfoByID
-Function Filter_Plugin_TCategory_LoadInfoByID(ByRef ID,ByRef Name,ByRef Intro,ByRef Order,ByRef Count,ByRef ParentID,ByRef Alias,ByRef TemplateName,ByRef FullUrl,ByRef MetaString)
+Function Filter_Plugin_TCategory_LoadInfoByID(ByRef ID,ByRef Name,ByRef Intro,ByRef Order,ByRef Count,ByRef ParentID,ByRef Alias,ByRef TemplateName,ByRef LogTemplate,ByRef FullUrl,ByRef MetaString)
 
 	Dim s,i
 
@@ -2594,7 +2594,7 @@ Function Filter_Plugin_TCategory_LoadInfoByID(ByRef ID,ByRef Name,ByRef Intro,By
 	s=Split(sFilter_Plugin_TCategory_LoadInfoByID,"|")
 
 	For i=0 To UBound(s)-1
-		Call Execute(s(i) & " " & "ID,Name,Intro,Order,Count,ParentID,Alias,TemplateName,FullUrl,MetaString")
+		Call Execute(s(i) & " " & "ID,Name,Intro,Order,Count,ParentID,Alias,TemplateName,LogTemplate,FullUrl,MetaString")
 	Next
 
 End Function
@@ -2611,7 +2611,7 @@ End Function
 '调用:
 '**************************************************>
 Dim sFilter_Plugin_TCategory_LoadInfoByArray
-Function Filter_Plugin_TCategory_LoadInfoByArray(ByRef ID,ByRef Name,ByRef Intro,ByRef Order,ByRef Count,ByRef ParentID,ByRef Alias,ByRef TemplateName,ByRef FullUrl,ByRef MetaString)
+Function Filter_Plugin_TCategory_LoadInfoByArray(ByRef ID,ByRef Name,ByRef Intro,ByRef Order,ByRef Count,ByRef ParentID,ByRef Alias,ByRef TemplateName,ByRef LogTemplate,ByRef FullUrl,ByRef MetaString)
 
 	Dim s,i
 
@@ -2620,7 +2620,7 @@ Function Filter_Plugin_TCategory_LoadInfoByArray(ByRef ID,ByRef Name,ByRef Intro
 	s=Split(sFilter_Plugin_TCategory_LoadInfoByArray,"|")
 
 	For i=0 To UBound(s)-1
-		Call Execute(s(i) & " " & "ID,Name,Intro,Order,Count,ParentID,Alias,TemplateName,FullUrl,MetaString")
+		Call Execute(s(i) & " " & "ID,Name,Intro,Order,Count,ParentID,Alias,TemplateName,LogTemplate,FullUrl,MetaString")
 	Next
 
 End Function
@@ -2636,7 +2636,7 @@ End Function
 '调用:
 '**************************************************>
 Dim sFilter_Plugin_TCategory_Del
-Function Filter_Plugin_TCategory_Del(ByRef ID,ByRef Name,ByRef Intro,ByRef Order,ByRef Count,ByRef ParentID,ByRef Alias,ByRef TemplateName,ByRef FullUrl,ByRef MetaString)
+Function Filter_Plugin_TCategory_Del(ByRef ID,ByRef Name,ByRef Intro,ByRef Order,ByRef Count,ByRef ParentID,ByRef Alias,ByRef TemplateName,ByRef LogTemplate,ByRef FullUrl,ByRef MetaString)
 
 	Dim s,i
 
@@ -2645,7 +2645,7 @@ Function Filter_Plugin_TCategory_Del(ByRef ID,ByRef Name,ByRef Intro,ByRef Order
 	s=Split(sFilter_Plugin_TCategory_Del,"|")
 
 	For i=0 To UBound(s)-1
-		Call Execute(s(i) & " " & "ID,Name,Intro,Order,Count,ParentID,Alias,TemplateName,FullUrl,MetaString")
+		Call Execute(s(i) & " " & "ID,Name,Intro,Order,Count,ParentID,Alias,TemplateName,LogTemplate,FullUrl,MetaString")
 	Next
 
 End Function

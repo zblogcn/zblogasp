@@ -32,7 +32,7 @@ Class TCategory
 	Public FullUrl
 	Public Meta
 	Public TemplateName
-	Public ArticleTemplate
+	Public LogTemplate
 
 	Public Property Get MetaString
 		MetaString=Meta.SaveString
@@ -66,6 +66,21 @@ Class TCategory
 		End If
 	End Property
 
+	Public Function GetDefaultTemplateName
+		If TemplateName<>"" Then
+			GetDefaultTemplateName=TemplateName
+		Else
+			GetDefaultTemplateName="CATALOG"
+		End If
+	End Function
+
+	Public Function GetDefaultLogTemplateName
+		If LogTemplate<>""  Then
+			GetDefaultLogTemplateName=LogTemplate
+		Else
+			GetDefaultLogTemplateName="SINGLE"
+		End IF
+	End Function
 
 	Private Ffullregex
 	Public Property Let FullRegex(s)
@@ -123,7 +138,7 @@ Class TCategory
 
 	Public Function Post()
 
-		Call Filter_Plugin_TCategory_Post(ID,Name,Intro,Order,Count,ParentID,Alias,TemplateName,FullUrl,MetaString)
+		Call Filter_Plugin_TCategory_Post(ID,Name,Intro,Order,Count,ParentID,Alias,TemplateName,LogTemplate,FullUrl,MetaString)
 
 		Call CheckParameter(ID,"int",0)
 		Call CheckParameter(Order,"int",0)
@@ -140,6 +155,9 @@ Class TCategory
 		TemplateName=UCase(FilterSQL(TemplateName))
 		If TemplateName="CATALOG" Then TemplateName=""
 
+		LogTemplate=UCase(FilterSQL(LogTemplate))
+		If LogTemplate="SINGLE" Then LogTemplate=""
+
 		If Len(Name)=0 Then Post=False:Exit Function
 
 		If ID=0 Then
@@ -153,7 +171,7 @@ Class TCategory
 				End If
 			End If
 
-			objConn.Execute("INSERT INTO [blog_Category]([cate_Name],[cate_Order],[cate_Intro],[cate_ParentID],[cate_Url],[cate_FullUrl],[cate_Template],[cate_Meta]) VALUES ('"&Name&"',"&Order&",'"&Intro&"',"&ParentID&",'"&Alias&"','"&FullUrl&"','"&TemplateName&"','"&MetaString&"')")
+			objConn.Execute("INSERT INTO [blog_Category]([cate_Name],[cate_Order],[cate_Intro],[cate_ParentID],[cate_Url],[cate_Template],[cate_LogTemplate],[cate_FullUrl],[cate_Meta]) VALUES ('"&Name&"',"&Order&",'"&Intro&"',"&ParentID&",'"&Alias&"','"&TemplateName&"',"&LogTemplate&",'"&FullUrl&"','"&MetaString&"')")
 
 			Dim objRS
 			Set objRS=objConn.Execute("SELECT MAX([cate_ID]) FROM [blog_Category]")
@@ -164,7 +182,7 @@ Class TCategory
 
 			If ParentID=ID Then
 				ParentID=0
-				objConn.Execute("UPDATE [blog_Category] set [cate_Name]='"&Name&"',[cate_Order]="&Order&",[cate_Intro]='"&Intro&"',[cate_ParentID]="&ParentID&",[cate_Url]='"&Alias&"',[cate_Template]='"&TemplateName&"',[cate_FullUrl]='"&FullUrl&"',[cate_Meta]='"&MetaString&"' WHERE [cate_ID] =" & ID)
+				objConn.Execute("UPDATE [blog_Category] set [cate_Name]='"&Name&"',[cate_Order]="&Order&",[cate_Intro]='"&Intro&"',[cate_ParentID]="&ParentID&",[cate_Url]='"&Alias&"',[cate_Template]='"&TemplateName&"',[cate_LogTemplate]='"&LogTemplate&"',[cate_FullUrl]='"&FullUrl&"',[cate_Meta]='"&MetaString&"' WHERE [cate_ID] =" & ID)
 			End If
 
 		Else
@@ -186,7 +204,7 @@ Class TCategory
 				Set objRS=Nothing
 			End If
 
-			objConn.Execute("UPDATE [blog_Category] set [cate_Name]='"&Name&"',[cate_Order]="&Order&",[cate_Intro]='"&Intro&"',[cate_ParentID]="&ParentID&",[cate_Url]='"&Alias&"',[cate_Template]='"&TemplateName&"',[cate_FullUrl]='"&FullUrl&"',[cate_Meta]='"&MetaString&"' WHERE [cate_ID] =" & ID)
+			objConn.Execute("UPDATE [blog_Category] set [cate_Name]='"&Name&"',[cate_Order]="&Order&",[cate_Intro]='"&Intro&"',[cate_ParentID]="&ParentID&",[cate_Url]='"&Alias&"',[cate_Template]='"&TemplateName&"',[cate_LogTemplate]='"&LogTemplate&"',[cate_FullUrl]='"&FullUrl&"',[cate_Meta]='"&MetaString&"' WHERE [cate_ID] =" & ID)
 
 		End If
 
@@ -203,7 +221,7 @@ Class TCategory
 		Call CheckParameter(cate_ID,"int",0)
 
 		Dim objRS
-		Set objRS=objConn.Execute("SELECT [cate_ID],[cate_Name],[cate_Intro],[cate_Order],[cate_Count],[cate_ParentID],[cate_Url],[cate_Template],[cate_FullUrl],[cate_Meta] FROM [blog_Category] WHERE [cate_ID]=" & cate_ID)
+		Set objRS=objConn.Execute("SELECT [cate_ID],[cate_Name],[cate_Intro],[cate_Order],[cate_Count],[cate_ParentID],[cate_Url],[cate_Template],[cate_LogTemplate],[cate_FullUrl],[cate_Meta] FROM [blog_Category] WHERE [cate_ID]=" & cate_ID)
 
 		If (Not objRS.bof) And (Not objRS.eof) Then
 
@@ -215,6 +233,7 @@ Class TCategory
 			ParentID=objRS("cate_ParentID")
 			Intro=objRS("cate_Intro")
 			TemplateName=objRS("cate_Template")
+			LogTemplate=objRS("cate_LogTemplate")
 			FullUrl=objRS("cate_FullUrl")
 			MetaString=objRS("cate_Meta")
 			LoadInfoByID=True
@@ -224,7 +243,7 @@ Class TCategory
 		objRS.Close
 		Set objRS=Nothing
 
-		Call Filter_Plugin_TCategory_LoadInfoByID(ID,Name,Intro,Order,Count,ParentID,Alias,TemplateName,FullUrl,MetaString)
+		Call Filter_Plugin_TCategory_LoadInfoByID(ID,Name,Intro,Order,Count,ParentID,Alias,TemplateName,LogTemplate,FullUrl,MetaString)
 
 	End Function
 
@@ -240,20 +259,21 @@ Class TCategory
 			ParentID=aryCateInfo(5)
 			Alias=aryCateInfo(6)
 			TemplateName=aryCateInfo(7)
-			FullUrl=aryCateInfo(8)
-			MetaString=aryCateInfo(9)
+			LogTemplate=aryCateInfo(8)
+			FullUrl=aryCateInfo(9)
+			MetaString=aryCateInfo(10)
 		End If
 
 		LoadInfoByArray=True
 
-		Call Filter_Plugin_TCategory_LoadInfoByArray(ID,Name,Intro,Order,Count,ParentID,Alias,TemplateName,FullUrl,MetaString)
+		Call Filter_Plugin_TCategory_LoadInfoByArray(ID,Name,Intro,Order,Count,ParentID,Alias,TemplateName,LogTemplate,FullUrl,MetaString)
 
 	End Function
 
 
 	Public Function Del()
 
-		Call Filter_Plugin_TCategory_Del(ID,Name,Intro,Order,Count,ParentID,Alias,TemplateName,FullUrl,MetaString)
+		Call Filter_Plugin_TCategory_Del(ID,Name,Intro,Order,Count,ParentID,Alias,TemplateName,LogTemplate,FullUrl,MetaString)
 
 		Call CheckParameter(ID,"int",0)
 		If (ID=0) Then Del=False:Exit Function
@@ -276,7 +296,6 @@ Class TCategory
 	Private Sub Class_Initialize()
 		ID=0
 		Name=ZC_MSG059
-		ArticleTemplate="SINGLE"
 		Set Meta=New TMeta
 	End Sub
 
@@ -370,23 +389,44 @@ Class TArticle
 				s=GetTemplate("TEMPLATE_" &TemplateName)
 				If s<>"" Then
 					Ftemplate = s
-				Else
-					If IsPage=True Then
-						Ftemplate=GetTemplate("TEMPLATE_PAGE")
-					Else
-						Ftemplate=GetTemplate("TEMPLATE_SINGLE")
-					End If
+					Template = Ftemplate
+					Exit Property
 				End If
-			Else
-					If IsPage=True Then
-						Ftemplate=GetTemplate("TEMPLATE_PAGE")
-					Else
-						Ftemplate=GetTemplate("TEMPLATE_SINGLE")
-					End If
 			End If
+			If IsPage=False And Categorys(CateID).LogTemplate<>"" Then
+				Dim t
+				t=GetTemplate("TEMPLATE_" &Categorys(CateID).LogTemplate)
+				If t<>"" Then
+					Ftemplate = t
+					Template = Ftemplate
+					Exit Property
+				End If
+			End If
+			If IsPage=True Then
+				Ftemplate=GetTemplate("TEMPLATE_PAGE")
+			Else
+				Ftemplate=GetTemplate("TEMPLATE_SINGLE")
+			End If
+
 			Template = Ftemplate
 		End If
 	End Property
+
+	Public Function GetDefaultTemplateName
+		If TemplateName<>"" Then
+			GetDefaultTemplateName=TemplateName
+		Else
+			If IsPage=True Then
+				GetDefaultTemplateName="PAGE"
+			Else
+				If Categorys(CateID).LogTemplate<>"" Then
+					GetDefaultTemplateName=Categorys(CateID).LogTemplate
+				Else
+					GetDefaultTemplateName="SINGLE"
+				End If
+			End If
+		End If
+	End Function
 
 	Private Ffullregex
 	Public Property Let FullRegex(s)
@@ -683,7 +723,16 @@ Class TArticle
 		'If Len(Intro)=0 Then Intro=Left(Content,ZC_TB_EXCERPT_MAX) & "..."
 
 		TemplateName=UCase(FilterSQL(TemplateName))
-		If TemplateName="SINGLE" Then TemplateName=""
+
+		If IsPage=False Then
+			If Categorys(CateID).LogTemplate<>"" Then
+				If TemplateName=Categorys(CateID).LogTemplate Then TemplateName=""
+			Else
+				If TemplateName="SINGLE" Then TemplateName=""
+			End If
+		Else
+			If TemplateName="PAGE" Then TemplateName=""
+		End If
 
 		If ID=0 Then
 			objConn.Execute("INSERT INTO [blog_Article]([log_CateID],[log_AuthorID],[log_Level],[log_Title],[log_Intro],[log_Content],[log_PostTime],[log_IP],[log_Tag],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_ViewNums],[log_Type],[log_Meta]) VALUES ("&CateID&","&AuthorID&","&Level&",'"&Title&"','"&Intro&"','"&Content&"','"&PostTime&"','"&IP&"','"&Tag&"','"&Alias&"',"&CInt(Istop)&",'"&TemplateName&"','"&FullUrl&"',0,"&CInt(FType)&",'"&MetaString&"')")
@@ -1612,8 +1661,8 @@ Class TArticleList
 		End If
 
 		Template = Ftemplate
-
 	End Property
+
 
 	Private Ffullregex
 	Public Property Let FullRegex(s)
@@ -1847,16 +1896,31 @@ Class TArticleList
 
 
 		ReDim aryArticleList(-1)
-		For i=0 To dd.Count-1
-			j=dd.Keys
-			ReDim Preserve aryArticleList(i)
-			Set objArticle=dd.Item(j(i))
-			objArticle.html=html
-			If objArticle.Export(intType)= True Then
-				aryArticleList(i)=objArticle.subhtml
-			End If
-			subhtml_TemplateName=objArticle.subhtml_TemplateName
-		Next
+		If dd.Count>0 THen
+			For i=0 To dd.Count-1
+				j=dd.Keys
+				ReDim Preserve aryArticleList(i)
+				Set objArticle=dd.Item(j(i))
+				objArticle.html=html
+				If objArticle.Export(intType)= True Then
+					aryArticleList(i)=objArticle.subhtml
+				End If
+				subhtml_TemplateName=objArticle.subhtml_TemplateName
+			Next
+		Else
+			Dim RE ,Match,Matches
+			Set RE = New RegExp 
+				RE.Pattern = "\<\#template\:(article\-(multi|single|page)([\-a-z]*))\#\>"
+				RE.IgnoreCase = True 
+				RE.Global = True 
+				Set Matches = RE.Execute(html) 
+				For Each Match in Matches
+					If IsEmpty(subhtml_TemplateName) Then subhtml_TemplateName="template:"&Match.SubMatches(0)&""
+					Exit For
+				Next
+				Set Matches = Nothing
+			Set RE = Nothing
+		End If
 		subhtml=Join(aryArticleList)
 
 
@@ -2237,6 +2301,16 @@ Class TUser
 			Template = Ftemplate
 		End If
 	End Property
+
+
+	Public Function GetDefaultTemplateName
+		If TemplateName<>"" Then
+			GetDefaultTemplateName=TemplateName
+		Else
+			GetDefaultTemplateName="CATALOG"
+		End If
+	End Function
+
 
 	Public Property Get FullPath
 		FullPath=ParseCustomDirectoryForPath(FullRegex,ZC_STATIC_DIRECTORY,"","","","","",ID,StaticName)
@@ -3693,6 +3767,16 @@ Class TTag
 			Template = Ftemplate
 		End If
 	End Property
+
+
+	Public Function GetDefaultTemplateName
+		If TemplateName<>"" Then
+			GetDefaultTemplateName=TemplateName
+		Else
+			GetDefaultTemplateName="CATALOG"
+		End If
+	End Function
+
 
 	Public Property Get FullPath
 		FullPath=ParseCustomDirectoryForPath(FullRegex,ZC_STATIC_DIRECTORY,"","","","","",ID,StaticName)

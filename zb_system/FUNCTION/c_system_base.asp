@@ -268,7 +268,7 @@ Function GetCategory()
 	objRS.Close
 	Set objRS=Nothing
 
-	Set objRS=objConn.Execute("SELECT [cate_ID],[cate_Name],[cate_Intro],[cate_Order],[cate_Count],[cate_ParentID],[cate_URL],[cate_Template],[cate_FullUrl],[cate_Meta] FROM [blog_Category] ORDER BY [cate_ID] ASC")
+	Set objRS=objConn.Execute("SELECT [cate_ID],[cate_Name],[cate_Intro],[cate_Order],[cate_Count],[cate_ParentID],[cate_URL],[cate_Template],[cate_LogTemplate],[cate_FullUrl],[cate_Meta] FROM [blog_Category] ORDER BY [cate_ID] ASC")
 	If (Not objRS.bof) And (Not objRS.eof) Then
 
 		aryAllData=objRS.GetRows(objRS.RecordCount)
@@ -279,7 +279,7 @@ Function GetCategory()
 		l=UBound(aryAllData,2)
 		For i=0 To l
 			Set Categorys(aryAllData(0,i))=New TCategory
-			Categorys(aryAllData(0,i)).LoadInfoByArray(Array(aryAllData(0,i),aryAllData(1,i),aryAllData(2,i),aryAllData(3,i),aryAllData(4,i),aryAllData(5,i),aryAllData(6,i),aryAllData(7,i),aryAllData(8,i),aryAllData(9,i)))
+			Categorys(aryAllData(0,i)).LoadInfoByArray(Array(aryAllData(0,i),aryAllData(1,i),aryAllData(2,i),aryAllData(3,i),aryAllData(4,i),aryAllData(5,i),aryAllData(6,i),aryAllData(7,i),aryAllData(8,i),aryAllData(9,i),aryAllData(10,i)))
 		Next
 	End If
 
@@ -1659,6 +1659,8 @@ End Function
 '*********************************************************
 
 
+
+
 '*********************************************************
 ' 目的：    设置提示自定义标志
 '*********************************************************
@@ -1672,6 +1674,7 @@ Function SetBlogHint_Custom(strInfo)
 
 End Function
 '*********************************************************
+
 
 
 
@@ -1768,6 +1771,7 @@ End Function
 
 
 
+
 '*********************************************************
 ' 目的：    解析 REGEX For Path
 '*********************************************************
@@ -1780,6 +1784,8 @@ End Function
 '*********************************************************
 
 
+
+
 '*********************************************************
 ' 目的：    解析 REGEX For Url
 '*********************************************************
@@ -1790,6 +1796,7 @@ Function ParseCustomDirectoryForUrl(strRegex,strPost,strCategory,strUser,strYear
 	ParseCustomDirectoryForUrl=Replace(s,"\","/")
 End Function
 '*********************************************************
+
 
 
 
@@ -2130,6 +2137,8 @@ End Function
 '*********************************************************
 
 
+
+
 '*********************************************************
 ' 目的：GetSettingFormName
 '*********************************************************
@@ -2160,6 +2169,7 @@ Function GetSettingFormNameWithDefault(s,d)
 	Err.Clear
 End Function
 '*********************************************************
+
 
 
 
@@ -2213,8 +2223,6 @@ Function MakeBlogReBuild_Core()
 
 	BlogReBuild_Comments
 
-	BlogReBuild_TrackBacks
-
 	BlogReBuild_Catalogs
 
 	BlogReBuild_Calendar
@@ -2223,14 +2231,11 @@ Function MakeBlogReBuild_Core()
 
 	BlogReBuild_Functions
 
-	BlogReBuild_Default
-
 	BuildAllCache
 
 	ExportRSS
 
-	Call ClearGlobeCache()
-	Call LoadGlobeCache()
+	BlogReBuild_Default
 
 	Dim bolOperateSuccess
 
@@ -2303,7 +2308,7 @@ Function BlogReBuild_Calendar()
 
 	Call GetFunction()
 	Functions(FunctionMetas.GetValue("calendar")).Content=strCalendar
-
+	Functions(FunctionMetas.GetValue("calendar")).Post()
 	BlogReBuild_Calendar=True
 
 End Function
@@ -2383,6 +2388,7 @@ Function BlogReBuild_Archives()
 
 
 	Functions(FunctionMetas.GetValue("archives")).Content=strArchives
+	Functions(FunctionMetas.GetValue("archives")).Post()
 
 	BlogReBuild_Archives=True
 
@@ -2446,6 +2452,7 @@ Function BlogReBuild_Catalogs()
 
 	Call GetFunction()
 	Functions(FunctionMetas.GetValue("catalog")).Content=strCatalog
+	Functions(FunctionMetas.GetValue("catalog")).Post()
 
 	BlogReBuild_Catalogs=True
 
@@ -2465,47 +2472,6 @@ Function BlogReBuild_Categorys()
 	For Each sAction_Plugin_BlogReBuild_Categorys_Begin in Action_Plugin_BlogReBuild_Categorys_Begin
 		If Not IsEmpty(sAction_Plugin_BlogReBuild_Categorys_Begin) Then Call Execute(sAction_Plugin_BlogReBuild_Categorys_Begin)
 		If bAction_Plugin_BlogReBuild_Categorys_Begin=True Then Exit Function
-	Next
-
-	Dim objRS
-	Dim objStream
-	Dim objArticle
-	Dim i,j
-
-	j=Functions(FunctionMetas.GetValue("previous")).MaxLi
-	If j=0 Then j=10
-
-
-	'Categorys
-	Dim strCategory
-
-	Dim Category
-	For Each Category in Categorys
-
-		If IsObject(Category) Then
-
-			Set objRS=objConn.Execute("SELECT [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_Type],[log_Meta] FROM [blog_Article] WHERE ([log_Type]=0) And ([log_ID]>0) AND ([log_Level]>1) AND ([log_CateID]="&Category.ID&") ORDER BY [log_PostTime] DESC")
-
-			If (Not objRS.bof) And (Not objRS.eof) Then
-				For i=1 to j
-					Set objArticle=New TArticle
-					If objArticle.LoadInfoByArray(Array(objRS(0),objRS(1),objRS(2),objRS(3),objRS(4),objRS(5),objRS(6),objRS(7),objRS(8),objRS(9),objRS(10),objRS(11),objRS(12),objRS(13),objRS(14),objRS(15),objRS(16),objRS(17))) Then
-						strCategory=strCategory & "<li><a href="""& objArticle.HtmlUrl & """>" & objArticle.Title & "</a></li>"
-					End If
-					Set objArticle=Nothing
-					objRS.MoveNext
-					If objRS.eof Then Exit For
-				Next
-			End If
-			objRS.close
-
-			strCategory=TransferHTML(strCategory,"[no-asp]")
-
-			Call SaveToFile(BlogPath & "zb_users/include/category_"&Category.ID&".asp",strCategory,"utf-8",True)
-
-			strCategory=""
-
-		End If
 	Next
 
 	BlogReBuild_Categorys=True
@@ -2548,6 +2514,7 @@ Function BlogReBuild_Authors()
 
 	Call GetFunction()
 	Functions(FunctionMetas.GetValue("authors")).Content=strAuthor
+	Functions(FunctionMetas.GetValue("authors")).Post()
 
 	BlogReBuild_Authors=True
 
@@ -2619,6 +2586,7 @@ Function BlogReBuild_Tags()
 
 
 	Functions(FunctionMetas.GetValue("tags")).Content=strTag
+	Functions(FunctionMetas.GetValue("tags")).Post()
 
 	BlogReBuild_Tags=True
 
@@ -2671,7 +2639,7 @@ Function BlogReBuild_Previous()
 	strPrevious=TransferHTML(strPrevious,"[no-asp]")
 
 	Functions(FunctionMetas.GetValue("previous")).Content=strPrevious
-
+	Functions(FunctionMetas.GetValue("previous")).Post()
 	Functions(FunctionMetas.GetValue("previous")).SaveFile
 
 	BlogReBuild_Previous=True
@@ -2726,7 +2694,7 @@ Function BlogReBuild_Comments()
 	strComments=TransferHTML(strComments,"[no-asp]")
 
 	Functions(FunctionMetas.GetValue("comments")).Content=strComments
-
+	Functions(FunctionMetas.GetValue("comments")).Post()
 	Functions(FunctionMetas.GetValue("comments")).SaveFile
 
 	BlogReBuild_Comments=True
@@ -2831,6 +2799,7 @@ Function BlogReBuild_Statistics()
 
 	Call GetFunction()
 	Functions(FunctionMetas.GetValue("statistics")).Content=strStatistics
+	Functions(FunctionMetas.GetValue("statistics")).Post()
 
 	BlogReBuild_Statistics=True
 
@@ -2852,6 +2821,7 @@ Function BlogReBuild_Functions
 		If bAction_Plugin_BlogReBuild_Functions_Begin=True Then Exit Function
 	Next
 
+	IsRunFunctions=False
 	Call GetFunction()
 
 	Call SaveFunctionType()
@@ -2862,8 +2832,6 @@ Function BlogReBuild_Functions
 		If IsObject(f)=True Then
 			If f.id>0 Then
 				f.SaveFile
-				Call SetTemplateTags("CACHE_INCLUDE_" & UCase(f.FileName),f.Content)
-				Call SetTemplateTags("CACHE_INCLUDE_"& UCase(f.FileName) &"_HTML",f.Content)
 			End If
 		End If 
 	Next
@@ -2872,10 +2840,7 @@ Function BlogReBuild_Functions
 	Dim aryFunctionInOrder
 	aryFunctionInOrder=GetFunctionOrder()
 
-	Application.Lock
 	t=GetTemplate("TEMPLATE_B_FUNCTION")
-	Application.UnLock
-
 
 	For i=1 To 5
 		If IsArray(aryFunctionInOrder) Then
@@ -2893,7 +2858,6 @@ Function BlogReBuild_Functions
 
 End Function
 '*********************************************************
-
 
 
 
@@ -2967,7 +2931,6 @@ Function ExportRSS()
 		.AddChannelAttribute "description",TransferHTML(ZC_BLOG_SUBTITLE,"[html-format]")
 		.AddChannelAttribute "generator","RainbowSoft Studio Z-Blog " & ZC_BLOG_VERSION
 		.AddChannelAttribute "language",ZC_BLOG_LANGUAGE
-		'.AddChannelAttribute "copyright",TransferHTML(ZC_BLOG_COPYRIGHT,"[nohtml][html-format]")
 		.AddChannelAttribute "pubDate",GetTime(Now())
 
 			Dim i
@@ -2994,18 +2957,13 @@ Function ExportRSS()
 
 	End With
 
-	'Rss2Export.Execute
-
-	Rss2Export.SaveToFile(BlogPath & "/rss.xml")
+	Rss2Export.SaveToFile(BlogPath & "rss.xml")
 
 	Set Rss2Export = Nothing
 
 	objRS.close
 	Set objRS=Nothing
 	ExportRSS=True
-
-	'Response.ContentType = "text/html"
-	'Response.Clear
 
 End Function
 '*********************************************************
@@ -3076,6 +3034,8 @@ Function BuildArticle(intID,bolBuildNavigate,bolBuildCategory)
 
 End Function
 '*********************************************************
+
+
 
 
 '*********************************************************
@@ -3531,7 +3491,6 @@ End Function
 
 
 
-
 '*********************************************************
 ' 目的：    日期类的简化函数 Regex
 '*********************************************************
@@ -3541,7 +3500,6 @@ Function RegexbyDate(y,m,d)
 
 End Function
 '*********************************************************
-
 '*********************************************************
 ' 目的：    日期类的简化函数 FullPath
 '*********************************************************
@@ -3549,7 +3507,6 @@ Function FullPath(y,m,d)
 	FullPath=ParseCustomDirectoryForPath(FullRegex,ZC_STATIC_DIRECTORY,"","",y,m,d,"","")
 End Function
 '*********************************************************
-
 '*********************************************************
 ' 目的：    日期类的简化函数 Url
 '*********************************************************
@@ -3559,7 +3516,6 @@ Function UrlbyDate(y,m,d)
 
 End Function
 '*********************************************************
-
 '*********************************************************
 ' 目的：    日期类的简化函数 Url auto
 '*********************************************************
@@ -3607,6 +3563,31 @@ Function GetMetaValueWithForm(obj)
 			Call obj.Meta.SetValue( b,Request.Form(a) )
 		End If
 	Next
+
+End Function
+'*********************************************************
+
+
+
+
+'*********************************************************
+' 目的：  
+'*********************************************************
+Function GetFunctionByFileName(fn)
+
+	Call GetFunction()
+
+	If FunctionMetas.Exists(fn) Then
+		Set GetFunctionByFileName=Functions(FunctionMetas.GetValue(n))
+	Else
+		IsRunFunctions=False
+		Call GetFunction()
+		If FunctionMetas.Exists(fn) Then
+			Set GetFunctionByFileName=Functions(FunctionMetas.GetValue(n))
+		Else
+			Set GetFunctionByFileName=New TFunction
+		End If
+	End If
 
 End Function
 '*********************************************************
