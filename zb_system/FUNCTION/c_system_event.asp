@@ -181,7 +181,7 @@ Function PostArticle()
 	objArticle.Alias=Request.Form("edtAlias")
 	objArticle.Istop=Request.Form("edtIstop")
 	objArticle.TemplateName=Request.Form("edtTemplate")
-	objArticle.FType=Request.Form("edtFType")
+	objArticle.FType=CInt(Request.Form("edtFType"))
 
 	objArticle.Intro=Request.Form("txaIntro")
 
