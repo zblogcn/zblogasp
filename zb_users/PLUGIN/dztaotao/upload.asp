@@ -15,7 +15,7 @@ Server.ScriptTimeOut=5000
 Dim f_Name,f_SaveName,f_Path,f_Size,f_Ext,f_Err,f_Save,f_Time
 dim FileUpload , FormName , rndtime , strUpload
 rndtime = Year(Now())&Month(Now()) 
-CreatDirectoryByCustomDirectory("upload/" & rndtime)	'创建目录
+CreatDirectoryByCustomDirectory("zb_users/plugin/dztaotao/upload/" & rndtime)	'创建目录
 FormName = "Filedata"		'文件域名称
 set FileUpload = New UpLoadClass
 FileUpload.SavePath = "upload/" & rndtime & "/"		'上传文件目录
