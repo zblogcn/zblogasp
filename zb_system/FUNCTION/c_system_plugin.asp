@@ -3949,14 +3949,7 @@ Dim Response_Plugin_UserEdt_SubMenu
 Response_Plugin_UserEdt_SubMenu=""
 
 
-'**************************************************<
-'类型:response
-'名称:Response_Plugin_Edit_HtmlTag
-'参数:无
-'说明:文件编辑页HTML标签
-'**************************************************>
-Dim Response_Plugin_Edit_HtmlTag
-Response_Plugin_Edit_HtmlTag=""
+
 
 
 '**************************************************<
@@ -4410,6 +4403,15 @@ Dim bAction_Plugin_EditComment_Form
 Dim sAction_Plugin_EditComment_Form
 
 
+
+
+Dim Response_Plugin_Admin_Js_Add
+Response_Plugin_Admin_Js_Add=""
+
+
+
+Dim Response_Plugin_Html_Js_Add
+Response_Plugin_Html_Js_Add=""
 
 
 

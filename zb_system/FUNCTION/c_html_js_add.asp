@@ -34,7 +34,6 @@
 $("head").append("<link rel='stylesheet' type='text/css' href='<%=GetCurrentHost()%>/zb_system/admin/ueditor/third-party/SyntaxHighlighter/shCoreDefault.css'/>");
 
 
-
 var str00="<%=GetCurrentHost()%>";
 var str01="<%=ZC_MSG033%>";
 var str02="<%=ZC_MSG034%>";
@@ -50,21 +49,21 @@ var strBatchCount="";
 
 $(document).ready(function(){ 
 
-	try{
+	var objImageValid=$("img[src*='zb_system/function/c_validcode.asp?name=commentvalid']");
+	if(objImageValid.size()>0){
+		objImageValid.css("cursor","pointer");
+		objImageValid.click( function(){objImageValid.attr("src","<%=GetCurrentHost()%>zb_system/function/c_validcode.asp?name=commentvalid"+"&amp;random="+Math.random());});
+	};
 
-		var objImageValid=$("img[src*='zb_system/function/c_validcode.asp?name=commentvalid']");
-		if(objImageValid.size()>0){
-			objImageValid.css("cursor","pointer");
-			objImageValid.click( function(){objImageValid.attr("src","<%=GetCurrentHost()%>zb_system/function/c_validcode.asp?name=commentvalid"+"&amp;random="+Math.random());});
-		};
+	if(!$("li.msgarticle").html()){$("ul.mutuality").hide()}
+	if($("ul.msghead ~ ul.msg").length==0){$("ul.msghead").hide()}
+	$(".post-tags").each(function(){if(!$(this).find(".tags").html()){$(this).hide()}});
 
-		if(!$("li.msgarticle").html()){$("ul.mutuality").hide()}
-		if($("ul.msghead ~ ul.msg").length==0){$("ul.msghead").hide()}
-		$(".post-tags").each(function(){if(!$(this).find(".tags").html()){$(this).hide()}});
+	$.getScript("<%=GetCurrentHost()%>zb_system/function/c_html_js.asp?act=batch"+unescape("%26")+"view=" + escape(strBatchView)+unescape("%26")+"inculde=" + escape(strBatchInculde)+unescape("%26")+"count=" + escape(strBatchCount));
 
-		$.getScript("<%=GetCurrentHost()%>zb_system/function/c_html_js.asp?act=batch"+unescape("%26")+"view=" + escape(strBatchView)+unescape("%26")+"inculde=" + escape(strBatchInculde)+unescape("%26")+"count=" + escape(strBatchCount));
-		 //为了在编辑器之外能展示高亮代码
+		//为了在编辑器之外能展示高亮代码
     	 SyntaxHighlighter.highlight();
+
     	 //调整左右对齐
     	 for(var i=0,di;di=SyntaxHighlighter.highlightContainers[i++];){
          	   var tds = di.getElementsByTagName('td');
@@ -73,6 +72,10 @@ $(document).ready(function(){
                 	ri.style.height = li.style.height = ri.offsetHeight + 'px';
             	}
     	 }
-	}catch(e){};
+
+	var s=document.location;
+	$("#divNavBar").find("a").each(function(){if($(this).attr("href")==s.toString().split("#")[0]){$(this).addClass("on");return false;}});
 
 });
+
+<%=Response_Plugin_Html_Js_Add%>
