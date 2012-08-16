@@ -63,7 +63,7 @@ EnD iF
 <tr><td><p  align='left'><b>·启用Gravatar头像</b></p></td><td><p><input id="Gravatar_Enable" name="Gravatar_Enable" style="" type="text" value="<%=Gravatar_Enable%>" class="checkbox"/></p></td></tr>
 
 
-<tr><td width='30%'><p align='left'><b>·首页的URL配置</b><br/><span class='note'>一般无需改动</span></p></td><td><p><input id='Gravatar_EmailMD5' name='Gravatar_EmailMD5' style='width:90%;' type='text' value='<%=Gravatar_EmailMD5%>' /></p></td></tr>
+<tr><td width='30%'><p align='left'><b>·Gravatar URL</b><br/><span class='note'>推荐设置一般无需改动</span></p></td><td><p><input id='Gravatar_EmailMD5' name='Gravatar_EmailMD5' style='width:90%;' type='text' value='<%=Gravatar_EmailMD5%>' /></p></td></tr>
 <tr><td width='30%'><p align='left'><b>·缓存注册用户Gravatar头像</b><br/><span class='note'>如果用户数多会比较耗费时间和占用AVATAR目录空间</span></p></td><td><p><input id="Gravatar_Refresh" name="Gravatar_Refresh" style="" type="text" value="<%=Gravatar_Refresh%>" class="checkbox"/></p></td></tr>
 </table>
 

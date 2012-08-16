@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<plugin>
+<id>CustomMeta</id>
+<name>CustomMeta自定义数据字段</name>
+<url>http://www.rainbowsoft.org/</url>
+<note>为文章,分类等添加自定义数据字段</note>
+<type>inline</type>
+<path>main.asp</path>
+<include>include.asp</include>
+<level>1</level>
+<author>
+	<name>zx.asd</name>
+	<url>http://www.zdevo.com/</url>
+	<email>rainbowsoft@163.com</email>
+</author>
+<version>1.0</version>
+<adapted>Z-Blog 2.0</adapted>
+<pubdate>2012-8-16</pubdate>
+<modified>2012-8-86</modified>
+</plugin>
