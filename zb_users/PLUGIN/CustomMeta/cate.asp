@@ -46,10 +46,10 @@ Dim m,i
 Set m=New TMeta
 m.LoadString=c.Read("CateMeta")
 For i=LBound(m.Names)+1 To UBound(m.Names)
-Response.Write "<tr><td><input style='margin:10px 10px;width:80%;' name='MetaName'  type='text' value='"&m.Names(i)&"' /></td><td><input style='margin:10px 10px;width:80%;' name='MetaNote'  type='text' value='"&m.Values(i)&"' /></td><td width='10%'></td></tr>"
+Response.Write "<tr><td><input style='margin:10px 10px;width:80%;' name='MetaName'  type='text' value='"&m.Names(i)&"' /></td><td><input style='margin:10px 10px;width:80%;' name='MetaNote'  type='text' value='"&m.GetValue(m.Names(i))&"' /></td><td align='center'><input name='' type='button' class='button' onclick='$(this).parent().parent().remove();return false;' value='删除'/></td></tr>"
 Next
 %>
-<tr><td><input id="newMetaName" style='margin:10px 10px;width:80%;' name="MetaName"  type="text" value="" /><span class="star">(*)</span></td><td><input id="newMetaNote" style='margin:10px 10px;width:80%;' name="MetaNote"  type="text" value="" /></td><td width='10%'><input name="" type="submit" class="button" value="新建"/></td></tr>
+<tr><td><input id="newMetaName" style='margin:10px 10px;width:80%;' name="MetaName"  type="text" value="" /><span class="star">(*)</span></td><td><input id="newMetaNote" style='margin:10px 10px;width:80%;' name="MetaNote"  type="text" value="" /></td><td width='10%' align='center'><input name="" type="submit" class="button" value="新建"/></td></tr>
 </table>
 <p><span class="note">自定义数据段名称必须是小写英文字母,数字和下划线_的组合</span></p>
 <input name="" type="submit" class="button" value="保存"/>

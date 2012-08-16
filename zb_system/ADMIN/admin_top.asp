@@ -24,18 +24,6 @@ Call Add_Response_Plugin("Response_Plugin_Admin_Top",MakeTopMenu(GetRights("vrs"
     <div class="content">
 <%
 If IsObject(Session("batch"))=True Then
-%>
-<script type="text/javascript">
-<!--
-function Batch2Tip(s){$("#batch p").html(s)}
-function BatchContinue(){$("#batch p").before("<iframe style='width:20px;height:20px;' frameborder='0' scrolling='no' src='<%=GetCurrentHost%>zb_system/cmd.asp?act=batch'></iframe>");$("#batch img").remove();}
-function BatchBegin(){};
-function BatchEnd(){};
-function BatchNotify(){notify($("#batch p").html())}
--->
-</script>
-<%
-
 If Session("batch").Count>0 Then
 	If Session("batch").Count= Session("batchorder") Then
 		'
@@ -48,10 +36,6 @@ If Session("batch").Count>0 Then
 	Else
 %>
 <div id="batch"><img src="<%=GetCurrentHost%>zb_system/image/admin/warning.png" width="20"/><p><%=ZC_MSG273%></p></div>
-<script type="text/javascript">
-$("#batch a").bind("click", function(){ BatchContinue();$("#batch p").html("<%=ZC_MSG109%>...");});
-</script>
-
 <%
 	End If
 Else
