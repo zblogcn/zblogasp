@@ -4361,9 +4361,59 @@ Dim sAction_Plugin_Edit_Form
 
 
 
+'**************************************************<
+'类型:action
+'名称:Action_Plugin_EditUser_Form
+'参数:无
+'说明:c_system_base.asp
+'**************************************************>
+Dim Action_Plugin_EditUser_Form()
+ReDim Action_Plugin_EditUser_Form(0)
+Dim bAction_Plugin_EditUser_Form
+Dim sAction_Plugin_EditUser_Form
 
 
-'以下为uEditor的所有接口：
+
+'**************************************************<
+'类型:action
+'名称:Action_Plugin_EditCatalog_Form
+'参数:无
+'说明:c_system_base.asp
+'**************************************************>
+Dim Action_Plugin_EditCatalog_Form()
+ReDim Action_Plugin_EditCatalog_Form(0)
+Dim bAction_Plugin_EditCatalog_Form
+Dim sAction_Plugin_EditCatalog_Form
+
+
+'**************************************************<
+'类型:action
+'名称:Action_Plugin_EditTag_Form
+'参数:无
+'说明:c_system_base.asp
+'**************************************************>
+Dim Action_Plugin_EditTag_Form()
+ReDim Action_Plugin_EditTag_Form(0)
+Dim bAction_Plugin_EditTag_Form
+Dim sAction_Plugin_EditTag_Form
+
+
+'**************************************************<
+'类型:action
+'名称:Action_Plugin_EditComment_Form
+'参数:无
+'说明:c_system_base.asp
+'**************************************************>
+Dim Action_Plugin_EditComment_Form()
+ReDim Action_Plugin_EditComment_Form(0)
+Dim bAction_Plugin_EditComment_Form
+Dim sAction_Plugin_EditComment_Form
+
+
+
+
+
+'以下为uEditCommentor的所有接口：
 Dim Action_Plugin_UEditor_FileUpload_Begin()
 ReDim Action_Plugin_UEditor_FileUpload_Begin(0)
 Dim bAction_Plugin_UEditor_FileUpload_Begin

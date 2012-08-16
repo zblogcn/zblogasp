@@ -1098,7 +1098,7 @@ Function ExportSiteInfo()
 	objRS.ActiveConnection=objConn
 	objRS.Source=""
 
-	Dim allArticle,allCommNums,allTrackBackNums,allViewNums,allUserNums,allCateNums,allTagsNums
+	Dim allArticle,allCommNums,allTrackBackNums,allViewNums,allUserNums,allCateNums,allTagsNums,allPage
 
 	Dim User,i
 	For Each User in Users
@@ -1120,10 +1120,11 @@ Function ExportSiteInfo()
 	objRS.LockType = adLockReadOnly
 	objRS.ActiveConnection=objConn
 	objRS.Source=""
-	objRS.Open("SELECT COUNT([log_ID])AS allArticle,SUM([log_CommNums]) AS allCommNums,SUM([log_ViewNums]) AS allViewNums,SUM([log_TrackBackNums]) AS allTrackBackNums FROM [blog_Article]")
+	objRS.Open("SELECT COUNT([log_ID])AS allArticle,SUM([log_CommNums]) AS allCommNums,SUM([log_ViewNums]) AS allViewNums,SUM([log_TrackBackNums]) AS allTrackBackNums FROM [blog_Article] WHERE [log_Type]=0")
 	If (Not objRS.bof) And (Not objRS.eof) Then
 		allArticle=objRS("allArticle")
-		allCommNums=objRS("allCommNums")
+		allPage=objConn.Execute("SELECT COUNT([log_ID]) FROM [blog_Article] WHERE [log_Type]=1")(0)
+		allCommNums=objConn.Execute("SELECT SUM([log_CommNums]) FROM [blog_Article]")(0)
 		allTrackBackNums=objRS("allTrackBackNums")
 		allViewNums=objRS("allViewNums")
 	End If
@@ -1178,7 +1179,7 @@ Function ExportSiteInfo()
 	</tr>
 	<tr>
 	<td width="20%"><%=ZC_MSG125%></td>
-	<td width="30%"><%=allTrackBackNums%></td>
+	<td width="30%"><%=allPage%></td>
 	<td width="20%"><%=ZC_MSG129%></td>
 	<td width="30%"><%=allViewNums%></td>
 	</tr>

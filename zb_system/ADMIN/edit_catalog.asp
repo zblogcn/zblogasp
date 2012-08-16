@@ -43,14 +43,21 @@ If Not CheckRights("CategoryEdt") Then Call ShowError(6)
 Dim EditCategory
 Set EditCategory=New TCategory
 
+EditCategory.Name=""
+
 If Not IsEmpty(Request.QueryString("id")) Then
 
 	If EditCategory.LoadInfoByID(Request.QueryString("id"))=False Then Call ShowError(12)
 
 End If
 
-
 BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG066
+
+'为1号输出输口准备的Action接口
+'plugin node
+For Each sAction_Plugin_EditCatalog_Form in Action_Plugin_EditCatalog_Form
+	If Not IsEmpty(sAction_Plugin_EditCatalog_Form) Then Call Execute(sAction_Plugin_EditCatalog_Form)
+Next
 
 %>
 <!--#include file="admin_header.asp"-->

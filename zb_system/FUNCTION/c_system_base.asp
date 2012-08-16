@@ -404,7 +404,7 @@ End Function
 
 
 '*********************************************************
-' 目的：    Tags读取
+' 目的：    Configs读取
 '*********************************************************
 Dim IsRunConfigs
 IsRunConfigs=False
@@ -2816,18 +2816,16 @@ Function BlogReBuild_Statistics()
 	objRS.Source=""
 
 
-	objRS.Open("SELECT COUNT([log_ID])AS allArticle,SUM([log_CommNums]) AS allCommNums,SUM([log_ViewNums]) AS allViewNums,SUM([log_TrackBackNums]) AS allTrackBackNums FROM [blog_Article]")
+	objRS.Open("SELECT COUNT([log_ID])AS allArticle,SUM([log_CommNums]) AS allCommNums,SUM([log_ViewNums]) AS allViewNums,SUM([log_TrackBackNums]) AS allTrackBackNums FROM [blog_Article] WHERE [log_Type]=0")
 	If (Not objRS.bof) And (Not objRS.eof) Then
 		strStatistics=strStatistics & "<li>"& ZC_MSG082 &":" & objRS("allArticle") & "</li>"
-		strStatistics=strStatistics & "<li>"& ZC_MSG124 &":" & objRS("allCommNums") & "</li>"
-		strStatistics=strStatistics & "<li>"& ZC_MSG125 &":" & objRS("allTrackBackNums") & "</li>"
+		strStatistics=strStatistics & "<li>"& ZC_MSG124 &":" & objConn.Execute("SELECT SUM([log_CommNums]) FROM [blog_Article]")(0) & "</li>"
 		strStatistics=strStatistics & "<li>"& ZC_MSG129 &":" & objRS("allViewNums") & "</li>"
 	End If
 	objRS.Close
 
-
 	strStatistics=strStatistics & "<li>"& ZC_MSG204 &":" & GetNameFormTheme(ZC_BLOG_THEME) & "</li>"
-	strStatistics=strStatistics & "<li>"& ZC_MSG083 &":" & ZC_BLOG_CSS & "</li>"
+	'strStatistics=strStatistics & "<li>"& ZC_MSG083 &":" & ZC_BLOG_CSS & "</li>"
 
 	Set objRS=Nothing
 
@@ -3607,7 +3605,7 @@ Function GetMetaValueWithForm(obj)
 
 	For Each a In Request.Form 
 		If Left(a,5)="meta_" Then
-			b=Mid(a,5,Len(a))
+			b=Mid(a,6,Len(a))
 			Call obj.Meta.SetValue( b,Request.Form(a) )
 		End If
 	Next

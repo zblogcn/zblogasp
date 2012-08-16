@@ -59,9 +59,13 @@ Else
 
 End If
 
-
-
 BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG070
+
+'为1号输出输口准备的Action接口
+'plugin node
+For Each sAction_Plugin_EditUser_Form in Action_Plugin_EditUser_Form
+	If Not IsEmpty(sAction_Plugin_EditUser_Form) Then Call Execute(sAction_Plugin_EditUser_Form)
+Next
 
 %>
 <!--#include file="admin_header.asp"-->

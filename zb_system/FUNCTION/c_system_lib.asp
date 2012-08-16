@@ -32,6 +32,7 @@ Class TCategory
 	Public FullUrl
 	Public Meta
 	Public TemplateName
+	Public ArticleTemplate
 
 	Public Property Get MetaString
 		MetaString=Meta.SaveString
@@ -152,7 +153,7 @@ Class TCategory
 				End If
 			End If
 
-			objConn.Execute("INSERT INTO [blog_Category]([cate_Name],[cate_Order],[cate_Intro],[cate_ParentID],[cate_Url],[cate_FullUrl],[cate_Template],[cate_Meta]) VALUES ('"&Name&"',"&Order&",'"&Intro&"',"&ParentID&",'"&Alias&"','"&TemplateName&"','"&FullUrl&"','"&MetaString&"')")
+			objConn.Execute("INSERT INTO [blog_Category]([cate_Name],[cate_Order],[cate_Intro],[cate_ParentID],[cate_Url],[cate_FullUrl],[cate_Template],[cate_Meta]) VALUES ('"&Name&"',"&Order&",'"&Intro&"',"&ParentID&",'"&Alias&"','"&FullUrl&"','"&TemplateName&"','"&MetaString&"')")
 
 			Dim objRS
 			Set objRS=objConn.Execute("SELECT MAX([cate_ID]) FROM [blog_Category]")
@@ -275,6 +276,7 @@ Class TCategory
 	Private Sub Class_Initialize()
 		ID=0
 		Name=ZC_MSG059
+		ArticleTemplate="SINGLE"
 		Set Meta=New TMeta
 	End Sub
 
