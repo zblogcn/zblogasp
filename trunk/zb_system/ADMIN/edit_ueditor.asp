@@ -124,7 +124,7 @@ Next
 	<link rel="stylesheet" type="text/css" href="ueditor/themes/default/ueditor.css"/>
 	<script type="text/javascript" src="../script/jquery.tagto.js"></script>
 	<script type="text/javascript" charset="utf-8" src="ueditor/editor_config.asp"></script>
-	<script type="text/javascript" charset="utf-8" src="ueditor/editor_all_min.js"></script>
+	<script type="text/javascript" charset="utf-8" src="ueditor/editor_all.js"></script>
 	<script type="text/javascript">
 	var loaded=false;
 	var editor = new baidu.editor.ui.Editor();
