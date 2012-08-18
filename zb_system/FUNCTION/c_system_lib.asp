@@ -171,7 +171,7 @@ Class TCategory
 				End If
 			End If
 
-			objConn.Execute("INSERT INTO [blog_Category]([cate_Name],[cate_Order],[cate_Intro],[cate_ParentID],[cate_Url],[cate_Template],[cate_LogTemplate],[cate_FullUrl],[cate_Meta]) VALUES ('"&Name&"',"&Order&",'"&Intro&"',"&ParentID&",'"&Alias&"','"&TemplateName&"',"&LogTemplate&",'"&FullUrl&"','"&MetaString&"')")
+			objConn.Execute("INSERT INTO [blog_Category]([cate_Name],[cate_Order],[cate_Intro],[cate_ParentID],[cate_Url],[cate_Template],[cate_LogTemplate],[cate_FullUrl],[cate_Meta]) VALUES ('"&Name&"',"&Order&",'"&Intro&"',"&ParentID&",'"&Alias&"','"&TemplateName&"','"&LogTemplate&"','"&FullUrl&"','"&MetaString&"')")
 
 			Dim objRS
 			Set objRS=objConn.Execute("SELECT MAX([cate_ID]) FROM [blog_Category]")
