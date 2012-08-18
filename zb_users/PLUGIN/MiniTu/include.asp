@@ -125,7 +125,7 @@ End Function
 '返回: 返回含有图片的链接.
 '=======================================================
 Function MiniTu_Build(ByVal strTitle,ByVal strContent,ByVal strHref)
-
+	MiniTu_Initialize
 	Dim strUrl
 
 	strUrl=MiniTu_OriginalURL(strContent)
@@ -145,7 +145,7 @@ End Function
 '=======================================================
 Function MiniTu_Del(byval ID,byval AuthorID,byval FileSize,byval FileName,byval PostTime,byval DirByTime)
 	'On Error Resume Next
-
+	MiniTu_Initialize
 	Call CheckParameter(ID,"int",0)
 
 	Dim objRS,strFilePath
@@ -200,7 +200,7 @@ End Function
 '安装插件
 '=======================================================
 Function MiniTu_Search()
-
+	MiniTu_Initialize
 	'检查权限
 	If Not CheckRights("Search") Then Call ShowError(6)
 
