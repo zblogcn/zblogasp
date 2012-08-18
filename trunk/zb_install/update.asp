@@ -110,6 +110,12 @@ Dim objRS,rndPwd,Guid
 				Call UpdateDB("ALTER TABLE [blog_Article] ADD COLUMN [log_Meta] text default """"","[blog_Article].[log_Meta]")
 			End If
 		
+			If Not CheckUpdateDB("[log_Type]","[blog_Article]") Then
+				Call UpdateDB("ALTER TABLE [blog_Article] ADD [log_Type] int default 0","[blog_Article].[log_Type]")
+				Call objConn.Execute("UPDATE [blog_Article] SET [log_Type]=0")
+				Call objConn.Execute("UPDATE [blog_Article] SET [log_Type]=1 WHERE [log_CateID]=0")
+			End If
+			
 			If Not CheckUpdateDB("[cate_Meta]","[blog_Category]") Then
 				objconn.execute("ALTER TABLE [blog_Category] ADD COLUMN [cate_Temp] VARCHAR(255) default """"")
 				Call UpdateDB("ALTER TABLE [blog_Category] ADD COLUMN [cate_URL] VARCHAR(255) default """"","[blog_Category].[cate_URL]")
@@ -162,6 +168,11 @@ Dim objRS,rndPwd,Guid
 			If Not CheckUpdateDB("[conf_Name]","[blog_Config]") Then
 				Call UpdateDB("CREATE TABLE [blog_Config] (conf_Name VARCHAR(255) default """" not null,conf_Value text default """")","[blog_Config]")
 				Call UpdateDB("CREATE TABLE [blog_Function] (fn_ID AutoIncrement primary key,fn_Name VARCHAR(50) default """",fn_FileName VARCHAR(50) default """",fn_Order int default 0,fn_Content text default """",fn_IsSystem YESNO DEFAULT 0,fn_SidebarID int default 0,fn_HtmlID VARCHAR(50) default """",fn_Ftype VARCHAR(5) default """",fn_MaxLi int default 0,fn_Meta text default """")","[blog_Function]")
+			End If
+			
+			If Not CheckUpdateDB("[cate_LogTemplate]","[blog_Category]") Then				
+				Call UpdateDB("ALTER TABLE [blog_Category] ADD [cate_LogTemplate] nvarchar(50) default ''","[blog_Category].[cate_LogTemplate]")
+				objConn.execute("UPDATE [blog_Category] SET [cate_LogTemplate]=''")
 			End If
 			ExportOK "升级数据库结构成功！"
 			ExportOK "正在自动跳转到升级数据库内容"
