@@ -802,6 +802,7 @@ Class TArticle
 			If bAction_Plugin_TArticle_Export_CMTandTB_Begin=True Then Exit Function
 		Next
 
+		CommNums=objConn.Execute("SELECT COUNT([log_ID]) FROM [blog_Comment] WHERE [log_ID] =" & ID)(0)
 		If CommNums > 0 Then
 			Dim strC_Count,strC,strT_Count,strT
 
@@ -1189,7 +1190,7 @@ Class TArticle
 				Disable_Export_Tag=True
 				Disable_Export_CMTandTB=False
 				subhtml_TemplateName=""
-				subhtml="template:article_comment"
+				subhtml="<#template:article_comment#>"
 			End If
 		End If
 
@@ -1220,6 +1221,12 @@ Class TArticle
 			Next
 			Set Matches = Nothing
 		Set RE = Nothing
+
+		If subhtml="" Then
+			subhtml=html
+			subhtml_TemplateName="template:article_single"
+			html="<#template:article_single#>"
+		End If
 
 
 		'plugin node
