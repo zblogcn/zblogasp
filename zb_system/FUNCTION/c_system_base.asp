@@ -3542,6 +3542,7 @@ Function RefreshOptionFormFileToDB()
 			Call Execute("Call BlogConfig.Write("""&a&""","&a&")")
 		End If
 	Next
+	If BlogConfig.Exists("ZC_MULTI_DOMAIN_SUPPORT")=False Then Call BlogConfig.Write("ZC_MULTI_DOMAIN_SUPPORT",False)
 	Call BlogConfig.Save()
 	Err.Clear
 End Function

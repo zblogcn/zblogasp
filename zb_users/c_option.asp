@@ -6,16 +6,16 @@
 
 '---------------------------------网站基本设置-----------------------------------
 Dim ZC_BLOG_HOST
-ZC_BLOG_HOST="http://192.168.1.14/"
+ZC_BLOG_HOST="http://localhost/"
 
 Dim ZC_BLOG_TITLE
-ZC_BLOG_TITLE="Your Blog"
+ZC_BLOG_TITLE="My Blog"
 
 Dim ZC_BLOG_SUBTITLE
-ZC_BLOG_SUBTITLE="Good Luck To You!"
+ZC_BLOG_SUBTITLE="Hello, world!"
 
 Dim ZC_BLOG_NAME
-ZC_BLOG_NAME="你的Blog名称"
+ZC_BLOG_NAME="我的Blog"
 
 Dim ZC_BLOG_SUB_NAME
 ZC_BLOG_SUB_NAME="欢迎使用Z-Blog，有问题或意见请到Zblogger.BBS社区反馈，谢谢您的参与使用。"
@@ -27,7 +27,7 @@ Dim ZC_BLOG_CSS
 ZC_BLOG_CSS="default"
 
 Dim ZC_BLOG_COPYRIGHT
-ZC_BLOG_COPYRIGHT="Copyright xxxx-xxxx Your WebSite. Some Rights Reserved."
+ZC_BLOG_COPYRIGHT="Copyright Your WebSite. Some Rights Reserved."
 
 Dim ZC_BLOG_MASTER
 ZC_BLOG_MASTER="zblogger"
@@ -64,7 +64,7 @@ ZC_MSSQL_SERVER="(local)\SQLEXPRESS"
 
 '---------------------------------插件----------------------------------------
 Dim ZC_USING_PLUGIN_LIST
-ZC_USING_PLUGIN_LIST="FileManage"
+ZC_USING_PLUGIN_LIST=""
 
 
 
@@ -86,10 +86,13 @@ ZC_HOST_TIME_ZONE="+0800"
 Dim ZC_UPDATE_INFO_URL
 ZC_UPDATE_INFO_URL="http://update.rainbowsoft.org/info/"
 
+Dim ZC_MULTI_DOMAIN_SUPPORT
+ZC_MULTI_DOMAIN_SUPPORT=False
+
 
 '当前 Z-Blog 版本
 Dim ZC_BLOG_VERSION
-ZC_BLOG_VERSION="2.0 Beta Build 120725"
+ZC_BLOG_VERSION="2.0 Beta Build 120819"
 
 
 
