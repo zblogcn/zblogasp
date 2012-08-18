@@ -143,7 +143,7 @@ Call BlogConfig.Write("ZC_UPLOAD_DIRECTORY","zb_users\upload")
 
 
 '当前 Z-Blog 版本
-Call BlogConfig.Write("ZC_BLOG_VERSION","2.0 Beta Build 120725")
+Call BlogConfig.Write("ZC_BLOG_VERSION","2.0 Beta Build 120819")
 
 
 
