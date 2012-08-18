@@ -1453,12 +1453,18 @@ Class TArticle
 
 		TemplateTagsDic.Item("BlogTitle")=HtmlTitle
 
-		'Dim x,y
-		'x=CStr(FullUrl)
-		'For i=1 To UBound(Split(x,"/"))
-		'	y=y & "../"
-		'Next
-		'TemplateTagsDic.Item("ZC_BLOG_HOST")=y
+
+		If ZC_MULTI_DOMAIN_SUPPORT=True Then
+			Dim x,y
+			x=CStr(Replace(Url,ZC_BLOG_HOST,""))
+			x=Replace(x,"/////","/"):x=Replace(x,"////","/"):x=Replace(x,"///","/"):x=Replace(x,"//","/")
+			For i=1 To UBound(Split(x,"/"))
+				y=y & "../"
+			Next
+			TemplateTagsDic.Item("ZC_BLOG_HOST")=y
+			html=Replace(html,"href=""<#ZC_BLOG_HOST#>""","href="""&ZC_BLOG_HOST&"""")
+			html=Replace(html,"href='<#ZC_BLOG_HOST#>'","href='"&ZC_BLOG_HOST&"'")
+		End If
 
 
 		aryTemplateTagsName=TemplateTagsDic.Keys
@@ -2021,6 +2027,19 @@ Class TArticleList
 		Dim aryTemplateTagsValue
 
 		TemplateTagsDic.Item("BlogTitle")=HtmlTitle
+
+
+		If ZC_MULTI_DOMAIN_SUPPORT=True Then
+			Dim x,y
+			x=CStr(Replace(Url,ZC_BLOG_HOST,""))
+			x=Replace(x,"/////","/"):x=Replace(x,"////","/"):x=Replace(x,"///","/"):x=Replace(x,"//","/")
+			For i=1 To UBound(Split(x,"/"))
+				y=y & "../"
+			Next
+			TemplateTagsDic.Item("ZC_BLOG_HOST")=y
+			html=Replace(html,"href=""<#ZC_BLOG_HOST#>""","href="""&ZC_BLOG_HOST&"""")
+			html=Replace(html,"href='<#ZC_BLOG_HOST#>'","href='"&ZC_BLOG_HOST&"'")
+		End If
 
 		aryTemplateTagsName=TemplateTagsDic.Keys
 		aryTemplateTagsValue=TemplateTagsDic.Items

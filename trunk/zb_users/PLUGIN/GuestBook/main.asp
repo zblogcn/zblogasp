@@ -72,7 +72,7 @@ If Not objRs.Eof Then Call SetBlogHint_Custom("检测到有1.8的留言未升级
 <option value="0">新建页面</option>
 <%
 
-Set objRs=objConn.Execute("SELECT [log_ID],[log_Title] FROM [blog_Article] WHERE [log_Type]=0")
+Set objRs=objConn.Execute("SELECT [log_ID],[log_Title] FROM [blog_Article] WHERE [log_Type]=1")
 Do Until objRs.Eof
 %>
 <option value="<%=objRs("log_ID")%>"<%=IIf(CStr(objConfig.Read("g"))=CStr(objRs("log_ID"))," selected=""selected"" ","")%>><%=objRs("log_Title")%>（ID=<%=objRs("log_ID")%>）</option>
