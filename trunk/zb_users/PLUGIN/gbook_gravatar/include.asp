@@ -26,28 +26,9 @@ Call RegisterPlugin("gbook_gravatar","ActivePlugin_gbook_gravatar")
 
 Function ActivePlugin_gbook_gravatar()
 	Call Add_Action_Plugin("Action_Plugin_CommentPost_Succeed","gbook_gravatar_BlogReBuild_GuestComments()")
-	Call Add_Action_Plugin("Action_Plugin_CommentRev_Succeed","gbook_gravatar_BlogReBuild_GuestComments()")
+	'Call Add_Action_Plugin("Action_Plugin_BlogReBuild_Comments_Begin","gbook_gravatar_BlogReBuild_GuestComments()")
 	
 End Function
-
-
-'设置侧边栏
-function set_Sidebar(tContent)
-Dim t
-	Set t=new Tfunction
-	t.Name="最新留言"
-	t.FileName="gbookgravatar"
-	t.IsSystem=false
-	t.SidebarID=11111
-	t.Order=10
-	t.Content=tContent
-	t.HtmlID="divGbookGravatar"
-	t.Ftype="ul"
-	t.post
-
-end function
-
-
 
 
 '安装插件
@@ -66,7 +47,6 @@ function InstallPlugin_gbook_gravatar()
 		Call SetBlogHint_Custom("您是第一次安装最新留言调用插件，已经为您导入初始配置。")
 	End If
 	
-	set_Sidebar("0")
 
 
 end function
@@ -74,9 +54,6 @@ end function
 
 '卸载插件
 Function UnInstallPlugin_gbook_gravatar()
-'On Error Resume Next
-	Call GetFunction()
-	Functions(FunctionMetas.GetValue("gbookgravatar")).Del
 '更新侧栏
 	BlogReBuild_Functions
 End Function
@@ -131,15 +108,17 @@ end function
 ' 目的：    最新留言列表
 '*********************************************************
 Function gbook_gravatar_BlogReBuild_GuestComments()
-Call gbook_gravatar_Initialize
+	Call gbook_gravatar_Initialize
 	Dim strComments
 	Dim gbook_gravatar_objArticle
 	Dim s
 	Dim i
 	Dim t_mail_e
-	Dim DZ_Rs
+	Dim DZ_Rs,sql1
 	
-	Set DZ_Rs=objConn.Execute("SELECT top "&DZ_COUNT_VALUE&" * FROM [blog_Comment] WHERE [log_ID] in ("&DZ_IDS_VALUE&") ORDER BY [comm_ID] DESC")
+	if DZ_IDS_VALUE <> "0" then sql1= " where log_ID not in("&DZ_IDS_VALUE&")" end if
+	
+	Set DZ_Rs=objConn.Execute("SELECT * FROM [blog_Comment] "&sql1&" ORDER BY [comm_ID] DESC")
 	If (Not DZ_Rs.bof) And (Not DZ_Rs.eof) Then
 	strComments = strComments & "<link rel=""stylesheet"" href=""" & ZC_BLOG_HOST & "zb_users/PLUGIN/gbook_gravatar/css/gbook_gravatar.css"" type=""text/css"" media=""screen"" />" & vbCrLf
 		For i=1 to DZ_COUNT_VALUE
@@ -171,21 +150,16 @@ Call gbook_gravatar_Initialize
 
 	strComments=TransferHTML(strComments,"[no-asp]")
 	
-	Call SaveToFile(BlogPath & "/zb_users/include/dzguestcomments.asp",strComments,"utf-8",True)
+	Call SaveToFile(BlogPath & "/zb_users/include/comments.asp",strComments,"utf-8",True)
 	
-	'更新模块
-	Call GetFunction()
-		'Functions(FunctionMetas.GetValue("gbookgravatar")).SidebarID=11
-		Functions(FunctionMetas.GetValue("gbookgravatar")).Content=strComments
-		Functions(FunctionMetas.GetValue("gbookgravatar")).Save
 	
 	'更新侧栏
 	BlogReBuild_Functions
 	''''
-
 	
 	Call ClearGlobeCache()
 	Call LoadGlobeCache()
+	if Action_Plugin_BlogReBuild_Comments_Begin  then exit function end if
 
 End Function
 '*********************************************************
