@@ -255,14 +255,12 @@ background-image: url();
 	margin-top:0.2em;
 }
 
-
 .tableBorder th{
-text-align:left;
-/*
-background:#999999;
-border-right:1px solid #999999;
-color:white;
-*/
+	text-align:left;
+}
+
+.tableBorder-thcenter th{
+text-align:center;
 }
 
 

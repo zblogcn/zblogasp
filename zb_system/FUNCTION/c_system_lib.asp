@@ -1360,21 +1360,21 @@ Class TArticle
 		aryTemplateTagsName(29)="article/posttime/year"
 		aryTemplateTagsValue(29)=Year(PostTime)
 		aryTemplateTagsName(30)="article/posttime/month"
-		aryTemplateTagsValue(30)=Month(PostTime)
+		aryTemplateTagsValue(30)=Right("0"&Month(PostTime),2)
 		aryTemplateTagsName(31)="article/posttime/monthname"
 		aryTemplateTagsValue(31)=ZVA_Month(Month(PostTime))
 		aryTemplateTagsName(32)="article/posttime/day"
-		aryTemplateTagsValue(32)=Day(PostTime)
+		aryTemplateTagsValue(32)=Right("0"&Day(PostTime),2)
 		aryTemplateTagsName(33)="article/posttime/weekday"
 		aryTemplateTagsValue(33)=Weekday(PostTime)
 		aryTemplateTagsName(34)="article/posttime/weekdayname"
 		aryTemplateTagsValue(34)=ZVA_Week(Weekday(PostTime))
 		aryTemplateTagsName(35)="article/posttime/hour"
-		aryTemplateTagsValue(35)=Hour(PostTime)
+		aryTemplateTagsValue(35)=Right("0"&Hour(PostTime),2)
 		aryTemplateTagsName(36)="article/posttime/minute"
-		aryTemplateTagsValue(36)=Minute(PostTime)
+		aryTemplateTagsValue(36)=Right("0"&Minute(PostTime),2)
 		aryTemplateTagsName(37)="article/posttime/second"
-		aryTemplateTagsValue(37)=Second(PostTime)
+		aryTemplateTagsValue(37)=Right("0"&Second(PostTime),2)
 
 		aryTemplateTagsName(38)="article/commentrss"
 		aryTemplateTagsValue(38)=TransferHTML(WfwCommentRss,"[anti-zc_blog_host]")
