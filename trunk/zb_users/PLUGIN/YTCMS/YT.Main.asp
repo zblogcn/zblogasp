@@ -16,23 +16,23 @@ End Sub
 '卸载插件
 Function UnInstallPlugin_YTCMS()
 	'卸载模型
-'	Dim t,i,j
-'	Set t=new YT_Model_XML
-'		i=t.Length
-'		For j=0 To i-1
-'			Call t.Model("UnInstall",j)
-'		Next
-'	Set t=Nothing
+	Dim t,i,j
+	Set t=new YT_Model_XML
+		i=t.Length
+		For j=0 To i-1
+			Call t.Model("UnInstall",j)
+		Next
+	Set t=Nothing
 End Function
 '安装插件
 Function InstallPlugin_YTCMS()
 	'安装模型
-'	Dim t,i,j
-'	Set t=new YT_Model_XML
-'		i=t.Length
-'		For j=0 To i-1
-'			Call t.Model("Install",j)
-'		Next
-'	Set t=Nothing
+	Dim t,i,j
+	Set t=new YT_Model_XML
+		i=t.Length
+		For j=0 To i-1
+			Call t.Model("Install",j)
+		Next
+	Set t=Nothing
 End Function
 %>
