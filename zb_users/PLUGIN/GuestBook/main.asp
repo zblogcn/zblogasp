@@ -35,7 +35,7 @@ If Request.QueryString("act")="save" Then
 	If a="0" Then
 		Dim objArticle
 		Set objArticle=New TArticle
-		objArticle.CateID=0
+		objArticle.FType=ZC_POST_TYPE_PAGE
 		objArticle.AuthorID=BlogUser.ID
 		objArticle.Content="欢迎给我留言"
 		objArticle.Title="留言本"
