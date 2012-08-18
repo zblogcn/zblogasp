@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Plugin version="1.0">
+	<id>YTCMS</id>
+	<name>YT.CMS</name>
+	<url>HTTP://SHOP.PUGUWANG.COM/</url>
+	<note>小型的内容管理系统,可以更方便的在Z-BLOG平台制作丰富界面</note>
+	<author>
+		<name>瑜廷</name>
+		<url>HTTP://SHOP.PUGUWANG.COM/</url>
+		<email>33195@qq.com</email>
+	</author>
+	<type>inline</type>
+	<path>YT.Panel.asp</path>
+	<include>YT.Main.asp</include>
+	<level>1</level>
+	<adapted>Z-Blog 2.0</adapted>
+	<version>1.3.5</version>
+	<pubdate>2011.03.26</pubdate>
+	<modified>2012.08.08</modified>
+</Plugin>
