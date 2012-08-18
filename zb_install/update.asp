@@ -178,7 +178,7 @@ Dim objRS,rndPwd,Guid
 			ExportOK "升级数据库结构成功！"
 			ExportOK "正在自动跳转到升级数据库内容"
 			%><input type="button" style="width:100%" value="请点击这里升级内容" class="button" onClick="location.href='?step=4&mdb=<%=Server.URLEncode(Request.QueryString("mdb"))%>&mssql=<%=Request.QueryString("mssql")%>'"/>
-<script>location.href='?step=4&mdb=<%=Server.URLEncode(Request.QueryString("mdb"))%>&mssql=<%=Request.QueryString("mssql")'</script>
+<script>location.href='?step=4&mdb=<%=Server.URLEncode(Request.QueryString("mdb"))%>&mssql=<%=Request.QueryString("mssql")%>'</script>
 <%
 		Else
 			ExportError "初始化数据库失败！"
