@@ -127,8 +127,10 @@ End If
 
 objArticle.FType=ZC_POST_TYPE_PAGE
 objArticle.Content=Join(aryArticleList)
-
+objArticle.Content=Replace(objArticle.Content,"<#ZC_BLOG_HOST#>",GetCurrentHost())
 objArticle.Title=ZC_MSG085 + ":" + TransferHTML(strQuestion,"[html-format]")
+objArticle.FullRegex="{%host%}/{%alias%}.html"
+
 
 If objArticle.Export(ZC_DISPLAY_MODE_SYSTEMPAGE) Then
 	objArticle.Build
