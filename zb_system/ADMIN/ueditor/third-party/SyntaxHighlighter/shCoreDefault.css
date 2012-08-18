@@ -13,7 +13,7 @@
  *
  * @license
  * Dual licensed under the MIT and GPL licenses.
- */
+ */ 
 .syntaxhighlighter a,
 .syntaxhighlighter div,
 .syntaxhighlighter code,
@@ -41,6 +41,7 @@
   position: static !important;
   right: auto !important;
   text-align: left !important;
+  text-indent: 0 !important;
   top: auto !important;
   /*vertical-align: baseline !important;*/
   width: auto !important;
