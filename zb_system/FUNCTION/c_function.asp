@@ -208,6 +208,8 @@ Function Search(strText,strQuestion)
 	Dim i
 	Dim j
 
+	If Len(strQuestion)=0 Then Exit Function
+
 	s=strText
 	i=Instr(1,s,strQuestion,vbTextCompare)
 	If i>0 Then
