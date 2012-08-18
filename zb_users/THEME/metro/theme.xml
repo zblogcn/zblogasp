@@ -3,16 +3,16 @@
 <id>metro</id>
 <name>Metro主题</name>
 <url></url>
-<note>Z-Blog的默认主题</note>
+<note>Z-Blog2.0主题</note>
 <author>
-<name>zx.asd</name>
-<url>http://www.zdevo.com/</url>
-<email>null@null.com</email>
+<name>新鲜人</name>
+<url>http://www.htmlit.com.cn/</url>
+<email>htmlit@live.com</email>
 </author>
 <source>
-<name>zx.asd</name>
-<url>http://www.zdevo.com/</url>
-<email>null@null.com</email>
+<name>新鲜人</name>
+<url>http://www.htmlit.com.cn/</url>
+<email>htmlit@live.com</email>
 </source>
 <plugin>
 <name></name>
@@ -24,7 +24,7 @@
 </plugin>
 <adapted>Z-Blog 2.0</adapted>
 <version>1.0</version>
-<pubdate>2012-8-10</pubdate>
-<modified>2012-8-12</modified>
+<pubdate>2012-8-19</pubdate>
+<modified>2012-8-19</modified>
 <description><![CDATA[Z-Blog的默认主题，论坛样式区的所有的样式均适合于该主题模板。]]></description>
 </theme>
