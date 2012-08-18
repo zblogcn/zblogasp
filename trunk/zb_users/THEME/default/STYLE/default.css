@@ -110,14 +110,14 @@ h1,h2,h3,h4,h5,h6{
 	margin:10px 0 0 0;
 	padding:0 0 0 0;
 	text-align:left;
-	float:left;
+	float:right;
 
 }
 
 #divMain{
 	width:720px;
 	margin:10px 0 0 0;
-	padding:0 20px 30px 10px;
+	padding:0 0 30px 10px;
 	text-align:left;
 	float:left;
 
@@ -129,7 +129,6 @@ h1,h2,h3,h4,h5,h6{
 	margin:0 0 0 0;
 	padding:45px 0 0 0;
 	text-align:center;
-    float:left;
     clear:both;
     height:75px;
 }
@@ -289,7 +288,9 @@ h1,h2,h3,h4,h5,h6{
 	display: inline;
 	clear : none;
 }
-
+#divComments li{
+	width:220px;
+}
 
 /*------------------------------文章模块---------------------------*/
 
