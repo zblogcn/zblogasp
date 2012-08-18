@@ -22,7 +22,7 @@ t.FileName="navbar"
 t.IsSystem=True
 t.SidebarID=0
 t.Order=1
-t.Content="<li><a href=""<#ZC_BLOG_HOST#>"">首页</a></li><li><a href=""<#ZC_BLOG_HOST#>tags.asp"">标签</a></li><li><a href=""<#ZC_BLOG_HOST#>guestbook.asp"">留言本</a></li><li><a href=""<#ZC_BLOG_HOST#>zb_system/cmd.asp?act=login"">管理</a></li>"
+t.Content="<li><a href=""<#ZC_BLOG_HOST#>"">首页</a></li><li><a href=""<#ZC_BLOG_HOST#>tags.asp"">标签</a></li><li><a href=""<#ZC_BLOG_HOST#>zb_system/cmd.asp?act=login"">管理</a></li>"
 t.HtmlID="divNavBar"
 t.Ftype="ul"
 t.post
@@ -81,7 +81,7 @@ t.post
 
 
 Set t=new Tfunction
-t.Name="最新评论及回复"
+t.Name="最新留言"
 t.FileName="comments"
 t.IsSystem=True
 t.SidebarID=1

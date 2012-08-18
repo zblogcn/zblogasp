@@ -15,14 +15,14 @@
 Call System_Initialize()
 
 '---------------------------------网站基本设置-----------------------------------
-Call BlogConfig.Write("ZC_BLOG_HOST","http://loacalhost/")
+Call BlogConfig.Write("ZC_BLOG_HOST","http://localhost/")
 Call BlogConfig.Write("ZC_BLOG_TITLE","My Blog")
-Call BlogConfig.Write("ZC_BLOG_SUBTITLE","Good Luck To You!")
+Call BlogConfig.Write("ZC_BLOG_SUBTITLE","Hello, world!")
 Call BlogConfig.Write("ZC_BLOG_NAME","我的Blog")
 Call BlogConfig.Write("ZC_BLOG_SUB_NAME","欢迎使用Z-Blog，有问题或意见请到Zblogger.BBS社区反馈，谢谢您的参与使用。")
 Call BlogConfig.Write("ZC_BLOG_THEME","default")
 Call BlogConfig.Write("ZC_BLOG_CSS","default")
-Call BlogConfig.Write("ZC_BLOG_COPYRIGHT","Copyright xxxx-xxxx Your WebSite. Some Rights Reserved.")
+Call BlogConfig.Write("ZC_BLOG_COPYRIGHT","Copyright Your WebSite. Some Rights Reserved.")
 Call BlogConfig.Write("ZC_BLOG_MASTER","zblogger")
 Call BlogConfig.Write("ZC_BLOG_LANGUAGE","zh-CN")
 
