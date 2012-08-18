@@ -46,11 +46,12 @@ img { border: none;}
 .post a:hover { color:#5EAAE4; text-decoration: underline;}
 .post_r { float:left; width:670px;}
 .post_body { width:640px; background:#FFFFFF; padding:15px; line-height:22px; margin-bottom:5px;}
-.post_body img { 
+.post_content { min-height:30px;}
+.post_content img { 
    max-width:640px;  /*IE7,Firefox*/ 
    width: expression(this.width > 640 ? 640: true);   /*IE6*/ 
 }
-.post_body p { margin-bottom:10px;}
+.post_content p { margin-bottom:10px;}
 .post_tags { padding:10px 0;}
 .post_info { height:30px; line-height:30px; text-align:right; margin-top:10px;}
 /**/
