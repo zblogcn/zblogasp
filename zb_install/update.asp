@@ -55,13 +55,14 @@ Dim objRS,rndPwd,Guid
 		End If
     Next
 	Response.Write "<br/>在"&path&"发现"&i&"个数据库，请选择需要升级的数据库。"
+	Response.Write "<a href='?step=3&mssql=mssql'>或者，点击这里，按c_option.asp里配置的MSSQL信息升级MSSQL</a>"
 	%>
 <%case 3%>
 <%
 	
-	If fso.Exists(path) Then
+	If fso.Exists(path) Or Request.QueryString("mssql")="mssql" Then
 		ExportOK "找到数据库"
-		ZC_MSSQL_ENABLE=False
+		If Request.QueryString("mssql")<>"mssql" Then ZC_MSSQL_ENABLE=False
 		ZC_DATABASE_PATH="zb_users\data\"&Request.QueryString("mdb")
 		If OpenConnect Then
 			ExportOK "初始化数据库成功！"
@@ -176,8 +177,8 @@ Dim objRS,rndPwd,Guid
 			End If
 			ExportOK "升级数据库结构成功！"
 			ExportOK "正在自动跳转到升级数据库内容"
-			%><input type="button" style="width:100%" value="请点击这里升级内容" class="button" onClick="location.href='?step=4&mdb=<%=Server.URLEncode(Request.QueryString("mdb"))%>'"/>
-<script>location.href='?step=4&mdb=<%=Server.URLEncode(Request.QueryString("mdb"))%>'</script>
+			%><input type="button" style="width:100%" value="请点击这里升级内容" class="button" onClick="location.href='?step=4&mdb=<%=Server.URLEncode(Request.QueryString("mdb"))%>&mssql=<%=Request.QueryString("mssql")%>'"/>
+<script>location.href='?step=4&mdb=<%=Server.URLEncode(Request.QueryString("mdb"))%>&mssql=<%=Request.QueryString("mssql")'</script>
 <%
 		Else
 			ExportError "初始化数据库失败！"
@@ -189,9 +190,9 @@ Dim objRS,rndPwd,Guid
 <%case 4%>
 <%
 	Dim objArticle
-	If fso.Exists(path) Then
+	If fso.Exists(path) Or Request.QueryString("mssql")="mssql" Then
 		ExportOK "找到数据库"
-		ZC_MSSQL_ENABLE=False
+		If Request.QueryString("mssql")<>"mssql" Then  ZC_MSSQL_ENABLE=False
 		ZC_DATABASE_PATH="zb_users\data\"&Request.QueryString("mdb")
 		If OpenConnect Then
 			ExportOK "初始化数据库成功！"
