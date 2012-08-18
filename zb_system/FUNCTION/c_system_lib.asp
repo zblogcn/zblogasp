@@ -1462,8 +1462,8 @@ Class TArticle
 				y=y & "../"
 			Next
 			TemplateTagsDic.Item("ZC_BLOG_HOST")=y
-			html=Replace(html,"href=""<#ZC_BLOG_HOST#>""","href="""&ZC_BLOG_HOST&"""")
-			html=Replace(html,"href='<#ZC_BLOG_HOST#>'","href='"&ZC_BLOG_HOST&"'")
+			html=Replace(html,"href=""<#ZC_BLOG_HOST#>""","href="""&y&"""")
+			html=Replace(html,"href='<#ZC_BLOG_HOST#>'","href='"&y&"'")
 		End If
 
 
@@ -2037,8 +2037,8 @@ Class TArticleList
 				y=y & "../"
 			Next
 			TemplateTagsDic.Item("ZC_BLOG_HOST")=y
-			html=Replace(html,"href=""<#ZC_BLOG_HOST#>""","href="""&ZC_BLOG_HOST&"""")
-			html=Replace(html,"href='<#ZC_BLOG_HOST#>'","href='"&ZC_BLOG_HOST&"'")
+			html=Replace(html,"href=""<#ZC_BLOG_HOST#>""","href="""&y&"""")
+			html=Replace(html,"href='<#ZC_BLOG_HOST#>'","href='"&y&"'")
 		End If
 
 		aryTemplateTagsName=TemplateTagsDic.Keys
