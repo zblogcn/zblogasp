@@ -33,11 +33,11 @@ LoadGlobeCache
 Call dztaotao_Initialize
 
 Dim ArtList
-Set ArtList=New TArticleList
+Set ArtList=New TArticle
 
 ArtList.LoadCache
 
-ArtList.template="SINGLE"
+'ArtList.template="SINGLE"
 
 ArtList.Title="大猪滔滔"
 
@@ -95,17 +95,17 @@ dim r_recordcount
 Set objRS=objConn.Execute("SELECT * FROM [dz_taotao] where [id]="&id&"")
 If (Not objRS.bof) And (Not objRS.eof) Then
 
-	if objRS("img")<>"" then img = "<img src=""upload/"&objRS("s_img")&""">" else img = ""  end if
+	if objRS("img")<>"" then img = "<img src="""&ZC_BLOG_HOST&"zb_users/plugin/dztaotao/upload/"&objRS("s_img")&""">" else img = ""  end if
 
 	t_content=objRS("content")
 	
-		taotao = taotao & "<div id=""item-"&objRS("id")&""" class=""item"" style=""width:"&DZTAOTAO_PAGEWIDTH_VALUE&"px""><div class=""item-list""><div id=""listText-"&objRS("id")&""" class=""list-text"">"&UBBCode(objRS("content"),"[face][link][autolink][font][code][image][media][flash]")&"<br><a class=""miniImg artZoom"" rel=""upload/"&objRS("img")&""" href=""upload/"&objRS("img")&""">"&img&"</a></div><div class=""list-text""><div class=""list-interaction""> "&vbcrlf & vbcrlf
+		taotao = taotao & "<div id=""item-"&objRS("id")&""" class=""item"" style=""width:"&DZTAOTAO_PAGEWIDTH_VALUE&"px""><div class=""item-list""><div id=""listText-"&objRS("id")&""" class=""list-text"">"&UBBCode(objRS("content"),"[face][link][autolink][font][code][image][media][flash]")&"<br><a class=""miniImg artZoom"" rel="""&ZC_BLOG_HOST&"zb_users/plugin/dztaotao/upload/"&objRS("img")&""" href="""&ZC_BLOG_HOST&"zb_users/plugin/dztaotao/upload/"&objRS("img")&""">"&img&"</a></div><div class=""list-text""><div class=""list-interaction""> "&vbcrlf & vbcrlf
 		
 		
 		'分享代码
-		taotao = taotao & "<div id=""shareLayer"&objRS("id")&""" class=""share-layer"" style=""display:""><dl class=""item-share""><dt>分享到:</dt><dd><a href=""http://service.weibo.com/share/share.php?url="&ZC_BLOG_HOST&"plugin/dztaotao/view.asp?id="&objRS("id")&"&type=3&count=&appkey=&title="&server.URLEncode("大猪淘淘——"&left(objRS("content"),130))&"&pic="&ZC_BLOG_HOST&"plugin/dztaotao/upload/"&objRS("img")&"&ralateUid=&rnd=1337756006442"" target=""_blank"" title=""转帖到新浪微博"" id=""share_sina"" class=""btn-share-sina""></a></dd><dd><a href=""http://share.renren.com/share/buttonshare.do?link="&ZC_BLOG_HOST&"plugin/dztaotao/view.asp?id="&objRS("id")&"&title="&server.URLEncode("大猪淘淘——"&left(objRS("content"),130))&""" target=""_blank"" title=""转帖到人人网"" class=""btn-share-rr""></a></dd><dd><a href=""###"" onclick=""open_share('kx','"&objRS("id")&"')"" title=""转帖到开心网"" id=""share_kx"" class=""btn-share-kx""></a></dd><dd><a href=""http://share.v.t.qq.com/index.php?c=share&a=index&appkey=&site="&ZC_BLOG_HOST&"&pic="&ZC_BLOG_HOST&"plugin/dztaotao/upload/"&objRS("img")&"&title="&server.URLEncode("大猪淘淘——"&left(objRS("content"),120))&"&url="&ZC_BLOG_HOST&"plugin/dztaotao/view.asp?id="&objRS("id")&""" target=""_blank"" title=""推荐到QQ微博"" id=""share_tqq"" class=""btn-share-tqq""></a></dd></dl></div>"&vbcrlf & vbcrlf
+		taotao = taotao & "<div id=""shareLayer"&objRS("id")&""" class=""share-layer"" style=""display:""><dl class=""item-share""><dt>分享到:</dt><dd><a href=""http://service.weibo.com/share/share.php?url="&ZC_BLOG_HOST&"plugin/dztaotao/view.asp?id="&objRS("id")&"&type=3&count=&appkey=&title="&server.URLEncode("大猪淘淘——"&left(objRS("content"),130))&"&pic="&ZC_BLOG_HOST&"zb_users/plugin/dztaotao/upload/"&objRS("img")&"&ralateUid=&rnd=1337756006442"" target=""_blank"" title=""转帖到新浪微博"" id=""share_sina"" class=""btn-share-sina""></a></dd><dd><a href=""http://share.renren.com/share/buttonshare.do?link="&ZC_BLOG_HOST&"zb_users/plugin/dztaotao/view.asp?id="&objRS("id")&"&title="&server.URLEncode("大猪淘淘——"&left(objRS("content"),130))&""" target=""_blank"" title=""转帖到人人网"" class=""btn-share-rr""></a></dd><dd><a href=""###"" onclick=""open_share('kx','"&objRS("id")&"')"" title=""转帖到开心网"" id=""share_kx"" class=""btn-share-kx""></a></dd><dd><a href=""http://share.v.t.qq.com/index.php?c=share&a=index&appkey=&site="&ZC_BLOG_HOST&"&pic="&ZC_BLOG_HOST&"zb_users/plugin/dztaotao/upload/"&objRS("img")&"&title="&server.URLEncode("大猪淘淘——"&left(objRS("content"),120))&"&url="&ZC_BLOG_HOST&"plugin/dztaotao/view.asp?id="&objRS("id")&""" target=""_blank"" title=""推荐到QQ微博"" id=""share_tqq"" class=""btn-share-tqq""></a></dd></dl></div>"&vbcrlf & vbcrlf
 		
-		taotao = taotao & "           </div><div class=""clear""></div></div></div><div class=""item-infor""><div class=""infor-text""><img src=""/PLUGIN/dztaotao/images/default.jpg""> <span>"&objRS("username")&"</span> <span>"&objRS("addtime")&" 发布</span></div><div class=""infor-set""><a onclick=""dingUp("&objRS("id")&")"" class=""btn-up"" onfocus=""this.blur()"" href=""javascript:;"">称赞</a> <span id=""ding_"&objRS("id")&""" class=""scroe-up highlight"">"&objRS("ttop")&"</span> <a onclick=""dingDown("&objRS("id")&")"" class=""btn-down"" onfocus=""this.blur()"" href=""javascript:;"">鄙视</a> <span class=""scroe-down highlight"" id=""tread_"&objRS("id")&""">"&objRS("tread")&"</span> | <a onclick=""showReply("&objRS("id")&")"" class=""comment"" id=""commtent-"&objRS("id")&""" onfocus=""this.blur()"" title=""点击展开评论"" href=""javascript:;"">评论("&objRS("comments")&")</a></div></div>"&vbcrlf
+		taotao = taotao & "           </div><div class=""clear""></div></div></div><div class=""item-infor""><div class=""infor-text""><img src="""&ZC_BLOG_HOST&"zb_users/plugin/dztaotao/images/default.jpg""> <span>"&objRS("username")&"</span> <span>"&objRS("addtime")&" 发布</span></div><div class=""infor-set""><a onclick=""dingUp("&objRS("id")&")"" class=""btn-up"" onfocus=""this.blur()"" href=""javascript:;"">称赞</a> <span id=""ding_"&objRS("id")&""" class=""scroe-up highlight"">"&objRS("ttop")&"</span> <a onclick=""dingDown("&objRS("id")&")"" class=""btn-down"" onfocus=""this.blur()"" href=""javascript:;"">鄙视</a> <span class=""scroe-down highlight"" id=""tread_"&objRS("id")&""">"&objRS("tread")&"</span> | <a onclick=""showReply("&objRS("id")&")"" class=""comment"" id=""commtent-"&objRS("id")&""" onfocus=""this.blur()"" title=""点击展开评论"" href=""javascript:;"">评论("&objRS("comments")&")</a></div></div>"&vbcrlf
 		
 		'发表评论框
 		taotao = taotao &"<div class=""item-comment"" style=""background:#EFF2F4;"" >"
@@ -147,7 +147,7 @@ If (Not objRS.bof) And (Not objRS.eof) Then
 		set r_rs=objConn.execute("select * from dz_comment where tt_id = "&objRS("id")&"")
 		if not r_rs.eof then
 		do while not r_rs.eof
-		taotao = taotao & "<!--comment start--><div id=""jitem-"&r_rs("id")&""" class=""item""><div class=""comment-box""><a href="""&r_rs("u_site")&""" class=""discuss-pic""><img height=""32"" width=""32"" src=""images/default.png""></a><div class=""discuss-con""><div class=""con-bar dash-boder""><a href="""&r_rs("u_site")&""" class=""name"">"&r_rs("u_sername")&"</a><span class=""time"">"&r_rs("addtime")&"发表</span> </div><p>"&r_rs("content")&"</p></div><div class=""clear""></div></div></div><!-- end comment-->"
+		taotao = taotao & "<!--comment start--><div id=""jitem-"&r_rs("id")&""" class=""item""><div class=""comment-box""><a href="""&r_rs("u_site")&""" class=""discuss-pic""><img height=""32"" width=""32"" src="""&ZC_BLOG_HOST&"zb_users/plugin/dztaotao/images/default.jpg""></a><div class=""discuss-con""><div class=""con-bar dash-boder""><a href="""&r_rs("u_site")&""" class=""name"">"&r_rs("u_sername")&"</a><span class=""time"">"&r_rs("addtime")&"发表</span> </div><p>"&r_rs("content")&"</p></div><div class=""clear""></div></div></div><!-- end comment-->"
 		r_rs.movenext
 		loop
 		end if
@@ -167,16 +167,17 @@ taotao = taotao & "<script type=""text/javascript"" src="""&ZC_BLOG_HOST&"zb_use
 
 
 
-ArtList.SetVar "template:article-single",taotao
-	
-ArtList.html = replace(ArtList.html,"<#article/title#>",""&left(t_content,40)&"...")
+''''''''''''''''''''
+ArtList.FType=ZC_POST_TYPE_PAGE
+ArtList.Content=taotao
+ArtList.Title=DZTAOTAO_TITLE_VALUE
+ArtList.FullRegex="{%host%}/{%alias%}.html"
 
-ArtList.html = replace(ArtList.html,"<#BlogTitle#>",DZTAOTAO_TITLE_VALUE)
 
-
-ArtList.Build
-
-Response.Write ArtList.html
+If ArtList.Export(ZC_DISPLAY_MODE_SYSTEMPAGE) Then
+	ArtList.Build
+	Response.Write ArtList.html
+End If
 %><!-- <%=RunTime()%>ms --><%
 Call System_Terminate()
 
