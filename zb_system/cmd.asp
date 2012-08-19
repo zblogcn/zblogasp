@@ -803,6 +803,10 @@ Function UserEdt()
 			If bAction_Plugin_UserEdt_Succeed=True Then Exit Function
 		Next
 
+		If CInt(Request.Form("edtID"))=BlogUser.ID And Trim(Request.Form("edtPassWord"))<>"" Then
+			Response.Redirect "cmd.asp?act=login"
+		End If
+
 		Response.Redirect "cmd.asp?act=UserMng"
 	Else
 		Call ShowError(16)

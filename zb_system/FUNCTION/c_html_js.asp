@@ -92,6 +92,21 @@ If f<>"" Then
 			Next
 
 		End If
+
+
+	ElseIf f="autoinfo" Then
+
+		Call OpenConnect()
+
+		Set BlogUser = New TUser
+		If BlogUser.Verify()=True Then
+			Response.Write "try{document.getElementById('inpName').value='"&BlogUser.Name&"';}catch(e){}"
+			Response.Write "try{document.getElementById('inpEmail').value='"&BlogUser.Email&"';}catch(e){}"
+			Response.Write "try{document.getElementById('inpHomePage').value='"&BlogUser.HomePage&"';}catch(e){}"
+		End If
+
+		Call CloseConnect()
+
 	End If
 
 	'日历当天高亮显示
@@ -135,6 +150,8 @@ If f<>"" Then
 
 End If
 '/////////////////////////////////////////////////////////////////////////////////////////
+
+
 
 
 

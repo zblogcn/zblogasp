@@ -73,6 +73,8 @@ $(document).ready(function(){
             	}
     	 }
 
+	if(GetCookie("username")!=""&&GetCookie("password")!=""){$.getScript("<%=GetCurrentHost()%>zb_system/function/c_html_js.asp?act=autoinfo")}
+
 	var s=document.location;
 	$("#divNavBar").find("a").each(function(){if($(this).attr("href")==s.toString().split("#")[0]){$(this).addClass("on");return false;}});
 
