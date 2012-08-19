@@ -4,6 +4,7 @@
 <name>TotoroⅢ</name>
 <note>基于TotoroII的Z-Blog的评论及引用管理审核系统增强版。</note>
 <type>inline</type>
+<url>http://www.zsxsoft.com/</url>
 <path>main.asp</path>
 <include>include.asp</include>
 <level>1</level>

@@ -2,6 +2,7 @@
 <plugin>
 <id>PingTool</id>
 <name>Ping中心</name>
+<url>http://www.rainbowsoft.org/</url>
 <note>自动Ping各大博客搜索引擎</note>
 <type>inline</type>
 <include>include.asp</include>
