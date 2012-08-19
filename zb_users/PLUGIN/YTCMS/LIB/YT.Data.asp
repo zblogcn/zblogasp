@@ -167,7 +167,6 @@ Class YT_Article
 		End If
 	End Function
 	
-
 	'本月评论排行
 	Function GetArticleRandomSortComMonth(Rows)
 		If IsNumeric(Rows) Then
@@ -274,6 +273,21 @@ Class YT_Article
 		End If
 	End Function
 	
+	'分类随机文章
+	Function GetArticleCategorysRandomSortRand(Rows,CategoryID)
+		If IsNumeric(Rows) Then
+			Dim Rs,sql
+			If ZC_MSSQL_ENABLE Then
+				sql="select top "& CStr(Rows) &" [log_ID] from blog_Article WHERE [log_Type]=0 AND [log_Level]>2 AND [log_CateID] IN ("&CStr(CategoryID)&") order by newid()"
+			Else
+				Randomize
+				sql="select top "& CStr(Rows) &" [log_ID] from blog_Article WHERE [log_Type]=0 AND [log_Level]>2 AND [log_CateID] IN ("&CStr(CategoryID)&") order by rnd("& (-1 * (Int(1000 * Rnd) + 1)) &" * log_ID)"
+			End If
+			Set Rs = objConn.Execute(sql)
+				If Not (Rs.EOF and Rs.BOF) Then GetArticleCategorysRandomSortRand = Rs.GetRows(Rows)
+			Set Rs = Nothing
+		End If
+	End Function
 	
 	'分类热门文章列表
 	Function GetArticleCategorysTophot(Rows,CategoryID)
