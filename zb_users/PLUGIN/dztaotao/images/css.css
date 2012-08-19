@@ -15,7 +15,7 @@
     background: none repeat scroll 0 0 #F9F9F9;
     border-top: 1px solid #E1E1E1;
     font-size: 12px;
-    height: 25px;
+    height: 28px;
     padding-top: 5px;
 }
 .infor-text {
@@ -467,6 +467,7 @@ fieldset, img {
 	text-align:center;
 	margin:15px 5px 20px 15px;
 	}
+.t_pages a,.t_pages span{	padding: 4px 4px; border:1px solid #CCC; margin:0 2px;}
 
 /*广告条*/
 .banner {
@@ -583,6 +584,8 @@ fieldset, img {
     margin: 0 3px;
 }
 
+.text-indent
+
 /*大图按钮样式*/
 .artZoomBox{font-size:12px; margin:8px 8px; background:#f7f7f7; border:1px solid #ccc; padding:10px 10px;}
 .hideImg,.imgLeft,.imgRight,.viewImg{margin-left:12px; padding-left:12px;}
@@ -597,3 +600,9 @@ fieldset, img {
 /*评论样式*/
 .comments-order{ height:35px; line-height:35px;margin:0 0 }
 .comments-order{background: url("bg-tab.png") repeat-x scroll left -35px #F7F2C2;}
+
+div.post-body{text-indent:0!important;}
+
+#taotao a,.t_pages a{color: #666!important;}
+/*#taotao img,#dialog img{padding:0 0!important; margin:0 0!important; border:none!important;}*/
+.btn-send{color:#fff!important;}

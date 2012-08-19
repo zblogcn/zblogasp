@@ -20,7 +20,7 @@ $(document).ready(function() {
 		
 			//返回服务端JSON数据,可在服务端修改返回数据类型
 			var filetext=eval("(" + response + ")")					//解析JSON数据
-			alert(response);
+			//alert(response);
 			switch   ( filetext.err )   {   
         case	0	:
 					document.getElementById('u_img').value = filetext.savename;
