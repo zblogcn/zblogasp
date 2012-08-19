@@ -2432,11 +2432,11 @@ Function BlogReBuild_Catalogs()
 				strCatalog=strCatalog & "<li class=""li-cate""><a href="""& Categorys(aryCateInOrder(i)).Url & """>"+Categorys(aryCateInOrder(i)).Name + "<span class=""article-nums""> (" & Categorys(aryCateInOrder(i)).Count & ")</span>" +"</a></li>"
 
 				bolHasSubCate=False
-				For j=Lbound(aryCateInOrder) To UBound(aryCateInOrder)-1
+				For j=Lbound(aryCateInOrder)+1 To UBound(aryCateInOrder)
 					If Categorys(aryCateInOrder(j)).ParentID=Categorys(aryCateInOrder(i)).ID Then bolHasSubCate=True
 				Next
 				'If bolHasSubCate Then strCatalog=strCatalog & "<li class=""li-subcates""><ul class=""ul-subcates"">"
-				For j=Lbound(aryCateInOrder) To UBound(aryCateInOrder)-1
+				For j=Lbound(aryCateInOrder)+1 To UBound(aryCateInOrder)
 					If Categorys(aryCateInOrder(j)).ParentID=Categorys(aryCateInOrder(i)).ID Then
 						strCatalog=strCatalog & "<li class=""li-subcate""><a href="""& Categorys(aryCateInOrder(j)).Url & """>"+Categorys(aryCateInOrder(j)).Name + "<span class=""article-nums""> (" & Categorys(aryCateInOrder(j)).Count & ")</span>" +"</a></li>"
 					End If
