@@ -100,14 +100,21 @@ If CheckPluginState("YTCMS") = False Then Call ShowError(48)
     	<%GetCategory()%>
         <select multiple="multiple" size="20">
 		<%
-        Dim Category
-        For Each Category in Categorys
-            If IsObject(Category) And Not isEmpty(Category.Name) Then
-            %>
-            <option value="<%= Category.ID %>"><%= TransferHTML(Category.Name,"[html-format]") %></option>
-            <%
-            End If
-        Next
+            Dim aryCateInOrder : aryCateInOrder=GetCategoryOrder()
+            Dim m,n
+            For m=LBound(aryCateInOrder)+1 To Ubound(aryCateInOrder)
+                If Categorys(aryCateInOrder(m)).ParentID=0 Then
+                    Response.Write "<option value="""&Categorys(aryCateInOrder(m)).ID&""" "
+                    Response.Write ">"&TransferHTML( Categorys(aryCateInOrder(m)).Name,"[html-format]")&"</option>"
+        
+                    For n=0 To UBound(aryCateInOrder)
+                        If Categorys(aryCateInOrder(n)).ParentID=Categorys(aryCateInOrder(m)).ID Then
+                            Response.Write "<option value="""&Categorys(aryCateInOrder(n)).ID&""" "
+                            Response.Write ">&nbsp;└ "&TransferHTML( Categorys(aryCateInOrder(n)).Name,"[html-format]")&"</option>"
+                        End If
+                    Next
+                End If
+            Next
         %>
         </select>
         <input type="button" value="保存设置" />
