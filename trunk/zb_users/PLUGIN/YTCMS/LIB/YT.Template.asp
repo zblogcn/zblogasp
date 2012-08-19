@@ -99,8 +99,6 @@ Class YT_Template
 								Call d.Add("<#article/commentkey#>",YT.CommentKey)
 
 								Call d.Add("<#article/staticname#>",YT.StaticName)
-								'Call d.Add("<#article/category/staticname#>",Categorys(YT.CateID).StaticName)
-								'Call d.Add("<#article/author/staticname#>",Users(YT.AuthorID).StaticName)
 								Call GetTagsbyTagIDList(YT.Tag)
 								Call d.Add("<#article/tagtoname#>",YT.TagToName)
 
