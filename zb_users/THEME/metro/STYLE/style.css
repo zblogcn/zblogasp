@@ -107,6 +107,8 @@ p.w { background:#A9B8C5; padding:3px 0 2px 0; height:1.7em; color:#FFFFFF; text
 /*侧边搜索*/
 .function #edtSearch { float:left; width:110px; padding:6px 10px; border:1px solid #FFFFFF;}
 .function #btnPost { float:left; background:#5EAAE4; border:none; width:50px; height:29px; font-weight:bold;color:#FFFFFF;}
+/*侧边分类*/
+#divCatalog .li-subcate { padding-left:15px; background:url(images/li-subcate.png) no-repeat left top;}
 /*评论列表*/
 .commentlist { padding:15px; background:#FFFFFF; margin-bottom:5px;}
 .commentlist .msg { margin-top:10px; border-top:1px solid #CCCCCC; padding:5px 0 0 0;}
