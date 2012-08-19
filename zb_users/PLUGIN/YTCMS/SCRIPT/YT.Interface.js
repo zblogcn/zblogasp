@@ -95,12 +95,6 @@ YT.CMS.push({
 				Text:'日志别名',
 				Value:'<#article/staticname#>'
 			},{
-				Text:'分类别名',
-				Value:'<#article/category/staticname#>'
-			},{
-				Text:'作者别名',
-				Value:'<#article/author/staticname#>'
-			},{
 				Text:'TAGS',
 				Value:'<#article/tagtoname#>'
 			},{
@@ -149,6 +143,12 @@ YT.CMS.push({
 		Text:'调用数量',
 		Value:5
 	}]},{Text:'分类文章列表',Value:'GetArticleCategorys',Parameters:[{
+		Text:'调用数量',
+		Value:5
+	},{
+		Text:'分类标识,按Ctrl+鼠标左键,可多选',
+		Value:'0'
+	}]},{Text:'分类随机文章列表',Value:'GetArticleCategorysRandomSortRand',Parameters:[{
 		Text:'调用数量',
 		Value:5
 	},{
