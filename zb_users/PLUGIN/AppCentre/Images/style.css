@@ -1,0 +1,89 @@
+/* 干预后台背景, ~ 如 asd 不改后台背景就别动这段~ */
+/* div.Header{color:#FFFFFF;background-color:#AFB9CF;}
+div.Header a{font-size:15px;}
+body {background-color:#F8F8F6;}
+div.SubMenu span.m-now a{background-color:#F8F8F6;border-bottom:3px solid #F8F8F6;}
+div#divMain2 {line-height:120%;}
+#edit{background-color:#FFFFFF;clear:both;}
+div.plugin-other{background-color:#FFFFFF;}
+ */
+
+/*---------------------------------------------------------------*/
+/* 定义选择主题页样式 */
+/*---------------------------------------------------------------*/
+.pluginPanel {margin:3px;padding:0;line-height:120%;background-color:#F1F4F7;border:1px solid #91ADBF;}
+.pluginPanel table{margin:0 auto;padding:0;border-collapse: collapse;background:none;border:none;border-top:1px solid #EDEDED;}
+.pluginPanel td{margin:0;padding:3px 5px;vertical-align:top;border:none;border-bottom:1px solid #EDEDED;}
+.pluginPanel .listTitle{height:18px;padding:2px 3px 0 5px;border-bottom:1px solid #BDD3EF;background:#DAE2E8;}
+
+.pluginPanelAlt {border:1px dotted #91ADBF;background-color:#EFEFEF;}
+.pluginPanelAlt .listTitleAlt {border-bottom:1px dotted #BDD3EF;background:#C6C3C6;}
+
+.pluginPanel .delicon {margin:0;padding:2px;height:16px;float:right;}
+.pluginPanel .delicon font{visibility:hidden;}
+.pluginPanel .delicon a {margin:0;padding:0 2px;font-size:16px;background:url("delete.gif") no-repeat center;text-decoration: none;}
+.pluginPanel .delicon a:hover {background:url("delete-a.gif") no-repeat center;}
+
+.pluginPanel .epticon {margin:0;padding:2px;height:16px;float:right;}
+.pluginPanel .epticon font{visibility:hidden;}
+.pluginPanel .epticon a {margin:0;padding:0 2px;font-size:16px;background:url("export.gif") no-repeat center;text-decoration: none;}
+.pluginPanel .epticon a:hover {background:url("export-a.gif") no-repeat center;}
+
+.pluginPanel .edticon {margin:0;padding:2px;height:16px;float:right;}
+.pluginPanel .edticon font{visibility:hidden;}
+.pluginPanel .edticon a {margin:0;padding:0 2px;font-size:16px;background:url("edit.gif") no-repeat center;text-decoration: none;}
+.pluginPanel .edticon a:hover {background:url("edit-a.gif") no-repeat center;}
+
+.pluginPanel .inficon {margin:0;padding:2px;height:16px;float:right;}
+.pluginPanel .inficon font{visibility:hidden;}
+.pluginPanel .inficon a {margin:0;padding:0 5px;font-size:16px;background:url("info.gif") no-repeat center;text-decoration: none;}
+.pluginPanel .inficon a:hover {background:url("info-a.gif") no-repeat center;}
+
+.pluginPanel .updicon {margin:0;padding:2px;height:16px;float:right;}
+.pluginPanel .updicon font{visibility:hidden;}
+.pluginPanel .updicon a {margin:0;padding:0 5px;font-size:16px;background:url("update.gif") no-repeat center;text-decoration: none;}
+.pluginPanel .updicon a:hover {background:url("update-a.gif") no-repeat center;}
+
+.pluginPanel .updinfo {margin:0;padding:2px 0 2px 5px;font-size:12px;float:left;}
+/*---------------------------------------------------------------*/
+/* 选择主题页样式定义完毕 */
+/*---------------------------------------------------------------*/
+
+/*---------------------------------------------------------------*/
+/* 定义主题细节页样式 */
+/*---------------------------------------------------------------*/
+.pluginDetail{margin:10px 20px;padding:5px;line-height:120%;}
+.pluginDetail img{float:right;margin:0 0 10px 10px;padding:5px;border:1px solid #91ADBF;}
+/*---------------------------------------------------------------*/
+/* 主题细节页样式定义完毕 */
+/*---------------------------------------------------------------*/
+
+/*---------------------------------------------------------------*/
+/* 定义主机备份 ZTI 文件管理页 */
+.zpiMng td{padding:5px;}
+
+.zpiMng .delicon {margin:0;padding:0;height:15px;}
+.zpiMng .delicon a {color:red;font-weight:bold;text-decoration: none;}
+.zpiMng .delicon a:hover {color:Pink;}
+
+.zpiMng .dowicon {margin:0;padding:0;height:15px;}
+.zpiMng .dowicon a {color:blue;font-weight:bold;text-decoration: none;}
+.zpiMng .dowicon a:hover {color:DeepSkyBlue;}
+
+.zpiMng .rsticon {margin:0;padding:0;height:15px;}
+.zpiMng .rsticon a {color:green;font-weight:bold;text-decoration: none;}
+.zpiMng .rsticon a:hover {color:Lime;}
+/*---------------------------------------------------------------*/
+/* 主机备份 ZTI 文件管理页定义完毕 */
+/*---------------------------------------------------------------*/
+
+
+/* 其它细节 */
+#loading, #loading2, #loading3 {position:absolute;top:1px;right:1px;height:15px;width:380px;margin:0;padding:5px 10px;background:#8B0000;color:#FFFFFF;font-size:12px;}
+#loading a, #loading2 a, #loading3 a {color:white;}
+.status-box{clear:both;margin:10px 0;padding:6px 10px;background:white;border:1px solid #91ADBF;}
+.download-box{margin:10px 0;padding:15px 36px;background:#FFFFFF url("download.gif") no-repeat 6px 9px;border:1px solid #91ADBF;}
+
+.notice {color:red;}.notice a{color:red;}.notice a:hover{color:#FF7F50;}
+.allright {color:green;}.allright a{color:green;}.allright a:hover{color:#FF7F50;}
+.somehow {color:blue;font-weight:normal;}.somehow a{color:blue;}.somehow a:hover{color:#FF7F50;}

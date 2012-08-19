@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<plugin>
+<id>PluginSapper</id>
+<name>Plugin Sapper</name>
+<url>http://bbs.rainbowsoft.org/thread-19711-1-1.html</url>
+<note>提供了编辑插件信息, 安全删除插件, 导入导出插件, 在线安装升级插件等功能.</note>
+<type>inline</type>
+<path>main.asp</path>
+<include>include.asp</include>
+<level>1</level>
+<author>
+	<name>haphic</name>
+	<url>http://haphic.com/</url>
+	<email>haphic@gmail.com</email>
+</author>
+<version>1.2.8</version>
+<adapted>Z-Blog 1.8</adapted>
+<pubdate>2008-1-8</pubdate>
+<modified>2009-6-6</modified>
+</plugin>
