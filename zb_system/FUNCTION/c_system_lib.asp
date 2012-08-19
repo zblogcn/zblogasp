@@ -1210,7 +1210,7 @@ Class TArticle
 
 		Dim RE ,Match,Matches
 		Set RE = New RegExp 
-			RE.Pattern = "\<\#template\:(article\-(multi|single|page)([\-a-z]*))\#\>"
+			RE.Pattern = "\<\#template\:(article\-(multi|single|page)([\-a-z0-9]*))\#\>"
 			RE.IgnoreCase = True 
 			RE.Global = True 
 			Set Matches = RE.Execute(html) 
@@ -1461,9 +1461,8 @@ Class TArticle
 			For i=1 To UBound(Split(x,"/"))
 				y=y & "../"
 			Next
+			If y="" Then y="./"
 			TemplateTagsDic.Item("ZC_BLOG_HOST")=y
-			html=Replace(html,"href=""<#ZC_BLOG_HOST#>""","href="""&y&"""")
-			html=Replace(html,"href='<#ZC_BLOG_HOST#>'","href='"&y&"'")
 		End If
 
 
@@ -1923,7 +1922,7 @@ Class TArticleList
 		Else
 			Dim RE ,Match,Matches
 			Set RE = New RegExp 
-				RE.Pattern = "\<\#template\:(article\-(multi|single|page)([\-a-z]*))\#\>"
+				RE.Pattern = "\<\#template\:(article\-(multi|single|page)([\-a-z0-9]*))\#\>"
 				RE.IgnoreCase = True 
 				RE.Global = True 
 				Set Matches = RE.Execute(html) 
@@ -2036,9 +2035,8 @@ Class TArticleList
 			For i=1 To UBound(Split(x,"/"))
 				y=y & "../"
 			Next
+			If y="" Then y="./"
 			TemplateTagsDic.Item("ZC_BLOG_HOST")=y
-			html=Replace(html,"href=""<#ZC_BLOG_HOST#>""","href="""&y&"""")
-			html=Replace(html,"href='<#ZC_BLOG_HOST#>'","href='"&y&"'")
 		End If
 
 		aryTemplateTagsName=TemplateTagsDic.Keys
