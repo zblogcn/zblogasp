@@ -48,7 +48,7 @@ t.FileName="controlpanel"
 t.IsSystem=True
 t.SidebarID=1
 t.Order=3
-t.Content="<a href=""<#ZC_BLOG_HOST#>zb_system/cmd.asp?act=login"">[<#ZC_MSG009#>]</a>&nbsp;&nbsp;<a href=""<#ZC_BLOG_HOST#>zb_system/cmd.asp?act=vrs"">[<#ZC_MSG021#>]</a>"
+t.Content="<span class=""cp-login""><a href=""<#ZC_BLOG_HOST#>zb_system/cmd.asp?act=login"">[<#ZC_MSG009#>]</a></span>&nbsp;&nbsp;<span class=""cp-vrs""><a href=""<#ZC_BLOG_HOST#>zb_system/cmd.asp?act=vrs"">[<#ZC_MSG021#>]</a></span>"
 t.HtmlID="divContorPanel"
 t.Ftype="div"
 t.post

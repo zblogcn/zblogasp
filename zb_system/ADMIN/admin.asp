@@ -44,7 +44,7 @@ If Not CheckRights(strAct) Then Call ShowError(6)
 
 Call GetFunction()
 
-BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG046
+BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG022
 
 
 '检查模板的更新,如有更新要重新加载
