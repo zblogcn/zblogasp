@@ -92,7 +92,7 @@ BlogTitle="TotoroⅢ（基于TotoroⅡ的Z-Blog的评论管理审核系统增强
 	Dim strTOTORO_INTERVAL_VALUE
 	strTOTORO_INTERVAL_VALUE=Totoro_Config.Read("TOTORO_INTERVAL_VALUE")
 	strTOTORO_INTERVAL_VALUE=TransferHTML(strTOTORO_INTERVAL_VALUE,"[html-format]")
-	Response.Write "<tr><td>2</td><td>提交频率评分<td><input name=""strZC_TOTORO_INTERVAL_VALUE""type=""text"" value=""" & strTOTORO_INTERVAL_VALUE & """/></td><Td>(默认：25)，根据1小时内同一IP的评论数量加分。(每条评论最多加基数的5/6，最少加基数的1/5，按时间间隔递减。)</td></tr>"
+	Response.Write "<tr><td>2</td><td>提交频率评分<td><input name=""strZC_TOTORO_INTERVAL_VALUE""type=""text"" value=""" & strTOTORO_INTERVAL_VALUE & """/></td><Td>(默认：25)，根据1小时内同一IP的评论数量加分。(1小时内10条评论加SV的1/5，以此类推，最多加SV的6/5)</td></tr>"
 	
 	Dim strTOTORO_BADWORD_VALUE
 	strTOTORO_BADWORD_VALUE=Totoro_Config.Read("TOTORO_BADWORD_VALUE")
@@ -182,7 +182,7 @@ BlogTitle="TotoroⅢ（基于TotoroⅡ的Z-Blog的评论管理审核系统增强
 	else
 		Response.Write "/>"
 	End if
-	Response.Write "<label for=""bolTOTORO_ConHuoxingwen"">自动转换火星文（将把希腊字母、俄文字母、罗马数字、列表符、全角字母数字标点、汉语拼音、?转换为半角英文字母、半角数字、半角符号再进行下一步操作，不影响实际显示的评论）</label>"	
+	Response.Write "<label for=""bolTOTORO_ConHuoxingwen"">自动转换火星文（将把希腊字母、俄文字母、罗马数字、列表符、全角字母数字标点、汉语拼音、菊花文、西欧字符转换为半角英文字母、半角数字、半角符号再进行下一步操作，不影响实际显示的评论）</label>"	
 %>
 </dd>
   <dd></dd>
