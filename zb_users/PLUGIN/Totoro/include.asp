@@ -76,8 +76,7 @@ Function InstallPlugin_Totoro()
 End Function
 
 Function Totoro_Initialize()
-	Set Totoro_Config = New TConfig
-	Totoro_Config.Load("Totoro")
+	InstallPlugin_Totoro
 	TOTORO_INTERVAL_VALUE=CLng(Totoro_Config.Read ("TOTORO_INTERVAL_VALUE"))
 	TOTORO_BADWORD_VALUE=CLng(Totoro_Config.Read ("TOTORO_BADWORD_VALUE"))
 	TOTORO_HYPERLINK_VALUE=CLng(Totoro_Config.Read ("TOTORO_HYPERLINK_VALUE"))
