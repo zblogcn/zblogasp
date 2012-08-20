@@ -1282,6 +1282,12 @@ Class TArticle
 			End If
 		Next
 
+		If ZC_MULTI_DOMAIN_SUPPORT=True Then
+			Content=Replace(Content,"href=""" & ZC_BLOG_HOST,"href=""<#ZC_BLOG_HOST#>")
+			Content=Replace(Content,"src=""" & ZC_BLOG_HOST,"src=""<#ZC_BLOG_HOST#>")
+			Intro=Replace(Intro,"href=""" & ZC_BLOG_HOST,"href=""<#ZC_BLOG_HOST#>")
+			Intro=Replace(Intro,"src=""" & ZC_BLOG_HOST,"src=""<#ZC_BLOG_HOST#>")
+		End If
 
 		Dim aryTemplateTagsName()
 		Dim aryTemplateTagsValue()
@@ -1961,11 +1967,11 @@ Class TArticleList
 		aryTemplateSubName(  1)=subhtml_TemplateName
 		aryTemplateSubValue( 1)=subhtml
 		aryTemplateSubName(  2)="template:pagebar"
-		aryTemplateSubValue( 2)=Template_PageBar
+		aryTemplateSubValue( 2)=TransferHTML(Template_PageBar,"[anti-zc_blog_host]")
 		aryTemplateSubName(  3)="template:pagebar_next"
-		aryTemplateSubValue( 3)=Template_PageBar_Next
+		aryTemplateSubValue( 3)=TransferHTML(Template_PageBar_Next,"[anti-zc_blog_host]")
 		aryTemplateSubName(  4)="template:pagebar_previous"
-		aryTemplateSubValue( 4)=Template_PageBar_Previous
+		aryTemplateSubValue( 4)=TransferHTML(Template_PageBar_Previous,"[anti-zc_blog_host]")
 		aryTemplateSubName(  5)="articlelist/author/id"
 		aryTemplateSubValue( 5)=TemplateTags_ArticleList_Author_ID
 		aryTemplateSubName(  6)="articlelist/tags/id"
