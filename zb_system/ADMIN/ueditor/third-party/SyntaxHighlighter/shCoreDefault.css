@@ -52,6 +52,7 @@
   font-size: 1em !important;
   min-height: inherit !important;
   min-height: auto !important;
+  word-break:break-all;
   /*自动折行*/
   /*white-space:nowrap;*/
 }

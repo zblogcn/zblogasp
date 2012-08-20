@@ -391,10 +391,10 @@ div.post div.post-body{
 	padding:0 0 0 0;
 	font-size:1em;
     text-align:justify;
-    text-justify:inter-ideograph; 
 	line-height:160%;
 	clear:both;
 	border-top:1px solid #dbe0e6;
+	word-break:break-all;
 }
 
 div.post-body a{
@@ -759,37 +759,7 @@ li.msgarticle div.quote-title{
 
 
 
-/************文章内引用的样式*************/
-
-blockquote{
-	margin: 10px 0;
-	padding: 0 55px;
-    color:#808080;
-}
-
-
-/**********自动截取最新发表的标题****************/
-#ulPrevious li{
-    white-space:nowrap;
-    word-break:keep-all;
-    overflow:hidden;
-    text-overflow:ellipsis;
-}
-
-
-#divComments li{
-    white-space:nowrap;
-    word-break:keep-all;
-    overflow:hidden;
-    text-overflow:ellipsis;
-}
-
-
-
-/*----------公告------*/
-
-
-
+/************评论发表用的样式*************/
 #divCommentPost{
 	width:98%;
 	margin:0 0 0 0;

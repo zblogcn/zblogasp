@@ -272,6 +272,8 @@ Function TransferHTML(ByVal source,para)
 
 	Dim objRegExp
 
+	If IsNull(source)=True Then Exit Function
+
 	'先换"&"
 	If Instr(para,"[&]")>0 Then  source=Replace(source,"&","&amp;")
 	If Instr(para,"[<]")>0 Then  source=Replace(source,"<","&lt;")

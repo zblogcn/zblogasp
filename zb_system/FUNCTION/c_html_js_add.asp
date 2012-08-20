@@ -31,7 +31,7 @@
 <%=LoadFromFile(Server.MapPath("../admin/ueditor/third-party/SyntaxHighlighter/shCore.js"),"utf-8")%>
 
 //$.getScript("<%=GetCurrentHost()%>zb_system/admin/ueditor/third-party/SyntaxHighlighter/shCore.js",function(){SyntaxHighlighter.all();});
-$("head").append("<link rel='stylesheet' type='text/css' href='<%=GetCurrentHost()%>/zb_system/admin/ueditor/third-party/SyntaxHighlighter/shCoreDefault.css'/>");
+$("head").append("<link rel='stylesheet' type='text/css' href='<%=GetCurrentHost()%>zb_system/admin/ueditor/third-party/SyntaxHighlighter/shCoreDefault.css'/>");
 
 
 var str00="<%=GetCurrentHost()%>";
