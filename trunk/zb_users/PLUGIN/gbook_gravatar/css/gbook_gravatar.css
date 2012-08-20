@@ -1,4 +1,6 @@
-.n_cmt_gravatar{float:left; margin:4px 5px;}
+.n_cmt_div {clear:both;}
+
+.n_cmt_gravatar{float:left; margin:0px 0px;}
 
 .n_cmt_content{list-style:none; }
 

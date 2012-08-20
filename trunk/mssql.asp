@@ -501,6 +501,8 @@ Function UpdateDateBase()
 		objConn.execute("ALTER TABLE [blog_Article] ADD COLUMN [log_FullUrl] VARCHAR(255) default """"")
 		objConn.execute("ALTER TABLE [blog_Article] ADD COLUMN [log_Type] int DEFAULT 0")
 		objConn.execute("ALTER TABLE [blog_Article] ADD COLUMN [log_Meta] text default """"")
+
+		objConn.execute("UPDATE [blog_Article] SET [log_Type]=0")
 	End If
 
 	If Not CheckUpdateDB("[cate_Meta]","[blog_Category]") Then
@@ -531,6 +533,21 @@ Function UpdateDateBase()
 		objConn.execute("ALTER TABLE [blog_Member] ADD COLUMN [mem_Template] VARCHAR(50) default """"")
 		objConn.execute("ALTER TABLE [blog_Member] ADD COLUMN [mem_FullUrl] VARCHAR(255) default """"")
 		objConn.execute("ALTER TABLE [blog_Member] ADD COLUMN [mem_Meta] text default """"")
+
+		Dim objRS,s,t
+		Set objRS=objConn.Execute("SELECT * FROM [blog_Member]")
+		If (Not objRS.bof) And (Not objRS.eof) Then
+
+			Do While Not objRS.eof
+				s=RndGuid
+				t=md5(objRS("mem_Password") & s)
+				objConn.execute("UPDATE [blog_Member] SET [mem_Guid]='"&RndGuid&"' WHERE [mem_ID]="& objRS("mem_ID"))
+				objConn.execute("UPDATE [blog_Member] SET [mem_Password]='"&t&"' WHERE [mem_ID]="& objRS("mem_ID"))
+				objRS.MoveNext
+			Loop
+
+		End If
+
 	End If
 
 	If Not CheckUpdateDB("[ul_Meta]","[blog_UpLoad]") Then
@@ -549,7 +566,7 @@ Function UpdateDateBase()
 	End If
 
 	If Not CheckUpdateDB("[conf_Name]","[blog_Config]") Then
-		objConn.execute("CREATE TABLE [blog_Config] (conf_Name VARCHAR(255) default """" not null,conf_Value text default """"")
+		objConn.execute("CREATE TABLE [blog_Config] (conf_Name VARCHAR(255) default """" not null,conf_Value text default """")")
 		objConn.execute("CREATE TABLE [blog_Function] (fn_ID AutoIncrement primary key,fn_Name VARCHAR(50) default """",fn_FileName VARCHAR(50) default """",fn_Order int default 0,fn_Content text default """",fn_IsSystem YESNO DEFAULT 0,fn_SidebarID int default 0,fn_HtmlID VARCHAR(50) default """",fn_Ftype VARCHAR(5) default """",fn_MaxLi int default 0,fn_Meta text default """")")
 	End If
 
