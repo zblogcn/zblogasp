@@ -3513,6 +3513,7 @@ End Function
 Function UrlbyDate(y,m,d)
 
 	UrlbyDate=ParseCustomDirectoryForUrl(RegexbyDate(y,m,d),ZC_STATIC_DIRECTORY,"","",y,m,d,"","")
+	If Right(UrlbyDate,12)="default.html" Then UrlbyDate=Left(UrlbyDate,Len(UrlbyDate)-12)
 
 End Function
 '*********************************************************
@@ -3525,6 +3526,7 @@ Function UrlbyDateAuto(y,m,d)
 	Else
 		UrlbyDateAuto=UrlbyDate(y,m,d)
 	End If
+	If Right(UrlbyDateAuto,12)="default.html" Then UrlbyDateAuto=Left(UrlbyDateAuto,Len(UrlbyDateAuto)-12)
 End Function
 '*********************************************************
 
