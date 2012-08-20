@@ -19,6 +19,8 @@ BlogTitle="分页条优化选项"
 '配置
 
 Call BetterPagebar_Config
+ 
+If (Not IsEmpty(Request.QueryString("s"))) Then Call BlogReBuild_Default
 
 %>
 <!--#include file="..\..\..\zb_system\admin\admin_header.asp"-->
@@ -91,7 +93,7 @@ Call BetterPagebar_Config
 <hr/>	
 <p><input type="submit" class="button" id="btnPost" value="提交"/>
 	<br/><br/>
-	<small>  * 可恢复默认配置。</small>
+	<small>  * </small>
 </p>	
 
 <hr/>
