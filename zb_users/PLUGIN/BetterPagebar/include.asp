@@ -38,7 +38,7 @@ Dim	BetterPagebar_NextPage_Tip
 Dim	BetterPagebar_Extend
 
 
-'初次安装写入配置项
+'初始化配置
 Function BetterPagebar_Initialize()
 	Dim c
 	Set c = New TConfig
@@ -82,7 +82,7 @@ End Function
 
 
 '*********************************************************
-' 目的：分页条
+' 目的：接管分页条
 '*********************************************************
 Function BetterPagebar_ExportBar(intNowPage,intAllPage,ByRef Template_PageBar,ByRef Template_PageBar_Previous,ByRef Template_PageBar_Next,Url,ListType)
 
@@ -161,7 +161,6 @@ Function BetterPagebar_ExportBar(intNowPage,intAllPage,ByRef Template_PageBar,By
 				If Not BetterPagebar_AlwaysShow Then strPageBarF="":strPageBarL=""
 			End If
 			For i=a to b
-				's=ZC_BLOG_HOST & "catalog.asp?"& t &"page="& i
 				s=Replace(t,"%n",i)
 				If ListType="DEFAULT" And i=1 Then s=ZC_BLOG_HOST
 				If (ListType="CATEGORY" Or ListType="USER" Or ListType="DATE" Or ListType="TAGS") And i=1 Then s=Url
