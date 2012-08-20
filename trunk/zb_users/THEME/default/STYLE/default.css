@@ -732,10 +732,10 @@ ul.mutuality li.tbname,ul.msghead li.tbname{
 	color:#3c6da7;
 	padding-bottom:10px;
 	border-bottom:1px solid #dbe0e6;
-	
 }
 ul.mutuality li.msgarticle{
 	padding-left:0px;
+	border:none;
 }
 
 
