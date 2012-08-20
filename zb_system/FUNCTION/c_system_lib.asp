@@ -110,6 +110,7 @@ Class TCategory
 		Next
 		
 		Url =ParseCustomDirectoryForUrl(FullRegex,ZC_STATIC_DIRECTORY,"","","","","",ID,StaticName)
+		If Right(Url,12)="default.html" Then Url=Left(Url,Len(Url)-12)
 
 		Call Filter_Plugin_TCategory_Url(Url)
 
@@ -2121,7 +2122,11 @@ Class TArticleList
 				t=t & "&page=%n"
 			End If
 			If ZC_STATIC_MODE="REWRITE" Then
-				t=Replace(t,".html","_%n.html")
+				If InStr(t,"/default.html")>0 Then
+					t=Replace(t,"/default.html","_%n/default.html")
+				Else
+					t=Replace(t,".html","_%n.html")
+				End If
 			End If
 			If ZC_STATIC_MODE="MIX" Then
 				t=MixUrl
@@ -2135,6 +2140,7 @@ Class TArticleList
 			s=Replace(t,"%n",1)
 			If ListType="DEFAULT" Then s=ZC_BLOG_HOST
 			If (ListType="CATEGORY" Or ListType="USER" Or ListType="DATE" Or ListType="TAGS") Then s=Url
+			If ZC_STATIC_MODE="REWRITE" Then s=Replace(s,"/default.html","/")
 
 			strPageBar=GetTemplate("TEMPLATE_B_PAGEBAR")
 			strPageBar=Replace(strPageBar,"<#pagebar/page/url#>",s)
@@ -2154,7 +2160,7 @@ Class TArticleList
 				s=Replace(t,"%n",i)
 				If ListType="DEFAULT" And i=1 Then s=ZC_BLOG_HOST
 				If (ListType="CATEGORY" Or ListType="USER" Or ListType="DATE" Or ListType="TAGS") And i=1 Then s=Url
-
+				If ZC_STATIC_MODE="REWRITE" Then s=Replace(s,"/default.html","/")
 
 				strPageBar=GetTemplate("TEMPLATE_B_PAGEBAR")
 				If i=intNowPage then
@@ -2170,6 +2176,7 @@ Class TArticleList
 			s=Replace(t,"%n",intAllPage)
 			If ListType="DEFAULT" And intAllPage=1 Then s=ZC_BLOG_HOST
 			If (ListType="CATEGORY" Or ListType="USER" Or ListType="DATE" Or ListType="TAGS") And intAllPage=1 Then s=Url
+			If ZC_STATIC_MODE="REWRITE" Then s=Replace(s,"/default.html","/")
 
 			strPageBar=GetTemplate("TEMPLATE_B_PAGEBAR")
 			strPageBar=Replace(strPageBar,"<#pagebar/page/url#>",s)
@@ -2183,6 +2190,7 @@ Class TArticleList
 
 				If ListType="DEFAULT" And intNowPage-1=1 Then s=ZC_BLOG_HOST
 				If (ListType="CATEGORY" Or ListType="USER" Or ListType="DATE" Or ListType="TAGS") And intNowPage-1=1 Then s=Url
+				If ZC_STATIC_MODE="REWRITE" Then s=Replace(s,"/default.html","/")
 
 				Template_PageBar_Previous="<span class=""pagebar-previous""><a href="""& s &"""><span>"&ZC_MSG156&"</span></a></span>"
 
@@ -2354,6 +2362,7 @@ Class TUser
 		Next
 
 		Url =ParseCustomDirectoryForUrl(FullRegex,ZC_STATIC_DIRECTORY,"","","","","",ID,StaticName)
+		If Right(Url,12)="default.html" Then Url=Left(Url,Len(Url)-12)
 
 		Call Filter_Plugin_TUser_Url(Url)
 
@@ -3819,8 +3828,8 @@ Class TTag
 			If bAction_Plugin_TTag_Url=True Then Exit Property
 		Next
 
-
 		Url =ParseCustomDirectoryForUrl(FullRegex,ZC_STATIC_DIRECTORY,"","","","","",ID,EncodeName)
+		If Right(Url,12)="default.html" Then Url=Left(Url,Len(Url)-12)
 
 		Call Filter_Plugin_TTag_Url(Url)
 
