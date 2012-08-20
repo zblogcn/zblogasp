@@ -16,8 +16,7 @@ Call CheckReference("")
 If BlogUser.Level>1 Then Call ShowError(6) 
 BlogTitle="分页条优化选项"
 
-'配置
-
+'读取配置
 Call BetterPagebar_Config
  
 If (Not IsEmpty(Request.QueryString("s"))) Then Call BlogReBuild_Default

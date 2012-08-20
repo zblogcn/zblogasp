@@ -15,13 +15,18 @@ Function ActivePlugin_BetterPagebar()
 End Function
 
 
-'安装插件
+'启用插件
 Function InstallPlugin_BetterPagebar()
-
 	Call BetterPagebar_Initialize
 	'更新首页
 	Call BlogReBuild_Default
+End Function
 
+
+'停用插件
+Function UnInstallPlugin_BetterPagebar()
+	'更新首页
+	Call AddBatch(ZC_MSG259,"Call BlogReBuild_Default")
 End Function
 
 
