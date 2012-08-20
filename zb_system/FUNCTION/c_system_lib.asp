@@ -2115,7 +2115,11 @@ Class TArticleList
 				t=t & "?page=%n"
 			End If
 			If ZC_STATIC_MODE="REWRITE" Then
-				t=Replace(t,".html","_%n.html")
+				'If InStr(t,"/default.html")>0 Then
+				'	t=Replace(t,"/default.html","/%n/")
+				'Else
+					t=Replace(t,".html","_%n.html")
+				'End If
 			End If
 			If ZC_STATIC_MODE="MIX" Then
 				t=MixUrl
