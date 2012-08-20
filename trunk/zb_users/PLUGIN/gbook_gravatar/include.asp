@@ -21,13 +21,13 @@ Dim DZ_COUNT_VALUE	'调用条数
 Dim gbook_gravatar_Config
 
 
-Call Add_Response_Plugin("Response_Plugin_Html_Js_Add","$(""head"").append(""<link rel='stylesheet' type='text/css' href='"&GetCurrentHost()&"zb_users/plugin/gbook_gravatar/css/gbook_gravatar.css'/>"");")
+Call Add_Response_Plugin("Response_Plugin_Html_Js_Add","$(document).ready(function(){ $(""head"").append(""<link rel='stylesheet' type='text/css' href='"&GetCurrentHost()&"zb_users/plugin/gbook_gravatar/css/gbook_gravatar.css'/>"");});")
 
 
 Call RegisterPlugin("gbook_gravatar","ActivePlugin_gbook_gravatar")
 
 Function ActivePlugin_gbook_gravatar()
-	'Call Add_Action_Plugin("Action_Plugin_CommentPost_Succeed","gbook_gravatar_BlogReBuild_GuestComments()")
+
 	Call Add_Action_Plugin("Action_Plugin_BlogReBuild_Comments_Begin","gbook_gravatar_BlogReBuild_GuestComments():Exit Function")
 	
 End Function
@@ -136,7 +136,7 @@ Function gbook_gravatar_BlogReBuild_GuestComments()
 			
 			Set gbook_gravatar_objArticle=New TArticle
 			If gbook_gravatar_objArticle.LoadInfoByID(DZ_Rs("log_ID")) Then
-	strComments=strComments & "<div class=""n_cmt_div""><div class=""n_cmt_gravatar""><img class=""avatar"" title="""&DZ_Rs("comm_Content")&""" alt=""" & DZ_Rs("comm_Author") & " 的头像"" width="""&DZ_WH_VALUE&""" height="""&DZ_WH_VALUE&""" src=""http://www.gravatar.com/avatar/"&t_mail_e&"?s="&DZ_WH_VALUE&"&d="&DZ_AVATAR_VALUE&"&r=G""/></div><div class=""n_cmt_content""> <span class=""n_cmt_auth""><a href="""& gbook_gravatar_objArticle.Url & "#comment-" & DZ_Rs("comm_ID") & """ title=""" & DZ_Rs("comm_PostTime") & " post by " & DZ_Rs("comm_Author") & """>" & DZ_Rs("comm_Author") & "</a></span>  "&s&"  <font class=""n_cmt_time"">"&DZ_Rs("comm_PostTime")&"</font></div></div>"&vbcrlf
+	strComments=strComments & "<div class=""n_cmt_div""><div class=""n_cmt_gravatar""><img class=""avatar"" title="""&DZ_Rs("comm_Content")&""" alt=""" & DZ_Rs("comm_Author") & " 的头像"" width="""&DZ_WH_VALUE&""" height="""&DZ_WH_VALUE&""" src=""http://www.gravatar.com/avatar/"&t_mail_e&"?s="&DZ_WH_VALUE&"&d="&DZ_AVATAR_VALUE&"&r=G""/></div><div class=""n_cmt_content""> <span class=""n_cmt_auth""><a href="""& gbook_gravatar_objArticle.Url & "#comment-" & DZ_Rs("comm_ID") & """ title=""" & DZ_Rs("comm_PostTime") & " post by " & DZ_Rs("comm_Author") & """>" & DZ_Rs("comm_Author") & "</a></span>  "&s&"  <font class=""n_cmt_time"">"&DZ_Rs("comm_PostTime")&"</font></div><hr style=""visibility:hidden;clear:both;""></hr></div>"&vbcrlf
 			
 			end if
 			
@@ -150,22 +150,14 @@ Function gbook_gravatar_BlogReBuild_GuestComments()
 	DZ_Rs.close
 	Set DZ_Rs=Nothing
 
-	strComments="<li>" & strComments & "<div style=""clear:both;""></div></li>"
+	strComments="<li>" & strComments & "</li>"
 
 	strComments=TransferHTML(strComments,"[no-asp]")
 
 	Functions(FunctionMetas.GetValue("comments")).Content=strComments
 	Functions(FunctionMetas.GetValue("comments")).Post()
 	Functions(FunctionMetas.GetValue("comments")).SaveFile
-	
-	
-	'更新侧栏
-	BlogReBuild_Functions
-	''''
-	
-	'Call ClearGlobeCache()
-	'Call LoadGlobeCache()
-	'if Action_Plugin_BlogReBuild_Comments_Begin  then exit function end if
+
 
 End Function
 '*********************************************************
