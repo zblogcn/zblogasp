@@ -784,6 +784,8 @@ Class TArticle
 
 		End If
 
+		Template_Article_Tag=TransferHTML(Template_Article_Tag,"[anti-zc_blog_host]")
+
 		Export_Tag=True
 
 	End Function
@@ -968,6 +970,8 @@ Class TArticle
 			i=i+1
 			Template_Article_Comment=Replace(Template_Article_Comment,"<!--(count-->0<!--count)-->",i,1,1)
 		Loop
+
+		Template_Article_Comment=TransferHTML(Template_Article_Comment,"[anti-zc_blog_host]")
 
 		Export_CMTandTB=True
 
