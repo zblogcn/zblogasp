@@ -33,7 +33,7 @@ If BlogUser.Level>1 Then Call ShowError(6)
 
 If CheckPluginState("gbook_gravatar")=False Then Call ShowError(48)
 
-BlogTitle="taotao - 查看/操作" 
+BlogTitle="最新评论 - 查看/操作" 
 %>
 
 <!--#include file="..\..\..\zb_system\admin\admin_header.asp"-->
@@ -59,7 +59,7 @@ BlogTitle="taotao - 查看/操作"
 	str_DZ_IDS_VALUE=gbook_gravatar_Config.Read("DZ_IDS_VALUE")
 	str_DZ_IDS_VALUE=TransferHTML(str_DZ_IDS_VALUE,"[html-format]")
 %>	
-<tr>
+<tr style="display:none">
 <td width="10%">文章ID：</td>
 <td colspan="3" width="90%"><input name="str_DZ_IDS_VALUE" type="text" id="str_DZ_IDS_VALUE" value="<%=str_DZ_IDS_VALUE%>" />
 
