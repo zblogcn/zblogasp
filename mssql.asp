@@ -572,6 +572,13 @@ Function UpdateDateBase()
 		objConn.execute("CREATE TABLE [blog_Function] (fn_ID AutoIncrement primary key,fn_Name VARCHAR(50) default """",fn_FileName VARCHAR(50) default """",fn_Order int default 0,fn_Content text default """",fn_IsSystem YESNO DEFAULT 0,fn_SidebarID int default 0,fn_HtmlID VARCHAR(50) default """",fn_Ftype VARCHAR(5) default """",fn_MaxLi int default 0,fn_Meta text default """")")
 	End If
 
+	If Not CheckUpdateDB("[coun_Content]","[blog_Counter]") Then
+		objConn.execute("ALTER TABLE [blog_Counter] ADD COLUMN coun_Content VARCHAR(255) default """"")
+		objConn.execute("ALTER TABLE [blog_Counter] ADD COLUMN coun_UserID int default 0")
+		objConn.execute("ALTER TABLE [blog_Counter] ADD COLUMN coun_PostData  VARCHAR(255) default """"")
+		objConn.execute("ALTER TABLE [blog_Counter] ADD COLUMN coun_URL  VARCHAR(255) default """"")
+		objConn.execute("ALTER TABLE [blog_Counter] ADD COLUMN coun_AllRequestHeader  VARCHAR(255) default """"")
+	ENd If 
 End Function
 
 
@@ -626,7 +633,7 @@ objConn.execute("CREATE TABLE [blog_TrackBack] (tb_ID AutoIncrement primary key,
 
 objConn.execute("CREATE TABLE [blog_UpLoad] (ul_ID AutoIncrement primary key,ul_AuthorID int default 0,ul_FileSize int default 0,ul_FileName VARCHAR(255) default """",ul_PostTime datetime default now(),ul_Quote VARCHAR(255) default """",ul_DownNum int default 0,ul_FileIntro VARCHAR(255) default """",ul_DirByTime YESNO DEFAULT 0,ul_Meta text default """")")
 
-objConn.execute("CREATE TABLE [blog_Counter] (coun_ID AutoIncrement primary key,coun_IP VARCHAR(15) default """",coun_Agent text default """",coun_Refer VARCHAR(255) default """",coun_PostTime datetime default now() )")
+objConn.execute("CREATE TABLE [blog_Counter] (coun_ID AutoIncrement primary key,coun_IP VARCHAR(15) default """",coun_Agent text default """",coun_Refer VARCHAR(255) default """",coun_PostTime datetime default now(),coun_Content VARCHAR(255) default """",coun_UserID int default 0,coun_PostData  VARCHAR(255) default """",coun_URL  VARCHAR(255) default """",coun_AllRequestHeader  VARCHAR(255) default """")")
 
 objConn.execute("CREATE TABLE [blog_Keyword] (key_ID AutoIncrement primary key,key_Name VARCHAR(255) default """",key_Intro text default """",key_URL VARCHAR(255) default """")")
 
@@ -666,7 +673,8 @@ objConn.execute("CREATE TABLE [blog_TrackBack] (tb_ID int identity(1,1) not null
 
 objConn.execute("CREATE TABLE [blog_UpLoad] (ul_ID int identity(1,1) not null primary key,ul_AuthorID int default 0,ul_FileSize int default 0,ul_FileName nvarchar(255) default '',ul_PostTime datetime default getdate(),ul_Quote nvarchar(255) default '',ul_DownNum int default 0,ul_FileIntro nvarchar(255) default '',ul_DirByTime bit DEFAULT 0,ul_Meta ntext default '')")
 
-objConn.execute("CREATE TABLE [blog_Counter] (coun_ID int identity(1,1) not null primary key,coun_IP nvarchar(15) default '',coun_Agent ntext default '',coun_Refer nvarchar(255) default '',coun_PostTime datetime default getdate() )")
+objConn.execute("CREATE TABLE [blog_Counter] (coun_ID int identity(1,1) not null primary key,coun_IP nvarchar(15) default '',coun_Agent ntext default '',coun_Refer nvarchar(255) default '',coun_PostTime datetime default getdate(),coun_Content ntext default '',coun_UserID int default 0,coun_PostData ntext default '',coun_URL ntext default '',coun_AllRequestHeader ntext default '')")
+
 
 objConn.execute("CREATE TABLE [blog_Keyword] (key_ID int identity(1,1) not null primary key,key_Name nvarchar(255) default '',key_Intro ntext default '',key_URL nvarchar(255) default '')")
 
