@@ -939,13 +939,13 @@ Function WapExport(intPage,intCateId,intAuthorId,dtmYearMonth,strTagsName,intTyp
 		objRS.CursorType = adOpenKeyset
 		objRS.LockType = adLockReadOnly
 		objRS.ActiveConnection=objConn
-		objRS.Source="SELECT [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_Type],[log_Meta] FROM [blog_Article] WHERE ([log_ID]>0) AND ([log_Level]>1) AND ([log_CateID]<>0)"
+		objRS.Source="SELECT [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_Type],[log_Meta] FROM [blog_Article] WHERE ([log_ID]>0) AND ([log_Level]>1) AND ([log_Type]="&ZC_POST_TYPE_ARTICLE&")"
 
 
 		'添加搜索
 		If intType=ZC_DISPLAY_MODE_SEARCH Then
 		objRS.Source="SELECT [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_Type],[log_Meta] FROM [blog_Article] WHERE ([log_ID]>0) AND ([log_Level]>2)"
-		objRS.Source=objRS.Source & "AND(( [log_Title] like '%"&q&"%') OR ([log_Intro] LIKE '%"&q&"%') OR ([log_Content] LIKE '%"&q&"%'))  AND ([log_CateID]<>0)"
+		objRS.Source=objRS.Source & "AND(( [log_Title] like '%"&q&"%') OR ([log_Intro] LIKE '%"&q&"%') OR ([log_Content] LIKE '%"&q&"%'))  AND ([log_Type]="&ZC_POST_TYPE_ARTICLE&")"
 		End If 
 
 		If Not IsEmpty(intCateId) Then
