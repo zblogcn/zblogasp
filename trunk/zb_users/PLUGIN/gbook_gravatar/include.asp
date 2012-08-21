@@ -40,7 +40,7 @@ function InstallPlugin_gbook_gravatar()
 	gbook_gravatar_Config.Load("gbook_gravatar")
 	If gbook_gravatar_Config.Exists("DZ_VERSION")=False Then
 		gbook_gravatar_Config.Write "DZ_VERSION","1.0"
-		gbook_gravatar_Config.Write "DZ_IDS_VALUE","1"
+		gbook_gravatar_Config.Write "DZ_IDS_VALUE","0"
 		gbook_gravatar_Config.Write "DZ_AVATAR_VALUE","wavatar"
 		gbook_gravatar_Config.Write "DZ_WH_VALUE","32"
 		gbook_gravatar_Config.Write "DZ_TITLE_VALUE","40"
@@ -110,6 +110,7 @@ end function
 ' 目的：    最新留言列表
 '*********************************************************
 Function gbook_gravatar_BlogReBuild_GuestComments()
+	Call GetFunction
 	Call gbook_gravatar_Initialize
 	Dim strComments
 	Dim gbook_gravatar_objArticle
@@ -120,7 +121,7 @@ Function gbook_gravatar_BlogReBuild_GuestComments()
 	
 	if DZ_IDS_VALUE <> "0" then sql1= " where log_ID not in("&DZ_IDS_VALUE&")" end if
 	
-	Set DZ_Rs=objConn.Execute("SELECT * FROM [blog_Comment] "&sql1&" ORDER BY [comm_ID] DESC")
+	Set DZ_Rs=objConn.Execute("SELECT * FROM [blog_Comment]  ORDER BY [comm_ID] DESC")
 	If (Not DZ_Rs.bof) And (Not DZ_Rs.eof) Then
 
 		For i=1 to DZ_COUNT_VALUE
@@ -136,7 +137,8 @@ Function gbook_gravatar_BlogReBuild_GuestComments()
 			
 			Set gbook_gravatar_objArticle=New TArticle
 			If gbook_gravatar_objArticle.LoadInfoByID(DZ_Rs("log_ID")) Then
-	strComments=strComments & "<div class=""n_cmt_div""><div class=""n_cmt_gravatar""><img class=""avatar"" title="""&DZ_Rs("comm_Content")&""" alt=""" & DZ_Rs("comm_Author") & " 的头像"" width="""&DZ_WH_VALUE&""" height="""&DZ_WH_VALUE&""" src=""http://www.gravatar.com/avatar/"&t_mail_e&"?s="&DZ_WH_VALUE&"&d="&DZ_AVATAR_VALUE&"&r=G""/></div><div class=""n_cmt_content""> <span class=""n_cmt_auth""><a href="""& gbook_gravatar_objArticle.Url & "#comment-" & DZ_Rs("comm_ID") & """ title=""" & DZ_Rs("comm_PostTime") & " post by " & DZ_Rs("comm_Author") & """>" & DZ_Rs("comm_Author") & "</a></span>  "&s&"  <font class=""n_cmt_time"">"&DZ_Rs("comm_PostTime")&"</font></div><hr style=""visibility:hidden;clear:both;""></hr></div>"&vbcrlf
+			
+	strComments=strComments & "<div class=""n_cmt_div""><div class=""n_cmt_gravatar""><img style=""border:1px solid #ccc;padding:2px 2px;width:"&DZ_WH_VALUE&"px;height:"&DZ_WH_VALUE&"px;"" title="""&DZ_Rs("comm_Content")&""" alt=""" & DZ_Rs("comm_Author") & " 的头像"" src=""http://www.gravatar.com/avatar/"&t_mail_e&"?s="&DZ_WH_VALUE&"&d="&DZ_AVATAR_VALUE&"&r=G""/></div><div class=""n_cmt_content""> <span class=""n_cmt_auth""><a href="""& gbook_gravatar_objArticle.Url & "#comment-" & DZ_Rs("comm_ID") & """ title=""" & DZ_Rs("comm_PostTime") & " post by " & DZ_Rs("comm_Author") & """>" & DZ_Rs("comm_Author") & "</a></span>  "&s&"  <font class=""n_cmt_time"">"&DZ_Rs("comm_PostTime")&"</font></div><hr style=""visibility:hidden;clear:both;""></hr></div>"&vbcrlf
 			
 			end if
 			
@@ -153,7 +155,6 @@ Function gbook_gravatar_BlogReBuild_GuestComments()
 	strComments="<li>" & strComments & "</li>"
 
 	strComments=TransferHTML(strComments,"[no-asp]")
-
 	Functions(FunctionMetas.GetValue("comments")).Content=strComments
 	Functions(FunctionMetas.GetValue("comments")).Post()
 	Functions(FunctionMetas.GetValue("comments")).SaveFile
