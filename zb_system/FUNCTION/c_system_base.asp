@@ -110,6 +110,8 @@ Sub System_Initialize()
 
 	BlogConfig.Load("Blog")
 
+	ZC_BLOG_VERSION=BlogConfig.Read("ZC_BLOG_VERSION")
+
 	Call LoadGlobeCache()
 
 	Dim bolRebuildIndex
