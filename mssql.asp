@@ -573,11 +573,11 @@ Function UpdateDateBase()
 	End If
 
 	If Not CheckUpdateDB("[coun_Content]","[blog_Counter]") Then
-		objConn.execute("ALTER TABLE [blog_Counter] ADD COLUMN coun_Content VARCHAR(255) default """"")
-		objConn.execute("ALTER TABLE [blog_Counter] ADD COLUMN coun_UserID int default 0")
-		objConn.execute("ALTER TABLE [blog_Counter] ADD COLUMN coun_PostData  VARCHAR(255) default """"")
-		objConn.execute("ALTER TABLE [blog_Counter] ADD COLUMN coun_URL  VARCHAR(255) default """"")
-		objConn.execute("ALTER TABLE [blog_Counter] ADD COLUMN coun_AllRequestHeader  VARCHAR(255) default """"")
+			objConn.execute("ALTER TABLE [blog_Counter] ADD COLUMN coun_Content ntext default """"")
+			objConn.execute("ALTER TABLE [blog_Counter] ADD COLUMN coun_UserID int default 0")
+			objConn.execute("ALTER TABLE [blog_Counter] ADD COLUMN coun_PostData  ntext default """"")
+			objConn.execute("ALTER TABLE [blog_Counter] ADD COLUMN coun_URL  ntext default """"")
+			objConn.execute("ALTER TABLE [blog_Counter] ADD COLUMN coun_AllRequestHeader  ntext default """"")
 	ENd If 
 End Function
 
