@@ -288,8 +288,12 @@ h1,h2,h3,h4,h5,h6{
 	display: inline;
 	clear : none;
 }
-#divComments li{
-	width:220px;
+#divComments li,divPrevious li{
+	width:200px;
+    white-space:nowrap;
+    word-break:keep-all;
+    overflow:hidden;
+    text-overflow:ellipsis;
 }
 
 /*------------------------------文章模块---------------------------*/
