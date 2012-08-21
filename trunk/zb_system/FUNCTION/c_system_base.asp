@@ -2682,6 +2682,7 @@ Function BlogReBuild_Comments()
 		For i=1 to j
 			s=objRS("comm_Content")
 			s=Replace(s,vbCrlf,"")
+			s=Left(s,ZC_TB_EXCERPT_MAX)
 			strComments=strComments & "<li style=""text-overflow:ellipsis;""><a href="""& objConn.Execute("SELECT [log_FullUrl] FROM [blog_Article] WHERE [log_ID]=" & objRS("log_ID"))(0) & "#cmt" & objRS("comm_ID") & """ title=""" & objRS("comm_PostTime") & " post by " & objRS("comm_Author") & """>"+s+"</a></li>"
 			Set objArticle=Nothing
 			objRS.MoveNext

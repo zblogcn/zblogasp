@@ -512,6 +512,8 @@ Function UpdateDateBase()
 		objConn.execute("ALTER TABLE [blog_Category] ADD COLUMN [cate_LogTemplate] VARCHAR(50) default """"")
 		objConn.execute("ALTER TABLE [blog_Category] ADD COLUMN [cate_FullUrl] VARCHAR(255) default """"")
 		objConn.execute("ALTER TABLE [blog_Category] ADD COLUMN [cate_Meta] text default """"")
+
+		objConn.execute("UPDATE [blog_Category] SET [cate_ParentID]=0")
 	End If
 
 	If Not CheckUpdateDB("[comm_Meta]","[blog_Comment]") Then
