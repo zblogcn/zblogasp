@@ -5028,6 +5028,9 @@ Class TFunction
 End Class
 '*********************************************************
 
+
+
+
 '*********************************************************
 '                        TCounter
 '*********************************************************
@@ -5093,7 +5096,7 @@ Class TCounter
 		PostTime=Now
 		Content=c
 		UserID=BlogUser.ID
-		PostData=IIf(isBinary,"二进制数据，无法取得POSTDATA",Request.Form)
+		PostData=IIf(isBinary,"Binary PostData",Request.Form)
 		URL=GetUrl
 		AllRequestHeader=Request.ServerVariables("ALL_HTTP")
 		Dim j,k,i,m
@@ -5122,4 +5125,5 @@ Class TCounter
 	End Function
 
 End Class
+'*********************************************************
 %>
