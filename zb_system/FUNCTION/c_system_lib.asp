@@ -5028,4 +5028,98 @@ Class TFunction
 End Class
 '*********************************************************
 
+'*********************************************************
+'                        TCounter
+'*********************************************************
+Class TCounter
+
+	Public ID
+	Public IP
+	Public Agent
+	Public Content
+	Public UserID
+	Public PostTime
+	Public PostData
+	Public URL
+	Public Referer
+	Public AllRequestHeader
+
+	Public Function LoadInfoById(nid)
+		Call CheckParameter(nid,"int",0)
+		Dim strSQL
+		strSQL="SELECT [coun_ID],[coun_IP],[coun_Agent],[coun_Refer],[coun_PostTime],[coun_Content],[coun_UserID],[coun_PostData],[coun_URL],[coun_AllRequestHeader] FROM [blog_Counter] WHRER [coun_ID]="&nid
+		Dim objRs
+		Set objRs=objConn.Execute(strsql)
+		If (Not objRS.bof) And (Not objRS.eof) Then
+			ID=objRs(0)
+			IP=vbsunescape(objRs(1))
+			Agent=vbsunescape(objRs(2))
+			Referer=vbsunescape(objRs(3))
+			PostTime=objRs(4)
+			Content=vbsunescape(objRs(5))
+			UserID=objRs(6)
+			PostData=vbsunescape(objRs(7))
+			URL=vbsunescape(objRs(8))
+			AllRequestHeader=vbsunescape(objRs(9))
+			LoadInfoById=True
+		End If
+	End Function
+	
+	Public Function LoadInfoByArray(objRs)
+
+		If IsArray(objRs)=True Then
+
+			ID=objRs(0)
+			IP=vbsunescape(objRs(1))
+			Agent=vbsunescape(objRs(2))
+			Referer=vbsunescape(objRs(3))
+			PostTime=objRs(4)
+			Content=vbsunescape(objRs(5))
+			UserID=objRs(6)
+			PostData=vbsunescape(objRs(7))
+			URL=vbsunescape(objRs(8))
+			AllRequestHeader=vbsunescape(objRs(9))
+			PostTime = Year(PostTime) & "-" & Month(PostTime) & "-" & Day(PostTime) & " " & Hour(PostTime) & ":" & Minute(PostTime) & ":" & Second(PostTime)
+			LoadInfoByArray=True
+		End If
+
+
+	End Function
+
+	Public Function Add(c,isBinary)
+		IP=Request.ServerVariables("REMOTE_ADDR")
+		Agent=Request.ServerVariables("HTTP_USER_AGENT")
+		Referer=Request.ServerVariables("HTTP_REFERER")
+		PostTime=Now
+		Content=c
+		UserID=BlogUser.ID
+		PostData=IIf(isBinary,"二进制数据，无法取得POSTDATA",Request.Form)
+		URL=GetUrl
+		AllRequestHeader=Request.ServerVariables("ALL_HTTP")
+		Dim j,k,i,m
+		j=Array(IP,Agent,Referer,PostTime,Content,UserID,PostData,URL,AllRequestHeader)
+		k=Array("coun_IP","coun_Agent","coun_Refer","coun_PostTime","coun_Content","coun_UserID","coun_PostData","coun_URL","coun_AllRequestHeader")
+		m="INSERT INTO [blog_Counter]("
+		For i=0 To Ubound(k)-1
+			m=m&"["&k(i)&"],"
+		Next
+		m=m&"["&k(i)&"]) VALUES("
+		For i=0 To Ubound(j)-1
+			m=m&"'"&IIf(i=3 or i=5,j(i),vbsescape(j(i)))&"',"
+		Next
+		m=m&"'"&j(i)&"'"
+		m=m&")"
+		objConn.Execute m
+		ID=objConn.Execute("SELECT MAX([coun_ID]) FROM [blog_Counter]")(0)
+	End Function
+	
+	Public Function GetUrl
+		GetUrl=IIf(LCase(Request.ServerVariables("HTTPS"))="off","http://","https://")
+		GetUrl=GetUrl & Request.ServerVariables("SERVER_NAME") 
+		GetUrl=IIf(Request.ServerVariables("SERVER_PORT")<>80,GetUrl&":"&Request.ServerVariables("SERVER_PORT"),GetUrl)
+		GetUrl=GetUrl&Request.ServerVariables("URL") 
+		GetUrl=IIf(Trim(Request.QueryString)<>"",GetUrl&"?"&Trim(Request.QueryString),GetUrl) 
+	End Function
+
+End Class
 %>
