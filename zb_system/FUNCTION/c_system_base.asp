@@ -3545,7 +3545,7 @@ Function RefreshOptionFormFileToDB()
 	For Each a In BlogConfig.Meta.Names
 		Call Execute("Call BlogConfig.Write("""&a&""","&a&")")
 	Next
-	Call BlogConfig.Write("ZC_BLOG_VERSION","2.0 Beta Build 120821")
+	Call BlogConfig.Write("ZC_BLOG_VERSION","2.0 Beta Build 120823")
 	If BlogConfig.Exists("ZC_MULTI_DOMAIN_SUPPORT")=False Then Call BlogConfig.Write("ZC_MULTI_DOMAIN_SUPPORT",False)
 	Call BlogConfig.Save()
 	Err.Clear
