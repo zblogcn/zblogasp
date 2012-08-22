@@ -1127,7 +1127,7 @@ Class TArticle
 
 						strCC_Count=strCC_Count+1
 						strCC_ID=objArticle.ID
-						strCC_Url=objArticle.FullUrl
+						strCC_Url=objArticle.Url
 						strCC_PostTime=objArticle.PostTime
 						strCC_Title=objArticle.Title
 
@@ -1780,7 +1780,7 @@ Class TArticleList
 		'//////////////////////////
 
 
-		objRS.Source="SELECT [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_Type],[log_Meta] FROM [blog_Article] WHERE ([log_Type]=0) And ([log_ID]>0) AND ([log_Istop]=0) AND ([log_Level]>1)"
+		objRS.Source="SELECT [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_Type],[log_Meta] FROM [blog_Article] WHERE ([log_Type]=0) AND ([log_Level]>1)"
 
 		If Not IsEmpty(intCateId) Then
 			Dim strSubCateID : strSubCateID=Join(GetSubCateID(intCateId,True),",")
@@ -1863,6 +1863,10 @@ Class TArticleList
 				MixUrl =ParseCustomDirectoryForUrl("{%host%}/catalog.asp?tags={%alias%}",ZC_STATIC_DIRECTORY,"","","","","",Tag.ID,Tag.EncodeName)
 			End If
 		End If
+
+
+		If ListType="DEFAULT" Then objRS.Source=objRS.Source & " AND ([log_Istop]=0) "
+
 
 		objRS.Source=objRS.Source & "ORDER BY [log_PostTime] DESC,[log_ID] DESC"
 		objRS.Open()
@@ -2159,9 +2163,9 @@ Class TArticleList
 
 			If intAllPage>ZC_PAGEBAR_COUNT Then
 				a=intNowPage
-				b=intNowPage+ZC_PAGEBAR_COUNT
+				b=intNowPage+ZC_PAGEBAR_COUNT-1
 				If a>ZC_PAGEBAR_COUNT Then a=a-1:b=b-1
-				If b>intAllPage Then b=intAllPage:a=intAllPage-ZC_PAGEBAR_COUNT
+				If b>intAllPage Then b=intAllPage:a=intAllPage-ZC_PAGEBAR_COUNT+1
 			Else
 				a=1:b=intAllPage
 			End If

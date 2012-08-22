@@ -35,7 +35,7 @@ If Session("batch").Count>0 Then
 <%
 	Else
 %>
-<div id="batch"><img src="<%=GetCurrentHost%>zb_system/image/admin/warning.png" width="20"/><p><%=ZC_MSG273%></p></div>
+<div id="batch"><img src="<%=GetCurrentHost%>zb_system/image/admin/error.png" width="16"/><p><%=ZC_MSG273%></p></div>
 <%
 	End If
 Else

@@ -3016,12 +3016,12 @@ Function BuildArticle(intID,bolBuildNavigate,bolBuildCategory)
 		If (bolBuildNavigate=True) And (ZC_USE_NAVIGATE_ARTICLE=True) Then
 
 			Dim objRS
-			Set objRS=objConn.Execute("SELECT TOP 1 [log_ID] FROM [blog_Article] WHERE ([log_Level]>2) AND ([log_CateID]<>0) AND ([log_PostTime]<" & ZC_SQL_POUND_KEY & objArticle.PostTime & ZC_SQL_POUND_KEY &") ORDER BY [log_PostTime] DESC")
+			Set objRS=objConn.Execute("SELECT TOP 1 [log_ID] FROM [blog_Article] WHERE ([log_Level]>2) AND ([log_Type]=0) AND ([log_PostTime]<" & ZC_SQL_POUND_KEY & objArticle.PostTime & ZC_SQL_POUND_KEY &") ORDER BY [log_PostTime] DESC")
 			If (Not objRS.bof) And (Not objRS.eof) Then
 				Call BuildArticle(objRS("log_ID"),False,False)
 			End If
 			Set objRS=Nothing
-			Set objRS=objConn.Execute("SELECT TOP 1 [log_ID] FROM [blog_Article] WHERE ([log_Level]>2) AND ([log_CateID]<>0) AND ([log_PostTime]>" & ZC_SQL_POUND_KEY & objArticle.PostTime & ZC_SQL_POUND_KEY &") ORDER BY [log_PostTime] ASC")
+			Set objRS=objConn.Execute("SELECT TOP 1 [log_ID] FROM [blog_Article] WHERE ([log_Level]>2) AND ([log_Type]=0) AND ([log_PostTime]>" & ZC_SQL_POUND_KEY & objArticle.PostTime & ZC_SQL_POUND_KEY &") ORDER BY [log_PostTime] ASC")
 			If (Not objRS.bof) And (Not objRS.eof) Then
 				Call BuildArticle(objRS("log_ID"),False,False)
 			End If
@@ -3593,6 +3593,30 @@ Function GetFunctionByFileName(fn)
 			Set GetFunctionByFileName=New TFunction
 		End If
 	End If
+
+End Function
+'*********************************************************
+
+
+
+
+'*********************************************************
+' 目的：  
+'*********************************************************
+Function AddNavBar(id)
+
+	Call GetFunction()
+
+	Dim s,objArticle
+
+	Set objArticle=New TArticle
+	If objArticle.LoadInfoByID(id) Then
+		s="<li><a href="""&objArticle.HtmlUrl&""">"&objArticle.HtmlTitle&"</a></li>"
+	End If
+
+	Functions(FunctionMetas.GetValue("navbar")).Content=Functions(FunctionMetas.GetValue("navbar")).Content & s
+	Functions(FunctionMetas.GetValue("navbar")).Post()
+
 
 End Function
 '*********************************************************

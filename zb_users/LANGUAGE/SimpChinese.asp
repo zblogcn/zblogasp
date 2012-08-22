@@ -47,7 +47,7 @@ Const ZC_MSG042="分页"
 Const ZC_MSG043="私人文章，登录状态下方可查看。"
 Const ZC_MSG044="-"
 Const ZC_MSG045="错误提示"
-Const ZC_MSG046=""
+Const ZC_MSG046="加入导航栏菜单"
 Const ZC_MSG047="文章编辑"
 Const ZC_MSG048="文章"
 Const ZC_MSG049="记住我,下次回复时不用重新输入个人信息"
@@ -270,7 +270,7 @@ Const ZC_MSG265="回复该留言"
 Const ZC_MSG266=" 操作成功."
 Const ZC_MSG267=" 操作失败."
 Const ZC_MSG268=" 提示:需要进行'[索引重建]'."
-Const ZC_MSG269=" 提示:需要进行'<a href=""%u"">[文件重建]</a>'."
+Const ZC_MSG269=" 提示:需要进行'<a href=""%u"">文件重建</a>'."
 Const ZC_MSG270="所属文章"
 Const ZC_MSG271="启用评论倒序输出"
 Const ZC_MSG272="评论编辑"
@@ -278,16 +278,30 @@ Const ZC_MSG273=" 之前的批量操作还未全部执行,请点击""<a href='#'
 Const ZC_MSG274="显示搜索文章的数量"
 Const ZC_MSG275="发布于"
 Const ZC_MSG276="此目录下文章的默认模板"
-
-
-
-
-
-
-
-
-
-
+Const ZC_MSG277=""
+Const ZC_MSG278=""
+Const ZC_MSG279=""
+Const ZC_MSG280=""
+Const ZC_MSG281=""
+Const ZC_MSG282=""
+Const ZC_MSG283=""
+Const ZC_MSG284=""
+Const ZC_MSG285=""
+Const ZC_MSG286=""
+Const ZC_MSG287=""
+Const ZC_MSG288=""
+Const ZC_MSG289=""
+Const ZC_MSG290=""
+Const ZC_MSG291=""
+Const ZC_MSG292=""
+Const ZC_MSG293=""
+Const ZC_MSG294=""
+Const ZC_MSG295=""
+Const ZC_MSG296=""
+Const ZC_MSG297=""
+Const ZC_MSG298=""
+Const ZC_MSG299=""
+Const ZC_MSG300=""
 
 
 

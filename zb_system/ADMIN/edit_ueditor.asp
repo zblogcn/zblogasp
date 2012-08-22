@@ -321,9 +321,11 @@ End If
 	Dim ArticleLevel
 	Dim i:i=0
 	For Each ArticleLevel in ZVA_Article_Level_Name
-		Response.Write "<option value="""& i &""" "
-		If EditArticle.Level=i Then Response.Write "selected=""selected"""
-		Response.Write ">"& ZVA_Article_Level_Name(i) &"</option>"
+		If i>0 Then
+			Response.Write "<option value="""& i &""" "
+			If EditArticle.Level=i Then Response.Write "selected=""selected"""
+			Response.Write ">"& ZVA_Article_Level_Name(i) &"</option>"
+		End If
 		i=i+1
 	Next
 %>
@@ -385,17 +387,34 @@ End If
                         <p>
 <!-- Istop( -->
 <% If Request.QueryString("type")<>"Page" Then %>
-                          <span class='editinputname'><%=ZC_MSG051%>:
+                          <label><span class='editinputname'><%=ZC_MSG051%>:
                           <%If EditArticle.Istop Then%>
                           <input type="checkbox" name="edtIstop" id="edtIstop" value="True" checked=""/>
                           <%Else%>
-                          <input type="checkbox" name="edtIstop" id="edtIstop" value="True"/></span>
+                          <input type="checkbox" name="edtIstop" id="edtIstop" value="True"/>
                           <%End If%>
+						  </span></label>
 <%Else%>
                           <input type="hidden" name="edtIstop" id="edtIstop" value=""/>
 <% End If %>
 <!-- )Istop -->
                       </p>
+
+
+
+<!-- Navbar( -->
+<% If Request.QueryString("type")="Page" Then %>
+                        <p>
+                          <label><span class='editinputname'><%=ZC_MSG046%>:
+                          <%If EditArticle.ID=0 Then%>
+                          <input type="checkbox" name="edtAddNavbar" id="edtAddNavbar" value="True" checked=""/>
+                          <%Else%>
+                          <input type="checkbox" name="edtAddNavbar" id="edtAddNavbar" value="True"/>
+                          <%End If%>
+						  </span></label>
+                      </p>
+<% End If %>
+<!-- )Navbar -->
 
 
 
