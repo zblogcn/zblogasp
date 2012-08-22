@@ -137,6 +137,8 @@ Class TCategory
 		End If
 	End Property
 
+	Public ReCount
+
 	Public Function Post()
 
 		Call Filter_Plugin_TCategory_Post(ID,Name,Intro,Order,Count,ParentID,Alias,TemplateName,LogTemplate,FullUrl,MetaString)
@@ -297,6 +299,7 @@ Class TCategory
 	Private Sub Class_Initialize()
 		ID=0
 		Name=ZC_MSG059
+		ReCount=0
 		Set Meta=New TMeta
 	End Sub
 
@@ -1515,6 +1518,8 @@ Class TArticle
 
 	Public Function Statistic()
 
+		Call GetUsersbyUserIDList(AuthorID)
+
 		Dim objRS
 		Set objRS=objConn.Execute("SELECT COUNT([log_ID]) FROM [blog_Comment] WHERE [log_ID] =" & ID)
 		If (Not objRS.bof) And (Not objRS.eof) Then
@@ -1530,9 +1535,21 @@ Class TArticle
 		'objConn.Execute("UPDATE [blog_Article] SET [log_TrackBackNums]="& TrackBackNums &" WHERE [log_ID] =" & ID)
 		'Set objRS=Nothing
 
-		Call GetUsersbyUserIDList(AuthorID)
+		'重新统计分类及用户的文章数、评论数
+		If CateID>0 Then
+			If Categorys(CateID).ReCount=0 Then
+			Categorys(CateID).ReCount=objConn.Execute("SELECT COUNT([log_ID]) FROM [blog_Article] WHERE [log_Level]>1 AND [log_CateID]=" & CateID )(0)
+			objConn.Execute("UPDATE [blog_Category] SET [cate_Count]="&Categorys(CateID).ReCount&" WHERE [cate_ID] =" & CateID)
+			End If
+		End If
+
+		If Users(AuthorID).ReCount=0 Then
+			Users(AuthorID).ReCount=objConn.Execute("SELECT COUNT([log_ID]) FROM [blog_Article] WHERE [log_Level]>1 AND [log_AuthorID]=" & AuthorID )(0)
+			objConn.Execute("UPDATE [blog_Member] SET [mem_Count]="&Users(AuthorID).ReCount&" WHERE [mem_ID] =" & CateID)
+		End If
 
 		FullUrl=Replace(Url,ZC_BLOG_HOST,"<#ZC_BLOG_HOST#>")
+
 		objConn.Execute("UPDATE [blog_Article] SET [log_FullUrl]='"&FullUrl&"' WHERE [log_ID] =" & ID)
 
 		Statistic=True
@@ -1783,8 +1800,9 @@ Class TArticleList
 		objRS.Source="SELECT [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_Type],[log_Meta] FROM [blog_Article] WHERE ([log_Type]=0) AND ([log_Level]>1)"
 
 		If Not IsEmpty(intCateId) Then
-			Dim strSubCateID : strSubCateID=Join(GetSubCateID(intCateId,True),",")
-			objRS.Source=objRS.Source & "AND([log_CateID]IN("&strSubCateID&"))"
+			'Dim strSubCateID : strSubCateID=Join(GetSubCateID(intCateId,True),",")
+			'objRS.Source=objRS.Source & "AND([log_CateID]IN("&strSubCateID&"))"
+			objRS.Source=objRS.Source & "AND([log_CateID]="&intCateId&")"
 			ListType="CATEGORY"
 			If CheckCateByID(intCateId) Then
 				Title=Categorys(intCateId).Name
@@ -2439,6 +2457,7 @@ Class TUser
 			LoginType = FLoginType
 	End Property
 
+	Public ReCount
 
 	Public Function GetPasswordByOriginal(OriginaPassword)
 
@@ -2830,6 +2849,8 @@ Class TUser
 		Intro=""
 
 		LoginType="Cookies"
+
+		ReCount=0
 
 		Set Meta=New TMeta
 
@@ -3887,6 +3908,8 @@ Class TTag
 		RssUrl = ZC_BLOG_HOST & "feed.asp?tags=" & ID
 	End Property
 
+	Public ReCount
+
 	Public Function Post()
 
 		Call Filter_Plugin_TTag_Post(ID,Name,Intro,Order,Count,ParentID,Alias,TemplateName,FullUrl,MetaString)
@@ -4063,6 +4086,8 @@ Class TTag
 	End Function
 
 	Private Sub Class_Initialize()
+
+		ReCount=0
 
 		Set Meta=New TMeta
 
