@@ -2427,27 +2427,32 @@ Function BlogReBuild_Catalogs()
 	aryCateInOrder=GetCategoryOrder()
 
 
+	Categorys(0).Count=objConn.Execute("SELECT COUNT([log_ID]) FROM [blog_Article] WHERE [log_Level]>1 AND [log_Type]=0 AND [log_CateID]=0")(0)
+
+	If Categorys(0).Count>0 Then
+		strCatalog=strCatalog & "<li class=""li-cate""><a href="""& Categorys(0).Url & """>"+Categorys(0).Name + "<span class=""article-nums""> (" & Categorys(0).Count & ")</span>" +"</a></li>"
+	End If
+
 	Dim i,j
 	For i=Lbound(aryCateInOrder)+1 To Ubound(aryCateInOrder)
 
-			If Categorys(aryCateInOrder(i)).ParentID=0 Then
-				strCatalog=strCatalog & "<li class=""li-cate""><a href="""& Categorys(aryCateInOrder(i)).Url & """>"+Categorys(aryCateInOrder(i)).Name + "<span class=""article-nums""> (" & Categorys(aryCateInOrder(i)).Count & ")</span>" +"</a></li>"
+		If Categorys(aryCateInOrder(i)).ParentID=0 Then
+			strCatalog=strCatalog & "<li class=""li-cate""><a href="""& Categorys(aryCateInOrder(i)).Url & """>"+Categorys(aryCateInOrder(i)).Name + "<span class=""article-nums""> (" & Categorys(aryCateInOrder(i)).Count & ")</span>" +"</a></li>"
 
-				bolHasSubCate=False
-				For j=Lbound(aryCateInOrder)+1 To UBound(aryCateInOrder)
-					If Categorys(aryCateInOrder(j)).ParentID=Categorys(aryCateInOrder(i)).ID Then bolHasSubCate=True
-				Next
-				'If bolHasSubCate Then strCatalog=strCatalog & "<li class=""li-subcates""><ul class=""ul-subcates"">"
-				For j=Lbound(aryCateInOrder)+1 To UBound(aryCateInOrder)
-					If Categorys(aryCateInOrder(j)).ParentID=Categorys(aryCateInOrder(i)).ID Then
-						strCatalog=strCatalog & "<li class=""li-subcate""><a href="""& Categorys(aryCateInOrder(j)).Url & """>"+Categorys(aryCateInOrder(j)).Name + "<span class=""article-nums""> (" & Categorys(aryCateInOrder(j)).Count & ")</span>" +"</a></li>"
-					End If
-				Next
-				'If bolHasSubCate Then strCatalog=strCatalog & "</ul></li>"
-			End If
+			bolHasSubCate=False
+			For j=Lbound(aryCateInOrder)+1 To UBound(aryCateInOrder)
+				If Categorys(aryCateInOrder(j)).ParentID=Categorys(aryCateInOrder(i)).ID Then bolHasSubCate=True
+			Next
+			'If bolHasSubCate Then strCatalog=strCatalog & "<li class=""li-subcates""><ul class=""ul-subcates"">"
+			For j=Lbound(aryCateInOrder)+1 To UBound(aryCateInOrder)
+				If Categorys(aryCateInOrder(j)).ParentID=Categorys(aryCateInOrder(i)).ID Then
+					strCatalog=strCatalog & "<li class=""li-subcate""><a href="""& Categorys(aryCateInOrder(j)).Url & """>"+Categorys(aryCateInOrder(j)).Name + "<span class=""article-nums""> (" & Categorys(aryCateInOrder(j)).Count & ")</span>" +"</a></li>"
+				End If
+			Next
+			'If bolHasSubCate Then strCatalog=strCatalog & "</ul></li>"
+		End If
 
 	Next
-
 
 	strCatalog=TransferHTML(strCatalog,"[no-asp]")
 
@@ -2679,7 +2684,7 @@ Function BlogReBuild_Comments()
 	j=Functions(FunctionMetas.GetValue("comments")).MaxLi
 	If j=0 Then j=10
 
-	Set objRS=objConn.Execute("SELECT [log_ID],[comm_ID],[comm_Content],[comm_PostTime],[comm_Author] FROM [blog_Comment] WHERE [log_ID]>0 ORDER BY [comm_PostTime] DESC,[comm_ID] DESC")
+	Set objRS=objConn.Execute("SELECT [log_ID],[comm_ID],[comm_Content],[comm_PostTime],[comm_Author] FROM [blog_Comment] WHERE [log_ID]>0 AND [comm_IsCheck]=0 ORDER BY [comm_PostTime] DESC,[comm_ID] DESC")
 	If (Not objRS.bof) And (Not objRS.eof) Then
 		For i=1 to j
 			s=objRS("comm_Content")
@@ -2764,17 +2769,6 @@ Function BlogReBuild_Statistics()
 	Dim objRS
 	Dim objStream
 
-	'重新统计分类及用户的文章数、评论数
-	Dim Category,strSubCateID
-	For Each Category in Categorys
-		If IsObject(Category) Then
-			strSubCateID=Join(GetSubCateID(Category.ID,True),",")
-			Set objRS=objConn.Execute("SELECT COUNT([log_ID]) FROM [blog_Article] WHERE [log_Level]>1 AND [log_CateID]IN(" & strSubCateID &")" )
-			i=objRS(0)
-			objConn.Execute("UPDATE [blog_Category] SET [cate_Count]="&i&" WHERE [cate_ID] =" & Category.ID)
-			Set objRS=Nothing
-		End If
-	Next
 
 	'Statistics
 	Dim strStatistics
@@ -3617,6 +3611,7 @@ Function AddNavBar(id)
 	Functions(FunctionMetas.GetValue("navbar")).Content=Functions(FunctionMetas.GetValue("navbar")).Content & s
 	Functions(FunctionMetas.GetValue("navbar")).Post()
 
+	Call SetBlogHint(Empty,Empty,True)
 
 End Function
 '*********************************************************

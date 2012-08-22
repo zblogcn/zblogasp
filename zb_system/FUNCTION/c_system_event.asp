@@ -1925,6 +1925,13 @@ Function SaveFunction()
 	objFunction.SidebarID=Request.Form("inpSidebarID")
 	objFunction.Content=Replace(Request.Form("inpContent"),VBCrlf,"")
 
+	If Request.Form("inpFileName")="navbar" Then
+		Call GetFunction()
+		If TransferHTML(objFunction.Content,"[anti-zc_blog_host]")<>Functions(FunctionMetas.GetValue("navbar")).Content Then
+			Call SetBlogHint(Empty,Empty,True)
+		End If
+	End If
+
 	'接口
 	'Call Filter_Plugin_SaveFunction_Core(objFunction)
 
