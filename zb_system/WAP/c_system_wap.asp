@@ -1028,6 +1028,7 @@ Function WapExport(intPage,intCateId,intAuthorId,dtmYearMonth,strTagsName,intTyp
 
 				Set objArticle=New TArticle
 				If objArticle.LoadInfoByArray(Array(objRS(0),objRS(1),objRS(2),objRS(3),objRS(4),objRS(5),objRS(6),objRS(7),objRS(8),objRS(9),objRS(10),objRS(11),objRS(12),objRS(13),objRS(14),objRS(15),objRS(16),objRS(17))) Then
+					objArticle.SearchText=Request.QueryString("q")
 					objArticle.Template="WAP_ARTICLE-MULTI"
 					If objArticle.Export(intType)= True Then
 						aryArticleList(i)=objArticle.html
