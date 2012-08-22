@@ -216,6 +216,9 @@ Function PostArticle()
 	If objArticle.Post Then
 		Call ScanTagCount(strTag & objArticle.Tag)
 		Call BuildArticle(objArticle.ID,True,True)
+		If objArticle.FType=ZC_POST_TYPE_PAGE And Request.Form("edtAddNavBar")="True" Then
+			Call AddNavBar(objArticle.ID)
+		End If
 		PostArticle=True
 		Call Filter_Plugin_PostArticle_Succeed(objArticle)
 	End If
@@ -1103,7 +1106,7 @@ Function BatchAll()
 
 
 		Response.Write "<!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 1.0 Transitional//EN"" ""http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd""><html><head><meta http-equiv=""Content-Type"" content=""text/html; charset=utf-8""/><style>body{padding:0; margin:0;background:#dbe3ff;}img{border:0;padding:0; margin:0;background:Transparent;}</style></head><body>"
-		Response.Write "<img src='image/admin/okay.png' width='20'>"
+		Response.Write "<img src='image/admin/ok.png' width='16'>"
 		Response.Write "<script type=""text/javascript"">parent.Batch2Tip("""&ZC_MSG227 & Replace(ZC_MSG169,"%n",Session("batchtime")/1000) &""")</script>"
 		Response.Write "<script type=""text/javascript"">parent.BatchEnd()</script>"
 		'Response.Write "<div id=""divMain"">"
@@ -1225,7 +1228,10 @@ Function SaveSetting()
 
 	If BlogConfig.Read("ZC_BLOG_COPYRIGHT")<>d.Item("ZC_BLOG_COPYRIGHT")Then Call SetBlogHint(Empty,Empty,True)
 	If BlogConfig.Read("ZC_BLOG_LANGUAGE")<>d.Item("ZC_BLOG_LANGUAGE")Then Call SetBlogHint(Empty,Empty,True)
-	If BlogConfig.Read("ZC_BLOG_LANGUAGE")<>d.Item("ZC_BLOG_LANGUAGE")Then Call SetBlogHint(Empty,Empty,True)
+	If BlogConfig.Read("ZC_BLOG_COPYRIGHT")<>d.Item("ZC_BLOG_COPYRIGHT")Then
+		d.Item("ZC_BLOG_COPYRIGHT")=Replace(Replace(d.Item("ZC_BLOG_COPYRIGHT"),vbCr,""),vbLf,"")
+		Call SetBlogHint(Empty,Empty,True)
+	End If
 
 	If BlogConfig.Read("ZC_COMMENT_TURNOFF")<>d.Item("ZC_COMMENT_TURNOFF")Then Call SetBlogHint(Empty,Empty,True)
 	If BlogConfig.Read("ZC_COMMENT_REVERSE_ORDER_EXPORT")<>d.Item("ZC_COMMENT_REVERSE_ORDER_EXPORT")Then Call SetBlogHint(Empty,Empty,True)

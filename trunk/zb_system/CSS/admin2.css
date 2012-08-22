@@ -546,7 +546,13 @@ span.note{
 
 #batch iframe{float:left;margin:5px 5px 0 8px;}
 #batch p{float:left;}
-#batch img{float:left;margin:5px 5px 0 8px;}
+#batch img{float:left;margin:7px 5px 0 9px;}
+#batch a,p.hint a{
+	background:url("../IMAGE/ADMIN/bullet_go.png") no-repeat 4px 1px;
+	padding-left:20px;
+	font-weight:bold;
+}
+
 
 #batch{
 	width:100%;

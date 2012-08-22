@@ -502,6 +502,7 @@ Function UpdateDateBase()
 		objConn.execute("ALTER TABLE [blog_Article] ADD COLUMN [log_Type] int DEFAULT 0")
 		objConn.execute("ALTER TABLE [blog_Article] ADD COLUMN [log_Meta] text default """"")
 
+		objConn.execute("UPDATE [blog_Article] SET [log_FullUrl]=''")
 		objConn.execute("UPDATE [blog_Article] SET [log_Type]=0")
 	End If
 
