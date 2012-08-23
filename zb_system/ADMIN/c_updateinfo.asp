@@ -66,7 +66,7 @@
 
 		If b=True Then
 			Dim strSendTB
-			strSendTB = "inpHost=" & Server.URLEncode(GetCurrentHost) & "&inpTimezone=" & Server.URLEncode(ZC_TIME_ZONE) & "&inpVersion=" & Server.URLEncode(ZC_BLOG_VERSION) & "&inpLanguage=" & Server.URLEncode(ZC_BLOG_LANGUAGE) & "&inpIP=" & Server.URLEncode(Request.ServerVariables("LOCAL_ADDR"))
+			strSendTB = "inpHost=" & Server.URLEncode(BlogHost) & "&inpTimezone=" & Server.URLEncode(ZC_TIME_ZONE) & "&inpVersion=" & Server.URLEncode(ZC_BLOG_VERSION) & "&inpLanguage=" & Server.URLEncode(ZC_BLOG_LANGUAGE) & "&inpIP=" & Server.URLEncode(Request.ServerVariables("LOCAL_ADDR"))
 
 			Dim objPing
 			Set objPing = Server.CreateObject("MSXML2.ServerXMLHTTP")

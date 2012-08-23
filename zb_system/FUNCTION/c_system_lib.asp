@@ -117,7 +117,7 @@ Class TCategory
 	End Property
 
 	Public Property Get RssUrl
-		RssUrl = ZC_BLOG_HOST & "feed.asp?cate=" & ID
+		RssUrl = BlogHost & "feed.asp?cate=" & ID
 	End Property
 
 	Public Property Get HtmlName
@@ -210,9 +210,6 @@ Class TCategory
 			objConn.Execute("UPDATE [blog_Category] set [cate_Name]='"&Name&"',[cate_Order]="&Order&",[cate_Intro]='"&Intro&"',[cate_ParentID]="&ParentID&",[cate_Url]='"&Alias&"',[cate_Template]='"&TemplateName&"',[cate_LogTemplate]='"&LogTemplate&"',[cate_FullUrl]='"&FullUrl&"',[cate_Meta]='"&MetaString&"' WHERE [cate_ID] =" & ID)
 
 		End If
-
-		'FullUrl=Replace(Url,ZC_BLOG_HOST,"<#ZC_BLOG_HOST#>")
-		'objConn.Execute("UPDATE [blog_Category] SET [cate_FullUrl]='"&FullUrl&"' WHERE [cate_ID] =" & ID)
 
 		Post=True
 
@@ -465,7 +462,7 @@ Class TArticle
 		Next
 
 		If Level<=2 Then
-			Url = ZC_BLOG_HOST & "zb_system/view.asp?id=" & ID
+			Url = BlogHost & "zb_system/view.asp?id=" & ID
 		Else
 			Call GetUsersbyUserIDList(AuthorID)
 			Url =ParseCustomDirectoryForUrl(FullRegex,ZC_STATIC_DIRECTORY,Categorys(CateID).StaticName,Users(AuthorID).StaticName,Year(PostTime),Month(PostTime),Day(PostTime),ID,StaticName)
@@ -503,11 +500,11 @@ Class TArticle
 	End Property
 
 	Public Property Get TrackBack
-		TrackBack = ZC_BLOG_HOST & "zb_system/cmd.asp?act=tb&id="& ID &"&key=" & TrackBackKey
+		TrackBack = BlogHost & "zb_system/cmd.asp?act=tb&id="& ID &"&key=" & TrackBackKey
 	End Property
 
 	Public Property Get PreTrackBack
-		PreTrackBack = ZC_BLOG_HOST & "zb_system/cmd.asp?act=gettburl&id=" & ID
+		PreTrackBack = BlogHost & "zb_system/cmd.asp?act=gettburl&id=" & ID
 	End Property
 
 	Public Property Get TrackBackUrl
@@ -519,15 +516,15 @@ Class TArticle
 	End Property
 
 	Public Property Get WfwComment
-		WfwComment = ZC_BLOG_HOST
+		WfwComment = BlogHost
 	End Property
 
 	Public Property Get WfwCommentRss
-		WfwCommentRss = ZC_BLOG_HOST & "feed.asp?cmt=" & ID
+		WfwCommentRss = BlogHost & "feed.asp?cmt=" & ID
 	End Property
 
 	Public Property Get WAPUrl
-		WAPUrl = ZC_BLOG_HOST & "wap.asp?act=View&id=" & ID
+		WAPUrl = BlogHost & "wap.asp?act=View&id=" & ID
 	End Property
 
 	Public Property Get HtmlWAPUrl
@@ -535,7 +532,7 @@ Class TArticle
 	End Property
 
 	Public Property Get CommentPostUrl
-		CommentPostUrl = ZC_BLOG_HOST & "zb_system/cmd.asp?act=cmt&key=" & CommentKey
+		CommentPostUrl = BlogHost & "zb_system/cmd.asp?act=cmt&key=" & CommentKey
 	End Property
 
 	Public Property Get HtmlContent
@@ -1286,10 +1283,10 @@ Class TArticle
 		Next
 
 		If ZC_MULTI_DOMAIN_SUPPORT=True Then
-			Content=Replace(Content,"href=""" & ZC_BLOG_HOST,"href=""<#ZC_BLOG_HOST#>")
-			Content=Replace(Content,"src=""" & ZC_BLOG_HOST,"src=""<#ZC_BLOG_HOST#>")
-			Intro=Replace(Intro,"href=""" & ZC_BLOG_HOST,"href=""<#ZC_BLOG_HOST#>")
-			Intro=Replace(Intro,"src=""" & ZC_BLOG_HOST,"src=""<#ZC_BLOG_HOST#>")
+			Content=Replace(Content,"href=""" & BlogHost,"href=""<#ZC_BLOG_HOST#>")
+			Content=Replace(Content,"src=""" & BlogHost,"src=""<#ZC_BLOG_HOST#>")
+			Intro=Replace(Intro,"href=""" & BlogHost,"href=""<#ZC_BLOG_HOST#>")
+			Intro=Replace(Intro,"src=""" & BlogHost,"src=""<#ZC_BLOG_HOST#>")
 		End If
 
 		Dim aryTemplateTagsName()
@@ -1470,7 +1467,7 @@ Class TArticle
 
 		If ZC_MULTI_DOMAIN_SUPPORT=True Then
 			Dim x,y
-			x=CStr(Replace(Url,ZC_BLOG_HOST,""))
+			x=CStr(Replace(Url,BlogHost,""))
 			x=Replace(x,"/////","/"):x=Replace(x,"////","/"):x=Replace(x,"///","/"):x=Replace(x,"//","/")
 			For i=1 To UBound(Split(x,"/"))
 				y=y & "../"
@@ -1548,7 +1545,7 @@ Class TArticle
 			objConn.Execute("UPDATE [blog_Member] SET [mem_Count]="&Users(AuthorID).ReCount&" WHERE [mem_ID] =" & CateID)
 		End If
 
-		FullUrl=Replace(Url,ZC_BLOG_HOST,"<#ZC_BLOG_HOST#>")
+		FullUrl=Replace(Url,BlogHost,"<#ZC_BLOG_HOST#>")
 
 		objConn.Execute("UPDATE [blog_Article] SET [log_FullUrl]='"&FullUrl&"' WHERE [log_ID] =" & ID)
 
@@ -2063,7 +2060,7 @@ Class TArticleList
 
 		If ZC_MULTI_DOMAIN_SUPPORT=True Then
 			Dim x,y
-			x=CStr(Replace(Url,ZC_BLOG_HOST,""))
+			x=CStr(Replace(Url,BlogHost,""))
 			x=Replace(x,"/////","/"):x=Replace(x,"////","/"):x=Replace(x,"///","/"):x=Replace(x,"//","/")
 			For i=1 To UBound(Split(x,"/"))
 				y=y & "../"
@@ -2170,7 +2167,7 @@ Class TArticleList
 			Dim a,b
 
 			s=Replace(t,"%n",1)
-			If ListType="DEFAULT" Then s=ZC_BLOG_HOST
+			If ListType="DEFAULT" Then s=BlogHost
 			If (ListType="CATEGORY" Or ListType="USER" Or ListType="DATE" Or ListType="TAGS") Then s=Url
 			If ZC_STATIC_MODE="REWRITE" Then s=Replace(s,"/default.html","/")
 
@@ -2190,7 +2187,7 @@ Class TArticleList
 			For i=a to b
 
 				s=Replace(t,"%n",i)
-				If ListType="DEFAULT" And i=1 Then s=ZC_BLOG_HOST
+				If ListType="DEFAULT" And i=1 Then s=BlogHost
 				If (ListType="CATEGORY" Or ListType="USER" Or ListType="DATE" Or ListType="TAGS") And i=1 Then s=Url
 				If ZC_STATIC_MODE="REWRITE" Then s=Replace(s,"/default.html","/")
 
@@ -2206,7 +2203,7 @@ Class TArticleList
 			Next
 
 			s=Replace(t,"%n",intAllPage)
-			If ListType="DEFAULT" And intAllPage=1 Then s=ZC_BLOG_HOST
+			If ListType="DEFAULT" And intAllPage=1 Then s=BlogHost
 			If (ListType="CATEGORY" Or ListType="USER" Or ListType="DATE" Or ListType="TAGS") And intAllPage=1 Then s=Url
 			If ZC_STATIC_MODE="REWRITE" Then s=Replace(s,"/default.html","/")
 
@@ -2220,7 +2217,7 @@ Class TArticleList
 			Else
 				s=Replace(t,"%n",intNowPage-1)
 
-				If ListType="DEFAULT" And intNowPage-1=1 Then s=ZC_BLOG_HOST
+				If ListType="DEFAULT" And intNowPage-1=1 Then s=BlogHost
 				If (ListType="CATEGORY" Or ListType="USER" Or ListType="DATE" Or ListType="TAGS") And intNowPage-1=1 Then s=Url
 				If ZC_STATIC_MODE="REWRITE" Then s=Replace(s,"/default.html","/")
 
@@ -2405,9 +2402,9 @@ Class TUser
 	  Dim fso
 	  Set fso = CreateObject("Scripting.FileSystemObject")
 	  If (fso.FileExists(BlogPath & "zb_users/avatar/"&ID&".png")) Then
-		GetAvatar=GetCurrentHost() & "zb_users/avatar/"&ID&".png"
+		GetAvatar=BlogHost & "zb_users/avatar/"&ID&".png"
 	  Else
-		GetAvatar=GetCurrentHost() & "zb_users/avatar/0.png"
+		GetAvatar=BlogHost & "zb_users/avatar/0.png"
 	  End If
 	End Function
 
@@ -2423,7 +2420,7 @@ Class TUser
 	End Property
 
 	Public Property Get RssUrl
-		RssUrl = ZC_BLOG_HOST & "feed.asp?user=" & ID
+		RssUrl = BlogHost & "feed.asp?user=" & ID
 	End Property
 
 
@@ -2711,9 +2708,6 @@ Class TUser
 
 		End If
 
-		'FullUrl=Replace(Url,ZC_BLOG_HOST,"<#ZC_BLOG_HOST#>")
-		'objConn.Execute("UPDATE [blog_Member] SET [mem_FullUrl]='"&FullUrl&"' WHERE [mem_ID] =" & ID)
-
 		Edit=True
 
 	End Function
@@ -2782,9 +2776,6 @@ Class TUser
 				ID=objRS(0)
 			End If
 			Set objRS=Nothing
-
-			'FullUrl=Replace(Url,ZC_BLOG_HOST,"<#ZC_BLOG_HOST#>")
-			'objConn.Execute("UPDATE [blog_Member] SET [mem_FullUrl]='"&FullUrl&"' WHERE [mem_ID] =" & ID)
 
 			Register=True
 
@@ -3766,7 +3757,7 @@ Class TUpLoadFile
 
 		strUPLOADDIR = ZC_UPLOAD_DIRECTORY&"/"&Year(GetTime(Now()))&"/"&Month(GetTime(Now()))
 
-		FullUrl=ZC_BLOG_HOST & strUPLOADDIR & "/" & FileName
+		FullUrl=BlogHost & strUPLOADDIR & "/" & FileName
 
 	End Property
 
@@ -3905,7 +3896,7 @@ Class TTag
 	End Property
 
 	Public Property Get RssUrl
-		RssUrl = ZC_BLOG_HOST & "feed.asp?tags=" & ID
+		RssUrl = BlogHost & "feed.asp?tags=" & ID
 	End Property
 
 	Public ReCount
@@ -3940,9 +3931,6 @@ Class TTag
 		Else
 			objConn.Execute("UPDATE [blog_Tag] SET [tag_Name]='"&Name&"',[tag_Order]="&Order&",[tag_Intro]='"&Intro&"',[tag_ParentID]="&ParentID&",[tag_URL]='"&Alias&"',[tag_Template]='"&TemplateName&"',[tag_Meta]='"&MetaString&"' WHERE [tag_ID] =" & ID)
 		End If
-
-		'FullUrl=Replace(Url,ZC_BLOG_HOST,"<#ZC_BLOG_HOST#>")
-		'objConn.Execute("UPDATE [blog_Tag] SET [tag_FullUrl]='"&FullUrl&"' WHERE [tag_ID] =" & ID)
 
 		Post=True
 

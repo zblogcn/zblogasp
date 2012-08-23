@@ -79,7 +79,7 @@ Function SaveContent()
 		End With
 		Set objStream = NoThing
 		If Err.Number=0 then
-		Response.Write "<span style="""">&nbsp;"&formatdatetime(now,4)&":"&Right("0"&second(now),2)&"<a href="""&GetCurrentHost&"zb_users/CACHE/"&ZC_AUTOSAVE_FILENAME&""" target=""_blank"" style=""text-decoration: none;"">"&ZC_MSG258&"</a>&nbsp;</span>"
+		Response.Write "<span style="""">&nbsp;"&formatdatetime(now,4)&":"&Right("0"&second(now),2)&"<a href="""&BlogHost&"zb_users/CACHE/"&ZC_AUTOSAVE_FILENAME&""" target=""_blank"" style=""text-decoration: none;"">"&ZC_MSG258&"</a>&nbsp;</span>"
 		End If
 		Response.End
 End Function
@@ -99,7 +99,7 @@ Function ExportAutoSaveJS()
 	Response.Write "  }"
 	'/////////////
 	Response.Write "  var AutoSaveTime=60;"
-	Response.Write "  var FileName="""&GetCurrentHost&"zb_users/CACHE/"&ZC_AUTOSAVE_FILENAME&""";"
+	Response.Write "  var FileName="""&BlogHost&"zb_users/CACHE/"&ZC_AUTOSAVE_FILENAME&""";"
 	Response.Write "  var postForm = null; "
 	Response.Write "  var msg = null; "
 	Response.Write "  function init_ueditor(){"

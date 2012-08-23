@@ -136,8 +136,8 @@ Next
 		autoFloatEnabled:false,
 		autoHeightEnabled:false,
 		minFrameHeight:200,
-		highlightJsUrl:"<%=GetCurrentHost%>ZB_SYSTEM/ADMIN/uEditor/third-party/SyntaxHighlighter/shCore.js" 
-		,highlightCssUrl:"<%=GetCurrentHost%>ZB_SYSTEM/ADMIN/uEditor/third-party/SyntaxHighlighter/shCoreDefault.css"
+		highlightJsUrl:"<%=BlogHost%>ZB_SYSTEM/ADMIN/uEditor/third-party/SyntaxHighlighter/shCore.js" 
+		,highlightCssUrl:"<%=BlogHost%>ZB_SYSTEM/ADMIN/uEditor/third-party/SyntaxHighlighter/shCoreDefault.css"
 	});</script>
 <!--#include file="admin_top.asp"-->
 <%If IsPage=False Then%>
@@ -541,7 +541,7 @@ function selectlogtemplatesub(a){
 	$("#cmbTemplate").find("option[value='"+a+"']").attr("selected","selected");
 	edtTemplate.value=a;
 }
-window.onbeforeunload = function(){return "您当前的编辑内容还未保存！"}
+//window.onbeforeunload = function(){return "您当前的编辑内容还未保存！"}
 
 // ]]>
 </script>

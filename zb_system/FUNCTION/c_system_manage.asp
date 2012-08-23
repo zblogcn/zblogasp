@@ -728,7 +728,7 @@ Function ExportFileList(intPage)
 				End If
 			Next
 
-			Response.Write "<td><a href='"& GetCurrentHost & ZC_UPLOAD_DIRECTORY &"/"&Year(objRS("ul_PostTime")) & "/" & Month(objRS("ul_PostTime")) & "/"&Server.URLEncode(objRS("ul_FileName"))&"' target='_blank'>"&Year(objRS("ul_PostTime")) & "/" & Month(objRS("ul_PostTime")) & "/" &objRS("ul_FileName")&"</a></td>"
+			Response.Write "<td><a href='"& BlogHost & ZC_UPLOAD_DIRECTORY &"/"&Year(objRS("ul_PostTime")) & "/" & Month(objRS("ul_PostTime")) & "/"&Server.URLEncode(objRS("ul_FileName"))&"' target='_blank'>"&Year(objRS("ul_PostTime")) & "/" & Month(objRS("ul_PostTime")) & "/" &objRS("ul_FileName")&"</a></td>"
 
 			Response.Write "<td>"&objRS("ul_FileSize")&"</td><td>"&FormatDateTime(objRS("ul_PostTime"), 2)&"</td>"
 			Response.Write "<td align=""center""><a href='../cmd.asp?act=FileDel&amp;id="&Server.URLEncode(objRS("ul_ID"))&"' onclick='return window.confirm("""& ZC_MSG058 &""");'><img src=""../image/admin/delete.png"" alt=""" & ZC_MSG063 & """ title=""" & ZC_MSG063 & """ width=""16"" /></a></td>"
@@ -1194,7 +1194,7 @@ Function ExportSiteInfo()
 	</tr>
 	<tr>
 	<td width="20%">MetaWeblog API</td>
-	<td colspan="3" width="80%"><%=GetCurrentHost%>zb_system/xml-rpc/index.asp</td>
+	<td colspan="3" width="80%"><%=BlogHost%>zb_system/xml-rpc/index.asp</td>
 	</tr>
 	</table>
 

@@ -47,7 +47,7 @@ Next
 Dim Path
 Path=Replace(BlogPath &  strUPLOADDIR &"\" & upload.form("edtFileLoad_Name")	,"\","/")
 Dim s
-FileName=GetCurrentHost& strUPLOADDIR &"\" & upload.form("edtFileLoad_Name")
+FileName=BlogHost& strUPLOADDIR &"\" & upload.form("edtFileLoad_Name")
 s=upload.Save("edtFileLoad",1)
 
 If upload.Save("edtFileLoad",0)=True Then

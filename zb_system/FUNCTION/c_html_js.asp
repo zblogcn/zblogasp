@@ -106,7 +106,7 @@ If f<>"" Then
 			Response.Write "try{$('#divContorPanel dd div').prepend('<span class=\'cp-hello\' style=\'line-height:2.5em;\'>"&Replace(ZC_MSG023,"%s",BlogUser.Name) & " (" & ZVA_User_Level_Name(BlogUser.Level)&")</span><br/>')}catch(e){}"
 			Response.Write "try{$('.cp-login').find('a').html('["&ZC_MSG248&"]');}catch(e){}"
 			Response.Write "try{$('.cp-vrs').find('a').html('["&ZC_MSG168&"]');}catch(e){}"
-			Response.Write "try{$('.cp-vrs').find('a').attr('href','"&GetCurrentHost()&"zb_system/cmd.asp?act=ArticleEdt&webedit=ueditor');}catch(e){}"
+			Response.Write "try{$('.cp-vrs').find('a').attr('href','"&BlogHost&"zb_system/cmd.asp?act=ArticleEdt&webedit=ueditor');}catch(e){}"
 		End If
 
 		Call CloseConnect()
@@ -144,7 +144,7 @@ If f<>"" Then
 
 	f=Request.QueryString("date")
 
-	s=Replace(MakeCalendar(f),"<#ZC_BLOG_HOST#>",GetCurrentHost())
+	s=Replace(MakeCalendar(f),"<#ZC_BLOG_HOST#>",BlogHost)
 
 	Response.Clear
 	Response.Write "document.write(""" & Replace(s,"""","\""") & """)"
@@ -275,7 +275,7 @@ Function LoadFileInfo(name)
 
 	For i=0 To UBound(aryTemplateTagsName)
 		If aryTemplateTagsName(i)="ZC_BLOG_HOST" Then
-			aryTemplateTagsValue(i)=GetCurrentHost()
+			aryTemplateTagsValue(i)=BlogHost
 		End If 
 	Next
 

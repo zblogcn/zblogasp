@@ -33,7 +33,7 @@ For Each sAction_Plugin_Searching_Begin in Action_Plugin_Searching_Begin
 	If Not IsEmpty(sAction_Plugin_Searching_Begin) Then Call Execute(sAction_Plugin_Searching_Begin)
 Next
 
-TemplateTagsDic.Item("ZC_BLOG_HOST")=GetCurrentHost()
+TemplateTagsDic.Item("ZC_BLOG_HOST")=BlogHost
 
 '检查权限
 If Not CheckRights("Search") Then Call ShowError(6)
@@ -127,7 +127,7 @@ End If
 
 objArticle.FType=ZC_POST_TYPE_PAGE
 objArticle.Content=Join(aryArticleList)
-objArticle.Content=Replace(objArticle.Content,"<#ZC_BLOG_HOST#>",GetCurrentHost())
+objArticle.Content=Replace(objArticle.Content,"<#ZC_BLOG_HOST#>",BlogHost)
 objArticle.Title=ZC_MSG085 + ":" + TransferHTML(strQuestion,"[html-format]")
 objArticle.FullRegex="{%host%}/{%alias%}.html"
 

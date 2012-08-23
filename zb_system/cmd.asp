@@ -929,7 +929,7 @@ Function Search()
 		End If
 	Next
 
-	RedirectBy301(GetCurrentHost & "search.asp?" & s)
+	RedirectBy301(BlogHost & "search.asp?" & s)
 End Function
 
 Function SettingMng()
