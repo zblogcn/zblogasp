@@ -1219,7 +1219,7 @@ Function SaveSetting()
 		If Right(d.Item("ZC_BLOG_HOST"),1)<>"/" Then
 			d.Item("ZC_BLOG_HOST")=d.Item("ZC_BLOG_HOST") & "/"
 		End If
-		Call SetBlogHint(Empty,Empty,True)
+		'Call SetBlogHint(Empty,Empty,True)
 	End If
 	If BlogConfig.Read("ZC_BLOG_TITLE")<>d.Item("ZC_BLOG_TITLE")Then Call SetBlogHint(Empty,Empty,True)
 	If BlogConfig.Read("ZC_BLOG_SUBTITLE")<>d.Item("ZC_BLOG_SUBTITLE")Then Call SetBlogHint(Empty,Empty,True)
