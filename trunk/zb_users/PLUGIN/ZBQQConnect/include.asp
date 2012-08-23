@@ -25,7 +25,7 @@ Function ActivePlugin_ZBQQConnect()
 	Dim strQQ,objQQ
 	If CheckPluginState("RegPage")=True Then
 			If IsEmpty(Request.QueryString("QQOPENID"))=False Then
-				strQQ=Replace(TransferHTML(FilterSQL(Request.QueryString("QQOPENID")),"[no-html]"),"""","""""")
+				strQQ=Replace(TransferHTML(FilterSQL(Request.QueryString("QQOPENID")),"[nohtml]"),"""","""""")
 				If Len(strQQ)=32 Then
 					ZBQQConnect_Initialize
 					ZBQQConnect_DB.OpenID=strQQ
