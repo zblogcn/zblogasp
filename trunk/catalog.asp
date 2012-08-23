@@ -32,7 +32,7 @@ For Each sAction_Plugin_Catalog_Begin in Action_Plugin_Catalog_Begin
 	If Not IsEmpty(sAction_Plugin_Catalog_Begin) Then Call Execute(sAction_Plugin_Catalog_Begin)
 Next
 
-TemplateTagsDic.Item("ZC_BLOG_HOST")=GetCurrentHost()
+TemplateTagsDic.Item("ZC_BLOG_HOST")=BlogHost
 
 Dim ArtList
 Set ArtList=New TArticleList

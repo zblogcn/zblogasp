@@ -64,7 +64,7 @@ Public Function Logout()
 	Response.Write "function SetCookie(sName, sValue,iExpireDays) {if (iExpireDays){var dExpire = new Date();dExpire.setTime(dExpire.getTime()+parseInt(iExpireDays*24*60*60*1000));document.cookie = sName + ""="" + escape(sValue) + ""; expires="" + dExpire.toGMTString();}else{document.cookie = sName + ""="" + escape(sValue) + ""; path=/"";	}}"
 	Response.Write "SetCookie(""username"","""","""");"
 	Response.Write "SetCookie(""password"","""","""");"
-	Response.Write "window.location=""" & GetCurrentHost & """;"
+	Response.Write "window.location=""" & BlogHost & """;"
 	Response.Write "</script>"
 
 	Logout=True
@@ -108,10 +108,10 @@ Function SendFile()
 
 	Response.Write "<!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 1.0 Transitional//EN"" ""http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd""><html><head><meta http-equiv=""Content-Type"" content=""text/html; charset=utf-8""/><meta http-equiv=""Content-Language"" content=""zh-cn"" /><link rel=""stylesheet"" rev=""stylesheet"" href=""CSS/admin.css"" type=""text/css"" media=""screen"" /><script src=""script/common.js"" type=""text/javascript""></script></head><body>"
 
-	Response.Write "<form border=""1"" name=""edit"" id=""edit"" method=""post"" enctype=""multipart/form-data"" action="""& GetCurrentHost &"cmd.asp?act=FileUpload&reload=1"">"
+	Response.Write "<form border=""1"" name=""edit"" id=""edit"" method=""post"" enctype=""multipart/form-data"" action="""& BlogHost &"cmd.asp?act=FileUpload&reload=1"">"
 	Response.Write "<p>"& ZC_MSG108 &": "
 	Response.Write "<input type=""file"" id=""edtFileLoad"" name=""edtFileLoad"" size=""20"">  <input type=""submit"" class=""button"" value="""& ZC_MSG087 &""" name=""B1"" onclick='document.getElementById(""edit"").action=document.getElementById(""edit"").action+""&filename=""+escape(document.getElementById(""edtFileLoad"").value)' /> <input class=""button"" type=""reset"" value="""& ZC_MSG088 &""" name=""B2"" />"
-	Response.Write "&nbsp;<input type=""checkbox"" onclick='if(this.checked==true){document.getElementById(""edit"").action=document.getElementById(""edit"").action+""&autoname=1"";}else{document.getElementById(""edit"").action="""& GetCurrentHost &"cmd.asp?act=FileUpload&reload=1"";};SetCookie(""chkAutoFileName"",this.checked,365);' id=""chkAutoName"" id=""chkAutoName""/><label for=""chkAutoName"">"& ZC_MSG131 &"</label></p></form>"
+	Response.Write "&nbsp;<input type=""checkbox"" onclick='if(this.checked==true){document.getElementById(""edit"").action=document.getElementById(""edit"").action+""&autoname=1"";}else{document.getElementById(""edit"").action="""& BlogHost &"cmd.asp?act=FileUpload&reload=1"";};SetCookie(""chkAutoFileName"",this.checked,365);' id=""chkAutoName"" id=""chkAutoName""/><label for=""chkAutoName"">"& ZC_MSG131 &"</label></p></form>"
 
 	Response.Write "<script type=""text/javascript"">if(GetCookie(""chkAutoFileName"")==""true""){document.getElementById(""chkAutoName"").checked=true;document.getElementById(""edit"").action=document.getElementById(""edit"").action+""&autoname=1"";};</script></body></html>"
 
@@ -642,7 +642,7 @@ Function ReturnAjaxComment(objComment)
 	strC=GetTemplate("TEMPLATE_B_ARTICLE_COMMENT")
 	objComment.Count=objComment.Count+1
 	strC=objComment.MakeTemplate(strC)
-	strC=Replace(strC,"<#ZC_BLOG_HOST#>",GetCurrentHost())
+	strC=Replace(strC,"<#ZC_BLOG_HOST#>",BlogHost)
 
 	Dim aryTemplateTagsName2
 	Dim aryTemplateTagsValue2
@@ -1077,7 +1077,7 @@ Function BatchAll()
 
 		For i = 0 To 0
 
-			Response.Write "<!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 1.0 Transitional//EN"" ""http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd""><html><head><meta http-equiv=""Content-Type"" content=""text/html; charset=utf-8""/><meta http-equiv=""refresh"" content="""&ZC_REBUILD_FILE_INTERVAL&";URL="&GetCurrentHost & "zb_system/cmd.asp?act=batch"&"&all="&intAllTime&"""/><style>body{padding:0; margin:0;background:#dbe3ff;}img{border:0;padding:0; margin:0;background:Transparent;}</style></head><body>"
+			Response.Write "<!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 1.0 Transitional//EN"" ""http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd""><html><head><meta http-equiv=""Content-Type"" content=""text/html; charset=utf-8""/><meta http-equiv=""refresh"" content="""&ZC_REBUILD_FILE_INTERVAL&";URL="&BlogHost & "zb_system/cmd.asp?act=batch"&"&all="&intAllTime&"""/><style>body{padding:0; margin:0;background:#dbe3ff;}img{border:0;padding:0; margin:0;background:Transparent;}</style></head><body>"
 			Response.Write "<img src='image/admin/loading.gif' width='20'>"
 			Response.Write "<script type=""text/javascript"">parent.Batch2Tip("""&b(0) & ZC_MSG109&""")</script>"
 			If Session("batchorder")=Session("batch").Count Then

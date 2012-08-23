@@ -19,6 +19,9 @@ Dim BlogTitle
 Dim BlogUser
 Set BlogUser =New TUser
 
+Dim BlogHost
+BlogHost=GetCurrentHost()
+
 Dim BlogPath
 BlogPath=GetReallyDirectory()
 
@@ -1608,11 +1611,12 @@ End Function
 '*********************************************************
 ' 目的：    得到实际上的BLOG的真实物理目录
 '*********************************************************
-Dim IsRunGetReallyDirectory
-IsRunGetReallyDirectory=False
 Function GetReallyDirectory()
 
-	If IsRunGetReallyDirectory=True Then Exit Function
+	If CurrentReallyDirectory<>"" Then
+		GetReallyDirectory=CurrentReallyDirectory
+		Exit Function
+	End If
 
 	Dim p	
 	p=Server.MapPath(".")
@@ -1639,8 +1643,6 @@ Function GetReallyDirectory()
 	Set fso=Nothing
 
 	GetReallyDirectory=CreateObject("Scripting.FileSystemObject").GetFolder(p).Path & "\"
-
-	IsRunGetReallyDirectory=True
 
 	'Err.Clear
 
@@ -1762,7 +1764,7 @@ Function GetBlogHint()
 	If IsEmpty(bolRebuildFiles)=False Then
 
 		If bolRebuildFiles=True Then
-			Response.Write "<div class='hint'><p class='hint hint_blue'><font color='blue'>" & Replace(ZC_MSG269,"%u",GetCurrentHost()&"zb_system/cmd.asp?act=AskFileReBuild") & "</font></p></div>"
+			Response.Write "<div class='hint'><p class='hint hint_blue'><font color='blue'>" & Replace(ZC_MSG269,"%u",BlogHost&"zb_system/cmd.asp?act=AskFileReBuild") & "</font></p></div>"
 		End If
 
 	End If
@@ -1794,7 +1796,7 @@ End Function
 Function ParseCustomDirectoryForUrl(strRegex,strPost,strCategory,strUser,strYear,strMonth,strDay,strID,strAlias)
 	Dim s
 	s=ParseCustomDirectory(strRegex,strPost,strCategory,strUser,strYear,strMonth,strDay,strID,strAlias)
-	s=Replace(s,"{%host%}",Left(ZC_BLOG_HOST,Len(ZC_BLOG_HOST)-1))
+	s=Replace(s,"{%host%}",Left(BlogHost,Len(BlogHost)-1))
 	ParseCustomDirectoryForUrl=Replace(s,"\","/")
 End Function
 '*********************************************************
@@ -3367,21 +3369,21 @@ Function CreateAdminLeftMenu()
 '强制清空Menu,防止某些插件提前插入造成排在系统菜单之前,插件插入菜单要在系统初始化完成后
 Response_Plugin_Admin_Left=""
 
-Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("ArticleEdt"),ZC_MSG168,GetCurrentHost&"zb_system/cmd.asp?act=ArticleEdt&amp;webedit="&ZC_BLOG_WEBEDIT,"nav_new","aArticleEdt",""))
-'Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("FileReBuild"),ZC_MSG073,GetCurrentHost&"zb_system/cmd.asp?act=AskFileReBuild","nav_build","aAskFileReBuild",""))
-Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("ArticleMng"),ZC_MSG067,GetCurrentHost&"zb_system/cmd.asp?act=ArticleMng","nav_article","aArticleMng",""))
-Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("ArticleMng"),ZC_MSG111,GetCurrentHost&"zb_system/cmd.asp?act=ArticleMng&amp;type=Page","nav_page","aPageMng",""))
-Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("CategoryMng"),ZC_MSG066,GetCurrentHost&"zb_system/cmd.asp?act=CategoryMng","nav_category","aCategoryMng",""))
+Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("ArticleEdt"),ZC_MSG168,BlogHost&"zb_system/cmd.asp?act=ArticleEdt&amp;webedit="&ZC_BLOG_WEBEDIT,"nav_new","aArticleEdt",""))
+'Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("FileReBuild"),ZC_MSG073,BlogHost&"zb_system/cmd.asp?act=AskFileReBuild","nav_build","aAskFileReBuild",""))
+Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("ArticleMng"),ZC_MSG067,BlogHost&"zb_system/cmd.asp?act=ArticleMng","nav_article","aArticleMng",""))
+Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("ArticleMng"),ZC_MSG111,BlogHost&"zb_system/cmd.asp?act=ArticleMng&amp;type=Page","nav_page","aPageMng",""))
+Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("CategoryMng"),ZC_MSG066,BlogHost&"zb_system/cmd.asp?act=CategoryMng","nav_category","aCategoryMng",""))
 
-Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("TagMng"),ZC_MSG141,GetCurrentHost&"zb_system/cmd.asp?act=TagMng","nav_tags","aTagMng",""))
-Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("CommentMng"),ZC_MSG068,GetCurrentHost&"zb_system/cmd.asp?act=CommentMng","nav_comments","aCommentMng",""))
-Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("FileMng"),ZC_MSG071,GetCurrentHost&"zb_system/cmd.asp?act=FileMng","nav_accessories","aFileMng",""))
-Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("ThemeMng"),ZC_MSG223,GetCurrentHost&"zb_system/cmd.asp?act=ThemeMng","nav_themes","aThemeMng",""))
+Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("TagMng"),ZC_MSG141,BlogHost&"zb_system/cmd.asp?act=TagMng","nav_tags","aTagMng",""))
+Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("CommentMng"),ZC_MSG068,BlogHost&"zb_system/cmd.asp?act=CommentMng","nav_comments","aCommentMng",""))
+Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("FileMng"),ZC_MSG071,BlogHost&"zb_system/cmd.asp?act=FileMng","nav_accessories","aFileMng",""))
+Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("ThemeMng"),ZC_MSG223,BlogHost&"zb_system/cmd.asp?act=ThemeMng","nav_themes","aThemeMng",""))
 
 
-Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("FunctionMng"),ZC_MSG007,GetCurrentHost&"zb_system/cmd.asp?act=FunctionMng","nav_function","aFunctionMng",""))
-Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("PlugInMng"),ZC_MSG107,GetCurrentHost&"zb_system/cmd.asp?act=PlugInMng","nav_plugin","aPlugInMng",""))
-Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("UserMng"),ZC_MSG070,GetCurrentHost&"zb_system/cmd.asp?act=UserMng","nav_user","aUserMng",""))
+Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("FunctionMng"),ZC_MSG007,BlogHost&"zb_system/cmd.asp?act=FunctionMng","nav_function","aFunctionMng",""))
+Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("PlugInMng"),ZC_MSG107,BlogHost&"zb_system/cmd.asp?act=PlugInMng","nav_plugin","aPlugInMng",""))
+Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("UserMng"),ZC_MSG070,BlogHost&"zb_system/cmd.asp?act=UserMng","nav_user","aUserMng",""))
 
 
 End Function
@@ -3397,9 +3399,9 @@ Function CreateAdminTopMenu()
 
 Response_Plugin_Admin_Top=""
 
-Call Add_Response_Plugin("Response_Plugin_Admin_Top",MakeTopMenu(GetRights("admin"),ZC_MSG245,GetCurrentHost&"zb_system/cmd.asp?act=admin","",""))
-Call Add_Response_Plugin("Response_Plugin_Admin_Top",MakeTopMenu(GetRights("SettingMng"),ZC_MSG247,GetCurrentHost&"zb_system/cmd.asp?act=SettingMng","",""))
-Call Add_Response_Plugin("Response_Plugin_Admin_Top",MakeTopMenu(GetRights("AskFileReBuild"),ZC_MSG073,GetCurrentHost&"zb_system/cmd.asp?act=AskFileReBuild","",""))
+Call Add_Response_Plugin("Response_Plugin_Admin_Top",MakeTopMenu(GetRights("admin"),ZC_MSG245,BlogHost&"zb_system/cmd.asp?act=admin","",""))
+Call Add_Response_Plugin("Response_Plugin_Admin_Top",MakeTopMenu(GetRights("SettingMng"),ZC_MSG247,BlogHost&"zb_system/cmd.asp?act=SettingMng","",""))
+Call Add_Response_Plugin("Response_Plugin_Admin_Top",MakeTopMenu(GetRights("AskFileReBuild"),ZC_MSG073,BlogHost&"zb_system/cmd.asp?act=AskFileReBuild","",""))
 
 End Function
 '*********************************************************

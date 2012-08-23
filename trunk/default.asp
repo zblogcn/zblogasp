@@ -36,7 +36,7 @@ Dim s
 s=LoadFromFile(BlogPath & "zb_users\cache\default.html","utf-8")
 
 If Len(s)>0 Then
-	Response.Write Replace(s,"<#ZC_BLOG_HOST#>",GetCurrentHost())
+	Response.Write Replace(s,"<#ZC_BLOG_HOST#>",BlogHost)
 	Response.Write "<!-- " & RunTime() & "ms -->"
 	Response.End
 End If
@@ -49,7 +49,7 @@ For Each sAction_Plugin_Default_Begin in Action_Plugin_Default_Begin
 	If Not IsEmpty(sAction_Plugin_Default_Begin) Then Call Execute(sAction_Plugin_Default_Begin)
 Next
 
-TemplateTagsDic.Item("ZC_BLOG_HOST")=GetCurrentHost()
+TemplateTagsDic.Item("ZC_BLOG_HOST")=BlogHost
 
 Dim ArtList
 Set ArtList=New TArticleList

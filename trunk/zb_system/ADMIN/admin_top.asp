@@ -2,10 +2,10 @@
 <body>
 <div id="header">
   <div class="top">
-    <div class="logo"><img src="<%=GetCurrentHost%>zb_system/image/admin/logo.png" alt="Z-Blog" title="Z-Blog"/></div>
-    <div class="user"> <img src="<%=GetCurrentHost%>zb_system/image/admin/avatar.png" width="40" height="40" id="avatar" alt="Avatar" />
+    <div class="logo"><img src="<%=BlogHost%>zb_system/image/admin/logo.png" alt="Z-Blog" title="Z-Blog"/></div>
+    <div class="user"> <img src="<%=BlogHost%>zb_system/image/admin/avatar.png" width="40" height="40" id="avatar" alt="Avatar" />
       <div class="username"><%=ZVA_User_Level_Name(BlogUser.Level)%>：<%=BlogUser.Name%></div>
-      <div class="userbtn"><a class="profile" href="<%=GetCurrentHost%>" title="" target="_blank"><%=ZC_MSG065%></a>&nbsp;&nbsp;<a class="logout" href="<%=GetCurrentHost%>ZB_SYSTEM/cmd.asp?act=logout" title=""><%=ZC_MSG020%></a></div>
+      <div class="userbtn"><a class="profile" href="<%=BlogHost%>" title="" target="_blank"><%=ZC_MSG065%></a>&nbsp;&nbsp;<a class="logout" href="<%=BlogHost%>ZB_SYSTEM/cmd.asp?act=logout" title=""><%=ZC_MSG020%></a></div>
     </div>
     <div class="menu">
       <ul id="topmenu">
@@ -30,12 +30,12 @@ If Session("batch").Count>0 Then
 		'Session("batchtime")=0
 %>
 <div id="batch">
-<iframe style="width:20px;height:20px;" frameborder="0" scrolling="no" src="<%=GetCurrentHost%>zb_system/cmd.asp?act=batch"></iframe><p><%=ZC_MSG110%>...</p>
+<iframe style="width:20px;height:20px;" frameborder="0" scrolling="no" src="<%=BlogHost%>zb_system/cmd.asp?act=batch"></iframe><p><%=ZC_MSG110%>...</p>
 </div>
 <%
 	Else
 %>
-<div id="batch"><img src="<%=GetCurrentHost%>zb_system/image/admin/error.png" width="16"/><p><%=ZC_MSG273%></p></div>
+<div id="batch"><img src="<%=BlogHost%>zb_system/image/admin/error.png" width="16"/><p><%=ZC_MSG273%></p></div>
 <%
 	End If
 Else

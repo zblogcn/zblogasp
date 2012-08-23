@@ -315,19 +315,19 @@ Function TransferHTML(ByVal source,para)
 		source=Replace(source,"href=""http://upload/","href=""<#ZC_BLOG_HOST#>" & ZC_UPLOAD_DIRECTORY & "/")
 		source=Replace(source,"(this.nextSibling,'upload/","(this.nextSibling,'<#ZC_BLOG_HOST#>" & ZC_UPLOAD_DIRECTORY & "/")
 
-		source=Replace(source,"src=""image/face/","src="""& ZC_BLOG_HOST & "zb_system/" &  "image/face/")
+		source=Replace(source,"src=""image/face/","src=""<#ZC_BLOG_HOST#>zb_system/image/face/")
 	End If
 	If Instr(para,"[anti-upload]")>0 Then
-		source=Replace(source,"src="""& ZC_BLOG_HOST & ZC_UPLOAD_DIRECTORY & "/","src=""upload/")
-		source=Replace(source,"href="""& ZC_BLOG_HOST & ZC_UPLOAD_DIRECTORY & "/","href=""upload/")
-		source=Replace(source,"value="""& ZC_BLOG_HOST & ZC_UPLOAD_DIRECTORY & "/","value=""upload/")
-		source=Replace(source,"href="""& ZC_BLOG_HOST & ZC_UPLOAD_DIRECTORY & "/","href=""http://upload/")
-		source=Replace(source,"(this.nextSibling,'"& ZC_BLOG_HOST & ZC_UPLOAD_DIRECTORY & "/","(this.nextSibling,'upload/")
+		source=Replace(source,"src="""& GetCurrentHost() & ZC_UPLOAD_DIRECTORY & "/","src=""upload/")
+		source=Replace(source,"href="""& GetCurrentHost() & ZC_UPLOAD_DIRECTORY & "/","href=""upload/")
+		source=Replace(source,"value="""& GetCurrentHost() & ZC_UPLOAD_DIRECTORY & "/","value=""upload/")
+		source=Replace(source,"href="""& GetCurrentHost() & ZC_UPLOAD_DIRECTORY & "/","href=""http://upload/")
+		source=Replace(source,"(this.nextSibling,'"& GetCurrentHost() & ZC_UPLOAD_DIRECTORY & "/","(this.nextSibling,'upload/")
 
-		source=Replace(source,"src="""& ZC_BLOG_HOST & "zb_system/" & "image/face/","src=""<#ZC_BLOG_HOST#>/zb_system/image/face/")
+		source=Replace(source,"src="""& GetCurrentHost() & "zb_system/image/face/","src=""<#ZC_BLOG_HOST#>/zb_system/image/face/")
 	End If
 	If Instr(para,"[zc_blog_host]")>0 Then
-		source=Replace(source,"<#ZC_BLOG_HOST#>",ZC_BLOG_HOST)
+		source=Replace(source,"<#ZC_BLOG_HOST#>",GetCurrentHost())
 	End If
 	If Instr(para,"[no-asp]")>0 Then
 		source=Replace(source,"<"&"%","&lt;"&"%")
@@ -498,7 +498,7 @@ Function TransferHTML(ByVal source,para)
 		source=closeHTML(source)
 	End If
 	If Instr(para,"[anti-zc_blog_host]")>0 Then
-		source=Replace(source,ZC_BLOG_HOST,"<#ZC_BLOG_HOST#>")
+		source=Replace(source,GetCurrentHost(),"<#ZC_BLOG_HOST#>")
 	End If
 
 	TransferHTML=source
@@ -1341,7 +1341,7 @@ Function URLEncodeForAntiSpam(strUrl)
 	For i =1 To Len(strUrl)
 		s=s & Mid(strUrl,i,1) & CStr(Int((10 * Rnd)))
 	Next
-	URLEncodeForAntiSpam=ZC_BLOG_HOST & "zb_system/function/c_urlredirect.asp?url=" & Server.URLEncode(s)
+	URLEncodeForAntiSpam=GetCurrentHost() & "zb_system/function/c_urlredirect.asp?url=" & Server.URLEncode(s)
 
 End Function
 '*********************************************************
@@ -1532,6 +1532,7 @@ End Function
 ' 目的：    
 '*********************************************************
 Dim CurrentHostUrl
+Dim CurrentReallyDirectory
 Function GetCurrentHost()
 
 	If CurrentHostUrl<>"" Then
@@ -1565,6 +1566,7 @@ Function GetCurrentHost()
 	Set fso=Nothing
 
 	PhysicsPath=CreateObject("Scripting.FileSystemObject").GetFolder(PhysicsPath).Path & "\"
+	CurrentReallyDirectory=PhysicsPath
 
 	Dim s,t,u,i,w,x
 

@@ -53,7 +53,7 @@
 	If CheckRegExp(Request.QueryString("sourceurl"),"[homepage]")=True Then
 		Response.Write "<p style='text-align:right;'><a href=""" & TransferHTML(Request.QueryString("sourceurl"),"[html-format]") & """>" & ZC_MSG207 & "</a></p>"
 	Else
-		Response.Write "<p style='text-align:right;'><a href=""" & ZC_BLOG_HOST & """>" & ZC_MSG207 & "</a></p>"
+		Response.Write "<p style='text-align:right;'><a href=""" & GetCurrentHost() & """>" & ZC_MSG207 & "</a></p>"
 	End If
 
 	If a=6 Then
@@ -77,6 +77,6 @@
 </html>
 <%
 If Err.Number<>0 Then
-	Response.Redirect ZC_BLOG_HOST & "zb_system/function/c_error.asp"
+	Response.Redirect GetCurrentHost() & "zb_system/function/c_error.asp"
 End If
 %>
