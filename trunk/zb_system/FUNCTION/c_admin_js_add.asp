@@ -219,6 +219,7 @@ function notify(s){
 			var zb_notifications = window.webkitNotifications.createNotification('<%=GetCurrentHost%>zb_system/IMAGE/ADMIN/logo-16.png', '<%=ZC_MSG257%>', s);
 			zb_notifications.onclick = function() {window.parent.focus();this.close();}
 			zb_notifications.replaceId = 'Meteoric';
+            zb_notifications.onshow=function(){setTimeout("zb_notifications.close()",10000)};
 			zb_notifications.show();
 		} else {
 			window.webkitNotifications.requestPermission(notify);

@@ -2062,11 +2062,15 @@ End Function
 	function vbsunescape(source){
 		if(typeof(source)=="undefined"){return ""};
 		if(source==""){return ""};
-		return unescape(source);
+		var a;
+		a=unescape(source);
+		return (a==("undefined"||undefined) ? "" : a)
 	}
 	function vbsescape(source){
 		if(typeof(source)=="undefined"){return ""};
 		if(source==""){return ""}
-		return escape(source);
+		var a;
+		a=escape(source);
+		return (a==("undefined"||undefined) ? "" : a)
 	}
 </script>
