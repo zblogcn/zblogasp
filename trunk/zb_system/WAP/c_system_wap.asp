@@ -58,7 +58,7 @@ Function WapNav()
 		Response.Write "<a  href="""&WapUrlStr&"?act=AddArt"">"&ZC_MSG168&"</a><b>|</b>"	
 		End If
 '		Response.Write "<p>9 <a href="""&WapUrlStr&""">"&ZC_MSG213&"</a></p>"
-		Response.Write "<a href="""&ZC_BLOG_HOST&""">电脑版</a>"		
+		Response.Write "<a href="""&BlogHost&""">电脑版</a>"		
 		Response.Write "</div><div class=""adm"">" &WapCheckLogin
 		Response.Write "</div>"
 End Function
@@ -144,7 +144,7 @@ End Function
 ' 目的：    Wap页面地址
 '*********************************************************
 Function WapUrlStr()
-   WapUrlStr=ZC_BLOG_HOST&ZC_FILENAME_WAP
+   WapUrlStr=BlogHost&ZC_FILENAME_WAP
 End Function
 
 

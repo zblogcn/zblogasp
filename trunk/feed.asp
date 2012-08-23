@@ -81,7 +81,7 @@ Function ExportRSSbyCate(CateID)
 		CateName=Categorys(CateID).Name
 
 		.AddChannelAttribute "title",TransferHTML(ZC_BLOG_TITLE & " - " & CateName,"[html-format]")
-		.AddChannelAttribute "link",TransferHTML(ZC_BLOG_HOST,"[html-format]")
+		.AddChannelAttribute "link",TransferHTML(BlogHost,"[html-format]")
 		.AddChannelAttribute "description",TransferHTML(ZC_BLOG_SUBTITLE & " - " & CateIntro,"[html-format]")
 		.AddChannelAttribute "generator","RainbowSoft Studio Z-Blog " & ZC_BLOG_VERSION
 		.AddChannelAttribute "language",ZC_BLOG_LANGUAGE
@@ -144,7 +144,7 @@ Function ExportRSSbyUser(UserID)
 		UserName=Users(UserID).Name
 
 		.AddChannelAttribute "title",TransferHTML(ZC_BLOG_TITLE & " - " & UserName,"[html-format]")
-		.AddChannelAttribute "link",TransferHTML(ZC_BLOG_HOST,"[html-format]")
+		.AddChannelAttribute "link",TransferHTML(BlogHost,"[html-format]")
 		.AddChannelAttribute "description",TransferHTML(ZC_BLOG_SUBTITLE & " - " & UserIntro,"[html-format]")
 		.AddChannelAttribute "generator","RainbowSoft Studio Z-Blog " & ZC_BLOG_VERSION
 		.AddChannelAttribute "language",ZC_BLOG_LANGUAGE
@@ -203,7 +203,7 @@ Function ExportRSSbyDate(YearMonth)
 		.TimeZone=ZC_TIME_ZONE
 
 		.AddChannelAttribute "title",TransferHTML(ZC_BLOG_TITLE & " - " & UserName,"[html-format]")
-		.AddChannelAttribute "link",TransferHTML(ZC_BLOG_HOST,"[html-format]")
+		.AddChannelAttribute "link",TransferHTML(BlogHost,"[html-format]")
 		.AddChannelAttribute "description",TransferHTML(ZC_BLOG_SUBTITLE & " - " & UserIntro,"[html-format]")
 		.AddChannelAttribute "generator","RainbowSoft Studio Z-Blog " & ZC_BLOG_VERSION
 		.AddChannelAttribute "language",ZC_BLOG_LANGUAGE
@@ -267,7 +267,7 @@ Function ExportRSSbyTags(TagsID)
 		TagName=Tags(TagsID).Name
 
 		.AddChannelAttribute "title",TransferHTML(ZC_BLOG_TITLE,"[html-format]") & " - " & TagName
-		.AddChannelAttribute "link",TransferHTML(ZC_BLOG_HOST,"[html-format]")
+		.AddChannelAttribute "link",TransferHTML(BlogHost,"[html-format]")
 		.AddChannelAttribute "description",TransferHTML(ZC_BLOG_SUBTITLE,"[html-format]") & " - " & TagName
 		.AddChannelAttribute "generator","RainbowSoft Studio Z-Blog " & ZC_BLOG_VERSION
 		.AddChannelAttribute "language",ZC_BLOG_LANGUAGE
