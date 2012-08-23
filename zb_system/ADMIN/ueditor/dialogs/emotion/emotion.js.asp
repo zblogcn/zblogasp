@@ -5,6 +5,7 @@
 <% Response.Buffer=True %>
 <% Response.ContentType="application/x-javascript" %>
 <!-- #include file="../../../../../zb_users/c_option.asp" -->
+<!-- #include file="../../../../../zb_system/function/c_function.asp" -->
 
 <% Response.Clear %>
 
@@ -14,7 +15,7 @@ window.onload = function () {
         emotionLocalization:false
     });
 
-    emotion.SmileyPath = editor.options.emotionLocalization === true ? '' : '<%=ZC_BLOG_HOST%>zb_system/image/';
+    emotion.SmileyPath = editor.options.emotionLocalization === true ? '' : '<%=GetCurrentHost()%>zb_system/image/';
     emotion.SmileyBox = createTabList( emotion.tabNum );
     emotion.tabExist = createArr( emotion.tabNum );
 

@@ -86,7 +86,7 @@ Function this_getUsersBlogs()
 	Dim strXML
 	strXML="<?xml version=""1.0"" encoding=""UTF-8""?><methodResponse><params><param><value><array><data><value><struct><member><name>url</name><value><string>$%#1#%$</string></value></member><member><name>blogid</name><value><string>$%#2#%$</string></value></member><member><name>blogName</name><value><string>$%#3#%$</string></value></member></struct></value></data></array></value></param></params></methodResponse>"
 
-	strXML=Replace(strXML,"$%#1#%$",TransferHTML(ZC_BLOG_HOST,"[html-format]"))
+	strXML=Replace(strXML,"$%#1#%$",TransferHTML(BlogHost,"[html-format]"))
 	strXML=Replace(strXML,"$%#2#%$",TransferHTML(ZC_BLOG_CLSID,"[html-format]"))
 	strXML=Replace(strXML,"$%#3#%$",TransferHTML(ZC_BLOG_NAME,"[html-format]"))
 

@@ -115,6 +115,10 @@ Sub System_Initialize()
 
 	ZC_BLOG_VERSION=BlogConfig.Read("ZC_BLOG_VERSION")
 
+	ZC_BLOG_HOST=BlogHost
+
+	TemplateTagsDic.Item("ZC_BLOG_HOST")=BlogHost
+
 	Call LoadGlobeCache()
 
 	Dim bolRebuildIndex
@@ -2926,7 +2930,7 @@ Function ExportRSS()
 		.TimeZone=ZC_TIME_ZONE
 
 		.AddChannelAttribute "title",TransferHTML(ZC_BLOG_TITLE,"[html-format]")
-		.AddChannelAttribute "link",TransferHTML(ZC_BLOG_HOST,"[html-format]")
+		.AddChannelAttribute "link",TransferHTML(BlogHost,"[html-format]")
 		.AddChannelAttribute "description",TransferHTML(ZC_BLOG_SUBTITLE,"[html-format]")
 		.AddChannelAttribute "generator","RainbowSoft Studio Z-Blog " & ZC_BLOG_VERSION
 		.AddChannelAttribute "language",ZC_BLOG_LANGUAGE

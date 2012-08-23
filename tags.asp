@@ -32,8 +32,6 @@ For Each sAction_Plugin_Tags_Begin in Action_Plugin_Tags_Begin
 	If Not IsEmpty(sAction_Plugin_Tags_Begin) Then Call Execute(sAction_Plugin_Tags_Begin)
 Next
 
-TemplateTagsDic.Item("ZC_BLOG_HOST")=BlogHost
-
 Call GetTags()
 
 Dim objArticle

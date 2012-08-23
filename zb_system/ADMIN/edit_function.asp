@@ -69,7 +69,7 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG144
 <%
 	Dim s,t,u
 	s=EditFunction.Content
-	s=Replace(s,"<#ZC_BLOG_HOST#>",ZC_BLOG_HOST)
+	s=Replace(s,"<#ZC_BLOG_HOST#>",BlogHost)
 	s=Replace(s,"</li>","</li>"&vbCrlf)
 	s=TransferHTML(s,"[html-format]")
 	If EditFunction.IsSystem=True Then t="readonly=""readonly"""

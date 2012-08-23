@@ -25,9 +25,7 @@
 <!-- #include file="zb_system/function/c_system_plugin.asp" -->
 <!-- #include file="zb_users/plugin/p_config.asp" -->
 <%
-If CheckMobile() Then Response.Redirect (ZC_BLOG_HOST&ZC_FILENAME_WAP)
-
-'If (InStr(LCase(Request.ServerVariables("HTTP_ACCEPT")),"text/vnd.wap.wml") > 0) And (InStr(LCase(Request.ServerVariables("HTTP_ACCEPT")),"text/html") = 0)  Then Response.Redirect "wap.asp"
+If CheckMobile() Then Response.Redirect ZC_FILENAME_WAP
 
 '向导部分wizard
 If ZC_DATABASE_PATH="data/zblog.mdb" And ZC_MSSQL_ENABLE=False Then Response.Redirect "wizard.asp?verify=" & MD5(ZC_DATABASE_PATH & Replace(LCase(Request.ServerVariables("PATH_TRANSLATED")),"default.asp",""))
@@ -48,8 +46,6 @@ Call System_Initialize()
 For Each sAction_Plugin_Default_Begin in Action_Plugin_Default_Begin
 	If Not IsEmpty(sAction_Plugin_Default_Begin) Then Call Execute(sAction_Plugin_Default_Begin)
 Next
-
-TemplateTagsDic.Item("ZC_BLOG_HOST")=BlogHost
 
 Dim ArtList
 Set ArtList=New TArticleList
