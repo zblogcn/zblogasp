@@ -541,6 +541,8 @@ function selectlogtemplatesub(a){
 	$("#cmbTemplate").find("option[value='"+a+"']").attr("selected","selected");
 	edtTemplate.value=a;
 }
+window.onbeforeunload = function(){return "您当前的编辑内容还未保存！"}
+
 // ]]>
 </script>
 <!--文章编辑提交区随动JS结束-->
