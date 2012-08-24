@@ -920,9 +920,6 @@ End Function
 '*********************************************************
 Function LoadDefaultTemplates()
 
-If TemplateDic.Exists("TEMPLATE_WAP_ARTICLE_COMMENT")=False Then Call TemplateDic.add("TEMPLATE_WAP_ARTICLE_COMMENT",LoadFromFile(BlogPath &"zb_system\defend\wap\wap_article_comment","utf-8"))
-If TemplateDic.Exists("TEMPLATE_WAP_ARTICLE-MULTI")=False Then Call TemplateDic.add("TEMPLATE_WAP_ARTICLE-MULTI",LoadFromFile(BlogPath &"zb_system\defend\wap\wap_article-multi.html","utf-8"))
-If TemplateDic.Exists("TEMPLATE_WAP_SINGLE")=False Then Call TemplateDic.add("TEMPLATE_WAP_SINGLE",LoadFromFile(BlogPath &"zb_system\defend\wap\wap_single.html","utf-8"))
 If TemplateDic.Exists("TEMPLATE_B_ARTICLE-ISTOP")=False Then Call TemplateDic.add("TEMPLATE_B_ARTICLE-ISTOP",LoadFromFile(BlogPath &"zb_system\defend\default\b_article-istop.html","utf-8"))
 If TemplateDic.Exists("TEMPLATE_B_ARTICLE-MULTI")=False Then Call TemplateDic.add("TEMPLATE_B_ARTICLE-MULTI",LoadFromFile(BlogPath &"zb_system\defend\default\b_article-multi.html","utf-8"))
 If TemplateDic.Exists("TEMPLATE_B_ARTICLE-SINGLE")=False Then Call TemplateDic.add("TEMPLATE_B_ARTICLE-SINGLE",LoadFromFile(BlogPath &"zb_system\defend\default\b_article-single.html","utf-8"))

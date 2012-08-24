@@ -115,6 +115,7 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG247
 	strZC_BLOG_MASTER=TransferHTML(ZC_BLOG_MASTER,"[html-format]")
 
 	Response.Write "<div class=""tab-content default-tab"" style='border:none;padding:0px;margin:0;' id=""tab1"">"
+	Response.Write "<p style='display:none;'><input id=""edtZC_BLOG_HOST"" name=""edtZC_BLOG_HOST"" style=""width:500px;"" type=""text"" value=""" & strZC_BLOG_HOST & """ /></p>"
 	Response.Write "<table width='100%' style='padding:0px;margin:0px;' cellspacing='0' cellpadding='0'>"
 	'Response.Write "<tr><td width='35%'>" & SplitNameAndNote(ZC_MSG104) & "</td><td><p><input id=""edtZC_BLOG_HOST"" name=""edtZC_BLOG_HOST"" style=""width:500px;"" type=""text"" value=""" & strZC_BLOG_HOST & """ /></p></td></tr>"
 	Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG091) & "</td><td><p><input id=""edtZC_BLOG_NAME"" name=""edtZC_BLOG_NAME"" style=""width:500px;"" type=""text"" value=""" & strZC_BLOG_NAME & """ /></p></td></tr>"

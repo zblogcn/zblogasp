@@ -595,7 +595,6 @@ Function WapCom()
 		If (Not objRS.bof) And (Not objRS.eof) Then
 		Response.Write "<ul>"		
 		Dim strCTemplate,ComRecordCount
-'		strCTemplate=Application(ZC_BLOG_CLSID & "TEMPLATE_WAP_ARTICLE_COMMENT")
 		strCTemplate=GetTemplate("TEMPLATE_WAP_ARTICLE_COMMENT")		
 
 			objRS.PageSize = ZC_COMMENT_COUNT_WAP
