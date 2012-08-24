@@ -634,7 +634,7 @@ objConn.execute("CREATE TABLE [blog_TrackBack] (tb_ID AutoIncrement primary key,
 
 objConn.execute("CREATE TABLE [blog_UpLoad] (ul_ID AutoIncrement primary key,ul_AuthorID int default 0,ul_FileSize int default 0,ul_FileName VARCHAR(255) default """",ul_PostTime datetime default now(),ul_Quote VARCHAR(255) default """",ul_DownNum int default 0,ul_FileIntro VARCHAR(255) default """",ul_DirByTime YESNO DEFAULT 0,ul_Meta text default """")")
 
-objConn.execute("CREATE TABLE [blog_Counter] (coun_ID AutoIncrement primary key,coun_IP VARCHAR(15) default """",coun_Agent text default """",coun_Refer VARCHAR(255) default """",coun_PostTime datetime default now(),coun_Content VARCHAR(255) default """",coun_UserID int default 0,coun_PostData  VARCHAR(255) default """",coun_URL  VARCHAR(255) default """",coun_AllRequestHeader  VARCHAR(255) default """")")
+objConn.execute("CREATE TABLE [blog_Counter] (coun_ID AutoIncrement primary key,coun_IP VARCHAR(15) default """",coun_Agent text default """",coun_Refer VARCHAR(255) default """",coun_PostTime datetime default now(),coun_Content text default """",coun_UserID int default 0,coun_PostData  text default """",coun_URL  text default """",coun_AllRequestHeader  text default """")")
 
 objConn.execute("CREATE TABLE [blog_Keyword] (key_ID AutoIncrement primary key,key_Name VARCHAR(255) default """",key_Intro text default """",key_URL VARCHAR(255) default """")")
 

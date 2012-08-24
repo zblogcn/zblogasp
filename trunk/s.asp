@@ -27,17 +27,17 @@ End Function
 Call System_Initialize()
 If Not CheckUpdateDB("[coun_Content]","[blog_Counter]") Then
 	IF ZC_MSSQL_ENABLE=True Then	
-			objConn.execute("ALTER TABLE [blog_Counter] ADD COLUMN coun_Content ntext default ''")
-			objConn.execute("ALTER TABLE [blog_Counter] ADD COLUMN coun_UserID int default 0")
-			objConn.execute("ALTER TABLE [blog_Counter] ADD COLUMN coun_PostData ntext default ''")
-			objConn.execute("ALTER TABLE [blog_Counter] ADD COLUMN coun_URL ntext default ''")
-			objConn.execute("ALTER TABLE [blog_Counter] ADD COLUMN coun_AllRequestHeader ntext default '' ")
+			objConn.execute("ALTER TABLE [blog_Counter] ADD coun_Content ntext default ''")
+			objConn.execute("ALTER TABLE [blog_Counter] ADD coun_UserID int default 0")
+			objConn.execute("ALTER TABLE [blog_Counter] ADD coun_PostData ntext default ''")
+			objConn.execute("ALTER TABLE [blog_Counter] ADD coun_URL ntext default ''")
+			objConn.execute("ALTER TABLE [blog_Counter] ADD coun_AllRequestHeader ntext default '' ")
 	ELSE
-			objConn.execute("ALTER TABLE [blog_Counter] ADD COLUMN coun_Content ntext default """"")
+			objConn.execute("ALTER TABLE [blog_Counter] ADD COLUMN coun_Content text default """"")
 			objConn.execute("ALTER TABLE [blog_Counter] ADD COLUMN coun_UserID int default 0")
-			objConn.execute("ALTER TABLE [blog_Counter] ADD COLUMN coun_PostData  ntext default """"")
-			objConn.execute("ALTER TABLE [blog_Counter] ADD COLUMN coun_URL  ntext default """"")
-			objConn.execute("ALTER TABLE [blog_Counter] ADD COLUMN coun_AllRequestHeader  ntext default """"")
+			objConn.execute("ALTER TABLE [blog_Counter] ADD COLUMN coun_PostData  text default """"")
+			objConn.execute("ALTER TABLE [blog_Counter] ADD COLUMN coun_URL  text default """"")
+			objConn.execute("ALTER TABLE [blog_Counter] ADD COLUMN coun_AllRequestHeader  text default """"")
 	
 	End IF
 End If
