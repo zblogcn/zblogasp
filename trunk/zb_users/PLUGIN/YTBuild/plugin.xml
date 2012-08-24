@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Plugin version="1.0"><id>YTBuild</id><name>YT.Build</name><url>http://shop.puguwang.com/</url><note>YT.Build for Z-BLOG 2.0 整站静态化</note><author><name>瑜廷</name><url>http://shop.puguwang.com/</url><email>33195@qq.com</email></author><type>inline</type><path>YT.Panel.asp</path><include>YT.Main.asp</include><level>1</level><adapted>Z-Blog 2.0</adapted><version>1.0.0</version><pubdate>2012.08.20</pubdate><modified>2012.08.24</modified></Plugin>
