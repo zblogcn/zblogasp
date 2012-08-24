@@ -1780,7 +1780,7 @@ Class TArticleList
 				If objArticle.LoadInfoByArray(Array(objRS(0),objRS(1),objRS(2),objRS(3),objRS(4),objRS(5),objRS(6),objRS(7),objRS(8),objRS(9),objRS(10),objRS(11),objRS(12),objRS(13),objRS(14),objRS(15),objRS(16),objRS(17))) Then
 					ut=ut & "," & objRs(7)
 					tt=tt & objRs(1)
-					dt.Add CInt(objRs(0)), objArticle
+					dt.Add CLng(objRs(0)), objArticle
 				End If
 				Set objArticle=Nothing
 
@@ -1865,18 +1865,21 @@ Class TArticleList
 		End If
 		If Not (IsEmpty(strTagsName) Or strTagsName="" )Then
 			ListType="TAGS"
-			If CheckTagByName(strTagsName) Then
-				i=objConn.Execute("SELECT [tag_ID] FROM [blog_Tag] WHERE [tag_Name]='" & FilterSQL(strTagsName) &"'" )(0)
-				Dim Tag
-				Set Tag=New TTag
-				Call Tag.LoadInfoByID(i)
-				objRS.Source=objRS.Source & "AND([log_Tag] LIKE '%{" & Tag.ID & "}%')"
-				Title=strTagsName
-				TemplateTags_ArticleList_Tags_ID=Tag.ID
-				If IsEmpty(html)=True Then html=Tag.Template
-				Url =ParseCustomDirectoryForUrl(Tag.FullRegex,ZC_STATIC_DIRECTORY,"","","","","",Tag.ID,Tag.EncodeName)
-				MixUrl =ParseCustomDirectoryForUrl("{%host%}/catalog.asp?tags={%alias%}",ZC_STATIC_DIRECTORY,"","","","","",Tag.ID,Tag.EncodeName)
+			If InStr(ZC_TAGS_REGEX,"{%id%}")>0 Then
+				i=CLng(strTagsName)
+			Else
+				If CheckTagByName(strTagsName) Then i=objConn.Execute("SELECT [tag_ID] FROM [blog_Tag] WHERE [tag_Name]='" & FilterSQL(strTagsName) &"'" )(0)
 			End If
+
+			Dim Tag
+			Set Tag=New TTag
+			Call Tag.LoadInfoByID(i)
+			objRS.Source=objRS.Source & "AND([log_Tag] LIKE '%{" & Tag.ID & "}%')"
+			Title=strTagsName
+			TemplateTags_ArticleList_Tags_ID=Tag.ID
+			If IsEmpty(html)=True Then html=Tag.Template
+			Url =ParseCustomDirectoryForUrl(Tag.FullRegex,ZC_STATIC_DIRECTORY,"","","","","",Tag.ID,Tag.EncodeName)
+			MixUrl =ParseCustomDirectoryForUrl("{%host%}/catalog.asp?tags={%alias%}",ZC_STATIC_DIRECTORY,"","","","","",Tag.ID,Tag.EncodeName)
 		End If
 
 
@@ -1899,7 +1902,7 @@ Class TArticleList
 				If objArticle.LoadInfoByArray(Array(objRS(0),objRS(1),objRS(2),objRS(3),objRS(4),objRS(5),objRS(6),objRS(7),objRS(8),objRS(9),objRS(10),objRS(11),objRS(12),objRS(13),objRS(14),objRS(15),objRS(16),objRS(17))) Then
 					ud=ud & "," & objRs(7)
 					td=td & objRs(1)
-					dd.Add CInt(objRs(0)), objArticle
+					dd.Add CLng(objRs(0)), objArticle
 				End If
 				Set objArticle=Nothing
 
@@ -3842,7 +3845,7 @@ Class TTag
 
 
 	Public Property Get FullPath
-		FullPath=ParseCustomDirectoryForPath(FullRegex,ZC_STATIC_DIRECTORY,"","","","","",ID,StaticName)
+		FullPath=ParseCustomDirectoryForPath(FullRegex,ZC_STATIC_DIRECTORY,"","","","","",ID,EncodeName)
 	End Property
 
 	Public Property Get Url
@@ -3863,11 +3866,12 @@ Class TTag
 
 
 	Public Property Get StaticName
-		If IsNull(Alias) Or IsEmpty(Alias) Or Alias="" Then
-			StaticName = ID
-		Else
-			StaticName = Alias
-		End If
+		StaticName =EncodeName
+		'If IsNull(Alias) Or IsEmpty(Alias) Or Alias="" Then
+		'	StaticName = ID
+		'Else
+		'	StaticName = Alias
+		'End If
 	End Property
 
 

@@ -116,7 +116,7 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG247
 
 	Response.Write "<div class=""tab-content default-tab"" style='border:none;padding:0px;margin:0;' id=""tab1"">"
 	Response.Write "<table width='100%' style='padding:0px;margin:0px;' cellspacing='0' cellpadding='0'>"
-	Response.Write "<tr><td width='35%'>" & SplitNameAndNote(ZC_MSG104) & "</td><td><p><input id=""edtZC_BLOG_HOST"" name=""edtZC_BLOG_HOST"" style=""width:500px;"" type=""text"" value=""" & strZC_BLOG_HOST & """ /></p></td></tr>"
+	'Response.Write "<tr><td width='35%'>" & SplitNameAndNote(ZC_MSG104) & "</td><td><p><input id=""edtZC_BLOG_HOST"" name=""edtZC_BLOG_HOST"" style=""width:500px;"" type=""text"" value=""" & strZC_BLOG_HOST & """ /></p></td></tr>"
 	Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG091) & "</td><td><p><input id=""edtZC_BLOG_NAME"" name=""edtZC_BLOG_NAME"" style=""width:500px;"" type=""text"" value=""" & strZC_BLOG_NAME & """ /></p></td></tr>"
 	Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG092) & "</td><td><p><input id=""edtZC_BLOG_SUB_NAME"" name=""edtZC_BLOG_SUB_NAME"" style=""width:500px;""  type=""text"" value=""" & strZC_BLOG_SUB_NAME & """ /></p></td></tr>"
 	Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG093) & "</td><td><p><input id=""edtZC_BLOG_TITLE"" name=""edtZC_BLOG_TITLE"" style=""width:500px;""  type=""text"" value=""" & strZC_BLOG_TITLE &""" /></p></td></tr>"

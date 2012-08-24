@@ -72,7 +72,7 @@ Next
 	Response.Write "<input id=""edtID"" name=""edtID""  type=""hidden"" value="""& EditTag.ID &""" />"
 	Response.Write "<p><span class='title'>"& ZC_MSG001 &":</span><span class='star'>(*)</span><br/><input id=""edtName"" style='width:300px;' name=""edtName""  type=""text"" value="""& TransferHTML(EditTag.Name,"[html-format]") &""" /></p>"
 	Response.Write "<p><span class='title'>"& ZC_MSG016 &":</span><br/><input id=""edtIntro"" style='width:300px;' name=""edtIntro""  type=""text"" value="""& TransferHTML(EditTag.Intro,"[html-format]") &""" /></p>"
-	Response.Write "<p><span class='title'>"& ZC_MSG147 &":</span><br/><input id=""edtAlias"" style='width:300px;' name=""edtAlias""  type=""text"" value="""& TransferHTML(EditTag.Alias,"[html-format]") &""" /></p>"
+	Response.Write "<p style='display:none;'><span class='title'>"& ZC_MSG147 &":</span><br/><input id=""edtAlias"" style='width:300px;' name=""edtAlias""  type=""text"" value="""& TransferHTML(EditTag.Alias,"[html-format]") &""" /></p>"
 
 	Response.Write "<p><span class='title'>"&ZC_MSG188&":</span><br/><select style='width:310px;' class='edit' size='1' id='cmbTemplate' onchange='edtTemplate.value=this.options[this.selectedIndex].value'>"
 
