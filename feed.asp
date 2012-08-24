@@ -42,6 +42,8 @@ If (strAct<>"tb") And (strAct<>"search") Then Call CheckReference("")
 '权限检查
 If Not CheckRights(strAct) Then Call ShowError(6)
 
+Response.ContentType = "text/xml"
+
 
 '/////////////////////////////////////////////////////////////////////////////////
 If Not IsEmpty(Request.QueryString("cate")) Then
@@ -55,8 +57,7 @@ ElseIf Not IsEmpty(Request.QueryString("date")) Then
 ElseIf Not IsEmpty(Request.QueryString("cmt")) Then
 	Call ExportRSSbyCmt(Request.QueryString("cmt"))
 Else
-	Response.ContentType = "text/xml"
-	Response.Write LoadFromFile(BlogPath & "rss.xml" ,"utf-8")
+	Response.Write LoadFromFile(BlogPath & "zb_users\cache\rss.xml" ,"utf-8")
 End If
 
 
