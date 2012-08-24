@@ -405,38 +405,10 @@ div.post-body a{
 	text-decoration:none;         
 }
 
-div.post-body div.media a{
-	padding-left:16px;
-	background:#FBFBFB url("default/media.gif") no-repeat 0 center;
-}
-
-div.post-body img{
-	border: 3px solid #cac4c1; margin: 5px; padding: 0;
-}
-
-div.post-body img:hover{
-	border: 3px solid #8DBCE5; 
-}
-
-
-div.post-body img.noborder{
-	border: 0; margin: 0; padding:0;
-}
 
 div.post-body p{
 	margin:10px 0 15px 0;
 	padding:0;
-}
-div.post-body p.img{
-	margin:0;
-	padding:0;
-	text-align:center;
-}
-div.post-body p.inscript{
-	margin:0;
-	padding:0;
-	padding-right:20px;
-	text-align:right;
 }
 
 
@@ -458,6 +430,7 @@ div.post-body code{
 div.post-body img{
    max-width:600px;
    width: expression(this.width > 600 ? 600: true);   /*IE6*/ 
+   height: auto;
 }
 
 div.post-body h1{

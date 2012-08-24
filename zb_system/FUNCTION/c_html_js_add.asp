@@ -78,6 +78,10 @@ $(document).ready(function(){
 	var s=document.location;
 	$("#divNavBar").find("a").each(function(){if($(this).attr("href")==s.toString().split("#")[0]){$(this).addClass("on");return false;}});
 
+
+	//日历当天高亮显示
+	try{eval("document.getElementById(\"pCalendar_\"+(new Date()).getFullYear()+\"_\"+((new Date()).getMonth()+1)+\"_\"+(new Date()).getDate()).className+=\" cd\"");}catch(e){};
+
 });
 
 <%=Response_Plugin_Html_Js_Add%>

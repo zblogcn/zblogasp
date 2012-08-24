@@ -264,6 +264,8 @@ Function this_newPost(structPost,bolPublish)
 			objArticle.Content=Replace(objArticle.Content,"<hr class=""more"" />","<!–more–>",1,1)
 		End If
 
+		objArticle.Intro=""
+
 		If objArticle.Intro="" Then
 			s=objArticle.Content
 			For i =0 To UBound(Split(s,"</p>"))
@@ -359,6 +361,8 @@ Function this_editPost(intPostID,structPost,bolPublish)
 			objArticle.Intro=s
 			objArticle.Content=Replace(objArticle.Content,"<hr class=""more"" />","<!–more–>",1,1)
 		End If
+
+		objArticle.Intro=""
 
 		If objArticle.Intro="" Then
 			s=objArticle.Content
@@ -458,7 +462,7 @@ Function this_newMediaObject(strFileName,strFileType,strFileBits)
 	Set objUpLoadFile=New TUpLoadFile
 	objUpLoadFile.AuthorID=BlogUser.ID
 	objUpLoadFile.FileName=strFileName
-	objUpLoadFile.UploadType="Stream"
+	objUpLoadFile.IsManual=True
 
 	If Not CheckRegExp(LCase(strFileName),"\.("& ZC_UPLOAD_FILETYPE &")$") Then Call RespondError(26,ZVA_ErrorMsg(26))
 
@@ -488,7 +492,11 @@ Function this_newMediaObject(strFileName,strFileType,strFileBits)
 		.Close
 	End With
 
-	If objUpLoadFile.UpLoad(False) Then
+	objUpLoadFile.FileSize=LenB(objUpLoadFile.Stream)
+
+	If objUpLoadFile.UpLoad Then
+
+		Call objUpLoadFile.SaveFile()
 
 		strXML=Replace(strXML,"$%#1#%$",TransferHTML(objUpLoadFile.FullUrl,"[html-format]"))
 

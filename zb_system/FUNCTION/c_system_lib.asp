@@ -3626,13 +3626,6 @@ Class TUpLoadFile
 	End Function
 
 
-	Private Function UpLoad_Stream()
-
-		FileSize=LenB(Stream)
-
-	End Function
-
-
 	Public Function UpLoad()
 
 		Call Filter_Plugin_TUpLoadFile_UpLoad(ID,AuthorID,FileSize,FileName,PostTime,FileIntro,DirByTime,Quote,Meta)
