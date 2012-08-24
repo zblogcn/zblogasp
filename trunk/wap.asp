@@ -31,9 +31,13 @@
 <!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd"> 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<link rel="stylesheet" href="<%=ZC_BLOG_HOST%>zb_system/wap/style/wap.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="<%=BlogHost%>zb_system/wap/style/wap.css" type="text/css" media="screen" charset="utf-8" />
 <%
 Call System_Initialize()
+
+If TemplateDic.Exists("TEMPLATE_WAP_ARTICLE_COMMENT")=False Then Call TemplateDic.add("TEMPLATE_WAP_ARTICLE_COMMENT",LoadFromFile(BlogPath &"zb_system\wap\template\wap_article_comment","utf-8"))
+If TemplateDic.Exists("TEMPLATE_WAP_ARTICLE-MULTI")=False Then Call TemplateDic.add("TEMPLATE_WAP_ARTICLE-MULTI",LoadFromFile(BlogPath &"zb_system\wap\template\wap_article-multi.html","utf-8"))
+If TemplateDic.Exists("TEMPLATE_WAP_SINGLE")=False Then Call TemplateDic.add("TEMPLATE_WAP_SINGLE",LoadFromFile(BlogPath &"zb_system\wap\template\wap_single.html","utf-8"))
 
 PubLic intPageCount
 	Select Case Request.QueryString("act")
