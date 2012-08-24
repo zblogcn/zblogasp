@@ -59,6 +59,7 @@ If Not IsEmpty(Request.QueryString("id")) Then
 			End If
 		End If
 		If EditArticle.FType=ZC_POST_TYPE_PAGE Then IsPage=True
+		If InStr(EditArticle.Content,EditArticle.Intro)>0 Then EditArticle.Intro=""
 	Else
 		Call ShowError(9)
 	End If
@@ -67,27 +68,6 @@ Else
 	If IsPage=True THen EditArticle.FType=ZC_POST_TYPE_PAGE
 End If
 
-		'ajax tags
-
-		If Request.QueryString("type")="tags" Then
-			Response.Write "$(""#ajaxtags"").html("""
-			Dim objRS
-			Set objRS=objConn.Execute("SELECT [tag_ID],[tag_Name] FROM [blog_Tag] ORDER BY [tag_Count] DESC")
-			If (Not objRS.bof) And (Not objRS.eof) Then
-				Do While Not objRS.eof
-					If InStr(EditArticle.Tag,"{"& objRS("tag_ID") & "}")>0 Then
-						Response.Write "<a href='#' class='selected'>"& TransferHTML(objRS("tag_Name"),"[html-format]") &"</a> "
-					Else
-						Response.Write "<a href='#'>"& TransferHTML(objRS("tag_Name"),"[html-format]") &"</a> "
-					End If
-					objRS.MoveNext
-				Loop
-			End If
-			objRS.Close
-			Set objRS=Nothing
-			Response.Write """);$(""#ulTag"").tagTo(""#edtTag"");"
-			Response.End
-		End If
 
 BlogTitle=EditArticle.HtmlUrl
 
@@ -183,7 +163,7 @@ Next
 <% If Request.QueryString("type")<>"Page" Then %>
                         <p><span class='editinputname' style='padding:0 0 0 0;'><%=ZC_MSG138%>:</span>
                         <input type="text" style="width:400px;" name="edtTag" id="edtTag" value="<%=TransferHTML(EditArticle.TagToName,"[html-format]")%>" />
-                        <a href="" style="cursor:pointer;" onClick="if(document.getElementById('ulTag').style.display=='none'){document.getElementById('ulTag').style.display='block';if(loaded==false){$.getScript('edit_ueditor.asp?type=tags');loaded=true;}}else{document.getElementById('ulTag').style.display='none'};return false;"><%=ZC_MSG139%><span style="font-size: 1.5em; vertical-align: -1px;"></span></a></p>
+                        <a href="" style="cursor:pointer;" onClick="if(document.getElementById('ulTag').style.display=='none'){document.getElementById('ulTag').style.display='block';if(loaded==false){$.getScript('../function/c_html_js.asp?act=tags');loaded=true;}}else{document.getElementById('ulTag').style.display='none'};return false;"><%=ZC_MSG139%><span style="font-size: 1.5em; vertical-align: -1px;"></span></a></p>
                       <ul id="ulTag" style="display:none;">
                         <li><span id="ajaxtags"><%=ZC_MSG165%></span>&nbsp;&nbsp;(<%=ZC_MSG208%>)</li>
                       </ul>
