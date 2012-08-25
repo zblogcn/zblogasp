@@ -634,7 +634,7 @@ objConn.execute("CREATE TABLE [blog_TrackBack] (tb_ID AutoIncrement primary key,
 
 objConn.execute("CREATE TABLE [blog_UpLoad] (ul_ID AutoIncrement primary key,ul_AuthorID int default 0,ul_FileSize int default 0,ul_FileName VARCHAR(255) default """",ul_PostTime datetime default now(),ul_Quote VARCHAR(255) default """",ul_DownNum int default 0,ul_FileIntro VARCHAR(255) default """",ul_DirByTime YESNO DEFAULT 0,ul_Meta text default """")")
 
-objConn.execute("CREATE TABLE [blog_Counter] (coun_ID AutoIncrement primary key,coun_IP VARCHAR(15) default """",coun_Agent text default """",coun_Refer VARCHAR(255) default """",coun_PostTime datetime default now(),coun_Content text default """",coun_UserID int default 0,coun_PostData  text default """",coun_URL  text default """",coun_AllRequestHeader  text default """")")
+objConn.execute("CREATE TABLE [blog_Counter] (coun_ID AutoIncrement primary key,coun_IP VARCHAR(15) default """",coun_Agent text default """",coun_Refer VARCHAR(255) default """",coun_PostTime datetime default now(),coun_Content text default """",coun_UserID int default 0,coun_PostData  text default """",coun_URL  text default """",coun_AllRequestHeader  text default """",coun_LogName text default """")")
 
 objConn.execute("CREATE TABLE [blog_Keyword] (key_ID AutoIncrement primary key,key_Name VARCHAR(255) default """",key_Intro text default """",key_URL VARCHAR(255) default """")")
 
@@ -658,7 +658,7 @@ objConn.CommitTrans
 
 Set objConn = Server.CreateObject("ADODB.Connection")
 
-objConn.Open "Provider=SqlOLEDB;Data Source=(local)\SQLEXPRESS;Initial Catalog=zb;Persist Security Info=True;User ID=sa;Password=;"
+objConn.Open "Provider=SqlOLEDB;Data Source=(local)\SQLEXPRESS;Initial Catalog=zb;Persist Security Info=True;User ID=sa;Password=123456;"
 
 objConn.BeginTrans
 
@@ -674,7 +674,7 @@ objConn.execute("CREATE TABLE [blog_TrackBack] (tb_ID int identity(1,1) not null
 
 objConn.execute("CREATE TABLE [blog_UpLoad] (ul_ID int identity(1,1) not null primary key,ul_AuthorID int default 0,ul_FileSize int default 0,ul_FileName nvarchar(255) default '',ul_PostTime datetime default getdate(),ul_Quote nvarchar(255) default '',ul_DownNum int default 0,ul_FileIntro nvarchar(255) default '',ul_DirByTime bit DEFAULT 0,ul_Meta ntext default '')")
 
-objConn.execute("CREATE TABLE [blog_Counter] (coun_ID int identity(1,1) not null primary key,coun_IP nvarchar(15) default '',coun_Agent ntext default '',coun_Refer nvarchar(255) default '',coun_PostTime datetime default getdate(),coun_Content ntext default '',coun_UserID int default 0,coun_PostData ntext default '',coun_URL ntext default '',coun_AllRequestHeader ntext default '')")
+objConn.execute("CREATE TABLE [blog_Counter] (coun_ID int identity(1,1) not null primary key,coun_IP nvarchar(15) default '',coun_Agent ntext default '',coun_Refer nvarchar(255) default '',coun_PostTime datetime default getdate(),coun_Content ntext default '',coun_UserID int default 0,coun_PostData ntext default '',coun_URL ntext default '',coun_AllRequestHeader ntext default '',coun_logName nvarchar(255) default '')")
 
 
 objConn.execute("CREATE TABLE [blog_Keyword] (key_ID int identity(1,1) not null primary key,key_Name nvarchar(255) default '',key_Intro ntext default '',key_URL nvarchar(255) default '')")

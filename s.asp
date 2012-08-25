@@ -41,21 +41,16 @@ If Not CheckUpdateDB("[coun_Content]","[blog_Counter]") Then
 	
 	End IF
 End If
-Dim a
-Set a=New TCounter
-a.Add "test",False
-
-echo a.ID
-echo a.ip
-echo a.referer
-echo a.agent
-echo a.AllRequestHeader
-echo a.postdata
-echo a.userid
-echo a.posttime
-echo a.url
-echo a.content
-Function echo(s)
-	Response.write s&"<br/>"
-End FUnction
+If Not CheckUpdateDB("[coun_logName]","[blog_Counter]") Then
+	IF ZC_MSSQL_ENABLE=True Then	
+			objConn.execute("ALTER TABLE [blog_Counter] ADD coun_logName text default ''")
+	ELSE
+			objConn.execute("ALTER TABLE [blog_Counter] ADD COLUMN coun_logName text default """"")
+	
+	End IF
+End If
+dim a
+set a=new tcounter
+a.add "Create Test","Hello World",False
+response.write "ok"
 %>
