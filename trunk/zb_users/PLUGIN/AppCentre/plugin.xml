@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <plugin>
 <id>AppCentre</id>
-<name>资源中心</name>
+<name>应用中心</name>
 <url>http://www.rainbowsoft.org/</url>
 <note>Z-Blog资源大本营</note>
 <type>inline</type>
