@@ -9,19 +9,19 @@
 %>
 <!-- #include file="Function.asp" -->
 <%
-Dim objConfig
+Dim MiniTu_Config
 Dim MiniTu_MiniImgWidth
 Dim MiniTu_MiniImgHeight
 Dim MiniTu_NoHtmlIntro
 Dim MiniTu_SearchInContent
 
 Sub MiniTu_Initialize()
-	Set objConfig=new TConfig
-	objConfig.Load "MiniTu"
-	MiniTu_MiniImgWidth=CInt(objConfig.Read("MiniImgWidth"))
-	MiniTu_MiniImgHeight=CInt(objConfig.Read("MiniImgHeight"))
-	MiniTu_NoHtmlIntro=CBool(objConfig.Read("NoHtmlIntro"))
-	MiniTu_SearchInContent=CBool(objConfig.Read("SearchInContent"))
+	Set MiniTu_Config=new TConfig
+	MiniTu_Config.Load "MiniTu"
+	MiniTu_MiniImgWidth=CInt(MiniTu_Config.Read("MiniImgWidth"))
+	MiniTu_MiniImgHeight=CInt(MiniTu_Config.Read("MiniImgHeight"))
+	MiniTu_NoHtmlIntro=CBool(MiniTu_Config.Read("NoHtmlIntro"))
+	MiniTu_SearchInContent=CBool(MiniTu_Config.Read("SearchInContent"))
 End Sub
 '=======================================================
 '注册插件并挂接口
@@ -310,13 +310,13 @@ Function InstallPlugin_MiniTu
 
 	
 	MiniTu_Initialize
-	If objConfig.Exists("a")=False Then
-		objConfig.Write "a","0.2"
-		objConfig.Write "MiniImgWidth",300
-		objConfig.Write "MiniImgHeight","0"
-		objConfig.Write "NoHtmlIntro",True
-		objConfig.Write "SearchInContent",True
-		objConfig.Save
+	If MiniTu_Config.Exists("a")=False Then
+		MiniTu_Config.Write "a","0.2"
+		MiniTu_Config.Write "MiniImgWidth",300
+		MiniTu_Config.Write "MiniImgHeight","0"
+		MiniTu_Config.Write "NoHtmlIntro",True
+		MiniTu_Config.Write "SearchInContent",True
+		MiniTu_Config.Save
 	End If
 	Call SetBlogHint(True,Empty,True)
 	
