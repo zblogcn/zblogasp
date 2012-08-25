@@ -27,7 +27,7 @@ Select Case Request.QueryString("type")
 	Case "header"
 		Dim a
 		Set a=New TCounter
-		If a.LoadInfoById(Request.QueryString("id")) Then Response.Write TransferHTML(a.AllRequestHeader,"[html-format]")
+		If a.LoadInfoById(Request.QueryString("id")) Then Response.Write TransferHTML(TransferHTML(a.AllRequestHeader,"[html-format]"),"[enter]")
 		Response.End
 	Case "postdata"
 		Set a=New TCounter
@@ -60,11 +60,13 @@ End Select
 var a,k
 $(document).ready(function(e) {
 	$("a[name='httpheader']").bind("click",function(){
-		$.get("list.asp",{"id":$(this).attr("_temp"),"type":"header"},function(data){$(this).html(data)})
+		var THIS=this;
+		$.get("list.asp",{"id":$(this).attr("_temp"),"type":"header"},function(data){$(THIS).html(data)})
 	})
 
 	$("a[name='postdata']").bind("click",function(){
-		$.get("list.asp",{"id":$(this).attr("_temp"),"type":"postdata"},function(data){$(this).html(data)})
+		var THIS=this
+		$.get("list.asp",{"id":$(this).attr("_temp"),"type":"postdata"},function(data){$(THIS).html(data)})
 	})
 
 });
@@ -157,8 +159,8 @@ Function ExportCounterlist(intPage,intCate,intLevel,intTitle,name)
 			Response.Write "<td>" & objRS("coun_PostTime") & "</td>"
 			Response.Write "<td>" & TransferHTML(vbsunescape(objRS("coun_Content")),"[html-format]") & "</td>"
 			Response.Write "<td>" & TransferHTML(vbsunescape(objRS("coun_URL")),"[html-format]") & "</td>"
-			Response.Write "<td><a href=""javascript:void(0)"" name=""httpheader"" _temp="""&objRS("coun_ID")&""">[查看]</a></td>"
-			Response.Write "<td><a href=""javascript:void(0)"" name=""postdata"" _temp="""&objRS("coun_ID")&""">[查看]</a></td>"
+			Response.Write "<td style='word-break: break-all;'><a href=""javascript:void(0)"" name=""httpheader"" _temp="""&objRS("coun_ID")&""">[查看]</a></td>"
+			Response.Write "<td style='word-break: break-all;'><a href=""javascript:void(0)"" name=""postdata"" _temp="""&objRS("coun_ID")&""">[查看]</a></td>"
 			objRs.MoveNext
 		Next
 	End If
