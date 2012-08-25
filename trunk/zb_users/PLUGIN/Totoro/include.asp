@@ -284,7 +284,7 @@ End Function
 Function Totoro_GetSpamCount_Comment()
 	If IsEmpty(objConn)=True Then Exit Function
 	Dim objRS1
-	Set objRS1=objConn.Execute("SELECT COUNT([comm_ID]) FROM [blog_Comment] WHERE [comm_isCheck]=-1")
+	Set objRS1=objConn.Execute("SELECT COUNT([comm_ID]) FROM [blog_Comment] WHERE [comm_isCheck]=-1 Or [comm_isCheck]=1")
 	If (Not objRS1.bof) And (Not objRS1.eof) Then
 		Totoro_SpamCount_Comment="("&objRS1(0)&"条未审核)"
 	End If
