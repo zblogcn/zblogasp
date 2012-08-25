@@ -29,9 +29,9 @@ Call CheckReference("")
 If BlogUser.Level>1 Then Call ShowError(6) 
 
 Call MiniTu_Initialize
-objConfig.Write "MiniImgWidth",Request.Form("MiniTu_MiniImgWidth")
-objConfig.Write "MiniImgHeight",Request.Form("MiniTu_MiniImgHeight")
-objConfig.Save
+MiniTu_Config.Write "MiniImgWidth",Request.Form("MiniTu_MiniImgWidth")
+MiniTu_Config.Write "MiniImgHeight",Request.Form("MiniTu_MiniImgHeight")
+MiniTu_Config.Save
 
 Call SetBlogHint(Empty,True,Empty)
 
