@@ -574,11 +574,12 @@ Function UpdateDateBase()
 	End If
 
 	If Not CheckUpdateDB("[coun_Content]","[blog_Counter]") Then
-			objConn.execute("ALTER TABLE [blog_Counter] ADD COLUMN coun_Content ntext default """"")
-			objConn.execute("ALTER TABLE [blog_Counter] ADD COLUMN coun_UserID int default 0")
-			objConn.execute("ALTER TABLE [blog_Counter] ADD COLUMN coun_PostData  ntext default """"")
-			objConn.execute("ALTER TABLE [blog_Counter] ADD COLUMN coun_URL  ntext default """"")
-			objConn.execute("ALTER TABLE [blog_Counter] ADD COLUMN coun_AllRequestHeader  ntext default """"")
+		objConn.execute("ALTER TABLE [blog_Counter] ADD COLUMN coun_Content text default """"")
+		objConn.execute("ALTER TABLE [blog_Counter] ADD COLUMN coun_UserID int default 0")
+		objConn.execute("ALTER TABLE [blog_Counter] ADD COLUMN coun_PostData  text default """"")
+		objConn.execute("ALTER TABLE [blog_Counter] ADD COLUMN coun_URL  text default """"")
+		objConn.execute("ALTER TABLE [blog_Counter] ADD COLUMN coun_AllRequestHeader  text default """"")
+		objConn.execute("ALTER TABLE [blog_Counter] ADD COLUMN coun_LogName text default """"")
 	ENd If 
 End Function
 
@@ -674,7 +675,7 @@ objConn.execute("CREATE TABLE [blog_TrackBack] (tb_ID int identity(1,1) not null
 
 objConn.execute("CREATE TABLE [blog_UpLoad] (ul_ID int identity(1,1) not null primary key,ul_AuthorID int default 0,ul_FileSize int default 0,ul_FileName nvarchar(255) default '',ul_PostTime datetime default getdate(),ul_Quote nvarchar(255) default '',ul_DownNum int default 0,ul_FileIntro nvarchar(255) default '',ul_DirByTime bit DEFAULT 0,ul_Meta ntext default '')")
 
-objConn.execute("CREATE TABLE [blog_Counter] (coun_ID int identity(1,1) not null primary key,coun_IP nvarchar(15) default '',coun_Agent ntext default '',coun_Refer nvarchar(255) default '',coun_PostTime datetime default getdate(),coun_Content ntext default '',coun_UserID int default 0,coun_PostData ntext default '',coun_URL ntext default '',coun_AllRequestHeader ntext default '',coun_logName nvarchar(255) default '')")
+objConn.execute("CREATE TABLE [blog_Counter] (coun_ID int identity(1,1) not null primary key,coun_IP nvarchar(15) default '',coun_Agent ntext default '',coun_Refer nvarchar(255) default '',coun_PostTime datetime default getdate(),coun_Content ntext default '',coun_UserID int default 0,coun_PostData ntext default '',coun_URL ntext default '',coun_AllRequestHeader ntext default '',coun_LogName ntext default '')")
 
 
 objConn.execute("CREATE TABLE [blog_Keyword] (key_ID int identity(1,1) not null primary key,key_Name nvarchar(255) default '',key_Intro ntext default '',key_URL nvarchar(255) default '')")

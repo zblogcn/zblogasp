@@ -43,14 +43,14 @@ If Not CheckUpdateDB("[coun_Content]","[blog_Counter]") Then
 End If
 If Not CheckUpdateDB("[coun_logName]","[blog_Counter]") Then
 	IF ZC_MSSQL_ENABLE=True Then	
-			objConn.execute("ALTER TABLE [blog_Counter] ADD coun_logName text default ''")
+			objConn.execute("ALTER TABLE [blog_Counter] ADD coun_logName ntext default ''")
 	ELSE
 			objConn.execute("ALTER TABLE [blog_Counter] ADD COLUMN coun_logName text default """"")
 	
 	End IF
 End If
-dim a
-set a=new tcounter
-a.add "Create Test","Hello World",False
+'dim a
+'set a=new tcounter
+'a.add "Create Test","Hello World",False
 response.write "ok"
 %>
