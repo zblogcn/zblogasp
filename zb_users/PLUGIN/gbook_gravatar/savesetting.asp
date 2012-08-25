@@ -31,13 +31,13 @@ If BlogUser.Level>1 Then Call ShowError(6)
 
 If CheckPluginState("gbook_gravatar")=False Then Call ShowError(48)
 
-if not isnumeric(Request.Form("str_DZ_IDS_VALUE")) then
-response.write "<script>alert('文章ID必须填写');</script>"
-response.End()
-end if
+'if not isnumeric(Request.Form("str_DZ_IDS_VALUE")) then
+'response.write "<script>alert('文章ID必须填写');< /script>"
+'response.End()
+'end if
 
 	Call gbook_gravatar_Initialize
-	gbook_gravatar_Config.Write "DZ_IDS_VALUE",Request.Form("str_DZ_IDS_VALUE")
+'	gbook_gravatar_Config.Write "DZ_IDS_VALUE",Request.Form("str_DZ_IDS_VALUE")
 	gbook_gravatar_Config.Write "DZ_AVATAR_VALUE",Request.Form("str_DZ_AVATAR_VALUE")
 	gbook_gravatar_Config.Write "DZ_WH_VALUE",Request.Form("str_DZ_WH_VALUE")
 	gbook_gravatar_Config.Write "DZ_TITLE_VALUE",Request.Form("str_DZ_TITLE_VALUE")

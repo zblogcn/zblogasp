@@ -40,7 +40,7 @@ function InstallPlugin_gbook_gravatar()
 	gbook_gravatar_Config.Load("gbook_gravatar")
 	If gbook_gravatar_Config.Exists("DZ_VERSION")=False Then
 		gbook_gravatar_Config.Write "DZ_VERSION","1.0"
-		gbook_gravatar_Config.Write "DZ_IDS_VALUE","0"
+'		gbook_gravatar_Config.Write "DZ_IDS_VALUE","0"
 		gbook_gravatar_Config.Write "DZ_AVATAR_VALUE","wavatar"
 		gbook_gravatar_Config.Write "DZ_WH_VALUE","32"
 		gbook_gravatar_Config.Write "DZ_TITLE_VALUE","40"
@@ -63,7 +63,7 @@ End Function
 Function gbook_gravatar_Initialize()
 	Set gbook_gravatar_Config = New TConfig
 	gbook_gravatar_Config.Load("gbook_gravatar")
-	DZ_IDS_VALUE = gbook_gravatar_Config.Read ("DZ_IDS_VALUE")
+'	DZ_IDS_VALUE = gbook_gravatar_Config.Read ("DZ_IDS_VALUE")
 	DZ_AVATAR_VALUE=gbook_gravatar_Config.Read ("DZ_AVATAR_VALUE")
 	DZ_WH_VALUE=gbook_gravatar_Config.Read ("DZ_WH_VALUE")
 	DZ_TITLE_VALUE=gbook_gravatar_Config.Read ("DZ_TITLE_VALUE")

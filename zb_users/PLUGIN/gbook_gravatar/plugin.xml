@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<Plugin version="1.0"><id>gbook_gravatar</id><name>留言增加gravatar头像</name>
+<Plugin version="1.0"><id>gbook_gravatar</id><name>带gravatar头像的最新评论</name>
 <url>http://www.dazhuer.cn/post/zblog-default-gravatar.html</url>
-<note>留言增加gravatar头像 for Z-BLOG 1.8是一个对ZBLOG现有的留言评论增加gravatar头像的扩充插件，此插件可以在首页调用最新留言时增加gravatar头像的显示。</note>
+<note>带gravatar头像的最新评论 for Z-BLOG 2.0是一个对ZBLOG现有的留言评论增加gravatar头像的扩充插件，此插件可以在首页调用最新留言时增加gravatar头像的显示。</note>
 <author>
 <name>大猪</name>
-<url>http://www.dazhuer.cn/</url>
+<url>http://www.izhu.org/</url>
 <email>myllop@gmail.com</email>
 </author>
 <type>inline</type>
-<path>setting.asp</path><include>include.asp</include><level>1</level><adapted>Z-Blog 1.8</adapted><version>1.0</version><pubdate>2009-5-10</pubdate><modified>2009-5-10</modified></Plugin>
+<path>setting.asp</path><include>include.asp</include><level>1</level><adapted>Z-Blog 2.0</adapted><version>1.0</version><pubdate>2012-8-10</pubdate><modified>2012-8-10</modified></Plugin>
