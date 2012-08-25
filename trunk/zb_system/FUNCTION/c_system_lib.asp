@@ -805,7 +805,7 @@ Class TArticle
 			If bAction_Plugin_TArticle_Export_CMTandTB_Begin=True Then Exit Function
 		Next
 
-		CommNums=objConn.Execute("SELECT COUNT([log_ID]) FROM [blog_Comment] WHERE [log_ID] =" & ID)(0)
+		CommNums=objConn.Execute("SELECT COUNT([log_ID]) FROM [blog_Comment] WHERE [log_ID] =" & ID & " AND [comm_isCheck]=0")(0)
 		If CommNums > 0 Then
 			Dim strC_Count,strC,strT_Count,strT
 
@@ -1518,7 +1518,7 @@ Class TArticle
 		Call GetUsersbyUserIDList(AuthorID)
 
 		Dim objRS
-		Set objRS=objConn.Execute("SELECT COUNT([log_ID]) FROM [blog_Comment] WHERE [log_ID] =" & ID)
+		Set objRS=objConn.Execute("SELECT COUNT([log_ID]) FROM [blog_Comment] WHERE [log_ID] =" & ID & " AND [comm_isCheck]=0")
 		If (Not objRS.bof) And (Not objRS.eof) Then
 			CommNums=objRS(0)
 		End If
