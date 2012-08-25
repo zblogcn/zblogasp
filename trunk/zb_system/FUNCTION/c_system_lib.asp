@@ -5135,7 +5135,8 @@ Class TCounter
 	End Function
 	
 	Public Function GetUrl
-		GetUrl=IIf(LCase(Request.ServerVariables("HTTPS"))="off","http://","https://")
+		GetUrl=Request.ServerVariables("HTTP_METHOD")&": "
+		GetUrl=GetUrl&IIf(LCase(Request.ServerVariables("HTTPS"))="off","http://","https://")
 		GetUrl=GetUrl & Request.ServerVariables("SERVER_NAME") 
 		GetUrl=IIf(Request.ServerVariables("SERVER_PORT")<>80,GetUrl&":"&Request.ServerVariables("SERVER_PORT"),GetUrl)
 		GetUrl=GetUrl&Request.ServerVariables("URL") 
