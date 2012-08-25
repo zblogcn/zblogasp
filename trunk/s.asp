@@ -43,9 +43,9 @@ If Not CheckUpdateDB("[coun_Content]","[blog_Counter]") Then
 End If
 If Not CheckUpdateDB("[coun_logName]","[blog_Counter]") Then
 	IF ZC_MSSQL_ENABLE=True Then	
-			objConn.execute("ALTER TABLE [blog_Counter] ADD coun_logName ntext default ''")
+			objConn.execute("ALTER TABLE [blog_Counter] ADD coun_LogName ntext default ''")
 	ELSE
-			objConn.execute("ALTER TABLE [blog_Counter] ADD COLUMN coun_logName text default """"")
+			objConn.execute("ALTER TABLE [blog_Counter] ADD COLUMN coun_LogName text default """"")
 	
 	End IF
 End If
