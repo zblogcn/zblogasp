@@ -1168,19 +1168,6 @@ Function LoadGlobeCache()
 	Dim aryTemplatesName()
 	Dim aryTemplatesContent()
 
-	ReDim Preserve aryTemplatesName(3)
-	ReDim Preserve aryTemplatesContent(3)
-
-	'加载WAP
-	'Application.Lock
-	aryTemplatesName(1)="TEMPLATE_WAP_ARTICLE_COMMENT"
-	aryTemplatesName(2)="TEMPLATE_WAP_ARTICLE-MULTI"
-	aryTemplatesName(3)="TEMPLATE_WAP_SINGLE"
-	aryTemplatesContent(1)=LoadFromFile(BlogPath & "zb_system\defend\wap\wap_article_comment.html","utf-8")
-	aryTemplatesContent(2)=LoadFromFile(BlogPath & "zb_system\defend\wap\wap_article-multi.html","utf-8")
-	aryTemplatesContent(3)=LoadFromFile(BlogPath & "zb_system\defend\wap\wap_single.html","utf-8")
-
-
 	'读取Template目录下的所有文件并写入Cache
 	Dim aryFileList
 	Dim aryFileNameTemplate()
@@ -1197,8 +1184,8 @@ Function LoadGlobeCache()
 			ReDim aryFileNameTemplate(j)
 			ReDim aryFileNameTemplate_Variable(j)
 
-			ReDim Preserve aryTemplatesName(3+j)
-			ReDim Preserve aryTemplatesContent(3+j)
+			ReDim Preserve aryTemplatesName(j)
+			ReDim Preserve aryTemplatesContent(j)
 
 			For i=1 to j
 
@@ -1207,16 +1194,12 @@ Function LoadGlobeCache()
 				If InStr(aryFileList(i),".")=0 Then
 					aryFileNameTemplate_Variable(i)="TEMPLATE_" & UCase(aryFileList(i))
 				End If
-				aryTemplatesName(3+i)=aryFileNameTemplate_Variable(i)
+				aryTemplatesName(i)=aryFileNameTemplate_Variable(i)
 
 				strContent=""
 				strContent=LoadFromFile(BlogPath & "zb_users\" & aryFileNameTemplate(i),"utf-8")
 
-				'Application.Lock
-				'Application(ZC_BLOG_CLSID & aryFileNameTemplate_Variable(i))=strContent
-				'Application.UnLock
-
-				aryTemplatesContent(3+i)=strContent
+				aryTemplatesContent(i)=strContent
 			Next
 
 			'在模板文件中先替换当前模版内的文件标签
@@ -1237,21 +1220,21 @@ Function LoadGlobeCache()
 
 	'读取Cache目录下的所有侧栏文件并写入Cache
 
-	ReDim Preserve aryTemplatesName(3+j+5)
-	ReDim Preserve aryTemplatesContent(3+j+5)
+	ReDim Preserve aryTemplatesName(j+5)
+	ReDim Preserve aryTemplatesContent(j+5)
 
 
-	aryTemplatesName(3+j+1)="CACHE_SIDEBAR"
-	aryTemplatesName(3+j+2)="CACHE_SIDEBAR2"
-	aryTemplatesName(3+j+3)="CACHE_SIDEBAR3"
-	aryTemplatesName(3+j+4)="CACHE_SIDEBAR4"
-	aryTemplatesName(3+j+5)="CACHE_SIDEBAR5"
+	aryTemplatesName(j+1)="CACHE_SIDEBAR"
+	aryTemplatesName(j+2)="CACHE_SIDEBAR2"
+	aryTemplatesName(j+3)="CACHE_SIDEBAR3"
+	aryTemplatesName(j+4)="CACHE_SIDEBAR4"
+	aryTemplatesName(j+5)="CACHE_SIDEBAR5"
 
-	aryTemplatesContent(3+j+1)=LoadFromFile(BlogPath & "zb_users\cache" & "\sidebar.html","utf-8" )
-	aryTemplatesContent(3+j+2)=LoadFromFile(BlogPath & "zb_users\cache" & "\sidebar2.html","utf-8")
-	aryTemplatesContent(3+j+3)=LoadFromFile(BlogPath & "zb_users\cache" & "\sidebar3.html","utf-8")
-	aryTemplatesContent(3+j+4)=LoadFromFile(BlogPath & "zb_users\cache" & "\sidebar4.html","utf-8")
-	aryTemplatesContent(3+j+5)=LoadFromFile(BlogPath & "zb_users\cache" & "\sidebar5.html","utf-8")
+	aryTemplatesContent(j+1)=LoadFromFile(BlogPath & "zb_users\cache" & "\sidebar.html","utf-8" )
+	aryTemplatesContent(j+2)=LoadFromFile(BlogPath & "zb_users\cache" & "\sidebar2.html","utf-8")
+	aryTemplatesContent(j+3)=LoadFromFile(BlogPath & "zb_users\cache" & "\sidebar3.html","utf-8")
+	aryTemplatesContent(j+4)=LoadFromFile(BlogPath & "zb_users\cache" & "\sidebar4.html","utf-8")
+	aryTemplatesContent(j+5)=LoadFromFile(BlogPath & "zb_users\cache" & "\sidebar5.html","utf-8")
 
 
 	'加载标签
