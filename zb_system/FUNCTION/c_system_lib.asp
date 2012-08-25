@@ -837,7 +837,7 @@ Class TArticle
 			objRS.CursorType = adOpenKeyset
 			objRS.LockType = adLockReadOnly
 			objRS.ActiveConnection=objConn
-			objRS.Source="SELECT [comm_ID],[log_ID],[comm_AuthorID],[comm_Author],[comm_Content],[comm_Email],[comm_HomePage],[comm_PostTime],[comm_IP],[comm_Agent],[comm_Reply],[comm_LastReplyIP],[comm_LastReplyTime],[comm_ParentID],[comm_IsCheck],[comm_Meta] FROM [blog_Comment] WHERE ([blog_Comment].[log_ID]=" & ID &")  ORDER BY [comm_PostTime] DESC"
+			objRS.Source="SELECT [comm_ID],[log_ID],[comm_AuthorID],[comm_Author],[comm_Content],[comm_Email],[comm_HomePage],[comm_PostTime],[comm_IP],[comm_Agent],[comm_Reply],[comm_LastReplyIP],[comm_LastReplyTime],[comm_ParentID],[comm_IsCheck],[comm_Meta] FROM [blog_Comment] WHERE ([blog_Comment].[log_ID]=" & ID &" AND [comm_isCheck]=0)  ORDER BY [comm_PostTime] DESC"
 			objRS.Open()
 
 
@@ -5131,6 +5131,7 @@ Class TCounter
 		m=m&"'"&vbsescape(j(i))&"'"
 		m=m&")"
 		objConn.Execute m
+		
 		ID=objConn.Execute("SELECT MAX([coun_ID]) FROM [blog_Counter]")(0)
 	End Function
 	
