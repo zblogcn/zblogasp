@@ -5143,6 +5143,13 @@ Class TCounter
 		GetUrl=IIf(Trim(Request.QueryString)<>"",GetUrl&"?"&Trim(Request.QueryString),GetUrl) 
 	End Function
 
+	Function DelOld(interval, old)
+		If ZC_MSSQL_ENABLE Then
+			objConn.Execute("DELETE FROM [blog_Counter] WHERE DATEDIFF("&interval&",[coun_PostTime],getdate())>"&old)
+		Else
+			objConn.Execute("DELETE FROM [blog_Counter] WHERE DATEDIFF('"&interval&"',[coun_PostTime],now())>"&old)
+		End If
+	End Function
 End Class
 '*********************************************************
 %>
