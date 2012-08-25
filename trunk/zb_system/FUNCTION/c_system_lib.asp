@@ -5060,11 +5060,12 @@ Class TCounter
 	Public URL
 	Public Referer
 	Public AllRequestHeader
+	Public Name
 
 	Public Function LoadInfoById(nid)
 		Call CheckParameter(nid,"int",0)
 		Dim strSQL
-		strSQL="SELECT [coun_ID],[coun_IP],[coun_Agent],[coun_Refer],[coun_PostTime],[coun_Content],[coun_UserID],[coun_PostData],[coun_URL],[coun_AllRequestHeader] FROM [blog_Counter] WHRER [coun_ID]="&nid
+		strSQL="SELECT [coun_ID],[coun_IP],[coun_Agent],[coun_Refer],[coun_PostTime],[coun_Content],[coun_UserID],[coun_PostData],[coun_URL],[coun_AllRequestHeader],[coun_logName] FROM [blog_Counter] WHRER [coun_ID]="&nid
 		Dim objRs
 		Set objRs=objConn.Execute(strsql)
 		If (Not objRS.bof) And (Not objRS.eof) Then
@@ -5078,6 +5079,7 @@ Class TCounter
 			PostData=vbsunescape(objRs(7))
 			URL=vbsunescape(objRs(8))
 			AllRequestHeader=vbsunescape(objRs(9))
+			Name=vbsunescape(objRs(10))
 			LoadInfoById=True
 		End If
 	End Function
@@ -5097,13 +5099,14 @@ Class TCounter
 			URL=vbsunescape(objRs(8))
 			AllRequestHeader=vbsunescape(objRs(9))
 			PostTime = Year(PostTime) & "-" & Month(PostTime) & "-" & Day(PostTime) & " " & Hour(PostTime) & ":" & Minute(PostTime) & ":" & Second(PostTime)
+			Name=vbsunescape(objRs(10))
 			LoadInfoByArray=True
 		End If
 
 
 	End Function
 
-	Public Function Add(c,isBinary)
+	Public Function Add(b,c,isBinary)
 		IP=Request.ServerVariables("REMOTE_ADDR")
 		Agent=Request.ServerVariables("HTTP_USER_AGENT")
 		Referer=Request.ServerVariables("HTTP_REFERER")
@@ -5112,10 +5115,11 @@ Class TCounter
 		UserID=BlogUser.ID
 		PostData=IIf(isBinary,"Binary PostData",Request.Form)
 		URL=GetUrl
+		Name=b
 		AllRequestHeader=Request.ServerVariables("ALL_HTTP")
 		Dim j,k,i,m
-		j=Array(IP,Agent,Referer,PostTime,Content,UserID,PostData,URL,AllRequestHeader)
-		k=Array("coun_IP","coun_Agent","coun_Refer","coun_PostTime","coun_Content","coun_UserID","coun_PostData","coun_URL","coun_AllRequestHeader")
+		j=Array(IP,Agent,Referer,PostTime,Content,UserID,PostData,URL,AllRequestHeader,Name)
+		k=Array("coun_IP","coun_Agent","coun_Refer","coun_PostTime","coun_Content","coun_UserID","coun_PostData","coun_URL","coun_AllRequestHeader","coun_logName")
 		m="INSERT INTO [blog_Counter]("
 		For i=0 To Ubound(k)-1
 			m=m&"["&k(i)&"],"
@@ -5124,7 +5128,7 @@ Class TCounter
 		For i=0 To Ubound(j)-1
 			m=m&"'"&IIf(i=3 or i=5,j(i),vbsescape(j(i)))&"',"
 		Next
-		m=m&"'"&j(i)&"'"
+		m=m&"'"&vbsescape(j(i))&"'"
 		m=m&")"
 		objConn.Execute m
 		ID=objConn.Execute("SELECT MAX([coun_ID]) FROM [blog_Counter]")(0)
