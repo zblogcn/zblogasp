@@ -27,12 +27,15 @@ Select Case Request.QueryString("type")
 	Case "header"
 		Dim a
 		Set a=New TCounter
-		If a.LoadInfoById(Request.QueryString("id")) Then Response.Write TransferHTML(a.Content,"[html-format]")
+		If a.LoadInfoById(Request.QueryString("id")) Then Response.Write TransferHTML(a.AllRequestHeader,"[html-format]")
 		Response.End
 	Case "postdata"
 		Set a=New TCounter
 		If a.LoadInfoById(Request.QueryString("id")) Then Response.Write TransferHTML(a.PostData,"[html-format]")
 		Response.End
+	Case "cleanlog"
+		objConn.Execute "DELETE FROM [blog_Counter]"
+		Response.Redirect "list.asp"
 End Select
 %>
 <!--#include file="..\..\..\zb_system\admin\admin_header.asp"-->
@@ -43,12 +46,12 @@ End Select
     
   <div class="divHeader"><%=BlogTitle%></div>
   <div class="SubMenu"> 
-<a href="List.asp"><span class="m-left m-now">清除所有日志</span></a>
+<a href="list.asp?type=cleanlog" onclick="return confirm('是否真要清除日志？')"><span class="m-left">清除所有日志</span></a>
   </div>
   <div id="divMain2">
  <script type="text/javascript">ActiveLeftMenu("aPlugInMng");</script>
     <%
-	Call ExportCounterList(Request("page"),Request("ip"),Request("agent"),vbsescape(Request("content")))
+	Call ExportCounterlist(Request("page"),Request("ip"),Request("agent"),vbsescape(Request("content")),vbsescape(Request("name")))
 	%>
 
   </div>
@@ -70,7 +73,7 @@ $(document).ready(function(e) {
 
 <%
 
-Function ExportCounterList(intPage,intCate,intLevel,intTitle)
+Function ExportCounterlist(intPage,intCate,intLevel,intTitle,name)
 	Dim i
 	Dim objRS
 	Dim strSQL,strPage
@@ -78,14 +81,18 @@ Function ExportCounterList(intPage,intCate,intLevel,intTitle)
 	Call CheckParameter(intPage,"int",1)
 	intCate=vbsescape(intCate)
 	intLevel=vbsescape(intLevel)
+	name=vbsescape(name)
 	Call CheckParameter(intTitle,"sql",-1)
-	Call GetBlogHint()
-	Response.Write "<form id=""edit"" class=""search"" method=""post"" enctype=""application/x-www-form-urlencoded"" action=""List.asp"">"
+	Call CheckParameter(name,"sql",-1)
+	Dim tmp,tmp2
+	tmp=TransferHTML(name,"[html-format]")
+	tmp2=TransferHTML(intTitle,"[html-format]")
+	Response.Write "<form id=""edit"" class=""search"" method=""post"" enctype=""application/x-www-form-urlencoded"" action=""list.asp"">"
 	Response.Write "IP:<input type='text' name='ip' id='ip' value="""&TransferHTML(intCate,"[html-format]")&"""/>"
-	Response.Write "  User-Agent:<input type='text' name='agent' id='agent' value='"&TransferHTML(intLevel,"[html-format]")&"'/>     <input type=""submit"" class=""button"" value="""&ZC_MSG087&""">"
+	Response.Write "  User-Agent:<input type='text' name='agent' id='agent' value='"&TransferHTML(intLevel,"[html-format]")&"'/>  日志类型： <input type='text' name='name' id='name' value='"&IIf(tmp="-1","",tmp)&"'/>  <input type=""submit"" class=""button"" value="""&ZC_MSG087&""">  "
 
 
-	Response.Write "<br/><br/>PostData&AllHttp <input id=""content"" name=""content"" style=""width:70%"" type=""text"" value="""" /> "
+	Response.Write "<br/><br/>PostData&AllHttp <input id=""content"" name=""content"" style=""width:70%"" type=""text"" value="""&IIf(tmp2="-1","",tmp)&""" /> "
 	Response.Write ""
 	Response.Write "</form>"
 	Set objRS=Server.CreateObject("ADODB.Recordset")
@@ -114,8 +121,16 @@ Function ExportCounterList(intPage,intCate,intLevel,intTitle)
 			strSQL = strSQL & "AND ( (CHARINDEX('" & intTitle &"',[coun_AllRequestHeader]))<>0) OR (CHARINDEX('" & intTitle &"',[coun_Content])<>0)"
 		End If
 	End If
+	
+	If Name<>"-1" Then
+		If ZC_MSSQL_ENABLE=False Then
+			strSQL = strSQL & "AND ( (InStr(1,LCase([coun_logName]),LCase('" & Name &"'),0)<>0) "
+		Else
+			strSQL = strSQL & "AND ( (CHARINDEX('" & Name &"',[coun_logName]))<>0)"
+		End If
+	End If
 	Response.Write "<table border=""1"" width=""100%"" cellspacing=""1"" cellpadding=""1"">"
-	Response.Write "<tr><td>"& ZC_MSG076 &"</td><td>IP</td><td>操作者</td><td>操作时间</td><td>操作内容</td><td>方法及URL</td><td>HTTP头</td><td>POSTDATA</td></tr>"
+	Response.Write "<tr><td>"& ZC_MSG076 &"</td><td>IP</td><td>类型</td><td>操作者</td><td>操作时间</td><td>操作内容</td><td>方法及URL</td><td>HTTP头</td><td>POSTDATA</td></tr>"
 	If strsql<>"" then strsql="WHERE 1=1 "&strsql
 	objRS.Open("SELECT * FROM [blog_Counter] "& strSQL &" ORDER BY [coun_PostTime] DESC")
 	objRS.PageSize=ZC_MANAGE_COUNT
@@ -129,8 +144,8 @@ Function ExportCounterList(intPage,intCate,intLevel,intTitle)
 			Response.Write "<tr>"
 			Response.Write "<td>" & objRS("coun_ID") & "</td>"
 			Response.Write "<td>" & vbsunescape(objRS("coun_IP")) & "</td>"
-			
-			Call GetUsersbyUserIDList(objRS("coun_UserID"))
+			Response.Write "<td>" & vbsunescape(objRS("coun_logName")) & "</td>"
+			Call GetUsersbyUserIDlist(objRS("coun_UserID"))
 			Dim User
 			For Each User in Users
 				If IsObject(User) Then
@@ -148,7 +163,7 @@ Function ExportCounterList(intPage,intCate,intLevel,intTitle)
 		Next
 	End If
 	Response.Write "</table> "
-	strPage=ExportPageBar(intPage,intPageAll,ZC_PAGEBAR_COUNT,"List.asp?page="&Request("page")&"&ip="&Request("ip")&"&agent="&Request("agent")&"content="&vbsescape(Request("content")))
+	strPage=ExportPageBar(intPage,intPageAll,ZC_PAGEBAR_COUNT,"list.asp?page="&Request("page")&"&ip="&Request("ip")&"&agent="&Request("agent")&"&content="&vbsescape(Request("content"))&"&name="&vbsescape(Request("name")))
 
 	Response.Write "<hr/><p class=""pagebar"">" & ZC_MSG042 & ": " & strPage
 

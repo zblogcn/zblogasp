@@ -5065,7 +5065,7 @@ Class TCounter
 	Public Function LoadInfoById(nid)
 		Call CheckParameter(nid,"int",0)
 		Dim strSQL
-		strSQL="SELECT [coun_ID],[coun_IP],[coun_Agent],[coun_Refer],[coun_PostTime],[coun_Content],[coun_UserID],[coun_PostData],[coun_URL],[coun_AllRequestHeader],[coun_logName] FROM [blog_Counter] WHRER [coun_ID]="&nid
+		strSQL="SELECT [coun_ID],[coun_IP],[coun_Agent],[coun_Refer],[coun_PostTime],[coun_Content],[coun_UserID],[coun_PostData],[coun_URL],[coun_AllRequestHeader],[coun_logName] FROM [blog_Counter] WHERE [coun_ID]="&nid
 		Dim objRs
 		Set objRs=objConn.Execute(strsql)
 		If (Not objRS.bof) And (Not objRS.eof) Then
