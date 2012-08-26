@@ -29,20 +29,16 @@
 
 Call System_Initialize()
 
+Call ClearGlobeCache
+Call LoadGlobeCache
+
 'plugin node
 For Each sAction_Plugin_Admin_Begin in Action_Plugin_Admin_Begin
 	If Not IsEmpty(sAction_Plugin_Admin_Begin) Then Call Execute(sAction_Plugin_Admin_Begin)
 Next
 
-Call CheckReference("")
-
-Dim strAct
-strAct=Request.QueryString("act")
-
 '检查权限
-If Not CheckRights(strAct) Then Call ShowError(6)
-
-Call GetFunction()
+If Not CheckRights(Request.QueryString("act")) Then Call ShowError(6)
 
 BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG022
 
@@ -83,7 +79,7 @@ End If
 		Case "SiteInfo" Call ExportSiteInfo()
 		Case "AskFileReBuild" Call ExportFileReBuildAsk()
 		Case "ThemeMng" Call ExportThemeMng()
-		Case "FunctionMng" Call ExportFunctionList()
+		Case "FunctionMng" Call GetFunction():Call ExportFunctionList()
 	End Select
 
 
