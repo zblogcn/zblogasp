@@ -239,7 +239,7 @@ background-image: url();
 
 /*后台首页*/
 #divMain {float:left;width:100%;background:#FFFFFF;padding:0px;margin:0px;}
-#divMain a{color:#2A4C88;} #divMain a:hover{color:#D60000;}
+#divMain a,#divMain2 a{color:#2A4C88;} #divMain a:hover,#divMain2  a:hover{color:#D60000;}
 #divMain2 { padding:0px;margin:0px;}
 .divHeader { height:1.8em; line-height:1.8em; font-size:1.5em; padding:0; background:#FFF;}
 .divHeader2 { height:1.8em; line-height:1.8em; font-size:1.5em; padding:0; background:#FFF;border-bottom:5px solid #e0e0e0;}

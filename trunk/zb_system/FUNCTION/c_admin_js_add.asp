@@ -27,7 +27,7 @@
 
 <% Response.Clear %>
 
-
+var str00="<%=BlogHost%>";
 
 
 
