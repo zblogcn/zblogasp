@@ -2213,6 +2213,8 @@ Function MakeBlogReBuild_Core()
 
 	BlogReBuild_Catalogs
 
+	BlogReBuild_Categorys
+
 	BlogReBuild_Calendar
 
 	BlogReBuild_Tags
