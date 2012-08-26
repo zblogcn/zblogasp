@@ -121,4 +121,11 @@ Function WindsPhoto_Copy_Template()
     Call SaveToFile(BlogPath & "/zb_users/Themes/" & ZC_BLOG_THEME & "/Template/wp_index.html", strContent, "utf-8", TRUE)
     Call SaveToFile(BlogPath & "/zb_users/Themes/" & ZC_BLOG_THEME & "/Template/wp_album.html", strContent, "utf-8", TRUE)
 End Function
+
+
+Function WindsPhoto_uEditorUpload()
+End Function
+
+Function WindsPhoto_uEditorAlbumList()
+End Function
 %>

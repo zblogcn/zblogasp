@@ -49,7 +49,7 @@ typeid = Request.QueryString("typeid")
 			<a href="<%=ZC_BLOG_HOST%>zb_users/PLUGIN/windsphoto/admin_main.asp"><span class="m-left m-now">相册管理</span></a>
 			<a href="<%=ZC_BLOG_HOST%>zb_users/PLUGIN/windsphoto/admin_addtype.asp"><span class="m-left">新建相册</span></a>
 			<a href="<%=ZC_BLOG_HOST%>zb_users/PLUGIN/windsphoto/admin_setting.asp"><span class="m-left">系统设置</span></a>
-			<a href="<%=ZC_BLOG_HOST%>zb_system/PLUGIN?act=pluginMng"><span class="m-right">退出</span></a>
+			<a href="<%=ZC_BLOG_HOST%>zb_system/cmd.asp?act=pluginMng"><span class="m-right">退出</span></a>
 			<a href="<%=ZC_BLOG_HOST%>zb_users/PLUGIN/windsphoto/help.asp"><span class="m-right">帮助说明</span></a>
 			<a href="<%=ZC_BLOG_HOST%>zb_users/PLUGIN/windsphoto/help.asp#more"><span class="m-right">更多功能</span></a>
 		</div>
