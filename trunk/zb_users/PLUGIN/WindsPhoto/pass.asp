@@ -18,7 +18,7 @@
 <!-- #include file="../../../zb_system/function/c_system_event.asp" -->
 <!-- #include file="../../../zb_system/function/c_system_plugin.asp" -->
 <!-- #include file="../p_config.asp" -->
-<!-- #include file="data/conn.asp" -->
+<%Call System_Initialize%><!-- #include file="data/conn.asp" -->
 
 <%
 pa = Request.Form("pase")

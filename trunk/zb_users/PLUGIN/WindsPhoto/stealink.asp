@@ -21,7 +21,7 @@ End Function
 
 Function GetImage(ByVal URL)
     Dim oXmlHttp
-    Set oXmlHttp = Server.CreateObject("Msxml2.XMLHTTP")
+    Set oXmlHttp = Server.CreateObject("Msxml2.ServerXMLHTTP")
 
     If Err.Number <> 0 Then
         Response.Write("XMLHTTP Object not installed on this server, please go to Microsoft website download and install it.")
