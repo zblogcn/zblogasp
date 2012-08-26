@@ -25,32 +25,26 @@ Call CheckReference("")
 
 If BlogUser.Level>2 Then Call ShowError(6)
 If CheckpluginState("windsphoto") = FALSE Then Call ShowError(48)
-
+Call WindsPhoto_Initialize
 '检查ASPJPEG组件,并把是否存在aspjpeg缓存到设置中,有用
 Set Jpeg = Server.CreateObject("Persits.Jpeg")
 If -2147221005 = Err Or Jpeg.Expires<Now() Then
     Call SetBlogHint_Custom("!! 当前服务器没有ASPJPEG组件,你只可以在无法生产缩略图和水印功能的情况下继续使用本相册.</a>")
     If WP_IF_ASPJPEG = "1" Then
-        Dim strContent
-        strContent = LoadFromFile(BlogPath & "/plugin/WindsPhoto/include.asp", "utf-8")
-        Call SaveValueForSetting(strContent, TRUE, "String", "WP_IF_ASPJPEG", "0")
-        Call SaveToFile(BlogPath & "/plugin/WindsPhoto/include.asp", strContent, "utf-8", FALSE)
+		WP_Config.Write "WP_IF_ASPJPEG", "0"
+		WP_Config.Save
         Response.Redirect "admin_setting.asp"
     End If
 ElseIf WP_IF_ASPJPEG = "0" Then
-    Dim strContent1
-    strContent1 = LoadFromFile(BlogPath & "/plugin/WindsPhoto/include.asp", "utf-8")
-    Call SaveValueForSetting(strContent1, TRUE, "String", "WP_IF_ASPJPEG", "1")
-    Call SaveToFile(BlogPath & "/plugin/WindsPhoto/include.asp", strContent1, "utf-8", FALSE)
-    Response.Redirect "admin_setting.asp"
+		WP_Config.Write "WP_IF_ASPJPEG", "1"
+		WP_Config.Save
+		   Response.Redirect "admin_setting.asp"
 End If
 Set Jpeg = Nothing
 
 If WP_SUB_DOMAIN = "" Then
-    Dim strContent3
-    strContent3 = LoadFromFile(BlogPath & "/plugin/WindsPhoto/include.asp", "utf-8")
-    Call SaveValueForSetting(strContent3, TRUE, "String", "WP_SUB_DOMAIN", ZC_BLOG_HOST&"plugin/windsphoto/")
-    Call SaveToFile(BlogPath & "/plugin/WindsPhoto/include.asp", strContent3, "utf-8", FALSE)
+    WP_Config.Write "WP_SUB_DOMAIN", ZC_BLOG_HOST&"zb_users/plugin/windsphoto/"
+	WP_Config.Save
     Response.Redirect "admin_setting.asp"
 End If
 
@@ -64,129 +58,86 @@ Dim tmpSng
 tmpSng = LoadFromFile(BlogPath & "/plugin/WindsPhoto/include.asp", "utf-8")
 
 Dim strWP_SCRIPT_TYPE
-Call LoadValueForSetting(tmpSng, TRUE, "String", "WP_SCRIPT_TYPE", strWP_SCRIPT_TYPE)
-
+strWP_SCRIPT_TYPE = WP_SCRIPT_TYPE
 Dim strWP_WATERMARK_TYPE
-Call LoadValueForSetting(tmpSng, TRUE, "String", "WP_WATERMARK_TYPE", strWP_WATERMARK_TYPE)
-
+strWP_WATERMARK_TYPE = WP_WATERMARK_TYPE
 Dim strWP_ORDER_BY
-Call LoadValueForSetting(tmpSng, TRUE, "String", "WP_ORDER_BY", strWP_ORDER_BY)
-
+strWP_ORDER_BY = WP_ORDER_BY
 Dim numWP_UPLOAD_FILESIZE
-Call LoadValueForSetting(tmpSng, TRUE, "Numeric", "WP_UPLOAD_FILESIZE", numWP_UPLOAD_FILESIZE)
-
+numWP_UPLOAD_FILESIZE = WP_UPLOAD_FILESIZE
 Dim strWP_UPLOAD_DIR
-Call LoadValueForSetting(tmpSng, TRUE, "String", "WP_UPLOAD_DIR", strWP_UPLOAD_DIR)
-
+strWP_UPLOAD_DIR = WP_UPLOAD_DIR
 Dim strWP_UPLOAD_DIRBY
-Call LoadValueForSetting(tmpSng, TRUE, "String", "WP_UPLOAD_DIRBY", strWP_UPLOAD_DIRBY)
-
+strWP_UPLOAD_DIRBY = WP_UPLOAD_DIRBY
 Dim strWP_JPEG_FONTQUALITY
-Call LoadValueForSetting(tmpSng, TRUE, "String", "WP_JPEG_FONTQUALITY", strWP_JPEG_FONTQUALITY)
-
+strWP_JPEG_FONTQUALITY = WP_JPEG_FONTQUALITY
 Dim strWP_JPEG_FONTBOLD
-Call LoadValueForSetting(tmpSng, TRUE, "String", "WP_JPEG_FONTBOLD", strWP_JPEG_FONTBOLD)
-
+strWP_JPEG_FONTBOLD = WP_JPEG_FONTBOLD
 Dim strWP_JPEG_FONTSIZE
-Call LoadValueForSetting(tmpSng, TRUE, "String", "WP_JPEG_FONTSIZE", strWP_JPEG_FONTSIZE)
-
+strWP_JPEG_FONTSIZE = WP_JPEG_FONTSIZE
 Dim strWP_JPEG_FONTCOLOR
-Call LoadValueForSetting(tmpSng, TRUE, "String", "WP_JPEG_FONTCOLOR", strWP_JPEG_FONTCOLOR)
-
+strWP_JPEG_FONTCOLOR = WP_JPEG_FONTCOLOR
 Dim strWP_WATERMARK_TEXT
-Call LoadValueForSetting(tmpSng, TRUE, "String", "WP_WATERMARK_TEXT", strWP_WATERMARK_TEXT)
-
+strWP_WATERMARK_TEXT = WP_WATERMARK_TEXT
 Dim strWP_ALBUM_NAME
-Call LoadValueForSetting(tmpSng, TRUE, "String", "WP_ALBUM_NAME", strWP_ALBUM_NAME)
-
+strWP_ALBUM_NAME = WP_ALBUM_NAME
 Dim strWP_WATERMARK_WIDTH_POSITION
-Call LoadValueForSetting(tmpSng, TRUE, "String", "WP_WATERMARK_WIDTH_POSITION", strWP_WATERMARK_WIDTH_POSITION)
-
+strWP_WATERMARK_WIDTH_POSITION = WP_WATERMARK_WIDTH_POSITION
 Dim strWP_WATERMARK_HEIGHT_POSITION
-Call LoadValueForSetting(tmpSng, TRUE, "String", "WP_WATERMARK_HEIGHT_POSITION", strWP_WATERMARK_HEIGHT_POSITION)
-
+strWP_WATERMARK_HEIGHT_POSITION = WP_WATERMARK_HEIGHT_POSITION
 Dim numWP_SMALL_WIDTH
-Call LoadValueForSetting(tmpSng, TRUE, "Numeric", "WP_SMALL_WIDTH", numWP_SMALL_WIDTH)
-
+numWP_SMALL_WIDTH = WP_SMALL_WIDTH
 Dim numWP_SMALL_HEIGHT
-Call LoadValueForSetting(tmpSng, TRUE, "Numeric", "WP_SMALL_HEIGHT", numWP_SMALL_HEIGHT)
-
+numWP_SMALL_HEIGHT = WP_SMALL_HEIGHT
 Dim numWP_LIST_WIDTH
-Call LoadValueForSetting(tmpSng, TRUE, "Numeric", "WP_LIST_WIDTH", numWP_LIST_WIDTH)
-
+numWP_LIST_WIDTH = WP_LIST_WIDTH
 Dim numWP_LIST_HEIGHT
-Call LoadValueForSetting(tmpSng, TRUE, "Numeric", "WP_LIST_HEIGHT", numWP_LIST_HEIGHT)
-
+numWP_LIST_HEIGHT = WP_LIST_HEIGHT
 Dim strWP_WATERMARK_LOGO
-Call LoadValueForSetting(tmpSng, TRUE, "String", "WP_WATERMARK_LOGO", strWP_WATERMARK_LOGO)
-
+strWP_WATERMARK_LOGO = WP_WATERMARK_LOGO
 Dim strWP_WATERMARK_ALPHA
-Call LoadValueForSetting(tmpSng, TRUE, "String", "WP_WATERMARK_ALPHA", strWP_WATERMARK_ALPHA)
-
+strWP_WATERMARK_ALPHA = WP_WATERMARK_ALPHA
 Dim numWP_SMALL_PAGERCOUNT
-Call LoadValueForSetting(tmpSng, TRUE, "Numeric", "WP_SMALL_PAGERCOUNT", numWP_SMALL_PAGERCOUNT)
-
+numWP_SMALL_PAGERCOUNT = WP_SMALL_PAGERCOUNT
 Dim numWP_LIST_PAGERCOUNT
-Call LoadValueForSetting(tmpSng, TRUE, "Numeric", "WP_LIST_PAGERCOUNT", numWP_LIST_PAGERCOUNT)
-
+numWP_LIST_PAGERCOUNT = WP_LIST_PAGERCOUNT
 Dim strWP_SUB_DOMAIN
-Call LoadValueForSetting(tmpSng, TRUE, "String", "WP_SUB_DOMAIN", strWP_SUB_DOMAIN)
-
+strWP_SUB_DOMAIN = WP_SUB_DOMAIN
 Dim strWP_ALBUM_INTRO
-Call LoadValueForSetting(tmpSng, TRUE, "String", "WP_ALBUM_INTRO", strWP_ALBUM_INTRO)
-
+strWP_ALBUM_INTRO = WP_ALBUM_INTRO
 Dim strWP_UPLOAD_RENAME
-Call LoadValueForSetting(tmpSng, TRUE, "String", "WP_UPLOAD_RENAME", strWP_UPLOAD_RENAME)
-
+strWP_UPLOAD_RENAME = WP_UPLOAD_RENAME
 Dim strWP_WATERMARK_AUTO
-Call LoadValueForSetting(tmpSng, TRUE, "String", "WP_WATERMARK_AUTO", strWP_WATERMARK_AUTO)
-
+strWP_WATERMARK_AUTO = WP_WATERMARK_AUTO
 Dim numWP_INDEX_PAGERCOUNT
-Call LoadValueForSetting(tmpSng, TRUE, "Numeric", "WP_INDEX_PAGERCOUNT", numWP_INDEX_PAGERCOUNT)
-
+numWP_INDEX_PAGERCOUNT = WP_INDEX_PAGERCOUNT
 Dim numWP_BLOGPHOTO_ID
-Call LoadValueForSetting(tmpSng, TRUE, "Numeric", "WP_BLOGPHOTO_ID", numWP_BLOGPHOTO_ID)
-
+numWP_BLOGPHOTO_ID = WP_BLOGPHOTO_ID
 Dim strWP_HIDE_DIVFILESND
-Call LoadValueForSetting(tmpSng, TRUE, "String", "WP_HIDE_DIVFILESND", strWP_HIDE_DIVFILESND)
-%>
+strWP_HIDE_DIVFILESND = WP_HIDE_DIVFILESND%>
+<!--#include file="..\..\..\zb_system\admin\admin_header.asp"-->
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<%=ZC_BLOG_LANGUAGE%>" lang="<%=ZC_BLOG_LANGUAGE%>">
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<meta http-equiv="Content-Language" content="<%=ZC_BLOG_LANGUAGE%>" />
-	<meta name="robots" content="noindex,nofollow"/>
-	<link rel="stylesheet" rev="stylesheet" href="../../CSS/admin.css" type="text/css" media="screen" />
-	<script language="JavaScript" src="../../script/common.js" type="text/javascript"></script>
-	<script language="JavaScript" src="../../script/jquery.tabs.pack.js" type="text/javascript"></script>
-	<link rel="stylesheet" href="../../CSS/jquery.tabs.css" type="text/css" media="print, projection, screen">
-	<!--[if lte IE 7]>
-	<link rel="stylesheet" href="../../CSS/jquery.tabs-ie.css" type="text/css" media="projection, screen">
-	<![endif]-->
-	<link rel="stylesheet" href="../../CSS/jquery.bettertip.css" type="text/css" media="screen">
-	<script language="JavaScript" src="../../script/jquery.bettertip.pack.js" type="text/javascript"></script>
-	<title><%=BlogTitle%></title>
-</head>
-<body>
-<div id="divMain">
-	<div class="Header">WindsPhoto 系统设置</div>
+<!--#include file="..\..\..\zb_system\admin\admin_top.asp"-->
+<div id="divMain"><div class="ShowBlogHint"><%Call GetBlogHint()%></div>
+	<div class="divHeader">WindsPhoto 系统设置</div>
 		<div class="SubMenu">
-			<span class="m-left"><a href="<%=ZC_BLOG_HOST%>plugin/windsphoto/admin_main.asp">相册管理</a></span>
-			<span class="m-left"><a href="<%=ZC_BLOG_HOST%>plugin/windsphoto/admin_addtype.asp">新建相册</a></span>
-			<span class="m-left m-now"><a href="<%=ZC_BLOG_HOST%>plugin/windsphoto/admin_setting.asp">系统设置</a></span>	
-			<span class="m-right"><a href="<%=ZC_BLOG_HOST%>cmd.asp?act=pluginMng">退出</a></span>
-			<span class="m-right"><a href="<%=ZC_BLOG_HOST%>plugin/windsphoto/help.asp">帮助说明</a></span>
-			<span class="m-right"><a href="<%=ZC_BLOG_HOST%>PLUGIN/windsphoto/help.asp#more">更多功能</a></span>
+			<a href="<%=ZC_BLOG_HOST%>zb_users/plugin/windsphoto/admin_main.asp"><span class="m-left">相册管理</span></a>
+			<a href="<%=ZC_BLOG_HOST%>zb_users/plugin/windsphoto/admin_addtype.asp"><span class="m-left">新建相册</span></a>
+			<a href="<%=ZC_BLOG_HOST%>zb_users/plugin/windsphoto/admin_setting.asp"><span class="m-left m-now">系统设置</span></a>	
+			<a href="<%=ZC_BLOG_HOST%>zb_system/cmd.asp?act=pluginMng"><span class="m-right">退出</span></a>
+			<a href="<%=ZC_BLOG_HOST%>zb_users/plugin/windsphoto/help.asp"><span class="m-right">帮助说明</span></a>
+			<a href="<%=ZC_BLOG_HOST%>zb_users/PLUGIN/windsphoto/help.asp#more"><span class="m-right">更多功能</span></a>
 		</div>
 <form name="edit" method="post" action="admin_savesetting.asp">
 <div id="divMain2">
-<%Call GetBlogHint()%>
-<ul>
-	<li class="tabs-selected"><a href="#fragment-1"><span>参数设置</span></a></li>
+<div class="content-box"><!-- Start Content Box -->
+<div class="content-box-header">
+<ul class="content-box-tabs">
+	<li><a href="#fragment-1" class="default-tab"><span>参数设置</span></a></li>
 	<li><a href="#fragment-2"><span>水印设置</span></a></li>
 </ul>
-
+<div class="clear"></div></div>
+<div class="content-box-content">
 <div class="tabs-div" style='border:none;padding:0px;margin:0;' id="fragment-1">
 <table width='100%' style='padding:0px;margin:1px;' cellspacing='0' cellpadding='0'>
 <tr><td style='width:32%'><p align='left'>·相册名称</p></td><td style="width:68%"><p><input name="strWP_ALBUM_NAME" style="width:95%" type="text" value="<%=strWP_ALBUM_NAME%>" /></p></td></tr>
@@ -249,7 +200,7 @@ Call LoadValueForSetting(tmpSng, TRUE, "String", "WP_HIDE_DIVFILESND", strWP_HID
 
 <tr><td style='width:32%'><p align='left'>·是否粗体</p></td><td style="width:68%"><p>	<input type="radio" name="strWP_JPEG_FONTBOLD" value="true" <%if WP_JPEG_FONTBOLD="true" then%>checked<%end if%> />是	<input type="radio" name="strWP_JPEG_FONTBOLD" value="false" <%if WP_JPEG_FONTBOLD="false" then%>checked<%end if%> />否</p></td></tr>
 </table>
-</div>
+</div></div>
 <p><input type="submit" class="button" value="提交" id="btnPost" onclick='' /> <input type="reset" class="button" value="重置" id="btnPost" /></p>
 </div>
 </form>
