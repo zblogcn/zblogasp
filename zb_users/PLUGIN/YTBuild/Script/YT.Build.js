@@ -24,7 +24,7 @@
 				type: 'POST',
 				dataType: 'json',
 				data: {Act: "Catalog" ,Key: Key ,aC: YT.GSI(aC).join(",") , t:Math.random()},
-				error: function(e){YT.SettingsPanel("系统错误","<font color=red>"+e.responseText+"</font>");},
+				error: function(e){YT.Thread[0]=-1;YT.SettingsPanel("系统错误","<font color=red>"+e.responseText+"</font>");},
 				beforeSend: function(){YT.SettingsPanel("系统提示","正在获取数据集合,请稍候...",true);},
 				success: function(d) {
 					YT.SettingsPanel("系统提示","正在启动线程发布,请稍候...",true);
@@ -55,7 +55,7 @@
 				type: 'POST',
 				dataType: 'json',
 				data: {Act: "View" ,Key: Key ,aC: YT.GSI(aC).join(",") , t:Math.random()},
-				error: function(e){YT.SettingsPanel("系统错误","<font color=red>"+e.responseText+"</font>");},
+				error: function(e){YT.Thread[0]=-1;YT.SettingsPanel("系统错误","<font color=red>"+e.responseText+"</font>");},
 				beforeSend: function(){YT.SettingsPanel("系统提示","正在获取数据集合,请稍候...",true);},
 				success: function(d) {
 					if(d && d.length > 0){
