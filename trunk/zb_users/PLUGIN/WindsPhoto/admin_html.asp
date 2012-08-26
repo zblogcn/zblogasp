@@ -18,12 +18,12 @@
 <!-- #include file="../../../zb_system/function/c_system_plugin.asp" -->
 <!-- #include file="../../../zb_system/function/c_system_event.asp" -->
 <!-- #include file="../p_config.asp" -->
-<!-- #include file="data/conn.asp" -->
+
 <!-- #include file="function.asp" -->
 
 <%
 Call System_Initialize
-
+%><!-- #include file="data/conn.asp" --><%
 '检查权限
 If BlogUser.Level>2 Then Call ShowError(6)
 If CheckpluginState("windsphoto") = FALSE Then Call ShowError(48)
@@ -35,7 +35,7 @@ Set ArtList = New TArticleList
 
 ArtList.LoadCache
 
-If LoadFromFile(BlogPath & "Themes/" & ZC_BLOG_THEME & "/Template/wp_index.html", "utf-8") = "" Then
+If LoadFromFile(BlogPath & "zb_users/Themes/" & ZC_BLOG_THEME & "/Template/wp_index.html", "utf-8") = "" Then
     ArtList.template = "TAGS"
 Else
     ArtList.template = "WP_INDEX"

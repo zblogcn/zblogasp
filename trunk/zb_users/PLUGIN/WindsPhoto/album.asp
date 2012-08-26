@@ -19,6 +19,7 @@
 <!-- #include file="../../../zb_system/function/c_system_event.asp" -->
 <!-- #include file="../../../zb_system/function/c_system_plugin.asp" -->
 <!-- #include file="../../plugin/p_config.asp" -->
+<%Call System_Initialize%>
 <!-- #include file="data/conn.asp" -->
 
 <%
@@ -76,7 +77,7 @@ Set ArtList = New TArticleList
 
 ArtList.LoadCache
 
-If LoadFromFile(BlogPath & "Themes/" & ZC_BLOG_THEME & "/Template/wp_album.html", "utf-8") = "" Then
+If LoadFromFile(BlogPath & "zb_users/themes/" & ZC_BLOG_THEME & "/template/wp_album.html", "utf-8") = "" Then
     ArtList.template = "TAGS"
 Else
     ArtList.template = "WP_ALBUM"

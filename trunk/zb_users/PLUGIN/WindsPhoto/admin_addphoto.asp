@@ -17,9 +17,9 @@
 <!-- #include file="../../../zb_system/function/c_system_base.asp" -->
 <!-- #include file="../../../zb_system/function/c_system_plugin.asp" -->
 <!-- #include file="../p_config.asp" -->
-<!-- #include file="data/conn.asp" -->
+
 <%
-Call System_Initialize()
+Call System_Initialize()%><!-- #include file="data/conn.asp" --><%
 
 '检查非法链接
 Call CheckReference("")
@@ -35,21 +35,16 @@ BlogTitle = "WindsPhoto 上传/管理"
 action = Request.QueryString("action")
 typeid = Request.QueryString("typeid")
 %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<%=ZC_BLOG_LANGUAGE%>" lang="<%=ZC_BLOG_LANGUAGE%>">
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<meta http-equiv="Content-Language" content="<%=ZC_BLOG_LANGUAGE%>" />
-	<meta name="robots" content="noindex,nofollow"/>
-	<link rel="stylesheet" rev="stylesheet" href="../../CSS/admin.css" type="text/css" media="screen" />
+
+<!--#include file="..\..\..\zb_system\admin\admin_header.asp"-->
 	<link rel="stylesheet" rev="stylesheet" href="images/windsphoto.css" type="text/css" media="screen" />
-	<script language="JavaScript" src="../../script/common.js" type="text/javascript"></script>
+
 	<script type="text/javascript" src="script/windsphoto.js"></script>
-    <title><%=BlogTitle%></title>
-</head>
-<body>
-<div id="divMain">
-	<div class="Header">WindsPhoto <%if action = "insert" then%>点击图片插入<%else%>上传/管理<%end if%></div>
+<!--#include file="..\..\..\zb_system\admin\admin_top.asp"-->
+
+
+<div id="divMain"><div id="ShowBlogHint"><%Call GetBlogHint()%></div>
+	<div class="divHeader">WindsPhoto <%if action = "insert" then%>点击图片插入<%else%>上传/管理<%end if%></div>
 		<div class="SubMenu">
 			<a href="<%=ZC_BLOG_HOST%>zb_users/PLUGIN/windsphoto/admin_main.asp"><span class="m-left m-now">相册管理</span></a>
 			<a href="<%=ZC_BLOG_HOST%>zb_users/PLUGIN/windsphoto/admin_addtype.asp"><span class="m-left">新建相册</span></a>
@@ -59,7 +54,7 @@ typeid = Request.QueryString("typeid")
 			<a href="<%=ZC_BLOG_HOST%>zb_users/PLUGIN/windsphoto/help.asp#more"><span class="m-right">更多功能</span></a>
 		</div>
 <div id="divMain2">
-<%Call GetBlogHint()%>
+
 <%
 if action = "" then
 
@@ -174,7 +169,7 @@ Else
 	url = rs("url")
 	surl = rs("surl")
 	If InStr(surl, "photo.163.com") Or InStr(surl, "photo.sina.com") Or InStr(surl, "photos.baidu.com") Then surl = "stealink.asp?" & surl End If
-htmlurl = "<img src="&ZC_BLOG_HOST&"plugin/windsphoto/"&url&" />"
+htmlurl = "<img src="&ZC_BLOG_HOST&"zb_users/plugin/windsphoto/"&url&" />"
 %>
 <%
 If(Count Mod 4 = 1) Then response.Write "<tr>"
@@ -226,10 +221,4 @@ End If
 </div>
 </body>
 </html>
-<%
-Call System_Terminate()
-
-If Err.Number<>0 Then
-    Call ShowError(0)
-End If
-%>
+<!--#include file="..\..\..\zb_system\admin\admin_footer.asp"-->

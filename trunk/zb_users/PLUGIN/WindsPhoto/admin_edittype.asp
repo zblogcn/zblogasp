@@ -12,15 +12,15 @@
 <% Response.Charset="UTF-8" %>
 <% Response.Buffer=True %>
 <!-- #include file="../../c_option.asp" -->
-<!-- #include file="../../function/c_function.asp" -->
-<!-- #include file="../../function/c_system_lib.asp" -->
-<!-- #include file="../../function/c_system_base.asp" -->
-<!-- #include file="../../function/c_system_plugin.asp" -->
+<!-- #include file="../../../zb_system/function/c_function.asp" -->
+<!-- #include file="../../../zb_system/function/c_system_lib.asp" -->
+<!-- #include file="../../../zb_system/function/c_system_base.asp" -->
+<!-- #include file="../../../zb_system/function/c_system_plugin.asp" -->
 <!-- #include file="../p_config.asp" -->
-<!-- #include file="data/conn.asp" -->
+
 <%
 Call System_Initialize()
-
+%><!-- #include file="data/conn.asp" --><%
 '检查非法链接
 Call CheckReference("")
 
@@ -30,25 +30,17 @@ If CheckpluginState("windsphoto") = FALSE Then Call ShowError(48)
 
 BlogTitle = "管 理 相 册"
 
-%><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<%=ZC_BLOG_LANGUAGE%>" lang="<%=ZC_BLOG_LANGUAGE%>">
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<meta http-equiv="Content-Language" content="<%=ZC_BLOG_LANGUAGE%>" />
-	<meta name="robots" content="noindex,nofollow"/>
-	<link rel="stylesheet" rev="stylesheet" href="../../CSS/admin.css" type="text/css" media="screen" />
-	<title><%=BlogTitle%></title>
-</head>
-<body>
+%><!--#include file="..\..\..\zb_system\admin\admin_header.asp"-->
+<!--#include file="..\..\..\zb_system\admin\admin_top.asp"-->
 <div id="divMain">
-	<div class="Header">WindsPhoto 修改相册属性</div>
+	<div class="divHeader">WindsPhoto 修改相册属性</div>
     <div class="SubMenu">
-        <span class="m-left m-now"><a href="<%=ZC_BLOG_HOST%>plugin/windsphoto/admin_main.asp">相册管理</a></span>
-        <span class="m-left"><a href="<%=ZC_BLOG_HOST%>plugin/windsphoto/admin_addtype.asp">新建相册</a></span>
-        <span class="m-left"><a href="<%=ZC_BLOG_HOST%>plugin/windsphoto/admin_setting.asp">系统设置</a></span>
-        <span class="m-right"><a href="<%=ZC_BLOG_HOST%>cmd.asp?act=pluginMng">退出</a></span>
-        <span class="m-right"><a href="<%=ZC_BLOG_HOST%>plugin/windsphoto/help.asp">帮助说明</a></span>
-        <span class="m-right"><a href="<%=ZC_BLOG_HOST%>PLUGIN/windsphoto/help.asp#more">更多功能</a></span>
+        <a href="<%=ZC_BLOG_HOST%>zb_users/PLUGIN/windsphoto/admin_main.asp"><span class="m-left m-now">相册管理</span></a>
+        <a href="<%=ZC_BLOG_HOST%>zb_users/PLUGIN/windsphoto/admin_addtype.asp"><span class="m-left">新建相册</span></a>
+        <a href="<%=ZC_BLOG_HOST%>zb_users/PLUGIN/windsphoto/admin_setting.asp"><span class="m-left">系统设置</span></a>
+        <a href="<%=ZC_BLOG_HOST%>zb_system/cmd.asp?act=pluginMng"><span class="m-right">退出</span></a>
+        <a href="<%=ZC_BLOG_HOST%>zb_users/PLUGIN/windsphoto/help.asp"><span class="m-right">帮助说明</span></a>
+        <a href="<%=ZC_BLOG_HOST%>zb_users/PLUGIN/windsphoto/help.asp#more"><span class="m-right">更多功能</span></a>
     </div>
 
     <div id="divMain2">
@@ -97,3 +89,4 @@ If Err.Number<>0 Then
     Call ShowError(0)
 End If
 %>
+<!--#include file="..\..\..\zb_system\admin\admin_footer.asp"-->
