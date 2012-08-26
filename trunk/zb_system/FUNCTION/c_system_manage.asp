@@ -202,8 +202,12 @@ Function ExportArticleList(intPage,intCate,intLevel,intTitle)
 				End If
 			Next
 
-			Response.Write "<td><div style='overflow:hidden;height:1.5em;'><a href=""../view.asp?nav=" & objRS("log_ID") & """ title="""& Replace(objRS("log_Title"),"""","") &""" target=""_blank"">" & objRS("log_Title") & "</a><div></td>"
-
+			'Response.Write "<td>" & ZVA_Article_Level_Name(objRS("log_Level")) & "</td>"
+			If Len(objRS("log_Title"))>28 Then
+				Response.Write "<td><a href=""../view.asp?nav=" & objRS("log_ID") & """ title="""& Replace(objRS("log_Title"),"""","") &""" target=""_blank"">" & Left(objRS("log_Title"),14) & "..." & "</a></td>"
+			Else
+				Response.Write "<td><a href=""../view.asp?nav=" & objRS("log_ID") & """ title="""& Replace(objRS("log_Title"),"""","") &""" target=""_blank"">" & objRS("log_Title") & "</a></td>"
+			End If
 			Response.Write "<td>" & FormatDateTime(objRS("log_PostTime"),vbShortDate) & "</td>"
 			Response.Write "<td>" & objRS("log_CommNums") & "</td>"
 			Response.Write "<td>" & ZVA_Article_Level_Name(objRS("log_Level")) & "</td>"
@@ -336,8 +340,12 @@ Call Add_Response_Plugin("Response_Plugin_ArticleMng_SubMenu",MakeSubMenu(ZC_MSG
 				End If
 			Next
 
-			Response.Write "<td><div style='overflow:hidden;height:1.5em;'><a href=""../view.asp?nav=" & objRS("log_ID") & """ title="""& Replace(objRS("log_Title"),"""","") &""" target=""_blank"">" & objRS("log_Title") & "</a><div></td>"
-
+			'Response.Write "<td>" & ZVA_Article_Level_Name(objRS("log_Level")) & "</td>"
+			If Len(objRS("log_Title"))>28 Then
+				Response.Write "<td><a href=""../view.asp?nav=" & objRS("log_ID") & """ title="""& Replace(objRS("log_Title"),"""","") &""" target=""_blank"">" & Left(objRS("log_Title"),14) & "..." & "</a></td>"
+			Else
+				Response.Write "<td><a href=""../view.asp?nav=" & objRS("log_ID") & """ title="""& Replace(objRS("log_Title"),"""","") &""" target=""_blank"">" & objRS("log_Title") & "</a></td>"
+			End If
 			Response.Write "<td>" & FormatDateTime(objRS("log_PostTime"),vbShortDate) & "</td>"
 			Response.Write "<td>" & objRS("log_CommNums") & "</td>"
 			Response.Write "<td>" & ZVA_Article_Level_Name(objRS("log_Level")) & "</td>"
@@ -930,13 +938,12 @@ Function ExportPluginMng()
 				If Err.Number=0 Then
 
 					Response.Write "<tr>"
-					Response.Write "<td><img width='16' src='../IMAGE/ADMIN/ok.png'/></td>"
-					Response.Write "<td>"& "0" &"</td>"
+					Response.Write "<td align='center'><img width='16' src='../IMAGE/ADMIN/ok.png'/></td>"
+					Response.Write "<td align='center'>"& "0" &"</td>"
 					Response.Write "<td><a id=""mylink"&Left(md5(objXmlFile.documentElement.selectSingleNode("id").text),6)&""" href=""$div"&Left(md5(objXmlFile.documentElement.selectSingleNode("id").text),6)&"tip?width=300"" class=""betterTip"" title=""$content"">" & "" & objXmlFile.documentElement.selectSingleNode("plugin/name").text & "" & "</a><div id=""div"&Left(md5(objXmlFile.documentElement.selectSingleNode("id").text),6)&"tip"" style=""display:none;"">"&objXmlFile.documentElement.selectSingleNode("plugin/note").text&"</div></td>"
 					Response.Write "<td>" & "<a target=""_blank"" href=""" & objXmlFile.documentElement.selectSingleNode("author/url").text & """>"& objXmlFile.documentElement.selectSingleNode("author/name").text & "</td>"
 					Response.Write "<td>" & objXmlFile.documentElement.selectSingleNode("version").text & "</td>"
 					Response.Write "<td>"& objXmlFile.documentElement.selectSingleNode("modified").text &"</td>"
-					Response.Write "<td>"& ZC_MSG199 &"</td>"
 					Response.Write "<td align='center'>"
 					If BlogUser.Level<=CInt(objXmlFile.documentElement.selectSingleNode("plugin/level").text) Then
 						If fso.FileExists(BlogPath & "zb_users/theme/" & ZC_BLOG_THEME & "/plugin/" & objXmlFile.documentElement.selectSingleNode("plugin/path").text) Then
