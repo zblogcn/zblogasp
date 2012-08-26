@@ -3127,7 +3127,7 @@ Function GetTagsbyTagIDList(strTags)
 
 If strTags="" Then Exit Function
 If strTags="{}" Then Exit Function
-
+If IsNull(strTags) Then Exit Function
 
 Dim s,t,i,j,d
 strTags=Replace(strTags,"}","")
