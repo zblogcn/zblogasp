@@ -191,7 +191,7 @@ Function SaveSortList()
     rssort.Close
     Set rssort = Nothing
 
-    Call SaveToFile(BlogPath & "include/windsphoto_sort.asp", SortList, "utf-8", TRUE)
+    Call SaveToFile(BlogPath & "zb_users/include/windsphoto_sort.asp", SortList, "utf-8", TRUE)
 
 End Function
 %>

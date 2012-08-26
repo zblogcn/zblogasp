@@ -51,12 +51,12 @@ typeid = Request.QueryString("typeid")
 <div id="divMain">
 	<div class="Header">WindsPhoto <%if action = "insert" then%>点击图片插入<%else%>上传/管理<%end if%></div>
 		<div class="SubMenu">
-			<span class="m-left m-now"><a href="<%=ZC_BLOG_HOST%>plugin/windsphoto/admin_main.asp">相册管理</a></span>
-			<span class="m-left"><a href="<%=ZC_BLOG_HOST%>plugin/windsphoto/admin_addtype.asp">新建相册</a></span>
-			<span class="m-left"><a href="<%=ZC_BLOG_HOST%>plugin/windsphoto/admin_setting.asp">系统设置</a></span>
-			<span class="m-right"><a href="<%=ZC_BLOG_HOST%>cmd.asp?act=pluginMng">退出</a></span>
-			<span class="m-right"><a href="<%=ZC_BLOG_HOST%>PLUGIN/windsphoto/help.asp">帮助说明</a></span>
-			<span class="m-right"><a href="<%=ZC_BLOG_HOST%>PLUGIN/windsphoto/help.asp#more">更多功能</a></span>
+			<a href="<%=ZC_BLOG_HOST%>zb_users/PLUGIN/windsphoto/admin_main.asp"><span class="m-left m-now">相册管理</span></a>
+			<a href="<%=ZC_BLOG_HOST%>zb_users/PLUGIN/windsphoto/admin_addtype.asp"><span class="m-left">新建相册</span></a>
+			<a href="<%=ZC_BLOG_HOST%>zb_users/PLUGIN/windsphoto/admin_setting.asp"><span class="m-left">系统设置</span></a>
+			<a href="<%=ZC_BLOG_HOST%>zb_system/PLUGIN?act=pluginMng"><span class="m-right">退出</span></a>
+			<a href="<%=ZC_BLOG_HOST%>zb_users/PLUGIN/windsphoto/help.asp"><span class="m-right">帮助说明</span></a>
+			<a href="<%=ZC_BLOG_HOST%>zb_users/PLUGIN/windsphoto/help.asp#more"><span class="m-right">更多功能</span></a>
 		</div>
 <div id="divMain2">
 <%Call GetBlogHint()%>

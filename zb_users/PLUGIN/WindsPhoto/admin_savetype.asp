@@ -17,12 +17,12 @@
 <!-- #include file="../../../zb_system/function/c_system_base.asp" -->
 <!-- #include file="../../../zb_system/function/c_system_plugin.asp" -->
 <!-- #include file="../p_config.asp" -->
-<!-- #include file="data/conn.asp" -->
+
 <!-- #include file="function.asp" -->
 
 <%
 Call System_Initialize()
-
+%><!-- #include file="data/conn.asp" --><%
 '检查非法链接
 Call CheckReference("")
 
