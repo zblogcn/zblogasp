@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Plugin version="1.0"><id>SweetTitles</id><name>SweetTitles</name><url>http://bbs.rainbowsoft.org/thread-25185-1-1.html</url><note>启用该插件后，页面中的链接具有 SweetTitles 特效。此插件无需管理，启用即可。</note><author><name>月上之木</name><url>http://jiespace.cn</url><email></email></author><type>inline</type><path></path><include>include.asp</include><level>4</level><adapted>Z-Blog 2.0</adapted><version>2.0</version><pubdate>2012-8-26</pubdate><modified>2012-8-26</modified></Plugin>
