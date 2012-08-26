@@ -1,5 +1,6 @@
 <%
-on error resume next
+'on error resume next
+Call WindsPhoto_Initialize
 dim db,conn,myconn
 db=WP_DATA_PATH
 Set Conn = Server.CreateObject("ADODB.Connection")
