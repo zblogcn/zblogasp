@@ -76,6 +76,7 @@ End Function
 
 '首次安装数据库改名....
 Function WindsPhoto_Database_Rename()
+	Call WindsPhoto_Initialize
     Dim fso, f, s, pathnew, ranNum
     Randomize
     ranNum = Int((99 -10 + 1) * Rnd + 99)
@@ -86,10 +87,9 @@ Function WindsPhoto_Database_Rename()
         f.Name = pathnew
         Set f = Nothing
         Dim strContent, strWP_DATA_PATH
-        strContent = LoadFromFile(BlogPath & "/zb_users/plugin/WindsPhoto/include.asp", "utf-8")
         strWP_DATA_PATH = "data/" & pathnew
-        Call SaveValueForSetting(strContent, TRUE, "String", "WP_DATA_PATH", strWP_DATA_PATH)
-        Call SaveToFile(BlogPath & "/zb_users/plugin/WindsPhoto/include.asp", strContent, "utf-8", FALSE)
+        WP_Config.Write "WP_DATA_PATH", strWP_DATA_PATH
+		WP_Config.Save
     End If
 End Function
 
