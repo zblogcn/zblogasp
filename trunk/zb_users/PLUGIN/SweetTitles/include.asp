@@ -62,14 +62,14 @@ End Function
 '安装插件
 Function InstallPlugin_SweetTitles
 
-	Call SetBlogHint(Empty,Empty,True)
+	Call SetBlogHint(Empty,True,True)
 
 End Function
 
 '卸载插件
 Function UnInstallPlugin_SweetTitles
 
-	Call SetBlogHint(Empty,Empty,True)
+	Call SetBlogHint(Empty,True,True)
 
 End Function
 %>
