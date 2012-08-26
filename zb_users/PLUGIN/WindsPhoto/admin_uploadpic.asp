@@ -17,7 +17,7 @@
 <!-- #include file="../../../zb_system/function/c_system_base.asp" -->
 <!-- #include file="../../../zb_system/function/c_system_plugin.asp" -->
 <!-- #include file="../p_config.asp" -->
-
+<!-- #include file="../../../zb_system/admin/ueditor/asp/up_inc.asp"-->
 <!-- #include file="function.asp"-->
 <%
 Call System_Initialize()%><!-- #include file="data/conn.asp" --><%
@@ -31,8 +31,28 @@ If CheckpluginState("windsphoto") = FALSE Then Call ShowError(48)
 %>
 <%
 Dim upload, File, formName, formPath, iCount, FileName, FileExt, i
-Set upload = New upload_5xSoft '建立上传对象
+Dim isuEditor
 
+
+Set upload=New UpLoadClass
+upload.AutoSave=2
+upload.Charset="UTF-8"
+upload.maxsize=WP_UPLOAD_FILESIZE
+upload.FileType=Replace(ZC_UPLOAD_FILETYPE,"|","/")
+FilePath = Server.MapPath("./") '设置上传目录位置
+If WP_UPLOAD_DIRBY = 1 Then
+    CreatDirectoryByCustomDirectory("zb_users/plugin/windsphoto/" & WP_UPLOAD_DIR & "/" &Year(GetTime(Now()))&Month(GetTime(Now())))
+    FilePath = FilePath & "/" & WP_UPLOAD_DIR & "/" &Year(GetTime(Now()))&Month(GetTime(Now())) & "/"
+ElseIf WP_UPLOAD_DIRBY = 2 Then
+    CreatDirectoryByCustomDirectory("zb_users/plugin/windsphoto/" & WP_UPLOAD_DIR & "/" & zhuanti)
+    FilePath = FilePath & "/" & WP_UPLOAD_DIR & "/" & zhuanti & "/"
+Else
+    CreatDirectoryByCustomDirectory("zb_users/plugin/windsphoto/" & WP_UPLOAD_DIR)
+    FilePath = FilePath & "/" & WP_UPLOAD_DIR & "/"
+End If
+FilePath=Replace(FilePath,"/","\")
+upload.savepath=FilePath
+upload.open
 name = upload.Form("name")
 url = upload.Form("url")
 surl = upload.Form("surl")
@@ -76,30 +96,15 @@ If url<>"" Then
     Response.Redirect "admin_addphoto.asp?typeid=" & zhuanti
 
 Else
+Call SetBlogHint_Custom("!! 图片文件太大,无法上传.你可以在修改<a href='admin_setting.asp'>上传限制的最大字节数</a>.")
 
-    FilePath = Server.MapPath("./") '设置上传目录位置
-    If WP_UPLOAD_DIRBY = 1 Then
-        CreatDirectoryByCustomDirectory("plugin/windsphoto/" & WP_UPLOAD_DIR & "/" &Year(GetTime(Now()))&Month(GetTime(Now())))
-        FilePath = FilePath & "/" & WP_UPLOAD_DIR & "/" &Year(GetTime(Now()))&Month(GetTime(Now())) & "/"
-    ElseIf WP_UPLOAD_DIRBY = 2 Then
-        CreatDirectoryByCustomDirectory("plugin/windsphoto/" & WP_UPLOAD_DIR & "/" & zhuanti)
-        FilePath = FilePath & "/" & WP_UPLOAD_DIR & "/" & zhuanti & "/"
-    Else
-        CreatDirectoryByCustomDirectory("plugin/windsphoto/" & WP_UPLOAD_DIR)
-        FilePath = FilePath & "/" & WP_UPLOAD_DIR & "/"
-    End If
 
-	For Each formName in upload.objFile '列出所有上传了的文件
-		Set File = upload.File(formName) '生成一个文件对象
 
-		FileExt = LCase(Right(File.FileName, 4))
-		If FileExt<>".gif" And FileExt<>".jpg" And FileExt<>".jpeg" And FileExt<>".png" And FileExt<>".bmp" Then
-			Response.Redirect "admin_addphoto.asp?typeid=" & zhuanti
-			Response.End
-		End If
-
-		If File.filesize>WP_UPLOAD_FILESIZE Then
-			Call SetBlogHint_Custom("!! 图片文件太大,无法上传.你可以在修改<a href='admin_setting.asp'>上传限制的最大字节数</a>.")
+	dim inttemp
+	for intTemp=1 to Ubound(upload.FileItem) '列出所有上传了的文件
+		formname=upload.FileItem(intTemp)
+		FileExt = LCase(upload.form(formname&"_Ext"))
+		If FileExt<>"gif" And FileExt<>"jpg" And FileExt<>"jpeg" And FileExt<>"png" And FileExt<>"bmp" Then
 			Response.Redirect "admin_addphoto.asp?typeid=" & zhuanti
 			Response.End
 		End If
@@ -108,20 +113,13 @@ Else
 		If FileExt="jpeg" or FileExt=".bmp" then FileExt = ".jpg"
 		Randomize
 		RanNum = Int((99 -10 + 1) * Rnd + 99)
-		If autoname = "1" Then
-			FileNamet = Year(Now)&Month(Now)&Day(Now)&Hour(Now)&Minute(Now)&Second(Now)&RanNum&FileExt
+		if autoname="1"  Then
+			call upload.Save(formname,0)
 		Else
-			FileNamet = File.FileName
+			call upload.Save(formname,1)
 		End If
-		FileName = FilePath&FileNamet
-
-		If File.FileSize>0 Then '如果 FileSize > 0 说明有文件数据
-			File.SaveAs FileName '保存文件
-		Else
-			'Call SetBlogHint_Custom("!! 文件上传错误.")
-			Response.Redirect "admin_addphoto.asp?typeid=" & zhuanti
-			Response.End
-		End If
+		Filename=FilePath & upload.form(formname)
+		FileNamet=upload.form(formname)
 
 		'ASPJPEG处理
 		If WP_IF_ASPJPEG="1" Then
@@ -265,13 +263,7 @@ Else
 	'处理快速上传等
 	If quick = 1 then
 
-		strFileName = "[IMG]"& ZC_BLOG_HOST &"plugin/windsphoto/" & photourlb & "[/IMG]"
-		strFileName1 = ZC_BLOG_HOST &"plugin/windsphoto/" & photourlb
 
-		Response.Write "<!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 1.0 Transitional//EN"" ""http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd""><html><head><meta http-equiv=""Content-Type"" content=""text/html; charset=utf-8""/><meta http-equiv=""Content-Language"" content=""zh-cn"" /><link rel=""stylesheet"" rev=""stylesheet"" href=""../../CSS/admin.css"" type=""text/css"" media=""screen"" /></head><body>"
-		Response.Write "<form border=""1"" name=""edit"" id=""edit"" method=""post"" enctype=""multipart/form-data""><p>已上传文件:" & strFileName1 & " <a href='admin_addphoto2.asp'>继续上传</a></p></form>"
-		Response.Write "<script language=""Javascript"">try{parent.document.getElementById('MyEditor___Frame').contentWindow.frames[0].document.getElementsByTagName('body')[0].innerHTML+='"&Replace(TransferHTML(UBBCode(strFileName,"[link][image][media][flash]"),"[upload]"),"'","\'")&"'}catch(e){}</script>"
-		Response.Write "</body></html>"
 
 	Else
 
