@@ -67,10 +67,8 @@ Function Activeplugin_WindsPhoto()
     Call Add_Response_Plugin("Response_Plugin_SettingMng_SubMenu", MakeSubMenu("WindsPhoto设置", BlogHost & "zb_users/plugin/windsphoto/admin_setting.asp", "m-left", FALSE))
     Call Add_Response_Plugin("Response_Plugin_SiteInfo_SubMenu",MakeSubMenu("[WindsPhoto管理]",BlogHost & "zb_users/plugin/windsphoto/admin_main.asp","m-left",False))
 	Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(2,"相册管理",GetCurrentHost&"zb_users/plugin/windsphoto/admin_main.asp","nav_windsphoto","aWindsPhoto",GetCurrentHost&"zb_users/plugin/windsphoto/images/MD-camera-photo.png"))
-    If WP_BLOGPHOTO_ID <> 0 then
-    '    Call Add_Action_Plugin("Action_Plugin_Edit_Begin","Call WindsPhoto_addForm()")
-     '   Call Add_Action_Plugin("Action_Plugin_Edit_Fckeditor_Begin","Call WindsPhoto_addForm()")
-    end If
+	Call Add_Action_Plugin("Action_Plugin_FileUpload_Begin","Call WindsPhoto_Initialize"&vbcrlf&"If WP_BLOGPHOTO_ID <> 0 then "&vbcrlf&"If Instr(Request.ServerVariables(""URL""),""picUp.asp"") Then "&vbcrlf&"Call WindsPhoto_uEditorUpload"&vbcrlf&"Response.End"&vbcrlf&"end if"&vbcrlf&"end if")
+
 End Function
 
 
@@ -124,6 +122,177 @@ End Function
 
 
 Function WindsPhoto_uEditorUpload()
+	
+	dim upload,file,state,uploadPath,PostTime
+	Randomize
+	PostTime=GetTime(Now())
+	FilePath = "zb_users/plugin/windsphoto/" '设置上传目录位置
+	If WP_UPLOAD_DIRBY = 1 Then
+		CreatDirectoryByCustomDirectory("zb_users/plugin/windsphoto/" & WP_UPLOAD_DIR & "/" &Year(GetTime(Now()))&Month(GetTime(Now())))
+		FilePath = FilePath & "/" & WP_UPLOAD_DIR & "/" &Year(GetTime(Now()))&Month(GetTime(Now())) & "/"
+	ElseIf WP_UPLOAD_DIRBY = 2 Then
+		CreatDirectoryByCustomDirectory("zb_users/plugin/windsphoto/" & WP_UPLOAD_DIR & "/" & zhuanti)
+		FilePath = FilePath & "/" & WP_UPLOAD_DIR & "/" & zhuanti & "/"
+	Else
+		CreatDirectoryByCustomDirectory("zb_users/plugin/windsphoto/" & WP_UPLOAD_DIR)
+		FilePath = FilePath & "/" & WP_UPLOAD_DIR & "/"
+	End If
+	FilePath=Replace(FilePath,"/","\")
+	Dim formname
+	formname="edtFileLoad"
+	Set upload=New UpLoadClass
+	upload.AutoSave=2
+	upload.Charset="UTF-8"
+	upload.FileType=Replace(ZC_UPLOAD_FILETYPE,"|","/")
+	upload.savepath=BlogPath & FilePath
+	upload.maxsize=WP_UPLOAD_FILESIZE
+	upload.open
+	Dim Path,FileNamet,FileNamelen,FileNamet1,imgWidth,imgHeight
+	Path=Replace(BlogPath & FilePath & upload.form("edtFileLoad_Name"),"\","/")
+	Dim s
+	FileName=BlogHost & strUPLOADDIR &"\" & upload.form("edtFileLoad_Name")
+	If upload.Save("edtFileLoad",0)=True Then
+		Filename=FilePath & upload.form(formname)
+		FileNamet=upload.form(formname)
+		If WP_IF_ASPJPEG="1" Then
+			Dim Jpeg
+            Set Jpeg = Server.CreateObject("Persits.Jpeg")
+            '如果aspjpeg版本大于1.9，启用保护Metadata
+            If Jpeg.Version>= "1.9" then Jpeg.PreserveMetadata = True
+            Jpeg.Open(FileName)
+            '变更缩略图文件扩展名为jpg
+            FileNamelen = Len(FileNamet) - 4
+            FileNamet1 = FileNamet
+            FileNamet = Left(FileNamet, FileNamelen) &".jpg"
+            '缩略图处理，判断哪边为长边，以长边进行缩放
+            imgWidth = Jpeg.OriginalWidth
+            imgHeight = Jpeg.OriginalHeight
+            If imgWidth>= imgHeight And imgWidth>WP_SMALL_WIDTH Then
+                Jpeg.Width = WP_SMALL_WIDTH
+                Jpeg.Height = Jpeg.OriginalHeight / (Jpeg.OriginalWidth / WP_SMALL_WIDTH)
+            End If
+            If imgHeight>imgWidth And imgHeight>WP_SMALL_HEIGHT Then
+                Jpeg.Height = WP_SMALL_HEIGHT
+                Jpeg.Width = Jpeg.OriginalWidth / (Jpeg.OriginalHeight / WP_SMALL_HEIGHT)
+            End If
+
+            '保存缩略图，并进行微度锐化
+            Jpeg.Sharpen 1, 110
+            Jpeg.Save (FilePath & "small_" & FileNamet)
+			Dim Title,TitleWidth,PositionWidth,PositionHeight
+            If WP_WATERMARK_TYPE = "1" Then '图片水印
+                    If Jpeg.Version>= "1.9" then Jpeg.PreserveMetadata = True
+                    Jpeg.Open FileName
+                    Jpeg.Canvas.Font.Color = Replace(WP_JPEG_FONTCOLOR, "#", "&h") '字体颜色
+                    Jpeg.Canvas.Font.Family = "Tahoma" 'family设置字体
+                    Jpeg.Canvas.Font.Bold = WP_JPEG_FONTBOLD '是否设置成粗体
+                    Jpeg.Canvas.Font.Size = WP_JPEG_FONTSIZE '字体大小
+                    Jpeg.Canvas.Font.Quality = WP_JPEG_FONTQUALITY ' 输出文字质量
+                    Title = WP_WATERMARK_TEXT
+                    TitleWidth = Jpeg.Canvas.GetTextExtent(Title)
+                    Select Case WP_WATERMARK_WIDTH_POSITION
+                        Case "left"
+                            PositionWidth = 10
+                        Case "center"
+                            PositionWidth = (Jpeg.Width - TitleWidth) / 2
+                        Case "right"
+                            PositionWidth = Jpeg.Width - TitleWidth - 10
+                    End Select
+                    Select Case WP_WATERMARK_HEIGHT_POSITION
+                        Case "top"
+                            PositionHeight = 10
+                        Case "center"
+                            PositionHeight = (Jpeg.Height - 12) / 2
+                        Case "bottom"
+                            PositionHeight = Jpeg.Height - 12 - 10
+                    End Select
+                    Jpeg.Canvas.Print PositionWidth, PositionHeight, WP_WATERMARK_TEXT
+                    Jpeg.Save FileName
+
+                ElseIf WP_WATERMARK_TYPE = "2" Then
+
+                    Dim Jpeg1
+                    Set Jpeg1 = Server.CreateObject("Persits.Jpeg")
+                    Jpeg.PreserveMetadata = True
+                    Jpeg.Open FileName
+                    Jpeg1.Open Server.MapPath(""& WP_WATERMARK_LOGO &"")
+                    Select Case WP_WATERMARK_WIDTH_POSITION
+                        Case "left"
+                            PositionWidth = 10
+                        Case "center"
+                            PositionWidth = (Jpeg.Width - Jpeg1.Width) / 2
+                        Case "right"
+                            PositionWidth = Jpeg.Width - Jpeg1.Width - 10
+                    End Select
+                    Select Case WP_WATERMARK_HEIGHT_POSITION
+                        Case "top"
+                            PositionHeight = 10
+                        Case "center"
+                            PositionHeight = (Jpeg.Height - Jpeg1.Height) / 2
+                        Case "bottom"
+                            PositionHeight = Jpeg.Height - Jpeg1.Height - 10
+                    End Select
+                    Jpeg.DrawImage PositionWidth, PositionHeight, Jpeg1, WP_WATERMARK_ALPHA, &HFFFFFF
+                    Jpeg.Save FileName
+                    Set Jpeg1 = Nothing
+                End If
+
+            Set Jpeg = Nothing
+
+			'带缩略图的URL路径生成
+			If WP_UPLOAD_DIRBY = 1 Then
+				photourlb = WP_UPLOAD_DIR & "/" & Year(GetTime(Now()))&Month(GetTime(Now())) & "/" & FileNamet1
+				photourls = WP_UPLOAD_DIR & "/" & Year(GetTime(Now()))&Month(GetTime(Now())) & "/small_" & FileNamet
+			ElseIf WP_UPLOAD_DIRBY = 2 Then
+				photourlb = WP_UPLOAD_DIR & "/" & zhuanti & "/" & FileNamet1
+				photourls = WP_UPLOAD_DIR & "/" & zhuanti & "/small_" & FileNamet
+			Else
+				photourlb = WP_UPLOAD_DIR & "/" & FileNamet1
+				photourls = WP_UPLOAD_DIR & "/small_" & FileNamet
+			End If
+
+		Else
+
+			'不带缩略图的URL路径生成
+			If WP_UPLOAD_DIRBY = 1 Then
+				photourlb = WP_UPLOAD_DIR & "/" & Year(GetTime(Now()))&Month(GetTime(Now())) & "/" & FileNamet
+				photourls = WP_UPLOAD_DIR & "/" & Year(GetTime(Now()))&Month(GetTime(Now())) & "/" & FileNamet
+			ElseIf WP_UPLOAD_DIRBY = 2 Then
+				photourlb = WP_UPLOAD_DIR & "/" & zhuanti & "/" & FileNamet
+				photourls = WP_UPLOAD_DIR & "/" & zhuanti & "/" & FileNamet
+			Else
+				photourlb = WP_UPLOAD_DIR & "/" & FileNamet
+				photourls = WP_UPLOAD_DIR & "/" & FileNamet
+			End If
+
+		End If
+
+		'获取文件名作为标题
+		If upload.form("pictitle")<>"" Then
+			name = TransferHTML(upload.form("pictitle"),"[&][<][>][""][space][enter][nohtml]")
+		Else
+			name = Replace(File.FileName, FileExt, "")
+		End If
+
+		'写入数据库
+		strSQL = "insert into desktop ([name],[itime],zhuanti,jj,url,surl,hot) values ('"&name&"','"&itime&"',"&zhuanti&",'"&photointro&"','"&photourlb&"','"&photourls&"','"&hot&"')"
+		conn.Execute strSQL
+		iCount = iCount + 1
+
+	End If
+	
+	Dim strJSON
+	strJSON="{'state':'"& upload.Error2Info("edtFileLoad") & "','url':'"& upload.form("edtFileLoad") &"','fileType':'"&upload.form("edtFileLoad_Ext")&"','title':'"&TransferHTML(upload.form("pictitle"),"[&][<][>][""][space][enter][nohtml]")&"','original':'"&upload.Form("edtFileLoad_Name")&"'}"
+	
+		
+	For Each sAction_Plugin_uEditor_FileUpload_End in Action_Plugin_uEditor_FileUpload_End
+		If Not IsEmpty(sAction_Plugin_uEditor_FileUpload_End) Then Call Execute(sAction_Plugin_uEditor_FileUpload_End)
+	Next
+	response.AddHeader "json",strjson
+	response.write strJSON
+	
+	set upload=nothing
+
 End Function
 
 Function WindsPhoto_uEditorAlbumList()

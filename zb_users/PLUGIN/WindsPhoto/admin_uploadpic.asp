@@ -96,7 +96,7 @@ If url<>"" Then
     Response.Redirect "admin_addphoto.asp?typeid=" & zhuanti
 
 Else
-Call SetBlogHint_Custom("!! 图片文件太大,无法上传.你可以在修改<a href='admin_setting.asp'>上传限制的最大字节数</a>.")
+
 
 
 
@@ -256,7 +256,16 @@ Call SetBlogHint_Custom("!! 图片文件太大,无法上传.你可以在修改<a
 		strSQL = "insert into desktop ([name],[itime],zhuanti,jj,url,surl,hot) values ('"&name&"','"&itime&"',"&zhuanti&",'"&photointro&"','"&photourlb&"','"&photourls&"','"&hot&"')"
 		conn.Execute strSQL
 		iCount = iCount + 1
-		Set File = Nothing
+		Select Case upload.form(formname&"_Err")
+			case -1:Call SetBlogHint_Custom("上传没有开始")
+			case 0: Call SetBlogHint_Custom(upload.form(formname&"_Name")&"上传成功")
+			case 1: Call SetBlogHint_Custom("!! 图片文件太大,无法上传.你可以在修改<a href='admin_setting.asp'>上传限制的最大字节数</a>.")
+			case 2: Call SetBlogHint_Custom("文件因扩展名不符合而未被保存。")
+			case 3: Call SetBlogHint_Custom("文件因过大且不符合扩展名。")
+			case 4: Call SetBlogHint_Custom("异常，不存在上传。")
+			case 5: Call SetBlogHint_Custom("上传已经取消，请检查总上载数据是否小于 "&m_TotalSize&" 。")
+			
+		End Select
 	Next
 	Set upload = Nothing
 
@@ -266,8 +275,9 @@ Call SetBlogHint_Custom("!! 图片文件太大,无法上传.你可以在修改<a
 
 
 	Else
-
-		Call SetBlogHint_Custom("√ 上传照片成功,如果是批量上传,照片信息都是一样的,请单个编辑.</a>")
+	
+		
+		Call SetBlogHint_Custom("√ 上传照片完毕,如果是批量上传,照片信息都是一样的,请单个编辑.</a>")
 		Response.Redirect "admin_addphoto.asp?typeid=" & zhuanti
 
 	End If
