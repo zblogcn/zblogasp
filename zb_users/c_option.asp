@@ -6,16 +6,16 @@
 
 '---------------------------------网站基本设置-----------------------------------
 Dim ZC_BLOG_HOST
-ZC_BLOG_HOST="http://localhost/"
+ZC_BLOG_HOST="http://192.168.1.14/"
 
 Dim ZC_BLOG_TITLE
-ZC_BLOG_TITLE="My Blog"
+ZC_BLOG_TITLE="Your Blog"
 
 Dim ZC_BLOG_SUBTITLE
-ZC_BLOG_SUBTITLE="Hello, world!"
+ZC_BLOG_SUBTITLE="Good Luck To You!"
 
 Dim ZC_BLOG_NAME
-ZC_BLOG_NAME="我的Blog"
+ZC_BLOG_NAME="你的Blog名称"
 
 Dim ZC_BLOG_SUB_NAME
 ZC_BLOG_SUB_NAME="欢迎使用Z-Blog，有问题或意见请到Zblogger.BBS社区反馈，谢谢您的参与使用。"
@@ -27,7 +27,7 @@ Dim ZC_BLOG_CSS
 ZC_BLOG_CSS="default"
 
 Dim ZC_BLOG_COPYRIGHT
-ZC_BLOG_COPYRIGHT="Copyright Your WebSite. Some Rights Reserved."
+ZC_BLOG_COPYRIGHT="Copyright xxxx-xxxx Your WebSite.Some Rights Reserved.Copyright xxxx-xxxx Your WebSite. Some Rights Reserved."
 
 Dim ZC_BLOG_MASTER
 ZC_BLOG_MASTER="zblogger"
@@ -44,7 +44,7 @@ Dim ZC_DATABASE_PATH
 ZC_DATABASE_PATH="zb_users/data/#%20768d53283c63b13403f0.mdb"
 
 Dim ZC_MSSQL_ENABLE
-ZC_MSSQL_ENABLE=False
+ZC_MSSQL_ENABLE=True
 
 Dim ZC_MSSQL_DATABASE
 ZC_MSSQL_DATABASE="zb"
@@ -64,7 +64,7 @@ ZC_MSSQL_SERVER="(local)\SQLEXPRESS"
 
 '---------------------------------插件----------------------------------------
 Dim ZC_USING_PLUGIN_LIST
-ZC_USING_PLUGIN_LIST=""
+ZC_USING_PLUGIN_LIST="FileManage|GuestBook|BlogConfig|STACentre|CustomMeta|Totoro|gbook_gravatar|Gravatar"
 
 
 
@@ -87,12 +87,12 @@ Dim ZC_UPDATE_INFO_URL
 ZC_UPDATE_INFO_URL="http://update.rainbowsoft.org/info/"
 
 Dim ZC_MULTI_DOMAIN_SUPPORT
-ZC_MULTI_DOMAIN_SUPPORT=False
+ZC_MULTI_DOMAIN_SUPPORT=True
 
 
 '当前 Z-Blog 版本
 Dim ZC_BLOG_VERSION
-ZC_BLOG_VERSION="2.0 Beta Build 120819"
+ZC_BLOG_VERSION="2.0 Beta Build 120825"
 
 
 
@@ -289,28 +289,28 @@ ZC_TEMPLATE_DIRECTORY="template"
 
 'ACTIVE or MIX or REWRITE
 Dim ZC_STATIC_MODE
-ZC_STATIC_MODE="ACTIVE"
+ZC_STATIC_MODE="REWRITE"
 
 Dim ZC_ARTICLE_REGEX
-ZC_ARTICLE_REGEX="{%host%}/{%post%}/{%alias%}.html"
+ZC_ARTICLE_REGEX="{%host%}/{%year%}/{%month%}/{%alias%}.html"
 
 Dim ZC_PAGE_REGEX
 ZC_PAGE_REGEX="{%host%}/{%alias%}.html"
 
 Dim ZC_CATEGORY_REGEX
-ZC_CATEGORY_REGEX="{%host%}/catalog.asp?cate={%id%}"
+ZC_CATEGORY_REGEX="{%host%}/category-{%id%}.html"
 
 Dim ZC_USER_REGEX
-ZC_USER_REGEX="{%host%}/catalog.asp?user={%id%}"
+ZC_USER_REGEX="{%host%}/author-{%id%}.html"
 
 Dim ZC_TAGS_REGEX
-ZC_TAGS_REGEX="{%host%}/catalog.asp?tags={%alias%}"
+ZC_TAGS_REGEX="{%host%}/tags-{%id%}.html"
 
 Dim ZC_DATE_REGEX
-ZC_DATE_REGEX="{%host%}/catalog.asp?date={%year%}-{%month%}"
+ZC_DATE_REGEX="{%host%}/{%year%}-{%month%}.html"
 
 Dim ZC_DEFAULT_REGEX
-ZC_DEFAULT_REGEX="{%host%}/catalog.asp"
+ZC_DEFAULT_REGEX="{%host%}/default.html"
 
 
 

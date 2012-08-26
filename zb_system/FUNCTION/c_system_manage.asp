@@ -202,12 +202,8 @@ Function ExportArticleList(intPage,intCate,intLevel,intTitle)
 				End If
 			Next
 
-			'Response.Write "<td>" & ZVA_Article_Level_Name(objRS("log_Level")) & "</td>"
-			If Len(objRS("log_Title"))>28 Then
-				Response.Write "<td><a href=""../view.asp?nav=" & objRS("log_ID") & """ title="""& Replace(objRS("log_Title"),"""","") &""" target=""_blank"">" & Left(objRS("log_Title"),14) & "..." & "</a></td>"
-			Else
-				Response.Write "<td><a href=""../view.asp?nav=" & objRS("log_ID") & """ title="""& Replace(objRS("log_Title"),"""","") &""" target=""_blank"">" & objRS("log_Title") & "</a></td>"
-			End If
+			Response.Write "<td><div style='overflow:hidden;height:1.5em;'><a href=""../view.asp?nav=" & objRS("log_ID") & """ title="""& Replace(objRS("log_Title"),"""","") &""" target=""_blank"">" & objRS("log_Title") & "</a><div></td>"
+
 			Response.Write "<td>" & FormatDateTime(objRS("log_PostTime"),vbShortDate) & "</td>"
 			Response.Write "<td>" & objRS("log_CommNums") & "</td>"
 			Response.Write "<td>" & ZVA_Article_Level_Name(objRS("log_Level")) & "</td>"
@@ -340,12 +336,8 @@ Call Add_Response_Plugin("Response_Plugin_ArticleMng_SubMenu",MakeSubMenu(ZC_MSG
 				End If
 			Next
 
-			'Response.Write "<td>" & ZVA_Article_Level_Name(objRS("log_Level")) & "</td>"
-			If Len(objRS("log_Title"))>28 Then
-				Response.Write "<td><a href=""../view.asp?nav=" & objRS("log_ID") & """ title="""& Replace(objRS("log_Title"),"""","") &""" target=""_blank"">" & Left(objRS("log_Title"),14) & "..." & "</a></td>"
-			Else
-				Response.Write "<td><a href=""../view.asp?nav=" & objRS("log_ID") & """ title="""& Replace(objRS("log_Title"),"""","") &""" target=""_blank"">" & objRS("log_Title") & "</a></td>"
-			End If
+			Response.Write "<td><div style='overflow:hidden;height:1.5em;'><a href=""../view.asp?nav=" & objRS("log_ID") & """ title="""& Replace(objRS("log_Title"),"""","") &""" target=""_blank"">" & objRS("log_Title") & "</a><div></td>"
+
 			Response.Write "<td>" & FormatDateTime(objRS("log_PostTime"),vbShortDate) & "</td>"
 			Response.Write "<td>" & objRS("log_CommNums") & "</td>"
 			Response.Write "<td>" & ZVA_Article_Level_Name(objRS("log_Level")) & "</td>"
