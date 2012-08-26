@@ -29,14 +29,8 @@ If CheckpluginState("windsphoto") = FALSE Then Call ShowError(48)
 
 BlogTitle = "WindsPhoto"
 
-%><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<%=ZC_BLOG_LANGUAGE%>" lang="<%=ZC_BLOG_LANGUAGE%>">
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<meta http-equiv="Content-Language" content="<%=ZC_BLOG_LANGUAGE%>" />
-	<meta name="robots" content="noindex,nofollow"/>
-	<link rel="stylesheet" rev="stylesheet" href="../../CSS/admin.css" type="text/css" media="screen" />
-	<title><%=BlogTitle%></title>
+%>
+<!--#include file="..\..\..\zb_system\admin\admin_header.asp"-->
 	<style>
 		ul {list-style:Upper-Alpha;line-height:200%;}
 		ol {line-height:220%;}
@@ -45,16 +39,17 @@ BlogTitle = "WindsPhoto"
 		sup {color:Red;}
     </style>
 </head>
+<!--#include file="..\..\..\zb_system\admin\admin_top.asp"-->
 <body>
 <div id="divMain">
-	<div class="Header">WindsPhoto 相册帮助</div>
+	<div class="divHeader">WindsPhoto 相册帮助</div>
 		<div class="SubMenu">
-			<span class="m-left"><a href="<%=ZC_BLOG_HOST%>PLUGIN/windsphoto/admin_main.asp">相册管理</a></span>
-			<span class="m-left"><a href="<%=ZC_BLOG_HOST%>plugin/windsphoto/admin_addtype.asp">新建相册</a></span>
-			<span class="m-left"><a href="<%=ZC_BLOG_HOST%>PLUGIN/windsphoto/admin_setting.asp">系统设置</a></span>	
-			<span class="m-right"><a href="<%=ZC_BLOG_HOST%>cmd.asp?act=PlugInMng">退出</a></span>
-			<span class="m-right m-now"><a href="<%=ZC_BLOG_HOST%>PLUGIN/windsphoto/help.asp">帮助说明</a></span>
-			<span class="m-right m-now"><a href="<%=ZC_BLOG_HOST%>PLUGIN/windsphoto/help.asp#more">更多功能</a></span>
+			<a href="<%=ZC_BLOG_HOST%>zb_users/PLUGIN/windsphoto/admin_main.asp"><span class="m-left">相册管理</span></a>
+			<a href="<%=ZC_BLOG_HOST%>zb_users/PLUGIN/windsphoto/admin_addtype.asp"><span class="m-left">新建相册</span></a>
+			<a href="<%=ZC_BLOG_HOST%>zb_users/PLUGIN/windsphoto/admin_setting.asp"><span class="m-left">系统设置</span></a>	
+			<a href="<%=ZC_BLOG_HOST%>zb_system/cmd.asp?act=PlugInMng"><span class="m-right">退出</span></a>
+			<a href="<%=ZC_BLOG_HOST%>zb_users/PLUGIN/windsphoto/help.asp"><span class="m-right m-now">帮助说明</span></a>
+			<a href="<%=ZC_BLOG_HOST%>zb_users/PLUGIN/windsphoto/help.asp#more"><span class="m-right m-now">更多功能</span></a>
 		</div>
 <div id="divMain2">
 <p><strong>说明文档目录:</strong></p>
@@ -74,6 +69,7 @@ BlogTitle = "WindsPhoto"
 <li>新的相册依然沿用WindsPhoto的名字，版本号为2.x。</li>
 <li>在保留原程序功能的基础上，最大程度的精简了代码，并引入了模板、特效、封面、RSS、静态化等概念。</li>
 <li>使得WindsPhoto成为Z-Blog目前最佳的相册解决方案。</li>
+<li>For 2.0版本为ZSXSOFT升级。</li>
 </ol>
 
 <a name="source"></a><br />
@@ -125,38 +121,6 @@ BlogTitle = "WindsPhoto"
 
 </div>
 </div>
-<script>
 
-	//斑马线
-	var tables=document.getElementsByTagName("ol");
-	var b=false;
-	for (var j = 0; j < tables.length; j++){
 
-		var cells = tables[j].getElementsByTagName("li");
-
-		for (var i = 0; i < cells.length; i++){
-			if(b){
-				cells[i].style.color="#333366";
-				cells[i].style.background="#F1F4F7";
-				b=false;
-			}
-			else{
-				cells[i].style.color="#666699";
-				cells[i].style.background="#FFFFFF";
-				b=true;
-			};
-		};
-	}
-
-document.close();
-
-</script>
-</body>
-</html>
-<%
-Call System_Terminate()
-
-If Err.Number<>0 Then
-    Call ShowError(0)
-End If
-%>
+<!--#include file="..\..\..\zb_system\admin\admin_footer.asp"-->
