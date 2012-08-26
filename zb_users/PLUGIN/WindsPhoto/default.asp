@@ -19,11 +19,11 @@
 <!-- #include file="../../../zb_system/function/c_system_plugin.asp" -->
 <!-- #include file="../../../zb_system/function/c_system_event.asp" -->
 <!-- #include file="../../plugin/p_config.asp" -->
-<!-- #include file="data/conn.asp" -->
+
 <!-- #include file="function.asp" -->
 
 <%
-Call System_Initialize
+Call System_Initialize%><!-- #include file="data/conn.asp" --><%
 
 LoadGlobeCache
 
@@ -51,8 +51,8 @@ ArtList.Build
     Html = Replace(Html, "<#CUSTOM_TAGS_TITLE#>", WP_ALBUM_NAME)
     Html = Replace(Html, ">Powered By", ">Powered By <a href='http://photo.wilf.cn/' target='_blank' title='WindsPhoto官方网站'>WindsPhoto</a> &")
     Html = Replace(Html, "<#CUSTOM_TAGS#>", GetPhotoIndex())
-    Html = Replace(Html, "<a href=""cmd.asp?act=login"">", "<a href=""" + ZC_BLOG_HOST + "cmd.asp?act=login"">") '换掉相对路径
-    Html = Replace(Html, "<a href=""cmd.asp?act=vrs"">", "<a href=""" + ZC_BLOG_HOST + "cmd.asp?act=vrs"">")
+    Html = Replace(Html, "<a href=""cmd.asp?act=login"">", "<a href=""" + ZC_BLOG_HOST + "zb_system/cmd.asp?act=login"">") '换掉相对路径
+    Html = Replace(Html, "<a href=""cmd.asp?act=vrs"">", "<a href=""" + ZC_BLOG_HOST + "zb_system/cmd.asp?act=vrs"">")
     Call ClearGlobeCache
     Call LoadGlobeCache
     Response.Write Html
