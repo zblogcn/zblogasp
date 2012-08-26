@@ -53,5 +53,5 @@ var sweetTitles = {
     }
 };
 $(document).ready(function(){
-    sweetTitles.init();
+    setInterval(function(){sweetTitles.init();if($('#divComments').find('a').length>0){return;}},500);
 });
