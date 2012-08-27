@@ -25,6 +25,7 @@ BlogTitle="应用中心"
 
 %>
 <!--#include file="..\..\..\zb_system\admin\admin_header.asp"-->
+	<link rel="stylesheet" rev="stylesheet" href="images/style.css" type="text/css" media="screen" />
 <!--#include file="..\..\..\zb_system\admin\admin_top.asp"-->
 
 <div id="divMain"> <div id="ShowBlogHint">
@@ -45,6 +46,19 @@ BlogTitle="应用中心"
    %>
   </div>
 </div>
+<SCRIPT type="text/javascript">
+function showhidediv(id){
+	try{
+		if(document.getElementById(id)){
+		if(document.getElementById(id).style.display=='none'){
+			document.getElementById(id).style.display='block';
+		}else{
+			document.getElementById(id).style.display='none';
+		}
+		}
+	}catch(e){}
+} 
+</SCRIPT>
 <!--#include file="..\..\..\zb_system\admin\admin_footer.asp"-->
 
 
