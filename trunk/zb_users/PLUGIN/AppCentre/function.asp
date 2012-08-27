@@ -84,14 +84,8 @@ Sub ExportPluginList()
 			End If
 			Set objXmlFile=Nothing
 
-			If fso.FileExists(BlogPath & "/ZB_USERS/PLUGIN/" & App_ID & "/verchk.xml") Then
-				t="<a href=""Xml_Install.asp?act=update&amp;url=" & Server.URLEncode(Update_URL & App_ID) & """ title=""升级插件""><b class=""notice"">发现新版本!</b></a>"
-				NewVersionExists=True
-			ElseIf fso.FileExists(BlogPath & "/ZB_USERS/PLUGIN/" & App_ID & "/" & "error.log") Then
-				t="<b class=""somehow"">不支持在线更新.</b>"
-			Else
-				t=""
-			End If
+
+
 
 			Response.Write "<div class=""pluginPanel"">"
 			Response.Write "<div class=""listTitle"" onclick='showhidediv("""& App_ID &""");'>"
