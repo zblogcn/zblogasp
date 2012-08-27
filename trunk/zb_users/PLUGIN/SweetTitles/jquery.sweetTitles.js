@@ -53,5 +53,6 @@ var sweetTitles = {
     }
 };
 $(document).ready(function(){
-    setInterval(function(){sweetTitles.init();if($('#divComments').find('a').length>0){return;}},500);
+    var swec=0;
+	setInterval(function(){sweetTitles.init();swec++;if($('#divSidebar').find('a').length>0||swec==5){return;}},500);
 });
