@@ -258,7 +258,7 @@ Class YT_Article
 		If IsNumeric(Rows) And IsNumeric(Index) Then
 			Dim Rs,sql
 			sql="SELECT top "& CStr(Rows) &" [log_ID] FROM [blog_Article] WHERE [log_Type]=0 AND [log_Level]>2 AND log_ID>0 AND ([log_Istop]=0) AND [log_ID] NOT IN (SELECT top "& CStr(Index) &" [log_ID] FROM [blog_Article] WHERE [log_Type]=0 AND [log_Level]>2 AND log_ID>0 AND [log_Istop]=0 ORDER BY [log_PostTime] DESC) ORDER BY [log_PostTime] DESC"
-			If ZC_MSSQL_ENABLE Then sql=Replace(sql,"[log_Istop]=0","[log_Istop]=FALSE")
+			If Not ZC_MSSQL_ENABLE Then sql=Replace(sql,"[log_Istop]=0","[log_Istop]=FALSE")
 			Set Rs = objConn.Execute(sql)
 				If Not (Rs.EOF and Rs.BOF) Then GetArticleLimit = Rs.GetRows(Rows)
 			Set Rs = Nothing
@@ -270,7 +270,7 @@ Class YT_Article
 		If IsNumeric(Rows) And IsNumeric(Index) Then
 			Dim Rs,sql
 			sql="SELECT top "& CStr(Rows) &" [log_ID] FROM [blog_Article] WHERE [log_Type]=0 AND [log_Level]>2 AND log_ID>0 AND [log_Istop]=0 AND [log_CateID] IN ("& CStr(CategoryID) &") AND [log_ID] NOT IN (SELECT top "& CStr(Index) &" [log_ID] FROM [blog_Article] WHERE [log_Type]=0 AND [log_Level]>2 AND log_ID>0 AND [log_Istop]=0 AND [log_CateID] IN ("& CStr(CategoryID) &") ORDER BY [log_PostTime] DESC) ORDER BY [log_PostTime] DESC"
-			If ZC_MSSQL_ENABLE Then sql=Replace(sql,"[log_Istop]=0","[log_Istop]=FALSE")
+			If Not ZC_MSSQL_ENABLE Then sql=Replace(sql,"[log_Istop]=0","[log_Istop]=FALSE")
 			Set Rs = objConn.Execute(sql)
 				If Not (Rs.EOF and Rs.BOF) Then GetArticleCategorysLimit = Rs.GetRows(Rows)
 			Set Rs = Nothing
@@ -333,7 +333,7 @@ Class YT_Article
 		If IsNumeric(Rows) Then
 			Dim Rs,sql
 			sql="SELECT top " & CStr(Rows) & " [log_ID] FROM [blog_Article] WHERE [log_Type]=0 AND [log_Level]>2 AND log_ID>0 AND [log_Istop]=1 ORDER BY [log_PostTime] DESC"
-			If ZC_MSSQL_ENABLE Then sql=Replace(sql,"[log_Istop]=1","[log_Istop]=TRUE")
+			If Not ZC_MSSQL_ENABLE Then sql=Replace(sql,"[log_Istop]=1","[log_Istop]=TRUE")
 			Set Rs = objConn.Execute(sql)
 				If Not (Rs.EOF and Rs.BOF) Then GetArticleTop = Rs.GetRows(Rows)
 			Set Rs = Nothing
@@ -345,7 +345,7 @@ Class YT_Article
 		If IsNumeric(Rows) Then
 			Dim Rs,sql
 			sql="SELECT top " & CStr(Rows) & " [log_ID] FROM [blog_Article] WHERE [log_Type]=0 AND [log_Level]>2 AND log_ID>0 AND [log_Istop]=1 AND ([log_CateID] IN ("&CStr(CategoryID)&")) ORDER BY [log_PostTime] DESC"
-			If ZC_MSSQL_ENABLE Then sql=Replace(sql,"[log_Istop]=1","[log_Istop]=TRUE")
+			If Not ZC_MSSQL_ENABLE Then sql=Replace(sql,"[log_Istop]=1","[log_Istop]=TRUE")
 			Set Rs = objConn.Execute(sql)
 				If Not (Rs.EOF and Rs.BOF) Then GetArticleCategoryTop = Rs.GetRows(Rows)
 			Set Rs = Nothing
