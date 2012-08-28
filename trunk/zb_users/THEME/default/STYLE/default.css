@@ -396,7 +396,7 @@ div.post div.post-body{
 	padding:0 0 0 0;
 	font-size:1em;
     text-align:justify;
-	line-height:160%;
+	line-height:180%;
 	clear:both;
 	border-top:1px solid #dbe0e6;
 	word-break:break-all;
@@ -423,15 +423,35 @@ div.post-body p{
 }
 
 div.post-body code{
+	width: 93%;
 	padding:5px;
 	background:#f8f8f8;
     border:1px #F4F4F4 solid;
+}
+
+div.post-body blockquote {
+	width: 93%;
+	background:#F4F4F4;
+	border-left:10px solid #ececec;
+	margin:15px 5px;
+	padding:5px;
 }
 
 div.post-body img{
    max-width:600px;
    width: expression(this.width > 600 ? 600: true);   /*IE6*/ 
    height: auto;
+}
+
+div.post-body table {
+	border-collapse: collapse;
+	background:#ffffff;
+	line-height:140%;
+}
+div.post-body td,th{
+	margin:0;
+	padding:3px;
+	text-indent:0.25em;
 }
 
 div.post-body h1{
