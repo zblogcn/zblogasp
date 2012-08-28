@@ -34,5 +34,6 @@ Function InstallPlugin_YTCMS()
 			Call t.Model("Install",j)
 		Next
 	Set t=Nothing
+	Call new YT_Block_XML
 End Function
 %>
