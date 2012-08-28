@@ -1478,7 +1478,7 @@ Function ExportThemeMng()
 
 
 		Response.Write "<p>"&ZC_MSG011&":" & Theme_Pubdate & "</p>"
-		Response.Write "<p>"&ZC_MSG016&":" & Theme_Note & "</p>"
+		Response.Write "<p style='height:1.0em;'>"&ZC_MSG016&":" & Theme_Note & "</p>"
 		Response.Write "<p>"&ZC_MSG196&":" & "<select class=""edit"" size=""1"" id=""cate"&Left(md5(Theme_Id),6)&""" name=""cate"&Left(md5(Theme_Id),6)&""" style=""width:120px;"" onchange=""document.getElementById('edtZC_BLOG_THEME').value='"&Theme_Id&"';document.getElementById('edtZC_BLOG_CSS').value=this.options[this.selectedIndex].value""><option value=""""></option>"
 
 
@@ -1512,7 +1512,7 @@ Function ExportThemeMng()
 		End If
 
 		Response.Write "</select>"
-		Response.Write "&nbsp;&nbsp;<a href='#' onclick='if(!document.getElementById(""cate"&Left(md5(Theme_Id),6)&""").value){return false;}else{document.getElementById(""edtZC_BLOG_THEME"").value="""&Theme_Id&""";document.getElementById(""edtZC_BLOG_CSS"").value=document.getElementById(""cate"&Left(md5(Theme_Id),6)&""").value};$(""#frmTheme"").submit()'><img width='16' title='"&ZC_MSG202&"' alt='"&ZC_MSG202&"' src='../IMAGE/ADMIN/arrow_rotate_anticlockwise.png' /></a></p>"
+		Response.Write "&nbsp;&nbsp;&nbsp;&nbsp;<a href='#' onclick='if(!document.getElementById(""cate"&Left(md5(Theme_Id),6)&""").value){return false;}else{document.getElementById(""edtZC_BLOG_THEME"").value="""&Theme_Id&""";document.getElementById(""edtZC_BLOG_CSS"").value=document.getElementById(""cate"&Left(md5(Theme_Id),6)&""").value};$(""#frmTheme"").submit()'><img width='16' title='"&ZC_MSG202&"' alt='"&ZC_MSG202&"' src='../IMAGE/ADMIN/tick.png' /></a></p>"
 
 
 		Response.Write "</div>"

@@ -68,7 +68,7 @@ $(document).ready(function(){
 			$("#edtZC_CATEGORY_REGEX").val("{%host%}/category-{%id%}.html")
 			$("#edtZC_USER_REGEX").val("{%host%}/author-{%id%}.html")
 			$("#edtZC_TAGS_REGEX").val("{%host%}/tags-{%id%}.html")
-			$("#edtZC_DATE_REGEX").val("{%host%}/{%year%}-{%month%}.html")
+			$("#edtZC_DATE_REGEX").val("{%host%}/{%date%}.html")
 			$("#edtZC_STATIC_MODE").val("REWRITE")
 		}else{
 			$(".content-box").hide();
@@ -76,7 +76,7 @@ $(document).ready(function(){
 			$("#edtZC_CATEGORY_REGEX").val("{%host%}/catalog.asp?cate={%id%}")
 			$("#edtZC_USER_REGEX").val("{%host%}/catalog.asp?user={%id%}")
 			$("#edtZC_TAGS_REGEX").val("{%host%}/catalog.asp?tags={%alias%}")
-			$("#edtZC_DATE_REGEX").val("{%host%}/catalog.asp?date={%year%}-{%month%}")
+			$("#edtZC_DATE_REGEX").val("{%host%}/catalog.asp?date={%date%}")
 			$("#edtZC_STATIC_MODE").val("ACTIVE")
 		}
 	});

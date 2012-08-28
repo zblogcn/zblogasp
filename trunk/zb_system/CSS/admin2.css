@@ -396,6 +396,11 @@ div.theme-other{
 	margin:0 1em 1em 0;
 }
 
+div.theme-now p,div.theme-other p{
+	max-width:200px;
+	overflow:hidden;
+}
+
 .hidden{
 	display:none;
 }

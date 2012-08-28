@@ -894,7 +894,7 @@ Function MakeCalendar(dtmYearMonth)
 	For i=1 to b
 		If (j=>firw-1) and (k=<d) Then
 			If aryDateLink(k) Then
-				strCalendar=strCalendar & "<p id=""pCalendar_"&y&"_"&m&"_"&k&""" class=""yd""><a  href="""&aryDateArticle(k).FullUrl& """>"&(k)&"</a></p>"
+				strCalendar=strCalendar & "<p id=""pCalendar_"&y&"_"&m&"_"&k&""" class=""yd""><a  href="""&UrlbyDateAuto(Year(aryDateArticle(k).PostTime),Month(aryDateArticle(k).PostTime),Day(aryDateArticle(k).PostTime))& """>"&(k)&"</a></p>"
 			Else
 				strCalendar=strCalendar & "<p id=""pCalendar_"&y&"_"&m&"_"&k&""" class=""d"">"&(k)&"</p>"
 			End If
@@ -1795,8 +1795,16 @@ Function ParseCustomDirectory(strRegex,strPost,strCategory,strUser,strYear,strMo
 
 	On Error Resume Next
 
-	Dim s
+	Dim s,d
 	s=strRegex
+
+	d=strYear
+	If strMonth<>"" Then
+		d=d & "-" & strMonth
+	End If
+	If strDay<>"" Then
+		d=d & "-" & strDay
+	End If
 
 	s=Replace(s,"{%post%}",strPost)
 	s=Replace(s,"{%category%}",strCategory)
@@ -1806,6 +1814,7 @@ Function ParseCustomDirectory(strRegex,strPost,strCategory,strUser,strYear,strMo
 	s=Replace(s,"{%day%}",Right("0" & strDay,2))
 	s=Replace(s,"{%id%}",strID)
 	s=Replace(s,"{%alias%}",strAlias)
+	s=Replace(s,"{%date%}",d)
 
 	ParseCustomDirectory=s
 
@@ -3527,7 +3536,7 @@ Function RefreshOptionFormFileToDB()
 	For Each a In BlogConfig.Meta.Names
 		Call Execute("Call BlogConfig.Write("""&a&""","&a&")")
 	Next
-	Call BlogConfig.Write("ZC_BLOG_VERSION","2.0 Beta Build 120825")
+	Call BlogConfig.Write("ZC_BLOG_VERSION","2.0 Beta Build 120828")
 	If BlogConfig.Exists("ZC_MULTI_DOMAIN_SUPPORT")=False Then Call BlogConfig.Write("ZC_MULTI_DOMAIN_SUPPORT",False)
 	Call BlogConfig.Save()
 	Err.Clear
