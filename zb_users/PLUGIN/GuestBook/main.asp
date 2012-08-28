@@ -67,23 +67,27 @@ If Not objRs.Eof Then Call SetBlogHint_Custom("检测到有1.8的留言未升级
   <div id="divMain2">
     <script type="text/javascript">ActiveLeftMenu("aPlugInMng");</script>
 <form id="form1" name="form1" method="post" action="?act=save">
-<label for="id"></label>
-<select name="id" size="1" id="id" style="width:100%">
-<option value="0">新建页面</option>
-<%
+<table width='100%' style='padding:0px;margin:0px;' cellspacing='0' cellpadding='0' class="tableBorder">
+<tr><th width='30%'>&nbsp;</th><th width='70%'>&nbsp;</th></tr>
+<tr><td>新建留言本</td><td><p><label><input type="radio" name="id" value="0"/>&nbsp;&nbsp;新建留言本</label></p></td></tr>
 
+<tr><td>指定已存在的页面为留言本</td><td>
+
+
+<%
 Set objRs=objConn.Execute("SELECT [log_ID],[log_Title] FROM [blog_Article] WHERE [log_Type]=1")
 Do Until objRs.Eof
 %>
-<option value="<%=objRs("log_ID")%>"<%=IIf(CStr(objConfig.Read("g"))=CStr(objRs("log_ID"))," selected=""selected"" ","")%>><%=objRs("log_Title")%>（ID=<%=objRs("log_ID")%>）</option>
+<p><label><input type="radio"  name="id"  value="<%=objRs("log_ID")%>"<%=IIf(CStr(objConfig.Read("g"))=CStr(objRs("log_ID"))," checked=""checked"" ","")%><%=objRs("log_Title")%>/>（ID=<%=objRs("log_ID")%>）</label></p>
 <%
 objRs.MoveNext
 Loop
 Set objRs=Nothing%>
-</select><br/><br/>
-<input name="" type="submit" class="button" value="保存"/>
+</td></tr>
+</table>
+<p><span class="note">若需要自定义标题、显示的内容以及模板，请选择“页面管理”。</span></p>
+<p><input name="" type="submit" class="button" value="保存"/></p>
 </form>
-<p>若需要自定义标题、显示的内容以及模板，请选择“页面管理”。</p>
 </div>
 </div>
 <!--#include file="..\..\..\zb_system\admin\admin_footer.asp"-->

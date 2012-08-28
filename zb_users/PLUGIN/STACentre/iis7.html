@@ -32,12 +32,12 @@
                     <action type="Rewrite" url="catalog.asp?tags={R:1}&amp;page={R:2}" />
                 </rule>
                 <rule name="Imported Rule 8" stopProcessing="true">
-                    <match url="^([0-9]+)-([0-9]+)\.html$" ignoreCase="false" />
-                    <action type="Rewrite" url="catalog.asp?date={R:1}-{R:2}" />
+                    <match url="^([0-9\-]+)\.html$" ignoreCase="false" />
+                    <action type="Rewrite" url="catalog.asp?date={R:1}" />
                 </rule>
                 <rule name="Imported Rule 9" stopProcessing="true">
-                    <match url="^([0-9]+)-([0-9]+)_([0-9]+)\.html$" ignoreCase="false" />
-                    <action type="Rewrite" url="catalog.asp?date={R:1}-{R:2}&amp;page={R:3}" />
+                    <match url="^([0-9\-]+)_([0-9]+)\.html$" ignoreCase="false" />
+                    <action type="Rewrite" url="catalog.asp?date={R:1}&amp;page={R:2}" />
                 </rule>
             </rules>
         </rewrite>

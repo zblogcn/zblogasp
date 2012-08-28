@@ -14,7 +14,7 @@ Function ActivePlugin_GuestBook()
 	Config.Load "GuestBook"
 	GuetsBook_ID=CInt(Config.Read("g"))
 
-	Call Add_Action_Plugin("Action_Plugin_TArticle_Url","If ID=GuetsBook_ID Then Url=ZC_BLOG_HOST & ""guestbook.asp"":Exit Property")
+	Call Add_Action_Plugin("Action_Plugin_TArticle_Url","If ID=GuetsBook_ID Then Url=ZC_BLOG_HOST & ""guestbook.asp"":Level=1:Exit Property")
 	
 End Function
 

@@ -81,9 +81,16 @@ function zsx(){
   <div id="divMain2">
     <script type="text/javascript">ActiveLeftMenu("aPlugInMng");</script><% if b=false then%>
 <form id="form1" name="form1" method="post" action="?act=save" onsubmit="return zsx()">
-<label for="id">请选择迁移文章ID<a href="javascript:;" onclick="$('#id').attr('value',0);$('#form1').submit()">【点击这里从1.8升级】</a></label><input type="number" id="id" name="id" min="0" max="" style="width:100%" value="0"/>
-<p>
-<input name="" type="submit" class="button" value="保存"/></p>
+
+<table width='100%' style='padding:0px;margin:0px;' cellspacing='0' cellpadding='0' class="tableBorder">
+<tr><th width='30%'>&nbsp;</th><th width='70%'>&nbsp;</th></tr>
+<tr><td>从1.8的留言本升级</td><td><p>&nbsp;&nbsp;如果你的Blog是从1.8升级的,请点击<a href="javascript:;" onclick="$('#id').attr('value',0);$('#form1').submit()">【这里从1.8升级】</a></p></td></tr>
+
+
+
+<input style="display:none;" type="number" id="id" name="id" min="0" max="" style="width:100%" value="0"/>
+</table>
+<!-- <p><input name="" type="submit" class="button" value="保存"/></p> -->
 </form><%else 
 response.write "未指定留言本！"
 end if%>
