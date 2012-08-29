@@ -39,12 +39,12 @@ BlogTitle = "新 建 相 册"
 <div id="divMain">
 	<div class="divHeader">WindsPhoto 新建相册</div>
     <div class="SubMenu">
-        <a href="<%=ZC_BLOG_HOST%>zb_users/plugin/windsphoto/admin_main.asp"><span class="m-left">相册管理</span></a>
-        <a href="<%=ZC_BLOG_HOST%>zb_users/plugin/windsphoto/admin_addtype.asp"><span class="m-left m-now">新建相册</span></a>
-        <a href="<%=ZC_BLOG_HOST%>zb_users/plugin/windsphoto/admin_setting.asp"><span class="m-left">系统设置</span></a>
-        <a href="<%=ZC_BLOG_HOST%>zb_system/cmd.asp?act=pluginMng"><span class="m-right">退出</span></a>
-        <a href="<%=ZC_BLOG_HOST%>zb_users/plugin/windsphoto/help.asp"><span class="m-right">帮助说明</span></a>
-        <a href="<%=ZC_BLOG_HOST%>zb_users/plugin/windsphoto/help.asp#more"><span class="m-right">更多功能</span></a>
+        <a class="m-a-left m-now" href="<%=ZC_BLOG_HOST%>zb_users/PLUGIN/windsphoto/admin_main.asp"><span>相册管理</span></a>
+        <a class="m-a-left" href="<%=ZC_BLOG_HOST%>zb_users/PLUGIN/windsphoto/admin_addtype.asp"><span class="m-now">新建相册</span></a>
+        <a class="m-a-left" href="<%=ZC_BLOG_HOST%>zb_users/PLUGIN/windsphoto/admin_setting.asp"><span>系统设置</span></a>
+        <a class="m-a-right" href="<%=ZC_BLOG_HOST%>zb_system/admin/admin.asp?act=PlugInMng"><span>退出</span></a>
+        <a class="m-a-right" href="<%=ZC_BLOG_HOST%>zb_users/PLUGIN/windsphoto/help.asp"><span>帮助说明</span></a>
+        <a class="m-a-right" href="<%=ZC_BLOG_HOST%>zb_users/PLUGIN/windsphoto/help.asp#more"><span>更多功能</span></a>
     </div>
 
     <div id="divMain2">
