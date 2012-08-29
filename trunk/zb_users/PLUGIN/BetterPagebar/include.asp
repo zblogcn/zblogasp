@@ -7,16 +7,18 @@
 '注册插件
 Call RegisterPlugin("BetterPagebar","ActivePlugin_BetterPagebar")
 
-Function ActivePlugin_BetterPagebar()
 
+'激活插件
+Function ActivePlugin_BetterPagebar()
 	'Action_Plugin_TArticleList_ExportBar_Begin 分页条
 	Call Add_Action_Plugin("Action_Plugin_TArticleList_ExportBar_Begin","ExportBar=BetterPagebar_ExportBar(intNowPage,intAllPage,Template_PageBar,Template_PageBar_Previous,Template_PageBar_Next,Url,ListType):Exit Function")
-
+	Call SetBlogHint_Custom("分页条优化插件已停，正为您重建首页缓存。")
 End Function
 
 
 '启用插件
 Function InstallPlugin_BetterPagebar()
+	'配置初始化
 	Call BetterPagebar_Initialize
 	'更新首页
 	Call BlogReBuild_Default
@@ -30,7 +32,7 @@ Function UnInstallPlugin_BetterPagebar()
 End Function
 
 
-'配置
+'配置变量
 Dim	BetterPagebar_AlwaysShow
 Dim	BetterPagebar_FristPage
 Dim	BetterPagebar_LastPage

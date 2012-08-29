@@ -53,6 +53,5 @@ var sweetTitles = {
     }
 };
 $(document).ready(function(){
-    var swec=0;
-	setInterval(function(){sweetTitles.init();swec++;if($('#divSidebar').find('a').length>0||swec==5){return;}},500);
+	setTimeout(function(){sweetTitles.init();},500);
 });
