@@ -11,9 +11,7 @@
 Call System_Initialize()
 Call CheckReference("")
 If Not CheckRights("FileUpload") Then Call ShowError(6)
-
 For Each sAction_Plugin_UEditor_FileUpload_Begin in Action_Plugin_UEditor_FileUpload_Begin
-response.write sAction_Plugin_UEditor_FileUpload_Begin
 	If Not IsEmpty(sAction_Plugin_UEditor_FileUpload_Begin) Then Call Execute(sAction_Plugin_UEditor_FileUpload_Begin)
 Next
 
@@ -44,7 +42,7 @@ If upload.Save("edtFileLoad",0)=True Then
 	uf.AutoName=False
 	uf.IsManual=True
 	uf.FileSize=upload.form("edtFileLoad_Size")
-	uf.FileName=upload.form("edtFileLoad_Name")
+	uf.FileName=upload.form("edtFileLoad")
 	uf.UpLoad
 End If
 
