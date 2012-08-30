@@ -26,7 +26,9 @@ Call CheckReference("")
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta http-equiv="Content-Language" content="<%=ZC_BLOG_LANGUAGE%>" />
-	<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" /> 
+	<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+	<meta name="generator" content="Z-Blog <%=ZC_BLOG_VERSION%>" />
+	<meta name="robots" content="nofollow" />
 	<link rel="stylesheet" rev="stylesheet" href="css/admin.css" type="text/css" media="screen" />
 	<script language="JavaScript" src="script/common.js" type="text/javascript"></script>
 	<script language="JavaScript" src="script/md5.js" type="text/javascript"></script>

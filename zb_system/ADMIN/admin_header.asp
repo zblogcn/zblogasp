@@ -2,9 +2,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<%=ZC_BLOG_LANGUAGE%>" lang="<%=ZC_BLOG_LANGUAGE%>">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="robots" content="nofollow" />
 <meta http-equiv="Content-Language" content="<%=ZC_BLOG_LANGUAGE%>" />
-<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" /> 
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+<meta name="generator" content="Z-Blog <%=ZC_BLOG_VERSION%>" />
+<meta name="robots" content="nofollow" />
 <title><%=BlogTitle%></title>
 <link href="<%=BlogHost%>ZB_SYSTEM/CSS/admin2.css" rel="stylesheet" type="text/css" />
 <script src="<%=BlogHost%>ZB_SYSTEM/script/common.js" type="text/javascript"></script>
