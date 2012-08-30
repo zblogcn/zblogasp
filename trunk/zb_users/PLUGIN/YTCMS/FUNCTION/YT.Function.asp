@@ -53,6 +53,7 @@ End Function
 Function YT_CMS_Filter_Plugin_PostArticle_Succeed(ByRef objArticle)
 	Dim Sql:Sql = YT_Data_GetSql(objArticle.CateID,objArticle.ID)
 	If objArticle.CateID > 0 And Not IsEmpty(Sql) Then objConn.Execute(Sql)
+	Call BuildArticle(objArticle.ID,True,True)
 End Function
 Function YT_CMS_Action_Plugin_MakeBlogReBuild_Core_Begin()
 	Call new YT_Block_XML.Build()
