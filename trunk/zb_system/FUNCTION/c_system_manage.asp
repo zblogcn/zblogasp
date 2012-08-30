@@ -202,7 +202,7 @@ Function ExportArticleList(intPage,intCate,intLevel,intTitle)
 				End If
 			Next
 
-			Response.Write "<td><div style='overflow:hidden;height:1.5em;'><a href=""../view.asp?nav=" & objRS("log_ID") & """ title="""& Replace(objRS("log_Title"),"""","") &""" target=""_blank"">" & objRS("log_Title") & "</a><div></td>"
+			Response.Write "<td><div style='overflow:hidden;height:1.5em;'><a href=""../view.asp?nav=" & objRS("log_ID") & """ title="""& Replace(objRS("log_Title"),"""","") &""" target=""_blank"">" & objRS("log_Title") & "</a></div></td>"
 			Response.Write "<td>" & FormatDateTime(objRS("log_PostTime"),vbShortDate) & "</td>"
 			Response.Write "<td>" & objRS("log_CommNums") & "</td>"
 			Response.Write "<td>" & ZVA_Article_Level_Name(objRS("log_Level")) & "</td>"
@@ -335,7 +335,7 @@ Call Add_Response_Plugin("Response_Plugin_ArticleMng_SubMenu",MakeSubMenu(ZC_MSG
 				End If
 			Next
 
-			Response.Write "<td><div style='overflow:hidden;height:1.5em;'><a href=""../view.asp?nav=" & objRS("log_ID") & """ title="""& Replace(objRS("log_Title"),"""","") &""" target=""_blank"">" & objRS("log_Title") & "</a><div></td>"
+			Response.Write "<td><div style='overflow:hidden;height:1.5em;'><a href=""../view.asp?nav=" & objRS("log_ID") & """ title="""& Replace(objRS("log_Title"),"""","") &""" target=""_blank"">" & objRS("log_Title") & "</a></div></td>"
 			Response.Write "<td>" & FormatDateTime(objRS("log_PostTime"),vbShortDate) & "</td>"
 			Response.Write "<td>" & objRS("log_CommNums") & "</td>"
 			Response.Write "<td>" & ZVA_Article_Level_Name(objRS("log_Level")) & "</td>"
@@ -489,7 +489,7 @@ Function ExportCommentList(intPage,intContent)
 	Response.Write "</p></form>"
 
 	Response.Write "<table border=""1"" width=""100%"" cellspacing=""0"" cellpadding=""0"" class=""tableBorder tableBorder-thcenter"">"
-	Response.Write "<tr><th width=""5%""></th><th width='5%'>"& ZC_MSG076 &"</th><th width=""5%"">"&ZC_MSG152&"</th><th width='10%'>"& ZC_MSG001 &"</th><th>"& ZC_MSG055 &"</th><th>"& ZC_MSG048 &"</th><th width='14%'></th><th width='5%'  align='center'><a href='' onclick='BatchSelectAll();return false'>"& ZC_MSG229 &"</a></th></tr>"'
+	Response.Write "<tr><th width=""5%""></th><th width='5%'>"& ZC_MSG076 &"</th><th width=""5%"">"&ZC_MSG152&"</th><th width='10%'>"& ZC_MSG001 &"</th><th>"& ZC_MSG055 &"</th><th width=""15%"">"& ZC_MSG048 &"</th><th width='14%'></th><th width='5%'  align='center'><a href='' onclick='BatchSelectAll();return false'>"& ZC_MSG229 &"</a></th></tr>"'
 
 	objRS.Open("SELECT * FROM [blog_Comment] "& strSQL &" ORDER BY [comm_ID] DESC")
 
@@ -521,7 +521,7 @@ Function ExportCommentList(intPage,intContent)
 			End If
 
 			Response.Write "<td><a id=""mylink"&objRS("comm_ID")&""" href=""$div"&objRS("comm_ID")&"tip?width=400"" class=""betterTip"" title="""&ZC_MSG055&""">" & Left(objRS("comm_Content"),30) & "...</a><div id=""div"&objRS("comm_ID")&"tip"" style=""display:none;""><p>"& objRS("comm_Content") &"</p><br/><p>" & ZC_MSG080 & " : " &objRS("comm_IP") & "</p><p>" & ZC_MSG075 & " : " &objRS("comm_PostTime") & "</p></div></td>"
-			Response.Write "<td>"& objArticle.HtmlTitle &"</td>"
+			Response.Write "<td><div style='overflow:hidden;height:1.5em;'>"& objArticle.HtmlTitle &"</div></td>"
 			Response.Write "<td align=""center""><a href=""../cmd.asp?act=CommentEdt&amp;id=" & objRS("comm_ID") &"&amp;revid="&objRs("comm_ID")&"&amp;log_id="& objRS("log_ID") &"""><img src=""../image/admin/comments.png"" alt=""" & ZC_MSG149 & """ title=""" & ZC_MSG149 & """ width=""16"" /></a>&nbsp;&nbsp;&nbsp;&nbsp;<a href=""../cmd.asp?act=CommentEdt&amp;id=" & objRS("comm_ID") & "&amp;log_id="& objRS("log_ID") &"&amp;revid=0""><img src=""../image/admin/comment_edit.png"" alt=""" & ZC_MSG078 & """ title=""" & ZC_MSG078 & """ width=""16"" /></a>&nbsp;&nbsp;&nbsp;&nbsp;<a href=""../cmd.asp?act=CommentDel&amp;id=" & objRS("comm_ID")  &""" onclick='return window.confirm("""& ZC_MSG058 &""");'><img src=""../image/admin/delete.png"" alt=""" & ZC_MSG063 & """ title=""" & ZC_MSG063 & """ width=""16"" /></a></td>"
 			Response.Write "<td align=""center"" ><input type=""checkbox"" id=""edtDel"&objRS("comm_ID")&""" name=""edtDel"" value="""&objRS("comm_ID")&"""/></td>"
 			Response.Write "</tr>"
