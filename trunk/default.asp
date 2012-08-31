@@ -27,8 +27,7 @@
 <%
 If CheckMobile() Then Response.Redirect ZC_FILENAME_WAP
 
-'向导部分wizard
-If ZC_DATABASE_PATH="data/zblog.mdb" And ZC_MSSQL_ENABLE=False Then Response.Redirect "wizard.asp?verify=" & MD5(ZC_DATABASE_PATH & Replace(LCase(Request.ServerVariables("PATH_TRANSLATED")),"default.asp",""))
+If Not IsEmpty(Request.QueryString("login")) Then Response.Redirect("zb_system/cmd.asp?act=login")
 
 Dim s
 s=LoadFromFile(BlogPath & "zb_users\cache\default.html","utf-8")
