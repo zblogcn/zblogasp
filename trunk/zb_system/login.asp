@@ -35,7 +35,7 @@ Call CheckReference("")
 	<title><%=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG009%></title>
 </head>
 <body>
-<div class="bg"></div>
+<div class="bg">
 <div id="wrapper">
   <div class="logo"><img src="image/admin/none.gif" title="Z-Blog<%=ZC_MSG009%>" alt="Z-Blog<%=ZC_MSG009%>"/></div>
   <div class="login">
@@ -54,7 +54,7 @@ Call CheckReference("")
     </form>
   </div>
 </div>
-
+</div>
 
 <script language="JavaScript" type="text/javascript">
 

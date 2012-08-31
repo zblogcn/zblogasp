@@ -2063,14 +2063,14 @@ End Function
 
 	function vbsunescape(source){
 		if(typeof(source)=="undefined"){return ""};
-		if(source==""){return ""};
+		if(source===""){return ""};
 		var a;
 		a=unescape(source);
 		return (a==("undefined"||undefined) ? "" : a)
 	}
 	function vbsescape(source){
 		if(typeof(source)=="undefined"){return ""};
-		if(source==""){return ""}
+		if(source===""){return ""}
 		var a;
 		a=escape(source);
 		return (a==("undefined"||undefined) ? "" : a)

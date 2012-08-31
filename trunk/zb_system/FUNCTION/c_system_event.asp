@@ -1203,10 +1203,16 @@ Function SaveSetting()
 	For Each a In Request.Form 
 		b=Mid(a,4,Len(a))
 		If BlogConfig.Exists(b)=True Then
-			d.add b,Request.Form(a)
+			If b="ZC_UPLOAD_FILESIZE" Or b="ZC_DISPLAY_COUNT" Or b="ZC_SEARCH_COUNT" Or b="ZC_MUTUALITY_COUNT" Or b="ZC_MUTUALITY_COUNT" Or b="ZC_COMMENTS_DISPLAY_COUNT"  Or b="ZC_REBUILD_FILE_COUNT"  Or b="ZC_REBUILD_FILE_INTERVAL" Or b="ZC_DISPLAY_COUNT_WAP"  Or b="ZC_COMMENT_COUNT_WAP"  Or b="ZC_PAGEBAR_COUNT_WAP"  Or b="ZC_WAP_MUTUALITY_LIMIT" Then
+				c=Request.Form(a)
+				Call CheckParameter(c,"int",0)
+				d.add b,CStr(c)
+			Else
+				d.add b,Request.Form(a)
+			End If
 		End If
 	Next
-
+'Response.End
 	If BlogConfig.Read("ZC_STATIC_DIRECTORY")<>d.Item("ZC_STATIC_DIRECTORY")Then
 		Call CreatDirectoryByCustomDirectory(d.Item("ZC_STATIC_DIRECTORY"))
 		Call SetBlogHint(Empty,Empty,True)
