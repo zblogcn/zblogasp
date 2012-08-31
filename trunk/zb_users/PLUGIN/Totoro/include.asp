@@ -124,6 +124,50 @@ Function Totoro_Xiou(strContent)
 	Next
 	Totoro_Xiou=text
 End Function
+
+Function Totoro_FunctionFilterIP(IP)
+End Function
+
+Function Totoro_FunctionKillIP(obj)
+	If TOTORO_KILLIP=0 Then Exit Function
+	Dim objRs,strSQL,strSQL2
+	If ZC_MSSQL_ENABLE Then
+		strSQL2=" [comm_PostTime]>'"&DateAdd("d",-1,now)&"'"
+	Else
+		strSQL2=" [comm_PostTime]>#"&DateAdd("d",-1,now)&"#"
+	End If
+	strSQL="SELECT COUNT ([comm_ID]) FROM [blog_Comment] WHERE [comm_IP]='"&obj.IP&"' AND"&strSQL2
+	Set objRs=objConn.Execute(strSQL)
+	Dim j
+	If Not objRs.Eof Then
+		j=objRs(0)
+	End If
+	Totoro_FunctionKillIP=j
+End Function
+
+Function Totoro_DelSpam(j,IP)
+	Dim objRs,strSQL,strSQL2
+	If ZC_MSSQL_ENABLE Then
+		strSQL2=" [comm_PostTime]>'"&DateAdd("d",-1,now)&"'"
+	Else
+		strSQL2=" [comm_PostTime]>#"&DateAdd("d",-1,now)&"#"
+	End If
+	strSQL="UPDATE FROM [blog_Comment] SET [comm_isCheck]=1 WHERE [comm_IP]='"&IP&"' AND"&strSQL2
+	Set objRs=objConn.Execute(strSQL)
+	strSQL="SELECT [log_ID] FROM [blog_Comment] WHERE [comm_IP]='"&IP&"' AND"&strSQL2
+	Set objRs=objConn.Execute(strSQL)
+	Do Until objRs.Eof
+		Call BuildArticle(objRs("log_ID"),False,True)
+		objRs.MoveNext
+	Loop
+	BlogReBuild_Comments
+	Call ClearGlobeCache
+	Call LoadGlobeCache
+End Function
+
+Function Totoro_FunctionTranToSimp(str)
+End Function
+
 '*********************************************************
 ' 目的：    检查评论
 '*********************************************************
@@ -134,32 +178,41 @@ Function Totoro_chkComment(ByRef objComment)
 	
 	Dim strTemp
 	strTemp=objComment.Content
+	Call Totoro_FunctionFilterIP(objComment.IP)
+	
 	If TOTORO_ConHuoxingwen Then
 		strTemp=Totoro_Xiou(strTemp)
 		strTemp=Totoro_FxxxHuoxingwen(strTemp)
 		strTemp=Totoro_FromSBCCode(strTemp)
 		strTemp=Totoro_GetNum(strTemp)		
+		strTemp=Totoro_FunctionTranToSimp(strTemp)
 	End If
 	Call Totoro_checkLevel(BlogUser.Level)
+	
 	Call Totoro_checkName(Request.ServerVariables("REMOTE_ADDR"))
 	Call Totoro_checkHyperLink(strTemp)
 	Call Totoro_checkBadWord(strTemp & "&" & objComment.Author & "&" & objComment.HomePage & "&" & objComment.IP & "&" & objComment.Email)
+	SetBlogHint_Custom Totoro_sv&"a"
 	Call Totoro_checkInterval(Request.ServerVariables("REMOTE_ADDR"))
 	Call Totoro_checkNumLong(strTemp)
 	Call Totoro_checkChinese(strTemp)
 	objComment.Content=Totoro_replaceWord(objComment.Content)
-
+	Dim o
 	If Totoro_SV>=TOTORO_SV_THRESHOLD Then
 		ZVA_ErrorMsg(14)="Totoro Ⅲ" & "插件大显神威!" & ZVA_ErrorMsg(14)
 		ZVA_ErrorMsg(53)="Totoro Ⅲ" & "插件大显神威!" & ZVA_ErrorMsg(53)
 		
 		If Totoro_SV<TOTORO_SV_THRESHOLD2 Or TOTORO_SV_THRESHOLD2=0 Then
 			objComment.IsCheck=True
+			o=Totoro_FunctionKillIP(objComment)
 		ElseIf TOTORO_SV_THRESHOLD2<=Totoro_SV Then
 			objComment.IsThrow=True
+			o=Totoro_FunctionKillIP(objComment)
 		End If
 	End If
-	
+	If o>TOTORO_KILLIP Then
+		Call Add_Action_Plugin("Action_Plugin_CommentPost_Succeed","Totoro_DelSpam("&o&","""&objComment.IP&""")")
+	End If
 	Totoro_chkComment=True
 
 End Function
