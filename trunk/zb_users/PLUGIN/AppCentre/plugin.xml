@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<plugin>
+<plugin for="2.0.0">
 <id>AppCentre</id>
 <name>应用中心</name>
 <url>http://www.rainbowsoft.org/</url>
@@ -9,12 +9,22 @@
 <include>include.asp</include>
 <level>1</level>
 <author>
-	<name>Z-Blog</name>
-	<url>http://www.rainbowsoft.org/</url>
-	<email></email>
+	<member>
+		<name>Z-blog</name>
+		<url>http://www.rainbowsoft.org/</url>
+		<email></email>
+		<type>原创</type>
+	</member>
+	<member>
+		<name>haphic</name>
+		<url>http://www.rainbowsoft.org/</url>
+		<email></email>
+		<type>程序&amp;UI</type>
+	</member>
 </author>
+<price>0</price>
+<created>2012-8-25</created>
+<updated>2012-8-25</updated>
 <version>1.0</version>
-<adapted>Z-Blog 2.0</adapted>
-<pubdate>2012-8-25</pubdate>
-<modified>2012-8-25</modified>
+<source>http://sourceurl</source>
 </plugin>
