@@ -29,7 +29,7 @@
 </head>
 <body class="short">
 
-<div class="bg"></div>
+<div class="bg">
 <div id="wrapper">
   <div class="logo"><img src="../image/admin/none.gif" title="Z-Blog" alt="Z-Blog"/></div>
   <div class="login">
@@ -64,15 +64,7 @@
     </form>
   </div>
 </div>
-
-
-
-
-
-
-
-
-
+</div>
 </body>
 </html>
 <%
