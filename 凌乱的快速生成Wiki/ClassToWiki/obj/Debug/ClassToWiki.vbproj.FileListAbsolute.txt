@@ -1,0 +1,9 @@
+D:\快盘\ClassToWiki\bin\Debug\ClassToWiki.exe
+D:\快盘\ClassToWiki\bin\Debug\ClassToWiki.pdb
+D:\快盘\ClassToWiki\bin\Debug\ClassToWiki.xml
+D:\快盘\ClassToWiki\obj\Debug\ClassToWiki.frmMain.resources
+D:\快盘\ClassToWiki\obj\Debug\ClassToWiki.Resources.resources
+D:\快盘\ClassToWiki\obj\Debug\ClassToWiki.vbproj.GenerateResource.Cache
+D:\快盘\ClassToWiki\obj\Debug\ClassToWiki.exe
+D:\快盘\ClassToWiki\obj\Debug\ClassToWiki.xml
+D:\快盘\ClassToWiki\obj\Debug\ClassToWiki.pdb
