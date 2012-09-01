@@ -1111,8 +1111,7 @@ End Function
 '*********************************************************
 Function LoadGlobeCache()
 
-	'On Error Resume Next
-
+	On Error Resume Next
 
 	Dim ii,jj
 

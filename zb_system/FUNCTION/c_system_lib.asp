@@ -1463,6 +1463,7 @@ Class TArticle
 
 
 		TemplateTagsDic.Item("BlogTitle")=HtmlTitle
+		TemplateTagsDic.Item("ZC_BLOG_HOST")=BlogHost
 
 
 		If ZC_MULTI_DOMAIN_SUPPORT=True Then
@@ -2059,6 +2060,7 @@ Class TArticleList
 		Dim aryTemplateTagsValue
 
 		TemplateTagsDic.Item("BlogTitle")=HtmlTitle
+		TemplateTagsDic.Item("ZC_BLOG_HOST")=BlogHost
 
 
 		If ZC_MULTI_DOMAIN_SUPPORT=True Then

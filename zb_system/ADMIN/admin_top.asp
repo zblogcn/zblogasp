@@ -26,7 +26,6 @@ Call Add_Response_Plugin("Response_Plugin_Admin_Top",MakeTopMenu(GetRights("vrs"
 If IsObject(Session("batch"))=True Then
 If Session("batch").Count>0 Then
 	If Session("batch").Count= Session("batchorder") Then
-		'
 		'Session("batchtime")=0
 %>
 <div id="batch">
