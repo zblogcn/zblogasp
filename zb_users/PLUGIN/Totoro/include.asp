@@ -1,4 +1,5 @@
-﻿<%
+﻿<!-- #include file="tran2simp.asp"-->
+<%
 '///////////////////////////////////////////////////////////////////////////////
 '// 插件应用:    Z-Blog 1.8
 '// 插件制作:    
@@ -81,7 +82,7 @@ Function InstallPlugin_Totoro()
 		Totoro_Config.Write "TOTORO_VERSION","3.0.3"
 		Totoro_Config.Write "TOTORO_KILLIP",3
 		Totoro_Config.Write "TOTORO_FILTERIP",""
-		Totoro_Config.Write "TOTORO_TRANTOSIMP",True
+		Totoro_Config.Write "TOTORO_TRANTOSIMP",False
 		Totoro_Config.Save
 	End If
 End Function
@@ -129,20 +130,28 @@ End Function
 '*********************************************************
 Function Totoro_chkComment(ByRef objComment)
 	Call Totoro_Initialize
-	objComment.IP=Request.Servervariables("REMOTE_ADDR")
+	objComment.IP=IIf(Request.ServerVariables("HTTP_X_FORWARDED_FOR")="",Request.Servervariables("REMOTE_ADDR"),Request.ServerVariables("HTTP_X_FORWARDED_FOR"))
+	
 	If objComment.IsCheck=True Then Exit Function
 	If objComment.IsThrow=True Then Exit Function
-	Call Totoro_FunctionFilterIP(objComment.IP)
+	If Totoro_FunctionFilterIP(objComment.IP) Then
+		ZVA_ErrorMsg(14)="Totoro Ⅲ大显神威!" & ZVA_ErrorMsg(14)
+		objComment.IsThrow=True
+		Exit Function
+	End iF
 	Dim strTemp
 	strTemp=objComment.Content
+	If TOTORO_TRANTOSIMP Then
+		strTemp=Totoro_FunctionTranToSimp(strTemp)
+	End If
 	If TOTORO_ConHuoxingwen Then
+		
 		strTemp=Totoro_Xiou(strTemp)
 		strTemp=Totoro_FxxxHuoxingwen(strTemp)
 		strTemp=Totoro_FromSBCCode(strTemp)
 		strTemp=Totoro_GetNum(strTemp)		
-		strTemp=Totoro_FunctionTranToSimp(strTemp)
+		
 	End If
-	
 	Call Totoro_checkLevel(BlogUser.Level)
 	Call Totoro_checkName(Request.ServerVariables("REMOTE_ADDR"))
 	Call Totoro_checkHyperLink(strTemp)
@@ -152,11 +161,12 @@ Function Totoro_chkComment(ByRef objComment)
 	Call Totoro_checkChinese(strTemp)
 	
 	objComment.Content=Totoro_replaceWord(objComment.Content)
+	Response.AddHeader "Totoro_SV",Totoro_SV
 	Dim o
 	
 	If Totoro_SV>=TOTORO_SV_THRESHOLD Then
-		ZVA_ErrorMsg(14)="Totoro Ⅲ" & "插件大显神威!" & ZVA_ErrorMsg(14)
-		ZVA_ErrorMsg(53)="Totoro Ⅲ" & "插件大显神威!" & ZVA_ErrorMsg(53)
+		ZVA_ErrorMsg(14)="Totoro Ⅲ大显神威!" & ZVA_ErrorMsg(14)
+		ZVA_ErrorMsg(53)="Totoro Ⅲ大显神威!" & ZVA_ErrorMsg(53)
 		
 		If Totoro_SV<TOTORO_SV_THRESHOLD2 Or TOTORO_SV_THRESHOLD2=0 Then
 			objComment.IsCheck=True
@@ -379,7 +389,33 @@ Function Totoro_CheckNumLong(str)
 	set c=nothing
 End Function
 
-Function Totoro_FunctionFilterIP(IP)
+Function Totoro_FunctionFilterIP(userip)
+'COPY FROM ANTISPAM (HTTP://WWW.WILLIAMLONG.INFO)
+	Dim IPlock
+	Dim locklist
+	Dim i, StrUserIP, StrKillIP
+	IPlock = False
+	locklist = Trim(TOTORO_FILTERIP)
+	If locklist = "" Then Exit Function
+	StrUserIP = userip
+	locklist = Split(locklist, "|")
+	If StrUserIP = "" Then Exit Function
+	StrUserIP = Split(userip, ".")
+	If UBound(StrUserIP) <> 3 Then Exit Function
+	For i = 0 To UBound(locklist)
+		locklist(i) = Trim(locklist(i))
+	    If locklist(i) <> "" Then
+			StrKillIP = Split(locklist(i), ".")
+			If UBound(StrKillIP) <> 3 Then Exit For
+			IPlock = True
+			If (StrUserIP(0) <> StrKillIP(0)) And InStr(StrKillIP(0), "*") = 0 Then IPlock = False
+			If (StrUserIP(1) <> StrKillIP(1)) And InStr(StrKillIP(1), "*") = 0 Then IPlock = False
+			If (StrUserIP(2) <> StrKillIP(2)) And InStr(StrKillIP(2), "*") = 0 Then IPlock = False
+			If (StrUserIP(3) <> StrKillIP(3)) And InStr(StrKillIP(3), "*") = 0 Then IPlock = False
+			If IPlock Then Exit For
+	    End If
+	Next
+	Totoro_FunctionFilterIP = IPlock	
 End Function
 	
 Function Totoro_FunctionKillIP(obj)
@@ -411,7 +447,6 @@ Function Totoro_DelSpam(IP)
 	End If
 
 	strSQL="UPDATE [blog_Comment] SET [comm_isCheck]=1 WHERE [comm_IP]='"&IP&"' AND"&strSQL2
-	RESPONSE.AddHeader "j",STRSQL
 	Set objRs=objConn.Execute(strSQL)
 	strSQL="SELECT [log_ID] FROM [blog_Comment] WHERE [comm_IP]='"&IP&"' AND"&strSQL2
 	Set objRs=objConn.Execute(strSQL)
@@ -424,7 +459,6 @@ Function Totoro_DelSpam(IP)
 	Call LoadGlobeCache
 End Function
 
-Function Totoro_FunctionTranToSimp(str)
-	Totoro_FunctionTranToSimp=str
-End Function
+
+
 %>
