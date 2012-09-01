@@ -27,6 +27,10 @@ Dim TOTORO_KILLIP
 Dim TOTORO_TRANTOSIMP
 Dim TOTORO_FILTERIP
 
+Dim TOTORO_CHECKSTR
+Dim TOTORO_THROWSTR
+Dim TOTORO_KILLIPSTR
+
 Dim Totoro_Config
 
 
@@ -68,7 +72,7 @@ Function InstallPlugin_Totoro()
 
 		Totoro_Config.Write "TOTORO_DEL_DIRECTLY","False"
 		Totoro_Config.Write "TOTORO_ConHuoxingwen","True"
-		Totoro_Config.Write "TOTORO_BADWORD_LIST","虚拟主机|域名注册|服务器托管|host|铃声|彩信|营销|SEO|数据恢复|彩票|手机图片|游戏币|金币|交友中心|成人用品|私服|黄页|出租|求购|显示屏|投影仪|群发|翻译公司|留学咨询|外挂|google排名|婚庆公司|淘宝|皮肤病|不孕不育|性病|怀孕|医院|论坛群发|性感美女|乳腺病|尖锐湿疣|货到付款|汽车配件|推广联盟|劳务派遣|网络兼职|网络赚钱|证件公司|打包机|试验机|打标机|条码|标签纸|灌装机|升降机|升降平台|专业注册|网站建设|域名注册|出租网|六合彩|双色球|手机游戏|手机窃听|手机监听|成人小电影|激情视频|成人用品|成人电影|激情电影|二手电脑|出售枪支|枪支出售|高压电警棒|麻醉枪|麻醉乙醚|左轮手枪|私服|翻译公司|迷幻药|迷药|麻醉剂|迷昏药|催情药|蒙汗药|情趣用品|三唑仑|春药|诚招加盟|诚信经营|注册.+?公司|公司注册|杀手|奇迹世界|工作服|免费电影|搬家公司|wow|破碎机"
+		Totoro_Config.Write "TOTORO_BADWORD_LIST","虚拟主机|(域名|专业)注册|服务器托管|铃声|彩(信|铃|票)|营销|SEO|数据恢复|(游戏|金)币|交友|私服|黄页|出租|求购|显示屏|投影仪|群发|翻译公司|留学咨询|外挂|(google|百度)排名|淘宝|皮肤病|不孕不育|性病|怀孕|医院|群发|性感美女|乳腺病|尖锐湿疣|货到付款|汽车配件|推广联盟|劳务派遣|网络(兼职|赚钱)|(证件|婚庆)公司|(打包|试验|打标|破碎|灌装|升降)机|条码|标签纸|升降平台|网站建设|出租网|六合彩|双色球|手机(游戏|窃听|监听|铃声|图片)|成人.+?(电影|用品)|激情(视频|电影)|二手电脑|枪|警棒|麻醉|私服|SF|迷(幻|昏)?药|(催情|蒙汗|蒙汉|春)药|情趣用品|三唑仑|诚招加盟|诚信经营|注册.+?公司|公司注册|杀手|奇迹世界|工作服|免费电影|搬家公司|wow"
 		Totoro_Config.Write "TOTORO_NUMBER_VALUE",10
 		Totoro_Config.Write "TOTORO_REPLACE_KEYWORD","**"
 		Totoro_Config.Write "TOTORO_REPLACE_LIST",""
@@ -76,6 +80,9 @@ Function InstallPlugin_Totoro()
 		Totoro_Config.Write "TOTORO_KILLIP",3
 		Totoro_Config.Write "TOTORO_FILTERIP",""
 		Totoro_Config.Write "TOTORO_TRANTOSIMP",True
+        Totoro_Config.Write "TOTORO_CHECKSTR","Totoro大显神威！你的评论被怀疑是垃圾评论已经被提交审核。"
+        Totoro_Config.Write "TOTORO_THROWSTR","Totoro大显神威！你的评论被怀疑是垃圾评论已经被删除。"
+        Totoro_Config.Write "TOTORO_KILLIPSTR","Totoro大显神威！你的IP不合法不允许评论。"
 		Totoro_Config.Save
 		'Call SetBlogHint_Custom("您是第一次安装Totoro，已经为您导入初始配置。")
 	ElseIf Totoro_Config.Read("TOTORO_VERSION")="0.0" Then
@@ -83,6 +90,10 @@ Function InstallPlugin_Totoro()
 		Totoro_Config.Write "TOTORO_KILLIP",3
 		Totoro_Config.Write "TOTORO_FILTERIP",""
 		Totoro_Config.Write "TOTORO_TRANTOSIMP",False
+        Totoro_Config.Write "TOTORO_CHECKSTR","Totoro大显神威！你的评论被怀疑是垃圾评论已经被提交审核。"
+        Totoro_Config.Write "TOTORO_THROWSTR","Totoro大显神威！你的评论被怀疑是垃圾评论已经被删除。"
+        Totoro_Config.Write "TOTORO_KILLIPSTR","Totoro大显神威！你的IP不合法不允许评论。"
+		
 		Totoro_Config.Save
 	End If
 End Function
@@ -106,6 +117,9 @@ Function Totoro_Initialize()
 	TOTORO_KILLIP=CLng(Totoro_Config.Read("TOTORO_KILLIP"))
 	TOTORO_FILTERIP=Totoro_Config.Read("TOTORO_FILTERIP")
 	TOTORO_TRANTOSIMP=CBool(Totoro_Config.Read("TOTORO_TRANTOSIMP"))
+    TOTORO_CHECKSTR=Totoro_Config.Read ("TOTORO_CHECKSTR")
+    TOTORO_THROWSTR=Totoro_Config.Read ("TOTORO_THROWSTR")
+    TOTORO_KILLIPSTR=Totoro_Config.Read ("TOTORO_KILLIPSTR")
 End Function
 
 
@@ -135,7 +149,7 @@ Function Totoro_chkComment(ByRef objComment)
 	If objComment.IsCheck=True Then Exit Function
 	If objComment.IsThrow=True Then Exit Function
 	If Totoro_FunctionFilterIP(objComment.IP) Then
-		ZVA_ErrorMsg(14)="Totoro Ⅲ大显神威!" & ZVA_ErrorMsg(14)
+		ZVA_ErrorMsg(14)=TOTORO_KILLIPSTR
 		objComment.IsThrow=True
 		Exit Function
 	End iF
@@ -165,8 +179,8 @@ Function Totoro_chkComment(ByRef objComment)
 	Dim o
 	
 	If Totoro_SV>=TOTORO_SV_THRESHOLD Then
-		ZVA_ErrorMsg(14)="Totoro Ⅲ大显神威!" & ZVA_ErrorMsg(14)
-		ZVA_ErrorMsg(53)="Totoro Ⅲ大显神威!" & ZVA_ErrorMsg(53)
+		ZVA_ErrorMsg(14)=TOTORO_THROWSTR
+		ZVA_ErrorMsg(53)=TOTORO_CHECKSTR
 		
 		If Totoro_SV<TOTORO_SV_THRESHOLD2 Or TOTORO_SV_THRESHOLD2=0 Then
 			objComment.IsCheck=True
@@ -214,7 +228,7 @@ Function Totoro_checkName(ByVal ip)
 	s=FilterSQL(ip)
 
 	Dim objRS
-	Set objRS=objConn.Execute("SELECT COUNT([comm_ID]) FROM [blog_Comment] WHERE [log_ID]>=0 and [comm_IP] ='" & ip & "'")
+	Set objRS=objConn.Execute("SELECT COUNT([comm_ID]) FROM [blog_Comment] WHERE [log_ID]>=0 and [comm_IP] ='" & ip & "' and [comm_isCheck]=0")
 	If (Not objRS.bof) And (Not objRS.eof) Then
 		i=objRS(0)
 	End If

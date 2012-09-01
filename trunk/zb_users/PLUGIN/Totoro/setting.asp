@@ -60,6 +60,7 @@ BlogTitle="TotoroⅢ（基于TotoroⅡ的Z-Blog的评论管理审核系统增强
                   <li><a href="#tab1" class="default-tab"><span>加分减分细则设置</span></a></li>
                   <li><a href="#tab2"><span>过滤列表设置</span></a></li>
                   <li><a href="#tab4"><span>过滤设置</span></a></li>
+                  <li><a href="#tab5"><span>提示语设置</span></a></li>
                   <li><a href="#tab3"><span>关于TotoroⅢ</span></a></li>
                 </ul>
                 <div class="clear"></div>
@@ -151,7 +152,7 @@ BlogTitle="TotoroⅢ（基于TotoroⅡ的Z-Blog的评论管理审核系统增强
 		Response.Write "<textarea rows=""6"" name=""strTOTORO_FILTERIP"" style=""width:99%"" >"& strTOTORO_FILTERIP &"</textarea>"
 %></td></tr>
                   <tr>
-                    <td height="40">黑词列表(分隔符'|',可使用正则,最后一个字不能是|):</td>
+                    <td height="40">黑词列表(请使用正则,最后一个字符不能是|):</td>
                   </tr>
                   <tr>
                     <td><%
@@ -163,7 +164,7 @@ BlogTitle="TotoroⅢ（基于TotoroⅡ的Z-Blog的评论管理审核系统增强
 %></td>
                   </tr>
                   <tr>
-                    <td height="40">敏感词列表(分隔符'|',可使用正则,最后一个字不能是|):</td>
+                    <td height="40">敏感词列表(请使用正则,最后一个字符不能是|):</td>
                   </tr>
                   <tr>
                     <td><%	
@@ -175,16 +176,6 @@ BlogTitle="TotoroⅢ（基于TotoroⅡ的Z-Blog的评论管理审核系统增强
 %></td>
                   </tr>
                 </table>
-                <%
-
-
-	
-
-	
-	'Response.Write "<br/><p><a target='_blank' href='http://bbs.rainbowsoft.org/viewthread.php?tid=11849'>Totoro的相关说明文档</a></p><br/>"
-
-
-%>
               </div>
               <div class="tab-content" style='border:none;padding:0px;margin:0;' id="tab4">
                 <table width='100%' style='padding:0px;margin:1px;' cellspacing='0' cellpadding='0'>
@@ -210,6 +201,41 @@ BlogTitle="TotoroⅢ（基于TotoroⅡ的Z-Blog的评论管理审核系统增强
                   </tr>
                 </table>
               </div>
+                  <div class="tab-content" style='border:none;padding:0px;margin:0;' id="tab5">
+                      <table width='100%' style='padding:0px;margin:1px;' cellspacing='0' cellpadding='0'>
+                <tr><td height="40">评论被过滤时的提示</td></tr>
+                <tr><td><%
+                	Dim strTOTORO_CHECKSTR
+	strTOTORO_CHECKSTR=Totoro_Config.Read("TOTORO_CHECKSTR")
+		strTOTORO_CHECKSTR=TransferHTML(strTOTORO_CHECKSTR,"[html-format]")
+		Response.Write "<textarea rows=""6"" name=""strTOTORO_CHECKSTR"" style=""width:99%"" >"& strTOTORO_CHECKSTR &"</textarea>"
+%></td></tr>
+                  <tr>
+                    <td height="40">评论被拦截时的提示</td>
+                  </tr>
+                  <tr>
+                    <td><%
+
+	Dim strTOTORO_THROWSTR
+	strTOTORO_THROWSTR=Totoro_Config.Read("TOTORO_THROWSTR")
+		strTOTORO_THROWSTR=TransferHTML(strTOTORO_THROWSTR,"[html-format]")
+		Response.Write "<textarea rows=""6"" name=""strTOTORO_THROWSTR"" style=""width:99%"" >"& strTOTORO_THROWSTR &"</textarea>"
+%></td>
+                  </tr>
+                  <tr>
+                    <td height="40">IP被拦截时的提示</td>
+                  </tr>
+                  <tr>
+                    <td><%	
+
+	Dim strTOTORO_KILLIPSTR
+	strTOTORO_KILLIPSTR=Totoro_Config.Read("TOTORO_KILLIPSTR")
+		strTOTORO_KILLIPSTR=TransferHTML(strTOTORO_KILLIPSTR,"[html-format]")
+		Response.Write "<textarea rows=""6"" name=""strTOTORO_KILLIPSTR"" style=""width:99%"" >"& strTOTORO_KILLIPSTR &"</textarea>"	
+%></td>
+                  </tr>
+                </table>
+                  </div>
               <div class="tab-content" style='border:none;padding:0px;margin:0;' id="tab3">
                 <dl class="totoro">
                   <dd>Totoro是个采用评分机制的防止垃圾留言的插件，原作<a href="http://www.rainbowsoft.org/" target="_blank">zx.asd</a>。<br/>
