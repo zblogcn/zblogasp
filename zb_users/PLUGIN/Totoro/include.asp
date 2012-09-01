@@ -72,7 +72,7 @@ Function InstallPlugin_Totoro()
 
 		Totoro_Config.Write "TOTORO_DEL_DIRECTLY","False"
 		Totoro_Config.Write "TOTORO_ConHuoxingwen","True"
-		Totoro_Config.Write "TOTORO_BADWORD_LIST","虚拟主机|(域名|专业)注册|服务器托管|铃声|彩(信|铃|票)|营销|SEO|数据恢复|(游戏|金)币|交友|私服|黄页|出租|求购|显示屏|投影仪|群发|翻译公司|留学咨询|外挂|(google|百度)排名|淘宝|皮肤病|不孕不育|性病|怀孕|医院|群发|性感美女|乳腺病|尖锐湿疣|货到付款|汽车配件|推广联盟|劳务派遣|网络(兼职|赚钱)|(证件|婚庆)公司|(打包|试验|打标|破碎|灌装|升降)机|条码|标签纸|升降平台|网站建设|出租网|六合彩|双色球|手机(游戏|窃听|监听|铃声|图片)|成人.+?(电影|用品)|激情(视频|电影)|二手电脑|枪|警棒|麻醉|私服|SF|迷(幻|昏)?药|(催情|蒙汗|蒙汉|春)药|情趣用品|三唑仑|诚招加盟|诚信经营|注册.+?公司|公司注册|杀手|奇迹世界|工作服|免费电影|搬家公司|wow"
+		Totoro_Config.Write "TOTORO_BADWORD_LIST","黄页|出租|求购|留学咨询|外挂|淘宝|群发|货到付款|汽车配件|推广联盟|劳务派遣|网络(兼职|赚钱)|(证件|婚庆|翻译|搬家)公司|手机(游戏|窃听|监听|铃声|图片)|三唑仑|奇迹世界|工作服|wow|论文|铃声|彩(信|铃|票)|显示屏|投影仪|虚拟主机|(域名|专业)注册|营销|SEO|服务器托管|网站建设|(google|百度)排名数据恢复|医院|性病|不孕不育|乳腺病|尖锐湿疣|皮肤病|减肥|瘦|3P|人兽|se|代孕|打炮|找小姐|刻章|乱伦|中出|楼凤|卖淫|荡妇|群交|幼女|18禁|伦理电影|迷(幻|昏)?药|(催情|蒙汗|蒙汉|春)药|情趣用品|成人.+?(电影|用品)|激情(视频|电影|影院)|爽片|性感美女|交友|怀孕|裸聊|制服诱惑|丝袜|长腿|寂寞女子|免费电影|双色球|福彩|体彩|6合彩|时时彩|双色球|咨询热线|股票|荐股|开股|私服|SF|枪|警棒|警服|麻醉|诚招加盟|诚信经营|杀手|(游戏|金)币|群发|注册.+?公司|公司注册|发票|代开|淘宝|返利|团购|培训|折扣|(打包|试验|打标|破碎|灌装|升降)机|条码|标签纸|升降平台|二手(车|电脑)"
 		Totoro_Config.Write "TOTORO_NUMBER_VALUE",10
 		Totoro_Config.Write "TOTORO_REPLACE_KEYWORD","**"
 		Totoro_Config.Write "TOTORO_REPLACE_LIST",""
@@ -447,7 +447,7 @@ Function Totoro_FunctionKillIP(obj)
 		j=objRs(0)
 	End If
 	If j>TOTORO_KILLIP Then
-			TOTORO_FILTERIP=TOTORO_FILTERIP &"|"&obj.ip
+			TOTORO_FILTERIP=IIf(TOTORO_FILTERIP="",obj.ip,TOTORO_FILTERIP&"|"&obj.ip)
 			Totoro_Config.Write "TOTORO_FILTERIP",TOTORO_FILTERIP
 			Totoro_Config.Save
 			Call Totoro_DelSpam(obj.IP)
