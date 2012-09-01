@@ -447,6 +447,9 @@ Function Totoro_FunctionKillIP(obj)
 		j=objRs(0)
 	End If
 	If j>TOTORO_KILLIP Then
+			TOTORO_FILTERIP=TOTORO_FILTERIP &"|"&obj.ip
+			Totoro_Config.Write "TOTORO_FILTERIP",TOTORO_FILTERIP
+			Totoro_Config.Save
 			Call Totoro_DelSpam(obj.IP)
 	End If
 	Totoro_FunctionKillIP=j
