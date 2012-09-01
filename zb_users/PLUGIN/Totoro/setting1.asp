@@ -44,7 +44,7 @@ BlogTitle="TotoroⅢ（基于TotoroⅡ的Z-Blog的评论管理审核系统增强
 	If (Not objRS1.bof) And (Not objRS1.eof) Then
 		Response.Write "("&objRS1(0)&"条未审核的评论)"
 	End If
-%></span></a></div>
+%></span></a><a href="regexptest.asp"><span class="m-right">正则测试</span></a></div>
 <div id="divMain2">
 <%
 
