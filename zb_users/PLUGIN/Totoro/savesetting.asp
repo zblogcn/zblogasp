@@ -49,6 +49,9 @@ If CheckPluginState("Totoro")=False Then Call ShowError(48)
 	Totoro_Config.Write "TOTORO_KILLIP",Request.Form("strZC_TOTORO_KILLIP")
 	Totoro_Config.Write "TOTORO_FILTERIP",Request.Form("strTOTORO_FILTERIP")
 	Totoro_Config.Write "TOTORO_TRANTOSIMP",Request.Form("bolTOTORO_TRANTOSIMP")
+    Totoro_Config.Write "TOTORO_THROWSTR",Replace(Replace(Request.Form("strTOTORO_THROWSTR"),vbCrlf,""),vbLf,"")
+    Totoro_Config.Write "TOTORO_KILLIPSTR",Replace(Replace(Request.Form("strTOTORO_KILLIPSTR"),vbCrlf,""),vbLf,"")
+    Totoro_Config.Write "TOTORO_CHECKSTR",Replace(Replace(Request.Form("strTOTORO_CHECKSTR"),vbCrlf,""),vbLf,"")
 	Totoro_Config.Save
 	Set Totoro_Config=Nothing
 
