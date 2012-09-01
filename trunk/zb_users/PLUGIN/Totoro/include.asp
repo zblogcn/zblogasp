@@ -175,6 +175,7 @@ Function Totoro_chkComment(ByRef objComment)
 	Call Totoro_checkChinese(strTemp)
 	
 	objComment.Content=Totoro_replaceWord(objComment.Content)
+	objComment.Name=Totoro_replaceWord(objComment.Name)
 	Response.AddHeader "Totoro_SV",Totoro_SV
 	Dim o
 	
