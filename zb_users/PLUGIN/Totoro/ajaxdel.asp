@@ -48,7 +48,7 @@ If act="delcm" then
 	Set objComment=New TComment
 	If objComment.LoadInfobyID(delid) Then
 	
-		StrTMP=TOTORO_checkStr(objComment.HomePage & "|" & objComment.Content,strZC_TOTORO_BADWORD_LIST)
+		StrTMP=TOTORO_checkStr2(objComment.HomePage & "|" & objComment.Content,strZC_TOTORO_BADWORD_LIST)
 		strZC_TOTORO_BADWORD_LIST=strZC_TOTORO_BADWORD_LIST & StrTMP
 		NEW_BADWORD=StrTMP
 		Response.Write Totoro_dealIt(objComment,bolTOTORO_DEL_DIRECTLY)
@@ -65,7 +65,7 @@ Totoro_Config.Save
 
 %>
 <%
-Function TOTORO_checkStr(strToCheck,BADWORD_LIST)
+Function TOTORO_checkStr2(strToCheck,BADWORD_LIST)
 		Dim objReg,objMatches,Match
 		Set objReg = New RegExp
 		objReg.IgnoreCase = True
@@ -73,8 +73,8 @@ Function TOTORO_checkStr(strToCheck,BADWORD_LIST)
 		objReg.Pattern = "http://([\w-]+\.)+[\w-]+"
 		Set objMatches = objReg.Execute(strToCheck)
 		For Each Match In objMatches
-			If Totoro_checkNewBadWord(Match.Value,BADWORD_LIST & TOTORO_checkStr) then
-				TOTORO_checkStr=TOTORO_checkStr & "|" & Right(Match.Value, Len(Match.Value) - 7)
+			If Totoro_checkNewBadWord(Match.Value,BADWORD_LIST & TOTORO_checkStr2) then
+				TOTORO_checkStr2=TOTORO_checkStr2 & "|" & Right(Match.Value, Len(Match.Value) - 7)
 			End if
 		Next
 		Set objReg = Nothing
