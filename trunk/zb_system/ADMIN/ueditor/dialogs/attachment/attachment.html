@@ -1,15 +1,15 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
         "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-    <title>附件上传</title>
+    <title></title>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
     <link rel="stylesheet" type="text/css" href="attachment.css"/>
 </head>
 <body>
 <div class="wrapper">
     <div class="controller">
-        <span id="divStatus">本次共成功上传 0 个文件</span>
+        <!--<span id="divStatus"></span>-->
         <span id="spanButtonPlaceHolder"></span>
     </div>
     <div class="fieldset flash" id="fsUploadProgress"></div>
@@ -24,13 +24,13 @@
 <script type="text/javascript" src="callbacks.js"></script>
 <script type="text/javascript" src="fileTypeMaps.js"></script>
 <script type="text/javascript">
-	function GetCookie(sName) {
+function GetCookie(sName) {
 
 	var arr = document.cookie.match(new RegExp("(^| )"+sName+"=([^;]*)(;|$)"));
 	if(arr !=null){return unescape(arr[2])};
 	return null;
 
-	}
+}
     var swfupload,
         filesList=[];
     editor.setOpt({
@@ -41,8 +41,8 @@
             upload_url:editor.options.fileUrl,           //附件上传服务器地址
             file_post_name:editor.options.fileFieldName,      //向后台提交的表单名
             flash_url:"../../third-party/swfupload/swfupload.swf",
-			post_params:{'username':GetCookie("username"),'password':GetCookie("password")},
             flash9_url:"../../third-party/swfupload/swfupload_fp9.swf",
+            post_params:{'username':GetCookie("username"),'password':GetCookie("password")},
             file_size_limit:"100 MB",                                 //文件大小限制，此处仅是前端flash选择时候的限制，具体还需要和后端结合判断
             file_types:"*.*",                                         //允许的扩展名，多个扩展名之间用分号隔开，支持*通配符
             file_types_description:"All Files",                      //扩展名描述
@@ -55,11 +55,11 @@
             debug:false,
 
             // 按钮设置
-            button_image_url:"../../themes/default/images/fileScan.png",
+            button_image_url:"../../themes/default/images/filescan.png",
             button_width:"100",
             button_height:"25",
             button_placeholder_id:"spanButtonPlaceHolder",
-            button_text:'<span class="theFont">文件浏览…</span>',
+            button_text:'<span class="theFont">'+lang.browseFiles+'</span>',
             button_text_style:".theFont { font-size:14px;}",
             button_text_left_padding:10,
             button_text_top_padding:4,
@@ -92,13 +92,13 @@
                 var progress = new FileProgress(file, this.customSettings.progressTarget);
                 if(info.state=="SUCCESS"){
                     progress.setComplete();
-                    progress.setStatus("<span style='color: #0b0;font-weight: bold'>上传成功!</span>");
+                    progress.setStatus("<span style='color: #0b0;font-weight: bold'>"+lang.uploadSuccess+"</span>");
                     filesList.push({url:info.url,type:info.fileType,original:info.original});
-                    progress.toggleCancel(true,this,"从成功队列中移除");
+                    progress.toggleCancel(true,this,lang.delSuccessFile);
                 }else{
                     progress.setError();
                     progress.setStatus(info.state);
-                    progress.toggleCancel(true,this,"移除保存失败文件");
+                    progress.toggleCancel(true,this,lang.delFailSaveFile);
                 }
 
             },
@@ -107,14 +107,14 @@
             //队列完成回调
             queue_complete_handler:function(numFilesUploaded){
                 dialog.buttons[0].setDisabled(false);
-                var status = $G("divStatus");
-                var num = status.innerHTML.match(/\d+/g);
-                status.innerHTML = "本次共成功上传 "+((num && num[0] ?parseInt(num[0]):0) + numFilesUploaded) +" 个文件" ;
+//                var status = $G("divStatus");
+//                var num = status.innerHTML.match(/\d+/g);
+//                status.innerHTML = ((num && num[0] ?parseInt(num[0]):0) + numFilesUploaded) +lang.statusPrompt;
             }
         };
         swfupload = new SWFUpload( settings );
-		swfupload.addPostParam("username",GetCookie("username"));
-		swfupload.addPostParam("password",GetCookie("password"));
+	swfupload.addPostParam("username",GetCookie("username"));
+	swfupload.addPostParam("password",GetCookie("password"));
         //点击OK按钮
         dialog.onok = function(){
             var map = fileTypeMaps,
