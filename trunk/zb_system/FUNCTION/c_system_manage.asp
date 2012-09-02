@@ -1309,18 +1309,22 @@ Function ExportFileReBuildAsk()
 
 	Response.Write "<p><input class=""button"" type=""submit"" value="""&ZC_MSG087&""" id=""btnPost""/>"
 
-	Response.Write "<script type=""text/javascript"">if(window.webkitNotifications&&(!window.webkitNotifications.checkPermission() == 0)){document.write('&nbsp;&nbsp;&nbsp;&nbsp;<input class=""button"" onclick=""window.webkitNotifications.requestPermission();return false;"" type=""submit"" value="""&ZC_MSG263&""" id=""btnPost""/>')}</script>"	
+	Response.Write "&nbsp;&nbsp;&nbsp;&nbsp;<input style=""display:none;"" class=""button"" type=""button"" onclick='$(this).prop({disabled: true});BatchCancel()' value="""&ZC_MSG264&"""/>"
+
+	Response.Write "<script type=""text/javascript"">if(window.webkitNotifications&&(!window.webkitNotifications.checkPermission() == 0)){document.write('&nbsp;&nbsp;&nbsp;&nbsp;<input class=""button"" onclick=""window.webkitNotifications.requestPermission();return false;"" type=""button"" value="""&ZC_MSG263&"""/>')}</script>"	
 
 	Response.Write "</p>" & vbCrlf
 	Response.Write "</form>" 
 
 	Response.Write "</div>"
 
-	Response.Write "<script type=""text/javascript"">ActiveLeftMenu(""aAskFileReBuild"");</script>"
-	Response.Write "<script type=""text/javascript"">	ActiveTopMenu(""topmenu3"");</script>"
 
-	Response.Write "<script type=""text/javascript"">function BatchBegin(){$(""input[type='submit']"").prop({disabled: true});};</script>"
-	Response.Write "<script type=""text/javascript"">function BatchEnd(){$(""input[type='submit']"").prop({disabled: false});};</script>"
+
+	Response.Write "<script type=""text/javascript"">ActiveLeftMenu(""aAskFileReBuild"");</script>"
+	Response.Write "<script type=""text/javascript"">ActiveTopMenu(""topmenu3"");</script>"
+
+	Response.Write "<script type=""text/javascript"">function BatchBegin(){$(""input[type='submit']"").prop({disabled: true});$(""input[type='button']"").show();};</script>"
+	Response.Write "<script type=""text/javascript"">function BatchEnd(){$(""input[type='submit']"").prop({disabled: false});$(""input[type='button']"").hide();};</script>"
 
 	ExportFileReBuildAsk=True
 

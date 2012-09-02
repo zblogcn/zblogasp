@@ -193,7 +193,7 @@ function BatchContinue(){$("#batch p").before("<iframe style='width:20px;height:
 function BatchBegin(){};
 function BatchEnd(){};
 function BatchNotify(){notify($("#batch p").html())}
-
+function BatchCancel(){$("#batch iframe").remove();$("#batch p").before("<iframe style='width:20px;height:20px;' frameborder='0' scrolling='no' src='<%=BlogHost%>zb_system/cmd.asp?act=batch&cancel=true'></iframe>");};
 
 
 
