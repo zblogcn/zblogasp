@@ -105,20 +105,7 @@ Next
 	<script type="text/javascript" src="../script/jquery.tagto.js"></script>
 	<script type="text/javascript" charset="utf-8" src="ueditor/editor_config.asp"></script>
 	<script type="text/javascript" charset="utf-8" src="ueditor/editor_all.js"></script>
-	<script type="text/javascript">
-	var loaded=false;
-	var editor = new baidu.editor.ui.Editor();
-	var editor2 = new baidu.editor.ui.Editor({
-		toolbars:[['Source', 'Undo', 'Redo']],
-		autoClearinitialContent:false,
-		wordCount:false,
-		elementPathEnabled:false,
-		autoFloatEnabled:false,
-		autoHeightEnabled:false,
-		minFrameHeight:200,
-		highlightJsUrl:"<%=BlogHost%>ZB_SYSTEM/ADMIN/uEditor/third-party/SyntaxHighlighter/shCore.js" 
-		,highlightCssUrl:"<%=BlogHost%>ZB_SYSTEM/ADMIN/uEditor/third-party/SyntaxHighlighter/shCoreDefault.css"
-	});</script>
+
 <!--#include file="admin_top.asp"-->
 <%If IsPage=False Then%>
 <%If EditArticle.ID=0 Then%>
@@ -429,7 +416,19 @@ End If
 </div>
 <script type="text/javascript">
 // <![CDATA[
-
+	var loaded=false;
+	var editor = new baidu.editor.ui.Editor();
+	var editor2 = new baidu.editor.ui.Editor({
+		toolbars:[['Source', 'Undo', 'Redo']],
+//		autoClearinitialContent:false,
+//		wordCount:false,
+//		elementPathEnabled:false,
+//		autoFloatEnabled:false,
+		autoHeightEnabled:false,
+		minFrameHeight:200,
+		highlightJsUrl:"<%=BlogHost%>ZB_SYSTEM/ADMIN/uEditor/third-party/SyntaxHighlighter/shCore.js" 
+		,highlightCssUrl:"<%=BlogHost%>ZB_SYSTEM/ADMIN/uEditor/third-party/SyntaxHighlighter/shCoreDefault.css"
+	});
 	editor.render('ueditor');
 	editor2.render('ueditor2');
 
