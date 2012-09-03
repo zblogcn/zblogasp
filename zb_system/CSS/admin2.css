@@ -467,11 +467,8 @@ span.note{
 	color:#383838;
 }
 
-.SubMenu span.m-left,.SubMenu a.m-a-left{
+.SubMenu span.m-left,.SubMenu span.m-right{
 	float:left;
-}
-.SubMenu span.m-right,.SubMenu a.m-a-right{
-	float:right;
 }
 
 .SubMenu a:hover {
