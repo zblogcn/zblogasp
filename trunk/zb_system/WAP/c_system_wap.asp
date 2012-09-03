@@ -40,7 +40,7 @@ Function WapSearch()
 				
 End Function
 '*********************************************************
-' 目的：    导航
+' 目的：    底部导航
 '*********************************************************
 Function WapNav()
 		Response.Write "<div class=""t2""></div>"		
@@ -116,8 +116,9 @@ Public Function WapTitle(strCom,strBrowserTitle)
 		Dim Category
 		WapTitle = WapTitle & "<div class=""h"">"
 		    WapTitle = WapTitle & "<a href="""&WapUrlStr&""">"&ZC_MSG213&"</a><b>|</b>"
+			Categorys(0).Count=objConn.Execute("SELECT COUNT([log_ID]) FROM [blog_Article] WHERE [log_Level]>1 AND [log_Type]=0 AND [log_CateID]=0")(0)
 			For Each Category in Categorys
-				If IsObject(Category) Then
+				If IsObject(Category) And Category.Count>0 Then
 					WapTitle = WapTitle & "<a href="""&WapUrlStr&"?act=Main&amp;cate="&Category.ID&""">"&TransferHTML(Category.Name,"[html-format]")&"</a><b>|</b>"
 				End If
 			Next
@@ -154,32 +155,41 @@ End Function
 ' 目的：    登录页面
 '*********************************************************
 Function WapLogin()
-	Dim User,Password
 
-	User=Request.Form("username")
-	Password=Request.Form("password")
-	Call CheckParameter(User,"sql",Empty)
-	Call CheckParameter(Password,"sql",Empty)
+	Dim u,p
+	u=Request.Form("username")
+	p=Request.Form("password")
+	Call CheckParameter(u,"sql",Empty)
+	Call CheckParameter(p,"sql",Empty)
 
-	If IsEmpty(User) OR IsEmpty(Password) Then
-		Response.Write WapTitle(ZC_MSG009,"")
+	BlogUser.LoginType="Self"
+	BlogUser.Name=u
+	BlogUser.PassWord=BlogUser.GetPasswordByMD5(md5(p))
+
+	If IsEmpty(u) OR IsEmpty(p) Then
+		If Request.Form("sig")=1 Then 
+			Response.Write WapTitle(ZC_MSG010,ZC_MSG009)
+		Else 
+			Response.Write WapTitle(ZC_MSG009,"")
+		End If 
 		Response.Write "    <form method=""post"" action="""&WapUrlStr&"?act=Login""> "
+		Response.Write "    <input type=""hidden"" name=""sig"" id=""sig"" value=""1"" />"
 		Response.Write "	<p>"&ZC_MSG001&"：<input type=""text"" name=""username"" size=""12"" value="""" /></p>"
 		Response.Write "	<p>"&ZC_MSG002&"：<input type=""password"" name=""password"" size=""12"" value="""" /></p>"
 		Response.Write "	<p><input name=""btnSumbit"" type=""submit"" value="""&ZC_MSG087&"""/> </p> "
 		Response.Write "	</form> "
 	Else
-		Response.Cookies("password")=md5(Password)
-		Response.Cookies("password").Expires=Date+365
-		session(ZC_BLOG_CLSID&"password")=md5(Password)
-		Response.Cookies("username")=User
-		Response.Cookies("username").Expires=Date+365
-		session(ZC_BLOG_CLSID&"username")=User
-		
+		Response.Cookies("username")=escape(u)
+		Response.Cookies("username").Expires=Date+30
+		Response.Cookies("username").Path = "/"
 
 		If BlogUser.Verify=False Then
 			Call ShowError(8)
 		Else
+			Response.Cookies("password")=BlogUser.PassWord
+			Response.Cookies("password").Expires=Date+30
+			Response.Cookies("password").Path = "/"
+
 			Response.Write WapMain()
 		End If
 
@@ -193,27 +203,10 @@ End Function
 ' 目的：    检查登录
 '*********************************************************
 Function WapCheckLogin()
-	Dim username,password,s
-		username=Request.Form("username")
-		password=Request.Form("password")
-	If (Not IsEmpty(Request.Cookies("username"))) And (Not IsEmpty(Request.Cookies("password"))) Then
-		username=Request.Cookies("username")
-		password=Request.Cookies("password")
-		session(ZC_BLOG_CLSID&"username")=username
-		session(ZC_BLOG_CLSID&"password")=password
-	ElseIf (Not IsEmpty(session(ZC_BLOG_CLSID&"username"))) And (Not IsEmpty(session(ZC_BLOG_CLSID&"password"))) Then
-		username=session(ZC_BLOG_CLSID&"username")
-		password=session(ZC_BLOG_CLSID&"password")
-		Request.Cookies("username")=username
-		Request.Cookies("password")=password
-	End If
+	Dim s
 
-	BlogUser.LoginType="Self"
-	BlogUser.Password=password
-	BlogUser.Name=username
+	BlogUser.LoginType="Cookies"
 	BlogUser.Verify
-
-
 
 	s=BlogUser.Name&" "&ZVA_User_Level_Name(BlogUser.Level)&""
 	If BlogUser.ID<>0 Then
