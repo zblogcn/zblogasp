@@ -312,6 +312,8 @@ End Function
 '*********************************************************
 Function WapEdtArt()
 
+	Dim Log_ID
+	Log_ID=Request.QueryString("id")
 	'检查非法链接
 	Call CheckReference("")
 
