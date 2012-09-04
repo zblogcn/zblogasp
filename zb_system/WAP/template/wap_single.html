@@ -1,14 +1,15 @@
 <div class="s"><#article/PageContent#></div>
-<p class="a">Tags:<#article/tagtoname#> |  <#article/posttime/shortdate#> | <a href="<#ZC_FILENAME_WAP#>?act=AddCom&amp;inpId=<#article/id#>"><#ZC_MSG024#></a>
-<#adbegin#> | <a href="<#ZC_FILENAME_WAP#>?act=DelArt&amp;id=<#article/id#>&amp;t=<#article/title#>"><#ZC_MSG063#></a><#adend#>
+<p class="a"> <#article/posttime/shortdate#> | Tags:<#article/tagtoname#> | <a  href="<#ZC_FILENAME_WAP#>?act=Main&amp;cate=<#article/category/id#>"><#article/category/name#></a> | <a  href="<#ZC_FILENAME_WAP#>?act=Com&amp;id=<#article/id#>"><#ZC_MSG212#>(<#article/commnums#>)</a>
 </p>
 <div id="m">
 <h3>相关文章:</h3><ul>
-<#template:article_mutuality#>
+<#article/wapmutuality#>
 </ul>
 </div>
 <div class="t2"></div>	
 <div id="nav">
-<a  accesskey="7"  href="<#ZC_FILENAME_WAP#>?act=Main&amp;cate=<#article/category/id#>"><#article/category/name#></a><b>|</b>
-<a  accesskey="8"  href="<#ZC_FILENAME_WAP#>?act=Com&amp;id=<#article/id#>"><#ZC_MSG212#></a>(<#article/commnums#>)<b>|</b>
-<a  accesskey="9"  href="<#article/url#>">电脑版</a>
+<a href="<#ZC_FILENAME_WAP#>?act=AddCom&amp;inpId=<#article/id#>"><#ZC_MSG024#></a><b>|</b>
+<#adbegin#><a href="<#ZC_FILENAME_WAP#>?act=EdtArt&amp;id=<#article/id#>&amp;t=<#article/title#>">编辑文章</a><b>|</b>
+<a href="<#ZC_FILENAME_WAP#>?act=DelArt&amp;id=<#article/id#>&amp;t=<#article/title#>">删除文章</a><b>|</b><#adend#>
+<a  href="<#article/url#>">电脑版</a>
+</div>

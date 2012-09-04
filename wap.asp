@@ -35,9 +35,10 @@
 <%
 Call System_Initialize()
 
-If TemplateDic.Exists("TEMPLATE_WAP_ARTICLE_COMMENT")=False Then Call TemplateDic.add("TEMPLATE_WAP_ARTICLE_COMMENT",LoadFromFile(BlogPath &"zb_system\wap\template\wap_article_comment","utf-8"))
+If TemplateDic.Exists("TEMPLATE_WAP_ARTICLE_COMMENT")=False Then Call TemplateDic.add("TEMPLATE_WAP_ARTICLE_COMMENT",LoadFromFile(BlogPath &"zb_system\wap\template\wap_article_comment.html","utf-8"))
 If TemplateDic.Exists("TEMPLATE_WAP_ARTICLE-MULTI")=False Then Call TemplateDic.add("TEMPLATE_WAP_ARTICLE-MULTI",LoadFromFile(BlogPath &"zb_system\wap\template\wap_article-multi.html","utf-8"))
 If TemplateDic.Exists("TEMPLATE_WAP_SINGLE")=False Then Call TemplateDic.add("TEMPLATE_WAP_SINGLE",LoadFromFile(BlogPath &"zb_system\wap\template\wap_single.html","utf-8"))
+If TemplateDic.Exists("TEMPLATE_WAP_ARTICLE_MUTUALITY")=False Then Call TemplateDic.add("TEMPLATE_WAP_ARTICLE_MUTUALITY",LoadFromFile(BlogPath &"zb_system\wap\template\wap_article_mutuality.html","utf-8"))
 
 PubLic intPageCount
 	Select Case Request.QueryString("act")
@@ -67,6 +68,8 @@ PubLic intPageCount
 			Call WapDelCom()
 		Case "AddArt"
 		    Call WapEdtArt()
+		Case "EdtArt"
+		    Call WapEdtArt()		
 		Case "PostArt"
 		    Call WapPostArt()
 		Case "DelArt"
