@@ -1,5 +1,5 @@
-body,ul,ol,form{margin:0 0;padding:0 0}
-body {font: 14px/1.6 arial,sans-serif;}
+﻿body,ul,ol,form{margin:0 0;padding:0 0}
+body{font:14px/1.6 Arial,sans-serif;}
 ul,ol{list-style:none}
 ol li{list-style-type:decimal}
 h1{background:#fefeff;font-size:large;border-bottom:2px solid #00aad5}
@@ -8,11 +8,17 @@ h2,li,.t2{border-bottom:1px solid #ccc}.t2{background:#d9f4f4;}
 h2.t1{background:#C2EFEF} h2 b{color: #FF6347}
 h3{color:#999;}
 div{display: block;} div#nav,div.adm{color:#666;margin:1px 2px;}
+a:link{color:#369;text-decoration:none}a:visited{color:#669;text-decoration:none}a:hover{color:#fff;text-decoration:none;background:#00a8d2}a:active{color:#fff;text-decoration:none;background:#f93}
+b{color:#ddd;margin: 0 3px;}
 .h{background:#fefeff;color:#333;margin:1px 2px;}
 .n{border:1px solid #ffed00;background:#fffcaa}
-.t,.a,.stamp,#ft,#m h3,#m li{color:#666;font-size:small;margin:2px;}
-a:link{color:#369;text-decoration:none}a:visited{color:#669;text-decoration:none}a:hover{color:#fff;text-decoration:none;background:#00a8d2}a:active{color:#fff;text-decoration:none;background:#f93}
+.a,.stamp,#ft,#m h3,#m li{color:#666;font-size:small;margin:2px;}
+.t{color:#666;margin:2px;}
+.s{word-break:break-all;word-wrap:break-word;}
 .i{width:78%;padding:2px 0;margin:auto;}
- b{color:#ddd;margin: 0 3px;}
+pre,blockquote{background:#F4F4F4;border-left:5px solid #ececec;margin:5px 3px;padding:5px;}
+pre{background:#F3F7F7;border-left:5px solid #D9F8F8;}
+table{border-collapse:collapse;}
+input[type="submit"]{margin:3px;padding:3px 15px;}
 
- /* 最后修改:    2011-7-23*/
+ /* 最后修改:    2012-9-4*/
