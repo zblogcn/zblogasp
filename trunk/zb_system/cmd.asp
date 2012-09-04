@@ -785,6 +785,7 @@ Function UserCrt()
 	End If
 End Function
 
+
 Function UserEdt()
 
 	'plugin node
@@ -792,15 +793,26 @@ Function UserEdt()
 		If Not IsEmpty(sAction_Plugin_UserEdt_Begin) Then Call Execute(sAction_Plugin_UserEdt_Begin)
 		If bAction_Plugin_UserEdt_Begin=True Then Exit Function
 	Next
+	Response.Redirect "admin/edit_user.asp?id=" & Request.QueryString("id")
+End Function
+
+
+Function UserMod()
+
+	'plugin node
+	For Each sAction_Plugin_UserMod_Begin in Action_Plugin_UserMod_Begin
+		If Not IsEmpty(sAction_Plugin_UserMod_Begin) Then Call Execute(sAction_Plugin_UserMod_Begin)
+		If bAction_Plugin_UserMod_Begin=True Then Exit Function
+	Next
 
 	If EditUser Then
 		Call SetBlogHint(True,True,Empty)
 		Call MakeBlogReBuild_Core()
 
 		'plugin node
-		For Each sAction_Plugin_UserEdt_Succeed in Action_Plugin_UserEdt_Succeed
-			If Not IsEmpty(sAction_Plugin_UserEdt_Succeed) Then Call Execute(sAction_Plugin_UserEdt_Succeed)
-			If bAction_Plugin_UserEdt_Succeed=True Then Exit Function
+		For Each sAction_Plugin_UserMod_Succeed in Action_Plugin_UserMod_Succeed
+			If Not IsEmpty(sAction_Plugin_UserMod_Succeed) Then Call Execute(sAction_Plugin_UserMod_Succeed)
+			If bAction_Plugin_UserMod_Succeed=True Then Exit Function
 		Next
 
 		If CInt(Request.Form("edtID"))=BlogUser.ID And Trim(Request.Form("edtPassWord"))<>"" Then

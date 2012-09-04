@@ -932,6 +932,31 @@ Dim bAction_Plugin_UserEdt_Begin
 Dim sAction_Plugin_UserEdt_Begin
 
 
+
+'**************************************************<
+'类型:action
+'名称:Action_Plugin_UserMod_Begin
+'参数:无
+'说明:
+'**************************************************>
+Dim Action_Plugin_UserMod_Begin()
+ReDim Action_Plugin_UserMod_Begin(0)
+Dim bAction_Plugin_UserMod_Begin
+Dim sAction_Plugin_UserMod_Begin
+
+
+'**************************************************<
+'类型:action
+'名称:Action_Plugin_UserMod_Succeed
+'参数:无
+'说明:
+'**************************************************>
+Dim Action_Plugin_UserMod_Succeed()
+ReDim Action_Plugin_UserMod_Succeed(0)
+Dim bAction_Plugin_UserMod_Succeed
+Dim sAction_Plugin_UserMod_Succeed
+
+
 '**************************************************<
 '类型:action
 '名称:Action_Plugin_UserDel_Begin
@@ -954,18 +979,6 @@ Dim Action_Plugin_UserCrt_Succeed()
 ReDim Action_Plugin_UserCrt_Succeed(0)
 Dim bAction_Plugin_UserCrt_Succeed
 Dim sAction_Plugin_UserCrt_Succeed
-
-
-'**************************************************<
-'类型:action
-'名称:Action_Plugin_UserEdt_Succeed
-'参数:无
-'说明:
-'**************************************************>
-Dim Action_Plugin_UserEdt_Succeed()
-ReDim Action_Plugin_UserEdt_Succeed(0)
-Dim bAction_Plugin_UserEdt_Succeed
-Dim sAction_Plugin_UserEdt_Succeed
 
 
 '**************************************************<

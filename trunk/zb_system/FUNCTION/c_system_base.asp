@@ -595,6 +595,8 @@ Function GetRights(strAction)
 			GetRights=4
 		Case "UserEdt"
 			GetRights=4
+		Case "UserMod"
+			GetRights=4
 		Case "UserDel"
 			GetRights=1
 		Case "UserCrt"

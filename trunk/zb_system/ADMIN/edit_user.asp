@@ -155,7 +155,7 @@ Next
 		}
 		else{
 
-			document.getElementById("edit").action="../cmd.asp?act=UserEdt"
+			document.getElementById("edit").action="../cmd.asp?act=UserMod"
 
 			if(document.getElementById("edtName").value==""){
 				alert(str13);

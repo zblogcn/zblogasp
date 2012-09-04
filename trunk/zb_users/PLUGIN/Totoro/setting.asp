@@ -296,6 +296,7 @@ function ChangeValue(obj){
 
 
 </script> 
+<script type="text/javascript">ActiveLeftMenu("aTotoro");$("#leftmenu #nav_totoro.on span").css("background-image","url('<%=GetCurrentHost%>zb_users/plugin/totoro/antivirus-alt2.png')")</script>
       </div>
     </div>
     <!--#include file="..\..\..\zb_system\admin\admin_footer.asp"-->

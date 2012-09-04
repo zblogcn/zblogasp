@@ -3,7 +3,7 @@
 <div id="header">
   <div class="top">
     <div class="logo"><img src="<%=BlogHost%>zb_system/image/admin/logo.png" alt="Z-Blog" title="Z-Blog"/></div>
-    <div class="user"> <img src="<%=BlogHost%>zb_system/image/admin/avatar.png" width="40" height="40" id="avatar" alt="Avatar" />
+    <div class="user"> <a href="<%=BlogHost%>zb_system/cmd.asp?act=UserEdt&amp;id=<%=BlogUser.ID%>" title="<%=ZC_MSG078%>"><img src="<%=BlogHost%>zb_system/image/admin/avatar.png" width="40" height="40" id="avatar" alt="Avatar" /></a>
       <div class="username"><%=ZVA_User_Level_Name(BlogUser.Level)%>：<%=BlogUser.Name%></div>
       <div class="userbtn"><a class="profile" href="<%=BlogHost%>" title="" target="_blank"><%=ZC_MSG065%></a>&nbsp;&nbsp;<a class="logout" href="<%=BlogHost%>ZB_SYSTEM/cmd.asp?act=logout" title=""><%=ZC_MSG020%></a></div>
     </div>

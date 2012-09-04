@@ -626,7 +626,7 @@ Function ExportUserList(intPage)
 			Response.Write "<td>" & objRS("mem_PostLogs") & "</td>"
 			Response.Write "<td>" & objRS("mem_PostComms") & "</td>"
 
-			Response.Write "<td align=""center""><a href=""edit_user.asp?id="& objRS("mem_ID") &"""><img src=""../image/admin/user_edit.png"" alt=""" & ZC_MSG078 & """ title=""" & ZC_MSG078 & """ width=""16"" /></a>&nbsp;&nbsp;&nbsp;&nbsp;<a onclick='return window.confirm("""& ZC_MSG058 &""");' href=""../cmd.asp?act=UserDel&amp;id="& objRS("mem_ID") &"""><img src=""../image/admin/delete.png"" alt=""" & ZC_MSG063 & """ title=""" & ZC_MSG063 & """ width=""16"" /></a></td>"
+			Response.Write "<td align=""center""><a href=""../cmd.asp?act=UserEdt&amp;id="& objRS("mem_ID") &"""><img src=""../image/admin/user_edit.png"" alt=""" & ZC_MSG078 & """ title=""" & ZC_MSG078 & """ width=""16"" /></a>&nbsp;&nbsp;&nbsp;&nbsp;<a onclick='return window.confirm("""& ZC_MSG058 &""");' href=""../cmd.asp?act=UserDel&amp;id="& objRS("mem_ID") &"""><img src=""../image/admin/delete.png"" alt=""" & ZC_MSG063 & """ title=""" & ZC_MSG063 & """ width=""16"" /></a></td>"
 
 			Response.Write "</tr>"
 

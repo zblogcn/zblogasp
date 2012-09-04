@@ -54,6 +54,8 @@ Function ActivePlugin_Totoro()
 	'网站管理加上二级菜单项
 	Call Add_Response_Plugin("Response_Plugin_SettingMng_SubMenu",MakeSubMenu("Totoro设置",GetCurrentHost() & "zb_users/plugin/totoro/setting.asp","m-left",False))
 
+	Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(1,"TotoroⅢ",GetCurrentHost&"zb_users/plugin/totoro/main.asp","nav_totoro","aTotoro",GetCurrentHost&"zb_users/plugin/totoro/antivirus-alt.png"))
+
 End Function
 
 
@@ -175,7 +177,7 @@ Function Totoro_chkComment(ByRef objComment)
 	Call Totoro_checkChinese(strTemp)
 	
 	objComment.Content=Totoro_replaceWord(objComment.Content)
-	objComment.Name=Totoro_replaceWord(objComment.Name)
+	objComment.Author=Totoro_replaceWord(objComment.Author)
 	Response.AddHeader "Totoro_SV",Totoro_SV
 	Dim o
 	
