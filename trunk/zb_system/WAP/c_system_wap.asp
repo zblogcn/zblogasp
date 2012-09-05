@@ -377,6 +377,7 @@ Function WapEdtArt()
 	Response.Write "<p>"&ZC_MSG138&"：<input name=""edtTag""  class=""i""  maxlength=""100"" value="""&TransferHTML(EditArticle.TagToName,"[html-format]")&""" /></p>"
 	'cate
 	Response.Write "<p>"&ZC_MSG012&" ：<select name=""edtCateID"">"
+	Response.Write "<option value=""0""></option>"
 	Dim aryCateInOrder : aryCateInOrder=GetCategoryOrder()
 	Dim m,n
 	For m=LBound(aryCateInOrder)+1 To Ubound(aryCateInOrder)
@@ -437,10 +438,10 @@ End Function
 ' 目的：    文章发表
 '*********************************************************
 Function WapPostArt()
-	If PostArticle() Then
-		'Call MakeBlogReBuild_Core()
+	If PostArticle() Then		
 		Response.Write "<p class=""n"">"&ZC_MSG266&"</p>"	
 		Response.Write WapMain()
+		Call MakeBlogReBuild_Core()
 	End If
 End Function
 
@@ -1124,6 +1125,10 @@ Function WapExport(intPage,intCateId,intAuthorId,dtmYearMonth,strTagsName,intTyp
 		Dim strDTitle
 		If Title="" Then strDTitle=ZC_BLOG_TITLE
 
+		'处理置顶
+		If (intType=ZC_DISPLAY_MODE_ALL  And IsEmpty(intCateId) And IsEmpty(intAuthorId) And Not IsDate(dtmYearMonth) And IsEmpty(strTagsName)) Then	objRS.Source=objRS.Source & " AND ([log_Istop]=0) "
+
+			
 		objRS.Source=objRS.Source & "ORDER BY [log_PostTime] DESC,[log_ID] DESC"
 		objRS.Open()
 
@@ -1167,15 +1172,17 @@ Function WapExport(intPage,intCateId,intAuthorId,dtmYearMonth,strTagsName,intTyp
 		objRS.Close()
 		Set objRS=Nothing
 			
-			Dim Template_Article_Multi
-			Template_Article_Multi=Join(aryArticleList)
+		Dim Template_Article_Multi
+		Template_Article_Multi=Join(aryArticleList)
+		'处理置顶
+		If (intType=ZC_DISPLAY_MODE_ALL And intPage=1 And IsEmpty(intCateId) And IsEmpty(intAuthorId) And Not IsDate(dtmYearMonth) And IsEmpty(strTagsName)) Then Template_Article_Multi=WapExportTop() & Template_Article_Multi
 
-		Dim Template_Calendar
-		If IsEmpty(Template_Calendar) Or Len(Template_Calendar)=0 Then
-			Application.Lock
-			Template_Calendar=Application(ZC_BLOG_CLSID & "CACHE_INCLUDE_CALENDAR")
-			Application.UnLock
-		End If
+'		Dim Template_Calendar
+'		If IsEmpty(Template_Calendar) Or Len(Template_Calendar)=0 Then
+'			Application.Lock
+'			Template_Calendar=Application(ZC_BLOG_CLSID & "CACHE_INCLUDE_CALENDAR")
+'			Application.UnLock
+'		End If
 		
 
 		Dim aryTemplateTagsName,aryTemplateTagsValue
@@ -1205,9 +1212,56 @@ Function WapExport(intPage,intCateId,intAuthorId,dtmYearMonth,strTagsName,intTyp
 			Template_Article_Multi= objRegExp.Replace(Template_Article_Multi,"")
 		End If
 		
+
+
 		WapExport= WapTitle(Title,strDTitle) & "<ul>"&Template_Article_Multi&"</ul>"
 
 End Function
+
+
+
+'*********************************************************
+' 目的：    查看置顶
+'*********************************************************
+Function WapExportTop()
+		Dim i
+		Dim objRS
+		Dim objArticle
+
+		Set objRS=Server.CreateObject("ADODB.Recordset")
+		objRS.CursorType = adOpenKeyset
+		objRS.LockType = adLockReadOnly
+		objRS.ActiveConnection=objConn
+		objRS.Source="SELECT [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_Type],[log_Meta] FROM [blog_Article] WHERE ([log_ID]>0) AND ([log_Level]>1) AND ([log_Type]="&ZC_POST_TYPE_ARTICLE&") AND ([log_Istop]<>0) "
+		
+		objRS.Source=objRS.Source & "ORDER BY [log_PostTime] DESC,[log_ID] DESC"
+		objRS.Open()
+
+		If (Not objRS.bof) And (Not objRS.eof) Then
+
+			For i = 1 To objRS.RecordCount
+				ReDim Preserve aryArticleList(i)
+				Set objArticle=New TArticle
+				If objArticle.LoadInfoByArray(Array(objRS(0),objRS(1),objRS(2),objRS(3),objRS(4),objRS(5),objRS(6),objRS(7),objRS(8),objRS(9),objRS(10),objRS(11),objRS(12),objRS(13),objRS(14),objRS(15),objRS(16),objRS(17))) Then
+					objArticle.Template="WAP_ARTICLE-MULTI-ISTOP"
+					If objArticle.Export(ZC_DISPLAY_MODE_ALL)= True Then
+						aryArticleList(i)=objArticle.html
+					End If
+				End If
+				Set objArticle=Nothing
+
+				objRS.MoveNext
+				If objRS.EOF Then Exit For
+			Next
+		Else
+			Exit Function
+		End If
+		objRS.Close()
+		Set objRS=Nothing
+	WapExportTop=Join(aryArticleList)
+
+End Function
+
 
 
 '*********************************************************
