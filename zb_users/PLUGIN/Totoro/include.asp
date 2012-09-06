@@ -52,7 +52,7 @@ Function ActivePlugin_Totoro()
 	'Action_Plugin_Admin_Begin
 	Call Add_Action_Plugin("Action_Plugin_Admin_Begin","If Request.QueryString(""act"")=""CommentMng"" Then Call Totoro_GetSpamCount_Comment() End If")
 	'网站管理加上二级菜单项
-	Call Add_Response_Plugin("Response_Plugin_SettingMng_SubMenu",MakeSubMenu("Totoro设置",GetCurrentHost() & "zb_users/plugin/totoro/setting.asp","m-left",False))
+	'Call Add_Response_Plugin("Response_Plugin_SettingMng_SubMenu",MakeSubMenu("Totoro设置",GetCurrentHost() & "zb_users/plugin/totoro/setting.asp","m-left",False))
 
 	Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(1,"TotoroⅢ",GetCurrentHost&"zb_users/plugin/totoro/main.asp","nav_totoro","aTotoro",GetCurrentHost&"zb_users/plugin/totoro/antivirus-alt.png"))
 

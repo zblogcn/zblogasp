@@ -115,14 +115,14 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG247
 	strZC_BLOG_MASTER=TransferHTML(ZC_BLOG_MASTER,"[html-format]")
 
 	Response.Write "<div class=""tab-content default-tab"" style='border:none;padding:0px;margin:0;' id=""tab1"">"
-	Response.Write "<p style='display:none;'><input id=""edtZC_BLOG_HOST"" name=""edtZC_BLOG_HOST"" style=""width:500px;"" type=""text"" value=""" & strZC_BLOG_HOST & """ /></p>"
+	Response.Write "<p style='display:none;'><input id=""edtZC_BLOG_HOST"" name=""edtZC_BLOG_HOST"" style=""width:600px;"" type=""text"" value=""" & strZC_BLOG_HOST & """ /></p>"
 	Response.Write "<table width='100%' style='padding:0px;margin:0px;' cellspacing='0' cellpadding='0'>"
-	'Response.Write "<tr><td width='30%'>" & SplitNameAndNote(ZC_MSG104) & "</td><td><p><input id=""edtZC_BLOG_HOST"" name=""edtZC_BLOG_HOST"" style=""width:500px;"" type=""text"" value=""" & strZC_BLOG_HOST & """ /></p></td></tr>"
-	Response.Write "<tr><td width='30%'>" & SplitNameAndNote(ZC_MSG091) & "</td><td><p><input id=""edtZC_BLOG_NAME"" name=""edtZC_BLOG_NAME"" style=""width:500px;"" type=""text"" value=""" & strZC_BLOG_NAME & """ /></p></td></tr>"
-	Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG092) & "</td><td><p><input id=""edtZC_BLOG_SUB_NAME"" name=""edtZC_BLOG_SUB_NAME"" style=""width:500px;""  type=""text"" value=""" & strZC_BLOG_SUB_NAME & """ /></p></td></tr>"
-	Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG093) & "</td><td><p><input id=""edtZC_BLOG_TITLE"" name=""edtZC_BLOG_TITLE"" style=""width:500px;""  type=""text"" value=""" & strZC_BLOG_TITLE &""" /></p></td></tr>"
-	Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG094) & "</td><td><p><input id=""edtZC_BLOG_SUBTITLE"" name=""edtZC_BLOG_SUBTITLE"" style=""width:500px;""  type=""text"" value=""" & strZC_BLOG_SUBTITLE & """ /></p></td></tr>"
-	Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG096) & "</td><td><p><textarea cols=""3"" rows=""6"" id=""edtZC_BLOG_COPYRIGHT"" name=""edtZC_BLOG_COPYRIGHT"" style=""width:500px;"">" & strZC_BLOG_COPYRIGHT & "</textarea></p></td></tr>"
+	'Response.Write "<tr><td width='30%'>" & SplitNameAndNote(ZC_MSG104) & "</td><td><p><input id=""edtZC_BLOG_HOST"" name=""edtZC_BLOG_HOST"" style=""width:600px;"" type=""text"" value=""" & strZC_BLOG_HOST & """ /></p></td></tr>"
+	Response.Write "<tr><td width='30%'>" & SplitNameAndNote(ZC_MSG091) & "</td><td><p><input id=""edtZC_BLOG_NAME"" name=""edtZC_BLOG_NAME"" style=""width:600px;"" type=""text"" value=""" & strZC_BLOG_NAME & """ /></p></td></tr>"
+	Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG092) & "</td><td><p><input id=""edtZC_BLOG_SUB_NAME"" name=""edtZC_BLOG_SUB_NAME"" style=""width:600px;""  type=""text"" value=""" & strZC_BLOG_SUB_NAME & """ /></p></td></tr>"
+	Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG093) & "</td><td><p><input id=""edtZC_BLOG_TITLE"" name=""edtZC_BLOG_TITLE"" style=""width:600px;""  type=""text"" value=""" & strZC_BLOG_TITLE &""" /></p></td></tr>"
+	Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG094) & "</td><td><p><input id=""edtZC_BLOG_SUBTITLE"" name=""edtZC_BLOG_SUBTITLE"" style=""width:600px;""  type=""text"" value=""" & strZC_BLOG_SUBTITLE & """ /></p></td></tr>"
+	Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG096) & "</td><td><p><textarea cols=""3"" rows=""6"" id=""edtZC_BLOG_COPYRIGHT"" name=""edtZC_BLOG_COPYRIGHT"" style=""width:600px;"">" & strZC_BLOG_COPYRIGHT & "</textarea></p></td></tr>"
 
 
 	Response.Write "</table>"
@@ -136,31 +136,31 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG247
 
 
 
-		ZC_BLOG_CLSID=TransferHTML(ZC_BLOG_CLSID,"[html-format]")
-		Response.Write "<tr><td width='30%'>" & SplitNameAndNote(ZC_MSG174) & "</td><td><p><input id=""edtZC_BLOG_CLSID"" name=""edtZC_BLOG_CLSID"" style=""width:500px;"" type=""text"" value=""" & ZC_BLOG_CLSID & """ /></p></td></tr>"
+		'ZC_BLOG_CLSID=TransferHTML(ZC_BLOG_CLSID,"[html-format]")
+		'Response.Write "<tr><td width='30%'>" & SplitNameAndNote(ZC_MSG174) & "</td><td><p><input id=""edtZC_BLOG_CLSID"" name=""edtZC_BLOG_CLSID"" style=""width:600px;"" type=""text"" value=""" & ZC_BLOG_CLSID & """ /></p></td></tr>"
 
 
 		ZC_TIME_ZONE=TransferHTML(ZC_TIME_ZONE,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG175) & "</td><td><p><input id=""edtZC_TIME_ZONE"" name=""edtZC_TIME_ZONE"" style=""width:500px;"" type=""text"" value=""" & ZC_TIME_ZONE & """ /></p></td></tr>"
+		Response.Write "<tr><td width='30%'>" & SplitNameAndNote(ZC_MSG175) & "</td><td><p><input id=""edtZC_TIME_ZONE"" name=""edtZC_TIME_ZONE"" style=""width:600px;"" type=""text"" value=""" & ZC_TIME_ZONE & """ /></p></td></tr>"
 
 
 
 
 		ZC_HOST_TIME_ZONE=TransferHTML(ZC_HOST_TIME_ZONE,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG206) & "</td><td><p><input id=""edtZC_HOST_TIME_ZONE"" name=""edtZC_HOST_TIME_ZONE"" style=""width:500px;"" type=""text"" value=""" & ZC_HOST_TIME_ZONE & """ /></p></td></tr>"
+		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG206) & "</td><td><p><input id=""edtZC_HOST_TIME_ZONE"" name=""edtZC_HOST_TIME_ZONE"" style=""width:600px;"" type=""text"" value=""" & ZC_HOST_TIME_ZONE & """ /></p></td></tr>"
 
 
 		ZC_BLOG_LANGUAGE=TransferHTML(ZC_BLOG_LANGUAGE,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG176) & "</td><td><p><input id=""edtZC_BLOG_LANGUAGE"" name=""edtZC_BLOG_LANGUAGE"" style=""width:500px;"" type=""text"" value=""" & ZC_BLOG_LANGUAGE & """ /></p></td></tr>"
+		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG176) & "</td><td><p><input id=""edtZC_BLOG_LANGUAGE"" name=""edtZC_BLOG_LANGUAGE"" style=""width:600px;"" type=""text"" value=""" & ZC_BLOG_LANGUAGE & """ /></p></td></tr>"
 
 
 
 		ZC_UPLOAD_FILETYPE=TransferHTML(ZC_UPLOAD_FILETYPE,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG183) & "</td><td><p><input id=""edtZC_UPLOAD_FILETYPE"" name=""edtZC_UPLOAD_FILETYPE"" style=""width:500px;"" type=""text"" value=""" & ZC_UPLOAD_FILETYPE & """ /></p></td></tr>"
+		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG183) & "</td><td><p><input id=""edtZC_UPLOAD_FILETYPE"" name=""edtZC_UPLOAD_FILETYPE"" style=""width:600px;"" type=""text"" value=""" & ZC_UPLOAD_FILETYPE & """ /></p></td></tr>"
 
 
 		ZC_UPLOAD_FILESIZE=TransferHTML(ZC_UPLOAD_FILESIZE,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG184) & "</td><td><p><input id=""edtZC_UPLOAD_FILESIZE"" name=""edtZC_UPLOAD_FILESIZE"" style=""width:500px;"" type=""text"" value=""" & ZC_UPLOAD_FILESIZE & """ /></p></td></tr>"
+		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG184) & "</td><td><p><input id=""edtZC_UPLOAD_FILESIZE"" name=""edtZC_UPLOAD_FILESIZE"" style=""width:600px;"" type=""text"" value=""" & ZC_UPLOAD_FILESIZE & """ /></p></td></tr>"
 
 
 		ZC_RSS_EXPORT_WHOLE=TransferHTML(ZC_RSS_EXPORT_WHOLE,"[html-format]")
@@ -175,11 +175,11 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG247
 
 
 		ZC_DISPLAY_COUNT=TransferHTML(ZC_DISPLAY_COUNT,"[html-format]")
-		Response.Write "<tr><td width='30%'>" & SplitNameAndNote(ZC_MSG190) & "</td><td><p><input id=""edtZC_DISPLAY_COUNT"" name=""edtZC_DISPLAY_COUNT"" style=""width:500px;"" type=""text"" value=""" & ZC_DISPLAY_COUNT & """ /></p></td></tr>"
+		Response.Write "<tr><td width='30%'>" & SplitNameAndNote(ZC_MSG190) & "</td><td><p><input id=""edtZC_DISPLAY_COUNT"" name=""edtZC_DISPLAY_COUNT"" style=""width:600px;"" type=""text"" value=""" & ZC_DISPLAY_COUNT & """ /></p></td></tr>"
 
 
 		ZC_SEARCH_COUNT=TransferHTML(ZC_SEARCH_COUNT,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG274) & "</td><td><p><input id=""edtZC_SEARCH_COUNT"" name=""edtZC_SEARCH_COUNT"" style=""width:500px;"" type=""text"" value=""" & ZC_SEARCH_COUNT & """ /></p></td></tr>"
+		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG274) & "</td><td><p><input id=""edtZC_SEARCH_COUNT"" name=""edtZC_SEARCH_COUNT"" style=""width:600px;"" type=""text"" value=""" & ZC_SEARCH_COUNT & """ /></p></td></tr>"
 
 
 		ZC_USE_NAVIGATE_ARTICLE=TransferHTML(ZC_USE_NAVIGATE_ARTICLE,"[html-format]")
@@ -187,14 +187,14 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG247
 
 
 		ZC_MUTUALITY_COUNT=TransferHTML(ZC_MUTUALITY_COUNT,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG230) & "</td><td><p><input id=""edtZC_MUTUALITY_COUNT"" name=""edtZC_MUTUALITY_COUNT"" style=""width:500px;"" type=""text"" value=""" & ZC_MUTUALITY_COUNT & """ /></p></td></tr>"
+		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG230) & "</td><td><p><input id=""edtZC_MUTUALITY_COUNT"" name=""edtZC_MUTUALITY_COUNT"" style=""width:600px;"" type=""text"" value=""" & ZC_MUTUALITY_COUNT & """ /></p></td></tr>"
 
 		ZC_COMMENT_TURNOFF=TransferHTML(ZC_COMMENT_TURNOFF,"[html-format]")
 		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG262) & "</td><td><p><input id=""edtZC_COMMENT_TURNOFF"" name=""edtZC_COMMENT_TURNOFF"" style="""" type=""text"" value=""" & ZC_COMMENT_TURNOFF & """ class=""checkbox""/></p></td></tr>"
 
 
 		ZC_COMMENTS_DISPLAY_COUNT=TransferHTML(ZC_COMMENTS_DISPLAY_COUNT,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG171) & "</td><td><p><input id=""edtZC_COMMENTS_DISPLAY_COUNT"" name=""edtZC_COMMENTS_DISPLAY_COUNT"" style=""width:500px;"" type=""text"" value=""" & ZC_COMMENTS_DISPLAY_COUNT & """/></p></td></tr>"
+		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG171) & "</td><td><p><input id=""edtZC_COMMENTS_DISPLAY_COUNT"" name=""edtZC_COMMENTS_DISPLAY_COUNT"" style=""width:600px;"" type=""text"" value=""" & ZC_COMMENTS_DISPLAY_COUNT & """/></p></td></tr>"
 
 
 		ZC_COMMENT_REVERSE_ORDER_EXPORT=TransferHTML(ZC_COMMENT_REVERSE_ORDER_EXPORT,"[html-format]")
@@ -214,16 +214,16 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG247
 
 
 		ZC_STATIC_DIRECTORY=TransferHTML(ZC_STATIC_DIRECTORY,"[html-format]")
-		Response.Write "<tr><td width='30%'>" & SplitNameAndNote(ZC_MSG178) & "</td><td><p><input id=""edtZC_STATIC_DIRECTORY"" name=""edtZC_STATIC_DIRECTORY"" style=""width:500px;"" type=""text"" value=""" & ZC_STATIC_DIRECTORY & """ /></p></td></tr>"
+		Response.Write "<tr><td width='30%'>" & SplitNameAndNote(ZC_MSG178) & "</td><td><p><input id=""edtZC_STATIC_DIRECTORY"" name=""edtZC_STATIC_DIRECTORY"" style=""width:600px;"" type=""text"" value=""" & ZC_STATIC_DIRECTORY & """ /></p></td></tr>"
 
 
 		ZC_REBUILD_FILE_COUNT=TransferHTML(ZC_REBUILD_FILE_COUNT,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG181) & "</td><td><p><input id=""edtZC_REBUILD_FILE_COUNT"" name=""edtZC_REBUILD_FILE_COUNT"" style=""width:500px;"" type=""text"" value=""" & ZC_REBUILD_FILE_COUNT & """ /></p></td></tr>"
+		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG181) & "</td><td><p><input id=""edtZC_REBUILD_FILE_COUNT"" name=""edtZC_REBUILD_FILE_COUNT"" style=""width:600px;"" type=""text"" value=""" & ZC_REBUILD_FILE_COUNT & """ /></p></td></tr>"
 
 
 
 		ZC_REBUILD_FILE_INTERVAL=TransferHTML(ZC_REBUILD_FILE_INTERVAL,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG182) & "</td><td><p><input id=""edtZC_REBUILD_FILE_INTERVAL"" name=""edtZC_REBUILD_FILE_INTERVAL"" style=""width:500px;"" type=""text"" value=""" & ZC_REBUILD_FILE_INTERVAL & """ /></p></td></tr>"
+		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG182) & "</td><td><p><input id=""edtZC_REBUILD_FILE_INTERVAL"" name=""edtZC_REBUILD_FILE_INTERVAL"" style=""width:600px;"" type=""text"" value=""" & ZC_REBUILD_FILE_INTERVAL & """ /></p></td></tr>"
 
 
 	Response.Write "</table>"
@@ -235,7 +235,7 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG247
 
 
 		ZC_DISPLAY_COUNT_WAP=TransferHTML(ZC_DISPLAY_COUNT_WAP,"[html-format]")
-		Response.Write "<tr><td width='30%'>" & SplitNameAndNote(ZC_MSG217) & "</td><td><p><input id=""edtZC_DISPLAY_COUNT_WAP"" name=""edtZC_DISPLAY_COUNT_WAP"" style=""width:500px;"" type=""text"" value=""" & ZC_DISPLAY_COUNT_WAP & """ /></p></td></tr>"
+		Response.Write "<tr><td width='30%'>" & SplitNameAndNote(ZC_MSG217) & "</td><td><p><input id=""edtZC_DISPLAY_COUNT_WAP"" name=""edtZC_DISPLAY_COUNT_WAP"" style=""width:600px;"" type=""text"" value=""" & ZC_DISPLAY_COUNT_WAP & """ /></p></td></tr>"
 
 
 
@@ -244,7 +244,7 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG247
 
 
 		ZC_COMMENT_COUNT_WAP=TransferHTML(ZC_COMMENT_COUNT_WAP,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG218) & "</td><td><p><input id=""edtZC_COMMENT_COUNT_WAP"" name=""edtZC_COMMENT_COUNT_WAP"" style=""width:500px;"" type=""text"" value=""" & ZC_COMMENT_COUNT_WAP & """ /></p></td></tr>"
+		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG218) & "</td><td><p><input id=""edtZC_COMMENT_COUNT_WAP"" name=""edtZC_COMMENT_COUNT_WAP"" style=""width:600px;"" type=""text"" value=""" & ZC_COMMENT_COUNT_WAP & """ /></p></td></tr>"
 
 
 
@@ -254,7 +254,7 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG247
 
 
 		ZC_PAGEBAR_COUNT_WAP=TransferHTML(ZC_PAGEBAR_COUNT_WAP,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG219) & "</td><td><p><input id=""edtZC_PAGEBAR_COUNT_WAP"" name=""edtZC_PAGEBAR_COUNT_WAP"" style=""width:500px;"" type=""text"" value=""" & ZC_PAGEBAR_COUNT_WAP & """ /></p></td></tr>"
+		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG219) & "</td><td><p><input id=""edtZC_PAGEBAR_COUNT_WAP"" name=""edtZC_PAGEBAR_COUNT_WAP"" style=""width:600px;"" type=""text"" value=""" & ZC_PAGEBAR_COUNT_WAP & """ /></p></td></tr>"
 
 
 
@@ -267,7 +267,7 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG247
 
 
 		ZC_WAP_MUTUALITY_LIMIT=TransferHTML(ZC_WAP_MUTUALITY_LIMIT,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG102) & "</td><td><p><input id=""edtZC_WAP_MUTUALITY_LIMIT"" name=""edtZC_WAP_MUTUALITY_LIMIT"" style=""width:500px;"" type=""text"" value=""" & ZC_WAP_MUTUALITY_LIMIT & """ /></p></td></tr>"
+		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG102) & "</td><td><p><input id=""edtZC_WAP_MUTUALITY_LIMIT"" name=""edtZC_WAP_MUTUALITY_LIMIT"" style=""width:600px;"" type=""text"" value=""" & ZC_WAP_MUTUALITY_LIMIT & """ /></p></td></tr>"
 
 
 	Response.Write "</table>"

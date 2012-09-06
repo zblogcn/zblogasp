@@ -1088,13 +1088,7 @@ Function BatchAll()
 			Response.Write "</div>"
 
 			Response.Flush
-			'Response.Write "<div id=""divMain"">"
-			'Response.Write "<div id=""divMain2"">"
-			'Response.Write "<form  name=""edit"" id=""edit"">"
 
-			'Response.Write "<p>" & b(0) & ZC_MSG109 &"</p>"
-
-			'Response.Write "</form></div></div>"
 			Response.Write "</body></html>"
 
 			Call Execute(c(0))
@@ -1109,24 +1103,13 @@ Function BatchAll()
 		Response.Write "<img src='image/admin/ok.png' width='16'>"
 		Response.Write "<script type=""text/javascript"">parent.Batch2Tip("""&ZC_MSG227 & Replace(ZC_MSG169,"%n",Session("batchtime")/1000) &""")</script>"
 		Response.Write "<script type=""text/javascript"">parent.BatchEnd()</script>"
-		'Response.Write "<div id=""divMain"">"
 
 		Response.Write "<div class=""hidden"">"
 		Call GetBlogHint()
 		Response.Write "</div>"
 
-		'Response.Write "<div id=""divMain2"">"
-		'Response.Write "<form  name=""edit"" id=""edit"">"
-
-		'Response.Write "<p>" & ZC_MSG227 &"</p>"
-		'Response.Write "<p>" & Replace(ZC_MSG169,"%n",Session("batchtime")/1000)&"</p>"
-
-
 		Response.Write "<script type=""text/javascript"">parent.BatchNotify();</script>"
 
-
-
-		'Response.Write "</form></div></div>"
 		Response.Write "</body></html>"
 
 		Session.Abandon
@@ -1200,6 +1183,8 @@ Function SaveSetting()
 	Next
 	Err.Clear
 
+	Call BlogConfig.Write("ZC_BLOG_CLSID",origZC_BLOG_CLSID)
+
 	For Each a In Request.Form 
 		b=Mid(a,4,Len(a))
 		If BlogConfig.Exists(b)=True Then
@@ -1243,12 +1228,10 @@ Function SaveSetting()
 	If BlogConfig.Read("ZC_COMMENT_REVERSE_ORDER_EXPORT")<>d.Item("ZC_COMMENT_REVERSE_ORDER_EXPORT")Then Call SetBlogHint(Empty,Empty,True)
 	If BlogConfig.Read("ZC_COMMENTS_DISPLAY_COUNT")<>d.Item("ZC_COMMENTS_DISPLAY_COUNT")Then Call SetBlogHint(Empty,Empty,True)
 
-
-	If BlogConfig.Read("ZC_BLOG_CLSID")<>d.Item("ZC_BLOG_CLSID")Then
-		If CheckRegExp(d.Item("ZC_BLOG_CLSID"),"[guid]")=False Then d.Item("ZC_BLOG_CLSID")=RndGuid()
-		Call SetBlogHint(Empty,Empty,True)
-	End If
-
+	'If BlogConfig.Read("ZC_BLOG_CLSID")<>d.Item("ZC_BLOG_CLSID")Then
+	'	If CheckRegExp(d.Item("ZC_BLOG_CLSID"),"[guid]")=False Then d.Item("ZC_BLOG_CLSID")=RndGuid()
+	'	Call SetBlogHint(Empty,Empty,True)
+	'End If
 
 	For Each a In d.Keys
 		Call BlogConfig.Write(a,d.Item(a))

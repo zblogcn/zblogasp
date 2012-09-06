@@ -62,7 +62,7 @@ If CheckPluginState("Totoro")=False Then Call ShowError(48)
 		if ZC_MSSQL_ENABLE then
 			strSQL="WHERE ([comm_isCheck]=1) "
 		else
-			strsql="WHERE ([comm_isCheck]=FALSE)"
+			strsql="WHERE ([comm_isCheck]=True)"
 		end if
 		If CheckRights("Root")=False Then strSQL=strSQL & "AND( (SELECT [log_AuthorID] FROM [blog_Article] WHERE [blog_Article].[log_ID] =[blog_Comment].[log_ID] ) =" & BlogUser.ID & ")"
 		
