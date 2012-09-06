@@ -611,7 +611,7 @@ Class TArticle
 			Content=TransferHTML(Content,"[upload][zc_blog_host]")
 			Intro=TransferHTML(Intro,"[upload][zc_blog_host]")
 
-			PostTime = Year(PostTime) & "-" & Month(PostTime) & "-" & Day(PostTime) & " " & Hour(PostTime) & ":" & Minute(PostTime) & ":" & Second(PostTime)
+			'PostTime = Year(PostTime) & "-" & Month(PostTime) & "-" & Day(PostTime) & " " & Hour(PostTime) & ":" & Minute(PostTime) & ":" & Second(PostTime)
 
 		Else
 			Exit Function
@@ -656,7 +656,7 @@ Class TArticle
 			Content=TransferHTML(Content,"[upload][zc_blog_host]")
 			Intro=TransferHTML(Intro,"[upload][zc_blog_host]")
 
-			PostTime = Year(PostTime) & "-" & Month(PostTime) & "-" & Day(PostTime) & " " & Hour(PostTime) & ":" & Minute(PostTime) & ":" & Second(PostTime)
+			'PostTime = Year(PostTime) & "-" & Month(PostTime) & "-" & Day(PostTime) & " " & Hour(PostTime) & ":" & Minute(PostTime) & ":" & Second(PostTime)
 
 		End If
 

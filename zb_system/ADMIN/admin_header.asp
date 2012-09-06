@@ -12,5 +12,5 @@
 <script src="<%=BlogHost%>ZB_SYSTEM/function/c_admin_js_add.asp" type="text/javascript"></script>
 <link rel="stylesheet" href="<%=BlogHost%>ZB_SYSTEM/CSS/jquery.bettertip.css" type="text/css" media="screen" />
 <script src="<%=BlogHost%>ZB_SYSTEM/script/jquery.bettertip.pack.js" type="text/javascript"></script>
-<script src="<%=BlogHost%>ZB_SYSTEM/script/jquery-ui-1.8.21.custom.min.js" type="text/javascript"></script>
+<script src="<%=BlogHost%>ZB_SYSTEM/script/jquery-ui-1.8.23.custom.min.js" type="text/javascript"></script>
 <%=Response_Plugin_Admin_Header%>

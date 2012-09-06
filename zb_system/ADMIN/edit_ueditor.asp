@@ -8,7 +8,7 @@
 '// 程序名称:
 '// 程序版本:
 '// 单元名称:    edit_ueditor.asp
-'// 开始时间:    2012.7.5
+'// 开始时间:    2012.9.6
 '// 最后修改:
 '// 备    注:    编辑页
 '///////////////////////////////////////////////////////////////////////////////
@@ -103,6 +103,8 @@ Next
 <!--#include file="admin_header.asp"-->
 	<link rel="stylesheet" type="text/css" href="ueditor/themes/default/ueditor.css"/>
 	<script type="text/javascript" src="../script/jquery.tagto.js"></script>
+	<script type="text/javascript" src="../script/jquery-ui-timepicker-addon.js"></script>
+	<link rel="stylesheet" type="text/css" href="../css/jquery-ui-1.8.23.custom.css"/>
 	<script type="text/javascript" charset="utf-8" src="ueditor/editor_config.asp"></script>
 	<script type="text/javascript" charset="utf-8" src="ueditor/editor_all.js"></script>
 
@@ -341,13 +343,20 @@ End If
 
 
 
-
+<!-- date( 原日期
                         <p>
-<!-- date( -->
+
                           <span class='editinputname' style="cursor:pointer;" onClick="$(this).next().toggleClass('hidden');"><%=ZC_MSG062%>:</span><span><input type="text" name="edtYear" id="edtYear" style="width:32px;" value="<%=Year(EditArticle.PostTime)%>" /><span>-</span><input type="text" name="edtMonth" id="edtMonth" style="width:17px;" value="<%=Month(EditArticle.PostTime)%>" /><span>-</span><input type="text" name="edtDay" id="edtDay" style="width:17px;" value="<%=Day(EditArticle.PostTime)%>" /><span>-</span><input type="text" name="edtTime" id="edtTime" style="width:50px;" value="<%= Hour(EditArticle.PostTime)&":"&Minute(EditArticle.PostTime)&":"&Second(EditArticle.PostTime)%>" /></span>
-<!-- )date -->
+
 
                       </p>
+ )date -->
+
+<!-- newdatetime( -->
+                      <p>
+                          <span class='editinputname'><%=ZC_MSG062%>:</span><span><input type="text" name="edtDateTime" id="edtDateTime"  value="<%=EditArticle.PostTime%>" style="width:141px;"/></span>
+                      </p>
+<!-- )newdatetime -->
 
 
 
@@ -431,6 +440,46 @@ End If
 	});
 	editor.render('ueditor');
 	editor2.render('ueditor2');
+
+	//日期时间控件
+	$.datepicker.regional['zh-cn'] = {
+		closeText: '完成',
+		prevText: '上个月',
+		nextText: '下个月',
+		currentText: '现在',
+		monthNames: ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'],
+		monthNamesShort: ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'],
+		dayNames: ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'],
+		dayNamesShort: ['周日','周一','周二','周三','周四','周五','周六'],
+		dayNamesMin: ['日','一','二','三','四','五','六'],
+		weekHeader: '周',
+		dateFormat: 'yy/m/d',
+		firstDay: 1,
+		isRTL: false,
+		showMonthAfterYear: true,
+		yearSuffix: ' 年  '
+	};
+	$.datepicker.setDefaults($.datepicker.regional['zh-cn']);
+
+	$.timepicker.regional['zh-cn'] = {
+		timeOnlyTitle: '时间',
+		timeText: '时间',
+		hourText: '小时',
+		minuteText: '分钟',
+		secondText: '秒钟',
+		millisecText: '毫秒',
+		currentText: '现在',
+		closeText: '完成',
+		timeFormat: 'h:mm:ss',
+		ampm: false
+	};
+	$.timepicker.setDefaults($.timepicker.regional['zh-cn']);
+
+	$('#edtDateTime').datetimepicker({
+		showSecond: true,
+		changeMonth: true,
+		changeYear: true
+	});
 
 	var str10="<%=ZC_MSG115%>";
 	var str11="<%=ZC_MSG116%>";
