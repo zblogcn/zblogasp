@@ -1640,7 +1640,7 @@ Class TArticle
 		AuthorID=0
 		Level=4'默认为普通
 		Title=ZC_MSG099
-		IP=Request.Servervariables("REMOTE_ADDR")
+		IP=IIf(Request.ServerVariables("HTTP_X_FORWARDED_FOR")="",Request.Servervariables("REMOTE_ADDR"),Request.ServerVariables("HTTP_X_FORWARDED_FOR"))
 
 		IsDynamicLoadSildbar=True
 
@@ -2961,7 +2961,7 @@ Class TComment
 		If IsThrow=True Then Post=True:Exit Function
 
 		If IP="" Then
-			IP=Request.ServerVariables("REMOTE_ADDR")
+			IP=IIf(Request.ServerVariables("HTTP_X_FORWARDED_FOR")="",Request.Servervariables("REMOTE_ADDR"),Request.ServerVariables("HTTP_X_FORWARDED_FOR"))
 			Agent=Request.ServerVariables("HTTP_USER_AGENT")
 		End If
 		If Len(HomePage)>0 Then
@@ -3278,7 +3278,7 @@ Class TTrackBack
 		Call CheckParameter(log_ID,"int",0)
 
 		If IsDate(PostTime)=False Then PostTime=GetTime(Now())
-		IP=Request.ServerVariables("REMOTE_ADDR")
+		IP=IIf(Request.ServerVariables("HTTP_X_FORWARDED_FOR")="",Request.Servervariables("REMOTE_ADDR"),Request.ServerVariables("HTTP_X_FORWARDED_FOR"))
 		Agent=Request.ServerVariables("HTTP_USER_AGENT")
 
 		IP=FilterSQL(IP)
@@ -5109,7 +5109,7 @@ Class TCounter
 	End Function
 
 	Public Function Add(b,c,isBinary)
-		IP=Request.ServerVariables("REMOTE_ADDR")
+		IP=IIf(Request.ServerVariables("HTTP_X_FORWARDED_FOR")="",Request.Servervariables("REMOTE_ADDR"),Request.ServerVariables("HTTP_X_FORWARDED_FOR"))
 		Agent=Request.ServerVariables("HTTP_USER_AGENT")
 		Referer=Request.ServerVariables("HTTP_REFERER")
 		PostTime=Now
