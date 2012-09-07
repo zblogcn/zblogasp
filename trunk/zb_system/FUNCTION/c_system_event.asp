@@ -1108,9 +1108,10 @@ Function BatchAll()
 		Response.Write "<div class=""hidden"">"
 		Call GetBlogHint()
 		Response.Write "</div>"
-
-		Response.Write "<script type=""text/javascript"">parent.BatchNotify();</script>"
-
+		If Session("batchtime")/1000>0 Then
+			Response.Write "<script type=""text/javascript"">parent.BatchNotify();</script>"
+		End If
+		
 		Response.Write "</body></html>"
 
 		Session.Abandon
