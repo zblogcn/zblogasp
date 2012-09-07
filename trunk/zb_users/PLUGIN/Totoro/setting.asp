@@ -49,7 +49,7 @@ BlogTitle="TotoroⅢ（基于TotoroⅡ的Z-Blog的评论管理审核系统增强
 		Response.Write "("&objRS1(0)&"条未审核的评论)"
 	End If
 %>
-            </span></a><a href="regexptest.asp"><span class="m-right">正则测试</span></a></div>
+            </span></a><a href="regexptest.asp"><span class="m-right">黑词测试</span></a></div>
           <div id="divMain2">
             <form id="edit" name="edit" method="post">
               <div class="content-box">
@@ -123,11 +123,11 @@ BlogTitle="TotoroⅢ（基于TotoroⅡ的Z-Blog的评论管理审核系统增强
 	Response.Write "<tr><td>8</td><td>一旦评论内没有汉字自动加SV</td><td><input type=""text"" value="""& strZC_TOTORO_CHINESESV &""" name=""strZC_TOTORO_CHINESESV""/></td><td>(默认：150)</td></tr>"
 
 	Response.Write "<tr>"
-  	Response.Write "<td>9</td><td>设置系统审核阈值</td>"
+  	Response.Write "<td>9</td><td>设置系统审核阙值</td>"
 	Dim strZC_TOTORO_SV_THRESHOLD
 	strZC_TOTORO_SV_THRESHOLD=Totoro_Config.Read("TOTORO_SV_THRESHOLD")
 	strZC_TOTORO_SV_THRESHOLD=TransferHTML(strZC_TOTORO_SV_THRESHOLD,"[html-format]")
-	Response.Write "<td><input name=""strZC_TOTORO_SV_THRESHOLD"" type=""text"" value=""" & strZC_TOTORO_SV_THRESHOLD & """/></td><td>(默认：50)，阈值越小越严格，低于0则使游客的评论全进入审核</td></tr>"
+	Response.Write "<td><input name=""strZC_TOTORO_SV_THRESHOLD"" type=""text"" value=""" & strZC_TOTORO_SV_THRESHOLD & """/></td><td>(默认：50)，阙值越小越严格，低于0则使游客的评论全进入审核</td></tr>"
 	
   	Response.Write "<tr><td>10</td><td>设置自动删除阙值</td><td>"
 	Dim strZC_TOTORO_SV_THRESHOLD2
@@ -246,7 +246,7 @@ BlogTitle="TotoroⅢ（基于TotoroⅡ的Z-Blog的评论管理审核系统增强
                 <dl class="totoro">
                   <dd>Totoro是个采用评分机制的防止垃圾留言的插件，原作<a href="http://www.rainbowsoft.org/" target="_blank">zx.asd</a>。<br/>
                     TotoroⅡ是<a href="http://ZxMYS.COM" target="_blank">Zx.MYS</a>在Totoro的基础上修改而成的增强版，加入了诸多新特性，同时修正一些问题。<br/>
-                    TotoroⅢ是由<a href="http://www.zsxsoft.com" target="_blank">ZSXSOFT</a>将TotoroII升级到1.9版本后增添新特性的版本。</dd>
+                    TotoroⅢ是由<a href="http://www.zsxsoft.com" target="_blank">ZSXSOFT</a>将TotoroII升级到2.0版本后增添新特性的版本。</dd>
                   <dd>Spam Value(SV)初始值为0，经过相关运算后的SV分值越高Spam嫌疑越大，超过设定的阈值这条评论就进入审核状态或直接被删除。</dd>
                   <dd>配置完成之后，请一定要测试，切记切记！</dd>
                   <dd></dd>

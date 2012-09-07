@@ -46,6 +46,7 @@ If Request.QueryString("type")="test" Then
 	'Set m=o.Execute(t)
 	
 	h=TransferHTML(t,"[html-format]")
+	t=h
 	'For Each s in m
 		'h=Replace(h,s.value,"<span style=""background-color:#92d050"">"&s.value&"</span>")
 	'Next
@@ -54,9 +55,10 @@ If Request.QueryString("type")="test" Then
 		h="正则有误："& Err.Description
 		h=h&"<br/>可能的情况是：<ol><li>少打了某个符号</li><li>没有在[ ] ( ) ^ . ? !等符号前加\</li></ol>"
 	End If
-	t=h
+	
+	if (t<>h) then h="检测到黑词或敏感词：<br/><br/>"&h
 
-	Response.Write t
+	Response.Write h
 	Response.End
 End If
 %>
@@ -74,7 +76,7 @@ End If
 		Response.Write "("&objRS1(0)&"条未审核的评论)"
 	End If
 %>
-            </span></a><a href="regexptest.asp"><span class="m-right m-now">正则测试</span></a></div>
+            </span></a><a href="regexptest.asp"><span class="m-right m-now">黑词测试</span></a></div>
           <div id="divMain2">
           <table width='100%' style='padding:0px;margin:1px;line-height:20px' cellspacing='0' cellpadding='0'>
           <tr height="40"><td width="50%">输入待测试内容</td>
