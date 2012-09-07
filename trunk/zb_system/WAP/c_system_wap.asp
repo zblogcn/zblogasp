@@ -129,7 +129,7 @@ Public Function WapTitle(strCom,strBrowserTitle)
 	WapTitle = WapTitle & "<form action="""&WapUrlStr&""" method=""get"">"
     WapTitle = WapTitle & "    <div class=""srh"">"
 	WapTitle = WapTitle & "	<input type=""hidden"" name=""act"" value=""Search"">"
-    WapTitle = WapTitle & "    <input type=""text"" class=""i"" name=""q"" value="""" id=""q"">"
+    WapTitle = WapTitle & "    <input type=""search"" class=""i"" name=""q"" value="""" id=""q"">"
     WapTitle = WapTitle & "   <input type=""submit"" name=""submit"" value=""搜"">"
     WapTitle = WapTitle & "    </div>"
 	WapTitle = WapTitle & "</form>"
@@ -174,8 +174,8 @@ Function WapLogin()
 		End If 
 		Response.Write "    <form method=""post"" action="""&WapUrlStr&"?act=Login""> "
 		Response.Write "    <input type=""hidden"" name=""sig"" id=""sig"" value=""1"" />"
-		Response.Write "	<p>"&ZC_MSG001&"：<input type=""text"" name=""username"" size=""12"" value="""" /></p>"
-		Response.Write "	<p>"&ZC_MSG002&"：<input type=""password"" name=""password"" size=""12"" value="""" /></p>"
+		Response.Write "	<br/><p>"&ZC_MSG001&"：<input type=""text"" name=""username"" value=""""  class=""i""/></p><br/>"
+		Response.Write "	<p>"&ZC_MSG002&"：<input type=""password"" name=""password"" value=""""  class=""i""/></p><br/>"
 		Response.Write "	<p><input name=""btnSumbit"" type=""submit"" value="""&ZC_MSG087&"""/> </p> "
 		Response.Write "	</form> "
 	Else
@@ -266,6 +266,10 @@ Function WapDelArt()
 	ID=Request.QueryString("id")
 	T=Request.QueryString("t")
 	Response.Write WapTitle(ZC_MSG063&ZC_MSG048&" › "&T,"")
+	'检查非法链接
+	Call CheckReference("")
+	'检查权限
+	If Not CheckRights("ArticleDel") Then Call ShowError(6)
 	'加入确认
 	If Request.QueryString("con")="Y" Then 
 		If DelArticle(Request.QueryString("id")) Then
@@ -291,6 +295,10 @@ Function WapDelCom()
 	ID=Request.QueryString("id")
 	LOG_ID=Request.QueryString("log_id")
 	Response.Write WapTitle(ZC_MSG063&ZC_MSG013,"")
+	'检查非法链接
+	Call CheckReference("")
+	'检查权限
+	If Not CheckRights("CommentDel") Then Call ShowError(6)
 	'加入确认
 	If Request.QueryString("con")="Y" Then 
 		Call DelComment(ID,LOG_ID)
@@ -755,7 +763,7 @@ Function WapCom()
 						Set objRegExp=New RegExp
 						objRegExp.IgnoreCase =True
 						objRegExp.Global=True
-						objRegExp.Pattern="<#adbegin#>(.+)<#adend#>"
+						objRegExp.Pattern="<#adbegin#>([\s\S]*)<#adend#>"
 						aryStrC(i)= objRegExp.Replace(aryStrC(i),"")
 					End If
 
@@ -909,8 +917,7 @@ Function WapView()
 				Article.html=Replace(Article.html,"<#ZC_FILENAME_WAP#>",WapUrlStr)
 				Article.html=Replace(Article.html,"<#article/wapmutuality#>",WapRelateList(Article.ID,Article.Tag))
 
-			    If BlogUser.Level<=3 Then
-	
+			    If BlogUser.Level<=3 Then	
 					Article.html=Replace(Article.html,"<#adbegin#>","")
 					Article.html=Replace(Article.html,"<#adend#>","")
 				Else
@@ -918,7 +925,7 @@ Function WapView()
 					Set objRegExp=New RegExp
 					objRegExp.IgnoreCase =True
 					objRegExp.Global=True
-					objRegExp.Pattern="<#adbegin#>(.+)<#adend#>"
+					objRegExp.Pattern="<#adbegin#>([\s\S]*)<#adend#>"
 					Article.html= objRegExp.Replace(Article.html,"")
 				End If
 				Response.Write Article.html
