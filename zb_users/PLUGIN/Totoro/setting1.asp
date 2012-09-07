@@ -48,7 +48,7 @@ End If
 	If (Not objRS1.bof) And (Not objRS1.eof) Then
 		Response.Write "("&objRS1(0)&"条未审核的评论)"
 	End If
-%></span></a><a href="regexptest.asp"><span class="m-right">正则测试</span></a></div>
+%></span></a><a href="regexptest.asp"><span class="m-right">黑词测试</span></a></div>
 <div id="divMain2">
 直接被拦截的评论数量：<%=TOTORO_THROWCOUNT%><a href="javascript:void(0)" onclick="$.get('setting1.asp?act=ttc','',function(data){alert('OK!')})">[清空计数器]</a>
 <%
