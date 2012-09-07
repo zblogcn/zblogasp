@@ -546,6 +546,8 @@ Function WapPostCom()
 
 	If ZC_WAPCOMMENT_ENABLE=False Then Call ShowError(40): Exit Function
 
+	Call GetUser()
+
 	'PostComment(strKey,intRevertCommentID)
 	If Not IsEmpty(Request.Form("inpPass")) Then
 		Response.Cookies("username")=escape(Request.Form("inpName"))
@@ -587,64 +589,34 @@ Function WapPostCom()
 		If InStr(objComment.HomePage,"http")=0 Then objComment.HomePage="http://" & objComment.HomePage
 		If Not CheckRegExp(objComment.HomePage,"[homepage]") Then Call WapAddCom(30) :Exit Function
 	End If
-	
+
+	'接口
+	Call Filter_Plugin_PostComment_Core(objComment)
+
+	If objComment.IsThrow=True Then Call ShowError(14)
+
+	If objComment.AuthorID>0 Then
+		objComment.Author  =Users(objComment.AuthorID).Name
+		objComment.EMail   =Users(objComment.AuthorID).Email
+		objComment.HomePage=Users(objComment.AuthorID).HomePage
+	End If
+
+
 	Dim objUser
 	For Each objUser in Users
 		If IsObject(objUser) Then
-			If (UCase(objUser.Name)=UCase(objComment.Author)) And (objUser.ID<>objComment.AuthorID) Then ShowError(31)
+			If (UCase(objUser.Name)=UCase(objComment.Author)) And (objUser.ID<>objComment.AuthorID) Then WapAddCom(31)
 		End If
 	Next
-
-
-	For Each objUser in Users
-
-		If IsObject(objUser) Then
-
-		    '没有登陆
-			If (UCase(objUser.Name)<>UCase(objComment.Author)) And (objUser.ID<>objComment.AuthorID) Then
-			Call WapAddCom(6)
-			Exit Function
-			End If
-
-			'已经登陆了用不同的用户名
-			If (UCase(objUser.Name)=UCase(objComment.Author)) And (objUser.ID<>objComment.AuthorID) Then
-			Call WapAddCom(31)
-			Exit Function
-			End If
-
-			'完全符合
-			If (UCase(objUser.Name)=UCase(objComment.Author)) And (objUser.ID=objComment.AuthorID) Then	
-				objComment.Author=objUser.Name
-			End If
-
-		End If
-
-	Next
-		
-	Dim objRS
-	Dim strSpamIP
-	Dim strSpamContent
-
-	Set objRS=objConn.Execute("SELECT [comm_IP],[comm_Content] FROM [blog_Comment] WHERE [comm_ID]= ( SELECT MAX(comm_ID) FROM [blog_Comment] )")
-
-	If (Not objRS.bof) And (Not objRS.eof) Then
-		strSpamIP=objRS("comm_IP")
-		strSpamContent=objRS("comm_Content")
-	End If
-
-	objRS.Close
-	Set objRS=Nothing
-
-	If (strSpamContent=objComment.Content) Then
-		Call WapAddCom(39)
-		Exit Function
-	End If
 
 	If objComment.Post Then
 		If objArticle.LoadInfoByID(objComment.log_ID) Then
 			Call BuildArticle(objArticle.ID,False,False)
 			BlogReBuild_Comments
+			Call BlogReBuild_Default
 			WapPostCom=True
+			'接口
+			Call Filter_Plugin_PostComment_Succeed(objComment)
 		End If
 	End if
 
