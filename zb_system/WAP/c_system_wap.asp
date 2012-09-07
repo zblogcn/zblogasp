@@ -812,13 +812,13 @@ Function WapCom()
 		
 		If ZC_DISPLAY_PAGEBAR_ALL_WAP Then
 			If intPageCount>ZC_PAGEBAR_COUNT_WAP Then
-				a=CurrentPage-Cint((ZC_COMMENT_PAGEBAR_COUNT_WAP-1)/2)
-				b=CurrentPage+ZC_COMMENT_PAGEBAR_COUNT_WAP-Cint((ZC_COMMENT_PAGEBAR_COUNT_WAP-1)/2)-1
+				a=CurrentPage-Cint((ZC_PAGEBAR_COUNT_WAP-1)/2)
+				b=CurrentPage+ZC_PAGEBAR_COUNT_WAP-Cint((ZC_PAGEBAR_COUNT_WAP-1)/2)-1
 				If a<=1 Then 
-					a=1:b=ZC_COMMENT_PAGEBAR_COUNT_WAP
+					a=1:b=ZC_PAGEBAR_COUNT_WAP
 				End If
 				If b>=intPageCount Then 
-					b=intPageCount:a=intPageCount-ZC_COMMENT_PAGEBAR_COUNT_WAP+1
+					b=intPageCount:a=intPageCount-ZC_PAGEBAR_COUNT_WAP+1
 				End If
 			Else
 				a=1:b=intPageCount
