@@ -22,7 +22,39 @@ Next
 	Dim Path
 	Path=BlogHost & ""& strUPLOADDIR &"/"
 	dim strJSContent
-	strJSContent="(function(){var URL;URL = '"&BlogHost&"zb_system/admin/ueditor/'; window.UEDITOR_CONFIG = {UEDITOR_HOME_URL : URL,imageUrl:URL+""asp/picUp.asp"",imagePath:"""&Path&""" ,imageFieldName:""edtFileLoad"" ,fileUrl:URL+""asp/fileUp.asp"",filePath:"""&Path&""" ,fileFieldName:""edtFileLoad"",catchRemoteImageEnable:false,imageManagerUrl:URL +""asp/imageManager.asp"" ,imageManagerPath:"""&BlogHost&""",wordImageUrl:URL+""asp/picUp.asp"",scrawlUrl:URL+""asp/picUp.php"",scrawlPath:"""&path&""",wordImagePath:"""&Path&""",wordImageFieldName:""edtFileLoad"",getMovieUrl:URL+""asp/getMovie.asp"",toolbars:[ ['fullscreen', 'source', '|', 'undo', 'redo', '|', 'bold', 'italic', 'underline', 'strikethrough', 'superscript', 'subscript','|',  'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist','|', 'indent', '|', 'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify',  '|',  'removeformat','autotypeset', 'searchreplace'],[ 'fontfamily', 'fontsize', '|', 'emotion','link','insertimage', 'insertvideo', 'attachment','spechars','|', 'map', 'gmap', '|', 'highlightcode','blockquote', 'pasteplain','wordimage','|','inserttable', 'deletetable', '|','preview']]};})();"
+	strJSContent="(function(){var URL;URL = '"&BlogHost&"zb_system/admin/ueditor/';window.UEDITOR_CONFIG = {"
+	Dim oDic
+	Set oDic = Server.CreateObject("Scripting.Dictionary")
+	oDic.Add "UEDITOR_HOME_URL","URL"
+    oDic.Add "imageUrl"," URL+""asp/picUp.asp"""
+    oDic.Add "imagePath",""""&Path&""""
+    oDic.Add "imageFieldName"," ""edtFileLoad"""
+    oDic.Add "fileUrl"," URL+""asp/fileUp.asp"""
+    oDic.Add "filePath",""""&Path&""""
+    oDic.Add "fileFieldName"," ""edtFileLoad"""
+    oDic.Add "catchRemoteImageEnable"," false"
+    oDic.Add "imageManagerUrl","URL+""asp/imageManager.asp"""
+    oDic.Add "imageManagerPath",""""&BlogHost&""""
+    oDic.Add "wordImageUrl"," URL+""asp/picUp.asp"""
+    oDic.Add "scrawlUrl"," URL+""asp/picUp.asp"""
+    oDic.Add "wordImagePath",""""&Path&""""
+    oDic.Add "wordImageFieldName","""edtFileLoad"""
+    oDic.Add "getMovieUrl","URL+""asp/getMovie.asp"""
+	oDic.Add "toolbars","[ ['fullscreen', 'source', '|', 'undo', 'redo', '|', 'bold', 'italic', 'underline', 'strikethrough', 'superscript', 'subscript','|',  'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist','|', 'indent', '|', 'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify',  '|',  'autotypeset', 'searchreplace'],[ 'fontfamily', 'fontsize', '|', 'emotion','link','insertimage', 'insertvideo', 'attachment','spechars','scrawl','|', 'map', 'gmap', '|', 'highlightcode','blockquote', 'pasteplain','wordimage','|','inserttable', 'deletetable', '|','preview']]"
+	oDic.Add "maximumWords",1000000000
+	oDic.Add "wordCountMsg","'当前已输入 {#count} 个字符 '"
+	oDic.Add "initialContent","'<p></p>'"
+	
+	Dim i,aryKeys,aryItems
+	aryKeys=oDic.Keys
+	aryItems=oDic.Items
+	For i=0 To Ubound(aryKeys)-1
+		strJSContent=strJSContent&aryKeys(i)&":"&aryItems(i)&","
+	Next
+	strJSContent=strJSContent&aryKeys(i)&":"&aryItems(i)
+	
+	
+	strJSContent=strJSContent&"}})();"
 
 
 Call Filter_Plugin_UEditor_Config(strJSContent)
