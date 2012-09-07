@@ -26,6 +26,8 @@ Dim TOTORO_CHINESESV
 Dim TOTORO_KILLIP
 Dim TOTORO_TRANTOSIMP
 Dim TOTORO_FILTERIP
+Dim TOTORO_PM
+Dim TOTORO_THROWCOUNT
 
 Dim TOTORO_CHECKSTR
 Dim TOTORO_THROWSTR
@@ -63,7 +65,7 @@ Function InstallPlugin_Totoro()
 	Set Totoro_Config = New TConfig
 	Totoro_Config.Load("Totoro")
 	If Totoro_Config.Exists("TOTORO_VERSION")=False Then
-		Totoro_Config.Write "TOTORO_VERSION","0.0"
+		Totoro_Config.Write "TOTORO_VERSION","3.0.4"
 		Totoro_Config.Write "TOTORO_INTERVAL_VALUE",25
 		Totoro_Config.Write "TOTORO_BADWORD_VALUE",50
 		Totoro_Config.Write "TOTORO_HYPERLINK_VALUE",10
@@ -85,6 +87,8 @@ Function InstallPlugin_Totoro()
         Totoro_Config.Write "TOTORO_CHECKSTR","Totoro大显神威！你的评论被怀疑是垃圾评论已经被提交审核。"
         Totoro_Config.Write "TOTORO_THROWSTR","Totoro大显神威！你的评论被怀疑是垃圾评论已经被删除。"
         Totoro_Config.Write "TOTORO_KILLIPSTR","Totoro大显神威！你的IP不合法不允许评论。"
+		Totoro_Config.Write "TOTORO_PM",True
+		Totoro_Config.Write "TOTORO_THROWCOUNT",0
 		Totoro_Config.Save
 		'Call SetBlogHint_Custom("您是第一次安装Totoro，已经为您导入初始配置。")
 	ElseIf Totoro_Config.Read("TOTORO_VERSION")="0.0" Then
@@ -95,7 +99,12 @@ Function InstallPlugin_Totoro()
         Totoro_Config.Write "TOTORO_CHECKSTR","Totoro大显神威！你的评论被怀疑是垃圾评论已经被提交审核。"
         Totoro_Config.Write "TOTORO_THROWSTR","Totoro大显神威！你的评论被怀疑是垃圾评论已经被删除。"
         Totoro_Config.Write "TOTORO_KILLIPSTR","Totoro大显神威！你的IP不合法不允许评论。"
-		
+		Totoro_Config.Write "TOTORO_THROWCOUNT",0
+		Totoro_Config.Save
+	ElseIf Totoro_Config.Read("TOTORO_VERSION")="3.0.3" Then
+		Totoro_Config.Write "TOTORO_VERSION","3.0.4"
+		Totoro_Config.Write "TOTORO_PM",True
+		Totoro_Config.Write "TOTORO_THROWCOUNT",0
 		Totoro_Config.Save
 	End If
 End Function
@@ -122,6 +131,8 @@ Function Totoro_Initialize()
     TOTORO_CHECKSTR=Totoro_Config.Read ("TOTORO_CHECKSTR")
     TOTORO_THROWSTR=Totoro_Config.Read ("TOTORO_THROWSTR")
     TOTORO_KILLIPSTR=Totoro_Config.Read ("TOTORO_KILLIPSTR")
+	TOTORO_PM=CBool(Totoro_Config.Read("TOTORO_PM"))
+	TOTORO_THROWCOUNT=CLng(Totoro_Config.Read("TOTORO_THROWCOUNT"))
 End Function
 
 
@@ -157,6 +168,9 @@ Function Totoro_chkComment(ByRef objComment)
 	End iF
 	Dim strTemp
 	strTemp=objComment.Content
+	If Totoro_PM Then
+		strTemp=Totoro_FilterPMPlusHtmlTag(strTemp)
+	End If
 	If TOTORO_TRANTOSIMP Then
 		strTemp=Totoro_FunctionTranToSimp(strTemp)
 	End If
@@ -178,7 +192,8 @@ Function Totoro_chkComment(ByRef objComment)
 	
 	objComment.Content=Totoro_replaceWord(objComment.Content)
 	objComment.Author=Totoro_replaceWord(objComment.Author)
-	Response.AddHeader "Totoro_SV",Totoro_SV
+	'Response.AddHeader "Totoro_SV",Totoro_SV
+	'Response.AddHeader "Content",strTemp
 	Dim o
 	
 	If Totoro_SV>=TOTORO_SV_THRESHOLD Then
@@ -187,10 +202,13 @@ Function Totoro_chkComment(ByRef objComment)
 		
 		If Totoro_SV<TOTORO_SV_THRESHOLD2 Or TOTORO_SV_THRESHOLD2=0 Then
 			objComment.IsCheck=True
-			o=Totoro_FunctionKillIP(objComment)
+			o=Totoro_FunctionKillIP(objComment,False)
 		ElseIf TOTORO_SV_THRESHOLD2<=Totoro_SV Then
+			TOTORO_THROWCOUNT=TOTORO_THROWCOUNT+1
+			Totoro_Config.Write "TOTORO_THROWCOUNT",TOTORO_THROWCOUNT
+			Totoro_Config.Save
 			objComment.IsThrow=True
-			o=Totoro_FunctionKillIP(objComment)
+			o=Totoro_FunctionKillIP(objComment,True)
 		End If
 	End If
 
@@ -222,6 +240,16 @@ Function Totoro_checkLevel(ByVal level)
 	End If
 End Function
 
+Function Totoro_FilterPMPlusHtmlTag(str)
+	Dim a,strT
+	strT=TransferHTML(str,"[nohtml]")
+	a="~!@#$%^&*()_+|-=\{}[];':""<>?/.,！＃￥…（）—、【】｛｝；：‘’“”《》，。、？"&Chr(9)
+	Dim i
+	For i=1 To Len(a)
+		strT=Replace(strT,Mid(a,i,1),"")
+	Next
+	Totoro_FilterPMPlusHtmlTag=strT
+End Function
 
 Function Totoro_checkName(ByVal ip)
 
@@ -435,7 +463,7 @@ Function Totoro_FunctionFilterIP(userip)
 	Totoro_FunctionFilterIP = IPlock	
 End Function
 	
-Function Totoro_FunctionKillIP(obj)
+Function Totoro_FunctionKillIP(obj,ist)
 	If TOTORO_KILLIP=0 Then Exit Function
 	Dim objRs,strSQL,strSQL2
 	If ZC_MSSQL_ENABLE Then
@@ -449,26 +477,29 @@ Function Totoro_FunctionKillIP(obj)
 	If Not objRs.Eof Then
 		j=objRs(0)
 	End If
-	If j>TOTORO_KILLIP Then
-			TOTORO_FILTERIP=IIf(TOTORO_FILTERIP="",obj.ip,TOTORO_FILTERIP&"|"&obj.ip)
-			Totoro_Config.Write "TOTORO_FILTERIP",TOTORO_FILTERIP
-			Totoro_Config.Save
-			Call Totoro_DelSpam(obj.IP)
+	If j>TOTORO_KILLIP Or ist=True Then
+			If ist=False Then
+				TOTORO_FILTERIP=IIf(TOTORO_FILTERIP="",obj.ip,TOTORO_FILTERIP&"|"&obj.ip)
+				Totoro_Config.Write "TOTORO_FILTERIP",TOTORO_FILTERIP
+				Totoro_Config.Save
+			End If
+			Call Totoro_DelSpam(obj.IP,ist)
 	End If
 	Totoro_FunctionKillIP=j
 End Function
 	
-Function Totoro_DelSpam(IP)
+Function Totoro_DelSpam(IP,isTh)
 	Dim objRs,strSQL,strSQL2
-	If ZC_MSSQL_ENABLE Then
-		strSQL2=" [comm_PostTime]>'"&DateAdd("d",-1,now)&"'"
-	Else
-		strSQL2=" [comm_PostTime]>#"&DateAdd("d",-1,now)&"#"
+	If isTh=False Then
+		If ZC_MSSQL_ENABLE Then
+			strSQL2=" AND [comm_PostTime]>'"&DateAdd("d",-1,now)&"'"
+		Else
+			strSQL2=" AND [comm_PostTime]>#"&DateAdd("d",-1,now)&"#"
+		End If
 	End If
-
-	strSQL="UPDATE [blog_Comment] SET [comm_isCheck]=1 WHERE [comm_IP]='"&IP&"' AND"&strSQL2
+	strSQL="UPDATE [blog_Comment] SET [comm_isCheck]=1 WHERE [comm_IP]='"&IP&"'"&strSQL2
 	Set objRs=objConn.Execute(strSQL)
-	strSQL="SELECT [log_ID] FROM [blog_Comment] WHERE [comm_IP]='"&IP&"' AND"&strSQL2
+	strSQL="SELECT [log_ID] FROM [blog_Comment] WHERE [comm_IP]='"&IP&"'"&strSQL2
 	Set objRs=objConn.Execute(strSQL)
 	Do Until objRs.Eof
 		Call BuildArticle(objRs("log_ID"),False,True)

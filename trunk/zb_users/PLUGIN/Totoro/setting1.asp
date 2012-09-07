@@ -22,7 +22,7 @@
 <%
 
 Call System_Initialize()
-
+Call Totoro_Initialize
 '检查非法链接
 Call CheckReference("")
 
@@ -32,7 +32,11 @@ If BlogUser.Level>1 Then Call ShowError(6)
 If CheckPluginState("Totoro")=False Then Call ShowError(48)
 
 BlogTitle="TotoroⅢ（基于TotoroⅡ的Z-Blog的评论管理审核系统增强版）"
-
+if request.QueryString("act")="ttc" then 
+	Totoro_Config.Write "TOTORO_THROWCOUNT",0
+	Totoro_Config.Save
+	Response.ENd
+End If
 %><!--#include file="..\..\..\zb_system\admin\admin_header.asp"-->
 <!--#include file="..\..\..\zb_system\admin\admin_top.asp"-->
 
@@ -46,6 +50,7 @@ BlogTitle="TotoroⅢ（基于TotoroⅡ的Z-Blog的评论管理审核系统增强
 	End If
 %></span></a><a href="regexptest.asp"><span class="m-right">正则测试</span></a></div>
 <div id="divMain2">
+直接被拦截的评论数量：<%=TOTORO_THROWCOUNT%><a href="javascript:void(0)" onclick="$.get('setting1.asp?act=ttc','',function(data){alert('OK!')})">[清空计数器]</a>
 <%
 
 	Dim intPage,intContent

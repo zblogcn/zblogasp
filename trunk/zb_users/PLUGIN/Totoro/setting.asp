@@ -139,7 +139,7 @@ BlogTitle="TotoroⅢ（基于TotoroⅡ的Z-Blog的评论管理审核系统增强
 	Dim strZC_TOTORO_KILLIP
 	strZC_TOTORO_KILLIP=Totoro_Config.Read("TOTORO_KILLIP")
 	strZC_TOTORO_KILLIP=TransferHTML(strZC_TOTORO_KILLIP,"[html-format]")
-	Response.Write "<input name=""strZC_TOTORO_KILLIP"" type=""text"" value=""" & strZC_TOTORO_KILLIP & """/></td><td>(默认：3) 一旦某个IP一天内被拦截的评论超过设定的值，则将该IP一天内的评论全部进入审核。</td></tr></table></div>"
+	Response.Write "<input name=""strZC_TOTORO_KILLIP"" type=""text"" value=""" & strZC_TOTORO_KILLIP & """/></td><td>(默认：3) 一旦某个IP一天内被拦截的评论超过设定的值，则将该IP一天内的评论全部进入审核。若该IP有一条评论直接被拦截，所有评论也将进入审核状态。</td></tr></table></div>"
 
 %>
               <div class="tab-content" style='border:none;padding:0px;margin:0;' id="tab2">
@@ -186,20 +186,26 @@ BlogTitle="TotoroⅢ（基于TotoroⅡ的Z-Blog的评论管理审核系统增强
                   </tr>
                   <tr>
                     <td>自动转换火星文</td>
-                    <td><%	Response.Write "<input name=""bolTOTORO_ConHuoxingwen"" id=""bolTOTORO_ConHuoxingwen"" type=""text"" class=""checkbox"" value="""&CStr(Totoro_Config.Read("TOTORO_ConHuoxingwen"))&""""%></td>
+                    <td><%	Response.Write "<input name=""bolTOTORO_ConHuoxingwen"" id=""bolTOTORO_ConHuoxingwen"" type=""text"" class=""checkbox"" value="""&CStr(Totoro_Config.Read("TOTORO_ConHuoxingwen"))&""""%>></td>
                     <td>将把希腊文俄文字母、罗马数字、列表符、全角字符、汉语拼音、菊花文、西欧字符转换为半角英文字母、半角数字、半角符号再进行反spam测试，不影响实际显示的评论</td>
                   </tr>
                   <tr>
                     <td>简繁转换</td>
-                    <td><%	Response.Write "<input name=""bolTOTORO_TRANTOSIMP"" id=""bolTOTORO_TRANTOSIMP"" type=""text"" class=""checkbox"" value="""&CStr(Totoro_Config.Read("TOTORO_TRANTOSIMP"))&""""%></td>
+                    <td><%	Response.Write "<input name=""bolTOTORO_TRANTOSIMP"" id=""bolTOTORO_TRANTOSIMP"" type=""text"" class=""checkbox"" value="""&CStr(Totoro_Config.Read("TOTORO_TRANTOSIMP"))&""""%>></td>
                     <td>将把繁体字转换为简化字再进行反spam测试，不影响实际显示的评论</td>
                   </tr>
                   <tr>
                     <td>“这是SPAM”</td>
-                    <td><%	Response.Write "<input name=""bolTOTORO_DEL_DIRECTLY"" id=""bolTOTORO_DEL_DIRECTLY"" type=""text"" class=""checkbox"" value="""&CStr(Totoro_Config.Read("TOTORO_DEL_DIRECTLY"))&""""%></td>
+                    <td><%	Response.Write "<input name=""bolTOTORO_DEL_DIRECTLY"" id=""bolTOTORO_DEL_DIRECTLY"" type=""text"" class=""checkbox"" value="""&CStr(Totoro_Config.Read("TOTORO_DEL_DIRECTLY"))&""""%>></td>
                     <td>点击[这是SPAM]按钮提取域名后直接删除评论（若不删除则进入审核）</td>
                   </tr>
+                  <tr>
+                    <td>标点过滤</td>
+                    <td><%	Response.Write "<input name=""bolTOTORO_PM"" id=""bolTOTORO_PM"" type=""text"" class=""checkbox"" value="""&CStr(Totoro_Config.Read("TOTORO_PM"))&""""%>></td>
+                    <td>把大部分标点和HTML代码过滤再进行反spam测试，不影响实际显示的评论</td>
+                  </tr>
                 </table>
+                
               </div>
                   <div class="tab-content" style='border:none;padding:0px;margin:0;' id="tab5">
                       <table width='100%' style='padding:0px;margin:1px;' cellspacing='0' cellpadding='0'>
