@@ -303,8 +303,10 @@ Function WapDelCom()
 	If Request.QueryString("con")="Y" Then 
 		Call DelComment(ID,LOG_ID)
 	'	Call MakeBlogReBuild_Core()
+		Dim strUrl
+		strUrl=WapUrlStr &"?act=Com&amp;id="&log_id
 		Response.Write "<p class=""n"">"&ZC_MSG266&"</p>"	
-		Response.Write "<p class=""s""><a href=""javascript:history.go(-2)"">"&ZC_MSG065&"</a></p>"
+		Response.Write "<p class=""s""><a href="""& strUrl &""">"&ZC_MSG065&"</a></p>"
 	Else 
 		Dim strYUrl
 		strYUrl=WapUrlStr &"?act=DelCom&amp;id="&ID&"&amp;log_id="&LOG_ID&"&amp;con=Y"
