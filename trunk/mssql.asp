@@ -659,7 +659,8 @@ objConn.CommitTrans
 
 Set objConn = Server.CreateObject("ADODB.Connection")
 
-objConn.Open "Provider=SqlOLEDB;Data Source=(local)\SQLEXPRESS;Initial Catalog=zb;Persist Security Info=True;User ID=sa;Password=123456;"
+'objConn.Open "Provider=SqlOLEDB;Data Source=(local)\SQLEXPRESS;Initial Catalog=zb2;Persist Security Info=True;User ID=sa;Password=;"
+objConn.Open "Provider=SqlOLEDB;Data Source=192.168.1.171;Initial Catalog=zb2;Persist Security Info=True;User ID=sa;Password=;"
 
 objConn.BeginTrans
 
