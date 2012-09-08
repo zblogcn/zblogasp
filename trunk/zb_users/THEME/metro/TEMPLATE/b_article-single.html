@@ -9,8 +9,10 @@
             <#article/content#>
           </div>
           <div class="post_tags"><#ZC_MSG138#>: <span class="tags"><#template:article_tag#></span></div>
-          <div class="post_info"><#ZC_MSG011#>:<#article/author/name#> | <#ZC_MSG012#>:<#article/category/name#> | <#ZC_MSG013#>:<#article/commnums#> | <#ZC_MSG014#>:<#article/trackbacknums#> | <#ZC_MSG130#>:<span id="spn<#article/id#>"></span>
-		<script type="text/javascript">AddViewCount(<#article/id#>)</script></div>
+          <div class="post_info">
+            <#ZC_MSG011#>:<#article/author/name#> | <#ZC_MSG012#>:<#article/category/name#> | <#ZC_MSG013#>:<#article/commnums#> | <#ZC_MSG130#>:<span id="spn<#article/id#>"></span>
+		    <script type="text/javascript">LoadViewCount(<#article/id#>)</script>
+          </div>
         </div>
         
         <div class="post_nav">
