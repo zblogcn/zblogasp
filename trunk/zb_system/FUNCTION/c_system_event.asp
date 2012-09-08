@@ -1216,8 +1216,8 @@ Function SaveSetting()
 	End If
 	If BlogConfig.Read("ZC_BLOG_TITLE")<>d.Item("ZC_BLOG_TITLE")Then Call SetBlogHint(Empty,Empty,True)
 	If BlogConfig.Read("ZC_BLOG_SUBTITLE")<>d.Item("ZC_BLOG_SUBTITLE")Then Call SetBlogHint(Empty,Empty,True)
-	If BlogConfig.Read("ZC_BLOG_NAME")<>d.Item("ZC_BLOG_NAME")Then Call SetBlogHint(Empty,Empty,True)
-	If BlogConfig.Read("ZC_BLOG_SUB_NAME")<>d.Item("ZC_BLOG_SUB_NAME")Then Call SetBlogHint(Empty,Empty,True)
+	'If BlogConfig.Read("ZC_BLOG_NAME")<>d.Item("ZC_BLOG_NAME")Then Call SetBlogHint(Empty,Empty,True)
+	'If BlogConfig.Read("ZC_BLOG_SUB_NAME")<>d.Item("ZC_BLOG_SUB_NAME")Then Call SetBlogHint(Empty,Empty,True)
 
 	If BlogConfig.Read("ZC_BLOG_COPYRIGHT")<>d.Item("ZC_BLOG_COPYRIGHT")Then Call SetBlogHint(Empty,Empty,True)
 	If BlogConfig.Read("ZC_BLOG_LANGUAGE")<>d.Item("ZC_BLOG_LANGUAGE")Then Call SetBlogHint(Empty,Empty,True)
@@ -1239,7 +1239,8 @@ Function SaveSetting()
 		Call BlogConfig.Write(a,d.Item(a))
 	Next
 
-
+	Call BlogConfig.Write("ZC_BLOG_NAME",BlogConfig.Read("ZC_BLOG_TITLE"))
+	Call BlogConfig.Write("ZC_BLOG_SUB_NAME",BlogConfig.Read("ZC_BLOG_SUBTITLE"))
 
 	Call SaveConfig2Option()
 
