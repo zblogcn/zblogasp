@@ -149,10 +149,13 @@ Select Case strAct
 
 		Call UserEdt()
 
+	Case "UserMod"
+
+		Call UserMod()
+
 	Case "UserDel"
 
 		Call UserDel()
-
 
 	Case "FileMng"
 
