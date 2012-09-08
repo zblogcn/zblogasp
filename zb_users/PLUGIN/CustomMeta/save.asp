@@ -51,4 +51,13 @@ If Right(Request.ServerVariables("HTTP_REFERER"),8)="cate.asp" Then
 	Response.Redirect Request.ServerVariables("HTTP_REFERER")
 End If
 
+If Right(Request.ServerVariables("HTTP_REFERER"),8)="user.asp" Then
+
+	c.Write "UserMeta",m.SaveString
+	c.Save
+
+	SetBlogHint_Custom("配置已保存!")
+	Response.Redirect Request.ServerVariables("HTTP_REFERER")
+End If
+
 %>

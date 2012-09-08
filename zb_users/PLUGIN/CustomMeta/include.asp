@@ -6,6 +6,7 @@ Function ActivePlugin_CustomMeta()
 
 	Call Add_Action_Plugin("Action_Plugin_Edit_Form","Call CustomMeta_AddLogEdit(EditArticle)")
 	Call Add_Action_Plugin("Action_Plugin_EditCatalog_Form","Call CustomMeta_AddCateEdit(EditCategory)")
+	Call Add_Action_Plugin("Action_Plugin_EditUser_Form","Call CustomMeta_AddUserEdit(EditUser)")
 
 End Function
 
@@ -42,6 +43,24 @@ Function CustomMeta_AddCateEdit(obj)
 	Next
 
 	Call Add_Response_Plugin("Response_Plugin_EditCatalog_Form",s)
+
+End Function
+
+
+Function CustomMeta_AddUserEdit(obj)
+
+	Dim c
+	Set c=New TConfig
+	c.Load "CustomMeta"
+
+	Dim m,i,s
+	Set m=New TMeta
+	m.LoadString=c.Read("UserMeta")
+	For i=LBound(m.Names)+1 To UBound(m.Names)
+		s=s & "<p style=''><span class='title'>"&m.GetValue(m.Names(i))&"字段:</span><br/><input style='width:600px;' type='text' name='meta_"&m.Names(i)&"' value='"&obj.Meta.GetValue(m.Names(i))&"' /></p>"
+	Next
+
+	Call Add_Response_Plugin("Response_Plugin_EditUser_Form",s)
 
 End Function
 
