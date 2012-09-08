@@ -112,14 +112,17 @@ Public Function WapTitle(strCom,strBrowserTitle)
 	WapTitle = WapTitle & "</head>"&vbCrLf
 	WapTitle = WapTitle & "<body>"&vbCrLf
 	WapTitle = WapTitle & "<h1>"&ZC_BLOG_TITLE&"</h1>"
+
 	If ZC_DISPLAY_CATE_ALL_WAP Then 
 		Dim Category
 		WapTitle = WapTitle & "<div class=""h"">"
 		    WapTitle = WapTitle & "<a href="""&WapUrlStr&""">"&ZC_MSG213&"</a><b>|</b>"
 			Categorys(0).Count=objConn.Execute("SELECT COUNT([log_ID]) FROM [blog_Article] WHERE [log_Level]>1 AND [log_Type]=0 AND [log_CateID]=0")(0)
 			For Each Category in Categorys
-				If IsObject(Category) And Category.Count>0 Then
+				If IsObject(Category) Then 
+					If Category.Count>0 Then
 					WapTitle = WapTitle & "<a href="""&WapUrlStr&"?act=Main&amp;cate="&Category.ID&""">"&TransferHTML(Category.Name,"[html-format]")&"</a><b>|</b>"
+					End If 
 				End If
 			Next
 		WapTitle = Left(WapTitle, Len(WapTitle)-8) & "</div>"	
@@ -467,17 +470,17 @@ Function WapAddCom(PostType)
 	
 	Dim log_ID,par_ID,Author,Content,Email,HomePage
 
-	log_ID=Request("inpid")
+	log_ID=Request.QueryString("inpid")
 	Call CheckParameter(log_ID,"int",0)
 
-	par_ID=Request("parid")
+	par_ID=Request.QueryString("parid")
 	Call CheckParameter(par_ID,"int",0)
 
-'	Author=Request.Form("inpName")
-'	Content=Request.Form("inpArticle")
-'	Email=Request.Form("inpEmail")
-'	HomePage=Request.Form("inpHomePage")
-
+	If Request.Cookies("chkRemember")="true" Then
+		Author=unescape(Request.Cookies("username"))
+		Email=Request.Cookies("inpEmail")
+		HomePage=Request.Cookies("inpHomePage")
+	End If 
 
 	If log_ID=0 Then Call ShowError(3): Exit Function
 
@@ -519,19 +522,17 @@ Function WapAddCom(PostType)
 		Response.Write "	<input type=""hidden"" name=""inpEmail"" value="""&BlogUser.Email&""" maxlength="""&ZC_EMAIL_MAX&"""  /> "
 		Response.Write "	<input type=""hidden"" name=""inpHomePage"" value="""&BlogUser.HomePage&""" maxlength="""&ZC_HOMEPAGE_MAX&"""  />"	
 	Else
-		Response.Write "	<p>"&ZC_MSG001&"：<input type=""text"" name=""inpName"" value="""" maxlength="""&ZC_USERNAME_MAX&"""/></p>"
+		Response.Write "	<p>"&ZC_MSG001&"：<input type=""text"" name=""inpName"" value="""&Author&""" maxlength="""&ZC_USERNAME_MAX&"""/></p>"
 		If PostType=6 Then
 		Response.Write "	<p>"&ZC_MSG002&"：<input type=""password""  name=""inpPass""  value="""" maxlength="""&ZC_PASSWORD_MAX&"""/></p>"
 		End If
 		If Request("m")="y" Then 
-			Response.Write "	<p>网站：<input type=""text"" name=""inpHomePage"" value="""" maxlength="""&ZC_HOMEPAGE_MAX&"""  /></p> "			
-			Response.Write "	<p>"&ZC_MSG053&"：<input type=""text"" name=""inpEmail"" value="""" maxlength="""&ZC_EMAIL_MAX&"""  /></p> "
-
+			Response.Write "	<p>"&ZC_MSG053&"：<input type=""text"" name=""inpEmail"" value="""&Email&""" maxlength="""&ZC_EMAIL_MAX&"""  /></p> "
+			Response.Write "	<p>网站：<input type=""text"" name=""inpHomePage"" value="""&HomePage&""" maxlength="""&ZC_HOMEPAGE_MAX&"""  /></p> "	
 		Else 
 			Response.Write "	<p><a class=""a"" href="""&WapUrlStr&"?act=AddCom&amp;parid="&par_ID&"&amp;inpid="&log_ID&"&amp;m=y"">更多选项</a></p>"
 		End If 
-		Response.Write "	<input type=""hidden"" name=""inpEmail"" value="""" maxlength="""&ZC_EMAIL_MAX&"""  /></p> "
-		Response.Write "	<input type=""hidden"" name=""inpHomePage"" value="""" maxlength="""&ZC_HOMEPAGE_MAX&"""  /></p> "
+
 	End If
 	Response.Write "	<p><textarea name=""txaArticle"" class=""i"" maxlength="""&ZC_CONTENT_MAX&""" rows=""6"" ></textarea></p> "
 	Response.Write "	<p><input name=""btnSumbit"" type=""submit"" value="""&ZC_MSG087&"""/> <span class=""stamp""><a href=""javascript:history.go(-1)"">"&ZC_MSG065&"</a></span></p> "
@@ -551,13 +552,6 @@ Function WapPostCom()
 	Call GetUser()
 
 	'PostComment(strKey,intRevertCommentID)
-	If Not IsEmpty(Request.Form("inpPass")) Then
-		Response.Cookies("username")=escape(Request.Form("inpName"))
-		Response.Cookies("username").Expires=Date+30
-		Response.Cookies("password")=BlogUser.GetPasswordByMD5(md5(Request.Form("inpPass")))
-		Response.Cookies("password").Expires=Date+30
-		Call WapCheckLogin
-	End IF
 
 	Dim objComment
 	Dim objArticle
@@ -565,7 +559,7 @@ Function WapPostCom()
 	Set objComment=New TComment
 	Set objArticle=New TArticle
 
-	objComment.log_ID=Request("inpid")
+	objComment.log_ID=Request.QueryString("inpid")
 	objComment.AuthorID=BlogUser.ID
 
 	'添加回复
@@ -584,13 +578,28 @@ Function WapPostCom()
 	End If
 
 	IF Len(objComment.Email)>0 Then
-		If Not CheckRegExp(objComment.Email,"[email]") Then Call  WapAddCom(29) :Exit Function
+		If Not CheckRegExp(objComment.Email,"[email]") Then 
+			Call  WapAddCom(29)
+			Exit Function
+		End If 
 	End If
 
 	IF Len(objComment.HomePage)>0 Then
 		If InStr(objComment.HomePage,"http")=0 Then objComment.HomePage="http://" & objComment.HomePage
 		If Not CheckRegExp(objComment.HomePage,"[homepage]") Then Call WapAddCom(30) :Exit Function
 	End If
+
+	If Request.Cookies("chkRemember")="true" Then
+			Response.Cookies("username")=escape(Request.Form("inpName"))
+			Response.Cookies("username").Expires=Date+30
+			Response.Cookies("inpHomePage")=objComment.HomePage
+			Response.Cookies("inpEmail")=objComment.Email
+		If Not IsEmpty(Request.Form("inpPass")) Then
+			Response.Cookies("password")=BlogUser.GetPasswordByMD5(md5(Request.Form("inpPass")))
+			Response.Cookies("password").Expires=Date+30
+			Call WapCheckLogin
+		End If
+	End If 
 
 	'接口
 	Call Filter_Plugin_PostComment_Core(objComment)
