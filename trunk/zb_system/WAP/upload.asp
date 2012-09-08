@@ -12,9 +12,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">body,form,input{margin:0;padding:0;}</style>
 <title>Upload</title>
 </head>
-
 <body>
 <%
 ShowError_Custom="Call ShowError_WAP(id)"
@@ -67,7 +67,7 @@ Select Case Request.QueryString("act")
 		Else
 			strData="<script type=""text/javascript"" language=""javascript"">try{top.document.getElementsByName('txaContent')[0].value+='<a href="""&nUrl&""" target=""_blank""/>'}catch(e){}"
 		End If
-		strData=strData &"</script>上传完成！<a href=""upload.asp"">点击这里继续上传</a>。上传地址"&nUrl
+		strData=strData &"</script>上传完成！<a href=""upload.asp"">继续上传</a>"
 		
 		response.write strData
 		response.end
@@ -75,9 +75,7 @@ End Select
 
 %>
 <form id="form1" name="form1" enctype="multipart/form-data" method="post" action="upload.asp?act=upload">
-  <label for="edtFileLoad">部分浏览器可能不支持</label>
-  <input type="file" name="edtFileLoad" id="edtFileLoad" />
-  <input type="submit" name="button" id="button" value="提交" />
+上传：<input type="file" name="edtFileLoad" id="edtFileLoad" /><input type="submit" name="button" id="button" value="上传" />
 </form>
 </body>
 </html>
