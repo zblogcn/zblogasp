@@ -94,16 +94,16 @@ Next
 		If i=5 Then Exit For
 	Next
 	Response.Write "</select></p>"
-	Response.Write "<p><span class='title'>"& ZC_MSG001 &":</span><span class='star'>(*)</span><br/><input id=""edtName"" size=""40"" name=""edtName""  type=""text"" value="""& TransferHTML(EditUser.Name,"[html-format]") &""" /></p>"
-	Response.Write "<p><span class='title'>"& ZC_MSG002 &":</span>"&IIF(EditUser.ID<>0,"","<span class='star'>(*)</span>")&"<br/><input id=""edtPassWord"" size=""40"" name=""edtPassWord""  type=""password"" value="""" />"
+	Response.Write "<p><span class='title'>"& ZC_MSG001 &":</span><span class='star'>(*)</span><br/><input id=""edtName"" size=""50"" name=""edtName""  type=""text"" value="""& TransferHTML(EditUser.Name,"[html-format]") &""" /></p>"
+	Response.Write "<p><span class='title'>"& ZC_MSG002 &":</span>"&IIF(EditUser.ID<>0,"","<span class='star'>(*)</span>")&"<br/><input id=""edtPassWord"" size=""50"" name=""edtPassWord""  type=""password"" value="""" />"
 
 	Response.Write "</p>"
-	Response.Write "<p><span class='title'>"& ZC_MSG237 &":</span>"&IIF(EditUser.ID<>0,"","<span class='star'>(*)</span>")&"<br/><input id=""edtPassWordRe"" size=""40"" name=""edtPassWordRe""  type=""password"" value="""" />"
+	Response.Write "<p><span class='title'>"& ZC_MSG237 &":</span>"&IIF(EditUser.ID<>0,"","<span class='star'>(*)</span>")&"<br/><input id=""edtPassWordRe"" size=""50"" name=""edtPassWordRe""  type=""password"" value="""" />"
 
 	Response.Write "</p>"
-	Response.Write "<p><span class='title'>"& ZC_MSG147 &":</span><br/><input id=""edtAlias"" size=""40"" name=""edtAlias""  type=""text"" value="""& TransferHTML(EditUser.Alias,"[html-format]") &""" /></p>"
-	Response.Write "<p><span class='title'>"& ZC_MSG053 &":</span><span class='star'>(*)</span><br/><input id=""edtEmail"" size=""40"" name=""edtEmail""  type=""text"" value="""& TransferHTML(EditUser.Email,"[html-format]") &""" /></p>"
-	Response.Write "<p><span class='title'>"& ZC_MSG054 &":</span><br/><input id=""edtHomePage"" size=""60"" name=""edtHomePage""  type=""text"" value="""& TransferHTML(EditUser.HomePage,"[html-format]") &""" /></p>"
+	Response.Write "<p><span class='title'>"& ZC_MSG147 &":</span><br/><input id=""edtAlias"" size=""50"" name=""edtAlias""  type=""text"" value="""& TransferHTML(EditUser.Alias,"[html-format]") &""" /></p>"
+	Response.Write "<p><span class='title'>"& ZC_MSG053 &":</span><span class='star'>(*)</span><br/><input id=""edtEmail"" size=""50"" name=""edtEmail""  type=""text"" value="""& TransferHTML(EditUser.Email,"[html-format]") &""" /></p>"
+	Response.Write "<p><span class='title'>"& ZC_MSG054 &":</span><br/><input id=""edtHomePage"" size=""50"" name=""edtHomePage""  type=""text"" value="""& TransferHTML(EditUser.HomePage,"[html-format]") &""" /></p>"
 
 	'<!-- 1号输出接口 -->
 	If Response_Plugin_EditUser_Form<>"" Then Response.Write "<div id=""divEditForm1"">"&Response_Plugin_EditUser_Form&"</div>"

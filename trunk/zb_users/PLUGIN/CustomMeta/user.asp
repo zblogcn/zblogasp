@@ -31,7 +31,7 @@ c.Load "CustomMeta"
       <%Call GetBlogHint()%>
     </div>
   <div class="divHeader"><%=BlogTitle%></div>
-<div class="SubMenu"><a href="main.asp"><span class="m-left">文章页面自定义数据字段</span></a><a href="cate.asp"><span class="m-left m-now">分类自定义数据字段</span></a><a href="user.asp"><span class="m-left">用户自定义数据字段</span></a></div>
+<div class="SubMenu"><a href="main.asp"><span class="m-left">文章页面自定义数据字段</span></a><a href="cate.asp"><span class="m-left">分类自定义数据字段</span></a><a href="user.asp"><span class="m-left m-now">用户自定义数据字段</span></a></div>
   <div id="divMain2">
    <script type="text/javascript">ActiveLeftMenu("aPlugInMng");</script>
 
@@ -44,7 +44,7 @@ c.Load "CustomMeta"
 <%
 Dim m,i
 Set m=New TMeta
-m.LoadString=c.Read("CateMeta")
+m.LoadString=c.Read("UserMeta")
 For i=LBound(m.Names)+1 To UBound(m.Names)
 Response.Write "<tr><td><input style='margin:10px 10px;width:80%;' name='MetaName'  type='text' value='"&m.Names(i)&"' /></td><td><input style='margin:10px 10px;width:80%;' name='MetaNote'  type='text' value='"&m.GetValue(m.Names(i))&"' /></td><td align='center'><input name='' type='button' class='button' onclick='$(this).parent().parent().remove();return false;' value='删除'/></td></tr>"
 Next
@@ -53,14 +53,14 @@ Next
 </table>
 <p><span class="note">自定义数据段名称必须是小写英文字母,数字和下划线_的组合</span></p>
 <p><span class="title">标签的调用介绍:</span><br/>
-您可以在single.html模板或是b_article-single.html等模板处加上例如&lt;#article/category/meta/abc#&gt;这样的标签用来显示自定义数据内容.
+您可以在single.html模板或是b_article-single.html等模板处加上例如&lt;#article/author/meta/abc#&gt;这样的标签用来显示自定义数据内容.
 <%
 Set m=New TMeta
-m.LoadString=c.Read("CateMeta")
+m.LoadString=c.Read("UserMeta")
 If UBound(m.Names)>0 Then
 	Response.Write "<br/>当前可以使用的标签有"
 	For i=LBound(m.Names)+1 To UBound(m.Names)
-	Response.Write " <strong>&lt;#article/category/meta/"&m.Names(i)&"#&gt;</strong>,"
+	Response.Write " <strong>&lt;#article/author/meta/"&m.Names(i)&"#&gt;</strong>,"
 	Next
 End If
 %>

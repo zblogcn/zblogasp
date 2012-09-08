@@ -31,7 +31,7 @@ c.Load "CustomMeta"
       <%Call GetBlogHint()%>
     </div>
   <div class="divHeader"><%=BlogTitle%></div>
-<div class="SubMenu"><a href="main.asp"><span class="m-left m-now">文章页面自定义数据字段</span></a><a href="cate.asp"><span class="m-left">分类自定义数据字段</span></a></div>
+<div class="SubMenu"><a href="main.asp"><span class="m-left m-now">文章页面自定义数据字段</span></a><a href="cate.asp"><span class="m-left">分类自定义数据字段</span></a><a href="user.asp"><span class="m-left">用户自定义数据字段</span></a></div>
   <div id="divMain2">
    <script type="text/javascript">ActiveLeftMenu("aPlugInMng");</script>
 
