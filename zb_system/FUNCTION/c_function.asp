@@ -1469,8 +1469,11 @@ End Function
 Function CheckMobile()
 
 	'是否由wap转入电脑版
+	If Request.Cookies("CheckMobile")="false" Then CheckMobile=False:Exit Function
 	If  Not IsEmpty(Request.ServerVariables("HTTP_REFERER"))  And  InStr(LCase(Request.ServerVariables("HTTP_REFERER")),ZC_FILENAME_WAP) Then 
-			CheckMobile=False:Exit Function  
+			CheckMobile=False
+			Response.Cookies("CheckMobile")="false"
+			Exit Function  
 	End If 
 
 	'是否专用wap浏览器
