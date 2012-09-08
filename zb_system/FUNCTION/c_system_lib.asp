@@ -3589,7 +3589,7 @@ Class TUpLoadFile
 	End Function
 
 
-	Private Function UpLoad_Form()
+	Public Function UpLoad_Form()
 
 		Dim i,j
 		Dim x,y,z

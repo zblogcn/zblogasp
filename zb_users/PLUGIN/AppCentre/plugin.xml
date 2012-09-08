@@ -9,18 +9,16 @@
 <include>include.asp</include>
 <level>1</level>
 <author>
-	<member>
 		<name>Z-blog</name>
 		<url>http://www.rainbowsoft.org/</url>
 		<email></email>
 		<type>原创</type>
-	</member>
-	<member>
+</author>
+<author>
 		<name>haphic</name>
 		<url>http://www.rainbowsoft.org/</url>
 		<email></email>
 		<type>程序&amp;UI</type>
-	</member>
 </author>
 <price>0</price>
 <created>2012-8-25</created>
