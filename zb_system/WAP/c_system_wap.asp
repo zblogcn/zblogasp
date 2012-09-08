@@ -388,6 +388,7 @@ Function WapEdtArt()
 	Response.Write "<p>"&ZC_MSG147&" ：<input type=""text"" name=""edtAlias"" class=""i"" value="""&TransferHTML(EditArticle.Alias,"[html-format]")&"""/></p>"
 	'tags
 	Response.Write "<p>"&ZC_MSG138&"：<input name=""edtTag""  class=""i""  maxlength=""100"" value="""&TransferHTML(EditArticle.TagToName,"[html-format]")&""" /></p>"
+	Response.Write "<p>上传:<iframe src="""&BlogHost&"zb_system/wap/upload.asp"" style=""border:0;width:80%;height:30px""></iframe>"
 	'cate
 	Response.Write "<p>"&ZC_MSG012&" ：<select name=""edtCateID"">"
 	Response.Write "<option value=""0""></option>"
