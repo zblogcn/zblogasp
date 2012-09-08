@@ -35,7 +35,7 @@ If CheckPluginState("Totoro")=False Then Call ShowError(48)
 
 BlogTitle="TotoroⅢ（基于TotoroⅡ的Z-Blog的评论管理审核系统增强版）"
 
-Dim o,m,s,t,h
+Dim o,m,s,t,h,n,n1
 If Request.QueryString("type")="test" Then
 	On Error Resume Next
 	Set o=New RegExp
@@ -44,20 +44,25 @@ If Request.QueryString("type")="test" Then
 	o.IgnoreCase=True
 	o.Pattern="("&Request.Form("regexp")&")"
 	'Set m=o.Execute(t)
-	
+	n=Now
 	h=TransferHTML(t,"[html-format]")
 	t=h
 	'For Each s in m
 		'h=Replace(h,s.value,"<span style=""background-color:#92d050"">"&s.value&"</span>")
 	'Next
 	h=o.replace(h,"<span style=""background-color:#92d050"">$1</span>")
+	n1=Now-n
 	If Err.Number<>0 Then
 		h="正则有误："& Err.Description
 		h=h&"<br/>可能的情况是：<ol><li>少打了某个符号</li><li>没有在[ ] ( ) ^ . ? !等符号前加\</li></ol>"
+	Else
+		if (t<>h) then h="用时"&n1&"s<br/><br/>检测到黑词或敏感词：<br/><br/>"&h
 	End If
 	
-	if (t<>h) then h="检测到黑词或敏感词：<br/><br/>"&h
-
+	
+	
+	
+	
 	Response.Write h
 	Response.End
 End If
@@ -120,5 +125,4 @@ Call System_Terminate()
 If Err.Number<>0 then
   Call ShowError(0)
 End If
-%>
 %>
