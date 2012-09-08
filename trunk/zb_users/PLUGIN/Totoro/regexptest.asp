@@ -44,19 +44,19 @@ If Request.QueryString("type")="test" Then
 	o.IgnoreCase=True
 	o.Pattern="("&Request.Form("regexp")&")"
 	'Set m=o.Execute(t)
-	n=Now
 	h=TransferHTML(t,"[html-format]")
 	t=h
 	'For Each s in m
 		'h=Replace(h,s.value,"<span style=""background-color:#92d050"">"&s.value&"</span>")
 	'Next
 	h=o.replace(h,"<span style=""background-color:#92d050"">$1</span>")
-	n1=Now-n
+	n1=RunTime
 	If Err.Number<>0 Then
 		h="正则有误："& Err.Description
 		h=h&"<br/>可能的情况是：<ol><li>少打了某个符号</li><li>没有在[ ] ( ) ^ . ? !等符号前加\</li></ol>"
 	Else
-		if (t<>h) then h="用时"&n1&"s<br/><br/>检测到黑词或敏感词：<br/><br/>"&h
+		n="用时"&n1&"ms"
+		if (t<>h) then h=n&"<br/><br/>检测到黑词或敏感词：<br/><br/>"&h  else h=n&"<br/><br/>"&h
 	End If
 	
 	
