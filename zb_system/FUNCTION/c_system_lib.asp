@@ -1348,7 +1348,7 @@ Class TArticle
 		aryTemplateTagsName(18)="article/author/id"
 		aryTemplateTagsValue(18)=Users(AuthorID).ID
 		aryTemplateTagsName(19)="article/author/name"
-		aryTemplateTagsValue(19)=Users(AuthorID).Name
+		aryTemplateTagsValue(19)=IIF(Users(AuthorID).Alias="",Users(AuthorID).Name,Users(AuthorID).Alias)
 		aryTemplateTagsName(20)="article/author/level"
 		aryTemplateTagsValue(20)=ZVA_User_Level_Name(Users(AuthorID).Level)
 		aryTemplateTagsName(21)="article/author/email"
@@ -3146,10 +3146,22 @@ Class TComment
 
 		If ParentID="" Then ParentID=0
 
+		Dim s
+		If AuthorID>0 Then 
+			Call GetUsersbyUserIDList(AuthorID)
+			If Users(AuthorID).Alias="" Then
+				s=Users(AuthorID).Name
+			Else
+				s=Users(AuthorID).Alias
+			End If
+		Else
+			s=Author
+		End If
+
 		aryTemplateTagsName(  1)="article/comment/id"
 		aryTemplateTagsValue( 1)=ID
 		aryTemplateTagsName(  2)="article/comment/name"
-		aryTemplateTagsValue( 2)=Author
+		aryTemplateTagsValue( 2)=s
 		aryTemplateTagsName(  3)="article/comment/url"
 		aryTemplateTagsValue( 3)=HomePage
 		aryTemplateTagsName(  4)="article/comment/urlencoder"
