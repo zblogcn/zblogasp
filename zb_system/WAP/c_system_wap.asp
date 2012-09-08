@@ -708,7 +708,7 @@ Function WapCom()
 					ReDim Preserve aryStrC(i)
 					aryStrC(i)=strCTemplate
 					aryStrC(i)=Replace(aryStrC(i),"<#ZC_FILENAME_WAP#>",WapUrlStr)
-					aryStrC(i)=Replace(aryStrC(i),"<#article/id#>",objRS("blog_Comment.log_ID"))
+					aryStrC(i)=Replace(aryStrC(i),"<#article/id#>",objRS("log_ID"))
 					aryStrC(i)=Replace(aryStrC(i),"<#article/title#>",objRS("log_Title"))
 					aryStrC(i)=Replace(aryStrC(i),"<#article/comment/id#>",objComment.ID)
 					aryStrC(i)=Replace(aryStrC(i),"<#article/comment/name#>",objComment.Author)
