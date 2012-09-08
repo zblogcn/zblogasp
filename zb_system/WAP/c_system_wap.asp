@@ -388,9 +388,9 @@ Function WapEdtArt()
 	Response.Write "<p>"&ZC_MSG147&" ：<input type=""text"" name=""edtAlias"" class=""i"" value="""&TransferHTML(EditArticle.Alias,"[html-format]")&"""/></p>"
 	'tags
 	Response.Write "<p>"&ZC_MSG138&"：<input name=""edtTag""  class=""i""  maxlength=""100"" value="""&TransferHTML(EditArticle.TagToName,"[html-format]")&""" /></p>"
-	Response.Write "<p>上传:<iframe src="""&BlogHost&"zb_system/wap/upload.asp"" style=""border:0;width:80%;height:30px""></iframe>"
+
 	'cate
-	Response.Write "<p>"&ZC_MSG012&" ：<select name=""edtCateID"">"
+	Response.Write "<p>"&ZC_MSG012&"：<select name=""edtCateID"">"
 	Response.Write "<option value=""0""></option>"
 	Dim aryCateInOrder : aryCateInOrder=GetCategoryOrder()
 	Dim m,n
@@ -410,7 +410,7 @@ Function WapEdtArt()
 		End If
 	Next
 
-	Response.Write "</select> ｜ "
+	Response.Write "</select><b></b>"
 	'level
 	Response.Write "<select name=""edtLevel"">"
 	Dim ArticleLevel
@@ -423,17 +423,13 @@ Function WapEdtArt()
 		End If
 		i=i+1
 	Next
-	Response.Write "</select>"
-	'istop
-    If EditArticle.Istop Then
-	Response.Write " <input type=""checkbox"" name=""edtIstop"" id=""edtIstop"" value=""True"" checked=""""/>"
-    Else
-	Response.Write " <input type=""checkbox"" name=""edtIstop"" id=""edtIstop"" value=""True""/>"
-    End If
-	Response.Write " "&ZC_MSG051&" "
+	Response.Write "</select></p>"
+
+	'upload
+	Response.Write "<iframe src="""&BlogHost&"zb_system/wap/upload.asp"" width=350 height=20 frameborder=0></iframe>"
 
 
-	Response.Write "<input type=""hidden"" name=""edtYear"" value="""&Year(EditArticle.PostTime)&""" /><input name=""edtMonth"" type=""hidden"" value="""&Month(EditArticle.PostTime)&""" /><input name=""edtDay"" type=""hidden"" value="""&Day(EditArticle.PostTime)&""" /><input name=""edtTime"" type=""hidden"" value="""& Hour(EditArticle.PostTime)&":"&Minute(EditArticle.PostTime)&":"&Second(EditArticle.PostTime)&""" />"
+	Response.Write "<input type=""hidden"" name=""edtDateTime"" id=""edtDateTime"" value="""&EditArticle.PostTime&""" />"
 	
 	Response.Write "<p>"&ZC_MSG055&" ："
 	Response.Write "<textarea  name=""txaContent""  class=""i""  style=""min-height:160px;"">"&EditArticle.Content&"</textarea></p>"
@@ -441,9 +437,17 @@ Function WapEdtArt()
 	If Len(EditArticle.Intro)=0 Then idis="none"
 	Response.Write "<p style=""display:"&idis&""">"&ZC_MSG016&" ："
 	Response.Write "<textarea  name=""txaIntro""  class=""i"" style=""min-height:100px;"">"&EditArticle.Intro&"</textarea></p>"
-	Response.Write "<p><input  type=""submit"" value="&ZC_MSG087&" /><span class=""stamp""><a href=""javascript:history.go(-1)"">"&ZC_MSG065&"</a></span></p>"
 
-	Response.Write "</form>"
+	'istop
+	Response.Write "<p><span>"&ZC_MSG051&"</span> ："
+    If EditArticle.Istop Then
+	Response.Write "<input type=""checkbox"" name=""edtIstop"" id=""edtIstop"" value=""True"" checked=""""/>"
+    Else
+	Response.Write "<input type=""checkbox"" name=""edtIstop"" id=""edtIstop"" value=""True""/>"
+    End If
+	Response.Write "<span style=""float:right""><input  type=""submit"" value="""&ZC_MSG087&""" /><b>&nbsp;&nbsp;&nbsp;</b></span></p>"
+
+	Response.Write "</form><br />"
 	
 End Function
 
@@ -454,9 +458,9 @@ End Function
 Function WapPostArt()
 	If PostArticle() Then		
 		Response.Write "<p class=""n"">"&ZC_MSG266&"</p>"	
-		Response.Write WapMain()
 		Call MakeBlogReBuild_Core()
 	End If
+	Response.Redirect WapUrlStr
 End Function
 
 
@@ -709,7 +713,7 @@ Function WapCom()
 					ReDim Preserve aryStrC(i)
 					aryStrC(i)=strCTemplate
 					aryStrC(i)=Replace(aryStrC(i),"<#ZC_FILENAME_WAP#>",WapUrlStr)
-					aryStrC(i)=Replace(aryStrC(i),"<#article/id#>",objRS("log_ID"))
+					aryStrC(i)=Replace(aryStrC(i),"<#article/id#>",objRS("blog_Comment.log_ID"))
 					aryStrC(i)=Replace(aryStrC(i),"<#article/title#>",objRS("log_Title"))
 					aryStrC(i)=Replace(aryStrC(i),"<#article/comment/id#>",objComment.ID)
 					aryStrC(i)=Replace(aryStrC(i),"<#article/comment/name#>",objComment.Author)
