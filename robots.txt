@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /ZB_SYSTEM/
+Disallow: /ZB_USERS/
+Disallow: /ZB_Install/
+Disallow: /search.asp
+Disallow: /catalog.asp
+Disallow: /tags.asp
