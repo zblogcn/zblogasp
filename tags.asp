@@ -43,15 +43,13 @@ objArticle.Title="TagCloud"
 
 Dim Tag
 Dim strTagCloud()
-Dim i,j,h
+Dim i,j
 
 Dim objRS
 Set objRS=objConn.Execute("SELECT [tag_ID] FROM [blog_Tag] ORDER BY [tag_Name] ASC")
 If (Not objRS.bof) And (Not objRS.eof) Then
 	Do While Not objRS.eof
-
 		i=TagCloud(Tags(objRS("tag_ID")).Count)
-		If h<i Then h=i
 		ReDim Preserve strTagCloud(j+1)
 		strTagCloud(j) = "<font size='+"&i&"'><a title='" & Tags(objRS("tag_ID")).Count & "' href='" & Tags(objRS("tag_ID")).Url &"'>" & Tags(objRS("tag_ID")).name & "</a></font>&nbsp;&nbsp;"
 		j=j+1
@@ -62,7 +60,7 @@ objRS.Close
 Set objRS=Nothing
 
 objArticle.FType=ZC_POST_TYPE_PAGE
-objArticle.Content="<p style='line-height:"&(100+h*30)&"%'><br/>" & Join(strTagCloud) & "</p>"
+objArticle.Content="<p style='line-height:1.4'><br/>" & Join(strTagCloud) & "</p>"
 objArticle.Title="TagCloud"
 objArticle.FullRegex="{%host%}/{%alias%}.html"
 

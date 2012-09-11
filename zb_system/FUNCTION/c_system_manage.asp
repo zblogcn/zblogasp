@@ -94,7 +94,7 @@ Function ExportArticleList(intPage,intCate,intLevel,intTitle)
 
 	Response.Write "<form class=""search"" id=""edit"" method=""post"" action=""../admin/admin.asp?act=ArticleMng"">"
 
-	Response.Write "<p>"&ZC_MSG158&":</p><p>"
+	Response.Write "<p>"&ZC_MSG158&":&nbsp;&nbsp;&nbsp;&nbsp;"
 
 	Response.Write ZC_MSG012&" <select class=""edit"" size=""1"" id=""cate"" name=""cate"" style=""width:100px;"" ><option value=""-1"">"&ZC_MSG157&"</option> "
 
@@ -123,7 +123,7 @@ Function ExportArticleList(intPage,intCate,intLevel,intTitle)
 	Next
 	Response.Write "</select>"
 
-	Response.Write "&nbsp;&nbsp;&nbsp;&nbsp;"&ZC_MSG224&" <input id=""title"" name=""title"" style=""width:250px;"" type=""text"" value="""" /> "
+	Response.Write "&nbsp;&nbsp;&nbsp;&nbsp;<input id=""title"" name=""title"" style=""width:250px;"" type=""text"" value="""" /> "
 	Response.Write "&nbsp;&nbsp;&nbsp;&nbsp;<input type=""submit"" class=""button"" value="""&ZC_MSG087&"""/>"
 
 	Response.Write "</p></form>"
@@ -265,7 +265,7 @@ Call Add_Response_Plugin("Response_Plugin_ArticleMng_SubMenu",MakeSubMenu(ZC_MSG
 
 	Response.Write "<form class=""search"" id=""edit"" method=""post"" action=""../admin/admin.asp?act=ArticleMng&amp;type=Page"">"
 
-	Response.Write "<p>"&REPLACE(ZC_MSG158,ZC_MSG048,ZC_MSG160)&":</p><p>"
+	Response.Write "<p>"&REPLACE(ZC_MSG158,ZC_MSG048,ZC_MSG160)&":&nbsp;&nbsp;&nbsp;&nbsp;"
 
 	Response.Write ZC_MSG061&" <select class=""edit"" size=""1"" id=""level"" name=""level"" style=""width:80px;"" ><option value=""-1"">"&ZC_MSG157&"</option> "
 
@@ -275,7 +275,7 @@ Call Add_Response_Plugin("Response_Plugin_ArticleMng_SubMenu",MakeSubMenu(ZC_MSG
 	Next
 	Response.Write "</select>"
 
-	Response.Write "&nbsp;&nbsp;&nbsp;&nbsp;"&ZC_MSG224&" <input id=""title"" name=""title"" style=""width:250px;"" type=""text"" value="""" /> "
+	Response.Write "&nbsp;&nbsp;&nbsp;&nbsp;<input id=""title"" name=""title"" style=""width:250px;"" type=""text"" value="""" /> "
 	Response.Write "&nbsp;&nbsp;&nbsp;&nbsp;<input type=""submit"" class=""button"" value="""&ZC_MSG087&"""/>"
 
 	Response.Write "</p></form>"
@@ -481,9 +481,9 @@ Function ExportCommentList(intPage,intContent)
 
 
 	Response.Write "<form class=""search"" id=""edit"" method=""post"" action=""../admin/admin.asp?act=CommentMng"">"
-	Response.Write "<p>"&ZC_MSG234&":</p><p>"
+	Response.Write "<p>"&ZC_MSG234&":&nbsp;&nbsp;&nbsp;&nbsp;"
 
-	Response.Write " "&ZC_MSG224&" <input id=""intContent"" name=""intContent"" style=""width:250px;"" type=""text"" value="""" /> "
+	Response.Write "<input id=""intContent"" name=""intContent"" style=""width:250px;"" type=""text"" value="""" /> "
 	Response.Write "<input type=""submit"" class=""button"" value="""&ZC_MSG087&"""/>"
 
 	Response.Write "</p></form>"

@@ -418,7 +418,7 @@
 .ui-progressbar { height:2em; text-align: left; overflow: hidden; }
 .ui-progressbar .ui-progressbar-value {margin: -1px; height:100%; }
 
-#ui-datepicker-div, .ui-datepicker{ font-size: 90%; }	
+#ui-datepicker-div, .ui-datepicker{ font-size: 90%;box-shadow: 0 0 15px #aaa;}	
 .ui-timepicker-div .ui-widget-header { margin-bottom: 8px; }
 .ui-timepicker-div dl { text-align: left; }
 .ui-timepicker-div dl dt { height: 25px; margin-bottom: -25px; }
