@@ -215,7 +215,7 @@ Next
 <%
 If Request.QueryString("type")<>"Page" Then
 %>
-                      <span class='editinputname' style="cursor:pointer;" onClick="$(this).next().toggleClass('hidden');"><%=ZC_MSG012%>:</span>
+                      <span class='editinputname'><%=ZC_MSG012%>:</span>
                         <select style="width:150px;" class="edit" size="1" id="cmbCate" onChange="edtCateID.value=this.options[this.selectedIndex].value;selectlogtemplate(this.options[this.selectedIndex].value);">
                           <option value="0"></option>
 <%
@@ -253,7 +253,7 @@ End If
 
                         <p>
 <!-- template( -->
-                          <span class='editinputname' style="cursor:pointer;" onClick="$(this).next().toggleClass('hidden');"><%=ZC_MSG188%>:</span>
+                          <span class='editinputname'><%=ZC_MSG188%>:</span>
                           <select style="width:150px;" class="edit" size="1" id="cmbTemplate" onChange="edtTemplate.value=this.options[this.selectedIndex].value">
 <%
 	Dim aryFileList
@@ -285,7 +285,7 @@ End If
 
                         <p>
 <!-- level -->
-                          <span class='editinputname' style="cursor:pointer;" onClick="$(this).next().toggleClass('hidden');"><%=ZC_MSG061%>:</span><select class="edit" style="width:150px;" size="1" id="cmbArticleLevel" onChange="edtLevel.value=this.options[this.selectedIndex].value">
+                          <span class='editinputname'><%=ZC_MSG061%>:</span><select class="edit" style="width:150px;" size="1" id="cmbArticleLevel" onChange="edtLevel.value=this.options[this.selectedIndex].value">
                             <%
 	Dim ArticleLevel
 	Dim i:i=0
@@ -310,7 +310,7 @@ End If
                         <p>
 <!-- user( -->
 
-                        <span class='editinputname' style="cursor:pointer;" onClick="$(this).next().toggleClass('hidden');"><%=ZC_MSG003%>:</span><select style="width:150px;" size="1" id="cmbUser" onChange="edtAuthorID.value=this.options[this.selectedIndex].value">
+                        <span class='editinputname'><%=ZC_MSG003%>:</span><select style="width:150px;" size="1" id="cmbUser" onChange="edtAuthorID.value=this.options[this.selectedIndex].value">
                           <option value="0"></option>
                           <%
 	GetUser()
@@ -346,7 +346,7 @@ End If
 <!-- date( 原日期
                         <p>
 
-                          <span class='editinputname' style="cursor:pointer;" onClick="$(this).next().toggleClass('hidden');"><%=ZC_MSG062%>:</span><span><input type="text" name="edtYear" id="edtYear" style="width:32px;" value="<%=Year(EditArticle.PostTime)%>" /><span>-</span><input type="text" name="edtMonth" id="edtMonth" style="width:17px;" value="<%=Month(EditArticle.PostTime)%>" /><span>-</span><input type="text" name="edtDay" id="edtDay" style="width:17px;" value="<%=Day(EditArticle.PostTime)%>" /><span>-</span><input type="text" name="edtTime" id="edtTime" style="width:50px;" value="<%= Hour(EditArticle.PostTime)&":"&Minute(EditArticle.PostTime)&":"&Second(EditArticle.PostTime)%>" /></span>
+                          <span class='editinputname'><%=ZC_MSG062%>:</span><span><input type="text" name="edtYear" id="edtYear" style="width:32px;" value="<%=Year(EditArticle.PostTime)%>" /><span>-</span><input type="text" name="edtMonth" id="edtMonth" style="width:17px;" value="<%=Month(EditArticle.PostTime)%>" /><span>-</span><input type="text" name="edtDay" id="edtDay" style="width:17px;" value="<%=Day(EditArticle.PostTime)%>" /><span>-</span><input type="text" name="edtTime" id="edtTime" style="width:50px;" value="<%= Hour(EditArticle.PostTime)&":"&Minute(EditArticle.PostTime)&":"&Second(EditArticle.PostTime)%>" /></span>
 
 
                       </p>
@@ -428,15 +428,9 @@ End If
 	var loaded=false;
 	var editor = new baidu.editor.ui.Editor();
 	var editor2 = new baidu.editor.ui.Editor({
-		toolbars:[['Source', 'Undo', 'Redo']],
-//		autoClearinitialContent:false,
-//		wordCount:false,
-//		elementPathEnabled:false,
-//		autoFloatEnabled:false,
+		toolbars:[['Source', 'bold', 'italic','link','insertimage','Undo', 'Redo']],
 		autoHeightEnabled:false,
 		minFrameHeight:200,
-		highlightJsUrl:"<%=BlogHost%>ZB_SYSTEM/ADMIN/uEditor/third-party/SyntaxHighlighter/shCore.js" 
-		,highlightCssUrl:"<%=BlogHost%>ZB_SYSTEM/ADMIN/uEditor/third-party/SyntaxHighlighter/shCoreDefault.css"
 	});
 	editor.render('ueditor');
 	editor2.render('ueditor2');
@@ -477,8 +471,8 @@ End If
 
 	$('#edtDateTime').datetimepicker({
 		showSecond: true,
-		changeMonth: true,
-		changeYear: true
+		//changeMonth: true,
+		//changeYear: true
 	});
 
 	var str10="<%=ZC_MSG115%>";
