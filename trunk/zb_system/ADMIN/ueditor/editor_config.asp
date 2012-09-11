@@ -39,10 +39,15 @@ Next
     oDic.Add "wordImagePath",""""&Path&""""
     oDic.Add "wordImageFieldName","""edtFileLoad"""
     oDic.Add "getMovieUrl","URL+""asp/getMovie.asp"""
-	oDic.Add "toolbars","[ ['fullscreen', 'source', '|', 'undo', 'redo', '|', 'bold', 'italic', 'underline', 'strikethrough', 'superscript', 'subscript','|',  'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist','|', 'indent', '|', 'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify',  '|',  'autotypeset', 'searchreplace'],[ 'fontfamily', 'fontsize', '|', 'emotion','link','insertimage', 'insertvideo', 'attachment','spechars','|', 'map', 'gmap', '|', 'highlightcode','blockquote', 'pasteplain','wordimage','|','inserttable', 'deletetable', '|','preview','insertintro']]"
-	oDic.Add "maximumWords",1000000000
-	oDic.Add "wordCountMsg","'当前已输入 {#count} 个字符 '"
+	oDic.Add "toolbars","[ ['fullscreen', 'source', '|', 'undo', 'redo', '|', 'bold', 'italic', 'underline', 'strikethrough', 'superscript', 'subscript','|',  'forecolor', 'backcolor', '|', 'insertorderedlist', 'insertunorderedlist','|', 'indent', 'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify',  '|',  'autotypeset', 'searchreplace'],[ 'fontfamily', 'fontsize', '|', 'emotion','link','insertimage', 'insertvideo', 'attachment','spechars','|', 'map', 'gmap', '|', 'highlightcode','blockquote', 'pasteplain','wordimage','inserttable', 'deletetable', '|','insertintro','preview']]"
+	'oDic.Add "maximumWords",1000000000
+	'oDic.Add "wordCountMsg","'当前已输入 {#count} 个字符 '"
 	oDic.Add "initialContent","'<p></p>'"
+	oDic.Add "initialStyle","'body{font-size:14px;}'"
+	oDic.Add "wordCount","false"
+	oDic.Add "elementPathEnabled","false"
+	oDic.Add "minFrameHeight","300"
+
 	
 	Dim i,aryKeys,aryItems
 	aryKeys=oDic.Keys
