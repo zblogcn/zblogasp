@@ -1,20 +1,10 @@
 ﻿<%@ CODEPAGE=65001 %>
-<!--#include file="up_inc.asp"-->
-<!-- #include file="../../../../zb_users\c_option.asp" -->
-<!-- #include file="../../../function\c_function.asp" -->
-<!-- #include file="../../../function\c_system_lib.asp" -->
-<!-- #include file="../../../function\c_system_base.asp" -->
-<!-- #include file="../../../function\c_system_event.asp" -->
-<!-- #include file="../../../function\c_system_plugin.asp" -->
-<!-- #include file="../../../../zb_users\plugin\p_config.asp" -->
+<!--#include file="ASPIncludeFile.asp"-->
 <%
-On Error Resume Next
-Call System_Initialize()
-Call CheckReference("")
-If Not CheckRights("ArticleEdt") Then Call ShowError(6)
+uEditor_i
 
-For Each sAction_Plugin_imageManager_Begin in Action_Plugin_imageManager_Begin
-	If Not IsEmpty(sAction_Plugin_imageManager_Begin) Then Call Execute(sAction_Plugin_imageManager_Begin)
+For Each sAction_Plugin_uEditor_imageManager_Begin in Action_Plugin_uEditor_imageManager_Begin
+	If Not IsEmpty(sAction_Plugin_uEditor_imageManager_Begin) Then Call Execute(sAction_Plugin_uEditor_imageManager_Begin)
 Next
 	Dim strResponse,objUpload,objRS,intPageAll
 	If CheckRights("Root")=False Then strSQL="WHERE ([ul_AuthorID] = " & BlogUser.ID & ")"
@@ -37,17 +27,17 @@ Next
 					If CBool(objRS("ul_DirByTime"))=True Then
 						Response.Write ZC_UPLOAD_DIRECTORY &"/"&Year(objRS("ul_PostTime")) & "/" & Month(objRS("ul_PostTime")) & "/"&objRS("ul_FileName")&"ue_separate_ue"
 					Else
-						Response.Write ZC_UPLOAD_DIRECTORY &"/"&objRS("ul_FileName")&"ue_separate_ue"
+						Response.Write ZC_UPLOAD_DIRECTORY &"/"&objRS("ul_FileName")&uEditor_Split
 					End If
 				Else
-					Response.Write ZC_UPLOAD_DIRECTORY &"/"&objRS("ul_FileName")&"'ue_separate_ue"
+					Response.Write ZC_UPLOAD_DIRECTORY &"/"&objRS("ul_FileName")&uEditor_Split
 				End If
 			End If
 			objRS.MoveNext
 		Next
 	End If
-For Each sAction_Plugin_imageManager_End in Action_Plugin_imageManager_End
-	If Not IsEmpty(sAction_Plugin_imageManager_End) Then Call Execute(sAction_Plugin_imageManager_End)
+For Each sAction_Plugin_uEditor_imageManager_End in Action_Plugin_uEditor_imageManager_End
+	If Not IsEmpty(sAction_Plugin_uEditor_imageManager_End) Then Call Execute(sAction_Plugin_uEditor_imageManager_End)
 Next
 	Response.Write strResponse
 Call System_Terminate()

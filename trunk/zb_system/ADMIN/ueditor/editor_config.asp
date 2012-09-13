@@ -26,7 +26,7 @@ Next
 	Dim oDic
 	Set oDic = Server.CreateObject("Scripting.Dictionary")
 	oDic.Add "UEDITOR_HOME_URL","URL"
-    oDic.Add "imageUrl"," URL+""asp/picUp.asp"""
+    oDic.Add "imageUrl"," URL+""asp/imageUp.asp"""
     oDic.Add "imagePath",""""&Path&""""
     oDic.Add "imageFieldName"," ""edtFileLoad"""
     oDic.Add "fileUrl"," URL+""asp/fileUp.asp"""
@@ -39,7 +39,7 @@ Next
     oDic.Add "wordImagePath",""""&Path&""""
     oDic.Add "wordImageFieldName","""edtFileLoad"""
     oDic.Add "getMovieUrl","URL+""asp/getMovie.asp"""
-	oDic.Add "toolbars","[ ['fullscreen', 'source', '|', 'undo', 'redo', '|', 'bold', 'italic', 'underline', 'strikethrough', 'superscript', 'subscript','|',  'forecolor', 'backcolor', '|', 'insertorderedlist', 'insertunorderedlist','|', 'indent', 'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify',  '|',  'autotypeset', 'searchreplace'],[ 'fontfamily', 'fontsize', '|', 'emotion','link','insertimage', 'insertvideo', 'attachment','spechars','|', 'map', 'gmap', '|', 'highlightcode','blockquote', 'pasteplain','wordimage','inserttable', 'deletetable', '|','insertintro','preview']]"
+	oDic.Add "toolbars","[ ['fullscreen', 'source', '|', 'undo', 'redo', '|', 'bold', 'italic', 'underline', 'strikethrough', 'superscript', 'subscript','|',  'forecolor', 'backcolor', '|', 'insertorderedlist', 'insertunorderedlist','|', 'indent', 'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify',  '|',  'autotypeset', 'searchreplace'],[ 'fontfamily', 'fontsize', '|', 'emotion','link','insertimage', ,'scrawl','insertvideo', 'attachment','spechars','|', 'map', 'gmap', '|', 'highlightcode','blockquote', 'pasteplain','wordimage','inserttable', 'deletetable', '|','insertintro','preview']]"
 	'oDic.Add "maximumWords",1000000000
 	'oDic.Add "wordCountMsg","'当前已输入 {#count} 个字符 '"
 	oDic.Add "initialContent","'<p></p>'"
@@ -47,7 +47,9 @@ Next
 	oDic.Add "wordCount","false"
 	oDic.Add "elementPathEnabled","false"
 	oDic.Add "minFrameHeight","300"
-
+    oDic.Add "scrawlUrl"," URL+""asp/scrawlUp.asp"""
+    oDic.Add "scrawlPath",""""&Path&""""
+	oDic.Add "scrawlFieldName","""edtFileLoad"""
 	
 	Dim i,aryKeys,aryItems
 	aryKeys=oDic.Keys
