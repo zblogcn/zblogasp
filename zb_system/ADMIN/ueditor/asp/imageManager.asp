@@ -20,7 +20,6 @@ Next
 	intPageAll=objRS.PageCount
 
 	If (Not objRS.bof) And (Not objRS.eof) Then
-
 		For i=1 to objRS.PageSize
 			If CheckRegExp(objRS("ul_FileName"),"\.(jpe?g|gif|bmp|png)$")=True Then
 				If IsNull(objRS("ul_DirByTime"))=False And objRS("ul_DirByTime")<>"" Then
@@ -34,6 +33,7 @@ Next
 				End If
 			End If
 			objRS.MoveNext
+			If objRS.eof Then Exit For
 		Next
 	End If
 For Each sAction_Plugin_uEditor_imageManager_End in Action_Plugin_uEditor_imageManager_End
