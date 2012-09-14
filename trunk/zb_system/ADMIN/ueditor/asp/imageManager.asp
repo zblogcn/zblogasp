@@ -22,7 +22,7 @@ Next
 	If (Not objRS.bof) And (Not objRS.eof) Then
 
 		For i=1 to objRS.PageSize
-			If CheckRegExp(objRS("ul_FileName"),".+?\.jp[e]?g|.+?\.gif|.+?\.png|.+?\.bmp|.+?\.tif[f]?")=True Then
+			If CheckRegExp(objRS("ul_FileName"),"\.(jpe?g|gif|bmp|png)$")=True Then
 				If IsNull(objRS("ul_DirByTime"))=False And objRS("ul_DirByTime")<>"" Then
 					If CBool(objRS("ul_DirByTime"))=True Then
 						Response.Write ZC_UPLOAD_DIRECTORY &"/"&Year(objRS("ul_PostTime")) & "/" & Month(objRS("ul_PostTime")) & "/"&objRS("ul_FileName")&"ue_separate_ue"
