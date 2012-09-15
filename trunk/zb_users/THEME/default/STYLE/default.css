@@ -1,4 +1,4 @@
-/*--------------------------全--局-------------------------------*/
+﻿/*--------------------------全--局-------------------------------*/
 
 
 body{
@@ -6,7 +6,7 @@ body{
 	padding:0;
 	color:#555;
 	font-size:14px;
-    font-family: "微软雅黑;宋体","Trebuchet MS", Tahoma, Arial, sans-serif;
+    	font-family: "微软雅黑","宋体","Trebuchet MS", Tahoma, Arial, sans-serif;
 	background:url("default/bg-top.png") repeat-x 0 0;
     
 }
