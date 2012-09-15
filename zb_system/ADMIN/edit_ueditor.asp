@@ -430,7 +430,7 @@ End If
 	var editor2 = new baidu.editor.ui.Editor({
 		toolbars:[['Source', 'bold', 'italic','link','insertimage','Undo', 'Redo']],
 		autoHeightEnabled:false,
-		minFrameHeight:200,
+		minFrameHeight:200
 	});
 	editor.render('ueditor');
 	editor2.render('ueditor2');
@@ -470,7 +470,7 @@ End If
 	$.timepicker.setDefaults($.timepicker.regional['zh-cn']);
 
 	$('#edtDateTime').datetimepicker({
-		showSecond: true,
+		showSecond: true
 		//changeMonth: true,
 		//changeYear: true
 	});

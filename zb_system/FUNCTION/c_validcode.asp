@@ -16,7 +16,11 @@
 <% Option Explicit %>
 <% On Error Resume Next %>
 <!-- #include file="../../zb_users/c_option.asp" -->
-<!-- #include file="c_function.asp" -->
+<!-- #include file="../function/c_function.asp" -->
+<!-- #include file="../function/c_system_lib.asp" -->
+<!-- #include file="../function/c_system_base.asp" -->
+<!-- #include file="../function/c_system_plugin.asp" -->
+<!-- #include file="../../zb_users/plugin/p_config.asp" -->
 <%
 '//////' QQ17862153/////ASP无组件验证码程序开始///////////
 Class Com_GifCode_Class
