@@ -7,8 +7,8 @@
 '// 最后修改：   
 '// 最后版本:    
 '///////////////////////////////////////////////////////////////////////////////
-
-
+Dim Totoro_DebugData
+Dim Totoro_Debug
 Dim TOTORO_INTERVAL_VALUE
 Dim TOTORO_BADWORD_VALUE
 Dim TOTORO_HYPERLINK_VALUE
@@ -43,7 +43,9 @@ Dim Totoro_SpamCount_Comment
 
 '注册插件
 Call RegisterPlugin("Totoro","ActivePlugin_Totoro")
-
+Sub Totoro_AddDebug(data)
+	If Totoro_Debug Then Totoro_DebugData=Totoro_DebugData & vbCrlf & "【" & Now & "】" & data
+End Sub
 
 '具体的接口挂接
 Function ActivePlugin_Totoro() 
@@ -87,7 +89,7 @@ Function InstallPlugin_Totoro()
         Totoro_Config.Write "TOTORO_CHECKSTR","Totoro大显神威！你的评论被怀疑是垃圾评论已经被提交审核。"
         Totoro_Config.Write "TOTORO_THROWSTR","Totoro大显神威！你的评论被怀疑是垃圾评论已经被删除。"
         Totoro_Config.Write "TOTORO_KILLIPSTR","Totoro大显神威！你的IP不合法不允许评论。"
-		Totoro_Config.Write "TOTORO_PM",True
+		Totoro_Config.Write "TOTORO_PM",False
 		Totoro_Config.Write "TOTORO_THROWCOUNT",0
 		Totoro_Config.Save
 		'Call SetBlogHint_Custom("您是第一次安装Totoro，已经为您导入初始配置。")
@@ -103,7 +105,7 @@ Function InstallPlugin_Totoro()
 		Totoro_Config.Save
 	ElseIf Totoro_Config.Read("TOTORO_VERSION")="3.0.3" Then
 		Totoro_Config.Write "TOTORO_VERSION","3.0.4"
-		Totoro_Config.Write "TOTORO_PM",True
+		Totoro_Config.Write "TOTORO_PM",False
 		Totoro_Config.Write "TOTORO_THROWCOUNT",0
 		Totoro_Config.Save
 	End If
@@ -158,14 +160,27 @@ End Function
 Function Totoro_chkComment(ByRef objComment)
 	Call Totoro_Initialize
 	objComment.IP=IIf(Request.ServerVariables("HTTP_X_FORWARDED_FOR")="",Request.Servervariables("REMOTE_ADDR"),Request.ServerVariables("HTTP_X_FORWARDED_FOR"))
+	Call Totoro_cComment(objComment,BlogUser,False)
+
+	Totoro_chkComment=True
+
+End Function
+'*********************************************************
+
+Sub Totoro_cComment(objComment,objUser,isDebug)
+	Totoro_Debug=isDebug
 	
-	If objComment.IsCheck=True Then Exit Function
-	If objComment.IsThrow=True Then Exit Function
+	If objComment.IsCheck=True Then Exit Sub
+	If objComment.IsThrow=True Then Exit Sub
+	
 	If Totoro_FunctionFilterIP(objComment.IP) Then
 		ZVA_ErrorMsg(14)=TOTORO_KILLIPSTR
+		AddDebug ZVA_ErrorMsg(14)
 		objComment.IsThrow=True
-		Exit Function
+		Exit Sub
 	End iF
+	Totoro_AddDebug "IP("&objcomment.ip&")不在范围内，进入下一步测试"
+	
 	Dim strTemp
 	strTemp=objComment.Content
 	If Totoro_PM Then
@@ -182,18 +197,28 @@ Function Totoro_chkComment(ByRef objComment)
 		strTemp=Totoro_GetNum(strTemp)		
 		
 	End If
-	Call Totoro_checkLevel(BlogUser.Level)
-	Call Totoro_checkName(Request.ServerVariables("REMOTE_ADDR"))
+		
+
+	Totoro_AddDebug "待处理评论：" & vbcrlf & strTemp
+	Call Totoro_checkLevel(objUser.Level)
+	Totoro_AddDebug "用户级别测试完毕。SV为：" & Totoro_SV
+	Call Totoro_checkName(objComment.IP)
+	Totoro_AddDebug "访客熟悉度测试完毕。SV为：" & Totoro_SV
 	Call Totoro_checkHyperLink(strTemp)
+	Totoro_AddDebug "超链接测试完毕。SV为：" & Totoro_SV
 	Call Totoro_checkBadWord(strTemp & "&" & objComment.Author & "&" & objComment.HomePage & "&" & objComment.IP & "&" & objComment.Email)
+	Totoro_AddDebug "黑词测试完毕。SV为：" & Totoro_SV
 	Call Totoro_checkInterval(Request.ServerVariables("REMOTE_ADDR"))
+	Totoro_AddDebug "发表频率测试完毕。SV为：" & Totoro_SV
 	Call Totoro_checkNumLong(strTemp)
+	Totoro_AddDebug "数字长度测试完毕。SV为：" & Totoro_SV
 	Call Totoro_checkChinese(strTemp)
-	
+	Totoro_AddDebug "中文测试完毕。SV为：" & Totoro_SV
 	objComment.Content=Totoro_replaceWord(objComment.Content)
 	objComment.Author=Totoro_replaceWord(objComment.Author)
 	'Response.AddHeader "Totoro_SV",Totoro_SV
 	'Response.AddHeader "Content",strTemp
+	Totoro_AddDebug "敏感词替换完毕"
 	Dim o
 	
 	If Totoro_SV>=TOTORO_SV_THRESHOLD Then
@@ -202,20 +227,26 @@ Function Totoro_chkComment(ByRef objComment)
 		
 		If Totoro_SV<TOTORO_SV_THRESHOLD2 Or TOTORO_SV_THRESHOLD2=0 Then
 			objComment.IsCheck=True
-			o=Totoro_FunctionKillIP(objComment,False)
+			Totoro_AddDebug "该评论进入审核列表"
+			If isDebug=False Then o=Totoro_FunctionKillIP(objComment,False)
 		ElseIf TOTORO_SV_THRESHOLD2<=Totoro_SV Then
-			TOTORO_THROWCOUNT=TOTORO_THROWCOUNT+1
-			Totoro_Config.Write "TOTORO_THROWCOUNT",TOTORO_THROWCOUNT
-			Totoro_Config.Save
-			objComment.IsThrow=True
-			o=Totoro_FunctionKillIP(objComment,True)
+			If isDebug=False Then 
+				TOTORO_THROWCOUNT=TOTORO_THROWCOUNT+1
+				Totoro_Config.Write "TOTORO_THROWCOUNT",TOTORO_THROWCOUNT
+				Totoro_Config.Save
+				objComment.IsThrow=True
+				o=Totoro_FunctionKillIP(objComment,True)
+			Else
+				Totoro_AddDebug "该评论被拦截"
+			End If
+		
 		End If
+	Else
+		Totoro_AddDebug "判断为正常评论"
+		Totoro_AddDebug "最终输出评论：" &vbcrlf & objComment.Content
+		Totoro_AddDebug "最终用户名：" & vbcrlf & objComment.Author
 	End If
-
-	Totoro_chkComment=True
-
-End Function
-'*********************************************************
+End Sub
 
 Function Totoro_checkChinese(Content)
 	Dim a
@@ -257,7 +288,7 @@ Function Totoro_checkName(ByVal ip)
 
 	Dim i,s
 	s=FilterSQL(ip)
-
+	i=0
 	Dim objRS
 	Set objRS=objConn.Execute("SELECT COUNT([comm_ID]) FROM [blog_Comment] WHERE [log_ID]>=0 and [comm_IP] ='" & ip & "' and [comm_isCheck]=0")
 	If (Not objRS.bof) And (Not objRS.eof) Then
@@ -265,6 +296,7 @@ Function Totoro_checkName(ByVal ip)
 	End If
 	Set objRS=Nothing
 
+	If i=0 Then Totoro_SV=Totoro_SV
 	If i>0 And i<=10   Then Totoro_SV=Totoro_SV-10-TOTORO_NAME_VALUE*(0)
 	If i>10 And i<=20  Then Totoro_SV=Totoro_SV-10-TOTORO_NAME_VALUE*(1)
 	If i>20 And i<=50 Then Totoro_SV=Totoro_SV-10-TOTORO_NAME_VALUE*(2)
@@ -309,7 +341,7 @@ Function Totoro_checkHyperLink(ByVal content)
 	Set SRegExp=New RegExp
 	SRegExp.IgnoreCase =True
 	SRegExp.Global=True
-	SRegExp.Pattern="https:|http:|ftp|www."
+	SRegExp.Pattern="https?://(?!www|ftp)|ftp|www."
 	Set Matches = SRegExp.Execute(content)
 
 	Totoro_SV=Totoro_SV+TOTORO_HYPERLINK_VALUE*(2^matches.count-1)
@@ -374,7 +406,7 @@ End Function
 Function Totoro_FxxxHuoxingwen(str)
 	Dim a,b,d
 	d=str
-	a=Array("҉|","蕶","ニ|貳","弎","陸","ハ|仈","艽","ā|á|ǎ|à|а|А|α","в|в|В|ъ|Ъ|ы|Ы|ь|Ь|β","с|с|С","Ё|е|Е|ё|Ё|ê|ē|é|ě|è","℉|ｆ","ɡ","н|Н","ī|í|ǐ|ì","ｊ","κ","ι","м|М","ń|п|П|Й|π","0|ō|ó|ǒ|ǒ|о|О|ο|σ|⊙|○|◎","р|Р|ρ","я|Я","\$","т|Т|τ","ū|ú|ǔ|ù|∪|μ|υ","∨|ν","ω","×|х|Х|χ","у|У|γ","э|Э","θ","ф|Ф")
+	a=Array("҉|","蕶","ニ|貳","弎","陸","ハ|仈","艽","ā|á|ǎ|à|а|А|α","в|в|В|ъ|Ъ|ы|Ы|ь|Ь|β","с|с|С","Ё|е|Е|ё|Ё|ê|ē|é|ě|è","℉|ｆ","ɡ","н|Н","ī|í|ǐ|ì","ｊ","κ","ι","м|М","ń|п|П|Й|π","ō|ó|ǒ|ǒ|о|О|ο|σ|⊙|○|◎","р|Р|ρ","я|Я","\$","т|Т|τ","ū|ú|ǔ|ù|∪|μ|υ","∨|ν","ω","×|х|Х|χ","у|У|γ","э|Э","θ","ф|Ф")
 	b=Array("",0,2,3,6,8,9,"a","b","c","e","f","g","h","i","j","k","l","m","n","o","p","r","s","t","u","v","w","x","y",3,8,"中")
 	Dim c,i
 	set c=new regexp
@@ -402,13 +434,13 @@ End Function
 Function Totoro_GetNum(str)
 	Dim a,b,d
 	d=str
-	a=Array("零|〇"," 一|壹|Ⅰ|⒈|㈠|①|⑴","二|贰|Ⅱ|⒉|㈡|②|⑵","三|叁|Ⅲ|⒊|㈢|③|⑶","四|肆|Ⅳ|⒋|㈣|④|⑷","五|伍|Ⅴ|⒌|⑤|㈤|⑸","六|陆|Ⅵ|⒍|㈥|⑥|⑹","七|柒|Ⅶ|⒎|⑦|㈦|⑺","八|捌|Ⅷ|⒏|㈧|⑧|⑻","九|玖|Ⅸ|⒐|⑨|㈨|⑼")
-	b=Array(0,1,2,3,4,5,6,7,8,9)
+	a=Array("零|〇"," 一|壹|Ⅰ|⒈|㈠|①|⑴","二|贰|Ⅱ|⒉|㈡|②|⑵","三|叁|Ⅲ|⒊|㈢|③|⑶","四|肆|Ⅳ|⒋|㈣|④|⑷","五|伍|Ⅴ|⒌|⑤|㈤|⑸","六|陆|Ⅵ|⒍|㈥|⑥|⑹","七|柒|Ⅶ|⒎|⑦|㈦|⑺","八|捌|Ⅷ|⒏|㈧|⑧|⑻","九|玖|Ⅸ|⒐|⑨|㈨|⑼","十|拾|㈩|⑩|⒑|Ⅺ|⑽")
+	b=Array(0,1,2,3,4,5,6,7,8,9,10)
 	Dim c,i
 	set c=new regexp
 	c.Global=True
 	c.IgnoreCase=True
-	For i=0 To 9
+	For i=0 To 10
 		c.Pattern=a(i)
 		d=c.replace(d,b(i))
 	Next
