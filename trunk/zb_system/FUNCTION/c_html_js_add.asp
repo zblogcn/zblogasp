@@ -82,6 +82,17 @@ $(document).ready(function(){
 	//日历当天高亮显示
 	try{eval("document.getElementById(\"pCalendar_\"+(new Date()).getFullYear()+\"_\"+((new Date()).getMonth()+1)+\"_\"+(new Date()).getDate()).className+=\" cd\"");}catch(e){};
 
+	$("ul.ul-subcates").prev("a").before("<span class='sh'>-</span>");
+	$("span.sh").click(function (){
+		$(this).next().next("ul").toggle("fast");
+	})
+	.toggle(
+		function () {
+		$(this).html("+");
+		},
+		function () {
+		$(this).html("-");
+	});
 });
 
 <%=Response_Plugin_Html_Js_Add%>
