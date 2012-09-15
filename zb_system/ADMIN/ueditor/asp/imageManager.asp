@@ -21,15 +21,15 @@ Next
 
 	If (Not objRS.bof) And (Not objRS.eof) Then
 		For i=1 to objRS.PageSize
-			If CheckRegExp(objRS("ul_FileName"),"\.(jpe?g|gif|bmp|png)$")=True Then
+			If CheckRegExp(objRS("ul_FileName"),"\.(jpe?g|gif|bmp|png)$")=True And CheckRegExp(objRS("ul_FileName"),"%\d+")=False Then
 				If IsNull(objRS("ul_DirByTime"))=False And objRS("ul_DirByTime")<>"" Then
 					If CBool(objRS("ul_DirByTime"))=True Then
-						Response.Write ZC_UPLOAD_DIRECTORY &"/"&Year(objRS("ul_PostTime")) & "/" & Month(objRS("ul_PostTime")) & "/"&objRS("ul_FileName")&"ue_separate_ue"
+						strResponse=strResponse&Replace(ZC_UPLOAD_DIRECTORY &"/"&Year(objRS("ul_PostTime")) & "/" & Month(objRS("ul_PostTime")) & "/"&objRS("ul_FileName")&uEditor_Split,"%","%25")
 					Else
-						Response.Write ZC_UPLOAD_DIRECTORY &"/"&objRS("ul_FileName")&uEditor_Split
+						strResponse=strResponse&Replace(ZC_UPLOAD_DIRECTORY &"/"&objRS("ul_FileName")&uEditor_Split,"%","%25")
 					End If
 				Else
-					Response.Write ZC_UPLOAD_DIRECTORY &"/"&objRS("ul_FileName")&uEditor_Split
+					strResponse=strResponse&Replace(ZC_UPLOAD_DIRECTORY &"/"&objRS("ul_FileName")&uEditor_Split,"%","%25")
 				End If
 			End If
 			objRS.MoveNext
@@ -39,6 +39,8 @@ Next
 For Each sAction_Plugin_uEditor_imageManager_End in Action_Plugin_uEditor_imageManager_End
 	If Not IsEmpty(sAction_Plugin_uEditor_imageManager_End) Then Call Execute(sAction_Plugin_uEditor_imageManager_End)
 Next
+	strResponse=ReplacePath(strResponse,True)
 	Response.Write strResponse
+	
 Call System_Terminate()
 %>
