@@ -6,7 +6,7 @@ body{
 	padding:0;
 	color:#555;
 	font-size:14px;
-    font-family: "微软雅黑","宋体","Trebuchet MS", Tahoma, Arial, sans-serif;
+    font-family: "微软雅黑;宋体","Trebuchet MS", Tahoma, Arial, sans-serif;
 	background:url("default/bg-top.png") repeat-x 0 0;
     
 }
@@ -804,4 +804,18 @@ span.now-page{
 a:hover span.page{
 	color:red;
 	border:1px solid red;
+}
+
+ul.ul-subcates{
+	padding: 8px 0 0 0;
+	margin-bottom:-8px;
+}
+span.sh{
+	border:1px solid #CCC;
+	padding:0 3px;
+	margin-right:5px;
+	font-size:.5em;
+	font-family:monospace;
+	cursor:pointer;
+	color:#666;
 }
