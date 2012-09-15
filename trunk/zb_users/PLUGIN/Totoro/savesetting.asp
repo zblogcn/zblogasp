@@ -55,7 +55,7 @@ If CheckPluginState("Totoro")=False Then Call ShowError(48)
     Totoro_Config.Write "TOTORO_CHECKSTR",Replace(Replace(Request.Form("strTOTORO_CHECKSTR"),vbCrlf,""),vbLf,"")
 	Totoro_Config.Save
 	Set Totoro_Config=Nothing
-
+Call SetBlogHint_Custom("配置保存成功！强烈建议去<a href='onlinetest.asp'>对配置进行一次测试！</a>")
 Call System_Terminate()
 
 If Err.Number<>0 then

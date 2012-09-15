@@ -39,7 +39,7 @@ BlogTitle="TotoroⅢ（基于TotoroⅡ的Z-Blog的评论管理审核系统增强
 <!--#include file="..\..\..\zb_system\admin\admin_header.asp"-->
 <!--#include file="..\..\..\zb_system\admin\admin_top.asp"-->
         
-        <div id="divMain">
+        <div id="divMain"><div id="ShowBlogHint"><%=GetBlogHint%></div>
           <div class="divHeader"><%=BlogTitle%></div>
           <div class="SubMenu"><a href="setting.asp"><span class="m-left m-now">TotoroⅢ设置</span></a><a href="setting1.asp"><span class="m-left">审核评论
             <%
@@ -49,7 +49,7 @@ BlogTitle="TotoroⅢ（基于TotoroⅡ的Z-Blog的评论管理审核系统增强
 		Response.Write "("&objRS1(0)&"条未审核的评论)"
 	End If
 %>
-            </span></a><a href="regexptest.asp"><span class="m-right">黑词测试</span></a></div>
+            </span></a><a href="regexptest.asp"><span class="m-right">黑词测试</span></a><a href="onlinetest.asp"><span class="m-right">模拟测试</span></a></div>
           <div id="divMain2">
             <form id="edit" name="edit" method="post">
               <div class="content-box">

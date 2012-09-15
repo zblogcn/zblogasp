@@ -37,33 +37,18 @@ BlogTitle="TotoroⅢ（基于TotoroⅡ的Z-Blog的评论管理审核系统增强
 
 Dim o,m,s,t,h,n,n1
 If Request.QueryString("type")="test" Then
-	On Error Resume Next
-	Set o=New RegExp
-	t=Request.Form("string")
-	o.Global=True
-	o.IgnoreCase=True
-	o.Pattern="("&Request.Form("regexp")&")"
-	'Set m=o.Execute(t)
-	h=TransferHTML(t,"[html-format]")
-	t=h
-	'For Each s in m
-		'h=Replace(h,s.value,"<span style=""background-color:#92d050"">"&s.value&"</span>")
-	'Next
-	h=o.replace(h,"<span style=""background-color:#92d050"">$1</span>")
-	n1=RunTime
-	If Err.Number<>0 Then
-		h="正则有误："& Err.Description
-		h=h&"<br/>可能的情况是：<ol><li>少打了某个符号</li><li>没有在[ ] ( ) ^ . ? !等符号前加\</li></ol>"
-	Else
-		n="用时"&n1&"ms"
-		if (t<>h) then h=n&"<br/><br/>检测到黑词或敏感词：<br/><br/>"&h  else h=n&"<br/><br/>"&h
-	End If
+	Call Totoro_Initialize
+	Dim oUser,oComment
+	Set oComment=New TComment
+	Set oUser=New TUser
+	oComment.Content=Request.Form("string")
+	oComment.Author=Request.Form("name")
+	oComment.HomePage=Request.Form("url")
+	oComment.IP="0.0.0.0"
+	Call Totoro_cComment(oComment,oUser,True)
 	
 	
-	
-	
-	
-	Response.Write h
+	Response.Write Replace(TransferHTML(Totoro_DebugData,"[html-format]"),vbcrlf,"<br/>")
 	Response.End
 End If
 %>
@@ -81,16 +66,21 @@ End If
 		Response.Write "("&objRS1(0)&"条未审核的评论)"
 	End If
 %>
-            </span></a><a href="regexptest.asp"><span class="m-right m-now">黑词测试</span></a><a href="onlinetest.asp"><span class="m-right">模拟测试</span></a></div>
+            </span></a><a href="regexptest.asp"><span class="m-right">黑词测试</span><a href="onlinetest.asp"><span class="m-right m-now">模拟测试</span></a></a></div>
           <div id="divMain2">
           <table width='100%' style='padding:0px;margin:1px;line-height:20px' cellspacing='0' cellpadding='0'>
-          <tr height="40"><td width="50%">输入待测试内容</td>
+          <tr height="40">
+            <td width="50%"><label for="username">用户名</label>
+              <input type="text" name="username" id="username" style="width:80%" /></td>
             <td>结果</td>
           </tr>
-          <tr><td><textarea rows="6" name="test" id="test" style="width:99%" ></textarea></td>
+          <tr>
+            <td><label for="url">网址</label>
+              <input type="text" name="url" id="url" style="width:80%"/></td>
             <td rowspan="4" style="text-indent:0;vertical-align:top"><div id="result"></div></td>
           </tr>
-          <tr height="40"><td>输入黑词列表或过滤词列表</td>
+          <tr height="40">
+            <td>内容</td>
             </tr>
           <tr><td><textarea rows="6" name="regexp" id="regexp" style="width:99%" ></textarea></td>
             </tr>
@@ -102,10 +92,10 @@ End If
 		$(document).ready(function(e) {
             $("#buttonsubmit").bind("click",function(){
 				var o=$.ajax({
-					url:"regexptest.asp?type=test",
+					url:"onlinetest.asp?type=test",
 					async:false,
 					type:"POST",
-					data:{"string":$("#test").attr("value"),"regexp":$("#regexp").attr("value")},
+					data:{"name":$("#username").attr("value"),"url":$("#url").attr("value"),"string":$("#regexp").attr("value")},
 					dataType:"script",
 					/*success:function(data){
 						alert(data);
