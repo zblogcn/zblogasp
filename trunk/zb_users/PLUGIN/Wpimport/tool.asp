@@ -273,7 +273,7 @@ If strAct="FileUpload" or ftpupload Then
 					End if
 					
 					If objNodeList(i).selectNodes("content:encoded").length>0 Then
-						objArticle.Content=closeHTML(Replace(objNodeList(i).SelectSingleNode("content:encoded").text,vblf,vbcrlf))
+						objArticle.Content=closeHTML(Replace(objNodeList(i).SelectSingleNode("content:encoded").text,vblf,"<br/>"))
 						objArticle.Intro=closeHTML(GetIntro(objArticle.Content))
 					End If
 
