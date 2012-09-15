@@ -1,13 +1,6 @@
 <%@LANGUAGE="VBSCRIPT" CODEPAGE="65001"%>
-<!-- #include file="../../zb_users/c_option.asp" -->
-<!-- #include file="../function/c_function.asp" -->
-<!-- #include file="../function/c_system_lib.asp" -->
-<!-- #include file="../function/c_system_base.asp" -->
-<!-- #include file="../function/c_system_event.asp" -->
+<!--#include file="../admin/ueditor/asp/ASPIncludeFile.asp"-->
 <!-- #include file="c_system_wap.asp" -->
-<!-- #include file="../function/c_system_plugin.asp" -->
-<!-- #include file="../../zb_users/plugin/p_config.asp" -->
-<!--#include file="../admin/ueditor/asp/up_inc.asp"-->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
