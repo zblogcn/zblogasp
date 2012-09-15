@@ -5,5 +5,21 @@
 	</div><div class="clear"></div>
 	</div><div class="clear"></div>
 </div>
+<script type="text/javascript">
+$(document).ready(function(){ 
+	$("ul.ul-subcates").prev("a").before("<span class='sh'>-</span>");
+	$("span.sh").click(function (){
+		$(this).next().next("ul").toggle("fast");
+	})
+	.toggle(
+		function () {
+		$(this).text("+");
+		},
+		function () {
+		$(this).text("-");
+	})
+	.css({"border":"1px solid #CCC","padding":"0 3px","font-family":"monospace","margin-right":"3px","cursor":"pointer"});
+});
+</script>
 </body>
 </html>
