@@ -312,12 +312,10 @@ Function Totoro_checkBadWord(ByVal content)
 	o.Pattern=TOTORO_BADWORD_LIST
 	o.Global=True
 	o.IgnoreCase=True
-	Dim j,k
-	j=len(o.replace(content,""))
-	k=len(content)
-	j=k-j
+	dim matches
+	set matches=o.execute(content)
+	Totoro_SV=Totoro_SV+TOTORO_BADWORD_VALUE*matches.count
 	Set o=Nothing
-	Totoro_SV=Totoro_SV+TOTORO_BADWORD_VALUE*j
 End Function
 
 Function Totoro_replaceWord(content)
