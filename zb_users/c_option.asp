@@ -15,10 +15,10 @@ Dim ZC_BLOG_SUBTITLE
 ZC_BLOG_SUBTITLE="Hello, world!"
 
 Dim ZC_BLOG_NAME
-ZC_BLOG_NAME="我的Blog"
+ZC_BLOG_NAME="My Blog"
 
 Dim ZC_BLOG_SUB_NAME
-ZC_BLOG_SUB_NAME="欢迎使用Z-Blog，有问题或意见请到Zblogger.BBS社区反馈，谢谢您的参与使用。"
+ZC_BLOG_SUB_NAME="Hello, world!"
 
 Dim ZC_BLOG_THEME
 ZC_BLOG_THEME="default"
@@ -307,7 +307,7 @@ Dim ZC_TAGS_REGEX
 ZC_TAGS_REGEX="{%host%}/catalog.asp?tags={%alias%}"
 
 Dim ZC_DATE_REGEX
-ZC_DATE_REGEX="{%host%}/catalog.asp?date={%year%}-{%month%}"
+ZC_DATE_REGEX="{%host%}/catalog.asp?date={%date%}"
 
 Dim ZC_DEFAULT_REGEX
 ZC_DEFAULT_REGEX="{%host%}/catalog.asp"
