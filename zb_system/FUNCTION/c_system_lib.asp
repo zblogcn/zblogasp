@@ -4570,10 +4570,9 @@ Class TMeta
 
 	Public Function Remove(name)
 
-		name=LCase(name)
-
 		Dim n()
 		Dim v()
+		Dim b
 
 		ReDim n(UBound(names))
 		ReDim v(UBound(names))
@@ -4581,8 +4580,8 @@ Class TMeta
 		Dim i,j
 		j=0
 		For i=0 To UBound(names)
-			If names(i)=name Then
-
+			If LCase(names(i))=LCase(name) Then
+				b=True
 			Else
 				n(j)=names(i)
 				v(j)=values(i)
@@ -4590,13 +4589,17 @@ Class TMeta
 			End If
 		Next
 
-		ReDim names(j-1)
-		ReDim values(j-1)
+		If b=True Then
 
-		For i=0 To j-1
-			names(i)=n(i)
-			values(i)=v(i)
-		Next
+			ReDim names(j-1)
+			ReDim values(j-1)
+
+			For i=0 To j-1
+				names(i)=n(i)
+				values(i)=v(i)
+			Next
+
+		End If
 
 	End Function
 
