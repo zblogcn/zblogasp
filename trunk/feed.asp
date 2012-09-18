@@ -325,8 +325,35 @@ Function ExportRSSbyCmt(intID)
 		Call CheckParameter(intID,"int",0)
 
 		Set objArticle=New TArticle
+		If intID = 0 Then
 
-		If objArticle.LoadInfoByID(intID) Then
+		.TimeZone=ZC_TIME_ZONE
+
+		.AddChannelAttribute "title",TransferHTML(ZC_BLOG_TITLE & "-" & ZC_MSG027,"[html-format]")
+		.AddChannelAttribute "link",TransferHTML(BlogHost,"[html-format]")
+		.AddChannelAttribute "generator","RainbowSoft Studio Z-Blog " & ZC_BLOG_VERSION
+		.AddChannelAttribute "language",ZC_BLOG_LANGUAGE
+		.AddChannelAttribute "pubDate",Now
+
+
+			Set objRS=objConn.Execute("SELECT TOP " & ZC_RSS2_COUNT & " * FROM [blog_Comment] WHERE ([comm_ID]>0) AND ([log_ID]>0) AND ([comm_isCheck]=0) ORDER BY [comm_PostTime] DESC")
+
+			Do While Not objRS.eof
+
+				Set objComment=New TComment
+				If objComment.LoadInfoByArray(Array(objRS("comm_ID"),objRS("log_ID"),objRS("comm_AuthorID"),objRS("comm_Author"),objRS("comm_Content"),objRS("comm_Email"),objRS("comm_HomePage"),objRS("comm_PostTime"),objRS("comm_IP"),objRS("comm_Agent"),objRS("comm_Reply"),objRS("comm_LastReplyIP"),objRS("comm_LastReplyTime"),objRS("comm_ParentID"),objRS("comm_IsCheck"),objRs("comm_Meta")))  And objArticle.LoadInfoByID(objRS("log_ID")) Then
+					.AddItem "Re:"&objArticle.HtmlTitle,objComment.Email & " (" & objComment.Author & ")",objArticle.HtmlUrl & "#cmt" & objComment.ID,objComment.PostTime,objArticle.HtmlUrl & "#cmt" & objComment.ID,objComment.HtmlContent,"","","","",""
+				End If
+				Set objComment=Nothing
+
+				objRS.MoveNext
+
+			Loop
+
+			objRS.close
+			Set objRS=Nothing
+
+		ElseIf objArticle.LoadInfoByID(intID) Then
 
 		.TimeZone=ZC_TIME_ZONE
 
@@ -338,12 +365,12 @@ Function ExportRSSbyCmt(intID)
 
 			If objArticle.CommNums>0 Then
 
-				Set objRS=objConn.Execute("SELECT * FROM [blog_Comment] WHERE ([comm_ID]>0) AND ([log_ID]="&intID&") ORDER BY [comm_PostTime] DESC")
+				Set objRS=objConn.Execute("SELECT * FROM [blog_Comment] WHERE ([comm_ID]>0) AND ([log_ID]="&intID&") AND ([comm_isCheck]=0) ORDER BY [comm_PostTime] DESC")
 
 				Do While Not objRS.eof
 
 					Set objComment=New TComment
-					If objComment.LoadInfoByArray(Array(objRS("comm_ID"),objRS("log_ID"),objRS("comm_AuthorID"),objRS("comm_Author"),objRS("comm_Content"),objRS("comm_Email"),objRS("comm_HomePage"),objRS("comm_PostTime"),objRS("comm_IP"),objRS("comm_Agent"),objRS("comm_Reply"),objRS("comm_LastReplyIP"),objRS("comm_LastReplyTime"),objRS("comm_ParentID"),objRS("comm_IsCheck"),objRs("comm_Meta")))Then
+					If objComment.LoadInfoByArray(Array(objRS("comm_ID"),objRS("log_ID"),objRS("comm_AuthorID"),objRS("comm_Author"),objRS("comm_Content"),objRS("comm_Email"),objRS("comm_HomePage"),objRS("comm_PostTime"),objRS("comm_IP"),objRS("comm_Agent"),objRS("comm_Reply"),objRS("comm_LastReplyIP"),objRS("comm_LastReplyTime"),objRS("comm_ParentID"),objRS("comm_IsCheck"),objRs("comm_Meta"))) Then
 						.AddItem "Re:"&objArticle.HtmlTitle,objComment.Email & " (" & objComment.Author & ")",objArticle.HtmlUrl & "#cmt" & objComment.ID,objComment.PostTime,objArticle.HtmlUrl & "#cmt" & objComment.ID,objComment.HtmlContent,"","","","",""
 					End If
 					Set objComment=Nothing
