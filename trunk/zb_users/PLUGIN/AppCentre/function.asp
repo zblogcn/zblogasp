@@ -22,9 +22,9 @@ Const XML_Pack_Version="Z-Blog_2——0"
 
 Sub SubMenu(id)
 	Dim aryName,aryValue,aryPos
-	aryName=Array("应用下载","主题管理","插件管理","升级应用")
-	aryValue=Array("download.asp","theme.asp","plugin.asp","update.asp")
-	aryPos=Array("m-left","m-left","m-left","m-left")
+	aryName=Array("插件下载","主题下载")
+	aryValue=Array("plugin_dl.asp","theme_dl.asp")
+	aryPos=Array("m-left","m-left")
 	Dim i 
 	For i=0 To Ubound(aryName)
 		Response.Write MakeSubMenu(aryName(i),aryValue(i),aryPos(i) & IIf(id=i," m-now",""),False)

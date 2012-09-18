@@ -185,7 +185,7 @@ Call BlogConfig.Write("ZC_PAGE_REGEX","{%host%}/{%alias%}.html")
 Call BlogConfig.Write("ZC_CATEGORY_REGEX","{%host%}/catalog.asp?cate={%id%}")
 Call BlogConfig.Write("ZC_USER_REGEX","{%host%}/catalog.asp?user={%id%}")
 Call BlogConfig.Write("ZC_TAGS_REGEX","{%host%}/catalog.asp?tags={%alias%}")
-Call BlogConfig.Write("ZC_DATE_REGEX","{%host%}/catalog.asp?date={%year%}-{%month%}")
+Call BlogConfig.Write("ZC_DATE_REGEX","{%host%}/catalog.asp?date={%date%}")
 Call BlogConfig.Write("ZC_DEFAULT_REGEX","{%host%}/catalog.asp")
 
 
