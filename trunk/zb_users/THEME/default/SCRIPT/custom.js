@@ -1,4 +1,4 @@
-$(document).ready(function(){ 
+	setTimeout(function(){ 
 	$("ul.ul-subcates").prev("a").before("<span class='sh'>-</span>");
 	$("span.sh").click(function (){
 		$(this).next().next("ul").toggle("fast");
@@ -10,5 +10,4 @@ $(document).ready(function(){
 		function () {
 		$(this).html("-");
 	});
-
-});
+	},500);
