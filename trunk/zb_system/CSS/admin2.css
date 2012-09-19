@@ -264,7 +264,9 @@ background-image: url();
 text-align:center;
 }
 
-
+.ui-sortable tr.color4{
+cursor:move;
+}
 
 
 /*表   单*/
