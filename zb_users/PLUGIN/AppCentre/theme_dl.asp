@@ -45,7 +45,7 @@ BlogTitle="应用中心"
    %>
   </div>
 </div>
-<SCRIPT type="text/javascript">
+<script type="text/javascript">
 function showhidediv(id){
 	try{
 		if(document.getElementById(id)){
@@ -57,7 +57,7 @@ function showhidediv(id){
 		}
 	}catch(e){}
 } 
-</SCRIPT>
+</script>
 <!--#include file="..\..\..\zb_system\admin\admin_footer.asp"-->
 
 

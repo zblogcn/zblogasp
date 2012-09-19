@@ -986,10 +986,20 @@ Function ExportPluginMng()
 			s=s & "<tr>"
 
 			If CheckPluginState(objXmlFile.documentElement.selectSingleNode("id").text) Then
-				s=s & "<td align='center'><img width='16' src='../IMAGE/ADMIN/ok.png'/></td>"
+				s=s & "<td align='center' class='plugin plugin-on'>"
 			Else
-				s=s & "<td align='center'><img width='16' src='../IMAGE/ADMIN/exclamation.png'/></td>"
+				s=s & "<td align='center' class='plugin'>"
 			End If
+
+			If CheckPluginState(objXmlFile.documentElement.selectSingleNode("id").text) Then
+				s=s & "<img width='16' src='../IMAGE/ADMIN/ok.png'/>"
+			Else
+				s=s & "<img width='16' src='../IMAGE/ADMIN/exclamation.png'/>"
+			End If
+
+			s=s & "<strong style='display:none;'>"& objXmlFile.documentElement.selectSingleNode("id").text &"</strong>"
+
+			s=s & "</td>"
 
 			s=s & "<td>"& m &"</td>"
 			s=s & "<td><a id=""mylink"&Left(md5(objXmlFile.documentElement.selectSingleNode("id").text),6)&""" href=""$div"&objXmlFile.documentElement.selectSingleNode("id").text&"tip?width=300"" class=""betterTip"" title=""$content"">" & "" & objXmlFile.documentElement.selectSingleNode("name").text & "" & "</a><div id=""div"&objXmlFile.documentElement.selectSingleNode("id").text&"tip"" style=""display:none;"">"&objXmlFile.documentElement.selectSingleNode("note").text&"</div></td>"
@@ -1435,15 +1445,15 @@ Function ExportThemeMng()
 
 
 		If UCase(Theme_Id)=UCase(CurrentTheme) Then
-			Response.Write "<div class=""theme-now"">"
+			Response.Write "<div class=""theme theme-now"">"
 		Else
-			Response.Write "<div class=""theme-other"">"
+			Response.Write "<div class=""theme theme-other"">"
 		End If
 
 		If UCase(Theme_Id) <> UCase(f1.name) Then
-			Response.Write "<p style=""color:red;"">ID Error! Should be """& f1.name &"""!!</p>"
+			Response.Write "<p style=""color:red;"">ID Error! Should be ""<strong>"& f1.name &"</strong>""!!</p>"
 		Else
-			Response.Write "<p><img width='16' title='' alt='' src='../IMAGE/ADMIN/layout.png'/>&nbsp;&nbsp;ID: <a id=""mylink1"&Left(md5(Theme_Id),6)&""" href=""$div"&Left(md5(Theme_Id),6)&"tip?width=300"" class=""betterTip"" title="""&Theme_Id&""">" & "" & Theme_Id & "" & "</a></p>"
+			Response.Write "<p><img width='16' title='' alt='' src='../IMAGE/ADMIN/layout.png'/>&nbsp;&nbsp;ID: <a id=""mylink1"&Left(md5(Theme_Id),6)&""" href=""$div"&Left(md5(Theme_Id),6)&"tip?width=300"" class=""betterTip"" title="""&Theme_Id&""">" & "<strong>" & Theme_Id & "</strong>" & "</a></p>"
 		End If
 		Response.Write "<p><a id=""mylink"&Left(md5(Theme_Id),6)&""" href=""$div"&Left(md5(Theme_Id),6)&"tip?width=300"" class=""betterTip"" title="""&Theme_Id&"""><img src=""" & Theme_ScreenShot & """ title=""" & Theme_Name & """ alt=""ScreenShot"" width=""200"" height=""150"" /></a></p>"
 

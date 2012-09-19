@@ -47,14 +47,14 @@ End Function
 '安装插件
 Function InstallPlugin_LazyLoad
 
-	Call SetBlogHint(Empty,Empty,True)
+	'Call SetBlogHint(Empty,Empty,True)
 
 End Function
 
 '卸载插件
 Function UnInstallPlugin_LazyLoad
 
-	Call SetBlogHint(Empty,Empty,True)
+	'Call SetBlogHint(Empty,Empty,True)
 
 End Function
 
