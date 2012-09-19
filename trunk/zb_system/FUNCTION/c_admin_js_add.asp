@@ -26,7 +26,7 @@
 <!-- #include file="../../zb_users/plugin/p_config.asp" -->
 
 <% Response.Clear %>
-
+var bloghost="<%=BlogHost%>";
 var str00="<%=BlogHost%>";
 
 

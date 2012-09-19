@@ -1798,9 +1798,10 @@ Class TArticleList
 		objRS.Source="SELECT [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_Type],[log_Meta] FROM [blog_Article] WHERE ([log_Type]=0) AND ([log_Level]>1)"
 
 		If Not IsEmpty(intCateId) Then
-			'Dim strSubCateID : strSubCateID=Join(GetSubCateID(intCateId,True),",")
-			'objRS.Source=objRS.Source & "AND([log_CateID]IN("&strSubCateID&"))"
-			objRS.Source=objRS.Source & "AND([log_CateID]="&intCateId&")"
+			Dim strSubCateID
+			strSubCateID=Join(GetSubCateID(intCateId,True),",")
+			objRS.Source=objRS.Source & "AND([log_CateID]IN("&strSubCateID&"))"
+			'objRS.Source=objRS.Source & "AND([log_CateID]="&intCateId&")"
 			ListType="CATEGORY"
 			If CheckCateByID(intCateId) Then
 				Title=Categorys(intCateId).Name
