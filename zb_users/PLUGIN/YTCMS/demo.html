@@ -1,0 +1,126 @@
+﻿<table width="80%" align="center" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td>
+<h1>YT.CMS 2.0 演示文档</h1>
+<h3>演示效果中的字段可以在YT.CMS后台面板中生成</h3>
+<fieldset>  
+<legend><h1>单体循环</h1></legend>  
+<em>说明:当没有定义别名时,默认为Article</em>
+<h2>效果</h2>
+{YT:Article DataSource="GetArticleRandomSortRand(1)"}
+<h3>[{$Article.id}]{$Article.title}</h3>
+{/YT:Article}
+<h2>代码</h2>
+</fieldset>  
+<fieldset>  
+<legend><h1>使用别名</h1></legend>  
+<em>说明:别名命名规则参考VBSCRIPT</em>
+<h2>效果</h2>
+{YT:Article DataSource="GetArticleRandomSortRand(1)" Name="b"}
+<h3>[{$b.id}]{$b.title}</h3>
+{/YT:Article}
+<h2>代码</h2>
+</fieldset>  
+<fieldset>  
+<legend><h1>嵌套循环</h1></legend>  
+<em>说明:使用嵌套循环的时候别名是必须的,且不要重复,嵌套层数不限</em>
+<h2>效果</h2>
+{YT:Comment DataSource="GetCommentCategorysComments(32,'5')" Name="com"}
+    <div>
+        {YT:Article DataSource="GetArticleModel(com.log_id)" Name="art"}
+        <a href="{$art.url}#cmt{$com.id}" title="{$art.title}" target="_blank">{$art.title}</a>
+        <div>{$com.content}</div>
+        <div>{$com.posttime}</div>
+        {/YT:Article}
+    </div>
+{/YT:Comment}
+<h2>代码</h2>
+</fieldset>
+<fieldset>  
+<legend><h1>eval&foreach&if&echo</h1></legend>  
+<em>说明:eval函数,foreach循环,if语句,echo函数</em>
+<h2>效果</h2>
+{eval dim b:b=new YT_Article.GetArticleRandomSortRand(5)}
+{eval dim art:set art=New TArticle}
+{foreach c b}
+    {if art.LoadInfoByID(c)}
+        {if art.id > 20 and art.id < 30}
+        	<h3>[<font color="red">{echo art.id}</font>]{$art.title}</h3>
+        {elseif art.id > 30}
+        	<h2>[<font color="blue">{$art.id}</font>]{$art.title}</h2>
+        {else}
+        	<h4>[{$art.id}]{echo art.title}</h4>
+        {/if}
+    {/if}
+{/next}
+<h2>代码</h2>
+</fieldset>
+<fieldset>  
+<legend><h1>do</h1></legend>  
+<em>说明:do循环语句</em>
+<h2>效果</h2>
+{eval dim i:i=0}
+{do while i <= UBound(b,2)}
+<li>{if art.LoadInfoByID(b(0,i))}{$art.title}{/if}</li>
+{eval i=i+1}
+{loop}
+<hr />
+{eval i=0}
+{do}
+<li>{if art.LoadInfoByID(b(0,i))}{$art.title}{/if}</li>
+{eval i=i+1}
+{loop while i <= UBound(b,2)}
+<hr />
+{eval i=0}
+{do until i > UBound(b,2)}
+<li>{if art.LoadInfoByID(b(0,i))}{$art.title}{/if}</li>
+{eval i=i+1}
+{loop}
+<hr />
+{eval i=0}
+{do}
+<li>{if art.LoadInfoByID(b(0,i))}{$art.title}{/if}</li>
+{eval i=i+1}
+{loop until i > UBound(b,2)}
+<h2>代码</h2>
+</fieldset>
+
+<fieldset>  
+<legend><h1>while</h1></legend>  
+<em>说明:while循环语句</em>
+<h2>效果</h2>
+{eval i=0}
+{while i <= UBound(b,2)}
+<li>{if art.LoadInfoByID(b(0,i))}{$art.title}{/if}</li>
+{eval i=i+1}
+{/wend}
+<h2>代码</h2>
+</fieldset>
+
+<fieldset>  
+<legend><h1>for</h1></legend>  
+<em>说明:for循环语句</em>
+<h2>效果</h2>
+{for i=0 UBound(b,2)}
+<li>{if art.LoadInfoByID(b(0,i))}{$art.title}{/if}</li>
+{/next}
+<h2>代码</h2>
+</fieldset>
+    </td>
+  </tr>
+</table>
+<script language="javascript" type="text/javascript">
+var _code = [];
+	_code.push('%3Cp%3E%7BYT%3AArticle%20DataSource%3D%26quot%3BGetArticleRandomSortRand%281%29%26quot%3B%7D%3Cbr%20/%3E%0A%20%20%26lt%3Bh1%26gt%3B%7B%24Article.id%7D%7B%24Article.title%7D%26lt%3B/h1%26gt%3B%3Cbr%20/%3E%0A%20%20%7B/YT%3AArticle%7D%3C/p%3E');
+	_code.push('%7BYT%3AArticle%20DataSource%3D%22GetArticleRandomSortRand%281%29%22%20Name%3D%22b%22%7D%3CBR%3E%26lt%3Bh3%26gt%3B%5B%7B%24b.id%7D%5D%7B%24b.title%7D%26lt%3B/h3%26gt%3B%3CBR%3E%7B/YT%3AArticle%7D');
+	_code.push('%7BYT%3AComment%20DataSource%3D%22GetCommentCategorysComments%2832%2C%275%27%29%22%20Name%3D%22com%22%7D%3CBR%3E%26nbsp%3B%26nbsp%3B%26nbsp%3B%20%26lt%3Bdiv%26gt%3B%3CBR%3E%26nbsp%3B%26nbsp%3B%26nbsp%3B%26nbsp%3B%26nbsp%3B%26nbsp%3B%26nbsp%3B%20%7BYT%3AArticle%20DataSource%3D%22GetArticleModel%28com.log_id%29%22%20Name%3D%22art%22%7D%3CBR%3E%26nbsp%3B%26nbsp%3B%26nbsp%3B%26nbsp%3B%26nbsp%3B%26nbsp%3B%26nbsp%3B%20%26lt%3Ba%20href%3D%22%7B%24art.url%7D%23cmt%7B%24com.id%7D%22%20title%3D%22%7B%24art.title%7D%22%20target%3D%22_blank%22%26gt%3B%7B%24art.title%7D%26lt%3B/a%26gt%3B%3CBR%3E%26nbsp%3B%26nbsp%3B%26nbsp%3B%26nbsp%3B%26nbsp%3B%26nbsp%3B%26nbsp%3B%20%26lt%3Bdiv%26gt%3B%7B%24com.content%7D%26lt%3B/div%26gt%3B%3CBR%3E%26nbsp%3B%26nbsp%3B%26nbsp%3B%26nbsp%3B%26nbsp%3B%26nbsp%3B%26nbsp%3B%20%26lt%3Bdiv%26gt%3B%7B%24com.posttime%7D%26lt%3B/div%26gt%3B%3CBR%3E%26nbsp%3B%26nbsp%3B%26nbsp%3B%26nbsp%3B%26nbsp%3B%26nbsp%3B%26nbsp%3B%20%7B/YT%3AArticle%7D%3CBR%3E%26nbsp%3B%26nbsp%3B%26nbsp%3B%20%26lt%3B/div%26gt%3B%3CBR%3E%7B/YT%3AComment%7D');
+	_code.push('%7Beval%20dim%20b%3Ab%3Dnew%20YT_Article.GetArticleRandomSortRand%285%29%7D%3CBR%3E%7Beval%20dim%20art%3Aset%20art%3DNew%20TArticle%7D%3CBR%3E%7Bforeach%20c%20b%7D%3CBR%3E%26nbsp%3B%26nbsp%3B%26nbsp%3B%20%7Bif%20art.LoadInfoByID%28c%29%7D%3CBR%3E%26nbsp%3B%26nbsp%3B%26nbsp%3B%26nbsp%3B%26nbsp%3B%26nbsp%3B%26nbsp%3B%20%7Bif%20art.id%20%26gt%3B%2020%20and%20art.id%20%26lt%3B%2030%7D%3CBR%3E%26nbsp%3B%26nbsp%3B%26nbsp%3B%26nbsp%3B%26nbsp%3B%26nbsp%3B%26nbsp%3B%20%26nbsp%3B%26lt%3Bh3%26gt%3B%5B%26lt%3Bfont%20color%3D%22red%22%26gt%3B%7Becho%20art.id%7D%26lt%3B/font%26gt%3B%5D%7B%24art.title%7D%26lt%3B/h3%26gt%3B%3CBR%3E%26nbsp%3B%26nbsp%3B%26nbsp%3B%26nbsp%3B%26nbsp%3B%26nbsp%3B%26nbsp%3B%20%7Belseif%20art.id%20%26gt%3B%2030%7D%3CBR%3E%26nbsp%3B%26nbsp%3B%26nbsp%3B%26nbsp%3B%26nbsp%3B%26nbsp%3B%26nbsp%3B%20%26nbsp%3B%26lt%3Bh2%26gt%3B%5B%26lt%3Bfont%20color%3D%22blue%22%26gt%3B%7B%24art.id%7D%26lt%3B/font%26gt%3B%5D%7B%24art.title%7D%26lt%3B/h2%26gt%3B%3CBR%3E%26nbsp%3B%26nbsp%3B%26nbsp%3B%26nbsp%3B%26nbsp%3B%26nbsp%3B%26nbsp%3B%20%7Belse%7D%3CBR%3E%26nbsp%3B%26nbsp%3B%26nbsp%3B%26nbsp%3B%26nbsp%3B%26nbsp%3B%26nbsp%3B%20%26nbsp%3B%26lt%3Bh4%26gt%3B%5B%7B%24art.id%7D%5D%7Becho%20art.title%7D%26lt%3B/h4%26gt%3B%3CBR%3E%26nbsp%3B%26nbsp%3B%26nbsp%3B%26nbsp%3B%26nbsp%3B%26nbsp%3B%26nbsp%3B%20%7B/if%7D%3CBR%3E%26nbsp%3B%26nbsp%3B%26nbsp%3B%20%7B/if%7D%3CBR%3E%7B/next%7D');
+	_code.push('%7Beval%20dim%20i%3Ai%3D0%7D%3CBR%3E%7Bdo%20while%20i%20%26lt%3B%3D%20UBound%28b%2C2%29%7D%3CBR%3E%26lt%3Bli%26gt%3B%7Bif%20art.LoadInfoByID%28b%280%2Ci%29%29%7D%7B%24art.title%7D%7B/if%7D%26lt%3B/li%26gt%3B%3CBR%3E%7Beval%20i%3Di+1%7D%3CBR%3E%7Bloop%7D%3CBR%3E%26lt%3Bhr%20/%26gt%3B%3CBR%3E%7Beval%20i%3D0%7D%3CBR%3E%7Bdo%7D%3CBR%3E%26lt%3Bli%26gt%3B%7Bif%20art.LoadInfoByID%28b%280%2Ci%29%29%7D%7B%24art.title%7D%7B/if%7D%26lt%3B/li%26gt%3B%3CBR%3E%7Beval%20i%3Di+1%7D%3CBR%3E%7Bloop%20while%20i%20%26lt%3B%3D%20UBound%28b%2C2%29%7D%3CBR%3E%26lt%3Bhr%20/%26gt%3B%3CBR%3E%7Beval%20i%3D0%7D%3CBR%3E%7Bdo%20until%20i%20%26gt%3B%20UBound%28b%2C2%29%7D%3CBR%3E%26lt%3Bli%26gt%3B%7Bif%20art.LoadInfoByID%28b%280%2Ci%29%29%7D%7B%24art.title%7D%7B/if%7D%26lt%3B/li%26gt%3B%3CBR%3E%7Beval%20i%3Di+1%7D%3CBR%3E%7Bloop%7D%3CBR%3E%26lt%3Bhr%20/%26gt%3B%3CBR%3E%7Beval%20i%3D0%7D%3CBR%3E%7Bdo%7D%3CBR%3E%26lt%3Bli%26gt%3B%7Bif%20art.LoadInfoByID%28b%280%2Ci%29%29%7D%7B%24art.title%7D%7B/if%7D%26lt%3B/li%26gt%3B%3CBR%3E%7Beval%20i%3Di+1%7D%3CBR%3E%7Bloop%20until%20i%20%26gt%3B%20UBound%28b%2C2%29%7D');
+	_code.push('%7Beval%20i%3D0%7D%3CBR%3E%7Bwhile%20i%20%26lt%3B%3D%20UBound%28b%2C2%29%7D%3CBR%3E%26lt%3Bli%26gt%3B%7Bif%20art.LoadInfoByID%28b%280%2Ci%29%29%7D%7B%24art.title%7D%7B/if%7D%26lt%3B/li%26gt%3B%3CBR%3E%7Beval%20i%3Di+1%7D%3CBR%3E%7B/wend%7D');
+	_code.push('%7Bfor%20i%3D0%20UBound%28b%2C2%29%7D%3CBR%3E%26lt%3Bli%26gt%3B%7Bif%20art.LoadInfoByID%28b%280%2Ci%29%29%7D%7B%24art.title%7D%7B/if%7D%26lt%3B/li%26gt%3B%3CBR%3E%7B/next%7D');
+$(document).ready(function(){
+	$('fieldset').each(function(i){
+		this.innerHTML += unescape(_code[i]);
+	});	   
+});
+</script>
