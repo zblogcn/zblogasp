@@ -70,7 +70,7 @@ End If
 			Call ExportArticleList(Request.QueryString("page"),Request("cate"),Request("level"),Escape(Request("title")))
 			End If
 		Case "CategoryMng" Call ExportCategoryList(Request.QueryString("page"))
-		Case "CommentMng" Call ExportCommentList(Request.QueryString("page"),Request("intContent"))
+		Case "CommentMng" Call ExportCommentList(Request.QueryString("page"),Request("intContent"),Request("isCheck"))
 		Case "TrackBackMng" Call ExportTrackBackList(Request.QueryString("page"))
 		Case "UserMng" Call ExportUserList(Request.QueryString("page"))
 		Case "FileMng" Call ExportFileList(Request.QueryString("page"))
