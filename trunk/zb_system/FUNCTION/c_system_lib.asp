@@ -3638,6 +3638,8 @@ Class TUpLoadFile
 		FileName=strFileName
 		FileSize=LenB(Stream)
 
+		UpLoad_Form=True
+
 	End Function
 
 
@@ -3715,6 +3717,8 @@ Class TUpLoadFile
 
 		objStreamFile.SaveToFile FullPath,adSaveCreateOverWrite
 		objStreamFile.Close
+
+		SaveFile=True
 
 	End Function
 
