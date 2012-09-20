@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<Plugin version="1.0">
+<plugin version="2.0">
 <id>Wpimport</id>
 <name>Wordpress数据导入程序</name>
 <url></url>
@@ -18,4 +18,4 @@
 <version>2.0</version>
 <pubdate>2012-9-8</pubdate>
 <modified>2012-9-8</modified>
-</Plugin>
+</plugin>

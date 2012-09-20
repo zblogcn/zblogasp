@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<Plugin version="1.0">
+<plugin version="2.0">
   <id>WindsPhoto</id>
   <name>WindsPhoto</name>
   <url>http://www.wilf.cn/post/windsphoto.html</url>
@@ -17,4 +17,4 @@
   <version>2.7.4</version>
   <pubdate>2008-1-23</pubdate>
   <modified>2012-8-26</modified>
-</Plugin>
+</plugin>

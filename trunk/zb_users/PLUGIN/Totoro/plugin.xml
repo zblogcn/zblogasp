@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<plugin>
+<plugin version="2.0">
 <id>Totoro</id>
 <name>TotoroⅢ</name>
 <note>基于TotoroII的Z-Blog的评论及引用管理审核系统增强版。</note>
@@ -16,4 +16,5 @@
 <version>3.0.3</version>
 <modified>2012-7-17</modified>
 <pubdate>2012-8-31</pubdate>
+<adapted>Z-Blog 2.0</adapted>
 </plugin>

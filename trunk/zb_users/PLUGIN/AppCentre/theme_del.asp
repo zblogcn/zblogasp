@@ -21,7 +21,7 @@ If CheckPluginState("AppCentre")=False Then Call ShowError(48)
 
 Dim ZipPathDir
 
-ZipPathDir = BlogPath & "zb_users\plugin\" & Request.QueryString("id")
+ZipPathDir = BlogPath & "zb_users\theme\" & Request.QueryString("id")
 
 
 Dim fso

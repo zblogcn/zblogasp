@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Plugin version="2.0">
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<plugin version="2.0">
 <id>AppCentre</id>
 <name>应用中心</name>
 <url>http://www.rainbowsoft.org/</url>
@@ -21,8 +21,8 @@
 		<type>程序&amp;UI</type>
 </author>
 <price>0</price>
+<adapted>Z-Blog 2.0</adapted>
 <pubdate>2012-8-25</pubdate>
 <modified>2012-8-25</modified>
 <version>1.0</version>
-<source>http://sourceurl</source>
-</Plugin>
+</plugin>
