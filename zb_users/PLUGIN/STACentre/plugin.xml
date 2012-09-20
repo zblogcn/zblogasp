@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<plugin>
+<plugin version="2.0">
 <id>STACentre</id>
 <name>静态化中心</name>
 <url>http://www.esloy.com/</url>
@@ -14,7 +14,7 @@
 	<email>haphic@gmail.com</email>
 </author>
 <version>1.0</version>
-<adapted>Z-Blog 1.8 Arwen</adapted>
+<adapted>Z-Blog 2.0</adapted>
 <pubdate>2011-5-1</pubdate>
 <modified>2011-8-13</modified>
 </plugin>

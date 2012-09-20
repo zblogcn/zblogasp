@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<Plugin version="1.0">
+<plugin version="2.0">
 <id>LoadCounter</id>
 <name>日志读取器</name>
 <url>http://www.zsxsoft.com/</url>
@@ -17,4 +17,4 @@
 <version>1.0</version>
 <pubdate>2012-8-21</pubdate>
 <modified>2011-8-21</modified>
-</Plugin>
+</plugin>

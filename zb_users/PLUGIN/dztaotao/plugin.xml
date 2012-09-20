@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<Plugin version="1.0">
+<plugin version="2.0">
 <id>dztaotao</id>
 <name>大猪淘淘</name>
 <url>http://www.izhu.org/t.asp</url>
@@ -17,4 +17,4 @@
 <version>1.0</version>
 <pubdate>2009-7-13</pubdate>
 <modified>2009-7-13</modified>
-</Plugin>
+</plugin>
