@@ -24,13 +24,13 @@ If CheckPluginState("AppCentre")=False Then Call ShowError(48)
 Dim ZipPathDir,ZipPathFile,Pack_PluginDir
 
 ZipPathDir = BlogPath & "zb_users\plugin\" & Request.QueryString("id") & "\"
-ZipPathFile = BlogPath & "zb_users\cache\" & Request.QueryString("id") & ".zpi"
+ZipPathFile = BlogPath & "zb_users\cache\" & Request.QueryString("id") & ".zba"
 Pack_PluginDir = Request.QueryString("id") & "\"
 
 Call CreateXml(ZipPathFile)
 
 
-Response.AddHeader   "Content-Disposition","attachment;filename="& Request.QueryString("id") &".zpi"
+Response.AddHeader   "Content-Disposition","attachment;filename="& Request.QueryString("id") &".zba"
 Response.ContentType = "application/octet-stream"
 
 Server.Transfer "../../cache/"& Request.QueryString("id") &".zpi"

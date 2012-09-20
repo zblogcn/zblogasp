@@ -23,7 +23,7 @@ Const XML_Pack_Version="Z-Blog_2——0"
 Sub SubMenu(id)
 	Dim aryName,aryValue,aryPos
 	aryName=Array("插件下载","主题下载")
-	aryValue=Array("plugin_dl.asp","theme_dl.asp")
+	aryValue=Array("plugin_list.asp","theme_list.asp")
 	aryPos=Array("m-left","m-left")
 	Dim i 
 	For i=0 To Ubound(aryName)

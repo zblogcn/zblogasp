@@ -21,21 +21,23 @@ If CheckPluginState("AppCentre")=False Then Call ShowError(48)
 
 
 
-Dim ZipPathDir,ZipPathFile,Pack_PluginDir
+Dim ZipPathDir,ZipPathFile,Pack_PluginDir,ID
 
-ZipPathDir = BlogPath & "zb_users\theme\" & Request.QueryString("id") & "\"
-ZipPathFile = BlogPath & "zb_users\cache\" & Request.QueryString("id") & ".zti"
-Pack_PluginDir = Request.QueryString("id") & "\"
+ID=Request.QueryString("id")
 
-Call CreateXml(ZipPathFile)
+ZipPathDir = BlogPath & "zb_users\theme\" & ID & "\"
+ZipPathFile = BlogPath & "zb_users\cache\" & ID & ".zba"
+Pack_PluginDir = ID & "\"
+
+Call CreateXml(ZipPathFile,ID)
 
 
 
 
-Response.AddHeader   "Content-Disposition","attachment;filename="& Request.QueryString("id") &".zti"
+Response.AddHeader   "Content-Disposition","attachment;filename="& ID &".zba"
 Response.ContentType = "application/octet-stream"
 
-Server.Transfer "../../cache/"& Request.QueryString("id") &".zti"
+Server.Transfer "../../cache/"& ID &".zba"
 
 
 
@@ -44,7 +46,7 @@ Server.Transfer "../../cache/"& Request.QueryString("id") &".zti"
 
 '遍历目录内的所有文件以及文件夹
 Sub LoadData(DirPath)
-On Error Resume Next
+'On Error Resume Next
 
 	Dim XmlDoc
 	Dim fso            'fso对象
@@ -133,8 +135,88 @@ End Sub
 
 
 '创建一个空的XML文件，为写入文件作准备
-Sub CreateXml(FilePath)
-On Error Resume Next
+Sub CreateXml(FilePath,ID)
+'On Error Resume Next
+
+
+
+	Dim Theme_Id
+	Dim Theme_Name
+	Dim Theme_Url
+	Dim Theme_Note
+	Dim Theme_Description
+	Dim Theme_Pubdate
+	Dim Theme_Source_Name
+	Dim Theme_Source_Url
+	Dim Theme_Source_Email
+	Dim Theme_Author_Name
+	Dim Theme_Author_Url
+	Dim Theme_Author_Email
+	Dim Theme_ScreenShot
+	Dim Theme_Style_Name
+	Dim Theme_Modified
+	Dim Theme_Adapted
+	Dim Theme_Version
+	Dim fso
+	Dim strXmlFile
+	Dim objXmlFile
+
+		Set fso = CreateObject("Scripting.FileSystemObject")
+		If fso.FileExists(BlogPath & "zb_users/theme" & "/" & ID & "/" & "theme.xml") Then
+
+			strXmlFile =BlogPath & "zb_users/theme" & "/" & ID & "/" & "theme.xml"
+
+			Set objXmlFile=Server.CreateObject("Microsoft.XMLDOM")
+			objXmlFile.async = False
+			objXmlFile.ValidateOnParse=False
+			objXmlFile.load(strXmlFile)
+			If objXmlFile.readyState=4 Then
+				If objXmlFile.parseError.errorCode <> 0 Then
+				Else
+
+					Theme_Id=""
+					Theme_Name=""
+					Theme_Url=""
+					Theme_Note=""
+					Theme_Description=""
+					Theme_Pubdate=""
+					Theme_Source_Name=""
+					Theme_Source_Url=""
+					Theme_Author_Name=""
+					Theme_Author_Url=""
+					Theme_ScreenShot=""
+					Theme_Style_Name=""
+
+					Theme_Source_Name=objXmlFile.documentElement.selectSingleNode("source/name").text
+					Theme_Source_Url=objXmlFile.documentElement.selectSingleNode("source/url").text
+					Theme_Source_Email=objXmlFile.documentElement.selectSingleNode("source/email").text
+
+
+					Theme_Author_Name=objXmlFile.documentElement.selectSingleNode("author/name").text
+					Theme_Author_Url=objXmlFile.documentElement.selectSingleNode("author/url").text
+					Theme_Author_Email=objXmlFile.documentElement.selectSingleNode("author/email").text
+
+
+					If Theme_Author_Name="" Then
+						Theme_Author_Name=Theme_Source_Name
+						Theme_Author_Url=Theme_Source_Url
+						Theme_Author_Email=Theme_Source_Email
+					End If
+
+					Theme_Id=ID
+					'Theme_Id=objXmlFile.documentElement.selectSingleNode("id").text
+					Theme_Name=objXmlFile.documentElement.selectSingleNode("name").text
+					Theme_Url=objXmlFile.documentElement.selectSingleNode("url").text
+					Theme_Note=objXmlFile.documentElement.selectSingleNode("note").text
+					Theme_Pubdate=objXmlFile.documentElement.selectSingleNode("pubdate").text
+					Theme_Description=objXmlFile.documentElement.selectSingleNode("description").text
+
+					Theme_ScreenShot="../../zb_users/theme" &"/" & Theme_Id & "/" & "screenshot.png"
+				End If
+			End If
+		End If
+
+Dim Plugin_ID,Plugin_Name,Plugin_URL,Plugin_PubDate,Plugin_Adapted,Plugin_Version,Plugin_Modified,Plugin_Note
 
 	'程序开始执行时间
 	Dim XmlDoc,Root,xRoot
@@ -153,49 +235,49 @@ On Error Resume Next
 		Dim Author,AuthorName,AuthorURL,AuthorEmail
 
 		Set Plugin_ID = XmlDoc.SelectSingleNode("//root").AppendChild(XmlDoc.CreateElement("id"))
-			Plugin_ID.Text = Request.Form("PluginID")
+			Plugin_ID.Text = Theme_Id
 		Set Plugin_ID=Nothing
 
 		Set Plugin_Name = XmlDoc.SelectSingleNode("//root").AppendChild(XmlDoc.CreateElement("name"))
-			Plugin_Name.Text = Request.Form("PluginName")
+			Plugin_Name.Text = Theme_Name
 		Set Plugin_Name=Nothing
 
 		Set Plugin_URL = XmlDoc.SelectSingleNode("//root").AppendChild(XmlDoc.CreateElement("url"))
-			Plugin_URL.Text = Request.Form("PluginURL")
+			Plugin_URL.Text = Theme_Url
 		Set Plugin_URL=Nothing
 
 		Set Plugin_PubDate = XmlDoc.SelectSingleNode("//root").AppendChild(XmlDoc.CreateElement("pubdate"))
-			Plugin_PubDate.Text = Request.Form("PluginPubDate")
+			Plugin_PubDate.Text = Theme_Pubdate
 		Set Plugin_PubDate=Nothing
 
-		Set Plugin_Adapted = XmlDoc.SelectSingleNode("//root").AppendChild(XmlDoc.CreateElement("adapted"))
-			Plugin_Adapted.Text = Request.Form("PluginAdapted")
-		Set Plugin_Adapted=Nothing
-
-		Set Plugin_Version = XmlDoc.SelectSingleNode("//root").AppendChild(XmlDoc.CreateElement("version"))
-			Plugin_Version.Text = Request.Form("PluginVersion")
-		Set Plugin_Version=Nothing
-
 		Set Plugin_Modified = XmlDoc.SelectSingleNode("//root").AppendChild(XmlDoc.CreateElement("modified"))
-			Plugin_Modified.Text = Request.Form("PluginModified")
+			Plugin_Modified.Text = Theme_Modified
 		Set Plugin_Modified=Nothing
 
+		Set Plugin_Version = XmlDoc.SelectSingleNode("//root").AppendChild(XmlDoc.CreateElement("version"))
+			Plugin_Version.Text = Theme_Version
+		Set Plugin_Version=Nothing
+
+		Set Plugin_Adapted = XmlDoc.SelectSingleNode("//root").AppendChild(XmlDoc.CreateElement("adapted"))
+			Plugin_Adapted.Text = Theme_Adapted
+		Set Plugin_Adapted=Nothing
+
 		Set Plugin_Note = XmlDoc.SelectSingleNode("//root").AppendChild(XmlDoc.CreateElement("note"))
-			Plugin_Note.Text = Replace(Replace(Request.Form("PluginNote"),vbCr,""),vbLf,"")
+			Plugin_Note.Text = Theme_Note
 		Set Plugin_Note=Nothing
 
 		Set Author = XmlDoc.SelectSingleNode("//root").AppendChild(XmlDoc.CreateElement("author"))
 
 			Set AuthorName = Author.AppendChild(XmlDoc.CreateElement("name"))
-				AuthorName.Text = Request.Form("AuthorName")
+				AuthorName.Text = Theme_Author_Name
 			Set AuthorName=Nothing
 
 			Set AuthorURL = Author.AppendChild(XmlDoc.CreateElement("url"))
-				AuthorURL.Text = Request.Form("AuthorURL")
+				AuthorURL.Text = Theme_Author_Url
 			Set AuthorURL=Nothing
 
 			Set AuthorEmail = Author.AppendChild(XmlDoc.CreateElement("email"))
-				AuthorEmail.Text = Request.Form("AuthorEmail")
+				AuthorEmail.Text = Theme_Author_Email
 			Set AuthorEmail=Nothing
 
 		Set Author=Nothing
@@ -207,13 +289,6 @@ On Error Resume Next
 	LoadData(ZipPathDir)
 
 End Sub
-
-
-
-
-
-Response.Write 123
-
 
 
 %>
