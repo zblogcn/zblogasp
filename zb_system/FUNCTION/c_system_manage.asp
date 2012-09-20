@@ -442,9 +442,9 @@ End Function
 '*********************************************************
 ' 目的：    Manager Comments
 '*********************************************************
-Function ExportCommentList(intPage,intContent)
+Function ExportCommentList(intPage,intContent,isCheck)
 
-	'Call Add_Response_Plugin("Response_Plugin_CommentMng_SubMenu",MakeSubMenu(ZC_MSG024 & "","../cmd.asp?act=CommentEdt","m-left",False))
+
 
 	Dim ArtDic
 
@@ -457,6 +457,7 @@ Function ExportCommentList(intPage,intContent)
 	Dim intPageAll
 
 	Call CheckParameter(intPage,"int",1)
+	Call CheckParameter(isCheck,"bool",False)
 	intContent=FilterSQL(intContent)
 
 	Set objRS=Server.CreateObject("ADODB.Recordset")
@@ -464,9 +465,25 @@ Function ExportCommentList(intPage,intContent)
 	objRS.LockType = adLockReadOnly
 	objRS.ActiveConnection=objConn
 	objRS.Source=""
+	
+	Call Add_Response_Plugin("Response_Plugin_CommentMng_SubMenu",MakeSubMenu("正常评论管理","admin.asp?act=CommentMng&page=","m-left" & IIf(isCheck,""," m-now"),False))
+	Dim objRS1
+	Set objRS1=objConn.Execute("SELECT COUNT([comm_ID]) FROM [blog_Comment] WHERE [comm_isCheck]=-1 Or [comm_isCheck]=1")
 
-	strSQL=strSQL&" WHERE  ([log_ID]>0) AND ([comm_isCheck]=0) "
-
+	Dim strtmpresponse
+	strtmpresponse="待审核评论管理"
+	If (Not objRS1.bof) And (Not objRS1.eof) Then
+		strtmpresponse=strtmpresponse&"("&objRS1(0)&"条)"
+	End If
+	Set objRs1=Nothing
+	Call Add_Response_Plugin("Response_Plugin_CommentMng_SubMenu",MakeSubMenu(strtmpresponse,"admin.asp?act=CommentMng&page=&isCheck=True","m-left" & IIf(isCheck," m-now",""),False))
+	
+	If isCheck Then
+		strSQL=strSQL&" WHERE  ([log_ID]>0) AND ([comm_isCheck]<>0) "
+	Else
+		strSQL=strSQL&" WHERE  ([log_ID]>0) AND ([comm_isCheck]=0) "
+	End If
+	
 	If CheckRights("Root")=False Then
 		strSQL=strSQL & "AND( ([comm_AuthorID] = " & BlogUser.ID & " ) OR ((SELECT [log_AuthorID] FROM [blog_Article] WHERE [blog_Article].[log_ID]=[blog_Comment].[log_ID])=" & BlogUser.ID & " )) "
 	End If
@@ -480,7 +497,7 @@ Function ExportCommentList(intPage,intContent)
 	Response.Write "<div id=""divMain2"">"
 
 
-	Response.Write "<form class=""search"" id=""edit"" method=""post"" action=""../admin/admin.asp?act=CommentMng"">"
+	Response.Write "<form class=""search"" id=""edit"" method=""post"" action=""../admin/admin.asp?act=CommentMng&isCheck="&isCheck&""">"
 	Response.Write "<p>"&ZC_MSG234&":&nbsp;&nbsp;&nbsp;&nbsp;"
 
 	Response.Write "<input id=""intContent"" name=""intContent"" style=""width:250px;"" type=""text"" value="""" /> "
@@ -540,7 +557,7 @@ Function ExportCommentList(intPage,intContent)
 	'For i=1 to objRS.PageCount
 	'	strPage=strPage &"<a href='admin.asp?act=CommentMng&amp;page="& i &"'>["& Replace(ZC_MSG036,"%s",i) &"]</a> "
 	'Next
-	strPage=ExportPageBar(intPage,intPageAll,ZC_PAGEBAR_COUNT,"admin.asp?act=CommentMng&amp;page=")
+	strPage=ExportPageBar(intPage,intPageAll,ZC_PAGEBAR_COUNT,"admin.asp?act=CommentMng&amp;isCheck="&isCheck&"&amp;page=")
 
 	Response.Write "<form id=""frmBatch"" method=""post"" action=""../cmd.asp?act=CommentDelBatch""><input type=""hidden"" id=""edtBatch"" name=""edtBatch"" value=""""/><input class=""button"" type=""submit"" onclick='BatchDeleteAll(""edtBatch"");if(document.getElementById(""edtBatch"").value){return window.confirm("""& ZC_MSG058 &""");}else{return false}' value="""&ZC_MSG228&""" id=""btnPost""/></form>" & vbCrlf
 
