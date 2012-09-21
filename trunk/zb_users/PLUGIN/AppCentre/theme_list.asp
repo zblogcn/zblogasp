@@ -21,8 +21,6 @@ If CheckPluginState("AppCentre")=False Then Call ShowError(48)
 
 BlogTitle="应用中心"
 
-
-
 %>
 <!--#include file="..\..\..\zb_system\admin\admin_header.asp"-->
 <!--#include file="..\..\..\zb_system\admin\admin_top.asp"-->

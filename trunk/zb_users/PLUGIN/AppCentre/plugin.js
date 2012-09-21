@@ -12,7 +12,7 @@ $("tr").first().children().last().append("AppCentre");
 $(".plugin").each(function(){
 	var t=$(this).find("strong").html();
 	var s=""
-	s=s+"<a href='"+t+"' title='编辑该插件'><img height='16' width='16' src='"+bloghost+"zb_users/plugin/appcentre/images/application_edit.png'/></a>";
+	s=s+"<a href='"+bloghost+"zb_users/plugin/appcentre/plugin_edit.asp?id="+t+"' title='编辑该插件信息'><img height='16' width='16' src='"+bloghost+"zb_users/plugin/appcentre/images/application_edit.png'/></a>";
 	s=s+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href='"+bloghost+"zb_users/plugin/appcentre/plugin_pack.asp?id="+t+"' title='导出该插件' target='_blank'><img height='16' width='16' src='"+bloghost+"zb_users/plugin/appcentre/images/download.png'/></a>";
 	s=s+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href='#' onclick='checkApp(\""+t+"\")' title='更新该插件'><img height='16' width='16' src='"+bloghost+"zb_users/plugin/appcentre/images/refresh.png'/></a>";
 	if(!$(this).hasClass("plugin-on")){
