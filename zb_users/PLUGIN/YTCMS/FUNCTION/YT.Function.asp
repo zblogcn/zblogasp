@@ -42,10 +42,11 @@ Function YT_CMS_Filter_Plugin_TArticle_Export_TemplateTags(ByRef aryTemplateTags
 		Set YTModelXML = Nothing
 End Function
 Function YT_CMS_Filter_Plugin_TArticle_Build_TemplateTags(ByRef aryTemplateTagsName,ByRef aryTemplateTagsValue)
-	Dim l
+	Dim l,s
 	For l = LBound(aryTemplateTagsName) To UBound(aryTemplateTagsName)
 		If InStr(aryTemplateTagsName(l),"TEMPLATE_INCLUDE_") Then
-			Call YT_TPL_display(aryTemplateTagsValue(l))
+			Call YT_TPL_display(s)
+			aryTemplateTagsValue(l) = s
 		End If
 	Next
 End Function
@@ -56,13 +57,6 @@ Function YT_CMS_Filter_Plugin_PostArticle_Succeed(ByRef objArticle)
 End Function
 Function YT_CMS_Action_Plugin_MakeBlogReBuild_Core_Begin()
 	Call new YT_Block_XML.Build()
-End Function
-Function YT_TPL_display(Byref s)
-	Dim t
-	Set t = New YT_TPL
-		t.template = s
-		s = t.display()
-	Set t = Nothing
 End Function
 Function YT_Model_Analysis()
 	Dim Script
@@ -158,4 +152,11 @@ Function YT_SaveFile(Byval fileName,Byval fileContent)
 	Call LoadGlobeCache()
 	YT_SaveFile = True
 End Function
+Sub YT_TPL_display(Byref block)
+	Dim t
+	Set t = New YT_TPL
+		t.template = block
+		block = t.display()
+	Set t = Nothing
+End Sub
 %>
