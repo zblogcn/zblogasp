@@ -3049,6 +3049,27 @@ Function Filter_Plugin_TComment_MakeTemplate_Template(ByRef html)
 End Function
 
 
+'**************************************************<
+'类型:filter
+'名称:Filter_Plugin_CommentAduit_Core
+'参数:objComment,isChild
+'说明:
+'调用:
+'**************************************************>
+Dim sFilter_Plugin_CommentAduit_Core
+Function Filter_Plugin_CommentAduit_Core(ByRef objC,ByRef isC)
+
+	Dim s,i
+
+	If sFilter_Plugin_CommentAduit_Core="" Then Exit Function
+
+	s=Split(sFilter_Plugin_CommentAduit_Core,"|")
+
+	For i=0 To UBound(s)-1
+		Call Execute(s(i) & " " & "objC,isC")
+	Next
+
+End Function
 
 
 
