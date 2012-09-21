@@ -585,6 +585,8 @@ Function GetRights(strAction)
 			GetRights=4
 		Case "CommentGet"
 			GetRights=5
+		Case "CommentAudit"
+			GetRights=1
 		Case "CommentDelBatch"
 			GetRights=4
 		'Case "TrackBackMng"

@@ -706,6 +706,28 @@ Dim sAction_Plugin_CommentMng_Begin
 
 '**************************************************<
 '类型:action
+'名称:Action_Plugin_CommentAudit_Begin
+'参数:无
+'说明:
+'**************************************************>
+Dim Action_Plugin_CommentAudit_Begin()
+ReDim Action_Plugin_CommentAudit_Begin(0)
+Dim bAction_Plugin_CommentAudit_Begin
+Dim sAction_Plugin_CommentAudit_Begin
+
+'**************************************************<
+'类型:action
+'名称:Action_Plugin_CommentAudit_Success
+'参数:无
+'说明:
+'**************************************************>
+Dim Action_Plugin_CommentAudit_Success()
+ReDim Action_Plugin_CommentAudit_Success(0)
+Dim bAction_Plugin_CommentAudit_Success
+Dim sAction_Plugin_CommentAudit_Success
+
+'**************************************************<
+'类型:action
 '名称:Action_Plugin_CommentPost_Begin
 '参数:无
 '说明:

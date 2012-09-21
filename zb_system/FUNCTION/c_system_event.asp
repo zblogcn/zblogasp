@@ -1396,6 +1396,89 @@ End Function
 
 
 
+'*********************************************************
+' 目的：  
+'*********************************************************
+Function CommentAudit_()
+	'On Error Resume Next
+	Dim i,j
+	Dim s,t
+	Dim aryArticle()
+	s=Request.Form("edtBatch")
+	If isEmpty(s) Then s=Request.QueryString("id")
+	t=Split(s,",")
+	
+	ReDim Preserve aryArticle(UBound(t))
+	For j=0 To UBound(t)-1
+		aryArticle(j)=0
+	Next
+
+	Dim objComment
+	Dim objArticle
+	Dim objRs
+
+	For i=0 To UBound(t)'-1
+		If t(i)="" Then Exit For
+		Set objComment=New TComment
+		If objComment.LoadInfobyID(t(i)) Then
+			If objComment.log_ID>0 Then
+				Dim objTestArticle
+				Set objTestArticle=New TArticle
+				If objTestArticle.LoadInfobyID(objComment.log_ID) Then
+
+					For j=0 To UBound(t)-1
+						If aryArticle(j)=0 Then
+							aryArticle(j)=objComment.log_ID
+						End If
+						If aryArticle(j)=objComment.log_ID Then Exit For
+					Next
+
+					If Not((objComment.AuthorID=BlogUser.ID) Or (objTestArticle.AuthorID=BlogUser.ID) Or (CheckRights("Root")=True)) Then Exit Function
+				Else
+					Call ShowError(9)
+				End If
+				Set objTestArticle=Nothing
+
+
+				Dim allcomm,ii
+				If SearchChildComments(t(i),allcomm)=True Then
+					For Each ii In allcomm.Keys
+						Dim objSubComment
+						Set objSubComment=New TComment
+						If objSubComment.LoadInfobyID(ii) Then
+							objSubComment.isCheck=IIf(objSubComment.isCheck,False,True)
+							objSubComment.Post
+						End If
+					Next
+				End If
+
+			Else
+
+			End If
+
+			DelChild objComment.ID
+			objComment.isCheck=IIf(objComment.isCheck,False,True)
+			objComment.Post
+
+		End If
+		Set objComment=Nothing
+	Next
+
+
+	For j=0 To UBound(t)-1
+		If aryArticle(j)>0 Then
+			Call BuildArticle(aryArticle(j),False,False)
+		End If
+	Next
+
+	Call BlogReBuild_Comments
+	Call BlogReBuild_Default
+
+	CommentAudit_=True
+
+End Function
+'*********************************************************
+
 
 '*********************************************************
 ' 目的：

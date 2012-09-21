@@ -124,6 +124,9 @@ Select Case strAct
 
 		Call CommentGet()
 
+	Case "CommentAudit"
+		
+		Call CommentAudit()
 
 	Case "TrackBackMng"
 
@@ -563,6 +566,30 @@ Function CommentMng
 	Next
 
 	Response.Redirect "admin/admin.asp?act=CommentMng&page=" & Request.QueryString("id")
+End Function
+
+Function CommentAudit
+
+	'plugin node
+	For Each sAction_Plugin_CommentAudit_Begin in Action_Plugin_CommentAudit_Begin
+		If Not IsEmpty(sAction_Plugin_CommentAudit_Begin) Then Call Execute(sAction_Plugin_CommentAudit_Begin)
+		If bAction_Plugin_CommentAudit_Begin=True Then Exit Function
+	Next
+
+	If CommentAudit_() Then
+		Call SetBlogHint(True,True,Empty)
+		Call MakeBlogReBuild_Core()
+
+		'plugin node
+		For Each sAction_Plugin_CommentAudit_Success in Action_Plugin_CommentAudit_Success
+			If Not IsEmpty(sAction_Plugin_CommentAudit_Success) Then Call Execute(sAction_Plugin_CommentAudit_Success)
+			If bAction_Plugin_CommentAudit_Success=True Then Exit Function
+		Next
+
+		Response.Redirect "cmd.asp?act=CommentMng"
+	End If
+
+	
 End Function
 
 Function CommentPost
