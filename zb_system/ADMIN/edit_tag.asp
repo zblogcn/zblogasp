@@ -49,7 +49,7 @@ If Not IsEmpty(Request.QueryString("id")) Then
 End If
 
 
-BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG066
+BlogTitle=ZC_MSG066
 
 '为1号输出输口准备的Action接口
 'plugin node

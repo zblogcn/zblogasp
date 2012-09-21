@@ -53,7 +53,7 @@ End If
 
 
 
-BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG144
+BlogTitle=ZC_MSG144
 
 %><!--#include file="admin_header.asp"-->
 <!--#include file="admin_top.asp"-->

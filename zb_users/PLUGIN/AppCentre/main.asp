@@ -1,1 +1,1 @@
-<%Response.Redirect "plugin_dl.asp"%>
+<%Response.Redirect "plugin_list.asp"%>

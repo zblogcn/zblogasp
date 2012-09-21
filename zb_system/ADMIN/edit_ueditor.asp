@@ -69,9 +69,6 @@ Else
 End If
 
 
-BlogTitle=EditArticle.HtmlUrl
-
-
 EditArticle.Content=UBBCode(EditArticle.Content,"[link][email][font][code][face][image][flash][typeset][media][autolink][key][link-antispam]")
 EditArticle.Title=UBBCode(EditArticle.Title,"[link][email][font][code][face][image][flash][typeset][media][autolink][key][link-antispam]")
 
@@ -86,7 +83,7 @@ EditArticle.Content=TransferHTML(Replace(EditArticle.Content,"<!–more–>","<h
 
 EditArticle.Title=TransferHTML(EditArticle.Title,"[html-format]")
 
-BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & IIf(IsPage,ZC_MSG161,ZC_MSG047)
+BlogTitle=IIf(IsPage,ZC_MSG161,ZC_MSG047)
 
 For Each sAction_Plugin_Edit_ueditor_getArticleInfo in Action_Plugin_Edit_ueditor_getArticleInfo
 	If Not IsEmpty(sAction_Plugin_Edit_ueditor_getArticleInfo) Then Call Execute(sAction_Plugin_Edit_ueditor_getArticleInfo)

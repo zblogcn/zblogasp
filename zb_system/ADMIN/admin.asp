@@ -40,7 +40,7 @@ Next
 '检查权限
 If Not CheckRights(Request.QueryString("act")) Then Call ShowError(6)
 
-BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG022
+BlogTitle=ZC_MSG022
 
 
 '检查模板的更新,如有更新要重新加载
