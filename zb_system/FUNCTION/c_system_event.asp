@@ -1406,6 +1406,11 @@ Function CommentAudit_()
 	Dim aryArticle()
 	s=Request.Form("edtBatch")
 	If isEmpty(s) Then s=Request.QueryString("id")
+	If s="delall" Then
+		objConn.Execute "DELETE FROM [blog_Comment] WHERE [comm_isCheck]<>0"
+		CommentAudit_=True
+		Exit Function
+	End If
 	t=Split(s,",")
 	
 	ReDim Preserve aryArticle(UBound(t))
