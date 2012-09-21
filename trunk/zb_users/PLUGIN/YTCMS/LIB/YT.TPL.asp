@@ -25,7 +25,7 @@ Class YT_TPL
 		s = s&"If isArray(a{%i%}) Then"&vbCrlf
 		s = s&"For x{%i%} = LBound(a{%i%},2) To UBound(a{%i%},2)"&vbCrlf
 		s = s&vbTab&"If $1{%i%}.LoadInfoByID(a{%i%}(0,x{%i%})) Then"&vbCrlf
-		s = s&vbTab&vbTab&"Set $3 = $1{%i%}"&vbCrlf
+		s = s&vbTab&vbTab&"$3"&vbCrlf
 		s = s&vbTab&vbTab&"$4"&vbCrlf
 		s = s&"%"&">"&vbCrlf
 		s = s&vbNullChar
@@ -140,7 +140,7 @@ Class YT_TPL
 	End Function
 	Public Function display()
 		On Error Resume Next
-		Dim d,e,h,j,k,l,m,n,p,r,t,u,v,w
+		Dim d,e,h,j,k,l,m,n,p,r,t,u,v,w,x
 		Dim s
 		w = template
 		template = html_replace(template)
@@ -161,18 +161,21 @@ Class YT_TPL
 				j = getAttribute(h,"DataSource")
 				If j <> False Then  s = Replace(s,"$2",Replace(j,"'",""""))
 				j = getAttribute(h,"Name")
-				If j <> False Then s = Replace(s,"$3",j)
+				If j <> False Then s = Replace(s,"$3","Set "&j&" = "&e(0)&sIndex)
 			End If
 			s = Replace(s,"{%i%}",sIndex)
-			s = Replace(s,"$3",e(0))
+			s = Replace(s,"$3",Empty)
 			REG.Global = False
 			template = reg_replace("\{YT\:"&e(0)&"([^\}]+)\}",Split(s,vbNullChar)(0),template)
 			template = reg_replace("\{\/YT\:"&e(0)&"\}",Split(s,vbNullChar)(1),template)
+
 			p = str_match(template,Split(s,vbNullChar)(0),Split(s,vbNullChar)(1))
-			
 			If Not isEmpty(p) Then
-				r = p:v = False:REG.Global = True
+				r = p:REG.Global = True
 				t = reg_match("\{YT\:([a-z]+)([^\}]+)\}",r)
+				x = Replace(Replace(r,Split(s,vbNullChar)(0),""),Split(s,vbNullChar)(1),"")
+				x = reg_replace(e(0)&"\.([a-z]+)",e(0)&sIndex&"."&"$1",x)
+				r = Split(s,vbNullChar)(0)&x&Split(s,vbNullChar)(1)
 				While UBound(t)>-1
 					sIndex = sIndex + 1
 					display()
@@ -187,6 +190,7 @@ Class YT_TPL
 			End If
 			sIndex = sIndex + 1
 		Next
+		'Response.Write template
 		k = ob_get_contents(template)
 		Execute(k)
 		If Err.Number<>0 then
