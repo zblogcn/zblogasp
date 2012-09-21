@@ -1452,6 +1452,7 @@ Function CommentAudit_()
 						Set objSubComment=New TComment
 						If objSubComment.LoadInfobyID(ii) Then
 							objSubComment.isCheck=IIf(objSubComment.isCheck,False,True)
+							Call Filter_Plugin_CommentAduit_Core(objSubComment,True)
 							objSubComment.Post
 						End If
 					Next
@@ -1463,6 +1464,7 @@ Function CommentAudit_()
 
 			DelChild objComment.ID
 			objComment.isCheck=IIf(objComment.isCheck,False,True)
+			Call Filter_Plugin_CommentAduit_Core(objComment,False)
 			objComment.Post
 
 		End If
