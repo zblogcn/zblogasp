@@ -40,14 +40,14 @@ If Not CheckRights("SettingMng") Then Call ShowError(6)
 
 Dim EditArticle
 
-BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG247
+BlogTitle=ZC_MSG247
 
 %>
 <!--#include file="admin_header.asp"-->
 <!--#include file="admin_top.asp"-->
 			<div id="divMain">
 <% Call GetBlogHint() %>
-<div class="divHeader"><%=ZC_MSG247%></div>
+<div class="divHeader"><%=BlogTitle%></div>
 <%
 	Response.Write "<div class=""SubMenu"">" & Response_Plugin_SettingMng_SubMenu & "</div>"
 %>
@@ -83,10 +83,10 @@ BlogTitle=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG247
 		j=InStr(s,")")
 
 		If i>0 And j>0 Then 
-			SplitNameAndNote="<p  align='left'><b>·" & Left(s,i-1) & "</b>"
+			SplitNameAndNote="<p  align='left'><b>· " & Left(s,i-1) & "</b>"
 			SplitNameAndNote=SplitNameAndNote & "<br/><span class='note'>&nbsp;&nbsp;" & Mid(s,i+1,Len(s)-i+1-2) & "</span></p>"
 		Else
-			SplitNameAndNote="<p  align='left'><b>·" & s & "</b></p>"
+			SplitNameAndNote="<p  align='left'><b>· " & s & "</b></p>"
 		End If
 		
 	End Function

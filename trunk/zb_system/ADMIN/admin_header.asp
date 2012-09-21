@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
 <meta name="generator" content="Z-Blog <%=ZC_BLOG_VERSION%>" />
 <meta name="robots" content="nofollow" />
-<title><%=BlogTitle%></title>
+<title><%=ZC_BLOG_TITLE & ZC_MSG044 & BlogTitle%></title>
 <link href="<%=BlogHost%>ZB_SYSTEM/CSS/admin2.css" rel="stylesheet" type="text/css" />
 <script src="<%=BlogHost%>ZB_SYSTEM/script/common.js" type="text/javascript"></script>
 <script src="<%=BlogHost%>ZB_SYSTEM/function/c_admin_js_add.asp" type="text/javascript"></script>
