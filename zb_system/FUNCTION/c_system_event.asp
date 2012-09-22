@@ -1431,7 +1431,7 @@ Function AuditComment()
 				Set objTestArticle=New TArticle
 				If objTestArticle.LoadInfobyID(objComment.log_ID) Then
 
-					For j=0 To UBound(t)-1
+					For j=0 To UBound(t)
 						If aryArticle(j)=0 Then
 							aryArticle(j)=objComment.log_ID
 						End If
@@ -1472,7 +1472,7 @@ Function AuditComment()
 	Next
 
 
-	For j=0 To UBound(t)-1
+	For j=0 To UBound(t)
 		If aryArticle(j)>0 Then
 			Call BuildArticle(aryArticle(j),False,False)
 		End If
