@@ -132,14 +132,14 @@ Next
 
 <!-- title( -->
                       <p><span class='editinputname'><%=ZC_MSG060%>:</span>
-                        <input type="text" name="edtTitle" id="edtTitle" style="width:60%"  onblur="if(this.value=='') this.value='<%=ZC_MSG099%>'" onFocus="if(this.value=='<%=ZC_MSG099%>') this.value=''" value="<%=EditArticle.Title%>" /></p>
+                        <input type="text" name="edtTitle" id="edtTitle" style="width:60%;max-width:520px"  onblur="if(this.value=='') this.value='<%=ZC_MSG099%>'" onFocus="if(this.value=='<%=ZC_MSG099%>') this.value=''" value="<%=EditArticle.Title%>" /></p>
 <!-- )title -->
 
 
 
 <!-- alias( -->
                         <p><span class='editinputname'><%=ZC_MSG147%>:</span>
-                        <input type="text" style="width:60%" name="edtAlias" id="edtAlias" value="<%=TransferHTML(EditArticle.Alias,"[html-format]")%>" />.<%=ZC_STATIC_TYPE%>
+                        <input type="text" style="width:60%;max-width:520px" name="edtAlias" id="edtAlias" value="<%=TransferHTML(EditArticle.Alias,"[html-format]")%>" />.<%=ZC_STATIC_TYPE%>
                         </p>
 <!-- )alias -->
 
@@ -148,12 +148,10 @@ Next
 <!-- tags( -->
 <% If Request.QueryString("type")<>"Page" Then %>
                         <p><span class='editinputname' style='padding:0 0 0 0;'><%=ZC_MSG138%>:</span>
-                        <input type="text" style="width:60%;" name="edtTag" id="edtTag" value="<%=TransferHTML(EditArticle.TagToName,"[html-format]")%>" />(<%=ZC_MSG208%>)
-                        <a href="" style="cursor:pointer;" onClick="if(document.getElementById('ulTag').style.display=='none'){document.getElementById('ulTag').style.display='block';if(loaded==false){$.getScript('../function/c_html_js.asp?act=tags');loaded=true;}}else{document.getElementById('ulTag').style.display='none'};return false;"><%=ZC_MSG139%><span style="font-size: 1.5em; vertical-align: -1px;"></span></a></p>
-						<p id="ulTag" style="display:none;">
-                        <span id="ajaxtags"><%=ZC_MSG165%></span>
-						</p>
-                      
+                        <input type="text" style="width:60%;max-width:520px" name="edtTag" id="edtTag" value="<%=TransferHTML(EditArticle.TagToName,"[html-format]")%>" /> (<%=ZC_MSG208%>)</p>
+						<!-- Tags -->
+						<div id="ulTag" style="display:none;"><div id="ajaxtags"><%=ZC_MSG165%></div></div>
+
 <% End If %>
 <!-- )tags -->
 
@@ -173,7 +171,7 @@ Next
 						<!-- <p><span class='editinputname'><%=ZC_MSG055%>:</span></p> -->
 						<p style="text-align:left;"><span class='editinputname'><%=ZC_MSG055%>:</span>&nbsp;&nbsp;<span id="timemsg"></span><span id="msg2"></span><span id="msg"></span><span class='editinputname'></span><script type="text/javascript" src="c_autosaverjs.asp?act=edit&amp;type=ueditor"></script></p>
                         <script id="ueditor" name="txaContent"><%=EditArticle.Content%></script>
-						<p><span><%=ZC_MSG216%><a href="" onClick="try{document.getElementById('divIntro').style.display='block';AutoIntro();return false;}catch(e){}">[<%=ZC_MSG200%>]</a></span></p>
+						<p><span><%=ZC_MSG216%><a href="" onClick="try{$('#divIntro').show();AutoIntro();return false;}catch(e){}">[<%=ZC_MSG200%>]</a></span></p>
                       </div>
 
 
@@ -420,6 +418,8 @@ End If
                     </form>
                   </div>
 </div>
+
+
 <script type="text/javascript">
 // <![CDATA[
 	var loaded=false;
@@ -483,6 +483,16 @@ End If
 			return false
 		}
 	}
+
+	//显示tags
+	$('#edtTag').click(function (event) {  
+		event.stopPropagation();  
+		var offset = $(event.target).offset();  
+		$('#ulTag').css({ top: offset.top + $(event.target).height()+20+ "px", left: offset.left});  
+		$('#ulTag').slideDown("fast"); 		
+		if(loaded==false){$.getScript('../function/c_html_js.asp?act=tags');loaded=true;}
+	});  
+	$(document).click(function (event){$('#ulTag').slideUp("fast");});  
 
 	function AddKey(i) {
 		var strKey=document.getElementById("edtTag").value;

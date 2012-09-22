@@ -122,15 +122,16 @@ If f<>"" Then
 
 				'ajax tags
 				Response.Write "$(""#ajaxtags"").html("""
+				'Response.Write EditArticle.TagToName
 				Dim objRS
 				Set objRS=objConn.Execute("SELECT [tag_ID],[tag_Name] FROM [blog_Tag] ORDER BY [tag_Count] DESC")
 				If (Not objRS.bof) And (Not objRS.eof) Then
 					Do While Not objRS.eof
-						If InStr(EditArticle.Tag,"{"& objRS("tag_ID") & "}")>0 Then
-							Response.Write "<a href='#' class='selected'>"& TransferHTML(objRS("tag_Name"),"[html-format]") &"</a>  "
-						Else
+						'If InStr(EditArticle.TagToName,"{"& objRS("tag_Name") & "}")>0 Then
+						'	Response.Write "<a href='#' class='selected'>"& TransferHTML(objRS("tag_Name"),"[html-format]") &"</a>  "
+						'Else
 							Response.Write "<a href='#'>"& TransferHTML(objRS("tag_Name"),"[html-format]") &"</a> "
-						End If
+						'End If
 						objRS.MoveNext
 					Loop
 				End If
