@@ -37,7 +37,7 @@ If CheckVerifyNumber(Request.Form("edtCheckOut"))=False Then
 End If
 
 dim Username,UserPassword,UserMail,UserHomePage
-Username=TransferHTML(filtersql(request.form("username")),"[nohtml]")
+Username=TransferHTML(filtersql(request.form("name")),"[nohtml]")
 UserPassword=TransferHTML(filtersql(request.form("password")),"[nohtml]")
 UserMail=TransferHTML(filtersql(request.form("email")),"[nohtml]")
 UserHomePage=TransferHTML(filtersql(request.Form("site")),"[nohtml]")
@@ -51,7 +51,7 @@ End If
 
 
 chkPassWord=CheckRegExp(UserPassWord,"[password]")
-If  len(UserPassWord)<8  or len(UserPassWord)>14 Or chkPassWord=False Then
+If  len(UserPassWord)<8  or len(UserPassWord)>16 Or chkPassWord=False Then
 	ExportErr "密码格式不正确！"
 End If
 UserPassWord=MD5(UserPassWord)
