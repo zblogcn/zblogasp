@@ -10,11 +10,11 @@
 <%
 Call System_Initialize()
 Call Totoro_Initialize
-If Request.QueryString("act")="cleanall" Then
+If Request.QueryString("act")="cleanall" And BlogUser.Level=1 Then
 	Totoro_Config.Write "TOTORO_THROWCOUNT",0
 	Totoro_Config.Write "TOTORO_CHECKCOUNT",0
 	Totoro_Config.Save
 End If
   %>
 Totoro已经为您拦截<%=Totoro_THROWCOUNT%>条评论，加入审核<%=Totoro_CHECKCOUNT%>条评论
-<a href="javascript:" onclick="$(document).ready(function(){$.get('<%=GetCurrentHost()%>zb_users/plugin/totoro/getcount.asp',{'rnd':Math.random(),'act':'cleanall'},function(txt){$('#totoro').html(txt)})})">[清空计数器]</a>
+<%If BlogUser.Level=1 Then %><a href="javascript:" onclick="$(document).ready(function(){$.get('<%=GetCurrentHost()%>zb_users/plugin/totoro/getcount.asp',{'rnd':Math.random(),'act':'cleanall'},function(txt){$('#totoro').html(txt)})})">[清空计数器]</a><%End If%>
