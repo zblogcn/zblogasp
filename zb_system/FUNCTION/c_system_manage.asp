@@ -1017,7 +1017,7 @@ Function ExportPluginMng()
 				s=s & "<img width='16' src='../IMAGE/ADMIN/exclamation.png'/>"
 			End If
 
-			s=s & "<strong style='display:none;'>"& objXmlFile.documentElement.selectSingleNode("id").text &"</strong>"
+			s=s & "<strong style='display:none;'>"& Server.URLEncode(objXmlFile.documentElement.selectSingleNode("id").text) &"</strong>"
 
 			s=s & "</td>"
 
@@ -1473,7 +1473,7 @@ Function ExportThemeMng()
 		If UCase(Theme_Id) <> UCase(f1.name) Then
 			Response.Write "<p style=""color:red;"">ID Error! Should be ""<strong>"& f1.name &"</strong>""!!</p>"
 		Else
-			Response.Write "<p><img width='16' title='' alt='' src='../IMAGE/ADMIN/layout.png'/>&nbsp;&nbsp;ID: <a id=""mylink1"&Left(md5(Theme_Id),6)&""" href=""$div"&Left(md5(Theme_Id),6)&"tip?width=300"" class=""betterTip"" title="""&Theme_Id&""">" & "<strong>" & Theme_Id & "</strong>" & "</a></p>"
+			Response.Write "<p><img width='16' title='' alt='' src='../IMAGE/ADMIN/layout.png'/>&nbsp;&nbsp;ID: <a id=""mylink1"&Left(md5(Theme_Id),6)&""" href=""$div"&Left(md5(Theme_Id),6)&"tip?width=300"" class=""betterTip"" title="""&Theme_Id&""">" & "<strong>" & Server.URLEncode(Theme_Id) & "</strong>" & "</a></p>"
 		End If
 		Response.Write "<p><a id=""mylink"&Left(md5(Theme_Id),6)&""" href=""$div"&Left(md5(Theme_Id),6)&"tip?width=300"" class=""betterTip"" title="""&Theme_Id&"""><img src=""" & Theme_ScreenShot & """ title=""" & Theme_Name & """ alt=""ScreenShot"" width=""200"" height=""150"" /></a></p>"
 
