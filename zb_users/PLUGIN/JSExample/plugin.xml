@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<plugin>
+<id>JSExample</id>
+<name>JSExample</name>
+<url>http://www.zsxsoft.com</url>
+<note>JSExample</note>
+<type>inline</type>
+<include>include.asp</include>
+<path>main.asp</path>
+<level>1</level>
+<author>
+	<name>ZSXSOFT</name>
+	<url>http://www.zsxsoft.com</url>
+	<email>zhengshixin163@qq.com</email>
+</author>
+<version>1.0</version>
+<adapted>Z-Blog 2.0</adapted>
+<pubdate>2012-9-8</pubdate>
+<modified>2012-9-8</modified>
+</plugin>
