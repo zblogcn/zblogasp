@@ -190,7 +190,6 @@ Class YT_TPL
 			End If
 			sIndex = sIndex + 1
 		Next
-		'Response.Write template
 		k = ob_get_contents(template)
 		Execute(k)
 		If Err.Number<>0 then
