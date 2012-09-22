@@ -466,7 +466,7 @@ Function ExportCommentList(intPage,intContent,isCheck)
 	objRS.ActiveConnection=objConn
 	objRS.Source=""
 	
-	Call Add_Response_Plugin("Response_Plugin_CommentMng_SubMenu",MakeSubMenu(ZC_MSG278,"admin.asp?act=CommentMng&amp;page=","m-left" & IIf(isCheck,""," m-now"),False))
+	Call Add_Response_Plugin("Response_Plugin_CommentMng_SubMenu",MakeSubMenu(ZC_MSG281&ZC_MSG068,"admin.asp?act=CommentMng&amp;page=","m-left" & IIf(isCheck,""," m-now"),False))
 	Dim objRS1
 	Set objRS1=objConn.Execute("SELECT COUNT([comm_ID]) FROM [blog_Comment] WHERE [comm_isCheck]=-1 Or [comm_isCheck]=1")
 
