@@ -1610,7 +1610,7 @@ Function GetReallyDirectory()
 	End If
 
 	Dim p	
-	p=Server.MapPath(".")
+	p=Server.MapPath(".") & "\"
 
 	Dim fso
 	Set fso = CreateObject("Scripting.FileSystemObject")

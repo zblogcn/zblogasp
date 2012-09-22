@@ -96,11 +96,11 @@ End If
 <tr><td><p><b>· 插件嵌入页</b> <br/><span class="note">&nbsp;&nbsp;默认为include.asp</span></p></td><td><p>&nbsp;<input id="app_plugin_include" name="app_plugin_include" style="width:550px;"  type="text" value="<%=app_plugin_include%>" /></p></td></tr>
 <tr><td><p><b>· 插件管理权限</b> </p></td><td>
 <p>&nbsp;<select name="app_plugin_level" id="app_plugin_level" style="width:200px;">
-    <option value="1"><%=ZVA_User_Level_Name(1)%></option>
-    <option value="2"><%=ZVA_User_Level_Name(2)%></option>
-    <option value="3"><%=ZVA_User_Level_Name(3)%></option>
-    <option value="4"><%=ZVA_User_Level_Name(4)%></option>
-    <option value="5"><%=ZVA_User_Level_Name(5)%></option>
+    <option value="1" <%=IIF(app_plugin_level="1","selected='selected'","")%>><%=ZVA_User_Level_Name(1)%></option>
+    <option value="2" <%=IIF(app_plugin_level="2","selected='selected'","")%>><%=ZVA_User_Level_Name(2)%></option>
+    <option value="3" <%=IIF(app_plugin_level="3","selected='selected'","")%>><%=ZVA_User_Level_Name(3)%></option>
+    <option value="4" <%=IIF(app_plugin_level="4","selected='selected'","")%>><%=ZVA_User_Level_Name(4)%></option>
+    <option value="5" <%=IIF(app_plugin_level="5","selected='selected'","")%>><%=ZVA_User_Level_Name(5)%></option>
   </select></p>
 </td></tr>
 <tr><td><p><b>· 插件定价</b></p></td><td><p>&nbsp;<input id="app_price" name="app_price" style="width:550px;"  type="text" value="<%=app_price%>" /></p></td></tr>
