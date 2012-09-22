@@ -45,8 +45,7 @@ Function YT_CMS_Filter_Plugin_TArticle_Build_TemplateTags(ByRef aryTemplateTagsN
 	Dim l,s
 	For l = LBound(aryTemplateTagsName) To UBound(aryTemplateTagsName)
 		If InStr(aryTemplateTagsName(l),"TEMPLATE_INCLUDE_") Then
-			Call YT_TPL_display(s)
-			aryTemplateTagsValue(l) = s
+			Call YT_TPL_display(aryTemplateTagsValue(l))
 		End If
 	Next
 End Function
