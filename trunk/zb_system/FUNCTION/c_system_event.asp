@@ -1399,7 +1399,7 @@ End Function
 '*********************************************************
 ' 目的：  
 '*********************************************************
-Function CommentAudit_()
+Function AuditComment()
 	'On Error Resume Next
 	Dim i,j
 	Dim s,t
@@ -1408,7 +1408,7 @@ Function CommentAudit_()
 	If isEmpty(s) Then s=Request.QueryString("id")
 	If s="delall" Then
 		objConn.Execute "DELETE FROM [blog_Comment] WHERE [comm_isCheck]<>0"
-		CommentAudit_=True
+		AuditComment=True
 		Exit Function
 	End If
 	t=Split(s,",")
@@ -1481,7 +1481,7 @@ Function CommentAudit_()
 	Call BlogReBuild_Comments
 	Call BlogReBuild_Default
 
-	CommentAudit_=True
+	AuditComment=True
 
 End Function
 '*********************************************************
