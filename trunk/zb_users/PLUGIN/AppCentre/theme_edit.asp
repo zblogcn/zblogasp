@@ -26,30 +26,6 @@ ID=Request.QueryString("id")
 
 BlogTitle="应用中心-主题编辑"
 
-Dim app_id
-Dim app_name
-Dim app_url
-Dim app_note
-
-Dim app_author_name
-Dim app_author_email
-Dim app_author_url
-
-Dim app_source_name
-Dim app_source_email
-Dim app_source_url
-
-Dim app_plugin_path
-Dim app_plugin_include
-Dim app_plugin_level
-
-Dim app_adapted
-Dim app_version
-Dim app_pubdate
-Dim app_modified
-Dim app_description
-Dim app_price
-
 If ID="" Then
 
 Else
@@ -67,7 +43,7 @@ End If
     </div>
   <div class="divHeader"><%=BlogTitle%></div>
   <div class="SubMenu"> 
-	<%Call SubMenu(3)%>
+	<%Call SubMenu(-1)%>
   </div>
   <div id="divMain2">
 <form method="post" action="">
@@ -120,56 +96,3 @@ End If
 </div>
    <script type="text/javascript">ActiveLeftMenu("aAppcentre");</script>
 <!--#include file="..\..\..\zb_system\admin\admin_footer.asp"-->
-<%
-Function LoadThemeXmlInfo(id)
-
-	On Error Resume Next
-
-	Dim objXmlFile,strXmlFile
-	Dim fso, s
-	Set fso = CreateObject("Scripting.FileSystemObject")
-
-	If fso.FileExists(BlogPath & "zb_users/theme" & "/" & id & "/" & "theme.xml") Then
-
-		strXmlFile =BlogPath & "zb_users/theme" & "/" & id & "/" & "theme.xml"
-
-		Set objXmlFile=Server.CreateObject("Microsoft.XMLDOM")
-		objXmlFile.async = False
-		objXmlFile.ValidateOnParse=False
-		objXmlFile.load(strXmlFile)
-		If objXmlFile.readyState=4 Then
-			If objXmlFile.parseError.errorCode <> 0 Then
-			Else
-
-				app_id=id
-				app_name=objXmlFile.documentElement.selectSingleNode("name").text
-				app_url=objXmlFile.documentElement.selectSingleNode("url").text
-
-				app_adapted=objXmlFile.documentElement.selectSingleNode("adapted").text
-				app_version=objXmlFile.documentElement.selectSingleNode("version").text
-				app_pubdate=objXmlFile.documentElement.selectSingleNode("pubdate").text
-				app_modified=objXmlFile.documentElement.selectSingleNode("modified").text
-
-				app_note=objXmlFile.documentElement.selectSingleNode("note").text
-				app_description=objXmlFile.documentElement.selectSingleNode("description").text
-
-				app_author_name=objXmlFile.documentElement.selectSingleNode("author/name").text
-				app_author_email=objXmlFile.documentElement.selectSingleNode("author/email").text
-				app_author_url=objXmlFile.documentElement.selectSingleNode("author/url").text
-
-				app_source_name=objXmlFile.documentElement.selectSingleNode("source/name").text
-				app_source_email=objXmlFile.documentElement.selectSingleNode("source/email").text
-				app_source_url=objXmlFile.documentElement.selectSingleNode("source/url").text
-
-				app_plugin_path=objXmlFile.documentElement.selectSingleNode("plugin/path").text
-				app_plugin_include=objXmlFile.documentElement.selectSingleNode("plugin/include").text
-				app_plugin_level=objXmlFile.documentElement.selectSingleNode("plugin/level").text
-
-				app_price=objXmlFile.documentElement.selectSingleNode("app_price").text
-
-			End If
-		End If
-	End If
-
-End Function
-%>
