@@ -381,5 +381,19 @@ Const adModeReadWrite=3
 Const adSaveCreateNotExist=1
 Const adSaveCreateOverWrite=2
 
+
+
+'-------------------------------语言包系统------------------------------
+Dim MsgCount
+For MsgCount=1 To 300
+	Call Execute("Dim ZC_MSG" & Right("000"&MsgCount,3))
+Next
+Dim ZVA_Article_Level_Name(4)
+Dim ZVA_User_Level_Name(5)
+Dim ZVA_Month(12)
+Dim ZVA_Month_Abbr(12)
+Dim ZVA_Week(7)
+Dim ZVA_Week_Abbr(7)
+Dim ZVA_ErrorMsg(63)
 %>
 <!-- #include file="LANGUAGE/SimpChinese.asp" -->

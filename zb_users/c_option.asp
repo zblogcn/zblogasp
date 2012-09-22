@@ -4,7 +4,6 @@
 '///////////////////////////////////////////////////////////////////////////////
 
 
-'---------------------------------网站基本设置-----------------------------------
 Dim ZC_BLOG_HOST
 ZC_BLOG_HOST="http://localhost/"
 
@@ -92,7 +91,7 @@ ZC_MULTI_DOMAIN_SUPPORT=False
 
 '当前 Z-Blog 版本
 Dim ZC_BLOG_VERSION
-ZC_BLOG_VERSION="2.0 Beta Build 120902"
+ZC_BLOG_VERSION="2.0 Beta Build 120916"
 
 
 
@@ -102,7 +101,7 @@ Dim ZC_COMMENT_TURNOFF
 ZC_COMMENT_TURNOFF=False
 
 Dim ZC_COMMENT_VERIFY_ENABLE
-ZC_COMMENT_VERIFY_ENABLE=False
+ZC_COMMENT_VERIFY_ENABLE=True
 
 Dim ZC_COMMENT_REVERSE_ORDER_EXPORT
 ZC_COMMENT_REVERSE_ORDER_EXPORT=False
@@ -289,28 +288,28 @@ ZC_TEMPLATE_DIRECTORY="template"
 
 'ACTIVE or MIX or REWRITE
 Dim ZC_STATIC_MODE
-ZC_STATIC_MODE="ACTIVE"
+ZC_STATIC_MODE="REWRITE"
 
 Dim ZC_ARTICLE_REGEX
-ZC_ARTICLE_REGEX="{%host%}/{%post%}/{%alias%}.html"
+ZC_ARTICLE_REGEX="{%host%}/{%year%}/{%month%}/{%alias%}.html"
 
 Dim ZC_PAGE_REGEX
 ZC_PAGE_REGEX="{%host%}/{%alias%}.html"
 
 Dim ZC_CATEGORY_REGEX
-ZC_CATEGORY_REGEX="{%host%}/catalog.asp?cate={%id%}"
+ZC_CATEGORY_REGEX="{%host%}/category-{%id%}.html"
 
 Dim ZC_USER_REGEX
-ZC_USER_REGEX="{%host%}/catalog.asp?user={%id%}"
+ZC_USER_REGEX="{%host%}/author-{%id%}.html"
 
 Dim ZC_TAGS_REGEX
-ZC_TAGS_REGEX="{%host%}/catalog.asp?tags={%alias%}"
+ZC_TAGS_REGEX="{%host%}/tags-{%id%}.html"
 
 Dim ZC_DATE_REGEX
-ZC_DATE_REGEX="{%host%}/catalog.asp?date={%date%}"
+ZC_DATE_REGEX="{%host%}/{%date%}.html"
 
 Dim ZC_DEFAULT_REGEX
-ZC_DEFAULT_REGEX="{%host%}/catalog.asp"
+ZC_DEFAULT_REGEX="{%host%}/default.html"
 
 
 
@@ -381,5 +380,19 @@ Const adModeReadWrite=3
 Const adSaveCreateNotExist=1
 Const adSaveCreateOverWrite=2
 
+
+
+'-------------------------------语言包系统------------------------------
+Dim MsgCount
+For MsgCount=1 To 300
+	Call Execute("Dim ZC_MSG" & Right("000"&MsgCount,3))
+Next
+Dim ZVA_Article_Level_Name(4)
+Dim ZVA_User_Level_Name(5)
+Dim ZVA_Month(12)
+Dim ZVA_Month_Abbr(12)
+Dim ZVA_Week(7)
+Dim ZVA_Week_Abbr(7)
+Dim ZVA_ErrorMsg(63)
 %>
 <!-- #include file="LANGUAGE/SimpChinese.asp" -->
