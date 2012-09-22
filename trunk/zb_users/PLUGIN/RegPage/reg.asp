@@ -122,14 +122,14 @@ function chk_reg(){
 	var bValid = true;
 	allFields.removeClass( "state-error" );
 
-	bValid = bValid && checkLength( vname, "用户名", 3, 14 );
-	bValid = bValid && checkRegexp( vname, /^[.A-Za-z0-9\u4e00-\u9fa5]+$/i, "用户名只能使用中、英文字符及数字。" );
+	bValid = bValid && checkLength( vname, "用户名", 1, 14 );
+	bValid = bValid && checkRegexp( vname, /^[.A-Za-z0-9\u4e00-\u9fa5]+$/i, "用户名只能使用汉字、英文字母及数字。" );
 
 	bValid = bValid && checkLength( vpassword, "密码", 8, 16 );
 	bValid = bValid && checkRegexp( vpassword, /^([A-Za-z0-9`~!@#\$%\^&\*\-_])+$/, "密码只能使用英文字母、数字及部分特殊字符。" );
 
 	bValid = bValid && checkLength( vemail, "邮箱", 6, 60 );
-	bValid = bValid && checkRegexp( vemail, /^[\\w-]+(\\.[\\w-]+)*@[\\w-]+(\\.[\\w-]+)+$/i, "邮箱格式有误，参考：abc@123.com" );
+	bValid = bValid && checkRegexp( vemail, /^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$/i, "邮箱格式有误，参考：abc@123.com" );
 
 	bValid = bValid && checkLength( vsite, "网址", 6, 60 );
 	bValid = bValid && checkRegexp( vsite, /^[a-zA-Z]+:\/\/[a-zA-Z0-9\\_\\-\\.\\&\\?\/:=#\u4e00-\u9fa5]+?\/*$/ig, "网站地址有误，参考：http://www.site.com" );
