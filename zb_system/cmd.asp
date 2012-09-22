@@ -576,7 +576,7 @@ Function CommentAudit
 		If bAction_Plugin_CommentAudit_Begin=True Then Exit Function
 	Next
 
-	If CommentAudit_() Then
+	If AuditComment() Then
 		Call SetBlogHint(True,True,Empty)
 		Call MakeBlogReBuild_Core()
 

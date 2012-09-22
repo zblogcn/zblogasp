@@ -363,7 +363,7 @@ background:#7e5c17;border:1px solid #644609;
 */
 }
 
-hr {height:0px;border:none;padding:0;visibility:hidden;}
+hr {height:0px;border:none;padding:0;visibility:hidden;clear:both;}
 
 
 
