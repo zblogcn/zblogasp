@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <plugin version="2.0">
 <id>FileManage</id>
-<name>文件管理（强化版）</name>
+<name>文件管理</name>
 <url>http://www.zsxsoft.com/</url>
 <note>强化Z-Blog的文件管理功能</note>
 <type>inline</type>
