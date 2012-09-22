@@ -132,14 +132,14 @@ Next
 
 <!-- title( -->
                       <p><span class='editinputname'><%=ZC_MSG060%>:</span>
-                        <input type="text" name="edtTitle" id="edtTitle" style="width:400px"  onblur="if(this.value=='') this.value='<%=ZC_MSG099%>'" onFocus="if(this.value=='<%=ZC_MSG099%>') this.value=''" value="<%=EditArticle.Title%>" /></p>
+                        <input type="text" name="edtTitle" id="edtTitle" style="width:60%"  onblur="if(this.value=='') this.value='<%=ZC_MSG099%>'" onFocus="if(this.value=='<%=ZC_MSG099%>') this.value=''" value="<%=EditArticle.Title%>" /></p>
 <!-- )title -->
 
 
 
 <!-- alias( -->
                         <p><span class='editinputname'><%=ZC_MSG147%>:</span>
-                        <input type="text" style="width:400px" name="edtAlias" id="edtAlias" value="<%=TransferHTML(EditArticle.Alias,"[html-format]")%>" />.<%=ZC_STATIC_TYPE%>
+                        <input type="text" style="width:60%" name="edtAlias" id="edtAlias" value="<%=TransferHTML(EditArticle.Alias,"[html-format]")%>" />.<%=ZC_STATIC_TYPE%>
                         </p>
 <!-- )alias -->
 
@@ -148,11 +148,11 @@ Next
 <!-- tags( -->
 <% If Request.QueryString("type")<>"Page" Then %>
                         <p><span class='editinputname' style='padding:0 0 0 0;'><%=ZC_MSG138%>:</span>
-                        <input type="text" style="width:400px;" name="edtTag" id="edtTag" value="<%=TransferHTML(EditArticle.TagToName,"[html-format]")%>" />
+                        <input type="text" style="width:60%;" name="edtTag" id="edtTag" value="<%=TransferHTML(EditArticle.TagToName,"[html-format]")%>" />(<%=ZC_MSG208%>)
                         <a href="" style="cursor:pointer;" onClick="if(document.getElementById('ulTag').style.display=='none'){document.getElementById('ulTag').style.display='block';if(loaded==false){$.getScript('../function/c_html_js.asp?act=tags');loaded=true;}}else{document.getElementById('ulTag').style.display='none'};return false;"><%=ZC_MSG139%><span style="font-size: 1.5em; vertical-align: -1px;"></span></a></p>
-                      <ul id="ulTag" style="display:none;">
-                        <li><span id="ajaxtags"><%=ZC_MSG165%></span>&nbsp;&nbsp;(<%=ZC_MSG208%>)</li>
-                      </ul>
+						<p id="ulTag" style="display:none;">
+                        <span id="ajaxtags"><%=ZC_MSG165%></span>
+						</p>
                       
 <% End If %>
 <!-- )tags -->

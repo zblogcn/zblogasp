@@ -564,7 +564,7 @@ Function ExportCommentList(intPage,intContent,isCheck)
 	Response.Write "<form id=""frmBatch2"" style=""float:left;"" method=""post"" action=""../cmd.asp?act=CommentAudit""><input type=""hidden"" id=""edtBatch2"" name=""edtBatch"" value=""""/><input class=""button"" type=""submit"" onclick='BatchDeleteAll(""edtBatch2"");if(document.getElementById(""edtBatch2"").value){return window.confirm("""& ZC_MSG058 &""");}else{return false}' value="""&ZC_MSG278&IIf(isCheck,ZC_MSG279,ZC_MSG280)&""" id=""btnPost2""/>&nbsp;&nbsp;&nbsp;&nbsp;"&IIf(isCheck,"<input class=""button"" type=""submit"" onclick='document.getElementById(""edtBatch2"").value=""delall""' value="""&ZC_MSG222&""" id=""btnPost3""/>","") &"</form>" &vbCrlf
 
 
-	Response.Write "<hr/><br/><p class=""pagebar"">" & ZC_MSG042 & ": " & strPage & "</p>"
+	Response.Write "<hr/><div class=""clear""></div><p class=""pagebar"">" & ZC_MSG042 & ": " & strPage & "</p>"
 	Response.Write "</div>"
 
 	objRS.Close
