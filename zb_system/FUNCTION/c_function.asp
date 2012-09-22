@@ -165,8 +165,7 @@ Function CheckParameter(byRef source,strType,default)
 				source=False
 			End If
 		End If
-
-	Else
+	Else 
 		Call ShowError(0)
 	End If
 
@@ -375,7 +374,7 @@ Function TransferHTML(ByVal source,para)
 		source=Replace(source,")","")
 		source=Replace(source,"*","")
 		source=Replace(source,"+","")
-		source=Replace(source,",","")
+		'source=Replace(source,",","")
 		source=Replace(source,"[","")
 		source=Replace(source,"]","")
 		source=Replace(source,"{","")
@@ -387,7 +386,15 @@ Function TransferHTML(ByVal source,para)
 		source=Replace(source,":","")
 		source=Replace(source,"""","")
 		source=Replace(source,"'","")
+		Set objRegExp=New RegExp
+		objRegExp.IgnoreCase =True
+		objRegExp.Global=True
+		objRegExp.Pattern=",+"
+		source= objRegExp.Replace(source,",")
+		objRegExp.Pattern="(^,|,$)"
+		source= objRegExp.Replace(source,"")
 	End If
+
 	If Instr(para,"[textarea]")>0 Then
 		'Set objRegExp=New RegExp
 		'objRegExp.IgnoreCase =True
@@ -1545,7 +1552,7 @@ Function GetCurrentHost()
 
 	Dim PhysicsPath
 
-	PhysicsPath=Server.MapPath(".") & "\"
+	PhysicsPath=Server.MapPath(".")
 
 	Dim fso
 	Set fso = CreateObject("Scripting.FileSystemObject")

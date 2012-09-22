@@ -1536,10 +1536,10 @@ Function ParseTag(strTag)
 	Dim objTag
 
 	strTag=Trim(strTag)
-	strTag=Replace(strTag,",",vbCrlf)
-	strTag=Replace(strTag,"，",vbCrlf)
+	strTag=Replace(strTag,"，",",")
+	'strTag=Replace(strTag,",",vbCrlf)
 	strTag=TransferHTML(strTag,"[normalname]")
-	strTag=Replace(strTag,vbCrlf,",")
+	'strTag=Replace(strTag,vbCrlf,",")
 
 	If strTag="" Then ParseTag="":Exit Function
 

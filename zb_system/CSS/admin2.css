@@ -388,14 +388,19 @@ hr {width:100%;height:1px;border:none;padding:0;visibility:hidden;}
 	padding-bottom:20px;
 }
 #ulTag{
-	margin-left:3em;
+	margin:0 3em;
 }
 #ajaxtags{
 	background:#EDEDED;
+	box-shadow: 0 0 5px #aaa;
 	padding:.5em;
 }
 #ajaxtags a{
 	margin-right:.5em;
+}
+#ajaxtags a.selected{
+	color: black;
+	background: #B0CDEE;
 }
 
 
