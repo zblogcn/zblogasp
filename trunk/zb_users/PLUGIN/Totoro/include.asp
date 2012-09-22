@@ -28,6 +28,7 @@ Dim TOTORO_TRANTOSIMP
 Dim TOTORO_FILTERIP
 Dim TOTORO_PM
 Dim TOTORO_THROWCOUNT
+Dim TOTORO_CHECKCOUNT
 
 Dim TOTORO_CHECKSTR
 Dim TOTORO_THROWSTR
@@ -54,14 +55,48 @@ Function ActivePlugin_Totoro()
 	'Filter_Plugin_PostComment_Core
 	Call Add_Filter_Plugin("Filter_Plugin_PostComment_Core","Totoro_chkComment")
 	'Action_Plugin_Admin_Begin
-	Call Add_Action_Plugin("Action_Plugin_Admin_Begin","If Request.QueryString(""act"")=""CommentMng"" Then Call Totoro_GetSpamCount_Comment() End If")
+	Call Add_Filter_Plugin("Filter_Plugin_CommentAduit_Core","Totoro_WriteConfig")
+	
+	'Call Add_Action_Plugin("Action_Plugin_Admin_Begin","If Request.QueryString(""act"")=""CommentMng"" Then Call Totoro_GetSpamCount_Comment() End If")
 	'网站管理加上二级菜单项
-	'Call Add_Response_Plugin("Response_Plugin_SettingMng_SubMenu",MakeSubMenu("Totoro设置",GetCurrentHost() & "zb_users/plugin/totoro/setting.asp","m-left",False))
+	Call Add_Response_Plugin("Response_Plugin_SettingMng_SubMenu",MakeSubMenu("Totoro设置",GetCurrentHost() & "zb_users/plugin/totoro/setting.asp","m-left",False))
+	Call Add_Response_Plugin("Response_Plugin_CommentMng_SubMenu",MakeSubMenu("Totoro设置",GetCurrentHost() & "zb_users/plugin/totoro/setting.asp","m-right",False)&"<script type='text/javascript'>$(document).ready(function(){$.get('"&GetCurrentHost() & "zb_users/plugin/totoro/getcount.asp',{'rnd':Math.random()},function(txt){$('#divMain2').before('<div id=""totoro"">'+txt+'</div>')})})</script>")
 
-	Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(1,"TotoroⅢ",GetCurrentHost&"zb_users/plugin/totoro/main.asp","nav_totoro","aTotoro",GetCurrentHost&"zb_users/plugin/totoro/antivirus-alt.png"))
+
+	'Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(1,"TotoroⅢ",GetCurrentHost&"zb_users/plugin/totoro/main.asp","nav_totoro","aTotoro",GetCurrentHost&"zb_users/plugin/totoro/antivirus-alt.png"))
 
 End Function
 
+Function Totoro_WriteConfig(oTop,isA)
+	Dim strTmp2,strTmp
+	
+	If isA=False And oTop.isCheck=True Then
+		Totoro_Initialize
+		
+		strTmp2=Totoro_Config.Read("TOTORO_BADWORD_LIST")
+		strTmp=oTop.HomePage & "|" & oTop.Content
+	
+		Dim objReg,objMatches,Match
+		Set objReg = New RegExp
+		objReg.IgnoreCase = True
+		objReg.Global = True
+		objReg.Pattern = "(([\w\d]+\.)+\w{2,})"
+		Set objMatches = objReg.Execute(strTmp)
+		For Each Match In objMatches
+			If CheckRegExp(Match.SubMatches(0),strTmp2)=False Then
+				strTmp2=strTmp2 & "|" & Replace(Match.SubMatches(0),".","\.")
+				SetBlogHint_Custom "Totoro新增黑词"& Replace(Match.SubMatches(0),".","\.")
+			End if
+		Next
+		Set objReg = Nothing
+		Set objMatches = Nothing
+		Set Match = Nothing
+		If left(strTmp2,1)="|" then strTmp2=Right(strTmp2, Len(strTmp2) - 1)
+
+		Totoro_Config.Write "TOTORO_BADWORD_LIST",strTmp2
+		Totoro_Config.Save
+	End If
+End Function
 
 Function InstallPlugin_Totoro()
 	Set Totoro_Config = New TConfig
@@ -91,6 +126,7 @@ Function InstallPlugin_Totoro()
         Totoro_Config.Write "TOTORO_KILLIPSTR","Totoro大显神威！你的IP不合法不允许评论。"
 		Totoro_Config.Write "TOTORO_PM",False
 		Totoro_Config.Write "TOTORO_THROWCOUNT",0
+		Totoro_Config.Write "TOTORO_CHECKCOUNT",0
 		Totoro_Config.Save
 		'Call SetBlogHint_Custom("您是第一次安装Totoro，已经为您导入初始配置。")
 	ElseIf Totoro_Config.Read("TOTORO_VERSION")="0.0" Then
@@ -102,11 +138,17 @@ Function InstallPlugin_Totoro()
         Totoro_Config.Write "TOTORO_THROWSTR","Totoro大显神威！你的评论被怀疑是垃圾评论已经被删除。"
         Totoro_Config.Write "TOTORO_KILLIPSTR","Totoro大显神威！你的IP不合法不允许评论。"
 		Totoro_Config.Write "TOTORO_THROWCOUNT",0
+		Totoro_Config.Write "TOTORO_CHECKCOUNT",0
 		Totoro_Config.Save
 	ElseIf Totoro_Config.Read("TOTORO_VERSION")="3.0.3" Then
 		Totoro_Config.Write "TOTORO_VERSION","3.0.4"
 		Totoro_Config.Write "TOTORO_PM",False
 		Totoro_Config.Write "TOTORO_THROWCOUNT",0
+		Totoro_Config.Write "TOTORO_CHECKCOUNT",0
+		Totoro_Config.Save
+	ElseIf Totoro_Config.Read("TOTORO_VERSION")="3.0.4" Then
+		Totoro_Config.Write "TOTORO_VERSION","3.0.5"
+		Totoro_Config.Write "TOTORO_CHECKCOUNT",0
 		Totoro_Config.Save
 	End If
 End Function
@@ -135,6 +177,7 @@ Function Totoro_Initialize()
     TOTORO_KILLIPSTR=Totoro_Config.Read ("TOTORO_KILLIPSTR")
 	TOTORO_PM=CBool(Totoro_Config.Read("TOTORO_PM"))
 	TOTORO_THROWCOUNT=CLng(Totoro_Config.Read("TOTORO_THROWCOUNT"))
+	TOTORO_CHECKCOUNT=CLng(Totoro_Config.Read("TOTORO_CHECKCOUNT"))
 End Function
 
 
@@ -228,7 +271,12 @@ Sub Totoro_cComment(objComment,objUser,isDebug)
 		If Totoro_SV<TOTORO_SV_THRESHOLD2 Or TOTORO_SV_THRESHOLD2=0 Then
 			objComment.IsCheck=True
 			Totoro_AddDebug "该评论进入审核列表"
-			If isDebug=False Then o=Totoro_FunctionKillIP(objComment,False)
+			If isDebug=False Then
+				TOTORO_CHECKCOUNT=TOTORO_CHECKCOUNT+1
+				Totoro_Config.Write "TOTORO_CHECKCOUNT",TOTORO_CHECKCOUNT
+				Totoro_Config.Save
+				o=Totoro_FunctionKillIP(objComment,False)
+			End If
 		ElseIf TOTORO_SV_THRESHOLD2<=Totoro_SV Then
 			If isDebug=False Then 
 				TOTORO_THROWCOUNT=TOTORO_THROWCOUNT+1

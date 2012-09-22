@@ -73,15 +73,7 @@ End If
         
         <div id="divMain">
           <div class="divHeader"><%=BlogTitle%></div>
-          <div class="SubMenu"><a href="setting.asp"><span class="m-left">TotoroⅢ设置</span></a><a href="setting1.asp"><span class="m-left">审核评论
-            <%
-	Dim objRS1
-	Set objRS1=objConn.Execute("SELECT COUNT([comm_ID]) FROM [blog_Comment] WHERE [comm_isCheck]=-1 Or [comm_isCheck]=1")
-	If (Not objRS1.bof) And (Not objRS1.eof) Then
-		Response.Write "("&objRS1(0)&"条未审核的评论)"
-	End If
-%>
-            </span></a><a href="regexptest.asp"><span class="m-right m-now">黑词测试</span></a><a href="onlinetest.asp"><span class="m-right">模拟测试</span></a></div>
+          <div class="SubMenu"><a href="setting.asp"><span class="m-left">TotoroⅢ设置</span></a><a href="regexptest.asp"><span class="m-right m-now">黑词测试</span></a><a href="onlinetest.asp"><span class="m-right">模拟测试</span></a></div>
           <div id="divMain2">
           <table width='100%' style='padding:0px;margin:1px;line-height:20px' cellspacing='0' cellpadding='0'>
           <tr height="40"><td width="50%">输入待测试内容</td>
