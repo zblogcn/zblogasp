@@ -218,7 +218,7 @@ Sub Totoro_cComment(objComment,objUser,isDebug)
 	
 	If Totoro_FunctionFilterIP(objComment.IP) Then
 		ZVA_ErrorMsg(14)=TOTORO_KILLIPSTR
-		AddDebug ZVA_ErrorMsg(14)
+		Totoro_AddDebug ZVA_ErrorMsg(14)
 		objComment.IsThrow=True
 		Exit Sub
 	End iF
