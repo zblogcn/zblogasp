@@ -1,4 +1,5 @@
-<!-- #include file="include_plugin.asp"-->
+﻿<!-- #include file="include_plugin.asp"-->
+<!-- #include file="../../../zb_system/admin/ueditor/asp/aspincludefile.asp"-->
 <%
 Dim FileManage_FSO
 
@@ -539,7 +540,7 @@ Function FileManage_Upload()
 		If Not IsEmpty(sAction_Plugin_FileManage_Upload_Begin) Then Call Execute(sAction_Plugin_FileManage_Upload_Begin)
 	Next
 	Dim objUpload
-	Set objUpload=New FileManage_UpLoadClass
+	Set objUpload=New UpLoadClass
 	objUpload.AutoSave=2
 	objUpload.Charset="UTF-8"
 	objUpload.FileType=""
