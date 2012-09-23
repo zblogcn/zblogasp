@@ -324,7 +324,6 @@ On Error Resume Next
 				Theme_Version=objXmlFile.documentElement.selectSingleNode("version").text
 				Theme_Adapted=objXmlFile.documentElement.selectSingleNode("adapted").text
 				Theme_Price=objXmlFile.documentElement.selectSingleNode("price").text
-				'Theme_ScreenShot="../../zb_users/theme" &"/" & Theme_Id & "/" & "screenshot.png"
 			End If
 		End If
 	End If
@@ -503,7 +502,6 @@ On Error Resume Next
 				Theme_Version=objXmlFile.documentElement.selectSingleNode("version").text
 				Theme_Adapted=objXmlFile.documentElement.selectSingleNode("adapted").text
 				Theme_Price=objXmlFile.documentElement.selectSingleNode("price").text
-				'Theme_ScreenShot="../../zb_users/theme" &"/" & Theme_Id & "/" & "screenshot.png"
 			End If
 		End If
 	End If
@@ -619,9 +617,7 @@ Function LoadAppFiles(DirPath,FilePath)
 	Set fso=server.CreateObject("scripting.filesystemobject")
 	Set objFolder=fso.GetFolder(DirPath)'创建文件夹对象
 	
-	'Response.Write("<p>打包目录: "& Replace(DirPath,BlogPath,"") &"...</p>")
-	'Response.flush
-	
+
 	Set XmlDoc = Server.CreateObject("Microsoft.XMLDOM")
 	XmlDoc.async = False
 	XmlDoc.ValidateOnParse=False
@@ -632,13 +628,10 @@ Function LoadAppFiles(DirPath,FilePath)
 	Set Xfpath = Xfolder.AppendChild(XmlDoc.CreateElement("path"))
 		Xfpath.text = replace(DirPath,ZipPathDir,Pack_PluginDir)
 
-	'Response.Write "<blockquote><font color=""Teal"">"
 		Set objFiles=objFolder.Files
 			for each objFile in objFiles
 				If lcase(DirPath & objFile.name) <> lcase(Request.ServerVariables("PATH_TRANSLATED")) Then
 					PathNameStr = DirPath & "" & objFile.name
-					'Response.Write Replace(PathNameStr,BlogPath,"") & "<br />"
-					'Response.flush
 					'================================================
 					'写入文件的路径及文件内容
 				   Set Xfile = XmlDoc.SelectSingleNode("//app").AppendChild(XmlDoc.CreateElement("file"))
@@ -664,7 +657,6 @@ Function LoadAppFiles(DirPath,FilePath)
 				  '================================================
 				end if
 			next
-	'Response.Write "</font></blockquote>"
 	XmlDoc.Save(FilePath)
 	Set Xfpath = Nothing
 	Set Xfolder = Nothing
@@ -681,7 +673,7 @@ Function LoadAppFiles(DirPath,FilePath)
 	Set objSubFolders=Nothing
 	Set fso=Nothing
 
-	Err.Clear
+	'Err.Clear
 
 End Function
 '*********************************************************

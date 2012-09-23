@@ -136,7 +136,7 @@ Next
 	Response.Write "</p>"
 
 
-	Response.Write "<p><span class='title'>"&ZC_MSG276&":</span><br/><select style='width:310px;' class='edit' size='1' id='cmbLogTemplate' onchange='edtLogTemplate.value=this.options[this.selectedIndex].value'>"
+	Response.Write "<p><span class='title'>"&ZC_MSG179&":</span><br/><select style='width:310px;' class='edit' size='1' id='cmbLogTemplate' onchange='edtLogTemplate.value=this.options[this.selectedIndex].value'>"
 
 	aryFileList=LoadIncludeFilesOnlyType("zb_users\theme" & "/" & ZC_BLOG_THEME & "/" & ZC_TEMPLATE_DIRECTORY)
 
