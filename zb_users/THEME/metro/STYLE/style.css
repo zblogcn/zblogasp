@@ -57,7 +57,7 @@ img { border: none;}
 /**/
 .post_time { float:left; width:40px; height:85px; padding:10px 5px; overflow:hidden; text-align:center; color:#FFFFFF; background: #5EAAE4 url(images/icon/time.png) no-repeat right bottom;}
 .post_time h5 { font-size:26px; line-height:28px; }
-.post_time h6 { font-size:11px; line-height:12px; font-weight:normal;}
+.post_time h6 { font-size:10px; line-height:12px; font-weight:normal;}
 .post_fu { float:left; width:40px; height:40px; padding:5px 5px; background: #5EAAE4 url(images/icon/fu.png) no-repeat right bottom;}
 /**/
 .postistop { height:40px; line-height:40px; padding-left:65px; margin-bottom:10px; background: #FFFFFF url(images/icon/up.png) no-repeat left top;}
