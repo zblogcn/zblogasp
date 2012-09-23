@@ -374,7 +374,25 @@ Function TransferHTML(ByVal source,para)
 		source=Replace(source,")","")
 		source=Replace(source,"*","")
 		source=Replace(source,"+","")
-		'source=Replace(source,",","")
+		source=Replace(source,",","")
+		source=Replace(source,"[","")
+		source=Replace(source,"]","")
+		source=Replace(source,"{","")
+		source=Replace(source,"}","")
+		source=Replace(source,"?","")
+		source=Replace(source,"\","")
+		source=Replace(source,"^","")
+		source=Replace(source,"|","")
+		source=Replace(source,":","")
+		source=Replace(source,"""","")
+		source=Replace(source,"'","")
+	End If
+	If Instr(para,"[normaltag]")>0  Then
+		source=Replace(source,"$","")
+		source=Replace(source,"(","")
+		source=Replace(source,")","")
+		source=Replace(source,"*","")
+		source=Replace(source,"+","")
 		source=Replace(source,"[","")
 		source=Replace(source,"]","")
 		source=Replace(source,"{","")
@@ -394,7 +412,6 @@ Function TransferHTML(ByVal source,para)
 		objRegExp.Pattern="(^,|,$)"
 		source= objRegExp.Replace(source,"")
 	End If
-
 	If Instr(para,"[textarea]")>0 Then
 		'Set objRegExp=New RegExp
 		'objRegExp.IgnoreCase =True
