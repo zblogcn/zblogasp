@@ -19,12 +19,23 @@ If BlogUser.Level>1 Then Call ShowError(6)
 
 If CheckPluginState("AppCentre")=False Then Call ShowError(48)
 
-
 Dim ID
 
 ID=Request.QueryString("id")
 
 BlogTitle="应用中心-插件编辑"
+
+
+If Request.Form.Count>0 Then
+
+	If ID="" Then
+		Call CreateNewPlugin(Request.Form("app_id"))
+	End If
+
+	Call SavePluginXmlInfo(Request.Form("app_id"))
+
+End If
+
 
 If ID="" Then
 
@@ -32,9 +43,7 @@ Else
 
 	Call LoadPluginXmlInfo(ID)
 
-End If 
-
-
+End If
 %>
 <!--#include file="..\..\..\zb_system\admin\admin_header.asp"-->
 <!--#include file="..\..\..\zb_system\admin\admin_top.asp"-->
