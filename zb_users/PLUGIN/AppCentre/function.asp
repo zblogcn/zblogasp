@@ -677,4 +677,366 @@ Function LoadAppFiles(DirPath,FilePath)
 
 End Function
 '*********************************************************
+
+
+
+
+'*********************************************************
+Function SavePluginXmlInfo(id)
+
+	Dim objXMLdoc
+	Set objXMLdoc =Server.CreateObject("Microsoft.XMLDOM")
+
+	Dim objPI,objXMLrss
+
+	'Set objPI = objXMLdoc.createProcessingInstruction("xml","version=""1.0"" encoding=""utf-8"" standalone=""yes""")
+	'objXMLdoc.insertBefore objPI, objXMLdoc.childNodes(0)
+	'Set objPI = Nothing
+
+
+	Set objXMLrss = objXMLdoc.createElement("plugin")
+
+	objXMLdoc.AppendChild(objXMLrss)
+
+	objXMLrss.setAttribute "version","2.0"
+
+
+
+app_id=id'Request.Form("app_id")
+app_name=Request.Form("app_name")
+app_url=Request.Form("app_url")
+app_note=Request.Form("app_note")
+
+app_author_name=Request.Form("app_author_name")
+app_author_email=Request.Form("app_author_email")
+app_author_url=Request.Form("app_author_url")
+
+app_source_name=Request.Form("app_source_name")
+app_source_email=Request.Form("app_source_email")
+app_source_url=Request.Form("app_source_url")
+
+app_plugin_path=Request.Form("app_plugin_path")
+app_plugin_include=Request.Form("app_plugin_include")
+app_plugin_level=Request.Form("app_plugin_level")
+
+app_adapted=Request.Form("app_adapted")
+app_version=Request.Form("app_version")
+app_pubdate=Request.Form("app_pubdate")
+app_modified=Request.Form("app_modified")
+app_description=Request.Form("app_description")
+app_price=Request.Form("app_price")
+
+
+
+
+
+	Dim objXMLitem,objXMLcdata
+
+	Set objXMLitem = objXMLdoc.createElement("id")
+	objXMLitem.text=app_id
+	objXMLrss.AppendChild(objXMLitem)
+
+	Set objXMLitem = objXMLdoc.createElement("name")
+	objXMLitem.text=app_name
+	objXMLrss.AppendChild(objXMLitem)
+
+	Set objXMLitem = objXMLdoc.createElement("url")
+	objXMLitem.text=app_url
+	objXMLrss.AppendChild(objXMLitem)
+
+	Set objXMLitem = objXMLdoc.createElement("note")
+	objXMLitem.text=app_note
+	objXMLrss.AppendChild(objXMLitem)
+
+
+	Set objXMLitem = objXMLdoc.createElement("path")
+	objXMLitem.text=app_plugin_path
+	objXMLrss.AppendChild(objXMLitem)
+
+	Set objXMLitem = objXMLdoc.createElement("include")
+	objXMLitem.text=app_plugin_include
+	objXMLrss.AppendChild(objXMLitem)
+
+	Set objXMLitem = objXMLdoc.createElement("level")
+	objXMLitem.text=app_plugin_level
+	objXMLrss.AppendChild(objXMLitem)
+
+
+	Dim objXMLauthor
+	Set objXMLauthor = objXMLdoc.createElement("author")
+
+	Set objXMLitem = objXMLdoc.createElement("name")
+	objXMLitem.text=app_author_name
+	objXMLauthor.AppendChild(objXMLitem)
+
+	Set objXMLitem = objXMLdoc.createElement("email")
+	objXMLitem.text=app_author_email
+	objXMLauthor.AppendChild(objXMLitem)
+
+	Set objXMLitem = objXMLdoc.createElement("url")
+	objXMLitem.text=app_author_url
+	objXMLauthor.AppendChild(objXMLitem)
+
+	objXMLrss.AppendChild(objXMLauthor)
+
+
+
+	Set objXMLitem = objXMLdoc.createElement("adapted")
+	objXMLitem.text=app_adapted
+	objXMLrss.AppendChild(objXMLitem)
+
+	Set objXMLitem = objXMLdoc.createElement("version")
+	objXMLitem.text=app_version
+	objXMLrss.AppendChild(objXMLitem)
+
+	Set objXMLitem = objXMLdoc.createElement("pubdate")
+	objXMLitem.text=app_pubdate
+	objXMLrss.AppendChild(objXMLitem)
+
+	Set objXMLitem = objXMLdoc.createElement("modified")
+	objXMLitem.text=app_modified
+	objXMLrss.AppendChild(objXMLitem)
+
+	If app_description="" Then
+		Set objXMLitem = objXMLdoc.createElement("description")
+		objXMLitem.text=app_description
+		objXMLrss.AppendChild(objXMLitem)
+	Else
+		objXMLrss.AppendChild(objXMLdoc.createElement("description"))
+		Set objXMLcdata = objXMLdoc.createNode("cdatasection", "","")
+		objXMLcdata.NodeValue=app_description
+		objXMLrss.selectSingleNode("description").AppendChild(objXMLcdata)
+	End If
+
+
+	Set objXMLitem = objXMLdoc.createElement("price")
+	objXMLitem.text=app_price
+	objXMLrss.AppendChild(objXMLitem)
+
+
+
+	Dim xml
+	xml="<?xml version=""1.0"" encoding=""utf-8"" standalone=""yes""?>" & objXMLdoc.xml
+
+	Call SaveToFile(BlogPath & "zb_users/plugin/"&id&"/plugin.xml",xml,"utf-8",False)
+
+
+	Call SetBlogHint_Custom("保存插件'<b>"& app_name &" ("&app_id&")</b>'成功!")
+
+End Function
+'*********************************************************
+
+
+
+
+
+
+
+
+'*********************************************************
+Function SaveThemeXmlInfo(id)
+
+	Dim objXMLdoc
+	Set objXMLdoc =Server.CreateObject("Microsoft.XMLDOM")
+
+	Dim objPI,objXMLrss
+
+	'Set objPI = objXMLdoc.createProcessingInstruction("xml","version=""1.0"" encoding=""utf-8"" standalone=""yes""")
+	'objXMLdoc.insertBefore objPI, objXMLdoc.childNodes(0)
+	'Set objPI = Nothing
+
+
+	Set objXMLrss = objXMLdoc.createElement("plugin")
+
+	objXMLdoc.AppendChild(objXMLrss)
+
+	objXMLrss.setAttribute "version","2.0"
+
+
+
+app_id=id'Request.Form("app_id")
+app_name=Request.Form("app_name")
+app_url=Request.Form("app_url")
+app_note=Request.Form("app_note")
+
+app_author_name=Request.Form("app_author_name")
+app_author_email=Request.Form("app_author_email")
+app_author_url=Request.Form("app_author_url")
+
+app_source_name=Request.Form("app_source_name")
+app_source_email=Request.Form("app_source_email")
+app_source_url=Request.Form("app_source_url")
+
+app_plugin_path=Request.Form("app_plugin_path")
+app_plugin_include=Request.Form("app_plugin_include")
+app_plugin_level=Request.Form("app_plugin_level")
+
+app_adapted=Request.Form("app_adapted")
+app_version=Request.Form("app_version")
+app_pubdate=Request.Form("app_pubdate")
+app_modified=Request.Form("app_modified")
+app_description=Request.Form("app_description")
+app_price=Request.Form("app_price")
+
+
+
+
+
+	Dim objXMLitem,objXMLcdata
+
+	Set objXMLitem = objXMLdoc.createElement("id")
+	objXMLitem.text=app_id
+	objXMLrss.AppendChild(objXMLitem)
+
+	Set objXMLitem = objXMLdoc.createElement("name")
+	objXMLitem.text=app_name
+	objXMLrss.AppendChild(objXMLitem)
+
+	Set objXMLitem = objXMLdoc.createElement("url")
+	objXMLitem.text=app_url
+	objXMLrss.AppendChild(objXMLitem)
+
+	Set objXMLitem = objXMLdoc.createElement("note")
+	objXMLitem.text=app_note
+	objXMLrss.AppendChild(objXMLitem)
+
+
+	Dim objXMLauthor
+	Set objXMLauthor = objXMLdoc.createElement("author")
+
+	Set objXMLitem = objXMLdoc.createElement("name")
+	objXMLitem.text=app_author_name
+	objXMLauthor.AppendChild(objXMLitem)
+
+	Set objXMLitem = objXMLdoc.createElement("email")
+	objXMLitem.text=app_author_email
+	objXMLauthor.AppendChild(objXMLitem)
+
+	Set objXMLitem = objXMLdoc.createElement("url")
+	objXMLitem.text=app_author_url
+	objXMLauthor.AppendChild(objXMLitem)
+
+	objXMLrss.AppendChild(objXMLauthor)
+
+
+	Dim objXMLsource
+	Set objXMLsource = objXMLdoc.createElement("source")
+
+	Set objXMLitem = objXMLdoc.createElement("name")
+	objXMLitem.text=app_source_name
+	objXMLsource.AppendChild(objXMLitem)
+
+	Set objXMLitem = objXMLdoc.createElement("email")
+	objXMLitem.text=app_source_email
+	objXMLsource.AppendChild(objXMLitem)
+
+	Set objXMLitem = objXMLdoc.createElement("url")
+	objXMLitem.text=app_source_url
+	objXMLsource.AppendChild(objXMLitem)
+
+	objXMLrss.AppendChild(objXMLsource)
+
+
+	Dim objXMLplugin
+	Set objXMLplugin = objXMLdoc.createElement("plugin")
+
+	Set objXMLitem = objXMLdoc.createElement("path")
+	objXMLitem.text=app_plugin_path
+	objXMLplugin.AppendChild(objXMLitem)
+
+	Set objXMLitem = objXMLdoc.createElement("include")
+	objXMLitem.text=app_plugin_include
+	objXMLplugin.AppendChild(objXMLitem)
+
+	Set objXMLitem = objXMLdoc.createElement("level")
+	objXMLitem.text=app_plugin_level
+	objXMLplugin.AppendChild(objXMLitem)
+
+	If app_plugin_include<>"" Or app_plugin_path<>"" Then
+		objXMLrss.AppendChild(objXMLplugin)
+	End If
+
+
+
+
+	Set objXMLitem = objXMLdoc.createElement("adapted")
+	objXMLitem.text=app_adapted
+	objXMLrss.AppendChild(objXMLitem)
+
+	Set objXMLitem = objXMLdoc.createElement("version")
+	objXMLitem.text=app_version
+	objXMLrss.AppendChild(objXMLitem)
+
+	Set objXMLitem = objXMLdoc.createElement("pubdate")
+	objXMLitem.text=app_pubdate
+	objXMLrss.AppendChild(objXMLitem)
+
+	Set objXMLitem = objXMLdoc.createElement("modified")
+	objXMLitem.text=app_modified
+	objXMLrss.AppendChild(objXMLitem)
+
+	If app_description="" Then
+		Set objXMLitem = objXMLdoc.createElement("description")
+		objXMLitem.text=app_description
+		objXMLrss.AppendChild(objXMLitem)
+	Else
+		objXMLrss.AppendChild(objXMLdoc.createElement("description"))
+		Set objXMLcdata = objXMLdoc.createNode("cdatasection", "","")
+		objXMLcdata.NodeValue=app_description
+		objXMLrss.selectSingleNode("description").AppendChild(objXMLcdata)
+	End If
+
+	Set objXMLitem = objXMLdoc.createElement("price")
+	objXMLitem.text=app_price
+	objXMLrss.AppendChild(objXMLitem)
+
+
+	Dim xml
+	xml="<?xml version=""1.0"" encoding=""utf-8"" standalone=""yes""?>" & objXMLdoc.xml
+
+	Call SaveToFile(BlogPath & "zb_users/theme/"&id&"/theme.xml",xml,"utf-8",False)
+
+	Call SetBlogHint_Custom("保存主题'<b>"& app_name &" ("&app_id&")</b>'成功!")
+
+End Function
+'*********************************************************
+
+
+
+'*********************************************************
+Function CreateNewPlugin(id)
+
+	Dim objFSO
+	Set objFSO = CreateObject("Scripting.FileSystemObject")
+		
+
+	If objFSO.FolderExists(BlogPath & "zb_users\plugin\"&id)=False Then
+		Call objFSO.CreateFolder(BlogPath & "zb_users\plugin\"&id)
+	Else
+		Call SetBlogHint_Custom("已存在有相同ID的插件!!!")
+		Response.Redirect Request.ServerVariables("HTTP_REFERER")
+	End If
+
+End Function
+'*********************************************************
+
+
+
+'*********************************************************
+Function CreateNewTheme(id)
+
+	Dim objFSO
+	Set objFSO = CreateObject("Scripting.FileSystemObject")
+		
+
+	If objFSO.FolderExists(BlogPath & "zb_users\theme\"&id)=False Then
+		Call objFSO.CreateFolder(BlogPath & "zb_users\theme\"&id)
+	Else
+		Call SetBlogHint_Custom("已存在有相同ID的主题!!!")
+		Response.Redirect Request.ServerVariables("HTTP_REFERER")
+	End If
+
+
+End Function
+'*********************************************************
 %>

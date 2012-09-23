@@ -26,6 +26,17 @@ ID=Request.QueryString("id")
 
 BlogTitle="应用中心-主题编辑"
 
+If Request.Form.Count>0 Then
+
+	If ID="" Then
+		Call CreateNewTheme(Request.Form("app_id"))
+	End If
+
+	Call SaveThemeXmlInfo(Request.Form("app_id"))
+
+End If
+
+
 If ID="" Then
 
 Else
