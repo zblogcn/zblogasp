@@ -9,8 +9,8 @@ p.state-highlight{border: 1px solid #FCEFA1;background: #FBF9EE;color:#222;}
 dd.checkbox{padding-left: 0px;}
 
 label {padding: 0 12px 0 0;}
-input{float: left;width: 300px;height: 26px;padding: 0 5px;line-height: 27px;}
-input[type="checkbox"]{margin:0px 8px 3px 45px;padding: 0;height:30px;width:13px;}
+input{float: left;height: 26px;padding: 0 5px;line-height: 27px;}
+input[type="checkbox"]{margin:0px 8px 3px 45px;padding: 0;height:30px;width:15px;}
 #regButton{float:left;width:130px;	margin-left:45px;}
 #edtCheckOut{margin-right:10px;}
 .state-error{border: 1px solid #CD0A0A;background: #FEF1EC;}
