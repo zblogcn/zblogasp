@@ -1537,9 +1537,7 @@ Function ParseTag(strTag)
 
 	strTag=Trim(strTag)
 	strTag=Replace(strTag,"，",",")
-	'strTag=Replace(strTag,",",vbCrlf)
-	strTag=TransferHTML(strTag,"[normalname]")
-	'strTag=Replace(strTag,vbCrlf,",")
+	strTag=TransferHTML(strTag,"[normaltag]")
 
 	If strTag="" Then ParseTag="":Exit Function
 
