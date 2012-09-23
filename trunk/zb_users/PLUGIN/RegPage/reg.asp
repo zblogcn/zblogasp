@@ -54,11 +54,11 @@ Next
 
 		<dd><label for="password">密码 </label><input id="password" name="password" type="password" maxlength="14" size="30" tabindex="2" value="<%=dPassword%>"></dd>
 
-		<dd><label for="email">邮箱 </label><input id="email" name="email" maxlength="32" size="30"  tabindex="4" value="<%=dEMail%>"></dd>
+		<dd><label for="email">邮箱 </label><input type="email" id="email" name="email" maxlength="32" size="30"  tabindex="4" value="<%=dEMail%>"></dd>
 
-		<dd><label for="site">网站 </label><input id="site" name="site" size="30" tabindex="5"  value="<%=dSite%>" /></dd>
+		<dd><label for="site">网站 </label><input type="url" id="site" name="site" size="30" tabindex="5"  value="<%=dSite%>" /></dd>
 
-		<dd><label for="edtCheckOut">验证 </label><input  type="text" id="edtCheckOut" name="edtCheckOut" size="30"  tabindex="6"/><img style="border:5px solid #ededed" src="<%=GetCurrentHost%>zb_system/function/c_validcode.asp?name=commentvalid" alt="点击刷新" title=""/></dd>
+		<dd><label for="edtCheckOut">验证 </label><input type="number" min="10000" max="99999" id="edtCheckOut" name="edtCheckOut" size="30"  tabindex="6"/><img style="border:5px solid #ededed" src="<%=GetCurrentHost%>zb_system/function/c_validcode.asp?name=commentvalid" alt="点击刷新" title=""/></dd>
 
     <dd class="checkbox" >
       <!-- <dd class="checkbox"><input type="checkbox" checked="checked" name="chkRemember" id="chkRemember"  tabindex="3" /><label for="chkRemember"><%=ZC_MSG114%></label></dd> -->      
