@@ -1552,7 +1552,7 @@ Function GetCurrentHost()
 
 	Dim PhysicsPath
 
-	PhysicsPath=Server.MapPath(".")
+	PhysicsPath=Server.MapPath(".") & "\"
 
 	Dim fso
 	Set fso = CreateObject("Scripting.FileSystemObject")

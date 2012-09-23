@@ -466,12 +466,12 @@ Function ExportCommentList(intPage,intContent,isCheck)
 	objRS.ActiveConnection=objConn
 	objRS.Source=""
 	
-	Call Add_Response_Plugin("Response_Plugin_CommentMng_SubMenu",MakeSubMenu(ZC_MSG281&ZC_MSG068,"admin.asp?act=CommentMng&amp;page=","m-left" & IIf(isCheck,""," m-now"),False))
+	Call Add_Response_Plugin("Response_Plugin_CommentMng_SubMenu",MakeSubMenu(ZC_MSG097,"admin.asp?act=CommentMng&amp;page=","m-left" & IIf(isCheck,""," m-now"),False))
 	Dim objRS1
 	Set objRS1=objConn.Execute("SELECT COUNT([comm_ID]) FROM [blog_Comment] WHERE [comm_isCheck]=-1 Or [comm_isCheck]=1")
 
 	Dim strtmpresponse
-	strtmpresponse=ZC_MSG277
+	strtmpresponse=ZC_MSG104
 	If (Not objRS1.bof) And (Not objRS1.eof) Then
 		strtmpresponse=strtmpresponse&" ("&objRS1(0)&")"
 	End If
@@ -539,7 +539,7 @@ Function ExportCommentList(intPage,intContent,isCheck)
 
 			Response.Write "<td><a id=""mylink"&objRS("comm_ID")&""" href=""$div"&objRS("comm_ID")&"tip?width=400"" class=""betterTip"" title="""&ZC_MSG055&""">" & Left(objRS("comm_Content"),30) & "...</a><div id=""div"&objRS("comm_ID")&"tip"" style=""display:none;""><p>"& objRS("comm_Content") &"</p><br/><p>" & ZC_MSG080 & " : " &objRS("comm_IP") & "</p><p>" & ZC_MSG075 & " : " &objRS("comm_PostTime") & "</p></div></td>"
 			Response.Write "<td><div style='overflow:hidden;height:1.5em;'>"& Left(objArticle.HtmlTitle,20) &"</div></td>"
-			Response.Write "<td align=""center""><a href=""../cmd.asp?act=CommentEdt&amp;id=" & objRS("comm_ID") &"&amp;revid="&objRs("comm_ID")&"&amp;log_id="& objRS("log_ID") &"""><img src=""../image/admin/comments.png"" alt=""" & ZC_MSG149 & """ title=""" & ZC_MSG149 & """ width=""16"" /></a>&nbsp;&nbsp;&nbsp;&nbsp;<a href=""../cmd.asp?act=CommentEdt&amp;id=" & objRS("comm_ID") & "&amp;log_id="& objRS("log_ID") &"&amp;revid=0""><img src=""../image/admin/comment_edit.png"" alt=""" & ZC_MSG078 & """ title=""" & ZC_MSG078 & """ width=""16"" /></a>&nbsp;&nbsp;&nbsp;&nbsp;<a href=""../cmd.asp?act=CommentDel&amp;id=" & objRS("comm_ID")  &""" onclick='return window.confirm("""& ZC_MSG058 &""");'><img src=""../image/admin/delete.png"" alt=""" & ZC_MSG063 & """ title=""" & ZC_MSG063 & """ width=""16"" /></a>&nbsp;&nbsp;&nbsp;&nbsp;<a href=""../cmd.asp?act=CommentAudit&amp;id="&objRs("comm_ID")&"""><img src=""../image/admin/"&IIf(isCheck,"ok.png","minus-shield.png")&""" alt="""&IIf(isCheck,ZC_MSG279,ZC_MSG280)&""" title="""&IIf(isCheck,ZC_MSG279,ZC_MSG280)&""" width=""16""/></a></td>"
+			Response.Write "<td align=""center""><a href=""../cmd.asp?act=CommentEdt&amp;id=" & objRS("comm_ID") &"&amp;revid="&objRs("comm_ID")&"&amp;log_id="& objRS("log_ID") &"""><img src=""../image/admin/comments.png"" alt=""" & ZC_MSG149 & """ title=""" & ZC_MSG149 & """ width=""16"" /></a>&nbsp;&nbsp;&nbsp;&nbsp;<a href=""../cmd.asp?act=CommentEdt&amp;id=" & objRS("comm_ID") & "&amp;log_id="& objRS("log_ID") &"&amp;revid=0""><img src=""../image/admin/comment_edit.png"" alt=""" & ZC_MSG078 & """ title=""" & ZC_MSG078 & """ width=""16"" /></a>&nbsp;&nbsp;&nbsp;&nbsp;<a href=""../cmd.asp?act=CommentDel&amp;id=" & objRS("comm_ID")  &""" onclick='return window.confirm("""& ZC_MSG058 &""");'><img src=""../image/admin/delete.png"" alt=""" & ZC_MSG063 & """ title=""" & ZC_MSG063 & """ width=""16"" /></a>&nbsp;&nbsp;&nbsp;&nbsp;<a href=""../cmd.asp?act=CommentAudit&amp;id="&objRs("comm_ID")&"""><img src=""../image/admin/"&IIf(isCheck,"ok.png","minus-shield.png")&""" alt="""&IIf(isCheck,ZC_MSG091,ZC_MSG092)&""" title="""&IIf(isCheck,ZC_MSG091,ZC_MSG092)&""" width=""16""/></a></td>"
 			Response.Write "<td align=""center"" ><input type=""checkbox"" id=""edtDel"&objRS("comm_ID")&""" name=""edtDel"" value="""&objRS("comm_ID")&"""/></td>"
 			Response.Write "</tr>"
 
@@ -561,7 +561,7 @@ Function ExportCommentList(intPage,intContent,isCheck)
 
 	Response.Write "<form id=""frmBatch"" style=""float:left;"" method=""post"" action=""../cmd.asp?act=CommentDelBatch""><input type=""hidden"" id=""edtBatch"" name=""edtBatch"" value=""""/><input class=""button"" type=""submit"" onclick='BatchDeleteAll(""edtBatch"");if(document.getElementById(""edtBatch"").value){return window.confirm("""& ZC_MSG058 &""");}else{return false}' value="""&ZC_MSG228&""" id=""btnPost""/>&nbsp;&nbsp;&nbsp;&nbsp;</form>" & vbCrlf
 	
-	Response.Write "<form id=""frmBatch2"" style=""float:left;"" method=""post"" action=""../cmd.asp?act=CommentAudit""><input type=""hidden"" id=""edtBatch2"" name=""edtBatch"" value=""""/><input class=""button"" type=""submit"" onclick='BatchDeleteAll(""edtBatch2"");if(document.getElementById(""edtBatch2"").value){return window.confirm("""& ZC_MSG058 &""");}else{return false}' value="""&ZC_MSG278&IIf(isCheck,ZC_MSG279,ZC_MSG280)&""" id=""btnPost2""/>&nbsp;&nbsp;&nbsp;&nbsp;"&IIf(isCheck,"<input class=""button"" type=""submit"" onclick='document.getElementById(""edtBatch2"").value=""delall""' value="""&ZC_MSG222&""" id=""btnPost3""/>","") &"</form>" &vbCrlf
+	Response.Write "<form id=""frmBatch2"" style=""float:left;"" method=""post"" action=""../cmd.asp?act=CommentAudit""><input type=""hidden"" id=""edtBatch2"" name=""edtBatch"" value=""""/><input class=""button"" type=""submit"" onclick='BatchDeleteAll(""edtBatch2"");if(document.getElementById(""edtBatch2"").value){return window.confirm("""& ZC_MSG058 &""");}else{return false}' value="""&IIf(isCheck,ZC_MSG174,ZC_MSG177)&""" id=""btnPost2""/>&nbsp;&nbsp;&nbsp;&nbsp;"&IIf(isCheck,"<input class=""button"" type=""submit"" onclick='document.getElementById(""edtBatch2"").value=""delall""' value="""&ZC_MSG222&""" id=""btnPost3""/>","") &"</form>" &vbCrlf
 
 
 	Response.Write "<hr/><div class=""clear""></div><p class=""pagebar"">" & ZC_MSG042 & ": " & strPage & "</p>"
