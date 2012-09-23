@@ -1,5 +1,5 @@
 <%
-Const APPCENTRE_URL="http://download.rainbowsoft.org/Plugins/ps.asp"
+Const APPCENTRE_URL="http://app.rainbowsoft.org/appcentre.asp"
 
 Dim app_id
 Dim app_name
@@ -1036,6 +1036,117 @@ Function CreateNewTheme(id)
 		Response.Redirect Request.ServerVariables("HTTP_REFERER")
 	End If
 
+
+End Function
+'*********************************************************
+
+
+
+
+
+'*********************************************************
+Function GetHTTPPage(url)
+
+	On Error Resume Next
+
+	Dim Http,ServerConn
+
+	set Http=server.createobject("Msxml2.ServerXMLHTTP")
+	Http.setTimeouts 5000,5000,5000,5000
+	Http.open "GET",url,false
+	Http.send()
+
+	if Http.readystate=4 then
+		ServerConn = true
+	else
+		ServerConn = false
+	end if
+
+
+	if ServerConn = false then
+		'GetHTTPPage = "<font color='red'> × 无法连接服务器!</font>"
+		set http=nothing
+		exit function
+	end if
+
+	if http.Status=404 then
+		'GetHTTPPage = "<font color='red'> × 服务器404错误!</font>"
+		set http=nothing
+		exit function
+	end if
+
+	GetHTTPPage=Http.responseText
+
+	Set http=Nothing
+
+End Function
+'*********************************************************
+
+
+
+
+
+'*********************************************************
+Function ListTheme(s)
+
+	Dim i,j
+	Dim objXmlFile,objNodeList
+	Set objXmlFile=Server.CreateObject("Microsoft.XMLDOM")
+	objXmlFile.async = False
+	objXmlFile.ValidateOnParse=False
+	objXmlFile.loadXML(s)
+	If objXmlFile.readyState=4 Then
+		If objXmlFile.parseError.errorCode <> 0 Then
+		Else
+
+
+			Set objNodeList = objXmlFile.documentElement.selectNodes("//data/app")
+				
+			j=objNodeList.length-1
+			For i=0 To j
+				Response.Write "<div class='app-theme'>"
+				Response.Write "<p class='app-theme-id'>" & objNodeList(i).SelectSingleNode("id").text & "</p>"
+				Response.Write "<p class='app-theme-name'>" & objNodeList(i).SelectSingleNode("name").text & "</p>"
+				Response.Write "<p class='app-theme-image'><img width='320' height='240' src='images/theme.png' alt='' title='' /></p>"
+				Response.Write "</div>"
+			Next
+
+		End If
+	End If
+
+
+End Function
+'*********************************************************
+
+
+
+
+'*********************************************************
+Function ListPlugin(s)
+
+	Dim i,j
+	Dim objXmlFile,objNodeList
+	Set objXmlFile=Server.CreateObject("Microsoft.XMLDOM")
+	objXmlFile.async = False
+	objXmlFile.ValidateOnParse=False
+	objXmlFile.loadXML(s)
+	If objXmlFile.readyState=4 Then
+		If objXmlFile.parseError.errorCode <> 0 Then
+		Else
+
+			Set objNodeList = objXmlFile.documentElement.selectNodes("//data/app")
+				
+			j=objNodeList.length-1
+			For i=0 To j
+				Response.Write "<div class='app-plugin'>"
+				Response.Write "<p class='app-plugin-id'>" & objNodeList(i).SelectSingleNode("id").text & "</p>"
+				Response.Write "<p class='app-plugin-name'>" & objNodeList(i).SelectSingleNode("name").text & "</p>"
+				Response.Write "<p class='app-plugin-image'><img width='128' height='128' src='images/plugin.png' alt='' title='' /></p>"
+				Response.Write "</div>"
+			Next
+
+		End If
+	End If
 
 End Function
 '*********************************************************

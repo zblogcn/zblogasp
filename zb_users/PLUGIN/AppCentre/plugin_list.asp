@@ -21,12 +21,10 @@ If CheckPluginState("AppCentre")=False Then Call ShowError(48)
 
 BlogTitle="应用中心"
 
-
-
 %>
 <!--#include file="..\..\..\zb_system\admin\admin_header.asp"-->
+<link rel="stylesheet" href="images/style.css" type="text/css" media="screen" />
 <!--#include file="..\..\..\zb_system\admin\admin_top.asp"-->
-
 <div id="divMain"> <div id="ShowBlogHint">
       <%Call GetBlogHint()%>
     </div>
@@ -37,28 +35,12 @@ BlogTitle="应用中心"
   <div id="divMain2">
    <script type="text/javascript">ActiveLeftMenu("aAppcentre");$("#leftmenu #nav_appcentre.on span").css("background-image","url('<%=GetCurrentHost%>zb_users/plugin/appcentre/images/web2.png')")</script>
    <%
-   Select Case Request.QueryString("act")
-		Case "list","":ExportPluginList
-'		Case "install":ExportPluginInstall
-		Case "detail":ExportPluginDetail
-   End Select
+Response.Flush
+
+Response.Write ListPlugin(GetHTTPPage(APPCENTRE_URL & "?findapp=2&page=1&count=10"))
    %>
   </div>
 </div>
 <script type="text/javascript">
-function showhidediv(id){
-	try{
-		if(document.getElementById(id)){
-		if(document.getElementById(id).style.display=='none'){
-			document.getElementById(id).style.display='block';
-		}else{
-			document.getElementById(id).style.display='none';
-		}
-		}
-	}catch(e){}
-} 
 </script>
 <!--#include file="..\..\..\zb_system\admin\admin_footer.asp"-->
-
-
-
