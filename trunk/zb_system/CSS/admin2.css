@@ -391,8 +391,8 @@ hr {width:100%;height:1px;border:none;padding:0;visibility:hidden;}
 	margin:0 3em;
 }
 #ajaxtags{
-	background:#EDEDED;
-	box-shadow: 0 0 5px #aaa;
+	background:#f8f8f8;
+	box-shadow: 0 0 10px #aaa;
 	padding:.5em;
 }
 #ajaxtags a{
@@ -400,7 +400,7 @@ hr {width:100%;height:1px;border:none;padding:0;visibility:hidden;}
 }
 #ajaxtags a.selected{
 	color: black;
-	background: #B0CDEE;
+	background: #F8F889;
 }
 
 
