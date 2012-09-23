@@ -12,7 +12,6 @@ Call RegisterPlugin("BetterPagebar","ActivePlugin_BetterPagebar")
 Function ActivePlugin_BetterPagebar()
 	'Action_Plugin_TArticleList_ExportBar_Begin 分页条
 	Call Add_Action_Plugin("Action_Plugin_TArticleList_ExportBar_Begin","ExportBar=BetterPagebar_ExportBar(intNowPage,intAllPage,Template_PageBar,Template_PageBar_Previous,Template_PageBar_Next,Url,ListType):Exit Function")
-	Call SetBlogHint_Custom("分页条优化插件已停，正为您重建首页缓存。")
 End Function
 
 
@@ -29,6 +28,7 @@ End Function
 Function UnInstallPlugin_BetterPagebar()
 	'更新首页
 	Call AddBatch(ZC_MSG259,"Call BlogReBuild_Default")
+	Call SetBlogHint_Custom("分页条优化插件已停用，正为您重建首页缓存。")
 End Function
 
 

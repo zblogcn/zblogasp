@@ -4,8 +4,8 @@
 <!-- #include file="../../../ZB_SYSTEM/function/c_function.asp" -->
 <!-- #include file="../../../ZB_SYSTEM/function/c_system_lib.asp" -->
 <!-- #include file="../../../ZB_SYSTEM/function/c_system_base.asp" -->
-<!-- #include file="../../../ZB_SYSTEM/function/c_system_plugin.asp" -->
 <!-- #include file="../../../ZB_SYSTEM/function/c_system_event.asp" -->
+<!-- #include file="../../../ZB_SYSTEM/function/c_system_plugin.asp" -->
 <!-- #include file="../../plugin/p_config.asp" -->
 <%
 Call System_Initialize()
