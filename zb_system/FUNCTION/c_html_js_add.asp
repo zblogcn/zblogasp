@@ -57,7 +57,7 @@ $(document).ready(function(){
 
 	if(!$("li.msgarticle").html()){$("ul.mutuality").hide()}
 	if($("ul.msghead ~ ul.msg").length==0){$("ul.msghead").hide()}
-	$(".post-tags").each(function(){if(!$(this).find(".tags").html()){$(this).hide()}});
+	$(".post-tags").each(function(){if($(this).find('a').length==0){$(this).hide()}});
 
 	$.getScript("<%=BlogHost%>zb_system/function/c_html_js.asp?act=batch"+unescape("%26")+"view=" + escape(strBatchView)+unescape("%26")+"inculde=" + escape(strBatchInculde)+unescape("%26")+"count=" + escape(strBatchCount));
 
