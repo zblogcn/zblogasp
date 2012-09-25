@@ -1215,7 +1215,7 @@ Class TArticle
 
 		Dim RE ,Match,Matches
 		Set RE = New RegExp 
-			RE.Pattern = "\<\#template\:(article\-(multi|single|page)([\-a-z0-9]*))\#\>"
+			RE.Pattern = "\<\#template\:(article\-([a-z0-9]*)([\-a-z0-9]*))\#\>"
 			RE.IgnoreCase = True 
 			RE.Global = True 
 			Set Matches = RE.Execute(html) 
@@ -1957,7 +1957,7 @@ Class TArticleList
 		Else
 			Dim RE ,Match,Matches
 			Set RE = New RegExp 
-				RE.Pattern = "\<\#template\:(article\-(multi|single|page)([\-a-z0-9]*))\#\>"
+				RE.Pattern = "\<\#template\:(article\-([a-z0-9]*)([\-a-z0-9]*))\#\>"
 				RE.IgnoreCase = True 
 				RE.Global = True 
 				Set Matches = RE.Execute(html) 
