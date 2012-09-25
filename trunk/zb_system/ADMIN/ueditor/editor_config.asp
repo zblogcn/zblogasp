@@ -50,7 +50,7 @@ Next
     oDic.Add "scrawlUrl"," URL+""asp/scrawlUp.asp"""
     oDic.Add "scrawlPath",""""&Path&""""
 	oDic.Add "scrawlFieldName","""edtFileLoad"""
-	oDic.Add "maxImageSideLength","32767"
+	oDic.Add "maxImageSideLength","2147483647"
 	
 	Dim i,aryKeys,aryItems
 	aryKeys=oDic.Keys
