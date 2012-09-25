@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
         "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -111,7 +111,7 @@
                 uploadDataFieldName:editor.options.imageFieldName,    // POST请求中图片数据的key
                 picDescFieldName:'pictitle',      // POST请求中图片描述的key
                 maxSize:1024,                         // 文件的最大体积,单位M
-                compressSize:2,                   // 上传前如果图片体积超过该值，会先压缩,单位M
+                compressSize:1024,                   // 上传前如果图片体积超过该值，会先压缩,单位M
                 maxNum:32,                         // 单次最大可上传多少个文件
                 compressSide:editor.options.compressSide,                 //等比压缩的基准，0为按照最长边，1为按照宽度，2为按照高度
                 compressLength:editor.options.maxImageSideLength        //能接受的最大边长，超过该值Flash会自动等比压缩
