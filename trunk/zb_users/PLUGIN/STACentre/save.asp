@@ -1,9 +1,4 @@
 ﻿<%@ LANGUAGE="VBSCRIPT" CODEPAGE="65001"%>
-<%
-'///////////////////////////////////////////////////////////////////////////////
-'// 插件制作:    ZSXSOFT
-'///////////////////////////////////////////////////////////////////////////////
-%>
 <% Option Explicit %>
 <% 'On Error Resume Next %>
 <% Response.Charset="UTF-8" %>
@@ -21,39 +16,31 @@ Call CheckReference("")
 '检查权限
 If BlogUser.Level>1 Then Call ShowError(6)
 If CheckPluginState("STACentre")=False Then Call ShowError(48)
+
 BlogTitle="静态中心配置插件"
 
 
-	Dim a,b,c,d
+Dim a,b,c,d
 
-	Set d=CreateObject("Scripting.Dictionary")
+Set d=CreateObject("Scripting.Dictionary")
 
-	On Error Resume Next
-	For Each a In BlogConfig.Meta.Names
-		If a<>"ZC_BLOG_VERSION" Then
-			Call Execute("Call BlogConfig.Write("""&a&""","&a&")")
-		End If
-	Next
-	Err.Clear
-
-	For Each a In Request.Form 
-		b=Mid(a,4,Len(a))
-		If BlogConfig.Exists(b)=True Then
-			d.add b,Request.Form(a)
-		End If
-	Next
+For Each a In Request.Form 
+	b=Mid(a,4,Len(a))
+	If BlogConfig.Exists(b)=True Then
+		d.add b,Request.Form(a)
+	End If
+Next
 
 If d.Exists("ZC_ARTICLE_REGEX") Then If BlogConfig.Read("ZC_ARTICLE_REGEX")<>d.Item("ZC_ARTICLE_REGEX")Then Call SetBlogHint(Empty,Empty,True)
 If d.Exists("ZC_PAGE_REGEX") Then If BlogConfig.Read("ZC_PAGE_REGEX")<>d.Item("ZC_PAGE_REGEX")Then Call SetBlogHint(Empty,Empty,True)
 If d.Exists("ZC_STATIC_MODE") Then If BlogConfig.Read("ZC_STATIC_MODE")<>d.Item("ZC_STATIC_MODE")Then Call SetBlogHint(Empty,Empty,True)
 
 
-	For Each a In d.Keys
-		Call BlogConfig.Write(a,d.Item(a))
-	Next
+For Each a In d.Keys
+	Call BlogConfig.Write(a,d.Item(a))
+Next
 
-
-	Call SaveConfig2Option()
+Call SaveConfig2Option()
 
 SetBlogHint_Custom("设置已保存!")
 

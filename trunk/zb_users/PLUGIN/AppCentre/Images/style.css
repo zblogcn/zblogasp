@@ -3,7 +3,7 @@
 	float:left;
 	width:350px;
 	background:#f0f0f0;
-	margin:0 20px 40px 0;
+	margin:5px 20px 40px 5px;
 
 }
 
@@ -12,7 +12,8 @@
 	float:left;
 	width:350px;
 	background:#f0f0f0;
-	margin:0 20px 40px 0;
+	margin:5px 20px 40px 5px;
+	box-shadow: 0 0 10px #aaa;
 }
 
 .app-theme-image img{

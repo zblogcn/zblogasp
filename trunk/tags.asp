@@ -64,6 +64,9 @@ objArticle.Content="<p style='line-height:1.4'><br/>" & Join(strTagCloud) & "</p
 objArticle.Title="TagCloud"
 objArticle.FullRegex="{%host%}/{%alias%}.html"
 
+If GetTemplate("TEMPLATE_TAGS")<>empty Then
+	objArticle.template="TAGS"
+End If
 
 If objArticle.Export(ZC_DISPLAY_MODE_SYSTEMPAGE) Then
 	objArticle.Build

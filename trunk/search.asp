@@ -129,6 +129,9 @@ objArticle.Content=Replace(objArticle.Content,"<#ZC_BLOG_HOST#>",BlogHost)
 objArticle.Title=ZC_MSG085 + ":" + TransferHTML(strQuestion,"[html-format]")
 objArticle.FullRegex="{%host%}/{%alias%}.html"
 
+If GetTemplate("TEMPLATE_SEARCH")<>empty Then
+	objArticle.template="SEARCH"
+End If
 
 If objArticle.Export(ZC_DISPLAY_MODE_SYSTEMPAGE) Then
 	objArticle.Build
