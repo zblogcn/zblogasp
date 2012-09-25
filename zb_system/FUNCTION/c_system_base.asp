@@ -945,7 +945,7 @@ If TemplateDic.Exists("TEMPLATE_FOOTER")=False Then Call TemplateDic.add("TEMPLA
 If TemplateDic.Exists("TEMPLATE_HEADER")=False Then Call TemplateDic.add("TEMPLATE_HEADER",LoadFromFile(BlogPath &"zb_system\defend\default\header.html","utf-8"))
 If TemplateDic.Exists("TEMPLATE_SIDEBAR")=False Then Call TemplateDic.add("TEMPLATE_SIDEBAR",LoadFromFile(BlogPath &"zb_system\defend\default\.html","utf-8"))
 If TemplateDic.Exists("TEMPLATE_SINGLE")=False Then Call TemplateDic.add("TEMPLATE_SINGLE",LoadFromFile(BlogPath &"zb_system\defend\default\single.html","utf-8"))
-If TemplateDic.Exists("TEMPLATE_B_ARTICLE-SEARCH")=False Then Call TemplateDic.add("TEMPLATE_B_ARTICLE-SEARCH",LoadFromFile(BlogPath &"zb_system\defend\default\b_article-search.html","utf-8"))
+If TemplateDic.Exists("TEMPLATE_B_ARTICLE-SEARCH-CONTENT")=False Then Call TemplateDic.add("TEMPLATE_B_ARTICLE-SEARCH-CONTENT",LoadFromFile(BlogPath &"zb_system\defend\default\b_article-search-content.html","utf-8"))
 If TemplateDic.Exists("TEMPLATE_B_ARTICLE-PAGE")=False Then Call TemplateDic.add("TEMPLATE_B_ARTICLE-PAGE",LoadFromFile(BlogPath &"zb_system\defend\default\b_article-page.html","utf-8"))
 If TemplateDic.Exists("TEMPLATE_PAGE")=False Then Call TemplateDic.add("TEMPLATE_PAGE",LoadFromFile(BlogPath &"zb_system\defend\default\page.html","utf-8"))
 

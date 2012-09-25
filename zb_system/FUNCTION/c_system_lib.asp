@@ -1189,7 +1189,7 @@ Class TArticle
 			If ZC_DISPLAY_MODE_SEARCH=intType Then
 				Disable_Export_Tag=True
 				subhtml_TemplateName=""
-				subhtml=GetTemplate("TEMPLATE_B_ARTICLE-SEARCH")
+				subhtml=GetTemplate("TEMPLATE_B_ARTICLE-SEARCH-CONTENT")
 			End If
 			If ZC_DISPLAY_MODE_COMMENTS=intType Then
 				Disable_Export_Tag=True
