@@ -78,7 +78,7 @@ For Each sAction_Plugin_Tags_End in Action_Plugin_Tags_End
 	If Not IsEmpty(sAction_Plugin_Tags_End) Then Call Execute(sAction_Plugin_Tags_End)
 Next
 
-%><!-- <%=RunTime()%>ms --><%
+
 Call System_Terminate()
 
 If Err.Number<>0 then
