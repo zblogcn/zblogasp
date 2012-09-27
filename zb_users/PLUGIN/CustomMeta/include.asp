@@ -1,4 +1,4 @@
-<%
+﻿<%
 '注册插件
 Call RegisterPlugin("CustomMeta","ActivePlugin_CustomMeta")
 
@@ -22,10 +22,10 @@ Function CustomMeta_AddLogEdit(obj)
 	Set m=New TMeta
 	m.LoadString=c.Read("LogMeta")
 	For i=LBound(m.Names)+1 To UBound(m.Names)
-		s=s & "<div style='clear:both;width:100%'><p style='width:20%;float:left;'><span class='title'>"&m.GetValue(m.Names(i))&"字段:</span></p><p style='width:80%;float:left;'><input style='width:100%;' type='text' name='meta_"&m.Names(i)&"' value='"&obj.Meta.GetValue(m.Names(i))&"' /></p></div>"
+		s=s & "<div style='clear:both;width:100%'><p><span class='title'>"&m.GetValue(m.Names(i))&"字段:</span><input style='width:60%;max-width:520px' type='text' name='meta_"&m.Names(i)&"' value='"&obj.Meta.GetValue(m.Names(i))&"' /></p></div>"
 	Next
 
-	Call Add_Response_Plugin("Response_Plugin_Edit_Form2",s)
+	Call Add_Response_Plugin("Response_Plugin_Edit_Form",s)
 
 End Function
 
