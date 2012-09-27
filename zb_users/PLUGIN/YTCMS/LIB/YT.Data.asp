@@ -371,7 +371,7 @@ Class YT_Comment
 	Function GetCommentArticleComments(Rows,ID)
 		If IsNumeric(Rows) Then
 			Dim Rs
-			Set Rs = objConn.Execute("SELECT top "& CStr(Rows) &" [comm_ID] FROM [blog_Article],[blog_Comment] WHERE blog_Article.log_CateID<>0 AND blog_Comment.log_ID IN ("& CStr(ID) &") ORDER BY [comm_PostTime] DESC,[comm_ID] DESC")
+			Set Rs = objConn.Execute("SELECT top "& CStr(Rows) &" [comm_ID] FROM [blog_Comment] WHERE log_ID IN ("& CStr(ID) &") ORDER BY [comm_PostTime] DESC,[comm_ID] DESC")
 				If Not (Rs.EOF and Rs.BOF) Then GetCommentArticleComments = Rs.GetRows(Rows)
 			Set Rs = Nothing
 		End If
