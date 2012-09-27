@@ -550,13 +550,14 @@ var YT = {
 														break;
 														case 'select':
 															var v=k(r,$(this).find('select')[0].name);
+															alert(v);
 															if(v!=null){$(this).find('select').val(unescape(v));}
 														break;
 														case 'checkbox':
-															var v=k(r,$(this).find('checked')[0].name);
+															var v=k(r,$(this).find('input[type="checkbox"]')[0].name);
 															if(v!=null){
 																var _c = unescape(v).split(',');
-																	$(this).find('checked').each(function(){
+																	$(this).find('input[type="checkbox"]').each(function(){
 																		for(var _j=0;_j<_c.length;_j++){
 																			if($(this).val().toLowerCase().replace(/\s+/ig,'') == _c[_j].toLowerCase().replace(/\s+/ig,'')){
 																				$(this).attr('checked',true);
