@@ -1,5 +1,4 @@
-﻿/* Fading Tooltips By Dustin Diaz*/
-#tooltip { position:absolute;z-index:1000;width: auto;max-width:500px;background:#EDF5FA none repeat scroll 0% 50%;border:3px solid #CEF3FF;padding:1px;text-align:left;padding:5px;min-height:1em;-moz-border-radius:5px;font-family:Verdana,Arial,Helvetica,Georgia,Sans-Serif;}
-#tooltip p { margin:0;padding:0;color:#027AC6;font:11px/12px Verdana,Arial,sans-serif; }
+﻿#tooltip { position:absolute;z-index:1000;width: auto;max-width:500px;background:#EDF5FA none repeat scroll 0% 50%;border:3px solid #CEF3FF;padding:1px;text-align:left;padding:5px;min-height:1em;-moz-border-radius:5px;font-family:Verdana,Arial,Helvetica,Georgia,Sans-Serif;}
+#tooltip p { margin:0;padding:0;color:#027AC6;font:0.9em "微软雅黑","宋体", Arial, Helvetica, sans-serif;}
 #tooltip p em { display:block;margin-top:3px;color:#f60;font-style:normal;font-weight:bold; }
 #tooltip p em span { font-weight:bold;color:#669900; }
