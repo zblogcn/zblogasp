@@ -21,6 +21,12 @@
 <!-- #include file="../zb_system/function/c_function.asp" -->
 <%
 Call CheckReference("")
+If Request.Cookies("password")<>"" Then 
+	If  IsEmpty(Request.ServerVariables("HTTP_REFERER")) Or InStr(LCase(Request.ServerVariables("HTTP_REFERER")),"cmd.asp")=0 Then 
+		Response.Redirect "cmd.asp?act=login"
+	End If 
+Else
+End if
 %><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<%=ZC_BLOG_LANGUAGE%>" lang="<%=ZC_BLOG_LANGUAGE%>">
 <head>
@@ -48,9 +54,9 @@ Call CheckReference("")
       <dd class="checkbox"><input type="checkbox" name="chkRemember" id="chkRemember"  tabindex="3" /><label for="chkRemember"><%=ZC_MSG114%></label></dd>
       <dd class="submit"><input id="btnPost" name="btnPost" type="submit" value="<%=ZC_MSG260%>" class="button" tabindex="4"/></dd>
     </dl>
-<input type="hidden" name="username" id="username" value="" />
-<input type="hidden" name="password" id="password" value="" />
-<input type="hidden" name="savedate" id="savedate" value="0" />
+	<input type="hidden" name="username" id="username" value="" />
+	<input type="hidden" name="password" id="password" value="" />
+	<input type="hidden" name="savedate" id="savedate" value="0" />
     </form>
   </div>
 </div>
@@ -58,13 +64,13 @@ Call CheckReference("")
 
 <script language="JavaScript" type="text/javascript">
 
-if(GetCookie("username")){document.getElementById("edtUserName").value=unescape(GetCookie("username"))};
+if(GetCookie("username")){$("#edtUserName").val(unescape(GetCookie("username")))};
 
 $("#btnPost").click(function(){
 
-	var strUserName=document.getElementById("edtUserName").value;
-	var strPassWord=document.getElementById("edtPassWord").value;
-	var strSaveDate=document.getElementById("savedate").value
+	var strUserName=$("#edtUserName").val();
+	var strPassWord=$("#edtPassWord").val();
+	var strSaveDate=$("#savedate").val()
 
 	if((strUserName=="")||(strPassWord=="")){
 		alert("<%=ZC_MSG010%>");
@@ -72,14 +78,12 @@ $("#btnPost").click(function(){
 	}
 
 	strUserName=strUserName;
-
 	strPassWord=MD5(strPassWord);
 
-
-	document.getElementById("frmLogin").action="cmd.asp?act=verify"
-	document.getElementById("username").value=strUserName;
-	document.getElementById("password").value=strPassWord
-	document.getElementById("savedate").value=strSaveDate
+	$("#frmLogin").attr("action","cmd.asp?act=verify");
+	$("#username").val(strUserName);
+	$("#password").val(strPassWord);
+	$("#savedate").val(strSaveDate);
 })
 
 $(document).ready(function(){ 
@@ -91,7 +95,6 @@ $(document).ready(function(){
 $("#chkRemember").click(function(){
 	$("#savedate").attr("value",$("#chkRemember").attr("checked")=="checked"?30:0);
 })
-
 </script>
 </body>
 </html>
