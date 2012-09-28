@@ -1,4 +1,4 @@
-<%@ CODEPAGE=65001 %>
+﻿<%@ CODEPAGE=65001 %>
 <%
 '///////////////////////////////////////////////////////////////////////////////
 '//              Z-Blog
@@ -188,19 +188,14 @@ If OpenConnect()=False Then
 End If
 
 
-Call UpdateAccessTable()
-
-Call InsertFunctions()
-
-Call InsertOptions()
-
-Call SaveConfigs()
-
 %>
-<p>数据库表和数据升级成功!</p>
-<p>默认配置数据导入成功!</p>
-<p>默认侧栏数据导入成功!</p>
-<p>配置文件c_option.asp保存成功!</p>
+<%Call UpdateAccessTable()%><p>数据库表和数据升级成功!</p>
+<%Call InsertFunctions()%><p>默认配置数据导入成功!</p>
+<%Call InsertOptions()%><p>默认侧栏数据导入成功!</p>
+<%Call SaveConfigs()%><p>配置文件c_option.asp保存成功!</p>
+
+
+
 <p>Z-Blog 2.0升级成功了,现在您可以点击"完成"进入网站首页.</p>
 
 </div>
