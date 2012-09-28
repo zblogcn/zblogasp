@@ -3,7 +3,6 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta http-equiv="Content-Language" content="<%=ZC_BLOG_LANGUAGE%>" />
-<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
 <meta name="generator" content="Z-Blog <%=ZC_BLOG_VERSION%>" />
 <meta name="robots" content="nofollow" />
 <title><%=ZC_BLOG_TITLE & ZC_MSG044 & BlogTitle%></title>

@@ -580,7 +580,8 @@ Function UpdateDateBase()
 		objConn.execute("ALTER TABLE [blog_Counter] ADD COLUMN coun_URL  text default """"")
 		objConn.execute("ALTER TABLE [blog_Counter] ADD COLUMN coun_AllRequestHeader  text default """"")
 		objConn.execute("ALTER TABLE [blog_Counter] ADD COLUMN coun_LogName text default """"")
-	ENd If 
+	ENd If
+
 End Function
 
 
