@@ -842,7 +842,7 @@ Function UBBCode(ByVal strContent,strType)
 		strContent= objRegExp.Replace(strContent,"<img src=""$4"" alt="""" title="""" width=""$2""/>")
 
 		objRegExp.Pattern="(\[IMG\])(.+?)(\[\/IMG\])"
-		strContent= objRegExp.Replace(strContent,"<img onload=""ResizeImage(this,"&ZC_IMAGE_WIDTH&")"" src=""$2"" alt="""" title=""""/>")
+		strContent= objRegExp.Replace(strContent,"<img src=""$2"" alt="""" title=""""/>")
 
 
 		objRegExp.Pattern="(\[IMG_LEFT=)([0-9]*),([0-9]*),([^\n\[]*)(\])(.+?)(\[\/IMG_LEFT\])"
@@ -855,7 +855,7 @@ Function UBBCode(ByVal strContent,strType)
 		strContent= objRegExp.Replace(strContent,"<img class=""float-left"" style=""float:left"" src=""$4"" alt="""" title="""" width=""$2""/>")
 
 		objRegExp.Pattern="(\[IMG_LEFT\])(.+?)(\[\/IMG_LEFT\])"
-		strContent= objRegExp.Replace(strContent,"<img onload=""ResizeImage(this,"&ZC_IMAGE_WIDTH&")"" class=""float-left"" style=""float:left"" src=""$2"" alt="""" title=""""/>")
+		strContent= objRegExp.Replace(strContent,"<img class=""float-left"" style=""float:left"" src=""$2"" alt="""" title=""""/>")
 
 
 		objRegExp.Pattern="(\[IMG_RIGHT=)([0-9]*),([0-9]*),(.*)(\])(.+?)(\[\/IMG_RIGHT\])"
@@ -868,7 +868,7 @@ Function UBBCode(ByVal strContent,strType)
 		strContent= objRegExp.Replace(strContent,"<img class=""float-right"" style=""float:right"" src=""$4"" alt="""" title="""" width=""$2""/>")
 
 		objRegExp.Pattern="(\[IMG_RIGHT\])(.+?)(\[\/IMG_RIGHT\])"
-		strContent= objRegExp.Replace(strContent,"<img onload=""ResizeImage(this,"&ZC_IMAGE_WIDTH&")"" class=""float-right"" style=""float:right"" src=""$2"" alt="""" title=""""/>")
+		strContent= objRegExp.Replace(strContent,"<img class=""float-right"" style=""float:right"" src=""$2"" alt="""" title=""""/>")
 
 
 
@@ -2075,9 +2075,44 @@ Public Function MD5(sMessage)
     MD5 = LCase(WordToHex(a) & WordToHex(b) & WordToHex(c) & WordToHex(d))
 End Function
 '*********************************************************
-
-
-
+'*********************************************************
+' 目的：    newClass
+' 输入：   
+' 输入：   类名 
+' 返回：    一个初始化的类，给JS用
+'*********************************************************
+Function newClass(ClassName)
+	Execute "Set newClass=New " & ClassName
+End Function
+'*********************************************************
+' 目的：    vbsArray
+' 输入：   
+' 输入：   数组名,i
+' 返回：    用于读取VBS数组，给JS用
+'*********************************************************
+Function vbsArray(arr,i)
+	vbsArray=arr(i)
+End Function
+'*********************************************************
+' 目的：    vbsArrayEdit
+' 输入：   
+' 输入：   数组名,i,内容
+' 返回：    用于修改VBS数组，给JS用
+'*********************************************************
+Function vbsArrayEdit(arr,i,c)
+	arr(i)=c
+	vbsArrayEdit=arr
+End Function
+'*********************************************************
+' 目的：    vbsArrayRedim
+' 输入：   
+' 输入：   数组名,下标,保留数据
+' 返回：    用于修改VBS数组下标，给JS用
+'*********************************************************
+Function vbsArrayRedim(arr,i,pre)
+	Execute "Redim " & IIf(pre=True,"Preserve ","") & "arr(i)" 
+	vbsArrayRedim=arr
+End Function
 
 '*********************************************************
 ' 目的：    unescape
