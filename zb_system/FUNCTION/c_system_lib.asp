@@ -1292,8 +1292,8 @@ Class TArticle
 		Dim aryTemplateTagsName()
 		Dim aryTemplateTagsValue()
 		Dim i,j
-		ReDim aryTemplateTagsName(54)
-		ReDim aryTemplateTagsValue(54)
+		ReDim aryTemplateTagsName(55)
+		ReDim aryTemplateTagsValue(55)
 
 		aryTemplateTagsName(1)="article/id"
 		aryTemplateTagsValue(1)=ID
@@ -1424,6 +1424,9 @@ Class TArticle
 		aryTemplateTagsValue(53)=GetTemplate("CACHE_SIDEBAR4")
 		aryTemplateTagsName(54)="template:sidebar5"
 		aryTemplateTagsValue(54)=GetTemplate("CACHE_SIDEBAR5")
+
+		aryTemplateTagsName(55)="article/author/intro"
+		aryTemplateTagsValue(55)=Users(AuthorID).Intro
 
 
 		Call Filter_Plugin_TArticle_Export_TemplateTags(aryTemplateTagsName,aryTemplateTagsValue)
@@ -2554,7 +2557,7 @@ Class TUser
 		Call CheckParameter(user_ID,"int",0)
 
 		Dim objRS
-		Set objRS=objConn.Execute("SELECT [mem_ID],[mem_Name],[mem_Level],[mem_Password],[mem_Email],[mem_HomePage],[mem_PostLogs],[mem_Intro],[mem_Template],[mem_FullUrl],[mem_Meta] FROM [blog_Member] WHERE [mem_ID]=" & user_ID)
+		Set objRS=objConn.Execute("SELECT [mem_ID],[mem_Name],[mem_Level],[mem_Password],[mem_Email],[mem_HomePage],[mem_PostLogs],[mem_Intro],[mem_Template],[mem_FullUrl],[mem_Url],[mem_Meta] FROM [blog_Member] WHERE [mem_ID]=" & user_ID)
 		If (Not objRS.bof) And (Not objRS.eof) Then
 
 			ID=objRS("mem_ID")
@@ -2564,9 +2567,10 @@ Class TUser
 			Email=objRS("mem_Email")
 			HomePage=objRS("mem_HomePage")
 			Count=objRS("mem_PostLogs")
-			Alias=objRS("mem_Intro")
+			Alias=objRS("mem_Url")
 			TemplateName=objRS("mem_Template")
 			FullUrl=objRS("mem_FullUrl")
+			Intro=objRS("mem_Intro")
 			MetaString=objRS("mem_Meta")
 
 			If IsNull(Email) Or IsEmpty(Email) Or Len(Email)=0 Then Email="null@null.com"
@@ -2579,7 +2583,7 @@ Class TUser
 		Set objRS=Nothing
 
 
-		Call Filter_Plugin_TUser_LoadInfobyID(ID,Name,Level,Password,Email,HomePage,Count,Alias,TemplateName,FullUrl,MetaString)
+		Call Filter_Plugin_TUser_LoadInfobyID(ID,Name,Level,Password,Email,HomePage,Count,Alias,TemplateName,FullUrl,Intro,MetaString)
 
 	End Function
 
@@ -2598,7 +2602,8 @@ Class TUser
 			Alias=aryUserInfo(7)
 			TemplateName=aryUserInfo(8)
 			FullUrl=aryUserInfo(9)
-			MetaString=aryUserInfo(10)
+			Intro=aryUserInfo(10)
+			MetaString=aryUserInfo(11)
 
 		End If
 
@@ -2608,14 +2613,14 @@ Class TUser
 
 		LoadInfoByArray=True
 
-		Call Filter_Plugin_TUser_LoadInfoByArray(ID,Name,Level,Password,Email,HomePage,Count,Alias,TemplateName,FullUrl,MetaString)
+		Call Filter_Plugin_TUser_LoadInfoByArray(ID,Name,Level,Password,Email,HomePage,Count,Alias,TemplateName,FullUrl,Intro,MetaString)
 
 	End Function
 
 
 	Function Edit(currentUser)
 
-		Call Filter_Plugin_TUser_Edit(ID,Name,Level,Password,Email,HomePage,Count,Alias,TemplateName,FullUrl,MetaString,currentUser)
+		Call Filter_Plugin_TUser_Edit(ID,Name,Level,Password,Email,HomePage,Count,Alias,TemplateName,FullUrl,Intro,MetaString,currentUser)
 
 		Call CheckParameter(ID,"int",0)
 		Call CheckParameter(Level,"int",0)
@@ -2648,6 +2653,8 @@ Class TUser
 			If Not CheckRegExp(HomePage,"[homepage]") Then Call ShowError(30)
 		End If
 
+		Intro=FilterSQL(Intro)
+
 		If ID=0 Then
 
 			Dim Guid
@@ -2665,7 +2672,7 @@ Class TUser
 			End If
 			Set objRS2=Nothing
 
-			objConn.Execute("INSERT INTO [blog_Member]([mem_Level],[mem_Name],[mem_PassWord],[mem_Email],[mem_HomePage],[mem_Intro],[mem_Guid],[mem_Meta]) VALUES ("&Level&",'"&Name&"','"&PassWord&"','"&Email&"','"&HomePage&"','"&Alias&"','"&Guid&"','"&MetaString&"')")
+			objConn.Execute("INSERT INTO [blog_Member]([mem_Level],[mem_Name],[mem_PassWord],[mem_Email],[mem_HomePage],[mem_Url],[mem_Guid],[mem_Intro],[mem_Meta]) VALUES ("&Level&",'"&Name&"','"&PassWord&"','"&Email&"','"&HomePage&"','"&Alias&"','"&Guid&"','"&Intro&"','"&MetaString&"')")
 			
 			Dim objRS
 			Set objRS=objConn.Execute("SELECT MAX([mem_ID]) FROM [blog_Member]")
@@ -2701,7 +2708,7 @@ Class TUser
 
 				If Len(PassWord)<>32 Then Call ShowError(55)
 
-				objConn.Execute("UPDATE [blog_Member] SET [mem_Level]="&Level&",[mem_Name]='"&Name&"',[mem_PassWord]='"&PassWord&"',[mem_Email]='"&Email&"',[mem_HomePage]='"&HomePage&"',[mem_Intro]='"&Alias&"',[mem_Meta]='"&MetaString&"' WHERE [mem_ID]="&ID)
+				objConn.Execute("UPDATE [blog_Member] SET [mem_Level]="&Level&",[mem_Name]='"&Name&"',[mem_PassWord]='"&PassWord&"',[mem_Email]='"&Email&"',[mem_HomePage]='"&HomePage&"',[mem_Url]='"&Alias&"',[mem_Intro]='"&Intro&"',[mem_Meta]='"&MetaString&"' WHERE [mem_ID]="&ID)
 
 				If Name <> targetUser.Name Then
 					objConn.Execute("UPDATE [blog_Comment] SET [comm_Author]='"&Name&"' WHERE [comm_AuthorID]="&ID)
@@ -2724,7 +2731,7 @@ Class TUser
 		Dim currentUser
 		Set currentUser=BlogUser
 
-		Call Filter_Plugin_TUser_Register(ID,Name,Level,Password,Email,HomePage,Count,Alias,TemplateName,FullUrl,MetaString,currentUser)
+		Call Filter_Plugin_TUser_Register(ID,Name,Level,Password,Email,HomePage,Count,Alias,TemplateName,FullUrl,Intro,MetaString,currentUser)
 
 		Call CheckParameter(ID,"int",0)
 		Call CheckParameter(Level,"int",0)
@@ -2774,7 +2781,7 @@ Class TUser
 			End If
 			Set objRS2=Nothing
 
-			objConn.Execute("INSERT INTO [blog_Member]([mem_Level],[mem_Name],[mem_PassWord],[mem_Email],[mem_HomePage],[mem_Intro],[mem_Guid],[mem_Meta]) VALUES ("&Level&",'"&Name&"','"&PassWord&"','"&Email&"','"&HomePage&"','"&Alias&"','"&Guid&"','"&MetaString&"')")
+			objConn.Execute("INSERT INTO [blog_Member]([mem_Level],[mem_Name],[mem_PassWord],[mem_Email],[mem_HomePage],[mem_Url],[mem_Guid],[mem_Intro],[mem_Meta]) VALUES ("&Level&",'"&Name&"','"&PassWord&"','"&Email&"','"&HomePage&"','"&Alias&"','"&Guid&"','"&Intro&"','"&MetaString&"')")
 
 			Dim objRS
 			Set objRS=objConn.Execute("SELECT MAX([mem_ID]) FROM [blog_Member]")
@@ -2792,7 +2799,7 @@ Class TUser
 
 	Function Del(currentUser)
 
-		Call Filter_Plugin_TUser_Del(ID,Name,Level,Password,Email,HomePage,Count,Alias,TemplateName,FullUrl,MetaString,currentUser)
+		Call Filter_Plugin_TUser_Del(ID,Name,Level,Password,Email,HomePage,Count,Alias,TemplateName,FullUrl,Intro,MetaString,currentUser)
 
 		Dim objRS
 		Dim objUpLoadFile

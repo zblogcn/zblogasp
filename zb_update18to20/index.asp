@@ -22,9 +22,9 @@ Dim dbtype,dbpath,dbserver,dbname,dbusername,dbpassword
 Dim zblogstep
 zblogstep=Request.QueryString("step")
 
-'If (ZC_DATABASE_PATH<>"" And ZC_MSSQL_ENABLE=False) Or (ZC_MSSQL_SERVER<>"" And ZC_MSSQL_ENABLE=True) Then
-'	zblogstep=0
-'End If
+If (ZC_DATABASE_PATH<>"") Or (ZC_MSSQL_ENABLE=True) Then
+	zblogstep=0
+End If
 
 If zblogstep="" Then zblogstep=1
 
@@ -126,10 +126,11 @@ Function Setup1()
 
 %>
 <p class='title'>升级说明</p>
-<p>0.友情提示,建议升级前全站备份Z-Blog.</p>
 <p>1.将Z-Blog 1.8目录中DATA目录下的文件转移至Z-Blog 2.0的zb_users\DATA目录下.</p>
 <p>2.将Z-Blog 1.8目录中UPLOAD目录下的文件转移至Z-Blog 2.0的zb_users\UPLOAD目录下.</p>
-<p>3.运行http://你的网站/zb_update18to20/进入升级程序.</p>
+<p>3.将Z-Blog 1.8目录中INCLUDE目录下的文件转移至Z-Blog 2.0的zb_users\INCLUDE目录下.</p>
+<p>4.将Z-Blog 1.8目录中c_custom.asp和c_option.asp文件转移至Z-Blog 2.0的根目录下.</p>
+<p>5.运行http://你的网站/zb_update18to20/进入升级程序.</p>
 </div>
 <div id='bottom'>
 <input type="submit" name="next" id="netx" value="下一步" onclick="if($('#dbpath').val()==''){alert('选择一个需要升级的数据库.');return false;}" />
@@ -190,8 +191,10 @@ End If
 
 %>
 <%Call UpdateAccessTable()%><p>数据库表和数据升级成功!</p>
-<%Call InsertFunctions()%><p>默认配置数据导入成功!</p>
-<%Call InsertOptions()%><p>默认侧栏数据导入成功!</p>
+<%Call InsertOptions()%><p>默认配置数据导入成功!</p>
+<%Call InsertFunctions()%><p>默认侧栏数据导入成功!</p>
+<%Call LoadOldOptions()%><p>读取旧配置数据成功!</p>
+<%Call LoadOldFunctions()%><p>读取旧侧栏模块数据成功!</p>
 <%Call SaveConfigs()%><p>配置文件c_option.asp保存成功!</p>
 
 
@@ -322,6 +325,7 @@ Function UpdateAccessTable()
 		objConn.execute("ALTER TABLE [blog_Member] ADD COLUMN [mem_Guid] VARCHAR(36) default """"")
 		objConn.execute("ALTER TABLE [blog_Member] ADD COLUMN [mem_Template] VARCHAR(50) default """"")
 		objConn.execute("ALTER TABLE [blog_Member] ADD COLUMN [mem_FullUrl] VARCHAR(255) default """"")
+		objConn.execute("ALTER TABLE [blog_Member] ADD COLUMN [mem_Url] VARCHAR(255) default """"")
 		objConn.execute("ALTER TABLE [blog_Member] ADD COLUMN [mem_Meta] text default """"")
 
 		Dim objRS
@@ -777,6 +781,53 @@ BlogConfig.Save
 End Function
 
 
+
+Function LoadOldOptions()
+
+	ZC_BLOG_HOST=BlogHost
+
+	Dim fso
+	Set fso = CreateObject("Scripting.FileSystemObject")
+
+	If (fso.FileExists(BlogPath & "c_custom.asp")) Then
+		Call LoadValueForSetting(LoadFromFile(BlogPath & "c_custom.asp","utf-8"),True,"String","ZC_BLOG_TITLE",ZC_BLOG_TITLE)
+		Call LoadValueForSetting(LoadFromFile(BlogPath & "c_custom.asp","utf-8"),True,"String","ZC_BLOG_SUBTITLE",ZC_BLOG_SUBTITLE)
+		Call LoadValueForSetting(LoadFromFile(BlogPath & "c_custom.asp","utf-8"),True,"String","ZC_BLOG_NAME",ZC_BLOG_NAME)
+		Call LoadValueForSetting(LoadFromFile(BlogPath & "c_custom.asp","utf-8"),True,"String","ZC_BLOG_SUB_NAME",ZC_BLOG_SUB_NAME)
+		Call LoadValueForSetting(LoadFromFile(BlogPath & "c_custom.asp","utf-8"),True,"String","ZC_BLOG_COPYRIGHT",ZC_BLOG_COPYRIGHT)
+
+		Call fso.DeleteFile(BlogPath & "c_custom.asp")
+
+	End If
+
+	If (fso.FileExists(BlogPath & "c_option.asp")) Then
+		Call LoadValueForSetting(LoadFromFile(BlogPath & "c_option.asp","utf-8"),True,"String","ZC_TIME_ZONE",ZC_TIME_ZONE)
+		Call LoadValueForSetting(LoadFromFile(BlogPath & "c_option.asp","utf-8"),True,"String","ZC_HOST_TIME_ZONE",ZC_HOST_TIME_ZONE)
+
+		Call fso.DeleteFile(BlogPath & "c_option.asp")
+
+	End If
+
+End Function
+
+
+Function LoadOldFunctions()
+
+	Call GetFunction()
+
+	Functions(FunctionMetas.GetValue("navbar")).Content=LoadFromFile(BlogPath & "zb_users\INCLUDE\navbar.asp","utf-8")
+	Functions(FunctionMetas.GetValue("navbar")).Post()
+
+	Functions(FunctionMetas.GetValue("favorite")).Content=LoadFromFile(BlogPath & "zb_users\INCLUDE\favorite.asp","utf-8")
+	Functions(FunctionMetas.GetValue("favorite")).Post()
+
+	Functions(FunctionMetas.GetValue("link")).Content=LoadFromFile(BlogPath & "zb_users\INCLUDE\link.asp","utf-8")
+	Functions(FunctionMetas.GetValue("link")).Post()
+
+	Functions(FunctionMetas.GetValue("misc")).Content=LoadFromFile(BlogPath & "zb_users\INCLUDE\misc.asp","utf-8")
+	Functions(FunctionMetas.GetValue("misc")).Post()
+
+End Function
 
 
 

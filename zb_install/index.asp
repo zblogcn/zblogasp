@@ -22,9 +22,9 @@ Dim dbtype,dbpath,dbserver,dbname,dbusername,dbpassword
 Dim zblogstep
 zblogstep=Request.QueryString("step")
 
-'If (ZC_DATABASE_PATH<>"" And ZC_MSSQL_ENABLE=False) Or (ZC_MSSQL_SERVER<>"" And ZC_MSSQL_ENABLE=True) Then
-'	zblogstep=0
-'End If
+If (ZC_DATABASE_PATH<>"" And ZC_MSSQL_ENABLE=False) Or (ZC_MSSQL_SERVER<>"" And ZC_MSSQL_ENABLE=True) Then
+	zblogstep=0
+End If
 
 If zblogstep="" Then zblogstep=1
 
@@ -310,7 +310,7 @@ Function CreateAccessTable()
 
 	objConn.execute("CREATE TABLE [blog_Article] (log_ID AutoIncrement primary key,log_CateID int default 0,log_AuthorID int default 0,log_Level int default 0,log_Url VARCHAR(255) default """",log_Title VARCHAR(255) default """",log_Intro text default """",log_Content text default """",log_IP VARCHAR(15) default """",log_PostTime datetime default now(),log_CommNums int default 0,log_ViewNums int default 0,log_TrackBackNums int default 0,log_Tag VARCHAR(255) default """",log_IsTop YESNO DEFAULT 0,log_Yea int default 0,log_Nay int default 0,log_Ratting int default 0,log_Template VARCHAR(50) default """",log_FullUrl VARCHAR(255) default """",log_Type int DEFAULT 0,log_Meta text default """")")
 
-	objConn.execute("CREATE TABLE [blog_Category] (cate_ID AutoIncrement primary key,cate_Name VARCHAR(50) default """",cate_Order int default 0,cate_Intro VARCHAR(255) default """",cate_Count int default 0,cate_URL VARCHAR(255) default """",cate_ParentID int default 0,cate_Template VARCHAR(50) default """",cate_LogTemplate VARCHAR(50) default """",cate_FullUrl VARCHAR(255) default """",cate_Meta text default """")")
+	objConn.execute("CREATE TABLE [blog_Category] (cate_ID AutoIncrement primary key,cate_Name VARCHAR(50) default """",cate_Order int default 0,cate_Intro text default """",cate_Count int default 0,cate_URL VARCHAR(255) default """",cate_ParentID int default 0,cate_Template VARCHAR(50) default """",cate_LogTemplate VARCHAR(50) default """",cate_FullUrl VARCHAR(255) default """",cate_Meta text default """")")
 
 	objConn.execute("CREATE TABLE [blog_Comment] (comm_ID AutoIncrement primary key,log_ID int default 0,comm_AuthorID int default 0,comm_Author VARCHAR(20) default """",comm_Content text default """",comm_Email VARCHAR(50) default """",comm_HomePage VARCHAR(255) default """",comm_PostTime datetime default now(),comm_IP VARCHAR(15) default """",comm_Agent text default """",comm_Reply text default """",comm_LastReplyIP VARCHAR(15) default """",comm_LastReplyTime datetime default now(),comm_Yea int default 0,comm_Nay int default 0,comm_Ratting int default 0,comm_ParentID int default 0,comm_IsCheck YESNO DEFAULT FALSE,comm_Meta text default """")")
 
@@ -322,7 +322,7 @@ Function CreateAccessTable()
 
 	objConn.execute("CREATE TABLE [blog_Keyword] (key_ID AutoIncrement primary key,key_Name VARCHAR(255) default """",key_Intro text default """",key_URL VARCHAR(255) default """")")
 
-	objConn.execute("CREATE TABLE [blog_Member] (mem_ID AutoIncrement primary key,mem_Level int default 0,mem_Name VARCHAR(20) default """",mem_Password VARCHAR(32) default """",mem_Sex int default 0,mem_Email VARCHAR(50) default """",mem_MSN VARCHAR(50) default """",mem_QQ VARCHAR(50) default """",mem_HomePage VARCHAR(255) default """",mem_LastVisit datetime default now(),mem_Status int default 0,mem_PostLogs int default 0,mem_PostComms int default 0,mem_Intro text default """",mem_IP VARCHAR(15) default """",mem_Count int default 0,mem_Template VARCHAR(50) default """",mem_FullUrl VARCHAR(255) default """",mem_Guid VARCHAR(36) default """",mem_Meta text default """")")
+	objConn.execute("CREATE TABLE [blog_Member] (mem_ID AutoIncrement primary key,mem_Level int default 0,mem_Name VARCHAR(20) default """",mem_Password VARCHAR(32) default """",mem_Sex int default 0,mem_Email VARCHAR(50) default """",mem_MSN VARCHAR(50) default """",mem_QQ VARCHAR(50) default """",mem_HomePage VARCHAR(255) default """",mem_LastVisit datetime default now(),mem_Status int default 0,mem_PostLogs int default 0,mem_PostComms int default 0,mem_Intro text default """",mem_IP VARCHAR(15) default """",mem_Count int default 0,mem_Template VARCHAR(50) default """",mem_FullUrl VARCHAR(255) default """",mem_lUrl VARCHAR(255) default """",mem_Guid VARCHAR(36) default """",mem_Meta text default """")")
 
 	objConn.execute("CREATE TABLE [blog_Config] (conf_Name VARCHAR(255) default """" not null,conf_Value text default """")")
 	'objConn.execute("CREATE UNIQUE INDEX index_conf_Name ON [blog_Config](conf_Name)")
@@ -344,7 +344,7 @@ Function CreateMssqlTable()
 
 	objConn.execute("CREATE TABLE [blog_Article] (log_ID int identity(1,1) not null primary key,log_CateID int default 0,log_AuthorID int default 0,log_Level int default 0,log_Url nvarchar(255) default '',log_Title nvarchar(255) default '',log_Intro ntext default '',log_Content ntext default '',log_IP nvarchar(15) default '',log_PostTime datetime default getdate(),log_CommNums int default 0,log_ViewNums int default 0,log_TrackBackNums int default 0,log_Tag nvarchar(255) default '',log_IsTop bit DEFAULT 0,log_Yea int default 0,log_Nay int default 0,log_Ratting int default 0,log_Template nvarchar(50) default '',log_FullUrl nvarchar(255) default '',log_Type int default 0,log_Meta ntext default '')")
 
-	objConn.execute("CREATE TABLE [blog_Category] (cate_ID int identity(1,1) not null primary key,cate_Name nvarchar(50) default '',cate_Order int default 0,cate_Intro nvarchar(255) default '',cate_Count int default 0,cate_URL nvarchar(255) default '',cate_ParentID int default 0,cate_Template nvarchar(50) default '',cate_LogTemplate nvarchar(50) default '',cate_FullUrl nvarchar(255) default '',cate_Meta ntext default '')")
+	objConn.execute("CREATE TABLE [blog_Category] (cate_ID int identity(1,1) not null primary key,cate_Name nvarchar(50) default '',cate_Order int default 0,cate_Intro ntext default default '',cate_Count int default 0,cate_URL nvarchar(255) default '',cate_ParentID int default 0,cate_Template nvarchar(50) default '',cate_LogTemplate nvarchar(50) default '',cate_FullUrl nvarchar(255) default '',cate_Meta ntext default '')")
 
 	objConn.execute("CREATE TABLE [blog_Comment] (comm_ID int identity(1,1) not null primary key,log_ID int default 0,comm_AuthorID int default 0,comm_Author nvarchar(20) default '',comm_Content ntext default '',comm_Email nvarchar(50) default '',comm_HomePage nvarchar(255) default '',comm_PostTime datetime default getdate(),comm_IP nvarchar(15) default '',comm_Agent ntext default '',comm_Reply ntext default '',comm_LastReplyIP nvarchar(15) default '',comm_LastReplyTime datetime default getdate(),comm_Yea int default 0,comm_Nay int default 0,comm_Ratting int default 0,comm_ParentID int default 0,comm_IsCheck bit default 0,comm_Meta ntext default '')")
 
@@ -357,7 +357,7 @@ Function CreateMssqlTable()
 
 	objConn.execute("CREATE TABLE [blog_Keyword] (key_ID int identity(1,1) not null primary key,key_Name nvarchar(255) default '',key_Intro ntext default '',key_URL nvarchar(255) default '')")
 
-	objConn.execute("CREATE TABLE [blog_Member] (mem_ID int identity(1,1) not null primary key,mem_Level int default 0,mem_Name nvarchar(20) default '',mem_Password nvarchar(32) default '',mem_Sex int default 0,mem_Email nvarchar(50) default '',mem_MSN nvarchar(50) default '',mem_QQ nvarchar(50) default '',mem_HomePage nvarchar(255) default '',mem_LastVisit datetime default getdate(),mem_Status int default 0,mem_PostLogs int default 0,mem_PostComms int default 0,mem_Intro ntext default '',mem_IP nvarchar(15) default '',mem_Count int default 0,mem_Template nvarchar(50) default '',mem_FullUrl nvarchar(255) default '',mem_Guid  nvarchar(36) default '',mem_Meta ntext default '')")
+	objConn.execute("CREATE TABLE [blog_Member] (mem_ID int identity(1,1) not null primary key,mem_Level int default 0,mem_Name nvarchar(20) default '',mem_Password nvarchar(32) default '',mem_Sex int default 0,mem_Email nvarchar(50) default '',mem_MSN nvarchar(50) default '',mem_QQ nvarchar(50) default '',mem_HomePage nvarchar(255) default '',mem_LastVisit datetime default getdate(),mem_Status int default 0,mem_PostLogs int default 0,mem_PostComms int default 0,mem_Intro ntext default '',mem_IP nvarchar(15) default '',mem_Count int default 0,mem_Template nvarchar(50) default '',mem_FullUrl nvarchar(255) default '',mem_Url nvarchar(255) default '',mem_Guid  nvarchar(36) default '',mem_Meta ntext default '')")
 
 	objConn.execute("CREATE TABLE [blog_Config] (conf_Name nvarchar(255) not null default '',conf_Value text default '')")
 
