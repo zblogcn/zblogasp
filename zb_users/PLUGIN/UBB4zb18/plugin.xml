@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<plugin version="2.0">
+<id>UBB4ZB18</id>
+<name>UBB For ZBlog18</name>
+<url>http://www.zsxsoft.com/</url>
+<note>将1.8时代用UBB编写的文章正常显示</note>
+<type>inline</type>
+<path>main.asp</path>
+<include>include.asp</include>
+<level>1</level>
+<author>
+	<name>ZSXSOFT</name>
+	<url>http://www.zsxsoft.com/</url>
+	<email>zsx@zsxsoft.com</email>
+</author>
+<version>1.0</version>
+<adapted>Z-Blog 2.0</adapted>
+<pubdate>2012-9-29</pubdate>
+<modified>2012-9-29</modified>
+</plugin>
