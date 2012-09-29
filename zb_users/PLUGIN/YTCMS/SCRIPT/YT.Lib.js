@@ -550,7 +550,6 @@ var YT = {
 														break;
 														case 'select':
 															var v=k(r,$(this).find('select')[0].name);
-															alert(v);
 															if(v!=null){$(this).find('select').val(unescape(v));}
 														break;
 														case 'checkbox':
