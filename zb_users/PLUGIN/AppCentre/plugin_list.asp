@@ -36,8 +36,19 @@ BlogTitle="应用中心"
    <script type="text/javascript">ActiveLeftMenu("aAppcentre");$("#leftmenu #nav_appcentre.on span").css("background-image","url('<%=GetCurrentHost%>zb_users/plugin/appcentre/images/web2.png')")</script>
    <%
 Response.Flush
-
-Response.Write ListPlugin(GetHTTPPage(APPCENTRE_URL & "?findapp=2&page=1&count=10"))
+Dim strTemp,strFunc
+strFunc="ListPlugin"
+strTemp="?findapp=2"
+Select Case Request.QueryString("act")
+	Case "detail"
+		strTemp=strTemp&"&page=1&id=" & Request("id")
+		strFunc="DetailPlugin"
+	Case Else
+		strTemp=strTemp&"&page=" & IIf(IsEmpty(Request("page")),1,Request("page"))
+End Select
+strTemp=strTemp & "&count=" & IIf(IsEmpty(Request("count")),10,Request("count"))
+strTemp=GetHTTPPage(APPCENTRE_URL & strTemp)
+Execute "Response.Write "&strFunc&"(strTemp)"
    %>
   </div>
 </div>
