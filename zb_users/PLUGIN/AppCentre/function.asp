@@ -1095,15 +1095,13 @@ Function ListTheme(s)
 	If objXmlFile.readyState=4 Then
 		If objXmlFile.parseError.errorCode <> 0 Then
 		Else
-
-
 			Set objNodeList = objXmlFile.documentElement.selectNodes("//data/app")
 				
 			j=objNodeList.length-1
 			For i=0 To j
 				Response.Write "<div class='app-theme'>"
 				Response.Write "<p class='app-theme-id'>" & objNodeList(i).SelectSingleNode("id").text & "</p>"
-				Response.Write "<p class='app-theme-name'>" & objNodeList(i).SelectSingleNode("name").text & "</p>"
+				Response.Write "<p class='app-theme-name'><a href='?act=detail&id=" & objNodeList(i).SelectSingleNode("id").text & "'>" & objNodeList(i).SelectSingleNode("name").text & "</a></p>"
 				Response.Write "<p class='app-theme-image'><img width='320' height='240' src='images/theme.png' alt='' title='' /></p>"
 				Response.Write "</div>"
 			Next
@@ -1169,6 +1167,41 @@ Function DetailPlugin(s)
 				Response.Write "<p class='app-plugin-author'>作者：<a href='"&objXmlFile.documentElement.selectNodes("//data/app/author")(0).SelectSingleNode("url").text&"' target='_blank'>"&objXmlFile.documentElement.selectNodes("//data/app/author")(0).SelectSingleNode("name").text&"</a></p>"
 
 				Response.Write "<p class='app-plugin-detail'><span class='app-plugin-down'><a href='?act=download&url="&Server.URLEncode(objNodeList(i).SelectSingleNode("downurl").text)&"'>下载</a></span><span class='app-plugin-down'><a href='"&objNodeList(i).SelectSingleNode("posturl").text&"' target='_blank'>查看</a></span></p>"
+				Response.Write "</div>"
+			Next
+
+		End If
+	End If
+
+End Function
+'*********************************************************
+'*********************************************************
+
+Function DetailTheme(s)
+
+	Dim i,j
+	Dim objXmlFile,objNodeList
+	Set objXmlFile=ReturnXML(s)
+	If objXmlFile.readyState=4 Then
+		If objXmlFile.parseError.errorCode <> 0 Then
+		Else
+			Set objNodeList = objXmlFile.documentElement.selectNodes("//data/app")
+			j=objNodeList.length-1
+			For i=0 To j
+				Response.Write "<div class='app-theme'>"
+				Response.Write "<p class='app-theme-id'>" & objNodeList(i).SelectSingleNode("id").text & "</p>"
+				Response.Write "<p class='app-theme-name'><a href='?act=detail&id=" & objNodeList(i).SelectSingleNode("id").text & "'>" & objNodeList(i).SelectSingleNode("name").text & "</a></p>"
+				Response.Write "<p class='app-theme-image'><img width='128' height='128' src='images/theme.png' alt='' title='' /></p>"
+				Response.Write "<p class='app-theme-lastupdate'>最后更新："&objNodeList(i).SelectSingleNode("lastupdate").text&"</p>"
+				Response.Write "<p class='app-theme-version'>版本号："&objNodeList(i).SelectSingleNode("version").text&"</p>"
+				Response.Write "<p class='app-theme-zbver'>支持Z-Blog版本："&objNodeList(i).SelectSingleNode("zbver").text&"</p>"
+				Response.Write "<p class='app-theme-size'>大小："&objNodeList(i).SelectSingleNode("size").text&"</p>"
+				Response.Write "<p class='app-theme-tag'>标签："&TagToUrl(objNodeList(i).SelectSingleNode("tag").text)&"</p>"
+				Response.Write "<p class='app-theme-pay'>金额：￥"&objNodeList(i).SelectSingleNode("pay").text&"</p>"
+
+				Response.Write "<p class='app-theme-author'>作者：<a href='"&objXmlFile.documentElement.selectNodes("//data/app/author")(0).SelectSingleNode("url").text&"' target='_blank'>"&objXmlFile.documentElement.selectNodes("//data/app/author")(0).SelectSingleNode("name").text&"</a></p>"
+
+				Response.Write "<p class='app-theme-detail'><span class='app-theme-down'><a href='?act=download&url="&Server.URLEncode(objNodeList(i).SelectSingleNode("downurl").text)&"'>下载</a></span><span class='app-theme-down'><a href='"&objNodeList(i).SelectSingleNode("posturl").text&"' target='_blank'>查看</a></span></p>"
 				Response.Write "</div>"
 			Next
 
