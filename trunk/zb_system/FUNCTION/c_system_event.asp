@@ -882,6 +882,10 @@ Function EditUser()
 	objUser.HomePage=Request.Form("edtHomePage")
 	objUser.Alias=Request.Form("edtAlias")
 
+	If BlogUser.Level<4 Then
+		objUser.Intro=Request.Form("edtIntro")
+	End If
+
 	If Trim(Request.Form("edtPassWord"))<>"" Then
 		objUser.PassWord=MD5(Request.Form("edtPassWord"))
 		If Not CheckRegExp(Request.Form("edtPassWord"),"[password]") Then Call ShowError(54)

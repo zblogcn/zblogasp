@@ -336,7 +336,7 @@ Function GetUser()
 	Set objRS=Nothing
 
 
-	Set objRS=objConn.Execute("SELECT [mem_ID],[mem_Name],[mem_Level],[mem_Password],[mem_Email],[mem_HomePage],[mem_PostLogs],[mem_Intro],[mem_Template],[mem_FullUrl],[mem_Meta] FROM [blog_Member] ORDER BY [mem_ID] ASC")
+	Set objRS=objConn.Execute("SELECT [mem_ID],[mem_Name],[mem_Level],[mem_Password],[mem_Email],[mem_HomePage],[mem_PostLogs],[mem_Url],[mem_Template],[mem_FullUrl],[mem_Intro],[mem_Meta] FROM [blog_Member] ORDER BY [mem_ID] ASC")
 	If (Not objRS.bof) And (Not objRS.eof) Then
 
 		aryAllData=objRS.GetRows(objRS.RecordCount)
@@ -347,7 +347,7 @@ Function GetUser()
 		l=UBound(aryAllData,2)
 		For i=0 To l
 			Set Users(aryAllData(0,i))=New TUser
-			Users(aryAllData(0,i)).LoadInfoByArray(Array(aryAllData(0,i),aryAllData(1,i),aryAllData(2,i),aryAllData(3,i),aryAllData(4,i),aryAllData(5,i),aryAllData(6,i),aryAllData(7,i),aryAllData(8,i),aryAllData(9,i),aryAllData(10,i)))
+			Users(aryAllData(0,i)).LoadInfoByArray(Array(aryAllData(0,i),aryAllData(1,i),aryAllData(2,i),aryAllData(3,i),aryAllData(4,i),aryAllData(5,i),aryAllData(6,i),aryAllData(7,i),aryAllData(8,i),aryAllData(9,i),aryAllData(10,i),aryAllData(11,i)))
 		Next
 
 	End If
@@ -3103,14 +3103,14 @@ End If
 Dim objRS
 Dim objUser
 
-Set objRS=objConn.Execute("SELECT [mem_ID],[mem_Name],[mem_Level],[mem_Password],[mem_Email],[mem_HomePage],[mem_PostLogs],[mem_Intro],[mem_Template],[mem_FullUrl],[mem_Meta] FROM [blog_Member] WHERE (" & s & ")")
+Set objRS=objConn.Execute("SELECT [mem_ID],[mem_Name],[mem_Level],[mem_Password],[mem_Email],[mem_HomePage],[mem_PostLogs],[mem_Url],[mem_Template],[mem_FullUrl],[mem_Intro],[mem_Meta] FROM [blog_Member] WHERE (" & s & ")")
 
 If (Not objRS.bof) And (Not objRS.eof) Then
 
 	Do While Not objRS.eof
 
 		Set objUser=New TUser
-		Call objUser.LoadInfoByArray(Array(objRS(0),objRS(1),objRS(2),objRS(3),objRS(4),objRS(5),objRS(6),objRS(7),objRS(8),objRS(9),objRS(10)))
+		Call objUser.LoadInfoByArray(Array(objRS(0),objRS(1),objRS(2),objRS(3),objRS(4),objRS(5),objRS(6),objRS(7),objRS(8),objRS(9),objRS(10),objRS(11)))
 
 		If UBound(Users)<objUser.ID Then
 			ReDim Preserve Users(objUser.ID)

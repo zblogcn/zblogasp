@@ -104,6 +104,7 @@ Next
 	Response.Write "<p><span class='title'>"& ZC_MSG147 &":</span><br/><input id=""edtAlias"" size=""50"" name=""edtAlias""  type=""text"" value="""& TransferHTML(EditUser.Alias,"[html-format]") &""" /></p>"
 	Response.Write "<p><span class='title'>"& ZC_MSG053 &":</span><span class='star'>(*)</span><br/><input id=""edtEmail"" size=""50"" name=""edtEmail""  type=""text"" value="""& TransferHTML(EditUser.Email,"[html-format]") &""" /></p>"
 	Response.Write "<p><span class='title'>"& ZC_MSG054 &":</span><br/><input id=""edtHomePage"" size=""50"" name=""edtHomePage""  type=""text"" value="""& TransferHTML(EditUser.HomePage,"[html-format]") &""" /></p>"
+	Response.Write "<p><span class='title'>"& ZC_MSG198 &":</span><br/><textarea "& IIF(BlogUser.Level>3,"readonly=""readonly""","") &" cols=""3"" rows=""6"" id=""edtIntro"" name=""edtIntro"" style=""width:600px;"">"& TransferHTML(EditUser.Intro,"[html-format]") &"</textarea></p>"
 
 	'<!-- 1号输出接口 -->
 	If Response_Plugin_EditUser_Form<>"" Then Response.Write "<div id=""divEditForm1"">"&Response_Plugin_EditUser_Form&"</div>"
