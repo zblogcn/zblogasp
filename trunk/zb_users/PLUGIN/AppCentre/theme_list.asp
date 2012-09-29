@@ -38,7 +38,19 @@ BlogTitle="应用中心"
    <%
 Response.Flush
 
-Response.Write ListTheme(GetHTTPPage(APPCENTRE_URL & "?findapp=1&page=1&count=10"))
+Dim strTemp,strFunc
+strFunc="ListTheme"
+strTemp="?findapp=1"
+Select Case Request.QueryString("act")
+	Case "detail"
+		strTemp=strTemp&"&page=1&id=" & Request("id")
+		strFunc="DetailTheme"
+	Case Else
+		strTemp=strTemp&"&page=" & IIf(IsEmpty(Request("page")),1,Request("page"))
+End Select
+strTemp=strTemp & "&count=" & IIf(IsEmpty(Request("count")),10,Request("count"))
+strTemp=GetHTTPPage(APPCENTRE_URL & strTemp)
+Execute "Response.Write "&strFunc&"(strTemp)"
    %>
   </div>
 </div>
