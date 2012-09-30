@@ -22,7 +22,8 @@ Call CheckReference("")
 If BlogUser.Level>1 Then Call ShowError(6)
 If CheckPluginState("GuestBook")=False Then Call ShowError(48)
 BlogTitle="留言本"
-Dim objConfig,a
+Dim objConfig
+Dim a
 Set objConfig=New TConfig
 objConfig.Load("GuestBook")
 If objConfig.Exists("v")=False Then
