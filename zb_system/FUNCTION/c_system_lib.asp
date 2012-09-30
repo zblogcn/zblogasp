@@ -792,6 +792,8 @@ Class TArticle
 	End Function
 
 
+
+
 	Function Export_CMTandTB(intPage)
 
 		If Disable_Export_CMTandTB=True Then Exit Function
@@ -807,12 +809,14 @@ Class TArticle
 
 		CommNums=objConn.Execute("SELECT COUNT([log_ID]) FROM [blog_Comment] WHERE [log_ID] =" & ID & " AND [comm_isCheck]=0")(0)
 		If CommNums > 0 Then
+
+
 			Dim strC_Count,strC,strT_Count,strT
 
 			Dim objComment
 			Dim objTrackBack
 
-			Dim i,j,s
+			Dim i,j,s,t
 
 			Dim comments_ID()
 			Dim comments_ParentID()
@@ -829,6 +833,9 @@ Class TArticle
 			Set all = CreateObject("Scripting.Dictionary")
 
 
+			Dim alltemplate
+			Set alltemplate = CreateObject("Scripting.Dictionary")
+
 			Dim objRS
 
 
@@ -837,7 +844,7 @@ Class TArticle
 			objRS.CursorType = adOpenKeyset
 			objRS.LockType = adLockReadOnly
 			objRS.ActiveConnection=objConn
-			objRS.Source="SELECT [comm_ID],[log_ID],[comm_AuthorID],[comm_Author],[comm_Content],[comm_Email],[comm_HomePage],[comm_PostTime],[comm_IP],[comm_Agent],[comm_Reply],[comm_LastReplyIP],[comm_LastReplyTime],[comm_ParentID],[comm_IsCheck],[comm_Meta] FROM [blog_Comment] WHERE ([blog_Comment].[log_ID]=" & ID &" AND [comm_isCheck]=0)  ORDER BY [comm_PostTime] DESC"
+			objRS.Source="SELECT * FROM [blog_Comment] WHERE ([log_ID]=" & ID &" AND [comm_isCheck]=0 AND [comm_ParentID]=0)  ORDER BY [comm_PostTime] DESC"
 			objRS.Open()
 
 
@@ -871,9 +878,6 @@ Class TArticle
 
 				For i=1 To j
 
-				ReDim Preserve comments_ID(i)
-				ReDim Preserve comments_ParentID(i)
-				ReDim Preserve comments_Template(i)
 
 					Set objComment=New TComment
 					objComment.LoadInfoByArray(Array(objRS("comm_ID"),objRS("log_ID"),objRS("comm_AuthorID"),objRS("comm_Author"),objRS("comm_Content"),objRS("comm_Email"),objRS("comm_HomePage"),objRS("comm_PostTime"),objRS("comm_IP"),objRS("comm_Agent"),objRS("comm_Reply"),objRS("comm_LastReplyIP"),objRS("comm_LastReplyTime"),objRS("comm_ParentID"),objRS("comm_IsCheck"),objRs("comm_Meta")))
@@ -881,12 +885,10 @@ Class TArticle
 					Call GetUsersbyUserIDList(objRS("comm_AuthorID"))
 
 					objComment.Count=0
-					comments_ID(i)=objComment.ID
-					comments_ParentID(i)=objComment.ParentID
-					comments_Template(i)=objComment.MakeTemplate(strC)
 
-					IDandTemp.add comments_ID(i), comments_Template(i)
-					all.add comments_ID(i), comments_ParentID(i)
+					tree.add objComment.ID, objComment.MakeTemplate(strC)'objComment
+
+					t=objRS("comm_ID")
 
 					Set objComment=Nothing
 
@@ -895,46 +897,39 @@ Class TArticle
 
 				Next
 
+				Dim objRS2
+
+				Set objRS2=objConn.Execute("SELECT * FROM [blog_Comment] WHERE ([log_ID]=" & ID &" AND [comm_isCheck]=0 AND [comm_ParentID]<>0 And [comm_ID]>"&t&")  ORDER BY [comm_PostTime] DESC")
+				If (Not objRS2.bof) And (Not objRS2.eof) Then
+					Do While Not objRS2.eof
+
+						Set objComment=New TComment
+						objComment.LoadInfoByArray(Array(objRS2("comm_ID"),objRS2("log_ID"),objRS2("comm_AuthorID"),objRS2("comm_Author"),objRS2("comm_Content"),objRS2("comm_Email"),objRS2("comm_HomePage"),objRS2("comm_PostTime"),objRS2("comm_IP"),objRS2("comm_Agent"),objRS2("comm_Reply"),objRS2("comm_LastReplyIP"),objRS2("comm_LastReplyTime"),objRS2("comm_ParentID"),objRS2("comm_IsCheck"),objRS2("comm_Meta")))
+						Call GetUsersbyUserIDList(objRS2("comm_AuthorID"))
+						objComment.Count=0
+						all.add objComment.ID, objComment.ParentID
+						alltemplate.add objComment.ID,objComment.MakeTemplate(strC)
+						Set objComment=Nothing
+						objRS2.MoveNext
+					Loop
+				End If
+				objRS2.Close
+				Set objRS2=Nothing
+
 			End if
 
 			objRS.Close()
 			Set objRS=Nothing
 
 
-			'建构基础树
-			Dim b
-			For i=1 To UBound(comments_ParentID)
-				b=False
-				For j=1 To UBound(comments_ID)
-					If comments_ParentID(i)=comments_ID(j) Then
-						b=True 
-						'Exit For
-					End If 
-				Next
-				If b=False Then
-					all.Remove comments_ID(i)
-					tree.Add comments_ID(i), comments_Template(i)
+			For Each s In tree.Keys
+				t="<!--rev"&s&"-->"
+				If SearchChildCommentsInDic(s,t,all,alltemplate)=True Then
+					tree.Item(s) =Replace(tree.Item(s),"<!--rev"&s&"-->",t)
 				End If
-			Next
+				t=""
 
-			'将未被使用的节点安插在树上
-			Do Until all.count=0
-				For Each i In all.keys
-					b=0
-					For Each j In tree.keys
-						If InStr(tree.item(j),"<!--rev"&all.item(i)&"-->")>0 Then
-						'If all.item(i)=j Then
-							b=i	
-							tree.item(j)=Replace(tree.item(j),"<!--rev"&all.item(i)&"-->","<!--rev"&all.item(i)&"-->"&IDandTemp.Item(i) )
-							Exit For
-						End If
-					Next
-					If b>0 Then
-						all.remove b
-						Exit For
-					End If
-				Next
-			Loop
+			Next
 
 			'输出树
 			For Each s In tree.Items
@@ -966,7 +961,7 @@ Class TArticle
 
 		Template_Article_Comment="<div id=""AjaxCommentBegin"" style=""visibility:hidden;height:0px;clear:both;""></div>" & Template_Article_Comment & s &"<div id=""AjaxCommentEnd"" style=""visibility:hidden;height:0px;clear:both;""></div>"
 
-		i=ZC_COMMENTS_DISPLAY_COUNT*(intPage-1)
+		i=0'ZC_COMMENTS_DISPLAY_COUNT*(intPage-1)
 		Do While InStr(Template_Article_Comment,"<!--(count-->0<!--count)-->")>0
 			i=i+1
 			Template_Article_Comment=Replace(Template_Article_Comment,"<!--(count-->0<!--count)-->",i,1,1)
@@ -977,6 +972,27 @@ Class TArticle
 		Export_CMTandTB=True
 
 	End Function
+
+
+
+
+	Private Function SearchChildCommentsInDic(ByVal id,ByRef t,ByVal alltree,ByVal alltemplate)
+
+		Dim s
+
+		For Each s In alltree.Keys
+
+			If alltree.Item(s)=id Then
+				t=Replace(t,"<!--rev"&id&"-->","<!--rev"&id&"-->" & alltemplate.Item(CInt(s) ) )
+				Call SearchChildCommentsInDic(s,t,alltree,alltemplate)
+				SearchChildCommentsInDic=True
+			End If
+
+		Next
+
+	End Function
+
+
 
 
 	Function Export_NavBar()
