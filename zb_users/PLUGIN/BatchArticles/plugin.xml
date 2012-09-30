@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<plugin  version="2.0">
+<id>BatchArticles</id>
+<name>批量管理文章</name>
+<url>http://www.esloy.com/blog/archives/2008/10/BatchArticles1.4-Released.html</url>
+<note>批量移动文章分类与更改文章类型, 划分用户, 设置标签(Tags), 批量删除文章. 此插件替换了系统文章管理.</note>
+<type>inline</type>
+<path>main.asp</path>
+<include>include.asp</include>
+<level>4</level>
+<author>
+	<name>haphic</name>
+	<url>http://haphic.esloy.com/</url>
+	<email>haphic@gmail.com</email>
+</author>
+<version>1.4.4</version>
+<adapted>Z-Blog 2.0</adapted>
+<pubdate>2007-5-4</pubdate>
+<modified>2012-8-23</modified>
+</plugin>
