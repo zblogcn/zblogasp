@@ -1033,8 +1033,9 @@ Function MakeFileReBuild(intPage)
 
 			Call BuildArticle(objRS("log_ID"),False,False)
 
-			objRS.MoveNext
 			If objRS.eof Then Exit For
+			objRS.MoveNext
+			
 		Next
 
 		Session("batchtime")=Session("batchtime")+RunTime
