@@ -166,7 +166,7 @@ Function Setup2()
 <p><b>数&nbsp;据&nbsp;库:</b>&nbsp;&nbsp;<input type="text" name="dbpath" id="dbpath" value="#%20<%=LCase(Replace(RndGuid(),"-",""))%>.mdb" readonly="readonly" style='width:350px;' /></p>
 </div>
 <div id='mssql' style='display:none;'>
-<p><b>数据库主机:</b><input type="text" name="dbserver" id="dbserver" value="localhost" style='width:350px;' /></p>
+<p><b>数据库主机:</b><input type="text" name="dbserver" id="dbserver" value="(local)" style='width:350px;' /></p>
 <p><b>数据库名称:</b><input type="text" name="dbname" id="dbname" value="" style='width:350px;' /></p>
 <p><b>用户名称:</b>&nbsp;&nbsp;<input type="text" name="dbusername" id="dbusername" value="" style='width:350px;' /></p>
 <p><b>用户密码:</b>&nbsp;&nbsp;<input type="text" name="dbpassword" id="dbpassword" value="" style='width:350px;' /></p>
@@ -586,12 +586,12 @@ Call BlogConfig.Write("ZC_BLOG_LANGUAGE","zh-CN")
 
 
 '----------------------------数据库配置---------------------------------------
-Call BlogConfig.Write("ZC_DATABASE_PATH","zb_users\data\#%20768d53283c63b13403f0.mdb")
+Call BlogConfig.Write("ZC_DATABASE_PATH","")
 Call BlogConfig.Write("ZC_MSSQL_ENABLE",False)
-Call BlogConfig.Write("ZC_MSSQL_DATABASE","zb")
-Call BlogConfig.Write("ZC_MSSQL_USERNAME","sa")
+Call BlogConfig.Write("ZC_MSSQL_DATABASE","")
+Call BlogConfig.Write("ZC_MSSQL_USERNAME","")
 Call BlogConfig.Write("ZC_MSSQL_PASSWORD","")
-Call BlogConfig.Write("ZC_MSSQL_SERVER","(local)\SQLEXPRESS")
+Call BlogConfig.Write("ZC_MSSQL_SERVER","(local)")
 
 
 
