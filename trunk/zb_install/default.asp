@@ -5,7 +5,7 @@
 '///////////////////////////////////////////////////////////////////////////////
 %>
 <% Option Explicit %>
-<% On Error Resume Next %>
+<% 'On Error Resume Next %>
 <% Response.Charset="UTF-8" %>
 <% Response.Buffer=True %>
 <!-- #include file="../zb_users/c_option.asp" -->
@@ -95,7 +95,7 @@ Function Setup0()
 通过配置文件的检验,您已经安装并配置好Z-Blog了,不能再重复使用安装程序.
 </div>
 <div id='bottom'>
-<input type="button" name="next" onclick="window.location.href='<%=BlogHost%>'" id="netx" value="退出" />
+<input type="button" name="next" onClick="window.location.href='<%=BlogHost%>'" id="netx" value="退出" />
 </div>
 </dd>
 </dl>
@@ -124,7 +124,7 @@ Function Setup1()
 <dd id="ddright">
 <div id='title'>安装协议</div>
 <div id='content'>
-  <textarea readonly="readonly">
+  <textarea readonly>
 Z-Blog  最终用户授权协议 
 
 感谢您选择Z-Blog。 Z-Blog基于 ASP+Access和MSSQL 的技术开发，全部源码开放。希望我们的努力能为您提供一个高效快速、强大的站点解决方案。
@@ -163,7 +163,7 @@ Z-Blog官方网址：http://www.rainbowsoft.org
   </textarea>
 </div>
 <div id='bottom'>
- <label><input type="checkbox" onclick="$('input').prop('disabled',false);$(this).prop('disabled',true);" />我已阅读并同意此协议.</label>&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" name="next" id="netx" value="下一步" disabled="disabled" />
+ <label><input type="checkbox" onClick="$('input').prop('disabled',false);$(this).prop('disabled',true);" />我已阅读并同意此协议.</label>&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" name="next" id="netx" value="下一步" disabled="disabled" />
 </div>
 </dd>
 </dl>
@@ -192,9 +192,9 @@ Function Setup2()
 <div id='title'>数据库建立与设置</div>
 <div id='content'>
 <input type="hidden" name="dbtype" id="dbtype" value="access" />
-<p><b>类型选择</b>:&nbsp;&nbsp;<label onclick="$('#mssql').hide();$('#access').show();$('#dbtype').val('access');"><input type="radio" name="db" checked="checked" />Access</label>&nbsp;&nbsp;&nbsp;&nbsp;<label onclick="$('#access').hide();$('#mssql').show();$('#dbtype').val('mssql');"><input type="radio" name="db" />MSSQL</label></p>
+<p><b>类型选择</b>:&nbsp;&nbsp;<label onClick="$('#mssql').hide();$('#access').show();$('#dbtype').val('access');"><input type="radio" name="db" checked="checked" />Access</label>&nbsp;&nbsp;&nbsp;&nbsp;<label onClick="$('#access').hide();$('#mssql').show();$('#dbtype').val('mssql');"><input type="radio" name="db" />MSSQL</label></p>
 <div id='access'>
-<p><b>数&nbsp;据&nbsp;库:</b>&nbsp;&nbsp;<input type="text" name="dbpath" id="dbpath" value="#%20<%=LCase(Replace(RndGuid(),"-",""))%>.mdb" readonly="readonly" style='width:350px;' /></p>
+<p><b>数&nbsp;据&nbsp;库:</b>&nbsp;&nbsp;<input type="text" name="dbpath" id="dbpath" value="#%20<%=LCase(Replace(RndGuid(),"-",""))%>.mdb" readonly style='width:350px;' /></p>
 </div>
 <div id='mssql' style='display:none;'>
 <p><b>数据库主机:</b><input type="text" name="dbserver" id="dbserver" value="(local)" style='width:350px;' /></p>
@@ -209,7 +209,7 @@ Function Setup2()
 <p><b>确认密码:</b>&nbsp;&nbsp;<input type="password" name="repassword" id="repassword" value="" style='width:250px;' /></p>
 </div>
 <div id='bottom'>
-<input type="submit" name="next" id="netx" onclick="return setup2()" value="下一步" />
+<input type="submit" name="next" id="netx" onClick="return setup2()" value="下一步" />
 </div>
 </dd>
 </dl>
@@ -229,7 +229,7 @@ End Function
 
 
 Function Setup3()
-On Error Resume Next
+'On Error Resume Next
 %>
 <dl>
 <dd id="ddleft">
@@ -285,44 +285,41 @@ End If
 
 If OpenConnect()=False Then
 
-	Response.Write("<script language=javascript>alert('数据库连接错误!');</script>")
-	Response.Write("<script language=javascript>history.go(-1);</script>")
+	Response.Write("<p>抱歉，连接数据库失败！</p>"&IIf(ZC_MSSQL_ENABLE,"<p>您提供的数据库用户名和密码可能不正确，或者无法连接到 "&ZC_MSSQL_SERVER&" 上的数据库服务器，这意味着您的主机数据库服务器已停止工作。</p><p><ul><li>您确认您提供的用户名和密码正确么？</li><li>您确认您提供的主机名正确么？</li><li>您确认数据库服务器运行正常么？</li><li>您确认您购买的数据库是MSSQL而不是MYSQL么？</li></ul></p>","")&"<p>请您联系您的空间商，或者到<a href='http://bbs.rainbowsoft.org' target='_blank'>Z-Blogger BBS</a>寻求帮助</p><div id='bottom'><input type=""button"" name=""next"" onClick=""history.go(-1)"" id=""netx"" value=""返回"" /></div>")
 	Response.End
 
 End If
 
 
-If dbtype="access" Then
+If ZC_MSSQL_ENABLE=False Then
 	Call CreateAccessTable()
-ElseIf dbtype="mssql" Then
+ElseIf ZC_MSSQL_ENABLE=True Then
 	Call CreateMssqlTable()
 End If
-
+%><p>数据库表创建成功!</p><%
 Call InsertFunctions()
-
+%><p>默认侧栏数据导入成功!</p><%
 Call InsertOptions()
-
+%><p>默认配置数据导入成功!</p><%
 Call InsertArticleAndPage()
-
+%><p>用户信息导入成功!</p><p>Hell World文章导入成功!</p><p>留言本页面导入成功!</p><%
 Call SaveConfigs()
-
+%><p>配置文件c_option.asp保存成功!</p><%
 
 Response.Cookies("password")=""
 Response.Cookies("username")=""
 
 %>
-<p>数据库表创建成功!</p>
-<p>默认配置数据导入成功!</p>
-<p>默认侧栏数据导入成功!</p>
-<p>用户信息导入成功!</p>
-<p>Hell World文章导入成功!</p>
-<p>留言本页面导入成功!</p>
-<p>配置文件c_option.asp保存成功!</p>
+
+
+
+
+
 <p>Z-Blog 2.0安装成功了,现在您可以点击"完成"进入网站首页.</p>
 
 </div>
 <div id='bottom'>
-<input type="button" name="next" onclick="window.location.href='<%=BlogHost%>'" id="netx" value="完成" />
+<input type="button" name="next" onClick="window.location.href='<%=BlogHost%>'" id="netx" value="完成" />
 </div>
 
 
@@ -378,7 +375,7 @@ Function CreateMssqlTable()
 
 	objConn.execute("CREATE TABLE [blog_Article] (log_ID int identity(1,1) not null primary key,log_CateID int default 0,log_AuthorID int default 0,log_Level int default 0,log_Url nvarchar(255) default '',log_Title nvarchar(255) default '',log_Intro ntext default '',log_Content ntext default '',log_IP nvarchar(15) default '',log_PostTime datetime default getdate(),log_CommNums int default 0,log_ViewNums int default 0,log_TrackBackNums int default 0,log_Tag nvarchar(255) default '',log_IsTop bit DEFAULT 0,log_Yea int default 0,log_Nay int default 0,log_Ratting int default 0,log_Template nvarchar(50) default '',log_FullUrl nvarchar(255) default '',log_Type int default 0,log_Meta ntext default '')")
 
-	objConn.execute("CREATE TABLE [blog_Category] (cate_ID int identity(1,1) not null primary key,cate_Name nvarchar(50) default '',cate_Order int default 0,cate_Intro ntext default default '',cate_Count int default 0,cate_URL nvarchar(255) default '',cate_ParentID int default 0,cate_Template nvarchar(50) default '',cate_LogTemplate nvarchar(50) default '',cate_FullUrl nvarchar(255) default '',cate_Meta ntext default '')")
+	objConn.execute("CREATE TABLE [blog_Category] (cate_ID int identity(1,1) not null primary key,cate_Name nvarchar(50) default '',cate_Order int default 0,cate_Intro ntext default '',cate_Count int default 0,cate_URL nvarchar(255) default '',cate_ParentID int default 0,cate_Template nvarchar(50) default '',cate_LogTemplate nvarchar(50) default '',cate_FullUrl nvarchar(255) default '',cate_Meta ntext default '')")
 
 	objConn.execute("CREATE TABLE [blog_Comment] (comm_ID int identity(1,1) not null primary key,log_ID int default 0,comm_AuthorID int default 0,comm_Author nvarchar(20) default '',comm_Content ntext default '',comm_Email nvarchar(50) default '',comm_HomePage nvarchar(255) default '',comm_PostTime datetime default getdate(),comm_IP nvarchar(15) default '',comm_Agent ntext default '',comm_Reply ntext default '',comm_LastReplyIP nvarchar(15) default '',comm_LastReplyTime datetime default getdate(),comm_Yea int default 0,comm_Nay int default 0,comm_Ratting int default 0,comm_ParentID int default 0,comm_IsCheck bit default 0,comm_Meta ntext default '')")
 
@@ -869,5 +866,6 @@ Function SaveConfigs()
 	Call SaveConfig2Option()
 
 End Function
+
 
 %>
