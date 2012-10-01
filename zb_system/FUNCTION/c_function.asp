@@ -253,6 +253,7 @@ End Function
 '*********************************************************
 Function FilterSQL(strSQL)
 
+	If IsNull(strSQL) Then strSQL=""
 	FilterSQL=CStr(Replace(strSQL,chr(39),chr(39)&chr(39)))
 
 End Function
