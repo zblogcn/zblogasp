@@ -609,7 +609,7 @@ Call BlogConfig.Write("ZC_MSSQL_SERVER","(local)")
 
 
 '---------------------------------插件----------------------------------------
-Call BlogConfig.Write("ZC_USING_PLUGIN_LIST","AppCentre|CustomMeta|FileManage|GuestBook|STACentre|Totoro")
+Call BlogConfig.Write("ZC_USING_PLUGIN_LIST","AppCentre|FileManage|GuestBook|Totoro")
 
 
 
