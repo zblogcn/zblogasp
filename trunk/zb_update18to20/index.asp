@@ -22,7 +22,7 @@ Dim dbtype,dbpath,dbserver,dbname,dbusername,dbpassword
 Dim zblogstep
 zblogstep=Request.QueryString("step")
 
-If ZC_DATABASE_PATH="" And ZC_MSSQL_DATABASE="" Then
+If ZC_DATABASE_PATH<>"" Or ZC_MSSQL_DATABASE<>"" Then
 	zblogstep=0
 End If
 
