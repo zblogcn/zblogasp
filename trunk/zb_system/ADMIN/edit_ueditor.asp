@@ -171,7 +171,7 @@ Next
 						<!-- <p><span class='editinputname'><%=ZC_MSG055%>:</span></p> -->
 						<p style="text-align:left;"><span class='editinputname'><%=ZC_MSG055%>:</span>&nbsp;&nbsp;<span id="timemsg"></span><span id="msg2"></span><span id="msg"></span><span class='editinputname'></span><script type="text/javascript" src="c_autosaverjs.asp?act=edit&amp;type=ueditor"></script></p>
                         <script id="ueditor" name="txaContent"><%=EditArticle.Content%></script>
-						<p><span><%=ZC_MSG216%><a href="" onClick="try{$('#divIntro').show();AutoIntro();return false;}catch(e){}">[<%=ZC_MSG200%>]</a></span></p>
+						<p><span><%=ZC_MSG216%><a href="" onClick="try{AutoIntro();return false;}catch(e){}">[<%=ZC_MSG200%>]</a></span></p>
                       </div>
 
 
@@ -495,7 +495,7 @@ End If
 	$(document).click(function (event){$('#ulTag').slideUp("fast");});  
 
 	function AddKey(i) {
-		var strKey=document.getElementById("edtTag").value;
+		var strKey=$('#edtTag').val();
 		var strNow=","+i
 
 		if(strKey==""){
@@ -505,17 +505,17 @@ End If
 		if(strKey.indexOf(strNow)==-1){
 			strKey=strKey+strNow;
 		}
-		document.getElementById("edtTag").value=strKey;
+		$('#edtTag').val(strKey);
 	}
 	function DelKey(i) {
-		var strKey=document.getElementById("edtTag").value;
+		var strKey=$('#edtTag').val();
 		var strNow="{"+i+"}"
 		if(strKey.indexOf(strNow)!=-1){
 
 			strKey=strKey.substring(0,strKey.indexOf(strNow))+strKey.substring(strKey.indexOf(strNow)+strNow.length,strKey.length)
 
 		}
-		document.getElementById("edtTag").value=strKey;
+		$('#edtTag').val(strKey);
 	}
 
 	function AutoIntro() {
@@ -535,6 +535,7 @@ End If
 		}
 
 		$("#divIntro").show();
+		$('html,body').animate({scrollTop:$('#divIntro').offset().top},'fast');
 	}
 
 
