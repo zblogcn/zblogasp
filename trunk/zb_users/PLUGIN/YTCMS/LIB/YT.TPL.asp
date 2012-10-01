@@ -260,13 +260,13 @@ Class YT_TPL
 		Set ms = Nothing
 		reg_match=b
 	End Function
-	Private Function reg_replace(Pattern,s,html)
+	Public Function reg_replace(Pattern,s,html)
 		Dim t:t = False
 		REG.Pattern = Pattern
 		t = REG.Replace(html,s)
 		reg_replace = t
 	End Function
-	Function getAttribute(k,v)
+	Private Function getAttribute(k,v)
 		Dim a,b:b=False
 		For Each a in k
 			If a(0) = v Then b=a(1):Exit For
