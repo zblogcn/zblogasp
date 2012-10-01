@@ -158,4 +158,33 @@ Sub YT_TPL_display(Byref block)
 		block = t.display()
 	Set t = Nothing
 End Sub
+'*********************************************************
+' 目的：    检查引用
+' 输入：    SQL值（引用）
+' 返回：    
+'*********************************************************
+Function FilterSQL(strSQL)
+	Dim s,t
+	Set t = New YT_TPL
+	s = strSQL
+	s = CStr(Replace(s,chr(39),chr(39)&chr(39)))
+	s = t.reg_replace("\<\!\-\-\{(.+?)\}\-\-\>","",s)
+	s = t.reg_replace("\{\$(.+?)\}", "",s)
+	s = t.reg_replace("\{foreach\s+(.+?)\s+(.+?)\}", "",s)
+	s = t.reg_replace("\{for\s+(.+?)\s+(.+?)\}", "",s)
+	s = Replace(s,"{/next}","<"&"%Next%"&">")
+	s = t.reg_replace("\{(do|loop)\s+(while|until)\s+(.+?)\}","",s)
+	s = Replace(s,"{do}","<"&"%Do%"&">")
+	s = Replace(s,"{loop}","")
+	s = t.reg_replace("\{while\s+(.+?)\}"	,"",s)
+	s = Replace(s,"{/wend}","")
+	s = t.reg_replace("\{if\s+(.+?)\}","",s)
+	s = t.reg_replace("\{elseif\s+(.+?)\}","",s)	
+	s = Replace(s,"{/if}","")
+	s = Replace(s,"{else}","")
+	s = t.reg_replace("\{eval\s+(.+?)\}","",s)
+	s = t.reg_replace("\{echo\s+(.+?)\}","",s)
+	FilterSQL = s
+	Set t = Nothing
+End Function
 %>

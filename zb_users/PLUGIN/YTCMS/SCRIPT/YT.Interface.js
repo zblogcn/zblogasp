@@ -235,26 +235,31 @@ YT.CMS.push({
 	}]}]}]
 });
 YT.CMS.push({
-	YT:{Text:'标签',Value:'Tag',Fields:[{Group:'「日志信息」',Fields:[{
-		Text:'编号',
-		Value:'{$Tag.ID}'
-	},{
-		Text:'名称',
-		Value:'{$Tag.HtmlName}'
-	},{
-		Text:'摘要',
-		Value:'{$Tag.HtmlIntro}'
-	},{
-		Text:'文章数',
-		Value:'{$Tag.Count}'
-	},{
-		Text:'链接',
-		Value:'{$Tag.HtmlUrl}'
-	},{
-		Text:'经过编码的名称',
-		Value:'{$Tag.EncodeName}'
-	}]}]},
+	YT:{Text:'标签',Value:'Tag',Fields:[{
+		Group:'「日志信息」',Fields:[{
+			Text:'编号',
+			Value:'{$Tag.ID}'
+		},{
+			Text:'名称',
+			Value:'{$Tag.HtmlName}'
+		},{
+			Text:'摘要',
+			Value:'{$Tag.HtmlIntro}'
+		},{
+			Text:'文章数',
+			Value:'{$Tag.Count}'
+		},{
+			Text:'链接',
+			Value:'{$Tag.HtmlUrl}'
+		},{
+			Text:'经过编码的名称',
+			Value:'{$Tag.EncodeName}'
+		}]
+	}]},
 	DataSource:[{Group:'「普通调用」',DataSource:[{Text:'标签列表',Value:'GetTagLists',Parameters:[{
+			Text:'调用数量',
+			Value:5
+	}]},{Text:'随机标签',Value:'GetTagListsRandomSortRand',Parameters:[{
 			Text:'调用数量',
 			Value:5
 	}]}]}]
