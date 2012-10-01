@@ -5,7 +5,7 @@
 '///////////////////////////////////////////////////////////////////////////////
 %>
 <% Option Explicit %>
-<% 'On Error Resume Next %>
+<% On Error Resume Next %>
 <% Response.Charset="UTF-8" %>
 <% Response.Buffer=True %>
 <!-- #include file="../zb_users/c_option.asp" -->
@@ -22,7 +22,7 @@ Dim dbtype,dbpath,dbserver,dbname,dbusername,dbpassword
 Dim zblogstep
 zblogstep=Request.QueryString("step")
 
-If (ZC_DATABASE_PATH<>"") Or (ZC_MSSQL_ENABLE=True) Then
+If ZC_DATABASE_PATH="" And ZC_MSSQL_DATABASE="" Then
 	zblogstep=0
 End If
 
@@ -188,7 +188,6 @@ If OpenConnect()=False Then
 
 End If
 
-
 %>
 <%Call UpdateAccessTable()%><p>数据库表和数据升级成功!</p>
 <%Call InsertOptions()%><p>默认配置数据导入成功!</p>
@@ -197,13 +196,18 @@ End If
 <%Call LoadOldFunctions()%><p>读取旧侧栏模块数据成功!</p>
 <%Call SaveConfigs()%><p>配置文件c_option.asp保存成功!</p>
 
+<%
 
+Response.Cookies("password")=""
+Response.Cookies("username")=""
+
+%>
 
 <p>Z-Blog 2.0升级成功了,现在您可以点击"完成"进入网站首页.</p>
 
 </div>
 <div id='bottom'>
-<input type="submit" name="next" id="netx" value="完成" />
+<input type="button" name="next" onclick="window.location.href='<%=BlogHost%>'" id="netx" value="完成" />
 </div>
 
 
@@ -303,6 +307,7 @@ Function UpdateAccessTable()
 		objConn.execute("ALTER TABLE [blog_Category] ADD COLUMN [cate_LogTemplate] VARCHAR(50) default """"")
 		objConn.execute("ALTER TABLE [blog_Category] ADD COLUMN [cate_FullUrl] VARCHAR(255) default """"")
 		objConn.execute("ALTER TABLE [blog_Category] ADD COLUMN [cate_Meta] text default """"")
+		objConn.execute("ALTER TABLE [blog_Category] ALTER COLUMN [cate_Intro] text default """"")
 
 		objConn.execute("UPDATE [blog_Category] SET [cate_ParentID]=0")
 	End If
