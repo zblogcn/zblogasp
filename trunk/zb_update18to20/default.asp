@@ -77,7 +77,7 @@ Function Setup0()
 通过配置文件的检验,您已经安装并配置好Z-Blog了,不能再重复使用升级程序.
 </div>
 <div id='bottom'>
-<input type="button" name="next" onclick="window.location.href='<%=BlogHost%>'" id="netx" value="退出" />
+<input type="button" name="next" onClick="window.location.href='<%=BlogHost%>'" id="netx" value="退出" />
 </div>
 </dd>
 </dl>
@@ -133,7 +133,7 @@ Function Setup1()
 <p>5.运行http://你的网站/zb_update18to20/进入升级程序.</p>
 </div>
 <div id='bottom'>
-<input type="submit" name="next" id="netx" value="下一步" onclick="if($('#dbpath').val()==''){alert('选择一个需要升级的数据库.');return false;}" />
+<input type="submit" name="next" id="netx" value="下一步" onClick="if($('#dbpath').val()==''){alert('选择一个需要升级的数据库.');return false;}" />
 </div>
 </dd>
 </dl>
@@ -207,7 +207,7 @@ Response.Cookies("username")=""
 
 </div>
 <div id='bottom'>
-<input type="button" name="next" onclick="window.location.href='<%=BlogHost%>'" id="netx" value="完成" />
+<input type="button" name="next" onClick="window.location.href='<%=BlogHost%>'" id="netx" value="完成" />
 </div>
 
 
@@ -340,7 +340,7 @@ Function UpdateAccessTable()
 			Do While Not objRS.eof
 				s=RndGuid
 				t=md5(objRS("mem_Password") & s)
-				objConn.execute("UPDATE [blog_Member] SET [mem_Guid]='"&RndGuid&"' WHERE [mem_ID]="& objRS("mem_ID"))
+				objConn.execute("UPDATE [blog_Member] SET [mem_Guid]='"&s&"' WHERE [mem_ID]="& objRS("mem_ID"))
 				objConn.execute("UPDATE [blog_Member] SET [mem_Password]='"&t&"' WHERE [mem_ID]="& objRS("mem_ID"))
 				objRS.MoveNext
 			Loop
@@ -609,7 +609,7 @@ Call BlogConfig.Write("ZC_MSSQL_SERVER","(local)")
 
 
 '---------------------------------插件----------------------------------------
-Call BlogConfig.Write("ZC_USING_PLUGIN_LIST","")
+Call BlogConfig.Write("ZC_USING_PLUGIN_LIST","AppCentre|CustomMeta|FileManage|GuestBook|STACentre|Totoro")
 
 
 
@@ -790,24 +790,27 @@ End Function
 Function LoadOldOptions()
 
 	ZC_BLOG_HOST=BlogHost
+	Dim tmp
 
 	Dim fso
 	Set fso = CreateObject("Scripting.FileSystemObject")
-
+	
 	If (fso.FileExists(BlogPath & "c_custom.asp")) Then
-		Call LoadValueForSetting(LoadFromFile(BlogPath & "c_custom.asp","utf-8"),True,"String","ZC_BLOG_TITLE",ZC_BLOG_TITLE)
-		Call LoadValueForSetting(LoadFromFile(BlogPath & "c_custom.asp","utf-8"),True,"String","ZC_BLOG_SUBTITLE",ZC_BLOG_SUBTITLE)
-		Call LoadValueForSetting(LoadFromFile(BlogPath & "c_custom.asp","utf-8"),True,"String","ZC_BLOG_NAME",ZC_BLOG_NAME)
-		Call LoadValueForSetting(LoadFromFile(BlogPath & "c_custom.asp","utf-8"),True,"String","ZC_BLOG_SUB_NAME",ZC_BLOG_SUB_NAME)
-		Call LoadValueForSetting(LoadFromFile(BlogPath & "c_custom.asp","utf-8"),True,"String","ZC_BLOG_COPYRIGHT",ZC_BLOG_COPYRIGHT)
+		tmp=LoadFromFile(BlogPath & "c_custom.asp","utf-8")
+		Call LoadValueForSetting(tmp,True,"String","ZC_BLOG_TITLE",ZC_BLOG_TITLE)
+		Call LoadValueForSetting(tmp,True,"String","ZC_BLOG_SUBTITLE",ZC_BLOG_SUBTITLE)
+		Call LoadValueForSetting(tmp,True,"String","ZC_BLOG_NAME",ZC_BLOG_NAME)
+		Call LoadValueForSetting(tmp,True,"String","ZC_BLOG_SUB_NAME",ZC_BLOG_SUB_NAME)
+		Call LoadValueForSetting(tmp,True,"String","ZC_BLOG_COPYRIGHT",ZC_BLOG_COPYRIGHT)
 
 		Call fso.DeleteFile(BlogPath & "c_custom.asp")
 
 	End If
 
 	If (fso.FileExists(BlogPath & "c_option.asp")) Then
-		Call LoadValueForSetting(LoadFromFile(BlogPath & "c_option.asp","utf-8"),True,"String","ZC_TIME_ZONE",ZC_TIME_ZONE)
-		Call LoadValueForSetting(LoadFromFile(BlogPath & "c_option.asp","utf-8"),True,"String","ZC_HOST_TIME_ZONE",ZC_HOST_TIME_ZONE)
+		tmp=LoadFromFile(BlogPath & "c_option.asp","utf-8")
+		Call LoadValueForSetting(tmp,True,"String","ZC_TIME_ZONE",ZC_TIME_ZONE)
+		Call LoadValueForSetting(tmp,True,"String","ZC_HOST_TIME_ZONE",ZC_HOST_TIME_ZONE)
 
 		Call fso.DeleteFile(BlogPath & "c_option.asp")
 
