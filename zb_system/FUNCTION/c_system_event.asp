@@ -1060,6 +1060,8 @@ End Function
 '*********************************************************
 Function BatchAll()
 
+	On Error Resume Next
+
 	Server.ScriptTimeout = 1200
 
 	If Request.QueryString("cancel")="true" Then
