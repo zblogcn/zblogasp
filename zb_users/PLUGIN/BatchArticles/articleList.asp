@@ -122,7 +122,7 @@ Call GetUser
 		Set objRS=Nothing
 	End If
 
-	Response.Write "<form id=""edit"" method=""post"" enctype=""application/x-www-form-urlencoded"" action=""articleList.asp""><p>"
+	Response.Write "<form id=""edit"" class=""search"" method=""post"" enctype=""application/x-www-form-urlencoded"" action=""articleList.asp""><p>"
 	'Response.Write "<p>"&ZC_MSG158&": {"& intCate &"/"& intLevel &"/"& intIstop &"/"& intTitle &"/"& intUser &"}</p><p>"
 
 	Response.Write ZC_MSG012&" <select class=""edit"" size=""1"" id=""cate"" name=""cate"" style=""width:120px;"" ><option value=""-1"">"&ZC_MSG157&"</option> "
@@ -254,8 +254,8 @@ Call GetUser
 		
 	End If
 
-	Response.Write "<table border=""1"" width=""100%"" cellspacing=""1"" cellpadding=""1"">"
-	Response.Write "<tr><td>"& ZC_MSG076 &"</td><td>"& ZC_MSG012 &"</td><td>"& ZC_MSG003 &"</td><td>"& ZC_MSG061 &"</td><td>"& ZC_MSG051 &"</td><td>"& ZC_MSG075 &"</td><td>"& ZC_MSG060 &"</td><td>"& ZC_MSG047 &"</td><td align='center'><a href='' onclick='BatchSelectAll();return false'>"& ZC_MSG229 &"</a></td></tr>"
+	Response.Write "<table border=""1"" width=""100%"" cellspacing=""1"" cellpadding=""1"" class=""tableBorder tableBorder-thcenter"">"
+	Response.Write "<tr class='color1'><th>"& ZC_MSG076 &"</th><th>"& ZC_MSG012 &"</th><th>"& ZC_MSG003 &"</th><th>"& ZC_MSG061 &"</th><th>"& ZC_MSG051 &"</th><th>"& ZC_MSG075 &"</th><th>"& ZC_MSG060 &"</th><th>"& ZC_MSG047 &"</th><th align='center'><a href='' onclick='BatchSelectAll();return false'>"& ZC_MSG229 &"</a></th></tr>"
 	objRS.Open("SELECT * FROM [blog_Article] "& strSQL &" ORDER BY [log_PostTime] DESC")
 	objRS.PageSize=ZC_MANAGE_COUNT
 	If objRS.PageCount>0 Then objRS.AbsolutePage = intPage
@@ -329,7 +329,7 @@ Call GetUser
 	Response.Write "<br/><p>注意: 批量执行会消耗一定时间, 请耐心等候. 一次执行文章数量过多还可能导致系统资源过载,  请谨慎使用.</p>"
 
 	'批量设置
-	Response.Write "<form id=""frmBatch"" method=""post"" action=""articleMng.asp?act=BasicEdit&page="&Request.QueryString("page")&"&cate="&ReQuest("cate")&"&level="&ReQuest("level")&"&istop="&ReQuest("istop")&"&user="&ReQuest("user")&"&tag="&ReQuest("tag")&"&title="&Escape(ReQuest("title"))&"""><p><input type=""hidden"" id=""edtBatch"" name=""edtBatch"" value=""""/>"
+	Response.Write "<form id=""frmBatch"" method=""post"" class=""search"" action=""articleMng.asp?act=BasicEdit&page="&Request.QueryString("page")&"&cate="&ReQuest("cate")&"&level="&ReQuest("level")&"&istop="&ReQuest("istop")&"&user="&ReQuest("user")&"&tag="&ReQuest("tag")&"&title="&Escape(ReQuest("title"))&"""><p><input type=""hidden"" id=""edtBatch"" name=""edtBatch"" value=""""/>"
 
 	Response.Write "<select name=""MoveCata"" id=""MoveCata""><option value=""-1"">转移到分类...</option>"
 	For Each Category in Categorys
@@ -356,8 +356,10 @@ Call GetUser
 	Response.Write "<select name=""EdtUser"" id=""EdtUser""><option value=""-1"">用户更改为...</option> "
 	For Each User in Users
 		If IsObject(User) Then
-				Response.Write "<option value="""&User.ID&""" "
-				Response.Write ">"&TransferHTML(User.Name,"[html-format]")&"</option>"
+				If User.Level<=2 Then
+					Response.Write "<option value="""&User.ID&""" "
+					Response.Write ">"&TransferHTML(User.Name,"[html-format]")&"</option>"
+				End If
 		End If
 	Next
 	Response.Write "</select>&nbsp;"
@@ -377,7 +379,7 @@ Call GetUser
 		Response.Write "</select>&nbsp;"
 	End If
 
-	Response.Write "<input class=""button"" type=""submit"" onclick='BatchDeleteAll(""edtBatch"");' value=""将选择的文章提交批量执行"" id=""btnPost""/></p><form>"
+	Response.Write "<input class=""button"" type=""submit"" onclick='BatchDeleteAll(""edtBatch"");' value=""将选择的文章提交批量执行"" id=""btnPost""/></p></form>"
 
 
 	Response.Write "<hr/>" & ZC_MSG042 & ": " & strPage
