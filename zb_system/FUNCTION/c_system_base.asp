@@ -103,7 +103,7 @@ Sub System_Initialize()
 	Next
 
 	If OpenConnect()=False Then
-		If Err.Number<>0 Then Call ShowError(4)
+		Call ShowError(4)
 	End If
 
 	BlogUser.Verify()
@@ -183,6 +183,8 @@ Dim IsDBConnect '数据库是否已连接
 IsDBConnect=False
 Function OpenConnect()
 
+	On Error Resume Next
+
 	If IsDBConnect=True Then
 		Exit Function
 	End If
@@ -207,9 +209,17 @@ Function OpenConnect()
 		objConn.Open "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & strDbPath
 	End If
 
-	IsDBConnect=True
+	If Err.Number=0 Then
 
-	OpenConnect=True
+		IsDBConnect=True
+
+		OpenConnect=True
+	Else
+
+		Err.Clear
+		Err.Raise 1
+
+	End If
 
 End Function
 '*********************************************************
