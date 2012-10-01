@@ -14,7 +14,7 @@
 '///////////////////////////////////////////////////////////////////////////////
 %>
 <% Option Explicit %>
-<% 'On Error Resume Next %>
+<% On Error Resume Next %>
 <% Response.Charset="UTF-8" %>
 <% Response.Buffer=True %>
 <!-- #include file="../zb_users/c_option.asp" -->

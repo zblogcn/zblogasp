@@ -5,7 +5,7 @@
 '// 呃我是不是压缩过头了
 '///////////////////////////////////////////////////////////////////////////////
 %>
-<% Option Explicit %><% 'On Error Resume Next %><% Response.Charset="UTF-8" %><!-- #include file="../../c_option.asp" --><!-- #include file="../../../ZB_SYSTEM/function/c_function.asp" --><!-- #include file="../../../ZB_SYSTEM/function/c_system_lib.asp" --><!-- #include file="../../../ZB_SYSTEM/function/c_system_base.asp" --><!-- #include file="../../../ZB_SYSTEM/function/c_system_plugin.asp" --><!-- #include file="../../../ZB_SYSTEM/function/c_system_event.asp" --><!-- #include file="../../plugin/p_config.asp" --><%Dim l:l=FilterSQL(Request.QueryString("name")):Call System_Initialize():Call CheckReference(""):If BlogUser.Level>1 Then Call ShowError(6):End If:If CheckPluginState("BlogConfig")=False Then Call ShowError(48):End If:BlogTitle="配置管理":Dim objRs,a,b,c,d,e,objC
+<% Option Explicit %><% On Error Resume Next %><% Response.Charset="UTF-8" %><!-- #include file="../../c_option.asp" --><!-- #include file="../../../ZB_SYSTEM/function/c_function.asp" --><!-- #include file="../../../ZB_SYSTEM/function/c_system_lib.asp" --><!-- #include file="../../../ZB_SYSTEM/function/c_system_base.asp" --><!-- #include file="../../../ZB_SYSTEM/function/c_system_plugin.asp" --><!-- #include file="../../../ZB_SYSTEM/function/c_system_event.asp" --><!-- #include file="../../plugin/p_config.asp" --><%Dim l:l=FilterSQL(Request.QueryString("name")):Call System_Initialize():Call CheckReference(""):If BlogUser.Level>1 Then Call ShowError(6):End If:If CheckPluginState("BlogConfig")=False Then Call ShowError(48):End If:BlogTitle="配置管理":Dim objRs,a,b,c,d,e,objC
 Select Case Request("act")
 	Case "open"
 		ac

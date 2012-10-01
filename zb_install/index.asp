@@ -5,7 +5,7 @@
 '///////////////////////////////////////////////////////////////////////////////
 %>
 <% Option Explicit %>
-<% 'On Error Resume Next %>
+<% On Error Resume Next %>
 <% Response.Charset="UTF-8" %>
 <% Response.Buffer=True %>
 <!-- #include file="../zb_users/c_option.asp" -->
@@ -22,7 +22,7 @@ Dim dbtype,dbpath,dbserver,dbname,dbusername,dbpassword
 Dim zblogstep
 zblogstep=Request.QueryString("step")
 
-If (ZC_DATABASE_PATH<>"" And ZC_MSSQL_ENABLE=False) Or (ZC_MSSQL_SERVER<>"" And ZC_MSSQL_ENABLE=True) Then
+If ZC_DATABASE_PATH="" And ZC_MSSQL_DATABASE="" Then
 	zblogstep=0
 End If
 
@@ -125,9 +125,40 @@ Function Setup1()
 <div id='title'>安装协议</div>
 <div id='content'>
   <textarea readonly="readonly">
-本《Z-Blog软件最终用户许可协议》（以下简称《协议》）是您与RainbowSoft Studio之间关于下载、安装、使用、复制Z-Blog软件的法律协议。本《协议》描述RainbowSoft Studio与您之间关于Z-Blog许可使用及相关方面的权利义务。
+Z-Blog  最终用户授权协议 
 
-请您仔细阅读本《协议》，用户可选择不使用Z-Blog，用户使用Z-Blog的行为将被视为对本《协议》全部内容的认可，并同意接受本《协议》各项条款的约束。
+感谢您选择Z-Blog。 Z-Blog基于 ASP+Access和MSSQL 的技术开发，全部源码开放。希望我们的努力能为您提供一个高效快速、强大的站点解决方案。
+
+Z-Blog官方网址：http://www.rainbowsoft.org
+
+为了使您正确并合法的使用本软件，请您在使用前务必阅读清楚下面的协议条款： 
+
+一、本授权协议适用且仅适用于 Z-Blog 2.0 版本，Z-Blog 2.0官方对本授权协议拥有最终解释权。
+
+二、协议许可的权利
+
+1.本程序完全开源，您可以将其用于任何用途。
+2.您可以在协议规定的约束和限制范围内修改 Z-Blog 源代码或界面风格以适应您的网站要求。
+3.您拥有使用本软件构建的网站全部内容所有权，并独立承担与这些内容的相关法律义务。
+4.您可以任意分发Z-Blog任何派生版本、修改版本或第三方版本。
+5.您可以从Z-Blog提供的应用中心服务中下载适合您网站的应用程序，但应向应用程序开发者/所有者支付相应的费用。
+
+三、协议规定的约束和限制
+
+1. 无论如何，即无论用途如何、是否经过修改或美化、修改程度如何，只要使用Z-Blog 的整体或任何部分，未经书面许可，页面页脚处的版权标识（Powered by Z-Blog） 和Z-Blog官方网站（http://www.rainbowsoft.org）的链接都必须保留，而不能清除或修改。
+2.您从应用中心下载的应用程序，未经应用程序开发者/所有者的书面许可，不得对其进行反向工程、反向汇编、反向编译等，不得擅自复制、修改、链接、转载、汇编、发表、出版、发展与之有关的衍生产品、作品等。
+3.如果您未能遵守本协议的条款，您的授权将被终止，所被许可的权利将被收回，并承担相应法律责任。
+
+四、有限担保和免责声明
+
+1.本软件及所附带的文件是作为不提供任何明确的或隐含的赔偿或担保的形式提供的。
+2.用户出于自愿而使用本软件，您必须了解使用本软件的风险，在尚未购买产品技术服务之前，我们不承诺对免费用户提供任何形式的技术支持、使用担保，也不承担任何因使用本软件而产生问题的相关责任。
+3.电子文本形式的授权协议如同双方书面签署的协议一样，具有完全的和等同的法律效力。您一旦开始确认本协议并安装Z-Blog，即被视为完全理解并接受本协议的各项条款，在享有上述条款授予的权力的同时，受到相关的约束和限制。协议许可范围以外的行为，将直接违反本授权协议并构成侵权，我们有权随时终止授权，责令停止损害，并保留追究相关责任的权力。
+4.如果本软件带有其它软件的整合API示范例子包，这些文件版权不属于本软件官方，并且这些文件是没经过授权发布的，请参考相关软件的使用许可合法的使用。
+
+版权所有 ©2005-2012，rainbowsoft.org 保留所有权利。 
+协议发布时间：2012年10月1 日 版本最新更新：2012年10月1日 By rainbowsoft.org
+
 
   </textarea>
 </div>
@@ -250,7 +281,6 @@ ElseIf dbtype="mssql" Then
 	ZC_MSSQL_ENABLE=True
 
 End If
-Response.Write dbpath
 
 
 If OpenConnect()=False Then
@@ -276,6 +306,10 @@ Call InsertArticleAndPage()
 
 Call SaveConfigs()
 
+
+Response.Cookies("password")=""
+Response.Cookies("username")=""
+
 %>
 <p>数据库表创建成功!</p>
 <p>默认配置数据导入成功!</p>
@@ -288,7 +322,7 @@ Call SaveConfigs()
 
 </div>
 <div id='bottom'>
-<input type="submit" name="next" id="netx" value="完成" />
+<input type="button" name="next" onclick="window.location.href='<%=BlogHost%>'" id="netx" value="完成" />
 </div>
 
 
@@ -322,7 +356,7 @@ Function CreateAccessTable()
 
 	objConn.execute("CREATE TABLE [blog_Keyword] (key_ID AutoIncrement primary key,key_Name VARCHAR(255) default """",key_Intro text default """",key_URL VARCHAR(255) default """")")
 
-	objConn.execute("CREATE TABLE [blog_Member] (mem_ID AutoIncrement primary key,mem_Level int default 0,mem_Name VARCHAR(20) default """",mem_Password VARCHAR(32) default """",mem_Sex int default 0,mem_Email VARCHAR(50) default """",mem_MSN VARCHAR(50) default """",mem_QQ VARCHAR(50) default """",mem_HomePage VARCHAR(255) default """",mem_LastVisit datetime default now(),mem_Status int default 0,mem_PostLogs int default 0,mem_PostComms int default 0,mem_Intro text default """",mem_IP VARCHAR(15) default """",mem_Count int default 0,mem_Template VARCHAR(50) default """",mem_FullUrl VARCHAR(255) default """",mem_lUrl VARCHAR(255) default """",mem_Guid VARCHAR(36) default """",mem_Meta text default """")")
+	objConn.execute("CREATE TABLE [blog_Member] (mem_ID AutoIncrement primary key,mem_Level int default 0,mem_Name VARCHAR(20) default """",mem_Password VARCHAR(32) default """",mem_Sex int default 0,mem_Email VARCHAR(50) default """",mem_MSN VARCHAR(50) default """",mem_QQ VARCHAR(50) default """",mem_HomePage VARCHAR(255) default """",mem_LastVisit datetime default now(),mem_Status int default 0,mem_PostLogs int default 0,mem_PostComms int default 0,mem_Intro text default """",mem_IP VARCHAR(15) default """",mem_Count int default 0,mem_Template VARCHAR(50) default """",mem_FullUrl VARCHAR(255) default """",mem_Url VARCHAR(255) default """",mem_Guid VARCHAR(36) default """",mem_Meta text default """")")
 
 	objConn.execute("CREATE TABLE [blog_Config] (conf_Name VARCHAR(255) default """" not null,conf_Value text default """")")
 	'objConn.execute("CREATE UNIQUE INDEX index_conf_Name ON [blog_Config](conf_Name)")

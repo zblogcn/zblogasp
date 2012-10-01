@@ -14,7 +14,7 @@
 '///////////////////////////////////////////////////////////////////////////////
 %>
 <% Option Explicit %>
-<% 'On Error Resume Next %>
+<% On Error Resume Next %>
 <% Response.Charset="UTF-8" %>
 <% Response.Buffer=True %>
 <!-- #include file="zb_users/c_option.asp" -->
@@ -27,7 +27,7 @@
 <%
 If CheckMobile() Then Response.Redirect ZC_FILENAME_WAP
 
-If Not IsEmpty(Request.QueryString("login")) Then Response.Redirect("zb_system/cmd.asp?act=login")
+If ZC_DATABASE_PATH="" And ZC_MSSQL_DATABASE="" Then Response.Redirect("zb_install/")
 
 Dim s
 s=LoadFromFile(BlogPath & "zb_users\cache\default.html","utf-8")
