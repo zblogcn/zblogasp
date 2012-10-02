@@ -14,15 +14,15 @@ Class ZBConnectQQ_DB
 	
 	Sub Class_Initialize()  '初始化类并创建数据库
 		Set objUser=New TUser
-		On Error Resume Next
-		objConn.Execute "SELECT TOP 1 [QQ_ID] FROM [blog_Plugin_ZBQQConnect] "
-		If Err.Number<>0 Then
-			Call CreateDB
-			Err.Clear
-		End If
+		'On Error Resume Next
+		'objConn.Execute "SELECT TOP 1 [QQ_ID] FROM [blog_Plugin_ZBQQConnect] "
+		'If Err.Number<>0 Then
+		'	Call CreateDB
+		'	Err.Clear
+		'End If
 	End Sub
 	
-	Sub CreateDB() '创建数据库
+	Public Sub CreateDB() '创建数据库
 		IF ZC_MSSQL_ENABLE=True Then
 			objConn.execute("CREATE TABLE [blog_Plugin_ZBQQConnect] (QQ_ID int identity(1,1) not null primary key,QQ_UserID int default 0,QQ_Eml nvarchar(255) default '',QQ_OpenID nvarchar(32) default '',QQ_AToken nvarchar(32) default '',QQ_QZoneHead nvarchar(255) default '',QQ_THead nvarchar(255) default '')")
 		Else
