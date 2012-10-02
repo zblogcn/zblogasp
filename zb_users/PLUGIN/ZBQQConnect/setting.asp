@@ -140,7 +140,7 @@ input[type="text"] {
 <input name="i" id="i" type="checkbox" <%=d(ZBQQConnect_Config.Read("i"))%> />
 <label for="i"><font color="#0000CC">允许使用QQ注册帐号（不过必须先启用注册组件）</font></label>
 </p>
-<p></p></td>
+<p>注：如果您不启用注册组件，那QQ登录也没什么用处了。</p></td>
 </tr>
 </table>
 </div>
