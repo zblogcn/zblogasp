@@ -404,6 +404,10 @@ hr {width:100%;height:1px;border:none;padding:0;visibility:hidden;}
 }
 
 
+div.theme img{
+	margin-bottom:-3px;
+}
+
 div.theme-now{
 	float:left;
 	background:#B0CDEE;
@@ -411,15 +415,28 @@ div.theme-now{
 	margin:0 1em 1em 0;
 }
 
+
 div.theme-other{
 	float:left;
 	background:#f0f0f0;
 	padding:1em;
 	margin:0 1em 1em 0;
 }
+div.theme-other a{
+	cursor:pointer;
+}
+div.theme-now .betterTip img{
+	border:2px solid #B0CDEE;
+}
+div.theme-other .betterTip img{
+	border:2px solid #f0f0f0;
+}
+div.theme-other .betterTip img:hover{
+	border:2px solid #B0CDEE;
+}
 
 div.theme-now p,div.theme-other p{
-	max-width:200px;
+	max-width:210px;
 	overflow:hidden;
 }
 

@@ -1383,6 +1383,7 @@ Function ExportThemeMng()
 	Dim Theme_Note
 	Dim Theme_Description
 	Dim Theme_Pubdate
+	Dim Theme_Modified
 	Dim Theme_Source_Name
 	Dim Theme_Source_Url
 	Dim Theme_Author_Name
@@ -1432,6 +1433,7 @@ Function ExportThemeMng()
 					Theme_Note=""
 					Theme_Description=""
 					Theme_Pubdate=""
+					Theme_Modified=""
 					Theme_Source_Name=""
 					Theme_Source_Url=""
 					Theme_Author_Name=""
@@ -1457,6 +1459,8 @@ Function ExportThemeMng()
 					Theme_Url=objXmlFile.documentElement.selectSingleNode("url").text
 					Theme_Note=objXmlFile.documentElement.selectSingleNode("note").text
 					Theme_Pubdate=objXmlFile.documentElement.selectSingleNode("pubdate").text
+					Theme_Modified=objXmlFile.documentElement.selectSingleNode("modified").text
+
 					Theme_Description=objXmlFile.documentElement.selectSingleNode("description").text
 
 					Theme_ScreenShot="../../zb_users/theme" &"/" & Theme_Id & "/" & "screenshot.png"
@@ -1465,45 +1469,51 @@ Function ExportThemeMng()
 
 
 		If UCase(Theme_Id)=UCase(CurrentTheme) Then
-			Response.Write "<div class=""theme theme-now"">"
+			Response.Write "<div id=""Theme_"&Theme_Id&""" class=""theme theme-now"">"
 		Else
-			Response.Write "<div class=""theme theme-other"">"
+			Response.Write "<div id=""Theme_"&Theme_Id&""" class=""theme theme-other"">"
 		End If
 
 		If UCase(Theme_Id) <> UCase(f1.name) Then
 			Response.Write "<p style=""color:red;"">ID Error! Should be ""<strong>"& f1.name &"</strong>""!!</p>"
 		Else
-			Response.Write "<p><img width='16' title='' alt='' src='../IMAGE/ADMIN/layout.png'/>&nbsp;&nbsp;ID: <a id=""mylink1"&Left(md5(Theme_Id),6)&""" href=""$div"&Left(md5(Theme_Id),6)&"tip?width=300"" class=""betterTip"" title="""&Theme_Id&""">" & "<strong>" & Server.URLEncode(Theme_Id) & "</strong>" & "</a></p>"
+			Response.Write "<p><img width='16' title='' alt='' src='../IMAGE/ADMIN/layout.png'/> <a  href="""&Theme_Url&"""  title="""">" & "<strong>" & Theme_Name & "</strong>" & "</a></p>"
 		End If
-		Response.Write "<p><a id=""mylink"&Left(md5(Theme_Id),6)&""" href=""$div"&Left(md5(Theme_Id),6)&"tip?width=300"" class=""betterTip"" title="""&Theme_Id&"""><img src=""" & Theme_ScreenShot & """ title=""" & Theme_Name & """ alt=""ScreenShot"" width=""200"" height=""150"" /></a></p>"
+
+
+		Response.Write "<p><a id=""mylink"&Left(md5(Theme_Id),6)&""" href=""$div"&Left(md5(Theme_Id),6)&"tip?width=300"" class=""betterTip"" title="""&Theme_Name&""" "
+		
+		If UCase(Theme_Id)<>UCase(CurrentTheme) Then Response.Write " onclick='$(""#edtZC_BLOG_THEME"").val("""&Theme_Id&""");$(""#edtZC_BLOG_CSS"").val($(""cate"&Left(md5(Theme_Id),6)&""").val());$(""#frmTheme"").submit();'"
+
+		Response.Write "><img src=""" & Theme_ScreenShot & """ alt=""ScreenShot"" width=""200"" height=""150"" /></a></p>"
 
 		Response.Write "<div id=""div"&Left(md5(Theme_Id),6)&"tip"" style=""display:none;"">"
-		Response.Write "<p>"&ZC_MSG001&":" & Theme_Name & "</p>"
-		Response.Write "<p>"&ZC_MSG128&":" & Theme_Author_Name & "</p>"
+		Response.Write "<p>ID : " & Theme_ID & "</p>"
+		Response.Write "<p>"&ZC_MSG128&" : " & Theme_Author_Name & "</p>"
 		'Response.Write "<p>"&ZC_MSG054&":" & Theme_Author_Url & "</p>"
-		Response.Write "<p>"&ZC_MSG197&":" & Theme_Source_Name & "</p>"
+		Response.Write "<p>"&ZC_MSG197&" : " & Theme_Source_Name & "</p>"
 		'Response.Write "<p>"&ZC_MSG054&":" & Theme_Source_Url & "</p>"
-		Response.Write "<p>"&ZC_MSG011&":" & Theme_Pubdate & "</p>"
-		Response.Write "<p>"&ZC_MSG261&":" & Theme_Modified & "</p>"
-		Response.Write "<p>"&ZC_MSG198&":<br />" & TransferHTML(Theme_Description,"[enter]") & "</p>"
+		Response.Write "<p>"&ZC_MSG011&" : " & Theme_Pubdate & "</p>"
+		Response.Write "<p>"&ZC_MSG261&" : " & Theme_Modified & "</p>"
+		Response.Write "<p>"&ZC_MSG198&" :<br />" & TransferHTML(Theme_Description,"[enter]") & "</p>"
 		Response.Write "</div>"
 
-		If Theme_Url="" Then
-			Response.Write "<p>"&ZC_MSG001&":" & Theme_Name & "</p>"
-		Else
-			Response.Write "<p>"&ZC_MSG001&":<a target=""_blank"" href=""" & Theme_Url & """>" & Theme_Name & "</a></p>"
-		End If
+'		If Theme_Url="" Then
+'			Response.Write "<p>"&ZC_MSG001&":" & Theme_Name & "</p>"
+'		Else
+'			Response.Write "<p>"&ZC_MSG001&":<a target=""_blank"" href=""" & Theme_Url & """>" & Theme_Name & "</a></p>"
+'		End If
 
 		If Theme_Author_Url="" Then
-			Response.Write "<p>"&ZC_MSG128&":" & Theme_Author_Name & "</p>"
+			Response.Write "<p>"&ZC_MSG128&" : " & Theme_Author_Name & "</p>"
 		Else
-			Response.Write "<p>"&ZC_MSG128&":<a target=""_blank"" href=""" & Theme_Author_Url & """>" & Theme_Author_Name & "</a></p>"
+			Response.Write "<p>"&ZC_MSG128&" : <a target=""_blank"" href=""" & Theme_Author_Url & """>" & Theme_Author_Name & "</a></p>"
 		End If
 
 
-		Response.Write "<p>"&ZC_MSG011&":" & Theme_Pubdate & "</p>"
-		Response.Write "<p style='height:1.0em;'>"&ZC_MSG016&":" & Theme_Note & "</p>"
-		Response.Write "<p>"&ZC_MSG196&":" & "<select class=""edit"" size=""1"" id=""cate"&Left(md5(Theme_Id),6)&""" name=""cate"&Left(md5(Theme_Id),6)&""" style=""width:120px;"" onchange=""document.getElementById('edtZC_BLOG_THEME').value='"&Theme_Id&"';document.getElementById('edtZC_BLOG_CSS').value=this.options[this.selectedIndex].value""><option value=""""></option>"
+'		Response.Write "<p>"&ZC_MSG011&":" & Theme_Pubdate & "</p>"
+'		Response.Write "<p style='height:1.0em;'>"&ZC_MSG016&":" & Theme_Note & "</p>"
+		Response.Write "<p>"&ZC_MSG196&" : " & "<select class=""edit"" size=""1"" id=""cate"&Left(md5(Theme_Id),6)&""" name=""cate"&Left(md5(Theme_Id),6)&""" style=""width:120px;"" onchange=""document.getElementById('edtZC_BLOG_THEME').value='"&Theme_Id&"';document.getElementById('edtZC_BLOG_CSS').value=this.options[this.selectedIndex].value""><option value=""""></option>"
 
 
 		aryFileList=LoadIncludeFiles("zb_users\theme" & "/" & Theme_Id & "/style")
@@ -1560,7 +1570,7 @@ Function ExportThemeMng()
 	Response.Write "</div>"
 	Err.Clear
 
-	Response.Write "<script type=""text/javascript"">ActiveLeftMenu(""aThemeMng"");</script>"
+	Response.Write "<script type=""text/javascript"">ActiveLeftMenu(""aThemeMng"");$(""div.theme-other a.betterTip"").click( function(){$(""#edtZC_BLOG_THEME"").val("""""");$(""#edtZC_BLOG_CSS"").val($(""cate"""").val());$(""#frmTheme"").submit();});</script>"
 
 	ExportThemeMng=True
 
