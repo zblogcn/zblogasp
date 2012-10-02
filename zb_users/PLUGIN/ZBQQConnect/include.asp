@@ -140,6 +140,7 @@ End Function
 Function ZBQQConnect_SendComment()
 	on error resume next
 	Call ZBQQConnect_Initialize
+	
 	If (ZBQQConnect_OpenComment=False) Then Exit Function
 	Dim tupian
 	Dim strT,tea,strTemp
@@ -164,18 +165,23 @@ Function ZBQQConnect_SendComment()
 	else
 		tupian="~"
 	end if
-
-	If BlogUser.Level<5 And ZBQQConnect_CommentToZone Then
-		
-		If ZBQQConnect_CommentToOwner=True Then
-			Dim o
+	'我X，逻辑判断又纠结了
+	If ZBQQConnect_CommentToZone Then  '如果打开了同步到QQ空间功能
+		Dim o
+		If ZBQQConnect_CommentToOwner=True Then '如果以站长的身份分享
 			Set o=objConn.Execute("SELECT TOP 1 [mem_ID] FROM [blog_Member] WHERE [mem_Level]=1")
 			ZBQQConnect_DB.objUser.ID=o("mem_id")
 			ZBQQConnect_DB.LoadInfo 2
 			Set o=Nothing
-		Else
+		Else '如果不以站长的身份分享
 			Set ZBQQConnect_DB.objUser=BlogUser
-			If BlogUser.Meta.Exists("ZBQQConnect_a")=False Or (BlogUser.Meta.Exists("ZBQQConnect_a")=True And CBool(BlogUser.Meta.GetValue("ZBQQConnect_a"))=True) Then	ZBQQConnect_DB.LoadInfo 2
+			If BlogUser.Level=5 Then '如果未登陆
+				'不登陆就不同步呗！
+			ElseIf BlogUser.Meta.Exists("ZBQQConnect_a")=False Or (BlogUser.Meta.Exists("ZBQQConnect_a")=True And CBool(BlogUser.Meta.GetValue("ZBQQConnect_a"))=True) Then  '登录并开启功能就果断同步啊摔！
+				ZBQQConnect_DB.LoadInfo 2
+			Else
+				'不同步不就完事了！
+			End If
 		End If
 		
 		ZBQQConnect_class.OpenID=ZBQQConnect_DB.OpenID
@@ -199,7 +205,7 @@ End Function
 
 '得到最新文章ID并发布批处理事件
 Function ZBQQConnect_GetArticleID(ByRef objArticle)
-	If CInt(Application(ZC_BLOG_CLSID&"ZBQQConnect_c"))=0 Then Call AddBatch("ZBQQConnect正在提交数据<br/>","ZBQQConnect_Batch "&objArticle.ID)	
+	If CInt(Application(ZC_BLOG_CLSID&"ZBQQConnect_c"))=0 Then Call AddBatch("ZBQQConnect<br/>","ZBQQConnect_Batch "&objArticle.ID)	
 End Function
 
 '批处理
@@ -210,7 +216,7 @@ Function ZBQQConnect_Batch(id)
 	Set objArticle=New TArticle
 	SetBlogHint_custom ID
 	objArticle.LoadInfoById id
-	If objArticle.CateID=0 Then Exit Function
+	If objArticle.FType=1 Then Exit Function
 	
 	ZBQQConnect_SToWb=Application(ZC_BLOG_CLSID&"ZBQQConnect_a")
 	ZBQQConnect_SToZone=Application(ZC_BLOG_CLSID&"ZBQQConnect_b")
@@ -244,11 +250,12 @@ Function ZBQQConnect_Batch(id)
 		End If
 		ZBQQConnect_class.debugMsg=""
 		If ZBQQConnect_SToWb=True Then 
-			t_add = ZBQQConnect_class.fakeQQConnect.t(Replace(Replace(Replace(Replace(Replace(ZBQQConnect_Content,"%t",ZBQQConnect_r(objArticle.Title)),"%u",objArticle.FullUrl),"%b",ZBQQConnect_r(BlogTitle)),"%i",strTemp),"<#ZC_BLOG_HOST#>",ZC_BLOG_HOST),tupian)
+			t_add = ZBQQConnect_class.fakeQQConnect.t(Replace(Replace(Replace(Replace(Replace(ZBQQConnect_Content,"%t",ZBQQConnect_r(objArticle.Title)),"%u",urlencode(objArticle.FullUrl)),"%b",ZBQQConnect_r(BlogTitle)),"%i",strTemp),"%3C#ZC_BLOG_HOST#%3E",ZC_BLOG_HOST),tupian)
 			Set t_add=ZBQQConnect_json.toobject(t_add)
 			If t_add.ret=0 Then
 				Response.Write  "恭喜，同步到腾讯微博成功"
 				objArticle.Meta.SetValue "ZBQQConnect_WBID",t_add.data.id
+				objArticle.Post
 			else
 				Response.Write "同步到腾讯微博出现问题" & t_add.ret
 			End If
@@ -271,3 +278,6 @@ Function ZBQQConnect_r(c)
 end function
 
 %>
+<script language="javascript" runat="server">
+function urlencode(s){return encodeURI(s)}
+</script>
