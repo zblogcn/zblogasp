@@ -9,7 +9,7 @@
 '///////////////////////////////////////////////////////////////////////////////
 %>
 <% Option Explicit %>
-<% On Error Resume Next %>
+<% 'On Error Resume Next %>
 <% Response.Charset="UTF-8" %>
 <% Response.Buffer=True %>
 <!-- #INCLUDE FILE="../../C_OPTION.ASP" -->
@@ -157,6 +157,7 @@ If CheckPluginState("YTCMS") = False Then Call ShowError(48)
                 </ul>
             </div>
         </li>
+        <li><a href="#SQL">导入</a></li>
         <li><a href="#DEMO">演示</a></li>
     </ul>
 </div>

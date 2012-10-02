@@ -2,78 +2,150 @@
 Class YT_Table
 	Function List()
 		Dim aryFileList
-		aryFileList=LoadIncludeFiles("ZB_USERS/PLUGIN/YTCMS/DATA/")
+		Dim t(),j,i,s
+		aryFileList=LoadIncludeFiles("ZB_USERS/THEME/"&ZC_BLOG_THEME&"/DATA/")
 		If IsArray(aryFileList) Then
-			Dim t(),j,i,s,e
-			Redim t(-1)
-			For i=1 to UBound(aryFileList)
-				s=aryFileList(i)
-				e=Mid(s,(InStrRev(s,".")+1),Len(s)-InStrRev(s,"."))
-				If e="xml" Then
-					j=UBound(t)+1
-					ReDim Preserve t(j)
-					t(j)=aryFileList(i)
+			If UBound(aryFileList) >= 2 Then
+				Redim t(-1)
+				j=UBound(t)+1
+				ReDim Preserve t(j)
+				t(j)="blog_Category.xml"
+				j=UBound(t)+1
+				ReDim Preserve t(j)
+				t(j)="blog_Article.xml"
+			End If
+			For i = 1 to UBound(aryFileList)
+				s = aryFileList(i)
+				If Right(s,3)="xml" Then
+					If s <> "blog_Category.xml" And s <> "blog_Article.xml" Then
+						j=UBound(t)+1
+						ReDim Preserve t(j)
+						t(j)=aryFileList(i)
+					End If
 				End If
 			Next
 		End If
 		List = t
 	End Function
 	Sub Import(t)
-		Dim x,d
-			d=Server.MapPath("/ZB_USERS/PLUGIN/YTCMS/DATA/"&t)
+		Dim x,d,b:b = false
+			d=BlogPath&"ZB_USERS/THEME/"&ZC_BLOG_THEME&"/DATA/"&t
 		Set x=CreateObject("Microsoft.XMLDOM")
 			x.async=False
 			x.ValidateOnParse=False
 			x.load(d)
 			If x.readyState=4 Then
 				If x.parseError.errorCode=0 Then
-					Dim n,s,r,j,k,w,l,Field(),Value()
-						t=Left(t,InStrRev(t,".")-1)
+					Dim n,s,r,j,k,w,l,a,e
+					Dim Field(),Value()
+					Dim sql,sql2,sql3,T4(),T2(),T5()
+						t = Left(t,InStrRev(t,".")-1)
 						If Exist(t) Then
-							Dim sql
+							Redim T4(-1):Redim T5(-1):a = 0
+							objConn.Execute("DELETE FROM "&t)
 							For Each n In x.selectNodes("//"&t)
 								Redim T2(-1)
-								sql="INSERT INTO [@TABLE](@FIELDS) VALUES (@VALUE)"
-								Set r=objConn.Execute("SELECT TOP 1 * FROM "&t)
+								sql = "INSERT INTO [@TABLE](@FIELDS) VALUES (@VALUE)"
+								Set r = objConn.Execute("SELECT TOP 1 * FROM "&t)
 									For Each k In r.Fields
-										w=UBound(T2)+1
+										w = UBound(T2)+1
 										ReDim Preserve T2(w)
-										T2(w)=k.properties("ISAUTOINCREMENT")
+										T2(w)="{name:'"&k.name&"',type:"&k.type&",auto:"&LCase(k.properties("ISAUTOINCREMENT"))&"}"
 									Next
 								Set r = Nothing
 								Redim Field(-1)
 								Redim Value(-1)
-								For s=0 To n.childNodes.length-1
-									If T2(s)=False Then
-										j=UBound(Field)+1
-										ReDim Preserve Field(j)
-										ReDim Preserve Value(j)
-										Field(j)="["&n.childNodes(s).nodeName&"]"
-										Value(j)="'"&n.childNodes(s).Text&"'"
+								For s = 0 To n.childNodes.length-1
+									Dim obj:Set obj=YT.eval(T2(s))
+									If obj.auto Then
+										If UBound(T4) = -1 Then
+											If t = "blog_Category" Or t = "blog_Article" Then
+												sql2 = "ALTER TABLE ["&t&"] ALTER COLUMN ["&obj.name&"] COUNTER (1, 1)"
+												objConn.Execute(sql2)
+											End If
+										End If
+										l = UBound(T4)+1
+										ReDim Preserve T4(l)
+										T4(l) = Array(n.childNodes(s).Text,a+1)
+									End If
+									If obj.auto = false Then
+										If obj.name = n.childNodes(s).nodeName Then
+											j = UBound(Field)+1
+											ReDim Preserve Field(j)
+											ReDim Preserve Value(j)
+											If obj.name = "cate_ParentID" Then
+												If Int(T4(l)(1)) <> Int(T4(l)(0)) Then 
+													e = UBound(T5)+1
+													ReDim Preserve T5(e)
+													T5(e) = "UPDATE ["&t&"] SET [cate_ParentID] = "&T4(l)(1)&" WHERE [cate_ParentID] = "&T4(l)(0)
+												End If
+											End If
+											Field(j) = "["&n.childNodes(s).nodeName&"]"
+											Value(j) = "'"&n.childNodes(s).Text&"'"
+											If obj.type = 7 Then
+												Value(j) = Replace(Value(j),"T"," ")
+												If Not isDate(Replace(Value(j),CHR(39),Empty)) Then Value(j) = Now()
+											End If
+										End If
 									End If
 								Next
 								sql=Replace(sql,"@TABLE",t)
 								sql=Replace(sql,"@FIELDS",Join(Field,","))
 								sql=Replace(sql,"@VALUE",Join(Value,","))
-								objConn.Execute(Sql)
+								objConn.Execute(sql)
+								a = a + 1
 							Next
+							If UBound(T5) <> -1 Then
+								For Each sql3 In T5
+									objConn.Execute(sql3)
+								Next
+							End If
+							If UBound(T4) <> -1 Then
+								Dim sl,sl2,sb
+								If t = "blog_Category" Then
+									'更新DATA目录下XML中的log_CateID
+									For Each sl In List
+										If sl <> "blog_Category.xml" Then
+											sl2 = LoadFromFile(BlogPath&"ZB_USERS/THEME/"&ZC_BLOG_THEME&"/DATA/"&sl,"utf-8")
+											For Each sb In T4
+												sl2 = Replace(sl2,"<log_CateID>"&sb(0)&"</log_CateID>","<log_CateID>"&sb(1)&"</log_CateID>")
+											Next
+											Call SaveToFile(BlogPath&"ZB_USERS/THEME/"&ZC_BLOG_THEME&"/DATA/"&sl,sl2,"utf-8",False)
+										End If
+									Next
+								Else
+									'更新DATA目录下XML中的log_ID
+									For Each sl In List
+										If sl <> "blog_Article.xml" Then
+											sl2 = LoadFromFile(BlogPath&"ZB_USERS/THEME/"&ZC_BLOG_THEME&"/DATA/"&sl,"utf-8")
+											For Each sb In T4
+												sl2 = Replace(sl2,"<log_ID>"&sb(0)&"</log_ID>","<log_ID>"&sb(1)&"</log_ID>")
+											Next
+											Call SaveToFile(BlogPath&"ZB_USERS/THEME/"&ZC_BLOG_THEME&"/DATA/"&sl,sl2,"utf-8",False)
+										End If
+									Next
+								End If
+							End If
 						End If
-					Dim fso,XmlFile
-					Set fso = CreateObject("Scripting.FileSystemObject")
-						Set XmlFile = fso.GetFile(d)
-							XmlFile.Delete
-						Set XmlFile = Nothing
-					Set fso=Nothing
+					b = true
 				End If
 			End If
 		Set x=Nothing
+		If b Then
+			Dim fso,XmlFile
+			Set fso = CreateObject("Scripting.FileSystemObject")
+				Set XmlFile = fso.GetFile(d)
+					XmlFile.Delete
+				Set XmlFile = Nothing
+			Set fso = Nothing
+		End If
 	End Sub 
 	Function Exist(TableName)
 		On Error Resume Next
 		Dim Rs
 		Set Rs=objConn.Execute("SELECT TOP 1 * FROM "&TableName)
 		Set Rs=Nothing
-			If Err.Number=0 Then
+		If Err.Number=0 Then
 			Exist=True
 		Else
 			Err.Clear

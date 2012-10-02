@@ -75,6 +75,9 @@ var YT = {
 												case 'MMODEL':
 													YT.Panel.Model.M();
 												break;
+												case 'SQL':
+													YT.Panel.SQL();
+												break;
 												case 'DEMO':
 													YT.Demo();
 												break;
@@ -645,6 +648,40 @@ var YT = {
 					}					   
 				},800);
 			})();
+		},
+		SQL:function(){
+			var t=YT.Panel.ModalDialog('<ul></ul>');
+				$.ajax({
+					url: 'YT.Ajax.asp',
+					type: 'POST',
+					dataType: 'html',
+					data: { Action: 'ImportList' , t:Math.random() },
+					success: function(json) {
+						if(json!=''){
+							json=json.split(',');
+							for(var i=0;i<json.length;i++){
+								t.find('ul').append('<div class="SQL"><em>'+json[i]+'</em><font></font></div>');	
+							}
+							t.find('ul').append('<input type="button" value="全部导入" />');
+							t.find('input').click(function(){
+								if(confirm('blog_Category,blog_Article表将被清空数据,仍进行此操作?')){
+									t.find('div.SQL').each(function(){
+										var e=this;
+										$.ajax({
+											url: 'YT.Ajax.asp',
+											type: 'POST',
+											dataType: 'html',
+											data: { Action: 'Import' ,Name:$(e).find('em').text(), t:Math.random() },
+											success: function() {
+												$(e).find('font').css('color','blue').text(' √');
+											}
+										});						
+									});
+								}
+							});
+						}
+					}
+				});
 		},
 		Block:{
 			C:function(n){

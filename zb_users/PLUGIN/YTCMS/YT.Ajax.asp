@@ -42,6 +42,8 @@ Dim Action
 		Case "Install":Call new YT_Model_XML.Model("Install",Request.Form("Index"))
 		Case "UnInstall":Call new YT_Model_XML.Model("UnInstall",Request.Form("Index"))
 		Case "GetData":Response.Write(YT_Data_GetRow(Request.Form("Name"),Request.Form("ID")))
+		Case "ImportList":Response.Write(Join(new YT_Table.List(),","))
+		Case "Import":Call new YT_Table.Import(Request("Name"))
 		Case "Demo":
 			Dim code
 			code = LoadFromFile(Server.MapPath(".")&"\demo.html","utf-8")
