@@ -24,7 +24,8 @@ If Request.QueryString("act")="save" Then
 	c.Edit BlogUser
 	Response.Redirect "main.asp"
 End If
-Call SetBlogHint_Custom("修改配置需要重新登录")
+SetBlogHint_Custom "请注意：修改成功以后，您必须也只能使用QQ登录，如果要使用帐号密码登录请修改密码！"
+
 %>
 <%=ZBQQConnect_Config.Load("ZBQQConnect")%>
 <!--#include file="..\..\..\zb_system\admin\admin_header.asp"-->
@@ -35,6 +36,7 @@ function showqk(){
 </script>
 
 <!--#include file="..\..\..\zb_system\admin\admin_top.asp"-->
+
         <div id="divMain">
           <div id="ShowBlogHint">
             <%Call GetBlogHint()%>
@@ -51,7 +53,7 @@ function showqk(){
         </div>
         <%
 function d(v)
-	d=iif(v="true"," checked=""checked"" ","")
+	d=iif(v="True" Or v=""," checked=""checked"" ","")
 end function
 function e(s,b)
 	e=iif(cint(s)=b," checked=""checked"" ","")
