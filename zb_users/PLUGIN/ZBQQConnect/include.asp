@@ -20,6 +20,11 @@ Dim ZBQQConnect_class,ZBQQConnect_DB,ZBQQConnect_Config,ZBQQConnect_Net
 '注册插件
 Call RegisterPlugin("ZBQQConnect","ActivePlugin_ZBQQConnect")
 
+Function InstallPlugin_ZBQQConnect
+	On Error Resume Next
+	ZBQQConnect_Initialize
+	ZBQQConnect_DB.CreateDB
+End Function
 
 Function ActivePlugin_ZBQQConnect() 
 	Dim strQQ,objQQ
