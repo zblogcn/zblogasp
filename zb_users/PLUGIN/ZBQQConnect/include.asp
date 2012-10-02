@@ -11,7 +11,7 @@
 Dim ZBQQConnect_notfoundpic,ZBQQConnect_PicSendToWb, ZBQQConnect_strLong, ZBQQConnect_CommentToOwner, ZBQQConnect_OpenComment, ZBQQConnect_DefaultToZone, ZBQQConnect_DefaultToT, ZBQQConnect_CommentToZone, ZBQQConnect_CommentToT, ZBQQConnect_allowQQLogin, ZBQQConnect_allowQQReg, ZBQQConnect_HeadMode, ZBQQConnect_Head, ZBQQConnect_Content, ZBQQConnect_WBKey, ZBQQConnect_WBSecret, ZBQQConnect_CommentTemplate
 
 '同步时使用临时变量
-Dim ZBQQConnect_tmpObj,ZBQQConnect_Eml(1)
+Dim ZBQQConnect_tmpObj
 Dim ZBQQConnect_SToWb,ZBQQConnect_SToZone
 
 '定义各种Class，包括QQ连接、数据库、配置和网络
@@ -50,7 +50,7 @@ Function ActivePlugin_ZBQQConnect()
 	Call Add_Action_Plugin("Action_Plugin_ArticlePst_Begin","ZBQQConnect_SToZone=Request.Form(""syn_qq""):ZBQQConnect_SToWb=Request.Form(""syn_tqq""):Call ZBQQConnect_Main()")
 	Call Add_Action_Plugin("Action_Plugin_Edit_ueditor_getArticleInfo","Set ZBQQConnect_tmpObj=EditArticle:Call ZBQQConnect_addForm()")
 
-Call Add_Action_Plugin("Action_Plugin_TComment_Avatar","If FAvatar="""" Then FAvatar=ZBQQConnect_AddCommentCode(AuthorID,Email)")
+	Call Add_Action_Plugin("Action_Plugin_TComment_Avatar","If FAvatar="""" Then FAvatar=ZBQQConnect_AddCommentCode(AuthorID,Email)")
 
 	Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(5,"QQ互联",GetCurrentHost&"zb_users/plugin/zbqqconnect/main.asp","nav_QQConnect","aQQConnect",GetCurrentHost&"zb_users/plugin/zbqqconnect/Connect_logo_1.png"))
 
@@ -61,43 +61,45 @@ End Function
 
 '添加评论代码
 Function ZBQQConnect_AddCommentCode(ByRef a,ByRef b)
+	a=a
+	b=b
 	Dim c,d
+	ZBQQConnect_Initialize
 	If ZBQQConnect_HeadMode<>2 Then
-		ZBQQConnect_Initialize
-		ZBQQConnect_DB.Email=ZBQQConnect_Eml(0)
 		'这段太混乱了，写点注释吧……
-		If ZBQQConnect_Eml(1)<>"" Then       '判断BlogUser.ID是否为空       
-			If CInt(ZBQQConnect_Eml(1))>0 Then     '如果不为空则判断是否合法
-				ZBQQConnect_DB.objUser.ID=ZBQQConnect_Eml(1)  '如果合法则查看该用户是否有绑定QQ
+		If a<>"" Then       '判断BlogUser.ID是否为空       
+			If CInt(a)>0 Then     '如果不为空则判断是否合法
+				ZBQQConnect_DB.objUser.ID=a  '如果合法则查看该用户是否有绑定QQ
 				d=ZBQQConnect_DB.LoadInfo(2)
 				If d=False Then    '如果没绑定QQ
-					If ZBQQConnect_Eml(0)<>"" Then '并且有填写E-Mail
+					If b<>"" Then '并且有填写E-Mail
 						d=ZBQQConnect_DB.LoadInfo(3)  '则根据E-Mail调取头像
 					Else  '如果没写E-mail
 						Set c=New TUser  
-						c.LoadInfoById ZBQQConnect_Eml(1)
+						c.LoadInfoById a
 						ZBQQConnect_DB.Email=c.Email
 						d=ZBQQConnect_DB.LoadInfo(3)  '就从用户表里找
 						Set c=Nothing
 					End If
 				End If
 			Else    '如果ID不合法
-				If ZBQQConnect_Eml(0)<>"" Then '判断E-Mail是否为空
+				If b<>"" Then '判断E-Mail是否为空
 					d=ZBQQConnect_DB.LoadInfo(3) 
 				Else  '如果为空，嗯。
 					d=False
 				End If
 			End If
 		Else    '如果用户ID为空，则根据E-Mail调用
-			ZBQQConnect_DB.Email=ZBQQConnect_Eml(0)
+			ZBQQConnect_DB.Email=b
 			d=ZBQQConnect_DB.LoadInfo(3)
 		End If
 		If d Then 
-					If ZBQQConnect_HeadMode=0 Then
-						ZBQQConnect_AddCommentCode=ZBQQConnect_DB.tHead&"/100"
-					ElseIf ZBQQConnect_HeadMode=1 Then
-						ZBQQConnect_AddCommentCode=ZBQQConnect_DB.QzoneHead
-					End If
+
+			If ZBQQConnect_HeadMode=0 Then
+				ZBQQConnect_AddCommentCode=ZBQQConnect_DB.tHead&"/100"
+			ElseIf ZBQQConnect_HeadMode=1 Then
+				ZBQQConnect_AddCommentCode=ZBQQConnect_DB.QzoneHead
+			End If
 		End If
 	End If
 End Function
