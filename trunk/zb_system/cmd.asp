@@ -315,6 +315,9 @@ Function BlogLogin
 	Next
 
 	If BlogUser.Verify=False Then
+	'验证失败清空cookies密码
+		Response.Cookies("password")=Empty
+		Response.Cookies("password").expires = now-1
 		Response.Redirect "login.asp"
 	Else
 		Call BlogAdmin()
