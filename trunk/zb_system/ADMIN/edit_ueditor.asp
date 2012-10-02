@@ -174,10 +174,6 @@ Next
 						<p><span><%=ZC_MSG216%><a href="" onClick="try{AutoIntro();return false;}catch(e){}">[<%=ZC_MSG200%>]</a></span></p>
                       </div>
 
-
-
-
-
                       <div id="divIntro" style="display:<%If EditArticle.Intro="" Or IsAutoIntro Then Response.Write "none" Else Response.Write "block"%>;">
                         <p><span class='editinputname'><%=ZC_MSG016%>:</span></p>
                         <script id="ueditor2" name="txaIntro"><%=EditArticle.Intro%></script>
@@ -204,9 +200,8 @@ Next
 </p>
 
 
-
-                  <p>
 <!-- cate -->
+                  <p>
 <%
 If Request.QueryString("type")<>"Page" Then
 %>
@@ -241,13 +236,12 @@ Else
 <%
 End If
 %>
-<!-- cate -->
                       </p>
+<!-- cate -->
 
 
-
-                        <p>
 <!-- template( -->
+                        <p>
                           <span class='editinputname'><%=ZC_MSG188%>:</span>
                           <select style="width:150px;" class="edit" size="1" id="cmbTemplate" onChange="edtTemplate.value=this.options[this.selectedIndex].value">
 <%
@@ -273,9 +267,8 @@ End If
 %>
                           </select>
                           <input type="hidden" name="edtTemplate" id="edtTemplate" value="<%=EditArticle.TemplateName%>" />
-<!-- )template -->
                       </p>
-
+<!-- )template -->
 
 
                         <p>
@@ -295,18 +288,14 @@ End If
 %>
                           </select>
                           <input type="hidden" name="edtLevel" id="edtLevel" value="<%=EditArticle.Level%>" />
-
-
-<!-- )level -->
                       </p>
+<!-- )level -->
 
 
-
-                        <p>
 <!-- user( -->
-
+                        <p>
                         <span class='editinputname'><%=ZC_MSG003%>:</span><select style="width:150px;" size="1" id="cmbUser" onChange="edtAuthorID.value=this.options[this.selectedIndex].value">
-                          <option value="0"></option>
+                        <option value="0"></option>
                           <%
 	GetUser()
 	Dim User
@@ -333,26 +322,15 @@ End If
 %>
                         </select>
                         <input type="hidden" name="edtAuthorID" id="edtAuthorID" value="<%=EditArticle.AuthorID%>" />
+                      </p>
 <!-- )user -->
-                      </p>
 
-
-
-<!-- date( 原日期
-                        <p>
-
-                          <span class='editinputname'><%=ZC_MSG062%>:</span><span><input type="text" name="edtYear" id="edtYear" style="width:32px;" value="<%=Year(EditArticle.PostTime)%>" /><span>-</span><input type="text" name="edtMonth" id="edtMonth" style="width:17px;" value="<%=Month(EditArticle.PostTime)%>" /><span>-</span><input type="text" name="edtDay" id="edtDay" style="width:17px;" value="<%=Day(EditArticle.PostTime)%>" /><span>-</span><input type="text" name="edtTime" id="edtTime" style="width:50px;" value="<%= Hour(EditArticle.PostTime)&":"&Minute(EditArticle.PostTime)&":"&Second(EditArticle.PostTime)%>" /></span>
-
-
-                      </p>
- )date -->
 
 <!-- newdatetime( -->
                       <p>
                           <span class='editinputname'><%=ZC_MSG062%>:</span><span><input type="text" name="edtDateTime" id="edtDateTime"  value="<%=EditArticle.PostTime%>" style="width:141px;"/></span>
                       </p>
 <!-- )newdatetime -->
-
 
 
                         <p>
@@ -368,9 +346,8 @@ End If
 <%Else%>
                           <input type="hidden" name="edtIstop" id="edtIstop" value=""/>
 <% End If %>
-<!-- )Istop -->
                       </p>
-
+<!-- )Istop -->
 
 
 <!-- Navbar( -->
@@ -389,15 +366,6 @@ End If
 
 
 
-<% If Request.QueryString("type")="Page" Then %>
-                      <!--<p>
-                      <label for="edtAutoList">自动加入导航条 </label><input name="edtAutoList" id="edtAutoList" type="checkbox" value="" />
-                      </p>-->
-<% End If %>
-
-
-
-
 <!-- 3号输出接口 -->
 <% If Response_Plugin_Edit_Form3<>"" Then %>
 <div id="divEditForm3"><%=Response_Plugin_Edit_Form3%></div>
@@ -412,8 +380,6 @@ End If
 
 
 </div><!-- divEditRight -->
-
-
 
                     </form>
                   </div>
@@ -541,7 +507,6 @@ End If
 
 
 //文章编辑提交区随动JS开始
-
 function tools(){
  var top=$(document).scrollTop();
  if(($.browser.msie==true)&&($.browser.version==6.0)){
