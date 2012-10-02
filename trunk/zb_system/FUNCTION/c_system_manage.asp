@@ -1477,14 +1477,12 @@ Function ExportThemeMng()
 		If UCase(Theme_Id) <> UCase(f1.name) Then
 			Response.Write "<p style=""color:red;"">ID Error! Should be ""<strong>"& f1.name &"</strong>""!!</p>"
 		Else
-			Response.Write "<p><img width='16' title='' alt='' src='../IMAGE/ADMIN/layout.png'/> <a  href="""&Theme_Url&"""  title="""">" & "<strong>" & Theme_Name & "</strong>" & "</a></p>"
+			Response.Write "<p><img width='16' title='' alt='' src='../IMAGE/ADMIN/layout.png'/> <a  target=""_blank"" href="""&Theme_Url&"""  title="""">" & "<strong>" & Theme_Name & "</strong>" & "</a></p>"
 		End If
 
 
 		Response.Write "<p><a id=""mylink"&Left(md5(Theme_Id),6)&""" href=""$div"&Left(md5(Theme_Id),6)&"tip?width=300"" class=""betterTip"" title="""&Theme_Name&""" "
-		
-		If UCase(Theme_Id)<>UCase(CurrentTheme) Then Response.Write " onclick='$(""#edtZC_BLOG_THEME"").val("""&Theme_Id&""");$(""#edtZC_BLOG_CSS"").val($(""cate"&Left(md5(Theme_Id),6)&""").val());$(""#frmTheme"").submit();'"
-
+		If UCase(Theme_Id)<>UCase(CurrentTheme) Then Response.Write " onclick='$(""#edtZC_BLOG_THEME"").val("""&Theme_Id&""");$(""#edtZC_BLOG_CSS"").val($(""#cate"&Left(md5(Theme_Id),6)&""").val());$(""#frmTheme"").submit();'"
 		Response.Write "><img src=""" & Theme_ScreenShot & """ alt=""ScreenShot"" width=""200"" height=""150"" /></a></p>"
 
 		Response.Write "<div id=""div"&Left(md5(Theme_Id),6)&"tip"" style=""display:none;"">"
@@ -1546,7 +1544,7 @@ Function ExportThemeMng()
 		End If
 
 		Response.Write "</select>"
-		Response.Write "&nbsp;&nbsp;&nbsp;&nbsp;<a href='#' onclick='if(!document.getElementById(""cate"&Left(md5(Theme_Id),6)&""").value){return false;}else{document.getElementById(""edtZC_BLOG_THEME"").value="""&Theme_Id&""";document.getElementById(""edtZC_BLOG_CSS"").value=document.getElementById(""cate"&Left(md5(Theme_Id),6)&""").value};$(""#frmTheme"").submit()'><img width='16' title='"&ZC_MSG202&"' alt='"&ZC_MSG202&"' src='../IMAGE/ADMIN/tick.png' /></a></p>"
+		Response.Write "&nbsp;&nbsp;&nbsp;&nbsp;<a href='#' onclick='if(!document.getElementById(""cate"&Left(md5(Theme_Id),6)&""").value){return false;}else{$(""#edtZC_BLOG_THEME"").val("""&Theme_Id&""");$(""#edtZC_BLOG_CSS"").val($(""#cate"&Left(md5(Theme_Id),6)&""").val());};$(""#frmTheme"").submit()'><img width='16' title='"&ZC_MSG202&"' alt='"&ZC_MSG202&"' src='../IMAGE/ADMIN/tick.png' /></a></p>"
 
 
 		Response.Write "</div>"
@@ -1570,7 +1568,7 @@ Function ExportThemeMng()
 	Response.Write "</div>"
 	Err.Clear
 
-	Response.Write "<script type=""text/javascript"">ActiveLeftMenu(""aThemeMng"");$(""div.theme-other a.betterTip"").click( function(){$(""#edtZC_BLOG_THEME"").val("""""");$(""#edtZC_BLOG_CSS"").val($(""cate"""").val());$(""#frmTheme"").submit();});</script>"
+	Response.Write "<script type=""text/javascript"">ActiveLeftMenu(""aThemeMng"");</script>"
 
 	ExportThemeMng=True
 
