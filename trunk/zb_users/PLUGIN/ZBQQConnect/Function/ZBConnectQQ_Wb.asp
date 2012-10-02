@@ -386,14 +386,11 @@ function get_oauth_http(byval oauthUrl)
 End function
 
 Public Function getIP
-	getip="122.90.170.194"
-	exit function
 	dim a,b
 	a=Request.ServerVariables("HTTP_X_FORWARDED_FOR")
 	b=Request.ServerVariables("REMOTE_ADDR")
 	if b="" then getIP=a else getIP=b
 End Function
 End Class
-response.Charset="utf-8"
 
 %>
