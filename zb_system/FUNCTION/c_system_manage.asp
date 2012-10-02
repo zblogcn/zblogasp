@@ -1469,15 +1469,15 @@ Function ExportThemeMng()
 
 
 		If UCase(Theme_Id)=UCase(CurrentTheme) Then
-			Response.Write "<div id=""Theme_"&Theme_Id&""" class=""theme theme-now"">"
+			Response.Write "<div id=""theme-"&Theme_Id&""" class=""theme theme-now"">"
 		Else
-			Response.Write "<div id=""Theme_"&Theme_Id&""" class=""theme theme-other"">"
+			Response.Write "<div id=""theme-"&Theme_Id&""" class=""theme theme-other"">"
 		End If
 
 		If UCase(Theme_Id) <> UCase(f1.name) Then
 			Response.Write "<p style=""color:red;"">ID Error! Should be ""<strong>"& f1.name &"</strong>""!!</p>"
 		Else
-			Response.Write "<p><img width='16' title='' alt='' src='../IMAGE/ADMIN/layout.png'/> <a  target=""_blank"" href="""&Theme_Url&"""  title="""">" & "<strong>" & Theme_Name & "</strong>" & "</a></p>"
+			Response.Write "<p class=""theme-name""><img width='16' title='' alt='' src='../IMAGE/ADMIN/layout.png'/> <a  target=""_blank"" href="""&Theme_Url&"""  title="""">" & "<strong>" & Theme_Name & "</strong>" & "</a></p>"
 		End If
 
 
