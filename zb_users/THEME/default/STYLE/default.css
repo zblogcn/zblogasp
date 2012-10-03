@@ -300,7 +300,7 @@ h1,h2,h3,h4,h5,h6{
 div.post {
 	width:98%;
 	margin:0 0 0 0;
-	padding:20px 1% 0 1%;
+	padding:20px 1% 2px 1%;
 	text-align:left;
 	clear:both; 
 	word-break:break-all;
@@ -313,6 +313,7 @@ div.istop-post{
 
 div.pagebar{
 	border-top:2px solid #dbe0e6;
+	padding:30px 1% 5px 1%;
 }
 
 /*---------------------------文章上下翻条------------------------*/
