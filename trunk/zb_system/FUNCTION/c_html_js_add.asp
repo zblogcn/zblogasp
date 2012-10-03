@@ -24,12 +24,8 @@
 <!-- #include file="../function/c_system_base.asp" -->
 <!-- #include file="../function/c_system_plugin.asp" -->
 <!-- #include file="../../zb_users/plugin/p_config.asp" -->
-
 <% Response.Clear %>
-
-
-<%=LoadFromFile(Server.MapPath("../admin/ueditor/third-party/SyntaxHighlighter/shCore.js"),"utf-8")%>
-
+$("head").append("<script src='<%=BlogHost%>zb_system/admin/ueditor/third-party/SyntaxHighlighter/shCore.js' type='text/javascript'></script>");
 $("head").append("<link rel='stylesheet' type='text/css' href='<%=BlogHost%>zb_system/admin/ueditor/third-party/SyntaxHighlighter/shCoreDefault.css'/>");
 
 var bloghost="<%=BlogHost%>";
