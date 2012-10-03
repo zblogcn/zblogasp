@@ -1,5 +1,5 @@
 ﻿body,ul,ol,form{margin:0 0;padding:0 0}
-body{font:16px/1.4 Arial,sans-serif;}
+body{font:16px/1.4 Arial,sans-serif;} a{font-size:1.1em;}
 ul,ol{list-style:none}
 ol li{list-style-type:decimal}
 h1{background:#fefeff;font-size:large;border-bottom:2px solid #00aad5}
@@ -14,12 +14,13 @@ b{color:#ddd;margin: 0 3px;}
 .h{background:#fefeff;color:#333;margin:1px 2px;}
 .n{border:1px solid #ffed00;background:#fffcaa}
 .a,.stamp,#ft,#m h3,#m li{color:#666;font-size:small;margin:2px;}
-.t{color:#666;margin:2px;}
+.t{color:#666;margin:3px;text-align:left;}
 .s{word-break:break-all;word-wrap:break-word;}
 .i{width:78%;padding:2px 0;margin:auto;}
+.page{margin:5px 2px 3px -4px;} .page a{margin:0 4px;padding:0 4px;}
 pre,blockquote{background:#F4F4F4;border-left:5px solid #ececec;margin:5px 3px;padding:5px;}
 pre{background:#F3F7F7;border-left:5px solid #D9F8F8;}
 table{border-collapse:collapse;}
-input[type="submit"]{margin:3px;padding:3px 15px;}textarea{height:50%;}
+input[type="submit"]{font-size:1.2em;}textarea{height:60%;}
 img{max-width:88%;}
 /*最后修改:2012-9-6*/

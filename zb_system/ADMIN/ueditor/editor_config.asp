@@ -43,7 +43,7 @@ Next
 	'oDic.Add "maximumWords",1000000000
 	'oDic.Add "wordCountMsg","'当前已输入 {#count} 个字符 '"
 	oDic.Add "initialContent","'<p></p>'"
-	oDic.Add "initialStyle","'body{font-size:14px;}'"
+	oDic.Add "initialStyle","'body{font-size:14px;font-family:微软雅黑,宋体,Arial,Helvetica,sans-serif;}'"
 	oDic.Add "wordCount","false"
 	oDic.Add "elementPathEnabled","false"
 	oDic.Add "minFrameHeight","300"
