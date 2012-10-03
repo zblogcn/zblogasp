@@ -1477,7 +1477,7 @@ Function ExportThemeMng()
 		If UCase(Theme_Id) <> UCase(f1.name) Then
 			Response.Write "<p style=""color:red;"">ID Error! Should be ""<strong>"& f1.name &"</strong>""!!</p>"
 		Else
-			Response.Write "<p class=""theme-name""><img width='16' title='' alt='' src='../IMAGE/ADMIN/layout.png'/> <a  target=""_blank"" href="""&Theme_Url&"""  title="""">" & "<strong>" & Theme_Name & "</strong>" & "</a></p>"
+			Response.Write "<p class=""theme-name""><img width='16' title='' alt='' src='../IMAGE/ADMIN/layout.png'/> <a  target=""_blank"" href="""&Theme_Url&"""  title="""">" & "<strong style='display:none;'>" & Server.URLEncode(Theme_Id) & "</strong><b>" & Theme_Name & "</b>" & "</a></p>"
 		End If
 
 
@@ -1486,7 +1486,7 @@ Function ExportThemeMng()
 		Response.Write "><img src=""" & Theme_ScreenShot & """ alt=""ScreenShot"" width=""200"" height=""150"" /></a></p>"
 
 		Response.Write "<div id=""div"&Left(md5(Theme_Id),6)&"tip"" style=""display:none;"">"
-		Response.Write "<p>ID : " & Theme_ID & "</p>"
+		Response.Write "<p>ID : " & Theme_Id & "</p>"
 		Response.Write "<p>"&ZC_MSG128&" : " & Theme_Author_Name & "</p>"
 		'Response.Write "<p>"&ZC_MSG054&":" & Theme_Author_Url & "</p>"
 		Response.Write "<p>"&ZC_MSG197&" : " & Theme_Source_Name & "</p>"
