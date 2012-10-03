@@ -428,24 +428,24 @@ Function WapEdtArt()
 	'upload
 	Response.Write "<iframe src="""&BlogHost&"zb_system/wap/upload.asp"" width=350 height=20 frameborder=0></iframe>"
 
-
-	Response.Write "<input type=""hidden"" name=""edtDateTime"" id=""edtDateTime"" value="""&EditArticle.PostTime&""" />"
-	
-	Response.Write "<p>"&ZC_MSG055&" ："
-	Response.Write "<textarea  name=""txaContent""  class=""i""  style=""min-height:160px;"">"&EditArticle.Content&"</textarea></p>"
-	Dim idis:idis="block"
-	If Len(EditArticle.Intro)=0 Then idis="none"
-	Response.Write "<p style=""display:"&idis&""">"&ZC_MSG016&" ："
-	Response.Write "<textarea  name=""txaIntro""  class=""i"" style=""min-height:100px;"">"&EditArticle.Intro&"</textarea></p>"
-
 	'istop
 	Response.Write "<p><span>"&ZC_MSG051&"</span> ："
     If EditArticle.Istop Then
 	Response.Write "<input type=""checkbox"" name=""edtIstop"" id=""edtIstop"" value=""True"" checked=""""/>"
     Else
-	Response.Write "<input type=""checkbox"" name=""edtIstop"" id=""edtIstop"" value=""True""/>"
+	Response.Write "<input type=""checkbox"" name=""edtIstop"" id=""edtIstop"" value=""True""/></p>"
     End If
-	Response.Write "<span style=""float:right""><input  type=""submit"" value="""&ZC_MSG087&""" /><b>&nbsp;&nbsp;&nbsp;</b></span></p>"
+
+	Response.Write "<input type=""hidden"" name=""edtDateTime"" id=""edtDateTime"" value="""&EditArticle.PostTime&""" />"
+	
+	Response.Write "<p>"&ZC_MSG055&" ：<br />"
+	Response.Write "<textarea  name=""txaContent""  class=""i""  style=""min-height:160px;width:98%"">"&EditArticle.Content&"</textarea></p>"
+	Dim idis:idis="block"
+	If Len(EditArticle.Intro)=0 Then idis="none"
+	Response.Write "<p style=""display:"&idis&""">"&ZC_MSG016&" ：<br />"
+	Response.Write "<textarea  name=""txaIntro""  class=""i"" style=""min-height:100px;width:98%"">"&EditArticle.Intro&"</textarea></p>"
+
+	Response.Write "<p class=""t""><input  type=""submit"" value="""&ZC_MSG087&""" /></p>"
 
 	Response.Write "</form><br />"
 	
@@ -811,15 +811,15 @@ Function WapCom()
 			Else
 				a=1:b=intPageCount
 			End If
-			PageBar=" <a href="""&WapUrlStr&"?act=Com&amp;id="&log_ID&"&amp;Page=1"">[&lt;]</a> "			
+			PageBar=" <a href="""&WapUrlStr&"?act=Com&amp;id="&log_ID&"&amp;Page=1"">&lt;</a> "			
 			For i=a to b 		
 				If i=CurrentPage Then
 				PageBar=PageBar&" "&i&" "
 				Else
-				PageBar=PageBar&" <a href="""&WapUrlStr&"?act=Com&amp;id="&log_ID&"&amp;Page="&i&""">["&i&"]</a> "
+				PageBar=PageBar&" <a href="""&WapUrlStr&"?act=Com&amp;id="&log_ID&"&amp;Page="&i&""">"&i&"</a> "
 				End If
 			Next
-			PageBar=PageBar&" <a href="""&WapUrlStr&"?act=Com&amp;id="&log_ID&"&amp;Page="&intPageCount&""">[&gt;]</a> "
+			PageBar=PageBar&" <a href="""&WapUrlStr&"?act=Com&amp;id="&log_ID&"&amp;Page="&intPageCount&""">&gt;</a> "
 		Else 
 			If CurrentPage>1 Then
 				If CurrentPage<intPageCount Then
@@ -834,7 +834,7 @@ Function WapCom()
 			End If
 		End If 
 
-		strC=strC&"</ul><div class=""a"">"&PageBar&"</div>"
+		strC=strC&"</ul><div class=""page"">"&PageBar&"</div>"
 
 		If log_ID<>0 Then strC=strC&"<p class=""t""><a href="""& WapUrlStr &"?act=AddCom&amp;inpId="&log_ID&""">"&ZC_MSG024&"</a></p>"
 		
@@ -896,7 +896,7 @@ Function WapView()
 					PageBar=""
 				End If			
 				
-				ArticleContent=ArticleContent&"<p>"&PageBar&"</p>"
+				ArticleContent=ArticleContent&"<div class=""page"">"&PageBar&"</div>"
 			End If 
 
 			If Article.Export(ZC_DISPLAY_MODE_ALL) Then
@@ -1295,16 +1295,16 @@ Function WapExportBar(intNowPage,intAllPage,intCateId,intAuthorId,dtmYearMonth,s
 				Else
 					a=1:b=intAllPage
 				End If
-				strPageBar=" <a href="""&WapUrlStr & t &"page=1"">[&lt;]</a> "			
+				strPageBar=" <a href="""&WapUrlStr & t &"page=1"">&lt;</a> "			
 				For i=a to b 		
 					If i=intNowPage Then
 					strPageBar=strPageBar&" "&i&" "
 					Else
-					strPageBar=strPageBar&" <a href="""&WapUrlStr& t &"page="&i&""">["&i&"]</a> "
+					strPageBar=strPageBar&" <a href="""&WapUrlStr& t &"page="&i&""">"&i&"</a> "
 					End If
 				Next
-				strPageBar=strPageBar&" <a href="""&WapUrlStr& t &"page="&intPageCount&""">[&gt;]</a> "
-				Template_PageBar="<p>"  & strPageBar & "</p>"	
+				strPageBar=strPageBar&" <a href="""&WapUrlStr& t &"page="&intPageCount&""">&gt;</a> "
+				Template_PageBar="<div class=""page"">"  & strPageBar & "</div>"	
 			Else 
 				If intNowPage>1 Then
 					If intNowPage<intAllPage Then
@@ -1317,7 +1317,7 @@ Function WapExportBar(intNowPage,intAllPage,intCateId,intAuthorId,dtmYearMonth,s
 				Else
 					strPageBar=""
 				End If
-				Template_PageBar="<p>" & strPageBar & "</p>"
+				Template_PageBar="<div class=""page"">" & strPageBar & "</div>"
 			End If 
 		End If
 
