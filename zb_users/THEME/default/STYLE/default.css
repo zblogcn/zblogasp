@@ -1,6 +1,4 @@
 ﻿/*--------------------------全--局-------------------------------*/
-
-
 body{
 	margin:0;
 	padding:0;
@@ -28,7 +26,7 @@ a:active {
 	text-decoration: none;
 }
 
-ul{
+ol,ul{
 	list-style-type:none;
 	list-style-position : outside;
 	margin:0 0 0 0;
@@ -416,12 +414,18 @@ div.post-body p{
 /*----------文章中引用code------*/
 
 div.post-body div.syntaxhighlighter{
-	overflow:hidden;
-}
-div.post-body p{
-	overflow:hidden;
+	margin: .5em 1em .5em 2em!important;
+	width:auto!important;
 }
 
+div.post-body li p{
+	overflow:visible;
+	text-indent: 0;
+	margin: 3px 0;
+}
+div.post-body ul,div.post-body ol{
+	margin-left:3.5em;
+}
 div.post-body code{
 	width: 93%;
 	padding:5px;

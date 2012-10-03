@@ -295,7 +295,6 @@ End If
 <!-- user( -->
                         <p>
                         <span class='editinputname'><%=ZC_MSG003%>:</span><select style="width:150px;" size="1" id="cmbUser" onChange="edtAuthorID.value=this.options[this.selectedIndex].value">
-                        <option value="0"></option>
                           <%
 	GetUser()
 	Dim User
