@@ -89,7 +89,7 @@
   padding: .5em 0 0.5em 1em !important;
 }
 .syntaxhighlighter table td.code {
-  width: 92% !important;
+  width: 95% !important;
   padding-top: 5px\9!important;
 }
 .syntaxhighlighter table td.code .container {
@@ -110,13 +110,13 @@
 }
 .syntaxhighlighter table td.gutter .line {
   text-align: right !important;
-  padding: 0 0.5em 0 1em !important;
+  padding: 0 0.5em 0 0.5em !important;
   /*太窄时右边的显示行数会下沉*/
   white-space:nowrap;
 }
 .syntaxhighlighter table td.code .line {
-  padding: 0 1em !important;
-  padding:1px 1em\9!important;
+  padding: 0 0.6em !important;
+  padding:1px 0.6em\9!important;
 }
 .syntaxhighlighter.nogutter td.code .container textarea, .syntaxhighlighter.nogutter td.code .line {
   padding-left: 0em !important;
@@ -247,7 +247,7 @@
   background-color: white !important;
 }
 .syntaxhighlighter .line.alt2 {
-  background-color: #fafafa !important;
+  background-color: #f9f9f9 !important;
 }
 /*.syntaxhighlighter .line.highlighted.alt1, .syntaxhighlighter .line.highlighted.alt2 {*/
   /*background-color: #e0e0e0 !important;*/
@@ -259,8 +259,8 @@
   color: black !important;
 }
 .syntaxhighlighter .gutter {
-  color: #000 !important;
-    padding: 5px !important;
+  color: #999 !important;
+  padding: 5px !important;
 }
 .syntaxhighlighter .gutter .line {
   border-right: 3px solid #6ce26c !important;
