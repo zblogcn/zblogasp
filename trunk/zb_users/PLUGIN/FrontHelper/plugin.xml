@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<plugin>
+<id>FrontHelper</id>
+<name>FrontHelper</name>
+<note>启用该插件后，前台网页向登录用户显示编辑、删除评论、删除引用、编辑文章链接。</note>
+<type>inline</type>
+<include>include.asp</include>
+<level>3</level>
+<author>
+	<name>Cloudream</name>
+	<url>http://labs.cloudream.name/z-blog/fronthelper/</url>
+	<email>cloudream@gmail.com</email>
+</author>
+<version>0.4</version>
+<modified>2008-9-6</modified>
+</plugin>
