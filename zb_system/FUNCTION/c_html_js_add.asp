@@ -25,9 +25,10 @@
 <!-- #include file="../function/c_system_plugin.asp" -->
 <!-- #include file="../../zb_users/plugin/p_config.asp" -->
 <% Response.Clear %>
+<% If ZC_SYNTAXHIGHLIGHTER_ENABLE Then%>
 $("head").append("<script src='<%=BlogHost%>zb_system/admin/ueditor/third-party/SyntaxHighlighter/shCore.js' type='text/javascript'></script>");
 $("head").append("<link rel='stylesheet' type='text/css' href='<%=BlogHost%>zb_system/admin/ueditor/third-party/SyntaxHighlighter/shCoreDefault.css'/>");
-
+<%End If%>
 var bloghost="<%=BlogHost%>";
 var str00="<%=BlogHost%>";
 var str01="<%=ZC_MSG033%>";
@@ -55,7 +56,7 @@ $(document).ready(function(){
 	$(".post-tags").each(function(){if($(this).find('a').length==0){$(this).hide()}});
 
 	$.getScript("<%=BlogHost%>zb_system/function/c_html_js.asp?act=batch"+unescape("%26")+"view=" + escape(strBatchView)+unescape("%26")+"inculde=" + escape(strBatchInculde)+unescape("%26")+"count=" + escape(strBatchCount));
-
+<%If ZC_SYNTAXHIGHLIGHTER_ENABLE Then%>
 		//为了在编辑器之外能展示高亮代码
     	 SyntaxHighlighter.highlight();
 
@@ -67,7 +68,7 @@ $(document).ready(function(){
                 	ri.style.height = li.style.height = ri.offsetHeight + 'px';
             	}
     	 }
-
+<%End If%>
 	if(GetCookie("username")!=""&&GetCookie("password")!=""){$.getScript("<%=BlogHost%>zb_system/function/c_html_js.asp?act=autoinfo")}
 
 	var s=document.location;
