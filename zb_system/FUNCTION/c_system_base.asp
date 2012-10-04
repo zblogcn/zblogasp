@@ -3627,4 +3627,22 @@ Function AddNavBar(id)
 
 End Function
 '*********************************************************
+'*********************************************************
+' 目的：  
+'*********************************************************
+Function GetCateIDByNameAndAlias(Name,Alias)
+	Dim aryCateInOrder : aryCateInOrder=GetCategoryOrder()
+	Dim m,n
+	For m=LBound(aryCateInOrder)+1 To Ubound(aryCateInOrder)
+		If Alias=Categorys(aryCateInOrder(m)).Alias Then
+			GetCateIDByNameAndAlias=Categorys(aryCateInOrder(m)).ID
+			Exit Function
+		End If
+		If Name=Categorys(aryCateInOrder(m)).Name Then
+			GetCateIDByNameAndAlias=Categorys(aryCateInOrder(m)).ID
+			Exit Function
+		End If
+	Next
+	GetCateIDByNameAndAlias=Empty
+End Function
 %>

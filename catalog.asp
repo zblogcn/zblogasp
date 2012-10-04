@@ -32,10 +32,16 @@ For Each sAction_Plugin_Catalog_Begin in Action_Plugin_Catalog_Begin
 	If Not IsEmpty(sAction_Plugin_Catalog_Begin) Then Call Execute(sAction_Plugin_Catalog_Begin)
 Next
 
+Dim cate
+If IsEmpty(Request.QueryString("cate")) Then
+	cate=GetCateIDByNameAndAlias(Request.QueryString("catename"),Request.QueryString("catealias"))
+Else
+	cate=Request.QueryString("cate")
+End If
 Dim ArtList
 Set ArtList=New TArticleList
 
-If ArtList.Export(Request.QueryString("page"),Request.QueryString("cate"),Request.QueryString("auth"),Request.QueryString("date"),Request.QueryString("tags"),ZC_DISPLAY_MODE_INTRO) Then
+If ArtList.Export(Request.QueryString("page"),cate,Request.QueryString("auth"),Request.QueryString("date"),Request.QueryString("tags"),ZC_DISPLAY_MODE_INTRO) Then
 	ArtList.Build
 	Response.Write ArtList.html
 End If
