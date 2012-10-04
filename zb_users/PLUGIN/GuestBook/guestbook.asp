@@ -41,7 +41,7 @@ Config.Load "GuestBook"
 Dim j
 j=Config.Read("g")
 If j<>"" Then
-	j=CInt(j)
+	j=CLng(j)
 	If j=0 Then Response.End 
 Else
 	Response.End 

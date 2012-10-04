@@ -800,8 +800,8 @@ Function WapCom()
 		
 		If ZC_DISPLAY_PAGEBAR_ALL_WAP Then
 			If intPageCount>ZC_PAGEBAR_COUNT_WAP Then
-				a=CurrentPage-Cint((ZC_PAGEBAR_COUNT_WAP-1)/2)
-				b=CurrentPage+ZC_PAGEBAR_COUNT_WAP-Cint((ZC_PAGEBAR_COUNT_WAP-1)/2)-1
+				a=CurrentPage-CLng((ZC_PAGEBAR_COUNT_WAP-1)/2)
+				b=CurrentPage+ZC_PAGEBAR_COUNT_WAP-CLng((ZC_PAGEBAR_COUNT_WAP-1)/2)-1
 				If a<=1 Then 
 					a=1:b=ZC_PAGEBAR_COUNT_WAP
 				End If
@@ -878,7 +878,7 @@ Function WapView()
 				ArticleContent=TransferHTML(ArticleContent,"[closehtml]")
 			Else 
 				PageCount = Int(Len(ArticleContent)/ZC_SINGLE_SIZE_WAP) + 1
-				ZC_SINGLE_START=Cint((CurrentPage-1)*ZC_SINGLE_SIZE_WAP+1)
+				ZC_SINGLE_START=CLng((CurrentPage-1)*ZC_SINGLE_SIZE_WAP+1)
 				If ZC_SINGLE_START<1 Then ZC_SINGLE_START=1
 				ArticleContent=TransferHTML(ArticleContent,"[html-format][wapnohtml][nbsp-br]")
 				ArticleContent=Mid(ArticleContent,ZC_SINGLE_START,ZC_SINGLE_SIZE_WAP)
@@ -1284,8 +1284,8 @@ Function WapExportBar(intNowPage,intAllPage,intCateId,intAuthorId,dtmYearMonth,s
 		If intAllPage>0 Then			
 			If ZC_DISPLAY_PAGEBAR_ALL_WAP  Then	
 				If intAllPage>ZC_PAGEBAR_COUNT_WAP Then
-					a=intNowPage-Cint((ZC_PAGEBAR_COUNT_WAP-1)/2)
-					b=intNowPage+ZC_PAGEBAR_COUNT_WAP-Cint((ZC_PAGEBAR_COUNT_WAP-1)/2)-1
+					a=intNowPage-CLng((ZC_PAGEBAR_COUNT_WAP-1)/2)
+					b=intNowPage+ZC_PAGEBAR_COUNT_WAP-CLng((ZC_PAGEBAR_COUNT_WAP-1)/2)-1
 					If a<=1 Then 
 						a=1:b=ZC_PAGEBAR_COUNT_WAP
 					End If
@@ -1336,7 +1336,7 @@ Public Function WapError()
 	ID=Request.QueryString("id")
 	If Not IsNumeric(ID) Then
 		ID=0
-	ElseIf CINT(ID)>Ubound(ZVA_ErrorMsg) Or CINT(ID)<0 Then
+	ElseIf CLng(ID)>Ubound(ZVA_ErrorMsg) Or CLng(ID)<0 Then
 		ID=0
 	End If
 	Response.Write WapTitle(ZVA_ErrorMsg(ID),"") & "<p class=""n"">"&ZVA_ErrorMsg(ID)&" <span class=""stamp""><a href=""javascript:history.go(-1)"">"&ZC_MSG065&"</a></span></p>"

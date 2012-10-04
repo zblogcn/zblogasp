@@ -520,11 +520,11 @@ Function ExportCommentList(intPage,intContent,isCheck)
 		For i=1 to objRS.PageSize
 			Dim objArticle
 			Set objArticle=New TArticle
-			If ArtDic.Exists(CInt(objRs("log_ID")))=False Then
+			If ArtDic.Exists(CLng(objRs("log_ID")))=False Then
 				objArticle.LoadInfoById objRs("log_ID")
-				ArtDic.Add CInt(objRs("log_ID")), objArticle
+				ArtDic.Add CLng(objRs("log_ID")), objArticle
 			Else
-				Set objArticle=ArtDic.Item(CInt(objRs("log_ID")))
+				Set objArticle=ArtDic.Item(CLng(objRs("log_ID")))
 			End If
 
 			Response.Write "<tr>"
@@ -943,7 +943,7 @@ Function ExportPluginMng()
 		If objXmlFile.parseError.errorCode <> 0 Then
 		Else
 
-			If CInt(objXmlFile.documentElement.selectSingleNode("plugin/level").text)>0 Then
+			If CLng(objXmlFile.documentElement.selectSingleNode("plugin/level").text)>0 Then
 
 				If Err.Number=0 Then
 
@@ -955,7 +955,7 @@ Function ExportPluginMng()
 					Response.Write "<td>" & objXmlFile.documentElement.selectSingleNode("version").text & "</td>"
 					Response.Write "<td>"& objXmlFile.documentElement.selectSingleNode("modified").text &"</td>"
 					Response.Write "<td align='center'>"
-					If BlogUser.Level<=CInt(objXmlFile.documentElement.selectSingleNode("plugin/level").text) Then
+					If BlogUser.Level<=CLng(objXmlFile.documentElement.selectSingleNode("plugin/level").text) Then
 						'If fso.FileExists(BlogPath & "zb_users/theme/" & ZC_BLOG_THEME & "/plugin/" & objXmlFile.documentElement.selectSingleNode("plugin/path").text) Then
 							Response.Write "<a href=""../../ZB_USERS/theme/" & ZC_BLOG_THEME & "/plugin/" & objXmlFile.documentElement.selectSingleNode("plugin/path").text &"""><img width='16' title='"&ZC_MSG022&"' alt='"&ZC_MSG022&"' src='../IMAGE/ADMIN/setting_tools.png'/></a>"
 						'End If
@@ -988,7 +988,7 @@ Function ExportPluginMng()
 			If objXmlFile.readyState=4 Then
 				If objXmlFile.parseError.errorCode <> 0 Then
 				Else
-					'If BlogUser.Level<=CInt(objXmlFile.documentElement.selectSingleNode("level").text) Then
+					'If BlogUser.Level<=CLng(objXmlFile.documentElement.selectSingleNode("level").text) Then
 
 			If CheckPluginState(objXmlFile.documentElement.selectSingleNode("id").text) Then
 				For j=0 To UBound(aryPL)
@@ -1042,7 +1042,7 @@ Function ExportPluginMng()
 			End If
 
 			If CheckPluginState(objXmlFile.documentElement.selectSingleNode("id").text) Then
-				If BlogUser.Level<=CInt(objXmlFile.documentElement.selectSingleNode("level").text) Then
+				If BlogUser.Level<=CLng(objXmlFile.documentElement.selectSingleNode("level").text) Then
 					If fso.FileExists(BlogPath & "zb_users/plugin/" & f1.name & "/" & objXmlFile.documentElement.selectSingleNode("path").text) Then
 						s=s & "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href=""../../ZB_USERS/plugin/" & f1.name & "/" & objXmlFile.documentElement.selectSingleNode("path").text &"""><img width='16' title='"&ZC_MSG022&"' alt='"&ZC_MSG022&"' src='../IMAGE/ADMIN/setting_tools.png'/></a>"
 					End If

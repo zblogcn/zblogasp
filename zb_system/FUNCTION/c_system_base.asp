@@ -708,7 +708,7 @@ End Function
 '*********************************************************
 Function CheckAuthorByID(intAuthorId)
 
-	CheckAuthorByID=Not objConn.Execute("SELECT [mem_ID] FROM [blog_Member] WHERE [mem_ID]=" & CInt(intAuthorId) ).BOF
+	CheckAuthorByID=Not objConn.Execute("SELECT [mem_ID] FROM [blog_Member] WHERE [mem_ID]=" & CLng(intAuthorId) ).BOF
 
 End Function
 '*********************************************************
@@ -721,7 +721,7 @@ End Function
 '*********************************************************
 Function CheckCateByID(intCateId)
 
-	CheckCateByID=Not objConn.Execute("SELECT [cate_ID] FROM [blog_Category] WHERE [cate_ID]=" & CInt(intCateId) ).BOF
+	CheckCateByID=Not objConn.Execute("SELECT [cate_ID] FROM [blog_Category] WHERE [cate_ID]=" & CLng(intCateId) ).BOF
 
 End Function
 '*********************************************************
@@ -887,7 +887,7 @@ Function MakeCalendar(dtmYearMonth)
 
 	If (Not objRS.bof) And (Not objRS.eof) Then
 		For i=1 To objRS.RecordCount
-			j=CInt(Day(CDate(objRS("log_PostTime"))))
+			j=CLng(Day(CDate(objRS("log_PostTime"))))
 			aryDateLink(j)=True
 			aryDateID(j)=objRS("log_ID")
 			Set aryDateArticle(j)=New TArticle
@@ -3071,14 +3071,14 @@ Next
 t = d.Keys
 For i = 0 To d.Count -1
 
-	If UBound(Users)>=CInt(t(i)) Then
+	If UBound(Users)>=CLng(t(i)) Then
 		If IsObject(Users(t(i)))=False Then 
 			j=j+1
-			s=s & "([mem_ID]="&CInt(t(i))&") Or"
+			s=s & "([mem_ID]="&CLng(t(i))&") Or"
 		End If
 	Else
 		j=j+1
-		s=s & "([mem_ID]="&CInt(t(i))&") Or"
+		s=s & "([mem_ID]="&CLng(t(i))&") Or"
 	End If
 	If j=100 Then
 		Call GetUsers_Sub(s)
@@ -3169,14 +3169,14 @@ Next
 t = d.Keys
 For i = 0 To d.Count -1
 
-	If UBound(Tags)>=CInt(t(i)) Then
+	If UBound(Tags)>=CLng(t(i)) Then
 		If IsObject(Tags(t(i)))=False Then 
 			j=j+1
-			s=s & "([tag_ID]="&CInt(t(i))&") Or"
+			s=s & "([tag_ID]="&CLng(t(i))&") Or"
 		End If
 	Else
 		j=j+1
-		s=s & "([tag_ID]="&CInt(t(i))&") Or"
+		s=s & "([tag_ID]="&CLng(t(i))&") Or"
 	End If
 	If j=100 Then
 		Call GetTags_Sub(s)
@@ -3432,7 +3432,7 @@ Function SearchChildComments(ByVal id,ByRef allcomm)
 	If (Not objRS.bof) And (Not objRS.eof) Then
 		Do While Not objRS.eof
 			If allcomm.Exists(objRS("comm_ID"))=False Then
-				allcomm.add CInt(objRS("comm_ID")),""
+				allcomm.add CLng(objRS("comm_ID")),""
 			End If
 			Call SearchChildComments(objRS("comm_ID"),allcomm)
 			objRS.MoveNext
@@ -3460,7 +3460,7 @@ Function AddBatch(name,actioncode)
 	End If
 
 	'检则是否未完成批操作,未完成的话不新增加批操作.
-	If Session("batch").Count <> CInt(Session("batchorder")) Then Exit Function
+	If Session("batch").Count <> CLng(Session("batchorder")) Then Exit Function
 
 	Dim i
 	i=Session("batchorder")+1
@@ -3627,6 +3627,10 @@ Function AddNavBar(id)
 
 End Function
 '*********************************************************
+
+
+
+
 '*********************************************************
 ' 目的：  
 '*********************************************************
@@ -3645,4 +3649,5 @@ Function GetCateIDByNameAndAlias(Name,Alias)
 	Next
 	GetCateIDByNameAndAlias=Empty
 End Function
+'*********************************************************
 %>

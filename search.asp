@@ -58,7 +58,7 @@ Dim objSubArticle
 
 Dim cate
 If IsEmpty(Request.QueryString("cate"))=False Then
-cate=CInt(Request.QueryString("cate"))
+cate=CLng(Request.QueryString("cate"))
 End If
 
 

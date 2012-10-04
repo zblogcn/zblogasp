@@ -603,7 +603,7 @@ Function CommentPost
 		If bAction_Plugin_CommentPost_Begin=True Then Exit Function
 	Next
 
-	If PostComment(Request.QueryString("key"),CInt(Request.Form("inpRevID"))) Then
+	If PostComment(Request.QueryString("key"),CLng(Request.Form("inpRevID"))) Then
 
 		Call ClearGlobeCache
 		Call LoadGlobeCache
@@ -672,7 +672,7 @@ Function CommentSav
 		If bAction_Plugin_CommentSav_Begin=True Then Exit Function
 	Next
 
-	If CInt(Request.QueryString("revid"))<>0 Then
+	If CLng(Request.QueryString("revid"))<>0 Then
 		If SaveRevComment() Then
 			Call SetBlogHint(True,True,Empty)
 			Call MakeBlogReBuild_Core()
@@ -848,7 +848,7 @@ Function UserMod()
 			If bAction_Plugin_UserMod_Succeed=True Then Exit Function
 		Next
 
-		If CInt(Request.Form("edtID"))=BlogUser.ID And Trim(Request.Form("edtPassWord"))<>"" Then
+		If CLng(Request.Form("edtID"))=BlogUser.ID And Trim(Request.Form("edtPassWord"))<>"" Then
 			Response.Redirect "cmd.asp?act=login"
 		End If
 
@@ -1384,7 +1384,7 @@ Function FunctionDel()
 	Next
 
 
-	If DelFunction(CInt(Request.QueryString("id")))=True Then
+	If DelFunction(CLng(Request.QueryString("id")))=True Then
 		Call SetBlogHint(True,True,Empty)
 		Call SaveFunctionType()
 		Call MakeBlogReBuild_Core()
@@ -1489,7 +1489,7 @@ End Function
 
 Function CommentGet()
 
-	Call GetComment(Request.QueryString("logid"),CInt(Request.QueryString("page")))
+	Call GetComment(Request.QueryString("logid"),CLng(Request.QueryString("page")))
 
 End Function
 
