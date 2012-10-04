@@ -35,7 +35,7 @@ Next
     oDic.Add "catchRemoteImageEnable"," false"
     oDic.Add "imageManagerUrl","URL+""asp/imageManager.asp"""
     oDic.Add "imageManagerPath",""""&BlogHost&""""
-    oDic.Add "wordImageUrl"," URL+""asp/picUp.asp"""
+    oDic.Add "wordImageUrl"," URL+""asp/imageUp.asp"""
     oDic.Add "wordImagePath",""""&Path&""""
     oDic.Add "wordImageFieldName","""edtFileLoad"""
     oDic.Add "getMovieUrl","URL+""asp/getMovie.asp"""
