@@ -182,7 +182,7 @@ Function PostArticle()
 	objArticle.Alias=Request.Form("edtAlias")
 	objArticle.Istop=Request.Form("edtIstop")
 	objArticle.TemplateName=Request.Form("edtTemplate")
-	objArticle.FType=CInt(Request.Form("edtFType"))
+	objArticle.FType=CLng(Request.Form("edtFType"))
 
 	objArticle.Intro=Request.Form("txaIntro")
 
@@ -895,7 +895,7 @@ Function EditUser()
 
 	Call GetMetaValuewithForm(objUser)
 
-	If Not((CInt(objUser.ID)=BlogUser.ID) Or (CheckRights("Root")=True)) Then Exit Function
+	If Not((CLng(objUser.ID)=BlogUser.ID) Or (CheckRights("Root")=True)) Then Exit Function
 
 	'接口
 	Call Filter_Plugin_EditUser_Core(objUser)
@@ -2002,7 +2002,7 @@ Function SaveFunction()
 	Dim objFunction
 	Set objFunction=New TFunction
 
-	If CInt(Request.Form("inpID"))>0 Then objFunction.LoadInfoByID(Request.Form("inpID"))
+	If CLng(Request.Form("inpID"))>0 Then objFunction.LoadInfoByID(Request.Form("inpID"))
 
 	objFunction.ID=Request.Form("inpID")
 	objFunction.Name=Request.Form("inpName")

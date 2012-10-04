@@ -736,7 +736,7 @@ Class TArticle
 		End If
 
 		If ID=0 Then
-			objConn.Execute("INSERT INTO [blog_Article]([log_CateID],[log_AuthorID],[log_Level],[log_Title],[log_Intro],[log_Content],[log_PostTime],[log_IP],[log_Tag],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_ViewNums],[log_Type],[log_Meta]) VALUES ("&CateID&","&AuthorID&","&Level&",'"&Title&"','"&Intro&"','"&Content&"','"&PostTime&"','"&IP&"','"&Tag&"','"&Alias&"',"&CInt(Istop)&",'"&TemplateName&"','"&FullUrl&"',0,"&CInt(FType)&",'"&MetaString&"')")
+			objConn.Execute("INSERT INTO [blog_Article]([log_CateID],[log_AuthorID],[log_Level],[log_Title],[log_Intro],[log_Content],[log_PostTime],[log_IP],[log_Tag],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_ViewNums],[log_Type],[log_Meta]) VALUES ("&CateID&","&AuthorID&","&Level&",'"&Title&"','"&Intro&"','"&Content&"','"&PostTime&"','"&IP&"','"&Tag&"','"&Alias&"',"&CLng(Istop)&",'"&TemplateName&"','"&FullUrl&"',0,"&CLng(FType)&",'"&MetaString&"')")
 			Dim objRS
 			Set objRS=objConn.Execute("SELECT MAX([log_ID]) FROM [blog_Article]")
 			If (Not objRS.bof) And (Not objRS.eof) Then
@@ -744,7 +744,7 @@ Class TArticle
 			End If
 			Set objRS=Nothing
 		Else
-			objConn.Execute("UPDATE [blog_Article] SET [log_CateID]="&CateID&",[log_AuthorID]="&AuthorID&",[log_Level]="&Level&",[log_Title]='"&Title&"',[log_Intro]='"&Intro&"',[log_Content]='"&Content&"',[log_PostTime]='"&PostTime&"',[log_IP]='"&IP&"',[log_Tag]='"&Tag&"',[log_Url]='"&Alias&"',[log_Istop]="&CInt(Istop)&",[log_Template]='"&TemplateName&"',[log_FullUrl]='"&FullUrl&"',[log_Type]="&CInt(FType)&",[log_Meta]='"&MetaString&"' WHERE [log_ID] =" & ID)
+			objConn.Execute("UPDATE [blog_Article] SET [log_CateID]="&CateID&",[log_AuthorID]="&AuthorID&",[log_Level]="&Level&",[log_Title]='"&Title&"',[log_Intro]='"&Intro&"',[log_Content]='"&Content&"',[log_PostTime]='"&PostTime&"',[log_IP]='"&IP&"',[log_Tag]='"&Tag&"',[log_Url]='"&Alias&"',[log_Istop]="&CLng(Istop)&",[log_Template]='"&TemplateName&"',[log_FullUrl]='"&FullUrl&"',[log_Type]="&CLng(FType)&",[log_Meta]='"&MetaString&"' WHERE [log_ID] =" & ID)
 		End If
 
 		Post=True
@@ -983,7 +983,7 @@ Class TArticle
 		For Each s In alltree.Keys
 
 			If alltree.Item(s)=id Then
-				t=Replace(t,"<!--rev"&id&"-->","<!--rev"&id&"-->" & alltemplate.Item(CInt(s) ) )
+				t=Replace(t,"<!--rev"&id&"-->","<!--rev"&id&"-->" & alltemplate.Item(CLng(s) ) )
 				Call SearchChildCommentsInDic(s,t,alltree,alltemplate)
 				SearchChildCommentsInDic=True
 			End If
@@ -3057,14 +3057,14 @@ Class TComment
 		End If
 
 		If ID=0 Then
-			objConn.Execute("INSERT INTO [blog_Comment]([log_ID],[comm_AuthorID],[comm_Author],[comm_Content],[comm_Email],[comm_HomePage],[comm_IP],[comm_PostTime],[comm_Agent],[comm_Reply],[comm_LastReplyIP],[comm_LastReplyTime],[comm_ParentID],[comm_IsCheck],[comm_Meta]) VALUES ("&log_ID&","&AuthorID&",'"&Author&"','"&Content&"','"&Email&"','"&HomePage&"','"&IP&"','"&PostTime&"','"&Agent&"','"&Reply&"','"&LastReplyIP&"','"&LastReplyTime&"','"&ParentID&"',"&CInt(IsCheck)&",'"&MetaString&"')")
+			objConn.Execute("INSERT INTO [blog_Comment]([log_ID],[comm_AuthorID],[comm_Author],[comm_Content],[comm_Email],[comm_HomePage],[comm_IP],[comm_PostTime],[comm_Agent],[comm_Reply],[comm_LastReplyIP],[comm_LastReplyTime],[comm_ParentID],[comm_IsCheck],[comm_Meta]) VALUES ("&log_ID&","&AuthorID&",'"&Author&"','"&Content&"','"&Email&"','"&HomePage&"','"&IP&"','"&PostTime&"','"&Agent&"','"&Reply&"','"&LastReplyIP&"','"&LastReplyTime&"','"&ParentID&"',"&CLng(IsCheck)&",'"&MetaString&"')")
 			Set objRS=objConn.Execute("SELECT MAX([comm_ID]) FROM [blog_Comment]")
 			If (Not objRS.bof) And (Not objRS.eof) Then
 				ID=objRS(0)
 			End If
 			Set objRS=Nothing
 		Else
-			objConn.Execute("UPDATE [blog_Comment] SET [log_ID]="&log_ID&", [comm_AuthorID]="&AuthorID&",[comm_Author]='"&Author&"',[comm_Content]='"&Content&"',[comm_Email]='"&Email&"',[comm_HomePage]='"&HomePage&"',[comm_IP]='"&IP&"',[comm_PostTime]='"&PostTime&"',[comm_Agent]='"&Agent&"',[comm_Reply]='"&Reply&"',[comm_LastReplyIP]='"&LastReplyIP&"',[comm_LastReplyTime]='"&LastReplyTime&"',[comm_ParentID]='"&ParentID&"',[comm_IsCheck]="&CInt(IsCheck)&",[comm_Meta]='"&MetaString&"' WHERE [comm_ID] =" & ID)
+			objConn.Execute("UPDATE [blog_Comment] SET [log_ID]="&log_ID&", [comm_AuthorID]="&AuthorID&",[comm_Author]='"&Author&"',[comm_Content]='"&Content&"',[comm_Email]='"&Email&"',[comm_HomePage]='"&HomePage&"',[comm_IP]='"&IP&"',[comm_PostTime]='"&PostTime&"',[comm_Agent]='"&Agent&"',[comm_Reply]='"&Reply&"',[comm_LastReplyIP]='"&LastReplyIP&"',[comm_LastReplyTime]='"&LastReplyTime&"',[comm_ParentID]='"&ParentID&"',[comm_IsCheck]="&CLng(IsCheck)&",[comm_Meta]='"&MetaString&"' WHERE [comm_ID] =" & ID)
 		End If
 
 		Post=True
@@ -3707,7 +3707,7 @@ Class TUpLoadFile
 		If Len(FileName)>255 Then FileName=Right(FileName,255)
 		PostTime=GetTime(Now())
 
-		objConn.Execute("INSERT INTO [blog_UpLoad]([ul_AuthorID],[ul_FileSize],[ul_FileName],[ul_PostTime],[ul_FileIntro],[ul_DirByTime],[ul_Quote],[ul_Meta]) VALUES ("& AuthorID &","& FileSize &",'"& FileName &"','"& PostTime &"','"&FileIntro&"',"&CInt(DirByTime)&",'"&Quote&"','"&MetaString&"')")
+		objConn.Execute("INSERT INTO [blog_UpLoad]([ul_AuthorID],[ul_FileSize],[ul_FileName],[ul_PostTime],[ul_FileIntro],[ul_DirByTime],[ul_Quote],[ul_Meta]) VALUES ("& AuthorID &","& FileSize &",'"& FileName &"','"& PostTime &"','"&FileIntro&"',"&CLng(DirByTime)&",'"&Quote&"','"&MetaString&"')")
 
 		Dim strUPLOADDIR
 
@@ -4834,7 +4834,7 @@ Class TFunction
 		Content=TransferHTML(FilterSQL(Content),"[anti-zc_blog_host]")
 
 		If ID=0 Then
-			objConn.Execute("INSERT INTO [blog_Function]([fn_Name],[fn_FileName],[fn_Order],[fn_Content],[fn_IsSystem],[fn_SidebarID],[fn_HtmlID],[fn_Ftype],[fn_MaxLi],[fn_Meta]) VALUES ('"&Name&"','"&FileName&"',"&Order&",'"&Content&"',"&CInt(IsSystem)&","&SidebarID&",'"&HtmlID&"','"&Ftype&"',"&MaxLi&",'"&MetaString&"')")
+			objConn.Execute("INSERT INTO [blog_Function]([fn_Name],[fn_FileName],[fn_Order],[fn_Content],[fn_IsSystem],[fn_SidebarID],[fn_HtmlID],[fn_Ftype],[fn_MaxLi],[fn_Meta]) VALUES ('"&Name&"','"&FileName&"',"&Order&",'"&Content&"',"&CLng(IsSystem)&","&SidebarID&",'"&HtmlID&"','"&Ftype&"',"&MaxLi&",'"&MetaString&"')")
 
 			Dim objRS
 			Set objRS=objConn.Execute("SELECT MAX([fn_ID]) FROM [blog_Function]")
@@ -4843,7 +4843,7 @@ Class TFunction
 			End If
 
 		Else
-			objConn.Execute("UPDATE [blog_Function] SET [fn_Name]='"&Name&"',[fn_FileName]='"&FileName&"',[fn_Order]="&Order&",[fn_Content]='"&Content&"',[fn_IsSystem]="&CInt(IsSystem)&",[fn_SidebarID]="&SidebarID&",[fn_HtmlID]='"&HtmlID&"',[fn_Ftype]='"&Ftype&"',[fn_MaxLi]="&MaxLi&",[fn_Meta]='"&MetaString&"' WHERE [fn_ID] =" & ID)
+			objConn.Execute("UPDATE [blog_Function] SET [fn_Name]='"&Name&"',[fn_FileName]='"&FileName&"',[fn_Order]="&Order&",[fn_Content]='"&Content&"',[fn_IsSystem]="&CLng(IsSystem)&",[fn_SidebarID]="&SidebarID&",[fn_HtmlID]='"&HtmlID&"',[fn_Ftype]='"&Ftype&"',[fn_MaxLi]="&MaxLi&",[fn_Meta]='"&MetaString&"' WHERE [fn_ID] =" & ID)
 		End If
 
 		Post=True
@@ -4910,14 +4910,14 @@ Class TFunction
 
 	Public Function GetNewID()
 
-		GetNewID=CInt(objConn.Execute("SELECT TOP 1 [fn_ID] FROM [blog_Function] ORDER BY [fn_ID] DESC")(0))+1
+		GetNewID=CLng(objConn.Execute("SELECT TOP 1 [fn_ID] FROM [blog_Function] ORDER BY [fn_ID] DESC")(0))+1
 
 	End Function
 
 
 	Public Function GetNewOrder()
 
-		GetNewOrder=CInt(objConn.Execute("SELECT TOP 1 [fn_Order] FROM [blog_Function] ORDER BY [fn_Order] DESC")(0))+1
+		GetNewOrder=CLng(objConn.Execute("SELECT TOP 1 [fn_Order] FROM [blog_Function] ORDER BY [fn_Order] DESC")(0))+1
 
 	End Function
 
