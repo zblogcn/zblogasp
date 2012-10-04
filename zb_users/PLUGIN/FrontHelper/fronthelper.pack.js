@@ -4,17 +4,17 @@ $(document).ready(function() {
         c,
         b,
         d = 0;
-        if ($('p[@codetype=post]').length > 0) {
-            d = $('p[@codetype=post]').attr('entryid')
+        if ($('p[codetype=post]').length > 0) {
+            d = $('p[codetype=post]').attr('entryid')
         }
         $('p.cloudreamHelperLink').css('display', 'block').css('text-align', 'right').each(function() {
             a = $(this);
             c = a.attr('codetype');
             b = a.attr('entryid');
             if (c == "comment") {
-                a.append('[<a class="helperLink" href="' + bloghost + 'zb_system/ADMIN/admin_default.asp?act=CommentEdt&amp;id=' + b + '&amp;log_id=' + d + '">编辑</a>]&nbsp;[<a class="helperGet" href="' + bloghost + 'zb_system/cmd.asp?act=CommentDel&amp;id=' + b + '&amp;log_id=' + d + '">删除</a>]')
+                a.append('[<a class="helperLink" href="' + bloghost + 'zb_system/cmd.asp?act=CommentEdt&amp;revid=0&amp;id=' + b + '&amp;log_id=' + d + '">编辑</a>]&nbsp;[<a class="helperGet" href="' + bloghost + 'zb_system/cmd.asp?act=CommentDel&amp;id=' + b + '&amp;log_id=' + d + '">删除</a>]')
             } else if (c == "postmulti" || c == "post") {
-                a.append('[<a class="helperLink" href="' + bloghost + 'zb_system/ADMIN/admin_default.asp?act=ArticleEdt&amp;type=ueditor&amp;id=' + b + '">编辑</a>]')
+                a.append('[<a class="helperLink" href="' + bloghost + 'zb_system/cmd.asp?act=ArticleEdt&amp;webedit=ueditor&amp;id=' + b + '">编辑</a>]')
             }
         });
         $('a.helperLink').attr("target", "_0");
