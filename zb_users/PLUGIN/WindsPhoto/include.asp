@@ -151,7 +151,7 @@ Function WindsPhoto_uEditorUpload()
 	Call WindsPhoto_Initialize
 	If WP_BLOGPHOTO_ID <> 0 then 
 		zhuanti=WP_BLOGPHOTO_ID
-		If Instr(Request.ServerVariables("URL"),"picUp.asp") Then 
+		If Instr(Request.ServerVariables("URL"),"imageUp.asp") Then 
 			dim upload,file,state,uploadPath,PostTime
 			Randomize
 			
