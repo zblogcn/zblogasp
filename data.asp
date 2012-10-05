@@ -27,35 +27,67 @@
 Dim objRs
 'On Error Resume NEXT
 Dim PS,NowPage
+Dim log_id
+log_id=199
 PS=100
-NowPage=1
+NowPage=2201
 Call OpenConnect
+Dim AllComs
+Test0
+Response.Flush()
+Test1
+Response.Flush()
+Test2
 
+Sub Test0
+	StarTime=Timer
+	AllComs=objConn.Execute("SELECT COUNT([log_ID]) FROM [blog_Comment] WHERE [log_ID] ="&log_id&" AND [comm_isCheck]=0")(0)
+	Response.Write "LogID: " &log_id&"<br/>"
+	Response.write "CommentCount: "&AllComs&"<br/>"
+	Response.write "PageSize: "&PS&"<br/>"
+	Response.write "NowPage: "&NowPage&"<br/>"
+	Response.Write "RunTime: " & RunTime&"<br/><br/>"
+End Sub
 
-'测试代码1
-StarTime=Timer
-Set objRS=Server.CreateObject("ADODB.Recordset")
-objRS.CursorType = adOpenKeyset
-objRS.LockType = adLockReadOnly
-objRS.ActiveConnection=objConn
-objRS.Source="SELECT * FROM [blog_Comment] WHERE ([log_ID]=199 AND [comm_isCheck]=0 AND [comm_ParentID]=0)  ORDER BY [comm_PostTime] DESC"
-objRS.Open()
-objRS.PageSize=PS
-objRS.AbsolutePage =NowPage
-Response.Write RunTime & "&nbsp;" & objRs("comm_id")
-Set objRs=Nothing
+Sub Test1
+	'测试代码1
+	StarTime=Timer
+	Set objRS=Server.CreateObject("ADODB.Recordset")
+	objRS.CursorType = adOpenKeyset
+	objRS.LockType = adLockReadOnly
+	objRS.ActiveConnection=objConn
+	objRS.Source="SELECT * FROM [blog_Comment] WHERE ([log_ID]="&log_id&" AND [comm_isCheck]=0 AND [comm_ParentID]=0)  ORDER BY [comm_PostTime] DESC"
+	objRS.Open()
+	objRS.PageSize=PS
+	objRS.AbsolutePage =NowPage
+	Response.Write "---------TEST1---------<br/>"
+	Response.Write "Type: PageSize+AbsolutePage<br/>"
+	Response.Write "RunTime: "&RunTime &"<br/>"
+	Response.Write "Comm_id: "& objRs("comm_id")&"<br/>"
+	Response.Write "---------TEST1---------<br/><br/>"
+	Set objRs=Nothing
+End Sub
 
-
-'测试代码2
-StarTime=Timer
-Set objRS=Server.CreateObject("ADODB.Recordset")
-Dim Page1
-Page1=objConn.Execute ("select top 1 [comm_id] from (SELECT TOP "&PS&" [comm_id] FROM [BLOG_COMMENT]  WHERE ([log_ID]=199 AND [comm_isCheck]=0 AND [comm_ParentID]=0) order by [comm_id] asc) as [a] order by [comm_id] desc")(0)
-objRS.CursorType = adOpenKeyset
-objRS.LockType = adLockReadOnly
-objRS.ActiveConnection=objConn
-objRS.Source="SELECT * FROM (SELECT TOP "&PS&" *  FROM (SELECT TOP "&(PS*NowPage)&" * FROM [blog_Comment]  WHERE ([log_ID]=199 AND [comm_isCheck]=0 AND [comm_ParentID]=0) ORDER BY [comm_id] DESC) As [Test] ORDER BY [comm_id] asc ) As [test] order by [comm_posttime] desc"
-objRS.Open()
-If objRs("comm_id")=Page1 And NowPage<>1 Then Response.Write "err"':Response.END
-Response.Write "<br/>"&RunTime & "&nbsp;" & objRs("comm_id")
+Sub Test2
+	'测试代码2
+	Dim PageSize2
+	PageSize2=PS
+	StarTime=Timer
+	Set objRS=Server.CreateObject("ADODB.Recordset")
+	objRS.CursorType = adOpenKeyset
+	objRS.LockType = adLockReadOnly
+	objRS.ActiveConnection=objConn
+	If PS*NowPage>AllComs Then
+		PageSize2=CLng(AllComs Mod PS)
+		If PS*(NowPage-1)+PageSize2>AllComs Then Response.Write "Error!":Response.End
+	End If
+	objRS.Source="SELECT * FROM (SELECT TOP "&PageSize2&" *  FROM (SELECT TOP "&(PS*NowPage)&" * FROM [blog_Comment]  WHERE ([log_ID]="&log_id&" AND [comm_isCheck]=0 AND [comm_ParentID]=0) ORDER BY [comm_id] DESC) As [Test] ORDER BY [comm_id] asc ) As [test] order by [comm_posttime] desc"
+	objRS.Open()
+	Response.Write "---------TEST2---------<br/>"
+	Response.Write "Type: Double Top<br/>"
+	Response.Write "PageSize2: "&PageSize2 & "<br/>"
+	Response.Write "RunTime: "&RunTime &"<br/>"
+	Response.Write "Comm_id: "& objRs("comm_id")&"<br/>"
+	Response.Write "---------TEST2---------<br/><br/>"
+End Sub
 %>
