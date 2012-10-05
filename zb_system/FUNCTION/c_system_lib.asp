@@ -844,31 +844,26 @@ Class TArticle
 			objRS.CursorType = adOpenKeyset
 			objRS.LockType = adLockReadOnly
 			objRS.ActiveConnection=objConn
-			objRS.Source="SELECT * FROM [blog_Comment] WHERE ([log_ID]=" & ID &" AND [comm_isCheck]=0 AND [comm_ParentID]=0)  ORDER BY [comm_PostTime] DESC"
-			objRS.Open()
 
-
-			If ZC_COMMENTS_DISPLAY_COUNT>0 Then
-
-				Dim intPageAll
-				objRS.PageSize=ZC_COMMENTS_DISPLAY_COUNT
-				If intPage<1 Then intPage=1
-				intPageAll=objRS.PageCount
-				j=objRS.PageSize
-
-				If intPage>intPageAll Then
-					objRS.Close()
-					Set objRS=Nothing
+			Dim PageSize2,PageSize3
+			PageSize2=ZC_COMMENTS_DISPLAY_COUNT
+			PageSize3=ZC_COMMENTS_DISPLAY_COUNT
+			If intPage<1 Then intPage=1
+			If PageSize3*intPage>CommNums Then
+				PageSize2=CLng(CommNums Mod PageSize3)
+				If PageSize3*(intPage-1)+PageSize2>CommNums Then
 					Template_Article_Comment="<span style=""display:none;"" id=""AjaxCommentBegin""></span>" & Template_Article_Comment & "<span style=""display:none;"" id=""AjaxCommentEnd""></span>"
 					Export_CMTandTB=True
 					Exit Function
 				End If
-
-				objRS.AbsolutePage = intPage
-
-			Else
-				j=objRS.RecordCount
 			End If
+			j=PageSize2
+			
+			objRS.Source="SELECT * FROM (SELECT TOP "&PageSize2&" *  FROM (SELECT TOP "&(PageSize3*intPage)&" * FROM [blog_Comment]  WHERE ([log_ID]="&id&" AND [comm_isCheck]=0 AND [comm_ParentID]=0) ORDER BY [comm_id] DESC) As [Test] ORDER BY [comm_id] asc ) As [test] order by [comm_posttime] desc"
+			objRS.Open()
+			j=PageSize2
+			Dim intPageAll
+			intPageAll=CLng(CommNums/PageSize3)
 
 
 			If (Not objRS.bof) And (Not objRS.eof) Then
