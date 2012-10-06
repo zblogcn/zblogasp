@@ -27,7 +27,7 @@ Call System_Initialize()
 
 LoadGlobeCache
 
-Call dztaotao_Initialize
+Call dztaotao_Initialize()
 
 Dim ArtList
 Set ArtList=New TArticle
@@ -44,8 +44,14 @@ Dim i,j
 Dim headstr'定义加载css样式
 dim adc1,adc2,adc3,adc4
 dim t_rndnumber , t_rndName
+
+if BlogUser.Name = "来宾" then
 t_rndnumber = RndNumber(1,7)
 t_rndName = rndName(t_rndnumber)
+else
+t_rndName = BlogUser.Name
+end if
+
 
 
 taotao = "<link rel=""stylesheet"" type=""text/css"" media=""all"" href="""&ZC_BLOG_HOST&"zb_users/plugin/dztaotao/images/css.css"" />"&vbcrlf
@@ -55,7 +61,7 @@ taotao = taotao & "<script type=""text/javascript"" src="""&ZC_BLOG_HOST&"zb_use
 taotao = taotao & "<script type=""text/javascript"" src="""&ZC_BLOG_HOST&"zb_users/plugin/dztaotao/images/artZoom.js""></script>"&vbcrlf
 
 
-if DZTAOTAO_RELEASE_VALUE = BlogUser.Level or DZTAOTAO_RELEASE_VALUE = 5 then
+if int(DZTAOTAO_RELEASE_VALUE) = cint(BlogUser.Level) or cint(DZTAOTAO_RELEASE_VALUE) = 5 then
 
 '发表淘淘表单
 taotao = taotao & "<form id=""form1"" enctype=""multipart/form-data"" method=""post"" ><div class=""dialog"" id=""dialog"" style="""">	<div class=""trans-box"" id=""dialogBoxtalk"">    	<div class=""dialog-title""><img height=""23"" width=""165"" src="""&ZC_BLOG_HOST&"zb_users/PLUGIN/dztaotao/images/img-talk.png""><div class=""dialog-talktip""></div><a id=""dialogClose"" class=""dialog-close"" onfocus=""this.blur()"" href=""javascript:void(0);"" onclick=""closeDialog();return false;""></a></div><div id=""msg"" style=""display:""></div><div id=""deldiv""></div><textarea id=""s_content"" class=""comment-textarea"" rows="""" cols="""" name=""s_content"" style=""color: rgb(153, 153, 153);""></textarea>"&vbcrlf
@@ -65,7 +71,7 @@ if DZTAOTAO_ISIMG_VALUE = 1 then
 taotao = taotao & "<input type=""hidden"" name=""u_img"" id=""u_img""><input type=""hidden"" name=""s_img"" id=""s_img""><div><input type=""file"" name=""uploadify"" id=""uploadify"" /><a href=""javascript:$('#uploadify').uploadifyUpload()"" style=""display:none"">上传</a> <a href=""javascript:$('#uploadify').uploadifyClearQueue()"" style=""display:none""> 取消上传</a><div id=""fileQueue""></div></div>"&vbcrlf
 end if
 
-taotao = taotao & "<div class=""dialog-set""><span class=""talk-label"">昵称：<input type=""text"" value=""匿名"" id=""username"" class=""label-txt"" name=""username"" style=""color:#999;""><input type=""text"" style=""display:none;""></span>    <div class=""btn-talk""><span>博客：<input type=""text"" value="""" id=""s_site"" class=""label-txt"" name=""s_site"" style=""color:#999;""></span><a class=""btn-dialog submit"" href=""javascript:;"" onclick=""subInfo();return false;"" id=""submit_btn"">发表</a></div>    <br clear=""all""> </div> <div class=""pink-con""> <p><span class=""highlight"">备注：</span>给我们讲一个，让我们和你一起乐哈哈~</p><p>您发表的内容我们会进行审核，正文中包含链接地址，广告，垃圾信息，政治相关或色情描写的内容将会被删除。</p> </div>    </div></div></form>"&vbcrlf
+taotao = taotao & "<div class=""dialog-set""><span class=""talk-label"">昵称：<input type=""text"" value="""&BLogUser.Name&""" id=""username"" class=""label-txt"" name=""username"" style=""color:#999;""><input type=""text"" style=""display:none;""></span>    <div class=""btn-talk""><span>博客：<input type=""text"" value="""&BlogUser.HomePage&""" id=""s_site"" class=""label-txt"" name=""s_site"" style=""color:#999;""></span><a class=""btn-dialog submit"" href=""javascript:;"" onclick=""subInfo();return false;"" id=""submit_btn"">发表</a></div>    <br clear=""all""> </div> <div class=""pink-con""> <p><span class=""highlight"">备注：</span>给我们讲一个，让我们和你一起乐哈哈~</p><p>您发表的内容我们会进行审核，正文中包含链接地址，广告，垃圾信息，政治相关或色情描写的内容将会被删除。</p> </div>    </div></div></form>"&vbcrlf
 
 
 '发表按钮
@@ -122,7 +128,7 @@ If (Not objRS.bof) And (Not objRS.eof) Then
 		
 		taotao = taotao & "           </div><div class=""clear""></div></div></div><div class=""item-infor""><div class=""infor-text""><img src="""&ZC_BLOG_HOST&"zb_users/plugin/dztaotao/images/default.jpg"" id=""authoricon""> <span>"&objRS("username")&"</span> <span>"&objRS("addtime")&" 发布</span></div><div class=""infor-set""><a onclick=""dingUp("&objRS("id")&")"" class=""btn-up"" onfocus=""this.blur()"" href=""javascript:;"">称赞</a> <span id=""ding_"&objRS("id")&""" class=""scroe-up highlight"">"&objRS("ttop")&"</span> <a onclick=""dingDown("&objRS("id")&")"" class=""btn-down"" onfocus=""this.blur()"" href=""javascript:;"">鄙视</a> <span class=""scroe-down highlight"" id=""tread_"&objRS("id")&""">"&objRS("tread")&"</span> | <a onclick=""showReply("&objRS("id")&")"" class=""comment"" id=""commtent-"&objRS("id")&""" onfocus=""this.blur()"" title=""点击展开评论"" href=""javascript:;"">评论("&objRS("comments")&")</a></div></div><div class=""item-comment"" style=""display:none"" id=""item-comment-"&objRS("id")&"""><div class=""clear""></div>         <div id=""blueCon-"&objRS("id")&""" class=""blue-con"" style=""padding: 10px 10px 0pt;"">"&vbcrlf
 		
-		taotao = taotao & "<table border=""0""><tr><td><div id=""shortcut-key"&objRS("id")&"""></div></td></tr><tr><td><textarea id=""r_content_"&objRS("id")&""" class=""comment-textarea"" name=""r_content_"&objRS("id")&"""></textarea></td></tr>   <tr style=""display:none;""><td>昵称：<input type=""text"" name=""r_username_"&objRS("id")&""" id=""r_username_"&objRS("id")&""" value="""&t_rndName&""">    邮箱：<input type=""text"" name=""r_email_"&objRS("id")&""" id=""r_email_"&objRS("id")&""">    网址：<input type=""text"" name=""r_site_"&objRS("id")&""" id=""r_site_"&objRS("id")&"""></td></tr></table>"&vbcrlf
+		taotao = taotao & "<table border=""0""><tr><td><div id=""shortcut-key"&objRS("id")&"""></div></td></tr><tr><td><textarea id=""r_content_"&objRS("id")&""" class=""comment-textarea"" name=""r_content_"&objRS("id")&"""></textarea></td></tr>   <tr style=""display:;""><td>昵称：<input type=""text"" name=""r_username_"&objRS("id")&""" id=""r_username_"&objRS("id")&""" value="""&t_rndName&""">    邮箱：<input type=""text"" name=""r_email_"&objRS("id")&""" value="""&BlogUser.Email&""" id=""r_email_"&objRS("id")&""">    网址：<input type=""text"" name=""r_site_"&objRS("id")&""" id=""r_site_"&objRS("id")&""" value="""&BlogUser.HomePage&"""></td></tr></table>"&vbcrlf
 		
 
 		taotao = taotao & "<div class=""discuss-login""><a id=""send-"&objRS("id")&""" class=""btn-send"" href=""javascript:;"" onclick=""postCmt("&objRS("id")&")"">发表评论</a><span class=""comments-leave"">最好不要超过200个字符</span></div></div><div id=""msg-"&objRS("id")&""" class=""comment-msg""></div>          <div id=""comments-"&objRS("id")&""" class=""comment-list"">"&vbcrlf & vbcrlf
@@ -133,7 +139,13 @@ If (Not objRS.bof) And (Not objRS.eof) Then
 		set r_rs=objConn.execute("select * from dz_comment where tt_id = "&objRS("id")&" and itype=0 order by id desc")
 		if not r_rs.eof then
 		do while not r_rs.eof
-		taotao = taotao & "<!--comment start--><div id=""jitem-"&r_rs("id")&""" class=""item""><div class=""comment-box""><a href="""&r_rs("u_site")&""" class=""discuss-pic""><img height=""32"" width=""32"" src="""&ZC_BLOG_HOST&"zb_users/plugin/dztaotao/images/default.jpg""></a><div class=""discuss-con""><div class=""con-bar dash-boder""><a href="""&r_rs("u_site")&""" class=""name"">"&r_rs("u_sername")&"</a><span class=""time"">"&r_rs("addtime")&"发表</span> </div><p>"&r_rs("content")&"</p></div><div class=""clear""></div></div></div><!-- end comment-->"&vbcrlf & vbcrlf
+		taotao = taotao & "<!--comment start--><div id=""jitem-"&r_rs("id")&""" class=""item""><div class=""comment-box""><a href="""&r_rs("u_site")&""" class=""discuss-pic"">"
+			if r_rs("u_email") <> "" then
+			taotao = taotao & "<img height=""32"" width=""32"" src=""http://www.gravatar.com/avatar/"&MD5(r_rs("u_email"))&"?s=40&d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&r=G"">"&vbcrlf & vbcrlf
+			else
+			taotao = taotao & "<img height=""32"" width=""32"" src="""&ZC_BLOG_HOST&"zb_users/plugin/dztaotao/images/default.jpg"">"&vbcrlf & vbcrlf
+			end if
+		taotao = taotao & "</a><div class=""discuss-con""><div class=""con-bar dash-boder""><a href="""&r_rs("u_site")&""" class=""name"" target=""_blank"">"&r_rs("u_sername")&"</a><span class=""time"">"&r_rs("addtime")&"发表</span> </div><p>"&r_rs("content")&"</p></div><div class=""clear""></div></div></div><!-- end comment-->"&vbcrlf & vbcrlf
 		r_rs.movenext
 		loop
 		end if
