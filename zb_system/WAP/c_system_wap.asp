@@ -651,7 +651,7 @@ End Function
 
 
 '*********************************************************
-' 目的：    查看评论   2012.9.4
+' 目的：    查看评论   2012.10.6
 '*********************************************************
 Function WapCom()
 
@@ -710,24 +710,44 @@ Function WapCom()
 					Dim strC_Count
 					strC_Count=ComRecordCount-((CurrentPage-1)*ZC_COMMENT_COUNT_WAP+i)+1
 
+					'Dim s
+					Dim AuthorID:AuthorID=objComment.AuthorID
+
+					If AuthorID>0 Then 
+						Call GetUsersbyUserIDList(AuthorID)
+						If Users(AuthorID).Alias="" Then
+							s=Users(AuthorID).Name
+						Else
+							s=Users(AuthorID).Alias
+						End If
+					Else
+						s=objComment.Author
+					End If
+
 					ReDim Preserve aryStrC(i)
 					aryStrC(i)=strCTemplate
 					aryStrC(i)=Replace(aryStrC(i),"<#ZC_FILENAME_WAP#>",WapUrlStr)
 					aryStrC(i)=Replace(aryStrC(i),"<#article/id#>",objComment.log_ID)
 					aryStrC(i)=Replace(aryStrC(i),"<#article/title#>",objRS("log_Title"))
 					aryStrC(i)=Replace(aryStrC(i),"<#article/comment/id#>",objComment.ID)
-					aryStrC(i)=Replace(aryStrC(i),"<#article/comment/name#>",objComment.Author)
+					aryStrC(i)=Replace(aryStrC(i),"<#article/comment/name#>",s)
 					aryStrC(i)=Replace(aryStrC(i),"<#article/comment/url#>",objComment.HomePage)
 					aryStrC(i)=Replace(aryStrC(i),"<#article/comment/email#>",objComment.SafeEmail)
 					aryStrC(i)=Replace(aryStrC(i),"<#article/comment/posttime#>",FormatDateTime(objComment.PostTime,vbShortDate)&" "&FormatDateTime(objComment.PostTime,vbShortTime))
 					aryStrC(i)=Replace(aryStrC(i),"<#article/comment/content#>",TransferHTML(TransferHTML(UBBCode(objComment.HtmlContent,"[face][link][autolink][font][code][image][typeset][media][flash][key][upload]"),"[html-japan][vbCrlf][upload]"),"[wapnohtml]"))
+					aryStrC(i)=Replace(aryStrC(i),"<#article/comment/authorid#>",objComment.AuthorID)
+					
+					'变更count#与firstcontact#标签
 					If log_ID=0 Then 
 					aryStrC(i)=Replace(aryStrC(i),"<#article/comment/count#>",objRS("log_Title"))
 					Else 
 					aryStrC(i)=Replace(aryStrC(i),"<#article/comment/count#>",strC_Count)
 					End If 
-					aryStrC(i)=Replace(aryStrC(i),"<#article/comment/authorid#>",objComment.AuthorID)
-					aryStrC(i)=Replace(aryStrC(i),"<#article/comment/firstcontact#>",objComment.FirstContact)
+					If objComment.HomePage="" Then 
+					aryStrC(i)=Replace(aryStrC(i),"<#article/comment/firstcontact#>",s)
+					Else 
+					aryStrC(i)=Replace(aryStrC(i),"<#article/comment/firstcontact#>","<a href="""&objComment.HomePage&""">"&s&"</a>")
+					End If 
 
 					'aryStrC(i)=Replace(aryStrC(i),"<#article/comment/emailmd5#>",objComment.EmailMD5)
 					'aryStrC(i)=Replace(aryStrC(i),"<#article/comment/parentid#>",objComment.ParentID)
@@ -901,7 +921,7 @@ Function WapView()
 
 			If Article.Export(ZC_DISPLAY_MODE_ALL) Then
 				Article.Build
-				Article.html=Replace(Article.html,"<#article/PageContent#>",ArticleContent)
+				Article.html=Replace(Article.html,"<#article/pagecontent#>",ArticleContent)
 				Article.html=Replace(Article.html,"<#ZC_FILENAME_WAP#>",WapUrlStr)
 				Article.html=Replace(Article.html,"<#article/wapmutuality#>",WapRelateList(Article.ID,Article.Tag))
 
