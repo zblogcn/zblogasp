@@ -1503,15 +1503,15 @@ Function ExportThemeMng()
 '		End If
 
 		If Theme_Author_Url="" Then
-			Response.Write "<p>"&ZC_MSG128&" : " & Theme_Author_Name & "</p>"
+			Response.Write "<p>"&ZC_MSG128&": " & Theme_Author_Name & "</p>"
 		Else
-			Response.Write "<p>"&ZC_MSG128&" : <a target=""_blank"" href=""" & Theme_Author_Url & """>" & Theme_Author_Name & "</a></p>"
+			Response.Write "<p>"&ZC_MSG128&": <a target=""_blank"" href=""" & Theme_Author_Url & """>" & Theme_Author_Name & "</a></p>"
 		End If
 
 
 '		Response.Write "<p>"&ZC_MSG011&":" & Theme_Pubdate & "</p>"
 '		Response.Write "<p style='height:1.0em;'>"&ZC_MSG016&":" & Theme_Note & "</p>"
-		Response.Write "<p>"&ZC_MSG196&" : " & "<select class=""edit"" size=""1"" id=""cate"&Left(md5(Theme_Id),6)&""" name=""cate"&Left(md5(Theme_Id),6)&""" style=""width:120px;"" onchange=""document.getElementById('edtZC_BLOG_THEME').value='"&Theme_Id&"';document.getElementById('edtZC_BLOG_CSS').value=this.options[this.selectedIndex].value"">"
+		Response.Write "<p>"&ZC_MSG196&": " & "<select class=""edit"" size=""1"" id=""cate"&Left(md5(Theme_Id),6)&""" name=""cate"&Left(md5(Theme_Id),6)&""" style=""width:110px;"" onchange=""document.getElementById('edtZC_BLOG_THEME').value='"&Theme_Id&"';document.getElementById('edtZC_BLOG_CSS').value=this.options[this.selectedIndex].value"">"
 
 
 		aryFileList=LoadIncludeFiles("zb_users\theme" & "/" & Theme_Id & "/style")
@@ -1544,7 +1544,7 @@ Function ExportThemeMng()
 		End If
 
 		Response.Write "</select>"
-		Response.Write "&nbsp;&nbsp;&nbsp;&nbsp;<a href='#' onclick='if(!document.getElementById(""cate"&Left(md5(Theme_Id),6)&""").value){return false;}else{$(""#edtZC_BLOG_THEME"").val("""&Theme_Id&""");$(""#edtZC_BLOG_CSS"").val($(""#cate"&Left(md5(Theme_Id),6)&""").val());};$(""#frmTheme"").submit()'><img width='16' title='"&ZC_MSG202&"' alt='"&ZC_MSG202&"' src='../IMAGE/ADMIN/tick.png' /></a></p>"
+		Response.Write "&nbsp;&nbsp;<input class='button' style='margin:0;padding-left:10px;padding-right:10px;' type='button' value='"&ZC_MSG202&"' onclick='if(!document.getElementById(""cate"&Left(md5(Theme_Id),6)&""").value){return false;}else{$(""#edtZC_BLOG_THEME"").val("""&Theme_Id&""");$(""#edtZC_BLOG_CSS"").val($(""#cate"&Left(md5(Theme_Id),6)&""").val());};$(""#frmTheme"").submit()'/><!-- <a href='#' onclick='if(!document.getElementById(""cate"&Left(md5(Theme_Id),6)&""").value){return false;}else{$(""#edtZC_BLOG_THEME"").val("""&Theme_Id&""");$(""#edtZC_BLOG_CSS"").val($(""#cate"&Left(md5(Theme_Id),6)&""").val());};$(""#frmTheme"").submit()'><img width='16' title='"&ZC_MSG202&"' alt='"&ZC_MSG202&"' src='../IMAGE/ADMIN/tick.png' /></a> --></p>"
 
 
 		Response.Write "</div>"
