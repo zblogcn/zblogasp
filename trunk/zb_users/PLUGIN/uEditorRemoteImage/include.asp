@@ -28,7 +28,7 @@ Function uEditorGetRemoteImage()
 	CreatDirectoryByCustomDirectory(strUPLOADDIR)
 	Dim l
 	Dim strURL,i,j,k,t,strResponse(2),aryURL
-	aryURL=Split(Trim(Request("upfile")),uEditor_Split)  '得到地址数组
+	aryURL=Split(Trim(Request.Form("upfile")),uEditor_Split)  '得到地址数组
 	
 	Set objStream = Server.Createobject("adodb.stream") 
 	Set objXmlhttp=Server.CreateObject("msxml2.serverxmlhttp")
@@ -59,7 +59,7 @@ Function uEditorGetRemoteImage()
 						uf.FileName=t
 						uf.UpLoad
 						objStream.Close() 
-						Exit For
+						'Exit For
 				End If
 			End If
 		End If
