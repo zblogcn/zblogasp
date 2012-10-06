@@ -123,11 +123,11 @@ background:#ffffdd;
 .user #avatar { float:right; width:40px; height:40px; margin-left:10px;margin-top:0px;}
 .username { padding:0;height:20px; line-height:20px; overflow:hidden;}
 .userbtn { padding:0;height:20px;line-height:20px;}
-.userbtn a { padding:0;margin-left:15px; color:#FFFFFF;height:20px;line-height:20px;}
-.userbtn a.logout { padding-left:20px;background: url(../image/common/tuic_2.png) no-repeat left 2px;}
-.userbtn .logout:hover { padding-left:20px;color:#000000; background: url(../image/common/tuic_1.png) no-repeat left 2px;}
-.userbtn a.profile { padding-left:20px;background: url(../image/common/home_2.png) no-repeat left 2px;}
-.userbtn .profile:hover { padding-left:20px;color:#000000; background: url(../image/common/home_1.png) no-repeat left 2px;}
+.userbtn a { padding:0;margin-left:15px; color:#FFFFFF;height:20px;line-height:20px;vertical-align:top;}
+.userbtn a.logout { padding-left:20px;background: url(../image/common/tuic_2.png) no-repeat left center;}
+.userbtn .logout:hover { padding-left:20px;color:#000000; background: url(../image/common/tuic_1.png) no-repeat left center;}
+.userbtn a.profile { padding-left:20px;background: url(../image/common/home_2.png) no-repeat left center;}
+.userbtn .profile:hover { padding-left:20px;color:#000000; background: url(../image/common/home_1.png) no-repeat left center;}
 /**/
 .menu { height:30px; position: absolute; right:10px; bottom:0px;}
 .menu ul {float:right;margin:0;padding:0;}
