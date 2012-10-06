@@ -435,7 +435,7 @@ div.theme-other .betterTip img:hover{
 }
 
 div.theme-now p,div.theme-other p{
-	max-width:210px;
+	max-width:220px;
 	/*overflow:hidden;*/
 }
 
@@ -616,3 +616,17 @@ span.note{
 /*文章编辑提交区随动*/
 #divBox { width:220px; position:relative;}
 #divFloat { width:220px; right:12px; position: absolute;}
+
+a.button{
+border-radius:1px;
+padding:2px 3px 2px 3px;
+}
+
+a.button:hover{
+box-shadow: 0 0 1px #000;
+border-radius:1px;
+-ms-border-radius:1px;
+padding:2px 3px 2px 3px;
+}
+
+
