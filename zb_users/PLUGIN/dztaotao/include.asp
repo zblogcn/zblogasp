@@ -115,7 +115,7 @@ IF ZC_MSSQL_ENABLE=True Then
 
 	If Not CheckUpdateDB("[id]","[dz_comment]") Then
 		
-		objConn.execute("CREATE TABLE [dz_comment] (id int identity(1,1) not null primary key,tt_id int default 0,u_sername nvarchar(50) default '',u_site nvarchar(250) default '',content ntext default '',addtime datetime default getdate(),itype int DEFAULT 0)")
+		objConn.execute("CREATE TABLE [dz_comment] (id int identity(1,1) not null primary key,tt_id int default 0,u_sername nvarchar(50) default '',u_email nvarchar(250) default '',u_site nvarchar(250) default '',content ntext default '',addtime datetime default getdate(),itype int DEFAULT 0)")
 		
 	End If
 
@@ -128,7 +128,7 @@ else
 	End If
 
 	If Not CheckUpdateDB("[id]","[dz_comment]") Then
-		objConn.execute("CREATE TABLE [dz_comment] (id AutoIncrement primary key,tt_id int DEFAULT 0,u_sername VARCHAR(50),u_site VARCHAR(250),content text,addtime TIME DEFAULT Now(),itype int DEFAULT 0)")
+		objConn.execute("CREATE TABLE [dz_comment] (id AutoIncrement primary key,tt_id int DEFAULT 0,u_sername VARCHAR(50),u_email VARCHAR(250),u_site VARCHAR(250),content text,addtime TIME DEFAULT Now(),itype int DEFAULT 0)")
 	End If
 	
 end if
@@ -154,13 +154,13 @@ End Function
 Function UnInstallPlugin_dztaotao()
 'On Error Resume Next
 
-	'If CheckUpdateDB("[id]","[dz_taotao]") Then
-	'	objConn.execute("DROP TABLE [dz_taotao] ")
-	'End If
+	If CheckUpdateDB("[id]","[dz_taotao]") Then
+		objConn.execute("DROP TABLE [dz_taotao] ")
+	End If
 
-	'If CheckUpdateDB("[id]","[dz_comment]") Then
-	'	objConn.execute("DROP TABLE [dz_comment] ")
-	'End If
+	If CheckUpdateDB("[id]","[dz_comment]") Then
+		objConn.execute("DROP TABLE [dz_comment] ")
+	End If
 	Call GetFunction()
 	Functions(FunctionMetas.GetValue("navbar")).Content=RemoveLibyUrl(Functions(FunctionMetas.GetValue("navbar")).Content,"<#ZC_BLOG_HOST#>zb_users/plugin/dztaotao/index.asp")
 	Functions(FunctionMetas.GetValue("navbar")).Save

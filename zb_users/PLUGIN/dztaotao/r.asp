@@ -92,6 +92,7 @@ case "r"'提交评论
 	t=request("tid")
 	c=request("c")
 	u=request("u")
+	e=request("e")
 	s=request("s")
 	e=request("e")
 
@@ -115,6 +116,7 @@ case "r"'提交评论
 	add_rs.addnew
 	add_rs("tt_id") = t
 	add_rs("u_sername") = u
+	add_rs("u_email") = e
 	add_rs("u_site") = s
 	add_rs("content") = c
 	add_rs("itype") = DZTAOTAO_CMTCHK_VALUE
