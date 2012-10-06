@@ -1,4 +1,4 @@
-<%
+﻿<%
 '///////////////////////////////////////////////////////////////////////////////
 '//              Z-Blog
 '// 作    者:    朱煊(zx.asd)&(sipo)&(月上之木)
@@ -51,7 +51,7 @@ Function WapNav()
 		Response.Write "<a href="""&WapUrlStr&"?act=Com"">"&ZC_MSG027&"</a><b>|</b>"		
 '		Response.Write "<p>5 <a  accesskey=""5""  href="""&WapUrlStr&"?act=Prev"">"&ZC_MSG032&"</a></p>"
 		If Not ZC_DISPLAY_CATE_ALL_WAP Then
-		Response.Write "8 <a href="""&WapUrlStr&"?act=Cate"">"&ZC_MSG214&"</a><b>|</b>"
+		Response.Write "<a href="""&WapUrlStr&"?act=Cate"">"&ZC_MSG214&"</a><b>|</b>"
 		End If 
 '		Response.Write "<p>7 <a href="""&WapUrlStr&"?act=Stat"">"&ZC_MSG029&"</a></p>"	
 		If BlogUser.Level<=3 Then
