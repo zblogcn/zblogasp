@@ -1559,7 +1559,7 @@ Class TArticle
 
 		If Users(AuthorID).ReCount=0 Then
 			Users(AuthorID).ReCount=objConn.Execute("SELECT COUNT([log_ID]) FROM [blog_Article] WHERE [log_Level]>1 AND [log_AuthorID]=" & AuthorID )(0)
-			objConn.Execute("UPDATE [blog_Member] SET [mem_Count]="&Users(AuthorID).ReCount&" WHERE [mem_ID] =" & CateID)
+			objConn.Execute("UPDATE [blog_Member] SET [mem_PostLogs]="&Users(AuthorID).ReCount&" WHERE [mem_ID] =" & CateID)
 		End If
 
 		FullUrl=Replace(Url,BlogHost,"<#ZC_BLOG_HOST#>")
@@ -2878,8 +2878,8 @@ End Class
 '*********************************************************
 
 
-'为了 Ctrl+F方便。。
-'Mark1 By ZSXSOFT  
+
+
 '*********************************************************
 ' 目的：    定义TComment类
 ' 输入：    无
