@@ -805,7 +805,7 @@ var YT = {
 				$(this).parent().fadeOut('slow');
 			});
 			YT.ESC=setInterval(function(){
-				if(typeof($(document).data('events')['keypress'])=='undefined'){
+				if(typeof($(document).data('events'))=='undefined'||typeof($(document).data('events')['keypress'])=='undefined'){
 					$(document).keypress(function(e){
 						if(e.keyCode==27){
 							$('#Panel').find('span').trigger('click');	
