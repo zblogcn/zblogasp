@@ -2525,7 +2525,7 @@ Function BlogReBuild_Authors()
 	For Each User in Users
 		If IsObject(User) Then''''''
 			If User.ID>0 And User.Level<4 Then
-				strAuthor=strAuthor & "<li><a href="""& User.Url & """>"+User.Name + " (" & User.Count & ")" +"</a></li>"
+				strAuthor=strAuthor & "<li><a href="""& User.Url & """>"+User.FirstName + " (" & User.Count & ")" +"</a></li>"
 			End If
 		End If
 	Next
@@ -2697,13 +2697,14 @@ Function BlogReBuild_Comments()
 	j=Functions(FunctionMetas.GetValue("comments")).MaxLi
 	If j=0 Then j=10
 
-	Set objRS=objConn.Execute("SELECT TOP "&j&" [log_ID],[comm_ID],[comm_Content],[comm_PostTime],[comm_Author] FROM [blog_Comment] WHERE [log_ID]>0 AND [comm_IsCheck]=0 ORDER BY [comm_PostTime] DESC,[comm_ID] DESC")
+	Set objRS=objConn.Execute("SELECT TOP "&j&" [log_ID],[comm_ID],[comm_Content],[comm_PostTime],[comm_AuthorID] FROM [blog_Comment] WHERE [log_ID]>0 AND [comm_IsCheck]=0 ORDER BY [comm_PostTime] DESC,[comm_ID] DESC")
 	If (Not objRS.bof) And (Not objRS.eof) Then
 		For i=1 to j
+			Call GetUsersbyUserIDList(objRS("comm_AuthorID"))
 			s=objRS("comm_Content")
 			s=Replace(s,vbCrlf,"")
 			s=Left(s,ZC_TB_EXCERPT_MAX)
-			strComments=strComments & "<li style=""text-overflow:ellipsis;""><a href="""& objConn.Execute("SELECT [log_FullUrl] FROM [blog_Article] WHERE [log_ID]=" & objRS("log_ID"))(0) & "#cmt" & objRS("comm_ID") & """ title=""" & objRS("comm_PostTime") & " post by " & objRS("comm_Author") & """>"+s+"</a></li>"
+			strComments=strComments & "<li style=""text-overflow:ellipsis;""><a href="""& objConn.Execute("SELECT [log_FullUrl] FROM [blog_Article] WHERE [log_ID]=" & objRS("log_ID"))(0) & "#cmt" & objRS("comm_ID") & """ title=""" & objRS("comm_PostTime") & " post by " & Users(objRS("comm_AuthorID")).FirstName & """>"+s+"</a></li>"
 			Set objArticle=Nothing
 			objRS.MoveNext
 			If objRS.eof Then Exit For
@@ -2953,9 +2954,9 @@ Function ExportRSS()
 					If objArticle.LoadInfoByArray(Array(objRS(0),objRS(1),objRS(2),objRS(3),objRS(4),objRS(5),objRS(6),objRS(7),objRS(8),objRS(9),objRS(10),objRS(11),objRS(12),objRS(13),objRS(14),objRS(15),objRS(16),objRS(17))) Then
 
 					If ZC_RSS_EXPORT_WHOLE Then
-					.AddItem objArticle.HtmlTitle,Users(objArticle.AuthorID).Email & " (" & Users(objArticle.AuthorID).Name & ")",objArticle.HtmlUrl,objArticle.PostTime,objArticle.HtmlUrl,objArticle.HtmlContent,Categorys(objArticle.CateID).HtmlName,objArticle.CommentUrl,objArticle.WfwComment,objArticle.WfwCommentRss,objArticle.TrackBackUrl
+					.AddItem objArticle.HtmlTitle,Users(objArticle.AuthorID).Email & " (" & Users(objArticle.AuthorID).FirstName & ")",objArticle.HtmlUrl,objArticle.PostTime,objArticle.HtmlUrl,objArticle.HtmlContent,Categorys(objArticle.CateID).HtmlName,objArticle.CommentUrl,objArticle.WfwComment,objArticle.WfwCommentRss,objArticle.TrackBackUrl
 					Else
-					.AddItem objArticle.HtmlTitle,Users(objArticle.AuthorID).Email & " (" & Users(objArticle.AuthorID).Name & ")",objArticle.HtmlUrl,objArticle.PostTime,objArticle.HtmlUrl,objArticle.HtmlIntro,Categorys(objArticle.CateID).HtmlName,objArticle.CommentUrl,objArticle.WfwComment,objArticle.WfwCommentRss,objArticle.TrackBackUrl
+					.AddItem objArticle.HtmlTitle,Users(objArticle.AuthorID).Email & " (" & Users(objArticle.AuthorID).FirstName & ")",objArticle.HtmlUrl,objArticle.PostTime,objArticle.HtmlUrl,objArticle.HtmlIntro,Categorys(objArticle.CateID).HtmlName,objArticle.CommentUrl,objArticle.WfwComment,objArticle.WfwCommentRss,objArticle.TrackBackUrl
 					End If
 
 					End If
@@ -3552,7 +3553,6 @@ Function RefreshOptionFormFileToDB()
 	Next
 	Call BlogConfig.Write("ZC_BLOG_VERSION","2.0 Beta1 Build 121001")
 	Call BlogConfig.Write("ZC_BLOG_CLSID",origZC_BLOG_CLSID)
-	If BlogConfig.Exists("ZC_MULTI_DOMAIN_SUPPORT")=False Then Call BlogConfig.Write("ZC_MULTI_DOMAIN_SUPPORT",False)
 	Call BlogConfig.Save()
 	Err.Clear
 End Function

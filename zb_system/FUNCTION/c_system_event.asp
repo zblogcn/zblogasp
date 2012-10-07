@@ -1175,12 +1175,32 @@ End Function
 '*********************************************************
 Function SaveSetting()
 
+	On Error Resume Next
+	Err.Clear
+	BlogTitle=ZC_SYNTAXHIGHLIGHTER_ENABLE
+	If Err.Number<>0 Then
+		Call Execute("Dim ZC_SYNTAXHIGHLIGHTER_ENABLE")
+		ZC_SYNTAXHIGHLIGHTER_ENABLE=True
+		If BlogConfig.Exists("ZC_SYNTAXHIGHLIGHTER_ENABLE")=False Then Call BlogConfig.Write("ZC_SYNTAXHIGHLIGHTER_ENABLE",True)
+		Response.Write 1
+	End If
 
+
+	Err.Clear
+	BlogTitle=ZC_CODEMIRROR_ENABLE
+	If Err.Number<>0 Then
+		Call Execute("Dim ZC_CODEMIRROR_ENABLE")
+		ZC_CODEMIRROR_ENABLE=True
+		If BlogConfig.Exists("ZC_CODEMIRROR_ENABLE")=False Then Call BlogConfig.Write("ZC_CODEMIRROR_ENABLE",True)
+		Response.Write 2
+	End If
+
+
+	Err.Clear
 	Dim a,b,c,d
 
 	Set d=CreateObject("Scripting.Dictionary")
 
-	On Error Resume Next
 	For Each a In BlogConfig.Meta.Names
 		If a<>"ZC_BLOG_VERSION" Then
 			Call Execute("Call BlogConfig.Write("""&a&""","&a&")")
