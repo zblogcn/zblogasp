@@ -1554,12 +1554,14 @@ Class TArticle
 			If Categorys(CateID).ReCount=0 Then
 			Categorys(CateID).ReCount=objConn.Execute("SELECT COUNT([log_ID]) FROM [blog_Article] WHERE [log_Level]>1 AND [log_CateID]=" & CateID )(0)
 			objConn.Execute("UPDATE [blog_Category] SET [cate_Count]="&Categorys(CateID).ReCount&" WHERE [cate_ID] =" & CateID)
+			Categorys(CateID).Count=Categorys(CateID).ReCount
 			End If
 		End If
 
 		If Users(AuthorID).ReCount=0 Then
 			Users(AuthorID).ReCount=objConn.Execute("SELECT COUNT([log_ID]) FROM [blog_Article] WHERE [log_Level]>1 AND [log_AuthorID]=" & AuthorID )(0)
-			objConn.Execute("UPDATE [blog_Member] SET [mem_PostLogs]="&Users(AuthorID).ReCount&" WHERE [mem_ID] =" & CateID)
+			objConn.Execute("UPDATE [blog_Member] SET [mem_PostLogs]="&Users(AuthorID).ReCount&" WHERE [mem_ID] =" & AuthorID)
+			Users(AuthorID).Count=Users(AuthorID).ReCount
 		End If
 
 		FullUrl=Replace(Url,BlogHost,"<#ZC_BLOG_HOST#>")
