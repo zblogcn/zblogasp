@@ -1361,7 +1361,7 @@ Class TArticle
 		aryTemplateTagsName(18)="article/author/id"
 		aryTemplateTagsValue(18)=Users(AuthorID).ID
 		aryTemplateTagsName(19)="article/author/name"
-		aryTemplateTagsValue(19)=IIF(Users(AuthorID).Alias="",Users(AuthorID).Name,Users(AuthorID).Alias)
+		aryTemplateTagsValue(19)=Users(AuthorID).FirstName
 		aryTemplateTagsName(20)="article/author/level"
 		aryTemplateTagsValue(20)=ZVA_User_Level_Name(Users(AuthorID).Level)
 		aryTemplateTagsName(21)="article/author/email"
@@ -2421,6 +2421,9 @@ Class TUser
 
 	End Property
 
+	Public Property Get FirstName
+		FirstName=IIF(Alias="",Name,Alias)
+	End Property
 
 	Private Function GetAvatar
 	  Dim fso
