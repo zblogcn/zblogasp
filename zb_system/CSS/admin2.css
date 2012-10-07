@@ -618,15 +618,13 @@ span.note{
 #divFloat { width:220px; right:12px; position: absolute;}
 
 a.button{
-border-radius:1px;
-padding:2px 3px 2px 3px;
+	border-radius:1px;
+	padding:2px 3px 2px 3px;
 }
 
 a.button:hover{
-box-shadow: 0 0 1px #000;
-border-radius:1px;
--ms-border-radius:1px;
-padding:2px 3px 2px 3px;
+	box-shadow: 0 0 1px #000;
+	border-radius:2px;
+	-ms-border-radius:2px;
+	padding:2px 3px 2px 3px;
 }
-
-

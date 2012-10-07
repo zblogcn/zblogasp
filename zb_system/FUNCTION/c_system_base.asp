@@ -2697,7 +2697,7 @@ Function BlogReBuild_Comments()
 	j=Functions(FunctionMetas.GetValue("comments")).MaxLi
 	If j=0 Then j=10
 
-	Set objRS=objConn.Execute("SELECT [log_ID],[comm_ID],[comm_Content],[comm_PostTime],[comm_Author] FROM [blog_Comment] WHERE [log_ID]>0 AND [comm_IsCheck]=0 ORDER BY [comm_PostTime] DESC,[comm_ID] DESC")
+	Set objRS=objConn.Execute("SELECT TOP "&j&" [log_ID],[comm_ID],[comm_Content],[comm_PostTime],[comm_Author] FROM [blog_Comment] WHERE [log_ID]>0 AND [comm_IsCheck]=0 ORDER BY [comm_PostTime] DESC,[comm_ID] DESC")
 	If (Not objRS.bof) And (Not objRS.eof) Then
 		For i=1 to j
 			s=objRS("comm_Content")
