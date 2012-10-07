@@ -75,17 +75,6 @@ End If
 
 <script language="JavaScript" type="text/javascript">
 
-function SetCookie(sName, sValue,iExpireDays) {
-	if (iExpireDays){
-		var dExpire = new Date();
-		dExpire.setTime(dExpire.getTime()+parseInt(iExpireDays*24*60*60*1000));
-		document.cookie = sName + "=" + escape(sValue) + "; expires=" + dExpire.toGMTString()+ "; path=/";
-	}
-	else{
-		document.cookie = sName + "=" + escape(sValue)+ "; path=/";
-	}
-}
-
 if(GetCookie("username")){document.getElementById("edtUserName").value=unescape(GetCookie("username"))};
 
 $("#btnPost").click(function(){
