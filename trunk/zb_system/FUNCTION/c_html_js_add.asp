@@ -30,6 +30,7 @@ $("head").append("<script src='<%=BlogHost%>zb_system/admin/ueditor/third-party/
 $("head").append("<link rel='stylesheet' type='text/css' href='<%=BlogHost%>zb_system/admin/ueditor/third-party/SyntaxHighlighter/shCoreDefault.css'/>");
 <%End If%>
 var bloghost="<%=BlogHost%>";
+var cookiespath="<%=CookiesPath()%>";
 var str00="<%=BlogHost%>";
 var str01="<%=ZC_MSG033%>";
 var str02="<%=ZC_MSG034%>";

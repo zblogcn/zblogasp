@@ -403,7 +403,7 @@ Function Totoro_checkInterval(ByVal ip)
 	Dim i,j,t,s,m,n
 	Dim objRS
 	m="SELECT COUNT([comm_ID]) FROM [blog_Comment] WHERE [comm_IP] ='" & ip & "'"
-	m=m&" AND [comm_PostTime]>"&ZC_SQL_POUND_KEY&DateAdd("h", -1, now)&ZC_SQL_POUND_KEY
+	m=m&" AND [comm_PostTime]>"&ZC_SQL_POUND_KEY& FormatDateTime( DateAdd("h", -1, now) ) &ZC_SQL_POUND_KEY
 	Set objRS=objConn.Execute(m)
 	If (Not objRS.bof) And (Not objRS.eof) Then
 		i=objRS(0)
