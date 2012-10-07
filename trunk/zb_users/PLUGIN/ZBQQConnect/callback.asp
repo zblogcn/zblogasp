@@ -64,6 +64,6 @@ Function a
 		End If
 		Response.Cookies("inpName")=b.nickname
 		Response.Cookies("inpName").Expires = DateAdd("d", 365, now)
-		Response.Cookies("inpName").Path="/"
+		Response.Cookies("inpName").Path=CookiesPath()
 End Function
 %>

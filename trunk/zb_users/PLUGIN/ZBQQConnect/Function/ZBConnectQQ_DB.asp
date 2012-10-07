@@ -147,14 +147,14 @@ Class ZBConnectQQ_DB
 			If Request.Form("savedate")<>0 Then
 				Response.Cookies("password").Expires = DateAdd("d", 1, now)
 			End If
-			Response.Cookies("password").Path = "/"
+			Response.Cookies("password").Path = CookiesPath()
 			Login=True
 		End If
 		Response.Cookies("username")=escape(BlogUser.name)
 		If Request.Form("savedate")<>0 Then
 			Response.Cookies("username").Expires = DateAdd("d", 1, now)
 		End If
-		Response.Cookies("username").Path = "/"
+		Response.Cookies("username").Path = CookiesPath()
 	End Function
 End Class
 %>
