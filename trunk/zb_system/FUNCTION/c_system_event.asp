@@ -189,7 +189,7 @@ Function PostArticle()
 			s=objArticle.Content
 			i=InStr(s,"<hr class=""more"" />")
 			s=Left(s,i-1)
-			objArticle.Intro=s
+			objArticle.Intro=closeHTML(s)
 			objArticle.Content=Replace(objArticle.Content,"<hr class=""more"" />","<!–more–>",1,1)
 		End If
 
@@ -201,7 +201,7 @@ Function PostArticle()
 				End If
 				If Len(t)>ZC_TB_EXCERPT_MAX Then Exit for
 			Next 
-			objArticle.Intro=t
+			objArticle.Intro=closeHTML(t)
 		End If
 	End If
 
