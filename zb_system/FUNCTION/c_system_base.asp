@@ -3650,4 +3650,26 @@ Function GetCateIDByNameAndAlias(Name,Alias)
 	GetCateIDByNameAndAlias=Empty
 End Function
 '*********************************************************
+
+
+
+
+'*********************************************************
+' 目的：  
+'*********************************************************
+Function CookiesPath()
+
+	Dim s
+	s=BlogHost
+	s=Right(BlogHost,Len(BlogHost)-InStr(BLogHost,"//")-1)
+	s=Replace(s,Request.ServerVariables("HTTP_HOST"),"")
+	If s="" Then s="/"
+
+	CookiesPath=s
+
+End Function
+'*********************************************************
+
+
+
 %>

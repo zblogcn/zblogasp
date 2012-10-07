@@ -34,7 +34,7 @@ Public Function Login()
 		If Request.Form("savedate")<>0 Then
 			Response.Cookies("password").Expires = DateAdd("d", Request.Form("savedate"), now)
 		End If
-		Response.Cookies("password").Path = "/"
+		Response.Cookies("password").Path = CookiesPath()
 
 		Login=True
 
@@ -44,7 +44,8 @@ Public Function Login()
 	If Request.Form("savedate")<>0 Then
 		Response.Cookies("username").Expires = DateAdd("d", Request.Form("savedate"), now)
 	End If
-	Response.Cookies("username").Path = "/"
+	Response.Cookies("username").Path = CookiesPath()
+
 
 End Function
 '*********************************************************
@@ -57,15 +58,10 @@ End Function
 '*********************************************************
 Public Function Logout()
 
-	'Response.Cookies("username")=""
-	'Response.Cookies("password")=""
-	Response.Write "<script language=""JavaScript"" src=""script/common.js"" type=""text/javascript""></script>"
-	Response.Write "<script language=""JavaScript"" type=""text/javascript"">"
-	Response.Write "function SetCookie(sName, sValue,iExpireDays) {if (iExpireDays){var dExpire = new Date();dExpire.setTime(dExpire.getTime()+parseInt(iExpireDays*24*60*60*1000));document.cookie = sName + ""="" + escape(sValue) + ""; expires="" + dExpire.toGMTString();}else{document.cookie = sName + ""="" + escape(sValue) + ""; path=/"";	}}"
-	Response.Write "SetCookie(""username"","""","""");"
-	Response.Write "SetCookie(""password"","""","""");"
-	Response.Write "window.location=""" & BlogHost & """;"
-	Response.Write "</script>"
+	Response.Cookies("username")=""
+	Response.Cookies("password")=""
+	Response.Cookies("username").Path = CookiesPath()
+	Response.Cookies("password").Path = CookiesPath()
 
 	Logout=True
 

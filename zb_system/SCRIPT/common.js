@@ -77,13 +77,14 @@ function SetActiveStyleSheet(title){
 // 返回：    无
 //*********************************************************
 function SetCookie(sName, sValue,iExpireDays) {
+	var path=(typeof(cookiespath)=="undefined") ? "/":cookiespath;
 	if (iExpireDays){
 		var dExpire = new Date();
 		dExpire.setTime(dExpire.getTime()+parseInt(iExpireDays*24*60*60*1000));
-		document.cookie = sName + "=" + escape(sValue) + "; expires=" + dExpire.toGMTString()+ "; path=/";
+		document.cookie = sName + "=" + escape(sValue) + "; expires=" + dExpire.toGMTString()+ "; path="+path;
 	}
 	else{
-		document.cookie = sName + "=" + escape(sValue)+ "; path=/";
+		document.cookie = sName + "=" + escape(sValue)+ "; path="+path;
 	}
 }
 //*********************************************************

@@ -364,6 +364,8 @@ Function BlogLogout
 			If bAction_Plugin_BlogLogout_Succeed=True Then Exit Function
 		Next
 
+		Response.Redirect BlogHost
+
 	End If
 
 End Function
