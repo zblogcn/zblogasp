@@ -12,7 +12,7 @@
 	Dim aryFileList,a,i,j,e,f
 	f=Split(ZC_EMOTICONS_FILENAME,"|")
 	For Each a In f
-		aryFileList=LoadIncludeFiles("zb_users\emotions\"&a) 
+		aryFileList=LoadIncludeFiles("zb_users\emotion\"&a) 
 		If IsArray(aryFileList) Then
 			j=UBound(aryFileList)
 			For i=1 to j
