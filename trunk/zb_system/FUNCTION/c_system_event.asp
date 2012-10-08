@@ -1204,6 +1204,15 @@ Function SaveSetting()
 
 
 	Err.Clear
+	BlogTitle=ZC_ZC_POST_STATIC_MODE
+	If Err.Number<>0 Then
+		Call Execute("Dim ZC_POST_STATIC_MODE")
+		ZC_POST_STATIC_MODE="STATIC"
+		If BlogConfig.Exists("ZC_POST_STATIC_MODE")=False Then Call BlogConfig.Write("ZC_POST_STATIC_MODE","STATIC")
+	End If
+
+
+	Err.Clear
 	Dim a,b,c,d
 
 	Set d=CreateObject("Scripting.Dictionary")
@@ -1229,7 +1238,7 @@ Function SaveSetting()
 			End If
 		End If
 	Next
-'Response.End
+
 	If BlogConfig.Read("ZC_STATIC_DIRECTORY")<>d.Item("ZC_STATIC_DIRECTORY")Then
 		Call CreatDirectoryByCustomDirectory(d.Item("ZC_STATIC_DIRECTORY"))
 		Call SetBlogHint(Empty,Empty,True)

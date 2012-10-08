@@ -746,7 +746,7 @@ Call BlogConfig.Write("ZC_TEMPLATE_DIRECTORY","template")
 
 'ACTIVE MIX REWRITE
 Call BlogConfig.Write("ZC_STATIC_MODE","ACTIVE")
-
+Call BlogConfig.Write("ZC_POST_STATIC_MODE","STATIC")
 Call BlogConfig.Write("ZC_ARTICLE_REGEX","{%host%}/{%post%}/{%alias%}.html")
 Call BlogConfig.Write("ZC_PAGE_REGEX","{%host%}/{%alias%}.html")
 Call BlogConfig.Write("ZC_CATEGORY_REGEX","{%host%}/catalog.asp?cate={%id%}")

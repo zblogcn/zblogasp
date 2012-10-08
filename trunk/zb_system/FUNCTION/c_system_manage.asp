@@ -202,7 +202,7 @@ Function ExportArticleList(intPage,intCate,intLevel,intTitle)
 				End If
 			Next
 
-			Response.Write "<td><div style='overflow:hidden;height:1.5em;'><a href=""../view.asp?nav=" & objRS("log_ID") & """ title="""& Replace(objRS("log_Title"),"""","") &""" target=""_blank"">" & objRS("log_Title") & "</a></div></td>"
+			Response.Write "<td><div style='overflow:hidden;height:1.5em;'><a href=""../../view.asp?nav=" & objRS("log_ID") & """ title="""& Replace(objRS("log_Title"),"""","") &""" target=""_blank"">" & objRS("log_Title") & "</a></div></td>"
 			Response.Write "<td>" & FormatDateTime(objRS("log_PostTime"),vbShortDate) & "</td>"
 			Response.Write "<td>" & objRS("log_CommNums") & "</td>"
 			Response.Write "<td>" & ZVA_Article_Level_Name(objRS("log_Level")) & "</td>"
@@ -335,7 +335,7 @@ Call Add_Response_Plugin("Response_Plugin_ArticleMng_SubMenu",MakeSubMenu(ZC_MSG
 				End If
 			Next
 
-			Response.Write "<td><div style='overflow:hidden;height:1.5em;'><a href=""../view.asp?nav=" & objRS("log_ID") & """ title="""& Replace(objRS("log_Title"),"""","") &""" target=""_blank"">" & objRS("log_Title") & "</a></div></td>"
+			Response.Write "<td><div style='overflow:hidden;height:1.5em;'><a href=""../../view.asp?nav=" & objRS("log_ID") & """ title="""& Replace(objRS("log_Title"),"""","") &""" target=""_blank"">" & objRS("log_Title") & "</a></div></td>"
 			Response.Write "<td>" & FormatDateTime(objRS("log_PostTime"),vbShortDate) & "</td>"
 			Response.Write "<td>" & objRS("log_CommNums") & "</td>"
 			Response.Write "<td>" & ZVA_Article_Level_Name(objRS("log_Level")) & "</td>"

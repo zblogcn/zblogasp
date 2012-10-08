@@ -2691,7 +2691,7 @@ Function BlogReBuild_Comments()
 	'Comments
 	Dim strComments
 
-	Dim s
+	Dim s,t
 	Dim i,j
 
 	j=Functions(FunctionMetas.GetValue("comments")).MaxLi
@@ -2701,10 +2701,17 @@ Function BlogReBuild_Comments()
 	If (Not objRS.bof) And (Not objRS.eof) Then
 		For i=1 to j
 			Call GetUsersbyUserIDList(objRS("comm_AuthorID"))
+
+			Set objArticle=New TArticle
+
+			If objArticle.LoadInfoByID(objRS("log_ID")) Then
+				t=objArticle.FullUrl
+			End If
+
 			s=objRS("comm_Content")
 			s=Replace(s,vbCrlf,"")
 			s=Left(s,ZC_ARTICLE_EXCERPT_MAX)
-			strComments=strComments & "<li style=""text-overflow:ellipsis;""><a href="""& objConn.Execute("SELECT [log_FullUrl] FROM [blog_Article] WHERE [log_ID]=" & objRS("log_ID"))(0) & "#cmt" & objRS("comm_ID") & """ title=""" & objRS("comm_PostTime") & " post by " & Users(objRS("comm_AuthorID")).FirstName & """>"+s+"</a></li>"
+			strComments=strComments & "<li style=""text-overflow:ellipsis;""><a href="""& t & "#cmt" & objRS("comm_ID") & """ title=""" & objRS("comm_PostTime") & " post by " & Users(objRS("comm_AuthorID")).FirstName & """>"+s+"</a></li>"
 			Set objArticle=Nothing
 			objRS.MoveNext
 			If objRS.eof Then Exit For
@@ -3009,6 +3016,8 @@ End Function
 ' 目的：    Build Article
 '*********************************************************
 Function BuildArticle(intID,bolBuildNavigate,bolBuildCategory)
+
+	If ZC_POST_STATIC_MODE="ACTIVE" Then Exit Function
 
 	Dim objArticle
 	Set objArticle=New TArticle
