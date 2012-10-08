@@ -3551,7 +3551,7 @@ Function RefreshOptionFormFileToDB()
 	For Each a In BlogConfig.Meta.Names
 		Call Execute("Call BlogConfig.Write("""&a&""","&a&")")
 	Next
-	Call BlogConfig.Write("ZC_BLOG_VERSION","2.0 Beta1 Build 121001")
+	Call BlogConfig.Write("ZC_BLOG_VERSION","2.0 Beta1 Build 121008")
 	Call BlogConfig.Write("ZC_BLOG_CLSID",origZC_BLOG_CLSID)
 	Call BlogConfig.Save()
 	Err.Clear
