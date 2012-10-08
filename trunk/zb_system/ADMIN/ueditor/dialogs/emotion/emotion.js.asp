@@ -6,16 +6,31 @@
 <% Response.ContentType="application/x-javascript" %>
 <!-- #include file="../../../../../zb_users/c_option.asp" -->
 <!-- #include file="../../../../../zb_system/function/c_function.asp" -->
-
+<!-- #include file="../../../../../zb_system/function/c_system_base.asp" -->
 <% Response.Clear %>
+<%	
+	Dim aryFileList,a,i,j,e,f
+	f=Split(ZC_EMOTICONS_FILENAME,"|")
+	For Each a In f
+		aryFileList=LoadIncludeFiles("zb_users\emotions\"&a) 
+		If IsArray(aryFileList) Then
+			j=UBound(aryFileList)
+			For i=1 to j
+				If Right(aryFileList(i),3)=ZC_EMOTICONS_FILETYPE Then e=aryFileList(i)&"|"& e 
+			Next
+		End If 
+	Next 
 
+	e=Left(e,Len(e)-1)
+
+ %>
 
 window.onload = function () {
     editor.setOpt({
         emotionLocalization:false
     });
 
-    emotion.SmileyPath = editor.options.emotionLocalization === true ? '' : '<%=GetCurrentHost()%>zb_system/image/';
+    emotion.SmileyPath = editor.options.emotionLocalization === true ? '' : '<%=GetCurrentHost()%>zb_users/emotions/<%=ZC_EMOTICONS_FILENAME%>';
     emotion.SmileyBox = createTabList( emotion.tabNum );
     emotion.tabExist = createArr( emotion.tabNum );
 
@@ -30,17 +45,14 @@ function initImgName() {
         var tempName = emotion.SmilmgName[pro],
         tempBox = emotion.SmileyBox[pro],
         tempStr = "";
-
-
-		aryFileName = "<%=ZC_EMOTICONS_FILENAME%>".split("|");
+		aryFileName = "<%=e%>".split("|");
         if ( tempBox.length ) return;
 		for (var i=0;i<aryFileName.length;i++)
 		{
 			tempStr = aryFileName[i];
-            tempStr = tempStr + '.<%=ZC_EMOTICONS_FILETYPE%>';
             tempBox.push( tempStr );
+			emotion.SmileyInfor.tab0[i]=aryFileName[i].substr(0,aryFileName[i].length-".<%=ZC_EMOTICONS_FILETYPE%>".length);
 		}
-
     }
 }
 
@@ -157,7 +169,7 @@ function createTab( tabName ) {
 
                 textHTML.push( '<td  class="' + tableCss + '"   border="1" width="' + iColWidth + '%" style="border-collapse:collapse;" align="center"  bgcolor="#FFFFFF" onclick="InsertSmiley(\'' + realUrl.replace( /'/g, "\\'" ) + '\',event)" onmouseover="over(this,\'' + sUrl + '\',\'' + posflag + '\')" onmouseout="out(this)">' );
                 textHTML.push( '<span  style="display:block;">' );
-                textHTML.push( '<img  style="background-position:left ' + offset + 'px;" title="' + infor + '" src="' + emotion.SmileyPath + ('face/'+aryFileName[i] + '.<%=ZC_EMOTICONS_FILETYPE%>" width="') + "<%=ZC_EMOTICONS_FILESIZE%>" + '" height="' + "<%=ZC_EMOTICONS_FILESIZE%>" + '"></img>' );
+                textHTML.push( '<img  style="background-position:left;m ' + offset + 'px;max-height:'+ iHeight +';max-width:'+ iWidth +';" title="' + infor + '" src="' + emotion.SmileyPath + ('/'+aryFileName[i]) + '"></img>' );
                 textHTML.push( '</span>' );
             } else {
                 textHTML.push( '<td width="' + iColWidth + '%"   bgcolor="#FFFFFF">' );
