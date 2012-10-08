@@ -462,7 +462,7 @@ Class TArticle
 		Next
 
 		If Level<=2 Then
-			Url = BlogHost & "zb_system/view.asp?id=" & ID
+			Url = BlogHost & "view.asp?id=" & ID
 		Else
 			Call GetUsersbyUserIDList(AuthorID)
 			Url =ParseCustomDirectoryForUrl(FullRegex,ZC_STATIC_DIRECTORY,Categorys(CateID).StaticName,Users(AuthorID).StaticName,Year(PostTime),Month(PostTime),Day(PostTime),ID,StaticName)
@@ -611,6 +611,8 @@ Class TArticle
 			Content=TransferHTML(Content,"[upload][zc_blog_host]")
 			Intro=TransferHTML(Intro,"[upload][zc_blog_host]")
 
+			If ZC_POST_STATIC_MODE="ACTIVE" Then FullUrl=Replace(Url,BlogHost,"<#ZC_BLOG_HOST#>")
+
 			PostTime = Year(PostTime) & "-" & Month(PostTime) & "-" & Day(PostTime) & " " & Hour(PostTime) & ":" & Minute(PostTime) & ":" & Second(PostTime)
 
 		Else
@@ -657,6 +659,8 @@ Class TArticle
 			Intro=TransferHTML(Intro,"[upload][zc_blog_host]")
 
 			PostTime = Year(PostTime) & "-" & Month(PostTime) & "-" & Day(PostTime) & " " & Hour(PostTime) & ":" & Minute(PostTime) & ":" & Second(PostTime)
+
+			If ZC_POST_STATIC_MODE="ACTIVE" Then FullUrl=Replace(Url,BlogHost,"<#ZC_BLOG_HOST#>")
 
 		End If
 
@@ -1028,7 +1032,7 @@ Class TArticle
 
 			s="<a class=""l"" href=""<#article/nav_l/url#>""><#article/nav_l/name#></a>"
 			
-			s=Replace(s,"<#article/nav_l/url#>","<#ZC_BLOG_HOST#>zb_system/view.asp?navp="&ID)
+			s=Replace(s,"<#article/nav_l/url#>","<#ZC_BLOG_HOST#>view.asp?navp="&ID)
 			s=Replace(s,"<#article/nav_l/name#>",ZC_MSG146)
 
 			Template_Article_Navbar_L=s
@@ -1041,7 +1045,7 @@ Class TArticle
 
 			t="<a class=""r"" href=""<#article/nav_r/url#>""><#article/nav_r/name#></a>"
 
-			t=Replace(t,"<#article/nav_r/url#>","<#ZC_BLOG_HOST#>zb_system/view.asp?navn="&ID)
+			t=Replace(t,"<#article/nav_r/url#>","<#ZC_BLOG_HOST#>view.asp?navn="&ID)
 			t=Replace(t,"<#article/nav_r/name#>",ZC_MSG148)
 
 			Template_Article_Navbar_R=t
@@ -1583,6 +1587,8 @@ Class TArticle
 
 
 	Function Save()
+
+		If ZC_POST_STATIC_MODE="ACTIVE" Then Exit Function
 
 		If Not(Level>2) Then Save=True:Exit Function
 
@@ -4328,18 +4334,18 @@ Class TNewRss2Export
 			objXMLitem.AppendChild(objXMLdoc.createElement("comments"))
 			objXMLitem.selectSingleNode("comments").text=comments
 		End If
-		If(Len(wfw_comment)>0) Then
-			objXMLitem.AppendChild(objXMLdoc.createElement("wfw:comment"))
-			objXMLitem.selectSingleNode("wfw:comment").text=wfw_comment
-		End If
+		'If(Len(wfw_comment)>0) Then
+		'	objXMLitem.AppendChild(objXMLdoc.createElement("wfw:comment"))
+		'	objXMLitem.selectSingleNode("wfw:comment").text=wfw_comment
+		'End If
 		If(Len(wfw_commentRss)>0) Then
 			objXMLitem.AppendChild(objXMLdoc.createElement("wfw:commentRss"))
 			objXMLitem.selectSingleNode("wfw:commentRss").text=wfw_commentRss
 		End If
-		If(Len(trackback_ping)>0) Then
-			objXMLitem.AppendChild(objXMLdoc.createElement("trackback:ping"))
-			objXMLitem.selectSingleNode("trackback:ping").text=trackback_ping
-		End If
+		'If(Len(trackback_ping)>0) Then
+		'	objXMLitem.AppendChild(objXMLdoc.createElement("trackback:ping"))
+		'	objXMLitem.selectSingleNode("trackback:ping").text=trackback_ping
+		'End If
 
 		objXMLchannel.AppendChild(objXMLitem)
 

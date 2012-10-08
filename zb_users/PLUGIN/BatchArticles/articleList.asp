@@ -301,9 +301,9 @@ Call GetUser
 
 			Response.Write "<td>"
 			If Len(objRS("log_Title"))>22 Then
-				Response.Write "<a href=""../../../zb_system/view.asp?id=" & objRS("log_ID") & """ target=""_blank"" title=""" & objRS("log_Title") & """>" & Left(objRS("log_Title"),21) & ".." & "</a>"
+				Response.Write "<a href=""../../../view.asp?id=" & objRS("log_ID") & """ target=""_blank"" title=""" & objRS("log_Title") & """>" & Left(objRS("log_Title"),21) & ".." & "</a>"
 			Else
-				Response.Write "<a href=""../../../zb_system/view.asp?id=" & objRS("log_ID") & """ target=""_blank"" title=""" & objRS("log_Title") & """>" & objRS("log_Title") & "</a>"
+				Response.Write "<a href=""../../../view.asp?id=" & objRS("log_ID") & """ target=""_blank"" title=""" & objRS("log_Title") & """>" & objRS("log_Title") & "</a>"
 			End If
 			Response.Write " <a id=""mylink"&objRS("log_ID")&""" href=""$div"&objRS("log_ID")&"tip?width=125"" class=""betterTip"" title=""关键词(Tags)""><img src=""tag.png""  alt=""TagIcon"" align=""absbottom"" ></a><div id=""div"&objRS("log_ID")&"tip"" style=""display:none;"">"& Export_ArticleTag(objRS("log_Tag")) &"</div>"
 			Response.Write "</td>"
