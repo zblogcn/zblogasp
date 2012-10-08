@@ -721,7 +721,7 @@ Class TArticle
 
 		If Len(Title)=0 Then Post=False:Exit Function
 		If Len(Content)=0 Then Post=False:Exit Function
-		'If Len(Intro)=0 Then Intro=Left(Content,ZC_TB_EXCERPT_MAX) & "..."
+		'If Len(Intro)=0 Then Intro=Left(Content,ZC_ARTICLE_EXCERPT_MAX) & "..."
 
 		TemplateName=UCase(FilterSQL(TemplateName))
 
@@ -3340,7 +3340,7 @@ Class TTrackBack
 		If Len(Blog)>ZC_EMAIL_MAX Then Call ReturnTbXML("name is long"):Post=False:Exit Function
 		If Len(Blog)=0 Then Blog="Unknow"
 		If Len(Excerpt)=0 Then Excerpt=""
-		If Len(Excerpt)>ZC_TB_EXCERPT_MAX Then Excerpt=Left(Excerpt,ZC_TB_EXCERPT_MAX)&"..."
+		If Len(Excerpt)>ZC_ARTICLE_EXCERPT_MAX Then Excerpt=Left(Excerpt,ZC_ARTICLE_EXCERPT_MAX)&"..."
 		If Len(Title)>ZC_HOMEPAGE_MAX Then Call ReturnTbXML("title is long"):Post=False:Exit Function
 		If Len(Title)=0 Then Title=URL
 

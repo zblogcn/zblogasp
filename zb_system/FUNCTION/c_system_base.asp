@@ -2703,7 +2703,7 @@ Function BlogReBuild_Comments()
 			Call GetUsersbyUserIDList(objRS("comm_AuthorID"))
 			s=objRS("comm_Content")
 			s=Replace(s,vbCrlf,"")
-			s=Left(s,ZC_TB_EXCERPT_MAX)
+			s=Left(s,ZC_ARTICLE_EXCERPT_MAX)
 			strComments=strComments & "<li style=""text-overflow:ellipsis;""><a href="""& objConn.Execute("SELECT [log_FullUrl] FROM [blog_Article] WHERE [log_ID]=" & objRS("log_ID"))(0) & "#cmt" & objRS("comm_ID") & """ title=""" & objRS("comm_PostTime") & " post by " & Users(objRS("comm_AuthorID")).FirstName & """>"+s+"</a></li>"
 			Set objArticle=Nothing
 			objRS.MoveNext
