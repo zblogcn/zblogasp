@@ -634,15 +634,15 @@ Function ExportUserList(intPage)
 	If (Not objRS.bof) And (Not objRS.eof) Then
 
 		Response.Write "<table border=""1"" width=""100%"" cellspacing=""0"" cellpadding=""0"" class=""tableBorder tableBorder-thcenter"">"
-		Response.Write "<tr><th width='5%'>"& ZC_MSG076 &"</th><th width='10%'></th><th>"& ZC_MSG001 &"</th><th width='10%'>"& ZC_MSG082 &"</th><th width='10%'>"& ZC_MSG124 &"</th><th width='14%'></th></tr>"
+		Response.Write "<tr><th width='5%'>"& ZC_MSG076 &"</th><th width='10%'></th><th>"& ZC_MSG001 &"</th><th>"& ZC_MSG147 &"</th><th width='10%'>"& ZC_MSG082 &"</th><th width='10%'>"& ZC_MSG124 &"</th><th width='14%'></th></tr>"
 
 		For i=1 to objRS.PageSize
 
 			Response.Write "<tr>"
 			Response.Write "<td>" & objRS("mem_ID") & "</td>"
 			Response.Write "<td>" & ZVA_User_Level_Name(objRS("mem_Level")) & "</td>"
-			Response.Write "<td><a href=""../../catalog.asp?auth="& objRS("mem_ID") &"""  target=""_blank"">" & objRS("mem_Name") & "</a></td>"
-
+			Response.Write "<td>" & objRS("mem_Name") & "</td>"
+			Response.Write "<td>" & objRS("mem_Url") & "</td>"
 			Response.Write "<td>" & objRS("mem_PostLogs") & "</td>"
 			Response.Write "<td>" & objRS("mem_PostComms") & "</td>"
 
@@ -1610,11 +1610,11 @@ Call Add_Response_Plugin("Response_Plugin_FunctionMng_SubMenu",MakeSubMenu(ZC_MS
 		s=""
 
 		If Functions(aryFunctionInOrder(i)).SidebarID=0 Then s=""
-		If Functions(aryFunctionInOrder(i)).InSidebar Then s=ZC_MSG008
-		If Functions(aryFunctionInOrder(i)).InSidebar2 Then s=s & "," & ZC_MSG008 &"2"
-		If Functions(aryFunctionInOrder(i)).InSidebar3 Then s=s & "," & ZC_MSG008 &"3"
-		If Functions(aryFunctionInOrder(i)).InSidebar4 Then s=s & "," & ZC_MSG008 &"4"
-		If Functions(aryFunctionInOrder(i)).InSidebar5 Then s=s & "," & ZC_MSG008 &"5"
+		If Functions(aryFunctionInOrder(i)).InSidebar Then s=ZC_MSG008 & " "
+		If Functions(aryFunctionInOrder(i)).InSidebar2 Then s=s & ZC_MSG008 &"2" & " "
+		If Functions(aryFunctionInOrder(i)).InSidebar3 Then s=s & ZC_MSG008 &"3" & " "
+		If Functions(aryFunctionInOrder(i)).InSidebar4 Then s=s & ZC_MSG008 &"4" & " "
+		If Functions(aryFunctionInOrder(i)).InSidebar5 Then s=s & ZC_MSG008 &"5"
 
 
 		Response.Write "<tr><td align=""center""><img width=""16"" src=""../image/admin/brick.png"" alt="""" /></td>"
