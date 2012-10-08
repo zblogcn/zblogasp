@@ -27,6 +27,7 @@
 
 <% Response.Clear %>
 var bloghost="<%=BlogHost%>";
+var cookiespath="<%=CookiesPath()%>";
 var str00="<%=BlogHost%>";
 
 
