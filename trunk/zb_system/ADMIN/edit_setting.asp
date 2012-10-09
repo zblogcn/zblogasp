@@ -63,7 +63,7 @@ BlogTitle=ZC_MSG247
 	<li><a href="#tab1" class="default-tab"><span><%=ZC_MSG105%></span></a></li>
 	<li><a href="#tab2"><span><%=ZC_MSG173%></span></a></li>
 	<li><a href="#tab3"><span><%=ZC_MSG186%></span></a></li>
-	<li><a href="#tab4"><span><%=ZC_MSG255%></span></a></li>
+	<li <%=IIF(ZC_POST_STATIC_MODE<>"STATIC","style='display:none;'","")%>><a href="#tab4"><span><%=ZC_MSG255%></span></a></li>
 	<li><a href="#tab5"><span><%=ZC_MSG215%></span></a></li>
 					</ul>
 					

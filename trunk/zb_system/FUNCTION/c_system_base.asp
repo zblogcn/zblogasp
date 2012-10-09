@@ -125,6 +125,20 @@ Sub System_Initialize()
 
 	Call LoadGlobeCache()
 
+
+	If ZC_POST_STATIC_MODE<>"STATIC" Then
+		Dim bolRebuildFiles
+		Application.Lock
+		bolRebuildFiles=Application(ZC_BLOG_CLSID & "SIGNAL_REBUILDFILES")
+		Application.UnLock
+		If IsEmpty(bolRebuildFiles)=False Then
+			If bolRebuildFiles=True Then
+				Call SetBlogHint(True,True,False)
+			End If
+		End If
+	End If
+
+
 	Dim bolRebuildIndex
 	Application.Lock
 	bolRebuildIndex=Application(ZC_BLOG_CLSID & "SIGNAL_REBUILDINDEX")
@@ -148,7 +162,7 @@ Sub System_Initialize()
 		If bAction_Plugin_System_Initialize_Succeed=True Then Exit Sub
 	Next
 
-	If Err.Number<>0 Then Call ShowError(10)
+	'If Err.Number<>0 Then Call ShowError(10)
 
 End Sub
 '*********************************************************
@@ -212,8 +226,8 @@ Function OpenConnect()
 	If Err.Number=0 Then
 
 		IsDBConnect=True
-
 		OpenConnect=True
+
 	Else
 
 		Err.Clear
@@ -3017,7 +3031,7 @@ End Function
 '*********************************************************
 Function BuildArticle(intID,bolBuildNavigate,bolBuildCategory)
 
-	If ZC_POST_STATIC_MODE="ACTIVE" Then Exit Function
+	If ZC_POST_STATIC_MODE<>"STATIC" Then Exit Function
 
 	Dim objArticle
 	Set objArticle=New TArticle
@@ -3420,7 +3434,7 @@ Response_Plugin_Admin_Top=""
 
 Call Add_Response_Plugin("Response_Plugin_Admin_Top",MakeTopMenu(GetRights("admin"),ZC_MSG245,BlogHost&"zb_system/cmd.asp?act=admin","",""))
 Call Add_Response_Plugin("Response_Plugin_Admin_Top",MakeTopMenu(GetRights("SettingMng"),ZC_MSG247,BlogHost&"zb_system/cmd.asp?act=SettingMng","",""))
-Call Add_Response_Plugin("Response_Plugin_Admin_Top",MakeTopMenu(GetRights("AskFileReBuild"),ZC_MSG073,BlogHost&"zb_system/cmd.asp?act=AskFileReBuild","",""))
+If Not ZC_POST_STATIC_MODE<>"STATIC" Then Call Add_Response_Plugin("Response_Plugin_Admin_Top",MakeTopMenu(GetRights("AskFileReBuild"),ZC_MSG073,BlogHost&"zb_system/cmd.asp?act=AskFileReBuild","",""))
 
 End Function
 '*********************************************************

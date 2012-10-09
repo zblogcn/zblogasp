@@ -1743,6 +1743,23 @@ Dim sAction_Plugin_TArticle_Export_Begin
 
 
 
+
+
+'**************************************************<
+'类型:action
+'名称:Action_Plugin_TArticle_Save_Begin
+'参数:无
+'说明:TArticle_Export_Begin
+'**************************************************>
+Dim Action_Plugin_TArticle_Save_Begin()
+ReDim Action_Plugin_TArticle_Save_Begin(0)
+Dim bAction_Plugin_TArticle_Save_Begin
+Dim sAction_Plugin_TArticle_Save_Begin
+
+
+
+
+
 '**************************************************<
 '类型:action
 '名称:Action_Plugin_TArticle_Export_End
