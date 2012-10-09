@@ -31,13 +31,37 @@ BlogTitle="静态管理中心"
       <%Call GetBlogHint()%>
     </div>
   <div class="divHeader"><%=BlogTitle%></div>
-  <div class="SubMenu"> <a href="main.asp"><span class="m-left m-now">配置页面</span></a><a href="list.asp"><span class="m-left">查看ReWrite规则</span></a>
+  <div class="SubMenu"> <a href="main.asp"><span class="m-left m-now">配置页面</span></a><a href="list.asp"><span class="m-left">ReWrite规则</span></a>
   </div>
   <div id="divMain2">
     <script type="text/javascript">ActiveLeftMenu("aPlugInMng");</script>
 <form id="form" name="form" method="post" action="save.asp">
 
+
+
+
+			<div class="content-box"><!-- Start Content Box -->
+				
+				<div class="content-box-header">
+			
+					<ul class="content-box-tabs">
+
+	<li><a href="#tab1" class="default-tab"><span>文章及页面静态化设置</span></a></li>
+	<li><a href="#tab2"><span>分类页静态化设置</span></a></li>
+					</ul>
+					
+					<div class="clear"></div>
+					
+				</div> <!-- End .content-box-header -->
+				
+				<div class="content-box-content">
+
+
+<div class="tab-content default-tab" style='border:none;padding:0px;margin:0;' id="tab1">
+
+<input type="hidden" name="edtZC_POST_STATIC_MODE" id="edtZC_POST_STATIC_MODE" value="<%=ZC_POST_STATIC_MODE%>" />
 <table width='100%' style='padding:0px;margin:0px;' cellspacing='0' cellpadding='0'>
+<tr><td width='30%'><p align='left'><b>·文章,页面的静态化选项</b><br/><span class='note'>主机安装有ISAPI Rewrite或是URL Rewrite可以开启Rewrite选项</span></p></td><td><p><label><input type="radio" value="STATIC" name="POST_STATIC" <%=IIF(ZC_POST_STATIC_MODE="STATIC","checked='checked'","")%>/>&nbsp;&nbsp;1.静态页面(系统默认)</label>&nbsp;&nbsp;&nbsp;&nbsp;<label><input type="radio" value="ACTIVE" name="POST_STATIC" <%=IIF(ZC_POST_STATIC_MODE="ACTIVE","checked='checked'","")%>/>&nbsp;&nbsp;2.动态页面</label>&nbsp;&nbsp;&nbsp;&nbsp;<label><input type="radio" value="REWRITE" name="POST_STATIC" <%=IIF(ZC_POST_STATIC_MODE="REWRITE","checked='checked'","")%>/>&nbsp;&nbsp;3.动态页面+Rewrite支持</label></p></td></tr>
 <tr><td width='30%'><p align='left'><b>·文章类的静态配置</b><br/><span class='note'></span></p></td><td><p><input id='edtZC_ARTICLE_REGEXT' name='edtZC_ARTICLE_REGEX' style='width:500px;' type='text' value='<%=ZC_ARTICLE_REGEX%>' /></p></td></tr>
 <tr><td width='30%'><p>推荐配置</p></td><td>
 <p><label onclick="changeval(1,1)"><input type="radio" name="radio" />&nbsp;&nbsp;配置1:文章名型(默认) http://www.yourblog/post/articlename.html</label></p>
@@ -52,28 +76,99 @@ BlogTitle="静态管理中心"
 <p><label onclick="changeval(2,2)"><input type="radio" name="radio2" />&nbsp;&nbsp;配置2:页面名目录型 http://www.yourblog/pagename/</label></p>
 </td></tr>
 </table>
+
+</div>
+
+<div class="tab-content" style='border:none;padding:0px;margin:0;' id="tab2">
+
+<input type="hidden" name="edtZC_STATIC_MODE" id="edtZC_STATIC_MODE" value="<%=ZC_STATIC_MODE%>" />
+<table width='100%' style='padding:0px;margin:0px;' cellspacing='0' cellpadding='0'>
+<tr><td><p  align='left'><b>·分类页的静态化选项</b><br/><span class='note'>主机安装有ISAPI Rewrite或是URL Rewrite可以开启Rewrite选项</span></p></td><td><p><label><input type="radio" value="ACTIVE" name="STATIC" <%=IIF(ZC_STATIC_MODE="ACTIVE","checked='checked'","")%>/>&nbsp;&nbsp;1.动态页面(系统默认)</label>&nbsp;&nbsp;&nbsp;&nbsp;<label><input type="radio" value="REWRITE" name="STATIC" <%=IIF(ZC_STATIC_MODE="REWRITE","checked='checked'","")%>/>&nbsp;&nbsp;2.动态页面+Rewrite支持</label></p></td></tr>
+<tr><td width='30%'><p align='left'><b>·首页的URL配置</b><br/><span class='note'></span></p></td><td><p><input id='edtZC_DEFAULT_REGEX' name='edtZC_DEFAULT_REGEX' style='width:500px;' type='text' value='<%=ZC_DEFAULT_REGEX%>' /></p></td></tr>
+<tr><td width='30%'><p align='left'><b>·分类页的URL配置</b><br/><span class='note'></span></p></td><td><p><input id='edtZC_CATEGORY_REGEX' name='edtZC_CATEGORY_REGEX' style='width:500px;' type='text' value='<%=ZC_CATEGORY_REGEX%>' /></label></p></td></tr>
+<tr><td width='30%'><p align='left'><b>·作者页的URL配置</b><br/><span class='note'></span></p></td><td><p><input id='edtZC_USER_REGEX' name='edtZC_USER_REGEX' style='width:500px;' type='text' value='<%=ZC_USER_REGEX%>' /></label></p></td></tr>
+<tr><td width='30%'><p align='left'><b>·TAGS页的URL配置</b><br/><span class='note'></span></p></td><td><p><input id='edtZC_TAGS_REGEX' name='edtZC_TAGS_REGEX' style='width:500px;' type='text' value='<%=ZC_TAGS_REGEX%>' /></label></p></td></tr>
+<tr><td width='30%'><p align='left'><b>·日期页的URL配置</b><br/><span class='note'></span></p></td><td><p><input id='edtZC_DATE_REGEX' name='edtZC_DATE_REGEX' style='width:500px;' type='text' value='<%=ZC_DATE_REGEX%>' /></label></p></td></tr>
+</table>
+
+</div>
+
+
+				</div> <!-- End .content-box-content -->
+				
+			</div> <!-- End .content-box -->
+
+
+
 <p><span class="note">您可以自定义静态配置,配置必须是{%host%}打头,".html"结尾,中间可以用{%post%},{%category%},{%user%},{%year%},{%month%},{%day%},{%id%},{%alias%}组合.</span></p>
 <p><span class="note">{%post%}为文章发布目录,可以在网站设置里修改,{%category%}为文章的别名,{%user%}是用户别名,{%alias%}是文章别名,没有设置文章别名系统会自动采用ID填充.</span></p>
+<p><span class="star">注意:开启文章及页面和分类页的Rewrite支持选项后,请查看"ReWrite规则"并应用在主机上方能生效.</span></p>
+
+
 <br/>
 <input name="" type="submit" class="button" value="保存"/>
 </form>
 </div>
 </div>
 <script type="text/javascript">
-function changeval(a,b){
-	if(a==1){
-		a="#edtZC_ARTICLE_REGEXT";
-		if(b==1){b="{%host%}/{%post%}/{%alias%}.html"};
-		if(b==2){b="{%host%}/{%year%}/{%month%}/{%alias%}.html"};
-		if(b==3){b="{%host%}/{%category%}/{%alias%}.html"};
-		if(b==4){b="{%host%}/{%post%}/{%alias%}/default.html"};
-		if(b==5){b="{%host%}/{%category%}/{%id%}/default.html"};
-	}else{
-		a="#edtZC_PAGE_REGEX";
-		if(b==1){b="{%host%}/{%alias%}.html"};
-		if(b==2){b="{%host%}/{%alias%}/default.html"};
+
+	function changeval(a,b){
+		if(a==1){
+			a="#edtZC_ARTICLE_REGEXT";
+			if(b==1){b="{%host%}/{%post%}/{%alias%}.html"};
+			if(b==2){b="{%host%}/{%year%}/{%month%}/{%alias%}.html"};
+			if(b==3){b="{%host%}/{%category%}/{%alias%}.html"};
+			if(b==4){b="{%host%}/{%post%}/{%alias%}/default.html"};
+			if(b==5){b="{%host%}/{%category%}/{%id%}/default.html"};
+		}else{
+			a="#edtZC_PAGE_REGEX";
+			if(b==1){b="{%host%}/{%alias%}.html"};
+			if(b==2){b="{%host%}/{%alias%}/default.html"};
+		}
+		$(a).val(b);
 	}
-	$(a).val(b);
-}
+
+	$(":radio[name='POST_STATIC']").live("click",function(){
+		$("#edtZC_POST_STATIC_MODE").val($(this).val());
+		if($(this).val()=="STATIC"){
+			$("#edtZC_ARTICLE_REGEXT").val("{%host%}/{%post%}/{%alias%}.html");
+			$("#edtZC_PAGE_REGEX").val("{%host%}/{%alias%}.html");
+		};
+		if($(this).val()=="ACTIVE"){
+			$("#edtZC_ARTICLE_REGEXT").val("{%host%}/view.asp?id={%id%}");
+			$("#edtZC_PAGE_REGEX").val("{%host%}/view.asp?id={%id%}");
+		};
+		if($(this).val()=="REWRITE"){
+			$("#edtZC_ARTICLE_REGEXT").val("{%host%}/{%post%}/{%alias%}.html");
+			$("#edtZC_PAGE_REGEX").val("{%host%}/{%alias%}.html");		
+		};
+
+	});
+
+
+	$(":radio[name='STATIC']").live("click",function(){
+		$("#edtZC_STATIC_MODE").val($(this).val());
+
+		if($(this).val()=="ACTIVE"){
+			$("#edtZC_DEFAULT_REGEX").val("{%host%}/catalog.asp")
+			$("#edtZC_CATEGORY_REGEX").val("{%host%}/catalog.asp?cate={%id%}")
+			$("#edtZC_USER_REGEX").val("{%host%}/catalog.asp?user={%id%}")
+			$("#edtZC_TAGS_REGEX").val("{%host%}/catalog.asp?tags={%alias%}")
+			$("#edtZC_DATE_REGEX").val("{%host%}/catalog.asp?date={%date%}")
+			$("#edtZC_STATIC_MODE").val("ACTIVE")
+		};
+		if($(this).val()=="REWRITE"){
+			$("#edtZC_DEFAULT_REGEX").val("{%host%}/default.html")
+			$("#edtZC_CATEGORY_REGEX").val("{%host%}/category-{%id%}.html")
+			$("#edtZC_USER_REGEX").val("{%host%}/author-{%id%}.html")
+			$("#edtZC_TAGS_REGEX").val("{%host%}/tags-{%id%}.html")
+			$("#edtZC_DATE_REGEX").val("{%host%}/{%date%}.html")
+			$("#edtZC_STATIC_MODE").val("REWRITE")	
+		};
+
+	});
+
+
+
 </script>
 <!--#include file="..\..\..\zb_system\admin\admin_footer.asp"-->
