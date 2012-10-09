@@ -778,6 +778,16 @@ padding-bottom:10px;
 border-bottom:1px solid #dbe0e6;
 }
 
+#divCommentPost img{margin-bottom:-0.5em;}
+#cancel-reply{float:right;margin-right: 2em;}
+div.reply-frm{
+	background:#f0f0f0;
+	box-shadow: 0 0 15px #666;
+	margin:1em 1% !important;
+	padding:.3em .8em !important;
+	min-width:330px;
+}
+
 input.text{
 border:1px solid #d7d7d7;
 line-height:20px;
@@ -825,5 +835,3 @@ span.sh{
 	color:#666;
 }
 
-#cancel-reply{float:right;margin-right: 2em;}
-.reply-frm{background:#f0f0f0;}
