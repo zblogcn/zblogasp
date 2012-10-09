@@ -92,7 +92,15 @@ If IsEmpty(Request.QueryString("navn"))=False Then
 
 End If
 
-If Article.LoadInfoByID(Request.QueryString("id")) Then
+Dim c
+c=Request.QueryString("id")
+
+Set objRS=objConn.Execute("SELECT [log_ID] FROM [blog_Article] WHERE [log_Url]='"&FilterSQL(c)&"'")
+If (Not objRS.bof) And (Not objRS.eof) Then
+	c=objRS("log_ID")
+End If
+
+If Article.LoadInfoByID(c) Then
 
 	If Article.Level=1 Then Call ShowError(63)
 	If Article.Level=2 Then
