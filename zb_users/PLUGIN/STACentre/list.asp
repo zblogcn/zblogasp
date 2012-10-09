@@ -40,6 +40,7 @@ pre{
   <div class="SubMenu"> <a href="main.asp"><span class="m-left">配置页面</span></a><a href="list.asp"><span class="m-left m-now">ReWrite规则</span></a>
   </div>
   <div id="divMain2">
+    <script type="text/javascript">ActiveLeftMenu("aPlugInMng");</script>
 <%If ZC_POST_STATIC_MODE="REWRITE" Or ZC_STATIC_MODE="REWRITE" Then%>
 			<div class="content-box" <%=IIF(rewrite,"style='display:block;'","style='display:none;'")%>><!-- Start Content Box -->
 				

@@ -162,7 +162,7 @@ BlogTitle="静态管理中心"
 			$("#edtZC_CATEGORY_REGEX").val("{%host%}/category-{%id%}.html")
 			$("#edtZC_USER_REGEX").val("{%host%}/author-{%id%}.html")
 			$("#edtZC_TAGS_REGEX").val("{%host%}/tags-{%id%}.html")
-			$("#edtZC_DATE_REGEX").val("{%host%}/{%date%}.html")
+			$("#edtZC_DATE_REGEX").val("{%host%}/date-{%date%}.html")
 			$("#edtZC_STATIC_MODE").val("REWRITE")	
 		};
 

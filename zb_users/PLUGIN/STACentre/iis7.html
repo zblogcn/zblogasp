@@ -36,8 +36,16 @@
                     <action type="Rewrite" url="catalog.asp?date={R:1}" />
                 </rule>
                 <rule name="Imported Rule 9" stopProcessing="true">
-                    <match url="^([0-9\-]+)_([0-9]+)\.html$" ignoreCase="false" />
+                    <match url="^date-([0-9\-]+)_([0-9]+)\.html$" ignoreCase="false" />
                     <action type="Rewrite" url="catalog.asp?date={R:1}&amp;page={R:2}" />
+                </rule>
+                <rule name="Imported Rule 10" stopProcessing="true">
+                    <match url="^post/([0-9\-]+)\.html$" ignoreCase="false" />
+                    <action type="Rewrite" url="view.asp?id={R:1}" />
+                </rule>
+                <rule name="Imported Rule 11" stopProcessing="true">
+                    <match url="^([0-9\-]+)\.html$" ignoreCase="false" />
+                    <action type="Rewrite" url="view.asp?id={R:1}" />
                 </rule>
             </rules>
         </rewrite>
