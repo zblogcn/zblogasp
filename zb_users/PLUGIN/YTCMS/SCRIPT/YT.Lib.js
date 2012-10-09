@@ -452,12 +452,9 @@ var YT = {
 		},
 		Analysis:function(){
 			$('#cmbCate').change(function(){
-				$('#model').parent().find('p').each(function(){
-					if($(this).attr('id') != 'model'){
-						$(this).remove();	
-					}
-				});
+				var ele,val;
 				var _Cate = $(this).val();
+				$('#model').find('p').remove();
 				$.ajax({
 					url:YT_CMS_XML_URL+YTConfig.Model,
 					type: 'GET',
@@ -468,71 +465,72 @@ var YT = {
 							var Model = $('Model', xml).get(i);
 							var _Bind = $('Table>Bind',Model).text().split(',');
 							var _isBind = false;
-							for(var _i=0;_i<_Bind.length;_i++){
-								if(parseInt(_Cate) == parseInt(_Bind[_i])){
+							for(var j=0;j<_Bind.length;j++){
+								if(parseInt(_Cate) == parseInt(_Bind[j])){
 									_isBind = true;
 									break;
 								}
 							}
 							if(_isBind){
-								$('Field',Model).each(function(ii){
+								$('Field',Model).each(function(){
 									switch($(this).find('Type').text()){
 										case 'text':
-											var _i = document.createElement('input');
-												_i.type = $(this).find('Type').text();
-												_i.value = $(this).find('Value').text();
-												_i.name = $(this).find('Name').text();
-												_i.style.width = '50%';
-												$('#model').parent().append('<p>'+$(this).find('Description').text()
-												+':</p>').find('p').eq(ii+1).attr('title',$(this).find('Type').text()).append(_i);
+											ele = document.createElement('input');
+											ele.type = $(this).find('Type').text();
+											ele.value = $(this).find('Value').text();
+											ele.name = $(this).find('Name').text();
+											ele.style.width = '50%';
+											$('<p>'+$(this).find('Description').text()+':</p>')
+											.attr('title',$(this).find('Type').text()).append(ele).appendTo($('#model'));
 										break;
 										case 'select':
-											var _s = document.createElement('select');
-												_s.name = $(this).find('Name').text();
-												try{
-													var _v = eval($(this).find('Value').text());
-													for(var _i=0;_i<_v.length;_i++){
-														_s.options.add(new Option(_v[_i].t,_v[_i].v));	
-													}
-												}catch(e){
-													_v = $(this).find('Value').text().split(',');	
-													for(var _i=0;_i<_v.length;_i++){
-														_s.options.add(new Option(_v[_i],_v[_i]));	
-													}
+											ele = document.createElement('select');
+											ele.name = $(this).find('Name').text();
+											try{
+												val = eval($(this).find('Value').text());
+												for(var j=0;j<val.length;j++){
+													ele.options.add(new Option(val[j].t,val[j].v));	
 												}
-												$('#model').parent().append('<p>'+$(this).find('Description').text()
-												 +':</p>').find('p').eq(ii+1).attr('title',$(this).find('Type').text()).append(_s);
+											}catch(e){
+												val = $(this).find('Value').text().split(',');	
+												for(var j=0;j<val.length;j++){
+													ele.options.add(new Option(val[j],val[j]));	
+												}
+											}
+											$('<p>'+$(this).find('Description').text()+':</p>')
+											.attr('title',$(this).find('Type').text()).append(ele).appendTo($('#model'));
 										break;
 										case 'checkbox':
-											var row = $('#model').parent().append('<p>'+$(this).find('Description').text()
-												 +':</p>').find('p').eq(ii+1).attr('title',$(this).find('Type').text());
-												try{
-													var __v = eval($(this).find('Value').text());
-													for(var _i=0;_i<__v.length;_i++){
-														var __i = document.createElement('input');
-															__i.type = $(this).find('Type').text();
-															__i.value = __v[_i].v;
-															__i.name = $(this).find('Name').text();
-															row.append(__v[_i].t).append(__i);
-													}
-												}catch(e){
-													__v = $(this).find('Value').text().split(',');	
-													for(var _i=0;_i<__v.length;_i++){
-														var __i = document.createElement('input');
-															__i.type = $(this).find('Type').text();
-															__i.value = __v[_i];
-															__i.name = $(this).find('Name').text();
-															row.append(__v[_i]).append(__i);
-													}	
+											var row = $('<p>'+$(this).find('Description').text()+':</p>')
+											.attr('title',$(this).find('Type').text());
+											try{
+												var val = eval($(this).find('Value').text());
+												for(var j=0;j<val.length;j++){
+														ele = document.createElement('input');
+														ele.type = $(this).find('Type').text();
+														ele.value = val[j].v;
+														ele.name = $(this).find('Name').text();
+														row.append(val[j].t).append(ele);
 												}
+											}catch(e){
+												val = $(this).find('Value').text().split(',');	
+												for(var j=0;j<val.length;j++){
+														ele = document.createElement('input');
+														ele.type = $(this).find('Type').text();
+														ele.value = val[j];
+														ele.name = $(this).find('Name').text();
+														row.append(val[j]).append(ele);
+												}	
+											}
+											row.appendTo($('#model'));
 										break;
 										case 'textarea':
-											var _t = document.createElement('textarea');
-												_t.value = $(this).find('Value').text();
-												_t.name = $(this).find('Name').text();
-												_t.style.width = '50%';
-												$('#model').parent().append('<p>'+$(this).find('Description').text()
-												 +':</p>').find('p').eq(ii+1).attr('title',$(this).find('Type').text()).append(_t);
+											ele = document.createElement('textarea');
+											ele.value = $(this).find('Value').text();
+											ele.name = $(this).find('Name').text();
+											ele.style.width = '50%';
+											$('<p>'+$(this).find('Description').text()+':</p>')
+											.attr('title',$(this).find('Type').text()).append(ele).appendTo($('#model'));
 										break;
 									}
 								});
@@ -544,37 +542,36 @@ var YT = {
 										data: { Action:'GetData', Name:$('Table>Name',Model).text(), ID:$('#edtID').val(), t:Math.random() },
 										success: function(r) {
 											r=eval('('+r+')');
-											$('#model').parent().find('p').each(function(j){
-												if($(this).attr('id')!='model'){
-													switch($(this).attr('title')){
-														case 'text':
-															var v=k(r,$(this).find('input')[0].name);
-															if(v!=null){$(this).find('input').val(unescape(v));}
-														break;
-														case 'select':
-															var v=k(r,$(this).find('select')[0].name);
-															if(v!=null){$(this).find('select').val(unescape(v));}
-														break;
-														case 'checkbox':
-															var v=k(r,$(this).find('input[type="checkbox"]')[0].name);
-															if(v!=null){
-																var _c = unescape(v).split(',');
-																	$(this).find('input[type="checkbox"]').each(function(){
-																		for(var _j=0;_j<_c.length;_j++){
-																			if($(this).val().toLowerCase().replace(/\s+/ig,'') == _c[_j].toLowerCase().replace(/\s+/ig,'')){
-																				$(this).attr('checked',true);
-																				break;
-																			}	
-																		}
-																	});
-															}
-														break;
-														case 'textarea':
-															var v=k(r,$(this).find('textarea')[0].name);
-															if(v!=null){$(this).find('textarea').val(unescape(v));}
-														break;
-													}
-												}			  
+											$('#model').find('p').each(function(j){
+												switch($(this).attr('title')){
+													case 'text':
+														val=k(r,$(this).find('input')[0].name);
+														if(val!=null){$(this).find('input').val(unescape(val));}
+													break;
+													case 'select':
+														val=k(r,$(this).find('select')[0].name);
+														if(val!=null){$(this).find('select').val(unescape(val));}
+													break;
+													case 'checkbox':
+														val=k(r,$(this).find('input[type="checkbox"]')[0].name);
+														if(val!=null){
+															val = unescape(val).split(',');
+															$(this).find('input[type="checkbox"]').each(function(){
+																for(var l=0;l<val.length;l++){
+																	if($(this).val().toLowerCase().replace(/\s+/ig,'')
+																	== val[l].toLowerCase().replace(/\s+/ig,'')){
+																		$(this).attr('checked',true);
+																		break;
+																	}	
+																}
+															});
+														}
+													break;
+													case 'textarea':
+														var val=k(r,$(this).find('textarea')[0].name);
+														if(val!=null){$(this).find('textarea').val(unescape(val));}
+													break;
+												}		  
 											});
 										}
 									});	
