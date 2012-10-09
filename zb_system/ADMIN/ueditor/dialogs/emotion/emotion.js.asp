@@ -30,7 +30,7 @@ window.onload = function () {
         emotionLocalization:false
     });
 
-    emotion.SmileyPath = editor.options.emotionLocalization === true ? '' : '<%=GetCurrentHost()%>zb_users/emotions/<%=ZC_EMOTICONS_FILENAME%>';
+    emotion.SmileyPath = editor.options.emotionLocalization === true ? '' : '<%=GetCurrentHost()%>zb_users/emotion/<%=ZC_EMOTICONS_FILENAME%>';
     emotion.SmileyBox = createTabList( emotion.tabNum );
     emotion.tabExist = createArr( emotion.tabNum );
 
