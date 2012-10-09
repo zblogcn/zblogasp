@@ -34,7 +34,7 @@ Next
 If d.Exists("ZC_ARTICLE_REGEX") Then If BlogConfig.Read("ZC_ARTICLE_REGEX")<>d.Item("ZC_ARTICLE_REGEX")Then Call SetBlogHint(Empty,Empty,True)
 If d.Exists("ZC_PAGE_REGEX") Then If BlogConfig.Read("ZC_PAGE_REGEX")<>d.Item("ZC_PAGE_REGEX")Then Call SetBlogHint(Empty,Empty,True)
 If d.Exists("ZC_STATIC_MODE") Then If BlogConfig.Read("ZC_STATIC_MODE")<>d.Item("ZC_STATIC_MODE")Then Call SetBlogHint(Empty,Empty,True)
-
+If d.Exists("ZC_POST_STATIC_MODE") Then If BlogConfig.Read("ZC_POST_STATIC_MODE")<>d.Item("ZC_POST_STATIC_MODE")Then Call SetBlogHint(Empty,Empty,True)
 
 For Each a In d.Keys
 	Call BlogConfig.Write(a,d.Item(a))
