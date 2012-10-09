@@ -4,20 +4,21 @@
 '///////////////////////////////////////////////////////////////////////////////
 
 
+'---------------------------------网站基本设置-----------------------------------
 Dim ZC_BLOG_HOST
-ZC_BLOG_HOST="http://localhost/"
+ZC_BLOG_HOST="http://192.168.1.14/"
 
 Dim ZC_BLOG_TITLE
-ZC_BLOG_TITLE="My Blog"
+ZC_BLOG_TITLE="Your Blog413"
 
 Dim ZC_BLOG_SUBTITLE
-ZC_BLOG_SUBTITLE="Hello, world!"
+ZC_BLOG_SUBTITLE="Good Luck To You!"
 
 Dim ZC_BLOG_NAME
-ZC_BLOG_NAME="My Blog"
+ZC_BLOG_NAME="Your Blog413"
 
 Dim ZC_BLOG_SUB_NAME
-ZC_BLOG_SUB_NAME="Hello, world!"
+ZC_BLOG_SUB_NAME="Good Luck To You!"
 
 Dim ZC_BLOG_THEME
 ZC_BLOG_THEME="default"
@@ -26,7 +27,7 @@ Dim ZC_BLOG_CSS
 ZC_BLOG_CSS="default"
 
 Dim ZC_BLOG_COPYRIGHT
-ZC_BLOG_COPYRIGHT="Copyright Your WebSite. Some Rights Reserved."
+ZC_BLOG_COPYRIGHT="Copyright xxxx-xxxx Your WebSite.Some Rights Reserved.Copyright xxxx-xxxx Your WebSite. Some Rights Reserved."
 
 Dim ZC_BLOG_MASTER
 ZC_BLOG_MASTER="zblogger"
@@ -43,7 +44,7 @@ Dim ZC_DATABASE_PATH
 ZC_DATABASE_PATH="zb_users/data/#%20768d53283c63b13403f0.mdb"
 
 Dim ZC_MSSQL_ENABLE
-ZC_MSSQL_ENABLE=False
+ZC_MSSQL_ENABLE=True
 
 Dim ZC_MSSQL_DATABASE
 ZC_MSSQL_DATABASE="zb"
@@ -63,7 +64,7 @@ ZC_MSSQL_SERVER="(local)\SQLEXPRESS"
 
 '---------------------------------插件----------------------------------------
 Dim ZC_USING_PLUGIN_LIST
-ZC_USING_PLUGIN_LIST=""
+ZC_USING_PLUGIN_LIST="BlogConfig|Gravatar|FileManage|AppCentre|STACentre"
 
 
 
@@ -74,7 +75,7 @@ ZC_USING_PLUGIN_LIST=""
 
 '-------------------------------全局配置-----------------------------------
 Dim ZC_BLOG_CLSID
-ZC_BLOG_CLSID="2F913D22-E4C0-52BE-7042-7C667270841D"
+ZC_BLOG_CLSID="6464be54bfc0416bffd0485f6edde956"
 
 Dim ZC_TIME_ZONE
 ZC_TIME_ZONE="+0800"
@@ -91,7 +92,7 @@ ZC_MULTI_DOMAIN_SUPPORT=False
 
 '当前 Z-Blog 版本
 Dim ZC_BLOG_VERSION
-ZC_BLOG_VERSION="2.0 Beta Build 120916"
+ZC_BLOG_VERSION="2.0 Beta1 Build 121008"
 
 
 
@@ -104,7 +105,7 @@ Dim ZC_COMMENT_VERIFY_ENABLE
 ZC_COMMENT_VERIFY_ENABLE=True
 
 Dim ZC_COMMENT_REVERSE_ORDER_EXPORT
-ZC_COMMENT_REVERSE_ORDER_EXPORT=False
+ZC_COMMENT_REVERSE_ORDER_EXPORT=True
 
 Dim ZC_COMMNET_MAXFLOOR
 ZC_COMMNET_MAXFLOOR=4
@@ -152,11 +153,11 @@ ZC_USE_NAVIGATE_ARTICLE=True
 Dim ZC_RSS_EXPORT_WHOLE
 ZC_RSS_EXPORT_WHOLE=True
 
-Dim ZC_SYNTAXHIGHLIGHTER_ENABLE
-ZC_SYNTAXHIGHLIGHTER_ENABLE=True
+Dim ZC_TEMPLATE_DIRECTORY
+ZC_TEMPLATE_DIRECTORY="template"
 
-Dim ZC_CODEMIRROR_ENABLE
-ZC_CODEMIRROR_ENABLE=False
+
+
 
 
 '后台管理
@@ -168,8 +169,6 @@ ZC_REBUILD_FILE_COUNT=50
 
 Dim ZC_REBUILD_FILE_INTERVAL
 ZC_REBUILD_FILE_INTERVAL=1
-
-
 
 
 
@@ -217,7 +216,7 @@ ZC_UBB_AUTOKEY_ENABLE=False
 
 '表情相关
 Dim ZC_EMOTICONS_FILENAME
-ZC_EMOTICONS_FILENAME="neutral|grin|happy|slim|smile|tongue|wink|surprised|confuse|cool|cry|evilgrin|fat|mad|red|roll|unhappy|waii|yell"
+ZC_EMOTICONS_FILENAME="face"
 
 Dim ZC_EMOTICONS_FILETYPE
 ZC_EMOTICONS_FILETYPE="png"
@@ -230,7 +229,7 @@ ZC_EMOTICONS_FILESIZE="16"
 
 '上传相关
 Dim ZC_UPLOAD_FILETYPE
-ZC_UPLOAD_FILETYPE="jpg|gif|png|jpeg|bmp|psd|wmf|ico|rpm|deb|tar|gz|sit|7z|bz2|zip|rar|xml|xsl|svg|svgz|doc|xls|wps|chm|txt|pdf|mp3|avi|mpg|rm|ra|rmvb|mov|wmv|wma|swf|fla|torrent|zpi|zti"
+ZC_UPLOAD_FILETYPE="jpg|gif|png|jpeg|bmp|psd|wmf|ico|rpm|deb|tar|gz|sit|7z|bz2|zip|rar|xml|xsl|svg|svgz|doc|xls|wps|chm|txt|pdf|mp3|avi|mpg|rm|ra|rmvb|mov|wmv|wma|swf|fla|torrent|zpi|zti|zba"
 
 Dim ZC_UPLOAD_FILESIZE
 ZC_UPLOAD_FILESIZE=10485760
@@ -278,8 +277,6 @@ ZC_CONTENT_MAX=1000
 
 
 '---------------------------------静态化配置-----------------------------------
-
-
 '{asp html shtml}
 Dim ZC_STATIC_TYPE
 ZC_STATIC_TYPE="html"
@@ -287,15 +284,12 @@ ZC_STATIC_TYPE="html"
 Dim ZC_STATIC_DIRECTORY
 ZC_STATIC_DIRECTORY="post"
 
-Dim ZC_TEMPLATE_DIRECTORY
-ZC_TEMPLATE_DIRECTORY="template"
-
 'ACTIVE or MIX or REWRITE
 Dim ZC_STATIC_MODE
 ZC_STATIC_MODE="REWRITE"
 
 Dim ZC_ARTICLE_REGEX
-ZC_ARTICLE_REGEX="{%host%}/{%year%}/{%month%}/{%alias%}.html"
+ZC_ARTICLE_REGEX="{%host%}/{%post%}/{%alias%}.html"
 
 Dim ZC_PAGE_REGEX
 ZC_PAGE_REGEX="{%host%}/{%alias%}.html"
@@ -310,10 +304,15 @@ Dim ZC_TAGS_REGEX
 ZC_TAGS_REGEX="{%host%}/tags-{%id%}.html"
 
 Dim ZC_DATE_REGEX
-ZC_DATE_REGEX="{%host%}/{%date%}.html"
+ZC_DATE_REGEX="{%host%}/date-{%date%}.html"
 
 Dim ZC_DEFAULT_REGEX
 ZC_DEFAULT_REGEX="{%host%}/default.html"
+
+
+'文章,页面类的静态模式ACTIVE or STATIC or REWRITE
+Dim ZC_POST_STATIC_MODE
+ZC_POST_STATIC_MODE="REWRITE"
 
 
 
@@ -356,9 +355,14 @@ Dim ZC_WAP_MUTUALITY_LIMIT
 ZC_WAP_MUTUALITY_LIMIT=5
 
 
+Dim ZC_SYNTAXHIGHLIGHTER_ENABLE
+ZC_SYNTAXHIGHLIGHTER_ENABLE=True
 
+Dim ZC_CODEMIRROR_ENABLE
+ZC_CODEMIRROR_ENABLE=True
 
-
+Dim ZC_ARTICLE_EXCERPT_MAX
+ZC_ARTICLE_EXCERPT_MAX=250
 
 '------------------------------ASP系统------------------------------------
 Const adOpenForwardOnly=0

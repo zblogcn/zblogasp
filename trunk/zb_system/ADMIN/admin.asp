@@ -76,7 +76,7 @@ End If
 		Case "FileMng" Call ExportFileList(Request.QueryString("page"))
 		Case "TagMng" Call ExportTagList(Request.QueryString("page"))
 		Case "PlugInMng" Call ExportPluginMng()
-		Case "SiteInfo" Call ExportSiteInfo()
+		Case "SiteInfo" Call ClearGlobeCache():Call LoadGlobeCache():Call ExportSiteInfo()
 		Case "AskFileReBuild" Call ExportFileReBuildAsk()
 		Case "ThemeMng" Call ExportThemeMng()
 		Case "FunctionMng" Call GetFunction():Call ExportFunctionList()

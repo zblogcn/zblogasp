@@ -14,7 +14,7 @@
 '///////////////////////////////////////////////////////////////////////////////
 %>
 <% Option Explicit %>
-<% On Error Resume Next %>
+<% 'On Error Resume Next %>
 <% Response.Charset="UTF-8" %>
 <% Response.Buffer=True %>
 <!-- #include file="zb_users/c_option.asp" -->
@@ -42,7 +42,7 @@ If IsEmpty(Request.QueryString("nav"))=False Then
 	If Article.LoadInfoByID(Request.QueryString("nav")) Then
 		Set objRS=objConn.Execute("SELECT TOP 1 [log_FullUrl] FROM [blog_Article] WHERE ([log_ID]="& Request.QueryString("nav") &")")
 		If (Not objRS.bof) And (Not objRS.eof) Then
-			Response.Redirect Replace(objRS("log_FullUrl"),"<#ZC_BLOG_HOST#>",BlogHost)
+			Response.Redirect Article.Url
 		Else
 			Response.Redirect BlogHost
 		End If
@@ -56,9 +56,15 @@ End If
 If IsEmpty(Request.QueryString("navp"))=False Then
 
 	If Article.LoadInfoByID(Request.QueryString("navp")) Then
-		Set objRS=objConn.Execute("SELECT TOP 1 [log_FullUrl] FROM [blog_Article] WHERE ([log_Level]>2) AND ([log_Type]=0) AND ([log_PostTime]<" & ZC_SQL_POUND_KEY & Article.PostTime & ZC_SQL_POUND_KEY &") ORDER BY [log_PostTime] DESC")
+		Set objRS=objConn.Execute("SELECT TOP 1 [log_ID] FROM [blog_Article] WHERE ([log_Level]>2) AND ([log_Type]=0) AND ([log_PostTime]<" & ZC_SQL_POUND_KEY & Article.PostTime & ZC_SQL_POUND_KEY &") ORDER BY [log_PostTime] DESC")
 		If (Not objRS.bof) And (Not objRS.eof) Then
-			Response.Redirect Replace(objRS("log_FullUrl"),"<#ZC_BLOG_HOST#>",BlogHost)
+			Dim a
+			Set a=New TArticle
+			If a.LoadInfoByID(objRS("log_ID")) Then
+				Response.Redirect a.Url
+			Else
+				Response.Redirect BlogHost
+			End If
 		Else
 			Response.Redirect BlogHost
 		End If
@@ -70,9 +76,15 @@ End If
 If IsEmpty(Request.QueryString("navn"))=False Then
 
 	If Article.LoadInfoByID(Request.QueryString("navn")) Then
-		Set objRS=objConn.Execute("SELECT TOP 1 [log_FullUrl] FROM [blog_Article] WHERE ([log_Level]>2) AND ([log_Type]=0) AND ([log_PostTime]>" & ZC_SQL_POUND_KEY & Article.PostTime & ZC_SQL_POUND_KEY &") ORDER BY [log_PostTime] ASC")
+		Set objRS=objConn.Execute("SELECT TOP 1 [log_ID] FROM [blog_Article] WHERE ([log_Level]>2) AND ([log_Type]=0) AND ([log_PostTime]>" & ZC_SQL_POUND_KEY & Article.PostTime & ZC_SQL_POUND_KEY &") ORDER BY [log_PostTime] ASC")
 		If (Not objRS.bof) And (Not objRS.eof) Then
-			Response.Redirect Replace(objRS("log_FullUrl"),"<#ZC_BLOG_HOST#>",BlogHost)
+			Dim b
+			Set b=New TArticle
+			If b.LoadInfoByID(objRS("log_ID")) Then
+				Response.Redirect b.Url
+			Else
+				Response.Redirect BlogHost
+			End If
 		Else
 			Response.Redirect BlogHost
 		End If
@@ -106,6 +118,6 @@ Call System_Terminate()
 %>
 <!-- <%=RunTime()%>ms --><%
 If Err.Number<>0 then
-	Call ShowError(0)
+	'Call ShowError(0)
 End If
 %>

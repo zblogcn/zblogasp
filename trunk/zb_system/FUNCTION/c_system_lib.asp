@@ -611,7 +611,7 @@ Class TArticle
 			Content=TransferHTML(Content,"[upload][zc_blog_host]")
 			Intro=TransferHTML(Intro,"[upload][zc_blog_host]")
 
-			If ZC_POST_STATIC_MODE="ACTIVE" Then FullUrl=Replace(Url,BlogHost,"<#ZC_BLOG_HOST#>")
+			If ZC_POST_STATIC_MODE<>"STATIC" Then FullUrl=Replace(Url,BlogHost,"<#ZC_BLOG_HOST#>")
 
 			PostTime = Year(PostTime) & "-" & Month(PostTime) & "-" & Day(PostTime) & " " & Hour(PostTime) & ":" & Minute(PostTime) & ":" & Second(PostTime)
 
@@ -660,7 +660,7 @@ Class TArticle
 
 			PostTime = Year(PostTime) & "-" & Month(PostTime) & "-" & Day(PostTime) & " " & Hour(PostTime) & ":" & Minute(PostTime) & ":" & Second(PostTime)
 
-			If ZC_POST_STATIC_MODE="ACTIVE" Then FullUrl=Replace(Url,BlogHost,"<#ZC_BLOG_HOST#>")
+			If ZC_POST_STATIC_MODE<>"STATIC" Then FullUrl=Replace(Url,BlogHost,"<#ZC_BLOG_HOST#>")
 
 		End If
 
