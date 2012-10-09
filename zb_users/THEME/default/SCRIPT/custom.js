@@ -12,8 +12,8 @@
 		});
 	},500);
 
-	//本条留言DomID,类型(如，ul),评论框DomID,指定父ID；
-	function moveForm(comId,type,frmId,i){
+	//本条留言DomID,留言class,内容class,评论框DomID,指定父ID；
+	function moveForm(comId,comclass,mClass,frmId,i){
 		intRevID=i;
 		var comm=$('#'+comId),frm=$('#'+frmId),cancel=$("#cancel-reply"),temp = $('#temp-frm');
 		if ( ! comm.length || ! frm.length || ! cancel.length)return;
@@ -23,10 +23,11 @@
 				div.style.display = 'none';
 				frm.before(div);
 		}
-		if (comm.has(type).length)
+		if (comm.has('.'+comclass).length)
 		{
-			comm.find(type).first().before(frm);
-		}else comm.append(frm);
+			comm.find('.'+comclass).first().before(frm);
+		}else comm.find('.'+mClass).first().append(frm);
+		frm.addClass("reply-frm");
 
 		cancel.show();
 		cancel.click(function(){
@@ -36,6 +37,7 @@
 			temp.before(frm);
 			temp.remove();
 			$(this).hide();
+			frm.removeClass("reply-frm");
 			return false;
 		});
 		try { $('#txaArticle').focus(); }

@@ -824,3 +824,6 @@ span.sh{
 	cursor:pointer;
 	color:#666;
 }
+
+#cancel-reply{float:right;margin-right: 2em;}
+.reply-frm{background:#f0f0f0;}
