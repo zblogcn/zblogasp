@@ -33,7 +33,7 @@
 		cancel.click(function(){
 			intRevID=0;
 			var temp = $('#temp-frm'), frm=$('#'+frmId);
-			if ( ! temp || ! frm )return;
+			if ( ! temp.length || ! frm.length )return;
 			temp.before(frm);
 			temp.remove();
 			$(this).hide();
