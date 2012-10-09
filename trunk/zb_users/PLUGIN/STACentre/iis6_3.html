@@ -8,5 +8,5 @@ RewriteRule ^author-([0-9]+)\.html$ /catalog.asp\?auth=$1
 RewriteRule ^author-([0-9]+)_([0-9]+)\.html$ /catalog.asp\?auth=$1&page=$2
 RewriteRule ^tags-(.*)\.html$ /catalog.asp\?tags=$1 [NU]
 RewriteRule ^tags-(.*)_([0-9]+)\.html$ /catalog.asp\?tags=$1&page=$2 [NU]
-RewriteRule ^([0-9\-]+).html$ /catalog.asp\?date=$1
-RewriteRule ^([0-9\-]+)_([0-9]+).html$ /catalog.asp\?date=$1&page=$2
+RewriteRule ^date-([0-9\-]+).html$ /catalog.asp\?date=$1
+RewriteRule ^date-([0-9\-]+)_([0-9]+).html$ /catalog.asp\?date=$1&page=$2
