@@ -308,7 +308,7 @@ Call GetUser
 			Response.Write " <a id=""mylink"&objRS("log_ID")&""" href=""$div"&objRS("log_ID")&"tip?width=125"" class=""betterTip"" title=""关键词(Tags)""><img src=""tag.png""  alt=""TagIcon"" align=""absbottom"" ></a><div id=""div"&objRS("log_ID")&"tip"" style=""display:none;"">"& Export_ArticleTag(objRS("log_Tag")) &"</div>"
 			Response.Write "</td>"
 
-			Response.Write "<td align=""center""><a href=""../../cmd.asp?act=ArticleEdt&type="& ZC_BLOG_WEBEDIT &"&id=" & objRS("log_ID") & """>[可视]</a></td>"
+			Response.Write "<td align=""center""><a href="""&bloghost&"zb_system/cmd.asp?act=ArticleEdt&webedit="& ZC_BLOG_WEBEDIT &"&id=" & objRS("log_ID") & """>[编辑]</a></td>"
 			Response.Write "<td align=""center"" ><input type=""checkbox"" name=""edtDel"" id=""edtDel"" value="""&objRS("log_ID")&"""/></td>"
 			Response.Write "</tr>"
 
