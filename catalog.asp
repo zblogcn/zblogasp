@@ -14,7 +14,7 @@
 '///////////////////////////////////////////////////////////////////////////////
 %>
 <% Option Explicit %>
-<%' On Error Resume Next %>
+<% On Error Resume Next %>
 <% Response.Charset="UTF-8" %>
 <% Response.Buffer=True %>
 <!-- #include file="zb_users/c_option.asp" -->
@@ -32,20 +32,10 @@ For Each sAction_Plugin_Catalog_Begin in Action_Plugin_Catalog_Begin
 	If Not IsEmpty(sAction_Plugin_Catalog_Begin) Then Call Execute(sAction_Plugin_Catalog_Begin)
 Next
 
-Dim cate,alias,b
-	alias = Request.QueryString("alias")
-	If isEmpty(alias) Then
-		cate = Request.QueryString("cate")
-	Else
-		For Each b In Categorys
-			If alias = b.Alias Then cate = b.ID:Exit For
-		Next
-		If isEmpty(cate) Then cate = alias
-	End If
 Dim ArtList
 Set ArtList=New TArticleList
 
-If ArtList.Export(Request.QueryString("page"),cate,Request.QueryString("auth"),Request.QueryString("date"),Request.QueryString("tags"),ZC_DISPLAY_MODE_INTRO) Then
+If ArtList.Export(Request.QueryString("page"),Request.QueryString("cate"),Request.QueryString("auth"),Request.QueryString("date"),Request.QueryString("tags"),ZC_DISPLAY_MODE_INTRO) Then
 	ArtList.Build
 	Response.Write ArtList.html
 End If

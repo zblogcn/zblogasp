@@ -746,6 +746,19 @@ End Function
 '*********************************************************
 ' 目的：    检查分类是否存在
 '*********************************************************
+Function CheckTagByID(intTagID)
+
+	CheckTagByID=Not objConn.Execute("SELECT [tag_ID] FROM [blog_Tag] WHERE [tag_ID]=" & intTagID ).BOF
+
+End Function
+'*********************************************************
+
+
+
+
+'*********************************************************
+' 目的：    检查分类是否存在
+'*********************************************************
 Function CheckTagByName(strName)
 
 	CheckTagByName=Not objConn.Execute("SELECT [tag_ID] FROM [blog_Tag] WHERE [tag_Name]='" & FilterSQL(strName) &"'" ).BOF
@@ -1792,9 +1805,9 @@ End Function
 '*********************************************************
 ' 目的：    解析 REGEX For Path
 '*********************************************************
-Function ParseCustomDirectoryForPath(strRegex,strPost,strCategory,strUser,strYear,strMonth,strDay,strID,strAlias)
+Function ParseCustomDirectoryForPath(strRegex,strPost,strCategory,strUser,strYear,strMonth,strDay,strID,strName,strAlias)
 	Dim s
-	s=ParseCustomDirectory(strRegex,strPost,strCategory,strUser,strYear,strMonth,strDay,strID,strAlias)
+	s=ParseCustomDirectory(strRegex,strPost,strCategory,strUser,strYear,strMonth,strDay,strID,strName,strAlias)
 	s=Replace(s,"{%host%}",Left(BlogPath,Len(BlogPath)-1))
 	ParseCustomDirectoryForPath=Replace(s,"/","\")
 End Function
@@ -1806,9 +1819,9 @@ End Function
 '*********************************************************
 ' 目的：    解析 REGEX For Url
 '*********************************************************
-Function ParseCustomDirectoryForUrl(strRegex,strPost,strCategory,strUser,strYear,strMonth,strDay,strID,strAlias)
+Function ParseCustomDirectoryForUrl(strRegex,strPost,strCategory,strUser,strYear,strMonth,strDay,strID,strName,strAlias)
 	Dim s
-	s=ParseCustomDirectory(strRegex,strPost,strCategory,strUser,strYear,strMonth,strDay,strID,strAlias)
+	s=ParseCustomDirectory(strRegex,strPost,strCategory,strUser,strYear,strMonth,strDay,strID,strName,strAlias)
 	s=Replace(s,"{%host%}",Left(BlogHost,Len(BlogHost)-1))
 	ParseCustomDirectoryForUrl=Replace(s,"\","/")
 End Function
@@ -1820,7 +1833,7 @@ End Function
 '*********************************************************
 ' 目的：    解析ZC_CUSTOM_DIRECTORY_REGEX
 '*********************************************************
-Function ParseCustomDirectory(strRegex,strPost,strCategory,strUser,strYear,strMonth,strDay,strID,strAlias)
+Function ParseCustomDirectory(strRegex,strPost,strCategory,strUser,strYear,strMonth,strDay,strID,strName,strAlias)
 
 	On Error Resume Next
 
@@ -1829,10 +1842,10 @@ Function ParseCustomDirectory(strRegex,strPost,strCategory,strUser,strYear,strMo
 
 	d=strYear
 	If strMonth<>"" Then
-		d=d & "-" & strMonth
+		d=d & "-" & Right("0" & strMonth,2)
 	End If
 	If strDay<>"" Then
-		d=d & "-" & strDay
+		d=d & "-" & Right("0" & strDay,2)
 	End If
 
 	s=Replace(s,"{%post%}",strPost)
@@ -1843,6 +1856,7 @@ Function ParseCustomDirectory(strRegex,strPost,strCategory,strUser,strYear,strMo
 	s=Replace(s,"{%day%}",Right("0" & strDay,2))
 	s=Replace(s,"{%id%}",strID)
 	s=Replace(s,"{%alias%}",strAlias)
+	s=Replace(s,"{%name%}",strName)
 	s=Replace(s,"{%date%}",d)
 
 	ParseCustomDirectory=s
@@ -1851,7 +1865,6 @@ Function ParseCustomDirectory(strRegex,strPost,strCategory,strUser,strYear,strMo
 
 End Function
 '*********************************************************
-
 
 
 
@@ -3536,7 +3549,7 @@ End Function
 ' 目的：    日期类的简化函数 FullPath
 '*********************************************************
 Function FullPath(y,m,d)
-	FullPath=ParseCustomDirectoryForPath(FullRegex,ZC_STATIC_DIRECTORY,"","",y,m,d,"","")
+	FullPath=ParseCustomDirectoryForPath(FullRegex,ZC_STATIC_DIRECTORY,"","",y,m,d,"","","")
 End Function
 '*********************************************************
 '*********************************************************
@@ -3544,7 +3557,7 @@ End Function
 '*********************************************************
 Function UrlbyDate(y,m,d)
 
-	UrlbyDate=ParseCustomDirectoryForUrl(RegexbyDate(y,m,d),ZC_STATIC_DIRECTORY,"","",y,m,d,"","")
+	UrlbyDate=ParseCustomDirectoryForUrl(RegexbyDate(y,m,d),ZC_STATIC_DIRECTORY,"","",y,m,d,"","","")
 	If Right(UrlbyDate,12)="default.html" Then UrlbyDate=Left(UrlbyDate,Len(UrlbyDate)-12)
 
 End Function
@@ -3554,7 +3567,7 @@ End Function
 '*********************************************************
 Function UrlbyDateAuto(y,m,d)
 	If ZC_STATIC_MODE="MIX" Then
-		UrlbyDateAuto=ParseCustomDirectoryForUrl("{%host%}/catalog.asp?date={%year%}-{%month%}",ZC_STATIC_DIRECTORY,"","",y,m,d,"","")
+		UrlbyDateAuto=ParseCustomDirectoryForUrl("{%host%}/catalog.asp?date={%year%}-{%month%}",ZC_STATIC_DIRECTORY,"","",y,m,d,"","","")
 	Else
 		UrlbyDateAuto=UrlbyDate(y,m,d)
 	End If

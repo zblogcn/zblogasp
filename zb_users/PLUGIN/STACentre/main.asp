@@ -76,6 +76,8 @@ BlogTitle="静态管理中心"
 <p><label onclick="changeval(2,2)"><input type="radio" name="radio2" />&nbsp;&nbsp;配置2:页面名目录型 http://www.yourblog/pagename/</label></p>
 </td></tr>
 </table>
+<p><span class="note">您可以自定义静态配置,配置必须是{%host%}打头,".html"结尾,中间可以用{%post%},{%category%},{%user%},{%year%},{%month%},{%day%},{%id%},{%alias%}组合.</span></p>
+<p><span class="note">{%post%}为文章发布目录,可以在网站设置里修改,{%category%}为文章的别名,{%user%}是用户别名,{%alias%}是文章别名,没有设置文章别名系统会自动采用ID填充.</span></p>
 
 </div>
 
@@ -90,6 +92,7 @@ BlogTitle="静态管理中心"
 <tr><td width='30%'><p align='left'><b>·TAGS页的URL配置</b><br/><span class='note'></span></p></td><td><p><input id='edtZC_TAGS_REGEX' name='edtZC_TAGS_REGEX' style='width:500px;' type='text' value='<%=ZC_TAGS_REGEX%>' /></label></p></td></tr>
 <tr><td width='30%'><p align='left'><b>·日期页的URL配置</b><br/><span class='note'></span></p></td><td><p><input id='edtZC_DATE_REGEX' name='edtZC_DATE_REGEX' style='width:500px;' type='text' value='<%=ZC_DATE_REGEX%>' /></label></p></td></tr>
 </table>
+<p><span class="note">分类,作者,TAGS可用{%id%},{%name%}或{%alias%},分类的{%alias%}为空用name代替,作者的{%alias%}为空用name代替,TAGS的{%alias%}为URLEncode编码处理过的name,日期页可用{%date%}.</span></p>
 
 </div>
 
@@ -99,9 +102,6 @@ BlogTitle="静态管理中心"
 			</div> <!-- End .content-box -->
 
 
-
-<p><span class="note">您可以自定义静态配置,配置必须是{%host%}打头,".html"结尾,中间可以用{%post%},{%category%},{%user%},{%year%},{%month%},{%day%},{%id%},{%alias%}组合.</span></p>
-<p><span class="note">{%post%}为文章发布目录,可以在网站设置里修改,{%category%}为文章的别名,{%user%}是用户别名,{%alias%}是文章别名,没有设置文章别名系统会自动采用ID填充.</span></p>
 <p><span class="star">注意:开启文章及页面和分类页的Rewrite支持选项后,请查看"ReWrite规则"并应用在主机上方能生效.</span></p>
 
 

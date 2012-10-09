@@ -9,3 +9,5 @@ RewriteRule /tags-(.*)\.html /catalog\.asp\?tags=$1
 RewriteRule /tags-(.*)_([0-9]+)\.html /catalog\.asp\?tags=$1&page=$2
 RewriteRule /date-([0-9\-]+)\.html /catalog\.asp\?date=$1
 RewriteRule /date-([0-9\-]+)_([0-9]+)\.html /catalog\.asp\?date=$1&page=$2
+RewriteRule /post/(.*)\.html /view\.asp\?id=$1
+RewriteRule /(.*)\.html /view\.asp\?id=$1

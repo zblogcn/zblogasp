@@ -97,7 +97,7 @@ Class TCategory
 	Public html
 
 	Public Property Get FullPath
-		FullPath=ParseCustomDirectoryForPath(FullRegex,ZC_STATIC_DIRECTORY,"","","","","",ID,StaticName)
+		FullPath=ParseCustomDirectoryForPath(FullRegex,ZC_STATIC_DIRECTORY,"","","","","",ID,Name,StaticName)
 	End Property
 
 	Public Property Get Url
@@ -109,7 +109,7 @@ Class TCategory
 			If bAction_Plugin_TCategory_Url=True Then Exit Property
 		Next
 		
-		Url =ParseCustomDirectoryForUrl(FullRegex,ZC_STATIC_DIRECTORY,"","","","","",ID,StaticName)
+		Url =ParseCustomDirectoryForUrl(FullRegex,ZC_STATIC_DIRECTORY,"","","","","",ID,Name,StaticName)
 		If Right(Url,12)="default.html" Then Url=Left(Url,Len(Url)-12)
 
 		Call Filter_Plugin_TCategory_Url(Url)
@@ -131,7 +131,7 @@ Class TCategory
 
 	Public Property Get StaticName
 		If IsNull(Alias) Or IsEmpty(Alias) Or Alias="" Then
-			StaticName = ID
+			StaticName = Name
 		Else
 			StaticName = Alias
 		End If
@@ -448,7 +448,7 @@ Class TArticle
 
 	Public Property Get FullPath
 		Call GetUsersbyUserIDList(AuthorID)
-		FullPath=ParseCustomDirectoryForPath(FullRegex,ZC_STATIC_DIRECTORY,Categorys(CateID).StaticName,Users(AuthorID).StaticName,Year(PostTime),Month(PostTime),Day(PostTime),ID,StaticName)
+		FullPath=ParseCustomDirectoryForPath(FullRegex,ZC_STATIC_DIRECTORY,Categorys(CateID).StaticName,Users(AuthorID).StaticName,Year(PostTime),Month(PostTime),Day(PostTime),ID,StaticName,StaticName)
 	End Property
 
 
@@ -465,7 +465,7 @@ Class TArticle
 			Url = BlogHost & "view.asp?id=" & ID
 		Else
 			Call GetUsersbyUserIDList(AuthorID)
-			Url =ParseCustomDirectoryForUrl(FullRegex,ZC_STATIC_DIRECTORY,Categorys(CateID).StaticName,Users(AuthorID).StaticName,Year(PostTime),Month(PostTime),Day(PostTime),ID,StaticName)
+			Url =ParseCustomDirectoryForUrl(FullRegex,ZC_STATIC_DIRECTORY,Categorys(CateID).StaticName,Users(AuthorID).StaticName,Year(PostTime),Month(PostTime),Day(PostTime),ID,StaticName,StaticName)
 			If Right(Url,12)="default.html" Then Url=Left(Url,Len(Url)-12)
 			'If Right(Url,10)="index.html" Then Url=Left(Url,Len(Url)-10)
 		End If
@@ -1767,8 +1767,8 @@ Class TArticleList
 		Call Filter_Plugin_TArticleList_Export(intPage,intCateId,intAuthorId,dtmYearMonth,strTagsName,intType)
 
 		ListType="DEFAULT"
-		Url =ParseCustomDirectoryForUrl(FullRegex,ZC_STATIC_DIRECTORY,"","","","","","","")
-		MixUrl=ParseCustomDirectoryForUrl("{%host%}/catalog.asp",ZC_STATIC_DIRECTORY,"","","","","","","")
+		Url =ParseCustomDirectoryForUrl(FullRegex,ZC_STATIC_DIRECTORY,"","","","","","","","")
+		MixUrl=ParseCustomDirectoryForUrl("{%host%}/catalog.asp",ZC_STATIC_DIRECTORY,"","","","","","","","")
 
 		Dim aryArticle
 		Dim aryArticleList()
@@ -1782,10 +1782,6 @@ Class TArticleList
 		Dim ut,ud,dd,dt,tt,td
 
 		Call CheckParameter(intPage,"int",1)
-		Call CheckParameter(intCateId,"int",Empty)
-		Call CheckParameter(intAuthorId,"int",Empty)
-		Call CheckParameter(dtmYearMonth,"dtm",Empty)
-
 		Title=ZC_BLOG_SUBTITLE
 
 		Set objRS=Server.CreateObject("ADODB.Recordset")
@@ -1828,7 +1824,15 @@ Class TArticleList
 
 		objRS.Source="SELECT [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_Type],[log_Meta] FROM [blog_Article] WHERE ([log_Type]=0) AND ([log_Level]>1)"
 
-		If Not IsEmpty(intCateId) Then
+		If intCateId<>"" Then
+
+			If InStr(ZC_CATEGORY_REGEX,"{%alias%}")>0 Then
+				
+			Else
+				Call CheckParameter(intCateId,"int",Empty)
+			End If
+
+
 			Dim strSubCateID
 			strSubCateID=Join(GetSubCateID(intCateId,True),",")
 			objRS.Source=objRS.Source & "AND([log_CateID]IN("&strSubCateID&"))"
@@ -1838,11 +1842,17 @@ Class TArticleList
 				Title=Categorys(intCateId).Name
 				TemplateTags_ArticleList_Category_ID=Categorys(intCateId).ID
 				If IsEmpty(html)=True Then html=Categorys(intCateId).Template
-				Url =ParseCustomDirectoryForUrl(Categorys(intCateId).FullRegex,ZC_STATIC_DIRECTORY,"","","","","",Categorys(intCateId).ID,Categorys(intCateId).Alias)
-				MixUrl =ParseCustomDirectoryForUrl("{%host%}/catalog.asp?cate={%id%}",ZC_STATIC_DIRECTORY,"","","","","",Categorys(intCateId).ID,Categorys(intCateId).Alias)
+				Url =ParseCustomDirectoryForUrl(Categorys(intCateId).FullRegex,ZC_STATIC_DIRECTORY,"","","","","",Categorys(intCateId).ID,Categorys(intCateId).Name,IIf(Categorys(intCateId).Alias="",Categorys(intCateId).Name,Categorys(intCateId).Alias))
+				MixUrl =ParseCustomDirectoryForUrl("{%host%}/catalog.asp?cate={%id%}",ZC_STATIC_DIRECTORY,"","","","","",Categorys(intCateId).ID,Categorys(intCateId).Name,IIf(Categorys(intCateId).Alias="",Categorys(intCateId).Name,Categorys(intCateId).Alias))
 			End If
 		End if
-		If Not IsEmpty(intAuthorId) Then
+		If intAuthorId<>"" Then
+
+			If InStr(edtZC_USER_REGEX,"{%alias%}")>0 Then
+				
+			Else
+				Call CheckParameter(intAuthorId,"int",Empty)
+			End If
 			objRS.Source=objRS.Source & "AND([log_AuthorID]="&intAuthorId&")"
 			ListType="USER"
 			If CheckAuthorByID(intAuthorId) Then
@@ -1850,8 +1860,8 @@ Class TArticleList
 				Title=Users(intAuthorId).Name
 				TemplateTags_ArticleList_Author_ID=Users(intAuthorId).ID
 				If IsEmpty(html)=True Then html=Users(intAuthorId).Template
-				Url =ParseCustomDirectoryForUrl(Users(intAuthorId).FullRegex,ZC_STATIC_DIRECTORY,"","","","","",Users(intAuthorId).ID,Users(intAuthorId).Alias)
-				MixUrl=ParseCustomDirectoryForUrl("{%host%}/catalog.asp?user={%id%}",ZC_STATIC_DIRECTORY,"","","","","",Users(intAuthorId).ID,Users(intAuthorId).Alias)
+				Url =ParseCustomDirectoryForUrl(Users(intAuthorId).FullRegex,ZC_STATIC_DIRECTORY,"","","","","",Users(intAuthorId).ID,Users(intAuthorId).Name,IIF(Users(intAuthorId).Alias="",Users(intAuthorId).Name,Name(intAuthorId).Alias))
+				MixUrl=ParseCustomDirectoryForUrl("{%host%}/catalog.asp?user={%id%}",ZC_STATIC_DIRECTORY,"","","","","",Users(intAuthorId).ID,Users(intAuthorId).Name,IIF(Users(intAuthorId).Alias="",Users(intAuthorId).Name,Users(intAuthorId).Alias))
 			End If
 		End if
 		If IsDate(dtmYearMonth) Then
@@ -1862,12 +1872,6 @@ Class TArticleList
 			Dim d
 			Dim ny
 			Dim nm
-
-			If IsDate(dtmYearMonth) Then
-				'dtmYearMonth=CDate(dtmYearMonth)
-			Else
-				Call showError(3)
-			End If
 
 			y=Year(dtmYearMonth)
 			m=Month(dtmYearMonth)
@@ -1885,8 +1889,7 @@ Class TArticleList
 			nm=m+1
 			If m=12 Then ny=ny+1:nm=1
 
-
-			If InstrRev(CStr(dtmYearMonth),"-")>=7 Then
+			If Len(CStr(dtmYearMonth))>7 Then
 				objRS.Source=objRS.Source & "AND(Year([log_PostTime])="&y&") AND(Month([log_PostTime])="&m&") AND(Day([log_PostTime])="&d&")"
 			Else
 				objRS.Source=objRS.Source & "AND(Year([log_PostTime])="&y&") AND(Month([log_PostTime])="&m&")"
@@ -1896,23 +1899,25 @@ Class TArticleList
 
 			Title=Year(dtmYearMonth) & " " & ZVA_Month(Month(dtmYearMonth))
 		End If
-		If Not (IsEmpty(strTagsName) Or strTagsName="" )Then
+		If strTagsName<>"" Then
 			ListType="TAGS"
 			If InStr(ZC_TAGS_REGEX,"{%id%}")>0 Then
 				i=CLng(strTagsName)
 			Else
 				If CheckTagByName(strTagsName) Then i=objConn.Execute("SELECT [tag_ID] FROM [blog_Tag] WHERE [tag_Name]='" & FilterSQL(strTagsName) &"'" )(0)
 			End If
+			objRS.Source=objRS.Source & "AND([log_Tag] LIKE '%{" & i & "}%')"
 
-			Dim Tag
-			Set Tag=New TTag
-			Call Tag.LoadInfoByID(i)
-			objRS.Source=objRS.Source & "AND([log_Tag] LIKE '%{" & Tag.ID & "}%')"
-			Title=strTagsName
-			TemplateTags_ArticleList_Tags_ID=Tag.ID
-			If IsEmpty(html)=True Then html=Tag.Template
-			Url =ParseCustomDirectoryForUrl(Tag.FullRegex,ZC_STATIC_DIRECTORY,"","","","","",Tag.ID,Tag.EncodeName)
-			MixUrl =ParseCustomDirectoryForUrl("{%host%}/catalog.asp?tags={%alias%}",ZC_STATIC_DIRECTORY,"","","","","",Tag.ID,Tag.EncodeName)
+			If CheckTagByID(i) Then
+				Dim Tag
+				Set Tag=New TTag
+				Call Tag.LoadInfoByID(i)
+				Title=Tag.Name
+				TemplateTags_ArticleList_Tags_ID=Tag.ID
+				If IsEmpty(html)=True Then html=Tag.Template
+				Url =ParseCustomDirectoryForUrl(Tag.FullRegex,ZC_STATIC_DIRECTORY,"","","","","",Tag.ID,Tag.Name,Tag.EncodeName)
+				MixUrl =ParseCustomDirectoryForUrl("{%host%}/catalog.asp?tags={%alias%}",ZC_STATIC_DIRECTORY,"","","","","",Tag.ID,Tag.Name,Tag.EncodeName)
+			End If
 		End If
 
 
@@ -2415,7 +2420,7 @@ Class TUser
 
 
 	Public Property Get FullPath
-		FullPath=ParseCustomDirectoryForPath(FullRegex,ZC_STATIC_DIRECTORY,"","","","","",ID,StaticName)
+		FullPath=ParseCustomDirectoryForPath(FullRegex,ZC_STATIC_DIRECTORY,"","","","","",ID,Name,StaticName)
 	End Property
 
 	Public Property Get Url
@@ -2427,7 +2432,7 @@ Class TUser
 			If bAction_Plugin_TUser_Url=True Then Exit Property
 		Next
 
-		Url =ParseCustomDirectoryForUrl(FullRegex,ZC_STATIC_DIRECTORY,"","","","","",ID,StaticName)
+		Url =ParseCustomDirectoryForUrl(FullRegex,ZC_STATIC_DIRECTORY,"","","","","",ID,Name,StaticName)
 		If Right(Url,12)="default.html" Then Url=Left(Url,Len(Url)-12)
 
 		Call Filter_Plugin_TUser_Url(Url)
@@ -2466,7 +2471,7 @@ Class TUser
 
 	Public Property Get StaticName
 		If IsNull(Alias) Or IsEmpty(Alias) Or Alias="" Then
-			StaticName = ID
+			StaticName = Name
 		Else
 			StaticName = Alias
 		End If
@@ -3895,7 +3900,7 @@ Class TTag
 
 
 	Public Property Get FullPath
-		FullPath=ParseCustomDirectoryForPath(FullRegex,ZC_STATIC_DIRECTORY,"","","","","",ID,EncodeName)
+		FullPath=ParseCustomDirectoryForPath(FullRegex,ZC_STATIC_DIRECTORY,"","","","","",ID,Name,EncodeName)
 	End Property
 
 	Public Property Get Url
@@ -3907,7 +3912,7 @@ Class TTag
 			If bAction_Plugin_TTag_Url=True Then Exit Property
 		Next
 
-		Url =ParseCustomDirectoryForUrl(FullRegex,ZC_STATIC_DIRECTORY,"","","","","",ID,EncodeName)
+		Url =ParseCustomDirectoryForUrl(FullRegex,ZC_STATIC_DIRECTORY,"","","","","",ID,Name,EncodeName)
 		If Right(Url,12)="default.html" Then Url=Left(Url,Len(Url)-12)
 
 		Call Filter_Plugin_TTag_Url(Url)
