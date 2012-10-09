@@ -969,6 +969,8 @@ End Function
 '*********************************************************
 Function BeforeFileReBuild()
 
+	If ZC_POST_STATIC_MODE<>"STATIC" Then Exit Function
+
 	Dim objRS
 	Dim objArticle
 
@@ -1204,7 +1206,7 @@ Function SaveSetting()
 
 
 	Err.Clear
-	BlogTitle=ZC_ZC_POST_STATIC_MODE
+	BlogTitle=ZC_POST_STATIC_MODE
 	If Err.Number<>0 Then
 		Call Execute("Dim ZC_POST_STATIC_MODE")
 		ZC_POST_STATIC_MODE="STATIC"

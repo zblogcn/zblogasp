@@ -21,7 +21,7 @@ Call CheckReference("")
 '检查权限
 If BlogUser.Level>1 Then Call ShowError(6)
 If CheckPluginState("STACentre")=False Then Call ShowError(48)
-BlogTitle="静态中心配置插件"
+BlogTitle="静态管理中心"
 %>
 <!--#include file="..\..\..\zb_system\admin\admin_header.asp"-->
 
@@ -31,7 +31,7 @@ BlogTitle="静态中心配置插件"
       <%Call GetBlogHint()%>
     </div>
   <div class="divHeader"><%=BlogTitle%></div>
-  <div class="SubMenu"> <a href="main.asp"><span class="m-left m-now">文章,页面设置</span></a><a href="list.asp"><span class="m-left">分类,作者,TAGS,时间设置</span></a>
+  <div class="SubMenu"> <a href="main.asp"><span class="m-left m-now">配置页面</span></a><a href="list.asp"><span class="m-left">查看ReWrite规则</span></a>
   </div>
   <div id="divMain2">
     <script type="text/javascript">ActiveLeftMenu("aPlugInMng");</script>

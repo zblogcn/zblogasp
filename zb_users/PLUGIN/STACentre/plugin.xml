@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <plugin version="2.0">
 <id>STACentre</id>
-<name>静态化中心</name>
+<name>静态管理中心</name>
 <url>http://www.esloy.com/</url>
-<note>将博客, 分类页, 标签页, 作者页静态化成 HTML 页面.</note>
+<note>控制ZBLOG的静态化设置,将博客, 分类页, 标签页, 作者页静态化成 HTML 页面.</note>
 <type>outline</type>
 <path>main.asp</path>
 <include>include.asp</include>
