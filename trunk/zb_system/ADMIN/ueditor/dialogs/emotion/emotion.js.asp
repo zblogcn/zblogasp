@@ -8,29 +8,47 @@
 <!-- #include file="../../../../../zb_system/function/c_function.asp" -->
 <!-- #include file="../../../../../zb_system/function/c_system_base.asp" -->
 <% Response.Clear %>
-<%	
-	Dim aryFileList,a,i,j,e,f
-	f=Split(ZC_EMOTICONS_FILENAME,"|")
-	For Each a In f
-		aryFileList=LoadIncludeFiles("zb_users\emotion\"&a) 
-		If IsArray(aryFileList) Then
-			j=UBound(aryFileList)
-			For i=1 to j
-				If Right(aryFileList(i),3)=ZC_EMOTICONS_FILETYPE Then e=aryFileList(i)&"|"& e 
-			Next
-		End If 
-	Next 
-
-	e=Left(e,Len(e)-1)
-
- %>
-
 window.onload = function () {
     editor.setOpt({
         emotionLocalization:false
     });
 
-    emotion.SmileyPath = editor.options.emotionLocalization === true ? '' : '<%=GetCurrentHost()%>zb_users/emotion/<%=ZC_EMOTICONS_FILENAME%>';
+    emotion.SmileyPath = editor.options.emotionLocalization === true ? 'images/' : "<%=GetCurrentHost()%>zb_users/emotion/";
+	<%	
+	Dim aryFileList,a,i,j,e,f,x,y,p
+	f=Split(ZC_EMOTICONS_FILENAME,"|")
+	y=UBound(f)
+	For x=0 To y
+		aryFileList=LoadIncludeFiles("zb_users\emotion\"&f(x)) 
+		If IsArray(aryFileList) Then
+			j=UBound(aryFileList)
+			For i=1 to j
+				If InStr(ZC_EMOTICONS_FILETYPE,Right(aryFileList(i),3))>0 Then 
+					e="'"&aryFileList(i)&"',"& e 
+					p=i
+				End If 
+			Next
+			e=Left(e,Len(e)-1)
+		End If 
+	%>
+	emotion.tabNum++;
+	emotion.SmilmgName["tab<%=(x)%>"]=['<%=Right(aryFileList(p),3)%>',<%=j%>];
+	emotion.imageFolders["tab<%=(x)%>"]='<%=f(x)%>/';
+	emotion.imageCss["tab<%=(x)%>"]='<%=f(x)%>';
+	emotion.imageCssOffset["tab<%=(x)%>"]=35;
+	emotion.SmileyInfor["tab<%=(x)%>"]=[<%=e%>];
+	var tp=$G('tabMenu'),tc=$G('tabContent');
+	var dtp=document.createElement("div");
+        dtp.innerHTML  = "<%=f(x)%>";
+		tp.appendChild(dtp);
+	var dtc=document.createElement("div");
+		dtc.id='tab<%=(x)%>';
+		tc.appendChild(dtc);
+	<%
+		e=""
+	Next
+	%>
+
     emotion.SmileyBox = createTabList( emotion.tabNum );
     emotion.tabExist = createArr( emotion.tabNum );
 
@@ -38,21 +56,16 @@ window.onload = function () {
     initEvtHandler( "tabMenu" );
 };
 
-var aryFileName;
-
 function initImgName() {
     for ( var pro in emotion.SmilmgName ) {
         var tempName = emotion.SmilmgName[pro],
-        tempBox = emotion.SmileyBox[pro],
-        tempStr = "";
-		aryFileName = "<%=e%>".split("|");
+            tempBox = emotion.SmileyBox[pro],
+			tempStr=emotion.SmileyInfor[pro];
+			
         if ( tempBox.length ) return;
-		for (var i=0;i<aryFileName.length;i++)
-		{
-			tempStr = aryFileName[i];
-            tempBox.push( tempStr );
-			emotion.SmileyInfor.tab0[i]=aryFileName[i].substr(0,aryFileName[i].length-".<%=ZC_EMOTICONS_FILETYPE%>".length);
-		}
+        for ( var i = 0; i < tempName[1]; i++ ) {
+            tempBox.push( tempStr[i]);
+        }
     }
 }
 
@@ -108,43 +121,14 @@ function switchTab( index ) {
 function autoHeight( index ) {
     var iframe = dialog.getDom( "iframe" ),
             parent = iframe.parentNode.parentNode;
-    switch ( index ) {
-        case 0:
-            //iframe.style.height = "380px";
-            //parent.style.height = "392px";
-            break;
-        case 1:
-            //iframe.style.height = "220px";
-            //parent.style.height = "232px";
-            break;
-        case 2:
-            //iframe.style.height = "260px";
-            //parent.style.height = "272px";
-            break;
-        case 3:
-            //iframe.style.height = "300px";
-            //parent.style.height = "312px";
-            break;
-        case 4:
-            //iframe.style.height = "140px";
-            //parent.style.height = "152px";
-            break;
-        case 5:
-            //iframe.style.height = "260px";
-            //parent.style.height = "272px";
-            break;
-        case 6:
-            //iframe.style.height = "230px";
-            //parent.style.height = "242px";
-            break;
-        default:
-
-    }
+            //iframe.style.height = "auto";
+            //parent.style.height = "auto";
+    
 }
 
 
 function createTab( tabName ) {
-    var faceVersion = "?v=1.1", //版本号
+    var faceVersion = "", //版本号
             tab = $G( tabName ), //获取将要生成的Div句柄
             imagePath = emotion.SmileyPath + emotion.imageFolders[tabName], //获取显示表情和预览表情的路径
             positionLine = 11 / 2, //中间数
@@ -169,7 +153,7 @@ function createTab( tabName ) {
 
                 textHTML.push( '<td  class="' + tableCss + '"   border="1" width="' + iColWidth + '%" style="border-collapse:collapse;" align="center"  bgcolor="#FFFFFF" onclick="InsertSmiley(\'' + realUrl.replace( /'/g, "\\'" ) + '\',event)" onmouseover="over(this,\'' + sUrl + '\',\'' + posflag + '\')" onmouseout="out(this)">' );
                 textHTML.push( '<span  style="display:block;">' );
-                textHTML.push( '<img  style="background-position:left;m ' + offset + 'px;max-height:'+ iHeight +';max-width:'+ iWidth +';" title="' + infor + '" src="' + emotion.SmileyPath + ('/'+aryFileName[i]) + '"></img>' );
+                textHTML.push( '<img  style="max-height:'+ iHeight +';max-width:'+ iWidth +';" title="' + infor.substr(0,infor.length-4) + '" src="'+sUrl+'"></img>' );
                 textHTML.push( '</span>' );
             } else {
                 textHTML.push( '<td width="' + iColWidth + '%"   bgcolor="#FFFFFF">' );
@@ -185,8 +169,9 @@ function createTab( tabName ) {
 
 function over( td, srcPath, posFlag ) {
     td.style.backgroundColor = "#ACCD3C";
-    $G( 'faceReview' ).style.backgroundImage = "url(" + srcPath + ")";
+    $G( 'faceReview' ).style.backgroundImage = "url('" + srcPath + "')";
     if ( posFlag == 1 ) $G( "tabIconReview" ).className = "show";
+    $G( "tabIconReview" ).style.display = 'block';
 }
 
 function out( td ) {

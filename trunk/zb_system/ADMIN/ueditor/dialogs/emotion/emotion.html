@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" >
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title>插入表情</title>
+    <title></title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="robots" content="noindex, nofollow"/>
     <link rel="stylesheet" type="text/css" href="emotion.css">
@@ -9,17 +9,10 @@
 <body>
 <div id="tabPanel" class="neweditor-tab">
     <div id="tabMenu" class="neweditor-tab-h">
-        <div>Z-Blog</div>
     </div>
     <div id="tabContent" class="neweditor-tab-b">
-        <div id="tab0"></div>
-        <div id="tab1"></div>
-        <div id="tab2"></div>
-        <div id="tab3"></div>
-        <div id="tab4"></div>
-        <div id="tab5"></div>
-        <div id="tab6"></div>
     </div>
+	<div style="clear:both;"></div>
 </div>
 <div id="tabIconReview">
     <img id='faceReview' class='review'/>
@@ -28,13 +21,12 @@
 <script type="text/javascript" src="emotion.js.asp"></script>
 <script type="text/javascript">
     var emotion = {
-        tabNum:1, //切换面板数量
-        SmilmgName:{ tab0:['i_f', 50]}, //图片前缀名
-        imageFolders:{ tab0:'/'}, //图片对应文件夹路径
-        imageCss:{tab0:'ZBlog'}, //图片css类名
-        imageCssOffset:{tab0:16}, //图片偏移
+        tabNum:0, //切换面板数量
+        SmilmgName:{}, //图片前缀名=>改为图片后缀名与图片数量
+        imageFolders:{}, //图片对应文件夹路径
+        imageCss:{}, //图片css类名
+        imageCssOffset:{}, //图片偏移（图片大小）
         SmileyInfor:{
-            tab0:[]
         }
     };
 </script>
