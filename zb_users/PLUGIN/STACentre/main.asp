@@ -64,16 +64,16 @@ BlogTitle="静态管理中心"
 <tr><td width='30%'><p align='left'><b>·文章,页面的静态化选项</b><br/><span class='note'>主机安装有ISAPI Rewrite或是URL Rewrite可以开启Rewrite选项</span></p></td><td><p><label><input type="radio" value="STATIC" name="POST_STATIC" <%=IIF(ZC_POST_STATIC_MODE="STATIC","checked='checked'","")%>/>&nbsp;&nbsp;1.静态页面(系统默认)</label>&nbsp;&nbsp;&nbsp;&nbsp;<label><input type="radio" value="ACTIVE" name="POST_STATIC" <%=IIF(ZC_POST_STATIC_MODE="ACTIVE","checked='checked'","")%>/>&nbsp;&nbsp;2.动态页面</label>&nbsp;&nbsp;&nbsp;&nbsp;<label><input type="radio" value="REWRITE" name="POST_STATIC" <%=IIF(ZC_POST_STATIC_MODE="REWRITE","checked='checked'","")%>/>&nbsp;&nbsp;3.动态页面+Rewrite支持</label></p></td></tr>
 <tr><td width='30%'><p align='left'><b>·文章类的静态配置</b><br/><span class='note'></span></p></td><td><p><input id='edtZC_ARTICLE_REGEXT' name='edtZC_ARTICLE_REGEX' style='width:500px;' type='text' value='<%=ZC_ARTICLE_REGEX%>' /></p></td></tr>
 <tr><td width='30%'><p>推荐配置</p></td><td>
-<p><label onclick="changeval(1,1)"><input type="radio" name="radio" />&nbsp;&nbsp;配置1:文章名型(默认) http://www.yourblog/post/articlename.html</label></p>
-<p><label onclick="changeval(1,2)"><input type="radio" name="radio" />&nbsp;&nbsp;配置2:日期+文章名型 http://www.yourblog/2012/08/articlename.html</label></p>
-<p><label onclick="changeval(1,3)"><input type="radio" name="radio" />&nbsp;&nbsp;配置3:分类别名+文章名型 http://www.yourblog/categroyname/articlename.html</label></p>
-<p><label onclick="changeval(1,4)"><input type="radio" name="radio" />&nbsp;&nbsp;配置4:文章名目录型 http://www.yourblog/post/articlename/</label></p>
-<p><label onclick="changeval(1,5)"><input type="radio" name="radio" />&nbsp;&nbsp;配置5:分类别名+文章ID目录型 http://www.yourblog/categroyname/123/</label></p>
+<p><label onClick="changeval(1,1)"><input type="radio" name="radio" />&nbsp;&nbsp;配置1:文章名型(默认) http://www.yourblog/post/articlename.html</label></p>
+<p><label onClick="changeval(1,2)"><input type="radio" name="radio" />&nbsp;&nbsp;配置2:日期+文章名型 http://www.yourblog/2012/08/articlename.html</label></p>
+<p><label onClick="changeval(1,3)"><input type="radio" name="radio" />&nbsp;&nbsp;配置3:分类别名+文章名型 http://www.yourblog/categroyname/articlename.html</label></p>
+<p><label onClick="changeval(1,4)"><input type="radio" name="radio" />&nbsp;&nbsp;配置4:文章名目录型 http://www.yourblog/post/articlename/</label></p>
+<p><label onClick="changeval(1,5)"><input type="radio" name="radio" />&nbsp;&nbsp;配置5:分类别名+文章ID目录型 http://www.yourblog/categroyname/123/</label></p>
 </td></tr>
 <tr><td width='30%'><p align='left'><b>·页面类的静态配置</b><br/><span class='note'></span></p></td><td><p><input id='edtZC_PAGE_REGEX' name='edtZC_PAGE_REGEX' style='width:500px;' type='text' value='<%=ZC_PAGE_REGEX%>' /></label></p></td></tr>
 <tr><td width='30%'><p>推荐配置</p></td><td>
-<p><label onclick="changeval(2,1)"><input type="radio" name="radio2" />&nbsp;&nbsp;配置1:页面名型(默认) http://www.yourblog/pagename.html</label></p>
-<p><label onclick="changeval(2,2)"><input type="radio" name="radio2" />&nbsp;&nbsp;配置2:页面名目录型 http://www.yourblog/pagename/</label></p>
+<p><label onClick="changeval(2,1)"><input type="radio" name="radio2" />&nbsp;&nbsp;配置1:页面名型(默认) http://www.yourblog/pagename.html</label></p>
+<p><label onClick="changeval(2,2)"><input type="radio" name="radio2" />&nbsp;&nbsp;配置2:页面名目录型 http://www.yourblog/pagename/</label></p>
 </td></tr>
 </table>
 <p><span class="note">您可以自定义静态配置,配置必须是{%host%}打头,".html"结尾,中间可以用{%post%},{%category%},{%user%},{%year%},{%month%},{%day%},{%id%},{%alias%}组合.</span></p>
@@ -104,7 +104,13 @@ BlogTitle="静态管理中心"
 
 <p><span class="star">注意:开启文章及页面和分类页的Rewrite支持选项后,请查看"ReWrite规则"并应用在主机上方能生效.</span></p>
 
-
+<select name="type" id="type">
+  <option value="IIS7">IIS7</option>
+  <option value="ISAPI2">ISAPI2</option>
+  <option value="ISAPI3">ISAPI3</option>
+</select>
+<input type="button" onClick="b()" value="Create UrlRewrite" />
+<textarea id="log" style="width:100%; height:400px;"></textarea>
 <br/>
 <input name="" type="submit" class="button" value="保存"/>
 </form>
@@ -168,7 +174,14 @@ BlogTitle="静态管理中心"
 
 	});
 
-
-
+</script>
+<script language="javascript" type="text/javascript" src="urlRewrite.js"></script>
+<script language="javascript" type="text/javascript">
+	function b(){
+		urlRewrite.call = function(html){
+			$('#log').val(html);
+		}
+		urlRewrite.display()
+	}
 </script>
 <!--#include file="..\..\..\zb_system\admin\admin_footer.asp"-->
