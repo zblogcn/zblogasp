@@ -46,7 +46,7 @@ class urlRewrite
 	end sub
 	public sub display()
 		if ZC_STATIC_MODE = "REWRITE" then
-			dim ary,j,u,u2,u3,s
+			dim ary,j,u,u2,s
 			ary = array()
 			for each u in d2
 				j = ubound(ary) + 1
@@ -60,14 +60,14 @@ class urlRewrite
 				if u = "ZC_CATEGORY_REGEX" or u = "ZC_USER_REGEX" or u = "ZC_TAGS_REGEX" then
 					j = ubound(ary) + 1
 					reDim preserve ary(j)
-					ary(j) = d3(u)
+					ary(j) = d2(u)
 					if inStr(ary(j),"{%alias%}") then
 						ary(j) = replace(ary(j),"{%alias%}","{%alias%}{%page%}",1,1,1)
 					elseif inStr(ary(j),"{%id%}") then
 						ary(j) = replace(ary(j),"{%id%}","{%id%}{%page%}",1,1,1)
 					end if
-					for each u3 in d
-						ary(j) = replace(ary(j),u3,d(u3))
+					for each u2 in d
+						ary(j) = replace(ary(j),u2,d(u2))
 					next
 					ary(j) = replace(ary(j),"{%page%}","_(\d+)")
 					call search(ary(j),d3(u))
