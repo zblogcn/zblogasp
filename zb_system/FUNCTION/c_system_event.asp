@@ -1177,44 +1177,15 @@ End Function
 '*********************************************************
 Function SaveSetting()
 
-	On Error Resume Next
-	Err.Clear
-	BlogTitle=ZC_SYNTAXHIGHLIGHTER_ENABLE
-	If Err.Number<>0 Then
-		Call Execute("Dim ZC_SYNTAXHIGHLIGHTER_ENABLE")
-		ZC_SYNTAXHIGHLIGHTER_ENABLE=True
-		If BlogConfig.Exists("ZC_SYNTAXHIGHLIGHTER_ENABLE")=False Then Call BlogConfig.Write("ZC_SYNTAXHIGHLIGHTER_ENABLE",True)
-	End If
+	If BlogConfig.Exists("ZC_SYNTAXHIGHLIGHTER_ENABLE")=False Then Call BlogConfig.Write("ZC_SYNTAXHIGHLIGHTER_ENABLE",True)
+
+	If BlogConfig.Exists("ZC_CODEMIRROR_ENABLE")=False Then Call BlogConfig.Write("ZC_CODEMIRROR_ENABLE",True)
+
+	If BlogConfig.Exists("ZC_ARTICLE_EXCERPT_MAX")=False Then Call BlogConfig.Write("ZC_ARTICLE_EXCERPT_MAX",250)
+
+	If BlogConfig.Exists("ZC_POST_STATIC_MODE")=False Then Call BlogConfig.Write("ZC_POST_STATIC_MODE","STATIC")
 
 
-	Err.Clear
-	BlogTitle=ZC_CODEMIRROR_ENABLE
-	If Err.Number<>0 Then
-		Call Execute("Dim ZC_CODEMIRROR_ENABLE")
-		ZC_CODEMIRROR_ENABLE=True
-		If BlogConfig.Exists("ZC_CODEMIRROR_ENABLE")=False Then Call BlogConfig.Write("ZC_CODEMIRROR_ENABLE",True)
-	End If
-
-
-	Err.Clear
-	BlogTitle=ZC_ARTICLE_EXCERPT_MAX
-	If Err.Number<>0 Then
-		Call Execute("Dim ZC_ARTICLE_EXCERPT_MAX")
-		ZC_ARTICLE_EXCERPT_MAX=250
-		If BlogConfig.Exists("ZC_ARTICLE_EXCERPT_MAX")=False Then Call BlogConfig.Write("ZC_ARTICLE_EXCERPT_MAX",250)
-	End If
-
-
-	Err.Clear
-	BlogTitle=ZC_POST_STATIC_MODE
-	If Err.Number<>0 Then
-		Call Execute("Dim ZC_POST_STATIC_MODE")
-		ZC_POST_STATIC_MODE="STATIC"
-		If BlogConfig.Exists("ZC_POST_STATIC_MODE")=False Then Call BlogConfig.Write("ZC_POST_STATIC_MODE","STATIC")
-	End If
-
-
-	Err.Clear
 	Dim a,b,c,d
 
 	Set d=CreateObject("Scripting.Dictionary")
