@@ -113,16 +113,16 @@ Sub System_Initialize()
 		Call ShowError(4)
 	End If
 
+	Call GetConfigs()
+	BlogConfig.Load("Blog")
+
 	BlogUser.Verify()
 
 	Call GetCategory()
 	'Call GetUser()
 	'Call GetTags()
 	'Call GetKeyWords()
-	Call GetConfigs()
 	'Call GetFunction()
-
-	BlogConfig.Load("Blog")
 
 	ZC_BLOG_VERSION=BlogConfig.Read("ZC_BLOG_VERSION")
 
@@ -328,6 +328,7 @@ Function GetCategory()
 	End If
 
 	Set Categorys(0)=New TCategory
+	Call Categorys(0).LoadInfoByID(0)
 
 	IsRunGetCategory=True
 
@@ -732,6 +733,26 @@ Function CheckAuthorByID(intAuthorId)
 	CheckAuthorByID=Not objConn.Execute("SELECT [mem_ID] FROM [blog_Member] WHERE [mem_ID]=" & CLng(intAuthorId) ).BOF
 
 End Function
+
+Function GetAuthorByName(strName)
+	Dim objRS
+	Set objRS=objConn.Execute("SELECT [mem_ID] FROM [blog_Member] WHERE [mem_Name]='"&FilterSQL(strName)&"'" )
+	If (Not objRS.bof) And (Not objRS.eof) Then
+		GetAuthorByName=objRS(0)
+	Else
+		GetAuthorByName=0
+	End If
+End Function
+
+Function GetAuthorByAlias(strAlias)
+	Dim objRS
+	Set objRS=objConn.Execute("SELECT [mem_ID] FROM [blog_Member] WHERE [mem_Url]='"&FilterSQL(strAlias)&"'" )
+	If (Not objRS.bof) And (Not objRS.eof) Then
+		GetAuthorByAlias=objRS(0)
+	Else
+		GetAuthorByAlias=0
+	End If
+End Function
 '*********************************************************
 
 
@@ -742,15 +763,29 @@ End Function
 '*********************************************************
 Function CheckCateByID(intCateId)
 
+	If CLng(intCateId)=0 Then CheckCateByID=True:Exit Function
+
 	CheckCateByID=Not objConn.Execute("SELECT [cate_ID] FROM [blog_Category] WHERE [cate_ID]=" & CLng(intCateId) ).BOF
 
 End Function
 
 Function GetCateByName(strName)
 	Dim objRS
-	Set objRS=objConn.Execute("SELECT [cate_ID] FROM [blog_Category] WHERE [cate_ID]=" & CLng(intCateId) ).BOF
+	Set objRS=objConn.Execute("SELECT [cate_ID] FROM [blog_Category] WHERE [cate_Name]='"&FilterSQL(strName)&"'" )
 	If (Not objRS.bof) And (Not objRS.eof) Then
+		GetCateByName=objRS(0)
 	Else
+		GetCateByName=-1
+	End If
+End Function
+
+Function GetCateByAlias(strAlias)
+	Dim objRS
+	Set objRS=objConn.Execute("SELECT [cate_ID] FROM [blog_Category] WHERE [cate_Url]='"&FilterSQL(strAlias)&"'" )
+	If (Not objRS.bof) And (Not objRS.eof) Then
+		GetCateByAlias=objRS(0)
+	Else
+		GetCateByAlias=-1
 	End If
 End Function
 '*********************************************************
@@ -766,18 +801,21 @@ Function CheckTagByID(intTagID)
 	CheckTagByID=Not objConn.Execute("SELECT [tag_ID] FROM [blog_Tag] WHERE [tag_ID]=" & intTagID ).BOF
 
 End Function
-'*********************************************************
 
-
-
-
-'*********************************************************
-' 目的：    检查分类是否存在
-'*********************************************************
 Function CheckTagByName(strName)
 
 	CheckTagByName=Not objConn.Execute("SELECT [tag_ID] FROM [blog_Tag] WHERE [tag_Name]='" & FilterSQL(strName) &"'" ).BOF
 
+End Function
+
+Function GetTagByName(strName)
+	Dim objRS
+	Set objRS=objConn.Execute("SELECT [tag_ID] FROM [blog_Tag] WHERE [tag_Name]='"&FilterSQL(strName)&"'" )
+	If (Not objRS.bof) And (Not objRS.eof) Then
+		GetTagByName=objRS(0)
+	Else
+		GetTagByName=0
+	End If
 End Function
 '*********************************************************
 
@@ -3603,10 +3641,17 @@ Function RefreshOptionFormFileToDB()
 	On Error Resume Next
 	Dim a
 	For Each a In BlogConfig.Meta.Names
-		Call Execute("Call BlogConfig.Write("""&a&""","&a&")")
+		If isUndefined(a)=False Then
+			Call Execute("Call BlogConfig.Write("""&a&""","&a&")")
+		End If
 	Next
 	Call BlogConfig.Write("ZC_BLOG_VERSION","2.0 Beta1 Build 121008")
 	Call BlogConfig.Write("ZC_BLOG_CLSID",origZC_BLOG_CLSID)
+
+	If BlogConfig.Exists("ZC_UNCATEGORIZED_NAME")=False Then Call BlogConfig.Write("ZC_UNCATEGORIZED_NAME",ZC_MSG059)
+	If BlogConfig.Exists("ZC_UNCATEGORIZED_ALIAS")=False Then Call BlogConfig.Write("ZC_UNCATEGORIZED_ALIAS","")
+	If BlogConfig.Exists("ZC_UNCATEGORIZED_COUNT")=False Then Call BlogConfig.Write("ZC_UNCATEGORIZED_COUNT",0)
+
 	Call BlogConfig.Save()
 	Err.Clear
 End Function

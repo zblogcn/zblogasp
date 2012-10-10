@@ -220,6 +220,14 @@ Class TCategory
 
 		Call CheckParameter(cate_ID,"int",0)
 
+		If cate_ID=0 Then
+			If BlogConfig.Exists("ZC_UNCATEGORIZED_NAME")=True Then Name=BlogConfig.Read("ZC_UNCATEGORIZED_NAME")
+			If BlogConfig.Exists("ZC_UNCATEGORIZED_ALIAS")=True Then Alias=BlogConfig.Read("ZC_UNCATEGORIZED_ALIAS")
+			If BlogConfig.Exists("ZC_UNCATEGORIZED_COUNT")=True Then Count=CLng(BlogConfig.Read("ZC_UNCATEGORIZED_COUNT"))
+			LoadInfoByID=True
+			Exit Function
+		End If
+
 		Dim objRS
 		Set objRS=objConn.Execute("SELECT [cate_ID],[cate_Name],[cate_Intro],[cate_Order],[cate_Count],[cate_ParentID],[cate_Url],[cate_Template],[cate_LogTemplate],[cate_FullUrl],[cate_Meta] FROM [blog_Category] WHERE [cate_ID]=" & cate_ID)
 
@@ -297,6 +305,7 @@ Class TCategory
 		ID=0
 		Name=ZC_MSG059
 		ReCount=0
+		Order=0
 		Set Meta=New TMeta
 	End Sub
 
@@ -1564,16 +1573,20 @@ Class TArticle
 		'Set objRS=Nothing
 
 		'重新统计分类及用户的文章数、评论数
-		If CateID>0 Then
-			If Categorys(CateID).ReCount=0 Then
-			Categorys(CateID).ReCount=objConn.Execute("SELECT COUNT([log_ID]) FROM [blog_Article] WHERE [log_Level]>1 AND [log_CateID]=" & CateID )(0)
+
+		If Categorys(CateID).ReCount=0 Then
+		Categorys(CateID).ReCount=objConn.Execute("SELECT COUNT([log_ID]) FROM [blog_Article] WHERE [log_Level]>1 AND [log_Type]=0 AND [log_CateID]=" & CateID )(0)
+		If CateID=0 Then
+			Call BlogConfig.Write("ZC_UNCATEGORIZED_COUNT",Categorys(CateID).ReCount)
+		Else
 			objConn.Execute("UPDATE [blog_Category] SET [cate_Count]="&Categorys(CateID).ReCount&" WHERE [cate_ID] =" & CateID)
-			Categorys(CateID).Count=Categorys(CateID).ReCount
-			End If
+		End If
+		Categorys(CateID).Count=Categorys(CateID).ReCount
 		End If
 
+
 		If Users(AuthorID).ReCount=0 Then
-			Users(AuthorID).ReCount=objConn.Execute("SELECT COUNT([log_ID]) FROM [blog_Article] WHERE [log_Level]>1 AND [log_AuthorID]=" & AuthorID )(0)
+			Users(AuthorID).ReCount=objConn.Execute("SELECT COUNT([log_ID]) FROM [blog_Article] WHERE [log_Level]>1 AND [log_Type]=0 [log_AuthorID]=" & AuthorID )(0)
 			objConn.Execute("UPDATE [blog_Member] SET [mem_PostLogs]="&Users(AuthorID).ReCount&" WHERE [mem_ID] =" & AuthorID)
 			Users(AuthorID).Count=Users(AuthorID).ReCount
 		End If
@@ -1836,18 +1849,22 @@ Class TArticleList
 
 		If intCateId<>"" Then
 
+			ListType="CATEGORY"
+
 			If InStr(ZC_CATEGORY_REGEX,"{%alias%}")>0 Then
 				
 			Else
 				Call CheckParameter(intCateId,"int",Empty)
 			End If
 
+			If intCateId=0 Then
+				objRS.Source=objRS.Source & "AND([log_CateID]=0)"
+			Else
+				Dim strSubCateID
+				strSubCateID=Join(GetSubCateID(intCateId,True),",")
+				objRS.Source=objRS.Source & "AND([log_CateID]IN("&strSubCateID&"))"
+			End If
 
-			Dim strSubCateID
-			strSubCateID=Join(GetSubCateID(intCateId,True),",")
-			objRS.Source=objRS.Source & "AND([log_CateID]IN("&strSubCateID&"))"
-			'objRS.Source=objRS.Source & "AND([log_CateID]="&intCateId&")"
-			ListType="CATEGORY"
 			If CheckCateByID(intCateId) Then
 				Title=Categorys(intCateId).Name
 				TemplateTags_ArticleList_Category_ID=Categorys(intCateId).ID
@@ -1858,13 +1875,15 @@ Class TArticleList
 		End if
 		If intAuthorId<>"" Then
 
+			ListType="USER"
+
 			If InStr(edtZC_USER_REGEX,"{%alias%}")>0 Then
 				
 			Else
 				Call CheckParameter(intAuthorId,"int",Empty)
 			End If
 			objRS.Source=objRS.Source & "AND([log_AuthorID]="&intAuthorId&")"
-			ListType="USER"
+
 			If CheckAuthorByID(intAuthorId) Then
 				Call GetUsersbyUserIDList(intAuthorId)
 				Title=Users(intAuthorId).Name
@@ -1875,6 +1894,7 @@ Class TArticleList
 			End If
 		End if
 		If IsDate(dtmYearMonth) Then
+
 			ListType="DATE"
 
 			Dim y
@@ -1910,11 +1930,13 @@ Class TArticleList
 			Title=Year(dtmYearMonth) & " " & ZVA_Month(Month(dtmYearMonth))
 		End If
 		If strTagsName<>"" Then
+
 			ListType="TAGS"
+
 			If InStr(ZC_TAGS_REGEX,"{%id%}")>0 Then
 				i=CLng(strTagsName)
 			Else
-				If CheckTagByName(strTagsName) Then i=objConn.Execute("SELECT [tag_ID] FROM [blog_Tag] WHERE [tag_Name]='" & FilterSQL(strTagsName) &"'" )(0)
+				If CheckTagByName(strTagsName) Then i=GetTagByName(strTagsName)
 			End If
 			objRS.Source=objRS.Source & "AND([log_Tag] LIKE '%{" & i & "}%')"
 

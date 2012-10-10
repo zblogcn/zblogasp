@@ -193,6 +193,6 @@ Next
 Call System_Terminate()
 
 If Err.Number<>0 then
-	Call ShowError(0)
+	'Call ShowError(0)
 End If
 %>

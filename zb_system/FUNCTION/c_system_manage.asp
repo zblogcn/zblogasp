@@ -390,6 +390,18 @@ Function ExportCategoryList(intPage)
 	Response.Write "<table border=""1"" width=""100%"" cellspacing=""0"" cellpadding=""0"" class='tableBorder tableBorder-thcenter'>"
 	Response.Write "<tr><th width=""5%""></th><th width=""10%"">"& ZC_MSG076 &"</th><th width=""10%"">"& ZC_MSG079 &"</th><th>"& ZC_MSG001 &"</th><th>"& ZC_MSG147 &"</th><th width=""14%""></th></tr>"
 
+
+	Response.Write "<tr><td align=""center""><img width=""16"" src=""../image/admin/folder.png"" alt="""" /></td>"
+	Response.Write "<td>" & Categorys(0).ID & "</td>"
+	Response.Write "<td>" & Categorys(0).Order & "</td>"
+	Response.Write "<td><a href="""& Categorys(0).Url &"""  target=""_blank"">" & Categorys(0).Name & "</a></td>"
+	Response.Write "<td>" & Categorys(0).Alias & "</td>"
+	Response.Write "<td align=""center""><a href=""../cmd.asp?act=CategoryEdt&amp;id="& Categorys(0).ID &"""><img src=""../image/admin/folder_edit.png"" alt=""" & ZC_MSG078 & """ title=""" & ZC_MSG078 & """ width=""16"" /></a></td>"
+	Response.Write "</tr>"
+
+
+
+
 	Dim aryCateInOrder
 	aryCateInOrder=GetCategoryOrder()
 

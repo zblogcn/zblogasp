@@ -275,6 +275,16 @@ End Function
 '*********************************************************
 Function PostCategory()
 
+	If Instr(Request.ServerVariables("HTTP_REFERER"),"?id=0")>0 Then
+
+		Call BlogConfig.Write("ZC_UNCATEGORIZED_NAME",Request.Form("edtName"))
+		Call BlogConfig.Write("ZC_UNCATEGORIZED_ALIAS",Request.Form("edtAlias"))
+		BlogConfig.Save
+		PostCategory=True
+		Exit Function
+		Response.End
+	End If
+
 	Dim objCategory
 	Set objCategory=New TCategory
 	objCategory.ID=Request.Form("edtID")
@@ -1177,6 +1187,8 @@ End Function
 '*********************************************************
 Function SaveSetting()
 
+	On Error Resume Next
+
 	If BlogConfig.Exists("ZC_SYNTAXHIGHLIGHTER_ENABLE")=False Then Call BlogConfig.Write("ZC_SYNTAXHIGHLIGHTER_ENABLE",True)
 
 	If BlogConfig.Exists("ZC_CODEMIRROR_ENABLE")=False Then Call BlogConfig.Write("ZC_CODEMIRROR_ENABLE",True)
@@ -1185,14 +1197,14 @@ Function SaveSetting()
 
 	If BlogConfig.Exists("ZC_POST_STATIC_MODE")=False Then Call BlogConfig.Write("ZC_POST_STATIC_MODE","STATIC")
 
-
 	Dim a,b,c,d
 
 	Set d=CreateObject("Scripting.Dictionary")
-
 	For Each a In BlogConfig.Meta.Names
 		If a<>"ZC_BLOG_VERSION" And a<>"" Then
-			Call Execute("Call BlogConfig.Write("""&a&""","&a&")")
+			If isUndefined(a)=False Then
+				Call Execute("Call BlogConfig.Write("""&a&""","&a&")")
+			End If
 		End If
 	Next
 	Err.Clear
