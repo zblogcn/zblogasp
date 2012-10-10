@@ -804,6 +804,11 @@ Class TArticle
 
 		If Disable_Export_CMTandTB=True Then Exit Function
 
+		If ZC_COMMENT_TURNOFF=True Then 
+			Template_Article_Comment=""
+			Exit Function
+		End If
+
 		Call CheckParameter(intPage,"int",1)
 
 		'plugin node
@@ -1068,6 +1073,11 @@ Class TArticle
 			If Not IsEmpty(sAction_Plugin_TArticle_Export_CommentPost_Begin) Then Call Execute(sAction_Plugin_TArticle_Export_CommentPost_Begin)
 			If bAction_Plugin_TArticle_Export_CommentPost_Begin=True Then Exit Function
 		Next
+
+		If ZC_COMMENT_TURNOFF=True Then 
+			Template_Article_Commentpost=""
+			Exit Function
+		End If
 
 		If Level<4 Then Exit Function
 
@@ -1842,8 +1852,8 @@ Class TArticleList
 				Title=Categorys(intCateId).Name
 				TemplateTags_ArticleList_Category_ID=Categorys(intCateId).ID
 				If IsEmpty(html)=True Then html=Categorys(intCateId).Template
-				Url =ParseCustomDirectoryForUrl(Categorys(intCateId).FullRegex,ZC_STATIC_DIRECTORY,"","","","","",Categorys(intCateId).ID,Categorys(intCateId).Name,IIf(Categorys(intCateId).Alias="",Categorys(intCateId).Name,Categorys(intCateId).Alias))
-				MixUrl =ParseCustomDirectoryForUrl("{%host%}/catalog.asp?cate={%id%}",ZC_STATIC_DIRECTORY,"","","","","",Categorys(intCateId).ID,Categorys(intCateId).Name,IIf(Categorys(intCateId).Alias="",Categorys(intCateId).Name,Categorys(intCateId).Alias))
+				Url =ParseCustomDirectoryForUrl(Categorys(intCateId).FullRegex,ZC_STATIC_DIRECTORY,"","","","","",Categorys(intCateId).ID,Categorys(intCateId).Name,Categorys(intCateId).StaticName)
+				MixUrl =ParseCustomDirectoryForUrl("{%host%}/catalog.asp?cate={%id%}",ZC_STATIC_DIRECTORY,"","","","","",Categorys(intCateId).ID,Categorys(intCateId).Name,Categorys(intCateId).StaticName)
 			End If
 		End if
 		If intAuthorId<>"" Then
@@ -1860,8 +1870,8 @@ Class TArticleList
 				Title=Users(intAuthorId).Name
 				TemplateTags_ArticleList_Author_ID=Users(intAuthorId).ID
 				If IsEmpty(html)=True Then html=Users(intAuthorId).Template
-				Url =ParseCustomDirectoryForUrl(Users(intAuthorId).FullRegex,ZC_STATIC_DIRECTORY,"","","","","",Users(intAuthorId).ID,Users(intAuthorId).Name,IIF(Users(intAuthorId).Alias="",Users(intAuthorId).Name,Name(intAuthorId).Alias))
-				MixUrl=ParseCustomDirectoryForUrl("{%host%}/catalog.asp?user={%id%}",ZC_STATIC_DIRECTORY,"","","","","",Users(intAuthorId).ID,Users(intAuthorId).Name,IIF(Users(intAuthorId).Alias="",Users(intAuthorId).Name,Users(intAuthorId).Alias))
+				Url =ParseCustomDirectoryForUrl(Users(intAuthorId).FullRegex,ZC_STATIC_DIRECTORY,"","","","","",Users(intAuthorId).ID,Users(intAuthorId).Name,Users(intAuthorId).StaticName)
+				MixUrl=ParseCustomDirectoryForUrl("{%host%}/catalog.asp?user={%id%}",ZC_STATIC_DIRECTORY,"","","","","",Users(intAuthorId).ID,Users(intAuthorId).Name,Users(intAuthorId).StaticName)
 			End If
 		End if
 		If IsDate(dtmYearMonth) Then
