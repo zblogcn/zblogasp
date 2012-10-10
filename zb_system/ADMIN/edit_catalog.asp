@@ -178,10 +178,11 @@ Next
 		function checkCateInfo(){
 			document.getElementById("edit").action="../cmd.asp?act=CategoryPst";
 	
-			if(!document.getElementById("edtName").value){
+			if(!$("#edtName").val()){
 				alert(str17);
 				return false
 			}
+			else if($("#edtName").val().length>20){alert("哟哟切克闹，分类名太长");return false;}
 	
 		}
 </script>

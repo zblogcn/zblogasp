@@ -289,6 +289,7 @@ Function PostCategory()
 	Set objCategory=New TCategory
 	objCategory.ID=Request.Form("edtID")
 	objCategory.Name=Request.Form("edtName")
+	If Len(objCategory.Name)>20 Then ShowError_Custom="Response.Write ""<script>alert('分类名太长！');history.go(-1);</script>"":Response.End":ShowError(0)
 	objCategory.Order=Request.Form("edtOrder")
 	objCategory.ParentID=Request.Form("edtPareID")
 	objCategory.Alias=Request.Form("edtAlias")
