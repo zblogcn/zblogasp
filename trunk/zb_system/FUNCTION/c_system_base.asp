@@ -125,20 +125,20 @@ Sub System_Initialize()
 
 	Call LoadGlobeCache()
 
-
-	If ZC_POST_STATIC_MODE<>"STATIC" Then
-		Dim bolRebuildFiles
-		Application.Lock
-		bolRebuildFiles=Application(ZC_BLOG_CLSID & "SIGNAL_REBUILDFILES")
-		Application.UnLock
-		If IsEmpty(bolRebuildFiles)=False Then
-			If bolRebuildFiles=True Then
-				Call SetBlogHint(True,True,False)
+	If isUndefined("ZC_POST_STATIC_MODE")=False Then
+		If ZC_POST_STATIC_MODE<>"STATIC" Then
+			Dim bolRebuildFiles
+			Application.Lock
+			bolRebuildFiles=Application(ZC_BLOG_CLSID & "SIGNAL_REBUILDFILES")
+			Application.UnLock
+			If IsEmpty(bolRebuildFiles)=False Then
+				If bolRebuildFiles=True Then
+					Call SetBlogHint(True,True,False)
+				End If
 			End If
 		End If
 	End If
-
-
+	
 	Dim bolRebuildIndex
 	Application.Lock
 	bolRebuildIndex=Application(ZC_BLOG_CLSID & "SIGNAL_REBUILDINDEX")
@@ -3447,7 +3447,12 @@ Response_Plugin_Admin_Top=""
 
 Call Add_Response_Plugin("Response_Plugin_Admin_Top",MakeTopMenu(GetRights("admin"),ZC_MSG245,BlogHost&"zb_system/cmd.asp?act=admin","",""))
 Call Add_Response_Plugin("Response_Plugin_Admin_Top",MakeTopMenu(GetRights("SettingMng"),ZC_MSG247,BlogHost&"zb_system/cmd.asp?act=SettingMng","",""))
-If Not ZC_POST_STATIC_MODE<>"STATIC" Then Call Add_Response_Plugin("Response_Plugin_Admin_Top",MakeTopMenu(GetRights("AskFileReBuild"),ZC_MSG073,BlogHost&"zb_system/cmd.asp?act=AskFileReBuild","",""))
+If isUndefined("ZC_POST_STATIC_MODE") Then
+	Call Add_Response_Plugin("Response_Plugin_Admin_Top",MakeTopMenu(GetRights("AskFileReBuild"),ZC_MSG073,BlogHost&"zb_system/cmd.asp?act=AskFileReBuild","",""))
+ElseIf Not ZC_POST_STATIC_MODE<>"STATIC" Then 
+	Call Add_Response_Plugin("Response_Plugin_Admin_Top",MakeTopMenu(GetRights("AskFileReBuild"),ZC_MSG073,BlogHost&"zb_system/cmd.asp?act=AskFileReBuild","",""))
+End If
+
 
 End Function
 '*********************************************************
@@ -3706,6 +3711,14 @@ Function CookiesPath()
 End Function
 '*********************************************************
 
-
+'*********************************************************
+' 目的：  
+'*********************************************************
+Function isUndefined(varname)
+	On Error Resume Next
+	Execute "Dim " & varname
+	If Err.Number=0 Then isUndefined=True
+End Function
+'*********************************************************
 
 %>

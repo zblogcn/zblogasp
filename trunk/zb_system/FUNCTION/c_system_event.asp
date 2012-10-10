@@ -1220,7 +1220,8 @@ Function SaveSetting()
 	Set d=CreateObject("Scripting.Dictionary")
 
 	For Each a In BlogConfig.Meta.Names
-		If a<>"ZC_BLOG_VERSION" Then
+		If a<>"ZC_BLOG_VERSION" And a<>"" Then
+			Response.Write "Call BlogConfig.Write("""&a&""","&a&")<br/>" 
 			Call Execute("Call BlogConfig.Write("""&a&""","&a&")")
 		End If
 	Next
@@ -1441,6 +1442,8 @@ End Function
 ' 目的：  
 '*********************************************************
 Function AuditComment()
+Response.Write Request.QueryString("id")
+RESPONSE.END
 	'On Error Resume Next
 	Dim i,j
 	Dim s,t
