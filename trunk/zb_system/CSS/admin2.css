@@ -273,18 +273,18 @@ form p{padding:0.5em 0  0.5em 0;line-height:1.5em;}
 
 
 
-form input {
+input {
 	padding: 0.25em 0.25em 0.25em 0.25em;
 	border: 1px double #aaaaaa;
 	background-position: bottom;
 	background:#fff;
 	font-size:1em;
 }
-form input[type="radio"] {
+input[type="radio"] {
 	border:none;
 	background:none;
 }
-form select{
+select{
 	padding: 0.15em 0.25em 0.20em 0.25em;
 	border: 1px double #aaaaaa;
 	background-position: bottom;
@@ -293,7 +293,7 @@ form select{
 
 }
 
-form textarea{
+textarea{
 	padding: 0.15em 0.25em 0.20em 0.25em;
 	border: 1px double #aaaaaa;
 	background-position: bottom;
@@ -301,14 +301,14 @@ form textarea{
 	font-size:1em;
 }
 
-input.button { color:#FFFFFF; font-size:1.1em; height:1.8em;padding: 0.15em 2em 0.20em 2em;padding: 0.15em 1em 0.20em 1em\9;margin:0.2em 0.5em; background:#3a6ea5; border:1px solid #3399CC;cursor: pointer;}
+input.button,input[type="submit"],input[type="button"] { color:#FFFFFF; font-size:1.1em; height:1.8em;padding: 0.15em 2em 0.20em 2em;padding: 0.15em 1em 0.20em 1em\9;margin:0.2em 0.5em; background:#3a6ea5; border:1px solid #3399CC;cursor: pointer;}
 input.button2 { width:auto;}
 
-form input[disabled]{
+input[disabled]{
 	background:#eee;
 }
 
-form input[readonly]{
+input[readonly]{
 	background:#eee;
 }
 

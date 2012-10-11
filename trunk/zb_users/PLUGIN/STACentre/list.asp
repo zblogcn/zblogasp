@@ -126,7 +126,7 @@ s= AddRule1(s,"ZC_PAGE_REGEX",False)
 End If
 
 
-	MakeIIS6Rewrite2=TransferHTML(s,"[html-format]")
+	MakeIIS6Rewrite2=s
 End Function
 
 Function AddRule2(s,regex,page)
@@ -233,7 +233,7 @@ s= AddRule2(s,"ZC_PAGE_REGEX",False)
 End If
 
 
-	MakeIIS6Rewrite3=TransferHTML(s,"[html-format]")
+	MakeIIS6Rewrite3=s
 End Function
 
 
@@ -275,7 +275,7 @@ t=t & "     </rule>" & vbCrlf
 	r=Replace(r,".html",IIF(page=True,"{%page%}","")&".html")
 t=t & "     <rule name=""Imported Rule Tags"&IIF(page=True,"+Page","")&""" stopProcessing=""true"">" & vbCrlf
 t=t & "      <match url=""^"& r &"$"" ignoreCase=""false"" />" & vbCrlf
-t=t & "      <action type=""Rewrite"" url=""catalog.asp?auth={R:1}"&IIF(page=True,"&amp;page={R:2}","")&""" />" & vbCrlf
+t=t & "      <action type=""Rewrite"" url=""catalog.asp?tags={R:1}"&IIF(page=True,"&amp;page={R:2}","")&""" />" & vbCrlf
 t=t & "     </rule>" & vbCrlf
 	End If
 
@@ -285,7 +285,7 @@ t=t & "     </rule>" & vbCrlf
 	r=Replace(r,".html",IIF(page=True,"{%page%}","")&".html")
 t=t & "     <rule name=""Imported Rule Date"&IIF(page=True,"+Page","")&""" stopProcessing=""true"">" & vbCrlf
 t=t & "      <match url=""^"& r &"$"" ignoreCase=""false"" />" & vbCrlf
-t=t & "      <action type=""Rewrite"" url=""catalog.asp?auth={R:1}"&IIF(page=True,"&amp;page={R:2}","")&""" />" & vbCrlf
+t=t & "      <action type=""Rewrite"" url=""catalog.asp?date={R:1}"&IIF(page=True,"&amp;page={R:2}","")&""" />" & vbCrlf
 t=t & "     </rule>" & vbCrlf
 	End If
 
@@ -368,8 +368,34 @@ s=s & " </system.webServer>" & vbCrlf
 s=s & "</configuration>" & vbCrlf
 
 
-	MakeIIS7UrlRewrite=TransferHTML(s,"[html-format]")
+	MakeIIS7UrlRewrite=s
 End Function
+
+
+If Request("mak")="1" Then
+	Call SaveToFile(BlogPath & "httpd.ini",MakeIIS6Rewrite2(),"iso-8859-1",False)
+	Call SetBlogHint_Custom("创建httpd.ini成功!")
+End If
+If Request("mak")="2" Then
+	Call SaveToFile(BlogPath & ".htaccess",MakeIIS6Rewrite3(),"utf-8",False)
+	Call SetBlogHint_Custom("创建httpd.ini成功!")
+End If
+If Request("mak")="3" Then
+	Call SaveToFile(BlogPath & "web.config",MakeIIS7UrlRewrite(),"utf-8",False)
+	Call SetBlogHint_Custom("创建.htaccess成功!")
+End If
+If Request("del")="1" Then
+	Call DelToFile(BlogPath & "httpd.ini")
+	Call SetBlogHint_Custom("删除.htaccess成功!")
+End If
+If Request("del")="2" Then
+	Call DelToFile(BlogPath & ".htaccess")
+	Call SetBlogHint_Custom("删除web.config成功!")
+End If
+If Request("del")="3" Then
+	Call DelToFile(BlogPath & "web.config")
+	Call SetBlogHint_Custom("删除web.config成功!")
+End IF
 
 %>
 <!--#include file="..\..\..\zb_system\admin\admin_header.asp"-->
@@ -408,27 +434,30 @@ pre{
 				<div class="content-box-content">
 <div class="tab-content default-tab" style='border:none;padding:0px;margin:0;' id="tab1">
 <pre>
-<%=MakeIIS6Rewrite2()%>
+<%=TransferHTML(MakeIIS6Rewrite2(),"[html-format]")%>
 </pre>
 <hr/>
-<p><span class="star">请在网站根目录创建httpd.ini文件并把相关内容复制进去.</span></p>
+<p><span class="star">请在网站根目录创建httpd.ini文件并把相关内容复制进去,httpd.ini文件必须为ANSI编码.</span></p>
+<p><input type="button" onclick="window.location.href='?mak=1'" value="创建httpd.ini" />&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" onclick="window.location.href='?del=1'" value="删除httpd.ini" /></p>
 </div>
 
 
 <div class="tab-content" style='border:none;padding:0px;margin:0;' id="tab2">
 <pre>
-<%=MakeIIS6Rewrite3()%>
+<%=TransferHTML(MakeIIS6Rewrite3(),"[html-format]")%>
 </pre>
 <hr/>
 <p><span class="star">请在网站根目录创建.htaccess文件并把相关内容复制进去.</span></p>
+<p><input type="button" onclick="window.location.href='?mak=2'" value="创建.htaccess" />&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" onclick="window.location.href='?del=2'" value="删除.htaccess" /></p>
 </div>
 
 <div class="tab-content" style='border:none;padding:0px;margin:0;' id="tab3">
 <pre>
-<%=MakeIIS7UrlRewrite()%>
+<%=TransferHTML(MakeIIS7UrlRewrite(),"[html-format]")%>
 </pre>
 <hr/>
 <p><span class="star">请在网站<u>"当前目录"</u>创建web.config文件并把相关内容复制进去.</span></p>
+<p><input type="button" onclick="window.location.href='?mak=3'" value="创建web.config" />&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" onclick="window.location.href='?del=3'" value="删除web.config" /></p>
 </div>
 
 				</div> <!-- End .content-box-content -->
