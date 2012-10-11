@@ -4885,7 +4885,7 @@ Class TFunction
 		If Ftype<>"div" And Ftype<>"ul" Then Ftype="div"
 
 		Content=FilterSQL(Content)
-		Content=TransferHTML(FilterSQL(Content),"[anti-zc_blog_host]")
+		Content=TransferHTML(Content,"[anti-zc_blog_host]")
 
 		If ID=0 Then
 			objConn.Execute("INSERT INTO [blog_Function]([fn_Name],[fn_FileName],[fn_Order],[fn_Content],[fn_IsSystem],[fn_SidebarID],[fn_HtmlID],[fn_Ftype],[fn_MaxLi],[fn_Meta]) VALUES ('"&Name&"','"&FileName&"',"&Order&",'"&Content&"',"&CLng(IsSystem)&","&SidebarID&",'"&HtmlID&"','"&Ftype&"',"&MaxLi&",'"&MetaString&"')")
