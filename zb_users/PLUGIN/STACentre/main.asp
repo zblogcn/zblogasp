@@ -76,7 +76,7 @@ BlogTitle="静态管理中心"
 <p><label onClick="changeval(2,2)"><input type="radio" name="radio2" />&nbsp;&nbsp;配置2:页面名目录型 http://www.yourblog/pagename/</label></p>
 </td></tr>
 </table>
-<p><span class="note">您可以自定义静态配置,配置必须是{%host%}打头,".html"结尾,中间可以用{%post%},{%category%},{%user%},{%year%},{%month%},{%day%},{%id%},{%alias%}组合.</span></p>
+<p><span class="note">您可以自定义静态配置,配置必须是{%host%}打头,".html"结尾,中间可以用{%post%},{%category%},{%author%},{%year%},{%month%},{%day%},{%id%},{%alias%}组合.</span></p>
 <p><span class="note">{%post%}为文章发布目录,可以在网站设置里修改,{%category%}为文章的别名,{%user%}是用户别名,{%alias%}是文章别名,没有设置文章别名系统会自动采用ID填充.</span></p>
 
 </div>
@@ -104,14 +104,6 @@ BlogTitle="静态管理中心"
 
 <p><span class="star">注意:开启文章及页面和分类页的Rewrite支持选项后,请查看"ReWrite规则"并应用在主机上方能生效.</span></p>
 
-<select name="type" id="type">
-  <option value="IIS7">IIS7</option>
-  <option value="ISAPI2">ISAPI2</option>
-  <option value="ISAPI3">ISAPI3</option>
-</select>
-<input type="button" onClick="b()" value="Create UrlRewrite" />
-<textarea id="log" style="width:100%; height:400px;"></textarea>
-<br/>
 <input name="" type="submit" class="button" value="保存"/>
 </form>
 </div>
@@ -174,14 +166,5 @@ BlogTitle="静态管理中心"
 
 	});
 
-</script>
-<script language="javascript" type="text/javascript" src="urlRewrite.js"></script>
-<script language="javascript" type="text/javascript">
-	function b(){
-		urlRewrite.call = function(html){
-			$('#log').val(html);
-		}
-		urlRewrite.display()
-	}
 </script>
 <!--#include file="..\..\..\zb_system\admin\admin_footer.asp"-->

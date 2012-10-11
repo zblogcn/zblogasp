@@ -41,6 +41,7 @@ For Each a In d.Keys
 Next
 
 Call SaveConfig2Option()
+Call SetBlogHint(True,True,Empty)
 
 SetBlogHint_Custom("设置已保存!")
 

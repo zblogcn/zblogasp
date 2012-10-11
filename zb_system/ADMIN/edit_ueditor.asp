@@ -123,12 +123,12 @@ Next
                       <input type="hidden" name="edtFType" id="edtFType" value="<%=EditArticle.FType%>" />
 <!-- title( -->
                       <p><span class='editinputname'><%=ZC_MSG060%>:</span>
-                        <input type="text" name="edtTitle" id="edtTitle" style="width:60%;max-width:520px"  onblur="if(this.value=='') this.value='<%=ZC_MSG099%>'" onFocus="if(this.value=='<%=ZC_MSG099%>') this.value=''" value="<%=EditArticle.Title%>" /></p>
+                        <input type="text" name="edtTitle" id="edtTitle" style="width:60%;max-width:520px" maxlength="100" onblur="if(this.value=='') this.value='<%=ZC_MSG099%>'" onFocus="if(this.value=='<%=ZC_MSG099%>') this.value=''" value="<%=EditArticle.Title%>" /></p>
 <!-- )title -->
 
 <!-- alias( -->
                         <p><span class='editinputname'><%=ZC_MSG147%>:</span>
-                        <input type="text" style="width:60%;max-width:520px" name="edtAlias" id="edtAlias" value="<%=TransferHTML(EditArticle.Alias,"[html-format]")%>" />.<%=ZC_STATIC_TYPE%>
+                        <input type="text" style="width:60%;max-width:520px" name="edtAlias" id="edtAlias" maxlength="250" value="<%=TransferHTML(EditArticle.Alias,"[html-format]")%>" />.<%=ZC_STATIC_TYPE%>
                         </p>
 <!-- )alias -->
 
