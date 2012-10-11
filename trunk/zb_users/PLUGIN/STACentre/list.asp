@@ -378,19 +378,19 @@ If Request("mak")="1" Then
 End If
 If Request("mak")="2" Then
 	Call SaveToFile(BlogPath & ".htaccess",MakeIIS6Rewrite3(),"utf-8",False)
-	Call SetBlogHint_Custom("创建httpd.ini成功!")
+	Call SetBlogHint_Custom("创建.htaccess成功!")
 End If
 If Request("mak")="3" Then
 	Call SaveToFile(BlogPath & "web.config",MakeIIS7UrlRewrite(),"utf-8",False)
-	Call SetBlogHint_Custom("创建.htaccess成功!")
+	Call SetBlogHint_Custom("创建web.config成功!")
 End If
 If Request("del")="1" Then
 	Call DelToFile(BlogPath & "httpd.ini")
-	Call SetBlogHint_Custom("删除.htaccess成功!")
+	Call SetBlogHint_Custom("删除httpd.ini成功!")
 End If
 If Request("del")="2" Then
 	Call DelToFile(BlogPath & ".htaccess")
-	Call SetBlogHint_Custom("删除web.config成功!")
+	Call SetBlogHint_Custom("删除.htaccess成功!")
 End If
 If Request("del")="3" Then
 	Call DelToFile(BlogPath & "web.config")
