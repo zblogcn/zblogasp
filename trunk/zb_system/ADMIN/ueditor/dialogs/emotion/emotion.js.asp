@@ -15,8 +15,20 @@ window.onload = function () {
 
     emotion.SmileyPath = editor.options.emotionLocalization === true ? 'images/' : "<%=GetCurrentHost()%>zb_users/emotion/";
 	<%	
-	Dim aryFileList,a,i,j,e,f,x,y,p
-	f=Split(ZC_EMOTICONS_FILENAME,"|")
+	Dim fso,f(),f1,fb,fc
+	Dim aryFileList,a,i,j,e,x,y,p
+
+	'f=Split(ZC_EMOTICONS_FILENAME,"|")
+	Set fso = CreateObject("Scripting.FileSystemObject")
+	Set fb = fso.GetFolder(BlogPath & "zb_users/emotion" & "/")
+	Set fc = fb.SubFolders
+		i=0
+	For Each f1 in fc	
+		ReDim Preserve f(i)
+		f(i)=f1.name
+		i=i+1
+	Next
+	'f=LoadIncludeFiles("zb_users\emotion\")
 	y=UBound(f)
 	For x=0 To y
 		aryFileList=LoadIncludeFiles("zb_users\emotion\"&f(x)) 
