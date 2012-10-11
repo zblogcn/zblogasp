@@ -3223,8 +3223,8 @@ Class TComment
 		Dim aryTemplateTagsName()
 		Dim aryTemplateTagsValue()
 
-		ReDim aryTemplateTagsName(13)
-		ReDim aryTemplateTagsValue(13)
+		ReDim aryTemplateTagsName(26)
+		ReDim aryTemplateTagsValue(26)
 
 		If ParentID="" Then ParentID=0
 
@@ -3266,6 +3266,32 @@ Class TComment
 		aryTemplateTagsValue(12)=ParentID
 		aryTemplateTagsName( 13)="article/comment/avatar"
 		aryTemplateTagsValue(13)=Avatar
+		aryTemplateTagsName( 14)="article/comment/posttime/longdate"
+		aryTemplateTagsValue(14)=FormatDateTime(PostTime,vbLongDate)
+		aryTemplateTagsName( 15)="article/comment/posttime/shortdate"
+		aryTemplateTagsValue(15)=FormatDateTime(PostTime,vbShortDate)
+		aryTemplateTagsName( 16)="article/comment/posttime/longtime"
+		aryTemplateTagsValue(16)=FormatDateTime(PostTime,vbLongTime)
+		aryTemplateTagsName( 17)="article/comment/posttime/shorttime"
+		aryTemplateTagsValue(17)=FormatDateTime(PostTime,vbShortTime)
+		aryTemplateTagsName( 18)="article/comment/posttime/year"
+		aryTemplateTagsValue(18)=Year(PostTime)
+		aryTemplateTagsName( 19)="article/comment/posttime/month"
+		aryTemplateTagsValue(19)=Right("0"&Month(PostTime),2)
+		aryTemplateTagsName( 20)="article/comment/posttime/monthname"
+		aryTemplateTagsValue(20)=ZVA_Month(Month(PostTime))
+		aryTemplateTagsName( 21)="article/comment/posttime/day"
+		aryTemplateTagsValue(21)=Right("0"&Day(PostTime),2)
+		aryTemplateTagsName( 22)="article/comment/posttime/weekday"
+		aryTemplateTagsValue(22)=Weekday(PostTime)
+		aryTemplateTagsName( 23)="article/comment/posttime/weekdayname"
+		aryTemplateTagsValue(23)=ZVA_Week(Weekday(PostTime))
+		aryTemplateTagsName( 24)="article/comment/posttime/hour"
+		aryTemplateTagsValue(24)=Right("0"&Hour(PostTime),2)
+		aryTemplateTagsName( 25)="article/comment/posttime/minute"
+		aryTemplateTagsValue(25)=Right("0"&Minute(PostTime),2)
+		aryTemplateTagsName( 26)="article/comment/posttime/second"
+		aryTemplateTagsValue(26)=Right("0"&Second(PostTime),2)
 
 		'plugin node
 		Call Filter_Plugin_TComment_MakeTemplate_TemplateTags(aryTemplateTagsName,aryTemplateTagsValue)
