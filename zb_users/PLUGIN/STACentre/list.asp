@@ -71,6 +71,8 @@ t=t & "RewriteRule "& r &" /view\.asp\?id=$1" & vbCrlf
 
 	If regex="ZC_PAGE_REGEX" Then
 	r=ZC_PAGE_REGEX
+	r=Replace(r,"{%name%}","{%alias%}")
+	If InStr(r,"/default.html")=0 Then r=Replace(r,"{%alias%}","(?!zb_){%alias%}")
 	r=Replace(r,"/default.html",IIF(page=True,"{%page%}","")&"/")
 	r=Replace(r,".html",IIF(page=True,"{%page%}","")&".html")
 t=t & "RewriteRule "& r &" /view\.asp\?id=$1" & vbCrlf
@@ -177,6 +179,8 @@ t=t & "RewriteRule ^"& r &"$ /view.asp\?id=$1 [NU]" & vbCrlf
 
 	If regex="ZC_PAGE_REGEX" Then
 	r=ZC_PAGE_REGEX
+	r=Replace(r,"{%name%}","{%alias%}")
+	If InStr(r,"/default.html")=0 Then r=Replace(r,"{%alias%}","(?!zb_){%alias%}")
 	r=Replace(r,"/default.html",IIF(page=True,"{%page%}","")&"/")
 	r=Replace(r,".html",IIF(page=True,"{%page%}","")&".html")
 t=t & "RewriteRule ^"& r &"$ /view.asp\?id=$1 [NU]" & vbCrlf
@@ -303,6 +307,8 @@ t=t & "     </rule>" & vbCrlf
 
 	If regex="ZC_PAGE_REGEX" Then
 	r=ZC_PAGE_REGEX
+	r=Replace(r,"{%name%}","{%alias%}")
+	If InStr(r,"/default.html")=0 Then r=Replace(r,"{%alias%}","(?!zb_){%alias%}")
 	r=Replace(r,"/default.html",IIF(page=True,"{%page%}","")&"/")
 	r=Replace(r,".html",IIF(page=True,"{%page%}","")&".html")
 t=t & "     <rule name=""Imported Rule Page"&IIF(page=True,"+Page","")&""" stopProcessing=""true"">" & vbCrlf
