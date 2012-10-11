@@ -87,10 +87,30 @@ BlogTitle="静态管理中心"
 <table width='100%' style='padding:0px;margin:0px;' cellspacing='0' cellpadding='0'>
 <tr><td><p  align='left'><b>·分类页的静态化选项</b><br/><span class='note'>主机安装有ISAPI Rewrite或是URL Rewrite可以开启Rewrite选项</span></p></td><td><p><label><input type="radio" value="ACTIVE" name="STATIC" <%=IIF(ZC_STATIC_MODE="ACTIVE","checked='checked'","")%>/>&nbsp;&nbsp;1.动态页面(系统默认)</label>&nbsp;&nbsp;&nbsp;&nbsp;<label><input type="radio" value="REWRITE" name="STATIC" <%=IIF(ZC_STATIC_MODE="REWRITE","checked='checked'","")%>/>&nbsp;&nbsp;2.动态页面+Rewrite支持</label></p></td></tr>
 <tr><td width='30%'><p align='left'><b>·首页的URL配置</b><br/><span class='note'></span></p></td><td><p><input id='edtZC_DEFAULT_REGEX' name='edtZC_DEFAULT_REGEX' style='width:500px;' type='text' value='<%=ZC_DEFAULT_REGEX%>' /></p></td></tr>
+<tr><td width='30%'><p>推荐配置</p></td><td>
+<p><label onClick="changeval(6,1)"><input type="radio" name="radio6" />&nbsp;&nbsp;配置1:首页分页(默认) http://www.yourblog/default-12.html</label></p>
+</td></tr>
 <tr><td width='30%'><p align='left'><b>·分类页的URL配置</b><br/><span class='note'></span></p></td><td><p><input id='edtZC_CATEGORY_REGEX' name='edtZC_CATEGORY_REGEX' style='width:500px;' type='text' value='<%=ZC_CATEGORY_REGEX%>' /></label></p></td></tr>
+<tr><td width='30%'><p>推荐配置</p></td><td>
+<p><label onClick="changeval(3,1)"><input type="radio" name="radio3" />&nbsp;&nbsp;配置1:分类ID型(默认) http://www.yourblog/category-id.html</label></p>
+<p><label onClick="changeval(3,2)"><input type="radio" name="radio3" />&nbsp;&nbsp;配置2:分类ID目录型 http://www.yourblog/category/id/</label></p>
+<p><label onClick="changeval(3,3)"><input type="radio" name="radio3" />&nbsp;&nbsp;配置3:分类别名目录 http://www.yourblog/categroy/alias/</label></p>
+</td></tr>
 <tr><td width='30%'><p align='left'><b>·作者页的URL配置</b><br/><span class='note'></span></p></td><td><p><input id='edtZC_USER_REGEX' name='edtZC_USER_REGEX' style='width:500px;' type='text' value='<%=ZC_USER_REGEX%>' /></label></p></td></tr>
+<tr><td width='30%'><p>推荐配置</p></td><td>
+<p><label onClick="changeval(7,1)"><input type="radio" name="radio7" />&nbsp;&nbsp;配置1:作者ID型(默认) http://www.yourblog/author-1.html</label></p>
+</td></tr>
 <tr><td width='30%'><p align='left'><b>·TAGS页的URL配置</b><br/><span class='note'></span></p></td><td><p><input id='edtZC_TAGS_REGEX' name='edtZC_TAGS_REGEX' style='width:500px;' type='text' value='<%=ZC_TAGS_REGEX%>' /></label></p></td></tr>
+<tr><td width='30%'><p>推荐配置</p></td><td>
+<p><label onClick="changeval(4,1)"><input type="radio" name="radio4" />&nbsp;&nbsp;配置1:Tags ID型(默认) http://www.yourblog/tags-id.html</label></p>
+<p><label onClick="changeval(4,2)"><input type="radio" name="radio4" />&nbsp;&nbsp;配置2:Tags 名称型 http://www.yourblog/tags-name.html</label></p>
+</td></tr>
 <tr><td width='30%'><p align='left'><b>·日期页的URL配置</b><br/><span class='note'></span></p></td><td><p><input id='edtZC_DATE_REGEX' name='edtZC_DATE_REGEX' style='width:500px;' type='text' value='<%=ZC_DATE_REGEX%>' /></label></p></td></tr>
+<tr><td width='30%'><p>推荐配置</p></td><td>
+<p><label onClick="changeval(5,1)"><input type="radio" name="radio5" />&nbsp;&nbsp;配置1:日期型(默认) http://www.yourblog/date-2012-12.html</label></p>
+<p><label onClick="changeval(5,2)"><input type="radio" name="radio5" />&nbsp;&nbsp;配置2:日期型2 http://www.yourblog/archives/2012-12.html</label></p>
+<p><label onClick="changeval(5,3)"><input type="radio" name="radio5" />&nbsp;&nbsp;配置3:日期目录型 http://www.yourblog/archives/2012-12/</label></p>
+</td></tr>
 </table>
 <p><span class="note">分类,作者,TAGS可用{%id%},{%name%}或{%alias%},分类的{%alias%}为空用name代替,作者的{%alias%}为空用name代替,TAGS的{%alias%}为URLEncode编码处理过的name,日期页可用{%date%}.</span></p>
 
@@ -118,11 +138,38 @@ BlogTitle="静态管理中心"
 			if(b==3){b="{%host%}/{%category%}/{%alias%}.html"};
 			if(b==4){b="{%host%}/{%post%}/{%alias%}/default.html"};
 			if(b==5){b="{%host%}/{%category%}/{%id%}/default.html"};
-		}else{
+		}
+		if(a==2){
 			a="#edtZC_PAGE_REGEX";
 			if(b==1){b="{%host%}/{%alias%}.html"};
 			if(b==2){b="{%host%}/{%alias%}/default.html"};
 		}
+		if(a==3){
+			a="#edtZC_CATEGORY_REGEX";
+			if(b==1){b="{%host%}/category-{%id%}.html"};
+			if(b==2){b="{%host%}/category/{%id%}/default.html"};
+			if(b==3){b="{%host%}/category-{%alias%}/default.html"};
+		}
+		if(a==4){
+			a="#edtZC_TAGS_REGEX";
+			if(b==1){b="{%host%}/tags-{%id%}.html"};
+			if(b==2){b="{%host%}/tags-{%name%}.html"};
+		}
+		if(a==5){
+			a="#edtZC_DATE_REGEX";
+			if(b==1){b="{%host%}/date-{%date%}.html"};
+			if(b==2){b="{%host%}/archives/{%date%}.html"};
+			if(b==3){b="{%host%}/archives/{%date%}/default.html"};
+		}
+		if(a==6){
+			a="#edtZC_DEFAULT_REGEX";
+			if(b==1){b="{%host%}/default.html"};
+		}
+		if(a==7){
+			a="#edtZC_USER_REGEX";
+			if(b==1){b="{%host%}/author-{%id%}.html"};
+		}
+
 		$(a).val(b);
 	}
 
@@ -131,14 +178,17 @@ BlogTitle="静态管理中心"
 		if($(this).val()=="STATIC"){
 			$("#edtZC_ARTICLE_REGEXT").val("{%host%}/{%post%}/{%alias%}.html");
 			$("#edtZC_PAGE_REGEX").val("{%host%}/{%alias%}.html");
+			$("input[name='radio'],input[name='radio2']").removeAttr("disabled");
 		};
 		if($(this).val()=="ACTIVE"){
 			$("#edtZC_ARTICLE_REGEXT").val("{%host%}/view.asp?id={%id%}");
 			$("#edtZC_PAGE_REGEX").val("{%host%}/view.asp?id={%id%}");
+			$("input[name='radio'],input[name='radio2']").attr("disabled","disabled");
 		};
 		if($(this).val()=="REWRITE"){
 			$("#edtZC_ARTICLE_REGEXT").val("{%host%}/{%post%}/{%alias%}.html");
-			$("#edtZC_PAGE_REGEX").val("{%host%}/{%alias%}.html");		
+			$("#edtZC_PAGE_REGEX").val("{%host%}/{%alias%}.html");	
+			$("input[name='radio'],input[name='radio2']").removeAttr("disabled");
 		};
 
 	});

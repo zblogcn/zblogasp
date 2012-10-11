@@ -1042,6 +1042,29 @@ End Function
 
 
 '*********************************************************
+' 目的：    Del to File
+' 输入：    
+' 输入：    
+' 返回：    
+'*********************************************************
+Function DelToFile(strFullName)
+
+	Dim fso, TxtFile
+
+	Set fso = CreateObject("Scripting.FileSystemObject")
+	If fso.FileExists(strFullName) Then
+		Set TxtFile = fso.GetFile(strFullName)
+		TxtFile.Delete
+	End If
+	Set fso=Nothing
+
+End Function
+'*********************************************************
+
+
+
+
+'*********************************************************
 ' 目的：    Save Text to File
 ' 输入：    
 ' 输入：    
