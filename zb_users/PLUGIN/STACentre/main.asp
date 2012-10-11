@@ -88,7 +88,7 @@ BlogTitle="静态管理中心"
 <tr><td><p  align='left'><b>·分类页的静态化选项</b><br/><span class='note'>主机安装有ISAPI Rewrite或是URL Rewrite可以开启Rewrite选项</span></p></td><td><p><label><input type="radio" value="ACTIVE" name="STATIC" <%=IIF(ZC_STATIC_MODE="ACTIVE","checked='checked'","")%>/>&nbsp;&nbsp;1.动态页面(系统默认)</label>&nbsp;&nbsp;&nbsp;&nbsp;<label><input type="radio" value="REWRITE" name="STATIC" <%=IIF(ZC_STATIC_MODE="REWRITE","checked='checked'","")%>/>&nbsp;&nbsp;2.动态页面+Rewrite支持</label></p></td></tr>
 <tr><td width='30%'><p align='left'><b>·首页的URL配置</b><br/><span class='note'></span></p></td><td><p><input id='edtZC_DEFAULT_REGEX' name='edtZC_DEFAULT_REGEX' style='width:500px;' type='text' value='<%=ZC_DEFAULT_REGEX%>' /></p></td></tr>
 <tr><td width='30%'><p>推荐配置</p></td><td>
-<p><label onClick="changeval(6,1)"><input type="radio" name="radio6" />&nbsp;&nbsp;配置1:首页分页(默认) http://www.yourblog/default-12.html</label></p>
+<p><label onClick="changeval(6,1)"><input type="radio" name="radio6" />&nbsp;&nbsp;配置1:首页分页(默认) http://www.yourblog/default_2.html</label></p>
 </td></tr>
 <tr><td width='30%'><p align='left'><b>·分类页的URL配置</b><br/><span class='note'></span></p></td><td><p><input id='edtZC_CATEGORY_REGEX' name='edtZC_CATEGORY_REGEX' style='width:500px;' type='text' value='<%=ZC_CATEGORY_REGEX%>' /></label></p></td></tr>
 <tr><td width='30%'><p>推荐配置</p></td><td>
@@ -198,20 +198,23 @@ BlogTitle="静态管理中心"
 		$("#edtZC_STATIC_MODE").val($(this).val());
 
 		if($(this).val()=="ACTIVE"){
-			$("#edtZC_DEFAULT_REGEX").val("{%host%}/catalog.asp")
-			$("#edtZC_CATEGORY_REGEX").val("{%host%}/catalog.asp?cate={%id%}")
-			$("#edtZC_USER_REGEX").val("{%host%}/catalog.asp?user={%id%}")
-			$("#edtZC_TAGS_REGEX").val("{%host%}/catalog.asp?tags={%alias%}")
-			$("#edtZC_DATE_REGEX").val("{%host%}/catalog.asp?date={%date%}")
-			$("#edtZC_STATIC_MODE").val("ACTIVE")
+			$("#edtZC_DEFAULT_REGEX").val("{%host%}/catalog.asp");
+			$("#edtZC_CATEGORY_REGEX").val("{%host%}/catalog.asp?cate={%id%}");
+			$("#edtZC_USER_REGEX").val("{%host%}/catalog.asp?user={%id%}");
+			$("#edtZC_TAGS_REGEX").val("{%host%}/catalog.asp?tags={%alias%}");
+			$("#edtZC_DATE_REGEX").val("{%host%}/catalog.asp?date={%date%}");
+			$("#edtZC_STATIC_MODE").val("ACTIVE");
+			$("input[name='radio3'],input[name='radio4'],input[name='radio5'],input[name='radio6'],input[name='radio7']").attr("disabled","disabled");
+
 		};
 		if($(this).val()=="REWRITE"){
-			$("#edtZC_DEFAULT_REGEX").val("{%host%}/default.html")
-			$("#edtZC_CATEGORY_REGEX").val("{%host%}/category-{%id%}.html")
-			$("#edtZC_USER_REGEX").val("{%host%}/author-{%id%}.html")
-			$("#edtZC_TAGS_REGEX").val("{%host%}/tags-{%id%}.html")
-			$("#edtZC_DATE_REGEX").val("{%host%}/date-{%date%}.html")
-			$("#edtZC_STATIC_MODE").val("REWRITE")	
+			$("#edtZC_DEFAULT_REGEX").val("{%host%}/default.html");
+			$("#edtZC_CATEGORY_REGEX").val("{%host%}/category-{%id%}.html");
+			$("#edtZC_USER_REGEX").val("{%host%}/author-{%id%}.html");
+			$("#edtZC_TAGS_REGEX").val("{%host%}/tags-{%id%}.html");
+			$("#edtZC_DATE_REGEX").val("{%host%}/date-{%date%}.html");
+			$("#edtZC_STATIC_MODE").val("REWRITE");
+			$("input[name='radio3'],input[name='radio4'],input[name='radio5'],input[name='radio6'],input[name='radio7']").removeAttr("disabled");
 		};
 
 	});
