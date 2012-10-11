@@ -1778,7 +1778,7 @@ Class TArticleList
 	End Property
 
 
-	Public Function Export(intPage,intCateId,intAuthorId,dtmYearMonth,strTagsName,intType)
+	Public Function Export(intPage,Cate,Author,dtmYearMonth,Tag,intType)
 
 		'plugin node
 		bAction_Plugin_TArticleList_Export_Begin=False
@@ -1787,7 +1787,7 @@ Class TArticleList
 			If bAction_Plugin_TArticleList_Export_Begin=True Then Exit Function
 		Next
 
-		Call Filter_Plugin_TArticleList_Export(intPage,intCateId,intAuthorId,dtmYearMonth,strTagsName,intType)
+		Call Filter_Plugin_TArticleList_Export(intPage,Cate,Author,dtmYearMonth,Tag,intType)
 
 		ListType="DEFAULT"
 		Url =ParseCustomDirectoryForUrl(FullRegex,ZC_STATIC_DIRECTORY,"","","","","","","","")
@@ -1847,50 +1847,65 @@ Class TArticleList
 
 		objRS.Source="SELECT [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_Type],[log_Meta] FROM [blog_Article] WHERE ([log_Type]=0) AND ([log_Level]>1)"
 
-		If intCateId<>"" Then
+		If Cate<>"" Then
 
 			ListType="CATEGORY"
 
 			If InStr(ZC_CATEGORY_REGEX,"{%alias%}")>0 Then
-				
+				i=GetCateByAlias(Cate)
+				If i=-1 Then
+					i=GetCateByName(Cate)
+				End If
+			ElseIf InStr(ZC_CATEGORY_REGEX,"{%name%}")>0 Then 
+				i=GetCateByName(Cate)
 			Else
-				Call CheckParameter(intCateId,"int",Empty)
+				i=Cate
 			End If
 
-			If intCateId=0 Then
+			Call CheckParameter(i,"int",Empty)
+
+			If i=0 Then
 				objRS.Source=objRS.Source & "AND([log_CateID]=0)"
 			Else
 				Dim strSubCateID
-				strSubCateID=Join(GetSubCateID(intCateId,True),",")
+				strSubCateID=Join(GetSubCateID(i,True),",")
 				objRS.Source=objRS.Source & "AND([log_CateID]IN("&strSubCateID&"))"
 			End If
 
-			If CheckCateByID(intCateId) Then
-				Title=Categorys(intCateId).Name
-				TemplateTags_ArticleList_Category_ID=Categorys(intCateId).ID
-				If IsEmpty(html)=True Then html=Categorys(intCateId).Template
-				Url =ParseCustomDirectoryForUrl(Categorys(intCateId).FullRegex,ZC_STATIC_DIRECTORY,"","","","","",Categorys(intCateId).ID,Categorys(intCateId).Name,Categorys(intCateId).StaticName)
-				MixUrl =ParseCustomDirectoryForUrl("{%host%}/catalog.asp?cate={%id%}",ZC_STATIC_DIRECTORY,"","","","","",Categorys(intCateId).ID,Categorys(intCateId).Name,Categorys(intCateId).StaticName)
+			If CheckCateByID(i) Then
+				Title=Categorys(i).Name
+				TemplateTags_ArticleList_Category_ID=Categorys(i).ID
+				If IsEmpty(html)=True Then html=Categorys(i).Template
+				Url =ParseCustomDirectoryForUrl(Categorys(i).FullRegex,ZC_STATIC_DIRECTORY,"","","","","",Categorys(i).ID,Categorys(i).Name,Categorys(i).StaticName)
+				MixUrl =ParseCustomDirectoryForUrl("{%host%}/catalog.asp?cate={%id%}",ZC_STATIC_DIRECTORY,"","","","","",Categorys(i).ID,Categorys(i).Name,Categorys(i).StaticName)
 			End If
 		End if
-		If intAuthorId<>"" Then
+		If Author<>"" Then
 
 			ListType="USER"
 
-			If InStr(edtZC_USER_REGEX,"{%alias%}")>0 Then
-				
-			Else
-				Call CheckParameter(intAuthorId,"int",Empty)
-			End If
-			objRS.Source=objRS.Source & "AND([log_AuthorID]="&intAuthorId&")"
+			If InStr(ZC_USER_REGEX,"{%alias%}")>0 Then
+				i=GetAuthorByAlias(Author)
+				If i=-1 Then
+					i=GetAuthorByName(Author)
+				End If
+			ElseIf InStr(ZC_USER_REGEX,"{%name%}")>0 Then
 
-			If CheckAuthorByID(intAuthorId) Then
-				Call GetUsersbyUserIDList(intAuthorId)
-				Title=Users(intAuthorId).Name
-				TemplateTags_ArticleList_Author_ID=Users(intAuthorId).ID
-				If IsEmpty(html)=True Then html=Users(intAuthorId).Template
-				Url =ParseCustomDirectoryForUrl(Users(intAuthorId).FullRegex,ZC_STATIC_DIRECTORY,"","","","","",Users(intAuthorId).ID,Users(intAuthorId).Name,Users(intAuthorId).StaticName)
-				MixUrl=ParseCustomDirectoryForUrl("{%host%}/catalog.asp?user={%id%}",ZC_STATIC_DIRECTORY,"","","","","",Users(intAuthorId).ID,Users(intAuthorId).Name,Users(intAuthorId).StaticName)
+			Else
+				i=Author
+			End If
+
+			Call CheckParameter(i,"int",Empty)
+
+			objRS.Source=objRS.Source & "AND([log_AuthorID]="&i&")"
+
+			If CheckAuthorByID(i) Then
+				Call GetUsersbyUserIDList(i)
+				Title=Users(i).Name
+				TemplateTags_ArticleList_Author_ID=Users(i).ID
+				If IsEmpty(html)=True Then html=Users(i).Template
+				Url =ParseCustomDirectoryForUrl(Users(i).FullRegex,ZC_STATIC_DIRECTORY,"","","","","",Users(i).ID,Users(i).Name,Users(i).StaticName)
+				MixUrl=ParseCustomDirectoryForUrl("{%host%}/catalog.asp?user={%id%}",ZC_STATIC_DIRECTORY,"","","","","",Users(i).ID,Users(i).Name,Users(i).StaticName)
 			End If
 		End if
 		If IsDate(dtmYearMonth) Then
@@ -1927,28 +1942,28 @@ Class TArticleList
 
 			Template_Calendar="<script language=""JavaScript"" src=""<#ZC_BLOG_HOST#>zb_system/function/c_html_js.asp?date="&dtmYearMonth&""" type=""text/javascript""></script>"
 
-			Title=Year(dtmYearMonth) & " " & ZVA_Month(Month(dtmYearMonth))
+			Title=Year(dtmYearMonth) & " " & ZVA_Month(Month(dtmYearMonth)) & IIF(Len(CStr(dtmYearMonth))>7," " & Day(dtmYearMonth),"")
 		End If
-		If strTagsName<>"" Then
+		If Tag<>"" Then
 
 			ListType="TAGS"
 
 			If InStr(ZC_TAGS_REGEX,"{%id%}")>0 Then
-				i=CLng(strTagsName)
+				i=CLng(Tag)
 			Else
-				If CheckTagByName(strTagsName) Then i=GetTagByName(strTagsName)
+				If CheckTagByName(Tag) Then i=GetTagByName(Tag)
 			End If
 			objRS.Source=objRS.Source & "AND([log_Tag] LIKE '%{" & i & "}%')"
 
 			If CheckTagByID(i) Then
-				Dim Tag
-				Set Tag=New TTag
-				Call Tag.LoadInfoByID(i)
-				Title=Tag.Name
-				TemplateTags_ArticleList_Tags_ID=Tag.ID
-				If IsEmpty(html)=True Then html=Tag.Template
-				Url =ParseCustomDirectoryForUrl(Tag.FullRegex,ZC_STATIC_DIRECTORY,"","","","","",Tag.ID,Tag.Name,Tag.EncodeName)
-				MixUrl =ParseCustomDirectoryForUrl("{%host%}/catalog.asp?tags={%alias%}",ZC_STATIC_DIRECTORY,"","","","","",Tag.ID,Tag.Name,Tag.EncodeName)
+				Dim t
+				Set t=New TTag
+				Call t.LoadInfoByID(i)
+				Title=t.Name
+				TemplateTags_ArticleList_Tags_ID=t.ID
+				If IsEmpty(html)=True Then html=t.Template
+				Url =ParseCustomDirectoryForUrl(t.FullRegex,ZC_STATIC_DIRECTORY,"","","","","",t.ID,t.Name,t.EncodeName)
+				MixUrl =ParseCustomDirectoryForUrl("{%host%}/catalog.asp?tags={%alias%}",ZC_STATIC_DIRECTORY,"","","","","",t.ID,t.Name,t.EncodeName)
 			End If
 		End If
 

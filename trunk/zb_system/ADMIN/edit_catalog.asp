@@ -72,7 +72,7 @@ Next
 <form id="edit" name="edit" method="post" action="">
 <%
 	Response.Write "<input id=""edtID"" name=""edtID""  type=""hidden"" value="""& EditCategory.ID &""" />"
-	Response.Write "<p><span class='title'>"& ZC_MSG001 &":</span><span class='star'>(*)</span><br/><input id=""edtName"" style='width:300px;' size=""40"" name=""edtName""  type=""text"" value="""& TransferHTML(EditCategory.Name,"[html-format]") &""" /></p>"
+	Response.Write "<p><span class='title'>"& ZC_MSG001 &":</span><span class='star'>(*)</span><br/><input id=""edtName"" style='width:300px;' size=""40"" name=""edtName"" maxlength=""20"" type=""text"" value="""& TransferHTML(EditCategory.Name,"[html-format]") &""" /></p>"
 	Response.Write "<p><span class='title'>"& ZC_MSG079 &":</span><br/><input id=""edtOrder"" style='width:300px;' size=""40"" name=""edtOrder""  type=""text"" value="""& EditCategory.Order &""" /></p>"
 
 	Response.Write "<p><span class='title'>"& ZC_MSG147 &":</span><br/><input id=""edtAlias"" style='width:300px;' size=""40"" name=""edtAlias""  type=""text"" value="""& TransferHTML(EditCategory.Alias,"[html-format]") &""" /></p>"
@@ -182,7 +182,6 @@ Next
 				alert(str17);
 				return false
 			}
-			else if($("#edtName").val().length>20){alert("哟哟切克闹，分类名太长");return false;}
 	
 		}
 </script>

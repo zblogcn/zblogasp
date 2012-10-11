@@ -770,6 +770,11 @@ Function CheckCateByID(intCateId)
 End Function
 
 Function GetCateByName(strName)
+
+	If strName=BlogConfig.Read("ZC_UNCATEGORIZED_NAME") Then
+		GetCateByName=0
+		Exit Function
+	End If
 	Dim objRS
 	Set objRS=objConn.Execute("SELECT [cate_ID] FROM [blog_Category] WHERE [cate_Name]='"&FilterSQL(strName)&"'" )
 	If (Not objRS.bof) And (Not objRS.eof) Then
@@ -780,6 +785,11 @@ Function GetCateByName(strName)
 End Function
 
 Function GetCateByAlias(strAlias)
+
+	If strAlias=BlogConfig.Read("ZC_UNCATEGORIZED_ALIAS") Then
+		GetCateByAlias=0
+		Exit Function
+	End If
 	Dim objRS
 	Set objRS=objConn.Execute("SELECT [cate_ID] FROM [blog_Category] WHERE [cate_Url]='"&FilterSQL(strAlias)&"'" )
 	If (Not objRS.bof) And (Not objRS.eof) Then
@@ -1903,7 +1913,7 @@ Function ParseCustomDirectory(strRegex,strPost,strCategory,strUser,strYear,strMo
 
 	s=Replace(s,"{%post%}",strPost)
 	s=Replace(s,"{%category%}",strCategory)
-	s=Replace(s,"{%user%}",strUser)
+	s=Replace(s,"{%author%}",strUser)
 	s=Replace(s,"{%year%}",strYear)
 	s=Replace(s,"{%month%}",Right("0" & strMonth,2))
 	s=Replace(s,"{%day%}",Right("0" & strDay,2))
