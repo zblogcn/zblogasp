@@ -2477,7 +2477,7 @@ Function BlogReBuild_Archives()
 			Set objRS=objConn.Execute("SELECT COUNT([log_ID]) FROM [blog_Article] WHERE ([log_Type]=0) And ([log_Level]>1) AND [log_PostTime] BETWEEN "& ZC_SQL_POUND_KEY & Year(dtmYM(i)) &"-"& Month(dtmYM(i)) &"-1"& ZC_SQL_POUND_KEY &" AND "& ZC_SQL_POUND_KEY & l &"-"& n &"-1" & ZC_SQL_POUND_KEY)
 
 			If (Not objRS.bof) And (Not objRS.eof) Then
-				strArchives=strArchives & "<li><a href="""& UrlbyDate(Year(dtmYM(i)),Month(dtmYM(i)),"") &""">" & Year(dtmYM(i)) & " " & ZVA_Month(Month(dtmYM(i))) & "<span class=""article-nums""> (" & objRS(0) & ")</span>" +"</a></li>"
+				strArchives=strArchives & "<li><a href="""& UrlbyDateAuto(Year(dtmYM(i)),Month(dtmYM(i)),"") &""">" & Year(dtmYM(i)) & " " & ZVA_Month(Month(dtmYM(i))) & "<span class=""article-nums""> (" & objRS(0) & ")</span>" +"</a></li>"
 				If j>0 Then
 					If i=j Then Exit For
 				End If
@@ -3624,7 +3624,6 @@ End Function
 Function UrlbyDate(y,m,d)
 
 	UrlbyDate=ParseCustomDirectoryForUrl(RegexbyDate(y,m,d),ZC_STATIC_DIRECTORY,"","",y,m,d,"","","")
-	If Right(UrlbyDate,12)="default.html" Then UrlbyDate=Left(UrlbyDate,Len(UrlbyDate)-12)
 
 End Function
 '*********************************************************
@@ -3632,12 +3631,13 @@ End Function
 ' 目的：    日期类的简化函数 Url auto
 '*********************************************************
 Function UrlbyDateAuto(y,m,d)
+	Dim s
 	If ZC_STATIC_MODE="MIX" Then
-		UrlbyDateAuto=ParseCustomDirectoryForUrl("{%host%}/catalog.asp?date={%year%}-{%month%}",ZC_STATIC_DIRECTORY,"","",y,m,d,"","","")
+		s=ParseCustomDirectoryForUrl("{%host%}/catalog.asp?date={%year%}-{%month%}",ZC_STATIC_DIRECTORY,"","",y,m,d,"","","")
 	Else
-		UrlbyDateAuto=UrlbyDate(y,m,d)
+		s=UrlbyDate(y,m,d)
 	End If
-	If Right(UrlbyDateAuto,12)="default.html" Then UrlbyDateAuto=Left(UrlbyDateAuto,Len(UrlbyDateAuto)-12)
+	If Right(s,12)="default.html" Then UrlbyDateAuto=Left(s,Len(s)-12)
 End Function
 '*********************************************************
 
