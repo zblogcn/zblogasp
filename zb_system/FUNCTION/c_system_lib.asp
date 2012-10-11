@@ -1641,20 +1641,7 @@ Class TArticle
 
 	Public Function DelFile()
 
-		On Error Resume Next
-
-		Dim fso, TxtFile
-
-		Set fso = CreateObject("Scripting.FileSystemObject")
-		If fso.FileExists(FullPath) Then
-			Set TxtFile = fso.GetFile(FullPath)
-			TxtFile.Delete
-		End If
-		Set fso=Nothing
-
-		DelFile=True
-
-		Err.Clear
+		Call DelToFile(FullPath)
 
 	End Function
 
@@ -1921,6 +1908,10 @@ Class TArticleList
 			y=Year(dtmYearMonth)
 			m=Month(dtmYearMonth)
 			d=Day(dtmYearMonth)
+
+			If Not Len(CStr(dtmYearMonth))>7 Then
+				d=""
+			End If
 
 			Url =UrlbyDate(y,m,d)
 			MixUrl =UrlbyDateAuto(y,m,d)
@@ -3831,15 +3822,11 @@ Class TUpLoadFile
 			Set fso = CreateObject("Scripting.FileSystemObject")
 
 			strFilePath = BlogPath & ZC_UPLOAD_DIRECTORY &"/" & objRS("ul_FileName")
+			Call DelToFile(strFilePath)
 
-			If fso.FileExists( strFilePath ) Then
-				fso.DeleteFile( strFilePath )
-			End If
 
 			strFilePath = BlogPath & ZC_UPLOAD_DIRECTORY & "/" & Year(objRS("ul_PostTime")) & "/" & Month(objRS("ul_PostTime")) &"/" & objRS("ul_FileName")
-			If fso.FileExists( strFilePath ) Then
-				fso.DeleteFile( strFilePath )
-			End If
+			Call DelToFile(strFilePath)
 
 			objConn.Execute("DELETE FROM [blog_UpLoad] WHERE [ul_ID] =" & ID)
 
@@ -5122,20 +5109,7 @@ Class TFunction
 
 	Public Function DelFile()
 
-		On Error Resume Next
-
-		Dim fso, TxtFile
-
-		Set fso = CreateObject("Scripting.FileSystemObject")
-		If fso.FileExists(BlogPath & "zb_users/include/" & FileName & ".asp") Then
-			Set TxtFile = fso.GetFile(BlogPath & "zb_users/include/" & FileName & ".asp")
-			TxtFile.Delete
-		End If
-		Set fso=Nothing
-
-		DelFile=True
-
-		Err.Clear
+		Call DelToFile(BlogPath & "zb_users/include/" & FileName & ".asp")
 
 	End Function
 
