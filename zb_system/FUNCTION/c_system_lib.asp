@@ -1548,6 +1548,8 @@ Class TArticle
 		Next
 		html=Replace(html,"<#" & aryTemplateTagsName(0) & "#>",aryTemplateTagsValue(0))
 
+		Call Filter_Plugin_TArticle_Build_Template_Succeed(html)
+
 		Build=True
 
 	End Function
@@ -2186,6 +2188,8 @@ Class TArticleList
 		Next
 		html=Replace(html,"<#" & aryTemplateTagsName(0) & "#>",aryTemplateTagsValue(0))
 
+		'plugin node
+		Call Filter_Plugin_TArticleList_Build_Template_Succeed(html)
 
 		Build=True
 
