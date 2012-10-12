@@ -87,12 +87,8 @@ Const ZC_POST_TYPE_PAGE=1
 Dim ZC_SQL_POUND_KEY
 ZC_SQL_POUND_KEY="#"
 
-
 '补上c_option.asp未更新的参数
-If isUndefined("ZC_SYNTAXHIGHLIGHTER_ENABLE")=True Then Call Execute("ZC_SYNTAXHIGHLIGHTER_ENABLE=True")
-If isUndefined("ZC_CODEMIRROR_ENABLE")=True Then Call Execute("ZC_CODEMIRROR_ENABLE=True")
-If isUndefined("ZC_ARTICLE_EXCERPT_MAX")=True Then Call Execute("ZC_ARTICLE_EXCERPT_MAX=250")
-If isUndefined("ZC_POST_STATIC_MODE")=True Then Call Execute("ZC_POST_STATIC_MODE=""STATIC""")
+Call CheckUndefined()
 
 
 '*********************************************************
@@ -3649,9 +3645,10 @@ End Function
 '*********************************************************
 Function RefreshOptionFormFileToDB()
 	On Error Resume Next
-	Dim a
+	Dim a,b
+	b=LoadFromFile(BlogPath &"zb_users\c_option.asp","utf-8")
 	For Each a In BlogConfig.Meta.Names
-		If isUndefined(a)=False Then
+		If InStr(b,"Dim "& a)>0 Then
 			Call Execute("Call BlogConfig.Write("""&a&""","&a&")")
 		End If
 	Next
@@ -3785,13 +3782,34 @@ End Function
 '*********************************************************
 ' 目的：  
 '*********************************************************
-Function isUndefined(varname)
+Function CheckUndefined()
+
+	On Error Resume Next
 	Dim a
-	a=True
-	Call Execute("a="&varname)
-	If VarType(a)=vbEmpty Then
-		isUndefined=True
+	a=ZC_SYNTAXHIGHLIGHTER_ENABLE
+	If Err.Number<>0 Then
+		Call Execute("ZC_SYNTAXHIGHLIGHTER_ENABLE=True")
+		Err.Clear
 	End If
+
+	a=ZC_CODEMIRROR_ENABLE
+	If Err.Number<>0 Then
+		Call Execute("ZC_CODEMIRROR_ENABLE=True")
+		Err.Clear
+	End If
+
+	a=ZC_ARTICLE_EXCERPT_MAX
+	If Err.Number<>0 Then
+		Call Execute("ZC_ARTICLE_EXCERPT_MAX=250")
+		Err.Clear
+	End If
+
+	a=ZC_POST_STATIC_MODE
+	If Err.Number<>0 Then
+		Call Execute("ZC_POST_STATIC_MODE=""STATIC""")
+		Err.Clear
+	End If
+
 End Function
 '*********************************************************
 

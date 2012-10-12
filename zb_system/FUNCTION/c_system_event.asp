@@ -1198,11 +1198,11 @@ Function SaveSetting()
 	If BlogConfig.Exists("ZC_POST_STATIC_MODE")=False Then Call BlogConfig.Write("ZC_POST_STATIC_MODE","STATIC")
 
 	Dim a,b,c,d
-
+	b=LoadFromFile(BlogPath &"zb_users\c_option.asp","utf-8")
 	Set d=CreateObject("Scripting.Dictionary")
 	For Each a In BlogConfig.Meta.Names
-		If a<>"ZC_BLOG_VERSION" And a<>"" Then
-			If isUndefined(a)=False Then
+		If InStr(b,"Dim "& a)>0 Then
+			If a<>"ZC_BLOG_VERSION" And a<>"" Then
 				Call Execute("Call BlogConfig.Write("""&a&""","&a&")")
 			End If
 		End If
