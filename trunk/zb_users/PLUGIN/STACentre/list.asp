@@ -443,8 +443,7 @@ pre{
 <%=TransferHTML(MakeIIS6Rewrite2(),"[html-format]")%>
 </pre>
 <hr/>
-<p><span class="star">请在网站根目录创建httpd.ini文件并把相关内容复制进去,httpd.ini文件必须为ANSI编码.</span></p>
-<p><input type="button" onclick="window.location.href='?mak=1'" value="创建httpd.ini" />&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" onclick="window.location.href='?del=1'" value="删除httpd.ini" /></p>
+<p><input type="button" onclick="window.location.href='?mak=1'" value="创建httpd.ini" />&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" onclick="window.location.href='?del=1'" value="删除httpd.ini" />&nbsp;&nbsp;&nbsp;&nbsp;<span class="star">请在网站根目录创建httpd.ini文件并把相关内容复制进去,httpd.ini文件必须为ANSI编码,也可以点击按钮生成.</span></p>
 </div>
 
 
@@ -453,8 +452,7 @@ pre{
 <%=TransferHTML(MakeIIS6Rewrite3(),"[html-format]")%>
 </pre>
 <hr/>
-<p><span class="star">请在网站根目录创建.htaccess文件并把相关内容复制进去.</span></p>
-<p><input type="button" onclick="window.location.href='?mak=2'" value="创建.htaccess" />&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" onclick="window.location.href='?del=2'" value="删除.htaccess" /></p>
+<p><input type="button" onclick="window.location.href='?mak=2'" value="创建.htaccess" />&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" onclick="window.location.href='?del=2'" value="删除.htaccess" />&nbsp;&nbsp;&nbsp;&nbsp;<span class="star">请在网站根目录创建.htaccess文件并把相关内容复制进去,也可以点击按钮生成..</span></p>
 </div>
 
 <div class="tab-content" style='border:none;padding:0px;margin:0;' id="tab3">
@@ -462,8 +460,7 @@ pre{
 <%=TransferHTML(MakeIIS7UrlRewrite(),"[html-format]")%>
 </pre>
 <hr/>
-<p><span class="star">请在网站<u>"当前目录"</u>创建web.config文件并把相关内容复制进去.</span></p>
-<p><input type="button" onclick="window.location.href='?mak=3'" value="创建web.config" />&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" onclick="window.location.href='?del=3'" value="删除web.config" /></p>
+<p><input type="button" onclick="window.location.href='?mak=3'" value="创建web.config" />&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" onclick="window.location.href='?del=3'" value="删除web.config" />&nbsp;&nbsp;&nbsp;&nbsp;<span class="star">请在网站<u>"当前目录"</u>创建web.config文件并把相关内容复制进去,也可以点击按钮生成..</span></p>
 </div>
 
 				</div> <!-- End .content-box-content -->
