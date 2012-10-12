@@ -3107,7 +3107,7 @@ End Function
 '*********************************************************
 Function BuildArticle(intID,bolBuildNavigate,bolBuildCategory)
 
-	If ZC_POST_STATIC_MODE<>"STATIC" Then Exit Function
+'	If ZC_POST_STATIC_MODE<>"STATIC" Then Exit Function
 
 	Dim objArticle
 	Set objArticle=New TArticle
@@ -3120,21 +3120,21 @@ Function BuildArticle(intID,bolBuildNavigate,bolBuildCategory)
 			objArticle.Statistic
 		End If
 
-		If (bolBuildNavigate=True) And (ZC_USE_NAVIGATE_ARTICLE=True) Then
-
-			Dim objRS
-			Set objRS=objConn.Execute("SELECT TOP 1 [log_ID] FROM [blog_Article] WHERE ([log_Level]>2) AND ([log_Type]=0) AND ([log_PostTime]<" & ZC_SQL_POUND_KEY & objArticle.PostTime & ZC_SQL_POUND_KEY &") ORDER BY [log_PostTime] DESC")
-			If (Not objRS.bof) And (Not objRS.eof) Then
-				Call BuildArticle(objRS("log_ID"),False,False)
-			End If
-			Set objRS=Nothing
-			Set objRS=objConn.Execute("SELECT TOP 1 [log_ID] FROM [blog_Article] WHERE ([log_Level]>2) AND ([log_Type]=0) AND ([log_PostTime]>" & ZC_SQL_POUND_KEY & objArticle.PostTime & ZC_SQL_POUND_KEY &") ORDER BY [log_PostTime] ASC")
-			If (Not objRS.bof) And (Not objRS.eof) Then
-				Call BuildArticle(objRS("log_ID"),False,False)
-			End If
-			Set objRS=Nothing
-
-		End If
+'		If (bolBuildNavigate=True) And (ZC_USE_NAVIGATE_ARTICLE=True) Then
+'
+'			Dim objRS
+'			Set objRS=objConn.Execute("SELECT TOP 1 [log_ID] FROM [blog_Article] WHERE ([log_Level]>2) AND ([log_Type]=0) AND ([log_PostTime]<" & ZC_SQL_POUND_KEY & objArticle.PostTime & ZC_SQL_POUND_KEY &") ORDER BY [log_PostTime] DESC")
+'			If (Not objRS.bof) And (Not objRS.eof) Then
+'				Call BuildArticle(objRS("log_ID"),False,False)
+'			End If
+'			Set objRS=Nothing
+'			Set objRS=objConn.Execute("SELECT TOP 1 [log_ID] FROM [blog_Article] WHERE ([log_Level]>2) AND ([log_Type]=0) AND ([log_PostTime]>" & ZC_SQL_POUND_KEY & objArticle.PostTime & ZC_SQL_POUND_KEY &") ORDER BY [log_PostTime] ASC")
+'			If (Not objRS.bof) And (Not objRS.eof) Then
+'				Call BuildArticle(objRS("log_ID"),False,False)
+'			End If
+'			Set objRS=Nothing
+'
+'		End If
 
 		BuildArticle=True
 
