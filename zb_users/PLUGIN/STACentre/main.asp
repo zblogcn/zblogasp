@@ -180,20 +180,35 @@ BlogTitle="静态管理中心"
 		if($(this).val()=="STATIC"){
 			$("#edtZC_ARTICLE_REGEXT").val("{%host%}/{%post%}/{%alias%}.html");
 			$("#edtZC_PAGE_REGEX").val("{%host%}/{%alias%}.html");
-			$("input[name='radio'],input[name='radio2']").removeAttr("disabled");
 		};
 		if($(this).val()=="ACTIVE"){
 			$("#edtZC_ARTICLE_REGEXT").val("{%host%}/view.asp?id={%id%}");
 			$("#edtZC_PAGE_REGEX").val("{%host%}/view.asp?id={%id%}");
-			$("input[name='radio'],input[name='radio2']").attr("disabled","disabled");
 		};
 		if($(this).val()=="REWRITE"){
 			$("#edtZC_ARTICLE_REGEXT").val("{%host%}/{%post%}/{%alias%}.html");
 			$("#edtZC_PAGE_REGEX").val("{%host%}/{%alias%}.html");	
+		};
+		flashradio();
+	});
+
+	function flashradio(){
+		if($("#edtZC_POST_STATIC_MODE").val()=="STATIC"){
 			$("input[name='radio'],input[name='radio2']").removeAttr("disabled");
 		};
-
-	});
+		if($("#edtZC_POST_STATIC_MODE").val()=="ACTIVE"){
+			$("input[name='radio'],input[name='radio2']").attr("disabled","disabled");
+		};
+		if($("#edtZC_POST_STATIC_MODE").val()=="REWRITE"){
+			$("input[name='radio'],input[name='radio2']").removeAttr("disabled");
+		};
+		if($("#edtZC_STATIC_MODE").val()=="ACTIVE"){
+			$("input[name='radio3'],input[name='radio4'],input[name='radio5'],input[name='radio6'],input[name='radio7']").attr("disabled","disabled");
+		};
+		if($("#edtZC_STATIC_MODE").val()=="REWRITE"){
+			$("input[name='radio3'],input[name='radio4'],input[name='radio5'],input[name='radio6'],input[name='radio7']").removeAttr("disabled");
+		};
+	}
 
 
 	$(":radio[name='STATIC']").live("click",function(){
@@ -206,8 +221,6 @@ BlogTitle="静态管理中心"
 			$("#edtZC_TAGS_REGEX").val("{%host%}/catalog.asp?tags={%alias%}");
 			$("#edtZC_DATE_REGEX").val("{%host%}/catalog.asp?date={%date%}");
 			$("#edtZC_STATIC_MODE").val("ACTIVE");
-			$("input[name='radio3'],input[name='radio4'],input[name='radio5'],input[name='radio6'],input[name='radio7']").attr("disabled","disabled");
-
 		};
 		if($(this).val()=="REWRITE"){
 			$("#edtZC_DEFAULT_REGEX").val("{%host%}/default.html");
@@ -216,10 +229,13 @@ BlogTitle="静态管理中心"
 			$("#edtZC_TAGS_REGEX").val("{%host%}/tags-{%id%}.html");
 			$("#edtZC_DATE_REGEX").val("{%host%}/date-{%date%}.html");
 			$("#edtZC_STATIC_MODE").val("REWRITE");
-			$("input[name='radio3'],input[name='radio4'],input[name='radio5'],input[name='radio6'],input[name='radio7']").removeAttr("disabled");
 		};
-
+		flashradio();
 	});
+
+$(document).ready(function(){ 
+	 flashradio();
+});
 
 </script>
 <!--#include file="..\..\..\zb_system\admin\admin_footer.asp"-->
