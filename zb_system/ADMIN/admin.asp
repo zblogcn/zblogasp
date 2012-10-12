@@ -26,22 +26,7 @@
 <!-- #include file="../function/c_system_plugin.asp" -->
 <!-- #include file="../../zb_users/plugin/p_config.asp" -->
 <%
-
 Call System_Initialize()
-
-Call ClearGlobeCache
-Call LoadGlobeCache
-
-'plugin node
-For Each sAction_Plugin_Admin_Begin in Action_Plugin_Admin_Begin
-	If Not IsEmpty(sAction_Plugin_Admin_Begin) Then Call Execute(sAction_Plugin_Admin_Begin)
-Next
-
-'检查权限
-If Not CheckRights(Request.QueryString("act")) Then Call ShowError(6)
-
-BlogTitle=ZC_MSG022
-
 
 '检查模板的更新,如有更新要重新加载
 Dim strTemplateModified
@@ -52,9 +37,19 @@ If IsEmpty(strTemplateModified)=False Then
 	If LCase(CStr(strTemplateModified))<>LCase(CStr(CheckTemplateModified)) Then
 		Call ClearGlobeCache()
 		Call LoadGlobeCache()
+		Call BlogReBuild_Default()
 	End If
 End If
 
+'plugin node
+For Each sAction_Plugin_Admin_Begin in Action_Plugin_Admin_Begin
+	If Not IsEmpty(sAction_Plugin_Admin_Begin) Then Call Execute(sAction_Plugin_Admin_Begin)
+Next
+
+'检查权限
+If Not CheckRights(Request.QueryString("act")) Then Call ShowError(6)
+
+BlogTitle=ZC_MSG022
 
 %>
 <!--#include file="admin_header.asp"-->
@@ -76,15 +71,13 @@ End If
 		Case "FileMng" Call ExportFileList(Request.QueryString("page"))
 		Case "TagMng" Call ExportTagList(Request.QueryString("page"))
 		Case "PlugInMng" Call ExportPluginMng()
-		Case "SiteInfo" Call ClearGlobeCache():Call LoadGlobeCache():Call ExportSiteInfo()
+		Case "SiteInfo" Call ExportSiteInfo()
 		Case "AskFileReBuild" Call ExportFileReBuildAsk()
 		Case "ThemeMng" Call ExportThemeMng()
 		Case "FunctionMng" Call GetFunction():Call ExportFunctionList()
 	End Select
 
-
 	Call RefreshOptionFormFileToDB()
-
 
 %>
     </div>
