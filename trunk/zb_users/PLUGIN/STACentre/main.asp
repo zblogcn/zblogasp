@@ -63,7 +63,7 @@ BlogTitle="静态管理中心"
 <table width='100%' style='padding:0px;margin:0px;' cellspacing='0' cellpadding='0'>
 <tr><td width='30%'><p align='left'><b>·文章,页面的静态化选项</b><br/><span class='note'>主机安装有ISAPI Rewrite或是URL Rewrite可以开启Rewrite选项</span></p></td><td><p><label><input type="radio" value="STATIC" name="POST_STATIC" <%=IIF(ZC_POST_STATIC_MODE="STATIC","checked='checked'","")%>/>&nbsp;&nbsp;1.静态页面(系统默认)</label>&nbsp;&nbsp;&nbsp;&nbsp;<label><input type="radio" value="ACTIVE" name="POST_STATIC" <%=IIF(ZC_POST_STATIC_MODE="ACTIVE","checked='checked'","")%>/>&nbsp;&nbsp;2.动态页面</label>&nbsp;&nbsp;&nbsp;&nbsp;<label><input type="radio" value="REWRITE" name="POST_STATIC" <%=IIF(ZC_POST_STATIC_MODE="REWRITE","checked='checked'","")%>/>&nbsp;&nbsp;3.动态页面+Rewrite支持</label></p></td></tr>
 <tr><td width='30%'><p align='left'><b>·文章类的静态配置</b><br/><span class='note'></span></p></td><td><p><input id='edtZC_ARTICLE_REGEXT' name='edtZC_ARTICLE_REGEX' style='width:500px;' type='text' value='<%=ZC_ARTICLE_REGEX%>' /></p></td></tr>
-<tr><td width='30%'><p>推荐配置</p></td><td>
+<tr><td width='30%'><p></p></td><td>
 <p><label onClick="changeval(1,1)"><input type="radio" name="radio" />&nbsp;&nbsp;配置1:文章名型(默认) http://www.yourblog/post/articlename.html</label></p>
 <p><label onClick="changeval(1,2)"><input type="radio" name="radio" />&nbsp;&nbsp;配置2:日期+文章名型 http://www.yourblog/2012/08/articlename.html</label></p>
 <p><label onClick="changeval(1,3)"><input type="radio" name="radio" />&nbsp;&nbsp;配置3:分类别名+文章名型 http://www.yourblog/categroyname/articlename.html</label></p>
@@ -71,7 +71,7 @@ BlogTitle="静态管理中心"
 <p><label onClick="changeval(1,5)"><input type="radio" name="radio" />&nbsp;&nbsp;配置5:分类别名+文章ID目录型 http://www.yourblog/categroyname/123/</label></p>
 </td></tr>
 <tr><td width='30%'><p align='left'><b>·页面类的静态配置</b><br/><span class='note'></span></p></td><td><p><input id='edtZC_PAGE_REGEX' name='edtZC_PAGE_REGEX' style='width:500px;' type='text' value='<%=ZC_PAGE_REGEX%>' /></label></p></td></tr>
-<tr><td width='30%'><p>推荐配置</p></td><td>
+<tr><td width='30%'><p></p></td><td>
 <p><label onClick="changeval(2,1)"><input type="radio" name="radio2" />&nbsp;&nbsp;配置1:页面名型(默认) http://www.yourblog/pagename.html</label></p>
 <p><label onClick="changeval(2,2)"><input type="radio" name="radio2" />&nbsp;&nbsp;配置2:页面名目录型 http://www.yourblog/pagename/</label></p>
 </td></tr>
@@ -87,26 +87,27 @@ BlogTitle="静态管理中心"
 <table width='100%' style='padding:0px;margin:0px;' cellspacing='0' cellpadding='0'>
 <tr><td><p  align='left'><b>·分类页的静态化选项</b><br/><span class='note'>主机安装有ISAPI Rewrite或是URL Rewrite可以开启Rewrite选项</span></p></td><td><p><label><input type="radio" value="ACTIVE" name="STATIC" <%=IIF(ZC_STATIC_MODE="ACTIVE","checked='checked'","")%>/>&nbsp;&nbsp;1.动态页面(系统默认)</label>&nbsp;&nbsp;&nbsp;&nbsp;<label><input type="radio" value="REWRITE" name="STATIC" <%=IIF(ZC_STATIC_MODE="REWRITE","checked='checked'","")%>/>&nbsp;&nbsp;2.动态页面+Rewrite支持</label></p></td></tr>
 <tr><td width='30%'><p align='left'><b>·首页的URL配置</b><br/><span class='note'></span></p></td><td><p><input id='edtZC_DEFAULT_REGEX' name='edtZC_DEFAULT_REGEX' style='width:500px;' type='text' value='<%=ZC_DEFAULT_REGEX%>' /></p></td></tr>
-<tr><td width='30%'><p>推荐配置</p></td><td>
+<tr><td width='30%'><p></p></td><td>
 <p><label onClick="changeval(6,1)"><input type="radio" name="radio6" />&nbsp;&nbsp;配置1:首页分页(默认) http://www.yourblog/default_2.html</label></p>
 </td></tr>
 <tr><td width='30%'><p align='left'><b>·分类页的URL配置</b><br/><span class='note'></span></p></td><td><p><input id='edtZC_CATEGORY_REGEX' name='edtZC_CATEGORY_REGEX' style='width:500px;' type='text' value='<%=ZC_CATEGORY_REGEX%>' /></label></p></td></tr>
-<tr><td width='30%'><p>推荐配置</p></td><td>
+<tr><td width='30%'><p></p></td><td>
 <p><label onClick="changeval(3,1)"><input type="radio" name="radio3" />&nbsp;&nbsp;配置1:分类ID型(默认) http://www.yourblog/category-id.html</label></p>
 <p><label onClick="changeval(3,2)"><input type="radio" name="radio3" />&nbsp;&nbsp;配置2:分类ID目录型 http://www.yourblog/category/id/</label></p>
 <p><label onClick="changeval(3,3)"><input type="radio" name="radio3" />&nbsp;&nbsp;配置3:分类别名目录 http://www.yourblog/categroy/alias/</label></p>
 </td></tr>
 <tr><td width='30%'><p align='left'><b>·作者页的URL配置</b><br/><span class='note'></span></p></td><td><p><input id='edtZC_USER_REGEX' name='edtZC_USER_REGEX' style='width:500px;' type='text' value='<%=ZC_USER_REGEX%>' /></label></p></td></tr>
-<tr><td width='30%'><p>推荐配置</p></td><td>
+<tr><td width='30%'><p></p></td><td>
 <p><label onClick="changeval(7,1)"><input type="radio" name="radio7" />&nbsp;&nbsp;配置1:作者ID型(默认) http://www.yourblog/author-1.html</label></p>
+<p><label onClick="changeval(7,2)"><input type="radio" name="radio7" />&nbsp;&nbsp;配置1:作者别名型 http://www.yourblog/author-alias.html</label></p>
 </td></tr>
 <tr><td width='30%'><p align='left'><b>·TAGS页的URL配置</b><br/><span class='note'></span></p></td><td><p><input id='edtZC_TAGS_REGEX' name='edtZC_TAGS_REGEX' style='width:500px;' type='text' value='<%=ZC_TAGS_REGEX%>' /></label></p></td></tr>
-<tr><td width='30%'><p>推荐配置</p></td><td>
+<tr><td width='30%'><p></p></td><td>
 <p><label onClick="changeval(4,1)"><input type="radio" name="radio4" />&nbsp;&nbsp;配置1:Tags ID型(默认) http://www.yourblog/tags-id.html</label></p>
 <p><label onClick="changeval(4,2)"><input type="radio" name="radio4" />&nbsp;&nbsp;配置2:Tags 名称型 http://www.yourblog/tags-name.html</label></p>
 </td></tr>
 <tr><td width='30%'><p align='left'><b>·日期页的URL配置</b><br/><span class='note'></span></p></td><td><p><input id='edtZC_DATE_REGEX' name='edtZC_DATE_REGEX' style='width:500px;' type='text' value='<%=ZC_DATE_REGEX%>' /></label></p></td></tr>
-<tr><td width='30%'><p>推荐配置</p></td><td>
+<tr><td width='30%'><p></p></td><td>
 <p><label onClick="changeval(5,1)"><input type="radio" name="radio5" />&nbsp;&nbsp;配置1:日期型(默认) http://www.yourblog/date-2012-12.html</label></p>
 <p><label onClick="changeval(5,2)"><input type="radio" name="radio5" />&nbsp;&nbsp;配置2:日期型2 http://www.yourblog/archives/2012-12.html</label></p>
 <p><label onClick="changeval(5,3)"><input type="radio" name="radio5" />&nbsp;&nbsp;配置3:日期目录型 http://www.yourblog/archives/2012-12/</label></p>
@@ -168,6 +169,7 @@ BlogTitle="静态管理中心"
 		if(a==7){
 			a="#edtZC_USER_REGEX";
 			if(b==1){b="{%host%}/author-{%id%}.html"};
+			if(b==2){b="{%host%}/author-{%alias%}.html"};
 		}
 
 		$(a).val(b);

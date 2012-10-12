@@ -1586,7 +1586,7 @@ Class TArticle
 
 
 		If Users(AuthorID).ReCount=0 Then
-			Users(AuthorID).ReCount=objConn.Execute("SELECT COUNT([log_ID]) FROM [blog_Article] WHERE [log_Level]>1 AND [log_Type]=0 [log_AuthorID]=" & AuthorID )(0)
+			Users(AuthorID).ReCount=objConn.Execute("SELECT COUNT([log_ID]) FROM [blog_Article] WHERE [log_Level]>1 AND [log_Type]=0 AND [log_AuthorID]=" & AuthorID )(0)
 			objConn.Execute("UPDATE [blog_Member] SET [mem_PostLogs]="&Users(AuthorID).ReCount&" WHERE [mem_ID] =" & AuthorID)
 			Users(AuthorID).Count=Users(AuthorID).ReCount
 		End If
