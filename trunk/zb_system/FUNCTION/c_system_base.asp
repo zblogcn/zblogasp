@@ -1192,8 +1192,8 @@ Function CheckTemplateModified()
 	Dim d,nd
 
 	Set fso = CreateObject("Scripting.FileSystemObject")
-	If fso.FolderExists(BlogPath & "zb_users\" & "theme" & "/" & ZC_BLOG_THEME & "/" & ZC_TEMPLATE_DIRECTORY)=False Then Exit Function
-	Set f = fso.GetFolder(BlogPath & "zb_users\" & "theme" & "/" & ZC_BLOG_THEME & "/" & ZC_TEMPLATE_DIRECTORY)
+	If fso.FolderExists(BlogPath & "zb_users\" & "theme" & "\" & ZC_BLOG_THEME & "\" & ZC_TEMPLATE_DIRECTORY)=False Then Exit Function
+	Set f = fso.GetFolder(BlogPath & "zb_users\" & "theme" & "\" & ZC_BLOG_THEME & "\" & ZC_TEMPLATE_DIRECTORY)
 	Set fc = f.Files
 
 	For Each f1 in fc
