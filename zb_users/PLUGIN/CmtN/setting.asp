@@ -39,7 +39,10 @@ BlogTitle="新评论邮件提醒"
 
 %>
 <!--#include file="..\..\..\zb_system\admin\admin_header.asp"-->
-	<style>#totorobox input[type="text"]{width:90%}#totorobox input[type="password"]{width:90%}</style>
+<style>
+#totorobox input[type="text"]{width:90%}#totorobox input[type="password"]{width:90%}
+.content-box ol li{height: auto;clear:both;float: none;list-style-type: decimal;}
+</style>
 <!--#include file="..\..\..\zb_system\admin\admin_top.asp"-->
 
 <%If (Not strAct="TestMail") And (Not Request.Cookies("CmtN_licence")="disabled") Then%>
@@ -242,7 +245,7 @@ End If
 <%
 
 
-Response.Write "<blockquote><input type=""submit"" class=""button"" value=""保存插件设置"" id=""btnPost"" onclick='document.getElementById(""edit"").action=""savesetting.asp"";' /> <input name=""TestMail"" id=""sendTestMail"" type=""checkbox"" value=""True""/><label for=""sendTestMail""> 保存设置后发送一封测试邮件!</label></blockquote>"
+Response.Write "<br/><p><input type=""submit"" class=""button"" value=""保存插件设置"" id=""btnPost"" onclick='document.getElementById(""edit"").action=""savesetting.asp"";' /> <input name=""TestMail"" id=""sendTestMail"" type=""checkbox"" value=""True""/><label for=""sendTestMail""> 保存设置后发送一封测试邮件!</label></p>"
 
 Response.Write "<br/>"
 
