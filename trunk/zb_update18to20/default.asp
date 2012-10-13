@@ -632,7 +632,6 @@ Call BlogConfig.Write("ZC_MULTI_DOMAIN_SUPPORT",False)
 '留言评论
 Call BlogConfig.Write("ZC_COMMENT_TURNOFF",False)
 Call BlogConfig.Write("ZC_COMMENT_VERIFY_ENABLE",False)
-Call BlogConfig.Write("ZC_COMMENT_NOFOLLOW_ENABLE",True)
 Call BlogConfig.Write("ZC_COMMENT_REVERSE_ORDER_EXPORT",False)
 Call BlogConfig.Write("ZC_COMMNET_MAXFLOOR",4)
 
@@ -653,8 +652,6 @@ Call BlogConfig.Write("ZC_COMMENTS_DISPLAY_COUNT",10)
 
 
 
-
-Call BlogConfig.Write("ZC_IMAGE_WIDTH",520)
 
 Call BlogConfig.Write("ZC_USE_NAVIGATE_ARTICLE",True)
 
@@ -774,8 +771,6 @@ Call BlogConfig.Write("ZC_DISPLAY_MODE_ALL_WAP",True)
 Call BlogConfig.Write("ZC_DISPLAY_CATE_ALL_WAP",True)
 '分页条
 Call BlogConfig.Write("ZC_DISPLAY_PAGEBAR_ALL_WAP",True)
-'相关文章
-Call BlogConfig.Write("ZC_WAP_MUTUALITY",True)
 '数量
 Call BlogConfig.Write("ZC_WAP_MUTUALITY_LIMIT",5)
 

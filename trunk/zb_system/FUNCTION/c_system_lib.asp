@@ -377,6 +377,7 @@ Class TArticle
 	Public IsDynamicLoadSildbar
 	Public SearchText
 	Public CommentsPage
+
 	Public Property Get IsPage
 		If FType=1 Then
 			IsPage=True
