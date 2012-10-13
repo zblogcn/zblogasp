@@ -95,7 +95,6 @@ Next
 	<link rel="stylesheet" type="text/css" href="ueditor/themes/default/ueditor.css"/>
 	<script type="text/javascript" src="../script/jquery.tagto.js"></script>
 	<script type="text/javascript" src="../script/jquery-ui-timepicker-addon.js"></script>
-	<link rel="stylesheet" type="text/css" href="../css/jquery-ui-1.8.23.custom.css"/>
 	<script type="text/javascript" charset="utf-8" src="ueditor/editor_config.asp"></script>
 	<script type="text/javascript" charset="utf-8" src="ueditor/editor_all.js"></script>
 <!--#include file="admin_top.asp"-->
