@@ -99,11 +99,11 @@ Function CmtN_SendComment(obj)
 	'If BlogUser.Level=1 Then Exit Function
 	If obj.ParentID=0 Then CmtN.Template="cmt" Else Cmtn.Template="rev"
 	CmtN.MakeCommentTemplate obj,False
-	'If obj.ParentID=0 Then 
-	CmtN.mailTo=obj.email
-	'Else
-	'	CmtN.mailTo=CmtN_MailToAddress
-	'End if
+	If obj.ParentID=0 Then 
+		CmtN.mailTo=obj.email
+	Else
+		CmtN.mailTo=CmtN.GetParentObj(obj.id).email
+	End if
 	If CmtN_MailSendDelay Then
 		Dim tmpRnd : Randomize : tmpRnd=Int(Rnd*1000)
 		Dim tmpName : tmpName = Year(Now)&Month(Now)&Day(Now)&Hour(Now)&Minute(Now)&Second(Now)&tmpRnd
