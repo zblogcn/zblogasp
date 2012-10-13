@@ -6,13 +6,8 @@
 '// 最后修改：   
 '// 最后版本:    
 '///////////////////////////////////////////////////////////////////////////////
-
-'*********************************************************
-' 目的：    发送邮件
-'*********************************************************
-Function CmtN_SendMessageViaJamil(Byval strToAddress,Byval strToAddress2,Byval strReplyToAddress,Byval strFromName,Byval strSubject,Byval strBody)
-On Error Resume Next
-
+Function CmtN_SendMessage(Byval strToAddress,Byval strToAddress2,Byval strReplyToAddress,Byval strFromName,Byval strSubject,Byval strBody)
+	On Error Resume Next
 	If Not InStr(strToAddress,"@")>0 And Not InStr(strToAddress2,"@")>0 Then
 		CmtN_SendMessageViaJamil = False
 		Application.Lock
@@ -20,65 +15,45 @@ On Error Resume Next
 		Application.UnLock
 		Exit Function
 	End If
+	CmtN_SendMessage=CmtN_SendMessageViaCDO(strToAddress,strToAddress2,strReplyToAddress,strFromName,strSubject,strBody)
+	
+End Function
 
-	If CmtN_UseMailBrige Then
+Function CmtN_SendMessageViaCDO(Byval strToAddress,Byval strToAddress2,Byval strReplyToAddress,Byval strFromName,Byval strSubject,Byval strBody)
+	Dim cdo
+	Set cdo=Server.CreateObject("CDO.Message")
+	IF Err.Number<>0 Then Exit Function
+	With cdo.configuration.fields 
+		.Item("http://schemas.microsoft.com/cdo/configuration/sendusing") = 2 
+        .Item("http://schemas.microsoft.com/cdo/configuration/smtpserver")= CmtN_MailServerName 'SMTP 服务器地址 
+		.Item("http://schemas.microsoft.com/cdo/configuration/smtpserverport")= 25 '端口 25 
+		.Item("http://schemas.microsoft.com/cdo/configuration/sendusername")= CmtN_MailServerUserName '用户名 
+		.Item("http://schemas.microsoft.com/cdo/configuration/sendpassword")= CmtN_MailServerUserPwd '用户密码 
+		.Item("http://schemas.microsoft.com/cdo/configuration/smtpauthenticate")= 1 'NONE, Basic (Base64 encoded), NTLM 
+		.Item("http://schemas.microsoft.com/cdo/configuration/smtpconnectiontimeout")= 10 '超时设置, 以秒为单位 
+		.Item("http://schemas.microsoft.com/cdo/configuration/smtpusessl") = False '是否使用套接字 true/false  
+		.Update 
+	End With
+	cdo.To=strToAddress
+	If strToAddress2<>"null" Then cdo.cc=strToAddress2
+	cdo.From=CmtN_MailFromAddress
+	'cdo.Sender=strFromName
+	'CDO貌似没有定义发件人的方法。。
+	cdo.Subject=strSubject
+	cdo.HTMLBody=strBody
+	cdo.HTMLBodyPart.Charset=CmtN_Charset
+	cdo.Send
+End Function
+'*********************************************************
+' 目的：    发送邮件
+'*********************************************************
+Function CmtN_SendMessageViaJm(Byval strToAddress,Byval strToAddress2,Byval strReplyToAddress,Byval strFromName,Byval strSubject,Byval strBody)
 
-		Dim strServerFeedback,strServerURL
-		Dim strSendingLog
-		strServerURL=CmtN_MailBrigeDomain
-		'If Right(strServerURL,1)<>"/" Then strServerURL=strServerURL & "/"
-		strServerURL=strServerURL '&"zb_users/PLUGIN/CmtN/mailbridge.asp"
-
-		Dim strSendData
-		strSendData = "inpTo="& Server.URLEncode(strToAddress) &"&inpTo2="& Server.URLEncode(strToAddress2) &"&inpReplyTo="& Server.URLEncode(strReplyToAddress) &"&inpFrom="& Server.URLEncode(strFromName) &"&inpSubject="& Server.URLEncode(strSubject) &"&inpBody="& Server.URLEncode(strBody) &"&inpKey="& Server.URLEncode(CmtN_MailBrigeKey)
-
-		Dim objPing
-		Set objPing = Server.CreateObject("MSXML2.ServerXMLHTTP")
-			objPing.SetTimeOuts 5000,5000,4000,10000
-
-			objPing.open "POST",strServerURL,False
-
-			objPing.setRequestHeader "Content-Type", "application/x-www-form-urlencoded"
-			objPing.send strSendData
-
-			If objPing.Status=200 Then
-				strServerFeedback=objPing.ResponseText
-			Else
-				strServerFeedback = False
-			End If
-		Set objPing = Nothing
-
-
-		If strServerFeedback=False Then
-			CmtN_SendMessageViaJamil = False
-			strSendingLog = "远程服务器连接失败!"
-		ElseIf InStr(strServerFeedback,"[CONN-OK]")>0 Then
-
-			If Cbool(Mid(strServerFeedback,11,1)) = False Then
-				CmtN_SendMessageViaJamil = False
-				strSendingLog = strServerFeedback
-			Else
-				CmtN_SendMessageViaJamil = True
-				strSendingLog = strServerFeedback
-			End If
-
-		Else
-
-			CmtN_SendMessageViaJamil = False
-			strSendingLog = "远程服务器地址错误!"
-
-		End If
-
-		Application.Lock
-		Application(ZC_BLOG_CLSID& "CmtN_LastMailLog")=strSendingLog
-		Application.UnLock
-
-	Exit Function
-	End If
-
-
+	'On Error Resume Next
 	Dim jmail
 	Set jmail = Server.CreateObject("JMAIL.Message") '建立发送邮件的对象
+	If Err.Number<>0 Then CmtN_SendMessageViaJm=CmtN_SendMessageViaCDO(strToAddress,strToAddress2,strReplyToAddress,strFromName,strSubject,strBody):Exit Function
+	
 	jmail.Clear()
 
 	jmail.Logging = True '记录发送日志

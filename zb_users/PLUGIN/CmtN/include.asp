@@ -25,10 +25,7 @@ Dim CmtN_MailServerAlternate
 Dim CmtN_MailSendDelay 
 Dim CmtN_MailSendDelayTime 
 
-Dim CmtN_UseMailBrige 
-Dim CmtN_MailBrigeDomain 
-Dim CmtN_MailBrigeKey 
-Dim CmtN_MailBrigeForOthers 
+
 
 
 '注册插件
@@ -40,17 +37,17 @@ Function ActivePlugin_CmtN()
 
 	'挂上接口
 	'Action_Plugin_CommentPost_Succeed
-	Call Add_Filter_Plugin("Filter_Plugin_CommentPost_Succeed","Filter_Plugin_PostComment_Succeed")
+	Call Add_Filter_Plugin("Filter_Plugin_PostComment_Succeed","CmtN_SendComment")
 
 	'挂上接口
 	'Action_Plugin_Catalog_End
-	Call Add_Action_Plugin("Action_Plugin_Catalog_End","CmtN_SendOutGoingMails")
+	'Call Add_Action_Plugin("Action_Plugin_Catalog_End","CmtN_SendOutGoingMails")
 	'Action_Plugin_Default_End
-	Call Add_Action_Plugin("Action_Plugin_Default_End","CmtN_SendOutGoingMails")
+	'Call Add_Action_Plugin("Action_Plugin_Default_End","CmtN_SendOutGoingMails")
 	'Action_Plugin_Tags_End
-	Call Add_Action_Plugin("Action_Plugin_Tags_End","CmtN_SendOutGoingMails")
+	'Call Add_Action_Plugin("Action_Plugin_Tags_End","CmtN_SendOutGoingMails")
 	'Action_Plugin_View_End
-	Call Add_Action_Plugin("Action_Plugin_View_End","CmtN_SendOutGoingMails")
+	'Call Add_Action_Plugin("Action_Plugin_View_End","CmtN_SendOutGoingMails")
 
 
 End Function
@@ -96,14 +93,13 @@ End Function
 '*********************************************************
 Function CmtN_SendComment(obj)
 	Call CmtN_Initialize
-	
-	If CmtN_MailToAddress="null" Then Exit Function
+	'If CmtN_MailToAddress="null" Then Exit Function
 
-	If BlogUser.Level=1 Then Exit Function
+	'If BlogUser.Level=1 Then Exit Function
 
 	Dim inpID,inpName,inpArticle,inpEmail,inpHomePage,inpIP,inpAgent
 
-	inpID=obj.logID
+	inpID=obj.log_ID
 	inpName=obj.Author
 	inpArticle=obj.Content
 	inpEmail=obj.email
@@ -111,7 +107,6 @@ Function CmtN_SendComment(obj)
 
 	inpIP=obj.ip
 	inpAgent=obj.agent
-
 
 	If Len(inpHomePage)>0 Then
 		If InStr(inpHomePage,"http://")=0 Then inpHomePage="http://" & inpHomePage
@@ -142,7 +137,7 @@ Function CmtN_SendComment(obj)
 			MC = Replace(MC,"<#Cmt_Article/title#>",objArticle.Title)
 			MC = Replace(MC,"<#Cmt_Article/url#>",objArticle.Url)
 			MC = Replace(MC,"<#Cmt_Article/PostTime#>",objArticle.PostTime)
-			Call GetUsers
+			Call GetUser
 			For Each User in Users
 				If IsObject(User) Then
 					If User.ID=objArticle.AuthorID Then
@@ -185,7 +180,7 @@ Function CmtN_SendComment(obj)
 		Dim tmpValue :tmpValue = MT & vbCrlf & MA & vbCrlf & "null" & vbCrlf & MC
 		Call SaveToFile(BlogPath & "zb_users/PLUGIN/CmtN/OutGoingMails/"& tmpName &".html",tmpValue,"utf-8",False)
 	Else
-		Call CmtN_SendMessageViaJamil(MA,"null",CmtN_MailReplyToAddress,CmtN_MailFromName,MT,MC)
+		Call CmtN_SendMessage(MA,"null",CmtN_MailReplyToAddress,CmtN_MailFromName,MT,MC)
 	End If
 
 End Function

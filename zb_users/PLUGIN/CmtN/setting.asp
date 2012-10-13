@@ -71,7 +71,7 @@ BlogTitle="新评论邮件提醒"
 <%End If%>
 
 			<div id="divMain">
-<div class="divHeader">CmtN（新评论/回复/引用邮件提醒）</div>
+<div class="divHeader">新评论邮件提醒</div>
 <div class="SubMenu">
 	<a href="setting.asp"><span class="m-left m-now">[插件设置]</span></a>
 </div>
@@ -84,7 +84,7 @@ If strAct="TestMail" Then
 	Response.Flush
 
 	Dim MailStatus,MailDesc
-	MailStatus = CmtN_SendMessageViaJamil(CmtN_MailToAddress,"null",CmtN_MailReplyToAddress,CmtN_MailFromName,"新评论提醒插件 - 试发邮件","<p>恭喜您!</p><p>当您收到此邮件时, 您的插件已配置正确, 您可以正常进行提醒邮件的发送.</p>")
+	MailStatus = CmtN_SendMessage(CmtN_MailToAddress,"null",CmtN_MailReplyToAddress,CmtN_MailFromName,"新评论提醒插件 - 试发邮件","<p>恭喜您!</p><p>当您收到此邮件时, 您的插件已配置正确, 您可以正常进行提醒邮件的发送.</p>")
 
 	Response.Write "<script language=""JavaScript"" type=""text/javascript"">try{document.getElementById('SendingMail').style.display = 'none';}catch(e){};</script>"
 
@@ -153,7 +153,7 @@ End If
               </tr>
               <tr><td>1</td><td>收件人地址(<font color='red'>*</font>)</td><td><input name="strCmtN_MailToAddress" type="text" value="<%=CmtN_MailToAddress%>"/></td><td>例如: haphic@gmail.com,loybal@gmail.com)(多邮箱用逗号 “,” 隔开, 如果站长不想接收提醒可填写 "null"</td></tr>
               <tr><td>2</td><td>邮件回复地址(<font color="blue">*</font>)</td><td><input name="strCmtN_MailReplyToAddress" type="text" value="<%=CmtN_MailReplyToAddress%>"/></td><td>如果收件人回复提醒邮件,将发到此邮箱</td></tr>
-              <tr><td>3</td><td>发件人姓名(<font color="gray">*</font>)</td><td><input name="strCmtN_MailFromName" type="text" value="<%=CmtN_MailFromName%>"/></td><td>选填, 如果需向留有邮箱的评论者发送提醒邮件, 建议设置</td></tr>
+              <tr><td>3</td><td>发件人姓名(<font color="gray">*</font>)</td><td><input name="strCmtN_MailFromName" type="text" value="<%=CmtN_MailFromName%>"/></td><td>(only JMail)选填, 如果需向留有邮箱的评论者发送提醒邮件, 建议设置</td></tr>
               <tr><td>4</td><td>同时提醒评论者(<font color="gray">*</font>)</td><td><input name="strCmtN_NotifyCmtLeaver" type="text" class="checkbox" value="<%=CStr(CmtN_NotifyCmtLeaver)%>"/></td><td>如果评论者留下邮箱, 则在评论被回复时向该评论者发送提醒邮件</td></tr>
               </table>
               </div>
@@ -181,7 +181,7 @@ End If
               <tr><td>2</td><td>登陆帐号</td><td><input name="strCmtN_MailServerUserName" type="text" value="<%=CmtN_MailServerUserName%>" /></td><td> 例如: haphic@163.com 抑或只填 haphic, 有的邮箱需要身份验证</td></tr>
               <tr><td>3</td><td>登陆密码(<font color="blue">*</font>)</td><td><input name="strCmtN_MailServerUserPwd" type="password" value="<%=CmtN_MailServerUserPwd%>" /></td><td>登陆帐号的密码, 有的邮箱需要身份验证</td></tr>
               <tr><td>4</td><td>发件人地址</td><td><input name="strCmtN_MailFromAddress" type="text" value="<%=CmtN_MailFromAddress%>" /></td><td> 一般需与登陆帐号同名, 否则会导致发送失败</td></tr>
-              <tr><td>5</td><td>备用发信服务器(<font color="Blue">*</font>)</td><td><input name="strCmtN_MailServerAlternate" type="text" value="<%=CmtN_MailServerAlternate%>" /></td><td>写法: 用户名:密码@服务器地址(发信地址)</td></tr>
+              <tr><td>5</td><td>备用发信服务器(<font color="Blue">*</font>)</td><td><input name="strCmtN_MailServerAlternate" type="text" value="<%=CmtN_MailServerAlternate%>" /></td><td>(only JMail)写法: 用户名:密码@服务器地址(发信地址)</td></tr>
 
               </table>
               </div>
