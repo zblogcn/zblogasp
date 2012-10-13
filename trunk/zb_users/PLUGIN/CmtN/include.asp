@@ -26,6 +26,7 @@ Dim CmtN_MailSendDelay
 Dim CmtN_MailSendDelayTime 
 
 
+Dim CmtN
 
 
 '注册插件
@@ -41,13 +42,13 @@ Function ActivePlugin_CmtN()
 
 	'挂上接口
 	'Action_Plugin_Catalog_End
-	'Call Add_Action_Plugin("Action_Plugin_Catalog_End","CmtN_SendOutGoingMails")
+	Call Add_Action_Plugin("Action_Plugin_Catalog_End","CmtN_SendOutGoingMails")
 	'Action_Plugin_Default_End
-	'Call Add_Action_Plugin("Action_Plugin_Default_End","CmtN_SendOutGoingMails")
+	Call Add_Action_Plugin("Action_Plugin_Default_End","CmtN_SendOutGoingMails")
 	'Action_Plugin_Tags_End
-	'Call Add_Action_Plugin("Action_Plugin_Tags_End","CmtN_SendOutGoingMails")
+	Call Add_Action_Plugin("Action_Plugin_Tags_End","CmtN_SendOutGoingMails")
 	'Action_Plugin_View_End
-	'Call Add_Action_Plugin("Action_Plugin_View_End","CmtN_SendOutGoingMails")
+	Call Add_Action_Plugin("Action_Plugin_View_End","CmtN_SendOutGoingMails")
 
 
 End Function
@@ -56,6 +57,7 @@ End Function
 
 Function CmtN_Initialize
 	Set CmtN_Config=New TConfig
+	
 	CmtN_Config.Load "CmtN_Config"
 	If CmtN_Config.Exists("ver")=False Then
 		CmtN_Config.Write "CmtN_Charset", "GB2312"
@@ -86,6 +88,7 @@ Function CmtN_Initialize
 	CmtN_MailServerAlternate=CmtN_Config.Read("CmtN_MailServerAlternate")
 	CmtN_MailSendDelay=CBool(CmtN_Config.Read("CmtN_MailSendDelay"))
 	CmtN_MailSendDelayTime=CDbl(CmtN_Config.Read("CmtN_MailSendDelayTime"))
+	Set CmtN=New CmtN_Class
 End Function
 
 '*********************************************************
@@ -96,94 +99,28 @@ Function CmtN_SendComment(obj)
 	'If CmtN_MailToAddress="null" Then Exit Function
 
 	'If BlogUser.Level=1 Then Exit Function
-
-	Dim inpID,inpName,inpArticle,inpEmail,inpHomePage,inpIP,inpAgent
-
-	inpID=obj.log_ID
-	inpName=obj.Author
-	inpArticle=obj.Content
-	inpEmail=obj.email
-	inpHomePage=obj.homepage
-
-	inpIP=obj.ip
-	inpAgent=obj.agent
-
-	If Len(inpHomePage)>0 Then
-		If InStr(inpHomePage,"http://")=0 Then inpHomePage="http://" & inpHomePage
-	End If
-
-	inpName=TransferHTML(inpName,"[html-format]")
-	inpEmail=TransferHTML(inpEmail,"[html-format]")
-	inpHomePage=TransferHTML(inpHomePage,"[html-format]")
-	inpArticle=TransferHTML(inpArticle,"[html-format]")
-
-	Dim MA : MA = CmtN_MailToAddress
-
-	Dim MT : MT = ""
-	Dim MC : MC = CmtN_Template("cmt")
-
-	Dim User
-	Dim objRS
-	Dim objArticle
-
-	Set objArticle=New TArticle
-	If objArticle.LoadInfoByID(inpID) Then
-		Set objRS=objConn.Execute("SELECT TOP 1 [comm_ID],[log_ID] FROM [blog_Comment] WHERE ([log_ID]="& inpID &") ORDER BY [comm_ID] DESC")
-		If (Not objRS.bof) And (Not objRS.eof) Then
-	
-			MT = MT & inpName & " 在您的博客 """& ZC_BLOG_NAME &""" 里评论"
-	
-			MC = Replace(MC,"<#Cmt_Type#>","评论")
-			MC = Replace(MC,"<#Cmt_Article/title#>",objArticle.Title)
-			MC = Replace(MC,"<#Cmt_Article/url#>",objArticle.Url)
-			MC = Replace(MC,"<#Cmt_Article/PostTime#>",objArticle.PostTime)
-			Call GetUser
-			For Each User in Users
-				If IsObject(User) Then
-					If User.ID=objArticle.AuthorID Then
-						MC = Replace(MC,"<#Cmt_Article/author/name#>",User.Name)
-					End If
-				End If
-			Next
-			MC = Replace(MC,"<#Cmt_Article/author/name#>","")
-			MC = Replace(MC,"<#Cmt_Url#>",objArticle.Url & "#cmt" & objRS("comm_ID"))
-		End If
-		objRS.close
-		Set objRS=Nothing
-
-		Set objArticle=Nothing
-
-	End If
-
-
-	MC = Replace(MC,"<#MAIL_RECEIVER#>",ZC_BLOG_MASTER)
-	MC = Replace(MC,"<#BLOG_LINK#>","<a href="""& ZC_BLOG_HOST &""" title="""& ZC_BLOG_SUB_NAME &""" target=""_blank"">"& ZC_BLOG_NAME &"</a>")
-
-	MC = Replace(MC,"<#Cmt_Author/name#>",inpName)
-	MC = Replace(MC,"<#Cmt_Author/url#>",inpHomePage)
-	MC = Replace(MC,"<#Cmt_Author/email#>",inpEmail)
-	MC = Replace(MC,"<#Cmt_Author/IP#>",inpIP)
-	MC = Replace(MC,"<#Cmt_Author/agent#>",inpAgent)
-
-	If Len(inpHomePage)> 0 Then
-		MC = Replace(MC,"<#Cmt_Author#>","<a href="""& inpHomePage &""" target=""_blank"">"& inpName &"</a>")
+	If obj.ParentID=0 Then CmtN.Template="cmt" Else Cmtn.Template="rev"
+	CmtN.MakeCommentTemplate obj,False
+	If obj.ParentID=0 Then 
+		CmtN.mailTo=obj.email
 	Else
-		MC = Replace(MC,"<#Cmt_Author#>",inpName)
-	End If
-
-	MC = Replace(MC,"<#Cmt_PostTime#>",GetTime(Now()))
-	MC = Replace(MC,"<#Cmt_Content>",TransferHTML(UBBCode(inpArticle,"[link][link-antispam][font][face]"),"[enter][nofollow]"))
-
+		CmtN.mailTo=CmtN_MailToAddress
+	End if
 	If CmtN_MailSendDelay Then
 		Dim tmpRnd : Randomize : tmpRnd=Int(Rnd*1000)
 		Dim tmpName : tmpName = Year(Now)&Month(Now)&Day(Now)&Hour(Now)&Minute(Now)&Second(Now)&tmpRnd
-		Dim tmpValue :tmpValue = MT & vbCrlf & MA & vbCrlf & "null" & vbCrlf & MC
+		Dim tmpValue :tmpValue = cmtn.mailSubject & vbCrlf & CmtN.mailTo & vbCrlf & "null" & vbCrlf & CmtN.mailBody
 		Call SaveToFile(BlogPath & "zb_users/PLUGIN/CmtN/OutGoingMails/"& tmpName &".html",tmpValue,"utf-8",False)
 	Else
-		Call CmtN_SendMessage(MA,"null",CmtN_MailReplyToAddress,CmtN_MailFromName,MT,MC)
+		CmtN.mailReply=CmtN_MailReplyToAddress
+		CmtN.mailName=CmtN_MailFromName
+		CmtN.mailTo2=CmtN_MailToAddress
+		CmtN.Send
 	End If
 
 End Function
 '*********************************************************
+
+
 
 %>
