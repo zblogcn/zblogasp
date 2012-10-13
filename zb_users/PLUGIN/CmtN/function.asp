@@ -154,10 +154,11 @@ Class CmtN_Class
 	End Sub
 	
 	Function Send()
+		On Error Resume Next
 		If MailTo="null" And MailTo2="null" Then Exit Function
 		If MailTo="null" And MailTo2<>"null" Then Mailto=Mailto2:Mailto2="null" 
 		If Not InStr(MailTo,"@")>0 And Not InStr(MailTo2,"@")>0 Then
-			CmtN_SendMessage = False
+			Send = False
 			Application.Lock
 			Application(ZC_BLOG_CLSID& "CmtN_LastMailLog")="您已关闭给站长发信的功能, 如果您确定您的SMTP服务器可以发送邮件, 那么没什么不正常的."
 			Application.UnLock

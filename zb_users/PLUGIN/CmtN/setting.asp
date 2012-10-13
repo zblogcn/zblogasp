@@ -9,7 +9,7 @@
 '///////////////////////////////////////////////////////////////////////////////
 %>
 <% Option Explicit %>
-<%' On Error Resume Next %>
+<% On Error Resume Next %>
 <% Response.Charset="UTF-8" %>
 <% Response.Buffer=True %>
 <!-- #include file="../../c_option.asp" -->
@@ -85,16 +85,19 @@ If strAct="TestMail" Then
 
 	Dim MailStatus,MailDesc
 	MailStatus = CmtN_SendMessage(CmtN_MailToAddress,"null",CmtN_MailReplyToAddress,CmtN_MailFromName,"新评论提醒插件 - 试发邮件","<p>恭喜您!</p><p>当您收到此邮件时, 您的插件已配置正确, 您可以正常进行提醒邮件的发送.</p>")
-
-	Response.Write "<script language=""JavaScript"" type=""text/javascript"">try{document.getElementById('SendingMail').style.display = 'none';}catch(e){};</script>"
-
-	If MailStatus = True Then
-		MailDesc = "<font color=""green""> √ 邮件可能发送成功! </font>"
+	If Err.Number<>0 Then
+		Response.Write "<script language=""JavaScript"" type=""text/javascript"">try{document.getElementById('SendingMail').style.display = 'none';}catch(e){};</script>"
+	
+		If MailStatus = True Then
+			MailDesc = "<font color=""green""> √ 邮件可能发送成功! </font>"
+		Else
+			MailDesc = "<font color=""red""> × 邮件发送失败! </font>"
+		End If
+	
+		Response.Write "<div onclick=""if(document.getElementById('MailLog').style.display == 'none'){document.getElementById('MailLog').style.display = 'block';}else{document.getElementById('MailLog').style.display = 'none';}"" style=""border:1px solid #99BBFF;background-color:#EEEEFF;cursor:pointer;text-align:center;""><p>"& MailDesc &"点此查看详情. 如果未能收到测试邮件, 请调整设置后重新提交.</p>"
 	Else
-		MailDesc = "<font color=""red""> × 邮件发送失败! </font>"
+		Response.Write Err.Number & "<br/><br/>" & Err.Description
 	End If
-
-	Response.Write "<div onclick=""if(document.getElementById('MailLog').style.display == 'none'){document.getElementById('MailLog').style.display = 'block';}else{document.getElementById('MailLog').style.display = 'none';}"" style=""border:1px solid #99BBFF;background-color:#EEEEFF;cursor:pointer;text-align:center;""><p>"& MailDesc &"点此查看详情. 如果未能收到测试邮件, 请调整设置后重新提交.</p>"
 
 	Response.Write "<div id=""MailLog"" style=""display:none;""><p>" & Replace(Application(ZC_BLOG_CLSID & "CmtN_LastMailLog"),vbcrlf,"<br />") & "</p></div></div>"
 
@@ -118,10 +121,10 @@ End If
 
 
 If checkServerObject("Jmail.Message") Then
-	Response.Write "<p><b><font color=""Green"">注意:</font> 您的主机支持Jmail4, 可自主设定发送邮件服务器. <a href=""http://www.esloy.com/blog/archives/2008/11/CmtN1.2-Released.html#add1"" target=""_blank"">如何选择和设定发件邮箱?</a></b></p>"
+	Response.Write "<p><b><font color=""Green"">注意:</font> 您的主机支持Jmail4, 可自主设定发送邮件服务器. <a href=""http://www.zsxsoft.com/archives/255.html"" target=""_blank"">如何选择和设定发件邮箱?</a></b></p>"
 Else
 	If checkServerObject("cdo.Message") Then
-		Response.Write "<p><b><font color=""Green"">注意:</font> 您的主机不支持Jmail4, 插件将使用CDO组件. <a href=""http://www.esloy.com/blog/archives/2008/11/CmtN1.2-Released.html#add1"" target=""_blank"">如何选择和设定发件邮箱?</a></b></p>"
+		Response.Write "<p><b><font color=""Green"">注意:</font> 您的主机不支持Jmail4, 插件将使用CDO组件. <a href=""http://www.zsxsoft.com/archives/255.html"" target=""_blank"">如何选择和设定发件邮箱?</a></b></p>"
 	Else
 		Response.Write "<p><b><font color=""red"">注意:</font> 您的主机啥都不支持。。</b></p>"
 
@@ -152,7 +155,7 @@ End If
                 <td align="center">说明</td>
               </tr>
               <tr><td>1</td><td>收件人地址(<font color='red'>*</font>)</td><td><input name="strCmtN_MailToAddress" type="text" value="<%=CmtN_MailToAddress%>"/></td><td>例如: haphic@gmail.com,loybal@gmail.com)(多邮箱用逗号 “,” 隔开, 如果站长不想接收提醒可填写 "null"</td></tr>
-              <tr><td>2</td><td>邮件回复地址(<font color="blue">*</font>)</td><td><input name="strCmtN_MailReplyToAddress" type="text" value="<%=CmtN_MailReplyToAddress%>"/></td><td>如果收件人回复提醒邮件,将发到此邮箱</td></tr>
+              <tr><td>2</td><td>邮件回复地址(<font color="blue">*</font>)</td><td><input name="strCmtN_MailReplyToAddress" type="text" value="<%=CmtN_MailReplyToAddress%>"/></td><td>(only JMail)如果收件人回复提醒邮件,将发到此邮箱</td></tr>
               <tr><td>3</td><td>发件人姓名(<font color="gray">*</font>)</td><td><input name="strCmtN_MailFromName" type="text" value="<%=CmtN_MailFromName%>"/></td><td>(only JMail)选填, 如果需向留有邮箱的评论者发送提醒邮件, 建议设置</td></tr>
               <tr><td>4</td><td>同时提醒评论者(<font color="gray">*</font>)</td><td><input name="strCmtN_NotifyCmtLeaver" type="text" class="checkbox" value="<%=CStr(CmtN_NotifyCmtLeaver)%>"/></td><td>如果评论者留下邮箱, 则在评论被回复时向该评论者发送提醒邮件</td></tr>
               </table>
@@ -187,6 +190,7 @@ End If
               </div>
               <div class="tab-content" style='border:none;padding:0px;margin:0;' id="tab4">
                 <ol>
+                <li>本插件需要运行环境：安装有JMail4或者安装有CDO.Message的服务器.jMail组件支持的功能更多，插件内将优先使用。</li>
                 <li>
                 您首先要设置好收信地址, 用作接收提醒邮件.
                 </li>
