@@ -43,8 +43,6 @@ Function ActivePlugin_CmtN()
 	'挂上接口
 	'Action_Plugin_Catalog_End
 	Call Add_Action_Plugin("Action_Plugin_Catalog_End","CmtN_SendOutGoingMails")
-	'Action_Plugin_Default_End
-	Call Add_Action_Plugin("Action_Plugin_Default_End","CmtN_SendOutGoingMails")
 	'Action_Plugin_Tags_End
 	Call Add_Action_Plugin("Action_Plugin_Tags_End","CmtN_SendOutGoingMails")
 	'Action_Plugin_View_End

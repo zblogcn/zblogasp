@@ -1,3 +1,4 @@
+<!-- #include file="OnlinePlugin\aspcode.asp"-->
 <%
 
 '注册插件
@@ -6,6 +7,8 @@ Call RegisterPlugin("ZBDK","ActivePlugin_ZBDK")
 Function ActivePlugin_ZBDK()
 
 	Call Add_Response_Plugin("Response_Plugin_Admin_Top",MakeTopMenu(1,"开发工具",BlogHost&"zb_users/plugin/ZBDK/main.asp","zbdk",""))
+	On Error Resume Next
+	ZBDK_OnlinePlugin_ActivePlugin
 	
 End Function
 %>
