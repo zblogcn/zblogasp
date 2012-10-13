@@ -23,22 +23,23 @@ If Request.QueryString("act")="sql" Then
 	Set objRs=objConn.Execute(s)
 	Response.Write "查询用时" & RunTime & "ms<br/>"
 	If Err.Number=0 Then
-		If Not objRs.Eof Then
-			Response.Write "<table width='100%'><tr>"
+		If objRs.fields.count=0 Then Response.End
+		Response.Write "<table width='100%'><tr>"
+		For i=0 To objRs.fields.count-1 
+			response.write "<td height='40'>"&objRs(i).Name& "</td>" 
+		Next 
+		Response.Write "</tr>"
+		
+		Do Until objRs.Eof
+			Response.Write "<tr>"
 			For i=0 To objRs.fields.count-1 
-				response.write "<td height='40'>"&objRs(i).Name& "</td>" 
-			Next 
+				response.write "<td>"&TransferHTML(objRs(i),"[html-format]")& "</td>" 
+			Next 	
 			Response.Write "</tr>"
-			Do Until objRs.Eof
-				Response.Write "<tr>"
-				For i=0 To objRs.fields.count-1 
-					response.write "<td>"&TransferHTML(objRs(i),"[html-format]")& "</td>" 
-				Next 	
-				Response.Write "</tr>"
-				objRs.MoveNext
-			Loop
-			Response.Write "</table>"
-		End If
+			objRs.MoveNext
+		Loop
+		Response.Write "</table>"
+	'End If
 	Else
 		Response.Write "出现错误：" & Err.Number & "<br/>错误信息：" & Err.Description 
 	End If
