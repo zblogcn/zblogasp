@@ -220,11 +220,10 @@ Class CmtN_Class
 				End If
 			
 				Application.Lock
-				Application(ZC_BLOG_CLSID& "CmtN_LastMailLog")=jmail.log
+				Application(ZC_BLOG_CLSID& "CmtN_LastMailLog")=obj.log
 				Application.UnLock
 			
-				jmail.Close() '关闭对象
-				Set jmail=Nothing
+				obj.Close() '关闭对象
 		End Select
 	End Function
 	
