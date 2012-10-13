@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<plugin>
+<id>CmtN</id>
+<name>新评论/回复邮件通知插件</name>
+<url>http://www.esloy.com/blog/archives/2008/11/CmtN1.2-Released.html</url>
+<note>有新评论/回复/引用时将会邮件通知站长. 提供有第三方代发支持, 这样即使无Jmail4组件或提供SMTP服务的邮箱也可使用.&lt;br/&gt;1.5b 版新特性: 支持多个管理员邮箱同时收信.</note>
+<type>inline</type>
+<path>main.asp</path>
+<include>include.asp</include>
+<level>1</level>
+<author>
+	<name>zsx</name>
+	<url>http://www.zsxsoft.com/</url>
+	<email>zsx@zsxsoft.com</email>
+</author>
+<version>1.0</version>
+<adapted>Z-Blog 2.0</adapted>
+<pubdate>2012-10-12</pubdate>
+<modified>2012-10-12</modified>
+</plugin>
