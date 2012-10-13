@@ -53,20 +53,14 @@ Class CmtN_Class
 		Set objArticle=New TArticle
 		If objArticle.LoadInfoByID(objComment.log_id) Then
 			If isParent=False Then
+				Art_FirstName=Users(objArticle.AuthorID).FirstName
 				Call GetUser
-				For Each User in Users
-					If IsObject(User) Then
-						If User.ID=objArticle.AuthorID Then
-							Art_FirstName=User.FirstName
-						End If
-					End If
-				Next
+				Cmt_FirstName = objComment.Author
 				For Each User in Users
 					If IsObject(User) Then
 						If User.ID=objComment.AuthorID Then
 							Cmt_FirstName = User.FirstName
-						Else 
-							Cmt_FirstName = objComment.Author
+							Exit For
 						End If
 					End If
 				Next
@@ -78,7 +72,6 @@ Class CmtN_Class
 				MC = Replace(MC,"<#Cmt_Article/PostTime#>",objArticle.PostTime)
 
 				MC = Replace(MC,"<#Cmt_Article/author/name#>","")
-
 
 
 				MC = Replace(MC,"<#Cmt_Url#>",objArticle.Url & "#cmt" & objComment.ID)
@@ -107,12 +100,12 @@ Class CmtN_Class
 					MC = Replace(MC,"<#Cmt_Content_Child#>",Content)
 					If IsObject(ParentObj)=False Then GetParentObj(objComment.ParentID)
 					MC = Replace(MC,"<#Cmt_Content#>",TContent(ParentObj.Content))
+					Cmt_FirstName = ParentObj.Author
 					For Each User in Users
 						If IsObject(User) Then
 							If User.ID=ParentObj.AuthorID Then
 								Cmt_FirstName = User.FirstName
-							Else 
-								Cmt_FirstName = ParentObj.Author
+								Exit For 
 							End If
 						End If
 					Next
