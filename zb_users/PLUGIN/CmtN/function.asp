@@ -51,7 +51,7 @@ Class CmtN_Class
 		Set objArticle=New TArticle
 		If objArticle.LoadInfoByID(objComment.log_id) Then
 			If isParent=False Then
-				MT = MT & objComment.Author & " 在您的博客 """& ZC_BLOG_NAME &""" 里评论"
+				MT = MT & Users(objComment.AuthorID).FirstName & " 在您的博客 """& ZC_BLOG_NAME &""" 里评论"
 				MC = Replace(MC,"<#Cmt_Type#>","评论")
 				MC = Replace(MC,"<#Cmt_Article/title#>",objArticle.Title)
 				MC = Replace(MC,"<#Cmt_Article/url#>",objArticle.Url)
@@ -60,7 +60,7 @@ Class CmtN_Class
 				For Each User in Users
 					If IsObject(User) Then
 						If User.ID=objArticle.AuthorID Then
-							MC = Replace(MC,"<#Cmt_Article/author/name#>",User.Name)
+							MC = Replace(MC,"<#Cmt_Article/author/name#>",User.FirstName)
 						End If
 					End If
 				Next
@@ -69,16 +69,16 @@ Class CmtN_Class
 				
 				MC = Replace(MC,"<#BLOG_LINK#>","<a href="""& BlogHost &""" title="""& ZC_BLOG_SUB_NAME &""" target=""_blank"">"& ZC_BLOG_NAME &"</a>")
 			
-				MC = Replace(MC,"<#Cmt_Author/name#>",objComment.Author)
+				MC = Replace(MC,"<#Cmt_Author/name#>",Users(objComment.AuthorID).FirstName)
 				MC = Replace(MC,"<#Cmt_Author/url#>",objComment.Homepage)
 				MC = Replace(MC,"<#Cmt_Author/email#>",objComment.email)
 				MC = Replace(MC,"<#Cmt_Author/IP#>",objComment.ip)
 				MC = Replace(MC,"<#Cmt_Author/agent#>",objComment.agent)
 			
 				If Len(objComment.Homepage)> 0 Then
-					MC = Replace(MC,"<#Cmt_Author#>","<a href="""& objComment.Homepage &""" target=""_blank"">"& objComment.Author &"</a>")
+					MC = Replace(MC,"<#Cmt_Author#>","<a href="""& objComment.Homepage &""" target=""_blank"">"& Users(objComment.AuthorID).FirstName &"</a>")
 				Else
-					MC = Replace(MC,"<#Cmt_Author#>",objComment.Author)
+					MC = Replace(MC,"<#Cmt_Author#>",Users(objComment.AuthorID).FirstName)
 				End If
 				MC = Replace(MC,"<#Cmt_PostTime#>",GetTime(Now()))
 				
@@ -91,7 +91,7 @@ Class CmtN_Class
 					MC = Replace(MC,"<#Cmt_Content_Child#>",Content)
 					If IsObject(ParentObj)=False Then GetParentObj(objComment.ParentID)
 					MC = Replace(MC,"<#Cmt_Content#>",TContent(ParentObj.Content))
-					MC = Replace(MC,"<#MAIL_RECEIVER#>",ParentObj.Author)
+					MC = Replace(MC,"<#MAIL_RECEIVER#>",Users(ParentObj.AuthorID).FirstName)
 				End If
 				
 				
