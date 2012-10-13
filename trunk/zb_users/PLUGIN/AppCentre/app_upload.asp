@@ -2,13 +2,7 @@
 <% Option Explicit %>
 <% On Error Resume Next %>
 <% Response.Charset="UTF-8" %>
-<!-- #include file="../../c_option.asp" -->
-<!-- #include file="../../../ZB_SYSTEM/function/c_function.asp" -->
-<!-- #include file="../../../ZB_SYSTEM/function/c_system_lib.asp" -->
-<!-- #include file="../../../ZB_SYSTEM/function/c_system_base.asp" -->
-<!-- #include file="../../../ZB_SYSTEM/function/c_system_plugin.asp" -->
-<!-- #include file="../../../ZB_SYSTEM/function/c_system_event.asp" -->
-<!-- #include file="../../plugin/p_config.asp" -->
+<!-- #include file="../../../zb_system/admin/ueditor/asp/aspincludefile.asp"-->
 <!-- #include file="function.asp"-->
 <%
 Call System_Initialize()
@@ -19,24 +13,23 @@ If BlogUser.Level>1 Then Call ShowError(6)
 
 If CheckPluginState("AppCentre")=False Then Call ShowError(48)
 
-Dim ZipPathFile
-ZipPathFile=BlogPath & "zb_users\cache\temp.zba"
+
 
 
 Dim objUpLoadFile
 Set objUpLoadFile=New TUpLoadFile
 
-
-objUpLoadFile.AutoName=False
-objUpLoadFile.IsManual=True
-objUpLoadFile.FileSize=0
-objUpLoadFile.FileName="temp.zba"
-objUpLoadFile.FullPath=ZipPathFile
-
-If objUpLoadFile.UpLoad_Form() Then
-	If objUpLoadFile.SaveFile() Then
-		Call InstallApp(ZipPathFile)
-	End If
+Dim objUpload,isOK
+Set objUpload=New UpLoadClass
+objUpload.AutoSave=2
+objUpload.Charset="utf-8"
+objUpload.FileType="zba"
+objUpload.savepath=BlogPath & "zb_users\cache\"
+objUpload.maxsize=1000000
+objUpload.open
+If objUpload.Save("edtFileLoad",0)=True Then
+	Call InstallApp(BlogPath & "zb_users\cache\"&objUpload.form("edtFileLoad"))
+	CreateObject("scripting.filesystemobject").DeleteFile BlogPath & "zb_users\cache\"&objUpload.form("edtFileLoad")
 End If
 
 
