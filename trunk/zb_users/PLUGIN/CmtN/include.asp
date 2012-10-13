@@ -95,7 +95,7 @@ End Function
 Function CmtN_SendComment(obj)
 	Call CmtN_Initialize
 	'If CmtN_MailToAddress="null" Then Exit Function
-
+	If obj.isCheck=True Then Exit Function
 	'If BlogUser.Level=1 Then Exit Function
 	If obj.ParentID=0 Then CmtN.Template="cmt" Else Cmtn.Template="rev"
 	CmtN.MakeCommentTemplate obj,False
