@@ -50,7 +50,7 @@ End If
             <script type="text/javascript">ActiveTopMenu("topmenu2");</script> 
             <form id="form1" name="form1" method="post" action="?act=save">
             
-			<table width="100%"><tr height="40"><td width="20%">配置项</td><td>配置</td><td width="30%">备注</td></tr>
+			<table width="100%"><tr height="40"><th width="20%">配置项</th><th width="49%">配置</th><th width="30%">备注</th></tr>
 			<%
 			
 			
@@ -59,7 +59,7 @@ End If
 			Next
 			%>
           </table>
-          <input type="submit" value="提交"/>
+          <p><input type="submit" value="提交"/></p>
           </form>
           </div>
         </div>
@@ -69,7 +69,7 @@ End If
 <%
 
 Function ExportConfig(s,m)
-	ExportConfig="<input type=""text"" style=""width:95%"" name=""" & s & """ id=""" & s & """ value=""" & TransferHTML(m,"[html-format]") & """"
+	ExportConfig="<input type=""text"" style=""width:98%;*width:490px"" name=""" & s & """ id=""" & s & """ value=""" & TransferHTML(m,"[html-format]") & """"
 	If m="True" Or m="False" Then
 		ExportConfig=ExportConfig & " class=""checkbox""/>"
 	End If
@@ -117,24 +117,24 @@ function GetName(s){
 	case "ZC_USE_NAVIGATE_ARTICLE":return "文章页是否显示上下篇导航"
 	case "ZC_RSS_EXPORT_WHOLE":return "是否输出全文RSS"
 	case "ZC_MANAGE_COUNT":return "后台管理数量"
-	case "ZC_REBUILD_FILE_COUNT":return "每次重建数目"
-	case "ZC_REBUILD_FILE_INTERVAL":return "重建间隔"
+	case "ZC_REBUILD_FILE_COUNT":return "每次重建条数"
+	case "ZC_REBUILD_FILE_INTERVAL":return "重建间隔（秒）"
 
-	case "ZC_UBB_ENABLE":return "打开UBB"
-	/*ZC_UBB_LINK_ENABLE
-	ZC_UBB_FONT_ENABLE
-	ZC_UBB_CODE_ENABLE
-	ZC_UBB_FACE_ENABLE
-	ZC_UBB_IMAGE_ENABLE
-	ZC_UBB_MEDIA_ENABLE
-	ZC_UBB_FLASH_ENABLE
-	ZC_UBB_TYPESET_ENABLE
-	ZC_UBB_AUTOLINK_ENABLE
-	ZC_UBB_AUTOKEY_ENABLE*/
+	case "ZC_UBB_ENABLE":return "打开UBB功能"
+	case "ZC_UBB_LINK_ENABLE":return "——UBB链接转换"
+	case "ZC_UBB_FONT_ENABLE":return "——UBB字体转换"
+	case "ZC_UBB_CODE_ENABLE":return "——UBB代码转换"
+	case "ZC_UBB_FACE_ENABLE":return "——UBB表情转换"
+	case "ZC_UBB_IMAGE_ENABLE":return "——UBB图片转换"
+	case "ZC_UBB_MEDIA_ENABLE":return "——UBB多媒体转换"
+	case "ZC_UBB_FLASH_ENABLE":return "——UBB FLASH转换"
+	case "ZC_UBB_TYPESET_ENABLE":return "——UBB排版标签转换"
+	case "ZC_UBB_AUTOLINK_ENABLE":return "——UBB自动链接"
+	case "ZC_UBB_AUTOKEY_ENABLE":return "——UBB关键字自动替换（弃用）"
 	case "ZC_EMOTICONS_FILENAME":return "表情文件名（弃用）"
-	case "ZC_EMOTICONS_FILETYPE":return "表情后缀名"
+	case "ZC_EMOTICONS_FILETYPE":return "表情图片后缀名"
 	case "ZC_EMOTICONS_FILESIZE":return "表情大小（弃用）"
-	case "ZC_UPLOAD_FILETYPE":return "允许上传后缀名"
+	case "ZC_UPLOAD_FILETYPE":return "允许上传文件类型"
 	case "ZC_UPLOAD_FILESIZE":return "最大文件大小"
 	case "ZC_UPLOAD_DIRBYMONTH":return "上传附件按月存档"
 	case "ZC_UPLOAD_DIRECTORY":return "附件保存目录"
@@ -146,9 +146,9 @@ function GetName(s){
 	case "ZC_HOMEPAGE_MAX":return "最大网址长度"
 	case "ZC_CONTENT_MAX":return "最大评论长度"
 	case "ZC_STATIC_TYPE":return "静态文件后缀名"
-	case "ZC_STATIC_DIRECTORY":return "静态文件保存路径"
-	case "ZC_TEMPLATE_DIRECTORY":return "主题模板保存路径"
-	case "ZC_STATIC_MODE":return "当前模式（动态或伪静态）"
+	case "ZC_STATIC_DIRECTORY":return "静态文章存放路径"
+	case "ZC_TEMPLATE_DIRECTORY":return "主题模板存放路径"
+	case "ZC_STATIC_MODE":return "列表页模式（动态或伪静态）"
 	case "ZC_ARTICLE_REGEX":return "文章网址格式"
 	case "ZC_PAGE_REGEX":return "页面网址格式"
 	case "ZC_CATEGORY_REGEX":return "分类网址格式"
@@ -173,7 +173,7 @@ function GetName(s){
 	case "ZC_UNCATEGORIZED_NAME":return "自定义未分类分类名"
 	case "ZC_UNCATEGORIZED_ALIAS":return "自定义未分类分类别名"
 	case "ZC_UNCATEGORIZED_COUNT":return "未分类分类文章计数"
-	case "ZC_POST_STATIC_MODE":return "文章模式（动态、静态或伪静态）"
+	case "ZC_POST_STATIC_MODE":return "文章页模式（动态、静态或伪静态）"
 
 	default:return s
 	}
@@ -190,9 +190,15 @@ function GetValue(s){
 	case "ZC_UPDATE_INFO_URL":
 	case "ZC_BLOG_VERSION":
 	case "ZC_UNCATEGORIZED_COUNT":	return "请不要任意修改"
-	case "ZC_POST_STATIC_MODE":return "三种模式：ACTIVE   STATIC   REWRITE"
+	case "ZC_STATIC_MODE":return "三种模式：ACTIVE   STATIC   REWRITE，用于配合静态或伪静态插件"
+	case "ZC_POST_STATIC_MODE":return "三种模式：ACTIVE   STATIC   REWRITE，用于配合静态或伪静态插件"
 	case "ZC_MULTI_DOMAIN_SUPPORT":return "打开则以相对路径显示博客，不再绑定域名"
-	case "ZC_ARTICLE_REGEX":return "网址格式，下面都是"
+	case "ZC_ARTICLE_REGEX":return "网址格式，下面都是，用于配合静态或伪静态"
+	case "ZC_UBB_ENABLE":return "2.0版已弃用UBB编辑"
+	case "ZC_COMMNET_MAXFLOOR":return "管理员后台回复不受限制"
+	case "ZC_EMOTICONS_FILETYPE":return "图片后缀名，用 | 分隔，如png|gif|jgp"
+	case "ZC_SYNTAXHIGHLIGHTER_ENABLE":return "对应syntaxhighlighter代码高亮功能"
+	case "ZC_CODEMIRROR_ENABLE":return "对应UE的codemirror选项，若源码编辑较卡建议启用"
 	}
 }
 </script>
