@@ -25,6 +25,17 @@ Call CheckReference("")
 If BlogUser.Level>1 Then Call ShowError(6)
 If CheckPluginState("AdvancedConfig")=False Then Call ShowError(48)
 BlogTitle="AdvancedConfig"
+Dim i
+If Request.QueryString("act")="save" Then
+	For i=1 To BlogConfig.Count
+		If Not IsEmpty(Request.Form(BlogConfig.Meta.Names(i))) Then
+			BlogConfig.Write BlogConfig.Meta.Names(i),Request.Form(BlogConfig.Meta.Names(i))
+		End If
+		
+	Next
+	BlogConfig.Save
+	Response.Redirect "main.asp"
+End If
 %>
 <!--#include file="..\..\..\zb_system\admin\admin_header.asp"-->
 <!--#include file="..\..\..\zb_system\admin\admin_top.asp"-->
@@ -41,9 +52,9 @@ BlogTitle="AdvancedConfig"
 			<table width="100%"><tr height="40"><td width="20%">配置项</td><td>配置</td><td width="30%">备注</td></tr>
 			<%
 			
-			Dim i
+			
 			For i=1 To BlogConfig.Count
-				Response.Write "<tr><td>"& GetName(BlogConfig.Meta.Names(i)) & "</td><td>"& ExportConfig(vbsunescape(BlogConfig.Meta.Values(i))) &"</td><td>"& GetValue(BlogConfig.Meta.Names(i)) &"</td></tr>"
+				Response.Write "<tr><td>"& GetName(BlogConfig.Meta.Names(i)) & "</td><td>"& ExportConfig(BlogConfig.Meta.Names(i),vbsunescape(BlogConfig.Meta.Values(i))) &"</td><td>"& GetValue(BlogConfig.Meta.Names(i)) &"</td></tr>"
 			Next
 			%>
           </table>
@@ -56,8 +67,8 @@ BlogTitle="AdvancedConfig"
 <%Call System_Terminate()%>
 <%
 
-Function ExportConfig(m)
-	ExportConfig="<input type=""text"" style=""width:95%"" name=""" & m & """ id=""" & m & """ value=""" & TransferHTML(m,"[html-format]") & """"
+Function ExportConfig(s,m)
+	ExportConfig="<input type=""text"" style=""width:95%"" name=""" & s & """ id=""" & s & """ value=""" & TransferHTML(m,"[html-format]") & """"
 	If m="True" Or m="False" Then
 		ExportConfig=ExportConfig & " class=""checkbox""/>"
 	End If
