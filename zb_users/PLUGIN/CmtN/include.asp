@@ -103,8 +103,10 @@ Function CmtN_SendComment(obj)
 		'CmtN.mailTo=obj.email
 		'新评论时不需要发邮件
 	Else
-		CmtN.GetParentObj obj.ParentID
-		CmtN.mailTo=CmtN.ParentObj.email
+		If CmtN_NotifyCmtLeaver Then
+			CmtN.GetParentObj obj.ParentID
+			CmtN.mailTo=CmtN.ParentObj.email
+		End If
 		'回复评论时得到父评论再发邮件
 	End if
 	If CmtN_MailSendDelay Then
