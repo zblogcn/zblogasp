@@ -44,6 +44,8 @@ Class CmtN_Class
 	
 		Dim MT : MT = ""
 		Dim MC : MC = FTemplate
+		Dim Art_FirstName : Art_FirstName=""
+		Dim Cmt_FirstName : Cmt_FirstName=""
 		Dim Content
 		Dim User
 		Dim objRS
@@ -51,22 +53,14 @@ Class CmtN_Class
 		Set objArticle=New TArticle
 		If objArticle.LoadInfoByID(objComment.log_id) Then
 			If isParent=False Then
-				MT = MT & Users(objComment.AuthorID).FirstName & " 在您的博客 """& ZC_BLOG_NAME &""" 里评论"
-				MC = Replace(MC,"<#Cmt_Type#>","评论")
-				MC = Replace(MC,"<#Cmt_Article/title#>",objArticle.Title)
-				MC = Replace(MC,"<#Cmt_Article/url#>",objArticle.Url)
-				MC = Replace(MC,"<#Cmt_Article/PostTime#>",objArticle.PostTime)
 				Call GetUser
 				For Each User in Users
 					If IsObject(User) Then
 						If User.ID=objArticle.AuthorID Then
-							MC = Replace(MC,"<#Cmt_Article/author/name#>",User.FirstName)
+							Art_FirstName=User.FirstName
 						End If
 					End If
 				Next
-				MC = Replace(MC,"<#Cmt_Article/author/name#>","")
-
-				Dim Cmt_FirstName
 				For Each User in Users
 					If IsObject(User) Then
 						If User.ID=objComment.AuthorID Then
@@ -76,6 +70,17 @@ Class CmtN_Class
 						End If
 					End If
 				Next
+				MC = Replace(MC,"<#Cmt_Article/author/name#>",Art_FirstName)
+				MT = MT & Cmt_FirstName & " 在您的博客 """& ZC_BLOG_NAME &""" 里评论"
+				MC = Replace(MC,"<#Cmt_Type#>","评论")
+				MC = Replace(MC,"<#Cmt_Article/title#>",objArticle.Title)
+				MC = Replace(MC,"<#Cmt_Article/url#>",objArticle.Url)
+				MC = Replace(MC,"<#Cmt_Article/PostTime#>",objArticle.PostTime)
+
+				MC = Replace(MC,"<#Cmt_Article/author/name#>","")
+
+
+
 				MC = Replace(MC,"<#Cmt_Url#>",objArticle.Url & "#cmt" & objComment.ID)
 				
 				MC = Replace(MC,"<#BLOG_LINK#>","<a href="""& BlogHost &""" title="""& ZC_BLOG_SUB_NAME &""" target=""_blank"">"& ZC_BLOG_NAME &"</a>")
@@ -96,7 +101,7 @@ Class CmtN_Class
 				If objComment.ParentID=0 Then
 					Content=TContent(objComment.Content)
 					MC = Replace(MC,"<#Cmt_Content#>",Content)
-					MC = Replace(MC,"<#MAIL_RECEIVER#>",ZC_BLOG_MASTER)
+					MC = Replace(MC,"<#MAIL_RECEIVER#>",Art_FirstName)
 				Else
 					Content=TContent(objComment.Content)
 					MC = Replace(MC,"<#Cmt_Content_Child#>",Content)
