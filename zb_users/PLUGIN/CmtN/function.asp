@@ -18,6 +18,7 @@ Class CmtN_Class
 	Public mailSubject
 	Public mailBody
 	Public TemplateName
+	Public ParentObj
 	
 	Private Ftemplate
 	
@@ -40,7 +41,7 @@ Class CmtN_Class
 	
 	Function MakeCommentTemplate(objComment,isParent)
 
-
+	
 		Dim MT : MT = ""
 		Dim MC : MC = FTemplate
 		Dim Content
@@ -87,11 +88,10 @@ Class CmtN_Class
 					MC = Replace(MC,"<#MAIL_RECEIVER#>",ZC_BLOG_MASTER)
 				Else
 					Content=TContent(objComment.Content)
-					Dim t
-					Set t=GetParentObj(objComment.ParentID)
 					MC = Replace(MC,"<#Cmt_Content_Child#>",Content)
-					MC = Replace(MC,"<#Cmt_Content#>",TContent(t.Content))
-					MC = Replace(MC,"<#MAIL_RECEIVER#>",t.Author)
+					If IsObject(ParentObj)=False Then GetParentObj(objComment.ParentID)
+					MC = Replace(MC,"<#Cmt_Content#>",TContent(ParentObj.Content))
+					MC = Replace(MC,"<#MAIL_RECEIVER#>",ParentObj.Author)
 				End If
 				
 				
@@ -112,6 +112,7 @@ Class CmtN_Class
 		Set o=New TComment
 		o.LoadInfoById ParentID
 		Set GetParentObj=o
+		Set ParentObj=o
 	End Function
 	
 	Function InitObj
@@ -148,6 +149,8 @@ Class CmtN_Class
 			obj.MailServerUserName = CmtN_MailServerUserName '登录邮件服务器所需的用户名
 			obj.MailServerPassword = CmtN_MailServerUserPwd '登录邮件服务器所需的密码
 		End If
+		MailTo="null"
+		MailTo2="null"
 	End Sub
 	
 	Function Send()
