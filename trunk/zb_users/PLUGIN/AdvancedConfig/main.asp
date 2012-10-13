@@ -34,6 +34,7 @@ If Request.QueryString("act")="save" Then
 		
 	Next
 	BlogConfig.Save
+	SaveConfig2Option
 	Response.Redirect "main.asp"
 End If
 %>
