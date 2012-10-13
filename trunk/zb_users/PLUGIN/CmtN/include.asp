@@ -100,9 +100,12 @@ Function CmtN_SendComment(obj)
 	If obj.ParentID=0 Then CmtN.Template="cmt" Else Cmtn.Template="rev"
 	CmtN.MakeCommentTemplate obj,False
 	If obj.ParentID=0 Then 
-		CmtN.mailTo=obj.email
+		'CmtN.mailTo=obj.email
+		'新评论时不需要发邮件
 	Else
-		CmtN.mailTo=CmtN.GetParentObj(obj.id).email
+		CmtN.GetParentObj obj.ParentID
+		CmtN.mailTo=CmtN.ParentObj.email
+		'回复评论时得到父评论再发邮件
 	End if
 	If CmtN_MailSendDelay Then
 		Dim tmpRnd : Randomize : tmpRnd=Int(Rnd*1000)
