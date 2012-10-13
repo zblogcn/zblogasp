@@ -74,7 +74,7 @@ End Select
           </div>
           <div class="divHeader"><%=BlogTitle%></div>
           <div class="SubMenu"><%=ZBDK.submenu(1)%></a> </div>
-          <div id="divMain2"> <script type="text/javascript">ActiveLeftMenu("aPlugInMng");</script>
+          <div id="divMain2"> <script type="text/javascript">ActiveTopMenu("zbdk");</script>
             <div class="DIVBlogConfig">
               <div class="DIVBlogConfignav" name="tree" id="tree">
                 <ul>

@@ -58,7 +58,7 @@ End If
           <div class="divHeader"><%=BlogTitle%></div>
           <div class="SubMenu"> <%=ZBDK.submenu(4)%> </div>
           <div id="divMain2"> 
-            <script type="text/javascript">ActiveLeftMenu("aPlugInMng");</script>
+            <script type="text/javascript">ActiveTopMenu("zbdk");</script>
             <form id="form1" onsubmit="return false">
             <label for="interface">输入接口名</label>
             <input type="text" name="interface" id="interface" style="width:80%"/>

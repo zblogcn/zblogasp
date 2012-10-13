@@ -26,7 +26,7 @@ BlogTitle=title
           <div class="divHeader"><%=BlogTitle%></div>
           <div class="SubMenu"> <%=ZBDK.submenu(0)%> </div>
           <div id="divMain2"> 
-            <script type="text/javascript">ActiveLeftMenu("aPlugInMng");</script> 
+            <script type="text/javascript">ActiveTopMenu("zbdk");</script> 
             <%=ZBDK.Main()%>
           </div>
         </div>

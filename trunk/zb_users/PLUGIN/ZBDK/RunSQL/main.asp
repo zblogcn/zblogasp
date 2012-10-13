@@ -56,7 +56,7 @@ End If
           <div class="divHeader"><%=BlogTitle%></div>
           <div class="SubMenu"> <%=ZBDK.submenu(3)%> </div>
           <div id="divMain2"> 
-            <script type="text/javascript">ActiveLeftMenu("aPlugInMng");</script>
+            <script type="text/javascript">ActiveTopMenu("zbdk");</script>
             <form id="form1" onSubmit="return false">
             <label for="sql">输入SQL代码</label>
             <input type="text" name="sql" id="sql" style="width:80%"/>
