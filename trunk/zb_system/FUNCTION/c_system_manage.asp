@@ -518,7 +518,7 @@ Function ExportCommentList(intPage,intContent,isCheck)
 	Response.Write "</p></form>"
 
 	Response.Write "<table border=""1"" width=""100%"" cellspacing=""0"" cellpadding=""0"" class=""tableBorder tableBorder-thcenter"">"
-	Response.Write "<tr><th width=""5%""></th><th width='5%'>"& ZC_MSG076 &"</th><th width=""5%"">"&ZC_MSG152&"</th><th width='10%'>"& ZC_MSG001 &"</th><th>"& ZC_MSG055 &"</th><th width=""15%"">"& ZC_MSG048 &"</th><th width='14%'></th><th width='5%'  align='center'><a href='' onclick='BatchSelectAll();return false'>"& ZC_MSG229 &"</a></th></tr>"'
+	Response.Write "<tr><th width=""4%""></th><th width=""5%"">"& ZC_MSG076 &"</th><th width=""6%"">"&ZC_MSG152&"</th><th width='10%'>"& ZC_MSG001 &"</th><th>"& ZC_MSG055 &"</th><th width=""15%"">"& ZC_MSG048 &"</th><th width='14%'></th><th width='5%'  align='center'><a href='' onclick='BatchSelectAll();return false'>"& ZC_MSG229 &"</a></th></tr>"'
 
 	objRS.Open("SELECT * FROM [blog_Comment] "& strSQL &" ORDER BY [comm_ID] DESC")
 
@@ -549,7 +549,7 @@ Function ExportCommentList(intPage,intContent,isCheck)
 			Response.Write "<td><a href=""mailto:"& objRS("comm_Email") &""">" & objRS("comm_Author") & "</a></td>"
 			End If
 
-			Response.Write "<td><a id=""mylink"&objRS("comm_ID")&""" href=""$div"&objRS("comm_ID")&"tip?width=400"" class=""betterTip"" title="""&ZC_MSG055&""">" & Left(objRS("comm_Content"),30) & "...</a><div id=""div"&objRS("comm_ID")&"tip"" style=""display:none;""><p>"& objRS("comm_Content") &"</p><br/><p>" & ZC_MSG080 & " : " &objRS("comm_IP") & "</p><p>" & ZC_MSG075 & " : " &objRS("comm_PostTime") & "</p></div></td>"
+			Response.Write "<td><a id=""mylink"&objRS("comm_ID")&""" href=""$div"&objRS("comm_ID")&"tip?width=400"" class=""betterTip"" title="""&ZC_MSG055&""">" & Left(objRS("comm_Content"),30) & "</a><div id=""div"&objRS("comm_ID")&"tip"" style=""display:none;""><p>"& objRS("comm_Content") &"</p><br/><p>" & ZC_MSG080 & " : " &objRS("comm_IP") & "</p><p>" & ZC_MSG075 & " : " &objRS("comm_PostTime") & "</p></div></td>"
 			Response.Write "<td><div style='overflow:hidden;height:1.5em;'>"& Left(objArticle.HtmlTitle,20) &"</div></td>"
 			Response.Write "<td align=""center""><a href=""../cmd.asp?act=CommentEdt&amp;id=" & objRS("comm_ID") &"&amp;revid="&objRs("comm_ID")&"&amp;log_id="& objRS("log_ID") &"""><img src=""../image/admin/comments.png"" alt=""" & ZC_MSG149 & """ title=""" & ZC_MSG149 & """ width=""16"" /></a>&nbsp;&nbsp;&nbsp;&nbsp;<a href=""../cmd.asp?act=CommentEdt&amp;id=" & objRS("comm_ID") & "&amp;log_id="& objRS("log_ID") &"&amp;revid=0""><img src=""../image/admin/comment_edit.png"" alt=""" & ZC_MSG078 & """ title=""" & ZC_MSG078 & """ width=""16"" /></a>&nbsp;&nbsp;&nbsp;&nbsp;<a href=""../cmd.asp?act=CommentDel&amp;id=" & objRS("comm_ID")  &""" onclick='return window.confirm("""& ZC_MSG058 &""");'><img src=""../image/admin/delete.png"" alt=""" & ZC_MSG063 & """ title=""" & ZC_MSG063 & """ width=""16"" /></a>&nbsp;&nbsp;&nbsp;&nbsp;<a href=""../cmd.asp?act=CommentAudit&amp;id="&objRs("comm_ID")&"""><img src=""../image/admin/"&IIf(isCheck,"ok.png","minus-shield.png")&""" alt="""&IIf(isCheck,ZC_MSG091,ZC_MSG092)&""" title="""&IIf(isCheck,ZC_MSG091,ZC_MSG092)&""" width=""16""/></a></td>"
 			Response.Write "<td align=""center"" ><input type=""checkbox"" id=""edtDel"&objRS("comm_ID")&""" name=""edtDel"" value="""&objRS("comm_ID")&"""/></td>"
@@ -939,7 +939,7 @@ Function ExportPluginMng()
 
 
 	Response.Write "<table border=""1"" width=""100%"" cellspacing=""0"" cellpadding=""0"" class=""tableBorder tableBorder-thcenter"">"
-	Response.Write "<tr><th width=""6%"">"& ZC_MSG201 &"</th><th width=""6%"">"& ZC_MSG079 &"</th><th>"& ZC_MSG001 &"</th><th width=""15%"">"& ZC_MSG128 &"</th><th width=""15%"">"& ZC_MSG150 &"</th><th width=""15%"">"& ZC_MSG151 &"</th><th width=""10%""></th></tr>"
+	Response.Write "<tr><th width=""50px"">"& ZC_MSG201 &"</th><th width=""50px"">"& ZC_MSG079 &"</th><th>"& ZC_MSG001 &"</th><th width=""13%"">"& ZC_MSG128 &"</th><th width=""10%"">"& ZC_MSG150 &"</th><th width=""12%"">"& ZC_MSG151 &"</th><th width=""10%""></th></tr>"
 
 	Dim objXmlFile,strXmlFile
 
@@ -1026,7 +1026,7 @@ Function ExportPluginMng()
 			If CheckPluginState(objXmlFile.documentElement.selectSingleNode("id").text) Then
 				s=s & "<img width='16' src='../IMAGE/ADMIN/ok.png'/>"
 			Else
-				s=s & "<img width='16' src='../IMAGE/ADMIN/exclamation.png'/>"
+				s=s
 			End If
 
 			s=s & "<strong style='display:none;'>"& Server.URLEncode(objXmlFile.documentElement.selectSingleNode("id").text) &"</strong>"
