@@ -45,11 +45,11 @@ Function Gravatar_Add(AuthorID,EmailMD5)
 	  If (fso.FileExists(BlogPath & "zb_users/avatar/"&AuthorID&".png")) Then
 		Gravatar_Add=GetCurrentHost() & "zb_users/avatar/"&AuthorID&".png"
 	  Else
-		Gravatar_Add=Replace(Gravatar_EmailMD5,"{%emailmd5%}",EmailMD5)
+		Gravatar_Add=Replace(Replace(Gravatar_EmailMD5,"{%emailmd5%}",EmailMD5),"{%source%}",Server.URLEncode(ZC_BLOG_HOST&"zb_users/avatar/0.png"))
 	  End If
 	Else
 		If EmailMD5<>"" Then
-			Gravatar_Add=Replace(Gravatar_EmailMD5,"{%emailmd5%}",EmailMD5)
+			Gravatar_Add=Replace(Replace(Gravatar_EmailMD5,"{%emailmd5%}",EmailMD5),"{%source%}",Server.URLEncode(ZC_BLOG_HOST&"zb_users/avatar/0.png"))
 		Else
 			Gravatar_Add=GetCurrentHost() & "zb_users/avatar/0.png"
 		End If
@@ -63,7 +63,7 @@ Sub Gravatar_GetImage(ID)
 
 	Dim k
 
-	k=Replace(Replace(Gravatar_EmailMD5,"{%emailmd5%}",MD5(objConn.Execute("SELECT [mem_Email] FROM [blog_Member] WHERE [mem_ID]="&ID)(0))),"<#ZC_BLOG_HOST#>",GetCurrentHost)
+	k=Replace(Replace(Gravatar_EmailMD5,"{%emailmd5%}",MD5(objConn.Execute("SELECT [mem_Email] FROM [blog_Member] WHERE [mem_ID]="&ID)(0))),"{%source%}",Server.URLEncode(ZC_BLOG_HOST&"zb_users/avatar/0.png"))
 
 	dim u,v,w
 	set u=server.createobject("msxml2.serverxmlhttp")
@@ -95,7 +95,7 @@ Function InstallPlugin_Gravatar
 	c.Load "Gravatar"
 	c.Write "v","1.0"
 	c.Write "e","True"
-	c.Write "c","http://cn.gravatar.com/avatar/{%emailmd5%}?s=40&d=<#ZC_BLOG_HOST#>zb_users/avatar/0.png"
+	c.Write "c","http://cn.gravatar.com/avatar/{%emailmd5%}?s=40&d={%source%}"
 	c.Save
 End Function
 
