@@ -42,7 +42,7 @@ End Select
 	<%=ZBDK.submenu(2)%>
   </div>
   <div id="divMain2">
- <script type="text/javascript">ActiveLeftMenu("aPlugInMng");</script>
+ <script type="text/javascript">ActiveTopMenu("zbdk");</script>
     <%
 	Call ExportCounterlist(Request("page"),Request("ip"),Request("agent"),vbsescape(Request("content")),vbsescape(Request("name")))
 	%>
