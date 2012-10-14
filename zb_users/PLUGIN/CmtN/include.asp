@@ -98,7 +98,7 @@ Function CmtN_SendComment(obj)
 	If obj.isCheck=True Then Exit Function
 	'If BlogUser.Level=1 Then Exit Function
 	If obj.ParentID=0 Then CmtN.Template="cmt" Else Cmtn.Template="rev"
-	If obj.ParentID<>0 And BlogUser.Level=1  Then Exit Function
+	'If obj.ParentID<>0 And BlogUser.Level=1  Then Exit Function
 	CmtN.MakeCommentTemplate obj,False
 	If obj.ParentID=0 Then 
 		'CmtN.mailTo=obj.email
@@ -118,7 +118,7 @@ Function CmtN_SendComment(obj)
 	Else
 		CmtN.mailReply=CmtN_MailReplyToAddress
 		CmtN.mailName=CmtN_MailFromName
-		CmtN.mailTo2=CmtN_MailToAddress
+		CmtN.mailTo2=IIf(obj.ParentID<>0 And BlogUser.Level=1,"null",CmtN_MailToAddress)
 		CmtN.Send
 	End If
 
