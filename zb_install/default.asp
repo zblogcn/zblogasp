@@ -133,7 +133,7 @@ Z-Blog官方网址：http://www.rainbowsoft.org
 
 为了使您正确并合法的使用本软件，请您在使用前务必阅读清楚下面的协议条款： 
 
-一、本授权协议适用且仅适用于 Z-Blog 2.0 版本，Z-Blog 2.0官方对本授权协议拥有最终解释权。
+一、本授权协议适用且仅适用于 Z-Blog 2.0 版本，RainbowStudio官方对本授权协议拥有最终解释权。
 
 二、协议许可的权利
 
@@ -284,8 +284,11 @@ End If
 
 
 If OpenConnect()=False Then
-
-	Response.Write("<p>抱歉，连接数据库失败！</p>"&IIf(ZC_MSSQL_ENABLE,"<p>您提供的数据库用户名和密码可能不正确，或者无法连接到 "&ZC_MSSQL_SERVER&" 上的数据库服务器，这意味着您的主机数据库服务器已停止工作。</p><p><ul><li>您确认您提供的用户名和密码正确么？</li><li>您确认您提供的主机名正确么？</li><li>您确认数据库服务器运行正常么？</li><li>您确认您购买的数据库是MSSQL而不是MYSQL么？</li></ul></p>","")&"<p>请您联系您的空间商，或者到<a href='http://bbs.rainbowsoft.org' target='_blank'>Z-Blogger BBS</a>寻求帮助</p><div id='bottom'><input type=""button"" name=""next"" onClick=""history.go(-1)"" id=""netx"" value=""返回"" /></div>")
+	If ZC_MSSQL_ENABLE Then
+		Response.Write("<p>抱歉，连接数据库失败！</p><p>您提供的数据库用户名和密码可能不正确，或者无法连接到 "&ZC_MSSQL_SERVER&" 上的数据库服务器，这意味着您的主机数据库服务器已停止工作。</p><p><ul><li>您确认您提供的用户名和密码正确么？</li><li>您确认您提供的主机名正确么？</li><li>您确认数据库服务器运行正常么？</li><li>您确认您购买的数据库是MSSQL而不是MYSQL么？</li></ul></p><p>请您联系您的空间商，或者到<a href='http://bbs.rainbowsoft.org' target='_blank'>Z-Blogger BBS</a>寻求帮助</p><div id='bottom'><input type=""button"" name=""next"" onClick=""history.go(-1)"" id=""netx"" value=""返回"" /></div>")
+	Else
+		Response.Write("<p>抱歉，连接数据库失败！</p><ul><li>您确定您的IIS运行在32位模式下吗？（<a href='http://www.baidu.com/s?wd=64%E4%BD%8D+ACCESS+asp' target='_blank'>相关帮助</a>）</li><li>您确定您有权限操作该文件夹和临时文件夹吗？</li><li>您确定你的网站空间足够吗？</li></ul><p>请您联系您的空间商，或者到<a href='http://bbs.rainbowsoft.org' target='_blank'>Z-Blogger BBS</a>寻求帮助</p><div id='bottom'><input type=""button"" name=""next"" onClick=""history.go(-1)"" id=""netx"" value=""返回"" /></div>")
+	End If
 	Response.End
 
 End If
@@ -667,14 +670,15 @@ Call BlogConfig.Write("ZC_SEARCH_COUNT",25)
 Call BlogConfig.Write("ZC_PAGEBAR_COUNT",15)
 Call BlogConfig.Write("ZC_MUTUALITY_COUNT",10)
 Call BlogConfig.Write("ZC_COMMENTS_DISPLAY_COUNT",10)
-
-
-
+Call BlogConfig.Write("ZC_ARTICLE_EXCERPT_MAX",250)
 
 
 Call BlogConfig.Write("ZC_USE_NAVIGATE_ARTICLE",True)
-
 Call BlogConfig.Write("ZC_RSS_EXPORT_WHOLE",False)
+
+Call BlogConfig.Write("ZC_SYNTAXHIGHLIGHTER_ENABLE",False)
+Call BlogConfig.Write("ZC_CODEMIRROR_ENABLE",False)
+
 
 
 
@@ -710,8 +714,8 @@ Call BlogConfig.Write("ZC_UBB_AUTOKEY_ENABLE",False)
 
 
 '表情相关
-Call BlogConfig.Write("ZC_EMOTICONS_FILENAME","neutral|grin|happy|slim|smile|tongue|wink|surprised|confuse|cool|cry|evilgrin|fat|mad|red|roll|unhappy|waii|yell")
-Call BlogConfig.Write("ZC_EMOTICONS_FILETYPE","png")
+Call BlogConfig.Write("ZC_EMOTICONS_FILENAME","default")
+Call BlogConfig.Write("ZC_EMOTICONS_FILETYPE","png|jpg|gif")
 Call BlogConfig.Write("ZC_EMOTICONS_FILESIZE",16)
 
 
@@ -726,7 +730,7 @@ Call BlogConfig.Write("ZC_UPLOAD_DIRECTORY","zb_users\upload")
 
 
 '当前 Z-Blog 版本
-Call BlogConfig.Write("ZC_BLOG_VERSION","2.0 Beta Build 120819")
+Call BlogConfig.Write("ZC_BLOG_VERSION","2.0 Beta Build 121014")
 
 
 
