@@ -1,0 +1,2 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?><plugin version="2.0"><id>textareaAutoSize</id><name>评论框自动尺寸</name><url>http://imzhou.com</url><note>自动调整评论框高度</note><path></path><include>include.asp</include><level>1</level><author><name>未寒</name><email>im@imzhou.com</email><url>http://imzhou.com</url></author><adapted>Z-Blog 2.0</adapted><version>1.0</version><pubdate>2012-10.14</pubdate><modified>2012-10.14</modified><description><![CDATA[随评论内容自动调整评论框高度
+插件启用即可，无需管理]]></description><price></price></plugin>
