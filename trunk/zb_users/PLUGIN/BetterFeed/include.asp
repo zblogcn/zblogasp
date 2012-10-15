@@ -209,16 +209,17 @@ Function BetterFeedExport(objTArticle)
 	
 	'显示分类等
 	'Tag
-	Dim Tag
+	Call GetTagsbyTagIDList(strTag)
+	Dim sTag
 	Dim t,i,s,j
-	If objArticle.Tag<>"" Then
-			s=Replace(objArticle.Tag,"}","")
+	If strTag<>"" Then
+			s=Replace(strTag,"}","")
 			t=Split(s,"{")
 			For i=LBound(t) To UBound(t)
 				If t(i)<>"" Then
 					If IsObject(Tags(t(i)))=True Then
 						j=GetTemplate("TEMPLATE_B_ARTICLE_TAG")
-						Tag=Tag & Tags(t(i)).MakeTemplate(j)
+						sTag=sTag & Tags(t(i)).MakeTemplate(j)
 					End If
 				End If
 			Next
@@ -229,7 +230,7 @@ Function BetterFeedExport(objTArticle)
 		strComment_message=Replace(strComment_message,"%commentcount%",intCommNums)
 		strComment_message=Replace(strComment_message,"%category%","<a href="""&Categorys(intCate).HtmlUrl&""">"&Categorys(intCate).HtmlName&"</a>")
 		if objArticle.Export_Tag() Then
-			strComment_message=Replace(strComment_message,"%tags%",Tag)
+			strComment_message=Replace(strComment_message,"%tags%",sTag)
 		else 
 			strComment_message=Replace(strComment_message,"%tags%","")
 		end if 
