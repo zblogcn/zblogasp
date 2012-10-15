@@ -190,7 +190,7 @@ function GetValue(s){
 	case "ZC_UPDATE_INFO_URL":
 	case "ZC_BLOG_VERSION":
 	case "ZC_UNCATEGORIZED_COUNT":	return "请不要任意修改"
-	case "ZC_STATIC_MODE":return "三种模式：ACTIVE   STATIC   REWRITE，用于配合静态或伪静态插件"
+	case "ZC_STATIC_MODE":return "三种模式：ACTIVE   MIX   REWRITE，用于配合静态或伪静态插件"
 	case "ZC_POST_STATIC_MODE":return "三种模式：ACTIVE   STATIC   REWRITE，用于配合静态或伪静态插件"
 	case "ZC_MULTI_DOMAIN_SUPPORT":return "打开则以相对路径显示博客，不再绑定域名"
 	case "ZC_ARTICLE_REGEX":return "网址格式，下面都是，用于配合静态或伪静态"

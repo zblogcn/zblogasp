@@ -18,15 +18,16 @@
 <% Response.Charset="UTF-8" %>
 <% Response.Buffer=True %>
 <!-- #include file="../zb_users/c_option.asp" -->
-<!-- #include file="../zb_system/function/c_function.asp" -->
+<!-- #include file="function/c_function.asp" -->
+<!-- #include file="function/c_system_lib.asp" -->
+<!-- #include file="function/c_system_base.asp" -->
+<!-- #include file="function/c_system_event.asp" -->
+<!-- #include file="function/c_system_plugin.asp" -->
+<!-- #include file="../zb_users/plugin/p_config.asp" -->
 <%
 Call CheckReference("")
-If Request.Cookies("password")<>"" Then 
-	If  IsEmpty(Request.ServerVariables("HTTP_REFERER")) Or InStr(LCase(Request.ServerVariables("HTTP_REFERER")),"cmd.asp")=0 Then 
-		Response.Redirect "cmd.asp?act=login"
-	End If 
-Else
-End if
+Call System_Initialize()
+If BlogUser.Verify=True Then Response.Redirect "cmd.asp?act=admin"
 %><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<%=ZC_BLOG_LANGUAGE%>" lang="<%=ZC_BLOG_LANGUAGE%>">
 <head>
@@ -99,6 +100,8 @@ $("#chkRemember").click(function(){
 </body>
 </html>
 <%
+Call System_Terminate()
+
 If Err.Number<>0 then
 	Call ShowError(0)
 End If
