@@ -15,7 +15,7 @@
 
 
 '*********************************************************
-' 目的：    主页
+' 目的:     主页
 '*********************************************************
 Function WapMain()
 		
@@ -29,7 +29,7 @@ End Function
 
 
 '*********************************************************
-' 目的：    搜索
+' 目的:     搜索
 '*********************************************************
 Function WapSearch()
 
@@ -40,7 +40,7 @@ Function WapSearch()
 				
 End Function
 '*********************************************************
-' 目的：    底部导航
+' 目的:     底部导航
 '*********************************************************
 Function WapNav()
 		Response.Write "<div class=""t2""></div>"		
@@ -65,7 +65,7 @@ End Function
 
 
 '*********************************************************
-' 目的：    查看分类
+' 目的:     查看分类
 '*********************************************************
 Function WapCate()
 	Dim Category
@@ -82,7 +82,7 @@ End Function
 
 
 '*********************************************************
-' 目的：    最新发表
+' 目的:     最新发表
 '*********************************************************
 Function WapPrev()
 	Response.Write  WapTitle(ZC_MSG032,"")
@@ -92,7 +92,7 @@ End Function
 
 
 '*********************************************************
-' 目的：    查看站点统计
+' 目的:     查看站点统计
 '*********************************************************
 Function WapStat()
 	Response.Write  WapTitle(ZC_MSG026,"")
@@ -102,7 +102,7 @@ End Function
 
 
 '*********************************************************
-' 目的：    查看标题-页头
+' 目的:     查看标题-页头
 '*********************************************************
 Public Function WapTitle(strCom,strBrowserTitle)
 
@@ -145,7 +145,7 @@ End Function
 
 
 '*********************************************************
-' 目的：    Wap页面地址
+' 目的:     Wap页面地址
 '*********************************************************
 Function WapUrlStr()
    WapUrlStr=BlogHost&ZC_FILENAME_WAP
@@ -155,7 +155,7 @@ End Function
 
 
 '*********************************************************
-' 目的：    登录页面
+' 目的:     登录页面
 '*********************************************************
 Function WapLogin()
 
@@ -177,8 +177,8 @@ Function WapLogin()
 		End If 
 		Response.Write "    <form method=""post"" action="""&WapUrlStr&"?act=Login""> "
 		Response.Write "    <input type=""hidden"" name=""sig"" id=""sig"" value=""1"" />"
-		Response.Write "	<br/><p>"&ZC_MSG001&"：<input type=""text"" name=""username"" value=""""  class=""i""/></p><br/>"
-		Response.Write "	<p>"&ZC_MSG002&"：<input type=""password"" name=""password"" value=""""  class=""i""/></p><br/>"
+		Response.Write "	<br/><p>"&ZC_MSG001&": <input type=""text"" name=""username"" value=""""  class=""i""/></p><br/>"
+		Response.Write "	<p>"&ZC_MSG002&": <input type=""password"" name=""password"" value=""""  class=""i""/></p><br/>"
 		Response.Write "	<p><input name=""btnSumbit"" type=""submit"" value="""&ZC_MSG087&"""/> </p> "
 		Response.Write "	</form> "
 	Else
@@ -203,7 +203,7 @@ End Function
 
 
 '*********************************************************
-' 目的：    检查登录
+' 目的:     检查登录
 '*********************************************************
 Function WapCheckLogin()
 	Dim s
@@ -211,7 +211,7 @@ Function WapCheckLogin()
 	BlogUser.LoginType="Cookies"
 	BlogUser.Verify
 
-	s=BlogUser.Name&" "&ZVA_User_Level_Name(BlogUser.Level)&""
+	s=BlogUser.FirstName&" "&ZVA_User_Level_Name(BlogUser.Level)&""
 	If BlogUser.ID<>0 Then
 		s=s&" <a href="""&WapUrlStr&"?act=Logout"">"&ZC_MSG020&"</a>"
 	Else
@@ -229,7 +229,7 @@ End Function
 
 
 '*********************************************************
-' 目的：    退出登录
+' 目的:     退出登录
 '*********************************************************
 Function WapLogout()
 
@@ -250,7 +250,7 @@ End Function
 
 
 '*********************************************************
-' 目的：    版权声明
+' 目的:     版权声明
 '*********************************************************
 Function WapCopyRight()
 
@@ -262,7 +262,7 @@ End Function
 
 
 '*********************************************************
-' 目的：    删除文章
+' 目的:     删除文章
 '*********************************************************
 Function WapDelArt()
 	Dim ID,T
@@ -291,7 +291,7 @@ End Function
 
 
 '*********************************************************
-' 目的：    删除评论
+' 目的:     删除评论
 '*********************************************************
 Function WapDelCom()
     Dim ID,LOG_ID
@@ -321,7 +321,7 @@ End Function
 
 
 '*********************************************************
-' 目的：    新建文章（编辑）
+' 目的:     新建文章（编辑）
 '*********************************************************
 Function WapEdtArt()
 
@@ -383,14 +383,14 @@ Function WapEdtArt()
 	'template
 	Response.Write "<input type=""hidden"" name=""edtTemplate"" id=""edtTemplate"" value="""&EditArticle.TemplateName&""" />"
 	'title
-	Response.Write "<p>"&ZC_MSG060&" ：<input type=""text"" name=""edtTitle"" class=""i"" value="""&EditArticle.Title&"""/></p>"
+	Response.Write "<p>"&ZC_MSG060&" : <input type=""text"" name=""edtTitle"" class=""i"" value="""&EditArticle.Title&"""/></p>"
 	'alias
-	Response.Write "<p>"&ZC_MSG147&" ：<input type=""text"" name=""edtAlias"" class=""i"" value="""&TransferHTML(EditArticle.Alias,"[html-format]")&"""/></p>"
+	Response.Write "<p>"&ZC_MSG147&" : <input type=""text"" name=""edtAlias"" class=""i"" value="""&TransferHTML(EditArticle.Alias,"[html-format]")&"""/></p>"
 	'tags
-	Response.Write "<p>"&ZC_MSG138&"：<input name=""edtTag""  class=""i""  maxlength=""100"" value="""&TransferHTML(EditArticle.TagToName,"[html-format]")&""" /></p>"
+	Response.Write "<p>"&ZC_MSG138&": <input name=""edtTag""  class=""i""  maxlength=""100"" value="""&TransferHTML(EditArticle.TagToName,"[html-format]")&""" /></p>"
 
 	'cate
-	Response.Write "<p>"&ZC_MSG012&"：<select name=""edtCateID"">"
+	Response.Write "<p>"&ZC_MSG012&": <select name=""edtCateID"">"
 	Response.Write "<option value=""0""></option>"
 	Dim aryCateInOrder : aryCateInOrder=GetCategoryOrder()
 	Dim m,n
@@ -429,7 +429,7 @@ Function WapEdtArt()
 	Response.Write "<iframe src="""&BlogHost&"zb_system/wap/upload.asp"" width=350 height=20 frameborder=0></iframe>"
 
 	'istop
-	Response.Write "<p><span>"&ZC_MSG051&"</span> ："
+	Response.Write "<p><span>"&ZC_MSG051&"</span> : "
     If EditArticle.Istop Then
 	Response.Write "<input type=""checkbox"" name=""edtIstop"" id=""edtIstop"" value=""True"" checked=""""/>"
     Else
@@ -438,11 +438,11 @@ Function WapEdtArt()
 
 	Response.Write "<input type=""hidden"" name=""edtDateTime"" id=""edtDateTime"" value="""&EditArticle.PostTime&""" />"
 	
-	Response.Write "<p>"&ZC_MSG055&" ：<br />"
+	Response.Write "<p>"&ZC_MSG055&" : <br />"
 	Response.Write "<textarea  name=""txaContent""  class=""i""  style=""min-height:160px;width:98%"">"&EditArticle.Content&"</textarea></p>"
 	Dim idis:idis="block"
 	If Len(EditArticle.Intro)=0 Then idis="none"
-	Response.Write "<p style=""display:"&idis&""">"&ZC_MSG016&" ：<br />"
+	Response.Write "<p style=""display:"&idis&""">"&ZC_MSG016&" : <br />"
 	Response.Write "<textarea  name=""txaIntro""  class=""i"" style=""min-height:100px;width:98%"">"&EditArticle.Intro&"</textarea></p>"
 
 	Response.Write "<p class=""t""><input  type=""submit"" value="""&ZC_MSG087&""" /></p>"
@@ -453,7 +453,7 @@ End Function
 
 
 '*********************************************************
-' 目的：    文章发表
+' 目的:     文章发表
 '*********************************************************
 Function WapPostArt()
 	If PostArticle() Then		
@@ -467,7 +467,7 @@ End Function
 
 
 '*********************************************************
-' 目的：    添加评论（编辑）
+' 目的:     添加评论（编辑）
 '*********************************************************
 Function WapAddCom(PostType)
 
@@ -516,24 +516,35 @@ Function WapAddCom(PostType)
 		Dim objComment
 		Set objComment=New TComment
 		If objComment.LoadInfoByID(par_ID) Then
-			Response.Write "	<p>"&ZC_MSG149&":"&objComment.Author&"<a class=""t"" href="""&WapUrlStr&"?act=AddCom&amp;inpId="&Log_ID&""">"&ZC_MSG264&"</a></p>"
+			Dim User,s
+			s = objComment.Author
+			GetUser()
+			For Each User in Users
+				If IsObject(User) Then
+					If User.ID=objComment.AuthorID Then
+						s = User.FirstName
+						Exit For 
+					End If
+				End If
+			Next		
+			Response.Write "	<p>"&ZC_MSG149&": "&s&"<a class=""t"" href="""&WapUrlStr&"?act=AddCom&amp;inpId="&Log_ID&""">"&ZC_MSG264&"</a></p>"
 			Response.Write "	<input type=""hidden"" name=""parid"" value="""&par_ID&""" />"
 		End If 
 		Set objComment=Nothing
 	End If 
 
 	If (PostType<>31) And (BlogUser.Level<=3) Then
-		Response.Write "	<p>"&ZC_MSG001&"："&BlogUser.Name&"<input  type=""hidden"" name=""inpName"" value="""&BlogUser.Name&""" maxlength="""&ZC_USERNAME_MAX&"""/></p>"
+		Response.Write "	<p>"&ZC_MSG001&": "&BlogUser.FirstName&"<input  type=""hidden"" name=""inpName"" value="""&BlogUser.Name&""" maxlength="""&ZC_USERNAME_MAX&"""/></p>"
 		Response.Write "	<input type=""hidden"" name=""inpEmail"" value="""&BlogUser.Email&""" maxlength="""&ZC_EMAIL_MAX&"""  /> "
 		Response.Write "	<input type=""hidden"" name=""inpHomePage"" value="""&BlogUser.HomePage&""" maxlength="""&ZC_HOMEPAGE_MAX&"""  />"	
 	Else
-		Response.Write "	<p>"&ZC_MSG001&"：<input type=""text"" name=""inpName"" value="""&Author&""" maxlength="""&ZC_USERNAME_MAX&"""/></p>"
+		Response.Write "	<p>"&ZC_MSG001&": <input type=""text"" name=""inpName"" value="""&Author&""" maxlength="""&ZC_USERNAME_MAX&"""/></p>"
 		If PostType=6 Then
-		Response.Write "	<p>"&ZC_MSG002&"：<input type=""password""  name=""inpPass""  value="""" maxlength="""&ZC_PASSWORD_MAX&"""/></p>"
+		Response.Write "	<p>"&ZC_MSG002&": <input type=""password""  name=""inpPass""  value="""" maxlength="""&ZC_PASSWORD_MAX&"""/></p>"
 		End If
 		If Request("m")="y" Then 
-			Response.Write "	<p>"&ZC_MSG053&"：<input type=""text"" name=""inpEmail"" value="""&Email&""" maxlength="""&ZC_EMAIL_MAX&"""  /></p> "
-			Response.Write "	<p>网站：<input type=""text"" name=""inpHomePage"" value="""&HomePage&""" maxlength="""&ZC_HOMEPAGE_MAX&"""  /></p> "	
+			Response.Write "	<p>"&ZC_MSG053&": <input type=""text"" name=""inpEmail"" value="""&Email&""" maxlength="""&ZC_EMAIL_MAX&"""  /></p> "
+			Response.Write "	<p>网站: <input type=""text"" name=""inpHomePage"" value="""&HomePage&""" maxlength="""&ZC_HOMEPAGE_MAX&"""  /></p> "	
 		Else 
 			Response.Write "	<p><a class=""a"" href="""&WapUrlStr&"?act=AddCom&amp;parid="&par_ID&"&amp;inpid="&log_ID&"&amp;m=y"">更多选项</a></p>"
 		End If 
@@ -548,7 +559,7 @@ End Function
 
 
 '*********************************************************
-' 目的：    评论发表	2012.9.4
+' 目的:     评论发表	2012.9.4
 '*********************************************************
 Function WapPostCom()
 
@@ -651,11 +662,11 @@ End Function
 
 
 '*********************************************************
-' 目的：    查看评论   2012.10.6
+' 目的:     查看评论   2012.10.6
 '*********************************************************
 Function WapCom()
 
-        Dim i,s,CurrentPage,log_ID
+        Dim i,s,rs,CurrentPage,log_ID
 		
 		CurrentPage=Request.QueryString("page")
 		log_ID=Request.QueryString("id")
@@ -663,7 +674,7 @@ Function WapCom()
 		Call CheckParameter(log_ID,"int",0)
 		
 		
-		Dim Article
+		Dim Article,User
 		If log_ID<>0 Then
 			Set Article=New TArticle
 			If Article.LoadInfoByID(log_ID) Then
@@ -710,19 +721,16 @@ Function WapCom()
 					Dim strC_Count
 					strC_Count=ComRecordCount-((CurrentPage-1)*ZC_COMMENT_COUNT_WAP+i)+1
 
-					'Dim s
-					Dim AuthorID:AuthorID=objComment.AuthorID
-
-					If AuthorID>0 Then 
-						Call GetUsersbyUserIDList(AuthorID)
-						If Users(AuthorID).Alias="" Then
-							s=Users(AuthorID).Name
-						Else
-							s=Users(AuthorID).Alias
+					Call GetUser
+					s = objComment.Author
+					For Each User in Users
+						If IsObject(User) Then
+							If User.ID=objComment.AuthorID Then
+								s = User.FirstName
+								Exit For 
+							End If
 						End If
-					Else
-						s=objComment.Author
-					End If
+					Next
 
 					ReDim Preserve aryStrC(i)
 					aryStrC(i)=strCTemplate
@@ -755,12 +763,22 @@ Function WapCom()
 				    
 					'添加回复标签
 					If objComment.ParentID<>0 Then 
-					Dim objRevComment
-					Set objRevComment=New TComment
-					objRevComment.LoadInfoByID(objComment.ParentID)
-					aryStrC(i)=Replace(aryStrC(i),"<#article/comment/revauthor#>",ZC_MSG149&" "&objRevComment.Author)
+						Dim objRevComment
+						Set objRevComment=New TComment
+						objRevComment.LoadInfoByID(objComment.ParentID)
+						rs = objRevComment.Author
+						For Each User in Users
+							If IsObject(User) Then
+								If User.ID=objRevComment.AuthorID Then
+									rs = User.FirstName
+									Exit For 
+								End If
+							End If
+						Next
+						Set objRevComment=Nothing
+						aryStrC(i)=Replace(aryStrC(i),"<#article/comment/revauthor#>",ZC_MSG149&" "&rs)
 					Else 
-					aryStrC(i)=Replace(aryStrC(i),"<#article/comment/revauthor#>","")
+						aryStrC(i)=Replace(aryStrC(i),"<#article/comment/revauthor#>","")
 					End If 
 
 					If BlogUser.Level<=3 Then
@@ -867,7 +885,7 @@ End Function
 
 
 '*********************************************************
-' 目的：    查看文章
+' 目的:     查看文章
 '*********************************************************
 Function WapView()
 	Dim Article,ZC_SINGLE_START,CurrentPage,i,log_ID
@@ -948,7 +966,7 @@ End Function
 
 
 '*********************************************************
-' 目的：    相关文章
+' 目的:     相关文章
 '*********************************************************
 Function WapRelateList(intID,Tag)
 
@@ -1038,7 +1056,7 @@ End Function
 
 
 '*********************************************************
-' 目的：    查看文章列表
+' 目的:     查看文章列表
 '*********************************************************
 Function WapExport(intPage,intCateId,intAuthorId,dtmYearMonth,strTagsName,intType)
 
@@ -1236,7 +1254,7 @@ End Function
 
 
 '*********************************************************
-' 目的：    查看置顶
+' 目的:     查看置顶
 '*********************************************************
 Function WapExportTop()
 		Dim i
@@ -1280,7 +1298,7 @@ End Function
 
 
 '*********************************************************
-' 目的：    列表分页
+' 目的:     列表分页
 '*********************************************************
 Function WapExportBar(intNowPage,intAllPage,intCateId,intAuthorId,dtmYearMonth,strTagsName,strQuestion)
 
@@ -1349,7 +1367,7 @@ End Function
 
 
 '*********************************************************
-' 目的：    查看错误
+' 目的:     查看错误
 '*********************************************************
 Public Function WapError()
 	Dim ID
