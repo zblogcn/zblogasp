@@ -859,6 +859,8 @@ Class TArticle
 
 			Dim objRS
 
+			Dim order
+			order=IIf(ZC_COMMENT_REVERSE_ORDER_EXPORT,"DESC","ASC") 
 
 			strC_Count=0
 			Set objRS=Server.CreateObject("ADODB.Recordset")
@@ -880,7 +882,7 @@ Class TArticle
 			End If
 			j=PageSize2
 			
-			objRS.Source="SELECT * FROM (SELECT TOP "&PageSize2&" *  FROM (SELECT TOP "&(PageSize3*intPage)&" * FROM [blog_Comment]  WHERE ([log_ID]="&id&" AND [comm_isCheck]=0 AND [comm_ParentID]=0) ORDER BY [comm_id] DESC) As [Test] ORDER BY [comm_id] asc ) As [test] order by [comm_posttime] desc"
+			objRS.Source="SELECT * FROM (SELECT TOP "&PageSize2&" *  FROM (SELECT TOP "&(PageSize3*intPage)&" * FROM [blog_Comment]  WHERE ([log_ID]="&id&" AND [comm_isCheck]=0 AND [comm_ParentID]=0) ORDER BY [comm_id] "&order&") As [Test] ORDER BY [comm_id] "&IIf(ZC_COMMENT_REVERSE_ORDER_EXPORT,"ASC","DESC")&" ) As [test] order by [comm_posttime] "&order
 			objRS.Open()
 			j=PageSize2
 			Dim intPageAll
@@ -895,7 +897,6 @@ Class TArticle
 
 
 				strC=GetTemplate("TEMPLATE_B_ARTICLE_COMMENT")
-
 				For i=1 To j
 
 
@@ -904,11 +905,16 @@ Class TArticle
 
 					Call GetUsersbyUserIDList(objRS("comm_AuthorID"))
 
-					objComment.Count=0
+					'objComment.Count=0
+					objComment.Count=IIf(ZC_COMMENT_REVERSE_ORDER_EXPORT,CommNums-((intPage-1)*ZC_COMMENTS_DISPLAY_COUNT+i)+1,(intPage-1)*ZC_COMMENTS_DISPLAY_COUNT+i)
 
 					tree.add objComment.ID, objComment.MakeTemplate(strC)'objComment
 
-					t=objRS("comm_ID")
+					If ZC_COMMENT_REVERSE_ORDER_EXPORT Then 
+						t=objRS("comm_ID")
+					ElseIf i=1 Then 
+						t=objRS("comm_ID")
+					End If 
 
 					Set objComment=Nothing
 
@@ -953,11 +959,11 @@ Class TArticle
 
 			'输出树
 			For Each s In tree.Items
-				If ZC_COMMENT_REVERSE_ORDER_EXPORT=True Then
+				'If ZC_COMMENT_REVERSE_ORDER_EXPORT=True Then
 					Template_Article_Comment=Template_Article_Comment & s
-				Else
-					Template_Article_Comment=s & Template_Article_Comment
-				End If
+				'Else
+				'	Template_Article_Comment=s & Template_Article_Comment
+				'End If
 			Next
 
 		End If
@@ -976,16 +982,15 @@ Class TArticle
 			End If
 			
 			s=GetTemplate("TEMPLATE_B_ARTICLE_COMMENT_PAGEBAR")
-			s=Replace(s,"<#template:pagebar#>",lp&rp&"<div style=""visibility:hidden;height:0px;clear:both;""></div>")
+			s=Replace(s,"<#template:pagebar#>",lp&rp&"<div style=""display:none;clear:both;""></div>")
 		End If
 
-		Template_Article_Comment="<div id=""AjaxCommentBegin"" style=""visibility:hidden;height:0px;clear:both;""></div>" & Template_Article_Comment & s &"<div id=""AjaxCommentEnd"" style=""visibility:hidden;height:0px;clear:both;""></div>"
+		Template_Article_Comment="<div id=""AjaxCommentBegin"" style=""display:none;clear:both;""></div>" & Template_Article_Comment & s &"<div id=""AjaxCommentEnd"" style=""display:none;clear:both;""></div>"
 
-		i=0'ZC_COMMENTS_DISPLAY_COUNT*(intPage-1)
-		Do While InStr(Template_Article_Comment,"<!--(count-->0<!--count)-->")>0
-			i=i+1
-			Template_Article_Comment=Replace(Template_Article_Comment,"<!--(count-->0<!--count)-->",i,1,1)
-		Loop
+
+		Template_Article_Comment=Replace(Template_Article_Comment,"<!--(count-->0<!--count)-->","")
+		Template_Article_Comment=Replace(Template_Article_Comment,"<!--(count-->","")
+		Template_Article_Comment=Replace(Template_Article_Comment,"<!--count)-->","")
 
 		Template_Article_Comment=TransferHTML(Template_Article_Comment,"[anti-zc_blog_host]")
 
