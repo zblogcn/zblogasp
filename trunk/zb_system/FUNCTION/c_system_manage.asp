@@ -1611,7 +1611,7 @@ Call Add_Response_Plugin("Response_Plugin_FunctionMng_SubMenu",MakeSubMenu(ZC_MS
 
 
 	Response.Write "<table border=""1"" width=""100%"" cellspacing=""0"" cellpadding=""0"" class='tableBorder tableBorder-thcenter'>"
-	Response.Write "<tr><th width=""5%""></th><th width=""8%"">"& ZC_MSG079 &"</th><th width=""8%"">"& ZC_MSG076 &"</th><th>"& ZC_MSG001 &"</th><th>Html ID</th><th width=""14%"">"&ZC_MSG061&"</th><th width=""14%"">"&ZC_MSG017&"</th><th width=""14%""></th></tr>"
+	Response.Write "<tr><th width=""50""></th><th width=""50"">"& ZC_MSG079 &"</th><th width=""8%"" style=""display:none"">"& ZC_MSG076 &"</th><th>"& ZC_MSG001 &"</th><th>Html ID</th><th width=""14%"">"&ZC_MSG061&"</th><th width=""14%"">"&ZC_MSG017&"</th><th width=""14%""></th></tr>"
 
 	Dim aryFunctionInOrder
 	aryFunctionInOrder=GetFunctionOrder()
@@ -1631,7 +1631,7 @@ Call Add_Response_Plugin("Response_Plugin_FunctionMng_SubMenu",MakeSubMenu(ZC_MS
 
 		Response.Write "<tr><td align=""center""><img width=""16"" src=""../image/admin/brick.png"" alt="""" /></td>"
 		Response.Write "<td>" & Functions(aryFunctionInOrder(i)).Order & "</td>"
-		Response.Write "<td class='funid'>" & Functions(aryFunctionInOrder(i)).ID & "</td>"
+		Response.Write "<td class='funid' style='display:none'>" & Functions(aryFunctionInOrder(i)).ID & "</td>"
 		Response.Write "<td>" & Functions(aryFunctionInOrder(i)).Name & "</td>"
 		Response.Write "<td>" & Functions(aryFunctionInOrder(i)).HtmlID & "</td>"
 		Response.Write "<td>" & UCase(Functions(aryFunctionInOrder(i)).Ftype) & "</td>"
