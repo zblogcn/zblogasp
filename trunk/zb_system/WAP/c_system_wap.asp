@@ -521,7 +521,7 @@ Function WapAddCom(PostType)
 			GetUser()
 			For Each User in Users
 				If IsObject(User) Then
-					If User.ID=objComment.AuthorID Then
+					If User.ID<>0 And User.ID=objComment.AuthorID Then
 						s = User.FirstName
 						Exit For 
 					End If
@@ -721,11 +721,11 @@ Function WapCom()
 					Dim strC_Count
 					strC_Count=ComRecordCount-((CurrentPage-1)*ZC_COMMENT_COUNT_WAP+i)+1
 
-					Call GetUser
+					Call GetUsersbyUserIDList(objComment.AuthorID)
 					s = objComment.Author
 					For Each User in Users
 						If IsObject(User) Then
-							If User.ID=objComment.AuthorID Then
+							If User.ID<>0 And User.ID=objComment.AuthorID Then
 								s = User.FirstName
 								Exit For 
 							End If
@@ -769,7 +769,7 @@ Function WapCom()
 						rs = objRevComment.Author
 						For Each User in Users
 							If IsObject(User) Then
-								If User.ID=objRevComment.AuthorID Then
+								If User.ID<>0 And User.ID=objRevComment.AuthorID Then
 									rs = User.FirstName
 									Exit For 
 								End If
