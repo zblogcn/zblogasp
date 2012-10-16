@@ -828,7 +828,7 @@ Class TArticle
 			If bAction_Plugin_TArticle_Export_CMTandTB_Begin=True Then Exit Function
 		Next
 
-		CommNums=objConn.Execute("SELECT COUNT([log_ID]) FROM [blog_Comment] WHERE [log_ID] =" & ID & " AND [comm_isCheck]=0")(0)
+		CommNums=objConn.Execute("SELECT COUNT([log_ID]) FROM [blog_Comment] WHERE [log_ID] =" & ID & " AND [comm_isCheck]=0 AND [comm_ParentID]=0")(0)
 		If CommNums > 0 Then
 
 
@@ -884,7 +884,11 @@ Class TArticle
 			objRS.Open()
 			j=PageSize2
 			Dim intPageAll
-			intPageAll=CLng(CommNums/PageSize3)
+			If (CommNums Mod PageSize3)=0 Then 
+				intPageAll=Int(CommNums/PageSize3)
+			Else 
+				intPageAll=Int(CommNums/PageSize3)+1
+			End If
 
 
 			If (Not objRS.bof) And (Not objRS.eof) Then
