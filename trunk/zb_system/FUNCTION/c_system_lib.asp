@@ -2618,7 +2618,7 @@ Class TUser
 		'If Not CheckRegExp(strUserName,"[username]") Then Call ShowError(7)
 
 		Dim objRS
-		Set objRS=objConn.Execute("SELECT * FROM [blog_Member] WHERE [mem_Name]='"&strUserName & "'" )
+		Set objRS=objConn.Execute("SELECT [mem_id],[mem_password] FROM [blog_Member] WHERE [mem_Name]='"&strUserName & "'" )
 		If (Not objRS.Bof) And (Not objRS.Eof) Then
 
 			If StrComp(strPassWord,objRS("mem_Password"))=0 Then
@@ -2754,7 +2754,7 @@ Class TUser
 			If Len(PassWord)<>32 Then Call ShowError(55)
 
 			Dim objRS2
-			Set objRS2 = objConn.execute ("SELECT * FROM [blog_Member] WHERE [mem_Name]='" & Name & "' ")
+			Set objRS2 = objConn.execute ("SELECT [mem_id] FROM [blog_Member] WHERE [mem_Name]='" & Name & "' ")
 			If (Not objRS2.bof) And (Not objRS2.eof) Then
 				Call ShowError(62)
 			End If
@@ -2776,7 +2776,7 @@ Class TUser
 
 			If ID>0 Then
 				Dim objRS3
-				Set objRS3 = objConn.execute ("SELECT * FROM [blog_Member] WHERE [mem_Name]='" & Name & "' AND [mem_ID]<>" & ID)
+				Set objRS3 = objConn.execute ("SELECT [mem_id] FROM [blog_Member] WHERE [mem_Name]='" & Name & "' AND [mem_ID]<>" & ID)
 				If (Not objRS3.bof) And (Not objRS3.eof) Then
 					Call ShowError(62)
 				End If
@@ -2863,7 +2863,7 @@ Class TUser
 			If Len(PassWord)<>32 Then Call ShowError(55)
 
 			Dim objRS2
-			Set objRS2 = objConn.execute ("SELECT * FROM [blog_Member] WHERE [mem_Name]='" & Name & "' ")
+			Set objRS2 = objConn.execute ("SELECT [mem_id] FROM [blog_Member] WHERE [mem_Name]='" & Name & "' ")
 			If (Not objRS2.bof) And (Not objRS2.eof) Then
 				Call ShowError(62)
 			End If
@@ -2908,7 +2908,7 @@ Class TUser
 		objConn.Execute("DELETE FROM [blog_Comment] WHERE [comm_AuthorID] =" & ID)
 		objConn.Execute("DELETE FROM [blog_Member] WHERE [mem_ID] =" & ID)
 
-		Set objRS=objConn.Execute("SELECT * FROM [blog_UpLoad] WHERE [ul_AuthorID] =" & ID)
+		Set objRS=objConn.Execute("SELECT ul_id FROM [blog_UpLoad] WHERE [ul_AuthorID] =" & ID)
 		If (Not objRS.bof) And (Not objRS.eof) Then
 			Do While Not objRS.eof
 				Set objUpLoadFile=New TUpLoadFile
