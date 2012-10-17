@@ -3080,7 +3080,7 @@ Function ExportRSS()
 
 			Dim i
 			Dim objRS
-			Set objRS=objConn.Execute("SELECT [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_Type],[log_Meta] FROM [blog_Article] WHERE ([log_Type]=0) And ([log_ID]>0) AND ([log_Level]>2) ORDER BY [log_PostTime] DESC")
+			Set objRS=objConn.Execute("SELECT TOP "&ZC_RSS2_COUNT&" [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_Type],[log_Meta] FROM [blog_Article] WHERE ([log_Type]=0) And ([log_ID]>0) AND ([log_Level]>2) ORDER BY [log_PostTime] DESC")
 
 			If (Not objRS.bof) And (Not objRS.eof) Then
 				For i=1 to ZC_RSS2_COUNT
