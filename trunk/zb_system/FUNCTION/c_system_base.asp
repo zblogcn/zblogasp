@@ -845,7 +845,7 @@ Function GetCategoryOrder()
 	Dim aryCateInOrder()
 	i=0
 
-	objRS.Open("SELECT * FROM [blog_Category] ORDER BY [cate_Order] ASC,[cate_ID] ASC")
+	objRS.Open("SELECT [cate_id] FROM [blog_Category] ORDER BY [cate_Order] ASC,[cate_ID] ASC")
 	Do While Not objRS.eof
 		i=i+1
 		ReDim Preserve aryCateInOrder(i)
@@ -2451,7 +2451,7 @@ Function BlogReBuild_Archives()
 	End If
 	'Archives
 	Dim strArchives
-	Set objRS=objConn.Execute("SELECT * FROM [blog_Article] WHERE ([log_Type]=0) And ([log_Level]>1) ORDER BY [log_PostTime] DESC")
+	Set objRS=objConn.Execute("SELECT [log_PostTime] FROM [blog_Article] WHERE ([log_Type]=0) And ([log_Level]>1) ORDER BY [log_PostTime] DESC")
 	If (Not objRS.bof) And (Not objRS.eof) Then
 		Dim dtmYM()
 		i=0
@@ -2681,7 +2681,7 @@ Function BlogReBuild_Tags()
 	'Authors
 	Dim strTag
 
-	Set objRS=objConn.Execute("SELECT * FROM [blog_Tag] ORDER BY [tag_Count] DESC,[tag_ID] ASC")
+	Set objRS=objConn.Execute("SELECT [tag_id] FROM [blog_Tag] ORDER BY [tag_Count] DESC,[tag_ID] ASC")
 	If (Not objRS.bof) And (Not objRS.eof) Then
 		Do While Not objRS.eof
 			s=s & "{" & objRS("tag_ID") & "}"
@@ -3457,7 +3457,7 @@ Function GetFunctionOrder()
 	Dim aryCateInOrder()
 	i=0
 
-	objRS.Open("SELECT * FROM [blog_Function] ORDER BY [fn_Order] ASC,[fn_ID] ASC")
+	objRS.Open("SELECT [fn_id] FROM [blog_Function] ORDER BY [fn_Order] ASC,[fn_ID] ASC")
 	Do While Not objRS.eof
 		i=i+1
 		ReDim Preserve aryCateInOrder(i)
