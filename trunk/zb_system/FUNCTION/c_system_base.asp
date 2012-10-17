@@ -2399,14 +2399,19 @@ Function BlogReBuild_Calendar()
 	Dim i,j
 	Dim objRS
 	Dim k,l,m,n
-
+	Call GetFunction()
+	If CStr(Functions(FunctionMetas.GetValue("calendar")).SideBarID)="0" Then 
+		Functions(FunctionMetas.GetValue("calendar")).Content=""
+		Functions(FunctionMetas.GetValue("calendar")).Post
+		Exit Function
+	End If
 	'Calendar
 	strCalendar=MakeCalendar("")
 
 	strCalendar=TransferHTML(strCalendar,"[no-asp]")
 
 
-	Call GetFunction()
+	
 	Functions(FunctionMetas.GetValue("calendar")).Content=strCalendar
 	Functions(FunctionMetas.GetValue("calendar")).Post()
 	BlogReBuild_Calendar=True
@@ -2439,7 +2444,11 @@ Function BlogReBuild_Archives()
 	Dim ArtList
 
 	Call GetFunction()
-
+	If CStr(Functions(FunctionMetas.GetValue("archives")).SideBarID)="0" Then 
+		Functions(FunctionMetas.GetValue("archives")).Content=""
+		Functions(FunctionMetas.GetValue("archives")).Post
+		Exit Function
+	End If
 	'Archives
 	Dim strArchives
 	Set objRS=objConn.Execute("SELECT * FROM [blog_Article] WHERE ([log_Type]=0) And ([log_Level]>1) ORDER BY [log_PostTime] DESC")
@@ -2511,8 +2520,14 @@ Function BlogReBuild_Catalogs()
 	Next
 
 	IsRunGetCategory=False
+	Call GetFunction
+	If CStr(Functions(FunctionMetas.GetValue("catalog")).SideBarID)="0" Then 
+		Functions(FunctionMetas.GetValue("catalog")).Content=""
+		Functions(FunctionMetas.GetValue("catalog")).Post
+		Exit Function
+	End If
 	Call GetCategory()
-
+	
 	Dim objRS
 	Dim objStream
 
@@ -2556,7 +2571,6 @@ Function BlogReBuild_Catalogs()
 	strCatalog=TransferHTML(strCatalog,"[no-asp]")
 
 
-	Call GetFunction()
 	Functions(FunctionMetas.GetValue("catalog")).Content=strCatalog
 	Functions(FunctionMetas.GetValue("catalog")).Post()
 
@@ -2601,7 +2615,13 @@ Function BlogReBuild_Authors()
 	Next
 
 	Call GetUser()
-
+	Call GetFunction()
+	If CStr(Functions(FunctionMetas.GetValue("authors")).SideBarID)="0" Then 
+		Functions(FunctionMetas.GetValue("authors")).Content=""
+		Functions(FunctionMetas.GetValue("authors")).Post
+		Exit Function
+	End If
+	
 	Dim objRS
 	Dim objStream
 
@@ -2618,7 +2638,7 @@ Function BlogReBuild_Authors()
 
 	strAuthor=TransferHTML(strAuthor,"[no-asp]")
 
-	Call GetFunction()
+	
 	Functions(FunctionMetas.GetValue("authors")).Content=strAuthor
 	Functions(FunctionMetas.GetValue("authors")).Post()
 
@@ -2643,11 +2663,18 @@ Function BlogReBuild_Tags()
 	Next
 
 	Call GetFunction()
-
+	
+	If CStr(Functions(FunctionMetas.GetValue("tags")).SideBarID)="0" Then 
+		Functions(FunctionMetas.GetValue("tags")).Content=""
+		Functions(FunctionMetas.GetValue("tags")).Post
+		Exit Function
+	End If
+	
 	Dim objRS
 	Dim objStream
 
 	Dim i,j,s,t,h
+	
 	i=Functions(FunctionMetas.GetValue("tags")).MaxLi
 	If i=0 Then i=25
 	j=0
@@ -2714,20 +2741,25 @@ Function BlogReBuild_Previous()
 		If bAction_Plugin_BlogReBuild_Previous_Begin=True Then Exit Function
 	Next
 
-	Call GetFunction()
 
 	Dim i,j
 	Dim objRS
 	Dim objStream
 	Dim objArticle
-
+	Call GetFunction()
 	j=Functions(FunctionMetas.GetValue("previous")).MaxLi
-
+	
+	If CStr(Functions(FunctionMetas.GetValue("previous")).SideBarID)="0" Then 
+		Functions(FunctionMetas.GetValue("previous")).Content=""
+		Functions(FunctionMetas.GetValue("previous")).Post
+		Exit Function
+	End If
+	
 	If j=0 Then j=10
 
 	'Previous
 	Dim strPrevious
-	Set objRS=objConn.Execute("SELECT [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_Type],[log_Meta] FROM [blog_Article] WHERE ([log_Type]=0) And ([log_ID]>0) AND ([log_Level]>1) ORDER BY [log_PostTime] DESC")
+	Set objRS=objConn.Execute("SELECT TOP "&j&" [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_Type],[log_Meta] FROM [blog_Article] WHERE ([log_Type]=0) And ([log_ID]>0) AND ([log_Level]>1) ORDER BY [log_PostTime] DESC")
 
 	If (Not objRS.bof) And (Not objRS.eof) Then
 		For i=1 to j
@@ -2769,7 +2801,12 @@ Function BlogReBuild_Comments()
 	Next
 
 	Call GetFunction()
-
+	If CStr(Functions(FunctionMetas.GetValue("comments")).SideBarID)="0" Then 
+		Functions(FunctionMetas.GetValue("comments")).Content=""
+		Functions(FunctionMetas.GetValue("comments")).Post
+		Exit Function
+	End If
+	
 	Dim objRS
 	Dim objStream
 	Dim objArticle
@@ -2875,7 +2912,12 @@ Function BlogReBuild_Statistics()
 	Dim i
 	Dim objRS
 	Dim objStream
-
+	Call GetFunction()
+	If CStr(Functions(FunctionMetas.GetValue("statistics")).SideBarID)="0" Then 
+		Functions(FunctionMetas.GetValue("statistics")).Content=""
+		Functions(FunctionMetas.GetValue("statistics")).Post
+		Exit Function
+	End If
 
 	'Statistics
 	Dim strStatistics
@@ -2885,8 +2927,7 @@ Function BlogReBuild_Statistics()
 	objRS.ActiveConnection=objConn
 	objRS.Source=""
 
-
-	objRS.Open("SELECT COUNT([log_ID])AS allArticle,SUM([log_CommNums]) AS allCommNums,SUM([log_ViewNums]) AS allViewNums,SUM([log_TrackBackNums]) AS allTrackBackNums FROM [blog_Article] WHERE [log_Type]=0")
+	objRS.Open("SELECT COUNT([log_ID])AS allArticle,SUM([log_CommNums]) AS allCommNums,SUM([log_ViewNums]) AS allViewNums FROM [blog_Article] WHERE [log_Type]=0")
 	If (Not objRS.bof) And (Not objRS.eof) Then
 		strStatistics=strStatistics & "<li>"& ZC_MSG082 &":" & objRS("allArticle") & "</li>"
 		strStatistics=strStatistics & "<li>"& ZC_MSG124 &":" & objConn.Execute("SELECT SUM([log_CommNums]) FROM [blog_Article]")(0) & "</li>"
@@ -2901,7 +2942,7 @@ Function BlogReBuild_Statistics()
 
 	strStatistics=TransferHTML(strStatistics,"[no-asp]")
 
-	Call GetFunction()
+	
 	Functions(FunctionMetas.GetValue("statistics")).Content=strStatistics
 	Functions(FunctionMetas.GetValue("statistics")).Post()
 
