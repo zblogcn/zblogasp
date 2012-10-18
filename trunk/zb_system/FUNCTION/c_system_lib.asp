@@ -1599,6 +1599,7 @@ Class TArticle
 						End If
 						Categorys(CateID).Count=Categorys(CateID).ReCount
 					Case 2
+						
 						Users(AuthorID).ReCount=objRs(0)
 						objConn.Execute("UPDATE [blog_Member] SET [mem_PostLogs]="&Users(AuthorID).ReCount&" WHERE [mem_ID] =" & AuthorID)
 						Users(AuthorID).Count=Users(AuthorID).ReCount
@@ -2635,27 +2636,41 @@ Class TUser
 		'If Len(strUserName) >ZC_USERNAME_MAX Then Call ShowError(7)
 		'If Len(strPassWord)<>32 Then Call ShowError(55)
 		'If Not CheckRegExp(strUserName,"[username]") Then Call ShowError(7)
-
-		Dim objRS
-		Set objRS=objConn.Execute("SELECT [mem_id],[mem_password] FROM [blog_Member] WHERE [mem_Name]='"&strUserName & "'" )
-		If (Not objRS.Bof) And (Not objRS.Eof) Then
-
-			If StrComp(strPassWord,objRS("mem_Password"))=0 Then
-
-				ID=objRS("mem_ID")
-				LoadInfobyID(ID)
-				Verify=True
-
+		Dim aryUser(1)
+		aryUser(0)=0
+		aryUser(1)=""
+		If Not IsArray(Session(ZC_BLOG_CLSID&strUserName&"~")) Then
+			Dim objRS
+			Set objRS=objConn.Execute("SELECT [mem_id],[mem_password] FROM [blog_Member] WHERE [mem_Name]='"&strUserName & "'" )
+			If (Not objRS.Bof) And (Not objRS.Eof) Then
+	
+				If StrComp(strPassWord,objRS("mem_Password"))=0 Then
+	
+					ID=objRS("mem_ID")
+					LoadInfobyID(ID)
+					Verify=True
+					aryUser(0)=ID
+					aryUser(1)=Password
+					Session(ZC_BLOG_CLSID&strUserName&"~")=aryUser
+				Else
+					'If LoginType="Cookies" Then Response.Cookies("password")=""
+				End If
 			Else
 				'If LoginType="Cookies" Then Response.Cookies("password")=""
 			End If
+	
+			objRS.Close
+			Set objRS=Nothing
 		Else
-			'If LoginType="Cookies" Then Response.Cookies("password")=""
+			If StrComp(strPassWord,Session(ZC_BLOG_CLSID&strUserName&"~")(1))=0 Then
+	
+				ID=Session(ZC_BLOG_CLSID&strUserName&"~")(0)
+				If LoadInfobyID(ID) Then Verify=True
+				
+			End If
+			
 		End If
-
-		objRS.Close
-		Set objRS=Nothing
-
+		If Verify=False Then Session(ZC_BLOG_CLSID&strUserName&"~")=Empty
 	End Function
 
 
