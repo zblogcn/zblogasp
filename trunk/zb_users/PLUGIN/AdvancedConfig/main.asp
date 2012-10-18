@@ -72,6 +72,8 @@ Function ExportConfig(s,m)
 	ExportConfig="<input type=""text"" style=""width:98%;*width:490px"" name=""" & s & """ id=""" & s & """ value=""" & TransferHTML(m,"[html-format]") & """"
 	If m="True" Or m="False" Then
 		ExportConfig=ExportConfig & " class=""checkbox""/>"
+	Else
+		ExportConfig=ExportConfig & " "&GetDisabled(s) & " />"
 	End If
 End Function
 %>
@@ -194,11 +196,26 @@ function GetValue(s){
 	case "ZC_POST_STATIC_MODE":return "三种模式：ACTIVE   STATIC   REWRITE，用于配合静态或伪静态插件"
 	case "ZC_MULTI_DOMAIN_SUPPORT":return "打开则以相对路径显示博客，不再绑定域名"
 	case "ZC_ARTICLE_REGEX":return "网址格式，下面都是，用于配合静态或伪静态"
-	case "ZC_UBB_ENABLE":return "2.0版已弃用UBB编辑"
+	case "ZC_UBB_ENABLE":return "2.0版已弃用UBB编辑,1.8升级用户打开。"
 	case "ZC_COMMNET_MAXFLOOR":return "管理员后台回复不受限制"
-	case "ZC_EMOTICONS_FILETYPE":return "图片后缀名，用 | 分隔，如png|gif|jgp"
+	case "ZC_EMOTICONS_FILETYPE":return "图片后缀名，用 | 分隔，如png|gif|jpg"
 	case "ZC_SYNTAXHIGHLIGHTER_ENABLE":return "对应syntaxhighlighter代码高亮功能"
 	case "ZC_CODEMIRROR_ENABLE":return "对应UE的codemirror选项，若源码编辑较卡建议禁用"
+	}
+}
+function GetDisabled(s){
+	switch(s.toUpperCase()){
+	case "ZC_BLOG_HOST":
+	case "ZC_BLOG_NAME":
+	case "ZC_BLOG_SUB_NAME":
+	case "ZC_BLOG_THEME":
+	case "ZC_BLOG_CSS":
+	case "ZC_USING_PLUGIN_LIST":
+	case "ZC_BLOG_CLSID":
+	case "ZC_UPDATE_INFO_URL":
+	case "ZC_BLOG_VERSION":
+	case "ZC_UNCATEGORIZED_COUNT":
+	return "disabled=\"disabled\""
 	}
 }
 </script>
