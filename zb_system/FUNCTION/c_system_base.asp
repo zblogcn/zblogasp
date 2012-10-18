@@ -2401,8 +2401,7 @@ Function BlogReBuild_Calendar()
 	Dim k,l,m,n
 	Call GetFunction()
 	If CStr(Functions(FunctionMetas.GetValue("calendar")).SideBarID)="0" Then 
-		Functions(FunctionMetas.GetValue("calendar")).Content=""
-		Functions(FunctionMetas.GetValue("calendar")).Post
+
 		Exit Function
 	End If
 	'Calendar
@@ -2445,8 +2444,7 @@ Function BlogReBuild_Archives()
 
 	Call GetFunction()
 	If CStr(Functions(FunctionMetas.GetValue("archives")).SideBarID)="0" Then 
-		Functions(FunctionMetas.GetValue("archives")).Content=""
-		Functions(FunctionMetas.GetValue("archives")).Post
+
 		Exit Function
 	End If
 	'Archives
@@ -2522,8 +2520,7 @@ Function BlogReBuild_Catalogs()
 	IsRunGetCategory=False
 	Call GetFunction
 	If CStr(Functions(FunctionMetas.GetValue("catalog")).SideBarID)="0" Then 
-		Functions(FunctionMetas.GetValue("catalog")).Content=""
-		Functions(FunctionMetas.GetValue("catalog")).Post
+
 		Exit Function
 	End If
 	Call GetCategory()
@@ -2617,8 +2614,7 @@ Function BlogReBuild_Authors()
 	Call GetUser()
 	Call GetFunction()
 	If CStr(Functions(FunctionMetas.GetValue("authors")).SideBarID)="0" Then 
-		Functions(FunctionMetas.GetValue("authors")).Content=""
-		Functions(FunctionMetas.GetValue("authors")).Post
+
 		Exit Function
 	End If
 	
@@ -2665,8 +2661,7 @@ Function BlogReBuild_Tags()
 	Call GetFunction()
 	
 	If CStr(Functions(FunctionMetas.GetValue("tags")).SideBarID)="0" Then 
-		Functions(FunctionMetas.GetValue("tags")).Content=""
-		Functions(FunctionMetas.GetValue("tags")).Post
+
 		Exit Function
 	End If
 	
@@ -2750,8 +2745,7 @@ Function BlogReBuild_Previous()
 	j=Functions(FunctionMetas.GetValue("previous")).MaxLi
 	
 	If CStr(Functions(FunctionMetas.GetValue("previous")).SideBarID)="0" Then 
-		Functions(FunctionMetas.GetValue("previous")).Content=""
-		Functions(FunctionMetas.GetValue("previous")).Post
+
 		Exit Function
 	End If
 	
@@ -2802,8 +2796,7 @@ Function BlogReBuild_Comments()
 
 	Call GetFunction()
 	If CStr(Functions(FunctionMetas.GetValue("comments")).SideBarID)="0" Then 
-		Functions(FunctionMetas.GetValue("comments")).Content=""
-		Functions(FunctionMetas.GetValue("comments")).Post
+
 		Exit Function
 	End If
 	
@@ -2914,8 +2907,7 @@ Function BlogReBuild_Statistics()
 	Dim objStream
 	Call GetFunction()
 	If CStr(Functions(FunctionMetas.GetValue("statistics")).SideBarID)="0" Then 
-		Functions(FunctionMetas.GetValue("statistics")).Content=""
-		Functions(FunctionMetas.GetValue("statistics")).Post
+
 		Exit Function
 	End If
 
