@@ -1,4 +1,4 @@
-<%@ CODEPAGE=65001 %>
+﻿<%@ CODEPAGE=65001 %>
 <%
 '///////////////////////////////////////////////////////////////////////////////
 '//              Z-Blog
@@ -14,7 +14,7 @@
 '///////////////////////////////////////////////////////////////////////////////
 %>
 <% Option Explicit %>
-<% On Error Resume Next %>
+<% 'On Error Resume Next %>
 <% Response.Charset="UTF-8" %>
 <% Response.Buffer=True %>
 <!-- #include file="../zb_users/c_option.asp" -->
@@ -317,7 +317,8 @@ Function BlogLogin
 	If BlogUser.Verify=False Then
 	'验证失败清空cookies密码
 		Response.Cookies("password")=Empty
-		Response.Cookies("password").expires = now-1
+'		Response.Cookies("password").expires = now-1
+		Response.Cookies("password").Path = CookiesPath()
 		Response.Redirect "login.asp"
 	Else
 		Call BlogAdmin()
@@ -343,6 +344,7 @@ Function BlogVerify()
 
 		Response.Redirect "cmd.asp?act=admin"
 	Else
+		
 		Call ShowError(8)
 	End If
 
@@ -851,6 +853,7 @@ Function UserMod()
 		Next
 
 		If CLng(Request.Form("edtID"))=BlogUser.ID And Trim(Request.Form("edtPassWord"))<>"" Then
+			Session(ZC_BLOG_CLSID&BlogUser.Name&"~")=Empty
 			Response.Redirect "cmd.asp?act=login"
 		End If
 
