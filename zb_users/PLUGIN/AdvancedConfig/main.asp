@@ -156,10 +156,10 @@ function GetName(s){
 	case "ZC_TAGS_REGEX":return "标签网址格式"
 	case "ZC_DATE_REGEX":return "日期网址格式"
 	case "ZC_DEFAULT_REGEX":return "首页网址格式"
-	case "ZC_DISPLAY_COUNT_WAP":return "文章列表单页显示文章数量"
-	case "ZC_COMMENT_COUNT_WAP":return "单页显示评论数量"
-	case "ZC_PAGEBAR_COUNT_WAP":return "文章列表评论条显示条数"
-	case "ZC_SINGLE_SIZE_WAP":return "开启分页查看文章时单页字数"
+	case "ZC_DISPLAY_COUNT_WAP":return "WAP文章列表单页显示文章数量"
+	case "ZC_COMMENT_COUNT_WAP":return "WAP单页显示评论数量"
+	case "ZC_PAGEBAR_COUNT_WAP":return "WAP评论条显示条数"
+	case "ZC_SINGLE_SIZE_WAP":return "WAP分页查看文章时单页字数"
 	case "ZC_SINGLE_PAGEBAR_COUNT_WAP":return "WAP文章分页数（未启用）"
 	case "ZC_FILENAME_WAP":return "WAP文件地址"
 	case "ZC_WAPCOMMENT_ENABLE":return "打开WAP评论"
@@ -198,7 +198,7 @@ function GetValue(s){
 	case "ZC_COMMNET_MAXFLOOR":return "管理员后台回复不受限制"
 	case "ZC_EMOTICONS_FILETYPE":return "图片后缀名，用 | 分隔，如png|gif|jgp"
 	case "ZC_SYNTAXHIGHLIGHTER_ENABLE":return "对应syntaxhighlighter代码高亮功能"
-	case "ZC_CODEMIRROR_ENABLE":return "对应UE的codemirror选项，若源码编辑较卡建议启用"
+	case "ZC_CODEMIRROR_ENABLE":return "对应UE的codemirror选项，若源码编辑较卡建议禁用"
 	}
 }
 </script>
