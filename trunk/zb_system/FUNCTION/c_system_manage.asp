@@ -1118,195 +1118,17 @@ Function ExportSiteInfo()
 	FoundFso = False
 	FoundFso = IsObjInstalled("Scripting.FileSystemObject")
 
-
-	Dim objRS
-	Set objRS=Server.CreateObject("ADODB.Recordset")
-	objRS.CursorType = adOpenKeyset
-	objRS.LockType = adLockReadOnly
-	objRS.ActiveConnection=objConn
-	objRS.Source=""
-
-	Dim allArticle,allCommNums,allTrackBackNums,allViewNums,allUserNums,allCateNums,allTagsNums,allPage
-
-	Dim User,i
-	For Each User in Users
-		If IsObject(User) Then
-			Set objRS=objConn.Execute("SELECT COUNT([log_ID]) FROM [blog_Article] WHERE [log_Level]>1 AND [log_AuthorID]=" & User.ID )
-			i=objRS(0)
-			objConn.Execute("UPDATE [blog_Member] SET [mem_PostLogs]="&i&" WHERE [mem_ID] =" & User.ID)
-			Set objRS=Nothing
-
-			Set objRS=objConn.Execute("SELECT COUNT([comm_ID]) FROM [blog_Comment] WHERE [comm_AuthorID]=" & User.ID )
-			i=objRS(0)
-			objConn.Execute("UPDATE [blog_Member] SET [mem_PostComms]="&i&" WHERE [mem_ID] =" & User.ID)
-			Set objRS=Nothing
-		End If
-	Next
-
-	Set objRS=Server.CreateObject("ADODB.Recordset")
-	objRS.CursorType = adOpenKeyset
-	objRS.LockType = adLockReadOnly
-	objRS.ActiveConnection=objConn
-	objRS.Source=""
-	objRS.Open("SELECT COUNT([log_ID])AS allArticle,SUM([log_CommNums]) AS allCommNums,SUM([log_ViewNums]) AS allViewNums,SUM([log_TrackBackNums]) AS allTrackBackNums FROM [blog_Article] WHERE [log_Type]=0")
-	If (Not objRS.bof) And (Not objRS.eof) Then
-		allArticle=objRS("allArticle")
-		allPage=objConn.Execute("SELECT COUNT([log_ID]) FROM [blog_Article] WHERE [log_Type]=1")(0)
-		allCommNums=objConn.Execute("SELECT SUM([log_CommNums]) FROM [blog_Article]")(0)
-		allTrackBackNums=objRS("allTrackBackNums")
-		allViewNums=objRS("allViewNums")
-	End If
-	objRS.Close
-
-	objRS.Open("SELECT COUNT([tag_ID])AS allTagsNums FROM [blog_Tag]")
-	If (Not objRS.bof) And (Not objRS.eof) Then
-		allTagsNums=objRS("allTagsNums")
-	End If
-	objRS.Close
-
-	objRS.Open("SELECT COUNT([mem_ID])AS allUserNums FROM [blog_Member]")
-	If (Not objRS.bof) And (Not objRS.eof) Then
-		allUserNums=objRS("allUserNums")
-	End If
-	objRS.Close
-
-	objRS.Open("SELECT COUNT([cate_ID])AS allCateNums FROM [blog_Category]")
-	If (Not objRS.bof) And (Not objRS.eof) Then
-		allCateNums=objRS("allCateNums")
-	End If
-	objRS.Close
-
-	Call CheckParameter(allArticle,"int",0)
-	Call CheckParameter(allCommNums,"int",0)
-	Call CheckParameter(allTrackBackNums,"int",0)
-	Call CheckParameter(allViewNums,"int",0)
-	Call CheckParameter(allUserNums,"int",0)
-	Call CheckParameter(allCateNums,"int",0)
-	Call CheckParameter(allTagsNums,"int",0)
-
 	Response.Write "<div class=""divHeader"">" & ZC_MSG159 & "</div>"
 	Response.Write "<div class=""SubMenu"">" & Response_Plugin_SiteInfo_SubMenu & "</div>"
 	Response.Write "<div id=""divMain2"">"
-
-
-	%>
-
-	<table border="0" cellspacing="0" cellpadding="0" align="center" width="100%" class="tableBorder">
-	<tr><th height="32" colspan="4"  align="center">&nbsp;<%=ZC_MSG167%></th></tr>
-	<tr>
-	<td width="20%"><%=ZC_MSG005%></td>
-	<td width="30%"><%=BlogUser.Name%> (<%=ZVA_User_Level_Name(BlogUser.Level)%>)</td>
-	<td width="20%"><%=ZC_MSG150%></td>
-	<td width="30%"><%=ZC_BLOG_VERSION%></td>
-	</tr>
-	<tr>
-	<td width="20%"><%=ZC_MSG082%></td>
-	<td width="30%"><%=allArticle%></td>
-	<td width="20%"><%=ZC_MSG124%></td>
-	<td width="30%"><%=allCommNums%></td>
-	</tr>
-	<tr>
-	<td width="20%"><%=ZC_MSG125%></td>
-	<td width="30%"><%=allPage%></td>
-	<td width="20%"><%=ZC_MSG129%></td>
-	<td width="30%"><%=allViewNums%></td>
-	</tr>
-	<tr>
-	<td width="20%"><%=ZC_MSG163%></td>
-	<td width="30%"><%=allTagsNums%></td>
-	<td width="20%"><%=ZC_MSG162%></td>
-	<td width="30%"><%=allCateNums%></td>
-	</tr>
-	<tr>
-	<td width="20%"><%=ZC_MSG204%>/<%=ZC_MSG083%></td>
-	<td width="30%"><%=GetNameFormTheme(ZC_BLOG_THEME)%> / <%=ZC_BLOG_CSS%>.css</td>
-	<td width="20%"><%=ZC_MSG166%></td>
-	<td width="30%"><%=allUserNums%></td>
-	</tr>
-	<tr>
-	<td width="20%">MetaWeblog API</td>
-	<td colspan="3" width="80%"><%=BlogHost%>zb_system/xml-rpc/index.asp</td>
-	</tr>
+If BLogUser.Level<4 Then 
+%>	
+	<table border="0" cellspacing="0" cellpadding="0" align="center" width="100%" class="tableBorder" id="tbStatistic">
+	<tr><th height="32" colspan="4"  align="center">&nbsp;<%=ZC_MSG164%>&nbsp;<a href="javascript:statistic('?reload');">[<%=ZC_MSG225%>]</a> </th></tr>
+	<tr><td></td></tr>
 	</table>
-
-
-
-<!--
-	<table border="0" cellspacing="0" cellpadding="0" align='center' width="100%" class="tableBorder">
-	<tr><th height="32" colspan="4">&nbsp;<%=ZC_MSG164%></th></tr>
-	<tr>
-	<td width="22%" ><%=ZC_MSG150%></td>
-	<td width="27%"><%=ZC_BLOG_VERSION%></td>
-	<td width="27%"></td>
-	<td width="24%"></td>
-	</tr>
-	<tr>
-	<td width="22%" >FSO </td>
-	<td width="27%">
-	<%
-	If FoundFso Then
-		Response.Write "<font color=green><b>ok</b></font>"
-	Else
-		Response.Write "<font color=red><b>fail</b></font>"
-	End If
-	%>
-	</td>
-	<td> Adodb.Stream </td>
-	<td><%
-	If IsObjInstalled("Adodb.Stream") Then
-		Response.Write "<font color=green><b>ok</b></font>"
-	Else
-		Response.Write "<font color=red><b>fail</b></font>"
-	End If
-	%>
-	</td>
-	</tr>
-	<tr>
-	<td width="22%" >ADODB.Connection</td>
-	<td width="27%">
-	<%
-	If IsObjInstalled("ADODB.Connection") Then
-		Response.Write "<font color=green><b>ok</b></font>"
-	Else
-		Response.Write "<font color=red><b>fail</b></font>"
-	End If
-	%></td>
-	<td> Microsoft.XMLDOM</td>
-	<td><%
-	If IsObjInstalled("Microsoft.XMLDOM") Then
-		Response.Write "<font color=green><b>ok</b></font>"
-	Else
-		Response.Write "<font color=red><b>fail</b></font>"
-	End If
-	%>
-	</td>
-	</tr>
-	<tr>
-	<td width="22%" >
-	MSXML2.ServerXMLHTTP</td>
-	<td width="27%">
-	<%
-	If IsObjInstalled("MSXML2.ServerXMLHTTP") Then
-		Response.Write "<font color=green><b>ok</b></font>"
-	Else
-		Response.Write "<font color=red><b>fail</b></font>"
-	End If
-	%>
-	</td>
-	<td > Scripting.Dictionary</td>
-	<td><%
-	If IsObjInstalled("Scripting.Dictionary") Then
-		Response.Write "<font color=green><b>ok</b></font>"
-	Else
-		Response.Write "<font color=red><b>fail</b></font>"
-	End If
-	%>
-	</td>
-	</tr>
-	</table>
-
--->
 <%
+End If
 If Len(ZC_UPDATE_INFO_URL)>0 Then
 %>
 	<table border="0" cellspacing="0" cellpadding="0" align="center" width="100%" class="tableBorder">
@@ -1324,8 +1146,8 @@ End If
 
 %>
 <%
-	Response.Write "<script type=""text/javascript"">function updateinfo(s){$.post(""c_updateinfo.asp""+s,{},function(data){$(""#tdUpdateInfo"").html(data);})};</script>"
-	Response.Write "<script type=""text/javascript"">$(document).ready(function(){updateinfo("""");});</script>"
+	Response.Write "<script type=""text/javascript"">function statistic(s){$.post(""c_statistic.asp""+s,{},function(data){$(""#tbStatistic"").html(data);bmx2table()});};function updateinfo(s){$.post(""c_updateinfo.asp""+s,{},function(data){$(""#tdUpdateInfo"").html(data);})};</script>"
+	Response.Write "<script type=""text/javascript"">$(document).ready(function(){statistic("""");updateinfo("""");});</script>"
 	Response.Write "<script type=""text/javascript"">ActiveLeftMenu(""aSiteInfo"");</script>"
 	Response.Write "<script type=""text/javascript"">ActiveTopMenu(""topmenu1"");</script>"
 
