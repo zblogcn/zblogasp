@@ -50,7 +50,6 @@ End If
 
 BlogTitle = "WindsPhoto 相册设置"
 %>
-
 <%
 
 Dim tmpSng
@@ -118,142 +117,250 @@ strWP_HIDE_DIVFILESND = WP_HIDE_DIVFILESND%>
 <!--#include file="..\..\..\zb_system\admin\admin_header.asp"-->
 
 <!--#include file="..\..\..\zb_system\admin\admin_top.asp"-->
-<div id="divMain"><div class="ShowBlogHint"><%Call GetBlogHint()%></div>
-	<div class="divHeader">WindsPhoto 系统设置</div>
-		<div class="SubMenu">
-        <a class="m-a-left m-now" href="<%=ZC_BLOG_HOST%>zb_users/PLUGIN/windsphoto/admin_main.asp"><span>相册管理</span></a>
-        <a class="m-a-left" href="<%=ZC_BLOG_HOST%>zb_users/PLUGIN/windsphoto/admin_addtype.asp"><span>新建相册</span></a>
-        <a class="m-a-left" href="<%=ZC_BLOG_HOST%>zb_users/PLUGIN/windsphoto/admin_setting.asp"><span class="m-now">系统设置</span></a>
-        <a class="m-a-right" href="<%=ZC_BLOG_HOST%>zb_system/admin/admin.asp?act=PlugInMng"><span>退出</span></a>
-        <a class="m-a-right" href="<%=ZC_BLOG_HOST%>zb_users/PLUGIN/windsphoto/help.asp"><span>帮助说明</span></a>
-        <a class="m-a-right" href="<%=ZC_BLOG_HOST%>zb_users/PLUGIN/windsphoto/help.asp#more"><span>更多功能</span></a>
-		</div>
-<form name="edit" method="post" action="admin_savesetting.asp">
-<div id="divMain2">
-<div class="content-box"><!-- Start Content Box -->
-<div class="content-box-header">
-<ul class="content-box-tabs">
-	<li><a href="#fragment-1" class="default-tab"><span>参数设置</span></a></li>
-	<li><a href="#fragment-2"><span>水印设置</span></a></li>
-</ul>
-<div class="clear"></div></div>
-<div class="content-box-content">
-<div class="tabs-div" style='border:none;padding:0px;margin:0;' id="fragment-1">
-<table width='100%' style='padding:0px;margin:1px;' cellspacing='0' cellpadding='0'>
-<tr><td style='width:32%'><p align='left'>·相册名称</p></td><td style="width:68%"><p><input name="strWP_ALBUM_NAME" style="width:95%" type="text" value="<%=strWP_ALBUM_NAME%>" /></p></td></tr>
+<div id="divMain">
+  <div class="ShowBlogHint">
+    <%Call GetBlogHint()%>
+  </div>
+  <div class="divHeader">WindsPhoto 系统设置</div>
+  <div class="SubMenu">
+  <a href="<%=ZC_BLOG_HOST%>zb_users/PLUGIN/windsphoto/admin_main.asp"><span class="m-left">相册管理</span></a>
+  <a href="<%=ZC_BLOG_HOST%>zb_users/PLUGIN/windsphoto/admin_addtype.asp"><span class="m-left">新建相册</span></a>
+  <a href="<%=ZC_BLOG_HOST%>zb_users/PLUGIN/windsphoto/admin_setting.asp"><span class="m-left m-now">系统设置</span></a>
+  <a href="<%=ZC_BLOG_HOST%>zb_system/admin/admin.asp?act=PlugInMng"><span class="m-right" >退出</span></a>
+  <a href="<%=ZC_BLOG_HOST%>zb_users/PLUGIN/windsphoto/help.asp"><span class="m-right" >帮助说明</span></a>
+  <a href="<%=ZC_BLOG_HOST%>zb_users/PLUGIN/windsphoto/help.asp#more"><span class="m-right" >更多功能</span></a>
+ </div>
+  <form name="edit" method="post" action="admin_savesetting.asp">
+    <div id="divMain2">
+    <div class="content-box"><!-- Start Content Box -->
+      <div class="content-box-header">
+        <ul class="content-box-tabs">
+          <li><a href="#fragment-1" class="default-tab"><span>参数设置</span></a></li>
+          <li><a href="#fragment-2"><span>水印设置</span></a></li>
+        </ul>
+        <div class="clear"></div>
+      </div>
+      <div class="content-box-content">
+        <div class="tabs-div" style='border:none;padding:0px;margin:0;' id="fragment-1">
+          <table width='100%' style='padding:0px;margin:1px;' cellspacing='0' cellpadding='0'>
+            <tr>
+              <td style='width:32%'><p align='left'>·相册名称</p></td>
+              <td style="width:68%"><p>
+                  <input name="strWP_ALBUM_NAME" style="width:95%" type="text" value="<%=strWP_ALBUM_NAME%>" />
+                </p></td>
+            </tr>
+            <tr>
+              <td style='width:32%'><p align='left'>·相册域名</p></td>
+              <td style="width:68%"><p>
+                  <input name="strWP_SUB_DOMAIN" style="width:95%" type="text" value="<%=strWP_SUB_DOMAIN%>" />
+                </p></td>
+            </tr>
+            <tr>
+              <td style='width:32%'><p align='left'>·贴图相册id(设置为0则不启用)new</p></td>
+              <td style="width:68%"><p>
+                  <input name="numWP_BLOGPHOTO_ID" style="width:95%" type="text" value="<%=numWP_BLOGPHOTO_ID%>" />
+                </p></td>
+            </tr>
+            <tr>
+              <td style='width:32%'><p align='left'>·隐藏Blog上传(上面不为0才起效)new</p></td>
+              <td style="width:68%"><p>
+                  <input type="radio" name="strWP_HIDE_DIVFILESND" value="1" <%if WP_HIDE_DIVFILESND=1 then%>checked<%end if%> />
+                  是
+                  <input type="radio" name="strWP_HIDE_DIVFILESND" value="0" <%if WP_HIDE_DIVFILESND=0 then%>checked<%end if%> />
+                  否</p></td>
+            </tr>
+            <tr>
+              <td style='width:32%'><p align='left'>·图片展示特效</p></td>
+              <td style="width:68%"><p>
+                  <input type="radio" name="strWP_SCRIPT_TYPE" value="1" <%if WP_SCRIPT_TYPE=1 then%>checked<%end if%> />
+                  HighSlide
+                  <input type="radio" name="strWP_SCRIPT_TYPE" value="2" <%if WP_SCRIPT_TYPE=2 then%>checked<%end if%> />
+                  GreyBox
+                  <input type="radio" name="strWP_SCRIPT_TYPE" value="3" <%if WP_SCRIPT_TYPE=3 then%>checked<%end if%> />
+                  Lightbox
+                  <input type="radio" name="strWP_SCRIPT_TYPE" value="4" <%if WP_SCRIPT_TYPE=4 then%>checked<%end if%> />
+                  Thickbox</p></td>
+            </tr>
+            <tr>
+              <td style='width:32%'><p align='left'>·列表排序方式</p></td>
+              <td style="width:68%"><p>
+                  <input type="radio" name="strWP_ORDER_BY" value="0" <%if WP_ORDER_BY=0 then%>checked<%end if%> />
+                  正序
+                  <input type="radio" name="strWP_ORDER_BY" value="1" <%if WP_ORDER_BY=1 then%>checked<%end if%> />
+                  倒序</p></td>
+            </tr>
+            <tr>
+              <td style='width:32%'><p align='left'>·目录保存方式</p></td>
+              <td style="width:68%"><p>
+                  <input type="radio" name="strWP_UPLOAD_DIRBY" value="1" <%if WP_UPLOAD_DIRBY=1 then%>checked<%end if%> />
+                  年/月
+                  <input type="radio" name="strWP_UPLOAD_DIRBY" value="2" <%if WP_UPLOAD_DIRBY=2 then%>checked<%end if%> />
+                  分类id
+                  <input type="radio" name="strWP_UPLOAD_DIRBY" value="0" <%if WP_UPLOAD_DIRBY=0 then%>checked<%end if%> />
+                  根目录</p></td>
+            </tr>
+            <tr>
+              <td style='width:32%'><p align='left'>·默认开启上传重命名 </p></td>
+              <td style="width:68%"><p>
+                  <input type="radio" name="strWP_UPLOAD_RENAME" value="1" <%if WP_UPLOAD_RENAME=1 then%>checked<%end if%> />
+                  是
+                  <input type="radio" name="strWP_UPLOAD_RENAME" value="0" <%if WP_UPLOAD_RENAME=0 then%>checked<%end if%> />
+                  否</p></td>
+            </tr>
+            <tr>
+              <td style='width:32%'><p align='left'>·上传文件限制</p></td>
+              <td style="width:68%"><p>
+                  <input name="numWP_UPLOAD_FILESIZE" style="width:95%" type="text" value="<%=numWP_UPLOAD_FILESIZE%>" />
+                </p></td>
+            </tr>
+            <tr>
+              <td style='width:32%'><p align='left'>·上传目录(结尾不加/) </p></td>
+              <td style="width:68%"><p>
+                  <input name="strWP_UPLOAD_DIR" style="width:95%" type="text" value="<%=strWP_UPLOAD_DIR%>" />
+                </p></td>
+            </tr>
+            <tr>
+              <td style='width:32%'><p align='left'>·首页显示相册数量 </p></td>
+              <td style="width:68%"><p>
+                  <input name="numWP_INDEX_PAGERCOUNT" style="width:95%" type="text" value="<%=numWP_INDEX_PAGERCOUNT%>" />
+                </p></td>
+            </tr>
+            <tr>
+              <td style='width:32%'><p align='left'>·缩略图模式分页</p></td>
+              <td style="width:68%"><p>
+                  <input name="numWP_SMALL_PAGERCOUNT" style="width:95%" type="text" value="<%=numWP_SMALL_PAGERCOUNT%>" />
+                </p></td>
+            </tr>
+            <tr>
+              <td style='width:32%'><p align='left'>·列表模式分页</p></td>
+              <td style="width:68%"><p>
+                  <input name="numWP_LIST_PAGERCOUNT" style="width:95%" type="text" value="<%=numWP_LIST_PAGERCOUNT%>" />
+                </p></td>
+            </tr>
+            <tr>
+              <td style='width:32%'><p align='left'>·列表模式图片限制</p></td>
+              <td style="width:68%"><p>高
+                  <input name="numWP_LIST_WIDTH" style="width:42%" type="text" value="<%=numWP_LIST_WIDTH%>" />
+                  宽
+                  <input name="numWP_LIST_HEIGHT" style="width:42%" type="text" value="<%=numWP_LIST_HEIGHT%>" />
+                </p></td>
+            </tr>
+            <tr>
+              <td style='width:32%'><p align='left'>·缩略图转换大小</p></td>
+              <td style="width:68%"><p>高
+                  <input name="numWP_SMALL_HEIGHT" style="width:42%" type="text" value="<%=numWP_SMALL_HEIGHT%>" />
+                  宽
+                  <input name="numWP_SMALL_WIDTH" style="width:42%" type="text" value="<%=numWP_SMALL_WIDTH%>" />
+                </p></td>
+            </tr>
+            <tr>
+              <td style='width:32%'><p align='left'>·相册文字介绍说明</p>
+                <p>支持HTML代码,可用&lt;br/&gt;'标签换行</p></td>
+              <td style="width:68%"><p>
+                  <textarea name="strWP_ALBUM_INTRO" style="width:95%" rows="4" type="text" />
+                  <%=strWP_ALBUM_INTRO%>
+                  </textarea>
+                </p></td>
+            </tr>
+          </table>
+        </div>
+        <div class="tabs-div" style='border:none;padding:0px;margin:0;' id="fragment-2">
+          <table width='100%' style='padding:0px;margin:1px;' cellspacing='0' cellpadding='0'>
+            <tr>
+              <td style='width:32%'><p align='left'>·默认开启水印</p></td>
+              <td style="width:68%"><p>
+                  <input type="radio" name="strWP_WATERMARK_AUTO" value="1" <%if WP_WATERMARK_AUTO=1 then%>checked<%end if%> />
+                  是
+                  <input type="radio" name="strWP_WATERMARK_AUTO" value="0" <%if WP_WATERMARK_AUTO=0 then%>checked<%end if%> />
+                  否</p></td>
+            </tr>
+            <tr>
+              <td style='width:32%'><p align='left'>·水印效果</p></td>
+              <td style="width:68%"><p>
+                  <input type="radio" name="strWP_WATERMARK_TYPE" value="1" <%if WP_WATERMARK_TYPE=1 then%>checked<%end if%> />
+                  水印文字
+                  <input type="radio" name="strWP_WATERMARK_TYPE" value="2" <%if WP_WATERMARK_TYPE=2 then%>checked<%end if%> />
+                  水印图片</p></td>
+            </tr>
+            <tr>
+              <td style='width:32%'><p align='left'>·水印水平位置</p></td>
+              <td style="width:68%"><p>
+                  <input type="radio" name="strWP_WATERMARK_WIDTH_POSITION" value="left" <%if WP_WATERMARK_WIDTH_POSITION="left" then%>checked<%end if%> />
+                  左
+                  <input type="radio" name="strWP_WATERMARK_WIDTH_POSITION" value="center" <%if WP_WATERMARK_WIDTH_POSITION="center" then%>checked<%end if%> />
+                  中
+                  <input type="radio" name="strWP_WATERMARK_WIDTH_POSITION" value="right" <%if WP_WATERMARK_WIDTH_POSITION="right" then%>checked<%end if%> />
+                  右</p></td>
+            </tr>
+            <tr>
+              <td style='width:32%'><p align='left'>·水印垂直位置</p></td>
+              <td style="width:68%"><p>
+                  <input type="radio" name="strWP_WATERMARK_HEIGHT_POSITION" value="top" <%if WP_WATERMARK_HEIGHT_POSITION="top" then%>checked<%end if%> />
+                  上
+                  <input type="radio" name="strWP_WATERMARK_HEIGHT_POSITION" value="center" <%if WP_WATERMARK_HEIGHT_POSITION="center" then%>checked<%end if%> />
+                  中
+                  <input type="radio" name="strWP_WATERMARK_HEIGHT_POSITION" value="bottom" <%if WP_WATERMARK_HEIGHT_POSITION="bottom" then%>checked<%end if%> />
+                  下</p></td>
+            </tr>
+            <tr>
+              <td style='width:32%'><p align='left'>·水印图片</p></td>
+              <td style="width:68%"><p>
+                  <input name="strWP_WATERMARK_LOGO" style="width:95%" type="text" value="<%=strWP_WATERMARK_LOGO%>" />
+                </p></td>
+            </tr>
+            <tr>
+              <td style='width:32%'><p align='left'>·水印透明</p></td>
+              <td style="width:68%"><p>
+                  <input name="strWP_WATERMARK_ALPHA" style="width:95%" type="text" value="<%=strWP_WATERMARK_ALPHA%>" />
+                </p></td>
+            </tr>
+            <tr>
+              <td style='width:32%'><p align='left'>·水印文字</p></td>
+              <td style="width:68%"><p>
+                  <input name="strWP_WATERMARK_TEXT" style="width:95%" type="text" value="<%=strWP_WATERMARK_TEXT%>" />
+                </p></td>
+            </tr>
+            <tr>
+              <td style='width:32%'><p align='left'>·输出质量</p></td>
+              <td style="width:68%"><p>
+                  <input name="strWP_JPEG_FONTQUALITY" style="width:95%" type="text" value="<%=strWP_JPEG_FONTQUALITY%>" />
+                </p></td>
+            </tr>
+            <tr>
+              <td style='width:32%'><p align='left'>·文字大小</p></td>
+              <td style="width:68%"><p>
+                  <input name="strWP_JPEG_FONTSIZE" style="width:95%" type="text" value="<%=strWP_JPEG_FONTSIZE%>" />
+                </p></td>
+            </tr>
+            <tr>
+              <td style='width:32%'><p align='left'>·文字颜色</p></td>
+              <td style="width:68%"><p>
+                  <input name="strWP_JPEG_FONTCOLOR" style="width:95%" type="text" value="<%=strWP_JPEG_FONTCOLOR%>" />
+                </p></td>
+            </tr>
+            <tr>
+              <td style='width:32%'><p align='left'>·是否粗体</p></td>
+              <td style="width:68%"><p>
+                  <input type="radio" name="strWP_JPEG_FONTBOLD" value="true" <%if WP_JPEG_FONTBOLD="true" then%>checked<%end if%> />
+                  是
+                  <input type="radio" name="strWP_JPEG_FONTBOLD" value="false" <%if WP_JPEG_FONTBOLD="false" then%>checked<%end if%> />
+                  否</p></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <p>
+        <input type="submit" class="button" value="提交" id="btnPost" onclick='' />
+        <input type="reset" class="button" value="重置" id="btnPost" />
+      </p>
+    </div>
+  </form>
+  <br>
+  <br>
+  <p align=center>Plugin Powered by <a href="http://www.wilf.cn" target="_blank">Wilf.cn</a></p>
 
-<tr><td style='width:32%'><p align='left'>·相册域名</p></td><td style="width:68%"><p><input name="strWP_SUB_DOMAIN" style="width:95%" type="text" value="<%=strWP_SUB_DOMAIN%>" /></p></td></tr>
+<!--#include file="..\..\..\zb_system\admin\admin_footer.asp"-->
 
-<tr><td style='width:32%'><p align='left'>·贴图相册id(设置为0则不启用)new</p></td><td style="width:68%"><p><input name="numWP_BLOGPHOTO_ID" style="width:95%" type="text" value="<%=numWP_BLOGPHOTO_ID%>" /></p></td></tr>
-
-<tr><td style='width:32%'><p align='left'>·隐藏Blog上传(上面不为0才起效)new</p></td><td style="width:68%"><p>	<input type="radio" name="strWP_HIDE_DIVFILESND" value="1" <%if WP_HIDE_DIVFILESND=1 then%>checked<%end if%> />是 <input type="radio" name="strWP_HIDE_DIVFILESND" value="0" <%if WP_HIDE_DIVFILESND=0 then%>checked<%end if%> />否</p></td></tr>
-
-<tr><td style='width:32%'><p align='left'>·图片展示特效</p></td><td style="width:68%"><p>	<input type="radio" name="strWP_SCRIPT_TYPE" value="1" <%if WP_SCRIPT_TYPE=1 then%>checked<%end if%> />HighSlide <input type="radio" name="strWP_SCRIPT_TYPE" value="2" <%if WP_SCRIPT_TYPE=2 then%>checked<%end if%> />GreyBox <input type="radio" name="strWP_SCRIPT_TYPE" value="3" <%if WP_SCRIPT_TYPE=3 then%>checked<%end if%> />Lightbox <input type="radio" name="strWP_SCRIPT_TYPE" value="4" <%if WP_SCRIPT_TYPE=4 then%>checked<%end if%> />Thickbox</p></td></tr>
-
-<tr><td style='width:32%'><p align='left'>·列表排序方式</p></td><td style="width:68%"><p>	<input type="radio" name="strWP_ORDER_BY" value="0" <%if WP_ORDER_BY=0 then%>checked<%end if%> />正序 <input type="radio" name="strWP_ORDER_BY" value="1" <%if WP_ORDER_BY=1 then%>checked<%end if%> />倒序</p></td></tr>
-
-<tr><td style='width:32%'><p align='left'>·目录保存方式</p></td><td style="width:68%"><p>	<input type="radio" name="strWP_UPLOAD_DIRBY" value="1" <%if WP_UPLOAD_DIRBY=1 then%>checked<%end if%> />年/月	<input type="radio" name="strWP_UPLOAD_DIRBY" value="2" <%if WP_UPLOAD_DIRBY=2 then%>checked<%end if%> />分类id	<input type="radio" name="strWP_UPLOAD_DIRBY" value="0" <%if WP_UPLOAD_DIRBY=0 then%>checked<%end if%> />根目录</p></td></tr>
-
-<tr><td style='width:32%'><p align='left'>·默认开启上传重命名 </p></td><td style="width:68%"><p>	<input type="radio" name="strWP_UPLOAD_RENAME" value="1" <%if WP_UPLOAD_RENAME=1 then%>checked<%end if%> />是 <input type="radio" name="strWP_UPLOAD_RENAME" value="0" <%if WP_UPLOAD_RENAME=0 then%>checked<%end if%> />否</p></td></tr>
-
-<tr><td style='width:32%'><p align='left'>·上传文件限制</p></td><td style="width:68%"><p><input name="numWP_UPLOAD_FILESIZE" style="width:95%" type="text" value="<%=numWP_UPLOAD_FILESIZE%>" /></p></td></tr>
-
-<tr><td style='width:32%'><p align='left'>·上传目录(结尾不加/) </p></td><td style="width:68%"><p><input name="strWP_UPLOAD_DIR" style="width:95%" type="text" value="<%=strWP_UPLOAD_DIR%>" /></p></td></tr>
-
-<tr><td style='width:32%'><p align='left'>·首页显示相册数量 </p></td><td style="width:68%"><p><input name="numWP_INDEX_PAGERCOUNT" style="width:95%" type="text" value="<%=numWP_INDEX_PAGERCOUNT%>" /></p></td></tr>
-
-<tr><td style='width:32%'><p align='left'>·缩略图模式分页</p></td><td style="width:68%"><p><input name="numWP_SMALL_PAGERCOUNT" style="width:95%" type="text" value="<%=numWP_SMALL_PAGERCOUNT%>" /></p></td></tr>
-
-<tr><td style='width:32%'><p align='left'>·列表模式分页</p></td><td style="width:68%"><p><input name="numWP_LIST_PAGERCOUNT" style="width:95%" type="text" value="<%=numWP_LIST_PAGERCOUNT%>" /></p></td></tr>
-
-<tr><td style='width:32%'><p align='left'>·列表模式图片限制</p></td><td style="width:68%"><p>高 <input name="numWP_LIST_WIDTH" style="width:42%" type="text" value="<%=numWP_LIST_WIDTH%>" /> 宽 <input name="numWP_LIST_HEIGHT" style="width:42%" type="text" value="<%=numWP_LIST_HEIGHT%>" /></p></td></tr>
-
-<tr><td style='width:32%'><p align='left'>·缩略图转换大小</p></td><td style="width:68%"><p>高 <input name="numWP_SMALL_HEIGHT" style="width:42%" type="text" value="<%=numWP_SMALL_HEIGHT%>" /> 宽 <input name="numWP_SMALL_WIDTH" style="width:42%" type="text" value="<%=numWP_SMALL_WIDTH%>" /></p></td></tr>
-
-<tr><td style='width:32%'><p align='left'>·相册文字介绍说明</p><p>支持HTML代码,可用&lt;br/&gt;'标签换行</p></td><td style="width:68%"><p><textarea name="strWP_ALBUM_INTRO" style="width:95%" rows="4" type="text" /><%=strWP_ALBUM_INTRO%></textarea></p></td></tr>
-
-</table>
-</div>
-
-<div class="tabs-div" style='border:none;padding:0px;margin:0;' id="fragment-2">
-<table width='100%' style='padding:0px;margin:1px;' cellspacing='0' cellpadding='0'>
-
-<tr><td style='width:32%'><p align='left'>·默认开启水印</p></td><td style="width:68%"><p>	<input type="radio" name="strWP_WATERMARK_AUTO" value="1" <%if WP_WATERMARK_AUTO=1 then%>checked<%end if%> />是 <input type="radio" name="strWP_WATERMARK_AUTO" value="0" <%if WP_WATERMARK_AUTO=0 then%>checked<%end if%> />否</p></td></tr>
-
-<tr><td style='width:32%'><p align='left'>·水印效果</p></td><td style="width:68%"><p><input type="radio" name="strWP_WATERMARK_TYPE" value="1" <%if WP_WATERMARK_TYPE=1 then%>checked<%end if%> />水印文字	<input type="radio" name="strWP_WATERMARK_TYPE" value="2" <%if WP_WATERMARK_TYPE=2 then%>checked<%end if%> />水印图片</p></td></tr>
-
-<tr><td style='width:32%'><p align='left'>·水印水平位置</p></td><td style="width:68%"><p><input type="radio" name="strWP_WATERMARK_WIDTH_POSITION" value="left" <%if WP_WATERMARK_WIDTH_POSITION="left" then%>checked<%end if%> />左	<input type="radio" name="strWP_WATERMARK_WIDTH_POSITION" value="center" <%if WP_WATERMARK_WIDTH_POSITION="center" then%>checked<%end if%> />中	<input type="radio" name="strWP_WATERMARK_WIDTH_POSITION" value="right" <%if WP_WATERMARK_WIDTH_POSITION="right" then%>checked<%end if%> />右</p></td></tr>
-
-<tr><td style='width:32%'><p align='left'>·水印垂直位置</p></td><td style="width:68%"><p><input type="radio" name="strWP_WATERMARK_HEIGHT_POSITION" value="top" <%if WP_WATERMARK_HEIGHT_POSITION="top" then%>checked<%end if%> />上	<input type="radio" name="strWP_WATERMARK_HEIGHT_POSITION" value="center" <%if WP_WATERMARK_HEIGHT_POSITION="center" then%>checked<%end if%> />中	<input type="radio" name="strWP_WATERMARK_HEIGHT_POSITION" value="bottom" <%if WP_WATERMARK_HEIGHT_POSITION="bottom" then%>checked<%end if%> />下</p></td></tr>
-
-<tr><td style='width:32%'><p align='left'>·水印图片</p></td><td style="width:68%"><p><input name="strWP_WATERMARK_LOGO" style="width:95%" type="text" value="<%=strWP_WATERMARK_LOGO%>" /></p></td></tr>
-
-<tr><td style='width:32%'><p align='left'>·水印透明</p></td><td style="width:68%"><p><input name="strWP_WATERMARK_ALPHA" style="width:95%" type="text" value="<%=strWP_WATERMARK_ALPHA%>" /></p></td></tr>
-
-<tr><td style='width:32%'><p align='left'>·水印文字</p></td><td style="width:68%"><p><input name="strWP_WATERMARK_TEXT" style="width:95%" type="text" value="<%=strWP_WATERMARK_TEXT%>" /></p></td></tr>
-
-<tr><td style='width:32%'><p align='left'>·输出质量</p></td><td style="width:68%"><p><input name="strWP_JPEG_FONTQUALITY" style="width:95%" type="text" value="<%=strWP_JPEG_FONTQUALITY%>" /></p></td></tr>
-
-<tr><td style='width:32%'><p align='left'>·文字大小</p></td><td style="width:68%"><p><input name="strWP_JPEG_FONTSIZE" style="width:95%" type="text" value="<%=strWP_JPEG_FONTSIZE%>" /></p></td></tr>
-
-<tr><td style='width:32%'><p align='left'>·文字颜色</p></td><td style="width:68%"><p><input name="strWP_JPEG_FONTCOLOR" style="width:95%" type="text" value="<%=strWP_JPEG_FONTCOLOR%>" /></p></td></tr>
-
-<tr><td style='width:32%'><p align='left'>·是否粗体</p></td><td style="width:68%"><p>	<input type="radio" name="strWP_JPEG_FONTBOLD" value="true" <%if WP_JPEG_FONTBOLD="true" then%>checked<%end if%> />是	<input type="radio" name="strWP_JPEG_FONTBOLD" value="false" <%if WP_JPEG_FONTBOLD="false" then%>checked<%end if%> />否</p></td></tr>
-</table>
-</div></div>
-<p><input type="submit" class="button" value="提交" id="btnPost" onclick='' /> <input type="reset" class="button" value="重置" id="btnPost" /></p>
-</div>
-</form>
-
-<br><br><p align=center>Plugin Powered by <a href="http://www.wilf.cn" target="_blank">Wilf.cn</a></p>
-
-</div>
-<script language="javascript">
-$(document).ready(function(){
-	$("#divMain2").tabs({ fxFade: true, fxSpeed: 'fast' });
-	//$("input[@type=text],textarea").width($("body").width()*0.55);
-
-	//斑马线
-	var tables=document.getElementsByTagName("table");
-	var b=false;
-	for (var j = 0; j < tables.length; j++){
-
-		var cells = tables[j].getElementsByTagName("tr");
-
-		//cells[0].className="color3";
-		b=false;
-		for (var i = 0; i < cells.length; i++){
-			if(b){
-				cells[i].className="color2";
-				b=false;
-			}
-			else{
-				cells[i].className="color3";
-				b=true;
-			};
-		};
-	}
-
-});
-
-function ChangeValue(obj){
-
-	if (obj.value=="True")
-	{
-	obj.value="False";
-	return true;
-	}
-
-	if (obj.value=="False")
-	{
-	obj.value="True";
-	return true;
-	}
-}
-</script>
-
-</body>
-</html>
 <%
 Call System_Terminate()
 

@@ -35,7 +35,7 @@ Set ArtList = New TArticleList
 
 ArtList.LoadCache
 
-If LoadFromFile(BlogPath & "zb_users/Themes/" & ZC_BLOG_THEME & "/Template/wp_index.html", "utf-8") = "" Then
+If LoadFromFile(BlogPath & "zb_users/themes/" & ZC_BLOG_THEME & "/template/wp_index.html", "utf-8") = "" Then
     ArtList.template = "TAGS"
 Else
     ArtList.template = "WP_INDEX"
