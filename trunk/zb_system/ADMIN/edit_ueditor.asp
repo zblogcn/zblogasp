@@ -122,7 +122,7 @@ Next
                       <input type="hidden" name="edtFType" id="edtFType" value="<%=EditArticle.FType%>" />
 <!-- title( -->
                       <p><span class='editinputname'><%=ZC_MSG060%>:</span>
-                        <input type="text" name="edtTitle" id="edtTitle" style="width:60%;max-width:520px" maxlength="100" onblur="if(this.value=='') this.value='<%=ZC_MSG099%>'" onFocus="if(this.value=='<%=ZC_MSG099%>') this.value=''" value="<%=EditArticle.Title%>" /></p>
+                        <input type="text" name="edtTitle" id="edtTitle" style="width:60%;max-width:520px" maxlength="100" onBlur="if(this.value=='') this.value='<%=ZC_MSG099%>'" onFocus="if(this.value=='<%=ZC_MSG099%>') this.value=''" value="<%=EditArticle.Title%>" /></p>
 <!-- )title -->
 
 <!-- alias( -->
@@ -151,13 +151,13 @@ Next
                       <div id="divContent" style="clear:both;">
 						<!-- <p><span class='editinputname'><%=ZC_MSG055%>:</span></p> -->
 						<p style="text-align:left;"><span class='editinputname'><%=ZC_MSG055%>:</span>&nbsp;&nbsp;<span id="timemsg"></span><span id="msg2"></span><span id="msg"></span><span class='editinputname'></span><script type="text/javascript" src="c_autosaverjs.asp?act=edit&amp;type=ueditor"></script></p>
-                        <script id="ueditor" name="txaContent"><%=EditArticle.Content%></script>
+                        <textarea id="ueditor" name="txaContent"><%=TransferHTML(EditArticle.Content,"[textarea]")%></textarea>
 						<p><span><%=ZC_MSG216%><a href="" onClick="try{AutoIntro();return false;}catch(e){}">[<%=ZC_MSG200%>]</a></span></p>
                       </div>
 
                       <div id="divIntro" style="display:<%If EditArticle.Intro="" Or IsAutoIntro Then Response.Write "none" Else Response.Write "block"%>;">
                         <p><span class='editinputname'><%=ZC_MSG016%>:</span></p>
-                        <script id="ueditor2" name="txaIntro"><%=EditArticle.Intro%></script>
+                        <textarea id="ueditor2" name="txaIntro"><%=TransferHTML(EditArticle.Intro,"[textarea]")%></textarea>
                       </div>
 
 <!-- 2号输出接口 -->
