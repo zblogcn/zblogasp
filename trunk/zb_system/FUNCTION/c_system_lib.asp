@@ -2512,7 +2512,7 @@ Class TUser
 	End Property
 
 	Public Property Get FirstName
-		FirstName=IIF(Alias="",Name,Alias)
+		FirstName=IIf(Level=5,Name,IIF(Alias="",Name,Alias))
 	End Property
 
 	Private Function GetAvatar
