@@ -56,16 +56,22 @@ Class CmtN_Class
 				Art_FirstName=Users(objArticle.AuthorID).FirstName
 				Call GetUser
 				Cmt_FirstName = objComment.Author
-				For Each User in Users
-					If IsObject(User) Then
-						If User.ID=objComment.AuthorID Then
-							Cmt_FirstName = User.FirstName
-							Exit For
+				If objComment.AuthorID>0 Then
+					For Each User in Users
+						If IsObject(User) Then
+							If User.ID=objComment.AuthorID Then
+								Cmt_FirstName = User.FirstName
+								Exit For
+							End If
 						End If
-					End If
-				Next
+					Next
+				End If
 				MC = Replace(MC,"<#Cmt_Article/author/name#>",Art_FirstName)
-				MT = MT & Cmt_FirstName & " 在您的博客 """& ZC_BLOG_NAME &""" 里评论"
+				If objComment.ParentID=0 Then
+					MT = MT & Cmt_FirstName & " 在您的博客 """& ZC_BLOG_NAME &""" 里评论"
+				Else
+					MT = MT & Cmt_FirstName & "回复了您的评论"
+				End If
 				MC = Replace(MC,"<#Cmt_Type#>","评论")
 				MC = Replace(MC,"<#Cmt_Article/title#>",objArticle.Title)
 				MC = Replace(MC,"<#Cmt_Article/url#>",objArticle.Url)
