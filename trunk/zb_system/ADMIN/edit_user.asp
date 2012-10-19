@@ -82,10 +82,10 @@ Next
 <%
 	Dim i
 	Response.Write "<p><span class='title'>"& ZC_MSG249 &":</span><input id=""edtID"" name=""edtID""  type=""hidden"" value="""& EditUser.ID &""" />"
-	Response.Write "<input id=""edtLevel"" name=""edtLevel"" type=""hidden"" value="""& EditUser.Level &""" /><select "&IIF(CheckRights("root"),"","disabled=""disabled""")&" size=""1"" id=""cmbUserLevel"" onchange=""edtLevel.value=this.options[this.selectedIndex].value"">"
+	Response.Write "<input id=""edtLevel"" name=""edtLevel"" type=""hidden"" value="""& EditUser.Level &""" /> <select "&IIF(CheckRights("root"),"","disabled=""disabled""")&" size=""1"" id=""cmbUserLevel"" onchange=""edtLevel.value=this.options[this.selectedIndex].value"">"
 	Dim UserLevel
-	i=0
-	If EditUser.Level<>1 Then i=2
+	i=1
+	If EditUser.Level<>1 Then i=BlogUser.Level
 	For Each UserLevel in ZVA_User_Level_Name
 		Response.Write "<option value="""& i &""" "
 		If i=EditUser.Level Then Response.Write "selected=""selected"""
