@@ -1,4 +1,4 @@
-setTimeout(function(){ 
+锘縮etTimeout(function(){ 
 	$("ul.ul-subcates").prev("a").before("<span class='sh'>-</span>");
 	$("span.sh").click(function (){
 		$(this).next().next("ul").toggle("fast");
@@ -12,7 +12,7 @@ setTimeout(function(){
 	});
 },500);
 
-//本条留言DomID,留言class,内容class,评论框DomID,指定父ID；
+//鏈潯鐣欒█DomID,鐣欒█class,鍐呭class,璇勮妗咲omID,鎸囧畾鐖禝D
 function moveForm(comId,comclass,mClass,frmId,i){
 	intRevID=i;
 	var comm=$('#'+comId),frm=$('#'+frmId),cancel=$("#cancel-reply"),temp = $('#temp-frm');
@@ -42,9 +42,9 @@ function moveForm(comId,comclass,mClass,frmId,i){
 	catch(e) {}
 	return false;
 }
-//重写GetComments，防止评论框消失
+//閲嶅啓GetComments锛岄槻姝㈣瘎璁烘娑堝け
 function GetComments(logid,page){
-	$('span.commentspage').html("Waitting...");
+	$('span.commentspage').html("Waiting...");
 	$.get(str00+"zb_system/cmd.asp?act=CommentGet&logid="+logid+"&page="+page, function(data){
 		$("#cancel-reply").click();
 		$('#AjaxCommentBegin').nextUntil('#AjaxCommentEnd').remove();

@@ -580,7 +580,7 @@ function AddViewCount(id){
 //*********************************************************
 function GetComments(logid,page){
 
-	 $('span.commentspage').html("Waitting...");
+	 $('span.commentspage').html("Waiting...");
 
 	$.get(str00+"zb_system/cmd.asp?act=CommentGet&logid="+logid+"&page="+page, function(data){
 	  $('#AjaxCommentBegin').nextUntil('#AjaxCommentEnd').remove();
