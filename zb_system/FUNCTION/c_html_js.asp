@@ -88,7 +88,7 @@ If f<>"" Then
 
 			For l=0 To UBound(aryPara)-1
 				aryElement=Split(aryPara(l),"=")
-				Response.Write "try{eval(""document.getElementById(\"""& aryElement(0) &"\"").innerHTML=\"""& CStr(LoadCountInfo(aryElement(1))+1) &"\"""");}catch(e){}"
+				Response.Write "try{eval(""$(\""#"& aryElement(0) &"\"").html(\"""& CStr(LoadCountInfo(aryElement(1))+1) &"\"")"");}catch(e){}"
 				Call UpdateCountInfo(aryElement(1))
 			Next
 
@@ -101,9 +101,9 @@ If f<>"" Then
 
 		Set BlogUser = New TUser
 		If BlogUser.Verify()=True Then
-			Response.Write "try{document.getElementById('inpName').value='"&BlogUser.Name&"';}catch(e){}"
-			Response.Write "try{document.getElementById('inpEmail').value='"&BlogUser.Email&"';}catch(e){}"
-			Response.Write "try{document.getElementById('inpHomePage').value='"&BlogUser.HomePage&"';}catch(e){}"
+			Response.Write "try{$('#inpName').val('"&BlogUser.Name&"');}catch(e){}"
+			Response.Write "try{$('#inpEmail').val('"&BlogUser.Email&"');}catch(e){}"
+			Response.Write "try{$('#inpHomePage').val('"&BlogUser.HomePage&"');}catch(e){}"
 			Response.Write "try{$('#divContorPanel dd div').prepend('<span class=\'cp-hello\' style=\'line-height:2.5em;\'>"&Replace(ZC_MSG023,"%s",BlogUser.FirstName) & " (" & ZVA_User_Level_Name(BlogUser.Level)&")</span><br/>')}catch(e){}"
 			Response.Write "try{$('.cp-login').find('a').html('["&ZC_MSG248&"]');}catch(e){}"
 			Response.Write "try{$('.cp-vrs').find('a').html('["&ZC_MSG168&"]');}catch(e){}"
