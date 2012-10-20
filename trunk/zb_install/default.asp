@@ -714,6 +714,8 @@ Call BlogConfig.Write("ZC_UBB_AUTOKEY_ENABLE",False)
 
 
 '表情相关
+
+
 Call BlogConfig.Write("ZC_EMOTICONS_FILENAME","default")
 Call BlogConfig.Write("ZC_EMOTICONS_FILETYPE","png|jpg|gif")
 Call BlogConfig.Write("ZC_EMOTICONS_FILESIZE",16)
@@ -730,7 +732,7 @@ Call BlogConfig.Write("ZC_UPLOAD_DIRECTORY","zb_users\upload")
 
 
 '当前 Z-Blog 版本
-Call BlogConfig.Write("ZC_BLOG_VERSION","2.0 Beta Build 121014")
+Call BlogConfig.Write("ZC_BLOG_VERSION","2.0 Beta Build 121020")
 
 
 
@@ -796,6 +798,11 @@ Call BlogConfig.Write("ZC_DISPLAY_CATE_ALL_WAP",True)
 Call BlogConfig.Write("ZC_DISPLAY_PAGEBAR_ALL_WAP",True)
 '数量
 Call BlogConfig.Write("ZC_WAP_MUTUALITY_LIMIT",5)
+
+
+Call BlogConfig.Write("ZC_SYNTAXHIGHLIGHTER_ENABLE",False)
+Call BlogConfig.Write("ZC_CODEMIRROR_ENABLE",False)
+Call BlogConfig.Write("ZC_ARTICLE_EXCERPT_MAX",250)
 
 'Response.Write BlogConfig.Count
 'Response.Write BlogConfig.Count
