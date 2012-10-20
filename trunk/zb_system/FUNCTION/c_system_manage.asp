@@ -518,7 +518,7 @@ Function ExportCommentList(intPage,intContent,isCheck)
 	Response.Write "</p></form>"
 
 	Response.Write "<table border=""1"" width=""100%"" cellspacing=""0"" cellpadding=""0"" class=""tableBorder tableBorder-thcenter"">"
-	Response.Write "<tr><th width=""4%""></th><th width=""5%"">"& ZC_MSG076 &"</th><th width=""6%"">"&ZC_MSG152&"</th><th width='10%'>"& ZC_MSG001 &"</th><th>"& ZC_MSG055 &"</th><th width=""15%"">"& ZC_MSG048 &"</th><th width='14%'></th><th width='5%'  align='center'><a href='' onclick='BatchSelectAll();return false'>"& ZC_MSG229 &"</a></th></tr>"'
+	Response.Write "<tr><th width=""4%""></th><th width=""5%"">"& ZC_MSG076 &"</th><th width=""6%"">"&ZC_MSG152&"</th><th width='10%'>"& ZC_MSG003 &"</th><th>"& ZC_MSG055 &"</th><th width=""15%"">"& ZC_MSG048 &"</th><th width='14%'></th><th width='5%'  align='center'><a href='' onclick='BatchSelectAll();return false'>"& ZC_MSG229 &"</a></th></tr>"'
 
 	objRS.Open("SELECT * FROM [blog_Comment] "& strSQL &" ORDER BY [comm_ID] DESC")
 
@@ -646,7 +646,7 @@ Function ExportUserList(intPage)
 	If (Not objRS.bof) And (Not objRS.eof) Then
 
 		Response.Write "<table border=""1"" width=""100%"" cellspacing=""0"" cellpadding=""0"" class=""tableBorder tableBorder-thcenter"">"
-		Response.Write "<tr><th width='5%'>"& ZC_MSG076 &"</th><th width='10%'></th><th>"& ZC_MSG001 &"</th><th>"& ZC_MSG147 &"</th><th width='10%'>"& ZC_MSG082 &"</th><th width='10%'>"& ZC_MSG124 &"</th><th width='14%'></th></tr>"
+		Response.Write "<tr><th width='5%'>"& ZC_MSG076 &"</th><th width='10%'></th><th>"& ZC_MSG003 &"</th><th>"& ZC_MSG147 &"</th><th width='10%'>"& ZC_MSG082 &"</th><th width='10%'>"& ZC_MSG124 &"</th><th width='14%'></th></tr>"
 
 		For i=1 to objRS.PageSize
 
