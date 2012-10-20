@@ -24,7 +24,6 @@ Dim t
 Select Case Request.QueryString("action")
 	Case "tmpImg"
 		Dim objUpload,isOK
-		response.write BlogPath &  strUPLOADDIR &"\" & uEditor_tmpImg&"\"
 		CreatDirectoryByCustomDirectory strUPLOADDIR &"\" & uEditor_tmpImg&"\" '创建上传文件夹
 		Set objUpload=New UpLoadClass
 		objUpload.AutoSave=2
@@ -45,6 +44,14 @@ Select Case Request.QueryString("action")
 		CreatDirectoryByCustomDirectory uEditor_ASPUploadPath
 		Call UnpackBase64(Request.Form("content"),BlogPath &  strUPLOADDIR &"\" &t)
 		Response.Write "{'url':'" & ReplacePath(t,True)& "',state:'SUCCESS'}"
+		Dim uf
+		Set uf=New TUpLoadFile
+		uf.AuthorID=BlogUser.ID
+		uf.AutoName=False
+		uf.IsManual=True
+		uf.FileSize=objUpload.form(uEditor_ASPFormName&"_Size")
+		uf.FileName=objUpload.form(uEditor_ASPFormName)
+		uf.UpLoad
 		On Error Resume Next
 		Dim oFSO
 		Set oFSO=Server.CreateObject("scripting.filesystemobject")
