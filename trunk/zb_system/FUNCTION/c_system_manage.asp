@@ -1124,10 +1124,10 @@ Function ExportSiteInfo()
 	
 	
 	If BlogUser.Level<4 Then 
-		Call Add_Response_Plugin("Response_Plugin_Admin_SiteInfo","<table border=""0"" cellspacing=""0"" cellpadding=""0"" align=""center"" width=""100%"" class=""tableBorder"" id=""tbStatistic""><tr><th height=""32"" colspan=""4""  align=""center"">&nbsp;"&ZC_MSG167&"&nbsp;<a href=""javascript:statistic('?reload');"">["&ZC_MSG225&"]</a> </th></tr><tr><td></td></tr></table>")
+		Call Add_Response_Plugin("Response_Plugin_Admin_SiteInfo","<table border=""0"" cellspacing=""0"" cellpadding=""0"" align=""center"" width=""100%"" class=""tableBorder"" id=""tbStatistic""><tr><th height=""32"" colspan=""4""  align=""center"">&nbsp;"&ZC_MSG167&"&nbsp;<a href=""javascript:statistic('?reload');"">["&ZC_MSG225&"]</a> <img id=""statloading"" style=""display:none"" src=""../image/admin/loading.gif""></th></tr><tr><td></td></tr></table>")
 	End If
 	If Len(ZC_UPDATE_INFO_URL)>0 Then
-		Call Add_Response_Plugin("Response_Plugin_Admin_SiteInfo","<table border=""0"" cellspacing=""0"" cellpadding=""0"" align=""center"" width=""100%"" class=""tableBorder""><tr><th height=""32"" colspan=""4"" align=""center"">&nbsp;"&ZC_MSG164&"&nbsp;<a href=""javascript:updateinfo('?reload');"">["&ZC_MSG225&"]</a></th></tr><tr><td height=""25"" colspan=""4"" id=""tdUpdateInfo"">&nbsp;</td></tr></table>")
+		Call Add_Response_Plugin("Response_Plugin_Admin_SiteInfo","<table border=""0"" cellspacing=""0"" cellpadding=""0"" align=""center"" width=""100%"" class=""tableBorder""><tr><th height=""32"" colspan=""4"" align=""center"">&nbsp;"&ZC_MSG164&"&nbsp;<a href=""javascript:updateinfo('?reload');"">["&ZC_MSG225&"]</a> <img id=""infoloading"" style=""display:none"" src=""../image/admin/loading.gif""></th></tr><tr><td height=""25"" colspan=""4"" id=""tdUpdateInfo"">&nbsp;</td></tr></table>")
 	
 	End If
 	Call Add_Response_Plugin("Response_Plugin_Admin_SiteInfo",LoadFromFile(BlogPath & "zb_system\defend\thanks.html","utf-8"))
@@ -1138,7 +1138,7 @@ Function ExportSiteInfo()
 
 %>
 <%
-	Response.Write "<script type=""text/javascript"">function statistic(s){$.post(""c_statistic.asp""+s,{},function(data){$(""#tbStatistic"").html(data);bmx2table()});};function updateinfo(s){$.post(""c_updateinfo.asp""+s,{},function(data){$(""#tdUpdateInfo"").html(data);})};</script>"
+	Response.Write "<script type=""text/javascript"">function statistic(s){$(""#statloading"").show();$.post(""c_statistic.asp""+s,{},function(data){$(""#tbStatistic"").html(data);bmx2table();$(""#statloading"").hide();});};function updateinfo(s){$(""#infoloading"").show();$.post(""c_updateinfo.asp""+s,{},function(data){$(""#tdUpdateInfo"").html(data);$(""#infoloading"").hide();})};</script>"
 	Response.Write "<script type=""text/javascript"">$(document).ready(function(){statistic("""");updateinfo("""");});</script>"
 	Response.Write "<script type=""text/javascript"">ActiveLeftMenu(""aSiteInfo"");</script>"
 	Response.Write "<script type=""text/javascript"">ActiveTopMenu(""topmenu1"");</script>"
