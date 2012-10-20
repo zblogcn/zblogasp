@@ -4461,6 +4461,8 @@ Dim Response_Plugin_Admin_Footer
 Response_Plugin_Admin_Footer=""
 
 
+Dim Response_Plugin_Admin_SiteInfo
+Response_Plugin_Admin_SiteInfo=""
 
 
 '**************************************************<

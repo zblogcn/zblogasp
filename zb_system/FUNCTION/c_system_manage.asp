@@ -1112,7 +1112,7 @@ End Function
 '*********************************************************
 Function ExportSiteInfo()
 
-	On Error Resume Next
+	'On Error Resume Next
 
 	Dim FoundFso
 	FoundFso = False
@@ -1121,25 +1121,17 @@ Function ExportSiteInfo()
 	Response.Write "<div class=""divHeader"">" & ZC_MSG159 & "</div>"
 	Response.Write "<div class=""SubMenu"">" & Response_Plugin_SiteInfo_SubMenu & "</div>"
 	Response.Write "<div id=""divMain2"">"
-If BLogUser.Level<4 Then 
-%>	
-	<table border="0" cellspacing="0" cellpadding="0" align="center" width="100%" class="tableBorder" id="tbStatistic">
-	<tr><th height="32" colspan="4"  align="center">&nbsp;<%=ZC_MSG164%>&nbsp;<a href="javascript:statistic('?reload');">[<%=ZC_MSG225%>]</a> </th></tr>
-	<tr><td></td></tr>
-	</table>
-<%
-End If
-If Len(ZC_UPDATE_INFO_URL)>0 Then
-%>
-	<table border="0" cellspacing="0" cellpadding="0" align="center" width="100%" class="tableBorder">
-	<tr><th height="32" colspan="4" align="center">&nbsp;<%=ZC_MSG164%>&nbsp;<a href="javascript:updateinfo('?reload');">[<%=ZC_MSG225%>]</a></th></tr>
-	<tr><td height="25" colspan="4" id="tdUpdateInfo">
-	</td></tr>
-	</table>
-<%=LoadFromFile(BlogPath & ("zb_system\defend\thanks.html"),"utf-8")%>
-<%
-End If
-
+	
+	
+	If BlogUser.Level<4 Then 
+		Call Add_Response_Plugin("Response_Plugin_Admin_SiteInfo","<table border=""0"" cellspacing=""0"" cellpadding=""0"" align=""center"" width=""100%"" class=""tableBorder"" id=""tbStatistic""><tr><th height=""32"" colspan=""4""  align=""center"">&nbsp;"&ZC_MSG167&"&nbsp;<a href=""javascript:statistic('?reload');"">["&ZC_MSG225&"]</a> </th></tr><tr><td></td></tr></table>")
+	End If
+	If Len(ZC_UPDATE_INFO_URL)>0 Then
+		Call Add_Response_Plugin("Response_Plugin_Admin_SiteInfo","<table border=""0"" cellspacing=""0"" cellpadding=""0"" align=""center"" width=""100%"" class=""tableBorder""><tr><th height=""32"" colspan=""4"" align=""center"">&nbsp;"&ZC_MSG164&"&nbsp;<a href=""javascript:updateinfo('?reload');"">["&ZC_MSG225&"]</a></th></tr><tr><td height=""25"" colspan=""4"" id=""tdUpdateInfo"">&nbsp;</td></tr></table>")
+	
+	End If
+	Call Add_Response_Plugin("Response_Plugin_Admin_SiteInfo",LoadFromFile(BlogPath & "zb_system\defend\thanks.html","utf-8"))
+	Response.Write Response_Plugin_Admin_SiteInfo
 	Response.Write "</div>"
 
 	ExportSiteInfo=True

@@ -2229,7 +2229,7 @@ End Function
 '*********************************************************
 Function Add_Response_Plugin(plugname,parameter)
 	On Error Resume Next
-	Call Execute(plugname & "=" & plugname & "&""" & Replace(parameter,"""","""""") & """")
+	Call Execute(plugname & "=" & plugname & "&""" & Replace(Replace(Replace(Replace(parameter,"""",""""""),vbCrlf,""),vbLf,""),vbCr,"") & """")
 	Err.Clear
 End Function
 '*********************************************************

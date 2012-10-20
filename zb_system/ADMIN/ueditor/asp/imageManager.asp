@@ -13,7 +13,7 @@ Next
 	objRS.LockType = adLockReadOnly
 	objRS.ActiveConnection=objConn
 	objRS.Source=""
-	objRS.Open("SELECT * FROM [blog_UpLoad] " & strSQL & " ORDER BY [ul_PostTime] DESC")
+	objRS.Open("SELECT TOP 100 * FROM [blog_UpLoad] " & strSQL & " ORDER BY [ul_PostTime] DESC")
 	objRS.PageSize=ZC_MANAGE_COUNT
 	Call CheckParameter(intPage,"int",1)
 	If objRS.PageCount>0 Then objRS.AbsolutePage = intPage
@@ -22,11 +22,13 @@ Next
 	If (Not objRS.bof) And (Not objRS.eof) Then
 		For i=1 to objRS.PageSize
 			If CheckRegExp(objRS("ul_FileName"),"\.(jpe?g|gif|bmp|png)$")=True And CheckRegExp(objRS("ul_FileName"),"%\d+")=False Then
-				If IsNull(objRS("ul_DirByTime"))=False And objRS("ul_DirByTime")<>"" Then
-					If CBool(objRS("ul_DirByTime"))=True Then
-						strResponse=strResponse&Replace(ZC_UPLOAD_DIRECTORY &"/"&Year(objRS("ul_PostTime")) & "/" & Month(objRS("ul_PostTime")) & "/"&objRS("ul_FileName")&uEditor_Split,"%","%25")
-					Else
-						strResponse=strResponse&Replace(ZC_UPLOAD_DIRECTORY &"/"&objRS("ul_FileName")&uEditor_Split,"%","%25")
+				If IsNull(objRS("ul_DirByTime"))=False Then
+					If objRS("ul_DirByTime")<>"" Then
+						If CBool(objRS("ul_DirByTime"))=True Then
+							strResponse=strResponse&Replace(ZC_UPLOAD_DIRECTORY &"/"&Year(objRS("ul_PostTime")) & "/" & Month(objRS("ul_PostTime")) & "/"&objRS("ul_FileName")&uEditor_Split,"%","%25")
+						Else
+							strResponse=strResponse&Replace(ZC_UPLOAD_DIRECTORY &"/"&objRS("ul_FileName")&uEditor_Split,"%","%25")
+						End If
 					End If
 				Else
 					strResponse=strResponse&Replace(ZC_UPLOAD_DIRECTORY &"/"&objRS("ul_FileName")&uEditor_Split,"%","%25")
