@@ -603,8 +603,9 @@ var imageUploader = {};
                                         scale( this, 100, 120, 80 );
                                         this.title = lang.toggleSelect + w + "X" + h;
                                     };
-                                    img.setAttribute( k < 35 ? "src" : "lazy_src", editor.options.imageManagerPath + ci.replace(/\s+|\s+/ig,"") );
-                                    img.setAttribute( "data_ue_src", editor.options.imageManagerPath + ci.replace(/\s+|\s+/ig,"") );
+                                    img.setAttribute( k < 35 ? "src" : "lazy_src", (/^http/i.test(ci)?"":editor.options.imageManagerPath) + ci.replace(/\s+|\s+/ig,"") );
+                                    img.setAttribute( "data_ue_src", (/^http/i.test(ci)?"":editor.options.imageManagerPath) + ci.replace(/\s+|\s+/ig,"") );
+									img.setAttribute("alt","image");
 
                                 }
                             },

@@ -8,7 +8,7 @@ Function WindsPhoto_Initialize()
 	Set WP_Config=New TConfig
 	WP_Config.Load "WindsPhoto"
 	If WP_Config.Exists("WP_VER")=False Then
-		WP_Config.Write "WP_VER","2.7.4":WP_Config.Write "WP_DATA_PATH","data/windsphoto.mdb":WP_Config.Write "WP_ALBUM_NAME","我的WindsPhoto":WP_Config.Write "WP_ALBUM_INTRO","<p>WindsPhoto是基于asp+access的Z-Blog图片相册管理插件，功能简洁实用。</p>":WP_Config.Write "WP_SUB_DOMAIN","":WP_Config.Write "WP_SCRIPT_TYPE","4":WP_Config.Write "WP_ORDER_BY","1":WP_Config.Write "WP_SMALL_WIDTH",144:WP_Config.Write "WP_SMALL_HEIGHT",144:WP_Config.Write "WP_LIST_WIDTH",600:WP_Config.Write "WP_LIST_HEIGHT",600:WP_Config.Write "WP_UPLOAD_FILESIZE",2048000:WP_Config.Write "WP_UPLOAD_DIR","photofile":WP_Config.Write "WP_UPLOAD_DIRBY","1":WP_Config.Write "WP_UPLOAD_RENAME","1":WP_Config.Write "WP_WATERMARK_WIDTH_POSITION","right":WP_Config.Write "WP_WATERMARK_HEIGHT_POSITION","bottom":WP_Config.Write "WP_JPEG_FONTCOLOR","#000":WP_Config.Write "WP_JPEG_FONTBOLD","true":WP_Config.Write "WP_JPEG_FONTSIZE","14":WP_Config.Write "WP_JPEG_FONTQUALITY","4":WP_Config.Write "WP_WATERMARK_AUTO","0":WP_Config.Write "WP_WATERMARK_TYPE","1":WP_Config.Write "WP_WATERMARK_TEXT","WindsPhoto":WP_Config.Write "WP_WATERMARK_LOGO","images/nopic.jpg":WP_Config.Write "WP_WATERMARK_ALPHA","0.7":WP_Config.Write "WP_INDEX_PAGERCOUNT",12:WP_Config.Write "WP_SMALL_PAGERCOUNT",18:WP_Config.Write "WP_LIST_PAGERCOUNT",8:WP_Config.Write "WP_BLOGPHOTO_ID",1:WP_Config.Write "WP_IF_ASPJPEG","1":WP_Config.Write "WP_HIDE_DIVFILESND","1":WP_Config.Save
+		WP_Config.Write "WP_VER","2.7.4":WP_Config.Write "WP_DATA_PATH","data/windsphoto.mdb":WP_Config.Write "WP_ALBUM_NAME","我的WindsPhoto":WP_Config.Write "WP_ALBUM_INTRO","<p>WindsPhoto是基于asp+access的Z-Blog图片相册管理插件，功能简洁实用。</p>":WP_Config.Write "WP_SUB_DOMAIN","":WP_Config.Write "WP_SCRIPT_TYPE","1":WP_Config.Write "WP_ORDER_BY","1":WP_Config.Write "WP_SMALL_WIDTH",144:WP_Config.Write "WP_SMALL_HEIGHT",144:WP_Config.Write "WP_LIST_WIDTH",600:WP_Config.Write "WP_LIST_HEIGHT",600:WP_Config.Write "WP_UPLOAD_FILESIZE",2048000:WP_Config.Write "WP_UPLOAD_DIR","photofile":WP_Config.Write "WP_UPLOAD_DIRBY","1":WP_Config.Write "WP_UPLOAD_RENAME","1":WP_Config.Write "WP_WATERMARK_WIDTH_POSITION","right":WP_Config.Write "WP_WATERMARK_HEIGHT_POSITION","bottom":WP_Config.Write "WP_JPEG_FONTCOLOR","#000":WP_Config.Write "WP_JPEG_FONTBOLD","true":WP_Config.Write "WP_JPEG_FONTSIZE","14":WP_Config.Write "WP_JPEG_FONTQUALITY","4":WP_Config.Write "WP_WATERMARK_AUTO","0":WP_Config.Write "WP_WATERMARK_TYPE","1":WP_Config.Write "WP_WATERMARK_TEXT","WindsPhoto":WP_Config.Write "WP_WATERMARK_LOGO","images/nopic.jpg":WP_Config.Write "WP_WATERMARK_ALPHA","0.7":WP_Config.Write "WP_INDEX_PAGERCOUNT",12:WP_Config.Write "WP_SMALL_PAGERCOUNT",18:WP_Config.Write "WP_LIST_PAGERCOUNT",8:WP_Config.Write "WP_BLOGPHOTO_ID",1:WP_Config.Write "WP_IF_ASPJPEG","1":WP_Config.Write "WP_HIDE_DIVFILESND","1":WP_Config.Save
 	End If
 	WP_DATA_PATH = WP_Config.Read("WP_DATA_PATH")
 	WP_ALBUM_NAME = WP_Config.Read("WP_ALBUM_NAME")
@@ -69,7 +69,7 @@ Function Activeplugin_WindsPhoto()
 	Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(2,"相册管理",GetCurrentHost&"zb_users/plugin/windsphoto/admin_main.asp","nav_windsphoto","aWindsPhoto",GetCurrentHost&"zb_users/plugin/windsphoto/images/MD-camera-photo.png"))
 	Call Add_Action_Plugin("Action_Plugin_uEditor_FileUpload_Begin","WindsPhoto_uEditorUpload")
 	Call Add_Action_Plugin("Action_Plugin_Edit_ueditor_Begin","WindsPhoto_ExportUEConfig")
-	Call Add_Action_Plugin("Action_Plugin_imageManager_Begin","WindsPhoto_uEditorAlbumList")
+	Call Add_Action_Plugin("Action_Plugin_uEditor_imageManager_Begin","WindsPhoto_uEditorAlbumList")
 End Function
 
 Function WindsPhoto_ExportUEConfig
@@ -104,7 +104,7 @@ End Function
 '添加到导航栏和后台菜单
 Function WindsPhoto_Addto_Navbar()
 	Call GetFunction()
-	Functions(FunctionMetas.GetValue("navbar")).Content=Functions(FunctionMetas.GetValue("navbar")).Content & "<li><a href=""<#ZC_BLOG_HOST#>zb_users/plugin/windsphoto/"">Photos</a></li>"
+	Functions(FunctionMetas.GetValue("navbar")).Content=Functions(FunctionMetas.GetValue("navbar")).Content & "<li><a href=""<#ZC_BLOG_HOST#>zb_users/plugin/windsphoto/"">相册</a></li>"
 	Functions(FunctionMetas.GetValue("navbar")).Save
 	Call ClearGlobeCache
 	Call LoadGlobeCache
@@ -122,7 +122,7 @@ End Function
 '添加相册默认模板
 Function WindsPhoto_Copy_Template()
     Dim strContent
-    strContent = LoadFromFile(BlogPath & "/zb_users/Themes/" & ZC_BLOG_THEME & "/Template/tags.html", "utf-8")
+    strContent = LoadFromFile(BlogPath & "/zb_users/Themes/" & ZC_BLOG_THEME & "/Template/page.html", "utf-8")
     strContent = Replace(strContent, "<#ZC_MSG050#>", "相册分类")
     strContent = Replace(strContent, "<#CACHE_INCLUDE_CALENDAR#>", "<ul><#CACHE_INCLUDE_WINDSPHOTO_SORT#></ul>")
     strContent = Replace(strContent, "id=""divCalendar""", "id=""divCatalog""")
@@ -301,7 +301,6 @@ Function WindsPhoto_uEditorUpload()
 				Conn.Open MyConn
 				'写入数据库
 				strSQL = "insert into desktop ([name],[itime],zhuanti,jj,url,surl,hot) values ('"&name&"','"&now&"',"&zhuanti&",'"&photointro&"','"&photourlb&"','"&photourls&"','0')"
-				response.AddHeader "a",strsql
 				conn.Execute strSQL
 				iCount = iCount + 1
 		
@@ -326,5 +325,27 @@ Function WindsPhoto_uEditorUpload()
 End Function
 
 Function WindsPhoto_uEditorAlbumList()
+	Call WindsPhoto_Initialize
+	
+	If WP_BLOGPHOTO_ID <> 0 then 
+			dim db,conn,objRs,i
+			Dim strResponse
+			db=BlogPath & "\zb_users\plugin\windsphoto\" & WP_DATA_PATH
+				
+			Set Conn = Server.CreateObject("ADODB.Connection")
+			Conn.Open "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & db
+			Set objRs=Conn.Execute("SELECT TOP 100 url FROM desktop WHERE zhuanti="&WP_BLOGPHOTO_ID)
+
+			If Not(objRs.Eof) Then
+				For i=1 to objRS.PageSize
+					Response.Write Replace(WP_SUB_DOMAIN & photofile & "/"&objRS("url")&uEditor_Split,"%","%25")
+					objRS.MoveNext
+					If objRS.Eof Then Exit For
+					
+				Next
+			End If
+			Response.End
+	End If
+	
 End Function
 %>
