@@ -64,9 +64,9 @@ If f<>"" Then
 
 			For l=0 To UBound(aryPara)-1
 				aryElement=Split(aryPara(l),"=")
-				Response.Write "try{eval(""document.getElementById(\"""& aryElement(0) &"\"").innerHTML=\"""& LoadCountInfo(aryElement(1)) &"\"""");}catch(e){}"
+				Response.Write "try{eval(""$(\""#"& aryElement(0) &"\"").html(\"""& LoadCountInfo(aryElement(1)) &"\"")"");}catch(e){}"
 			Next
-
+			LoadSidebar
 		End If
 		s=Request.QueryString("inculde")
 		If s<>"" Then
@@ -77,8 +77,8 @@ If f<>"" Then
 				aryElement=Split(aryPara(l),"=")
 				Response.Write "try{eval(""  {$(\""#"& aryElement(0) &"\"").after(\"""& LoadFileInfo(aryElement(1)) &"\"");$(\""#"& aryElement(0) &"\"").remove();}  "");}catch(e){}"
 			Next
+			LoadSidebar
 			
-
 		End If
 
 		s=Request.QueryString("count")
@@ -147,7 +147,7 @@ If f<>"" Then
 
 	End If
 
-
+	
 	Response.End
 
 End If
@@ -187,7 +187,7 @@ If f<>"" Then
 End If
 '/////////////////////////////////////////////////////////////////////////////////////////
 
-Response.Write "try{SidebarLoaded()}catch(e){}"
+
 
 
 
@@ -338,4 +338,12 @@ Function LoadFileInfo(name)
 
 End Function
 '*********************************************************
+
+Dim isSidebarLoad
+isSidebarLoad=False
+Function LoadSidebar()
+	If isSidebarLoad Then Exit Function
+	Response.Write "try{SidebarLoaded()}catch(e){}"
+	LoadSidebar=True
+End Function
 %>
