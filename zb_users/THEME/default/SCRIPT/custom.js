@@ -1,4 +1,4 @@
-﻿setTimeout(function(){ 
+﻿function SidebarLoaded(){ 
 	$("ul.ul-subcates").prev("a").before("<span class='sh'>-</span>");
 	$("span.sh").click(function (){
 		$(this).next().next("ul").toggle("fast");
@@ -10,10 +10,10 @@
 		function () {
 		$(this).html("-");
 	});
-},500);
+}
 
-//本条留言DomID,留言class,内容class,评论框DomID,指定父ID
-function moveForm(comId,comclass,mClass,frmId,i){
+//本条留言DomID,本条留言class,内容class,评论框DomID,指定父ID
+function ReComment(comId,comClass,mClass,frmId,i){
 	intRevID=i;
 	var comm=$('#'+comId),frm=$('#'+frmId),cancel=$("#cancel-reply"),temp = $('#temp-frm');
 	if ( ! comm.length || ! frm.length || ! cancel.length)return;
@@ -23,7 +23,7 @@ function moveForm(comId,comclass,mClass,frmId,i){
 			div.style.display = 'none';
 			frm.before(div);
 	}
-	if (comm.has('.'+comclass).length){comm.find('.'+comclass).first().before(frm);}
+	if (comm.has('.'+comClass).length){comm.find('.'+comClass).first().before(frm);}
 	else comm.find('.'+mClass).first().append(frm);
 	frm.addClass("reply-frm");
 
