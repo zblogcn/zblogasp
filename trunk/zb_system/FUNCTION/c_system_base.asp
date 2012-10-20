@@ -25,6 +25,9 @@ BlogHost=GetCurrentHost()
 Dim BlogPath
 BlogPath=GetReallyDirectory()
 
+Dim BlogVersion
+BlogVersion=GetBlogVersion()
+
 Dim origZC_BLOG_CLSID
 origZC_BLOG_CLSID=ZC_BLOG_CLSID
 ZC_BLOG_CLSID=MD5(BlogPath & origZC_BLOG_CLSID)
@@ -3849,13 +3852,13 @@ End Function
 '*********************************************************
 ' 目的：  
 '*********************************************************
-Function BlogVersion()
+Function GetBlogVersion()
 	Dim s
 	s=ZC_BLOG_VERSION
 	s=Right(s,6)
 	s=Trim(s)
 	s=CLng(s)
-	BlogVersion=s
+	GetBlogVersion=s
 End Function
 '*********************************************************
 
