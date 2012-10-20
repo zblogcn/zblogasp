@@ -74,12 +74,21 @@ Function ExportRSSbyCate(CateID)
 	With Rss2Export
 
 		Call CheckParameter(CateID,"int",0)
-
 		Dim objRS,CateName,CateIntro
 
 		.TimeZone=ZC_TIME_ZONE
 
-		CateName=Categorys(CateID).Name
+		'Call GetCategory()	
+		Dim Category
+		For Each Category In Categorys
+			If IsObject(Category) Then
+				If Category.ID=CateID Then 
+					CateName=Category.Name
+					Exit For 
+				End If 
+			End If
+		Next 
+		If IsEmpty(CateName) Then Exit Function
 
 		.AddChannelAttribute "title",TransferHTML(ZC_BLOG_TITLE & " - " & CateName,"[html-format]")
 		.AddChannelAttribute "link",TransferHTML(BlogHost,"[html-format]")
@@ -99,9 +108,9 @@ Function ExportRSSbyCate(CateID)
 					If objArticle.LoadInfoByArray(Array(objRS(0),objRS(1),objRS(2),objRS(3),objRS(4),objRS(5),objRS(6),objRS(7),objRS(8),objRS(9),objRS(10),objRS(11),objRS(12),objRS(13),objRS(14),objRS(15),objRS(16),objRS(17))) Then
 
 						If ZC_RSS_EXPORT_WHOLE Then
-						.AddItem objArticle.HtmlTitle,Users(objArticle.AuthorID).Email & " (" & Users(objArticle.AuthorID).Name & ")",objArticle.HtmlUrl,objArticle.PostTime,objArticle.HtmlUrl,objArticle.HtmlContent,Categorys(objArticle.CateID).HtmlName,objArticle.CommentUrl,objArticle.WfwComment,objArticle.WfwCommentRss,objArticle.TrackBackUrl
+						.AddItem objArticle.HtmlTitle,Users(objArticle.AuthorID).Email & " (" & Users(objArticle.AuthorID).FirstName & ")",objArticle.HtmlUrl,objArticle.PostTime,objArticle.HtmlUrl,objArticle.HtmlContent,Categorys(objArticle.CateID).HtmlName,objArticle.CommentUrl,objArticle.WfwComment,objArticle.WfwCommentRss,objArticle.TrackBackUrl
 						Else
-						.AddItem objArticle.HtmlTitle,Users(objArticle.AuthorID).Email & " (" & Users(objArticle.AuthorID).Name & ")",objArticle.HtmlUrl,objArticle.PostTime,objArticle.HtmlUrl,objArticle.HtmlIntro,Categorys(objArticle.CateID).HtmlName,objArticle.CommentUrl,objArticle.WfwComment,objArticle.WfwCommentRss,objArticle.TrackBackUrl
+						.AddItem objArticle.HtmlTitle,Users(objArticle.AuthorID).Email & " (" & Users(objArticle.AuthorID).FirstName & ")",objArticle.HtmlUrl,objArticle.PostTime,objArticle.HtmlUrl,objArticle.HtmlIntro,Categorys(objArticle.CateID).HtmlName,objArticle.CommentUrl,objArticle.WfwComment,objArticle.WfwCommentRss,objArticle.TrackBackUrl
 						End If
 
 					End If
@@ -142,7 +151,16 @@ Function ExportRSSbyUser(UserID)
 
 		.TimeZone=ZC_TIME_ZONE
 
-		UserName=Users(UserID).Name
+		Dim User
+		For Each User In Users
+			If IsObject(User) Then
+				If User.ID=UserID Then 
+					UserName=User.FirstName
+					Exit For 
+				End If 
+			End If
+		Next 
+		If IsEmpty(UserName) Then Exit Function
 
 		.AddChannelAttribute "title",TransferHTML(ZC_BLOG_TITLE & " - " & UserName,"[html-format]")
 		.AddChannelAttribute "link",TransferHTML(BlogHost,"[html-format]")
@@ -162,9 +180,9 @@ Function ExportRSSbyUser(UserID)
 					If objArticle.LoadInfoByArray(Array(objRS(0),objRS(1),objRS(2),objRS(3),objRS(4),objRS(5),objRS(6),objRS(7),objRS(8),objRS(9),objRS(10),objRS(11),objRS(12),objRS(13),objRS(14),objRS(15),objRS(16),objRS(17))) Then
 
 						If ZC_RSS_EXPORT_WHOLE Then
-						.AddItem objArticle.HtmlTitle,Users(objArticle.AuthorID).Email & " (" & Users(objArticle.AuthorID).Name & ")",objArticle.HtmlUrl,objArticle.PostTime,objArticle.HtmlUrl,objArticle.HtmlContent,Categorys(objArticle.CateID).HtmlName,objArticle.CommentUrl,objArticle.WfwComment,objArticle.WfwCommentRss,objArticle.TrackBackUrl
+						.AddItem objArticle.HtmlTitle,Users(objArticle.AuthorID).Email & " (" & Users(objArticle.AuthorID).FirstName & ")",objArticle.HtmlUrl,objArticle.PostTime,objArticle.HtmlUrl,objArticle.HtmlContent,Categorys(objArticle.CateID).HtmlName,objArticle.CommentUrl,objArticle.WfwComment,objArticle.WfwCommentRss,objArticle.TrackBackUrl
 						Else
-						.AddItem objArticle.HtmlTitle,Users(objArticle.AuthorID).Email & " (" & Users(objArticle.AuthorID).Name & ")",objArticle.HtmlUrl,objArticle.PostTime,objArticle.HtmlUrl,objArticle.HtmlIntro,Categorys(objArticle.CateID).HtmlName,objArticle.CommentUrl,objArticle.WfwComment,objArticle.WfwCommentRss,objArticle.TrackBackUrl
+						.AddItem objArticle.HtmlTitle,Users(objArticle.AuthorID).Email & " (" & Users(objArticle.AuthorID).FirstName & ")",objArticle.HtmlUrl,objArticle.PostTime,objArticle.HtmlUrl,objArticle.HtmlIntro,Categorys(objArticle.CateID).HtmlName,objArticle.CommentUrl,objArticle.WfwComment,objArticle.WfwCommentRss,objArticle.TrackBackUrl
 						End If
 
 					End If
@@ -221,9 +239,9 @@ Function ExportRSSbyDate(YearMonth)
 					If objArticle.LoadInfoByArray(Array(objRS(0),objRS(1),objRS(2),objRS(3),objRS(4),objRS(5),objRS(6),objRS(7),objRS(8),objRS(9),objRS(10),objRS(11),objRS(12),objRS(13),objRS(14),objRS(15),objRS(16),objRS(17))) Then
 
 						If ZC_RSS_EXPORT_WHOLE Then
-						.AddItem objArticle.HtmlTitle,Users(objArticle.AuthorID).Email & " (" & Users(objArticle.AuthorID).Name & ")",objArticle.HtmlUrl,objArticle.PostTime,objArticle.HtmlUrl,objArticle.HtmlContent,Categorys(objArticle.CateID).HtmlName,objArticle.CommentUrl,objArticle.WfwComment,objArticle.WfwCommentRss,objArticle.TrackBackUrl
+						.AddItem objArticle.HtmlTitle,Users(objArticle.AuthorID).Email & " (" & Users(objArticle.AuthorID).FirstName & ")",objArticle.HtmlUrl,objArticle.PostTime,objArticle.HtmlUrl,objArticle.HtmlContent,Categorys(objArticle.CateID).HtmlName,objArticle.CommentUrl,objArticle.WfwComment,objArticle.WfwCommentRss,objArticle.TrackBackUrl
 						Else
-						.AddItem objArticle.HtmlTitle,Users(objArticle.AuthorID).Email & " (" & Users(objArticle.AuthorID).Name & ")",objArticle.HtmlUrl,objArticle.PostTime,objArticle.HtmlUrl,objArticle.HtmlIntro,Categorys(objArticle.CateID).HtmlName,objArticle.CommentUrl,objArticle.WfwComment,objArticle.WfwCommentRss,objArticle.TrackBackUrl
+						.AddItem objArticle.HtmlTitle,Users(objArticle.AuthorID).Email & " (" & Users(objArticle.AuthorID).FirstName & ")",objArticle.HtmlUrl,objArticle.PostTime,objArticle.HtmlUrl,objArticle.HtmlIntro,Categorys(objArticle.CateID).HtmlName,objArticle.CommentUrl,objArticle.WfwComment,objArticle.WfwCommentRss,objArticle.TrackBackUrl
 						End If
 
 					End If
@@ -265,7 +283,16 @@ Function ExportRSSbyTags(TagsID)
 
 		.TimeZone=ZC_TIME_ZONE
 
-		TagName=Tags(TagsID).Name
+		Dim Tag
+		For Each Tag In Tags
+			If IsObject(Tag) Then
+				If Tag.ID=TagsID Then 
+					TagName=Tag.Name
+					Exit For 
+				End If 
+			End If
+		Next 
+		If IsEmpty(TagName) Then Exit Function
 
 		.AddChannelAttribute "title",TransferHTML(ZC_BLOG_TITLE,"[html-format]") & " - " & TagName
 		.AddChannelAttribute "link",TransferHTML(BlogHost,"[html-format]")
@@ -285,9 +312,9 @@ Function ExportRSSbyTags(TagsID)
 					If objArticle.LoadInfoByArray(Array(objRS(0),objRS(1),objRS(2),objRS(3),objRS(4),objRS(5),objRS(6),objRS(7),objRS(8),objRS(9),objRS(10),objRS(11),objRS(12),objRS(13),objRS(14),objRS(15),objRS(16),objRS(17))) Then
 
 						If ZC_RSS_EXPORT_WHOLE Then
-						.AddItem objArticle.HtmlTitle,Users(objArticle.AuthorID).Email & " (" & Users(objArticle.AuthorID).Name & ")",objArticle.HtmlUrl,objArticle.PostTime,objArticle.HtmlUrl,objArticle.HtmlContent,Categorys(objArticle.CateID).HtmlName,objArticle.CommentUrl,objArticle.WfwComment,objArticle.WfwCommentRss,objArticle.TrackBackUrl
+						.AddItem objArticle.HtmlTitle,Users(objArticle.AuthorID).Email & " (" & Users(objArticle.AuthorID).FirstName & ")",objArticle.HtmlUrl,objArticle.PostTime,objArticle.HtmlUrl,objArticle.HtmlContent,Categorys(objArticle.CateID).HtmlName,objArticle.CommentUrl,objArticle.WfwComment,objArticle.WfwCommentRss,objArticle.TrackBackUrl
 						Else
-						.AddItem objArticle.HtmlTitle,Users(objArticle.AuthorID).Email & " (" & Users(objArticle.AuthorID).Name & ")",objArticle.HtmlUrl,objArticle.PostTime,objArticle.HtmlUrl,objArticle.HtmlIntro,Categorys(objArticle.CateID).HtmlName,objArticle.CommentUrl,objArticle.WfwComment,objArticle.WfwCommentRss,objArticle.TrackBackUrl
+						.AddItem objArticle.HtmlTitle,Users(objArticle.AuthorID).Email & " (" & Users(objArticle.AuthorID).FirstName & ")",objArticle.HtmlUrl,objArticle.PostTime,objArticle.HtmlUrl,objArticle.HtmlIntro,Categorys(objArticle.CateID).HtmlName,objArticle.CommentUrl,objArticle.WfwComment,objArticle.WfwCommentRss,objArticle.TrackBackUrl
 						End If
 
 					End If
@@ -337,11 +364,23 @@ Function ExportRSSbyCmt(intID)
 
 
 			Set objRS=objConn.Execute("SELECT TOP " & ZC_RSS2_COUNT & " * FROM [blog_Comment] WHERE ([comm_ID]>0) AND ([log_ID]>0) AND ([comm_isCheck]=0) ORDER BY [comm_PostTime] DESC")
-
+			
+			Call GetUser
+			Dim User
 			Do While Not objRS.eof
 
 				Set objComment=New TComment
 				If objComment.LoadInfoByArray(Array(objRS("comm_ID"),objRS("log_ID"),objRS("comm_AuthorID"),objRS("comm_Author"),objRS("comm_Content"),objRS("comm_Email"),objRS("comm_HomePage"),objRS("comm_PostTime"),objRS("comm_IP"),objRS("comm_Agent"),objRS("comm_Reply"),objRS("comm_LastReplyIP"),objRS("comm_LastReplyTime"),objRS("comm_ParentID"),objRS("comm_IsCheck"),objRs("comm_Meta")))  And objArticle.LoadInfoByID(objRS("log_ID")) Then
+					If objComment.AuthorID>0 Then
+						For Each User in Users
+							If IsObject(User) Then
+								If User.ID=objComment.AuthorID Then
+									objComment.Author = User.FirstName
+									Exit For
+								End If
+							End If
+						Next
+					End If
 					.AddItem "Re:"&objArticle.HtmlTitle,objComment.Email & " (" & objComment.Author & ")",objArticle.HtmlUrl & "#cmt" & objComment.ID,objComment.PostTime,objArticle.HtmlUrl & "#cmt" & objComment.ID,objComment.HtmlContent,"","","","",""
 				End If
 				Set objComment=Nothing
