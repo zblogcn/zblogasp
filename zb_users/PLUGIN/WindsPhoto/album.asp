@@ -9,7 +9,7 @@
 '///////////////////////////////////////////////////////////////////////////////
 %>
 <%' Option Explicit %>
-<% On Error Resume Next %>
+<% 'On Error Resume Next %>
 <% Response.Charset="UTF-8" %>
 <% Response.Buffer=True %>
 <!-- #include file="../../c_option.asp" -->
@@ -19,10 +19,9 @@
 <!-- #include file="../../../zb_system/function/c_system_event.asp" -->
 <!-- #include file="../../../zb_system/function/c_system_plugin.asp" -->
 <!-- #include file="../../plugin/p_config.asp" -->
-<%Call System_Initialize%>
-<!-- #include file="data/conn.asp" -->
+<!-- #include file="function.asp" -->
+<%Call System_Initialize%><!-- #include file="data/conn.asp" --><%
 
-<%
 Dim TypeName, hot, data, data1, js, p
 If IsNumeric(Request.QueryString("typeid")) = FALSE Then
     response.Write "<script>alert('对不起,参数错误!');history.back();</script>"
@@ -42,8 +41,9 @@ If temprs.EOF Or temprs.bof Then
     response.Write "<script>alert('对不起,该相册不存在');history.back();</script>"
     response.End
 End If
+
 If temprs(6) = 1 And mo = 0 Then
-    Response.Redirect"album.asp?typeid="&typeid&"&mo=1"
+    Response.Redirect "album.asp?typeid="&typeid&"&mo=1"
 End If
 TypeName = temprs(0)
 hot = temprs(1)
@@ -52,6 +52,7 @@ data1 = temprs(3)
 js = temprs(4)
 p = temprs(5)
 Set temprs = Nothing
+
 Set rs = Server.CreateObject("ADODB.RecordSet")
 sql = "select * from zhuanti where id="&typeid
 Set rs = Server.CreateObject("ADODB.Recordset")
@@ -68,27 +69,22 @@ Set Rs = Nothing
 %>
 
 <%
-Call System_Initialize
-
-LoadGlobeCache
-
-Dim ArtList
-Set ArtList = New TArticleList
-
-ArtList.LoadCache
-
-If LoadFromFile(BlogPath & "zb_users/themes/" & ZC_BLOG_THEME & "/template/wp_album.html", "utf-8") = "" Then
-    ArtList.template = "TAGS"
-Else
-    ArtList.template = "WP_ALBUM"
+Dim objArticle
+Set objArticle = New TArticle
+'objArticle.
+objArticle.FType=ZC_POST_TYPE_PAGE
+If GetTemplate("TEMPLATE_WP_ALBUM")<>empty Then
+    objArticle.template = "WP_ALBUM"
 End If
 
-ArtList.Title = WP_ALBUM_NAME &"-"& TypeName
 
-ArtList.Build
+objArticle.Title = WP_ALBUM_NAME &"-"& TypeName
+objArticle.Content=GetPhoto()
+If objArticle.Export(ZC_DISPLAY_MODE_SYSTEMPAGE) Then 
+	objArticle.Build
 
     Dim Html
-    Html = ArtList.html
+    Html = objArticle.html
     Dim AddedHtml
 	AddedHtml="<link rel=""alternate"" type=""application/rss+xml"" href="""& WP_SUB_DOMAIN &"rss.asp?id="&typeid&""" title=""订阅我的相册"" />" & vbCrLf
 	AddedHtml = AddedHtml & "<link rel=""stylesheet"" href="""& WP_SUB_DOMAIN &"images/windsphoto.css"" type=""text/css"" media=""screen"" />" & VBCRLF
@@ -106,17 +102,12 @@ ArtList.Build
         Html = Replace(Html, "</head>", AddedHtml)
     End If
 
-    Html = Replace(Html, ">TagCloud</h2>", ">"& GetType() &"</h2>")
-    Html = Replace(Html, "<#CUSTOM_TAGS_TITLE#>", GetType())
-    Html = Replace(Html, "<#CUSTOM_TAGS#>", GetPhoto())
     Html = Replace(Html, ">Powered By", ">Powered By <a href='http://photo.wilf.cn/' target='_blank' title='WindsPhoto官方网站'>WindsPhoto</a> &")
-    Html = Replace(Html, "<a href=""cmd.asp?act=login"">", "<a href=""../../cmd.asp?act=login"">") '换掉相对路径
-    Html = Replace(Html, "<a href=""cmd.asp?act=vrs"">", "<a href=""../../cmd.asp?act=vrs"">")
     Call ClearGlobeCache
     Call LoadGlobeCache
     Response.Write Html
-
-Set ArtList = Nothing
+End If
+Set objArticle = Nothing
 %>
 
 <%

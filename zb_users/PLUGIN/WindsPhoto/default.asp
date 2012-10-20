@@ -9,7 +9,7 @@
 '///////////////////////////////////////////////////////////////////////////////
 %>
 <%' Option Explicit %>
-<% On Error Resume Next %>
+<%' On Error Resume Next %>
 <% Response.Charset="UTF-8" %>
 <% Response.Buffer=True %>
 <!-- #include file="../../c_option.asp" -->
@@ -22,42 +22,37 @@
 
 <!-- #include file="function.asp" -->
 
-<%
-Call System_Initialize%><!-- #include file="data/conn.asp" --><%
+<%Call System_Initialize%><!-- #include file="data/conn.asp" --><%
 
 LoadGlobeCache
 
-Dim ArtList
-Set ArtList = New TArticleList
-
-ArtList.LoadCache
-
-If LoadFromFile(BlogPath & "Themes/" & ZC_BLOG_THEME & "/Template/wp_index.html", "utf-8") = "" Then
-    ArtList.template = "TAGS"
-Else
-    ArtList.template = "WP_INDEX"
+Dim objArticle
+Set objArticle = New TArticle
+'objArticle.
+objArticle.FType=ZC_POST_TYPE_PAGE
+If GetTemplate("TEMPLATE_WP_INDEX")<>empty Then
+    objArticle.template = "WP_INDEX"
 End If
 
-ArtList.Title = WP_ALBUM_NAME
 
-ArtList.Build
+
+objArticle.Title = WP_ALBUM_NAME
+objArticle.Content=GetPhotoIndex()
+If objArticle.Export(ZC_DISPLAY_MODE_SYSTEMPAGE) Then
+	objArticle.Build
     Dim Html, AddedHtml
-    Html = ArtList.html
+    Html = objArticle.html
     AddedHtml = "<link rel=""alternate"" type=""application/rss+xml"" href="""& WP_SUB_DOMAIN &"rss.asp"" title=""订阅我的相册"" />" & VBCRLF
     AddedHtml = AddedHtml & "<script type=""text/javascript"" src="""& WP_SUB_DOMAIN &"script/windsphoto.js""></script>" & VBCRLF
     AddedHtml = AddedHtml & "<link rel=""stylesheet"" href="""& WP_SUB_DOMAIN &"images/windsphoto.css"" type=""text/css"" media=""screen"" />" & VBCRLF & "<title>"
     Html = Replace(Html, "<title>", AddedHtml)
-    Html = Replace(Html, ">TagCloud</h2>", ">" & WP_ALBUM_NAME & "</h2>")
-    Html = Replace(Html, "<#CUSTOM_TAGS_TITLE#>", WP_ALBUM_NAME)
     Html = Replace(Html, ">Powered By", ">Powered By <a href='http://photo.wilf.cn/' target='_blank' title='WindsPhoto官方网站'>WindsPhoto</a> &")
-    Html = Replace(Html, "<#CUSTOM_TAGS#>", GetPhotoIndex())
-    Html = Replace(Html, "<a href=""cmd.asp?act=login"">", "<a href=""" + ZC_BLOG_HOST + "zb_system/cmd.asp?act=login"">") '换掉相对路径
-    Html = Replace(Html, "<a href=""cmd.asp?act=vrs"">", "<a href=""" + ZC_BLOG_HOST + "zb_system/cmd.asp?act=vrs"">")
     Call ClearGlobeCache
     Call LoadGlobeCache
     Response.Write Html
+End If
 
-Set ArtList = Nothing
+Set objArticle = Nothing
 
 Set Conn = Nothing
 'If Err.Number<>0 then
