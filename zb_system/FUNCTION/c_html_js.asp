@@ -77,7 +77,7 @@ If f<>"" Then
 				aryElement=Split(aryPara(l),"=")
 				Response.Write "try{eval(""  {$(\""#"& aryElement(0) &"\"").after(\"""& LoadFileInfo(aryElement(1)) &"\"");$(\""#"& aryElement(0) &"\"").remove();}  "");}catch(e){}"
 			Next
-			Response.Write "try{SidebarLoaded()}catch(e){}"
+			
 
 		End If
 
@@ -187,7 +187,7 @@ If f<>"" Then
 End If
 '/////////////////////////////////////////////////////////////////////////////////////////
 
-
+Response.Write "try{SidebarLoaded()}catch(e){}"
 
 
 
