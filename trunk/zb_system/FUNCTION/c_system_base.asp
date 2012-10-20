@@ -767,7 +767,9 @@ Function CheckCateByID(intCateId)
 	CheckCateByID=Not objConn.Execute("SELECT [cate_ID] FROM [blog_Category] WHERE [cate_ID]=" & CLng(intCateId) ).BOF
 
 End Function
-
+'*********************************************************
+' 目的：    根据分类名得到分类ID
+'*********************************************************
 Function GetCateByName(strName)
 
 	If strName=BlogConfig.Read("ZC_UNCATEGORIZED_NAME") Then
@@ -783,6 +785,9 @@ Function GetCateByName(strName)
 	End If
 End Function
 
+'*********************************************************
+' 目的：    根据分类别名得到分类ID
+'*********************************************************
 Function GetCateByAlias(strAlias)
 
 	If strAlias=BlogConfig.Read("ZC_UNCATEGORIZED_ALIAS") Then
@@ -803,7 +808,7 @@ End Function
 
 
 '*********************************************************
-' 目的：    检查分类是否存在
+' 目的：    检查TAG是否存在
 '*********************************************************
 Function CheckTagByID(intTagID)
 
@@ -811,12 +816,18 @@ Function CheckTagByID(intTagID)
 
 End Function
 
+'*********************************************************
+' 目的：    检查TAG是否存在
+'*********************************************************
 Function CheckTagByName(strName)
 
 	CheckTagByName=Not objConn.Execute("SELECT [tag_ID] FROM [blog_Tag] WHERE [tag_Name]='" & FilterSQL(strName) &"'" ).BOF
 
 End Function
 
+'*********************************************************
+' 目的：   根据TAG名得到TAG ID
+'*********************************************************
 Function GetTagByName(strName)
 	Dim objRS
 	Set objRS=objConn.Execute("SELECT [tag_ID] FROM [blog_Tag] WHERE [tag_Name]='"&FilterSQL(strName)&"'" )
@@ -1165,7 +1176,7 @@ End Function
 
 
 '*********************************************************
-' 目的：    
+' 目的：    得到模板标签
 '*********************************************************
 Function GetTemplateTags(Name)
 	GetTemplateTags=TemplateTagsDic.Item(Name)
@@ -1176,7 +1187,7 @@ End Function
 
 
 '*********************************************************
-' 目的：    
+' 目的：    设置模板标签
 '*********************************************************
 Function SetTemplateTags(Name,Value)
 	TemplateTagsDic.Item(Name)=Value
