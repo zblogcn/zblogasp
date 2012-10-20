@@ -345,5 +345,6 @@ Function LoadSidebar()
 	If isSidebarLoad Then Exit Function
 	Response.Write "try{SidebarLoaded()}catch(e){}"
 	LoadSidebar=True
+	isSidebarLoad=True
 End Function
 %>
