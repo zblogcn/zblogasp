@@ -94,7 +94,7 @@ Next
 		If i=5 Then Exit For
 	Next
 	Response.Write "</select></p>"
-	Response.Write "<p><span class='title'>"& ZC_MSG001 &":</span><span class='star'>(*)</span><br/><input id=""edtName"" size=""50"" name=""edtName""  type=""text"" value="""& TransferHTML(EditUser.Name,"[html-format]") &""" /></p>"
+	Response.Write "<p><span class='title'>"& ZC_MSG003 &":</span><span class='star'>(*)</span><br/><input id=""edtName"" size=""50"" name=""edtName""  type=""text"" value="""& TransferHTML(EditUser.Name,"[html-format]") &""" /></p>"
 	Response.Write "<p><span class='title'>"& ZC_MSG002 &":</span>"&IIF(EditUser.ID<>0,"","<span class='star'>(*)</span>")&"<br/><input id=""edtPassWord"" size=""50"" name=""edtPassWord""  type=""password"" value="""" />"
 
 	Response.Write "</p>"
