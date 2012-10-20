@@ -96,7 +96,7 @@ Next
 	<script type="text/javascript" src="../script/jquery.tagto.js"></script>
 	<script type="text/javascript" src="../script/jquery-ui-timepicker-addon.js"></script>
 	<script type="text/javascript" charset="utf-8" src="ueditor/editor_config.asp"></script>
-	<script type="text/javascript" charset="utf-8" src="ueditor/editor_all.js"></script>
+	<script type="text/javascript" charset="utf-8" src="ueditor/editor_all_min.js"></script>
 <!--#include file="admin_top.asp"-->
 <%If IsPage=False Then%>
 <%If EditArticle.ID=0 Then%>
