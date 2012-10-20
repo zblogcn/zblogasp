@@ -68,17 +68,22 @@ Function Activeplugin_WindsPhoto()
     Call Add_Response_Plugin("Response_Plugin_SiteInfo_SubMenu",MakeSubMenu("[WindsPhoto管理]",BlogHost & "zb_users/plugin/windsphoto/admin_main.asp","m-left",False))
 	Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(2,"相册管理",GetCurrentHost&"zb_users/plugin/windsphoto/admin_main.asp","nav_windsphoto","aWindsPhoto",GetCurrentHost&"zb_users/plugin/windsphoto/images/MD-camera-photo.png"))
 	Call Add_Action_Plugin("Action_Plugin_uEditor_FileUpload_Begin","WindsPhoto_uEditorUpload")
-	Call Add_Action_Plugin("Action_Plugin_Edit_ueditor_Begin","WindsPhoto_ExportUEConfig")
+	Call Add_Filter_Plugin("Filter_Plugin_UEditor_Config","WindsPhoto_ExportUEConfig")	
 	Call Add_Action_Plugin("Action_Plugin_uEditor_imageManager_Begin","WindsPhoto_uEditorAlbumList")
 End Function
 
-Function WindsPhoto_ExportUEConfig
+Function WindsPhoto_ExportUEConfig(m)
+	
+	Dim j,k
+	j=Split(m,"imagePath:""")(0)
+	k=Split(m,""",imageFieldName:")(1)
+	OpenConnect
 	WindsPhoto_Initialize
 	Dim tmp
 	tmp=BlogHost & WindsPhoto_GetImgFolder
 '	response.write tmp
 
-	Call Add_Response_Plugin("Response_Plugin_Edit_Form3","<script type=""text/javascript"">editor.options.imagePath="""&tmp&"""</script>")
+	m=j&"imagePath:"""&tmp&""",imageFieldName:"&k
 	
 End Function
 
@@ -147,7 +152,7 @@ Function WindsPhoto_GetImgFolder()
 End Function
 
 Function WindsPhoto_uEditorUpload()
-	
+	On Error Resume Next
 	Call WindsPhoto_Initialize
 	If WP_BLOGPHOTO_ID <> 0 then 
 		zhuanti=WP_BLOGPHOTO_ID
