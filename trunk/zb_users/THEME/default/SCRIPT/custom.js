@@ -1,4 +1,4 @@
-﻿function SidebarLoaded(){ 
+﻿sidebarloaded.add(function(){ 
 	$("ul.ul-subcates").prev("a").before("<span class='sh'>-</span>");
 	$("span.sh").click(function (){
 		$(this).next().next("ul").toggle("fast");
@@ -10,7 +10,7 @@
 		function () {
 		$(this).html("-");
 	});
-}
+})
 
 //本条留言DomID,本条留言class,内容class,评论框DomID,指定父ID
 function ReComment(comId,comClass,mClass,frmId,i){

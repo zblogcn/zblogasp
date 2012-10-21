@@ -589,3 +589,20 @@ function GetComments(logid,page){
 
 }
 //*********************************************************
+
+//*********************************************************
+// 目的：    
+//*********************************************************
+function sidebar(){
+	this.list=[];
+	this.add=function(d){
+		this.list.push(d);
+	}
+	this.execute=function(){
+		for ( var i = 0 ; i < this.list.length ; i++ ){
+			this.list[i]();
+		}
+	}
+}
+var sidebarloaded=new sidebar();
+//*********************************************************
