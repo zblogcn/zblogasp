@@ -343,7 +343,7 @@ Dim isSidebarLoad
 isSidebarLoad=False
 Function LoadSidebar()
 	If isSidebarLoad Then Exit Function
-	Response.Write "try{SidebarLoaded()}catch(e){}"
+	Response.Write "try{sidebarloaded.execute()}catch(e){}"
 	LoadSidebar=True
 	isSidebarLoad=True
 End Function
