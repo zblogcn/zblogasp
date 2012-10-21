@@ -117,10 +117,10 @@ function GetCookie(sName) {
 	swfupload.addPostParam("password",GetCookie("password"));
         //点击OK按钮
         dialog.onok = function(){
-            var map = fileTypeMaps,
-                str="";
+            //var map = fileTypeMaps,
+                var str="";
             for(var i=0,ci;ci=filesList[i++];){
-                var src = editor.options.UEDITOR_HOME_URL + "dialogs/attachment/fileTypeImages/"+(map[ci.type]||"icon_default.png");
+                var src = top.bloghost + getIco(ci.type);
                 str += "<p style='line-height: 16px;'><img src='"+ src + "' data_ue_src='"+src+"' />" +
                        "<a href='"+editor.options.filePath + ci.url+"'>" + ci.original + "</a></p>";
             }
