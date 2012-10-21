@@ -41,9 +41,8 @@ Dim Path
 Path=Replace(BlogPath &  strUPLOADDIR &"\" & objUpload.form(uEditor_ASPFormName&"_Name"),"\","/")
 Dim s
 FileName=BlogHost& strUPLOADDIR &"\" & objUpload.form(uEditor_ASPFormName&"_Name")
-s=objUpload.Save(uEditor_ASPFormName,1)
 
-If objUpload.Save(uEditor_ASPFormName,0)=True Then
+If objUpload.Save(uEditor_ASPFormName,1)=True Then
 	Dim uf
 	Set uf=New TUpLoadFile
 	uf.AuthorID=BlogUser.ID
