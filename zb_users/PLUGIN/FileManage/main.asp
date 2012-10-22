@@ -50,8 +50,8 @@ Call SetBlogHint_Custom(" 若需要修改的数据>200K，请使用文件上传�
 </style>
 <%If FileManage_CodeMirror=True Then%>
 
-<!--<link rel="stylesheet" href="../../../ZB_SYSTEM/admin/ueditor/third-party/codemirror2.15/codemirror.css"/>
-<script language="JavaScript" type="text/javascript" src="../../../ZB_SYSTEM/admin/ueditor/third-party/codemirror2.15/codemirror.js"></script>-->
+<link rel="stylesheet" href="../../../ZB_SYSTEM/admin/ueditor/third-party/codemirror2.15/codemirror.css"/>
+<script language="JavaScript" type="text/javascript" src="../../../ZB_SYSTEM/admin/ueditor/third-party/codemirror2.15/codemirror.js"></script>
 <%End If%>
 <!--#include file="..\..\..\zb_system\admin\admin_top.asp"-->
 

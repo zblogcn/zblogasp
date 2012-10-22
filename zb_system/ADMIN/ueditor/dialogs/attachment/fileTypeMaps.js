@@ -1,10 +1,6 @@
-/**
- * Created by JetBrains PhpStorm.
- * User: taoqili
- * Date: 12-2-10
- * Time: 下午3:50
- * To change this template use File | Settings | File Templates.
- */
+
+//By zsx
+
 //文件类型图标索引
 function getIco(t){
 	var Tag;
@@ -16,7 +12,6 @@ function getIco(t){
 		case "config":
 		case "ini":
 		case "inf":
-		case "sql":
 		case "log": Tag="txt";break;
 		case "doc":
 		case "docx":
@@ -101,7 +96,7 @@ function getIco(t){
 		case "zip":
 		case "7z":
 		case "gz":  Tag="rar";break;
-		case "mdb": Tag="mdb";break;
+		case "mdb": Tag="acc";break;
 		case "zba":
 		case "zti":
 		case "zpi": Tag="zba";break;
