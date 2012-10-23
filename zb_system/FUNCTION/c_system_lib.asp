@@ -138,6 +138,7 @@ Class TCategory
 	End Property
 
 	Public ReCount
+	Public ExID '原ID
 
 	Public Function Post()
 
@@ -306,6 +307,7 @@ Class TCategory
 		Name=ZC_MSG059
 		ReCount=0
 		Order=0
+		ExID=-1 '表示无原ID，文章分类无变化
 		Set Meta=New TMeta
 	End Sub
 
@@ -750,16 +752,27 @@ Class TArticle
 		End If
 
 		'FullUrl=Replace(Url,BlogHost,"<#ZC_BLOG_HOST#>")
-
+		Dim objRS
 		If ID=0 Then
 			objConn.Execute("INSERT INTO [blog_Article]([log_CateID],[log_AuthorID],[log_Level],[log_Title],[log_Intro],[log_Content],[log_PostTime],[log_IP],[log_Tag],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_ViewNums],[log_Type],[log_Meta]) VALUES ("&CateID&","&AuthorID&","&Level&",'"&Title&"','"&Intro&"','"&Content&"','"&PostTime&"','"&IP&"','"&Tag&"','"&Alias&"',"&CLng(Istop)&",'"&TemplateName&"','"&FullUrl&"',0,"&CLng(FType)&",'"&MetaString&"')")
-			Dim objRS
 			Set objRS=objConn.Execute("SELECT MAX([log_ID]) FROM [blog_Article]")
 			If (Not objRS.bof) And (Not objRS.eof) Then
 				ID=objRS(0)
 			End If
 			Set objRS=Nothing
 		Else
+			'Dim objRS
+			Set objRS=objConn.Execute("SELECT [log_CateID],[log_AuthorID] FROM [blog_Article] WHERE [log_ID] =" & ID)
+			If (Not objRS.bof) And (Not objRS.eof) Then
+				If objRS(0)<>CateID Then
+					Categorys(CateID).ExID=objRS(0)
+				End If 
+				If objRS(1)<>AuthorID Then
+					Users(AuthorID).ExID=objRS(1)
+				End If 
+			End If
+			Set objRS=Nothing
+
 			objConn.Execute("UPDATE [blog_Article] SET [log_CateID]="&CateID&",[log_AuthorID]="&AuthorID&",[log_Level]="&Level&",[log_Title]='"&Title&"',[log_Intro]='"&Intro&"',[log_Content]='"&Content&"',[log_PostTime]='"&PostTime&"',[log_IP]='"&IP&"',[log_Tag]='"&Tag&"',[log_Url]='"&Alias&"',[log_Istop]="&CLng(Istop)&",[log_Template]='"&TemplateName&"',[log_FullUrl]='"&FullUrl&"',[log_Type]="&CLng(FType)&",[log_Meta]='"&MetaString&"' WHERE [log_ID] =" & ID)
 		End If
 
@@ -1598,11 +1611,28 @@ Class TArticle
 							objConn.Execute("UPDATE [blog_Category] SET [cate_Count]="&Categorys(CateID).ReCount&" WHERE [cate_ID] =" & CateID)
 						End If
 						Categorys(CateID).Count=Categorys(CateID).ReCount
+						'原分类计数－1
+						Dim Cate_ExID:Cate_ExID=Categorys(CateID).ExID
+						If Cate_ExID<>-1 Then
+							Categorys(Cate_ExID).ReCount=Categorys(Cate_ExID).Count-1
+							If Cate_ExID=0 Then
+								Call BlogConfig.Write("ZC_UNCATEGORIZED_COUNT",Categorys(Cate_ExID).ReCount)
+							Else
+								objConn.Execute("UPDATE [blog_Category] SET [cate_Count]="&Categorys(Cate_ExID).ReCount&" WHERE [cate_ID] =" & Cate_ExID)
+							End If
+							Categorys(Cate_ExID).Count=Categorys(Cate_ExID).ReCount
+						End If 
 					Case 2
-						
 						Users(AuthorID).ReCount=objRs(0)
 						objConn.Execute("UPDATE [blog_Member] SET [mem_PostLogs]="&Users(AuthorID).ReCount&" WHERE [mem_ID] =" & AuthorID)
 						Users(AuthorID).Count=Users(AuthorID).ReCount
+						'原用户计数－1
+						Dim User_ExID:User_ExID=Users(AuthorID).ExID
+						If User_ExID<>-1 Then
+							Users(User_ExID).ReCount=Users(User_ExID).Count-1
+							objConn.Execute("UPDATE [blog_Member] SET [mem_PostLogs]="&Users(User_ExID).ReCount&" WHERE [mem_ID] =" & User_ExID)
+							Users(User_ExID).Count=Users(User_ExID).ReCount
+						End If 
 					End Select
 					objRs.MoveNext
 				End If
@@ -2572,6 +2602,7 @@ Class TUser
 	End Property
 
 	Public ReCount
+	Public ExID
 
 	Public Function GetPasswordByOriginal(OriginaPassword)
 
@@ -2977,6 +3008,7 @@ Class TUser
 		LoginType="Cookies"
 
 		ReCount=0
+		ExID=-1
 
 		Set Meta=New TMeta
 
