@@ -2718,7 +2718,7 @@ Function BlogReBuild_Tags()
 	For Each s In Tags
 		If IsObject(s)=True Then
 			If h.Exists(CStr(s.ID)) Then
-				strTag=strTag & "<li><span class=""tag-name tag-name-size"&TagCloud(s.Count)&"""><a href="""&s.Url&""">"+s.Name + "</span><span class=""tag-count""> (" & s.Count & ")</span>" +"</a></li>"
+				strTag=strTag & "<li class=""tag-name tag-name-size"&TagCloud(s.Count)&"""><a href="""&s.Url&""">"+s.Name + "<span class=""tag-count""> (" & s.Count & ")</span>" +"</a></li>"
 			End If
 		End If
 	Next
