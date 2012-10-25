@@ -2551,30 +2551,33 @@ Function BlogReBuild_Catalogs()
 	aryCateInOrder=GetCategoryOrder()
 
 
-	Categorys(0).Count=objConn.Execute("SELECT COUNT([log_ID]) FROM [blog_Article] WHERE [log_Level]>1 AND [log_Type]=0 AND [log_CateID]=0")(0)
-
 	If Categorys(0).Count>0 Then
 		strCatalog=strCatalog & "<li class=""li-cate cate-"& Categorys(0).id &"""><a href="""& Categorys(0).Url & """>"+Categorys(0).Name + "<span class=""article-nums""> (" & Categorys(0).Count & ")</span>" +"</a></li>"
 	End If
 
-	Dim i,j
+	Dim i,j,c
+	Dim strPrecata,strSubcate
 	For i=Lbound(aryCateInOrder)+1 To Ubound(aryCateInOrder)
-
+		strPrecata="":strSubcate=""
 		If Categorys(aryCateInOrder(i)).ParentID=0 Then
-			strCatalog=strCatalog & "<li class=""li-cate cate-"& Categorys(aryCateInOrder(i)).ID &"""><a href="""& Categorys(aryCateInOrder(i)).Url & """>"+Categorys(aryCateInOrder(i)).Name + "<span class=""article-nums""> (" & Categorys(aryCateInOrder(i)).Count & ")</span>" +"</a>"
+			c=Categorys(aryCateInOrder(i)).Count
 
 			bolHasSubCate=False
 			For j=Lbound(aryCateInOrder)+1 To UBound(aryCateInOrder)
 				If Categorys(aryCateInOrder(j)).ParentID=Categorys(aryCateInOrder(i)).ID Then bolHasSubCate=True
 			Next
-			If bolHasSubCate Then strCatalog=strCatalog & "<ul class=""ul-subcates"">"
+			'If bolHasSubCate Then strSubcate = "<ul class=""ul-subcates"">"
 			For j=Lbound(aryCateInOrder)+1 To UBound(aryCateInOrder)
-				If Categorys(aryCateInOrder(j)).ParentID=Categorys(aryCateInOrder(i)).ID Then
-					strCatalog=strCatalog & "<li class=""li-subcate cate-"& Categorys(aryCateInOrder(j)).ID &"""><a href="""& Categorys(aryCateInOrder(j)).Url & """>"+Categorys(aryCateInOrder(j)).Name + "<span class=""article-nums""> (" & Categorys(aryCateInOrder(j)).Count & ")</span>" +"</a></li>"
+				If Categorys(aryCateInOrder(j)).ParentID=Categorys(aryCateInOrder(i)).ID And Categorys(aryCateInOrder(j)).Count>0 Then
+					strSubcate=strSubcate & "<li class=""li-subcate cate-"& Categorys(aryCateInOrder(j)).ID &"""><a href="""& Categorys(aryCateInOrder(j)).Url & """>"+Categorys(aryCateInOrder(j)).Name + "<span class=""article-nums""> (" & Categorys(aryCateInOrder(j)).Count & ")</span>" +"</a></li>"
+					c=c+Categorys(aryCateInOrder(j)).Count
 				End If
 			Next
-			If bolHasSubCate Then strCatalog=strCatalog & "</ul>"
-			strCatalog=strCatalog & "</li>"
+			If bolHasSubCate And strSubcate<>"" Then strSubcate="<ul class=""ul-subcates"">" & strSubcate & "</ul>"
+
+			If c>0 Then strPrecata="<li class=""li-cate cate-"& Categorys(aryCateInOrder(i)).ID &"""><a href="""& Categorys(aryCateInOrder(i)).Url & """>"+Categorys(aryCateInOrder(i)).Name + "<span class=""article-nums""> (" & c & ")</span>" +"</a>"& strSubcate &"</li>"
+
+			strCatalog=strCatalog & strPrecata
 		End If
 
 	Next
