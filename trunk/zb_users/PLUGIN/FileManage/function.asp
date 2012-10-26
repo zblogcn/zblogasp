@@ -89,7 +89,9 @@ Function FileManage_ExportInformation(foldername,path)
 	z=LCase(foldername)
 	k=LCase(path)
 	l=lcase(blogpath)
-	
+	l=IIf(Right(l,1)="\",Left(l,Len(l)-1),l)
+	k=IIf(Right(k,1)="\",Left(k,Len(k)-1),k)
+
 	dim h
 	h=replace(lcase(ZC_DATABASE_PATH),"/","\")
 
@@ -102,10 +104,13 @@ Function FileManage_ExportInformation(foldername,path)
 			case lcase(ZC_STATIC_DIRECTORY) n="静态文件存放文件夹"
 			case "catalog.asp" n="文章列表"
 			case "default.asp" n="首页"
-			case "feed.asp" n="RSS订阅"
+			case "feed.asp","rss.xml" n="RSS订阅"
 			case "search.asp" n="搜索"
 			case "tags.asp" n="Tags列表"
 			case "wap.asp" n="Wap"
+			case "robotx.txt" n="Robots"
+			case "sitemap.xml" n="站点地图"
+			
 		end select
 	elseif k&"\"&z=l&"\"&lcase(ZC_UPLOAD_DIRECTORY) then
 		n="上传文件夹"
@@ -134,6 +139,7 @@ Function FileManage_ExportInformation(foldername,path)
 			case "language" n="Language Pack"
 			case "plugin" n="插件文件夹"
 			case "theme" n="主题文件夹"
+			case "emotion" n="表情文件夹"
 			'case Replace(lcase(ZC_UPLOAD_DIRECTORY),"zb_users\") n="上传文件文件夹"
 			'case "c_custom.asp" n="用户配置文件"
 			case "c_option.asp" n="网站设置文件"
@@ -144,7 +150,7 @@ Function FileManage_ExportInformation(foldername,path)
 			case "link.asp" n="友链"
 			case "favorite.asp" n="收藏"
 			case "navbar.asp" n="导航栏"
-			case "misc.asp" n="图标汇总"
+			case "misc.asp" n="图标汇总"			
 		end select
 	elseif k=l &  "\zb_users\data" then
 			'if CheckRegExp(z,".+?mdb|.+?asp") then n="可能是Z-Blog数据库"
