@@ -39,7 +39,7 @@ Next
     oDic.Add "wordImagePath",""""&Path&""""
     oDic.Add "wordImageFieldName","""edtFileLoad"""
     oDic.Add "getMovieUrl","URL+""asp/getMovie.asp"""
-	oDic.Add "toolbars","[ ['fullscreen', 'source', '|', 'undo', 'redo', '|', 'bold', 'italic', 'underline', 'strikethrough', 'superscript', 'subscript','forecolor', 'backcolor', '|', 'insertorderedlist', 'insertunorderedlist','indent', 'justifyleft', 'justifycenter', 'justifyright','|',  'autotypeset', 'searchreplace','preview'],[ 'fontfamily', 'fontsize','|', 'emotion','link','insertimage',,'insertvideo', 'attachment','spechars','|', 'map', 'gmap','|', "&IIf(ZC_SYNTAXHIGHLIGHTER_ENABLE,"'highlightcode',","")&"'blockquote', 'pasteplain','wordimage','inserttable', '|' ,'scrawl','horizontal']]"
+	oDic.Add "toolbars","[ [ 'source', '|', 'undo', 'redo', '|', 'bold', 'italic', 'underline', 'strikethrough', 'superscript', 'subscript','forecolor', 'backcolor', '|', 'insertorderedlist', 'insertunorderedlist','indent', 'justifyleft', 'justifycenter', 'justifyright','|', 'removeformat','formatmatch','autotypeset', 'searchreplace'],[ 'fontfamily', 'fontsize','|', 'emotion','link','anchor','insertimage',,'insertvideo', 'attachment','spechars','|', 'map', 'gmap','|', "&IIf(ZC_SYNTAXHIGHLIGHTER_ENABLE,"'highlightcode',","")&"'blockquote', 'pasteplain','wordimage','inserttable', '|' ,'scrawl','horizontal','help','fullscreen']]"
 	'oDic.Add "maximumWords",1000000000
 	'oDic.Add "wordCountMsg","'当前已输入 {#count} 个字符 '"
 	oDic.Add "initialContent","'<p></p>'"
