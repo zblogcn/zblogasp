@@ -29,7 +29,7 @@ objUpload.maxsize=1000000
 objUpload.open
 If objUpload.Save("edtFileLoad",0)=True Then
 	Call InstallApp(BlogPath & "zb_users\cache\"&objUpload.form("edtFileLoad"))
-	CreateObject("scripting.filesystemobject").DeleteFile BlogPath & "zb_users\cache\"&objUpload.form("edtFileLoad")
+	CreateObject("scripting.filesystemobject").DeleteFile BlogPath & "zb_users\cache\*.zba"
 End If
 
 
