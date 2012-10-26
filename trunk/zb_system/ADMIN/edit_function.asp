@@ -64,7 +64,7 @@ BlogTitle=ZC_MSG144
 %>
 
 <div id="divMain2">
-<% Call GetBlogHint() %>
+<div id="ShowBlogHint"><% Call GetBlogHint() %></div>
 <form id="edit" name="edit" method="post" action="../cmd.asp?act=FunctionSav">
 <%
 	Dim s,t,u
