@@ -46,7 +46,9 @@ ReDim Users(0)
 ReDim Tags(0)
 ReDim Functions(0)
 
+Set Categorys(0)=New TCategory
 Set Users(0)=New TUser
+Set Tags(0)=New TTag
 
 Dim FunctionMetas
 Set FunctionMetas=New TMeta

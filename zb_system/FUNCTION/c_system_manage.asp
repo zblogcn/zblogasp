@@ -968,9 +968,9 @@ Function ExportPluginMng()
 					Response.Write "<td>"& objXmlFile.documentElement.selectSingleNode("modified").text &"</td>"
 					Response.Write "<td align='center'>"
 					If BlogUser.Level<=CLng(objXmlFile.documentElement.selectSingleNode("plugin/level").text) Then
-						'If fso.FileExists(BlogPath & "zb_users/theme/" & ZC_BLOG_THEME & "/plugin/" & objXmlFile.documentElement.selectSingleNode("plugin/path").text) Then
+						If fso.FileExists(BlogPath & "zb_users/theme/" & ZC_BLOG_THEME & "/plugin/" & objXmlFile.documentElement.selectSingleNode("plugin/path").text) Then
 							Response.Write "<a href=""../../ZB_USERS/theme/" & ZC_BLOG_THEME & "/plugin/" & objXmlFile.documentElement.selectSingleNode("plugin/path").text &"""><img width='16' title='"&ZC_MSG022&"' alt='"&ZC_MSG022&"' src='../IMAGE/ADMIN/setting_tools.png'/></a>"
-						'End If
+						End If
 					End If
 					Response.Write "</td>"
 					Response.Write "</tr>"

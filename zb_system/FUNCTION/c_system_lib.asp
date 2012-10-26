@@ -1847,11 +1847,12 @@ Class TArticleList
 		Dim  Template_Article_Istop
 
 		'plugin node
-		Dim i,j,k,l
+		Dim i,j,k,l,s,t
 		Dim objRS
 		Dim intPageCount
 		Dim objArticle
 		Dim ut,ud,dd,dt,tt,td
+		Dim intCate,intAuthor,intTag
 
 		Call CheckParameter(intPage,"int",1)
 		Title=ZC_BLOG_SUBTITLE
@@ -1913,6 +1914,8 @@ Class TArticleList
 
 			Call CheckParameter(i,"int",Empty)
 
+			intCate=i
+
 			If i=0 Then
 				objRS.Source=objRS.Source & "AND([log_CateID]=0)"
 			Else
@@ -1939,12 +1942,14 @@ Class TArticleList
 					i=GetAuthorByName(Author)
 				End If
 			ElseIf InStr(ZC_USER_REGEX,"{%name%}")>0 Then
-
+				i=GetAuthorByName(Author)
 			Else
 				i=Author
 			End If
 
 			Call CheckParameter(i,"int",Empty)
+
+			intAuthor=i
 
 			objRS.Source=objRS.Source & "AND([log_AuthorID]="&i&")"
 
@@ -2008,15 +2013,16 @@ Class TArticleList
 			End If
 			objRS.Source=objRS.Source & "AND([log_Tag] LIKE '%{" & i & "}%')"
 
+			intTag=i
+
 			If CheckTagByID(i) Then
-				Dim t
-				Set t=New TTag
-				Call t.LoadInfoByID(i)
-				Title=t.Name
-				TemplateTags_ArticleList_Tags_ID=t.ID
-				If IsEmpty(html)=True Then html=t.Template
-				Url =ParseCustomDirectoryForUrl(t.FullRegex,ZC_STATIC_DIRECTORY,"","","","","",t.ID,t.Name,t.EncodeName)
-				MixUrl =ParseCustomDirectoryForUrl("{%host%}/catalog.asp?tags={%alias%}",ZC_STATIC_DIRECTORY,"","","","","",t.ID,t.Name,t.EncodeName)
+				Call GetTagsbyTagIDList("{"&i&"}")
+
+				Title=Tags(i).Name
+				TemplateTags_ArticleList_Tags_ID=Tags(i).ID
+				If IsEmpty(html)=True Then html=Tags(i).Template
+				Url =ParseCustomDirectoryForUrl(Tags(i).FullRegex,ZC_STATIC_DIRECTORY,"","","","","",Tags(i).ID,Tags(i).Name,Tags(i).EncodeName)
+				MixUrl =ParseCustomDirectoryForUrl("{%host%}/catalog.asp?tags={%alias%}",ZC_STATIC_DIRECTORY,"","","","","",Tags(i).ID,Tags(i).Name,Tags(i).EncodeName)
 			End If
 		End If
 
@@ -2121,8 +2127,8 @@ Class TArticleList
 		Dim aryTemplateSubValue()
 
 
-		ReDim aryTemplateSubName(19)
-		ReDim aryTemplateSubValue(19)
+		ReDim aryTemplateSubName( 36)
+		ReDim aryTemplateSubValue(36)
 
 		aryTemplateSubName(  1)=subhtml_TemplateName
 		aryTemplateSubValue( 1)=subhtml
@@ -2132,36 +2138,72 @@ Class TArticleList
 		aryTemplateSubValue( 3)=TransferHTML(Template_PageBar_Next,"[anti-zc_blog_host]")
 		aryTemplateSubName(  4)="template:pagebar_previous"
 		aryTemplateSubValue( 4)=TransferHTML(Template_PageBar_Previous,"[anti-zc_blog_host]")
-		aryTemplateSubName(  5)="articlelist/author/id"
-		aryTemplateSubValue( 5)=TemplateTags_ArticleList_Author_ID
-		aryTemplateSubName(  6)="articlelist/tags/id"
-		aryTemplateSubValue( 6)=TemplateTags_ArticleList_Tags_ID
-		aryTemplateSubName(  7)="articlelist/category/id"
-		aryTemplateSubValue( 7)=TemplateTags_ArticleList_Category_ID
-		aryTemplateSubName(  8)="articlelist/date/year"
-		aryTemplateSubValue( 8)=TemplateTags_ArticleList_Date_Year
-		aryTemplateSubName(  9)="articlelist/date/month"
-		aryTemplateSubValue( 9)=TemplateTags_ArticleList_Date_Month
-		aryTemplateSubName( 10)="articlelist/date/day"
-		aryTemplateSubValue(10)=TemplateTags_ArticleList_Date_Day
-		aryTemplateSubName( 11)="articlelist/date/shortdate"
-		aryTemplateSubValue(11)=TemplateTags_ArticleList_Date_ShortDate
-		aryTemplateSubName( 12)="articlelist/page/now"
-		aryTemplateSubValue(12)=TemplateTags_ArticleList_Page_Now
-		aryTemplateSubName( 13)="articlelist/page/all"
-		aryTemplateSubValue(13)=TemplateTags_ArticleList_Page_All
-		aryTemplateSubName( 14)="articlelist/page/count"
-		aryTemplateSubValue(14)=ZC_DISPLAY_COUNT
-		aryTemplateSubName( 15)="template:sidebar"
-		aryTemplateSubValue(15)=GetTemplate("CACHE_SIDEBAR")
-		aryTemplateSubName( 16)="template:sidebar2"
-		aryTemplateSubValue(16)=GetTemplate("CACHE_SIDEBAR2")
-		aryTemplateSubName( 17)="template:sidebar3"
-		aryTemplateSubValue(17)=GetTemplate("CACHE_SIDEBAR3")
-		aryTemplateSubName( 18)="template:sidebar4"
-		aryTemplateSubValue(18)=GetTemplate("CACHE_SIDEBAR4")
-		aryTemplateSubName( 19)="template:sidebar5"
-		aryTemplateSubValue(19)=GetTemplate("CACHE_SIDEBAR5")
+
+		aryTemplateSubName(  6)="articlelist/date/year"
+		aryTemplateSubValue( 6)=TemplateTags_ArticleList_Date_Year
+		aryTemplateSubName(  7)="articlelist/date/month"
+		aryTemplateSubValue( 7)=TemplateTags_ArticleList_Date_Month
+		aryTemplateSubName(  9)="articlelist/date/day"
+		aryTemplateSubValue( 9)=TemplateTags_ArticleList_Date_Day
+		aryTemplateSubName( 10)="articlelist/date/shortdate"
+		aryTemplateSubValue(10)=TemplateTags_ArticleList_Date_ShortDate
+		aryTemplateSubName( 11)="articlelist/page/now"
+		aryTemplateSubValue(11)=TemplateTags_ArticleList_Page_Now
+		aryTemplateSubName( 12)="articlelist/page/all"
+		aryTemplateSubValue(12)=TemplateTags_ArticleList_Page_All
+		aryTemplateSubName( 13)="articlelist/page/count"
+		aryTemplateSubValue(13)=ZC_DISPLAY_COUNT
+
+		aryTemplateSubName( 14)="articlelist/category/id"
+		aryTemplateSubValue(14)=IIF(ListType="CATEGORY",Categorys(intCate).ID,"")
+		aryTemplateSubName( 15)="articlelist/category/name"
+		aryTemplateSubValue(15)=IIF(ListType="CATEGORY",Categorys(intCate).HtmlName,"")
+		aryTemplateSubName( 16)="articlelist/category/order"
+		aryTemplateSubValue(16)=IIF(ListType="CATEGORY",Categorys(intCate).Order,"")
+		aryTemplateSubName( 17)="articlelist/category/count"
+		aryTemplateSubValue(17)=IIF(ListType="CATEGORY",Categorys(intCate).Count,"")
+		aryTemplateSubName( 18)="articlelist/category/url"
+		aryTemplateSubValue(18)=IIF(ListType="CATEGORY",TransferHTML(Categorys(intCate).HtmlUrl,"[anti-zc_blog_host]"),"")
+
+		aryTemplateSubName( 19)="articlelist/author/id"
+		aryTemplateSubValue(19)=IIF(ListType="USER",Users(intAuthor).ID,"")
+		aryTemplateSubName( 20)="articlelist/author/name"
+		aryTemplateSubValue(20)=IIF(ListType="USER",Users(intAuthor).FirstName,"")
+		aryTemplateSubName( 21)="articlelist/author/level"
+		aryTemplateSubValue(21)=IIF(ListType="USER",ZVA_User_Level_Name(Users(intAuthor).Level),"")
+		aryTemplateSubName( 22)="articlelist/author/email"
+		aryTemplateSubValue(22)=IIF(ListType="USER",Users(intAuthor).Email,"")
+		aryTemplateSubName( 23)="articlelist/author/homepage"
+		aryTemplateSubValue(23)=IIF(ListType="USER",Users(intAuthor).HomePage,"")
+		aryTemplateSubName( 24)="articlelist/author/count"
+		aryTemplateSubValue(24)=IIF(ListType="USER",Users(intAuthor).Count,"")
+		aryTemplateSubName( 25)="articlelist/author/url"
+		aryTemplateSubValue(25)=IIF(ListType="USER",TransferHTML(Users(intAuthor).HtmlUrl,"[anti-zc_blog_host]"),"")
+
+		aryTemplateSubName( 26)="articlelist/tag/id"
+		aryTemplateSubValue(26)=IIF(ListType="TAGS",Tags(intTag).ID,"")
+		aryTemplateSubName( 27)="articlelist/tag/name"
+		aryTemplateSubValue(27)=IIF(ListType="TAGS",Tags(intTag).HtmlName,"")
+		aryTemplateSubName( 28)="articlelist/tag/intro"
+		aryTemplateSubValue(28)=IIF(ListType="TAGS",Tags(intTag).HtmlIntro,"")
+		aryTemplateSubName( 29)="articlelist/tag/count"
+		aryTemplateSubValue(29)=IIF(ListType="TAGS",Tags(intTag).Count,"")
+		aryTemplateSubName( 30)="articlelist/tag/url"
+		aryTemplateSubValue(30)=IIF(ListType="TAGS",Tags(intTag).HtmlUrl,"")
+		aryTemplateSubName( 31)="articlelist/tag/encodename"
+		aryTemplateSubValue(31)=IIF(ListType="TAGS",Tags(intTag).EncodeName,"")
+
+
+		aryTemplateSubName( 32)="template:sidebar"
+		aryTemplateSubValue(32)=GetTemplate("CACHE_SIDEBAR")
+		aryTemplateSubName( 33)="template:sidebar2"
+		aryTemplateSubValue(33)=GetTemplate("CACHE_SIDEBAR2")
+		aryTemplateSubName( 34)="template:sidebar3"
+		aryTemplateSubValue(34)=GetTemplate("CACHE_SIDEBAR3")
+		aryTemplateSubName( 35)="template:sidebar4"
+		aryTemplateSubValue(35)=GetTemplate("CACHE_SIDEBAR4")
+		aryTemplateSubName( 36)="template:sidebar5"
+		aryTemplateSubValue(36)=GetTemplate("CACHE_SIDEBAR5")
 
 
 		'plugin node
@@ -2171,6 +2213,35 @@ Class TArticleList
 		For i=0 to j
 			html=Replace(html,"<#" & aryTemplateSubName(i) & "#>",aryTemplateSubValue(i))
 		Next
+
+
+		If ListType="CATEGORY" Or ListType="USER" Then
+			Dim da
+			Set da=CreateObject("Scripting.Dictionary")
+
+			Set RE = New RegExp 
+				RE.Pattern = "<#articlelist/((category/meta|author/meta)/([a-z0-9_]{1,}))#>"
+				RE.IgnoreCase = True 
+				RE.Global = True 
+				Set Matches = RE.Execute(html) 
+				For Each Match in Matches
+					s=Match.SubMatches(0)
+					If da.Exists(s)=False Then da.add s,s
+				Next
+				Set Matches = Nothing
+			Set RE = Nothing
+
+			s=da.Items
+			For t = 0 To da.Count -1
+				If InStr(s(t),"category/meta/")>0 Then
+					s(t)=Replace(s(t),"category/meta/","")
+					html = Replace(html,"<#articlelist/category/meta/" & s(t) & "#>",Categorys(intCate).Meta.GetValue(s(t)) )
+				ElseIf InStr(s(t),"author/meta/")>0 Then 
+					s(t)=Replace(s(t),"author/meta/","")
+					html = Replace(html,"<#articlelist/author/meta/" & s(t) & "#>",Users(intAuthor).Meta.GetValue(s(t)) )
+				End If
+			Next
+		End If
 
 
 		Export=True

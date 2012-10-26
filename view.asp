@@ -14,7 +14,7 @@
 '///////////////////////////////////////////////////////////////////////////////
 %>
 <% Option Explicit %>
-<% 'On Error Resume Next %>
+<% On Error Resume Next %>
 <% Response.Charset="UTF-8" %>
 <% Response.Buffer=True %>
 <!-- #include file="zb_users/c_option.asp" -->
@@ -100,7 +100,6 @@ If (Not objRS.bof) And (Not objRS.eof) Then
 	c=objRS("log_ID")
 Else
 	c=Request.QueryString("id")
-
 	If ZC_POST_STATIC_MODE="REWRITE" Then
 		Dim fso, TxtFile
 		Set fso = CreateObject("Scripting.FileSystemObject")
