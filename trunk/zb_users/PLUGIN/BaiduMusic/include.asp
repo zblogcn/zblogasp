@@ -1,12 +1,10 @@
 ﻿<%
 '///////////////////////////////////////////////////////////////////////////////
-'//             Z-Blog
-'// 作　　者:    seanloo
-'// 版权所有:    www.seanloo.cn
-'// 技术支持:    itsean#seanloo.cn
-'// 程序名称:    文章音乐插件
+'//             Z-Blog 2.0
+'// 作　　者:    未寒 & seanloo
+'// 技术支持:    im@imzhou.com
 '// 英文名称:    BaiduMusic
-'// 备　　注:    only for zblog1.8
+'// 备　　注:    
 '///////////////////////////////////////////////////////////////////////////////
 '注册插件
 Call RegisterPlugin("BaiduMusic","ActivePlugin_BaiduMusic")
