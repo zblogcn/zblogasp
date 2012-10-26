@@ -2460,6 +2460,8 @@ Class TUser
 	Public LastVisitTime
 	Public LastVisitIP
 
+	Public doLoadInfo
+
 	Public Meta
 
 	Public Property Get MetaString
@@ -2672,13 +2674,21 @@ Class TUser
 		aryUser(1)=""
 		If Not IsArray(Session(ZC_BLOG_CLSID&strUserName&"~")) Then
 			Dim objRS
-			Set objRS=objConn.Execute("SELECT [mem_id],[mem_password] FROM [blog_Member] WHERE [mem_Name]='"&strUserName & "'" )
+			Set objRS=objConn.Execute("SELECT [mem_id],[mem_password]"&IIf(doLoadInfo,"",",[mem_Level],[mem_Name],[mem_Email],[mem_HomePage],[mem_url]")&" FROM [blog_Member] WHERE [mem_Name]='"&strUserName & "'" )
 			If (Not objRS.Bof) And (Not objRS.Eof) Then
 	
 				If StrComp(strPassWord,objRS("mem_Password"))=0 Then
 	
 					ID=objRS("mem_ID")
-					LoadInfobyID(ID)
+					If doLoadInfo Then
+						LoadInfobyID(ID)
+					Else
+						Level=objRs("mem_Level")
+						Name=objRs("mem_Name")
+						EMail=objRs("mem_EMail")
+						HomePage=objRs("mem_Homepage")
+						Alias=objRs("mem_url")
+					End If
 					Verify=True
 					aryUser(0)=ID
 					aryUser(1)=Password
@@ -2993,7 +3003,7 @@ Class TUser
 
 
 	Private Sub Class_Initialize()
-
+		doLoadInfo=True
 		Level=5
 		ID=0
 		Name=ZC_MSG018
@@ -3964,6 +3974,7 @@ Class TUpLoadFile
 		Set Meta=New TMeta
 		AutoName=False
 		IsManual=False
+		
 
 	End Sub
 
