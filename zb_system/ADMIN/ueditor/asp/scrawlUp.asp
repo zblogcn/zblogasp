@@ -44,17 +44,16 @@ Select Case Request.QueryString("action")
 		CreatDirectoryByCustomDirectory uEditor_ASPUploadPath
 		Call UnpackBase64(Request.Form("content"),BlogPath &  strUPLOADDIR &"\" &t)
 		Response.Write "{'url':'" & ReplacePath(t,True)& "',state:'SUCCESS'}"
-		Dim uf
+		Dim uf,oFso
+		Set oFSO=Server.CreateObject("scripting.filesystemobject")
 		Set uf=New TUpLoadFile
 		uf.AuthorID=BlogUser.ID
 		uf.AutoName=False
 		uf.IsManual=True
-		uf.FileSize=objUpload.form(uEditor_ASPFormName&"_Size")
-		uf.FileName=objUpload.form(uEditor_ASPFormName)
+		uf.FileSize=oFso.getFile(BlogPath &  strUPLOADDIR &"\" &t).size
+		uf.FileName=t
 		uf.UpLoad
-		On Error Resume Next
-		Dim oFSO
-		Set oFSO=Server.CreateObject("scripting.filesystemobject")
+		On Error Resume Next		
 		oFSO.DeleteFolder BlogPath &  strUPLOADDIR &"\" & uEditor_tmpImg,True  '删除临时文件夹
 		Set oFSO=Nothing
 End Select
