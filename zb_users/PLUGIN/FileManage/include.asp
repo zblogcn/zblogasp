@@ -33,19 +33,28 @@ Function FileManage_GetPluginName(p,f)
 	z=LCase(f)
 	k=LCase(p)
 	l=lcase(blogpath)
+	k=IIf(Right(k,1)="\",Left(k,Len(k)-1),k)
+	l=IIf(Right(l,1)="\",Left(l,Len(l)-1),l)
 	if k=l & "\zb_users\plugin" Then
-		Dim strXmlFile,objXmlFile
-		Set objXmlFile=Server.CreateObject("Microsoft.XMLDOM")
-		objXmlFile.async = False
-		objXmlFile.ValidateOnParse=False
-		strXmlFile =BlogPath & "/ZB_USERS/PLUGIN/" & f & "/" & "Plugin.xml"
-		objXmlFile.load(strXmlFile)
-		If objXmlFile.readyState=4 Then
-			If objXmlFile.parseError.errorCode <> 0 Then
-			Else
-				FileManage_GetPluginName=TransferHTML(objXmlFile.documentElement.selectSingleNode("name").text,"[html-format]")
+		Select Case f
+		Case "p_config.asp" FileManage_GetPluginName="总配置文件"
+		Case "p_include.asp" FileManage_GetPluginName="插件include文件"
+		Case "p_theme.asp" FileManage_GetPluginName="主题插件include文件"
+		
+		Case Else
+			Dim strXmlFile,objXmlFile
+			Set objXmlFile=Server.CreateObject("Microsoft.XMLDOM")
+			objXmlFile.async = False
+			objXmlFile.ValidateOnParse=False
+			strXmlFile =BlogPath & "/ZB_USERS/PLUGIN/" & f & "/" & "Plugin.xml"
+			objXmlFile.load(strXmlFile)
+			If objXmlFile.readyState=4 Then
+				If objXmlFile.parseError.errorCode <> 0 Then
+				Else
+					FileManage_GetPluginName=TransferHTML(objXmlFile.documentElement.selectSingleNode("name").text,"[html-format]")
+				End If
 			End If
-		End If
+		End Select
 	End If
 	Set objXmlFile=Nothing
 End Function
@@ -58,6 +67,8 @@ Function FileManage_GetThemeName(p,f)
 	z=LCase(f)
 	k=LCase(p)
 	l=lcase(blogpath)
+	k=IIf(Right(k,1)="\",Left(k,Len(k)-1),k)
+	l=IIf(Right(l,1)="\",Left(l,Len(l)-1),l)
 	if k=l & "\zb_users\theme" Then
 		Dim strXmlFile,objXmlFile
 		Set objXmlFile=Server.CreateObject("Microsoft.XMLDOM")
