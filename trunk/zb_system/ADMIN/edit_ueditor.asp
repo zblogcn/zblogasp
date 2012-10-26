@@ -151,13 +151,14 @@ Next
                       <div id="divContent" style="clear:both;">
 						<!-- <p><span class='editinputname'><%=ZC_MSG055%>:</span></p> -->
 						<p style="text-align:left;"><span class='editinputname'><%=ZC_MSG055%>:</span>&nbsp;&nbsp;<span id="timemsg"></span><span id="msg2"></span><span id="msg"></span><span class='editinputname'></span><script type="text/javascript" src="c_autosaverjs.asp?act=edit&amp;type=ueditor"></script></p>
-                        <textarea id="ueditor" name="txaContent"><%=TransferHTML(EditArticle.Content,"[textarea]")%></textarea>
+                        
+                        <textarea id="editor_ue" name="txaContent" style="display:none"><%=TransferHTML(EditArticle.Content,"[textarea]")%></textarea><div id="contentready"><img id="statloading" src="../image/admin/loading.gif"/><%=ZC_MSG276%></div>
 						<p><span><%=ZC_MSG216%><a href="" onClick="try{AutoIntro();return false;}catch(e){}">[<%=ZC_MSG200%>]</a></span></p>
                       </div>
 
                       <div id="divIntro" style="display:<%If EditArticle.Intro="" Or IsAutoIntro Then Response.Write "none" Else Response.Write "block"%>;">
                         <p><span class='editinputname'><%=ZC_MSG016%>:</span></p>
-                        <textarea id="ueditor2" name="txaIntro"><%=TransferHTML(EditArticle.Intro,"[textarea]")%></textarea>
+                        <textarea id="editor_ue2" name="txaIntro" style="display:none"><%=TransferHTML(EditArticle.Intro,"[textarea]")%></textarea><div id="introready"><img id="statloading" src="../image/admin/loading.gif"/><%=ZC_MSG276%></div>
                       </div>
 
 <!-- 2号输出接口 -->
@@ -359,8 +360,10 @@ var editor2 = new baidu.editor.ui.Editor({
 	autoHeightEnabled:false,
 	minFrameHeight:200
 });
-editor.render('ueditor');
-editor2.render('ueditor2');
+editor.render('editor_ue');
+editor2.render('editor_ue2');
+editor.ready(function(){$("#contentready").hide();$("div[id='editor_ue']").show()})
+editor2.ready(function(){$("#introready").hide();$("div[id='editor_ue2']").show()})
 
 //日期时间控件
 $.datepicker.regional['zh-cn'] = {
