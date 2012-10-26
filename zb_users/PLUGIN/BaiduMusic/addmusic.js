@@ -1,25 +1,4 @@
 
-function showhidediv(id){
-  try{
-    var sbtitle=document.getElementById(id);
-    if(sbtitle){
-      if(sbtitle.style.display=='block'){
-        sbtitle.style.display='none';
-      }else{
-        sbtitle.style.display='block';
-      }
-    }
-  }catch(e){}
-};
-
-function MusicboxOpen(){
-	document.getElementById("music").style.display='block';
-};
-
-function music_Esc(){
-	document.getElementById("music").style.display='none';
-};
-
 function music_Ok(){
 	var gs=EncodeUtf8(document.getElementById("music_gs").value)
 	var gm=EncodeUtf8(document.getElementById("music_name").value)
