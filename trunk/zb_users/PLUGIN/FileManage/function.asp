@@ -108,7 +108,7 @@ Function FileManage_ExportInformation(foldername,path)
 			case "search.asp" n="搜索"
 			case "tags.asp" n="Tags列表"
 			case "wap.asp" n="Wap"
-			case "robotx.txt" n="Robots"
+			case "robots.txt" n="Robots"
 			case "sitemap.xml" n="站点地图"
 			
 		end select
