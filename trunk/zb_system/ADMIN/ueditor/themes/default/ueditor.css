@@ -960,9 +960,13 @@ span.edui-unclickable {
     height:180px;
 }
 /*help-dialog*/
+.edui-for-help {
+	float: right;
+}
 .edui-for-help .edui-dialog-content  {
     width:400px;
     height:420px;
+	
 }
 /*table-dialog*/
 .edui-for-inserttable .edui-dialog-content  {
