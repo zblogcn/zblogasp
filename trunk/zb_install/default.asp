@@ -23,9 +23,9 @@ CanInstall=""
 Dim zblogstep
 zblogstep=Request.QueryString("step")
 
-If ZC_DATABASE_PATH<>"" Or ZC_MSSQL_DATABASE<>"" Then
-	zblogstep=0
-End If
+'If ZC_DATABASE_PATH<>"" Or ZC_MSSQL_DATABASE<>"" Then
+'	zblogstep=0
+'End If
 
 If zblogstep="" Then zblogstep=1
 
@@ -38,6 +38,7 @@ If zblogstep="" Then zblogstep=1
 	<meta name="generator" content="Z-Blog <%=ZC_BLOG_VERSION%>" />
 	<meta name="robots" content="nofollow" />
 	<script language="JavaScript" src="../zb_system/script/common.js" type="text/javascript"></script>
+	<script language="JavaScript" src="../zb_system/function/c_admin_js_add.asp" type="text/javascript"></script>
 	<script language="JavaScript" src="../zb_system/script/md5.js" type="text/javascript"></script>
     <script language="JavaScript" src="../zb_system/script/jquery-ui-1.9.0.custom.min.js" type="text/javascript"></script>
 	<link rel="stylesheet" rev="stylesheet" href="../zb_system/css/jquery-ui-1.8.23.custom.css"  type="text/css" media="screen" />
@@ -168,7 +169,17 @@ Z-Blog官方网址：http://www.rainbowsoft.org
   </textarea>
 </div>
 <div id='bottom'>
- <label><input type="checkbox" onClick="$('input').prop('disabled',false);$(this).prop('disabled',true);" />我已阅读并同意此协议.</label>&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" name="next" id="netx" value="下一步" disabled="disabled" />
+ <label><input type="checkbox"/>我已阅读并同意此协议.</label>&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" name="next" id="netx" value="下一步" disabled="disabled" />
+ <script type="text/javascript">
+$( "input[type=checkbox]" ).click(function() {
+	if ( $( this ).prop( "checked" ) ) {
+		$('#netx').prop('disabled',false);
+	} 
+	else{
+		$('#netx').prop('disabled',true);
+	}
+});
+</script>
 </div>
 </dd>
 </dl>
@@ -181,7 +192,7 @@ Function Setup2()
 <dl>
 <dd id="ddleft">
 <img src='../zb_system/image/admin/install.png' alt='' />
-<p>安装进度:<span><font color='#3d69aa'>█</font><font color='white'>████████████████</font></span></p>
+<p>安装进度:<span><font color='#3d69aa'>██</font><font color='white'>███████████████</font></span></p>
 <p><b>安装协议</b>&nbsp;»<b>环境检查</b>&nbsp;»数据库建立与设置&nbsp;»安装结果</p>
 </dd>
 <dd id="ddright">
@@ -189,22 +200,22 @@ Function Setup2()
 <div id='content'>
 <body>
 <%CheckServer%>
-<table border="0" style="width:100%">
+<table border="0" style="width:100%;">
   <tr>
     <th colspan="3" scope="row">服务器环境检查</th>
   </tr>
   <tr>
-    <th scope="row">IIS版本</th>
+    <td scope="row">IIS版本</th>
     <td style="text-align:center"><%=Checked123(0,0,0)%></td>
     <td style="text-align:center"><%=Checked123(0,0,1)%></td>
   </tr>
   <tr>
-    <th scope="row">ASP JavaScript支持</th>
+    <td scope="row">ASP JavaScript支持</th>
     <td style="text-align:center"><%=Checked123(0,1,0)%></td>
     <td style="text-align:center"><%=Checked123(0,1,1)%></td>
   </tr>
   <tr>
-    <th scope="row">Z-Blog 路径</th>
+    <td scope="row">Z-Blog 路径</th>
     <td style="text-align:center"><%=Checked123(0,2,0)%></td>
     <td style="text-align:center"><%=Checked123(0,2,1)%></td>
   </tr>
@@ -212,37 +223,37 @@ Function Setup2()
     <th colspan="3" scope="col">组件支持检查</th>
   </tr>
   <tr>
-    <th scope="row" style="width:200px">ADODB.Stream</th>
+    <td scope="row" style="width:200px">ADODB.Stream</th>
     <td style="text-align:center"><%=Checked123(1,0,0)%></td>
     <td style="text-align:center"><%=Checked123(1,0,1)%></td>
   </tr>
   <tr>
-    <th scope="row">ADODB.Connection</th>
+    <td scope="row">ADODB.Connection</th>
     <td style="text-align:center"><%=Checked123(1,1,0)%></td>
     <td style="text-align:center"><%=Checked123(1,1,1)%></td>
   </tr>
   <tr>
-    <th scope="row">ADODB.RecordSet</th>
+    <td scope="row">ADODB.RecordSet</th>
     <td style="text-align:center"><%=Checked123(1,2,0)%></td>
     <td style="text-align:center"><%=Checked123(1,2,1)%></td>
   </tr>
   <tr>
-    <th scope="row">Scripting.FileSystemObject</th>
+    <td scope="row">Scripting.FileSystemObject</th>
     <td style="text-align:center"><%=Checked123(1,3,0)%></td>
     <td style="text-align:center"><%=Checked123(1,3,1)%></td>
   </tr>
   <tr>
-    <th scope="row">Scripting.Dictionary</th>
+    <td scope="row">Scripting.Dictionary</th>
     <td style="text-align:center"><%=Checked123(1,4,0)%></td>
     <td style="text-align:center"><%=Checked123(1,4,1)%></td>
   </tr>
   <tr>
-    <th scope="row">MSXML2.ServerXMLHTTP</th>
+    <td scope="row">MSXML2.ServerXMLHTTP</th>
     <td style="text-align:center"><%=Checked123(1,5,0)%></td>
     <td style="text-align:center"><%=Checked123(1,5,1)%></td>
   </tr>
   <tr>
-    <th scope="row">Microsoft.XMLDOM</th>
+    <td scope="row">Microsoft.XMLDOM</th>
     <td style="text-align:center"><%=Checked123(1,6,0)%></td>
     <td style="text-align:center"><%=Checked123(1,6,1)%></td>
   </tr>
@@ -250,45 +261,45 @@ Function Setup2()
     <th colspan="3" scope="row">权限检查</th>
   </tr>
   <tr>
-    <th scope="row">创建文件夹</th>
+    <td scope="row">创建文件夹</th>
     <td style="text-align:center"><%=Checked123(2,0,0)%></td>
     <td style="text-align:center"><%=Checked123(2,0,1)%></td>
   </tr>
   <tr>
-    <th scope="row">读取文件</th>
+    <td scope="row">读取文件</th>
     <td style="text-align:center"><%=Checked123(2,1,0)%></td>
     <td style="text-align:center"><%=Checked123(2,1,1)%></td>
   </tr>
   <tr>
-    <th scope="row">创建文件</th>
+    <td scope="row">创建文件</th>
     <td style="text-align:center"><%=Checked123(2,2,0)%></td>
     <td style="text-align:center"><%=Checked123(2,2,1)%></td>
   </tr>
   <tr>
-    <th scope="row">编辑文件</th>
+    <td scope="row">编辑文件</th>
     <td style="text-align:center"><%=Checked123(2,3,0)%></td>
     <td style="text-align:center"><%=Checked123(2,3,1)%></td>
   </tr>
   <tr>
-    <th scope="row">重命名文件</th>
+    <td scope="row">重命名文件</th>
     <td style="text-align:center"><%=Checked123(2,4,0)%></td>
     <td style="text-align:center"><%=Checked123(2,4,1)%></td>
   </tr>
   <tr>
-    <th scope="row">删除文件</th>
+    <td scope="row">删除文件</th>
     <td style="text-align:center"><%=Checked123(2,5,0)%></td>
     <td style="text-align:center"><%=Checked123(2,5,1)%></td>
   </tr>
   <tr>
-    <th scope="row">删除文件夹</th>
+    <td scope="row">删除文件夹</th>
     <td style="text-align:center"><%=Checked123(2,6,0)%></td>
     <td style="text-align:center"><%=Checked123(2,6,1)%></td>
   </tr>
   <tr>
-    <th colspan="3" scope="row">数据库连接检查</th>
+    <td colspan="3" scope="row">数据库连接检查</th>
   </tr>
   <tr>
-    <th scope="row">可连接Access</th>
+    <td scope="row">可连接Access</th>
     <td style="text-align:center"><%=Checked123(3,0,0)%></td>
     <td style="text-align:center"><%=Checked123(3,0,1)%></td>
   </tr>
@@ -302,7 +313,7 @@ Function Setup2()
 <div id="dialog-message" title="错误提示">
 
 </div>
-<script type="text/javascript">function showDialog(){$(function() {$("#dialog-message").dialog({modal: true,buttons: {确定: function() {$(this).dialog("close");}}});});}</script>
+<script type="text/javascript">bmx2table();function showDialog(){$(function() {$("#dialog-message").dialog({modal: true,buttons: {确定: function() {$(this).dialog("close");}}});});}</script>
 <%
 
 If InStr(CanInstall,"{0}") Then
