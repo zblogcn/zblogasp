@@ -2165,33 +2165,37 @@ Class TArticleList
 		aryTemplateSubName( 18)="articlelist/category/url"
 		aryTemplateSubValue(18)=IIF(ListType="CATEGORY",TransferHTML(Categorys(intCate).HtmlUrl,"[anti-zc_blog_host]"),"")
 
-		aryTemplateSubName( 19)="articlelist/author/id"
-		aryTemplateSubValue(19)=IIF(ListType="USER",Users(intAuthor).ID,"")
-		aryTemplateSubName( 20)="articlelist/author/name"
-		aryTemplateSubValue(20)=IIF(ListType="USER",Users(intAuthor).FirstName,"")
-		aryTemplateSubName( 21)="articlelist/author/level"
-		aryTemplateSubValue(21)=IIF(ListType="USER",ZVA_User_Level_Name(Users(intAuthor).Level),"")
-		aryTemplateSubName( 22)="articlelist/author/email"
-		aryTemplateSubValue(22)=IIF(ListType="USER",Users(intAuthor).Email,"")
-		aryTemplateSubName( 23)="articlelist/author/homepage"
-		aryTemplateSubValue(23)=IIF(ListType="USER",Users(intAuthor).HomePage,"")
-		aryTemplateSubName( 24)="articlelist/author/count"
-		aryTemplateSubValue(24)=IIF(ListType="USER",Users(intAuthor).Count,"")
-		aryTemplateSubName( 25)="articlelist/author/url"
-		aryTemplateSubValue(25)=IIF(ListType="USER",TransferHTML(Users(intAuthor).HtmlUrl,"[anti-zc_blog_host]"),"")
+		If IsObject(Users) Then
+			aryTemplateSubName( 19)="articlelist/author/id"
+			aryTemplateSubValue(19)=IIF(ListType="USER",Users(intAuthor).ID,"")
+			aryTemplateSubName( 20)="articlelist/author/name"
+			aryTemplateSubValue(20)=IIF(ListType="USER",Users(intAuthor).FirstName,"")
+			aryTemplateSubName( 21)="articlelist/author/level"
+			aryTemplateSubValue(21)=IIF(ListType="USER",ZVA_User_Level_Name(Users(intAuthor).Level),"")
+			aryTemplateSubName( 22)="articlelist/author/email"
+			aryTemplateSubValue(22)=IIF(ListType="USER",Users(intAuthor).Email,"")
+			aryTemplateSubName( 23)="articlelist/author/homepage"
+			aryTemplateSubValue(23)=IIF(ListType="USER",Users(intAuthor).HomePage,"")
+			aryTemplateSubName( 24)="articlelist/author/count"
+			aryTemplateSubValue(24)=IIF(ListType="USER",Users(intAuthor).Count,"")
+			aryTemplateSubName( 25)="articlelist/author/url"
+			aryTemplateSubValue(25)=IIF(ListType="USER",TransferHTML(Users(intAuthor).HtmlUrl,"[anti-zc_blog_host]"),"")
+		End If
 
-		aryTemplateSubName( 26)="articlelist/tag/id"
-		aryTemplateSubValue(26)=IIF(ListType="TAGS",Tags(intTag).ID,"")
-		aryTemplateSubName( 27)="articlelist/tag/name"
-		aryTemplateSubValue(27)=IIF(ListType="TAGS",Tags(intTag).HtmlName,"")
-		aryTemplateSubName( 28)="articlelist/tag/intro"
-		aryTemplateSubValue(28)=IIF(ListType="TAGS",Tags(intTag).HtmlIntro,"")
-		aryTemplateSubName( 29)="articlelist/tag/count"
-		aryTemplateSubValue(29)=IIF(ListType="TAGS",Tags(intTag).Count,"")
-		aryTemplateSubName( 30)="articlelist/tag/url"
-		aryTemplateSubValue(30)=IIF(ListType="TAGS",Tags(intTag).HtmlUrl,"")
-		aryTemplateSubName( 31)="articlelist/tag/encodename"
-		aryTemplateSubValue(31)=IIF(ListType="TAGS",Tags(intTag).EncodeName,"")
+		If IsObject(Tags) Then
+			aryTemplateSubName( 26)="articlelist/tag/id"
+			aryTemplateSubValue(26)=IIF(ListType="TAGS",Tags(intTag).ID,"")
+			aryTemplateSubName( 27)="articlelist/tag/name"
+			aryTemplateSubValue(27)=IIF(ListType="TAGS",Tags(intTag).HtmlName,"")
+			aryTemplateSubName( 28)="articlelist/tag/intro"
+			aryTemplateSubValue(28)=IIF(ListType="TAGS",Tags(intTag).HtmlIntro,"")
+			aryTemplateSubName( 29)="articlelist/tag/count"
+			aryTemplateSubValue(29)=IIF(ListType="TAGS",Tags(intTag).Count,"")
+			aryTemplateSubName( 30)="articlelist/tag/url"
+			aryTemplateSubValue(30)=IIF(ListType="TAGS",Tags(intTag).HtmlUrl,"")
+			aryTemplateSubName( 31)="articlelist/tag/encodename"
+			aryTemplateSubValue(31)=IIF(ListType="TAGS",Tags(intTag).EncodeName,"")
+		End If
 
 
 		aryTemplateSubName( 32)="template:sidebar"
