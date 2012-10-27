@@ -5,7 +5,7 @@
 '///////////////////////////////////////////////////////////////////////////////
 %>
 <% Option Explicit %>
-<% On Error Resume Next %>
+<% 'On Error Resume Next %>
 <% Response.Charset="UTF-8" %>
 <% Response.Buffer=True %>
 <!-- #include file="../zb_users/c_option.asp" -->
@@ -23,9 +23,9 @@ CanInstall=""
 Dim zblogstep
 zblogstep=Request.QueryString("step")
 
-If ZC_DATABASE_PATH<>"" Or ZC_MSSQL_DATABASE<>"" Then
-	zblogstep=0
-End If
+'If ZC_DATABASE_PATH<>"" Or ZC_MSSQL_DATABASE<>"" Then
+'	zblogstep=0
+'End If
 
 If zblogstep="" Then zblogstep=1
 
@@ -39,8 +39,11 @@ If zblogstep="" Then zblogstep=1
 	<meta name="robots" content="nofollow" />
 	<script language="JavaScript" src="../zb_system/script/common.js" type="text/javascript"></script>
 	<script language="JavaScript" src="../zb_system/script/md5.js" type="text/javascript"></script>
+    <script language="JavaScript" src="../zb_system/script/jquery-ui-1.9.0.custom.min.js" type="text/javascript"></script>
+	<link rel="stylesheet" rev="stylesheet" href="../zb_system/css/jquery-ui-1.8.23.custom.css"  type="text/css" media="screen" />
 	<link rel="stylesheet" rev="stylesheet" href="../zb_system/css/admin3.css" type="text/css" media="screen" />
 	<title>Z-Blog 2.0 安装程序</title>
+    
 </head>
 <body>
   <div class="setup"><form method="post" action="?step=<%=zblogstep+1%>">
@@ -296,34 +299,31 @@ Function Setup2()
     
 </div>
 <div id='bottom'>
+<div id="dialog-message" title="错误提示">
+
+</div>
+<script type="text/javascript">function showDialog(){$(function() {$("#dialog-message").dialog({modal: true,buttons: {确定: function() {$(this).dialog("close");}}});});}</script>
 <%
-If CanInstall="" Or CanInstall="{3}" Then %>
-<input type="submit" name="next" id="netx" value="下一步" />
-<%
-End If
+
 If InStr(CanInstall,"{0}") Then
-%>
-<p>不要使用IIS以外的服务器运行Z-Blog，也不要把Z-Blog放置到中文文件夹下。</p>
-<%
+	Response.Write "<script>$('#dialog-message').html($('#dialog-message').html()+'不要使用IIS以外的服务器运行Z-Blog，也不要把Z-Blog放置到中文文件夹下。<br/>')</script>"
 End If
 If InStr(CanInstall,"{1}") Then
-%>
-<p>请检查服务器是否未安装或注销了某个组件。</p>
-<%
+	Response.Write "<script>$('#dialog-message').html($('#dialog-message').html()+'请检查服务器是否未安装或注销了某个组件。<br/>')</script>"
 End If
 If InStr(CanInstall,"{2}") Then
-%>
-<p>请检查是否给了Z-Blog以及其子文件、文件夹的EveryOne和Users全部权限</p>
-<%
+	Response.Write "<script>$('#dialog-message').html($('#dialog-message').html()+'请检查Users用户组是否有Z-Blog运行目录的全部权限。<br/>')</script>"
+End If
 If InStr(CanInstall,"{3}") Then
-%>
-<p>如果您准备使用MSSQL，可以忽略此条警告。否则请确认您的IIS是否运行于32位模式下，临时文件夹是否有权限。</p>
-<%
+	Response.Write "<script>$('#dialog-message').html($('#dialog-message').html()+'如果您准备使用MSSQL，可以忽略此条警告。否则请确认您的IIS是否运行于32位模式下，临时文件夹是否有权限。<br/>');</script>"
+End If
+If CanInstall="" Or CanInstall="{3}" Then
+	Response.Write "<input type=""submit"" name=""next"" id=""netx"" value=""下一步"" />"
+End If
+If CanInstall<>"" Then
+	Response.Write "<script>showDialog()</script>"
 End If
 %>
-
-<%
-End If%>
 </div>
 </dd>
 </dl>
@@ -334,6 +334,7 @@ End Function
 
 
 Function CheckServer()
+	On Error Resume Next
 	Dim a,b
 	Dim Pass,strTemp
 	For a=0 To 3
@@ -368,6 +369,7 @@ Function CheckServer()
 		
 				Case 2
 					If Checked123(1,3,2) And Checked123(1,0,2) And Checked123(0,2,2) Then
+						
 						Select Case b
 							Case 0
 								Call CreateObject("scripting.filesystemobject").CreateFolder(BlogPath & "\zb_users\testfolder")
@@ -395,6 +397,7 @@ Function CheckServer()
 					End If
 				Case 3
 					If b=0 Then
+						ZC_MSSQL_ENABLE=False
 						ZC_DATABASE_PATH="zb_install\zblog.mdb"
 						Dim strConnection
 						strConnection="Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & BlogPath & ZC_DATABASE_PATH
