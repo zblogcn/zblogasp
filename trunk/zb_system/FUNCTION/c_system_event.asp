@@ -1738,8 +1738,6 @@ Function SaveTheme()
 
 	Call SaveConfig2Option()
 
-	Call MakeBlogReBuild_Core()
-
 	SaveTheme=True
 
 End Function
