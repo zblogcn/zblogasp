@@ -5,7 +5,7 @@
 '///////////////////////////////////////////////////////////////////////////////
 %>
 <% Option Explicit %>
-<% On Error Resume Next %>
+<%' On Error Resume Next %>
 <% Response.Charset="UTF-8" %>
 <% Response.Buffer=True %>
 <!-- #include file="../zb_users/c_option.asp" -->
@@ -17,14 +17,15 @@
 
 Dim username,password,userguid
 Dim dbtype,dbpath,dbserver,dbname,dbusername,dbpassword
-
+Dim Checked123(3,6,2),CanInstall
+CanInstall=""
 
 Dim zblogstep
 zblogstep=Request.QueryString("step")
 
-If ZC_DATABASE_PATH<>"" Or ZC_MSSQL_DATABASE<>"" Then
-	zblogstep=0
-End If
+'If ZC_DATABASE_PATH<>"" Or ZC_MSSQL_DATABASE<>"" Then
+'	zblogstep=0
+'End If
 
 If zblogstep="" Then zblogstep=1
 
@@ -51,12 +52,13 @@ Case 1 Call Setup1
 Case 2 Call Setup2
 Case 3 Call Setup3
 Case 4 Call Setup4
+Case 5 Call Setup5
 End  Select
 %>
   </form></div>
 
 <script language="JavaScript" type="text/javascript">
-function setup2(){
+function Setup3(){
 	if($("#dbtype").val()=="mssql"){
 		if($("#dbserver").val()==""){alert('数据库服务器需要填写.');return false;};
 		if($("#dbname").val()==""){alert('数据库名称需要填写.');return false;};
@@ -87,7 +89,7 @@ Function Setup0()
 <dd id="ddleft">
 <img src='../zb_system/image/admin/install.png' alt='' />
 <p>安装进度:<span><font color='#3d69aa'></font><font color='white'>█████████████████</font></span></p>
-<p>安装协议&nbsp;&nbsp;»&nbsp;&nbsp;数据库建立与设置&nbsp;&nbsp;»&nbsp;&nbsp;安装结果</p>
+<p>安装协议&nbsp;»&nbsp;&nbsp;数据库建立与设置&nbsp;»&nbsp;&nbsp;安装结果</p>
 </dd>
 <dd id="ddright">
 <div id='title'>安装提示</div>
@@ -118,8 +120,8 @@ Function Setup1()
 <dl>
 <dd id="ddleft">
 <img src='../zb_system/image/admin/install.png' alt='' />
-<p>安装进度:<span><font color='#3d69aa'>██████</font><font color='white'>███████████</font></span></p>
-<p><b>安装协议</b>&nbsp;&nbsp;»&nbsp;&nbsp;数据库建立与设置&nbsp;&nbsp;»&nbsp;&nbsp;安装结果</p>
+<p>安装进度:<span><font color='#3d69aa'></font><font color='white'>█████████████████</font></span></p>
+<p><b>安装协议</b>&nbsp;»环境检查&nbsp;»数据库建立与设置&nbsp;»安装结果</p>
 </dd>
 <dd id="ddright">
 <div id='title'>安装协议</div>
@@ -133,7 +135,7 @@ Z-Blog官方网址：http://www.rainbowsoft.org
 
 为了使您正确并合法的使用本软件，请您在使用前务必阅读清楚下面的协议条款： 
 
-一、本授权协议适用且仅适用于 Z-Blog 2.0 版本，RainbowStudio官方对本授权协议拥有最终解释权。
+一、本授权协议适用且仅适用于 Z-Blog 2.0 版本，Rainbow Studio官方对本授权协议拥有最终解释权。
 
 二、协议许可的权利
 
@@ -171,22 +173,262 @@ Z-Blog官方网址：http://www.rainbowsoft.org
 End Function
 
 
-
-
-
-
-
-
-
-
-
 Function Setup2()
 %>
 <dl>
 <dd id="ddleft">
 <img src='../zb_system/image/admin/install.png' alt='' />
-<p>安装进度:<span><font color='#3d69aa'>███████████</font><font color='white'>██████</font></span></p>
-<p><b>安装协议</b>&nbsp;&nbsp;»&nbsp;&nbsp;<b>数据库建立与设置</b>&nbsp;&nbsp;»&nbsp;&nbsp;安装结果</p>
+<p>安装进度:<span><font color='#3d69aa'>█</font><font color='white'>████████████████</font></span></p>
+<p><b>安装协议</b>&nbsp;»<b>环境检查</b>&nbsp;»数据库建立与设置&nbsp;»安装结果</p>
+</dd>
+<dd id="ddright">
+<div id='title'>环境检查</div>
+<div id='content'>
+<body>
+<%CheckServer%>
+<table border="0" style="width:100%">
+  <tr>
+    <th colspan="3" scope="row">服务器环境检查</th>
+  </tr>
+  <tr>
+    <th scope="row">IIS版本</th>
+    <td style="text-align:center"><%=Checked123(0,0,0)%></td>
+    <td style="text-align:center"><%=Checked123(0,0,1)%></td>
+  </tr>
+  <tr>
+    <th scope="row">ASP JavaScript支持</th>
+    <td style="text-align:center"><%=Checked123(0,1,0)%></td>
+    <td style="text-align:center"><%=Checked123(0,1,1)%></td>
+  </tr>
+  <tr>
+    <th scope="row">Z-Blog 路径</th>
+    <td style="text-align:center"><%=Checked123(0,2,0)%></td>
+    <td style="text-align:center"><%=Checked123(0,2,1)%></td>
+  </tr>
+  <tr>
+    <th colspan="3" scope="col">组件支持检查</th>
+  </tr>
+  <tr>
+    <th scope="row" style="width:200px">ADODB.Stream</th>
+    <td style="text-align:center"><%=Checked123(1,0,0)%></td>
+    <td style="text-align:center"><%=Checked123(1,0,1)%></td>
+  </tr>
+  <tr>
+    <th scope="row">ADODB.Connection</th>
+    <td style="text-align:center"><%=Checked123(1,1,0)%></td>
+    <td style="text-align:center"><%=Checked123(1,1,1)%></td>
+  </tr>
+  <tr>
+    <th scope="row">ADODB.RecordSet</th>
+    <td style="text-align:center"><%=Checked123(1,2,0)%></td>
+    <td style="text-align:center"><%=Checked123(1,2,1)%></td>
+  </tr>
+  <tr>
+    <th scope="row">Scripting.FileSystemObject</th>
+    <td style="text-align:center"><%=Checked123(1,3,0)%></td>
+    <td style="text-align:center"><%=Checked123(1,3,1)%></td>
+  </tr>
+  <tr>
+    <th scope="row">Scripting.Dictionary</th>
+    <td style="text-align:center"><%=Checked123(1,4,0)%></td>
+    <td style="text-align:center"><%=Checked123(1,4,1)%></td>
+  </tr>
+  <tr>
+    <th scope="row">MSXML2.ServerXMLHTTP</th>
+    <td style="text-align:center"><%=Checked123(1,5,0)%></td>
+    <td style="text-align:center"><%=Checked123(1,5,1)%></td>
+  </tr>
+  <tr>
+    <th scope="row">Microsoft.XMLDOM</th>
+    <td style="text-align:center"><%=Checked123(1,6,0)%></td>
+    <td style="text-align:center"><%=Checked123(1,6,1)%></td>
+  </tr>
+  <tr>
+    <th colspan="3" scope="row">权限检查</th>
+  </tr>
+  <tr>
+    <th scope="row">创建文件夹</th>
+    <td style="text-align:center"><%=Checked123(2,0,0)%></td>
+    <td style="text-align:center"><%=Checked123(2,0,1)%></td>
+  </tr>
+  <tr>
+    <th scope="row">读取文件</th>
+    <td style="text-align:center"><%=Checked123(2,1,0)%></td>
+    <td style="text-align:center"><%=Checked123(2,1,1)%></td>
+  </tr>
+  <tr>
+    <th scope="row">创建文件</th>
+    <td style="text-align:center"><%=Checked123(2,2,0)%></td>
+    <td style="text-align:center"><%=Checked123(2,2,1)%></td>
+  </tr>
+  <tr>
+    <th scope="row">编辑文件</th>
+    <td style="text-align:center"><%=Checked123(2,3,0)%></td>
+    <td style="text-align:center"><%=Checked123(2,3,1)%></td>
+  </tr>
+  <tr>
+    <th scope="row">重命名文件</th>
+    <td style="text-align:center"><%=Checked123(2,4,0)%></td>
+    <td style="text-align:center"><%=Checked123(2,4,1)%></td>
+  </tr>
+  <tr>
+    <th scope="row">删除文件</th>
+    <td style="text-align:center"><%=Checked123(2,5,0)%></td>
+    <td style="text-align:center"><%=Checked123(2,5,1)%></td>
+  </tr>
+  <tr>
+    <th scope="row">删除文件夹</th>
+    <td style="text-align:center"><%=Checked123(2,6,0)%></td>
+    <td style="text-align:center"><%=Checked123(2,6,1)%></td>
+  </tr>
+  <tr>
+    <th colspan="3" scope="row">数据库连接检查</th>
+  </tr>
+  <tr>
+    <th scope="row">可连接Access</th>
+    <td style="text-align:center"><%=Checked123(3,0,0)%></td>
+    <td style="text-align:center"><%=Checked123(3,0,1)%></td>
+  </tr>
+
+</table>
+
+
+    
+</div>
+<div id='bottom'>
+<%
+If CanInstall="" Or CanInstall="{3}" Then %>
+<input type="submit" name="next" id="netx" value="下一步" />
+<%
+End If
+If InStr(CanInstall,"{0}") Then
+%>
+<p>不要使用IIS以外的服务器运行Z-Blog，也不要把Z-Blog放置到中文文件夹下。</p>
+<%
+End If
+If InStr(CanInstall,"{1}") Then
+%>
+<p>请检查服务器是否未安装或注销了某个组件。</p>
+<%
+End If
+If InStr(CanInstall,"{2}") Then
+%>
+<p>请检查是否给了Z-Blog以及其子文件、文件夹的EveryOne和Users全部权限</p>
+<%
+If InStr(CanInstall,"{3}") Then
+%>
+<p>如果您准备使用MSSQL，可以忽略此条警告。否则请确认您的IIS是否运行于32位模式下，临时文件夹是否有权限。</p>
+<%
+End If
+%>
+
+<%
+End If%>
+</div>
+</dd>
+</dl>
+<%
+
+End Function
+
+
+
+Function CheckServer()
+	Dim a,b
+	Dim Pass,strTemp
+	For a=0 To 3
+		For b=0 To 6
+			Select Case a
+				Case 0
+					Select Case b
+						Case 0
+							strTemp=Request.ServerVariables("SERVER_SOFTWARE")
+							Checked123(a,b,0)=strTemp
+							If InStr(LCase(strTemp),"iis") Then
+								Checked123(a,b,2)=True
+							End If
+						Case 1
+							Checked123(a,b,2)=IIf(vbsunescape("Z-Blog")="Z-Blog",True,False)
+						Case 2
+							Checked123(a,b,0)=Request.ServerVariables("PATH_TRANSLATED")
+							Checked123(a,b,2)=Not(CheckRegExp(Request.ServerVariables("PATH_TRANSLATED"),"[^\x00-\xff]"))
+						Case 3,4,5,6 Checked123(a,b,2)=True
+					End Select
+				Case 1
+					Select Case b
+						Case 0 strTemp="ADODB.Stream"
+						Case 1 strTemp="ADODB.Connection"
+						Case 2 strTemp="ADODB.RecordSet"
+						Case 3 strTemp="Scripting.FileSystemObject"
+						Case 4 strTemp="Scripting.Dictionary"
+						Case 5 strTemp="MSXML2.ServerXMLHTTP"
+						Case 6 strTemp="Microsoft.XMLDOM"
+					End Select
+					Checked123(a,b,2)=IsObjInstalled(strTemp)
+		
+				Case 2
+					If Checked123(1,3,2) And Checked123(1,0,2) And Checked123(0,2,2) Then
+						Select Case b
+							Case 0
+								Call CreateObject("scripting.filesystemobject").CreateFolder(BlogPath & "\zb_users\testfolder")
+								Checked123(a,b,2)=IIf(Err.Number<>0,False,True)
+							Case 1
+								Checked123(a,b,2)=IIf(LoadFromFile(Server.MapPath("default.asp"),"utf-8")="",False,True)
+							Case 2
+								Call SaveToFile(BlogPath & "\zb_users\testfolder\test.html","Hello Z-Blog","utf-8",False)
+								Checked123(a,b,2)=CreateObject("scripting.filesystemobject").FileExists(BlogPath & "\zb_users\testfolder\test.html")
+							Case 3
+								Call SaveToFile(BlogPath & "\zb_users\testfolder\test.html","Edit testfile","utf-8",False)
+								If LoadFromFile(BlogPath & "\zb_users\testfolder\test.html","utf-8")="Edit testfile" Then Checked123(a,b,2)=True
+							Case 4
+								Call CreateObject("scripting.filesystemobject").MoveFile(BlogPath & "\zb_users\testfolder\test.html",BlogPath & "\zb_users\testfolder\zblog.html")
+								Checked123(a,b,2)=IIf(Err.Number<>0,False,True)
+							Case 5
+								Call CreateObject("scripting.filesystemobject").GetFile(BlogPath & "\zb_users\testfolder\zblog.html").Delete
+								Checked123(a,b,2)=IIf(Err.Number<>0,False,True)
+							Case 6
+								Call CreateObject("scripting.filesystemobject").GetFolder(BlogPath & "\zb_users\testfolder").Delete
+								Checked123(a,b,2)=IIf(Err.Number<>0,False,True)
+						End Select
+					Else
+						Checked123(a,b,2)=False
+					End If
+				Case 3
+					If b=0 Then
+						ZC_DATABASE_PATH="zb_install\zblog.mdb"
+						Dim strConnection
+						strConnection="Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & BlogPath & ZC_DATABASE_PATH
+						Checked123(a,b,0)=strConnection
+						If OpenConnect Then Checked123(a,b,2)=True
+					Else
+						Checked123(a,b,2)=True
+					End If
+					
+			End Select
+			If Checked123(a,b,2)=True Then 
+				Checked123(a,b,1)="<span style='color:green'><b>√</b></span>"
+			Else
+				Checked123(a,b,1)="<span style='color:red'><b>×</b></span>"
+				CanInstall=CanInstall & "{" & a & "}"
+			End If
+		Next
+	Next
+
+End Function
+
+
+
+
+
+
+
+Function Setup3()
+%>
+<dl>
+<dd id="ddleft">
+<img src='../zb_system/image/admin/install.png' alt='' />
+<p>安装进度:<span><font color='#3d69aa'>█████</font><font color='white'>████████████</font></span></p>
+<p><b>安装协议</b>&nbsp;»<b>环境检查</b>&nbsp;»<b>数据库建立与设置</b>&nbsp;»安装结果</p>
 </dd>
 <dd id="ddright">
 <div id='title'>数据库建立与设置</div>
@@ -209,7 +451,7 @@ Function Setup2()
 <p><b>确认密码:</b>&nbsp;&nbsp;<input type="password" name="repassword" id="repassword" value="" style='width:250px;' /></p>
 </div>
 <div id='bottom'>
-<input type="submit" name="next" id="netx" onClick="return setup2()" value="下一步" />
+<input type="submit" name="next" id="netx" onClick="return Setup3()" value="下一步" />
 </div>
 </dd>
 </dl>
@@ -228,14 +470,14 @@ End Function
 
 
 
-Function Setup3()
+Function Setup4()
 On Error Resume Next
 %>
 <dl>
 <dd id="ddleft">
 <img src='../zb_system/image/admin/install.png' alt='' />
 <p>安装进度:<span><font color='#3d69aa'>█████████████████</font><font color='white'></font></span></p>
-<p><b>安装协议</b>&nbsp;&nbsp;»&nbsp;&nbsp;<b>数据库建立与设置</b>&nbsp;&nbsp;»&nbsp;&nbsp;<b>安装结果</b></p>
+<p><b>安装协议</b>&nbsp;»<b>环境检查</b>&nbsp;»<b>数据库建立与设置</b>&nbsp;»<b>安装结果</b></p>
 </dd>
 <dd id="ddright">
 
@@ -331,7 +573,7 @@ Response.Cookies("username")=""
 <%
 End Function
 
-Function Setup4()
+Function setup5()
 	Response.Redirect BlogHost
 End Function
 
