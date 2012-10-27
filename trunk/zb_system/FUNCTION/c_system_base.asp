@@ -101,7 +101,7 @@ Call CheckUndefined()
 '*********************************************************
 Sub System_Initialize()
 
-	Call ActivePlugin()
+	'Call ActivePlugin()
 
 	'plugin node
 	bAction_Plugin_System_Initialize=False
@@ -132,7 +132,9 @@ Sub System_Initialize()
 	TemplateTagsDic.Item("ZC_BLOG_HOST")=BlogHost
 
 	Call LoadGlobeCache()
-
+	Call CreateAdminLeftMenu()
+	Call CreateAdminTopMenu()
+	Call ActivePlugin()
 
 	If ZC_POST_STATIC_MODE<>"STATIC" Then
 		Dim bolRebuildFiles
@@ -147,6 +149,7 @@ Sub System_Initialize()
 	End If
 
 	
+	
 	Dim bolRebuildIndex
 	Application.Lock
 	bolRebuildIndex=Application(ZC_BLOG_CLSID & "SIGNAL_REBUILDINDEX")
@@ -157,11 +160,10 @@ Sub System_Initialize()
 		End If
 	End If
 
-	Call CreateAdminLeftMenu()
-	Call CreateAdminTopMenu()
+
 
 	'将激活插件后移
-	'Call ActivePlugin()
+	
 
 	'plugin node
 	bAction_Plugin_System_Initialize_Succeed=False
