@@ -95,7 +95,7 @@ BlogTitle=ZC_MSG144
 	Response.Write "<label><input id=""inpSidebar4"" type=""checkbox"" "&IIf(EditFunction.InSidebar4=True,"checked=""checked""","") & " />&nbsp;&nbsp;"  & ZC_MSG008 & "4&nbsp;&nbsp;&nbsp;&nbsp;</label>"
 	Response.Write "<label><input id=""inpSidebar5"" type=""checkbox"" "&IIf(EditFunction.InSidebar5=True,"checked=""checked""","") & " />&nbsp;&nbsp;"  & ZC_MSG008 & "5&nbsp;&nbsp;&nbsp;&nbsp;</label>"
 
-	Response.Write "<br/>"&ZC_MSG232&"</p>"
+	Response.Write "<br/>"&ZC_MSG277&"</p>"
 
 	
 	Response.Write "<p><span class='title'>"& ZC_MSG090 &":</span><br/><textarea name=""inpContent"" id=""inpContent"" onchange=""GetActiveText(this.id);"" onclick=""GetActiveText(this.id);"" onfocus=""GetActiveText(this.id);"" cols=""80"" rows=""12"">"&s&"</textarea></p>"
