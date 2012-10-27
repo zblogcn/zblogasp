@@ -105,12 +105,9 @@ If f<>"" Then
 			Response.Write "try{$('#inpName').val('"&BlogUser.Name&"');}catch(e){}"
 			Response.Write "try{$('#inpEmail').val('"&BlogUser.Email&"');}catch(e){}"
 			Response.Write "try{$('#inpHomePage').val('"&BlogUser.HomePage&"');}catch(e){}"
-			Response.Write "try{$('#divContorPanel dd div').prepend('<span class=\'cp-hello\' style=\'line-height:2.5em;\'>"&Replace(ZC_MSG023,"%s",BlogUser.FirstName) & " (" & ZVA_User_Level_Name(BlogUser.Level)&")</span><br/>')}catch(e){}"
-			Response.Write "try{$('.cp-login').find('a').html('["&ZC_MSG248&"]');}catch(e){}"
-			Response.Write "try{$('.cp-vrs').find('a').html('["&ZC_MSG168&"]');}catch(e){}"
-			Response.Write "try{$('.cp-vrs').find('a').attr('href','"&BlogHost&"zb_system/cmd.asp?act=ArticleEdt&webedit=ueditor');}catch(e){}"
+			Response.Write "sidebarloaded.add(function(){$('.cp-login').before('<span class=\'cp-hello\' style=\'line-height:2.5em;\'>"&Replace(ZC_MSG023,"%s",BlogUser.FirstName) & " (" & ZVA_User_Level_Name(BlogUser.Level)&")</span><br/>');$('.cp-login').find('a').html('["&ZC_MSG248&"]');$('.cp-vrs').find('a').html('["&ZC_MSG168&"]');$('.cp-vrs').find('a').attr('href','"&BlogHost&"zb_system/cmd.asp?act=ArticleEdt&webedit=ueditor');});"
 		End If
-
+		LoadSidebar
 		Call CloseConnect()
 
 
