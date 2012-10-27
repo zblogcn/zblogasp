@@ -66,7 +66,7 @@ If f<>"" Then
 				aryElement=Split(aryPara(l),"=")
 				Response.Write "try{eval(""$(\""#"& aryElement(0) &"\"").html(\"""& LoadCountInfo(aryElement(1)) &"\"")"");}catch(e){}"
 			Next
-			LoadSidebar
+			'LoadSidebar
 		End If
 		s=Request.QueryString("inculde")
 		If s<>"" Then
@@ -77,7 +77,7 @@ If f<>"" Then
 				aryElement=Split(aryPara(l),"=")
 				Response.Write "try{eval(""  {$(\""#"& aryElement(0) &"\"").after(\"""& LoadFileInfo(aryElement(1)) &"\"");$(\""#"& aryElement(0) &"\"").remove();}  "");}catch(e){}"
 			Next
-			LoadSidebar
+			'LoadSidebar
 			
 		End If
 
@@ -91,9 +91,9 @@ If f<>"" Then
 				Response.Write "try{eval(""$(\""#"& aryElement(0) &"\"").html(\"""& CStr(LoadCountInfo(aryElement(1))+1) &"\"")"");}catch(e){}"
 				Call UpdateCountInfo(aryElement(1))
 			Next
-
+		
 		End If
-
+		LoadSidebar
 
 	ElseIf f="autoinfo" Then
 
