@@ -29,7 +29,7 @@ Function ActivePlugin_Gravatar()
 		Call Add_Action_Plugin("Action_Plugin_TComment_Avatar","If FAvatar="""" Then FAvatar=Gravatar_Add(AuthorID,EmailMD5)")
 	End If
 
-	Call Add_Response_Plugin("Response_Plugin_EditUser_Form","<label><input name='gravatar_cacheimage' type='checkbox' value='gravatar'>&nbsp;&nbsp;获取用户Gravatar头像并缓存在Blog里.</label>")
+	Call Add_Response_Plugin("Response_Plugin_EditUser_Form","<label><input name='gravatar_cacheimage' type='checkbox' value='gravatar'>&nbsp;&nbsp;刷新用户Gravatar头像并缓存在Blog里.</label>")
 
 	Call Add_Filter_Plugin("Filter_Plugin_EditUser_Succeed","Gravatar_Filter_Plugin_EditUser_Succeed")
 

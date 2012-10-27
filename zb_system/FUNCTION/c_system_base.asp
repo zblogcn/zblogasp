@@ -101,7 +101,7 @@ Call CheckUndefined()
 '*********************************************************
 Sub System_Initialize()
 
-	'On Error Resume Next
+	Call ActivePlugin()
 
 	'plugin node
 	bAction_Plugin_System_Initialize=False
@@ -161,7 +161,7 @@ Sub System_Initialize()
 	Call CreateAdminTopMenu()
 
 	'将激活插件后移
-	Call ActivePlugin()
+	'Call ActivePlugin()
 
 	'plugin node
 	bAction_Plugin_System_Initialize_Succeed=False
@@ -493,8 +493,8 @@ Function GetFunction()
 	Dim aryAllData
 	Dim arySingleData()
 
-	Erase Tags
-	ReDim Tags(0)
+	Erase Functions
+	ReDim Functions(0)
 
 	Dim objRS
 
