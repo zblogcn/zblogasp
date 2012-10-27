@@ -92,8 +92,8 @@ Function Setup0()
 <dl>
 <dd id="ddleft">
 <img src='../zb_system/image/admin/install.png' alt='' />
-<p>安装进度:<span><font color='#3d69aa'></font><font color='white'>█████████████████</font></span></p>
-<p>安装协议&nbsp;»&nbsp;&nbsp;数据库建立与设置&nbsp;»&nbsp;&nbsp;安装结果</p>
+<p>安装进度： <span><font color='#3d69aa'></font><font color='white'>████████████████████████</font></span></p>
+<p>安装协议 » 环境检查 » 数据库建立与设置 » 安装结果</p>
 </dd>
 <dd id="ddright">
 <div id='title'>安装提示</div>
@@ -124,8 +124,8 @@ Function Setup1()
 <dl>
 <dd id="ddleft">
 <img src='../zb_system/image/admin/install.png' alt='' />
-<p>安装进度:<span><font color='#3d69aa'></font><font color='white'>█████████████████</font></span></p>
-<p><b>安装协议</b>&nbsp;»环境检查&nbsp;»数据库建立与设置&nbsp;»安装结果</p>
+<p>安装进度： <span> <font color='#3d69aa'></font><font color='white'>████████████████████████</font></span></p>
+<p><b>安装协议</b> » 环境检查 » 数据库建立与设置 » 安装结果</p>
 </dd>
 <dd id="ddright">
 <div id='title'>安装协议</div>
@@ -192,8 +192,8 @@ Function Setup2()
 <dl>
 <dd id="ddleft">
 <img src='../zb_system/image/admin/install.png' alt='' />
-<p>安装进度:<span><font color='#3d69aa'>██</font><font color='white'>███████████████</font></span></p>
-<p><b>安装协议</b>&nbsp;»<b>环境检查</b>&nbsp;»数据库建立与设置&nbsp;»安装结果</p>
+<p>安装进度： <span><font color='#3d69aa'>██████</font><font color='white'>██████████████████</font></span></p>
+<p><b>安装协议</b> » <b>环境检查</b> » 数据库建立与设置 » 安装结果</p>
 </dd>
 <dd id="ddright">
 <div id='title'>环境检查</div>
@@ -210,7 +210,7 @@ Function Setup2()
     <td style="text-align:center"><%=Checked123(0,0,1)%></td>
   </tr>
   <tr>
-    <td scope="row">ASP JavaScript支持</th>
+    <td scope="row">ASP Script支持</th>
     <td style="text-align:center"><%=Checked123(0,1,0)%></td>
     <td style="text-align:center"><%=Checked123(0,1,1)%></td>
   </tr>
@@ -441,8 +441,8 @@ Function Setup3()
 <dl>
 <dd id="ddleft">
 <img src='../zb_system/image/admin/install.png' alt='' />
-<p>安装进度:<span><font color='#3d69aa'>█████</font><font color='white'>████████████</font></span></p>
-<p><b>安装协议</b>&nbsp;»<b>环境检查</b>&nbsp;»<b>数据库建立与设置</b>&nbsp;»安装结果</p>
+<p>安装进度： <span><font color='#3d69aa'>████████████</font><font color='white'>████████████</font></span></p>
+<p><b>安装协议</b> » <b>环境检查</b> » <b>数据库建立与设置</b> » 安装结果</p>
 </dd>
 <dd id="ddright">
 <div id='title'>数据库建立与设置</div>
@@ -490,8 +490,8 @@ On Error Resume Next
 <dl>
 <dd id="ddleft">
 <img src='../zb_system/image/admin/install.png' alt='' />
-<p>安装进度:<span><font color='#3d69aa'>█████████████████</font><font color='white'></font></span></p>
-<p><b>安装协议</b>&nbsp;»<b>环境检查</b>&nbsp;»<b>数据库建立与设置</b>&nbsp;»<b>安装结果</b></p>
+<p>安装进度： <span><font color='#3d69aa'>████████████████████████</font><font color='white'></font></span></p>
+<p><b>安装协议</b> » <b>环境检查</b> » <b>数据库建立与设置</b> » <b>安装结果</b></p>
 </dd>
 <dd id="ddright">
 
