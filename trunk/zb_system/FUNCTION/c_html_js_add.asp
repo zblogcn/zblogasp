@@ -56,7 +56,6 @@ $(document).ready(function(){
 	if($("ul.msghead ~ ul.msg").length==0){$("ul.msghead").hide()}
 	$(".post-tags").each(function(){if($(this).find('a').length==0){$(this).hide()}});
 
-	$.getScript("<%=BlogHost%>zb_system/function/c_html_js.asp?act=batch"+unescape("%26")+"view=" + escape(strBatchView)+unescape("%26")+"inculde=" + escape(strBatchInculde)+unescape("%26")+"count=" + escape(strBatchCount));
 <%If ZC_SYNTAXHIGHLIGHTER_ENABLE Then%>
 		//为了在编辑器之外能展示高亮代码
     	 SyntaxHighlighter.highlight();
@@ -70,7 +69,7 @@ $(document).ready(function(){
             	}
     	 }
 <%End If%>
-	
+
 	var s=document.location;
 	$("#divNavBar").find("a").each(function(){if($(this).attr("href")==s.toString().split("#")[0]){$(this).addClass("on");return false;}});
 
@@ -80,6 +79,8 @@ $(document).ready(function(){
 		//日历当天高亮显示
 		try{eval("document.getElementById(\"pCalendar_\"+(new Date()).getFullYear()+\"_\"+((new Date()).getMonth()+1)+\"_\"+(new Date()).getDate()).className+=\" cd\"");}catch(e){};
 	});
+
+	$.getScript("<%=BlogHost%>zb_system/function/c_html_js.asp?act=batch"+unescape("%26")+"view=" + escape(strBatchView)+unescape("%26")+"inculde=" + escape(strBatchInculde)+unescape("%26")+"count=" + escape(strBatchCount));
 });
 
 <%=Response_Plugin_Html_Js_Add%>
