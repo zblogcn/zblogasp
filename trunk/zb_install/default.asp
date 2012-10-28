@@ -1089,6 +1089,10 @@ a.Level=4
 a.post
 Set a=Nothing
 
+Call BlogConfig.Write("ZC_UNCATEGORIZED_COUNT","1")
+BlogConfig.Save
+
+
 Set a = New TArticle
 a.AuthorID=1
 a.CateID=0
