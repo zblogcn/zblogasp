@@ -59,10 +59,12 @@ Next
 Set m=New TMeta
 m.LoadString=c.Read("UserMeta")
 If UBound(m.Names)>0 Then
-	Response.Write "<br/>当前可以使用的标签有"
+	Response.Write "<p><span class='title'>当前可以使用的标签有:</span><br/>"
 	For i=LBound(m.Names)+1 To UBound(m.Names)
-	Response.Write " <strong>&lt;#article/author/meta/"&m.Names(i)&"#&gt;</strong>,"
+	Response.Write "<input style='width:258px' type='text' value='&lt;#article/author/meta/"&m.Names(i)&"#&gt;' /> "
+	Response.Write "<input style='width:278px' type='text' value='&lt;#articlelist/author/meta/"&m.Names(i)&"#&gt;' /> <span >("&m.GetValue(m.Names(i))&")</span><br/>"
 	Next
+	Response.Write "</p>"
 End If
 %>
 </p>
