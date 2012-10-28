@@ -71,7 +71,7 @@ BlogTitle=ZC_MSG022
 		Case "FileMng" Call ExportFileList(Request.QueryString("page"))
 		Case "TagMng" Call ExportTagList(Request.QueryString("page"))
 		Case "PlugInMng" Call ExportPluginMng()
-		Case "SiteInfo" Call ExportSiteInfo():RefreshOptionFormFileToDB':Session(ZC_BLOG_CLSID&BlogUser.Name&"~")=Empty
+		Case "SiteInfo" Call ExportSiteInfo():RefreshOptionFormFileToDB
 		Case "AskFileReBuild" Call ExportFileReBuildAsk()
 		Case "ThemeMng" Call ExportThemeMng()
 		Case "FunctionMng" Call GetFunction():Call ExportFunctionList()

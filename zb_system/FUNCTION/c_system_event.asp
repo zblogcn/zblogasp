@@ -59,7 +59,6 @@ End Function
 '*********************************************************
 Public Function Logout()
 
-	'Session(ZC_BLOG_CLSID&Request.Cookies("username")&"~")=Empty
 	Response.Cookies("username")=""
 	Response.Cookies("password")=""
 	Response.Cookies("username").Path = CookiesPath()
