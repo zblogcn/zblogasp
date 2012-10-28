@@ -723,7 +723,13 @@ Call BlogConfig.Write("ZC_CONTENT_MAX",1000)
 
 
 
-
+Call BlogConfig.Write("ZC_UNCATEGORIZED_NAME","未分类")
+Call BlogConfig.Write("ZC_UNCATEGORIZED_ALIAS","")
+Call BlogConfig.Write("ZC_UNCATEGORIZED_COUNT",0)
+Call BlogConfig.Write("ZC_SYNTAXHIGHLIGHTER_ENABLE",True)
+Call BlogConfig.Write("ZC_CODEMIRROR_ENABLE",True)
+Call BlogConfig.Write("ZC_ARTICLE_EXCERPT_MAX",250)
+Call BlogConfig.Write("ZC_POST_STATIC_MODE","STATIC")
 
 
 
