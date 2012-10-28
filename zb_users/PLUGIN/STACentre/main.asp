@@ -75,6 +75,7 @@ BlogTitle="静态管理中心"
 <p><label onClick="changeval(2,1)"><input type="radio" name="radio2" />&nbsp;&nbsp;配置1:页面名型(默认) http://www.yourblog/pagename.html</label></p>
 <p><label onClick="changeval(2,2)"><input type="radio" name="radio2" />&nbsp;&nbsp;配置2:页面名目录型 http://www.yourblog/pagename/</label></p>
 </td></tr>
+<tr><td width='30%'><p align='left'><b>·文章存放目录</b><br/><span class='note'>静态生成文章的目录,也就是{%post%}参数的值</span></p></td><td><p><input id='edtZC_STATIC_DIRECTORY' name='edtZC_STATIC_DIRECTORY' style='width:500px;' type='text' value='<%=ZC_STATIC_DIRECTORY%>' /></p></td></tr>
 </table>
 <p><span class="note">您可以自定义静态配置,配置必须是{%host%}打头,".html"结尾,中间可以用{%post%},{%category%},{%author%},{%year%},{%month%},{%day%},{%id%},{%alias%}组合.</span></p>
 <p><span class="note">{%post%}为文章发布目录,可以在网站设置里修改,{%category%}为文章的别名,{%user%}是用户别名,{%alias%}是文章别名,没有设置文章别名系统会自动采用ID填充.</span></p>
