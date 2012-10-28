@@ -2765,10 +2765,10 @@ Class TUser
 		'If Len(strUserName) >ZC_USERNAME_MAX Then Call ShowError(7)
 		'If Len(strPassWord)<>32 Then Call ShowError(55)
 		'If Not CheckRegExp(strUserName,"[username]") Then Call ShowError(7)
-		Dim aryUser(1)
-		aryUser(0)=0
-		aryUser(1)=""
-		If Not IsArray(Session(ZC_BLOG_CLSID&strUserName&"~")) Then
+		'Dim aryUser(1)
+		'aryUser(0)=0
+		'aryUser(1)=""
+		'If Not IsArray(Session(ZC_BLOG_CLSID&strUserName&"~")) Then
 			Dim objRS
 			Set objRS=objConn.Execute("SELECT [mem_id],[mem_password]"&IIf(doLoadInfo,"",",[mem_Level],[mem_Name],[mem_Email],[mem_HomePage],[mem_url]")&" FROM [blog_Member] WHERE [mem_Name]='"&strUserName & "'" )
 			If (Not objRS.Bof) And (Not objRS.Eof) Then
@@ -2786,9 +2786,9 @@ Class TUser
 						Alias=objRs("mem_url")
 					End If
 					Verify=True
-					aryUser(0)=ID
-					aryUser(1)=Password
-					Session(ZC_BLOG_CLSID&strUserName&"~")=aryUser
+					'aryUser(0)=ID
+					'aryUser(1)=Password
+					'Session(ZC_BLOG_CLSID&strUserName&"~")=aryUser
 				Else
 					'If LoginType="Cookies" Then Response.Cookies("password")=""
 				End If
@@ -2798,16 +2798,16 @@ Class TUser
 	
 			objRS.Close
 			Set objRS=Nothing
-		Else
-			If StrComp(strPassWord,Session(ZC_BLOG_CLSID&strUserName&"~")(1))=0 Then
+		'Else
+		'	If StrComp(strPassWord,Session(ZC_BLOG_CLSID&strUserName&"~")(1))=0 Then
 	
-				ID=Session(ZC_BLOG_CLSID&strUserName&"~")(0)
-				If LoadInfobyID(ID) Then Verify=True
-				
-			End If
-			
-		End If
-		If Verify=False Then Session(ZC_BLOG_CLSID&strUserName&"~")=Empty
+		'		ID=Session(ZC_BLOG_CLSID&strUserName&"~")(0)
+		'		If LoadInfobyID(ID) Then Verify=True
+		'		
+		'	End If
+		'	
+		'End If
+		'If Verify=False Then Session(ZC_BLOG_CLSID&strUserName&"~")=Empty
 	End Function
 
 

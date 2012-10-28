@@ -853,7 +853,7 @@ Function UserMod()
 		Next
 
 		If CLng(Request.Form("edtID"))=BlogUser.ID And Trim(Request.Form("edtPassWord"))<>"" Then
-			Session(ZC_BLOG_CLSID&BlogUser.Name&"~")=Empty
+			'Session(ZC_BLOG_CLSID&BlogUser.Name&"~")=Empty
 			Response.Redirect "cmd.asp?act=login"
 		End If
 
