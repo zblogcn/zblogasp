@@ -2784,7 +2784,7 @@ Class TUser
 				Session(ZC_BLOG_CLSID & "quicklogin")=MD5(Month(Now) & Day(Now) & ZC_BLOG_CLSID & strUserName & strPassWord)
 				Session(ZC_BLOG_CLSID & "quicklogin_id")=ID
 				Application.Lock
-				Application(ZC_BLOG_CLSID & "QUICKLOGIN_ID" & ID)=Array(ID,Name,Level,"",Email,HomePage,Count,Alias,TemplateName,FullUrl,Intro,MetaString)
+				Application(ZC_BLOG_CLSID & "QUICKLOGIN_ID" & ID)=Array(ID,Name,Level,Password,Email,HomePage,Count,Alias,TemplateName,FullUrl,Intro,MetaString)
 				Application.UnLock
 
 				Verify=True
