@@ -2758,9 +2758,10 @@ Class TUser
 
 
 		If Session(ZC_BLOG_CLSID & "quicklogin")=MD5(Month(Now) & Day(Now) & ZC_BLOG_CLSID & strUserName & strPassWord) Then
-			Call LoadInfobyID(GetIDbyName(strUserName))
-			Verify=True
-			Exit Function
+			If LoadInfobyID(GetIDbyName(strUserName)) Then
+				Verify=True
+				Exit Function
+			End If
 		End If
 
 		'校检
