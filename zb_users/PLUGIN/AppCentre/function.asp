@@ -1088,7 +1088,8 @@ End Function
 
 '*********************************************************
 Function ListTheme(s)
-
+Response.Write "App应用中心筹备中,敬请期待!"
+Exit Function
 	Dim i,j
 	Dim objXmlFile,objNodeList
 	Set objXmlFile=ReturnXML(s)
@@ -1118,7 +1119,8 @@ End Function
 
 '*********************************************************
 Function ListPlugin(s)
-
+Response.Write "App应用中心筹备中,敬请期待!"
+Exit Function
 	Dim i,j
 	Dim objXmlFile,objNodeList
 	Set objXmlFile=ReturnXML(s)
