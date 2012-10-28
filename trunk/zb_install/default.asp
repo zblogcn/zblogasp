@@ -23,9 +23,9 @@ CanInstall=""
 Dim zblogstep
 zblogstep=Request.QueryString("step")
 
-'If ZC_DATABASE_PATH<>"" Or ZC_MSSQL_DATABASE<>"" Then
-'	zblogstep=0
-'End If
+If ZC_DATABASE_PATH<>"" Or ZC_MSSQL_DATABASE<>"" Then
+	zblogstep=0
+End If
 
 If zblogstep="" Then zblogstep=1
 
@@ -347,7 +347,7 @@ End Function
 Function CheckServer()
 	On Error Resume Next
 	Dim a,b
-	Dim Pass,strTemp
+	Dim Pass,strTemp,strDesc
 	For a=0 To 3
 		For b=0 To 6
 			Select Case a
@@ -361,23 +361,25 @@ Function CheckServer()
 							End If
 						Case 1
 							Checked123(a,b,2)=IIf(vbsunescape("Z-Blog")="Z-Blog",True,False)
+							Checked123(a,b,0)="需要服务端支持VBScript和JavaScript"
 						Case 2
 							Checked123(a,b,0)=Request.ServerVariables("PATH_TRANSLATED")
 							Checked123(a,b,2)=Not(CheckRegExp(Request.ServerVariables("PATH_TRANSLATED"),"[^\x00-\xff]"))
 						Case 3,4,5,6 Checked123(a,b,2)=True
 					End Select
 				Case 1
+				
 					Select Case b
-						Case 0 strTemp="ADODB.Stream"
-						Case 1 strTemp="ADODB.Connection"
-						Case 2 strTemp="ADODB.RecordSet"
-						Case 3 strTemp="Scripting.FileSystemObject"
-						Case 4 strTemp="Scripting.Dictionary"
-						Case 5 strTemp="MSXML2.ServerXMLHTTP"
-						Case 6 strTemp="Microsoft.XMLDOM"
+						Case 0 strTemp="ADODB.Stream":strDesc="用于对数据流进行访问"
+						Case 1 strTemp="ADODB.Connection":strDesc="用于对数据库进行操作"
+						Case 2 strTemp="ADODB.RecordSet":strDesc="用于对数据库进行操作"
+						Case 3 strTemp="Scripting.FileSystemObject":strDesc="用于对文件进行操作"
+						Case 4 strTemp="Scripting.Dictionary":strDesc="用于数据缓存、排序"
+						Case 5 strTemp="MSXML2.ServerXMLHTTP":strDesc="用于公告、应用中心"
+						Case 6 strTemp="Microsoft.XMLDOM":strDesc="用于XML操作"
 					End Select
 					Checked123(a,b,2)=IsObjInstalled(strTemp)
-		
+					Checked123(a,b,0)=strDesc
 				Case 2
 					If Checked123(1,3,2) And Checked123(1,0,2) And Checked123(0,2,2) Then
 						
