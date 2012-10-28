@@ -307,29 +307,32 @@ Function BetterFeedCommetList(intID,intCommNums)
 						
 						Call GetUser
 						Cmt_FirstName = objComment.Author
-						For Each User in Users
-							If IsObject(User) Then
-								If User.ID=objComment.AuthorID Then
-									Cmt_FirstName = User.FirstName
-									Exit For 
+						If objComment.AuthorID>0 Then 
+							For Each User in Users
+								If IsObject(User) Then
+									If User.ID=objComment.AuthorID Then
+										Cmt_FirstName = User.FirstName
+										Exit For 
+									End If
 								End If
-							End If
-						Next
-
+							Next
+						End If 
 						'添加回复标签
 						If objComment.ParentID<>0 Then 
 							Dim objRevComment
 							Set objRevComment=New TComment
 							objRevComment.LoadInfoByID(objComment.ParentID)
 							p_FirstName = objRevComment.Author
-							For Each User in Users
-								If IsObject(User) Then
-									If User.ID=objRevComment.AuthorID Then
-										p_FirstName = User.FirstName
-										Exit For 
+							If objRevComment.AuthorID>0 Then 
+								For Each User in Users
+									If IsObject(User) Then
+										If User.ID=objRevComment.AuthorID Then
+											p_FirstName = User.FirstName
+											Exit For 
+										End If
 									End If
-								End If
-							Next
+								Next
+							End If 
 							Set objRevComment=Nothing
 						End If 
 
