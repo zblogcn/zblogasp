@@ -54,6 +54,7 @@ Next
 <p><span class="note">自定义数据段名称必须是小写英文字母,数字和下划线_的组合</span></p>
 <p><span class="title">标签的调用介绍:</span><br/>
 您可以在single.html模板或是b_article-single.html等模板处加上例如&lt;#article/category/meta/abc#&gt;这样的标签用来显示自定义数据内容.
+<br/>catalog.html模板处请用&lt;#articlelist/category/meta/abc#&gt;这样的标签用来显示自定义数据内容.
 <%
 Set m=New TMeta
 m.LoadString=c.Read("CateMeta")

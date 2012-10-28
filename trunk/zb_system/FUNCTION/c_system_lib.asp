@@ -2232,33 +2232,41 @@ Class TArticleList
 		Next
 
 
-		If ListType="CATEGORY" Or ListType="USER" Then
-			Dim da
-			Set da=CreateObject("Scripting.Dictionary")
 
-			Set RE = New RegExp 
-				RE.Pattern = "<#articlelist/((category/meta|author/meta)/([a-z0-9_]{1,}))#>"
-				RE.IgnoreCase = True 
-				RE.Global = True 
-				Set Matches = RE.Execute(html) 
-				For Each Match in Matches
-					s=Match.SubMatches(0)
-					If da.Exists(s)=False Then da.add s,s
-				Next
-				Set Matches = Nothing
-			Set RE = Nothing
+		Dim da
+		Set da=CreateObject("Scripting.Dictionary")
 
-			s=da.Items
-			For t = 0 To da.Count -1
-				If InStr(s(t),"category/meta/")>0 Then
-					s(t)=Replace(s(t),"category/meta/","")
-					html = Replace(html,"<#articlelist/category/meta/" & s(t) & "#>",Categorys(intCate).Meta.GetValue(s(t)) )
-				ElseIf InStr(s(t),"author/meta/")>0 Then 
-					s(t)=Replace(s(t),"author/meta/","")
-					html = Replace(html,"<#articlelist/author/meta/" & s(t) & "#>",Users(intAuthor).Meta.GetValue(s(t)) )
-				End If
+		Set RE = New RegExp 
+			RE.Pattern = "<#articlelist/((category/meta|author/meta)/([a-z0-9_]{1,}))#>"
+			RE.IgnoreCase = True 
+			RE.Global = True 
+			Set Matches = RE.Execute(html) 
+			For Each Match in Matches
+				s=Match.SubMatches(0)
+				If da.Exists(s)=False Then da.add s,s
 			Next
-		End If
+			Set Matches = Nothing
+		Set RE = Nothing
+
+		s=da.Items
+		For t = 0 To da.Count -1
+			If InStr(s(t),"category/meta/")>0 Then
+				s(t)=Replace(s(t),"category/meta/","")
+				If ListType="CATEGORY" Then
+					html = Replace(html,"<#articlelist/category/meta/" & s(t) & "#>",Categorys(intCate).Meta.GetValue(s(t)) )
+				Else
+					html = Replace(html,"<#articlelist/category/meta/" & s(t) & "#>","")
+				End If
+			ElseIf InStr(s(t),"author/meta/")>0 Then 
+				s(t)=Replace(s(t),"author/meta/","")
+				If ListType="USER" Then
+					html = Replace(html,"<#articlelist/author/meta/" & s(t) & "#>",Users(intAuthor).Meta.GetValue(s(t)) )
+				Else
+					html = Replace(html,"<#articlelist/author/meta/" & s(t) & "#>","")
+				End If
+			End If
+		Next
+
 
 
 		Export=True
