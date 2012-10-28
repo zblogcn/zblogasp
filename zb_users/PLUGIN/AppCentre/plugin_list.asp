@@ -35,6 +35,8 @@ BlogTitle="应用中心"
   <div id="divMain2">
    <script type="text/javascript">ActiveLeftMenu("aAppcentre");$("#leftmenu #nav_appcentre.on span").css("background-image","url('<%=GetCurrentHost%>zb_users/plugin/appcentre/images/web2.png')")</script>
    <%
+Response.Write "<div style='box-shadow: 0 0 10px #aaa;margin:5px 20px 40px 5px;height:500px;text-align:center;'><br/><br/><br/><br/><br/><p><img src='"&BlogHost&"zb_system/image/admin/logo.png'/></p><br/><p style='font-size:20px'>应用中心建设中，敬请期待！</p><p>&nbsp;</p><p><a href='http://bbs.rainbowsoft.org/forum-121-1.html' target='_blank' style='font-size:20px'>论坛2.0应用发布区</a></p></div>"
+Response.End
 Response.Flush
 Dim strTemp,strFunc
 strFunc="ListPlugin"
