@@ -1209,8 +1209,6 @@ Function ThemeSav()
 	If SaveTheme Then
 		Call SetBlogHint(True,True,Empty)
 
-		Call ClearGlobeCache
-
 		'plugin node
 		For Each sAction_Plugin_ThemeSav_Succeed in Action_Plugin_ThemeSav_Succeed
 			If Not IsEmpty(sAction_Plugin_ThemeSav_Succeed) Then Call Execute(sAction_Plugin_ThemeSav_Succeed)

@@ -1738,6 +1738,8 @@ Function SaveTheme()
 
 	Call SaveConfig2Option()
 
+	Call ClearGlobeCache
+
 	SaveTheme=True
 
 End Function
