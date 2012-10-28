@@ -956,7 +956,7 @@ Call BlogConfig.Write("ZC_REBUILD_FILE_INTERVAL",1)
 
 'UBB转换
 Call BlogConfig.Write("ZC_UBB_ENABLE",False)
-Call BlogConfig.Write("ZC_UBB_LINK_ENABLE",True)
+Call BlogConfig.Write("ZC_UBB_LINK_ENABLE",False)
 Call BlogConfig.Write("ZC_UBB_FONT_ENABLE",True)
 Call BlogConfig.Write("ZC_UBB_CODE_ENABLE",True)
 Call BlogConfig.Write("ZC_UBB_FACE_ENABLE",True)
