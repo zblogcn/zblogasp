@@ -5,7 +5,7 @@
 '///////////////////////////////////////////////////////////////////////////////
 %>
 <% Option Explicit %>
-<% On Error Resume Next %>
+<% 'On Error Resume Next %>
 <% Response.Charset="UTF-8" %>
 <% Response.Buffer=True %>
 <!-- #include file="../zb_users/c_option.asp" -->
@@ -928,7 +928,6 @@ Call BlogConfig.Write("ZC_SEARCH_COUNT",25)
 Call BlogConfig.Write("ZC_PAGEBAR_COUNT",15)
 Call BlogConfig.Write("ZC_MUTUALITY_COUNT",10)
 Call BlogConfig.Write("ZC_COMMENTS_DISPLAY_COUNT",10)
-Call BlogConfig.Write("ZC_ARTICLE_EXCERPT_MAX",250)
 
 
 Call BlogConfig.Write("ZC_USE_NAVIGATE_ARTICLE",True)
@@ -936,7 +935,7 @@ Call BlogConfig.Write("ZC_RSS_EXPORT_WHOLE",False)
 
 Call BlogConfig.Write("ZC_SYNTAXHIGHLIGHTER_ENABLE",False)
 Call BlogConfig.Write("ZC_CODEMIRROR_ENABLE",False)
-
+Call BlogConfig.Write("ZC_ARTICLE_EXCERPT_MAX",250)
 
 
 
@@ -1009,11 +1008,7 @@ Call BlogConfig.Write("ZC_CONTENT_MAX",1000)
 
 Call BlogConfig.Write("ZC_UNCATEGORIZED_NAME","未分类")
 Call BlogConfig.Write("ZC_UNCATEGORIZED_ALIAS","")
-Call BlogConfig.Write("ZC_UNCATEGORIZED_COUNT",0)
-Call BlogConfig.Write("ZC_SYNTAXHIGHLIGHTER_ENABLE",True)
-Call BlogConfig.Write("ZC_CODEMIRROR_ENABLE",True)
-Call BlogConfig.Write("ZC_ARTICLE_EXCERPT_MAX",250)
-Call BlogConfig.Write("ZC_POST_STATIC_MODE","STATIC")
+Call BlogConfig.Write("ZC_UNCATEGORIZED_COUNT","0")
 
 
 
@@ -1063,9 +1058,6 @@ Call BlogConfig.Write("ZC_DISPLAY_PAGEBAR_ALL_WAP",True)
 Call BlogConfig.Write("ZC_WAP_MUTUALITY_LIMIT",5)
 
 
-Call BlogConfig.Write("ZC_SYNTAXHIGHLIGHTER_ENABLE",False)
-Call BlogConfig.Write("ZC_CODEMIRROR_ENABLE",False)
-Call BlogConfig.Write("ZC_ARTICLE_EXCERPT_MAX",250)
 
 'Response.Write BlogConfig.Count
 'Response.Write BlogConfig.Count

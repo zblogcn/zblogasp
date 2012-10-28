@@ -729,7 +729,6 @@ Call BlogConfig.Write("ZC_UNCATEGORIZED_COUNT",0)
 Call BlogConfig.Write("ZC_SYNTAXHIGHLIGHTER_ENABLE",True)
 Call BlogConfig.Write("ZC_CODEMIRROR_ENABLE",True)
 Call BlogConfig.Write("ZC_ARTICLE_EXCERPT_MAX",250)
-Call BlogConfig.Write("ZC_POST_STATIC_MODE","STATIC")
 
 
 
@@ -779,11 +778,7 @@ Call BlogConfig.Write("ZC_DISPLAY_CATE_ALL_WAP",True)
 Call BlogConfig.Write("ZC_DISPLAY_PAGEBAR_ALL_WAP",True)
 '数量
 Call BlogConfig.Write("ZC_WAP_MUTUALITY_LIMIT",5)
-Call BlogConfig.Write("ZC_SYNTAXHIGHLIGHTER_ENABLE",False)
-Call BlogConfig.Write("ZC_CODEMIRROR_ENABLE",False)
-Call BlogConfig.Write("ZC_ARTICLE_EXCERPT_MAX",250)
-'Response.Write BlogConfig.Count
-'Response.Write BlogConfig.Count
+
 BlogConfig.Save
 
 
