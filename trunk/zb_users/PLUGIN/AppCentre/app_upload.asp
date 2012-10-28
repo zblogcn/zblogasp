@@ -30,6 +30,10 @@ objUpload.open
 If objUpload.Save("edtFileLoad",0)=True Then
 	Call InstallApp(BlogPath & "zb_users\cache\"&objUpload.form("edtFileLoad"))
 	CreateObject("scripting.filesystemobject").DeleteFile BlogPath & "zb_users\cache\*.zba"
+Else
+	If objUpload.Form("edtFileLoad_Ext")="zpi" Or objUpload.Form("edtFileLoad_Ext")="zti" Then
+		SetBlogHint_Custom "该插件或主题不兼容2.0！"
+	End If 
 End If
 
 
