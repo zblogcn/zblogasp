@@ -2758,7 +2758,8 @@ Class TUser
 
 
 		If Session(ZC_BLOG_CLSID & "quicklogin")=MD5(Month(Now) & Day(Now) & ZC_BLOG_CLSID & strUserName & strPassWord) Then
-			If LoadInfobyID(GetIDbyName(strUserName)) Then
+			If LoadInfobyArray(Application(ZC_BLOG_CLSID & "QUICKLOGIN_ID" & Session(ZC_BLOG_CLSID & "quicklogin_id"))) Then
+				'SetBlogHint_Custom "QUICKLOGIN OK"
 				Verify=True
 				Exit Function
 			End If
@@ -2781,6 +2782,10 @@ Class TUser
 				Call LoadInfobyID(objRS("mem_ID"))
 
 				Session(ZC_BLOG_CLSID & "quicklogin")=MD5(Month(Now) & Day(Now) & ZC_BLOG_CLSID & strUserName & strPassWord)
+				Session(ZC_BLOG_CLSID & "quicklogin_id")=ID
+				Application.Lock
+				Application(ZC_BLOG_CLSID & "QUICKLOGIN_ID" & ID)=Array(ID,Name,Level,"",Email,HomePage,Count,Alias,TemplateName,FullUrl,Intro,MetaString)
+				Application.UnLock
 
 				Verify=True
 			Else
@@ -2849,13 +2854,13 @@ Class TUser
 			Intro=aryUserInfo(10)
 			MetaString=aryUserInfo(11)
 
+			If IsNull(Email) Or IsEmpty(Email) Or Len(Email)=0 Then Email="a@b.com"
+			If IsNull(HomePage) Then HomePage=""
+			If IsNull(Alias) Then Alias=""
+
+			LoadInfoByArray=True		
+
 		End If
-
-		If IsNull(Email) Or IsEmpty(Email) Or Len(Email)=0 Then Email="a@b.com"
-		If IsNull(HomePage) Then HomePage=""
-		If IsNull(Alias) Then Alias=""
-
-		LoadInfoByArray=True
 
 		Call Filter_Plugin_TUser_LoadInfoByArray(ID,Name,Level,Password,Email,HomePage,Count,Alias,TemplateName,FullUrl,Intro,MetaString)
 
