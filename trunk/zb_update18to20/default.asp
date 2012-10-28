@@ -841,9 +841,12 @@ End Function
 Function SaveConfigs()
 
 	On Error Resume Next
-	Dim a
+	Dim a,b
+	b=LoadFromFile(BlogPath &"zb_users\c_option.asp","utf-8")
 	For Each a In BlogConfig.Meta.Names
-		Call Execute("Call BlogConfig.Write("""&a&""","&a&")")
+		If InStr(b,"Dim "& a)>0 Then
+			Call Execute("Call BlogConfig.Write("""&a&""","&a&")")
+		End If
 	Next
 
 	Call BlogConfig.Save()
