@@ -2208,7 +2208,7 @@ Class TArticleList
 			aryTemplateSubValue(31)=Tags(intTag).HtmlIntro
 			aryTemplateSubValue(32)=Tags(intTag).Count
 			aryTemplateSubValue(33)=Tags(intTag).HtmlUrl
-			aryTemplateSubValue(34)=ITags(intTag).EncodeName
+			aryTemplateSubValue(34)=Tags(intTag).EncodeName
 		End If
 
 		aryTemplateSubName( 35)="template:sidebar"
@@ -2556,8 +2556,6 @@ Class TUser
 	Public LastVisitTime
 	Public LastVisitIP
 
-	Public doLoadInfo
-
 	Public Meta
 
 	Public Property Get MetaString
@@ -2732,7 +2730,7 @@ Class TUser
 
 	Public Function Verify()
 		Dim strUserName
-		Dim  strPassWord
+		Dim strPassWord
 
 		If LoginType="Cookies" Then
 			strPassWord=Request.Cookies("password")
@@ -2758,56 +2756,42 @@ Class TUser
 			Exit Function
 		End If
 
-		strUserName=FilterSQL(strUserName)
-		strPassWord=FilterSQL(strPassWord)
+
+		If Session(ZC_BLOG_CLSID & "quicklogin")=MD5(Month(Now) & Day(Now) & ZC_BLOG_CLSID & strUserName & strPassWord) Then
+			Call LoadInfobyID(GetIDbyName(strUserName))
+			Verify=True
+			Exit Function
+		End If
 
 		'校检
 		'If Len(strUserName) >ZC_USERNAME_MAX Then Call ShowError(7)
 		'If Len(strPassWord)<>32 Then Call ShowError(55)
 		'If Not CheckRegExp(strUserName,"[username]") Then Call ShowError(7)
-		'Dim aryUser(1)
-		'aryUser(0)=0
-		'aryUser(1)=""
-		'If Not IsArray(Session(ZC_BLOG_CLSID&strUserName&"~")) Then
-			Dim objRS
-			Set objRS=objConn.Execute("SELECT [mem_id],[mem_password]"&IIf(doLoadInfo,"",",[mem_Level],[mem_Name],[mem_Email],[mem_HomePage],[mem_url]")&" FROM [blog_Member] WHERE [mem_Name]='"&strUserName & "'" )
-			If (Not objRS.Bof) And (Not objRS.Eof) Then
-	
-				If StrComp(strPassWord,objRS("mem_Password"))=0 Then
-	
-					ID=objRS("mem_ID")
-					If doLoadInfo Then
-						LoadInfobyID(ID)
-					Else
-						Level=objRs("mem_Level")
-						Name=objRs("mem_Name")
-						EMail=objRs("mem_EMail")
-						HomePage=objRs("mem_Homepage")
-						Alias=objRs("mem_url")
-					End If
-					Verify=True
-					'aryUser(0)=ID
-					'aryUser(1)=Password
-					'Session(ZC_BLOG_CLSID&strUserName&"~")=aryUser
-				Else
-					'If LoginType="Cookies" Then Response.Cookies("password")=""
-				End If
+
+		strUserName=FilterSQL(strUserName)
+		strPassWord=FilterSQL(strPassWord)
+
+		Dim objRS
+		Set objRS=objConn.Execute("SELECT * FROM [blog_Member] WHERE [mem_Name]='"&strUserName & "'")
+		If (Not objRS.Bof) And (Not objRS.Eof) Then
+
+			If StrComp(strPassWord,objRS("mem_Password"))=0 Then
+
+				Call LoadInfobyID(objRS("mem_ID"))
+
+				Session(ZC_BLOG_CLSID & "quicklogin")=MD5(Month(Now) & Day(Now) & ZC_BLOG_CLSID & strUserName & strPassWord)
+
+				Verify=True
 			Else
 				'If LoginType="Cookies" Then Response.Cookies("password")=""
 			End If
-	
-			objRS.Close
-			Set objRS=Nothing
-		'Else
-		'	If StrComp(strPassWord,Session(ZC_BLOG_CLSID&strUserName&"~")(1))=0 Then
-	
-		'		ID=Session(ZC_BLOG_CLSID&strUserName&"~")(0)
-		'		If LoadInfobyID(ID) Then Verify=True
-		'		
-		'	End If
-		'	
-		'End If
-		'If Verify=False Then Session(ZC_BLOG_CLSID&strUserName&"~")=Empty
+		Else
+			'If LoginType="Cookies" Then Response.Cookies("password")=""
+		End If
+
+		objRS.Close
+		Set objRS=Nothing
+
 	End Function
 
 
@@ -3097,9 +3081,21 @@ Class TUser
 
 	End Function
 
+	Function GetIDbyName(n)
+
+		n=FilterSQL(n)
+
+		Dim objRS
+		Set objRS=objConn.Execute("SELECT [mem_ID] FROM [blog_Member] WHERE [mem_Name]='"& n & "'")
+		If (Not objRS.Bof) And (Not objRS.Eof) Then
+			GetIDbyName=CLng(objRS("mem_ID"))
+		End If
+
+	End Function
+
 
 	Private Sub Class_Initialize()
-		doLoadInfo=True
+
 		Level=5
 		ID=0
 		Name=ZC_MSG018
