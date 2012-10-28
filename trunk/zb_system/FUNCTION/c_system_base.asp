@@ -3687,7 +3687,8 @@ Function UrlbyDateAuto(y,m,d)
 	Else
 		s=UrlbyDate(y,m,d)
 	End If
-	If Right(s,12)="default.html" Then UrlbyDateAuto=Left(s,Len(s)-12)
+	If Right(s,12)="default.html" Then s=Left(s,Len(s)-12)
+	UrlbyDateAuto=s
 End Function
 '*********************************************************
 
