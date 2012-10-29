@@ -1194,9 +1194,9 @@ Function SaveSetting()
 
 	On Error Resume Next
 
-	If BlogConfig.Exists("ZC_SYNTAXHIGHLIGHTER_ENABLE")=False Then Call BlogConfig.Write("ZC_SYNTAXHIGHLIGHTER_ENABLE",True)
+	If BlogConfig.Exists("ZC_SYNTAXHIGHLIGHTER_ENABLE")=False Then Call BlogConfig.Write("ZC_SYNTAXHIGHLIGHTER_ENABLE",False)
 
-	If BlogConfig.Exists("ZC_CODEMIRROR_ENABLE")=False Then Call BlogConfig.Write("ZC_CODEMIRROR_ENABLE",True)
+	If BlogConfig.Exists("ZC_CODEMIRROR_ENABLE")=False Then Call BlogConfig.Write("ZC_CODEMIRROR_ENABLE",False)
 
 	If BlogConfig.Exists("ZC_ARTICLE_EXCERPT_MAX")=False Then Call BlogConfig.Write("ZC_ARTICLE_EXCERPT_MAX",250)
 
