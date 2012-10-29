@@ -2968,6 +2968,10 @@ Class TUser
 
 			End If
 
+			Application.Lock
+			Application(ZC_BLOG_CLSID & "QUICKLOGIN_ID" & ID)=Empty
+			Application.UnLock
+
 		End If
 
 		Edit=True
