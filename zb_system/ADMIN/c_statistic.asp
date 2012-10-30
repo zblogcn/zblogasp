@@ -61,7 +61,7 @@ If b=True Then
 	objRS.ActiveConnection=objConn
 	objRS.Source=""
 
-	Dim allArticle,allCommNums,allTrackBackNums,allViewNums,allUserNums,allCateNums,allTagsNums,allPage
+	Dim allArticle,allCommNums,allViewNums,allUserNums,allCateNums,allTagsNums,allPage
 
 	Call getUser()
 	Dim User,i
@@ -84,12 +84,11 @@ If b=True Then
 	objRS.LockType = adLockReadOnly
 	objRS.ActiveConnection=objConn
 	objRS.Source=""
-	objRS.Open("SELECT COUNT([log_ID])AS allArticle,SUM([log_CommNums]) AS allCommNums,SUM([log_ViewNums]) AS allViewNums,SUM([log_TrackBackNums]) AS allTrackBackNums FROM [blog_Article] WHERE [log_Type]=0")
+	objRS.Open("SELECT COUNT([log_ID])AS allArticle,SUM([log_ViewNums]) AS allViewNums FROM [blog_Article] WHERE [log_Type]=0")
 	If (Not objRS.bof) And (Not objRS.eof) Then
 		allArticle=objRS("allArticle")
 		allPage=objConn.Execute("SELECT COUNT([log_ID]) FROM [blog_Article] WHERE [log_Type]=1")(0)
 		allCommNums=objConn.Execute("SELECT SUM([log_CommNums]) FROM [blog_Article]")(0)
-		allTrackBackNums=objRS("allTrackBackNums")
 		allViewNums=objRS("allViewNums")
 	End If
 	objRS.Close
@@ -114,7 +113,6 @@ If b=True Then
 
 	Call CheckParameter(allArticle,"int",0)
 	Call CheckParameter(allCommNums,"int",0)
-	Call CheckParameter(allTrackBackNums,"int",0)
 	Call CheckParameter(allViewNums,"int",0)
 	Call CheckParameter(allUserNums,"int",0)
 	Call CheckParameter(allCateNums,"int",0)
@@ -124,7 +122,7 @@ If b=True Then
 	strContent = "<tr class=""color1""><th height=""32"" colspan=""4""  align=""center"">&nbsp;" & ZC_MSG167& "&nbsp;<a href=""javascript:statistic('?reload');"">["& ZC_MSG225 &"]</a> <img id=""statloading"" style=""display:none"" src=""../image/admin/loading.gif""></th></tr>"
 	strContent = strContent & "<tr>"
 	strContent = strContent & "<td width=""20%"">" & ZC_MSG005& " </td>"
-	strContent = strContent & "<td width=""30%"">" & BlogUser.Name& "  (" & ZVA_User_Level_Name(BlogUser.Level)& " )</td>"
+	strContent = strContent & "<td width=""30%"">" & BlogUser.Name& "  (" & ZVA_User_Level_Name(BlogUser.Level)& ")</td>"
 	strContent = strContent & "<td width=""20%"">" & ZC_MSG150& " </td>"
 	strContent = strContent & "<td width=""30%"">" & ZC_BLOG_VERSION& " </td>"
 	strContent = strContent & "</tr>"
@@ -154,7 +152,7 @@ If b=True Then
 	strContent = strContent & "</tr>"
 	strContent = strContent & "<tr>"
 	strContent = strContent & "<td width=""20%"">MetaWeblog API</td>"
-	strContent = strContent & "<td colspan=""3"" width=""80%"">" & BlogHost& " zb_system/xml-rpc/index.asp</td>"
+	strContent = strContent & "<td colspan=""3"" width=""80%"">" & BlogHost& "zb_system/xml-rpc/index.asp</td>"
 	strContent = strContent & "</tr>"
 	'strContent = strContent & "</table>"
 
