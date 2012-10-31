@@ -1826,7 +1826,7 @@ Class TArticleList
 	End Property
 
 
-	Public Function Export(intPage,Cate,Author,dtmYearMonth,Tag,intType)
+	Public Function Export(intPage,anyCate,anyAuthor,dtmDate,anyTag,intType)
 
 		'plugin node
 		bAction_Plugin_TArticleList_Export_Begin=False
@@ -1835,7 +1835,7 @@ Class TArticleList
 			If bAction_Plugin_TArticleList_Export_Begin=True Then Exit Function
 		Next
 
-		Call Filter_Plugin_TArticleList_Export(intPage,Cate,Author,dtmYearMonth,Tag,intType)
+		Call Filter_Plugin_TArticleList_Export(intPage,anyCate,anyAuthor,dtmDate,anyTag,intType)
 
 		ListType="DEFAULT"
 		Url =ParseCustomDirectoryForUrl(FullRegex,ZC_STATIC_DIRECTORY,"","","","","","","","")
@@ -1896,19 +1896,19 @@ Class TArticleList
 
 		objRS.Source="SELECT [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_Type],[log_Meta] FROM [blog_Article] WHERE ([log_Type]=0) AND ([log_Level]>1)"
 
-		If Cate<>"" Then
+		If anyCate<>"" Then
 
 			ListType="CATEGORY"
 
 			If InStr(ZC_CATEGORY_REGEX,"{%alias%}")>0 Then
-				i=GetCateByAlias(Cate)
+				i=GetCateByAlias(anyCate)
 				If i=-1 Then
-					i=GetCateByName(Cate)
+					i=GetCateByName(anyCate)
 				End If
 			ElseIf InStr(ZC_CATEGORY_REGEX,"{%name%}")>0 Then 
-				i=GetCateByName(Cate)
+				i=GetCateByName(anyCate)
 			Else
-				i=Cate
+				i=anyCate
 			End If
 
 			Call CheckParameter(i,"int",Empty)
@@ -1931,19 +1931,19 @@ Class TArticleList
 				MixUrl =ParseCustomDirectoryForUrl("{%host%}/catalog.asp?cate={%id%}",ZC_STATIC_DIRECTORY,"","","","","",Categorys(i).ID,Categorys(i).Name,Categorys(i).StaticName)
 			End If
 		End if
-		If Author<>"" Then
+		If anyAuthor<>"" Then
 
 			ListType="USER"
 
 			If InStr(ZC_USER_REGEX,"{%alias%}")>0 Then
-				i=GetAuthorByAlias(Author)
+				i=GetAuthorByAlias(anyAuthor)
 				If i=-1 Then
-					i=GetAuthorByName(Author)
+					i=GetAuthorByName(anyAuthor)
 				End If
 			ElseIf InStr(ZC_USER_REGEX,"{%name%}")>0 Then
 				i=GetAuthorByName(Author)
 			Else
-				i=Author
+				i=anyAuthor
 			End If
 
 			Call CheckParameter(i,"int",Empty)
@@ -1961,7 +1961,7 @@ Class TArticleList
 				MixUrl=ParseCustomDirectoryForUrl("{%host%}/catalog.asp?user={%id%}",ZC_STATIC_DIRECTORY,"","","","","",Users(i).ID,Users(i).Name,Users(i).StaticName)
 			End If
 		End if
-		If IsDate(dtmYearMonth) Then
+		If IsDate(dtmDate) Then
 
 			ListType="DATE"
 
@@ -1971,18 +1971,18 @@ Class TArticleList
 			Dim ny
 			Dim nm
 
-			y=Year(dtmYearMonth)
-			m=Month(dtmYearMonth)
-			d=Day(dtmYearMonth)
+			y=Year(dtmDate)
+			m=Month(dtmDate)
+			d=Day(dtmDate)
 
-			If Not Len(CStr(dtmYearMonth))>7 Then
+			If Not Len(CStr(dtmDate))>7 Then
 				d=""
 			End If
 
 			Url =UrlbyDate(y,m,d)
 			MixUrl =UrlbyDateAuto(y,m,d)
 
-			TemplateTags_ArticleList_Date_ShortDate=dtmYearMonth
+			TemplateTags_ArticleList_Date_ShortDate=dtmDate
 			TemplateTags_ArticleList_Date_Year=y
 			TemplateTags_ArticleList_Date_Month=m
 			TemplateTags_ArticleList_Date_Day=d
@@ -1991,24 +1991,24 @@ Class TArticleList
 			nm=m+1
 			If m=12 Then ny=ny+1:nm=1
 
-			If Len(CStr(dtmYearMonth))>7 Then
+			If Len(CStr(dtmDate))>7 Then
 				objRS.Source=objRS.Source & "AND(Year([log_PostTime])="&y&") AND(Month([log_PostTime])="&m&") AND(Day([log_PostTime])="&d&")"
 			Else
 				objRS.Source=objRS.Source & "AND(Year([log_PostTime])="&y&") AND(Month([log_PostTime])="&m&")"
 			End If
 
-			Template_Calendar="<script language=""JavaScript"" src=""<#ZC_BLOG_HOST#>zb_system/function/c_html_js.asp?date="&dtmYearMonth&""" type=""text/javascript""></script>"
+			Template_Calendar="<script language=""JavaScript"" src=""<#ZC_BLOG_HOST#>zb_system/function/c_html_js.asp?date="&dtmDate&""" type=""text/javascript""></script>"
 
-			Title=Year(dtmYearMonth) & " " & ZVA_Month(Month(dtmYearMonth)) & IIF(Len(CStr(dtmYearMonth))>7," " & Day(dtmYearMonth),"")
+			Title=Year(dtmDate) & " " & ZVA_Month(Month(dtmDate)) & IIF(Len(CStr(dtmDate))>7," " & Day(dtmDate),"")
 		End If
-		If Tag<>"" Then
+		If anyTag<>"" Then
 
 			ListType="TAGS"
 
 			If InStr(ZC_TAGS_REGEX,"{%id%}")>0 Then
-				i=CLng(Tag)
+				i=CLng(anyTag)
 			Else
-				If CheckTagByName(Tag) Then i=GetTagByName(Tag)
+				If CheckTagByName(anyTag) Then i=GetTagByName(anyTag)
 			End If
 			objRS.Source=objRS.Source & "AND([log_Tag] LIKE '%{" & i & "}%')"
 

@@ -2418,10 +2418,7 @@ Function BlogReBuild_Calendar()
 	Dim objRS
 	Dim k,l,m,n
 	Call GetFunction()
-	If CStr(Functions(FunctionMetas.GetValue("calendar")).SideBarID)="0" Then 
 
-		Exit Function
-	End If
 	'Calendar
 	strCalendar=MakeCalendar("")
 
@@ -2461,10 +2458,7 @@ Function BlogReBuild_Archives()
 	Dim ArtList
 
 	Call GetFunction()
-	If CStr(Functions(FunctionMetas.GetValue("archives")).SideBarID)="0" Then 
 
-		Exit Function
-	End If
 	'Archives
 	Dim strArchives
 	Set objRS=objConn.Execute("SELECT [log_PostTime] FROM [blog_Article] WHERE ([log_Type]=0) And ([log_Level]>1) ORDER BY [log_PostTime] DESC")
@@ -2537,10 +2531,7 @@ Function BlogReBuild_Catalogs()
 
 	IsRunGetCategory=False
 	Call GetFunction
-	If CStr(Functions(FunctionMetas.GetValue("catalog")).SideBarID)="0" Then 
 
-		Exit Function
-	End If
 	Call GetCategory()
 	
 	Dim objRS
@@ -2634,10 +2625,6 @@ Function BlogReBuild_Authors()
 
 	Call GetUser()
 	Call GetFunction()
-	If CStr(Functions(FunctionMetas.GetValue("authors")).SideBarID)="0" Then 
-
-		Exit Function
-	End If
 	
 	Dim objRS
 	Dim objStream
@@ -2680,11 +2667,6 @@ Function BlogReBuild_Tags()
 	Next
 
 	Call GetFunction()
-	
-	If CStr(Functions(FunctionMetas.GetValue("tags")).SideBarID)="0" Then 
-
-		Exit Function
-	End If
 	
 	Dim objRS
 	Dim objStream
@@ -2764,12 +2746,7 @@ Function BlogReBuild_Previous()
 	Dim objArticle
 	Call GetFunction()
 	j=Functions(FunctionMetas.GetValue("previous")).MaxLi
-	
-	If CStr(Functions(FunctionMetas.GetValue("previous")).SideBarID)="0" Then 
 
-		Exit Function
-	End If
-	
 	If j=0 Then j=10
 
 	'Previous
@@ -2816,10 +2793,6 @@ Function BlogReBuild_Comments()
 	Next
 
 	Call GetFunction()
-	If CStr(Functions(FunctionMetas.GetValue("comments")).SideBarID)="0" Then 
-
-		Exit Function
-	End If
 	
 	Dim objRS
 	Dim objStream
@@ -2927,10 +2900,6 @@ Function BlogReBuild_Statistics()
 	Dim objRS
 	Dim objStream
 	Call GetFunction()
-	If CStr(Functions(FunctionMetas.GetValue("statistics")).SideBarID)="0" Then 
-
-		Exit Function
-	End If
 
 	'Statistics
 	Dim strStatistics
