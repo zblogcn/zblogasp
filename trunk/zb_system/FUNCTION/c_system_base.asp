@@ -509,6 +509,7 @@ Function GetFunction()
 	Set objRS=objConn.Execute("SELECT [fn_ID],[fn_Name],[fn_FileName],[fn_Order],[fn_Content],[fn_IsSystem],[fn_SidebarID],[fn_HtmlID],[fn_Ftype],[fn_MaxLi],[fn_Meta] FROM [blog_Function] ORDER BY [fn_ID] ASC")
 	If (Not objRS.bof) And (Not objRS.eof) Then
 
+
 		aryAllData=objRS.GetRows(objRS.RecordCount)
 		objRS.Close
 		Set objRS=Nothing
@@ -1513,11 +1514,11 @@ Function LoadGlobeCache()
 	ReDim t(b)
 	t(1)="ZC_BLOG_VERSION"
 	t(2)="ZC_BLOG_LANGUAGE"
-	t(3)="ZC_BLOG_TITLE"
-	t(4)="ZC_BLOG_SUBTITLE"
-	t(5)="ZC_BLOG_NAME"
-	t(6)="ZC_BLOG_SUB_NAME"
-	t(7)="ZC_BLOG_THEME"
+	t(3)="ZC_BLOG_HOST"
+	t(4)="ZC_BLOG_TITLE"
+	t(5)="ZC_BLOG_SUBTITLE"
+	t(6)="ZC_BLOG_NAME"
+	t(7)="ZC_BLOG_SUB_NAME"
 	t(8)="ZC_BLOG_CSS"
 	t(9)="ZC_BLOG_COPYRIGHT"
 	t(10)="ZC_BLOG_MASTER"
@@ -1529,9 +1530,9 @@ Function LoadGlobeCache()
 	t(16)="ZC_BLOG_CLSID"
 	t(17)="ZC_TIME_ZONE"
 	t(18)="ZC_HOST_TIME_ZONE"
-	t(19)="ZC_VERIFYCODE_WIDTH"
-	t(20)="ZC_VERIFYCODE_HEIGHT"
-	t(21)="ZC_BLOG_HOST"
+	t(19)="ZC_BLOG_THEME"
+	t(20)="ZC_VERIFYCODE_WIDTH"
+	t(21)="ZC_VERIFYCODE_HEIGHT"
 
 
 
@@ -2418,8 +2419,14 @@ Function BlogReBuild_Calendar()
 	Dim objRS
 	Dim k,l,m,n
 	Call GetFunction()
+	
+	'未引用的模板绝对不能更新，作孽啊。。
+	If CStr(Functions(FunctionMetas.GetValue("calendar")).SideBarID)="0" Then 
 
+		Exit Function
+	End If
 	'Calendar
+
 	strCalendar=MakeCalendar("")
 
 	strCalendar=TransferHTML(strCalendar,"[no-asp]")
@@ -2458,7 +2465,10 @@ Function BlogReBuild_Archives()
 	Dim ArtList
 
 	Call GetFunction()
+	If CStr(Functions(FunctionMetas.GetValue("archives")).SideBarID)="0" Then 
 
+		Exit Function
+	End If
 	'Archives
 	Dim strArchives
 	Set objRS=objConn.Execute("SELECT [log_PostTime] FROM [blog_Article] WHERE ([log_Type]=0) And ([log_Level]>1) ORDER BY [log_PostTime] DESC")
@@ -2531,7 +2541,10 @@ Function BlogReBuild_Catalogs()
 
 	IsRunGetCategory=False
 	Call GetFunction
+	If CStr(Functions(FunctionMetas.GetValue("catalog")).SideBarID)="0" Then 
 
+		Exit Function
+	End If
 	Call GetCategory()
 	
 	Dim objRS
@@ -2625,6 +2638,10 @@ Function BlogReBuild_Authors()
 
 	Call GetUser()
 	Call GetFunction()
+	If CStr(Functions(FunctionMetas.GetValue("authors")).SideBarID)="0" Then 
+
+		Exit Function
+	End If
 	
 	Dim objRS
 	Dim objStream
@@ -2667,6 +2684,11 @@ Function BlogReBuild_Tags()
 	Next
 
 	Call GetFunction()
+	
+	If CStr(Functions(FunctionMetas.GetValue("tags")).SideBarID)="0" Then 
+
+		Exit Function
+	End If
 	
 	Dim objRS
 	Dim objStream
@@ -2746,7 +2768,12 @@ Function BlogReBuild_Previous()
 	Dim objArticle
 	Call GetFunction()
 	j=Functions(FunctionMetas.GetValue("previous")).MaxLi
+	
+	If CStr(Functions(FunctionMetas.GetValue("previous")).SideBarID)="0" Then 
 
+		Exit Function
+	End If
+	
 	If j=0 Then j=10
 
 	'Previous
@@ -2793,6 +2820,10 @@ Function BlogReBuild_Comments()
 	Next
 
 	Call GetFunction()
+	If CStr(Functions(FunctionMetas.GetValue("comments")).SideBarID)="0" Then 
+
+		Exit Function
+	End If
 	
 	Dim objRS
 	Dim objStream
@@ -2900,6 +2931,10 @@ Function BlogReBuild_Statistics()
 	Dim objRS
 	Dim objStream
 	Call GetFunction()
+	If CStr(Functions(FunctionMetas.GetValue("statistics")).SideBarID)="0" Then 
+
+		Exit Function
+	End If
 
 	'Statistics
 	Dim strStatistics
