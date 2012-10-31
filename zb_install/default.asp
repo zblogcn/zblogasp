@@ -23,9 +23,9 @@ CanInstall=""
 Dim zblogstep
 zblogstep=Request.QueryString("step")
 
-If ZC_DATABASE_PATH<>"" Or ZC_MSSQL_DATABASE<>"" Then
-	zblogstep=0
-End If
+'If ZC_DATABASE_PATH<>"" Or ZC_MSSQL_DATABASE<>"" Then
+'	zblogstep=0
+'End If
 
 If zblogstep="" Then zblogstep=1
 
@@ -64,20 +64,28 @@ End  Select
 <script language="JavaScript" type="text/javascript">
 function Setup3(){
 	if($("#dbtype").val()=="mssql"){
-		if($("#dbserver").val()==""){alert('数据库服务器需要填写.');return false;};
-		if($("#dbname").val()==""){alert('数据库名称需要填写.');return false;};
-		if($("#dbusername").val()==""){alert('数据库用户名需要填写.');return false;};
+		if($("#dbserver").val()==""){alert("数据库服务器需要填写");return false;};
+		if($("#dbname").val()==""){alert("数据库名称需要填写");return false;};
+		if($("#dbusername").val()==""){alert("数据库用户名需要填写");return false;};
 	}
 
 
 
-if($("#blogtitle").val()==""){alert('网站标题需要填写.');return false;};
-if($("#username").val()==""){alert('管理员名称需要填写.');return false;};
-if($("#password").val()==""){alert('管理员密码需要填写.');return false;};
-if($("#password").val().toString().search("^[A-Za-z0-9`~!@#\$%\^&\*\-_]{8,}$")==-1){alert('管理员密码必须是8位或更长的数字和字母,字符组合.');return false;};
-if($("#password").val()!==$("#repassword").val()){alert('必须确认密码.');return false;};
+if($("#blogtitle").val()==""){alert("网站标题需要填写");return false;};
+if($("#username").val()==""){alert("管理员名称需要填写");return false;};
+if($("#password").val()==""){alert("管理员密码需要填写");return false;};
+if($("#password").val().toString().search("^[A-Za-z0-9`~!@#\$%\^&\*\-_]{8,}$")==-1){alert("管理员密码必须是8位或更长的数字和字母,字符组合");return false;};
+if($("#password").val()!==$("#repassword").val()){alert("必须确认密码");return false;};
 
 }
+
+$(function() {
+	$( "#setup0" ).progressbar({value: 1000});
+	$( "#setup1" ).progressbar({value: 0});
+	$( "#setup2" ).progressbar({value: 33});
+	$( "#setup3" ).progressbar({value: 66});
+	$( "#setup4" ).progressbar({value: 100});
+ });
 
 </script>
 </body>
@@ -91,16 +99,16 @@ Function Setup0()
 %>
 <dl>
 <dd id="ddleft">
-<img src='../zb_system/image/admin/install.png' alt='' />
-<p>安装进度： <span><font color='#3d69aa'></font><font color='white'>████████████████████████</font></span></p>
+<img src="../zb_system/image/admin/install.png" alt="Z-Blog2.0在线安装" />
+<div class="left">安装进度： </div><div id="setup0"  class="left"></div>
 <p>安装协议 » 环境检查 » 数据库建立与设置 » 安装结果</p>
 </dd>
 <dd id="ddright">
-<div id='title'>安装提示</div>
-<div id='content'>
+<div id="title">安装提示</div>
+<div id="content">
 通过配置文件的检验,您已经安装并配置好Z-Blog了,不能再重复使用安装程序.
 </div>
-<div id='bottom'>
+<div id="bottom">
 <input type="button" name="next" onClick="window.location.href='<%=BlogHost%>'" id="netx" value="退出" />
 </div>
 </dd>
@@ -123,13 +131,13 @@ Function Setup1()
 %>
 <dl>
 <dd id="ddleft">
-<img src='../zb_system/image/admin/install.png' alt='' />
-<p>安装进度： <span> <font color='#3d69aa'></font><font color='white'>████████████████████████</font></span></p>
+<img src="../zb_system/image/admin/install.png" alt="Z-Blog2.0在线安装" />
+<div class="left">安装进度： </div><div id="setup1"  class="left"></div>
 <p><b>安装协议</b> » 环境检查 » 数据库建立与设置 » 安装结果</p>
 </dd>
 <dd id="ddright">
-<div id='title'>安装协议</div>
-<div id='content'>
+<div id="title">安装协议</div>
+<div id="content">
   <textarea readonly>
 Z-Blog  最终用户授权协议 
 
@@ -168,15 +176,15 @@ Z-Blog官方网址：http://www.rainbowsoft.org
 
   </textarea>
 </div>
-<div id='bottom'>
+<div id="bottom">
  <label><input type="checkbox"/>我已阅读并同意此协议.</label>&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" name="next" id="netx" value="下一步" disabled="disabled" />
  <script type="text/javascript">
 $( "input[type=checkbox]" ).click(function() {
 	if ( $( this ).prop( "checked" ) ) {
-		$('#netx').prop('disabled',false);
+		$("#netx").prop("disabled",false);
 	} 
 	else{
-		$('#netx').prop('disabled',true);
+		$("#netx").prop("disabled",true);
 	}
 });
 </script>
@@ -191,31 +199,30 @@ Function Setup2()
 %>
 <dl>
 <dd id="ddleft">
-<img src='../zb_system/image/admin/install.png' alt='' />
-<p>安装进度： <span><font color='#3d69aa'>██████</font><font color='white'>██████████████████</font></span></p>
+<img src="../zb_system/image/admin/install.png" alt="Z-Blog2.0在线安装" />
+<div class="left">安装进度： </div><div id="setup2"  class="left"></div>
 <p><b>安装协议</b> » <b>环境检查</b> » 数据库建立与设置 » 安装结果</p>
 </dd>
 <dd id="ddright">
-<div id='title'>环境检查</div>
-<div id='content'>
-<body>
+<div id="title">环境检查</div>
+<div id="content">
 <%CheckServer%>
 <table border="0" style="width:100%;">
   <tr>
     <th colspan="3" scope="row">服务器环境检查</th>
   </tr>
   <tr>
-    <td scope="row">IIS版本</th>
+    <td scope="row">IIS版本</td>
     <td style="text-align:center"><%=Checked123(0,0,0)%></td>
     <td style="text-align:center"><%=Checked123(0,0,1)%></td>
   </tr>
   <tr>
-    <td scope="row">ASP Script支持</th>
+    <td scope="row">ASP Script支持</td>
     <td style="text-align:center"><%=Checked123(0,1,0)%></td>
     <td style="text-align:center"><%=Checked123(0,1,1)%></td>
   </tr>
   <tr>
-    <td scope="row">Z-Blog 路径</th>
+    <td scope="row">Z-Blog 路径</td>
     <td style="text-align:center"><%=Checked123(0,2,0)%></td>
     <td style="text-align:center"><%=Checked123(0,2,1)%></td>
   </tr>
@@ -223,37 +230,37 @@ Function Setup2()
     <th colspan="3" scope="col">组件支持检查</th>
   </tr>
   <tr>
-    <td scope="row" style="width:200px">ADODB.Stream</th>
+    <td scope="row" style="width:200px">ADODB.Stream</td>
     <td style="text-align:center"><%=Checked123(1,0,0)%></td>
     <td style="text-align:center"><%=Checked123(1,0,1)%></td>
   </tr>
   <tr>
-    <td scope="row">ADODB.Connection</th>
+    <td scope="row">ADODB.Connection</td>
     <td style="text-align:center"><%=Checked123(1,1,0)%></td>
     <td style="text-align:center"><%=Checked123(1,1,1)%></td>
   </tr>
   <tr>
-    <td scope="row">ADODB.RecordSet</th>
+    <td scope="row">ADODB.RecordSet</td>
     <td style="text-align:center"><%=Checked123(1,2,0)%></td>
     <td style="text-align:center"><%=Checked123(1,2,1)%></td>
   </tr>
   <tr>
-    <td scope="row">Scripting.FileSystemObject</th>
+    <td scope="row">Scripting.FileSystemObject</td>
     <td style="text-align:center"><%=Checked123(1,3,0)%></td>
     <td style="text-align:center"><%=Checked123(1,3,1)%></td>
   </tr>
   <tr>
-    <td scope="row">Scripting.Dictionary</th>
+    <td scope="row">Scripting.Dictionary</td>
     <td style="text-align:center"><%=Checked123(1,4,0)%></td>
     <td style="text-align:center"><%=Checked123(1,4,1)%></td>
   </tr>
   <tr>
-    <td scope="row">MSXML2.ServerXMLHTTP</th>
+    <td scope="row">MSXML2.ServerXMLHTTP</td>
     <td style="text-align:center"><%=Checked123(1,5,0)%></td>
     <td style="text-align:center"><%=Checked123(1,5,1)%></td>
   </tr>
   <tr>
-    <td scope="row">Microsoft.XMLDOM</th>
+    <td scope="row">Microsoft.XMLDOM</td>
     <td style="text-align:center"><%=Checked123(1,6,0)%></td>
     <td style="text-align:center"><%=Checked123(1,6,1)%></td>
   </tr>
@@ -261,37 +268,37 @@ Function Setup2()
     <th colspan="3" scope="row">权限检查</th>
   </tr>
   <tr>
-    <td scope="row">创建文件夹</th>
+    <td scope="row">创建文件夹</td>
     <td style="text-align:center"><%=Checked123(2,0,0)%></td>
     <td style="text-align:center"><%=Checked123(2,0,1)%></td>
   </tr>
   <tr>
-    <td scope="row">读取文件</th>
+    <td scope="row">读取文件</td>
     <td style="text-align:center"><%=Checked123(2,1,0)%></td>
     <td style="text-align:center"><%=Checked123(2,1,1)%></td>
   </tr>
   <tr>
-    <td scope="row">创建文件</th>
+    <td scope="row">创建文件</td>
     <td style="text-align:center"><%=Checked123(2,2,0)%></td>
     <td style="text-align:center"><%=Checked123(2,2,1)%></td>
   </tr>
   <tr>
-    <td scope="row">编辑文件</th>
+    <td scope="row">编辑文件</td>
     <td style="text-align:center"><%=Checked123(2,3,0)%></td>
     <td style="text-align:center"><%=Checked123(2,3,1)%></td>
   </tr>
   <tr>
-    <td scope="row">重命名文件</th>
+    <td scope="row">重命名文件</td>
     <td style="text-align:center"><%=Checked123(2,4,0)%></td>
     <td style="text-align:center"><%=Checked123(2,4,1)%></td>
   </tr>
   <tr>
-    <td scope="row">删除文件</th>
+    <td scope="row">删除文件</td>
     <td style="text-align:center"><%=Checked123(2,5,0)%></td>
     <td style="text-align:center"><%=Checked123(2,5,1)%></td>
   </tr>
   <tr>
-    <td scope="row">删除文件夹</th>
+    <td scope="row">删除文件夹</td>
     <td style="text-align:center"><%=Checked123(2,6,0)%></td>
     <td style="text-align:center"><%=Checked123(2,6,1)%></td>
   </tr>
@@ -299,7 +306,7 @@ Function Setup2()
     <td colspan="3" scope="row">数据库连接检查</th>
   </tr>
   <tr>
-    <td scope="row">可连接Access</th>
+    <td scope="row">可连接Access</td>
     <td style="text-align:center"><%=Checked123(3,0,0)%></td>
     <td style="text-align:center"><%=Checked123(3,0,1)%></td>
   </tr>
@@ -309,7 +316,7 @@ Function Setup2()
 
     
 </div>
-<div id='bottom'>
+<div id="bottom">
 <div id="dialog-message" title="错误提示">
 
 </div>
@@ -422,9 +429,9 @@ Function CheckServer()
 					
 			End Select
 			If Checked123(a,b,2)=True Then 
-				Checked123(a,b,1)="<span style='color:green'><b>√</b></span>"
+				Checked123(a,b,1)="<span class=""bingo""></span>"
 			Else
-				Checked123(a,b,1)="<span style='color:red'><b>×</b></span>"
+				Checked123(a,b,1)="<span class=""error""></span>"
 				CanInstall=CanInstall & "{" & a & "}"
 			End If
 		Next
@@ -442,31 +449,31 @@ Function Setup3()
 %>
 <dl>
 <dd id="ddleft">
-<img src='../zb_system/image/admin/install.png' alt='' />
-<p>安装进度： <span><font color='#3d69aa'>████████████</font><font color='white'>████████████</font></span></p>
+<img src="../zb_system/image/admin/install.png" alt="Z-Blog2.0在线安装" />
+<div class="left">安装进度： </div><div id="setup3"  class="left"></div>
 <p><b>安装协议</b> » <b>环境检查</b> » <b>数据库建立与设置</b> » 安装结果</p>
 </dd>
 <dd id="ddright">
-<div id='title'>数据库建立与设置</div>
-<div id='content'>
+<div id="title">数据库建立与设置</div>
+<div id="content">
 <input type="hidden" name="dbtype" id="dbtype" value="access" />
 <p><b>类型选择</b>:&nbsp;&nbsp;<label onClick="$('#mssql').hide();$('#access').show();$('#dbtype').val('access');"><input type="radio" name="db" checked="checked" />Access</label>&nbsp;&nbsp;&nbsp;&nbsp;<label onClick="$('#access').hide();$('#mssql').show();$('#dbtype').val('mssql');"><input type="radio" name="db" />MSSQL</label></p>
-<div id='access'>
-<p><b>数&nbsp;据&nbsp;库:</b>&nbsp;&nbsp;<input type="text" name="dbpath" id="dbpath" value="#%20<%=LCase(Replace(RndGuid(),"-",""))%>.mdb" readonly style='width:350px;' /></p>
+<div id="access">
+<p><b>数&nbsp;据&nbsp;库:</b>&nbsp;&nbsp;<input type="text" name="dbpath" id="dbpath" value="#%20<%=LCase(Replace(RndGuid(),"-",""))%>.mdb" readonly style="width:350px;" /></p>
 </div>
-<div id='mssql' style='display:none;'>
-<p><b>数据库主机:</b><input type="text" name="dbserver" id="dbserver" value="(local)" style='width:350px;' /></p>
-<p><b>数据库名称:</b><input type="text" name="dbname" id="dbname" value="" style='width:350px;' /></p>
-<p><b>用户名称:</b>&nbsp;&nbsp;<input type="text" name="dbusername" id="dbusername" value="" style='width:350px;' /></p>
-<p><b>用户密码:</b>&nbsp;&nbsp;<input type="text" name="dbpassword" id="dbpassword" value="" style='width:350px;' /></p>
+<div id="mssql" style="display:none;">
+<p><b>数据库主机:</b><input type="text" name="dbserver" id="dbserver" value="(local)" style="width:350px;" /></p>
+<p><b>数据库名称:</b><input type="text" name="dbname" id="dbname" value="" style="width:350px;" /></p>
+<p><b>用户名称:</b>&nbsp;&nbsp;<input type="text" name="dbusername" id="dbusername" value="" style="width:350px;" /></p>
+<p><b>用户密码:</b>&nbsp;&nbsp;<input type="text" name="dbpassword" id="dbpassword" value="" style="width:350px;" /></p>
 </div>
-<p class='title'>网站设置</p>
-<p><b>网站名称:</b>&nbsp;&nbsp;<input type="text" name="blogtitle" id="blogtitle" value="" style='width:350px;' /></p>
-<p><b>用&nbsp;户&nbsp;名:</b>&nbsp;&nbsp;<input type="text" name="username" id="username" value="" style='width:250px;' />&nbsp;(英文,数字,汉字和._的组合)</p>
-<p><b>密&nbsp;&nbsp;&nbsp;&nbsp;码:</b>&nbsp;&nbsp;<input type="password" name="password" id="password" value="" style='width:250px;' />&nbsp;(8位或更长的数字和字母,字符组合)</p>
-<p><b>确认密码:</b>&nbsp;&nbsp;<input type="password" name="repassword" id="repassword" value="" style='width:250px;' /></p>
+<p class="title">网站设置</p>
+<p><b>网站名称:</b>&nbsp;&nbsp;<input type="text" name="blogtitle" id="blogtitle" value="" style="width:350px;" /></p>
+<p><b>用&nbsp;户&nbsp;名:</b>&nbsp;&nbsp;<input type="text" name="username" id="username" value="" style="width:250px;" />&nbsp;(英文,数字,汉字和._的组合)</p>
+<p><b>密&nbsp;&nbsp;&nbsp;&nbsp;码:</b>&nbsp;&nbsp;<input type="password" name="password" id="password" value="" style="width:250px;" />&nbsp;(8位或更长的数字和字母,字符组合)</p>
+<p><b>确认密码:</b>&nbsp;&nbsp;<input type="password" name="repassword" id="repassword" value="" style="width:250px;" /></p>
 </div>
-<div id='bottom'>
+<div id="bottom">
 <input type="submit" name="next" id="netx" onClick="return Setup3()" value="下一步" />
 </div>
 </dd>
@@ -491,14 +498,14 @@ On Error Resume Next
 %>
 <dl>
 <dd id="ddleft">
-<img src='../zb_system/image/admin/install.png' alt='' />
-<p>安装进度： <span><font color='#3d69aa'>████████████████████████</font><font color='white'></font></span></p>
+<img src="../zb_system/image/admin/install.png" alt="Z-Blog2.0在线安装" />
+<div class="left">安装进度： </div><div id="setup4"  class="left"></div>
 <p><b>安装协议</b> » <b>环境检查</b> » <b>数据库建立与设置</b> » <b>安装结果</b></p>
 </dd>
 <dd id="ddright">
 
-<div id='title'>安装结果</div>
-<div id='content'>
+<div id="title">安装结果</div>
+<div id="content">
 <%
 ZC_BLOG_TITLE=Request.Form("blogtitle")
 ZC_BLOG_NAME=ZC_BLOG_TITLE
@@ -579,8 +586,8 @@ Response.Cookies("username")=""
 <p>Z-Blog 2.0安装成功了,现在您可以点击"完成"进入网站首页.</p>
 
 </div>
-<div id='bottom'>
-<input type="button" name="next" onClick="window.location.href='<%=BlogHost%>'" id="netx" value="完成" />
+<div id="bottom">
+<input type="button" name="next" onClick="window.location.href="<%=BlogHost%>"" id="netx" value="完成" />
 </div>
 
 
