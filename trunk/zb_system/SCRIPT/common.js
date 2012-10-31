@@ -188,7 +188,7 @@ function VerifyMessage() {
 	}
 
 	var strSubmit=$("#frmSumbit :submit").val();
-	$("#frmSumbit :submit").val("Waitting...");
+	$("#frmSumbit :submit").val("Waiting...");
 	$("#frmSumbit :submit").attr("disabled","disabled");
 	$("#frmSumbit :submit").addClass("btnloading");
 
