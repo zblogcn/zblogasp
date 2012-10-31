@@ -2942,7 +2942,7 @@ Function BlogReBuild_Statistics()
 	objRS.ActiveConnection=objConn
 	objRS.Source=""
 
-	objRS.Open("SELECT COUNT([log_ID])AS allArticle,SUM([log_CommNums]) AS allCommNums,SUM([log_ViewNums]) AS allViewNums FROM [blog_Article] WHERE [log_Type]=0")
+	objRS.Open("SELECT COUNT([log_ID])AS allArticle,SUM([log_ViewNums]) AS allViewNums FROM [blog_Article] WHERE [log_Type]=0")
 	If (Not objRS.bof) And (Not objRS.eof) Then
 		strStatistics=strStatistics & "<li>"& ZC_MSG082 &":" & objRS("allArticle") & "</li>"
 		strStatistics=strStatistics & "<li>"& ZC_MSG124 &":" & objConn.Execute("SELECT SUM([log_CommNums]) FROM [blog_Article]")(0) & "</li>"
