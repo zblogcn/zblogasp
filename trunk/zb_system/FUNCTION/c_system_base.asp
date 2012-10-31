@@ -1514,11 +1514,11 @@ Function LoadGlobeCache()
 	ReDim t(b)
 	t(1)="ZC_BLOG_VERSION"
 	t(2)="ZC_BLOG_LANGUAGE"
-	t(3)="ZC_BLOG_HOST"
-	t(4)="ZC_BLOG_TITLE"
-	t(5)="ZC_BLOG_SUBTITLE"
-	t(6)="ZC_BLOG_NAME"
-	t(7)="ZC_BLOG_SUB_NAME"
+	t(3)="ZC_BLOG_TITLE"
+	t(4)="ZC_BLOG_SUBTITLE"
+	t(5)="ZC_BLOG_NAME"
+	t(6)="ZC_BLOG_SUB_NAME"
+	t(7)="ZC_BLOG_THEME"
 	t(8)="ZC_BLOG_CSS"
 	t(9)="ZC_BLOG_COPYRIGHT"
 	t(10)="ZC_BLOG_MASTER"
@@ -1530,9 +1530,9 @@ Function LoadGlobeCache()
 	t(16)="ZC_BLOG_CLSID"
 	t(17)="ZC_TIME_ZONE"
 	t(18)="ZC_HOST_TIME_ZONE"
-	t(19)="ZC_BLOG_THEME"
-	t(20)="ZC_VERIFYCODE_WIDTH"
-	t(21)="ZC_VERIFYCODE_HEIGHT"
+	t(19)="ZC_VERIFYCODE_WIDTH"
+	t(20)="ZC_VERIFYCODE_HEIGHT"
+	t(21)="ZC_BLOG_HOST"
 
 
 
@@ -2419,8 +2419,6 @@ Function BlogReBuild_Calendar()
 	Dim objRS
 	Dim k,l,m,n
 	Call GetFunction()
-	
-	'未引用的模板绝对不能更新，作孽啊。。
 	If CStr(Functions(FunctionMetas.GetValue("calendar")).SideBarID)="0" Then 
 
 		Exit Function
