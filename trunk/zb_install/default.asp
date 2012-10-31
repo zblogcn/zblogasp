@@ -80,7 +80,7 @@ if($("#password").val()!==$("#repassword").val()){alert("必须确认密码");re
 }
 
 $(function() {
-	$( "#setup0" ).progressbar({value: 1000});
+	$( "#setup0" ).progressbar({value: 100});
 	$( "#setup1" ).progressbar({value: 0});
 	$( "#setup2" ).progressbar({value: 33});
 	$( "#setup3" ).progressbar({value: 66});
