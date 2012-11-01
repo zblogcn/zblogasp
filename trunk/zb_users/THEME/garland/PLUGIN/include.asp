@@ -6,12 +6,19 @@ Call RegisterPlugin("garland","ActivePlugin_Garland")
 '具体的接口挂接
 Function ActivePlugin_Garland() 
 
-	'Action_Plugin_MakeCalendar_Begin
+	'日历
 	Call Add_Action_Plugin("Action_Plugin_MakeCalendar_Begin","MakeCalendar=WP_MakeCalendar2(dtmYearMonth):Exit Function")
+	'评论输出表情
+	Call Add_Filter_Plugin("Filter_Plugin_TComment_LoadInfoByArray","TComment_UBBIMG")
+	'侧栏输出过滤表情
+	Call Add_Filter_Plugin("Filter_Plugin_TFunction_Post","TComment_UBBIMG_2")
+	'文章页输出添加JS
+	Call Add_Filter_Plugin("Filter_Plugin_TArticle_Build_Template_Succeed","TArticle_UBBIMG_ADDJS")
 
 End Function
 
 '*********************************************************
+' 接口：	Action_Plugin_MakeCalendar_Begin:Exit Function
 ' 目的：    WP 之 Make Calendar2
 '*********************************************************
 Function WP_MakeCalendar2(dtmYearMonth)
@@ -62,52 +69,52 @@ Function WP_MakeCalendar2(dtmYearMonth)
 	If (firw>5) And (d<31) And (d-firw<>23) Then b=35
 
 
-'//////////////////////////////////////////////////////////
-'	逻辑处理
-	Dim aryDateLink(32)
-	Dim aryDateID(32)
-	Dim aryDateArticle(32)
-	Dim objRS
+	'//////////////////////////////////////////////////////////
+	'	逻辑处理
+		Dim aryDateLink(32)
+		Dim aryDateID(32)
+		Dim aryDateArticle(32)
+		Dim objRS
 
-	Set objRS=Server.CreateObject("ADODB.Recordset")
-	objRS.CursorType = adOpenKeyset
-	objRS.LockType = adLockReadOnly
-	objRS.ActiveConnection=objConn
-	objRS.Source=""
-	objRS.Open("select [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_Type],[log_Meta] from [blog_Article] where ([log_Type]=0) And ([log_Level]>2) And ([log_PostTime] BETWEEN "& ZC_SQL_POUND_KEY &y&"-"&m&"-1"& ZC_SQL_POUND_KEY &" AND "& ZC_SQL_POUND_KEY &ny&"-"&nm&"-1"& ZC_SQL_POUND_KEY &")")
+		Set objRS=Server.CreateObject("ADODB.Recordset")
+		objRS.CursorType = adOpenKeyset
+		objRS.LockType = adLockReadOnly
+		objRS.ActiveConnection=objConn
+		objRS.Source=""
+		objRS.Open("select [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_Type],[log_Meta] from [blog_Article] where ([log_Type]=0) And ([log_Level]>2) And ([log_PostTime] BETWEEN "& ZC_SQL_POUND_KEY &y&"-"&m&"-1"& ZC_SQL_POUND_KEY &" AND "& ZC_SQL_POUND_KEY &ny&"-"&nm&"-1"& ZC_SQL_POUND_KEY &")")
 
-	If (Not objRS.bof) And (Not objRS.eof) Then
-		For i=1 To objRS.RecordCount
-			j=CLng(Day(CDate(objRS("log_PostTime"))))
-			aryDateLink(j)=True
-			aryDateID(j)=objRS("log_ID")
-			Set aryDateArticle(j)=New TArticle
-			aryDateArticle(j).LoadInfobyArray Array(objRS(0),objRS(1),objRS(2),objRS(3),objRS(4),objRS(5),objRS(6),objRS(7),objRS(8),objRS(9),objRS(10),objRS(11),objRS(12),objRS(13),objRS(14),objRS(15),objRS(16),objRS(17))
-			objRS.MoveNext
-			If objRS.eof Then Exit For
-		Next
-	End If
-	objRS.Close
-	Set objRS=Nothing
-'//////////////////////////////////////////////////////////
+		If (Not objRS.bof) And (Not objRS.eof) Then
+			For i=1 To objRS.RecordCount
+				j=CLng(Day(CDate(objRS("log_PostTime"))))
+				aryDateLink(j)=True
+				aryDateID(j)=objRS("log_ID")
+				Set aryDateArticle(j)=New TArticle
+				aryDateArticle(j).LoadInfobyArray Array(objRS(0),objRS(1),objRS(2),objRS(3),objRS(4),objRS(5),objRS(6),objRS(7),objRS(8),objRS(9),objRS(10),objRS(11),objRS(12),objRS(13),objRS(14),objRS(15),objRS(16),objRS(17))
+				objRS.MoveNext
+				If objRS.eof Then Exit For
+			Next
+		End If
+		objRS.Close
+		Set objRS=Nothing
+	'//////////////////////////////////////////////////////////
 
-	strCalendar="<table summary=""日历"" id=""wp-calendar""><caption>"&y&"年"&m&"月</caption>"
-	
-'thead	
-	strCalendar=strCalendar & "	<thead>	<tr> <th title=""星期日"" scope=""col"" abbr=""星期日"">日</th> <th title=""星期一"" scope=""col"" abbr=""星期一"">一</th> <th title=""星期二"" scope=""col"" abbr=""星期二"">二</th>	<th title=""星期三"" scope=""col"" abbr=""星期三"">三</th> <th title=""星期四"" scope=""col"" abbr=""星期四"">四</th>	<th title=""星期五"" scope=""col"" abbr=""星期五"">五</th> <th title=""星期六"" scope=""col"" abbr=""星期六"">六</th>	</tr>	</thead>"
-	
-'tfoot	
-	dim strCalendarPrev
-	dim strCalendarNext
-	
-	strCalendarPrev = "<td id=""prev"" colspan=""3"" abbr="""& pm &"月""><a title=""查看"& pm &"月的日志"" href="""& ZC_BLOG_HOST & "catalog.asp?date="& py &"-"& pm &""">« "&ZVA_Month_Abbr(pm)&"</a></td>"
-	strCalendarNext = "<td id=""next"" colspan=""3"" abbr="""& nm &"月""><a title=""查看"& nm &"月的日志"" href="""& ZC_BLOG_HOST & "catalog.asp?date="& ny &"-"& nm &"""> "&ZVA_Month_Abbr(nm)&" »</a></td>"
+		strCalendar="<table summary=""日历"" id=""wp-calendar""><caption>"&y&"年"&m&"月</caption>"
 		
-	if dtmYearMonth=Date()  Then strCalendarNext = "<td class=""pad"" id=""next"" colspan=""3""> </td>"
+	'thead	
+		strCalendar=strCalendar & "	<thead>	<tr> <th title=""星期日"" scope=""col"" abbr=""星期日"">日</th> <th title=""星期一"" scope=""col"" abbr=""星期一"">一</th> <th title=""星期二"" scope=""col"" abbr=""星期二"">二</th>	<th title=""星期三"" scope=""col"" abbr=""星期三"">三</th> <th title=""星期四"" scope=""col"" abbr=""星期四"">四</th>	<th title=""星期五"" scope=""col"" abbr=""星期五"">五</th> <th title=""星期六"" scope=""col"" abbr=""星期六"">六</th>	</tr>	</thead>"
+		
+	'tfoot	
+		dim strCalendarPrev
+		dim strCalendarNext
+		
+		strCalendarPrev = "<td id=""prev"" colspan=""3"" abbr="""& pm &"月""><a title=""查看"& pm &"月的日志"" href="""& ZC_BLOG_HOST & "catalog.asp?date="& py &"-"& pm &""">« "&ZVA_Month_Abbr(pm)&"</a></td>"
+		strCalendarNext = "<td id=""next"" colspan=""3"" abbr="""& nm &"月""><a title=""查看"& nm &"月的日志"" href="""& ZC_BLOG_HOST & "catalog.asp?date="& ny &"-"& nm &"""> "&ZVA_Month_Abbr(nm)&" »</a></td>"
+			
+		if dtmYearMonth=Date()  Then strCalendarNext = "<td class=""pad"" id=""next"" colspan=""3""> </td>"
 
-	strCalendar=strCalendar & "	<tfoot>	<tr>" & strCalendarPrev & " <td class=""pad""> </td>" & strCalendarNext & "</tr></tfoot>"	
-	
-'tbody	
+		strCalendar=strCalendar & "	<tfoot>	<tr>" & strCalendarPrev & " <td class=""pad""> </td>" & strCalendarNext & "</tr></tfoot>"	
+		
+	'tbody	
 	strCalendar=strCalendar & "	<tbody>"
 	
 	j=0
@@ -144,4 +151,75 @@ Function WP_MakeCalendar2(dtmYearMonth)
 	
 End Function
 '*********************************************************
+
+
+
+'*********************************************************
+' 接口：	Filter_Plugin_TComment_LoadInfoByArray
+' 目的：    解析留言UBB
+'*********************************************************
+Function TComment_UBBIMG(ID,log_ID,AuthorID,Author,ByRef Content,Email,HomePage,PostTime,IP,Agent,Reply,LastReplyIP,LastReplyTime,ParentID,IsCheck,MetaString)
+
+	Dim objRegExp
+	Set objRegExp=new RegExp
+	objRegExp.IgnoreCase =True
+	objRegExp.Global=True
+	objRegExp.Pattern="(\[IMG\])(.+?)(\[\/IMG\])"
+		
+	Content= objRegExp.Replace(Content,"<img src="""&BlogHost&"zb_users/emotion/$2"" alt="""" title=""""/>")
+
+End Function
+
+'*********************************************************
+
+
+
+'*********************************************************
+' 接口：	Filter_Plugin_TFunction_Post
+' 目的：    过滤侧栏留言UBB
+'*********************************************************
+Function TComment_UBBIMG_2(ID,Name,FileName,Order,ByRef Content,IsSystem,SidebarID,HtmlID,Ftype,MaxLi,MetaString)
+
+	Dim objRegExp
+	Set objRegExp=new RegExp
+	objRegExp.IgnoreCase =True
+	objRegExp.Global=True
+	objRegExp.Pattern="(\[IMG\])(.+?)(\[\/IMG\])"
+		
+	Content= objRegExp.Replace(Content,"")
+	
+	Set objRegExp = Nothing
+
+End Function
+'*********************************************************
+
+
+
+
+'*********************************************************
+' 接口：	Filter_Plugin_TArticle_Build_Template_Succeed
+' 目的：    文章页添加脚本
+'*********************************************************
+Function TArticle_UBBIMG_ADDJS(ByRef html)
+
+	Dim Strc
+	Strc="	<link rel=""stylesheet"" type=""text/css"" href="""&BlogHost&"zb_system/admin/ueditor/themes/default/ueditor.css""/>"& vbCrLf
+	Strc=Strc& "	<script type=""text/javascript"" charset=""utf-8"" src="""&BlogHost&"zb_system/admin/ueditor/editor_config.asp""></script>"& vbCrLf
+	Strc=Strc& "	<script type=""text/javascript"" charset=""utf-8"" src="""&BlogHost&"zb_system/admin/ueditor//editor_all_min.js""></script>"& vbCrLf
+	Strc=Strc& "	<script src="""&BlogHost&"zb_users/theme/garland/plugin/ubbimg.js"" type=""text/javascript""></script>"& vbCrLf
+	Strc=Strc& "</head>"
+
+	Dim objRegExp
+	Set objRegExp = new RegExp
+	objRegExp.IgnoreCase = True
+	objRegExp.Global = False
+	objRegExp.Pattern="(</head>)"
+		
+	html= objRegExp.Replace(html,Strc)
+
+	Set objRegExp = Nothing
+
+End Function
+'*********************************************************
+
 %>
