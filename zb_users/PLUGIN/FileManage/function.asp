@@ -188,8 +188,8 @@ Function FileManage_ExportInformation(foldername,path)
 			case "header" n="头部模板"
 			case "footer" n="底部模板"
 		end select
-	elseif k=l & "\zb_users\theme\"&lcase(zc_blog_theme)&"\include" then
-		n="<#TEMPLATE_INCLUDE_"&ucasE(split(z,".")(0))&"#>"
+	'elseif k=l & "\zb_users\theme\"&lcase(zc_blog_theme)&"\include" then
+		'n="<#TEMPLATE_INCLUDE_"&ucasE(split(z,".")(0))&"#>"
 	elseif k=l &"\zb_system\admin" then
 		select case z
 			case "admin.asp" n="管理页"
@@ -315,7 +315,7 @@ Function FileManage_ExportSiteFileList(path,OpenFolderPath)
 	Response.write "<tr><td>文件名</td><td width=""17%"">修改时间</td><td width=""7%"">大小</td><td width=""24%"">注释</td><td>操作</td></tr>"
 	for each item in fold.subfolders
 		jpath=replace(path,"\","\\")
-		Response.write "<tr height='14'><td><img width=""11"" height=""11""src='../../../zb_system/IMAGE/FILETYPE/folder.png' />&nbsp;<a href='main.asp?act=SiteFileMng&path="&Server.URLEncode(path&"\"&item.name)&"&OpenFolderPath='>"&item.name&"</a>"
+		Response.write "<tr height='14'><td><img width=""11"" height=""11""src='../../../zb_system/IMAGE/FILETYPE/folder.png' />&nbsp;<a href='main.asp?act=SiteFileMng&path="&Server.URLEncode(path&IIf(Right(path,1)="\","","\")&item.name)&"&OpenFolderPath='>"&item.name&"</a>"
 		Response.write"</td><td>"&FormatDateTime(item.datelastmodified,0)&"</td><td></td><td>"&FileManage_ExportInformation(item.name,path)&"</td><td width=""15%""></td></tr>"
 	next
 	for each item in fold.files
