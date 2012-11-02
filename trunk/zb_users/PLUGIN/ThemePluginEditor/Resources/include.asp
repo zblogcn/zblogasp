@@ -4,8 +4,8 @@
 ' zsx http://www.zsxsoft.com
 '************************************
 Dim default_theme(1)
-default_theme(0)=Array(<%=templatetag_array%>)
-default_theme(1)=Array(<%=templatetag_name%>)
+default_theme(0)=Array(<%=文件注释数组%>)
+default_theme(1)=Array(<%=文件名数组%>)
 
 Call RegisterPlugin("default","ActivePlugin_default")
 
@@ -25,7 +25,7 @@ Function default_exportdetail(p,f)
 	l=lcase(blogpath)
 	k=IIf(Right(k,1)="\",Left(k,Len(k)-1),k)
 	l=IIf(Right(l,1)="\",Left(l,Len(l)-1),l)
-	if k=l & "\zb_users\theme\default\include" Then
+	if k=l & "\zb_users\theme\<%=主题名%>\include" Then
 		For i=0 To Ubound(default_theme(1))
 			If default_theme(1)(i)=z Then default_exportdetail=default_theme(0)(i)
 		Next
