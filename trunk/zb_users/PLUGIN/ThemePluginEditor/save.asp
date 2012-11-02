@@ -22,7 +22,8 @@ Call CheckReference("")
 '检查权限
 If BlogUser.Level>1 Then Call ShowError(6)
 If CheckPluginState("ThemePluginEditor")=False Then Call ShowError(48)
-
+Dim HaveUpload
+HaveUpload=False
 Dim aryReq(),tmpary(),t,s,i
 i=0
 For Each s In Request.Form
@@ -31,6 +32,7 @@ For Each s In Request.Form
 		Redim tmpary(2)
 		tmpary(0)=Request.Form(s)
 		tmpary(1)=Request.Form("type_"& Right(s,Len(s)-8))
+		If tmpary(1)=2 Then HaveUpload=True
 		tmpary(2)=Right(s,Len(s)-8)
 		aryReq(i)=tmpary
 		i=i+1
@@ -40,20 +42,21 @@ Next
 
 
 
-Dim aryName(),aryDesc(),aryTr(),strTemplateName,strTr
+Dim aryName(),aryDesc(),aryTr(),strTemplateName,strTr,strUpload
 strTr=LoadFromFile(BlogPath & "\zb_users\plugin\themeplugineditor\resources\tr_template.asp","utf-8")
+strUpload=LoadFromFile(BlogPath & "\zb_users\plugin\themeplugineditor\resources\tr_template_upload.asp","utf-8")
 Redim aryName(i-1)
 Redim aryDesc(i-1)
 Redim aryTr(i-1)
 Dim arySave,j
 arySave=Array(Array(),Array(),Array(),Array())
-arySave(0)=Array("save.asp",LoadFromFile(BlogPath & "\zb_users\plugin\themeplugineditor\resources\save.asp","utf-8"))
-arySave(1)=Array("editor.asp",LoadFromFile(BlogPath & "\zb_users\plugin\themeplugineditor\resources\editor.asp","utf-8"))
-arySave(2)=Array("tr_template.asp",strTr)
+arySave(0)=Array("save.asp",LoadFromFile(BlogPath & "\zb_users\plugin\themeplugineditor\resources\"&IIf(HaveUpload,"save_upload.asp","save.asp"),"utf-8"))
+arySave(1)=Array("editor.asp",LoadFromFile(BlogPath & "\zb_users\plugin\themeplugineditor\resources\"&IIf(HaveUpload,"editor_upload.asp","editor.asp"),"utf-8"))
+arySave(2)=Array("tr_template.asp","")
 arySave(3)=Array("include.asp",LoadFromFile(BlogPath & "\zb_users\plugin\themeplugineditor\resources\include.asp","utf-8"))
 strTemplateName=ZC_BLOG_THEME
 For s=0 To Ubound(aryReq)
-	aryTr(s)=strTr
+	aryTr(s)=IIf(aryReq(s)(1)=2,strUpload,strTr)
 	aryTr(s)=Replace(aryTr(s),"<%=主题名%"&">",strTemplateName)
 	aryTr(s)=Replace(aryTr(s),"<%=文件注释%"&">",aryReq(s)(0))
 	aryTr(s)=Replace(aryTr(s),"<%=文件名%"&">",aryReq(s)(2))		
@@ -64,7 +67,7 @@ For s=0 To 3
 		arySave(s)(1)=Replace(arySave(s)(1),"<%=主题名%"&">",strTemplateName)
 		arySave(s)(1)=Replace(arySave(s)(1),"<%=表格%"&">",arySave(2)(1))
 		arySave(s)(1)=Replace(arySave(s)(1),"<%=文件注释数组%"&">",""""&Join2(aryReq,0,""",""")&"""")
-		arySave(s)(1)=Replace(arySave(s)(1),"<%=文件名数组%"&">",""""&Join2(aryReq,2,",")&"""")
+		arySave(s)(1)=Replace(arySave(s)(1),"<%=文件名数组%"&">",""""&Join2(aryReq,2,""",""")&"""")
 		Call SaveToFile(BlogPath & "\zb_users\theme\" & strTemplateName & "\plugin\" & arySave(s)(0),arySave(s)(1),"utf-8",False)
 	End If
 	

@@ -46,6 +46,7 @@ BlogTitle="主题插件生成器"
             <%
 			Dim oFso,oF
 			Set oFso=Server.CreateObject("scripting.filesystemobject")
+			
 			Set oF=oFso.GetFolder(BlogPath & "\zb_users\theme\" & ZC_BLOG_THEME & "\include").Files
 			Dim oS,s
 			For Each oS In oF
