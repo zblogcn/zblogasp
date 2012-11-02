@@ -62,7 +62,7 @@ BlogTitle="主题插件生成器"
             
             </table>
             <input type="submit" value="提交"/>
-            </form》
+            </form>
           </div>
         </div>
         <!--#include file="..\..\..\zb_system\admin\admin_footer.asp"-->
