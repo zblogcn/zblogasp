@@ -64,12 +64,13 @@ For s=0 To 3
 		arySave(s)(1)=Replace(arySave(s)(1),"<%=主题名%"&">",strTemplateName)
 		arySave(s)(1)=Replace(arySave(s)(1),"<%=表格%"&">",arySave(2)(1))
 		arySave(s)(1)=Replace(arySave(s)(1),"<%=文件注释数组%"&">",""""&Join2(aryReq,0,""",""")&"""")
-		arySave(s)(1)=Replace(arySave(s)(1),"<%=文件名数组%"&">",""""&Join2(aryReq,1,",")&"""")
+		arySave(s)(1)=Replace(arySave(s)(1),"<%=文件名数组%"&">",""""&Join2(aryReq,2,",")&"""")
 		Call SaveToFile(BlogPath & "\zb_users\theme\" & strTemplateName & "\plugin\" & arySave(s)(0),arySave(s)(1),"utf-8",False)
 	End If
 	
 Next
-
+Call SetBlogHint(True,Empty,Empty)
+Response.Redirect "main.asp"
 'Stop
 
 Function Join2(ary,int,s)
