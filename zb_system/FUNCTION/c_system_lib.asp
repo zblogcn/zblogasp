@@ -1603,6 +1603,7 @@ Class TArticle
 						CommNums=objRS(0)
 						objConn.Execute("UPDATE [blog_Article] SET [log_CommNums]="& CommNums &" WHERE [log_ID] =" & ID)
 					Case 1
+						Call BlogConfig.Write("ZC_UNCATEGORIZED_COUNT",1)
 						Categorys(CateID).ReCount=objRs(0)
 						If CateID=0 Then
 							Call BlogConfig.Write("ZC_UNCATEGORIZED_COUNT",Categorys(CateID).ReCount)
@@ -1621,6 +1622,7 @@ Class TArticle
 							End If
 							Categorys(Cate_ExID).Count=Categorys(Cate_ExID).ReCount
 						End If 
+						BlogConfig.Save
 					Case 2
 						Users(AuthorID).ReCount=objRs(0)
 						objConn.Execute("UPDATE [blog_Member] SET [mem_PostLogs]="&Users(AuthorID).ReCount&" WHERE [mem_ID] =" & AuthorID)
