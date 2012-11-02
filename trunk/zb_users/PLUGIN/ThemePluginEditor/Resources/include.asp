@@ -26,8 +26,8 @@ Function <%=主题名%>_exportdetail(p,f)
 	k=IIf(Right(k,1)="\",Left(k,Len(k)-1),k)
 	l=IIf(Right(l,1)="\",Left(l,Len(l)-1),l)
 	if k=l & "\zb_users\theme\<%=主题名%>\include" Then
-		For i=0 To Ubound(default_theme(1))
-			If default_theme(1)(i)=z Then <%=主题名%>_exportdetail=default_theme(0)(i)
+		For i=0 To Ubound(<%=主题名%>_theme(1))
+			If <%=主题名%>_theme(1)(i)=z Then <%=主题名%>_exportdetail=<%=主题名%>_theme(0)(i)
 		Next
 	End If
 End Function
