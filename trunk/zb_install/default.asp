@@ -40,8 +40,8 @@ If zblogstep="" Then zblogstep=1
 	<script language="JavaScript" src="../zb_system/script/common.js" type="text/javascript"></script>
 	<script language="JavaScript" src="../zb_system/function/c_admin_js_add.asp" type="text/javascript"></script>
 	<script language="JavaScript" src="../zb_system/script/md5.js" type="text/javascript"></script>
-    <script language="JavaScript" src="../zb_system/script/jquery-ui-1.9.0.custom.min.js" type="text/javascript"></script>
-	<link rel="stylesheet" rev="stylesheet" href="../zb_system/css/jquery-ui-1.8.23.custom.css"  type="text/css" media="screen" />
+    <script language="JavaScript" src="../zb_system/script/jquery-ui.custom.min.js" type="text/javascript"></script>
+	<link rel="stylesheet" rev="stylesheet" href="../zb_system/css/jquery-ui.custom.css"  type="text/css" media="screen" />
 	<link rel="stylesheet" rev="stylesheet" href="../zb_system/css/admin3.css" type="text/css" media="screen" />
 	<title>Z-Blog 2.0 安装程序</title>
     
