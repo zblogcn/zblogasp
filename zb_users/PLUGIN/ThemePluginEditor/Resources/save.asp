@@ -29,7 +29,7 @@ If BlogUser.Level>1 Then Call ShowError(6)
 Dim s
 For Each s In Request.Form
 	If Left(s,7)="include" Then
-		Call SaveToFile(BlogPath & "zb_users/theme/<%=templatename%>/include/" & Right(s,Len(s)-8) & ".html",Request.Form(s),"utf-8",False)
+		Call SaveToFile(BlogPath & "zb_users/theme/<%=主题名%>/include/" & Right(s,Len(s)-8) & ".html",Request.Form(s),"utf-8",False)
 	End If
 Next
 Call SetBlogHint(True,Empty,Empty)

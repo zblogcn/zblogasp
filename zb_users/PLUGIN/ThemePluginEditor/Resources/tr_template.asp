@@ -1,4 +1,4 @@
 <tr>
-  <th scope="row"><%=templatetag%></th>
-  <td><textarea name="include_<%templatetag_name%>" style="width:98%;height:200px"><%=LoadFromFile(BlogPath & "zb_users\theme\<%=templatename%>\include\<%=templatetag_name%>.html","utf-8")%></textarea></td>
+  <th scope="row"><%=文件注释%></th>
+  <td><textarea name="include_<%=文件名%>" style="width:98%;height:200px"><%=LoadFromFile(BlogPath & "zb_users\theme\<%=主题名%>\include\<%=文件名%>.html","utf-8")%></textarea></td>
 </tr>

@@ -42,7 +42,7 @@ BlogTitle="主题设置"
               <th scope="col" height="32" width="100px">配置项</th>
               <th scope="col">配置内容</th>
             </tr>
-			<%=template_table%>
+			<%=表格%>
           </table>
           <input name="ok" type="submit" class="button" value="提交"/>
           </form>
