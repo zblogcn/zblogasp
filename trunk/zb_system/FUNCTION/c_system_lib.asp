@@ -840,9 +840,10 @@ Class TArticle
 			If Not IsEmpty(sAction_Plugin_TArticle_Export_CMTandTB_Begin) Then Call Execute(sAction_Plugin_TArticle_Export_CMTandTB_Begin)
 			If bAction_Plugin_TArticle_Export_CMTandTB_Begin=True Then Exit Function
 		Next
-
-		CommNums=objConn.Execute("SELECT COUNT([log_ID]) FROM [blog_Comment] WHERE [log_ID] =" & ID & " AND [comm_isCheck]=0 AND [comm_ParentID]=0")(0)
-		If CommNums > 0 Then
+		
+		Dim intCommnums
+		intCommnums=objConn.Execute("SELECT COUNT([log_ID]) FROM [blog_Comment] WHERE [log_ID] =" & ID & " AND [comm_isCheck]=0 AND [comm_ParentID]=0")(0)
+		If intCommnums > 0 Then
 
 
 			Dim strC_Count,strC,strT_Count,strT
@@ -885,9 +886,9 @@ Class TArticle
 			PageSize2=ZC_COMMENTS_DISPLAY_COUNT
 			PageSize3=ZC_COMMENTS_DISPLAY_COUNT
 			If intPage<1 Then intPage=1
-			If PageSize3*intPage>CommNums Then
-				PageSize2=CLng(CommNums Mod PageSize3)
-				If PageSize3*(intPage-1)+PageSize2>CommNums Then
+			If PageSize3*intPage>intCommnums Then
+				PageSize2=CLng(intCommnums Mod PageSize3)
+				If PageSize3*(intPage-1)+PageSize2>intCommnums Then
 					Template_Article_Comment="<span style=""display:none;"" id=""AjaxCommentBegin""></span>" & Template_Article_Comment & "<span style=""display:none;"" id=""AjaxCommentEnd""></span>"
 					Export_CMTandTB=True
 					Exit Function
@@ -899,10 +900,10 @@ Class TArticle
 			objRS.Open()
 			j=PageSize2
 			Dim intPageAll
-			If (CommNums Mod PageSize3)=0 Then 
-				intPageAll=Int(CommNums/PageSize3)
+			If (intCommnums Mod PageSize3)=0 Then 
+				intPageAll=Int(intCommnums/PageSize3)
 			Else 
-				intPageAll=Int(CommNums/PageSize3)+1
+				intPageAll=Int(intCommnums/PageSize3)+1
 			End If
 
 
@@ -919,7 +920,7 @@ Class TArticle
 					Call GetUsersbyUserIDList(objRS("comm_AuthorID"))
 
 					'objComment.Count=0
-					objComment.Count=IIf(ZC_COMMENT_REVERSE_ORDER_EXPORT,CommNums-((intPage-1)*ZC_COMMENTS_DISPLAY_COUNT+i)+1,(intPage-1)*ZC_COMMENTS_DISPLAY_COUNT+i)
+					objComment.Count=IIf(ZC_COMMENT_REVERSE_ORDER_EXPORT,intCommnums-((intPage-1)*ZC_COMMENTS_DISPLAY_COUNT+i)+1,(intPage-1)*ZC_COMMENTS_DISPLAY_COUNT+i)
 
 					tree.add objComment.ID, objComment.MakeTemplate(strC)'objComment
 
