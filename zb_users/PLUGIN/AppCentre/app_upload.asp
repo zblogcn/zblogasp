@@ -25,7 +25,7 @@ objUpload.AutoSave=2
 objUpload.Charset="utf-8"
 objUpload.FileType="zba"
 objUpload.savepath=BlogPath & "zb_users\cache\"
-objUpload.maxsize=1000000
+objUpload.maxsize=ZC_UPLOAD_FILESIZE
 objUpload.open
 If objUpload.Save("edtFileLoad",0)=True Then
 	Call InstallApp(BlogPath & "zb_users\cache\"&objUpload.form("edtFileLoad"))
