@@ -224,7 +224,12 @@ Class TCategory
 		If cate_ID=0 Then
 			If BlogConfig.Exists("ZC_UNCATEGORIZED_NAME")=True Then Name=BlogConfig.Read("ZC_UNCATEGORIZED_NAME")
 			If BlogConfig.Exists("ZC_UNCATEGORIZED_ALIAS")=True Then Alias=BlogConfig.Read("ZC_UNCATEGORIZED_ALIAS")
-			If BlogConfig.Exists("ZC_UNCATEGORIZED_COUNT")=True Then Count=CLng(BlogConfig.Read("ZC_UNCATEGORIZED_COUNT"))
+			If BlogConfig.Exists("ZC_UNCATEGORIZED_COUNT")=True Then 
+				Dim intUnCateCount
+				intUnCateCount=BlogConfig.Read("ZC_UNCATEGORIZED_COUNT")
+				Call CheckParameter(intUnCateCount,"int",0)
+				Count=intUnCateCount
+			End if 
 			LoadInfoByID=True
 			Exit Function
 		End If
