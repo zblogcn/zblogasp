@@ -107,14 +107,16 @@ Class CmtN_Class
 					If IsObject(ParentObj)=False Then GetParentObj(objComment.ParentID)
 					MC = Replace(MC,"<#Cmt_Content#>",TContent(ParentObj.Content))
 					Cmt_FirstName = ParentObj.Author
-					For Each User in Users
-						If IsObject(User) Then
-							If User.ID=ParentObj.AuthorID Then
-								Cmt_FirstName = User.FirstName
-								Exit For 
+					If ParentObj.AuthorID>0 Then
+						For Each User in Users
+							If IsObject(User) Then
+								If User.ID=ParentObj.AuthorID Then
+									Cmt_FirstName = User.FirstName
+									Exit For 
+								End If
 							End If
-						End If
-					Next
+						Next
+					End If 
 					MC = Replace(MC,"<#MAIL_RECEIVER#>",Cmt_FirstName)
 
 				End If
