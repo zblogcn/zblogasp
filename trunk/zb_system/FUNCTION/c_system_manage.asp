@@ -1301,21 +1301,21 @@ Function ExportThemeMng()
 		End If
 
 		If UCase(Theme_Id) <> UCase(f1.name) Then
-			Response.Write "<p style=""color:red;"">ID Error! Should be ""<strong>"& f1.name &"</strong>""!!</p>"
+			Response.Write "<div style=""color:red;"">ID Error! Should be ""<strong>"& f1.name &"</strong>""!!</div>"
 		Else
-			Response.Write "<p class=""theme-name""><img width='16' title='' alt='' src='../IMAGE/ADMIN/layout.png'/> <a  target=""_blank"" href="""&Theme_Url&"""  title="""">" & "<strong style='display:none;'>" & Server.URLEncode(Theme_Id) & "</strong><b>" & Theme_Name & "</b>" & "</a>"
+			Response.Write "<div class=""theme-name""><img width='16' title='' alt='' src='../IMAGE/ADMIN/layout.png'/> <a  target=""_blank"" href="""&Theme_Url&"""  title="""">" & "<strong style='display:none;'>" & Server.URLEncode(Theme_Id) & "</strong><b>" & Theme_Name & "</b>" & "</a>"
 			If UCase(Theme_Id)=UCase(CurrentTheme) Then
 				If fso.FileExists(BlogPath & "zb_users/theme/" & ZC_BLOG_THEME & "/plugin/" & objXmlFile.documentElement.selectSingleNode("plugin/path").text) Then
-					Response.Write "<input class=""button"" style=""float:right;margin:0;padding-left:10px;padding-right:10px;"" type=""button"" value="""&ZC_MSG278&""" onclick=""location.href='"&BlogHost&"/zb_users/theme/"&ZC_BLOG_THEME&"/plugin/"&objXmlFile.documentElement.selectSingleNode("plugin/path").text&"'"">"
+					Response.Write "<input type=""button"" class=""theme-config button"" value="""&ZC_MSG278&""" onclick=""location.href='"&BlogHost&"/zb_users/theme/"&ZC_BLOG_THEME&"/plugin/"&objXmlFile.documentElement.selectSingleNode("plugin/path").text&"'"">"
 				End If
 			End If
-			Response.Write "</p>"
+			Response.Write "</div>"
 		End If
 
 
-		Response.Write "<p><a id=""mylink"&Left(md5(Theme_Id),6)&""" href=""$div"&Left(md5(Theme_Id),6)&"tip?width=300"" class=""betterTip"" title="""&Theme_Name&""" "
+		Response.Write "<div><a id=""mylink"&Left(md5(Theme_Id),6)&""" href=""$div"&Left(md5(Theme_Id),6)&"tip?width=300"" class=""betterTip"" title="""&Theme_Name&""" "
 		If UCase(Theme_Id)<>UCase(CurrentTheme) Then Response.Write " onclick='$(""#edtZC_BLOG_THEME"").val("""&Theme_Id&""");$(""#edtZC_BLOG_CSS"").val($(""#cate"&Left(md5(Theme_Id),6)&""").val());$(""#frmTheme"").submit();'"
-		Response.Write "><img src=""" & Theme_ScreenShot & """ alt=""ScreenShot"" width=""200"" height=""150"" /></a></p>"
+		Response.Write "><img src=""" & Theme_ScreenShot & """ alt=""ScreenShot"" width=""200"" height=""150"" /></a></div>"
 
 		Response.Write "<div id=""div"&Left(md5(Theme_Id),6)&"tip"" style=""display:none;"">"
 '		Response.Write "<p>ID : " & Theme_Id & "</p>"
@@ -1345,15 +1345,15 @@ Function ExportThemeMng()
 '		End If
 
 		If Theme_Author_Url="" Then
-			Response.Write "<p>"&ZC_MSG128&": " & Theme_Author_Name & "</p>"
+			Response.Write "<div class=""theme-author"">"&ZC_MSG128&": " & Theme_Author_Name & "</div>"
 		Else
-			Response.Write "<p>"&ZC_MSG128&": <a target=""_blank"" href=""" & Theme_Author_Url & """>" & Theme_Author_Name & "</a></p>"
+			Response.Write "<div class=""theme-author"">"&ZC_MSG128&": <a target=""_blank"" href=""" & Theme_Author_Url & """>" & Theme_Author_Name & "</a></div>"
 		End If
 
 
 '		Response.Write "<p>"&ZC_MSG011&":" & Theme_Pubdate & "</p>"
 '		Response.Write "<p style='height:1.0em;'>"&ZC_MSG016&":" & Theme_Note & "</p>"
-		Response.Write "<p>"&ZC_MSG196&": " & "<select class=""edit"" size=""1"" id=""cate"&Left(md5(Theme_Id),6)&""" name=""cate"&Left(md5(Theme_Id),6)&""" style=""width:110px;"" onchange=""document.getElementById('edtZC_BLOG_THEME').value='"&Theme_Id&"';document.getElementById('edtZC_BLOG_CSS').value=this.options[this.selectedIndex].value"">"
+		Response.Write "<div class=""theme-style"">"&ZC_MSG196&": " & "<select class=""edit"" size=""1"" id=""cate"&Left(md5(Theme_Id),6)&""" name=""cate"&Left(md5(Theme_Id),6)&""" style=""width:110px;"" onchange=""document.getElementById('edtZC_BLOG_THEME').value='"&Theme_Id&"';document.getElementById('edtZC_BLOG_CSS').value=this.options[this.selectedIndex].value"">"
 
 
 		aryFileList=LoadIncludeFiles("zb_users\theme" & "/" & Theme_Id & "/style")
@@ -1386,7 +1386,7 @@ Function ExportThemeMng()
 		End If
 
 		Response.Write "</select>"
-		Response.Write "&nbsp;&nbsp;<input class='button' style='margin:0;padding-left:10px;padding-right:10px;' type='button' value='"&ZC_MSG202&"' onclick='if(!document.getElementById(""cate"&Left(md5(Theme_Id),6)&""").value){return false;}else{$(""#edtZC_BLOG_THEME"").val("""&Theme_Id&""");$(""#edtZC_BLOG_CSS"").val($(""#cate"&Left(md5(Theme_Id),6)&""").val());};$(""#frmTheme"").submit()'/><!-- <a href='#' onclick='if(!document.getElementById(""cate"&Left(md5(Theme_Id),6)&""").value){return false;}else{$(""#edtZC_BLOG_THEME"").val("""&Theme_Id&""");$(""#edtZC_BLOG_CSS"").val($(""#cate"&Left(md5(Theme_Id),6)&""").val());};$(""#frmTheme"").submit()'><img width='16' title='"&ZC_MSG202&"' alt='"&ZC_MSG202&"' src='../IMAGE/ADMIN/tick.png' /></a> --></p>"
+		Response.Write "<input type=""button"" class=""theme-activate button"" value="""&ZC_MSG202&""" onclick='if(!document.getElementById(""cate"&Left(md5(Theme_Id),6)&""").value){return false;}else{$(""#edtZC_BLOG_THEME"").val("""&Theme_Id&""");$(""#edtZC_BLOG_CSS"").val($(""#cate"&Left(md5(Theme_Id),6)&""").val());};$(""#frmTheme"").submit()'></div>"
 
 
 		Response.Write "</div>"
