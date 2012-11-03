@@ -950,7 +950,7 @@ Class TArticle
 
 						Set objComment=New TComment
 						objComment.LoadInfoByArray(Array(objRS2("comm_ID"),objRS2("log_ID"),objRS2("comm_AuthorID"),objRS2("comm_Author"),objRS2("comm_Content"),objRS2("comm_Email"),objRS2("comm_HomePage"),objRS2("comm_PostTime"),objRS2("comm_IP"),objRS2("comm_Agent"),objRS2("comm_Reply"),objRS2("comm_LastReplyIP"),objRS2("comm_LastReplyTime"),objRS2("comm_ParentID"),objRS2("comm_IsCheck"),objRS2("comm_Meta")))
-						Call GetUsersbyUserIDList(objRS2("comm_AuthorID"))
+						'Call GetUsersbyUserIDList(objRS2("comm_AuthorID"))
 						objComment.Count=0
 						all.add objComment.ID, objComment.ParentID
 						alltemplate.add objComment.ID,objComment.MakeTemplate(strC)
