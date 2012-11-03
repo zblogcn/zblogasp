@@ -36,7 +36,10 @@ For Each s In Request.Form
 		tmpary(2)=Right(s,Len(s)-8)
 		aryReq(i)=tmpary
 		i=i+1
+	ElseIf Left(s,4)="new_" Then
+		Call SaveToFile(BlogPath & "\zb_users\theme\" & ZC_BLOG_THEME & "\include\" & Right(s,Len(s)-4),"","utf-8",False)
 	End If
+	
 Next
 
 
