@@ -12,6 +12,9 @@
 	});
 })
 
+function ReComment_CallBack(){for(var i=0;i<=ReComment_CallBack.list.length-1;i++){ReComment_CallBack.list[i]()}}
+ReComment_CallBack.list=[];
+ReComment_CallBack.add=function(s){ReComment_CallBack.push(s)};
 //本条留言DomID,本条留言class,内容class,评论框DomID,指定父ID
 function ReComment(comId,comClass,mClass,frmId,i){
 	intRevID=i;
@@ -40,6 +43,7 @@ function ReComment(comId,comClass,mClass,frmId,i){
 	});
 	try { $('#txaArticle').focus(); }
 	catch(e) {}
+	ReComment_CallBack();
 	return false;
 }
 //重写GetComments，防止评论框消失
