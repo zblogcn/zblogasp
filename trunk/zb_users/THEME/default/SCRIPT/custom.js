@@ -14,7 +14,7 @@
 
 function ReComment_CallBack(){for(var i=0;i<=ReComment_CallBack.list.length-1;i++){ReComment_CallBack.list[i]()}}
 ReComment_CallBack.list=[];
-ReComment_CallBack.add=function(s){ReComment_CallBack.push(s)};
+ReComment_CallBack.add=function(s){ReComment_CallBack.list.push(s)};
 //本条留言DomID,本条留言class,内容class,评论框DomID,指定父ID
 function ReComment(comId,comClass,mClass,frmId,i){
 	intRevID=i;
@@ -29,7 +29,7 @@ function ReComment(comId,comClass,mClass,frmId,i){
 	if (comm.has('.'+comClass).length){comm.find('.'+comClass).first().before(frm);}
 	else comm.find('.'+mClass).first().append(frm);
 	frm.addClass("reply-frm");
-
+	
 	cancel.show();
 	cancel.click(function(){
 		intRevID=0;
@@ -39,6 +39,7 @@ function ReComment(comId,comClass,mClass,frmId,i){
 		temp.remove();
 		$(this).hide();
 		frm.removeClass("reply-frm");
+		ReComment_CallBack();
 		return false;
 	});
 	try { $('#txaArticle').focus(); }
