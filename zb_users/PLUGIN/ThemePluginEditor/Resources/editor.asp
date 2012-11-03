@@ -31,7 +31,7 @@ BlogTitle="主题管理"
 <script type="text/javascript">
 function copydata(This){
 	if(navigator.userAgent.search(/ie/i)>-1){
-		window.clipboardData.setData($(This).attr("bindtag"));
+		window.clipboardData.setData("text",$(This).attr("bindtag"));
 		alert("复制成功！");
 	}
 	else{
