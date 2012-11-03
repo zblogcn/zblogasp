@@ -293,7 +293,6 @@ select{
 	background-position: bottom;
 	background:#fff;
 	font-size:1.0em;
-
 }
 
 textarea{
@@ -304,7 +303,18 @@ textarea{
 	font-size:1em;
 }
 
-input.button,input[type="submit"],input[type="button"] { color:#FFFFFF; font-size:1.1em; height:1.8em;padding: 0.15em 2em 0.20em 2em;padding: 0.15em 1em 0.20em 1em\9;margin:0.2em 0.5em; background:#3a6ea5; border:1px solid #3399CC;cursor: pointer;}
+input.button,input[type="submit"],input[type="button"] { 
+	color:#FFFFFF; 
+	font-size:1.1em; 
+	height:29px;
+	padding: 2px 18px 3px 18px;
+	margin:0 0.5em; 
+	background:#3a6ea5; 
+	border:1px solid #3399CC;
+	cursor: pointer;
+}
+input.button:hover {background: #39c;}
+
 input.button2 { width:auto;}
 
 input[disabled]{
@@ -401,6 +411,11 @@ hr {width:100%;height:1px;border:none;padding:0;visibility:hidden;}
 	background: #F8F889;
 }
 
+/*后台主题管理页*/
+div.theme{
+	width:204px;
+	height:320px;
+}
 div.theme img{
 	margin-bottom:-3px;
 }
@@ -408,15 +423,14 @@ div.theme img{
 div.theme-now{
 	float:left;
 	background:#B0CDEE;
-	padding:1em;
+	padding:.6em 1em;
 	margin:0 1em 1em 0;
 }
-
 
 div.theme-other{
 	float:left;
 	background:#f0f0f0;
-	padding:1em;
+	padding:.6em 1em;
 	margin:0 1em 1em 0;
 }
 div.theme-other a{
@@ -437,9 +451,29 @@ div.theme-other .betterTip img:hover{
 	box-shadow: 0 0 10px #39C;
 }
 
-div.theme-now p,div.theme-other p{
+div.theme-now div,div.theme-other div{
 	max-width:220px;
 	/*overflow:hidden;*/
+	padding: 0.5em 0 0.5em 0;
+}
+
+
+input.theme-config,input.theme-activate{
+	float:right;
+	height:26px;
+	width:46px;
+	margin:0;
+	padding:2px 5px 3px 5px;
+	font-size:1em;
+	margin-top:2px;
+	#padding:0px 5px 3px 5px;
+	#font-size:1em;
+	#height:26px;
+	#margin-top:-25px;
+}
+input.theme-config{
+	margin-top:-3px;
+	#margin-top:-23px;
 }
 
 .hidden{
