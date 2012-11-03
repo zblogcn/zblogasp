@@ -1,7 +1,7 @@
 <%@LANGUAGE="VBSCRIPT" CODEPAGE="65001"%>
 <%
 '************************************
-' Powered by ThemePluginEditor
+' Powered by ThemePluginEditor<%=版本号%>
 ' zsx http://www.zsxsoft.com
 '************************************
 %>
@@ -38,7 +38,6 @@ Dim m
 For Each s In objUpload.FileItem
 	If Left(s,7)="include" Then
 		m=objUpload.Save(s,Right(s,Len(s)-8))
-		If m=False Then Response.Write objUpload.Form(s&"_Err"):Response.End
 	End If
 Next
 Call SetBlogHint(True,Empty,Empty)

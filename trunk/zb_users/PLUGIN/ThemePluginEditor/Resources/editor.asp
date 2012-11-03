@@ -1,7 +1,7 @@
 <%@LANGUAGE="VBSCRIPT" CODEPAGE="65001"%>
 <%
 '************************************
-' Powered by ThemePluginEditor
+' Powered by ThemePluginEditor<%=版本号%>
 ' zsx http://www.zsxsoft.com
 '************************************
 %>
@@ -25,9 +25,20 @@ Call CheckReference("")
 '检查权限
 If BlogUser.Level>1 Then Call ShowError(6)
 
-BlogTitle="主题设置"
+BlogTitle="主题管理"
 %>
 <!--#include file="..\..\..\..\zb_system\admin\admin_header.asp"-->
+<script type="text/javascript">
+function copydata(This){
+	if(navigator.userAgent.search(/ie/i)>-1){
+		window.clipboardData.setData($(This).attr("bindtag"));
+		alert("复制成功！");
+	}
+	else{
+		prompt("您的浏览器不支持复制，请按下CTRL+C手动复制！",$(This).attr("bindtag"));
+	}	
+}
+</script>
 <!--#include file="..\..\..\..\zb_system\admin\admin_top.asp"-->
         <div id="divMain">
           <div id="ShowBlogHint">
@@ -41,6 +52,7 @@ BlogTitle="主题设置"
             <tr>
               <th scope="col" height="32" width="100px">配置项</th>
               <th scope="col">配置内容</th>
+              <th scope="col" width="500px">调用代码</th>
             </tr>
 			<%=表格%>
           </table>
