@@ -22,7 +22,9 @@ $(document).ready(function(){
 	if($("#txaArticle").length>0){
 	var UEComment1 = new baidu.editor.ui.Editor();
 	UEComment1.render('txaArticle');
-
+	UEComment1.ready(function(){
+		$('#txaArticle').css('height','auto');
+	});
 	UEComment=UEComment1;
 	try{ReComment_CallBack.add(function(){
 		//var m=UEComment.getContent();
