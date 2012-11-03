@@ -62,6 +62,7 @@ arySave(3)=Array("include.asp",LoadFromFile(BlogPath & "\zb_users\plugin\themepl
 strTemplateName=ZC_BLOG_THEME
 For s=0 To Ubound(aryReq)
 	aryTr(s)=IIf(aryReq(s)(1)=2,strUpload,strTr)
+	aryTr(s)=Replace(aryTr(s),"<%=BlogHost%"&">",BlogHost)
 	aryTr(s)=Replace(aryTr(s),"<%=主题名%"&">",strTemplateName)
 	aryTr(s)=Replace(aryTr(s),"<%=文件注释%"&">",aryReq(s)(0))
 	aryTr(s)=Replace(aryTr(s),"<%=文件名%"&">",aryReq(s)(2))	
