@@ -41,10 +41,10 @@ function newtr(This){
           <div class="SubMenu"></div>
           <div id="divMain2"> 
             <script type="text/javascript">ActiveLeftMenu("aPlugInMng");</script>
-            <p>这个插件，只是为了帮助主题作者制作可以进行管理的主题而已，嗯。使用帮助将在生成插件成功后出现。</p>
+            <p>这个插件，只是为了帮助主题作者制作可以进行管理的主题而已，嗯。下一步将在生成插件成功后出现。</p>
             <p>你需要给主题INCLUDE文件夹下添加需要引用的文件，然后这里就会自动出现。</p>
             <p>如果需要删除，删除INCLUDE下的文件，这里也会相应删除。</p>
-            <p style="color:red">注意：若当前主题已有自带插件，则请备份主题目录下PLUGIN</p>
+            <p style="color:red">注意：若当前主题已有自带插件，则请备份主题目录下PLUGIN文件夹</p>
             <form action="save.asp" method="post">
             <table width="100%" border="1" width="100%" class="tableBorder">
             <tr>
