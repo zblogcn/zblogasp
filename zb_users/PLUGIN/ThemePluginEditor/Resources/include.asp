@@ -1,6 +1,6 @@
 <%
 '************************************
-' Powered by ThemePluginEditor
+' Powered by ThemePluginEditor<%=版本号%>
 ' zsx http://www.zsxsoft.com
 '************************************
 Dim <%=主题名%>_theme(1)
@@ -15,6 +15,8 @@ Function ActivePlugin_<%=主题名%>()
 	If CheckPluginState("FileManage") Then
 		Call Add_Action_Plugin("Action_Plugin_FileManage_ExportInformation_NotFound","<%=主题名%>_exportdetail(""{path}"",""{f}"")")
 	End If
+    '这里是给后台加管理按钮
+	Call Add_Response_Plugin("Response_Plugin_ThemeMng_SubMenu","<script type='text/javascript'>$(document).ready(function(){$(""#theme-<%=主题名%> .theme-name"").append('<input class=""button"" style=""float:right;margin:0;padding-left:10px;padding-right:10px;"" type=""button"" value=""配置"" onclick=""location.href=\'"&BlogHost&"/zb_users/theme/<%=主题名%>/plugin/editor.asp\'"">')})</script>")
 End Function
 
 Function <%=主题名%>_exportdetail(p,f)

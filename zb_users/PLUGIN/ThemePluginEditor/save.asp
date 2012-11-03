@@ -16,6 +16,8 @@
 <!-- #include file="..\..\..\zb_system\function\c_system_plugin.asp" -->
 <!-- #include file="..\p_config.asp" -->
 <%
+Dim PluginVer
+PluginVer=" 1.0"
 Call System_Initialize()
 '检查非法链接
 Call CheckReference("")
@@ -62,7 +64,8 @@ For s=0 To Ubound(aryReq)
 	aryTr(s)=IIf(aryReq(s)(1)=2,strUpload,strTr)
 	aryTr(s)=Replace(aryTr(s),"<%=主题名%"&">",strTemplateName)
 	aryTr(s)=Replace(aryTr(s),"<%=文件注释%"&">",aryReq(s)(0))
-	aryTr(s)=Replace(aryTr(s),"<%=文件名%"&">",aryReq(s)(2))		
+	aryTr(s)=Replace(aryTr(s),"<%=文件名%"&">",aryReq(s)(2))	
+	aryTr(s)=Replace(aryTr(s),"<%=主题调用代码%"&">","&lt;#TEMPLATE_INCLUDE_"&UCase(Split(aryReq(s)(2),".")(0))&"#&gt;")
 Next
 arySave(2)(1)=Join(aryTr,vbCrlf)
 For s=0 To 3
@@ -71,12 +74,13 @@ For s=0 To 3
 		arySave(s)(1)=Replace(arySave(s)(1),"<%=表格%"&">",arySave(2)(1))
 		arySave(s)(1)=Replace(arySave(s)(1),"<%=文件注释数组%"&">",""""&Join2(aryReq,0,""",""")&"""")
 		arySave(s)(1)=Replace(arySave(s)(1),"<%=文件名数组%"&">",""""&Join2(aryReq,2,""",""")&"""")
+		arySave(s)(1)=Replace(arySave(s)(1),"<%=版本号%"&">",PluginVer)
 		Call SaveToFile(BlogPath & "\zb_users\theme\" & strTemplateName & "\plugin\" & arySave(s)(0),arySave(s)(1),"utf-8",False)
 	End If
 	
 Next
 Call SetBlogHint(True,Empty,Empty)
-Response.Redirect "main.asp"
+Response.Redirect "howtouse.asp"
 'Stop
 
 Function Join2(ary,int,s)
