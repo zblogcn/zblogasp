@@ -35,31 +35,33 @@ Function uEditorGetRemoteImage()
 	
 	For l=0 To Ubound(aryURL)
 		strURL=aryURL(l)   
-		If CheckRegExp(strURL,"^http.+?\.(jpe?g|gif|bmp|png)$") Then   '判断URL是否符合图片格式
-			t=RandomFileName(Split(strURL,".")(Ubound(Split(strURL,"."))))  '得到重命名文件夹
-			Dim objXmlHttp,objStream
-			objXmlHttp.Open "GET",strURL,False
-			objXmlHttp.Send
-			If objXmlHttp.Status=200 Then  'HTTP状态码需要符合“200 OK”
-				k=objXmlHttp.getResponseHeader("Content-Type")    
-				If Instr(k,"image") Then '判断Content-type是否为图片
-						CreatDirectoryByCustomDirectory BlogPath &  strUPLOADDIR &"\"
-						objStream.Type =1 
-						objStream.Open 
-						objStream.Write objXmlhttp.ResponseBody 
-						objStream.Savetofile BlogPath &  strUPLOADDIR &"\" & "\"&t,2 
-						strResponse(0)=t&uEditor_Split&strResponse(0)  '记录保存位置
-						strResponse(1)=strURL&uEditor_Split&strResponse(1)  '记录原地址					
-						Dim uf
-						Set uf=New TUpLoadFile
-						uf.AuthorID=BlogUser.ID
-						uf.AutoName=False
-						uf.IsManual=True
-						uf.FileSize=objStream.Size
-						uf.FileName=t
-						uf.UpLoad
-						objStream.Close() 
-						'Exit For
+		If Left(strURL,Len(BlogHost))<>BlogHost Then 
+			If CheckRegExp(strURL,"^http.+?\.(jpe?g|gif|bmp|png)$") Then   '判断URL是否符合图片格式
+				t=RandomFileName(Split(strURL,".")(Ubound(Split(strURL,"."))))  '得到重命名文件夹
+				Dim objXmlHttp,objStream
+				objXmlHttp.Open "GET",strURL,False
+				objXmlHttp.Send
+				If objXmlHttp.Status=200 Then  'HTTP状态码需要符合“200 OK”
+					k=objXmlHttp.getResponseHeader("Content-Type")    
+					If Instr(k,"image") Then '判断Content-type是否为图片
+							CreatDirectoryByCustomDirectory BlogPath &  strUPLOADDIR &"\"
+							objStream.Type =1 
+							objStream.Open 
+							objStream.Write objXmlhttp.ResponseBody 
+							objStream.Savetofile BlogPath &  strUPLOADDIR &"\" & "\"&t,2 
+							strResponse(0)=t&uEditor_Split&strResponse(0)  '记录保存位置
+							strResponse(1)=strURL&uEditor_Split&strResponse(1)  '记录原地址					
+							Dim uf
+							Set uf=New TUpLoadFile
+							uf.AuthorID=BlogUser.ID
+							uf.AutoName=False
+							uf.IsManual=True
+							uf.FileSize=objStream.Size
+							uf.FileName=t
+							uf.UpLoad
+							objStream.Close() 
+							'Exit For
+					End If
 				End If
 			End If
 		End If
