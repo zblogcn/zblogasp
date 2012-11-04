@@ -1794,6 +1794,8 @@ Function ActivePlugInByName(strPluginName)
 
 	Call ScanPluginToIncludeFile(s)
 
+	Call AddBatch(ZC_MSG202 & strPluginName,"Call InstallPlugin("""&strPluginName&""")")
+
 	ActivePlugInByName=True
 
 End Function
