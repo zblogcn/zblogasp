@@ -13,7 +13,7 @@ Function ActivePlugin_WLWSupport()
 
 
 	'Action_Plugin_TArticleList_ExportByCache_Begin
-	Call Add_Action_Plugin("Action_Plugin_TArticleList_ExportByCache_Begin","Call Add_Filter_Plugin(""Filter_Plugin_TArticleList_Build_Template"",""WLWSupport_EditDefault"")")
+	Call Add_Action_Plugin("Action_Plugin_TArticleList_Export_Begin","Call Add_Filter_Plugin(""Filter_Plugin_TArticleList_Build_Template"",""WLWSupport_EditDefault"")")
 
 End Function
 
@@ -22,6 +22,7 @@ Function InstallPlugin_WLWSupport()
 
 	On Error Resume Next
 
+	BlogReBuild_Default
 	'Call SetBlogHint(True,True,Empty)
 
 	Err.Clear
