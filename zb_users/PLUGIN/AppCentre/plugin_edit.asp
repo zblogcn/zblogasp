@@ -63,7 +63,7 @@ End If
 <td><p>&nbsp;<input id="app_id" name="app_id" style="width:550px;"  type="text" value="<%=app_id%>" <%=IIF(ID="","","readonly=""readonly""")%> /></p></td></tr>
 <tr><td><p><b>· 插件名称</b></p></td><td><p>&nbsp;<input id="app_name" name="app_name" style="width:550px;"  type="text" value="<%=app_name%>" /></p></td></tr>
 <tr><td><p><b>· 插件发布页面</b></p></td><td><p>&nbsp;<input id="app_url" name="app_url" style="width:550px;"  type="text" value="<%=app_url%>" /></p></td></tr>
-<tr><td><p><b>· 插件简介</b></p></td><td><p>&nbsp;<input id="app_note" name="app_note" style="width:550px;"  type="text" value="<%=app_note%>" /></p></td></tr>
+<tr><td><p><b>· 插件简介</b></p></td><td><p>&nbsp;<input id="app_note" name="app_note" style="width:550px;"  type="text" value="<%=TransferHTML(TransferHTML(app_note,"[textarea]"),"[""]")%>" /></p></td></tr>
 <tr><td><p><b>· 适用的 Z-Blog 版本</b></p></td><td>
 <p>&nbsp;<select name="app_adapted" id="app_adapted" style="width:200px;">
     <option value="Z-Blog 2.0">Z-Blog 2.0</option>
