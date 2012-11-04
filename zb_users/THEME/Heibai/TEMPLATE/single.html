@@ -1,0 +1,121 @@
+﻿<#TEMPLATE_HEADER#>
+<link rel='canonical' href='<#article/url#>' />
+<script type="text/javascript">
+	$(function() {          
+    	$(".article img").not("#respond_box img").lazyload({
+        	placeholder:"<#ZC_BLOG_HOST#>zb_users/theme/<#ZC_BLOG_THEME#>/style/images/image-pending.gif",
+            effect:"fadeIn"
+          });
+    	});
+</script></head>
+<body>
+<script  type="text/javascript">
+        var strBatchView="";
+        var strBatchInculde="";
+        var strBatchCount="";
+</script>
+<div id="page">
+<div id="header">
+<div class="topnav">
+		<div class="menu"><ul><#CACHE_INCLUDE_CATALOG#></ul></div>
+</div>
+<div class="open-follow">
+   <table class="rss">
+  <tr>
+<#TEMPLATE_INCLUDE_WEIBO#>
+    <td><div class="search">
+              <form method="post" id="searchform" action="<#ZC_BLOG_HOST#>cmd.asp?act=Search">
+                <fieldset id="search">
+                  <span>
+                  <input value="" onclick="this.value='';" name="edtSearch" id="s" type="text" />
+                  <input name="btnPost" src="http://laob.me/wp-content/themes/weisayheibai/images/gg.png" value="Go" id="searchsubmit" class="btn" type="image" />
+                  </span>
+                </fieldset>
+              </form>
+            </div></td>
+  </tr>
+</table>
+				</div>
+                <div class="clear"></div>
+	<div id="blogname"><a href="<#ZC_BLOG_HOST#>"><#ZC_BLOG_TITLE#></a>
+    <div id="blogtitle"><#ZC_BLOG_SUBTITLE#></div></div>    
+<div class="pagemenu"><ul id="menu-pages-menu" class="navi">
+<#CACHE_INCLUDE_NAVBAR#>
+</ul></div>
+                </div><div id="roll"><div title="回到顶部" id="roll_top"></div><div title="查看评论" id="ct"></div><a href="#fall"><div title="转到底部" id="fall"></div></a></div>
+<div id="content">
+                <div class="content_l"><#template:article-single#>
+			
+	</div>
+<div id="sidebar">
+<#TEMPLATE_INCLUDE_AD#>
+<div class="sidebar_t"><div class="sidebar_b"><div id="tab-title"><h3><span>最新日志</span><span class="selected">热评日志</span><span>随机日志</span></h3>
+	<div id="tab-content">
+		<ul class="hide"><#CACHE_INCLUDE_最新文章（10）#></li>
+					</ul>
+		<ul><#CACHE_INCLUDE_热评文章（10）#></ul>
+		<ul class="hide"><#CACHE_INCLUDE_随机文章（10）#></ul>
+					</div></div>
+</div></div>
+<div class="sidebar_f"></div>
+<div class="widget">
+		</div>
+<div class="sidebar_t"><div class="sidebar_b">
+<div class="top_comment"><h3>最活跃的读者</h3>
+<ul>
+<#CACHE_INCLUDE_热门评论_JS#>
+</ul>
+</div>
+</div></div>
+<div class="sidebar_f"></div>
+<div class="widget">
+	<div class="sidebar_t"><div class="sidebar_b"><h3>文章归档</h3>		<#CACHE_INCLUDE_ARCHIVES#>
+</div></div>
+<div class="sidebar_f"></div>
+		</div>
+<div class="sidebar_t">
+		<div class="sidebar_b">
+<h3>最新评论</h3>
+<div class="r_comment">
+<ul>
+<YT:Comment DataSource="GetCommentComments(10)">
+<li><img src='http://www.gravatar.com/avatar/<#article/comment/emailmd5#>' class='comm_avatar'/><#article/comment/name#>:<br /><a href="<#article/comment/commenturl#>" title="查看 <#article/title#>"><#article/comment/content#></a></li>
+</YT>
+</ul>
+</div>        </div>
+</div>
+<div class="sidebar_f"></div>
+<div class="sidebar_t">
+		<div class="sidebar_b">
+<h3>标签云集</h3>	
+<div class="tag_s"></div><YT:Tag DataSource="GetTagLists(50)"><a href='<#article/tag/url#>' class='tag-link-24' title='<#article/tag/count#>个话题' style="font-size: 14.1px;;"><#article/tag/name#>   </a>  </YT></div>
+</div>
+<div class="sidebar_f"></div>
+<div class="sidebar_t">
+		<div class="sidebar_b">
+<h3>博客统计</h3>
+<div class="r_statistics">
+   <ul>
+<#CACHE_INCLUDE_STATISTICS#>
+   </ul>
+</div>        </div>
+</div>
+<div class="sidebar_f"></div>
+
+
+</div>
+<div class="clear"></div>
+       </div><div class="clear"></div>
+
+<script   type="text/javascript">
+$(document).ready(function(){
+try{
+    var elScript = document.createElement("script");
+    elScript.setAttribute("language", "JavaScript");
+    elScript.setAttribute("src", "<#ZC_BLOG_HOST#>function/c_html_js.asp?act=batch"+unescape("%26")+"view=" + escape(strBatchView)+unescape("%26")+"inculde=" + escape(strBatchInculde)+unescape("%26")+"count=" + escape(strBatchCount));
+    document.getElementsByTagName("body")[0].appendChild(elScript);
+    }
+catch(e){};
+});
+</script>
+<#TEMPLATE_FOOTER#>

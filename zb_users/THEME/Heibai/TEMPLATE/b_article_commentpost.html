@@ -1,0 +1,58 @@
+﻿<div id="respond_box">
+	<div id="respond">
+		<h3>发表评论</h3>	
+		<div class="cancel-comment-reply">
+		<div id="gravatarNow">
+			<img alt='' src='http://www.gravatar.com/avatar/?s=36&d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F48837deade4cdf6696ac477c3b40e11f%3Fs%3D32&r=G' class='avatar avatar-40 photo' height='40' width='40' />	</div>	
+		</div>
+
+		
+		
+		
+		    <form action="<#article/commentposturl#>" method="post" id="frmSumbit" target="_self">
+
+       <div id="comment-author-info">
+	<input type="hidden" name="inpId" id="inpId" value="<#article/id#>" />
+	<input type="hidden" name="inpArticle" id="inpArticle" value="" />
+	<input type="hidden" name="inpLocation" id="inpLocation" value="" />
+		<p><input type="text" name="inpName" id="inpName" class="commenttext" value="" size="22" tabindex="1" /><label for="author">昵称 *</label></p>
+		<p><input type="text" name="inpEmail" id="inpEmail" class="commenttext" value="" size="22" tabindex="2" onblur="gravatarNow();" /><label for="email">邮箱 *</label></p>
+		<p><input type="text" name="inpHomePage" id="inpHomePage" class="commenttext" value="" size="22" tabindex="3" /><label for="url">网址</label></p>
+	</div>
+
+      <div class="clear"></div>
+	  <p><script language="JavaScript" type="text/javascript">objActive="txaArticle";ExportUbbFrame();</script></p><#template:article_commentpost-verify#>
+
+      <p></p>
+
+		<p><textarea name="txaArticle" id="txaArticle"  onchange="GetActiveText(this.id);" onclick="GetActiveText(this.id);" onfocus="GetActiveText(this.id);" class="text" tabindex="5"></textarea></p>
+
+		<p>
+
+			<input class="submit" name="btnSumbit" type="submit" id="submit" tabindex="6"  onclick="JavaScript:return VerifyMessage()" value="提交留言" />
+
+			<input class="reset" name="reset" type="reset" id="reset" tabindex="7" value="重写" />
+		</p>
+	<div><p><input type="checkbox" name="chkRemember" value="1" id="chkRemember" /> <label for="chkRemember"><#ZC_MSG049#></label></p>
+</div>
+	
+		<script type="text/javascript">	//Crel+Enter
+			$(document).keypress(function(e){
+				if(e.ctrlKey && e.which == 13 || e.which == 10) { 
+					$(".submit").click();
+					document.body.focus();
+				} else if (e.shiftKey && e.which==13 || e.which == 10) {
+					$(".submit").click();
+				}          
+			})
+		</script>
+
+    </form>
+
+
+
+	<div class="clear"></div>
+
+      </div>
+
+  </div>
