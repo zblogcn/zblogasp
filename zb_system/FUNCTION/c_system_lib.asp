@@ -886,7 +886,7 @@ Class TArticle
 			objRS.CursorType = adOpenKeyset
 			objRS.LockType = adLockReadOnly
 			objRS.ActiveConnection=objConn
-
+			ZC_COMMENTS_DISPLAY_COUNT=IIF(ZC_COMMENTS_DISPLAY_COUNT=0,10000,ZC_COMMENTS_DISPLAY_COUNT)
 			Dim PageSize2,PageSize3
 			PageSize2=ZC_COMMENTS_DISPLAY_COUNT
 			PageSize3=ZC_COMMENTS_DISPLAY_COUNT
