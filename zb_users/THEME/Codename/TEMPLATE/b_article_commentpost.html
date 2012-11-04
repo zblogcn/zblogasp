@@ -1,0 +1,35 @@
+﻿<div id="respond">
+	<h4 class="comments-title">发表评论</h4>
+	<form action="<#article/commentposturl#>" method="post" id="frmSumbit" class="comment-form"  target="_self">
+		<input type="hidden" name="inpId" id="inpId" value="<#article/id#>" />
+		<input type="hidden" name="inpArticle" id="inpArticle" value="" />
+		<input type="hidden" name="inpLocation" id="inpLocation" value="" />
+		<div id="gravatarNow" class="visitor gravatar hfr">
+			<img height="36" width="36" alt="Gravatar头像" src="http://www.gravatar.com/avatar/?s=36&d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F48837deade4cdf6696ac477c3b40e11f%3Fs%3D32&r=G" />
+		</div> 
+		<p>
+			<input type="text" name="inpName" id="inpName" class="form-input" value="" size="45" tabindex="1" aria-required='true'/>
+			<label for="author"><span class="comment-label">昵称 <span class="req">(必填)</span></span></label>
+		</p>
+		<p>
+			<input type="text" name="inpEmail" id="inpEmail" class="form-input" value="" size="45" tabindex="2"  aria-required='true' onblur="getGravatarNow();" />
+			<label for="email"><span class="comment-label">邮件(不会被公布) <span class="req">(必填)</span></span></label>
+		</p>
+		<p>
+			<input type="text" name="inpHomePage" id="inpHomePage" class="form-input" value="" size="45" tabindex="3" />
+			<label for="url"><span class="comment-label">网址 <span class="opt">(选填)</span></span></label>
+		</p>
+		<p>
+			<#template:article_commentpost-verify#>
+		</p>
+		<p><script language="JavaScript" type="text/javascript">objActive="txaArticle";ExportUbbFrame();</script></p>
+
+		<p>
+			<textarea name="txaArticle" id="txaArticle" class="form-textarea" cols="58" rows="7" onchange="GetActiveText(this.id);" onclick="GetActiveText(this.id);" onfocus="GetActiveText(this.id);" tabindex="5"></textarea>
+		</p>
+		<p>
+			<input name="btnSumbit" type="submit" id="btnSumbit" class="form-btn hfl" tabindex="6" value="发表评论" onclick="JavaScript:return VerifyMessage()" /><input style="display:none;" type="checkbox" name="chkRemember" checked="true" value="1" id="chkRemember" />
+		</p>
+		<script language="JavaScript" type="text/javascript">LoadRememberInfo();</script>
+	</form>
+</div>

@@ -1,0 +1,106 @@
+﻿html,body,div,h1,h2,h3,h4,h5,h6,ul,ol,dl,dt,dd,p,blockquote,form,code,pre,fieldset,table,th,td{margin:0;padding:0;}
+body,textarea,code,input,option{font:12px/160% \5FAE\8F6F\96C5\9ED1,\5B8B\4F53,Tahoma,Arial;color:#333;}
+#main{background:#fff url(./style/images/livesino_bg.jpg) no-repeat center top;}
+img{border:none;}
+h1,h2,h3,h4{font-weight:normal;}
+a,a:visited{color:#4b72a9;text-decoration:none;}
+a:hover{color:#4b72a9;text-decoration:underline;}
+.hcf{clear:both;}
+.hdn{display:none;}
+.hfl{float:left;}
+.hfr{float:right;}
+.hpa{position:absolute;}
+.hpr{position:relative;}
+.htc{text-align:center;}
+#h{width:960px;margin:0 auto;}
+#header{width:960px;height:130px;}
+#content{width:680px;float:left;}
+#sidebar{width:250px;float:right;}
+#footer{width:960px;height:70px;}
+.features{width:960px;height:30px;}
+.nav{height:40px;list-style:none;margin:0;padding:0;}
+.nav li{float:left;display:block;margin:12px 10px;}
+.nav li a{font-size:13px;color:#497297;}
+.search{width:238px;height:26px;border:1px solid #7babd6;background:#f8fcff;margin:5px;}
+.search .search-input{width:195px;height:20px;line-height:20px;outline:none;border:none;background:transparent;color:#6080a5;padding:3px 7px;}
+.search .search-submit{width:26px;height:24px;border:none;cursor:pointer;background:url(./style/images/img.png) no-repeat 6px -34px;margin:1px;}
+.logo{margin:0 80px 10px 0;}
+.post{width:680px;overflow:hidden;margin:0 0 20px;}
+.post h2,.post h2 a,.content h2 a:visited{font-size:18px;line-height:160%;padding-bottom:3px;color:#f36e30;text-decoration:none;}
+.post h2 a:hover{color:#f36e30;text-decoration:none;border-bottom:2px solid #f36e30;}
+.post-meta{border-top:1px solid #dcdcdc;margin:20px 0 30px;}
+.post-info{padding-right:10px;margin-top:-10px;}
+.post-comments{padding-left:10px;margin-top:-11px;}
+.post-tags{font-size:11px;}
+.post-share{display:block;}
+.post-info,.post-comments,.sidebar-title,.sidebar-more{background:#FFF;}
+.large,.more-link{font-size:16px;}
+.iris{background:#F9FAFC;border:1px solid #E1F3F7;margin:5px 0 10px 0;}
+.fuss{background:#FFF6BF;color:#514721;border:1px solid #FFD324;margin:5px 0 10px 0;}
+.meta{background:#FBFBFB;color:#999;border:1px solid #DDD;margin:10px 0;}
+.nova{margin-top:5px;padding:4px 8px;}
+.entry{font-size:13px;line-height:24px;}
+.entry h3{font-size:16px;color:#444;font-weight:bold;margin:10px 0;}
+.entry p{margin:15px 0;}
+.entry code{display:block;background:#f8f8f8;border:1px dashed #ccc;padding:5px 10px;color:#666;}
+.entry small,.entry small a,#comments small a,.sidebar-more{font-size:11px;color:#777;}
+.entry strong{color:#101f2c;}
+.entry ul{margin:5px 0 5px 35px;}
+.entry li{padding:5px 0 5px 3px;}
+.entry img{background-image:url(./style/images/loading.gif);background-repeat:no-repeat;background-position:center center;}
+.entry a img{background-color:#eee;padding:2px;}
+.entry a:hover img{background-color:#999;}
+.entry blockquote{min-height:50px;background:url(./style/images/quote.gif) no-repeat 5px top;padding:0 0 0 55px;}
+.entry table{border-color:#ccc;border-style:solid;border-width:0 1px 1px 0;}
+.entry table tr td{border-color:#ccc;border-style:solid;border-width:1px 0 0 1px;padding:5px 10px;}
+.archive-meta{border-left:3px solid #666;padding:0 0 0 15px;margin:10px 0 20px 0;min-height:36px;}
+.navigation{text-align:center;}
+.sidebar-title{color:#4b72a9;font-size:13px;line-height:150%;margin-top:-13px;padding-right:10px;}
+.sidebar-widget{margin-bottom:20px;padding:5px;}
+.sidebar-widget a{color:#777;}
+.sidebar-widget a:hover{color:#333;}
+.sidebar-widget h4{border-top:#dcdcdc 1px solid;margin:15px 0;}
+.sidebar-list li{list-style:disc inside;color:#999;padding:5px 0;}
+#divMisc li{list-style:none;}
+#divComments li{height:18px;overflow: hidden;}
+#divPrevious li{height:18px;overflow: hidden;}
+
+#divCalendar  { width:250px; padding:0 0 0 0;height:195px; text-align:center;}
+p.y { text-align:center; height:24px; margin:0; padding:0; font-size:12px; font-weight:bold;}
+p.y a { padding:0 20px;}
+p.w,p.d,p.yd,p.nd,p.cd { float:left; border:1px solid #E0E1E2; width:34px;  height:24px; margin:0 0 -1px -1px; padding:3px 0 0 0; text-align:center; background-color:#F5F5F5;}
+p.yd{background-color: silver ;color:#000}
+.sidebar-list-li{width:120px;float:left;}
+.sidebar-feeds a{padding:5px 30px;width:180px;display:block;line-height:14px;font-size:13px;background:url(./style/images/rss_feed.png) no-repeat left top;}
+.translator a{padding:1px 0 1px 30px;margin-top:10px;display:block;background:url(./style/images/img.png) no-repeat 5px -16px;}
+ul.msg{margin:10px 0 20px 0;	padding:0 0 0 50px;}
+.comments-title{font-size:16px;background:transparent url(./style/images/img.png) no-repeat left 3px;padding:1px 25px;margin:10px 0;}
+.comment-list{margin-left:0;}
+.comment-list li{list-style:none;margin:20px 0;}
+.comment-content{margin-left:3px;padding-left:5px;border-left:#ddd 1px solid;}
+.comment-content p{margin-top:10px;}
+.comment-meta{font-size:10px;}
+.comment-author{font-size:15px;}
+.children{margin-left:50px;}
+.comment-reply-link{background:url(./style/images/img.png) no-repeat 0 -56px;padding-left:15px;display:block;}
+.gravatar{margin-top:2px;padding:2px;left:-45px;}
+.visitor{border:1px solid #bbb;margin:2px 1px;}
+.admin{border:2px solid #5ad504;}
+.comment-form p{margin:10px 0;}
+.form-input,.form-textarea{padding:4px;}
+.form-textarea{width:98%;overflow:auto;}
+.form-btn{padding:3px 20px;}
+.form-cancel{padding:7px 20px;}
+.opt{color:#009900;}
+.req{color:#cb5c11;}
+.sidebar-adsense{width:250px;height:auto;}
+.google-ads{width:468px;height:60px;margin:0 86px;}
+.footer-credits{width:960px;height:auto;padding:20px 0 0;}
+.footer-fuss{color:#666;font-size:10px;}
+.footer-bg{width:960px;height:160px;z-index:-10;margin-top:-90px;background:url(./style/images/footer_bg.jpg) no-repeat center bottom;}
+.rss-feeds{padding:10px;}
+.wp-smiley{vertical-align:middle;}
+.page_navi{padding:15px 0px;}
+.page_navi a,.page_navi .page-numbers{color:#4b72a9;text-decoration:none;border:1px solid #e1f3e7;padding:3px 5px;margin:0 2px;}
+.page_navi a:hover,.page_navi .current{border:1px solid #6994b9;background:#ecf6ff;}
+.page_navi .dots,.page_navi .pages{border:none;padding:3px 8px;}
