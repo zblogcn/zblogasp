@@ -1,0 +1,184 @@
+﻿<#TEMPLATE_HEADER#>
+
+<meta name="Keywords" content="卡比比,别苑,情感,生活,心情随笔,博客,爱情,z-blog,休闲娱乐"/>
+	<meta name="description" content="卡比比别苑，一个记录心情、记录点滴生活的博客，一个将发呆与牢骚作为生活主旋律的80后。各种心情随笔，各种唠叨。" />
+
+<!-- 	<script type="text/javascript">
+		$(function() {          
+			$(".article img").not("#respond_box img").lazyload({
+				placeholder:"<#ZC_BLOG_HOST#>zb_users/theme/<#ZC_BLOG_THEME#>/style/images/image-pending.gif",
+				effect:"fadeIn"
+			  });
+			});
+	</script> -->
+	
+	</head>
+<body>
+<div id="page">
+	<div id="header">
+		<div class="topnav">
+			<div class="menu">
+				<ul>
+					<#CACHE_INCLUDE_CATALOG#>
+				</ul>
+			</div>
+		</div>
+		
+		<div class="open-follow">
+		<table class="rss">
+			<tr>
+				<td><a href="http://mail.qq.com/cgi-bin/feed?u=<#ZC_BLOG_HOST#>feed.asp" target="_blank" class="icon4" title="用QQ邮箱阅读空间订阅我的博客"></a></td>
+				<td><a href="<#ZC_TM_SetWeiboSina#>" target="_blank" class="icon3" title="我的新浪微博"></a></td>
+				<td><a href="<#ZC_TM_SETWEIBOQQ#>" target="_blank" class="icon2" title="我的腾讯微博"></a></td>
+				<td><a href="<#ZC_BLOG_HOST#>feed.asp" target="_blank" class="icon1" title="欢迎订阅《<#ZC_BLOG_TITLE#>》"></a></td>
+				<td>
+					<div class="search">
+					  <form method="post" id="searchform" action="<#ZC_BLOG_HOST#>cmd.asp?act=Search">
+						<fieldset id="search">
+						  <span>
+						  <input value="" onclick="this.value='';" name="edtSearch" id="s" type="text" />
+						  <input name="btnPost" src="http://laob.me/wp-content/themes/weisayheibai/images/gg.png" value="Go" id="searchsubmit" class="btn" type="image" />
+						  </span>
+						</fieldset>
+					  </form>
+					</div>
+				</td>
+			</tr>
+		</table>
+		</div>
+					
+		<div class="clear"></div>
+		
+		<div id="blogname">
+			<a href="<#ZC_BLOG_HOST#>"><#ZC_BLOG_TITLE#></a>
+			<div id="blogtitle">
+				<#ZC_BLOG_SUBTITLE#>
+			</div>
+		</div>    
+		
+		<div class="pagemenu">
+			<ul id="menu-pages-menu" class="navi">
+				<#CACHE_INCLUDE_NAVBAR#>
+			</ul>
+		</div>
+	</div>
+				
+	<div id="roll"><div title="回到顶部" id="roll_top"></div><div title="转到底部" id="fall"></div></div>
+	
+	<div id="content">
+		<div class="content_l">
+			<#template:article-multi#>
+			
+			<div class="navigation">
+				<div class='pagination'>
+					<#template:pagebar#> 
+					<a href='http://www.ilovewz.com/catalog.asp?page=<#articlelist/page/all#>'>最后</a>
+				</div>
+			</div>
+		</div>
+			
+		<div id="sidebar">
+			<#TEMPLATE_INCLUDE_AD#>
+			<div class="sidebar_t">
+				<div class="sidebar_b">
+					<div id="tab-title">
+						<h3><span>最新日志</span><span class="selected">热评日志</span><span>随机日志</span></h3>
+						<div id="tab-content">
+							<ul class="hide">
+								<#CACHE_INCLUDE_NEWARTFILE#>
+							</ul>
+							<ul>
+								<#CACHE_INCLUDE_COMMARTFILE#>
+							</ul>
+							<ul class="hide">
+								<#CACHE_INCLUDE_RANDOMARTFILE#>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="sidebar_f"></div>
+			
+			
+			<div class="widget"></div>
+			
+			<div class="sidebar_t">
+				<div class="sidebar_b">
+					<div class="top_comment">
+						<h3>最活跃的读者</h3>
+						<ul>
+							<#CACHE_INCLUDE_热门评论#>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="sidebar_f"></div>
+			
+			<div class="widget">
+				<div class="sidebar_t">
+					<div class="sidebar_b">
+						<h3>文章归档</h3>
+						<#CACHE_INCLUDE_ARCHIVES#>
+					</div>
+				</div>
+				<div class="sidebar_f"></div>
+			</div>
+						
+			<div class="sidebar_t">
+				<div class="sidebar_b">
+					<h3>最新评论</h3>
+					<div class="r_comment">
+						<ul>
+						<YT:Comment DataSource="GetCommentComments(10)">
+<li><img src='http://www.gravatar.com/avatar/<#article/comment/emailmd5#>' class='comm_avatar'/><#article/comment/name#>:<br /><a href="<#article/comment/commenturl#>" title="查看 <#article/title#>"><#article/comment/content#></a></li>
+</YT>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="sidebar_f"></div>
+			
+			<div class="sidebar_t">
+				<div class="sidebar_b">
+					<h3>标签云集</h3>	
+					<div class="tag_s"></div>
+						<YT:Tag DataSource="GetTagLists(50)"><a href='<#article/tag/url#>' class='tag-link-24' title='<#article/tag/count#>个话题' style="font-size: 14.1px;;"><#article/tag/name#>   </a>  </YT>
+				</div>
+			</div>
+			<div class="sidebar_f"></div>
+			
+			<div class="sidebar_t">
+				<div class="sidebar_b">
+					<h3>博客统计</h3>
+					<div class="r_statistics">
+					   <ul>
+							<#CACHE_INCLUDE_STATISTICS#>
+					   </ul>
+					</div>        
+				</div>
+			</div>
+			<div class="sidebar_f"></div>
+			
+                                
+
+
+			<div class="sidebar_t">
+				<div class="sidebar_b">
+					<h3>友情链接</h3>
+					<div class="v-links">
+						<#CACHE_INCLUDE_LINK#>
+						<!--friendlink-->
+					</div>
+					
+					<div class="clear"></div>
+				</div>
+			</div>
+			<div class="sidebar_f"></div>
+			
+		</div>
+		<div class="clear"></div>
+	</div>
+	   
+	<div class="clear"></div>
+	
+	<#TEMPLATE_FOOTER#>
