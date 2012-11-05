@@ -85,13 +85,13 @@
 						<h3><span>最新日志</span><span class="selected">热评日志</span><span>随机日志</span></h3>
 						<div id="tab-content">
 							<ul class="hide">
-								<#CACHE_INCLUDE_NEWARTFILE#>
+								<#CACHE_INCLUDE_HEIBAINEWARTFILE#>
 							</ul>
 							<ul>
-								<#CACHE_INCLUDE_COMMARTFILE#>
+								<#CACHE_INCLUDE_HEIBAICOMMARTFILE#>
 							</ul>
 							<ul class="hide">
-								<#CACHE_INCLUDE_RANDOMARTFILE#>
+								<#CACHE_INCLUDE_HEIBAIRANDOMARTFILE#>
 							</ul>
 						</div>
 					</div>
@@ -107,7 +107,7 @@
 					<div class="top_comment">
 						<h3>最活跃的读者</h3>
 						<ul>
-							<#CACHE_INCLUDE_热门评论#>
+							<#CACHE_INCLUDE_HEIBAIHOTCOMMERFILE#>
 						</ul>
 					</div>
 				</div>
@@ -129,9 +129,7 @@
 					<h3>最新评论</h3>
 					<div class="r_comment">
 						<ul>
-						<YT:Comment DataSource="GetCommentComments(10)">
-<li><img src='http://www.gravatar.com/avatar/<#article/comment/emailmd5#>' class='comm_avatar'/><#article/comment/name#>:<br /><a href="<#article/comment/commenturl#>" title="查看 <#article/title#>"><#article/comment/content#></a></li>
-</YT>
+						<#CACHE_INCLUDE_HEIBAINEWCOMMFILE#>
 						</ul>
 					</div>
 				</div>
