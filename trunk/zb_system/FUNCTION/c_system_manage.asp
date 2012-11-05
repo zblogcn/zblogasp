@@ -1313,19 +1313,11 @@ Function ExportThemeMng()
 		End If
 
 
-		Response.Write "<div><a id=""mylink"&Left(md5(Theme_Id),6)&""" href=""$div"&Left(md5(Theme_Id),6)&"tip?width=300"" class=""betterTip"" title="""&Theme_Name&""" "
+		Response.Write "<div><a id=""mylink"&Left(md5(Theme_Id),6)&""" href=""$div"&Left(md5(Theme_Id),6)&"tip?width=320"" class=""betterTip"" title="""&Theme_Name&""" "
 		If UCase(Theme_Id)<>UCase(CurrentTheme) Then Response.Write " onclick='$(""#edtZC_BLOG_THEME"").val("""&Theme_Id&""");$(""#edtZC_BLOG_CSS"").val($(""#cate"&Left(md5(Theme_Id),6)&""").val());$(""#frmTheme"").submit();'"
 		Response.Write "><img src=""" & Theme_ScreenShot & """ alt=""ScreenShot"" width=""200"" height=""150"" /></a></div>"
 
 		Response.Write "<div id=""div"&Left(md5(Theme_Id),6)&"tip"" style=""display:none;"">"
-'		Response.Write "<p>ID : " & Theme_Id & "</p>"
-'		Response.Write "<p>"&ZC_MSG128&" : " & Theme_Author_Name & "</p>"
-'		'Response.Write "<p>"&ZC_MSG054&":" & Theme_Author_Url & "</p>"
-'		Response.Write "<p>"&ZC_MSG197&" : " & Theme_Source_Name & "</p>"
-'		'Response.Write "<p>"&ZC_MSG054&":" & Theme_Source_Url & "</p>"
-'		Response.Write "<p>"&ZC_MSG011&" : " & Theme_Pubdate & "</p>"
-'		Response.Write "<p>"&ZC_MSG261&" : " & Theme_Modified & "</p>"
-'		Response.Write "<p>"&ZC_MSG198&" :<br />" & TransferHTML(Theme_Description,"[enter]") & "</p>"
 		Response.Write "<table border=""0"" cellspacing=""0"" cellpadding=""0"" align=""center"" width=""100%"" class=""tableBorder""><tbody>"
 		Response.Write "<tr><th colspan=""2"">ID : " & Theme_Id & "</th></tr>"
 		Response.Write "<tr><td width=""60px"">"&ZC_MSG128&"</td><td>" & Theme_Author_Name &"</td></tr>"
