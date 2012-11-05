@@ -74,7 +74,7 @@ p{line-height:1.5em;padding:0.5em 0;}
 <div id="divMain">
 	<div id="ShowBlogHint"><%Call GetBlogHint()%></div>
 	<div class="divHeader"><%=BlogTitle%></div>
-  	<div class="SubMenu"><a href="main.asp"><span class="m-left">主题显示调用数量设置</span></a><a href="weibo.asp"><span class="m-left m-now">作者微博设置</span></a></div>
+  	<div class="SubMenu"><a href="main.asp"><span class="m-left">主题显示调用数量设置</span></a><a href="weibo.asp"><span class="m-left m-now">作者微博设置</span></a><a href="about.asp"><span class="m-left">主题说明</span></a></div>
 	<div id="divMain2">
 	<script type="text/javascript">ActiveTopMenu("aHeibai");</script> 
 	<!--SetCon Star.-->

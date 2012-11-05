@@ -1,8 +1,4 @@
 ﻿<#TEMPLATE_HEADER#>
-
-<meta name="Keywords" content="卡比比,别苑,情感,生活,心情随笔,博客,爱情,z-blog,休闲娱乐"/>
-	<meta name="description" content="卡比比别苑，一个记录心情、记录点滴生活的博客，一个将发呆与牢骚作为生活主旋律的80后。各种心情随笔，各种唠叨。" />
-
 <!-- 	<script type="text/javascript">
 		$(function() {          
 			$(".article img").not("#respond_box img").lazyload({
@@ -11,7 +7,6 @@
 			  });
 			});
 	</script> -->
-	
 	</head>
 <body>
 <div id="page">
@@ -29,7 +24,7 @@
 			<tr>
 				<td><a href="http://mail.qq.com/cgi-bin/feed?u=<#ZC_BLOG_HOST#>feed.asp" target="_blank" class="icon4" title="用QQ邮箱阅读空间订阅我的博客"></a></td>
 				<td><a href="<#ZC_TM_SetWeiboSina#>" target="_blank" class="icon3" title="我的新浪微博"></a></td>
-				<td><a href="<#ZC_TM_SETWEIBOQQ#>" target="_blank" class="icon2" title="我的腾讯微博"></a></td>
+				<td><a href="<#ZC_TM_SetWeiboQQ#>" target="_blank" class="icon2" title="我的腾讯微博"></a></td>
 				<td><a href="<#ZC_BLOG_HOST#>feed.asp" target="_blank" class="icon1" title="欢迎订阅《<#ZC_BLOG_TITLE#>》"></a></td>
 				<td>
 					<div class="search">
@@ -46,9 +41,7 @@
 			</tr>
 		</table>
 		</div>
-					
 		<div class="clear"></div>
-		
 		<div id="blogname">
 			<a href="<#ZC_BLOG_HOST#>"><#ZC_BLOG_TITLE#></a>
 			<div id="blogtitle">
@@ -64,8 +57,7 @@
 	</div>
 				
 	<div id="roll"><div title="回到顶部" id="roll_top"></div><div title="转到底部" id="fall"></div></div>
-	
-	<div id="content">
+		<div id="content">
 		<div class="content_l">
 			<#template:article-multi#>
 			
@@ -140,7 +132,7 @@
 				<div class="sidebar_b">
 					<h3>标签云集</h3>	
 					<div class="tag_s"></div>
-						<YT:Tag DataSource="GetTagLists(50)"><a href='<#article/tag/url#>' class='tag-link-24' title='<#article/tag/count#>个话题' style="font-size: 14.1px;;"><#article/tag/name#>   </a>  </YT>
+						<#CACHE_INCLUDE_TAGS#>
 				</div>
 			</div>
 			<div class="sidebar_f"></div>
@@ -158,8 +150,6 @@
 			<div class="sidebar_f"></div>
 			
                                 
-
-
 			<div class="sidebar_t">
 				<div class="sidebar_b">
 					<h3>友情链接</h3>
@@ -178,5 +168,4 @@
 	</div>
 	   
 	<div class="clear"></div>
-	
-	<#TEMPLATE_FOOTER#>
+		<#TEMPLATE_FOOTER#>
