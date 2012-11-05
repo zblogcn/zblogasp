@@ -70,7 +70,7 @@ Select Case Request.QueryString("act")
 End Select
 
 If Request.QueryString("act")<>"" Then
-	ZC_MSG266 = "<spam style='color:#ff0000'>"+ZC_MSG266 + "</spam>设置成功"
+	ZC_MSG266 = "<span style='color:#ff0000'>"+ZC_MSG266 + "</span>设置成功"
 	Call SetBlogHint(True,Empty,True)
 End If
 %>
@@ -84,7 +84,7 @@ p{line-height:1.5em;padding:0.5em 0;}
 <div id="divMain">
 	<div id="ShowBlogHint"><%Call GetBlogHint()%></div>
 	<div class="divHeader"><%=BlogTitle%></div>
-  	<div class="SubMenu"><a href="main.asp"><span class="m-left m-now">主题显示调用数量设置</span></a><a href="weibo.asp"><span class="m-left">作者微博设置</span></a></div>
+  	<div class="SubMenu"><a href="main.asp"><span class="m-left m-now">主题显示调用数量设置</span></a><a href="weibo.asp"><span class="m-left">作者微博设置</span></a><a href="about.asp"><span class="m-left">主题说明</span></a></div>
 	<div id="divMain2">
 	<script type="text/javascript">ActiveTopMenu("aHeibai");</script> 
 	<!--SetCon Star.-->
