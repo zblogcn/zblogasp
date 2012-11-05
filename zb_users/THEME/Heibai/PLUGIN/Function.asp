@@ -133,6 +133,20 @@ Function RsCommFilter(LTamount,LTImg,LTFilter,LTList,LTWhere,LTType,Lt_textarea)
 	Set ComRS=Nothing
 End Function
 
+'读者墙提取(数量,是否提取图片,提取内容,表名,筛选特性,排列方式,输入框名)-----------
+Function RsCommWallFilter(LTamount,LTImg,LTFilter,LTList,LTWhere,LTType,Lt_textarea)
+	dim ComWallRS,InserNewHtml:InserNewHtml = ""
+	Set ComWallRS=objConn.Execute("SELECT TOP "&LTamount&" "&LTFilter&" FROM "&LTList&" GROUP BY comm_Email, comm_HomePage, comm_Author HAVING (( "&LTWhere&" ) ORDER BY "&LTType&"")
+	Do Until ComWallRS.Eof
+		InserNewHtml = InserNewHtml & "<li class='mostactive'><a href='" & ComWallRS("comm_HomePage") &"' title='" & ComWallRS("comm_Author") &" (留下" & ComWallRS("comm_Sum") &"个脚印)' target='_blank' rel='external nofollow'><img src='http://www.gravatar.com/avatar/" & MD5(ComWallRS("comm_Email")) & "' alt='" & ComWallRS("comm_Author") &" (留下" & ComWallRS("comm_Sum") &"个脚印)' class='avatar'  /></a></li>"
+	ComWallRS.MoveNext
+	Loop
+	RsCommWallFilter = InserNewHtml
+	Set ComWallRS=Nothing
+End Function
+
+
+
 '检查最新文章列表====================================
 Function CheckNewArticle()
 Dim objFunction,objConfig
@@ -218,7 +232,7 @@ objConfig.Load("Heibai")
 Set objFunction=New TFunction
 if CheckFields("fn_FileName","HeibaiHotCommerfile","blog_Function") = 0 Then
 	objFunction.ID=0
-	objFunction.Name="最热留言"
+	objFunction.Name="读者墙"
 	objFunction.FileName="HeibaiHotCommerfile"
 	objFunction.HtmlID="divHotCommer"
 	objFunction.Ftype="ul"
@@ -229,7 +243,7 @@ if CheckFields("fn_FileName","HeibaiHotCommerfile","blog_Function") = 0 Then
 	objFunction.LoadInfoByID(CheckFields("fn_FileName","HeibaiHotCommerfile","blog_Function"))
 End if
 	objFunction.IsSystem=True
-	objFunction.Content=RsCommFilter(objConfig.Read("SetHotCommer"),True,"[log_ID],[comm_HomePage],[comm_Author],[comm_Content],[comm_Email],[comm_PostTime]","blog_Comment","[log_ID]=1","comm_LastReplyTime DESC","inpContent")
+	objFunction.Content=RsCommWallFilter(objConfig.Read("SetHotCommer"),True,"comm_Email, comm_HomePage, comm_Author, Count(*) AS comm_Sum","blog_Comment","(comm_Email)<>''","Count(*) DESC","inpContent")
 	objFunction.save
 	Call SaveFunctionType()
 	Call MakeBlogReBuild_Core()
