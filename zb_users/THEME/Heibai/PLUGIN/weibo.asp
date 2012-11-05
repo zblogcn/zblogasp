@@ -59,7 +59,7 @@ If strAct="SaveWeibo" Then
 		Call SetBlogHint_Custom("腾讯微博地址为空，前台将不显示此图标.")
 	End If
 	
-	Call SetBlogHint(True,Empty,Empty)
+	Call SetBlogHint(True,Empty,True)
 	'ZC_MSG266=" 操作成功."
 End If
 

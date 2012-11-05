@@ -16,7 +16,7 @@ Function ActivePlugin_Heibai()
 		objConfig.Write "SetCommArt","10"
 		objConfig.Write "SetRandomArt","10"
 		objConfig.Write "SetNewComm","10"
-		objConfig.Write "SetHotCommer","10"
+		objConfig.Write "SetHotCommer","15"
 		objConfig.Write "SetTags","30"
 		objConfig.Write "SetWeiboSina","http://weibo.com/810888188"
 		objConfig.Write "SetWeiboQQ","http://t.qq.com/involvements"
@@ -31,18 +31,17 @@ Function ActivePlugin_Heibai()
 		Call Add_Action_Plugin("Action_Plugin_Default_Begin","Call CheckRandomArticle()")
 		Call Add_Action_Plugin("Action_Plugin_CommentPost_Succeed","Call CheckCom()")
 		Call Add_Action_Plugin("Action_Plugin_Edit_Comment_Begin","Call CheckCom()")
-		Call HeibaiTConfig(HTML)
-		Call Add_Action_Plugin("Filter_Plugin_TArticle_Build_Template_Succeed",HTML)
-		
-
+		Call Add_Action_Plugin("Filter_Plugin_TArticle_Build_Template_Succeed","Call HeibaiTConfig")
 End Function
 
 Function HeibaiTConfig()
-	Dim ZC_TM_SetWeiboSina,ZC_TM_SetWeiboQQ
+	Dim objConfig,ZC_TM_SetWeiboSina,ZC_TM_SetWeiboQQ
+	Set objConfig=New TConfig
+	objConfig.Load("Heibai")
 	ZC_TM_SetWeiboSina=objConfig.Read("SetWeiboSina")
 	ZC_TM_SetWeiboQQ=objConfig.Read("SetWeiboQQ")
-	HTML=Replace(HTML,"<#ZC_TM_SetWeiboSina#>",ZC_TM_SetWeiboSina)
-	HTML=Replace(HTML,"<#ZC_TM_SetWeiboQQ#>",ZC_TM_SetWeiboQQ)
+	html=Replace(html,"<#ZC_TM_SetWeiboSina#>",ZC_TM_SetWeiboSina)
+	html=Replace(html,"<#ZC_TM_SetWeiboQQ#>",ZC_TM_SetWeiboQQ)
 End Function
 
 '检查所有列表===================================
@@ -67,7 +66,7 @@ End Function
 
 Function RemCom()
 	Call RemNewComm()
-	Call RemHotCommerbook()
+	Call RemHotCommer()
 End Function
 
 '================================操作==========================

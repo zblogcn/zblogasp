@@ -61,7 +61,7 @@ Select Case Request.QueryString("act")
 	Case "SetHotCommer"
 	objConfig.Write "SetHotCommer",Request.Form("SetHotCommer")
 	objConfig.Save
-	ZC_MSG266 = "活跃读者"
+	ZC_MSG266 = "读者墙"
 	
 	Case "SetTags"
 	objConfig.Write "SetTags",Request.Form("SetTags")
@@ -71,7 +71,7 @@ End Select
 
 If Request.QueryString("act")<>"" Then
 	ZC_MSG266 = "<spam style='color:#ff0000'>"+ZC_MSG266 + "</spam>设置成功"
-	Call SetBlogHint(True,Empty,Empty)
+	Call SetBlogHint(True,Empty,True)
 End If
 %>
 <!--#include file="..\..\..\..\zb_system\admin\admin_header.asp"-->
@@ -117,7 +117,7 @@ p{line-height:1.5em;padding:0.5em 0;}
     <td><input name="" type="submit" class="button" value="保存" onclick='document.getElementById("form1").action="?act=SetNewComm";'/></td>
   </tr>
    <tr>
-    <td><b><label for="SetHotCommer">活跃读者</label></b></td>
+    <td><b><label for="SetHotCommer">读者墙</label></b></td>
     <td><p align="center"><input name="SetHotCommer" type="text" id="SetHotCommer" size="10" value="<%=objConfig.Read("SetHotCommer")%>" /></p></td>
     <td><input name="" type="submit" class="button" value="保存" onclick='document.getElementById("form1").action="?act=SetHotCommer";'/></td>
   </tr>

@@ -132,11 +132,11 @@ Function RsCommFilter(LTamount,LTImg,LTFilter,LTList,LTWhere,LTType,Lt_textarea)
 	Set LTRS=Nothing
 	Set ComRS=Nothing
 End Function
-
+'"SELECT TOP 5 comm_Email, comm_HomePage, comm_Author, Count(*) AS comm_Sum FROM blog_Comment GROUP BY comm_Email, comm_HomePage, comm_Author ORDER BY Count(*) DESC;"
 '读者墙提取(数量,是否提取图片,提取内容,表名,筛选特性,排列方式,输入框名)-----------
 Function RsCommWallFilter(LTamount,LTImg,LTFilter,LTList,LTWhere,LTType,Lt_textarea)
 	dim ComWallRS,InserNewHtml:InserNewHtml = ""
-	Set ComWallRS=objConn.Execute("SELECT TOP "&LTamount&" "&LTFilter&" FROM "&LTList&" GROUP BY comm_Email, comm_HomePage, comm_Author HAVING (( "&LTWhere&" ) ORDER BY "&LTType&"")
+	Set ComWallRS=objConn.Execute("SELECT TOP "&LTamount&" "&LTFilter&" FROM "&LTList&" GROUP BY comm_Email, comm_HomePage, comm_Author ORDER BY "&LTType&";")
 	Do Until ComWallRS.Eof
 		InserNewHtml = InserNewHtml & "<li class='mostactive'><a href='" & ComWallRS("comm_HomePage") &"' title='" & ComWallRS("comm_Author") &" (留下" & ComWallRS("comm_Sum") &"个脚印)' target='_blank' rel='external nofollow'><img src='http://www.gravatar.com/avatar/" & MD5(ComWallRS("comm_Email")) & "' alt='" & ComWallRS("comm_Author") &" (留下" & ComWallRS("comm_Sum") &"个脚印)' class='avatar'  /></a></li>"
 	ComWallRS.MoveNext
@@ -360,8 +360,8 @@ End if
 Set objFunction = Nothing
 End Function
 
-'删除活跃读者列表===========================================
-Function RemHotCommerbook()
+'删除读者墙列表===========================================
+Function RemHotCommer()
 Dim objFunction
 Set objFunction=New TFunction
 if CheckFields("fn_FileName","HeibaiHotCommerfile","blog_Function") <> 0 Then
