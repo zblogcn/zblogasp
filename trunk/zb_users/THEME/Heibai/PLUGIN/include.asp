@@ -27,9 +27,9 @@ Function ActivePlugin_Heibai()
 		Call Add_Action_Plugin("Action_Plugin_MakeBlogReBuild_Begin","Call CheckArticle()")
 		Call Add_Action_Plugin("Action_Plugin_ArticlePst_Succeed","Call CheckArticle()")
 		Call Add_Action_Plugin("Action_Plugin_ArticleDel_Succeed","Call CheckArticle()")
-		Call Add_Action_Plugin("Action_Plugin_Catalog_Begin","Call CheckRandomArticle()")
+		'Call Add_Action_Plugin("Action_Plugin_Catalog_Begin","Call CheckRandomArticle()")
 		'这个接口没用
-		Call Add_Action_Plugin("Action_Plugin_Default_Begin","Call CheckRandomArticle()")
+		'Call Add_Action_Plugin("Action_Plugin_Default_Begin","Call CheckRandomArticle()")
 		Call Add_Action_Plugin("Action_Plugin_BlogReBuild_Default_Begin","Call CheckRandomArticle()")
 		Call Add_Action_Plugin("Action_Plugin_CommentPost_Succeed","Call CheckCom()")
 		Call Add_Action_Plugin("Action_Plugin_Edit_Comment_Begin","Call CheckCom()")
@@ -85,9 +85,14 @@ End Function
 
 '安装插件
 Function InstallPlugin_Heibai
-	Call CheckArticle()
-	Call CheckCom()
-	Call SetBlogHint(Empty,Empty,True)
+	Dim objConfig
+	Set objConfig=New TConfig
+	objConfig.Load("Heibai")
+	If objConfig.Exists("Version")=False Then
+		Call CheckArticle()
+		Call CheckCom()
+		Call SetBlogHint(Empty,Empty,True)
+	End If
 End Function
 
 '卸载插件
