@@ -825,7 +825,7 @@ Function UBBCode(ByVal strContent,strType)
 	If ZC_UBB_FACE_ENABLE And Instr(strType,"[face]")>0 Then
 
 		objRegExp.Pattern="(\[F\])(.+?)(\[\/F\])"
-		strContent= objRegExp.Replace(strContent,"<img src=""<#ZC_BLOG_HOST#>zb_system/image/face/$2"" style=""padding:2px;border:0;"" width="""&ZC_EMOTICONS_FILESIZE&""" title=""$2"" alt=""$2"" />")
+		strContent= objRegExp.Replace(strContent,"<img src=""<#ZC_BLOG_HOST#>zb_users/emotion/$2"" style=""padding:2px;border:0;"" width="""&ZC_EMOTICONS_FILESIZE&""" title=""$2"" alt=""$2"" />")
 
 	End If
 
