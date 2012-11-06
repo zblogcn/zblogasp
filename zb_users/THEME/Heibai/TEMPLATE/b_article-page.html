@@ -1,13 +1,43 @@
-﻿<div class="post single-post cate<#article/category/id#> auth<#article/author/id#>">
-	<h4 class="post-date"></h4>
-	<h2 class="post-title"><#article/title#></h2>
-	<div class="post-body"><#article/content#></div>
-	<h5 class="post-tags"></h5>
-	<h6 class="post-footer"></h6>
+﻿<div class="left">
+<div class="post_date"><span class="date_m"><#article/posttime/month#></span><span class="date_d"><#article/posttime/day#></span><span class="date_y"><#article/posttime/year#></span></div>
+
+<div class="article">
+<div class="article_t">
+<div class="article_b"><h2><#article/title#></h2>
+<div class="info">
+		<span><img src="<#ZC_BLOG_HOST#>themes/<#ZC_BLOG_THEME#>/style/images/meta_author.png" alt="作者" title="作者" /> <#article/author/name#></span>
+		<span><img src="<#ZC_BLOG_HOST#>themes/<#ZC_BLOG_THEME#>/style/images/meta_date.png" alt="发布时间" title="发布时间" /> <#article/posttime#></span>
+		<span><img src="<#ZC_BLOG_HOST#>themes/<#ZC_BLOG_THEME#>/style/images/meta_categories.png" alt="文章分类" title="文章分类" /> <a href="<#article/category/url#>" title="查看 <#article/category/name#> 中的全部文章" rel="category"><#article/category/name#></a></span>
+        <span><img src="<#ZC_BLOG_HOST#>themes/<#ZC_BLOG_THEME#>/style/images/meta_comments.png" alt="文章评论" title="文章评论" /> <a href="<#article/url#>#comments" title="《<#article/title#>》上的评论"><#article/commnums#>条评论</a></span>
+		<span><img src="<#ZC_BLOG_HOST#>themes/<#ZC_BLOG_THEME#>/style/images/meta_views.png" alt="阅读次数" title="阅读次数" /> 阅读次数：<span id="spn<#article/id#>"></span>
+<script  type="text/javascript">strBatchCount+="spn<#article/id#>=<#article/id#>,"</script></span>
+		
 </div>
-<ul class="msg msghead">
-	<li class="tbname"><#ZC_MSG211#>:</li>
-</ul>
-<#template:article_comment#>
-<#template:article_comment_pagebar#>
-<#template:article_commentpost#>
+
+        <div class="context"><#article/content#></div>
+
+</div>
+
+<div class="article_ff">
+</div>
+</div>
+</div>
+</div>
+
+
+
+
+<div class="left">
+<div class="article">
+<div class="article_t">
+<div class="article_b">
+	<h3 id="comments">《<#article/title#>》：目前有<#article/commnums#> 条留言</h3>
+	<#template:article_comment#>
+	<div class="navigation"><div class="pagination"></div>	</div>
+	<#template:article_commentpost#>
+</div>
+
+<div class="article_ff"></div>
+</div>
+</div>
+</div>

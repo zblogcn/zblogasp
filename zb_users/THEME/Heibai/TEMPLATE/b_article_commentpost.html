@@ -16,24 +16,25 @@
 	<input type="hidden" name="inpArticle" id="inpArticle" value="" />
 	<input type="hidden" name="inpLocation" id="inpLocation" value="" />
 		<p><input type="text" name="inpName" id="inpName" class="commenttext" value="" size="22" tabindex="1" /><label for="author">昵称 *</label></p>
-		<p><input type="text" name="inpEmail" id="inpEmail" class="commenttext" value="" size="22" tabindex="2" onblur="gravatarNow();" /><label for="email">邮箱 *</label></p>
+		<p><input type="text" name="inpEmail" id="inpEmail" class="commenttext" value="" size="22" tabindex="2" onblur="getGravatarNow();" /><label for="email">邮箱 *</label></p>
 		<p><input type="text" name="inpHomePage" id="inpHomePage" class="commenttext" value="" size="22" tabindex="3" /><label for="url">网址</label></p>
 	</div>
 
       <div class="clear"></div>
-	  <p><script language="JavaScript" type="text/javascript">objActive="txaArticle";ExportUbbFrame();</script></p><#template:article_commentpost-verify#>
+	 <#template:article_commentpost-verify#>
 
       <p></p>
 
 		<p><textarea name="txaArticle" id="txaArticle"  onchange="GetActiveText(this.id);" onclick="GetActiveText(this.id);" onfocus="GetActiveText(this.id);" class="text" tabindex="5"></textarea></p>
 
 		<p>
-
+<input style="display:none;" type="checkbox" name="chkRemember" checked="true" value="1" id="chkRemember" />
 			<input class="submit" name="btnSumbit" type="submit" id="submit" tabindex="6"  onclick="JavaScript:return VerifyMessage()" value="提交留言" />
 
 			<input class="reset" name="reset" type="reset" id="reset" tabindex="7" value="重写" />
+			<script language="JavaScript" type="text/javascript">LoadRememberInfo();</script>
 		</p>
-	<div><p><input type="checkbox" name="chkRemember" value="1" id="chkRemember" /> <label for="chkRemember"><#ZC_MSG049#></label></p>
+	<div>
 </div>
 	
 		<script type="text/javascript">	//Crel+Enter
