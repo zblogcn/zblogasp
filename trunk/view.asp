@@ -103,8 +103,14 @@ Else
 	If ZC_POST_STATIC_MODE="REWRITE" Then
 		Dim fso, TxtFile
 		Set fso = CreateObject("Scripting.FileSystemObject")
-		If fso.FileExists(c) Then
+		If fso.FileExists(Server.MapPath(c)) Then
 			Response.Write LoadFromFile(BlogHost & c,"utf-8")
+			Response.End
+		ElseIf fso.FolderExists(Server.MapPath(c)) Then
+			If fso.FileExists(Server.MapPath(c)&"\default.asp") Then Response.Redirect "default.asp"
+			If fso.FileExists(Server.MapPath(c)&"\default.html") Then Response.Redirect "default.html"
+			If fso.FileExists(Server.MapPath(c)&"\default.htm") Then Response.Redirect "default.htm"
+			Response.Write "抱歉，暂时有点问题，该文件夹无法浏览"
 			Response.End
 		End If
 	End If
