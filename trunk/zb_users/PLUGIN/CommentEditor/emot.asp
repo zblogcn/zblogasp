@@ -35,7 +35,7 @@
 			Next
 			e=Left(e,Len(e)-1)
 		End If 
-	%>'<%=f(x)%>':{name:'<%=f(x)%>',list:{<%=e%>},width:32,height:32}<% If x<y Then Response.Write "," 
+	%>'<%=f(x)%>':{name:'<%=f(x)%>',list:{<%=e%>},width:64,height:64,line:10}<% If x<y Then Response.Write "," 
 		e=""
 	Next
 	%>}
