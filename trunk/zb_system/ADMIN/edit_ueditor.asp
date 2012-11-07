@@ -134,7 +134,7 @@ Next
 <!-- tags( -->
 <% If Request.QueryString("type")<>"Page" Then %>
                         <p><span class='editinputname' style='padding:0 0 0 0;'><%=ZC_MSG138%>:</span>
-                        <input type="text" style="width:60%;max-width:520px" name="edtTag" id="edtTag" value="<%=TransferHTML(EditArticle.TagToName,"[html-format]")%>" /> (<%=ZC_MSG208%>)</p>
+                        <input type="text" style="width:60%;max-width:520px" name="edtTag" id="edtTag" value="<%=TransferHTML(EditArticle.TagToName,"[html-format]")%>" /> (<%=ZC_MSG208%>) <a href="#" id="showtags"><%=ZC_MSG139%></a></p>
 						<!-- Tags -->
 						<div id="ulTag" style="display:none;"><div id="ajaxtags"><%=ZC_MSG165%></div></div>
 
@@ -416,7 +416,7 @@ function checkArticleInfo(){
 }
 
 //显示tags
-$('#edtTag').click(function (event) {  
+$('#showtags').click(function (event) {  
 	event.stopPropagation();  
 	var offset = $(event.target).offset();  
 	$('#ulTag').css({ top: offset.top + $(event.target).height()+20+ "px", left: offset.left});  
