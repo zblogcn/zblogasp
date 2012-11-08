@@ -65,8 +65,8 @@ Else
 End If
 
 
-EditArticle.Content=UBBCode(EditArticle.Content,"[link][email][font][code][face][image][flash][typeset][media][autolink][key][link-antispam]")
-EditArticle.Title=UBBCode(EditArticle.Title,"[link][email][font][code][face][image][flash][typeset][media][autolink][key][link-antispam]")
+EditArticle.Content=UBBCode(EditArticle.Content,"[link][email][font][code][face][image][flash][typeset][media][autolink]")
+EditArticle.Title=UBBCode(EditArticle.Title,"[link][email][font][code][face][image][flash][typeset][media][autolink]")
 
 'EditArticle.Title=TransferHTML(EditArticle.Title,"[html-japan]")
 'EditArticle.Intro=TransferHTML(EditArticle.Intro,"[html-japan]")
