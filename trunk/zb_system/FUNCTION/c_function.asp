@@ -1385,6 +1385,11 @@ End Function
 '*********************************************************
 Function URLEncodeForAntiSpam(strUrl)
 
+	If InStr(strUrl,c_urlredirect.asp)>0 Then
+		URLEncodeForAntiSpam=strUrl
+		Exit Function
+	End If
+
 	Dim i,s
 	For i =1 To Len(strUrl)
 		s=s & Mid(strUrl,i,1) & CStr(Int((10 * Rnd)))
