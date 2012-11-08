@@ -5202,6 +5202,14 @@ Class TFunction
 
 	End Function
 
+	Public Property Get IsHidden
+		If SidebarID=-1 Then
+			IsHidden=True
+		Else
+			IsHidden=False
+		End If
+	End Property
+
 
 	Public Function InSidebars(num)
 		If num=1 Then InSidebars=InSidebar
@@ -5213,22 +5221,27 @@ Class TFunction
 
 
 	Public Function InSidebar()
+		If SidebarID=-1 Then InSidebar=False:Exit Function
 		InSidebar=(Round(Right(SidebarID,1)/1)=1)
 	End Function
 
 	Public Function InSidebar2()
+		If SidebarID=-1 Then InSidebar2=False:Exit Function
 		InSidebar2=(Round(Right(SidebarID,2)/11)=1)
 	End Function
 
 	Public Function InSidebar3()
+		If SidebarID=-1 Then InSidebar3=False:Exit Function
 		InSidebar3=(Round(Right(SidebarID,3)/111)=1)
 	End Function
 
 	Public Function InSidebar4()
+		If SidebarID=-1 Then InSidebar4=False:Exit Function
 		InSidebar4=(Round(Right(SidebarID,4)/1111)=1)
 	End Function
 
 	Public Function InSidebar5()
+		If SidebarID=-1 Then InSidebar5=False:Exit Function
 		InSidebar5=(Round(Right(SidebarID,5)/11111)=1)
 	End Function
 
@@ -5308,7 +5321,11 @@ Class TFunction
 			End if
 		End If
 
-		Content=TransferHTML(Content,"[anti-zc_blog_host]")
+		If IsHidden=True THen
+			Content=""
+		Else
+			Content=TransferHTML(Content,"[anti-zc_blog_host]")
+		End If
 
 		Call SaveToFile(BlogPath & "zb_users/include/"&FileName&".asp",Content,"utf-8",False)
 

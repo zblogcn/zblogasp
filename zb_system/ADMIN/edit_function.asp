@@ -87,7 +87,9 @@ BlogTitle=ZC_MSG144
 	Response.Write "</p>"
 	Response.Write "<p id=""pMaxLi"" "&IIF(EditFunction.Ftype="div","style='display:none;'","")&"><span class='title'>"& ZC_MSG143 &":</span><br/><input type=""text"" name=""inpMaxLi"" value="""& EditFunction.MaxLi &""" size=""40""  />("&ZC_MSG140&")</p>"
 
-	Response.Write "<p><span class='title'>"& ZC_MSG017 &":</span><br/><label><input id=""inpNoSidebar"" type=""checkbox"" "&IIf(EditFunction.SidebarID=0, "checked=""checked""","") & " />&nbsp;&nbsp;"&ZC_MSG074&"</label><br/>"
+	Response.Write "<p><span class='title'>"& ZC_MSG017 &":</span></p><input id=""inpShow"" name=""inpShow"" style="""" type=""text"" value="""&IIF(EditFunction.SideBarID=-1,"False","True")&""" class=""checkbox""/><hr/>"
+	
+	Response.Write "<p id=""pShow"" "&IIF(EditFunction.SideBarID=-1,"style=""display:none;""","")&"><label><input id=""inpNoSidebar"" type=""checkbox"" "&IIf(EditFunction.SidebarID=0, "checked=""checked""","") & " />&nbsp;&nbsp;"&ZC_MSG074&"</label>&nbsp;&nbsp;&nbsp;&nbsp;"
 	
 	Response.Write "<label><input id=""inpSidebar""  type=""checkbox"" "&IIf(EditFunction.InSidebar=True, "checked=""checked""","") & " />&nbsp;&nbsp;"  & ZC_MSG008 & "&nbsp;&nbsp;&nbsp;&nbsp;</label>"
 	Response.Write "<label><input id=""inpSidebar2"" type=""checkbox"" "&IIf(EditFunction.InSidebar2=True,"checked=""checked""","") & " />&nbsp;&nbsp;"  & ZC_MSG008 & "2&nbsp;&nbsp;&nbsp;&nbsp;</label>"
@@ -95,12 +97,13 @@ BlogTitle=ZC_MSG144
 	Response.Write "<label><input id=""inpSidebar4"" type=""checkbox"" "&IIf(EditFunction.InSidebar4=True,"checked=""checked""","") & " />&nbsp;&nbsp;"  & ZC_MSG008 & "4&nbsp;&nbsp;&nbsp;&nbsp;</label>"
 	Response.Write "<label><input id=""inpSidebar5"" type=""checkbox"" "&IIf(EditFunction.InSidebar5=True,"checked=""checked""","") & " />&nbsp;&nbsp;"  & ZC_MSG008 & "5&nbsp;&nbsp;&nbsp;&nbsp;</label>"
 
-	Response.Write "<br/>"&ZC_MSG277&"</p>"
-
+	Response.Write "</p>"
+	Response.Write "<p>"&ZC_MSG277&"</p>"
 	
-	Response.Write "<p><span class='title'>"& ZC_MSG090 &":</span><br/><textarea name=""inpContent"" id=""inpContent"" onchange=""GetActiveText(this.id);"" onclick=""GetActiveText(this.id);"" onfocus=""GetActiveText(this.id);"" cols=""80"" rows=""12"">"&s&"</textarea></p>"
+	Response.Write "<p><span class='title'>"& ZC_MSG090 &":</span><br/><textarea name=""inpContent"" id=""inpContent"" onchange=""GetActiveText(this.id);"" onclick=""GetActiveText(this.id);"" onfocus=""GetActiveText(this.id);"" cols=""80"" rows=""12"" " & IIF(InStr("|calendar|catalog|comments|previous|archives|authors|tags|statistics|","|"&EditFunction.FileName&"|")>0,"disabled=""disabled""","") & " >"&s&"</textarea></p>"
 
 	Response.Write "<p><input type=""submit"" class=""button"" value="""& ZC_MSG087 &""" id=""btnPost"" /></p>"
+
 %>
 </form>
 </div>
@@ -145,6 +148,22 @@ $("#inpSidebar,#inpSidebar2,#inpSidebar3,#inpSidebar4,#inpSidebar5").click(funct
 		$("#inpNoSidebar").removeAttr("checked");
 	}
 	CountSideBarID();
+});
+
+$("#inpShow + span.imgcheck").live("click", function() {
+  $("#pShow").toggle();
+  if($("#inpShow").val()==="True"){
+	$("#inpSidebarID").val(new Number(0));
+    $("#inpNoSidebar").attr("checked","checked")
+  }else{
+	$("#inpSidebarID").val(new Number(-1));
+	$("#inpSidebar").removeAttr("checked")
+	$("#inpSidebar2").removeAttr("checked")
+	$("#inpSidebar3").removeAttr("checked")
+	$("#inpSidebar4").removeAttr("checked")
+	$("#inpSidebar5").removeAttr("checked")
+	$("#inpNoSidebar").removeAttr("checked")
+  }
 });
 
 
