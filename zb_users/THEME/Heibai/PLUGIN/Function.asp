@@ -1,82 +1,4 @@
 <%
-'////=================================================================================////
-'去掉html标签
-Function RemoveHTML( strText )
-    Dim TAGLIST
-    TAGLIST = ";!--;!DOCTYPE;A;ACRONYM;ADDRESS;APPLET;AREA;B;BASE;BASEFONT;" &_
-              "BGSOUND;BIG;BLOCKQUOTE;BODY;BR;BUTTON;CAPTION;CENTER;CITE;CODE;" &_
-              "COL;COLGROUP;COMMENT;DD;DEL;DFN;DIR;DIV;DL;DT;EM;EMBED;FIELDSET;" &_
-              "FONT;FORM;FRAME;FRAMESET;HEAD;H1;H2;H3;H4;H5;H6;HR;HTML;I;IFRAME;IMG;" &_
-              "INPUT;INS;ISINDEX;KBD;LABEL;LAYER;LAGEND;LI;LINK;LISTING;MAP;MARQUEE;" &_
-              "MENU;META;NOBR;NOFRAMES;NOSCRIPT;OBJECT;OL;OPTION;P;PARAM;PLAINTEXT;" &_
-              "PRE;Q;S;SAMP;SCRIPT;SELECT;SMALL;SPAN;STRIKE;STRONG;STYLE;SUB;SUP;" &_
-              "TABLE;TBODY;TD;TEXTAREA;TFOOT;TH;THEAD;TITLE;TR;TT;U;UL;VAR;WBR;XMP;"
-    Const BLOCKTAGLIST = ";APPLET;EMBED;FRAMESET;HEAD;NOFRAMES;NOSCRIPT;OBJECT;SCRIPT;STYLE;"     
-    Dim nPos1
-    Dim nPos2
-    Dim nPos3
-    Dim strResult
-    Dim strTagName
-    Dim bRemove
-    Dim bSearchForBlock     
-    nPos1 = InStr(strText, "<")
-    Do While nPos1 > 0
-        nPos2 = InStr(nPos1 + 1, strText, ">")
-        If nPos2 > 0 Then
-            strTagName = Mid(strText, nPos1 + 1, nPos2 - nPos1 - 1)
-        strTagName = Replace(Replace(strTagName, vbCr, " "), vbLf, " ")
-
-            nPos3 = InStr(strTagName, " ")
-            If nPos3 > 0 Then
-                strTagName = Left(strTagName, nPos3 - 1)
-            End If
-If Left(strTagName, 1) = "/" Then
-                strTagName = Mid(strTagName, 2)
-                bSearchForBlock = False
-            Else
-                bSearchForBlock = True
-            End If
-            
-            If InStr(1, TAGLIST, ";" & strTagName & ";", vbTextCompare) > 0 Then
-                bRemove = True
-                If bSearchForBlock Then
-                    If InStr(1, BLOCKTAGLIST, ";" & strTagName & ";", vbTextCompare) > 0 Then
-                        nPos2 = Len(strText)
-                        nPos3 = InStr(nPos1 + 1, strText, "</" & strTagName, vbTextCompare)
-                        If nPos3 > 0 Then
-                            nPos3 = InStr(nPos3 + 1, strText, ">")
-                        End If
-                        
-                        If nPos3 > 0 Then
-                            nPos2 = nPos3
-                        End If
-                    End If
-                End If
-            Else
-bRemove = False
-            End If
-            
-            If bRemove Then
-                strResult = strResult & Left(strText, nPos1 - 1)
-                strText = Mid(strText, nPos2 + 1)
-            Else
-                strResult = strResult & Left(strText, nPos1)
-                strText = Mid(strText, nPos1 + 1)
-            End If
-        Else
-            strResult = strResult & strText
-            strText = ""
-        End If
-        
-        nPos1 = InStr(strText, "<")
-    Loop
-    strResult = strResult & strText
-    
-    RemoveHTML = strResult
-End Function
-
-
-
 '检验数据是否存在------------------------------------
 Function CheckFields(ParameterName,FieldsName,TableName)
 dim cRs
@@ -152,8 +74,7 @@ Function CheckNewArticle()
 Dim objFunction,objConfig
 Set objConfig=New TConfig
 objConfig.Load("Heibai")
-
-if FunctionMetas.GetValue("Heibainewartfile")=Empty Then
+if FunctionMetas.GetValue("HeibaiNewArtFile")=Empty Then
 	Set objFunction=New TFunction
 	objFunction.ID=0
 	objFunction.Name="最新文章"
@@ -164,7 +85,7 @@ if FunctionMetas.GetValue("Heibainewartfile")=Empty Then
 	objFunction.MaxLi=0
 	objFunction.SidebarID=10000
 Else
-	Set objFunction=Functions(FunctionMetas.GetValue("Heibainewartfile"))
+	Set objFunction=Functions(FunctionMetas.GetValue("HeibaiNewArtFile"))
 End If
 objFunction.IsSystem=True
 objFunction.Content=RsFilter(objConfig.Read("SetNewArt"),True,"*","blog_Article","[log_Type]=0","Log_PostTime DESC","inpContent","NewArt")
@@ -178,8 +99,8 @@ Function CheckCommArticle()
 Dim objFunction,objConfig
 Set objConfig=New TConfig
 objConfig.Load("Heibai")
-Set objFunction=New TFunction
-if CheckFields("fn_FileName","Heibaicommartfile","blog_Function") = 0 Then
+if FunctionMetas.GetValue("HeibaiCommArtFile")=Empty Then
+	Set objFunction=New TFunction
 	objFunction.ID=0
 	objFunction.Name="热评文章"
 	objFunction.FileName="HeibaiCommArtFile"
@@ -188,8 +109,8 @@ if CheckFields("fn_FileName","Heibaicommartfile","blog_Function") = 0 Then
 	objFunction.Order=16
 	objFunction.MaxLi=0
 	objFunction.SidebarID=10000
-	else
-	objFunction.LoadInfoByID(CheckFields("fn_FileName","Heibaicommartfile","blog_Function"))
+Else
+	Set objFunction=Functions(FunctionMetas.GetValue("HeibaiCommArtFile"))
 End if
 	objFunction.IsSystem=True
 	objFunction.Content=RsFilter(objConfig.Read("SetCommArt"),True,"*","blog_Article","[log_Type]=0","log_CommNums DESC,Log_PostTime DESC","inpContent","CommArt")
@@ -204,8 +125,8 @@ Function CheckNewComm()
 Dim objFunction,objConfig
 Set objConfig=New TConfig
 objConfig.Load("Heibai")
-Set objFunction=New TFunction
-if CheckFields("fn_FileName","HeibaiNewCommfile","blog_Function") = 0 Then
+if FunctionMetas.GetValue("HeibaiNewCommFile")=Empty Then
+	Set objFunction=New TFunction
 	objFunction.ID=0
 	objFunction.Name="最新评论（带头像）"
 	objFunction.FileName="HeibaiNewCommFile"
@@ -214,8 +135,8 @@ if CheckFields("fn_FileName","HeibaiNewCommfile","blog_Function") = 0 Then
 	objFunction.Order=17
 	objFunction.MaxLi=0
 	objFunction.SidebarID=10000
-	else
-	objFunction.LoadInfoByID(CheckFields("fn_FileName","HeibaiNewCommfile","blog_Function"))
+Else
+	Set objFunction=Functions(FunctionMetas.GetValue("HeibaiNewCommFile"))
 End if
 	objFunction.IsSystem=True
 	objFunction.Content=RsCommFilter(objConfig.Read("SetNewComm"),True,"[comm_ID],[log_ID],[comm_HomePage],[comm_Author],[comm_Content],[comm_Email],[comm_PostTime]","blog_Comment","[comm_ID]>0","comm_PostTime DESC","inpContent")
@@ -230,8 +151,8 @@ Function CheckHotCommer()
 Dim objFunction,objConfig
 Set objConfig=New TConfig
 objConfig.Load("Heibai")
-Set objFunction=New TFunction
-if CheckFields("fn_FileName","HeibaiHotCommerfile","blog_Function") = 0 Then
+if FunctionMetas.GetValue("HeibaiHotCommerfile")=Empty Then
+	Set objFunction=New TFunction
 	objFunction.ID=0
 	objFunction.Name="读者墙"
 	objFunction.FileName="HeibaiHotCommerfile"
@@ -240,8 +161,8 @@ if CheckFields("fn_FileName","HeibaiHotCommerfile","blog_Function") = 0 Then
 	objFunction.Order=18
 	objFunction.MaxLi=0
 	objFunction.SidebarID=10000
-	else
-	objFunction.LoadInfoByID(CheckFields("fn_FileName","HeibaiHotCommerfile","blog_Function"))
+Else
+	Set objFunction=Functions(FunctionMetas.GetValue("HeibaiHotCommerfile"))
 End if
 	objFunction.IsSystem=True
 	objFunction.Content=RsCommWallFilter(objConfig.Read("SetHotCommer"),True,"comm_Email, comm_HomePage, comm_Author, Count(*) AS comm_Sum","blog_Comment","(comm_Email)<>''","Count(*) DESC","inpContent")
@@ -254,7 +175,7 @@ End Function
 '检查随机文章列表====================================
 Function CheckRandomArticle()
 	Dim objFunction,objConfig,Randomval,SortBy
-	randomize
+	'randomize
 	Randomval = int(rnd * 8)
 	Select Case Randomval
 		Case 0	'默认
@@ -278,8 +199,9 @@ Function CheckRandomArticle()
 	End Select
 	Set objConfig=New TConfig
 	objConfig.Load("Heibai")
-	Set objFunction=New TFunction
-	if CheckFields("fn_FileName","Heibairandomartfile","blog_Function") = 0 Then
+	
+	if FunctionMetas.GetValue("HeibaiRandomArtFile")=Empty Then
+		Set objFunction=New TFunction
 		objFunction.ID=0
 		objFunction.Name="随机文章"
 		objFunction.FileName="HeibaiRandomArtFile"
@@ -289,7 +211,7 @@ Function CheckRandomArticle()
 		objFunction.MaxLi=0
 		objFunction.SidebarID=10000
 		else
-		objFunction.LoadInfoByID(CheckFields("fn_FileName","Heibairandomartfile","blog_Function"))
+			Set objFunction=Functions(FunctionMetas.GetValue("HeibaiRandomArtFile"))
 	End if
 		objFunction.IsSystem=True
 		objFunction.Content=RsFilter(objConfig.Read("SetRandomArt"),True,"*","blog_Article","[log_Type]=0",SortBy,"inpContent","RandomArt")

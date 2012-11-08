@@ -23,22 +23,22 @@ Function ActivePlugin_Heibai()
 		objConfig.Save
 		Call SetBlogHint_Custom("<span style='color:#ff0000'>Heibai主题</span>已经激活，点击<a href='" +BlogHost+"ZB_USERS/theme/Heibai/plugin/main.asp'>[主题设置]</a>去配置主题")
 	End If
-		Call Add_Response_Plugin("Response_Plugin_Admin_Top",MakeTopMenu(1,"主题设置",BlogHost&"ZB_USERS/theme/Heibai/plugin/main.asp","aHeibai",""))'添加右上角导航
+		
 		Call Add_Action_Plugin("Action_Plugin_MakeBlogReBuild_Begin","Call CheckArticle()")
 		Call Add_Action_Plugin("Action_Plugin_ArticlePst_Succeed","Call CheckArticle()")
 		Call Add_Action_Plugin("Action_Plugin_ArticleDel_Succeed","Call CheckArticle()")
-		'Call Add_Action_Plugin("Action_Plugin_Catalog_Begin","Call CheckRandomArticle()")
-		'这个接口没用
 		'Call Add_Action_Plugin("Action_Plugin_Default_Begin","Call CheckRandomArticle()")
-		Call Add_Action_Plugin("Action_Plugin_BlogReBuild_Default_Begin","Call CheckRandomArticle()")
+		'Call Add_Action_Plugin("Action_Plugin_Catalog_Begin","Call CheckRandomArticle()")
+		'Call Add_Action_Plugin("Action_Plugin_BlogReBuild_Default_Begin","Call CheckRandomArticle()")
 		Call Add_Action_Plugin("Action_Plugin_CommentPost_Succeed","Call CheckCom()")
 		Call Add_Action_Plugin("Action_Plugin_Edit_Comment_Begin","Call CheckCom()")
 		Call Add_Action_Plugin("Filter_Plugin_TArticle_Build_Template_Succeed","HeibaiTConfig")
 		Call Add_Action_Plugin("Action_Plugin_TArticleList_Export_Begin","Call Add_Filter_Plugin(""Filter_Plugin_TArticleList_Build_Template"",""HeibaiTConfig"")")
-
+		
+		Call Add_Response_Plugin("Response_Plugin_Admin_Top",MakeTopMenu(1,"主题设置",BlogHost&"ZB_USERS/theme/Heibai/plugin/main.asp","aHeibai",""))'添加右上角导航
 End Function
 
-Function HeibaiTConfig(HTML)
+Function HeibaiTConfig(html)
 	Dim objConfig,ZC_TM_SetWeiboSina,ZC_TM_SetWeiboQQ
 	Set objConfig=New TConfig
 	objConfig.Load("Heibai")
@@ -57,15 +57,16 @@ Function CheckArticle()
 End Function
 
 Function CheckCom()
+	Call CheckRandomArticle()
 	Call CheckNewComm()
 	Call CheckHotCommer()
 End Function
 
 '卸载所有列表===================================
 Function RemArticle()
+	Call RemNewArticle()
 	Call RemCommArticle()
 	Call RemRandomArticle()
-	Call RemNewArticle()
 End Function
 
 Function RemCom()
@@ -85,14 +86,9 @@ End Function
 
 '安装插件
 Function InstallPlugin_Heibai
-	Dim objConfig
-	Set objConfig=New TConfig
-	objConfig.Load("Heibai")
-	If objConfig.Exists("Version")=False Then
-		Call CheckArticle()
-		Call CheckCom()
-		Call SetBlogHint(Empty,Empty,True)
-	End If
+	Call CheckArticle()
+	Call CheckCom()
+	Call SetBlogHint(Empty,Empty,True)
 End Function
 
 '卸载插件
