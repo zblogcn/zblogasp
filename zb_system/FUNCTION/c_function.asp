@@ -1385,7 +1385,7 @@ End Function
 '*********************************************************
 Function URLEncodeForAntiSpam(strUrl)
 
-	If InStr(strUrl,c_urlredirect.asp)>0 Then
+	If InStr(strUrl,"c_urlredirect.asp")>0 Then
 		URLEncodeForAntiSpam=strUrl
 		Exit Function
 	End If
