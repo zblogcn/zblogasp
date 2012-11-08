@@ -152,8 +152,9 @@ Function CheckNewArticle()
 Dim objFunction,objConfig
 Set objConfig=New TConfig
 objConfig.Load("Heibai")
-Set objFunction=New TFunction
-if CheckFields("fn_FileName","Heibainewartfile","blog_Function") = 0 Then
+
+if FunctionMetas.GetValue("Heibainewartfile")=Empty Then
+	Set objFunction=New TFunction
 	objFunction.ID=0
 	objFunction.Name="最新文章"
 	objFunction.FileName="HeibaiNewArtFile"
@@ -162,14 +163,14 @@ if CheckFields("fn_FileName","Heibainewartfile","blog_Function") = 0 Then
 	objFunction.Order=15
 	objFunction.MaxLi=0
 	objFunction.SidebarID=10000
-	else
-	objFunction.LoadInfoByID(CheckFields("fn_FileName","Heibainewartfile","blog_Function"))
-End if
-	objFunction.IsSystem=True
-	objFunction.Content=RsFilter(objConfig.Read("SetNewArt"),True,"*","blog_Article","[log_Type]=0","Log_PostTime DESC","inpContent","NewArt")
-	objFunction.save
-	Call SaveFunctionType()
-	Call MakeBlogReBuild_Core()
+Else
+	Set objFunction=Functions(FunctionMetas.GetValue("Heibainewartfile"))
+End If
+objFunction.IsSystem=True
+objFunction.Content=RsFilter(objConfig.Read("SetNewArt"),True,"*","blog_Article","[log_Type]=0","Log_PostTime DESC","inpContent","NewArt")
+objFunction.save
+Call SaveFunctionType()
+Call MakeBlogReBuild_Core()
 End Function
 
 '检查热议列表(评论最高)====================================
