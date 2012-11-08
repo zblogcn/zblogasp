@@ -188,6 +188,11 @@ If Request.QueryString("type")<>"Page" Then
                         <select style="width:150px;" class="edit" size="1" id="cmbCate" onChange="edtCateID.value=this.options[this.selectedIndex].value;selectlogtemplate(this.options[this.selectedIndex].value);">
                           <option value="0"></option>
 <%
+
+	Response.Write "<option value="""&Categorys(0).ID&""" "
+	If EditArticle.CateID=Categorys(0).ID Then Response.Write "selected=""selected"""
+	Response.Write ">"&TransferHTML( Categorys(0).Name,"[html-format]")&"</option>"
+
 	Dim aryCateInOrder : aryCateInOrder=GetCategoryOrder()
 	Dim m,n
 	For m=LBound(aryCateInOrder)+1 To Ubound(aryCateInOrder)
