@@ -863,6 +863,8 @@ Function GetCategoryOrder()
 
 	Dim aryCateInOrder()
 	i=0
+	ReDim Preserve aryCateInOrder(0)
+	aryCateInOrder(0)=0
 
 	objRS.Open("SELECT [cate_id] FROM [blog_Category] ORDER BY [cate_Order] ASC,[cate_ID] ASC")
 	Do While Not objRS.eof
@@ -874,10 +876,7 @@ Function GetCategoryOrder()
 	objRS.Close
 	Set objRS=Nothing
 
-	If i>0 Then GetCategoryOrder=aryCateInOrder
-	If i=0 Then GetCategoryOrder=Array()
-
-	Erase aryCateInOrder
+	GetCategoryOrder=aryCateInOrder
 
 End Function
 '*********************************************************
@@ -2419,7 +2418,7 @@ Function BlogReBuild_Calendar()
 	Dim objRS
 	Dim k,l,m,n
 	Call GetFunction()
-	If CStr(Functions(FunctionMetas.GetValue("calendar")).SideBarID)="0" Then 
+	If CStr(Functions(FunctionMetas.GetValue("calendar")).SideBarID)="-1" Then 
 
 		Exit Function
 	End If
@@ -2463,7 +2462,7 @@ Function BlogReBuild_Archives()
 	Dim ArtList
 
 	Call GetFunction()
-	If CStr(Functions(FunctionMetas.GetValue("archives")).SideBarID)="0" Then 
+	If CStr(Functions(FunctionMetas.GetValue("archives")).SideBarID)="-1" Then 
 
 		Exit Function
 	End If
@@ -2539,7 +2538,7 @@ Function BlogReBuild_Catalogs()
 
 	IsRunGetCategory=False
 	Call GetFunction
-	If CStr(Functions(FunctionMetas.GetValue("catalog")).SideBarID)="0" Then 
+	If CStr(Functions(FunctionMetas.GetValue("catalog")).SideBarID)="-1" Then 
 
 		Exit Function
 	End If
@@ -2557,6 +2556,7 @@ Function BlogReBuild_Catalogs()
 	aryCateInOrder=GetCategoryOrder()
 
 
+	Categorys(0).Count=CLng(objConn.Execute("SELECT COUNT([log_ID]) FROM [blog_Article] WHERE [log_Level]>1 AND [log_Type]=0 AND [log_CateID]=0")(0))
 	If Categorys(0).Count>0 Then
 		strCatalog=strCatalog & "<li class=""li-cate cate-"& Categorys(0).id &"""><a href="""& Categorys(0).Url & """>"+Categorys(0).Name + "<span class=""article-nums""> (" & Categorys(0).Count & ")</span>" +"</a></li>"
 	End If
@@ -2636,7 +2636,7 @@ Function BlogReBuild_Authors()
 
 	Call GetUser()
 	Call GetFunction()
-	If CStr(Functions(FunctionMetas.GetValue("authors")).SideBarID)="0" Then 
+	If CStr(Functions(FunctionMetas.GetValue("authors")).SideBarID)="-1" Then 
 
 		Exit Function
 	End If
@@ -2683,7 +2683,7 @@ Function BlogReBuild_Tags()
 
 	Call GetFunction()
 	
-	If CStr(Functions(FunctionMetas.GetValue("tags")).SideBarID)="0" Then 
+	If CStr(Functions(FunctionMetas.GetValue("tags")).SideBarID)="-1" Then 
 
 		Exit Function
 	End If
@@ -2767,7 +2767,7 @@ Function BlogReBuild_Previous()
 	Call GetFunction()
 	j=Functions(FunctionMetas.GetValue("previous")).MaxLi
 	
-	If CStr(Functions(FunctionMetas.GetValue("previous")).SideBarID)="0" Then 
+	If CStr(Functions(FunctionMetas.GetValue("previous")).SideBarID)="-1" Then 
 
 		Exit Function
 	End If
@@ -2818,7 +2818,7 @@ Function BlogReBuild_Comments()
 	Next
 
 	Call GetFunction()
-	If CStr(Functions(FunctionMetas.GetValue("comments")).SideBarID)="0" Then 
+	If CStr(Functions(FunctionMetas.GetValue("comments")).SideBarID)="-1" Then 
 
 		Exit Function
 	End If
@@ -2929,7 +2929,7 @@ Function BlogReBuild_Statistics()
 	Dim objRS
 	Dim objStream
 	Call GetFunction()
-	If CStr(Functions(FunctionMetas.GetValue("statistics")).SideBarID)="0" Then 
+	If CStr(Functions(FunctionMetas.GetValue("statistics")).SideBarID)="-1" Then 
 
 		Exit Function
 	End If
@@ -3800,7 +3800,7 @@ End Function
 Function GetCateIDByNameAndAlias(Name,Alias)
 	Dim aryCateInOrder : aryCateInOrder=GetCategoryOrder()
 	Dim m,n
-	For m=LBound(aryCateInOrder)+1 To Ubound(aryCateInOrder)
+	For m=LBound(aryCateInOrder) To Ubound(aryCateInOrder)
 		If Alias=Categorys(aryCateInOrder(m)).Alias Then
 			GetCateIDByNameAndAlias=Categorys(aryCateInOrder(m)).ID
 			Exit Function
