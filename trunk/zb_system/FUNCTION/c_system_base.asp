@@ -2850,6 +2850,8 @@ Function BlogReBuild_Comments()
 			s=objRS("comm_Content")
 			s=Replace(s,vbCrlf,"")
 			s=Left(s,ZC_ARTICLE_EXCERPT_MAX)
+			s=TransferHTML(s,"[nohtml]")
+			
 			strComments=strComments & "<li style=""text-overflow:ellipsis;""><a href="""& t & "#cmt" & objRS("comm_ID") & """ title=""" & objRS("comm_PostTime") & " post by " & IIf(Users(objRS("comm_AuthorID")).Level=5,objRS("comm_Author"),Users(objRS("comm_AuthorID")).FirstName) & """>"+s+"</a></li>"
 			Set objArticle=Nothing
 			objRS.MoveNext
@@ -3709,7 +3711,7 @@ Function RefreshOptionFormFileToDB()
 			Call Execute("Call BlogConfig.Write("""&a&""","&a&")")
 		End If
 	Next
-	Call BlogConfig.Write("ZC_BLOG_VERSION","2.0 Beta2 Build 121028")
+	Call BlogConfig.Write("ZC_BLOG_VERSION","2.0 Beta2 Build 121103")
 	Call BlogConfig.Write("ZC_BLOG_CLSID",origZC_BLOG_CLSID)
 
 	If BlogConfig.Exists("ZC_UNCATEGORIZED_NAME")=False Then Call BlogConfig.Write("ZC_UNCATEGORIZED_NAME",ZC_MSG059)
