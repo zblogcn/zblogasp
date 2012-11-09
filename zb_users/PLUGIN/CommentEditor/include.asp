@@ -17,7 +17,7 @@ Call RegisterPlugin("CommentEditor","ActivePlugin_CommentEditor")
 '挂口部分
 Function ActivePlugin_CommentEditor()
 	Call Add_Filter_Plugin("Filter_Plugin_TComment_MakeTemplate_TemplateTags","CommentEditor_ExportCommentHTML")
-	Call Add_Action_Plugin("Action_Plugin_BlogReBuild_Comments_Begin","BlogReBuild_Comments=CommentEditor_ReBuild():Exit Function")
+	'Call Add_Action_Plugin("Action_Plugin_BlogReBuild_Comments_Begin","BlogReBuild_Comments=CommentEditor_ReBuild():Exit Function")
 End Function
 
 Function CommentEditor_ExportCommentHTML(t,v)
@@ -26,7 +26,7 @@ Function CommentEditor_ExportCommentHTML(t,v)
 	's=TransferHTML(s,"[anti-html-format]")
 	s=TransferHTML(s,"[nofollow]")
 	s=AntiXSS_run(s)
-	s=Replace(Replace(s,"&lt;!--","<!--"),"--&gt;","-->")
+	s=Replace(Replace(s,"&lt;!--r","<!--r"),"--&gt;","-->")
 	s=CommentEditor_AntiOther(s)
 	v(7)=s	
 	
