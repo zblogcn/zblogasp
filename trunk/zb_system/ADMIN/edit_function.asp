@@ -87,7 +87,16 @@ BlogTitle=ZC_MSG144
 	Response.Write "</p>"
 	Response.Write "<p id=""pMaxLi"" "&IIF(EditFunction.Ftype="div","style='display:none;'","")&"><span class='title'>"& ZC_MSG143 &":</span><br/><input type=""text"" name=""inpMaxLi"" value="""& EditFunction.MaxLi &""" size=""40""  />("&ZC_MSG140&")</p>"
 
+	Response.Write "<p><span class='title'>静态页加载方式:</span></p>"
+	
+	Response.Write "<label><input id=""viewtype1"" name=""viewtype"""&u&" value=""auto"" type=""radio"" "&IIf(EditFunction.Meta.GetValue("viewtype")="" Or EditFunction.Meta.GetValue("viewtype")="view", "checked=""checked""","") & " />&nbsp;&nbsp;自动&nbsp;&nbsp;&nbsp;&nbsp;</label>"
+	Response.Write "<label><input id=""viewtype2"" name=""viewtype"""&u&" value=""js"" type=""radio"" "&IIf(EditFunction.Meta.GetValue("viewtype")="js", "checked=""checked""","") & " />&nbsp;&nbsp;JavaScript&nbsp;&nbsp;&nbsp;&nbsp;</label>"
+	Response.Write "<label><input id=""viewtype3"" name=""viewtype"""&u&" value=""html"" type=""radio"" "&IIf(EditFunction.Meta.GetValue("viewtype")="html", "checked=""checked""","") & " />&nbsp;&nbsp;HTML&nbsp;&nbsp;&nbsp;&nbsp;</label>"
+
 	Response.Write "<p><span class='title'>"& ZC_MSG017 &":</span></p><input id=""inpShow"" name=""inpShow"" style="""" type=""text"" value="""&IIF(EditFunction.SideBarID=-1,"False","True")&""" class=""checkbox""/><hr/>"
+		
+
+
 	
 	Response.Write "<p id=""pShow"" "&IIF(EditFunction.SideBarID=-1,"style=""display:none;""","")&"><label><input id=""inpNoSidebar"" type=""checkbox"" "&IIf(EditFunction.SidebarID=0, "checked=""checked""","") & " />&nbsp;&nbsp;"&ZC_MSG074&"</label>&nbsp;&nbsp;&nbsp;&nbsp;"
 	
