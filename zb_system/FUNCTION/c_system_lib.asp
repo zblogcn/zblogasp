@@ -3411,7 +3411,7 @@ Class TComment
 
 	End Function
 
-'Mark2 MakeTemplate
+
 	Public Function MakeTemplate(strC)
 
 		Dim html,i,j
