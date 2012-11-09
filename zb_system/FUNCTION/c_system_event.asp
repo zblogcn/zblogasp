@@ -2038,6 +2038,7 @@ Function SaveFunction()
 	objFunction.MaxLi=Request.Form("inpMaxLi")
 	objFunction.SidebarID=Request.Form("inpSidebarID")
 	objFunction.Content=Replace(Request.Form("inpContent"),VBCrlf,"")
+	objFunction.Meta.SetValue "viewtype",IIf(Request.Form("viewtype")="js","js",IIf(Request.Form("viewtype")="html","html","auto"))
 
 	If Request.Form("inpFileName")="navbar" Then
 		Call GetFunction()
