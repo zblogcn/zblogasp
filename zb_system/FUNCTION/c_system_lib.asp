@@ -1247,7 +1247,7 @@ Class TArticle
 				Disable_Export_Tag=True
 			End If
 			If ZC_DISPLAY_MODE_ONTOP=intType Then
-				Disable_Export_Tag=True
+				'Disable_Export_Tag=True
 				subhtml_TemplateName=""
 				subhtml=GetTemplate("TEMPLATE_B_ARTICLE-ISTOP")
 			End If
