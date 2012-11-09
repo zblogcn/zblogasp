@@ -103,13 +103,6 @@ Sub System_Initialize()
 
 	'Call ActivePlugin()
 
-	'plugin node
-	bAction_Plugin_System_Initialize=False
-	For Each sAction_Plugin_System_Initialize in Action_Plugin_System_Initialize
-		If Not IsEmpty(sAction_Plugin_System_Initialize) Then Call Execute(sAction_Plugin_System_Initialize)
-		If bAction_Plugin_System_Initialize=True Then Exit Sub
-	Next
-
 	If OpenConnect()=False Then
 		Call ShowError(4)
 	End If
@@ -135,6 +128,14 @@ Sub System_Initialize()
 	Call CreateAdminLeftMenu()
 	Call CreateAdminTopMenu()
 	Call ActivePlugin()
+	'plugin node
+	bAction_Plugin_System_Initialize=False
+	For Each sAction_Plugin_System_Initialize in Action_Plugin_System_Initialize
+		If Not IsEmpty(sAction_Plugin_System_Initialize) Then Call Execute(sAction_Plugin_System_Initialize)
+		If bAction_Plugin_System_Initialize=True Then Exit Sub
+	Next
+	
+
 
 	If ZC_POST_STATIC_MODE<>"STATIC" Then
 		Dim bolRebuildFiles
