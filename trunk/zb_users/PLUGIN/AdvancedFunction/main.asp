@@ -26,7 +26,7 @@ init()%>
 	
 	function init(){
 		advancedfunction.init();
-		advancedfunction.run("访问最多文章,本月最热文章,本年最热文章,分类最热文章,评论最多文章,本月评论最多,本年评论最多,分类评论最多,分类");
+		advancedfunction.run("随机文章,访问最多文章,本月最热文章,本年最热文章,分类最热文章,评论最多文章,本月评论最多,本年评论最多,分类评论最多,分类");
 		
 	}
 	</script>

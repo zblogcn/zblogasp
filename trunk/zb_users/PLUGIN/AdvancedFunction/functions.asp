@@ -200,7 +200,7 @@ var advancedfunction={
 				subtemplate[i]=subtemplate[i].replace("$title_sort$",s.title.substr(0,20));
 				objrs.MoveNext;
 			}
-			if(save){return this.functions.savefunction("RandomArticle","随机文章","divRandomArticle",subtemplate.join(""));}
+			if(save){return this.functions.savefunction("RandomArticle","随机文章","divRandomArticle","<div id=\"AdvancedFunction_Random\">"+subtemplate.join("")+"</div>");}
 			return subtemplate.join("");
 
 		}
