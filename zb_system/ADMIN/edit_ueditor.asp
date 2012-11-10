@@ -186,12 +186,13 @@ If Request.QueryString("type")<>"Page" Then
 %>
                       <span class='editinputname'><%=ZC_MSG012%>:</span>
                         <select style="width:150px;" class="edit" size="1" id="cmbCate" onChange="edtCateID.value=this.options[this.selectedIndex].value;selectlogtemplate(this.options[this.selectedIndex].value);">
-                          <option value="0"></option>
+                          <!--<option value="0"></option>-->
 <%
-
+	Dim tmpName
+	tmpName=TransferHTML(Categorys(0).Name,"[html-format]")
 	Response.Write "<option value="""&Categorys(0).ID&""" "
 	If EditArticle.CateID=Categorys(0).ID Then Response.Write "selected=""selected"""
-	Response.Write ">"&TransferHTML( Categorys(0).Name,"[html-format]")&"</option>"
+	Response.Write ">"&IIf(tmpName=ZC_MSG059,"",tmpName)&"</option>"
 
 	Dim aryCateInOrder : aryCateInOrder=GetCategoryOrder()
 	Dim m,n
