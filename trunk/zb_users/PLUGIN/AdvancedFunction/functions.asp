@@ -138,6 +138,7 @@ var advancedfunction={
 			var jsCate;
 			jsCate=new VBArray(Categorys).toArray();
 			for(var i=0;i<jsCate.length;i++){
+				if(jsCate[i]==jEmpty){continue}
 				var strContent=this.functions.makeview("[log_cateid]="+jsCate[i].ID,this.config.分类最热文章);
 				var id="Cate"+jsCate[i].ID+"HottestArticle";
 				var title=jsCate[i].Name+"最热文章";
@@ -177,6 +178,7 @@ var advancedfunction={
 			var Category,jsCate;
 			jsCate=new VBArray(Categorys).toArray();
 			for(var i=0;i<jsCate.length;i++){
+				if(jsCate[i]==jEmpty){continue}
 				var strContent=this.functions.makecomm("[log_cateid]="+jsCate[i].ID,this.config.分类评论最多);
 				var id="Cate"+jsCate[i].ID+"MostCommentedArticle";
 				var title=jsCate[i].Name+"评论最多";
@@ -211,6 +213,7 @@ var advancedfunction={
 			var Category,jsCate;
 			jsCate=new VBArray(Categorys).toArray();
 			for(var i=0;i<jsCate.length;i++){
+				if(jsCate[i]==jEmpty){continue}
 				if(advancedfunction.cls.config.Read("分类_"+jsCate[i].ID)!=""){
 					var subtemplate=new Array(this.config.分类最热文章);
 					var objrs=objconn.Execute("SELECT TOP "+this.config.分类最热文章+" [log_ID],[log_CateID],[log_Title],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_Url],[log_FullUrl],[log_Type],[log_CommNums] FROM [blog_Article] WHERE [log_Level]=4 AND [log_Type]=0 AND [log_CateID]="+jsCate[i].ID+" ORDER BY [log_PostTime] DESC");

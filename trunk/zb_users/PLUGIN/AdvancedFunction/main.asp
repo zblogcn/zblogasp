@@ -136,14 +136,16 @@ init()%>
 
               <%
 				For Each subCate In Categorys
-					if advancedfunction.cls.config.Read("分类_"&subCate.ID) <> "" then
-					  Response.Write "<tr>"
-					  Response.Write "<td>[分类]<b>"&subCate.Name&"</b></td>"
-					  Response.Write "<td><p><input class='text' name='m_分类_"&subCate.ID&"' type='text' size='5' value='"&advancedfunction.cls.config.Read("分类_"&SubCate.ID&"")&"' /></p></td>"
-					  Response.Write "<td><input type=""button"" class=""button"" value=""删除"" onclick='location.href=""save.asp?act=del&id="&subCate.ID&"""'/></td>"
-					  Response.Write "</tr>"
-					  Response.Write vbCrlf
-					end if
+					If IsObject(subCate) Then
+						if advancedfunction.cls.config.Read("分类_"&subCate.ID) <> "" then
+						  Response.Write "<tr>"
+						  Response.Write "<td>[分类]<b>"&subCate.Name&"</b></td>"
+						  Response.Write "<td><p><input class='text' name='m_分类_"&subCate.ID&"' type='text' size='5' value='"&advancedfunction.cls.config.Read("分类_"&SubCate.ID&"")&"' /></p></td>"
+						  Response.Write "<td><input type=""button"" class=""button"" value=""删除"" onclick='location.href=""save.asp?act=del&id="&subCate.ID&"""'/></td>"
+						  Response.Write "</tr>"
+						  Response.Write vbCrlf
+						end if
+					End If
 				Next
 			  %>
               <tr>
@@ -154,8 +156,10 @@ init()%>
                 <td>
 				<%
 				For Each subCate In Categorys
-					Response.Write "<p><label><input type=""radio"" name=""newCategory"" value="""&subCate.ID&"""/>"&subCate.Name&"</label></p>"
-					Response.Write vbCrlf&"				"
+					If IsObject(subCate) Then
+						Response.Write "<p><label><input type=""radio"" name=""newCategory"" value="""&subCate.ID&"""/>"&subCate.Name&"</label></p>"
+						Response.Write vbCrlf&"				"
+					End If
 				Next
 				%>
                 </td>
