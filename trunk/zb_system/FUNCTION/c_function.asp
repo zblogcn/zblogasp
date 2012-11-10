@@ -1628,7 +1628,8 @@ Function GetCurrentHost()
 
 	s=LCase(Replace(Request.ServerVariables("PATH_TRANSLATED"),"\","/"))
 
-	t=LCase(Request.ServerVariables("HTTP_HOST") & Request.ServerVariables("URL"))
+	t=LCase(Request.ServerVariables("HTTP_HOST") & Split(Request.ServerVariables("URL"),"?")(0))
+	'Kangle 3.0下Request.ServerVariables("URL")含有QueryString
 
 	w=LCase(Replace(PhysicsPath,"\","/"))
 
@@ -1636,8 +1637,14 @@ Function GetCurrentHost()
 
 	u=Replace(t,x,"")
 
-	if Request.ServerVariables("HTTPS")="off" then
-		u= "http://" & u
+	if Request.ServerVariables("HTTPS")<>"on" Then
+	'Kangle的返回值为True\False..
+		If Request.ServerVariables("HTTPS")=True Then
+			u= "https://" & u
+		Else 
+			u= "http://" & u
+		End If
+		
 	else
 		u= "https://" & u
 	end If
