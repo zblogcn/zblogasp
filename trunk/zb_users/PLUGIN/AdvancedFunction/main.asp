@@ -42,9 +42,12 @@ init()%>
           <div id="divMain2"> 
             <script type="text/javascript">ActiveLeftMenu("aPlugInMng");</script>
             <form name="form1" id="form1" action="save.asp?act=save" method="post" enctype="application/x-www-form-urlencoded">
+            <p>这，是一款侧栏增强插件。走过路过请不要错过，这里的侧栏很精彩。</p>
+            <p>强烈建议不用的侧栏条数设置为0，这样可以避免浪费资源。</p>
+            <p>插件只负责为您生成侧边栏，剩余的管理还需要您手动通过“侧栏管理”管理。停用插件后，原有侧栏依然可用，但是不再自动更新。</p>
             <table width="100%" style='padding:0px;margin:0px;' cellspacing='0' cellpadding='0' class="tableBorder">
               <tr>
-                <th width='20%'><p align="center">排序方式</p></th>
+                <th width='20%'><p align="center">侧栏选择</p></th>
                 <th width='5%'><p align="center">设置条数</p></th>
                 <th><p align="center">说明</p></th>
               </tr>
@@ -56,7 +59,7 @@ init()%>
                 <td><p>
                     <input name="m_访问最多文章" type="text" id="m_访问最多文章" size="5" value="<%=advancedfunction.functions.readconfig("访问最多文章")%>" />
                   </p></td>
-                <td>&nbsp;</td>
+                <td>显示访问人数最多的文章。</td>
               </tr>
               <tr>
                 <td><b>
@@ -65,7 +68,7 @@ init()%>
                 <td><p>
                     <input name="m_本月最热文章" type="text" id="m_本月最热文章" size="5" value="<%=advancedfunction.functions.readconfig("本月最热文章")%>" />
                   </p></td>
-                <td>&nbsp;</td>
+                <td>显示30天内访问人数最多的文章。</td>
               </tr>
               <tr>
                 <td><b>
@@ -74,7 +77,7 @@ init()%>
                 <td><p>
                     <input name="m_本年最热文章" type="text" id="m_本年最热文章" size="5" value="<%=advancedfunction.functions.readconfig("本年最热文章")%>" />
                   </p></td>
-                <td>&nbsp;</td>
+                <td>显示365天内访问人数最多的文章。</td>
               </tr>
               <tr>
                 <td><b>
@@ -83,7 +86,7 @@ init()%>
                 <td><p>
                     <input name="m_分类最热文章" type="text" id="m_分类最热文章" size="5" value="<%=advancedfunction.functions.readconfig("分类最热文章")%>" />
                   </p></td>
-                <td>&nbsp;</td>
+                <td>显示某个分类访问人数最多的文章。同时该配置项也控制某个分类的最新文章显示数量</td>
               </tr>
               <tr>
                 <td><b>
@@ -92,7 +95,7 @@ init()%>
                 <td><p>
                     <input name="m_评论最多文章" type="text" id="m_评论最多文章" size="5" value="<%=advancedfunction.functions.readconfig("评论最多文章")%>" />
                   </p></td>
-                <td>&nbsp;</td>
+                <td>显示评论最多的文章</td>
               </tr>
               <tr>
                 <td><b>
@@ -101,7 +104,7 @@ init()%>
                 <td><p>
                     <input name="m_本月评论最多" type="text" id="m_本月评论最多" size="5" value="<%=advancedfunction.functions.readconfig("本月评论最多")%>" />
                   </p></td>
-                <td>&nbsp;</td>
+                <td>显示30天内评论最多的文章</td>
               </tr>
               <tr>
                 <td><b>
@@ -110,7 +113,7 @@ init()%>
                 <td><p>
                     <input name="m_本年评论最多" type="text" id="m_本年评论最多" size="5" value="<%=advancedfunction.functions.readconfig("本年评论最多")%>" />
                   </p></td>
-                <td>&nbsp;</td>
+                <td>显示365天内评论最多的文章</td>
               </tr>
               <tr>
                 <td><b>
@@ -119,7 +122,7 @@ init()%>
                 <td><p>
                     <input name="m_分类评论最多" type="text" id="m_分类评论最多" size="5" value="<%=advancedfunction.functions.readconfig("分类评论最多")%>" />
                   </p></td>
-                <td>&nbsp;</td>
+                <td>显示30天内评论最多的文章</td>
               </tr>
               <tr>
                 <td><b>
@@ -128,7 +131,7 @@ init()%>
                 <td><p>
                     <input name="m_随机文章" type="text" id="m_随机文章" size="5" value="<%=advancedfunction.functions.readconfig("随机文章")%>" />
                   </p></td>
-                <td>&nbsp;</td>
+                <td>随机文章（以JS方式调用，但有HTML代码存在。）</td>
               </tr>
 
               <%
