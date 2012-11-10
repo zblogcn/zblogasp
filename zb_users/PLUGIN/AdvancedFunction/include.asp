@@ -11,7 +11,7 @@ Call RegisterPlugin("AdvancedFunction","ActivePlugin_AdvancedFunction")
 
 Function ActivePlugin_AdvancedFunction()
 	Dim aa,bb,cc
-	aa="访问最多文章,本月最热文章,本年最热文章,分类最热文章"
+	aa="访问最多文章,本月最热文章,本年最热文章,分类最热文章,分类"
 	bb="评论最多文章,本月评论最多,本年评论最多,分类评论最多"
 	cc=aa&","&bb
 	Call Add_Action_Plugin("Action_Plugin_MakeBlogReBuild_Core_Begin","advancedfunction.run("""&cc&""")")

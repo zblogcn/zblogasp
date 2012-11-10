@@ -185,7 +185,7 @@ var advancedfunction={
 			}
 			return true;
 		}
-		,随机文章:function(){
+		,随机文章:function(save){
 			if(this.config.随机文章==0){return false}
 			var subtemplate=new Array(this.config.随机文章);
 			var template="<li><a href=\"$url$\" title=\"$title$\">$title_sort$</a></li>"
@@ -200,11 +200,34 @@ var advancedfunction={
 				subtemplate[i]=subtemplate[i].replace("$title_sort$",s.title.substr(0,20));
 				objrs.MoveNext;
 			}
+			if(save){return this.functions.savefunction("RandomArticle","随机文章","divRandomArticle",subtemplate.join(""));}
 			return subtemplate.join("");
 
 		}
 		,分类:function(){
-			
+			if(this.config.分类最热文章==0){return false}
+			var template="<li><a href=\"$url$\" title=\"$title$\">$title_sort$</a></li>"
+			var s=NewClass("TArticle");
+			var Category,jsCate;
+			jsCate=new VBArray(Categorys).toArray();
+			for(var i=0;i<jsCate.length;i++){
+				if(advancedfunction.cls.config.Read("分类_"+jsCate[i].ID)!=""){
+					var subtemplate=new Array(this.config.分类最热文章);
+					var objrs=objconn.Execute("SELECT TOP "+this.config.分类最热文章+" [log_ID],[log_CateID],[log_Title],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_Url],[log_FullUrl],[log_Type],[log_CommNums] FROM [blog_Article] WHERE [log_Level]=4 AND [log_Type]=0 AND [log_CateID]="+jsCate[i].ID+" ORDER BY [log_PostTime] DESC");
+					for(var sm=0;sm<=this.config.分类最热文章;sm++){
+						if(objrs.EOF){break;}
+						var time=jsTimetovbs_vbs(objrs("log_PostTime"));
+						s.loadinfobyarray(jsarraytovbs_js(new Array(objrs("log_ID"),"",objrs("log_CateID"),objrs("log_Title"),"","",objrs("log_Level"),objrs("log_AuthorID"),time,"","","",objrs("log_Url"),"","",objrs("log_FullUrl"),objrs("log_Type"),"")));
+						subtemplate[sm]=template.replace("$url$",s.fullurl);
+						subtemplate[sm]=subtemplate[sm].replace("$title$",s.title);
+						subtemplate[sm]=subtemplate[sm].replace("$title_sort$",s.title.substr(0,20));
+						objrs.MoveNext;
+					}
+					
+					this.functions.savefunction("Cate"+jsCate[i].ID+"Article",jsCate[i].Name,"divCate"+jsCate[i].ID,subtemplate.join(""));
+
+				}
+			}
 		}
 		
 		,run:function(strs){
