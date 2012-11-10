@@ -192,14 +192,14 @@ var advancedfunction={
 			var subtemplate=new Array(this.config.随机文章);
 			var template="<li><a href=\"$url$\" title=\"$title$\">$title_sort$</a></li>"
 			var s=NewClass("TArticle");
-			var objrs=objconn.Execute("SELECT TOP "+this.config.随机文章+" [log_ID],[log_CateID],[log_Title],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_Url],[log_FullUrl],[log_Type],[log_CommNums] FROM [blog_Article] WHERE [log_Level]=4 AND [log_Type]=0 ORDER BY " + (ZC_MSSQL_ENABLE?"newid()":"rnd(log_id)"));
+			var objrs=objconn.Execute("SELECT TOP "+this.config.随机文章+" [log_ID],[log_CateID],[log_Title],[log_Level],[log_AuthorID],[log_PostTime],[log_Url],[log_FullUrl],[log_Type],[log_CommNums] FROM [blog_Article] WHERE [log_Level]=4 AND [log_Type]=0 ORDER BY " + (ZC_MSSQL_ENABLE?"newid()":"rnd(-([log_id]+\""+Math.random()+"\"))"));
 			for(var i=0;i<=this.config.随机文章;i++){
 				if(objrs.EOF){break;}
 				var time=jsTimetovbs_vbs(objrs("log_PostTime"));
 				s.loadinfobyarray(jsarraytovbs_js(new Array(objrs("log_ID"),"",objrs("log_CateID"),objrs("log_Title"),"","",objrs("log_Level"),objrs("log_AuthorID"),time,"","","",objrs("log_Url"),"","",objrs("log_FullUrl"),objrs("log_Type"),"")));
 				subtemplate[i]=template.replace("$url$",s.fullurl);
 				subtemplate[i]=subtemplate[i].replace("$title$",s.title);
-				subtemplate[i]=subtemplate[i].replace("$title_sort$",s.title.substr(0,20));
+				subtemplate[i]=subtemplate[i].replace("$title_sort$",((s.title.length>20)?(s.title.substr(0,17)+"..."):(s.title)));
 				objrs.MoveNext;
 			}
 			if(save){return this.functions.savefunction("RandomArticle","随机文章","divRandomArticle","<div id=\"AdvancedFunction_Random\">"+subtemplate.join("")+"</div>");}
