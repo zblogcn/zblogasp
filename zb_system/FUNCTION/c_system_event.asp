@@ -1042,8 +1042,9 @@ Function MakeFileReBuild(intPage)
 
 			Call BuildArticle(objRS("log_ID"),False,False)
 
-			If objRS.eof Then Exit For
 			objRS.MoveNext
+			If objRS.eof Then Exit For
+			
 			
 		Next
 
