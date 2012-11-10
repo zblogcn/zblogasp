@@ -20,10 +20,14 @@ If CheckPluginState("AdvancedFunction")=False Then Call ShowError(48)
 BlogTitle="增强侧栏"
 Dim subCate
 %>
-<%init%>
+<%
+init()%>
 <script language="javascript" runat="server">
+	
 	function init(){
 		advancedfunction.init();
+		advancedfunction.run("访问最多文章,本月最热文章,本年最热文章,分类最热文章,评论最多文章,本月评论最多,本年评论最多,分类评论最多");
+		
 	}
 	</script>
 <!--#include file="..\..\..\zb_system\admin\admin_header.asp"-->
