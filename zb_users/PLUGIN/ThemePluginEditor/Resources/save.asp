@@ -32,6 +32,9 @@ For Each s In Request.Form
 		Call SaveToFile(BlogPath & "zb_users/theme/<%=主题名%>/include/" & Right(s,Len(s)-8),Request.Form(s),"utf-8",False)
 	End If
 Next
+ClearGlobeCache
+LoadGlobeCache
+BlogRebuild_Default
 Call SetBlogHint(True,Empty,Empty)
 Response.Redirect "editor.asp"
 %>

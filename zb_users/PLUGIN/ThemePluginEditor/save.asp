@@ -22,6 +22,9 @@ Call System_Initialize()
 '检查非法链接
 Call CheckReference("")
 '检查权限
+Dim objConfig
+Set objConfig=New TConfig
+objConfig.Load "ThemePluginEditor_"&ZC_BLOG_THEME
 If BlogUser.Level>1 Then Call ShowError(6)
 If CheckPluginState("ThemePluginEditor")=False Then Call ShowError(48)
 Dim HaveUpload
@@ -38,12 +41,14 @@ For Each s In Request.Form
 		tmpary(2)=Right(s,Len(s)-8)
 		aryReq(i)=tmpary
 		i=i+1
+		objConfig.Write Right(s,Len(s)-8),Request.Form(s)
 	ElseIf Left(s,4)="new_" Then
 		Call SaveToFile(BlogPath & "\zb_users\theme\" & ZC_BLOG_THEME & "\include\" & Right(s,Len(s)-4),"","utf-8",False)
+		objConfig.Write Right(s,Len(s)-4),Request.Form(s)
 	End If
 	
 Next
-
+objConfig.Save
 
 
 

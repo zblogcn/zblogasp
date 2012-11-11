@@ -40,6 +40,9 @@ For Each s In objUpload.FileItem
 		m=objUpload.Save(s,Right(s,Len(s)-8))
 	End If
 Next
+ClearGlobeCache
+LoadGlobeCache
+BlogRebuild_Default
 Call SetBlogHint(True,Empty,Empty)
 Response.Redirect "editor.asp"
 %>

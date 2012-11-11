@@ -27,9 +27,9 @@ BlogTitle="主题插件生成器"
 <!--#include file="..\..\..\zb_system\admin\admin_header.asp"-->
 <script type="text/javascript">
 function newtr(This){
-	var m=window.prompt("请输入新文件名","xxxx.html");
+	var m=window.prompt("请输入一个文件名","xxxx.html");
 	if(m==null) return false;
-	$(This).parent().parent().before("<tr><td>"+m+"</td><td>"+"<select name=\"type_"+m+"\"><option value=\"1\" selected=\"selected\">HTML</option><option value=\"2\">文件</option></select></td><td><input type=\"text\" id=\""+m+"\" name=\"include_"+m+"\" value=\"\" style=\"width:98%\"/><input type=\"hidden\" id=\""+m+"_2\" name=\"new_"+m+"\"/></td></tr>");bmx2table();
+	$(This).parent().parent().before("<tr><td>"+m+"</td><td>"+"<select name=\"type_"+m+"\"><option value=\"1\" selected=\"selected\">HTML</option><option value=\"2\">文件</option></select></td><td><input type=\"text\" id=\""+m+"\" name=\"include_"+m+"\" value=\"\" style=\"width:98%\"/><input type=\"hidden\" id=\""+m+"_2\" name=\"new_"+m+"\"/></td><td><a href='javascript:;' onclick='$(this).parent().parent().remove()'>删除</a></td></tr>");bmx2table();
 }
 </script>
 <!--#include file="..\..\..\zb_system\admin\admin_top.asp"-->
@@ -48,11 +48,15 @@ function newtr(This){
             <form action="save.asp" method="post">
             <table width="100%" border="1" width="100%" class="tableBorder">
             <tr>
-              <th scope="col" height="32" width="100px">文件名</th>
+              <th scope="col" height="32" width="150px">文件名</th>
               <th scope="col" width="100px">文件类型</th>
               <th scope="col">文件注释</th>
+              <th scope="col" width="50px"></th>
             </tr>
             <%
+			Dim objConfig
+			Set objConfig=New TConfig
+			objConfig.Load "ThemePluginEditor_"&ZC_BLOG_THEME
 			Dim oFso,oF
 			Set oFso=Server.CreateObject("scripting.filesystemobject")
 			If oFSO.FolderExists(BlogPath & "\zb_users\theme\" & ZC_BLOG_THEME & "\include")=False Then
@@ -68,13 +72,15 @@ function newtr(This){
             <td><select name="type_<%=s%>">
             <option value="1">HTML</option>
             <option value="2"<%=IIf(isHTML(s),""," selected=""selected"")")%>>文件</option></select></td><td>
-            <input type="text" id="<%=s%>" name="include_<%=s%>" value="" style="width:98%"/>
-            </td></tr>
+            <input type="text" id="<%=s%>" name="include_<%=s%>" value="<%=objConfig.Read(s)%>" style="width:98%"/>
+            </td>
+            <td></td>
+            </tr>
             
             <%
 			Next
 			%>
-            <tr id="new"><td><a href='javascript:;' onclick='newtr(this)'>新建..</a></td><td></td><td></td></tr>
+            <tr id="new"><td><a href='javascript:;' onclick='newtr(this)'>新建..</a></td><td></td><td></td><td></td></tr>
             </table>
             <input type="submit" value="提交"/>
             </form>
