@@ -71,8 +71,14 @@ function rename(obj,isnew){
             <div id="help" style="display:none">
             <p>这个插件，可以降低主题开发者的开发难度，让开发者把时间放于制作更加精美的主题而不是为了制作一个后台而苦恼。</p>
             <p>你需要给主题INCLUDE文件夹下添加需要引用的文件，这里就会自动出现文件名。同理，删除INCLUDE下的文件，这里也会相应删除。但是生成的主题插件始终不受到影响。</p>
-            <p>更为详细的帮助请看：<a href="http://www.zsxsoft.com/archives/261.html" target="_blank">http://www.zsxsoft.com/archives/261.html</a></p>
+            <p>若您的主题已有并非本插件生成的主题插件，请不要使用本插件！本插件必须修改主题xml。若您未修改xml，您可以通过<a href="howtouse.asp">这个页面</a>来手动生成xml。</p>
             <p><span style="color:red">注意：若当前主题已有自带插件，则请备份主题目录下PLUGIN文件夹</span></p>
+            <p>常见使用问题：</p>
+            <ol>
+            <li>主题出现两个配置按钮：让用户点击“网站设置”-->“提交”即可。</li>
+            <li>如何停用本主题插件：切换到其他主题-->编辑theme.xml，去掉<a href="howtouse.asp">这个页面</a>所述内容-->删除PLUGIN目录-->再切换回原主题。</li>
+            </ol>
+            <!--<p>更为详细的帮助请看：<a href="http://www.zsxsoft.com/archives/261.html" target="_blank">http://www.zsxsoft.com/archives/261.html</a></p>-->
             <div id="help001" style="display:none">
             <p>“文本”指文本文件，即txt、htm、js、css等允许用户直接修改的文件。“二进制”指图片、视频等无法直接修改的，让用户上传的文件。</p>
             <p>&nbsp;</p>
