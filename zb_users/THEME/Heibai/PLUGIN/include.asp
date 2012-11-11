@@ -32,7 +32,7 @@ Function ActivePlugin_Heibai()
 		'Call Add_Action_Plugin("Action_Plugin_BlogReBuild_Default_Begin","Call CheckRandomArticle()")
 		Call Add_Action_Plugin("Action_Plugin_CommentPost_Succeed","Call CheckCom()")
 		Call Add_Action_Plugin("Action_Plugin_Edit_Comment_Begin","Call CheckCom()")
-		Call Add_Action_Plugin("Filter_Plugin_TArticle_Build_Template_Succeed","HeibaiTConfig")
+		'Call Add_Action_Plugin("Filter_Plugin_TArticle_Build_Template_Succeed","HeibaiTConfig")
 		Call Add_Action_Plugin("Action_Plugin_TArticleList_Export_Begin","Call Add_Filter_Plugin(""Filter_Plugin_TArticleList_Build_Template"",""HeibaiTConfig"")")
 		
 		Call Add_Response_Plugin("Response_Plugin_Admin_Top",MakeTopMenu(1,"主题设置",BlogHost&"ZB_USERS/theme/Heibai/plugin/main.asp","aHeibai",""))'添加右上角导航
