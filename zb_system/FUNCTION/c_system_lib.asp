@@ -5254,10 +5254,22 @@ Class TFunction
 
 		If Ftype="div" Then
 			s="<div><#CACHE_INCLUDE_" & UCase(FileName) & "#></div>"
+			If Meta.GetValue("viewtype")="js" Then
+				s="<div><#CACHE_INCLUDE_" & UCase(FileName) & "_JS#></div>"
+			End If
+			If Meta.GetValue("viewtype")="html" Then
+				s="<div><#CACHE_INCLUDE_" & UCase(FileName) & "_HTML#></div>"
+			End If
 		End If
 
 		If Ftype="ul" Then
 			s="<ul><#CACHE_INCLUDE_" & UCase(FileName) & "#></ul>"
+			If Meta.GetValue("viewtype")="js" Then
+				s="<ul><#CACHE_INCLUDE_" & UCase(FileName) & "_JS#></ul>"
+			End If
+			If Meta.GetValue("viewtype")="html" Then
+				s="<ul><#CACHE_INCLUDE_" & UCase(FileName) & "_HTML#></ul>"
+			End If
 		End If
 
 		'plugin node
