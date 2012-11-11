@@ -1591,7 +1591,7 @@ Class TArticle
 		Dim strSQL,ary1(2),ary2(2)
 		strSQL=""
 		ary1(0)=True
-		ary2(0)="SELECT COUNT([log_ID]) FROM [blog_Comment] WHERE [log_ID] =" & ID & " AND [comm_isCheck]=0"
+		ary2(0)="SELECT COUNT([log_ID]) FROM [blog_Comment] WHERE [log_ID] =" & ID & "AND [comm_ParentID]=0 AND [comm_isCheck]=0"
 		ary1(1)=IIf(Categorys(CateID).ReCount=0,True,False)
 		ary2(1)="SELECT COUNT([log_ID]) FROM [blog_Article] WHERE [log_Level]>1 AND [log_Type]=0 AND [log_CateID]=" & CateID 
 		ary1(2)=IIf(Users(AuthorID).ReCount=0,True,False)
