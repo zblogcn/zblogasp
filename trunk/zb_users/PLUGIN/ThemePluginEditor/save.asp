@@ -17,7 +17,7 @@
 <!-- #include file="..\p_config.asp" -->
 <%
 Dim PluginVer
-PluginVer=" 1.0"
+PluginVer=" 1.1"
 Call System_Initialize()
 '检查非法链接
 Call CheckReference("")
