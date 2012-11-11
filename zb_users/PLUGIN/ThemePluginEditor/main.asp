@@ -47,7 +47,7 @@ function shelp(){
             <script type="text/javascript">ActiveLeftMenu("aPlugInMng");</script>
             <div id="help" style="display:none">
             <p>这个插件，可以降低主题开发者的开发难度，让开发者把时间放于制作更加精美的主题而不是为了制作一个后台而苦恼。</p>
-            <p>你需要给主题INCLUDE文件夹下添加需要引用的文件，这里就会自动出现该文件。同理，删除INCLUDE下的文件，这里也会相应删除。但是生成的主题插件始终不受到影响。</p>
+            <p>你需要给主题INCLUDE文件夹下添加需要引用的文件，这里就会自动出现文件名。同理，删除INCLUDE下的文件，这里也会相应删除。但是生成的主题插件始终不受到影响。</p>
             <p>更为详细的帮助请看：<a href="http://www.zsxsoft.com/archives/261.html" target="_blank">http://www.zsxsoft.com/archives/261.html</a></p>
             <p><span style="color:red">注意：若当前主题已有自带插件，则请备份主题目录下PLUGIN文件夹</span></p>
             <div id="help001" style="display:none">
@@ -64,7 +64,7 @@ function shelp(){
               <th scope="col" height="32" width="150px">文件名</th>
               <th scope="col" width="100px">文件类型 <a id="help01" href="$help001?width=320" class="betterTip" title="帮助">？</a></th>
               <th scope="col">文件注释 <a id="help02" href="$help002?width=320" class="betterTip" title="帮助">？</a></th>
-              <th scope="col" width="50px"></th>
+              <th scope="col" width="100px"></th>
             </tr>
             <%
 			Dim objConfig
@@ -87,7 +87,7 @@ function shelp(){
             <option value="2"<%=IIf(isHTML(s),""," selected=""selected"")")%>>二进制</option></select></td><td>
             <input type="text" id="<%=s%>" name="include_<%=s%>" value="<%=objConfig.Read(s)%>" style="width:98%"/>
             </td>
-            <td align="center"><a href='javascript:;' onclick='var _this=this;if(confirm("确定要删除吗？删除了不可恢复！")){$.get("save.asp",{"act":"del","name":"<%=s%>"},function(d){$(_this).parent().parent().remove();})}'>删除</a></td>
+            <td align="center">改名&nbsp;&nbsp;<a href='javascript:;' onclick='var _this=this;if(confirm("确定要删除吗？删除了不可恢复！")){$.get("save.asp",{"act":"del","name":$($(this).parent().parent().children("td")[0]).html()},function(d){$(_this).parent().parent().remove();})}'>删除</a></td>
             </tr>
             
             <%

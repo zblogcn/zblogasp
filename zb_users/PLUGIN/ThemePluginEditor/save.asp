@@ -48,7 +48,7 @@ For Each s In Request.Form
 		objConfig.Write Right(s,Len(s)-8),Request.Form(s)
 	ElseIf Left(s,4)="new_" Then
 		Call SaveToFile(BlogPath & "\zb_users\theme\" & ZC_BLOG_THEME & "\include\" & Right(s,Len(s)-4),"","utf-8",False)
-		objConfig.Write Right(s,Len(s)-4),Request.Form(s)
+		objConfig.Write Right(s,Len(s)-4),Request.Form("include_"&Right(s,Len(s)-4))
 	End If
 	
 Next
