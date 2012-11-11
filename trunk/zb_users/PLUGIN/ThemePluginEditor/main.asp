@@ -29,7 +29,7 @@ BlogTitle="主题插件生成器 v1.1"
 function newtr(This){
 	var m=window.prompt("请输入一个文件名","xxxx.html");
 	if(m==null) return false;
-	$(This).parent().parent().before("<tr><td>"+m+"</td><td>"+"<select name=\"type_"+m+"\"><option value=\"1\" selected=\"selected\">文本</option><option value=\"2\">二进制</option></select></td><td><input type=\"text\" id=\""+m+"\" name=\"include_"+m+"\" value=\"\" style=\"width:98%\"/><input type=\"hidden\" id=\""+m+"_2\" name=\"new_"+m+"\"/></td><td><a href='javascript:;' onclick='$(this).parent().parent().remove()'>删除</a></td></tr>");bmx2table();
+	$(This).parent().parent().before("<tr><td>"+m+"</td><td>"+"<select name=\"type_"+m+"\"><option value=\"1\" selected=\"selected\">文本</option><option value=\"2\">二进制</option></select></td><td><input type=\"text\" id=\""+m+"\" name=\"include_"+m+"\" value=\"\" style=\"width:98%\"/><input type=\"hidden\" id=\""+m+"_2\" name=\"new_"+m+"\"/></td><td align=\"center\"><a href='javascript:;' onclick='$(this).parent().parent().remove()'>删除</a></td></tr>");bmx2table();
 }
 var HAHAHA=false;
 function shelp(){
@@ -87,7 +87,7 @@ function shelp(){
             <option value="2"<%=IIf(isHTML(s),""," selected=""selected"")")%>>二进制</option></select></td><td>
             <input type="text" id="<%=s%>" name="include_<%=s%>" value="<%=objConfig.Read(s)%>" style="width:98%"/>
             </td>
-            <td><a href='javascript:;' onclick='var _this=this;if(confirm("确定要删除吗？删除了不可恢复！")){$.get("save.asp",{"act":"del","name":"<%=s%>"},function(d){$(_this).parent().parent().remove();})}'>删除</a></td>
+            <td align="center"><a href='javascript:;' onclick='var _this=this;if(confirm("确定要删除吗？删除了不可恢复！")){$.get("save.asp",{"act":"del","name":"<%=s%>"},function(d){$(_this).parent().parent().remove();})}'>删除</a></td>
             </tr>
             
             <%
