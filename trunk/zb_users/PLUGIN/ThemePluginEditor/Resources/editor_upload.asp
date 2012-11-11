@@ -50,7 +50,7 @@ function copydata(This){
           <form action="save.asp" method="post" enctype="multipart/form-data">
           <table width="100%" border="1" width="100%" class="tableBorder">
             <tr>
-              <th scope="col" height="32" width="100px">配置项</th>
+              <th scope="col" height="32" width="150px">配置项</th>
               <th scope="col">配置内容</th>
               <th scope="col" width="500px">调用代码</th>
 
