@@ -35,6 +35,26 @@ var HAHAHA=false;
 function shelp(){
 	if(HAHAHA){$("#help").hide();HAHAHA=false}else{$("#help").show();HAHAHA=true}
 }
+function rename(obj){
+	var _this=$(obj);
+	var p=_this.parent().parent().children("td")
+	var fs=$(p[0]).html();
+	var j=prompt("请输入新文件名",fs);
+	if(j!==null){
+		$.get("save.asp",
+		{
+			"act":"rename"
+			,"name":fs
+			,"newname":j
+		}
+		,function(d){
+			$(p[0]).html(j);
+			$(p[1]).attr("name","type_"+j);
+			$(p[2]).children().attr("id",j);
+			$(p[2]).children().attr("name","include_"+j);
+		})
+	}
+}
 </script>
 <!--#include file="..\..\..\zb_system\admin\admin_top.asp"-->
         <div id="divMain">
@@ -87,7 +107,7 @@ function shelp(){
             <option value="2"<%=IIf(isHTML(s),""," selected=""selected"")")%>>二进制</option></select></td><td>
             <input type="text" id="<%=s%>" name="include_<%=s%>" value="<%=objConfig.Read(s)%>" style="width:98%"/>
             </td>
-            <td align="center">改名&nbsp;&nbsp;<a href='javascript:;' onclick='var _this=this;if(confirm("确定要删除吗？删除了不可恢复！")){$.get("save.asp",{"act":"del","name":$($(this).parent().parent().children("td")[0]).html()},function(d){$(_this).parent().parent().remove();})}'>删除</a></td>
+            <td align="center"><a href='javascript:;' onclick='rename(this)'>改名</a>&nbsp;&nbsp;<a href='javascript:;' onclick='var _this=this;if(confirm("确定要删除吗？删除了不可恢复！")){$.get("save.asp",{"act":"del","name":$($(this).parent().parent().children("td")[0]).html()},function(d){$(_this).parent().parent().remove();})}'>删除</a></td>
             </tr>
             
             <%

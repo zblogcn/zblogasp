@@ -34,6 +34,14 @@ i=0
 If Request.QueryString("act")="del" Then
 	DelToFile BlogPath & "zb_users\theme\"& ZC_BLOG_THEME & "\include\" & Request.QueryString("name")
 	Response.End
+ElseIf Request.QueryString("act")="rename" Then
+	Dim rename_fso,rename_fso2
+	Set rename_fso=CreateObject("scripting.filesystemobject")
+	Set rename_fso2=rename_fso.GetFile(BlogPath & "zb_users\theme\"& ZC_BLOG_THEME & "\include\" & Request.QueryString("name"))
+	rename_fso2.Name=Request.QueryString("newname")
+	Set rename_fso2=Nothing
+	Set rename_fso=Nothing
+	Response.End
 End If
 For Each s In Request.Form
 	If Left(s,8)="include_" Then
