@@ -35,7 +35,8 @@ var HAHAHA=false;
 function shelp(){
 	if(HAHAHA){$("#help").hide();HAHAHA=false}else{$("#help").show();HAHAHA=true}
 }
-function rename(obj){
+function rename(obj,isnew){
+	
 	var _this=$(obj);
 	var p=_this.parent().parent().children("td")
 	var fs=$(p[0]).html();
@@ -54,6 +55,8 @@ function rename(obj){
 			$(p[2]).children().attr("name","include_"+j);
 		})
 	}
+	
+	
 }
 </script>
 <!--#include file="..\..\..\zb_system\admin\admin_top.asp"-->
