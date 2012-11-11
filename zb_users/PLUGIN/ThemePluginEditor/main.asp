@@ -22,14 +22,14 @@ Call CheckReference("")
 '检查权限
 If BlogUser.Level>1 Then Call ShowError(6)
 If CheckPluginState("ThemePluginEditor")=False Then Call ShowError(48)
-BlogTitle="主题插件生成器"
+BlogTitle="主题插件生成器 v1.1"
 %>
 <!--#include file="..\..\..\zb_system\admin\admin_header.asp"-->
 <script type="text/javascript">
 function newtr(This){
 	var m=window.prompt("请输入一个文件名","xxxx.html");
 	if(m==null) return false;
-	$(This).parent().parent().before("<tr><td>"+m+"</td><td>"+"<select name=\"type_"+m+"\"><option value=\"1\" selected=\"selected\">HTML</option><option value=\"2\">文件</option></select></td><td><input type=\"text\" id=\""+m+"\" name=\"include_"+m+"\" value=\"\" style=\"width:98%\"/><input type=\"hidden\" id=\""+m+"_2\" name=\"new_"+m+"\"/></td><td><a href='javascript:;' onclick='$(this).parent().parent().remove()'>删除</a></td></tr>");bmx2table();
+	$(This).parent().parent().before("<tr><td>"+m+"</td><td>"+"<select name=\"type_"+m+"\"><option value=\"1\" selected=\"selected\">文本</option><option value=\"2\">二进制</option></select></td><td><input type=\"text\" id=\""+m+"\" name=\"include_"+m+"\" value=\"\" style=\"width:98%\"/><input type=\"hidden\" id=\""+m+"_2\" name=\"new_"+m+"\"/></td><td><a href='javascript:;' onclick='$(this).parent().parent().remove()'>删除</a></td></tr>");bmx2table();
 }
 </script>
 <!--#include file="..\..\..\zb_system\admin\admin_top.asp"-->
@@ -42,15 +42,23 @@ function newtr(This){
           <div id="divMain2"> 
             <script type="text/javascript">ActiveLeftMenu("aPlugInMng");</script>
             <p>这个插件，只是为了帮助主题作者制作可以进行管理的主题而已，嗯。下一步将在生成插件成功后出现。</p>
-            <p>你需要给主题INCLUDE文件夹下添加需要引用的文件，然后这里就会自动出现。</p>
-            <p>如果需要删除，删除INCLUDE下的文件，这里也会相应删除。</p>
-            <p style="color:red">注意：若当前主题已有自带插件，则请备份主题目录下PLUGIN文件夹</p>
+            <p>你需要给主题INCLUDE文件夹下添加需要引用的文件，这里就会自动出现该文件。同理，删除INCLUDE下的文件，这里也会相应删除。但是生成的主题插件始终不受到影响。</p>
+            <p>更为详细的帮助请看：<a href="http://www.zsxsoft.com/archives/261.html" target="_blank">http://www.zsxsoft.com/archives/261.html</a></p>
+            <p><span style="color:red">注意：若当前主题已有自带插件，则请备份主题目录下PLUGIN文件夹</span></p>
+            <div id="help001" style="display:none">
+            <p>“文本”指文本文件，即txt、htm、js、css等允许用户直接修改的文件。“二进制”指图片、视频等无法直接修改的，让用户上传的文件。</p>
+            <p>&nbsp;</p>
+            <p>建议Logo等使用“二进制”，“广告位”“标语”等用“文本”。</p>
+            </div>
+            <div id="help002" style="display:none">
+            <p>指展现给用户看的文字</p>
+            </div>
             <form action="save.asp" method="post">
-            <table width="100%" border="1" width="100%" class="tableBorder">
-            <tr>
+              <table width="100%" border="1" width="100%" class="tableBorder">
+              <tr>
               <th scope="col" height="32" width="150px">文件名</th>
-              <th scope="col" width="100px">文件类型</th>
-              <th scope="col">文件注释</th>
+              <th scope="col" width="100px">文件类型 <a id="help01" href="$help001?width=320" class="betterTip" title="帮助">？</a></th>
+              <th scope="col">文件注释 <a id="help02" href="$help002?width=320" class="betterTip" title="帮助">？</a></th>
               <th scope="col" width="50px"></th>
             </tr>
             <%
@@ -70,8 +78,8 @@ function newtr(This){
             <tr>
             <td><%=oS.Name%></td>
             <td><select name="type_<%=s%>">
-            <option value="1">HTML</option>
-            <option value="2"<%=IIf(isHTML(s),""," selected=""selected"")")%>>文件</option></select></td><td>
+            <option value="1">文本</option>
+            <option value="2"<%=IIf(isHTML(s),""," selected=""selected"")")%>>二进制</option></select></td><td>
             <input type="text" id="<%=s%>" name="include_<%=s%>" value="<%=objConfig.Read(s)%>" style="width:98%"/>
             </td>
             <td></td>
@@ -83,7 +91,7 @@ function newtr(This){
             <tr id="new"><td><a href='javascript:;' onclick='newtr(this)'>新建..</a></td><td></td><td></td><td></td></tr>
             </table>
             <input type="submit" value="提交"/>
-            </form>
+          </form>
           </div>
         </div>
         <!--#include file="..\..\..\zb_system\admin\admin_footer.asp"-->
