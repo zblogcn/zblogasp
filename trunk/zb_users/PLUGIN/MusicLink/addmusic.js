@@ -2,7 +2,17 @@
 function music_Ok(){
 	var gs=EncodeUtf8(document.getElementById("music_gs").value)
 	var gm=EncodeUtf8(document.getElementById("music_name").value)
-	var bfq="<embed width='500' height='74' type='application/x-shockwave-flash' src='http://box.baidu.com/widget/flash/song.swf?name="+gm+"&artist="+gs+"&autoPlay=true'></embed>"	
+	var auto=EncodeUtf8(document.getElementById("auto").value)
+	var player=EncodeUtf8(document.getElementById("player").value)
+	var bfq
+	
+	if(player=="baidu"){
+		bfq="<embed width='500' height='74' type='application/x-shockwave-flash' src='http://box.baidu.com/widget/flash/song.swf?name="+gm+"&artist="+gs+"&autoPlay=true'></embed>"	
+	}else if(player=="yige"){
+	
+	};
+	
+	
 	
 	if(editor.hasContents() == false){
 		editor.setContent(bfq)
