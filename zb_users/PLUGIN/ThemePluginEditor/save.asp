@@ -31,6 +31,10 @@ Dim HaveUpload
 HaveUpload=False
 Dim aryReq(),tmpary(),t,s,i
 i=0
+If Request.QueryString("act")="del" Then
+	DelToFile BlogPath & "zb_users\theme\"& ZC_BLOG_THEME & "\include\" & Request.QueryString("name")
+	Response.End
+End If
 For Each s In Request.Form
 	If Left(s,8)="include_" Then
 		Redim Preserve aryReq(i)
