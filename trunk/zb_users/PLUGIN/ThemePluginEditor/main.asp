@@ -31,17 +31,22 @@ function newtr(This){
 	if(m==null) return false;
 	$(This).parent().parent().before("<tr><td>"+m+"</td><td>"+"<select name=\"type_"+m+"\"><option value=\"1\" selected=\"selected\">文本</option><option value=\"2\">二进制</option></select></td><td><input type=\"text\" id=\""+m+"\" name=\"include_"+m+"\" value=\"\" style=\"width:98%\"/><input type=\"hidden\" id=\""+m+"_2\" name=\"new_"+m+"\"/></td><td><a href='javascript:;' onclick='$(this).parent().parent().remove()'>删除</a></td></tr>");bmx2table();
 }
+var HAHAHA=false;
+function shelp(){
+	if(HAHAHA){$("#help").hide();HAHAHA=false}else{$("#help").show();HAHAHA=true}
+}
 </script>
 <!--#include file="..\..\..\zb_system\admin\admin_top.asp"-->
         <div id="divMain">
           <div id="ShowBlogHint">
             <%Call GetBlogHint()%>
           </div>
-          <div class="divHeader"><%=BlogTitle%></div>
+          <div class="divHeader"><%=BlogTitle%>   <a href='javascript:;' onclick='shelp()'>帮助</a></div>
           <div class="SubMenu"></div>
           <div id="divMain2"> 
             <script type="text/javascript">ActiveLeftMenu("aPlugInMng");</script>
-            <p>这个插件，只是为了帮助主题作者制作可以进行管理的主题而已，嗯。下一步将在生成插件成功后出现。</p>
+            <div id="help" style="display:none">
+            <p>这个插件，可以降低主题开发者的开发难度，让开发者把时间放于制作更加精美的主题而不是为了制作一个后台而苦恼。</p>
             <p>你需要给主题INCLUDE文件夹下添加需要引用的文件，这里就会自动出现该文件。同理，删除INCLUDE下的文件，这里也会相应删除。但是生成的主题插件始终不受到影响。</p>
             <p>更为详细的帮助请看：<a href="http://www.zsxsoft.com/archives/261.html" target="_blank">http://www.zsxsoft.com/archives/261.html</a></p>
             <p><span style="color:red">注意：若当前主题已有自带插件，则请备份主题目录下PLUGIN文件夹</span></p>
@@ -52,7 +57,7 @@ function newtr(This){
             </div>
             <div id="help002" style="display:none">
             <p>指展现给用户看的文字</p>
-            </div>
+            </div></div>
             <form action="save.asp" method="post">
               <table width="100%" border="1" width="100%" class="tableBorder">
               <tr>
@@ -82,7 +87,7 @@ function newtr(This){
             <option value="2"<%=IIf(isHTML(s),""," selected=""selected"")")%>>二进制</option></select></td><td>
             <input type="text" id="<%=s%>" name="include_<%=s%>" value="<%=objConfig.Read(s)%>" style="width:98%"/>
             </td>
-            <td></td>
+            <td><a href='javascript:;' onclick='var _this=this;if(confirm("确定要删除吗？删除了不可恢复！")){$.get("save.asp",{"act":"del","name":"<%=s%>"},function(d){$(_this).parent().parent().remove();})}'>删除</a></td>
             </tr>
             
             <%
@@ -90,7 +95,8 @@ function newtr(This){
 			%>
             <tr id="new"><td><a href='javascript:;' onclick='newtr(this)'>新建..</a></td><td></td><td></td><td></td></tr>
             </table>
-            <input type="submit" value="提交"/>
+            <input type="submit" value="提交" class="button"/>
+            <input type="hidden" name="delete" value="" id="delete"/>
           </form>
           </div>
         </div>
