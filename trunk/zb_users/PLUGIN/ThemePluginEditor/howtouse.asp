@@ -48,6 +48,7 @@ $(document).ready(function(e) {
             <script type="text/javascript">ActiveLeftMenu("aPlugInMng");</script>
             <h1>恭喜你，插件生成成功！</h1>
             <p>不过，插件生成后不是马上就可以用的。你还需要对主题进行修改。</p>
+            <p>您可以点击这个按钮自动修改，也可以手动修改。<input type="button" class="button" value="自动修改" onclick="location.href='save.asp?act=autoren'"/></p>
             <p>编辑theme.xml，在最后面的&lt;/plugin&gt;之前加入下列代码：</p>
             <p><pre class="brush:xml;toolbar:false;">
        &lt;plugin&gt;

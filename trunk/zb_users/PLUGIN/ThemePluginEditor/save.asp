@@ -30,6 +30,10 @@ If CheckPluginState("ThemePluginEditor")=False Then Call ShowError(48)
 Dim HaveUpload
 HaveUpload=False
 Dim aryReq(),tmpary(),t,s,i
+Dim objXml
+Set objXml=CreateoBJECT("microsoft.xmldom")
+objXml.Load BlogPath & "\zb_users\theme\" & ZC_BLOG_THEME & "\theme.xml"
+
 i=0
 If Request.QueryString("act")="del" Then
 	DelToFile BlogPath & "zb_users\theme\"& ZC_BLOG_THEME & "\include\" & Request.QueryString("name")
@@ -41,6 +45,26 @@ ElseIf Request.QueryString("act")="rename" Then
 	rename_fso2.Name=Request.QueryString("newname")
 	Set rename_fso2=Nothing
 	Set rename_fso=Nothing
+	Response.End
+ElseIf Request.QueryString("act")="autoren" Then
+	If objXml.documentElement.selectNodes("plugin").length=0 then
+		Dim objXMLitem
+		Dim objXMLplugin
+		Set objXMLplugin = objXml.createElement("plugin")
+		Set objXMLitem = objXml.createElement("path")
+		objXMLitem.text="editor.asp"
+		objXMLplugin.AppendChild(objXMLitem)
+		Set objXMLitem = objXml.createElement("include")
+		objXMLitem.text="include.asp"
+		objXMLplugin.AppendChild(objXMLitem)
+		Set objXMLitem = objXml.createElement("level")
+		objXMLitem.text="1"
+		objXMLplugin.AppendChild(objXMLitem)
+		objXml.documentElement.AppendChild(objXMLplugin)
+		objXml.Save(BlogPath & "\zb_users\theme\" & ZC_BLOG_THEME & "\theme.xml")
+	End If
+	SetBlogHint True,Empty,Empty
+	Response.Redirect "main.asp"
 	Response.End
 End If
 For Each s In Request.Form
@@ -98,7 +122,15 @@ For s=0 To 3
 	
 Next
 Call SetBlogHint(True,Empty,Empty)
-Response.Redirect "howtouse.asp"
+
+If objXml.documentElement.selectNodes("plugin").length=0 then
+	Response.Redirect "howtouse.asp"
+Else
+	Response.Redirect "main.asp"
+End If
+Set objXml=Nothing
+
+
 'Stop
 
 Function Join2(ary,int,s)
