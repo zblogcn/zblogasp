@@ -25,7 +25,7 @@ Call CheckReference("")
 '检查权限
 If BlogUser.Level>1 Then Call ShowError(6)
 
-BlogTitle="主题管理"
+BlogTitle="主题配置"
 %>
 <!--#include file="..\..\..\..\zb_system\admin\admin_header.asp"-->
 <script type="text/javascript">
@@ -58,7 +58,7 @@ function copydata(This){
           </table>
           <input name="ok" type="submit" class="button" value="提交"/>
           </form>
-          <script type="text/javascript">ActiveLeftMenu("aThemeMng");</script> 
+          <script type="text/javascript">ActiveTopMenu("a<%=主题名%>Manage");</script> 
           </div>
         </div>
         <!--#include file="..\..\..\..\zb_system\admin\admin_footer.asp"-->

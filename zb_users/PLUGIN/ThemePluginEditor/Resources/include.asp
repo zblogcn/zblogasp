@@ -11,6 +11,7 @@ Call RegisterPlugin("<%=主题名%>","ActivePlugin_<%=主题名%>")
 
 Function ActivePlugin_<%=主题名%>()
 	'如果插件需要include代码，则直接在这里加。
+    Call Add_Response_Plugin("Response_Plugin_Admin_Top",MakeTopMenu(1,"主题配置",BlogHost & "/zb_users/theme/<%=主题名%>/plugin/editor.asp","a<%=主题名%>Manage",""))
 	'这里加文件管理
 	If CheckPluginState("FileManage") Then
 		Call Add_Action_Plugin("Action_Plugin_FileManage_ExportInformation_NotFound","<%=主题名%>_exportdetail(""{path}"",""{f}"")")
