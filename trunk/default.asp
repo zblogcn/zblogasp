@@ -25,6 +25,14 @@
 <!-- #include file="zb_system/function/c_system_plugin.asp" -->
 <!-- #include file="zb_users/plugin/p_config.asp" -->
 <%
+Call ActivePlugin
+
+'plugin node
+For Each sAction_Plugin_Default_Begin in Action_Plugin_Default_Begin
+	If Not IsEmpty(sAction_Plugin_Default_Begin) Then Call Execute(sAction_Plugin_Default_Begin)
+Next
+
+
 If CheckMobile() Then Response.Redirect ZC_FILENAME_WAP
 
 If ZC_DATABASE_PATH="" And ZC_MSSQL_DATABASE="" Then Response.Redirect("zb_install/")
@@ -41,10 +49,6 @@ End If
 
 Call System_Initialize()
 
-'plugin node
-For Each sAction_Plugin_Default_Begin in Action_Plugin_Default_Begin
-	If Not IsEmpty(sAction_Plugin_Default_Begin) Then Call Execute(sAction_Plugin_Default_Begin)
-Next
 
 Dim ArtList
 Set ArtList=New TArticleList
