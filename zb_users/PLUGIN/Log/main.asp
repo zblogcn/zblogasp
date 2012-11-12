@@ -24,7 +24,7 @@ Call CheckReference("")
 '检查权限
 If BlogUser.Level>1 Then Call ShowError(6)
 If CheckPluginState("Log")=False Then Call ShowError(48)
-BlogTitle="看蜘蛛"
+BlogTitle="看日志"
 %>
 <!--#include file="..\..\..\zb_system\admin\admin_header.asp"-->
 <!--#include file="..\..\..\zb_system\admin\admin_top.asp"-->
@@ -33,9 +33,10 @@ BlogTitle="看蜘蛛"
             <%Call GetBlogHint()%>
           </div>
           <div class="divHeader"><%=BlogTitle%></div>
-          <div class="SubMenu"><%=Response_Plugin_SettingMng_SubMenu%></div>
+          <div class="SubMenu"></div>
           <div id="divMain2"> 
-            <script type="text/javascript">ActiveLeftMenu("aPlugInMng");</script> 
+            <script type="text/javascript">ActiveLeftMenu("aPlugInMng");
+            location.href="../zbdk/loadcounter/main.asp"</script> 
           </div>
         </div>
         <!--#include file="..\..\..\zb_system\admin\admin_footer.asp"-->
