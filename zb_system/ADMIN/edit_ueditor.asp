@@ -39,10 +39,8 @@ If Not CheckRights("ArticleEdt") Then Call ShowError(6)
 Call GetUser()
 
 Dim IsPage
-Dim IsAutoIntro
 
 IsPage=Request.QueryString("type")="Page"
-IsAutoIntro=False
 
 Dim EditArticle
 Set EditArticle=New TArticle
@@ -55,7 +53,6 @@ If Not IsEmpty(Request.QueryString("id")) Then
 			End If
 		End If
 		If EditArticle.FType=ZC_POST_TYPE_PAGE Then IsPage=True
-		If InStr(EditArticle.Content,EditArticle.Intro)>0 Then EditArticle.Intro=""
 	Else
 		Call ShowError(9)
 	End If
@@ -70,9 +67,6 @@ EditArticle.Title=UBBCode(EditArticle.Title,"[link][email][font][code][face][ima
 
 'EditArticle.Title=TransferHTML(EditArticle.Title,"[html-japan]")
 'EditArticle.Intro=TransferHTML(EditArticle.Intro,"[html-japan]")
-
-If InStr(EditArticle.Content,EditArticle.Intro)>0 Then IsAutoIntro=True
-If Len(EditArticle.Intro)="" Then IsAutoIntro=True
 
 EditArticle.Content=TransferHTML(Replace(EditArticle.Content,"<!–more–>","<hr class=""more"" />"),"[html-japan]")
 
@@ -156,7 +150,7 @@ Next
 						<p><span><%=ZC_MSG216%><a href="" onClick="try{AutoIntro();return false;}catch(e){}">[<%=ZC_MSG200%>]</a></span></p>
                       </div>
 
-                      <div id="divIntro" style="display:<%If EditArticle.Intro="" Or IsAutoIntro Then Response.Write "none" Else Response.Write "block"%>;">
+                      <div id="divIntro" style="display:<%If EditArticle.Intro="" Then Response.Write "none" Else Response.Write "block"%>;">
                         <p><span class='editinputname'><%=ZC_MSG016%>:</span></p>
                         <textarea id="editor_ue2" name="txaIntro" style="display:none"><%=TransferHTML(EditArticle.Intro,"[textarea]")%></textarea><div id="introready"><img id="statloading" src="../image/admin/loading.gif"/><%=ZC_MSG276%></div>
                       </div>
