@@ -30,11 +30,22 @@ function LogUa(s){
 		json["data"]="mobile"
 	}
 	//Browsers
-	else if(s.indexOf("liebao")>0){json["data"]="猎豹浏览器"} //猎豹
-	else if(s.indexOf("maxthon")>0){json["data"]="傲游浏览器"} //傲游
-	else if(s.indexOf("theworld")>0){json["data"]="世界之窗"} //世界之窗
-	else if(s.indexOf("tencenttraveler")>0){json["data"]="腾讯TT"} //TencentTraveler
-	else if(s.indexOf("qqbrowser")>0){json["data"]="QQ浏览器"} //QQ浏览器
+	
+	else if(s.indexOf("lbbrowser")>0){json["data"]="liebao"}   //猎豹
+	else if(s.indexOf("maxthon")>0){json["data"]="maxthon"} //傲游
+	else if(s.indexOf("theworld")>0){json["data"]="theworld"} //世界之窗
+	else if(s.indexOf("tencenttraveler")>0){json["data"]="tt"} //TencentTraveler
+	else if(s.indexOf("qqbrowser")>0){json["data"]="qb"} //QQ浏览器
+	else if(s.indexOf("bidubrowser")>0){json["data"]="baidu"} //百度浏览器
+	else if(s.indexOf("saayaa")>0){json["data"]="saayaa"} //闪游浏览器
+	else if(s.indexOf("ylmfbr")>0){json["data"]="114"} //114浏览器
+	else if(s.indexOf("lunaspace")>0){json["data"]="lunaspace"} //LunaSpace
+	else if(/se .+?metasr/gi.test(s)>0){json["data"]="sogou"}//搜狗浏览器，由于要判断正则所以放后
+	
+	 /*
+	中国使用人数较少的浏览器
+	hotbrowser|	mozilla suite|	camino|	3b|	ndsbrowser|	wii internet channle|	konqueror|	greenbrowser|	amaya|	aweb|	arachne|	aol|	aphrodite|	beonex communicator|	camino|	compuserve|	doczilla|	epiphany|	galeon|	ibm web browser|	kmeleon|	kazehakase|	manyone|	minimo|	salamander|	seamonkey|	skipstone|	flock|	activestate komodo|	liferea|	kazehakase|	avant|	flock|	epiphany|	galeon|	iceweasel|	dillo|	lynx|	minefield|	shiretoko|	elinks|*/
+					
 	else if(s.indexOf("360se")>0||s.indexOf("360ee")>0){json["data"]="360"} //傻B
 	
 	//谷歌、Safari、火狐、IE必须放最后判断，前面那些套壳浏览器你们好意思么
@@ -70,7 +81,7 @@ function LogWithoutInitialize(){
 		var s=ZC_MSG019.split("%s");
 
 		for(var i=0;i<=ary.length;i++){
-			if(Request.QueryString("act")==ary[i]){matchcmd=true;zsx.Add(s[i],ua,false)}
+			if(Request.QueryString("act")==ary[i]){matchcmd=true;zsx.Add(ua,s[i],false)}
 		}
 	}
 	if(matchcmd==false){
