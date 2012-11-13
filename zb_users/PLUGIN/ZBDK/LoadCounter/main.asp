@@ -146,7 +146,7 @@ Function ExportCounterlist(intPage,strIP,strAgent,strAQH,name)
 		Next
 	End If
 	Response.Write "</table> "
-	strPage=ExportPageBar(intPage,intPageAll,ZC_PAGEBAR_COUNT,"main.asp?page="&Request("page")&"&ip="&Request("ip")&"&agent="&Request("agent")&"&content="&vbsescape(Request("content"))&"&name="&vbsescape(Request("name")))
+	strPage=ExportPageBar(intPage,intPageAll,ZC_PAGEBAR_COUNT,"main.asp?ip="&Request("ip")&"&agent="&Request("agent")&"&content="&vbsescape(Request("content"))&"&name="&vbsescape(Request("name"))&"&page=")
 
 	Response.Write "<hr/><p class=""pagebar"">" & ZC_MSG042 & ": " & strPage
 
@@ -156,6 +156,6 @@ Function ExportCounterlist(intPage,strIP,strAgent,strAQH,name)
 End Function
 
 Function ExportSearch(name,field)
-	ExportSearch=IIf(ZC_MSSQL_ENABLE,"AND ( (CHARINDEX('" & name &"',["&field&"]))<>0)","AND ( (InStr(1,LCase(["&field&"]),LCase('" & Name &"'),0)<>0) ")
+	ExportSearch=IIf(ZC_MSSQL_ENABLE,"AND ( (CHARINDEX('" & name &"',["&field&"]))<>0)","AND (InStr(1,LCase(["&field&"]),LCase('" & Name &"'),0)<>0) ")
 End Function
 %>
