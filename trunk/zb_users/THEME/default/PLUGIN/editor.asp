@@ -46,26 +46,24 @@ function copydata(This){
           </div>
           <div class="divHeader"><%=BlogTitle%></div>
           <div class="SubMenu"></div>
-          <div id="divMain2"> 
-          <form action="save.asp" method="post" enctype="multipart/form-data">
-          <table width="100%" border="1" width="100%" class="tableBorder">
-            <tr>
-              <th scope="col" height="32" width="150px">配置项</th>
-              <th scope="col">配置内容</th>
-              <th scope="col" width="500px">调用代码</th>
+          <div id="divMain2">
+            <form action="save.asp" method="post" enctype="multipart/form-data">
+              <table width="100%" border="1" width="100%" class="tableBorder">
+              <tr>
+                <th scope="col" height="32" width="150px">配置项</th>
+                <th scope="col">配置内容</th>
+                <th scope="col" width="100px">当前头图</th>
+              </tr>
+              <tr>
+                <th scope="row">头图(1600x180)</th>
+                <td><input name="include_bg-nav.jpg" type="file"/></td>
+                <td><img src="../INCLUDE/bg-nav.jpg" width="160" height="90" alt="Default"/></td>
+              </tr>
 
-            </tr>
-			<tr>
-  <th scope="row">头图</th>
-  <td><input name="include_bg-nav.jpg" type="file"/></td>
-  <td><!--&lt;#TEMPLATE_INCLUDE_BG-NAV#&gt;-->bg-nav.jpg<input style="float:right" name="copybutton_bg-nav.jpg" id="copybutton_bg-nav.jpg" value="复制" type="button" bindtag="&lt;#ZC_BLOG_HOST#&gt;zb_users/theme/default/include/bg-nav.jpg" onclick="copydata(this)"/></td>
-
-</tr>
-
-          </table>
-          <input name="ok" type="submit" class="button" value="提交"/>
-          </form>
-         <script type="text/javascript">ActiveTopMenu("adefaultManage");</script> 
+              </table>
+              <input name="ok" type="submit" class="button" value="提交"/>
+            </form>
+            <script type="text/javascript">ActiveTopMenu("adefaultManage");</script> 
           </div>
         </div>
         <!--#include file="..\..\..\..\zb_system\admin\admin_footer.asp"-->
