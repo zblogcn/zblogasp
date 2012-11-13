@@ -1,10 +1,12 @@
-﻿/*--------------------------全--局-------------------------------*/
+/*--------------------------全--局-------------------------------*/
+
+
 body{
 	margin:0;
 	padding:0;
 	color:#555;
 	font-size:14px;
-    	font-family: "微软雅黑","宋体","Trebuchet MS", Tahoma, Arial, sans-serif;
+    font-family: "微软雅黑","宋体","Trebuchet MS", Tahoma, Arial, sans-serif;
 	background:url("default/bg-top.png") repeat-x 0 0;
     
 }
@@ -26,7 +28,7 @@ a:active {
 	text-decoration: none;
 }
 
-ol,ul{
+ul{
 	list-style-type:none;
 	list-style-position : outside;
 	margin:0 0 0 0;
@@ -223,7 +225,7 @@ h1,h2,h3,h4,h5,h6{
 	font-size:1em;
 	margin:0 0 0 0;
 	padding:8px 0 8px 0.9em;
-	background:url("default/pointblue.gif") no-repeat 0 16px;
+	background:url("default/pointblue.gif") no-repeat 0 center;
 	width:auto;
 }
 
@@ -300,7 +302,7 @@ h1,h2,h3,h4,h5,h6{
 div.post {
 	width:98%;
 	margin:0 0 0 0;
-	padding:20px 1% 2px 1%;
+	padding:20px 1% 0 1%;
 	text-align:left;
 	clear:both; 
 	word-break:break-all;
@@ -313,7 +315,6 @@ div.istop-post{
 
 div.pagebar{
 	border-top:2px solid #dbe0e6;
-	padding:30px 1% 5px 1%;
 }
 
 /*---------------------------文章上下翻条------------------------*/
@@ -415,18 +416,12 @@ div.post-body p{
 /*----------文章中引用code------*/
 
 div.post-body div.syntaxhighlighter{
-	margin: .5em 1em .5em 2em!important;
-	width:auto!important;
+	overflow:hidden;
+}
+div.post-body p{
+	overflow:hidden;
 }
 
-div.post-body li p{
-	overflow:visible;
-	text-indent: 0;
-	margin: 3px 0;
-}
-div.post-body ul,div.post-body ol{
-	margin-left:3.5em;
-}
 div.post-body code{
 	width: 93%;
 	padding:5px;
@@ -778,16 +773,6 @@ padding-bottom:10px;
 border-bottom:1px solid #dbe0e6;
 }
 
-#divCommentPost img{margin-bottom:-0.5em;}
-#cancel-reply{float:right;margin-right: 2em;}
-div.reply-frm{
-	background:#f0f0f0;
-	box-shadow: 0 0 15px #666;
-	margin:1em 1% !important;
-	padding:.3em .8em !important;
-	min-width:330px;
-}
-
 input.text{
 border:1px solid #d7d7d7;
 line-height:20px;
@@ -820,18 +805,3 @@ a:hover span.page{
 	color:red;
 	border:1px solid red;
 }
-
-ul.ul-subcates{
-	padding: 8px 0 0 0;
-	margin-bottom:-8px;
-}
-span.sh{
-	border:1px solid #CCC;
-	padding:0 3px;
-	margin-right:5px;
-	font-size:.5em;
-	font-family:monospace;
-	cursor:pointer;
-	color:#666;
-}
-
