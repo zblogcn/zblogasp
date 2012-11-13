@@ -1,54 +1,55 @@
-<!-- #include file="AntiXSS.asp"-->
-<%
+
+<%'<!-- include file="AntiXSS.asp"-->
 '///////////////////////////////////////////////////////////////////////////////
 '// 插件应用:    1.9 其它版本的Z-blog未知
 '// 插件制作:    ZSXSOFT(http://www.zsxsoft.com/)
 '// 备    注:    CommentEditor - 挂口函数页
 '///////////////////////////////////////////////////////////////////////////////
+
+ZC_UBB_ENABLE=True
+ZC_UBB_AUTOLINK_ENABLE=False
+
 Call Add_Response_Plugin("Response_Plugin_Html_js_Add","document.write(""<script type=\""text/javascript\"" src=\"""&_
 BlogHost & "zb_users/plugin/commenteditor/commenteditor.pack.js\""></script>"");") 
-
-
-
 
 
 '注册插件
 Call RegisterPlugin("CommentEditor","ActivePlugin_CommentEditor")
 '挂口部分
 Function ActivePlugin_CommentEditor()
-	Call Add_Filter_Plugin("Filter_Plugin_TComment_MakeTemplate_TemplateTags","CommentEditor_ExportCommentHTML")
+	'Call Add_Filter_Plugin("Filter_Plugin_TComment_MakeTemplate_TemplateTags","CommentEditor_ExportCommentHTML")
 	'Call Add_Action_Plugin("Action_Plugin_BlogReBuild_Comments_Begin","BlogReBuild_Comments=CommentEditor_ReBuild():Exit Function")
 End Function
 
-Function CommentEditor_ExportCommentHTML(t,v)
-	Dim s
-	s=v(7)
-	's=TransferHTML(s,"[anti-html-format]")
-	s=TransferHTML(s,"[nofollow]")
-	s=AntiXSS_run(s)
-	s=Replace(Replace(s,"&lt;!--r","<!--r"),"--&gt;","-->")
-	s=CommentEditor_AntiOther(s)
-	v(7)=s	
-	
-	
-End Function
-
-Function CommentEditor_AntiOther(s)
-	Dim b
-	Set b=New RegExp
-	b.IgnoreCase=True
-	b.Pattern="<img\b[^<>]*?\bsrc[\s\t\r\n]*=[\s\t\r\n]*[""']?[\s\t\r\n]*([^\s\t\r\n""'<>]*)[^<>]*?/?[\s\t\r\n]*>"
-	b.Global=True
-	Dim c
-	Dim s1
-	s1=s
-	Set c=b.Execute(s)
-	Dim m
-	For Each m In c
-		If Left(m.SubMatches(0),Len(BlogHost))<>BlogHost Then s1=b.Replace(m.value,"")
-	Next
-	CommentEditor_AntiOther=s1
-End Function
+'Function CommentEditor_ExportCommentHTML(t,v)
+'	Dim s
+'	s=v(7)
+'	's=TransferHTML(s,"[anti-html-format]")
+'	s=TransferHTML(s,"[nofollow]")
+'	s=AntiXSS_run(s)
+'	s=Replace(Replace(s,"&lt;!--r","<!--r"),"--&gt;","-->")
+'	s=CommentEditor_AntiOther(s)
+'	v(7)=s	
+'	
+''	'
+'End Function
+'
+'Function CommentEditor_AntiOther(s)
+'	Dim b
+'	Set b=New RegExp
+'	b.IgnoreCase=True
+'	b.Pattern="<img\b[^<>]*?\bsrc[\s\t\r\n]*=[\s\t\r\n]*[""']?[\s\t\r\n]*([^\s\t\r\n""'<>]*)[^<>]*?/?[\s\t\r\n]*>"
+'	b.Global=True
+'	Dim c
+'	Dim s1
+'	s1=s
+'	Set c=b.Execute(s)
+''	Dim m
+	'For Each m In c
+	'	If Left(m.SubMatches(0),Len(BlogHost))<>BlogHost Then s1=b.Replace(m.value,"")'
+'	Next
+'	CommentEditor_AntiOther=s1
+'End Function
 
 'Function CommentEditor_ReBuild()
 
