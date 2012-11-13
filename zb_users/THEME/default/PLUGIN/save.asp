@@ -22,28 +22,32 @@ Dim objUpload
 Set objUpload=New UpLoadClass
 objUpload.AutoSave=2
 objUpload.Charset="utf-8"
-objUpload.FileType=Replace(ZC_UPLOAD_FILETYPE,"|","/")
+objUpload.FileType="jpg/png/bmp/gif"
 objUpload.savepath=BlogPath & "zb_users\theme\default\include\"
 objUpload.maxsize=ZC_UPLOAD_FILESIZE
 objUpload.open
 
 
-Dim s
-For Each s In objUpload.FormItem
-	If Left(s,7)="include" Then
-		Call SaveToFile(BlogPath & "zb_users/theme/default/include/" & Right(s,Len(s)-8),objUpload.Form(s),"utf-8",False)
-	End If
-Next
-Dim m
+Dim m,s
 For Each s In objUpload.FileItem
-	If Left(s,7)="include" Then
-		m=objUpload.Save(s,Right(s,Len(s)-8))
-	End If
+	Select Case s
+	Case "include_bg-nav.jpg"
+		If objUpload.Form("include_bg-nav.jpg_Width")=1600 And objUpload.Form("include_bg-nav.jpg_Height")=180 Then
+			objUpload.Save "include_bg-nav.jpg","bg-nav.jpg"
+			If objUpload.Form("include_bg-nav.jpg_Err")=0 Then
+				ClearGlobeCache
+				LoadGlobeCache
+				BlogRebuild_Default
+				Call SetBlogHint(True,Empty,Empty)
+			Else
+				Call SetBlogHint_Custom(objUpload.Error2Info("include_bg-nav.jpg"))
+			End If
+		Else
+			Call SetBlogHint_Custom("分辨率必须符合1600x190!")
+		End If
+	End Select
 Next
-ClearGlobeCache
-LoadGlobeCache
-BlogRebuild_Default
-Call SetBlogHint(True,Empty,Empty)
+
 Response.Redirect "editor.asp"
 %>
 
