@@ -3232,7 +3232,7 @@ Class TComment
 
 	Public Property Get HtmlContent
 		'HtmlContent=TransferHTML(UBBCode(Content,"[font][face]"),"[enter][nofollow]")
-		HtmlContent=TransferHTML(UBBCode(Content & Reply,"[link][link-antispam][font][face]"),"[enter][nofollow]")
+		HtmlContent=TransferHTML(UBBCode(Content & Reply,"[link][link-antispam][font][face][typeset]"),"[enter][nofollow]")
 	End Property
 
 
