@@ -1007,7 +1007,7 @@ Class TArticle
 		Template_Article_Comment="<div id=""AjaxCommentBegin"" style=""display:none;clear:both;""></div>" & Template_Article_Comment & s &"<div id=""AjaxCommentEnd"" style=""display:none;clear:both;""></div>"
 
 
-		Template_Article_Comment=Replace(Template_Article_Comment,"<!--(count-->0<!--count)-->","")
+		Template_Article_Comment=Replace(Template_Article_Comment,"<!--(count-->0<!--count)-->","<span class=""revcount""></span>")
 		Template_Article_Comment=Replace(Template_Article_Comment,"<!--(count-->","")
 		Template_Article_Comment=Replace(Template_Article_Comment,"<!--count)-->","")
 
