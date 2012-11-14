@@ -103,7 +103,7 @@ function LogWithoutInitialize(){
 		else if(new RegExp(s+"search\.asp","i").test(temp)){
 			zsx.Add(ua,"搜索",false);
 		}
-		else{zsx.Add("",ua,false)}
+		else{zsx.Add(ua,"",false)}
 	}
 }
 </script>
