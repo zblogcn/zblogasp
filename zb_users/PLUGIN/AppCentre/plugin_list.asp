@@ -18,42 +18,36 @@ Call CheckReference("")
 If BlogUser.Level>1 Then Call ShowError(6)
 
 If CheckPluginState("AppCentre")=False Then Call ShowError(48)
-
 BlogTitle="应用中心"
-
 %>
-<!--#include file="..\..\..\zb_system\admin\admin_header.asp"-->
-<link rel="stylesheet" href="images/style.css" type="text/css" media="screen" />
-<!--#include file="..\..\..\zb_system\admin\admin_top.asp"-->
-<div id="divMain"> <div id="ShowBlogHint">
-      <%Call GetBlogHint()%>
-    </div>
-  <div class="divHeader"><%=BlogTitle%></div>
-  <div class="SubMenu"> 
-	<%Call SubMenu(0)%>
-  </div>
-  <div id="divMain2">
-   <script type="text/javascript">ActiveLeftMenu("aAppcentre");$("#leftmenu #nav_appcentre.on span").css("background-image","url('<%=GetCurrentHost%>zb_users/plugin/appcentre/images/web2.png')")</script>
-   <%
-Response.Write "<div style='box-shadow: 0 0 10px #aaa;margin:5px 20px 40px 5px;height:500px;text-align:center;'><br/><br/><br/><br/><br/><p><img src='"&BlogHost&"zb_system/image/admin/logo.png'/></p><br/><p style='font-size:20px'>应用中心建设中，敬请期待！</p><p>&nbsp;</p><p><a href='http://bbs.rainbowsoft.org/forum-121-1.html' target='_blank' style='font-size:20px'>论坛2.0应用发布区</a></p></div>"
-Response.End
-Response.Flush
-Dim strTemp,strFunc
-strFunc="ListPlugin"
-strTemp="?findapp=2"
-Select Case Request.QueryString("act")
-	Case "detail"
-		strTemp=strTemp&"&page=1&id=" & Request("id")
-		strFunc="DetailPlugin"
-	Case Else
-		strTemp=strTemp&"&page=" & IIf(IsEmpty(Request("page")),1,Request("page"))
-End Select
-strTemp=strTemp & "&count=" & IIf(IsEmpty(Request("count")),10,Request("count"))
-strTemp=GetHTTPPage(APPCENTRE_URL & strTemp)
-Execute "Response.Write "&strFunc&"(strTemp)"
-   %>
-  </div>
-</div>
-<script type="text/javascript">
-</script>
-<!--#include file="..\..\..\zb_system\admin\admin_footer.asp"-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" lang="zh-CN">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Language" content="zh-CN" />
+<title>Z-Blog 应用中心</title>
+<style type="text/css">
+.aaa{color:white;text-decoration:none;font-size:36px;font-family:微软雅黑,宋体}
+.aaa2{color:white;text-decoration:none;font-size:30px;font-family:微软雅黑,宋体}
+
+</style>
+</head>
+<body style="background:url(appcentre.png)">
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<table width="100%" border="0">
+  <tr>
+    <td style="text-align: center"><span class="aaa" style="text-align:center;">Coming Soon</span></td>
+  </tr>
+  <tr>
+    <td style="text-align: center"><span class="aaa" style="text-align:center;">全新的应用中心即将诞生</span></td>
+  </tr>
+  <tr><td>&nbsp;</td></tr>
+  <tr>
+    <td style="text-align: center"><span style="text-align:center;"><a href="javascript:void(0)" class="aaa2">返回</a> &nbsp;&nbsp;<a href="plugin_edit.asp" class="aaa2">创建新插件</a></span></td>
+  </tr>
+</table>
+
+</body>
+</html>
