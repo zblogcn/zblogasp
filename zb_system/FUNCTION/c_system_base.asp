@@ -1352,11 +1352,11 @@ Function LoadGlobeCache()
 	aryTemplatesName(j+4)="CACHE_SIDEBAR4"
 	aryTemplatesName(j+5)="CACHE_SIDEBAR5"
 
-	aryTemplatesContent(j+1)=LoadFromFile(BlogPath & "zb_users\cache" & "\sidebar.html","utf-8" )
-	aryTemplatesContent(j+2)=LoadFromFile(BlogPath & "zb_users\cache" & "\sidebar2.html","utf-8")
-	aryTemplatesContent(j+3)=LoadFromFile(BlogPath & "zb_users\cache" & "\sidebar3.html","utf-8")
-	aryTemplatesContent(j+4)=LoadFromFile(BlogPath & "zb_users\cache" & "\sidebar4.html","utf-8")
-	aryTemplatesContent(j+5)=LoadFromFile(BlogPath & "zb_users\cache" & "\sidebar5.html","utf-8")
+	aryTemplatesContent(j+1)=Replace(LoadFromFile(BlogPath & "zb_users\cache" & "\sidebar.asp","utf-8" ),"<"&"%","",1,1)
+	aryTemplatesContent(j+2)=Replace(LoadFromFile(BlogPath & "zb_users\cache" & "\sidebar2.asp","utf-8"),"<"&"%","",1,1)
+	aryTemplatesContent(j+3)=Replace(LoadFromFile(BlogPath & "zb_users\cache" & "\sidebar3.asp","utf-8"),"<"&"%","",1,1)
+	aryTemplatesContent(j+4)=Replace(LoadFromFile(BlogPath & "zb_users\cache" & "\sidebar4.asp","utf-8"),"<"&"%","",1,1)
+	aryTemplatesContent(j+5)=Replace(LoadFromFile(BlogPath & "zb_users\cache" & "\sidebar5.asp","utf-8"),"<"&"%","",1,1)
 
 
 	'加载标签
@@ -3014,7 +3014,7 @@ Function BlogReBuild_Functions
 				s=s & Functions(aryFunctionInOrder(j)).MakeTemplate(t)
 				End If
 			Next
-			Call SaveToFile(BlogPath & "zb_users/cache/sidebar"& IIF(i>1,i,"") &".html",s,"utf-8",False)
+			Call SaveToFile(BlogPath & "zb_users/cache/sidebar"& IIF(i>1,i,"") &".asp","<"&"%"&s,"utf-8",False)
 		End If
 	Next
 
@@ -3121,7 +3121,7 @@ Function ExportRSS()
 
 	End With
 
-	Rss2Export.SaveToFile(BlogPath & "zb_users\cache\rss.xml")
+	Rss2Export.SaveToFile(BlogPath & "rss.xml")
 
 	Set Rss2Export = Nothing
 
