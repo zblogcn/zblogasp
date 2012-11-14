@@ -2712,6 +2712,22 @@ Class TUser
 	Public ReCount
 	Public ExID
 
+
+	Private FGuid
+	Public Property Get Guid
+		If FGuid="" Then
+			FGuid=RndGuid()
+			If ID>0 Then
+				FGuid=objConn.Execute("SELECT [mem_Guid] FROM [blog_Member] WHERE [mem_ID]="&ID)(0)
+			End If
+			Guid=FGuid
+		End If
+	End Property
+
+	Public Function CreatePasswordByOriginal(OriginaPassword)
+		CreatePasswordByOriginal=MD5(MD5(OriginaPassword) & Guid)
+	End Function
+
 	Public Function GetPasswordByOriginal(OriginaPassword)
 
 		Dim objRS
@@ -2918,11 +2934,6 @@ Class TUser
 
 		If ID=0 Then
 
-			Dim Guid
-			Guid=RndGuid()
-
-			PassWord=MD5(PassWord & Guid)
-
 			If Level <= currentUser.Level Then ShowError(6)
 			If Len(PassWord)<>32 Then Call ShowError(55)
 
@@ -2963,8 +2974,6 @@ Class TUser
 
 				If Len(PassWord)=0 Then
 					PassWord=targetUser.PassWord
-				Else
-					PassWord=MD5(PassWord & objConn.Execute("SELECT [mem_Guid] FROM [blog_Member] WHERE [mem_ID]="&ID)(0))
 				End If
 
 				If Len(PassWord)<>32 Then Call ShowError(55)
@@ -3001,8 +3010,6 @@ Class TUser
 		Call CheckParameter(ID,"int",0)
 		Call CheckParameter(Level,"int",0)
 
-		Dim Guid
-		Guid=RndGuid()
 		PassWord=MD5(Password & Guid)
 
 		If (Level<>4) Then Call ShowError(16)
