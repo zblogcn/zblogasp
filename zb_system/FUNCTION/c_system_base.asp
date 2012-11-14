@@ -3862,6 +3862,10 @@ Function CheckUndefined()
 	If InStr(a,"DIM ZC_POST_STATIC_MODE")=0 Then
 		Call Execute("ZC_POST_STATIC_MODE=""STATIC""")
 	End If
+	
+	If InStr(a,"DIM ZC_HTTP_LASTMODIFIED")=0 Then
+		Call Execute("ZC_HTTP_LASTMODIFIED=False")
+	End If
 
 End Function
 '*********************************************************
