@@ -894,10 +894,8 @@ Function EditUser()
 	End If
 
 	If Trim(Request.Form("edtPassWord"))<>"" Then
-		objUser.PassWord=MD5(Request.Form("edtPassWord"))
+		objUser.PassWord=objUser.CreatePasswordByOriginal(Request.Form("edtPassWord"))
 		If Not CheckRegExp(Request.Form("edtPassWord"),"[password]") Then Call ShowError(54)
-	Else
-		objUser.PassWord=""
 	End If
 
 	Call GetMetaValuewithForm(objUser)
