@@ -23,9 +23,9 @@ CanInstall=""
 Dim zblogstep
 zblogstep=Request.QueryString("step")
 
-If ZC_DATABASE_PATH<>"" Or ZC_MSSQL_DATABASE<>"" Then
-	zblogstep=0
-End If
+'If ZC_DATABASE_PATH<>"" Or ZC_MSSQL_DATABASE<>"" Then
+'	zblogstep=0
+'End If
 
 If zblogstep="" Then zblogstep=1
 
@@ -1063,7 +1063,7 @@ Call BlogConfig.Write("ZC_DISPLAY_CATE_ALL_WAP",True)
 Call BlogConfig.Write("ZC_DISPLAY_PAGEBAR_ALL_WAP",True)
 '数量
 Call BlogConfig.Write("ZC_WAP_MUTUALITY_LIMIT",5)
-
+Call BlogConfig.Write("ZC_HTTP_LASTMODIFIED",False)
 
 BlogConfig.Save
 
