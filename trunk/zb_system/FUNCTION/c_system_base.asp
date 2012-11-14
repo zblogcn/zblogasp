@@ -1476,7 +1476,8 @@ Function LoadGlobeCache()
 				Dim functionstype
 
 				Set functionstype=New TMeta
-				functionstype.LoadString=LoadFromFile(BlogPath & "zb_users\cache\functionstype.html","utf-8")
+				functionstype.LoadString=Replace(LoadFromFile(BlogPath & "zb_users\cache\functionstype.asp","utf-8"),"<"&"%","",1,1)
+				
 				
 				If functionstype.GetValue(modname)="div" Then
 					aryTemplateTagsValue(e+i+a)="<div id=""mod_"+modname+""" style=""display:none;""><script type=""text/javascript"">LoadFunction('"&modname&"');</script></div>"
@@ -3517,7 +3518,7 @@ Function SaveFunctionType()
 		End If
 	Next
 
-	Call SaveToFile(BlogPath & "zb_users/CACHE/functionstype.html",t.SaveString,"utf-8",False)
+	Call SaveToFile(BlogPath & "zb_users/CACHE/functionstype.asp","<"&"%"&t.SaveString,"utf-8",False)
 
 	SaveFunctionType=True
 
