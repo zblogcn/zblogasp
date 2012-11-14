@@ -36,6 +36,7 @@ Dim ArtList
 Set ArtList=New TArticleList
 
 If ArtList.Export(Request.QueryString("page"),Request.QueryString("cate"),Request.QueryString("auth"),Request.QueryString("date"),Request.QueryString("tags"),ZC_DISPLAY_MODE_INTRO) Then
+	If ArtList.FoundData=False Then Response.Status="404 Not Found"
 	ArtList.Build
 	Response.Write ArtList.html
 End If
@@ -52,3 +53,4 @@ If Err.Number<>0 then
 	Call ShowError(0)
 End If
 %>
+<!--<%=RunTime()%>ms-->

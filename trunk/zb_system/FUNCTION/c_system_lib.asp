@@ -1798,6 +1798,7 @@ Class TArticleList
 
 	Public IsDynamicLoadSildbar
 	Public ListType
+	Public FoundData
 
 	Private Ftemplate
 	Public Property Let Template(strFileName)
@@ -1853,6 +1854,7 @@ Class TArticleList
 		Dim aryArticleList()
 		Dim  Template_Article_Istop
 
+		
 		'plugin node
 		Dim i,j,k,l,s,t
 		Dim objRS
@@ -1878,6 +1880,7 @@ Class TArticleList
 		objRS.Source=objRS.Source & "ORDER BY [log_PostTime] DESC,[log_ID] DESC"
 		objRS.Open()
 		If (Not objRS.bof) And (Not objRS.eof) Then
+			FoundData=True
 			objRS.PageSize = ZC_DISPLAY_COUNT
 			intPageCount=objRS.PageCount
 			objRS.AbsolutePage = 1
@@ -2041,6 +2044,7 @@ Class TArticleList
 		objRS.Open()
 
 		If (Not objRS.bof) And (Not objRS.eof) Then
+			FoundData=True
 			objRS.PageSize = ZC_DISPLAY_COUNT
 			intPageCount=objRS.PageCount
 			objRS.AbsolutePage = intPage
