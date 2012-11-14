@@ -3121,7 +3121,7 @@ Function ExportRSS()
 
 	End With
 
-	Rss2Export.SaveToFile(BlogPath & "rss.xml")
+	Rss2Export.SaveToFile(BlogPath & "zb_users/cache/rss.xml")
 
 	Set Rss2Export = Nothing
 
