@@ -1452,7 +1452,7 @@ Function LoadGlobeCache()
 				s(i)=aryFileNameInclude_Variable(i)
 
 				strContent=""
-				strContent=LoadFromFile(BlogPath & "zb_users\" & aryFileNameInclude(i),"utf-8")
+				strContent=Replace(LoadFromFile(BlogPath & "zb_users\" & aryFileNameInclude(i),"utf-8"),"<"&"%","",1,1)
 				strContent=Replace(strContent,"<"&"%=ZC_BLOG_HOST%"&">","<#ZC_BLOG_HOST#>")
 				aryFileNameInclude_Content(i)=strContent
 
