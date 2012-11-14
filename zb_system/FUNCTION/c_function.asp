@@ -1513,8 +1513,20 @@ Function RemoveLibyUrl(ByVal s,ByVal url)
 End Function
 '*********************************************************
 
-
-
+'*********************************************************
+' 目的：    根据文件路径得到最后更改时间
+'*********************************************************
+Function GetFileModified(Path)
+	On Error Resume Next
+	Dim objFSO
+	Set objFSO=Server.CreateObject("scripting.filesystemobject")
+	If objFSO.FileExists(Path) Then
+		GetFileModified=objFSO.GetFile(Path).DateLastModified
+	Else
+		GetFileModified=Now
+	End If
+	Set objFSO=Nothing
+End Function
 
 '*********************************************************
 ' 目的：   检查是否手机端访问
