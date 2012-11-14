@@ -126,6 +126,15 @@ If Article.LoadInfoByID(c) Then
 	End If
 
 	If Article.Export(ZC_DISPLAY_MODE_ALL)= True Then
+		If ZC_HTTP_LASTMODIFIED=True Then
+			Dim strLastModified
+			strLastModified=Article.PostTime
+			Set objRs=objConn.Execute("SELECT TOP 1 [comm_PostTime] FROM [blog_Comment] WHERE [comm_isCheck]=0 And [log_id]=" & Article.ID)
+			If Not(objRs.Eof) And Not(objRs.Bof) Then
+				If DateDiff("s",objRs("comm_PostTime"),strLastModified)<0 Then strLastModified=objRs("comm_PostTime")
+			End If
+			Response.AddHeader "Last-Modified",strLastModified
+		End If
 		Article.Build
 		Response.Write Article.html
 	End If
