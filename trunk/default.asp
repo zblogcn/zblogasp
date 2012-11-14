@@ -42,10 +42,10 @@ If ZC_HTTP_LASTMODIFIED=True Then
 End If
 
 Dim s
-s=LoadFromFile(BlogPath & "zb_users\cache\default.html","utf-8")
+s=LoadFromFile(BlogPath & "zb_users\cache\default.asp","utf-8")
 
 If Len(s)>0 Then
-	Response.Write Replace(s,"<#ZC_BLOG_HOST#>",BlogHost)
+	Response.Write Replace(Replace(s,"<#ZC_BLOG_HOST#>",BlogHost),"<"&"%","",1,1)
 	Response.Write "<!-- " & RunTime() & "ms -->"
 	Response.End
 End If

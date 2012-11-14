@@ -3053,7 +3053,7 @@ Function BlogReBuild_Default
 
 		ArtList.Build
 
-		Call SaveToFile(BlogPath & "zb_users/CACHE/default.html",ArtList.html,"utf-8",False) 
+		Call SaveToFile(BlogPath & "zb_users/CACHE/default.asp","<"&"%"&ArtList.html,"utf-8",False) 
 
 	End If
 
