@@ -14,7 +14,7 @@
 '///////////////////////////////////////////////////////////////////////////////
 %>
 <% Option Explicit %>
-<% On Error Resume Next %>
+<%' On Error Resume Next %>
 <% Response.Charset="UTF-8" %>
 <% Response.Buffer=True %>
 <!-- #include file="zb_users/c_option.asp" -->
@@ -36,6 +36,10 @@ Next
 If CheckMobile() Then Response.Redirect ZC_FILENAME_WAP
 
 If ZC_DATABASE_PATH="" And ZC_MSSQL_DATABASE="" Then Response.Redirect("zb_install/")
+
+If ZC_HTTP_LASTMODIFIED=True Then
+	Response.AddHeader "Last-Modified",GetFileModified(BlogPath & "zb_users\cache\default.html")
+End If
 
 Dim s
 s=LoadFromFile(BlogPath & "zb_users\cache\default.html","utf-8")
