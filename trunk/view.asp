@@ -115,7 +115,10 @@ Else
 		End If
 	End If
 End If
-
+If IsNumeric(c)=False Then
+	Response.Status="404 Not Found"
+	Response.End
+End If
 If Article.LoadInfoByID(c) Then
 
 	If Article.Level=1 Then Call ShowError(63)
@@ -138,7 +141,9 @@ If Article.LoadInfoByID(c) Then
 		Article.Build
 		Response.Write Article.html
 	End If
-
+Else
+	Response.Status="404 Not Found"
+	Response.End
 End If
 
 'plugin node
