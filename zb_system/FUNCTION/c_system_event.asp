@@ -1202,6 +1202,8 @@ Function SaveSetting()
 	If BlogConfig.Exists("ZC_ARTICLE_EXCERPT_MAX")=False Then Call BlogConfig.Write("ZC_ARTICLE_EXCERPT_MAX",250)
 
 	If BlogConfig.Exists("ZC_POST_STATIC_MODE")=False Then Call BlogConfig.Write("ZC_POST_STATIC_MODE","STATIC")
+	
+	If BlogConfig.Exists("ZC_HTTP_LASTMODIFIED")=False Then Call BlogConfig.Write("ZC_HTTP_LASTMODIFIED","False")
 
 	Dim a,b,c,d
 	b=LoadFromFile(BlogPath &"zb_users\c_option.asp","utf-8")
