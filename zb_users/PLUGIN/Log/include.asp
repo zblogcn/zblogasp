@@ -74,34 +74,34 @@ function LogWithoutInitialize(){
 	ua=ua.type+"-"+ua.data;
 	if(temp.indexOf("cmd.asp")>0){
 		/*switch(Request.QueryString("act")){
-			case "cmt":zsx.Add(ua,"添加评论",false);matchcmd=true;break;
+			case "cmt":zsx.Add(ua,"添加评论");matchcmd=true;break;
 			
 		}*/
 		var ary="Root|login|verify|logout|admin|cmt|vrs|rss|batch|BlogReBuild|FileReBuild|ArticleMng|ArticleEdt|ArticlePst|ArticleDel|CategoryMng|CategoryPst|CategoryDel|CommentMng|CommentDel|UserMng|UserEdt|UserMod|UserCrt|UserDel|FileMng|FileUpload|FileDel|Search|TagMng|TagEdt|TagPst|TagDel|SettingMng|SettingSav|PlugInMng|FunctionMng".split("|");
 		var s=ZC_MSG019.split("%s");
 
 		for(var i=0;i<=ary.length;i++){
-			if(Request.QueryString("act")==ary[i]){matchcmd=true;zsx.Add(ua,s[i],false)}
+			if(Request.QueryString("act")==ary[i]){matchcmd=true;zsx.Add(ua,s[i])}
 		}
 	}
 	if(matchcmd==false){
 		if(/(zb_users\/(plugin|theme))|zb_system/i.test(temp)){
-			zsx.Add(ua,"后台访问",false);
+			zsx.Add(ua,"后台访问");
 		}
 		else if(new RegExp(s+"default\.asp","i").test(temp)){
-			zsx.Add(ua,"首页",false);
+			zsx.Add(ua,"首页");
 		}
 		else if(new RegExp(s+"catalog\.asp","i").test(temp)){
-			zsx.Add(ua,"分类页",false);
+			zsx.Add(ua,"分类页");
 		}
 		else if(new RegExp(s+"tags\.asp","i").test(temp)){
-			zsx.Add(ua,"Tags",false);
+			zsx.Add(ua,"Tags");
 		}
 		else if(new RegExp(s+"view\.asp","i").test(temp)){
-			zsx.Add(ua,"文章页",false);
+			zsx.Add(ua,"文章页");
 		}
 		else if(new RegExp(s+"search\.asp","i").test(temp)){
-			zsx.Add(ua,"搜索",false);
+			zsx.Add(ua,"搜索");
 		}
 		else{zsx.Add(ua,"",false)}
 	}
