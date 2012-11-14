@@ -729,6 +729,7 @@ Call BlogConfig.Write("ZC_UNCATEGORIZED_COUNT",0)
 Call BlogConfig.Write("ZC_SYNTAXHIGHLIGHTER_ENABLE",True)
 Call BlogConfig.Write("ZC_CODEMIRROR_ENABLE",True)
 Call BlogConfig.Write("ZC_ARTICLE_EXCERPT_MAX",250)
+Call BlogConfig.Write("ZC_HTTP_LASTMODIFIED",False)
 
 
 
