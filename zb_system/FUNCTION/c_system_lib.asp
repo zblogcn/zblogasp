@@ -5476,7 +5476,6 @@ Class TCounter
 		Next
 		m=m&"'"&vbsescape(j(i))&"'"
 		m=m&")"
-		Response.Write m
 		objConn.Execute m
 		
 		ID=objConn.Execute("SELECT MAX([coun_ID]) FROM [blog_Counter]")(0)
