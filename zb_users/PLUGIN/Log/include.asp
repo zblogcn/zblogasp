@@ -4,7 +4,7 @@ Call RegisterPlugin("Log","ActivePlugin_Log")
 
 Function ActivePlugin_Log()
 	Call Add_Action_Plugin("Action_Plugin_System_Initialize","LogWithoutInitialize")
-	Call Add_Action_Plugin("Action_Plugin_Default_Begin","If Log_Default Then System_Initialize:LogWithInitialize")
+	Call Add_Action_Plugin("Action_Plugin_Default_Begin","If Log_Default Then System_Initialize:LogWithoutInitialize")
 End Function
 
 
