@@ -5456,7 +5456,7 @@ Class TCounter
 		IP=IIf(Request.ServerVariables("HTTP_X_FORWARDED_FOR")="",Request.Servervariables("REMOTE_ADDR"),Request.ServerVariables("HTTP_X_FORWARDED_FOR"))
 		Agent=Request.ServerVariables("HTTP_USER_AGENT")
 		Referer=Request.ServerVariables("HTTP_REFERER")
-		PostTime=Now
+		PostTime=FormatDateTime(Now)
 		Content=c
 		UserID=BlogUser.ID
 		PostData=IIf(IIf(InStr(LCase(Request.ServerVariables("CONTENT_TYPE")),"multipart/form-data")>0,True,False),"Binary PostData",Request.Form)
@@ -5476,6 +5476,7 @@ Class TCounter
 		Next
 		m=m&"'"&vbsescape(j(i))&"'"
 		m=m&")"
+		Response.Write m
 		objConn.Execute m
 		
 		ID=objConn.Execute("SELECT MAX([coun_ID]) FROM [blog_Counter]")(0)
