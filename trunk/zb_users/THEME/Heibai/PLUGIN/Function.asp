@@ -60,7 +60,7 @@ Function RsCommWallFilter(LTamount,LTImg,LTFilter,LTList,LTWhere,LTType,Lt_texta
 	dim ComWallRS,InserNewHtml:InserNewHtml = ""
 	Set ComWallRS=objConn.Execute("SELECT TOP "&LTamount&" "&LTFilter&" FROM "&LTList&" GROUP BY comm_Email, comm_HomePage, comm_Author ORDER BY "&LTType&";")
 	Do Until ComWallRS.Eof
-		InserNewHtml = InserNewHtml & "<li class='mostactive'><a href='" & ComWallRS("comm_HomePage") &"' title='" & ComWallRS("comm_Author") &" (留下" & ComWallRS("comm_Sum") &"个脚印)' target='_blank' rel='external nofollow'><img src='http://www.gravatar.com/avatar/" & MD5(ComWallRS("comm_Email")) & "' alt='" & ComWallRS("comm_Author") &" (留下" & ComWallRS("comm_Sum") &"个脚印)' class='avatar'  /></a></li>"
+		InserNewHtml = InserNewHtml & "<li class=""mostactive""><a href=""" & ComWallRS("comm_HomePage") &""" title=""" & ComWallRS("comm_Author") &" (留下" & ComWallRS("comm_Sum") &"个脚印)"" target=""_blank"" rel=""external nofollow""><img src=""http://www.gravatar.com/avatar/" & MD5(ComWallRS("comm_Email")) & """ alt=""" & ComWallRS("comm_Author") &" (留下" & ComWallRS("comm_Sum") &"个脚印)"" class=""avatar""  /></a></li>"
 	ComWallRS.MoveNext
 	Loop
 	RsCommWallFilter = InserNewHtml
