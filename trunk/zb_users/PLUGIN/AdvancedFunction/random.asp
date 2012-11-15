@@ -18,6 +18,6 @@ init()
 <script language="javascript" runat="server">
 function init(){
 	advancedfunction.init();
-	Response.Write("$(\"#AdvancedFunction_Random\").html('"+advancedfunction.随机文章(false).replace(/<#ZC_BLOG_HOST#>/g,BlogHost)+"');")
+	Response.Write("$(\"#divRandomArticle ul\").html('"+advancedfunction.随机文章(false).replace(/<#ZC_BLOG_HOST#>/g,BlogHost)+"');")
 }
 </script>
