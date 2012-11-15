@@ -202,7 +202,7 @@ var advancedfunction={
 				subtemplate[i]=subtemplate[i].replace("$title_sort$",((s.title.length>20)?(s.title.substr(0,17)+"..."):(s.title)));
 				objrs.MoveNext;
 			}
-			if(save){return this.functions.savefunction("RandomArticle","随机文章","divRandomArticle","<div id=\"AdvancedFunction_Random\">"+subtemplate.join("")+"</div>");}
+			if(save){return this.functions.savefunction("RandomArticle","随机文章","divRandomArticle",subtemplate.join(""));}
 			return subtemplate.join("");
 
 		}
