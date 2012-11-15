@@ -1,14 +1,14 @@
 <%
 '检验数据是否存在------------------------------------
 Function CheckFields(ParameterName,FieldsName,TableName)
-dim cRs
-Set cRs=objConn.Execute("SELECT * FROM "&TableName&" Where "&ParameterName&" like '%" & FieldsName & "%'")
-if not cRs.eof then
-    CheckFields = cRs("fn_ID")
-	else
-	CheckFields = 0
-end if
-Set cRs = nothing
+	dim cRs
+	Set cRs=objConn.Execute("SELECT * FROM "&TableName&" Where "&ParameterName&" like '%" & FieldsName & "%'")
+	if not cRs.eof then
+		CheckFields = cRs("fn_ID")
+		else
+		CheckFields = 0
+	end if
+	Set cRs = nothing
 End Function
 
 
@@ -71,78 +71,84 @@ End Function
 
 '检查最新文章列表====================================
 Function CheckNewArticle()
-Dim objFunction,objConfig
-Set objConfig=New TConfig
-objConfig.Load("Heibai")
-if FunctionMetas.GetValue("HeibaiNewArtFile")=Empty Then
-	Set objFunction=New TFunction
-	objFunction.ID=0
-	objFunction.Name="最新文章"
-	objFunction.FileName="HeibaiNewArtFile"
-	objFunction.HtmlID="divNewArt"
-	objFunction.Ftype="ul"
-	objFunction.Order=15
-	objFunction.MaxLi=0
-	objFunction.SidebarID=10000
-Else
-	Set objFunction=Functions(FunctionMetas.GetValue("HeibaiNewArtFile"))
-End If
-objFunction.IsSystem=True
-objFunction.Content=RsFilter(objConfig.Read("SetNewArt"),True,"*","blog_Article","[log_Type]=0","Log_PostTime DESC","inpContent","NewArt")
-objFunction.save
-Call SaveFunctionType()
-Call MakeBlogReBuild_Core()
+	Dim objFunction,objConfig
+	Set objConfig=New TConfig
+	objConfig.Load("Heibai")
+	if FunctionMetas.GetValue("HeibaiNewArtFile")=Empty Then
+		Set objFunction=New TFunction
+		objFunction.ID=0
+		objFunction.Name="最新文章"
+		objFunction.FileName="HeibaiNewArtFile"
+		objFunction.HtmlID="divNewArt"
+		objFunction.Ftype="ul"
+		objFunction.Order=15
+		objFunction.MaxLi=0
+		objFunction.SidebarID=10000
+	Else
+		Set objFunction=Functions(FunctionMetas.GetValue("HeibaiNewArtFile"))
+	End If
+	objFunction.IsSystem=True
+	objFunction.Content=RsFilter(objConfig.Read("SetNewArt"),True,"*","blog_Article","[log_Type]=0","Log_PostTime DESC","inpContent","NewArt")
+	objFunction.save
+	'Call SaveFunctionType()
+	'Call MakeBlogReBuild_Core()
+	Set objFunction=Nothing
+	Set objConfig=Nothing
 End Function
 
 '检查热议列表(评论最高)====================================
 Function CheckCommArticle()
-Dim objFunction,objConfig
-Set objConfig=New TConfig
-objConfig.Load("Heibai")
-if FunctionMetas.GetValue("HeibaiCommArtFile")=Empty Then
-	Set objFunction=New TFunction
-	objFunction.ID=0
-	objFunction.Name="热评文章"
-	objFunction.FileName="HeibaiCommArtFile"
-	objFunction.HtmlID="divCommArt"
-	objFunction.Ftype="ul"
-	objFunction.Order=16
-	objFunction.MaxLi=0
-	objFunction.SidebarID=10000
-Else
-	Set objFunction=Functions(FunctionMetas.GetValue("HeibaiCommArtFile"))
-End if
+	Dim objFunction,objConfig
+	Set objConfig=New TConfig
+	objConfig.Load("Heibai")
+	if FunctionMetas.GetValue("HeibaiCommArtFile")=Empty Then
+		Set objFunction=New TFunction
+		objFunction.ID=0
+		objFunction.Name="热评文章"
+		objFunction.FileName="HeibaiCommArtFile"
+		objFunction.HtmlID="divCommArt"
+		objFunction.Ftype="ul"
+		objFunction.Order=16
+		objFunction.MaxLi=0
+		objFunction.SidebarID=10000
+	Else
+		Set objFunction=Functions(FunctionMetas.GetValue("HeibaiCommArtFile"))
+	End if
 	objFunction.IsSystem=True
 	objFunction.Content=RsFilter(objConfig.Read("SetCommArt"),True,"*","blog_Article","[log_Type]=0","log_CommNums DESC,Log_PostTime DESC","inpContent","CommArt")
 	objFunction.save
-	Call SaveFunctionType()
-	Call MakeBlogReBuild_Core()
+	Set objFunction=Nothing
+	Set objConfig=Nothing
+	'Call MakeBlogReBuild_Core()
+	Set objConfig=Nothing
 End Function
 
 
 '检查最新评论列表=============================================
 Function CheckNewComm()
-Dim objFunction,objConfig
-Set objConfig=New TConfig
-objConfig.Load("Heibai")
-if FunctionMetas.GetValue("HeibaiNewCommFile")=Empty Then
-	Set objFunction=New TFunction
-	objFunction.ID=0
-	objFunction.Name="最新评论（带头像）"
-	objFunction.FileName="HeibaiNewCommFile"
-	objFunction.HtmlID="divNewComm"
-	objFunction.Ftype="ul"
-	objFunction.Order=17
-	objFunction.MaxLi=0
-	objFunction.SidebarID=10000
-Else
-	Set objFunction=Functions(FunctionMetas.GetValue("HeibaiNewCommFile"))
-End if
+	Dim objFunction,objConfig
+	Set objConfig=New TConfig
+	objConfig.Load("Heibai")
+	if FunctionMetas.GetValue("HeibaiNewCommFile")=Empty Then
+		Set objFunction=New TFunction
+		objFunction.ID=0
+		objFunction.Name="最新评论（带头像）"
+		objFunction.FileName="HeibaiNewCommFile"
+		objFunction.HtmlID="divNewComm"
+		objFunction.Ftype="ul"
+		objFunction.Order=17
+		objFunction.MaxLi=0
+		objFunction.SidebarID=10000
+	Else
+		Set objFunction=Functions(FunctionMetas.GetValue("HeibaiNewCommFile"))
+	End if
 	objFunction.IsSystem=True
 	objFunction.Content=RsCommFilter(objConfig.Read("SetNewComm"),True,"[comm_ID],[log_ID],[comm_HomePage],[comm_Author],[comm_Content],[comm_Email],[comm_PostTime]","blog_Comment","[comm_ID]>0","comm_PostTime DESC","inpContent")
 	objFunction.save
-	Call SaveFunctionType()
-	Call MakeBlogReBuild_Core()
+	'Call SaveFunctionType()
+	Set objFunction=Nothing
+	Set objConfig=Nothing
+	'Call MakeBlogReBuild_Core()
 End Function
 
 
@@ -167,8 +173,11 @@ End if
 	objFunction.IsSystem=True
 	objFunction.Content=RsCommWallFilter(objConfig.Read("SetHotCommer"),True,"comm_Email, comm_HomePage, comm_Author, Count(*) AS comm_Sum","blog_Comment","(comm_Email)<>''","Count(*) DESC","inpContent")
 	objFunction.save
-	Call SaveFunctionType()
-	Call MakeBlogReBuild_Core()
+	'Call SaveFunctionType()
+
+	Set objFunction=Nothing
+	Set objConfig=Nothing
+	'Call MakeBlogReBuild_Core()
 End Function
 
 
@@ -216,8 +225,10 @@ Function CheckRandomArticle()
 		objFunction.IsSystem=True
 		objFunction.Content=RsFilter(objConfig.Read("SetRandomArt"),True,"*","blog_Article","[log_Type]=0",SortBy,"inpContent","RandomArt")
 		objFunction.save
-		Call SaveFunctionType()
-		Call MakeBlogReBuild_Core()
+		'Call SaveFunctionType()
+		Set objFunction=Nothing
+		Set objConfig=Nothing
+		'Call MakeBlogReBuild_Core()
 End Function
 
 
@@ -227,12 +238,13 @@ End Function
 Function RemNewArticle()
 Dim objFunction
 Set objFunction=New TFunction
-if CheckFields("fn_FileName","Heibainewartfile","blog_Function") <> 0 Then
-	objFunction.LoadInfoByID(CheckFields("fn_FileName","Heibainewartfile","blog_Function"))
+Dim i:i=CheckFields("fn_FileName","Heibainewartfile","blog_Function")
+if  i Then
+	objFunction.LoadInfoByID(i)
 	objFunction.IsSystem=False
 	objFunction.save
-	Call SaveFunctionType()
-	Call MakeBlogReBuild_Core()
+	'Call SaveFunctionType()
+	'Call MakeBlogReBuild_Core()
 	objFunction.Del
 End if
 Set objFunction = Nothing
@@ -242,12 +254,14 @@ End Function
 Function RemCommArticle()
 Dim objFunction
 Set objFunction=New TFunction
-if CheckFields("fn_FileName","Heibaicommartfile","blog_Function") <> 0 Then
-	objFunction.LoadInfoByID(CheckFields("fn_FileName","Heibaicommartfile","blog_Function"))
+Dim i:i=CheckFields("fn_FileName","Heibaicommartfile","blog_Function")
+
+if i <> 0 Then
+	objFunction.LoadInfoByID(i)
 	objFunction.IsSystem=False
 	objFunction.save
-	Call SaveFunctionType()
-	Call MakeBlogReBuild_Core()
+	'Call SaveFunctionType()
+	'Call MakeBlogReBuild_Core()
 	objFunction.Del
 End if
 Set objFunction = Nothing
@@ -257,12 +271,14 @@ End Function
 Function RemRandomArticle()
 Dim objFunction
 Set objFunction=New TFunction
-if CheckFields("fn_FileName","Heibairandomartfile","blog_Function") <> 0 Then
-	objFunction.LoadInfoByID(CheckFields("fn_FileName","Heibairandomartfile","blog_Function"))
+Dim i:i=CheckFields("fn_FileName","Heibairandomartfile","blog_Function")
+
+if i Then
+	objFunction.LoadInfoByID(i)
 	objFunction.IsSystem=False
 	objFunction.save
-	Call SaveFunctionType()
-	Call MakeBlogReBuild_Core()
+	'Call SaveFunctionType()
+	'Call MakeBlogReBuild_Core()
 	objFunction.Del
 End if
 Set objFunction = Nothing
@@ -272,12 +288,14 @@ End Function
 Function RemNewComm()
 Dim objFunction
 Set objFunction=New TFunction
-if CheckFields("fn_FileName","HeibaiNewCommfile","blog_Function") <> 0 Then
-	objFunction.LoadInfoByID(CheckFields("fn_FileName","HeibaiNewCommfile","blog_Function"))
+Dim i:i=CheckFields("fn_FileName","HeibaiNewCommfile","blog_Function")
+
+if i Then
+	objFunction.LoadInfoByID(i)
 	objFunction.IsSystem=False
 	objFunction.save
-	Call SaveFunctionType()
-	Call MakeBlogReBuild_Core()
+	'Call SaveFunctionType()
+	'Call MakeBlogReBuild_Core()
 	objFunction.Del
 End if
 Set objFunction = Nothing
@@ -287,12 +305,14 @@ End Function
 Function RemHotCommer()
 Dim objFunction
 Set objFunction=New TFunction
-if CheckFields("fn_FileName","HeibaiHotCommerfile","blog_Function") <> 0 Then
-	objFunction.LoadInfoByID(CheckFields("fn_FileName","HeibaiHotCommerfile","blog_Function"))
+Dim i:i=CheckFields("fn_FileName","HeibaiHotCommerfile","blog_Function")
+
+if i Then
+	objFunction.LoadInfoByID(i)
 	objFunction.IsSystem=False
 	objFunction.save
-	Call SaveFunctionType()
-	Call MakeBlogReBuild_Core()
+	'Call SaveFunctionType()
+	'Call MakeBlogReBuild_Core()
 	objFunction.Del
 End if
 Set objFunction = Nothing
