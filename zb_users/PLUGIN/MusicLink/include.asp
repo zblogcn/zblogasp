@@ -17,7 +17,7 @@ Function ActivePlugin_MusicLink()
 	If objConfig.Exists("Version")=False Then
 		objConfig.Write "Version","0.1"
 		objConfig.Write "AutoPlay","True"
-		objConfig.Write "Player","baidu"
+		objConfig.Write "Player","yige"
 		objConfig.Save
 	Else
 		AutoPlay=objConfig.Read("AutoPlay")
