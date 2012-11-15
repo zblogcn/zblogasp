@@ -513,15 +513,9 @@ _background-attachment:fixed;
 	font-family:PMingLiU,微软雅黑,sans-serif;
 	}
 /*ADD:imzhou.com：zblog comment*/
-.comment.blockquote{margin-left: 0px;
+.pagebar{list-style-type:none;
        }
-.comment div.quote{margin: 5px 0 0 65px;
-	line-height:21px;}
-.comment div.quote-title{font-size:11px;
-	padding:0 0 4px 0;
-	color:#aaa;
-	text-shadow: 0px 1px 0px #fff;
-	font-family:PMingLiU,微软雅黑,sans-serif;}
+
 /*ADD:imzhou.com：zblog comment*/
 
 
