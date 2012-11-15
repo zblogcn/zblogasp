@@ -347,6 +347,12 @@ End If
 
 <script type="text/javascript">
 // <![CDATA[
+$(document).ready(function(){
+	$("#edit").submit(function(){
+		if(editor.queryCommandState("source")==1) editor.execCommand("source");
+		if(editor2.queryCommandState("source")==1) editor2.execCommand("source")
+		}) //源码模式下保存时必须切换
+	});
 var loaded=false;
 var editor = new baidu.editor.ui.Editor();
 var editor2 = new baidu.editor.ui.Editor({
@@ -356,9 +362,14 @@ var editor2 = new baidu.editor.ui.Editor({
 });
 editor.render('editor_ue');
 editor2.render('editor_ue2');
-editor.ready(function(){$("#contentready").hide();$("div[id='editor_ue']").show()})
-editor2.ready(function(){$("#introready").hide();$("div[id='editor_ue2']").show()})
-
+editor.ready(function(){
+	$("#contentready").hide();$("div[id='editor_ue']").show();
+}
+);
+editor2.ready(function(){
+	$("#introready").hide();
+	$("div[id='editor_ue2']").show();
+});
 //日期时间控件
 $.datepicker.regional['zh-cn'] = {
 	closeText: '完成',
