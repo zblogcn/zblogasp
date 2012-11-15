@@ -12143,7 +12143,15 @@ UE.plugins['table'] = function () {
                                 tj.parentNode.appendChild( td )
                             }
                         } else {
-                            tmpTd = rows[rowIndex + r].children[index];
+                            var row;
+                            if(!rows[rowIndex + r]){
+                               row  = ti.insertRow(rowIndex+r)
+                            }else{
+                               row = rows[rowIndex + r]
+                            }
+
+                            tmpTd = row.children[index];
+
                             if ( tmpTd ) {
                                 tmpTd.parentNode.insertBefore( td, tmpTd )
                             } else {

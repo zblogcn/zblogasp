@@ -52,6 +52,7 @@ Next
 	oDic.Add "scrawlFieldName","""edtFileLoad"""
 	oDic.Add "maxImageSideLength","2147483647"
 	oDic.Add "sourceEditor",""""&IIf(ZC_CODEMIRROR_ENABLE,"codemirror","textarea")&""""
+	'oDic.Add "contextMenu","[]"
 	
 	Dim i,aryKeys,aryItems
 	aryKeys=oDic.Keys
