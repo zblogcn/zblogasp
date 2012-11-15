@@ -23,12 +23,12 @@ Dim objConfig
 Set objConfig=New TConfig
 objConfig.Load("Heibai")
 If objConfig.Exists("Version")=False Then
-	objConfig.Write "Version","0.1"
+	objConfig.Write "Version","0.2"
 	objConfig.Write "SetNewArt","10"
 	objConfig.Write "SetCommArt","10"
 	objConfig.Write "SetRandomArt","10"
 	objConfig.Write "SetNewComm","10"
-	objConfig.Write "SetHotCommer","10"
+	objConfig.Write "SetHotCommer","15"
 	objConfig.Write "SetTags","30"
 	objConfig.Write "SetWeiboSina","http://weibo.com/810888188"
 	objConfig.Write "SetWeiboQQ","http://t.qq.com/involvements"
@@ -121,11 +121,11 @@ p{line-height:1.5em;padding:0.5em 0;}
     <td><p align="center"><input name="SetHotCommer" type="text" id="SetHotCommer" size="10" value="<%=objConfig.Read("SetHotCommer")%>" /></p></td>
     <td><input name="" type="submit" class="button" value="保存" onclick='document.getElementById("form1").action="?act=SetHotCommer";'/></td>
   </tr>
-   <tr>
+  <!-- <tr>
     <td><b><label for="SetTags">标签列表</label></b></td>
     <td><p align="center"><input name="SetTags" type="text" id="SetTags" size="10" value="<%=objConfig.Read("SetTags")%>" /></p></td>
     <td><input name="" type="submit" class="button" value="保存" onclick='document.getElementById("form1").action="?act=SetTags";'/></td>
-  </tr>
+  </tr>-->
 </table>
   </form>
 <br />
