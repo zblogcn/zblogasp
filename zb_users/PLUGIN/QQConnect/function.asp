@@ -14,6 +14,7 @@ var qqconnect={}
 function init_qqconnect(){
 	qqconnect["tconfig"]=newClass("TConfig");
 	qqconnect.tconfig.Load("QQConnect");
+	if(qqconnect.tconfig.exists("version")==false) checkconfig_qqconnect();
 	qqconnect["config"]={
 		"weibo":{
 			"appkey":"2e21c7b056f341b080d4d3691f3d50fb"
@@ -22,8 +23,8 @@ function init_qqconnect(){
 			,"secret":qqconnect.tconfig.Read("Weibo_Secret")
 		}
 		,"qqconnect":{
-			"appid":"100292512"
-			,"appsecret":"715987386cc91d5db8a8e144a00fa1bf"
+			"appid":qqconnect.tconfig.Read("appid")
+			,"appsecret":qqconnect.tconfig.Read("key")
 			,"openid":""
 			,"accesstoken":""
 			,"admin":{
@@ -67,7 +68,16 @@ function qqconnect_navbar(id){
 
 	
 	
-	
+function checkconfig_qqconnect(){
+		qqconnect.tconfig.Write("version","1.0");
+		for(var i=97;i<=105;i++){
+			qqconnect.tconfig.Write(String.fromCharCode(i),(String.fromCharCode(i)!="g"?true:false))
+		}
+		qqconnect.tconfig.Write("a1","0");
+		qqconnect.tconfig.Write("content","更新了文章：《%t》，%u");
+		qqconnect.tconfig.Write("pl","@%a 评论 %c");
+		qqconnect.tconfig.Save();
+}
 
 //没法子，只好这样
 function qqconnect_json(){return "请使用不同对象，嗯。"}

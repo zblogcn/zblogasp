@@ -88,17 +88,21 @@ End If
   <tr height="32">
     <td>
 <%
-If BlogUser.Level=1 Then
-	qqconnect.config.qqconnect.openid=qqconnect.config.qqconnect.admin.openid
-	qqconnect.config.qqconnect.accesstoken=qqconnect.config.qqconnect.admin.accesstoken
-	If qqconnect.config.qqconnect.openid="" Then
-		Response.Write "<a href='" & qqconnect.c.Authorize() & "'><img src='resources/logo_170_32.png'/></a>"
+If qqconnect.config.qqconnect.appid<>"" Then
+	If BlogUser.Level=1 Then
+		qqconnect.config.qqconnect.openid=qqconnect.config.qqconnect.admin.openid
+		qqconnect.config.qqconnect.accesstoken=qqconnect.config.qqconnect.admin.accesstoken
+		If qqconnect.config.qqconnect.openid="" Then
+			Response.Write "<a href='" & qqconnect.c.Authorize() & "'><img src='resources/logo_170_32.png'/></a>"
+		Else
+			Set tmpObject=qqconnect_json.toobject(qqconnect.c.api("https://graph.qq.com/user/get_user_info","{}","GET"))
+			Response.Write "欢迎回来，QQ空间用户" & tmpObject.nickname & "<a href='main.asp?act=logout&type=connect'>点击这里注销</a>"
+		End If
 	Else
-		Set tmpObject=qqconnect_json.toobject(qqconnect.c.api("https://graph.qq.com/user/get_user_info","{}","GET"))
-		Response.Write "欢迎回来，QQ空间用户" & tmpObject.nickname & "<a href='main.asp?act=logout&type=connect'>点击这里注销</a>"
+		'xxxxx
 	End If
 Else
-	'xxxxx
+	Response.Write "未配置QQ互联APPID，无法使用本功能。"
 End If
 %>    
 </td>
