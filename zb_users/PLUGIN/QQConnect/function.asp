@@ -46,7 +46,7 @@ function init_qqconnect(){
 function qqconnect_encodeurl(url){
 	var s=url;
 	s=Server.URLEncode(s);
-	s=s.replace(/%5F/g,"_").replace(/%2E/g,".").replace(/%2D/g,"-").replace(/\+/g,"%20");
+	s=s.replace(/%5F/g,"_").replace(/%2E/g,".").replace(/%2D/g,"-").replace(/%7E/g,"~").replace(/\+/g,"%20");
 	return s
 }
 function qqconnect_getip(){
@@ -58,10 +58,12 @@ function qqconnect_navbar(id){
 			name:["main.asp","setting.asp"]
 			,cls:["m-left","m-left"]
 			,text:["首页","设置"]
+			,level:[5,4]
 			};
 		var str="";
 		for(var i=0;i<json.name.length;i++){
-			str+=MakeSubMenu(json.text[i],json.name[i],json.cls[i]+(id==i?" m-now ":""),false)
+			if(BlogUser.Level<=json.level[i]){
+			str+=MakeSubMenu(json.text[i],json.name[i],json.cls[i]+(id==i?" m-now ":""),false)}
 		}
 		return str
 }
@@ -81,13 +83,13 @@ function checkconfig_qqconnect(){
 
 //没法子，只好这样
 function qqconnect_json(){return "请使用不同对象，嗯。"}
-qqconnect_json.e=function (a,b){return this.extend({}, [a,b]);}
+qqconnect_json.e=function (a,b){return this.toObject(this.toJSONwithEncode(this.extend({}, [a,b])));}
 qqconnect_json.extend=function (des, src, override){if(src instanceof Array){for(var i = 0, len = src.length; i < len; i++)this.extend(des, src[i], override);}  for( var i in src){if(override || !(i in des)){des[i] = src[i];}} delete des["0"];delete des["1"];return des;	}
 qqconnect_json.toObject=function(json) {var o = eval('('+json+')');return o;}
 qqconnect_json.addObj=function(o,attr,str){o[attr] = str;}
 qqconnect_json.delObj=function(o,attr) {delete o[attr];}
 qqconnect_json.toJSON=function(o){var json = "";for(attr in o) {json = json == "" ?  "'" + attr + "':'"+ String(o[attr]).replace(/(,)/g,"x@._a") + "'" : json + ",'" + attr + "':'" + String(o[attr]).replace(/(,)/g,"x@._a") + "'";}json = "{" + json + "}";json = "{" + json.match(/[^,\{]+(?=\}|,)/g).sort().join(",") + "}";json = json.replace(/(x@._a)/g,",");return  json ;}
-qqconnect_json.toJSONwithEncode=function(o){var json = "";for(attr in o) {json = json == "" ?  "'" + attr + "':'"+ String(o[attr]).replace(/(,)/g,"x@._a") + "'" : json + ",'" + attr + "':'" + encodeURIComponent(String(o[attr]).replace(/(,)/g,"x@._a")) + "'";}json = "{" + json + "}";json = "{" + json.match(/[^,\{]+(?=\}|,)/g).sort().join(",") + "}";json = json.replace(/(x@._a)/g,",");return  json ;}
+qqconnect_json.toJSONwithEncode=function(o){var json = "";for(attr in o) {json = json == "" ?  "'" + attr + "':'"+ String(o[attr]).replace(/(,)/g,"x@._a") + "'" : json + ",'" + attr + "':'" + qqconnect_encodeurl(String(o[attr]).replace(/(,)/g,"x@._a")) + "'";}json = "{" + json + "}";json = "{" + json.match(/[^,\{]+(?=\}|,)/g).sort().join(",") + "}";json = json.replace(/(x@._a)/g,",");return  json ;}
 qqconnect_json.toStr=function(o){var json = this.toJSON(o);var o = this.toObject(json);var str = "";for(attr in o) {str = str == "" ?  attr + "="+ o[attr] : str + "&" + attr + "="+ o[attr];}return str;}
 qqconnect_json.toObject2=function(o) {var str = "";for(attr in o) {str = str == "" ? "name:'" + attr + "',value:'"+ o[attr] + "'" : str + "},{name:'" + attr + "',value:'" + o[attr] + "'";}str = "[{" + str + "}]";return this.toObject(str);}
 </script>

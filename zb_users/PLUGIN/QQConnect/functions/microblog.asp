@@ -78,9 +78,9 @@ Function t(content,pic)
 	Call qqconnect_json.addObj(b,"clientip",qqconnect_getip())
 	Call qqconnect_json.addObj(b,"format","json")
 	Call qqconnect_json.addObj(b,"syncflag",1)
-	
 	If pic<>"~" and  pic<>"" Then
 		Call qqconnect_json.addObj(b,"pic_url",pic)
+	
 		t=API("http://open.t.qq.com/api/t/add_pic_url",qqconnect_json.TOJSON(b),"POST&")
 	Else
 		t=API("http://open.t.qq.com/api/t/add",qqconnect_json.TOJSON(b),"POST&")
@@ -164,7 +164,7 @@ Function MakeOauth1Url(ByRef oauth_url,ip,content)
 	strWithOutOauthSignature=qqconnect_encodeurl(qqconnect_b64_hmac_sha1(qqconnect.config.weibo.appsecret&"&"&strOauthTokenSecret,strOauth1BaseString))
 	Call qqconnect_json.addObj(objJSON,"oauth_signature",strWithOutOauthSignature)
 	strMadeUpUrl=qqconnect_json.toStr(objJSON)
-	if bolDebugMsg=true then response.write "<font color='black'>最终生成：" & strMadeUpUrl & "</font></div>"
+	if bolDebugMsg=true then response.write "<font color='black'>最终生成：" & oauth_url&"?"&strMadeUpUrl & "</font></div>"
 	MakeOauth1Url=oauth_url&"?"&strMadeUpUrl
 	strPostUrl = oauth_url
 End Function
