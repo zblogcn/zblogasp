@@ -35,6 +35,7 @@ End Function
 
 
 
+
 Function LazyLoad_InnerCode2(ByRef HtmlContent)
 	Dim NewRegExp,ForVar1,ForVar2
 	Set NewRegExp=New RegExp

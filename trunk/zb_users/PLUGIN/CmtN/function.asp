@@ -53,7 +53,7 @@ Class CmtN_Class
 		Set objArticle=New TArticle
 		If objArticle.LoadInfoByID(objComment.log_id) Then
 			If isParent=False Then
-				Art_FirstName=Users(objArticle.AuthorID).FirstName
+				Art_FirstName=IIf(objArticle.AuthorID=0,objArticle.Author,Users(objArticle.AuthorID).FirstName)
 				Call GetUser
 				Cmt_FirstName = objComment.Author
 				If objComment.AuthorID>0 Then
