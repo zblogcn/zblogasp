@@ -3,13 +3,7 @@
 <!-- #include file="functions/network.asp"-->
 <!-- #include file="functions/database.asp"-->
 <!-- #include file="functions/hmac_sha1.asp"-->
-<%
-'我擦，还是得用VBS写。
-'VBS丫调用不了JS的伪类啊戳
 
-
-
-%>
 <script language="javascript" runat="server">
 var qqconnect={}
 function init_qqconnect(){
@@ -125,6 +119,17 @@ qqconnect["functions"]={
 		if(r.test(s)) temp=r.exec(s)[1]
 		if(temp.indexOf("http")<0&&temp!=""){temp=BlogHost + temp}
 		return temp
+	}
+	,"savereg":function(uid,openid,accesstoken){
+		if(!(typeof(openid)==undefined)){
+			init_qqconnect();
+			qqconnect.d.OpenID=openid;
+			qqconnect.d.AccessToken=accesstoken;
+			qqconnect.d.objUser.LoadInfoById(uid);
+			qqconnect.d.Bind();
+			return true;
+		}
+		return false;
 	}
 }
 

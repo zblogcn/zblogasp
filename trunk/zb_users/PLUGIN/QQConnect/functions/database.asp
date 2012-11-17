@@ -71,10 +71,10 @@ Class QQConnect_DB
 		Call CheckParameter(objUser.ID,"int",0)
 		OpenID=FilterSQL(OpenID)
 		AccessToken=FilterSQL(AccessToken)
-		If objUser.ID=0 Then
-			Bind=False
-			Exit Function
-		End If
+		'If objUser.ID=0 Then
+		'	Bind=False
+	'	'	Exit Function
+		'End If
 		If Not CheckRegExp(OpenID,"^[0-9A-Z]{32}$") Then
 			Call ShowError(3)
 		End If

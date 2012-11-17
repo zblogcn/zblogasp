@@ -19,8 +19,8 @@ If CheckPluginState("QQConnect")=False Then Call ShowError(48)
 BlogTitle="QQ互联-绑定管理"
 %>      <%
 Sub DelQQ(id)
-	QQConnect_DB.ID=id
-	QQConnect_DB.Del
+	QQConnect.d.ID=id
+	QQConnect.d.Del
 	Call SetBlogHint(True,True,Empty)
 End Sub
 If Request.QueryString("act")="del" Then Call DelQQ(Request.QueryString("id"))  %>
@@ -94,15 +94,17 @@ Function ExportQQList(intPage,intId,intUid,strOid)
 	objRS.PageSize=ZC_MANAGE_COUNT
 	If objRS.PageCount>0 Then objRS.AbsolutePage = intPage
 	intPageAll=objRS.PageCount
-	Response.Write "<tr><td>0</td><td><b>[固定]</b>管理员("&BlogUser.FIrstName&")</td><td>"&qqconnect.config.qqconnect.admin.openid
-	Response.Write "</td><td>"&qqconnect.config.qqconnect.admin.accesstoken
-	Response.Write "</td><td>"
-	Response.Write IIf(BlogUser.Meta.GetValue("QQConnect_Head1")="","","<img src="""&BlogUser.Meta.GetValue("QQConnect_Head1")&""" width=""32px"" height=""32px""/>")
-	Response.Write "</td><td>"
-	Response.Write IIf(BlogUser.Meta.GetValue("QQConnect_Head2")="","","<img src="""&BlogUser.Meta.GetValue("QQConnect_Head2")&"/30"" width=""32px"" height=""32px""/>")
-	Response.Write "</td></td><td>"
-	Response.Write "<img src=""http://www.gravatar.com/avatar/"& MD5(BlogUser.Email) & """ width=""32px"" height=""32px""/>"
-	Response.Write "</td><td></td></tr>"
+	If BlogUser.Level=1 Then
+		Response.Write "<tr><td>0</td><td><b>[固定]</b>管理员("&BlogUser.FIrstName&")</td><td>"&qqconnect.config.qqconnect.admin.openid
+		Response.Write "</td><td>"&qqconnect.config.qqconnect.admin.accesstoken
+		Response.Write "</td><td>"
+		Response.Write IIf(BlogUser.Meta.GetValue("QQConnect_Head1")="","","<img src="""&BlogUser.Meta.GetValue("QQConnect_Head1")&""" width=""32px"" height=""32px""/>")
+		Response.Write "</td><td>"
+		Response.Write IIf(BlogUser.Meta.GetValue("QQConnect_Head2")="","","<img src="""&BlogUser.Meta.GetValue("QQConnect_Head2")&"/30"" width=""32px"" height=""32px""/>")
+		Response.Write "</td></td><td>"
+		Response.Write "<img src=""http://www.gravatar.com/avatar/"& MD5(BlogUser.Email) & """ width=""32px"" height=""32px""/>"
+		Response.Write "</td><td></td></tr>"
+	End If
 	If (Not objRS.bof) And (Not objRS.eof) Then
 		For i=1 to objRS.PageSize
 			Response.Write "<tr>"
@@ -118,7 +120,7 @@ Function ExportQQList(intPage,intId,intUid,strOid)
 						Response.Write "<td><img src=""" & User.Meta.GetValue("QQConnect_Head1") & """ width=""32px"" height=""32px""/></td>"
 						Response.Write "<td><img src=""" & User.Meta.GetValue("QQConnect_Head2")&"/30"" width=""32px"" height=""32px""/></td>"
 						Response.Write "<td><img src=""http://www.gravatar.com/avatar/"& MD5(BlogUser.Email) & """ width=""32px"" height=""32px""/></td>"
-						Response.Write "<td><a href=""edit.asp?id="&objRs("QQ_ID")&"""><img src=""../../../ZB_SYSTEM/image/admin/page_edit.png"" title=""编辑""/></a>  <a onclick='return window.confirm("""& ZC_MSG058 &""");' href=""m.asp?act=del&id=" & objRS("Qq_ID") & """><img src=""../../../ZB_SYSTEM/image/admin/delete.png"" alt=""" & ZC_MSG063 & """ title=""" & ZC_MSG063 & """ width=""16"" /></a></td>"
+						Response.Write "<td><a onclick='return window.confirm("""& ZC_MSG058 &""");' href=""m.asp?act=del&id=" & objRS("Qq_ID") & """><img src=""../../../ZB_SYSTEM/image/admin/delete.png"" alt=""" & ZC_MSG063 & """ title=""" & ZC_MSG063 & """ width=""16"" /></a></td>"
 						Response.Write "</tr>"
 					End If
 				End If

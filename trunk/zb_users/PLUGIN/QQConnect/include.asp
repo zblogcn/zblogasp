@@ -8,8 +8,26 @@ function qqconnect_include(){
 //创建左侧菜单
 	init_qqconnect_include()
 	Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(5,"QQ互联",BlogHost+"zb_users/plugin/qqconnect/main.asp","newQQConnect","anewQQConnect",BlogHost+"zb_users/plugin/qqconnect/resources/Connect_logo_1.png"));
+	
+	//文章发布
 	Add_Action_Plugin("Action_Plugin_Edit_Form","qqconnect.include.action.edit_form(EditArticle)");
-	Add_Action_Plugin("Action_Plugin_ArticlePst_Begin","Call qqconnect.include.action.articlepst(Request.Form(\"syn_qq\"),Request.Form(\"syn_tqq\"))")
+	Add_Action_Plugin("Action_Plugin_ArticlePst_Begin","Call qqconnect.include.action.articlepst(Request.Form(\"syn_qq\"),Request.Form(\"syn_tqq\"))");
+	
+	//注册用户
+	if(CheckPluginState("RegPage")){
+		if(typeof(Request.QueryString("openid").Item)!=undefined) {
+			var strQQ=TransferHTML(FilterSQL(Request.QueryString("openid")),"[nohtml]").replace("\"","\"\"");
+			var strAcc=TransferHTML(FilterSQL(Request.QueryString("accesstoken")),"[nohtml]").replace("\"","\"\"");
+			if((strQQ.length==32)&&(strAcc.length=32)){
+				Add_Response_Plugin("Response_Plugin_RegPage_End","<input type=\"hidden\" value=\""+strQQ+"\" name=\"OpenID\"/>")
+				Add_Response_Plugin("Response_Plugin_RegPage_End","<input type=\"hidden\" value=\""+strAcc+"\" name=\"AccessToken\"/>")
+			}
+		}
+		Add_Action_Plugin("Action_Plugin_RegSave_End","If qqconnect.functions.savereg(RegUser.ID,Request(\"openid\"),Request(\"accesstoken\"))=True Then strResponse=\"<scri"+"pt language='javascript' type='text/javascript'>alert('恭喜，注册成功。\\n欢迎您成为本站一员。\\n\\n单击确定登陆本站。');location.href=\"\""+BlogHost+"zb_users/plugin/qqconnect/main.asp\"\"</scri"+"pt>\"")
+		
+	}
+	//评论同步
+	
 
 }
 function InstallPlugin_QQConnect(){
