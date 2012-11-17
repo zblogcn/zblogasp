@@ -2787,7 +2787,6 @@ Class TUser
 
 		If Session(ZC_BLOG_CLSID & "quicklogin")=MD5(Month(Now) & Day(Now) & ZC_BLOG_CLSID & strUserName & strPassWord) Then
 			If LoadInfobyArray(Application(ZC_BLOG_CLSID & "QUICKLOGIN_ID" & Session(ZC_BLOG_CLSID & "quicklogin_id"))) Then
-				'SetBlogHint_Custom "QUICKLOGIN OK"
 				Verify=True
 				Exit Function
 			End If
@@ -2856,6 +2855,7 @@ Class TUser
 
 			LoadInfobyID=True
 		End If
+
 		objRS.Close
 		Set objRS=Nothing
 
@@ -2988,10 +2988,16 @@ Class TUser
 				End If
 
 			End If
-
+			
+			Dim tmpClsID
+			tmpClsID=MD5(BlogPath & origZC_BLOG_CLSID)
 			Application.Lock
-			Application(ZC_BLOG_CLSID & "QUICKLOGIN_ID" & ID)=Empty
+			Application(tmpClsID & "QUICKLOGIN_ID" & Session(tmpClsID & "quicklogin_id"))=Empty
+			Application(tmpClsID & "QUICKLOGIN_ID" & ID)=Empty
 			Application.UnLock
+			Session(tmpClsID & "quicklogin")=Empty
+			Session(tmpClsID & "quicklogin_id")=Empty
+
 
 		End If
 
@@ -4878,6 +4884,7 @@ Class TMeta
 		Dim n,i
 		i=0
 		For Each n In names
+
 			If LCase(n)=LCase(name) Then
 				GetValue = vbsunescape(values(i))
 				Exit function
