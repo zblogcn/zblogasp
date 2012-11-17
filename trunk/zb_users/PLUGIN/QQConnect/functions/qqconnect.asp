@@ -13,7 +13,7 @@ Class qqconnect_connect
 	Private aryMutliContent
 	Private strContentWithReplaceEnter,strContentWithOutEncode,strOauthCallbackUrl,strWithOutOauthSignature
 	Private tempid,objJSON,bolDebugMsg
-	Private strPrototype,strOauthVersion,ZC_BLOG_CLSID
+	Private strPrototype,strOauthVersion
 	Public debugMsg
 	
 	Sub AddDebug(Content)
@@ -23,7 +23,6 @@ Class qqconnect_connect
 	'** 初始化                                                                **
 	'*******************************************************************************
 	Sub Class_Initialize()
-		ZC_BLOG_CLSID=ZC_BLOG_CLSID
 		strHttptype = "GET&"
 		set objJSON=qqconnect.functions.json.toobject("{}")
 		'qqconnect.config.qqconnect.openid=Session(ZC_BLOG_CLSID&"qqconnect_connect_qqconnect.config.qqconnect.openid")
