@@ -15,13 +15,13 @@ Class qqconnect_network
 		Set objXmlhttp=Server.CreateObject("msxml2.serverxmlhttp")
 		CharSet="utf-8"
 		UA="ZSXSOFT"
-		Set Par=qqconnect_json.toobject("{}")
+		Set Par=qqconnect.functions.json.toobject("{}")
 	End Sub
 	
 	
 	Public Sub setRequestHeader() '设置request头部
 		Dim a
-		a=qqconnect_json.ToStr(Par)
+		a=qqconnect.functions.json.ToStr(Par)
 		Dim b,c,d
 		b=Split(a,"&")
 		For c=0 to Ubound(b)
@@ -33,26 +33,26 @@ Class qqconnect_network
 	Public Function GetHttp(Url) '用Get的方式发送信息
 		objXmlhttp.SetTimeOuts 10000, 10000, 10000, 10000 
 		objXmlhttp.Open "GET",url
-		Call qqconnect_json.addobj(Par,"User-Agent",UA)
+		Call qqconnect.functions.json.addobj(Par,"User-Agent",UA)
 		setRequestHeader
 		objXmlhttp.Send
 		ResponseText=objXmlhttp.ResponseText
 		ResponseBody=objXmlhttp.ResponseBody
 		GetHttp=BytesToBstr(ResponseBody,CharSet)
-		Set Par=qqconnect_json.toobject("{}")
+		Set Par=qqconnect.functions.json.toobject("{}")
 	End Function
 	
 	Public Function PostHttp(Url,Data) '用POST的方式发送信息
 		objXmlhttp.SetTimeOuts 10000, 10000, 10000, 10000 
 		objXmlhttp.Open "POST",url
-		Call qqconnect_json.addobj(Par,"Content-type","application/x-www-form-urlencoded")
-		Call qqconnect_json.addobj(Par,"User-Agent",UA)
+		Call qqconnect.functions.json.addobj(Par,"Content-type","application/x-www-form-urlencoded")
+		Call qqconnect.functions.json.addobj(Par,"User-Agent",UA)
 		setRequestHeader
 		objXmlhttp.Send Data
 		ResponseText=objXmlhttp.ResponseText
 		ResponseBody=objXmlhttp.ResponseBody
 		PostHttp=BytesToBstr(ResponseBody,CharSet)
-		Set Par=qqconnect_json.toobject("{}")
+		Set Par=qqconnect.functions.json.toobject("{}")
 	End Function
 	
 	

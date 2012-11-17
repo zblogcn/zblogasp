@@ -30,7 +30,7 @@ Sub Class_Initialize()
 	Oauth1_accesstoken_url = "https://open.t.qq.com/cgi-bin/access_token"
 	'下面是初始配置
 	strHttptype = "GET&"
-	set objJSON=qqconnect_json.toobject("{}")
+	set objJSON=qqconnect.functions.json.toobject("{}")
 	strUserAgent="qqconnect By ZSXSOFT"
 End Sub
 
@@ -38,7 +38,7 @@ End Sub
 '** 设置CallBackUrl
 '****************************************************************************
 Public Property Let callbackurl(url)
-		strOauthCallbackUrl=qqconnect_encodeurl(url)
+		strOauthCallbackUrl=qqconnect.functions.encodeurl(url)
 End Property
 Public Property Get callbackurl
 		callbackurl=strOauthCallbackUrl
@@ -66,35 +66,35 @@ End Property
 '** 关于
 '****************************************************************************
 Public Function About
-	Set About=qqconnect_json.toobject("{'author':'ZSXSOFT','url':'http://www.zsxsoft.com','version':'qqconnect 2.3'}")
+	Set About=qqconnect.functions.json.toobject("{'author':'ZSXSOFT','url':'http://www.zsxsoft.com','version':'qqconnect 2.3'}")
 End Function
 '*******************************************************************************
 '** RunAPI                                                                **
 '*******************************************************************************
 Function t(content,pic)
 	Dim b
-	Set b=qqconnect_json.toobject("{}")
-	Call qqconnect_json.addObj(b,"content",content)
-	Call qqconnect_json.addObj(b,"clientip",qqconnect_getip())
-	Call qqconnect_json.addObj(b,"format","json")
-	Call qqconnect_json.addObj(b,"syncflag",1)
+	Set b=qqconnect.functions.json.toobject("{}")
+	Call qqconnect.functions.json.addObj(b,"content",content)
+	Call qqconnect.functions.json.addObj(b,"clientip",qqconnect.functions.getip())
+	Call qqconnect.functions.json.addObj(b,"format","json")
+	Call qqconnect.functions.json.addObj(b,"syncflag",1)
 	If pic<>"~" and  pic<>"" Then
-		Call qqconnect_json.addObj(b,"pic_url",pic)
+		Call qqconnect.functions.json.addObj(b,"pic_url",pic)
 	
-		t=API("http://open.t.qq.com/api/t/add_pic_url",qqconnect_json.TOJSON(b),"POST&")
+		t=API("http://open.t.qq.com/api/t/add_pic_url",qqconnect.functions.json.TOJSON(b),"POST&")
 	Else
-		t=API("http://open.t.qq.com/api/t/add",qqconnect_json.TOJSON(b),"POST&")
+		t=API("http://open.t.qq.com/api/t/add",qqconnect.functions.json.TOJSON(b),"POST&")
 	End If
 End Function
 Function r(content,id)
 	Dim b
-	Set b=qqconnect_json.toobject("{}")
-	Call qqconnect_json.addObj(b,"content",content)
-	Call qqconnect_json.addObj(b,"clientip",qqconnect_getip())
-	Call qqconnect_json.addObj(b,"format","json")
-	Call qqconnect_json.addObj(b,"syncflag",1)
-	Call qqconnect_json.addObj(b,"reid",id)
-	r=API("http://open.t.qq.com/api/t/re_add",qqconnect_json.TOJSON(b),"POST&")
+	Set b=qqconnect.functions.json.toobject("{}")
+	Call qqconnect.functions.json.addObj(b,"content",content)
+	Call qqconnect.functions.json.addObj(b,"clientip",qqconnect.functions.getip())
+	Call qqconnect.functions.json.addObj(b,"format","json")
+	Call qqconnect.functions.json.addObj(b,"syncflag",1)
+	Call qqconnect.functions.json.addObj(b,"reid",id)
+	r=API("http://open.t.qq.com/api/t/re_add",qqconnect.functions.json.TOJSON(b),"POST&")
 End Function
 
 Function API(url,json,httptype)
@@ -138,32 +138,32 @@ End Function
 Function MakeOauth1Url(ByRef oauth_url,ip,content)
 	dim iscustom
 
-	Call qqconnect_json.addObj(objJSON,"oauth_nonce",makePassword(12))   '添加随机码
-	Call qqconnect_json.addObj(objJSON,"oauth_timestamp",DateDiff("s","01/01/1970 08:00:00",Now()))  '添加时间戳
-	Call qqconnect_json.addObj(objJSON,"oauth_version","1.0")   '设置oauth版本
-	Call qqconnect_json.addObj(objJSON,"oauth_consumer_key",qqconnect.config.weibo.appkey) '设置qqconnect.config.weibo.appkey
-	Call qqconnect_json.addObj(objJSON,"oauth_signature_method","HMAC-SHA1") '设置加密方法
+	Call qqconnect.functions.json.addObj(objJSON,"oauth_nonce",makePassword(12))   '添加随机码
+	Call qqconnect.functions.json.addObj(objJSON,"oauth_timestamp",DateDiff("s","01/01/1970 08:00:00",Now()))  '添加时间戳
+	Call qqconnect.functions.json.addObj(objJSON,"oauth_version","1.0")   '设置oauth版本
+	Call qqconnect.functions.json.addObj(objJSON,"oauth_consumer_key",qqconnect.config.weibo.appkey) '设置qqconnect.config.weibo.appkey
+	Call qqconnect.functions.json.addObj(objJSON,"oauth_signature_method","HMAC-SHA1") '设置加密方法
 		If oauth_url<>Oauth1_RequestToken_url Then
 			strOauthCallbackUrl = ""  
 			strOauthTokenSecret=qqconnect.config.weibo.secret
-			Call qqconnect_json.addObj(objJSON,"oauth_token",qqconnect.config.weibo.token) '设置token
-			set objJSON=qqconnect_json.e(objJSON,qqconnect_json.toObject(content))
+			Call qqconnect.functions.json.addObj(objJSON,"oauth_token",qqconnect.config.weibo.token) '设置token
+			set objJSON=qqconnect.functions.json.e(objJSON,qqconnect.functions.json.toObject(content))
 			If oauth_url=Oauth1_accesstoken_url Then
-				Call qqconnect_json.addObj(objJSON,"oauth_token",Session(ZC_BLOG_CLSID&"qqconnect_strOauthToken")) '设置token
+				Call qqconnect.functions.json.addObj(objJSON,"oauth_token",Session(ZC_BLOG_CLSID&"qqconnect_strOauthToken")) '设置token
 				strOauthTokenSecret = Session(ZC_BLOG_CLSID&"qqconnect_strOauthTokenSecret") 
-				Call qqconnect_json.addObj(objJSON,"oauth_verifier",Request.QueryString("oauth_verifier")) '设置verifier
+				Call qqconnect.functions.json.addObj(objJSON,"oauth_verifier",Request.QueryString("oauth_verifier")) '设置verifier
 			End If
 		Else
-			Call qqconnect_json.addObj(objJSON,"oauth_callback",strOauthCallbackUrl) '回调地址
+			Call qqconnect.functions.json.addObj(objJSON,"oauth_callback",strOauthCallbackUrl) '回调地址
 		End If
 
-	strMadeUpUrl=qqconnect_json.toStr(objJSON)
+	strMadeUpUrl=qqconnect.functions.json.toStr(objJSON)
 	if bolDebugMsg=true then response.write "<div class='qqconnect_Debug'><font color='red'>不包含signature：" & strMadeUpUrl & "</font></br>"
-	strOauth1BaseString=strHttptype & qqconnect_encodeurl(oauth_url) & "&" & qqconnect_encodeurl(strMadeUpUrl)
+	strOauth1BaseString=strHttptype & qqconnect.functions.encodeurl(oauth_url) & "&" & qqconnect.functions.encodeurl(strMadeUpUrl)
 	if bolDebugMsg=true then response.write "<font color='blue'>BaseString：" & strOauth1BaseString & "</font></br><font color='green'>密钥：" & qqconnect.config.weibo.appsecret&"&"&strOauthTokenSecret & "</font><br/>"
-	strWithOutOauthSignature=qqconnect_encodeurl(qqconnect_b64_hmac_sha1(qqconnect.config.weibo.appsecret&"&"&strOauthTokenSecret,strOauth1BaseString))
-	Call qqconnect_json.addObj(objJSON,"oauth_signature",strWithOutOauthSignature)
-	strMadeUpUrl=qqconnect_json.toStr(objJSON)
+	strWithOutOauthSignature=qqconnect.functions.encodeurl(qqconnect_b64_hmac_sha1(qqconnect.config.weibo.appsecret&"&"&strOauthTokenSecret,strOauth1BaseString))
+	Call qqconnect.functions.json.addObj(objJSON,"oauth_signature",strWithOutOauthSignature)
+	strMadeUpUrl=qqconnect.functions.json.toStr(objJSON)
 	if bolDebugMsg=true then response.write "<font color='black'>最终生成：" & oauth_url&"?"&strMadeUpUrl & "</font></div>"
 	MakeOauth1Url=oauth_url&"?"&strMadeUpUrl
 	strPostUrl = oauth_url
