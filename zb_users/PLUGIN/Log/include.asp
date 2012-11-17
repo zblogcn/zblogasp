@@ -1,4 +1,4 @@
-<!-- #include file="config.asp"-->
+﻿<!-- #include file="config.asp"-->
 <%
 Call RegisterPlugin("Log","ActivePlugin_Log")
 
@@ -64,6 +64,7 @@ function LogUa(s){
 	return json
 }
 function LogWithoutInitialize(){
+	try{
 	var s=BlogHost;
 	s=s.replace(/\//g,"\\/");
 	//Response.Write(s+"default\.asp");
@@ -103,7 +104,7 @@ function LogWithoutInitialize(){
 		else if(new RegExp(s+"search\.asp","i").test(temp)){
 			zsx.Add(ua,"搜索");
 		}
-		else{zsx.Add(ua,"",false)}
-	}
+		else{zsx.Add(ua,"")}
+	}}catch(e){}
 }
 </script>
