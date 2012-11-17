@@ -23,6 +23,26 @@ Select Case Request.QueryString("act")
 						Call qqconnect.tconfig.write("Connect_OpenID",qqconnect.config.qqconnect.openid)
 						Call qqconnect.tconfig.write("Connect_AccessToken",qqconnect.config.qqconnect.accesstoken)
 						Call qqconnect.tconfig.Save
+					Else
+						qqconnect.d.OpenID=qqconnect.config.qqconnect.openid
+						qqconnect.d.AccessToken=qqconnect.config.qqconnect.accesstoken
+						If qqconnect.config.qqconnect.openid=qqconnect.config.qqconnect.admin.openid Then
+						'管理员ID必须为1，ID不为1的直接无视
+							qqconnect.d.objUser.LoadInfoById 1
+							qqconnect.d.Login
+							Response.Redirect "../../../zb_system/cmd.asp?act=login"
+						Else
+							If qqconnect.d.LoadInfo(4) Then
+								qqconnect.d.Login
+								Response.Redirect "../../../zb_system/cmd.asp?act=login"
+							Else
+								If BlogUser.Level=5 Then
+									Response.Redirect "verify.asp?act=login&openid=" & qqconnect.d.OpenID & "&accesstoken="&qqconnect.d.AccessToken & "&dName=" & Server.URLEncode(qqconnect.functions.json.toObject(qqconnect.c.api("https://graph.qq.com/user/get_user_info","{}","GET")).nickname)
+								Else
+									qqconnect.functions.savereg BlogUser.ID,qqconnect.config.qqconnect.openid,qqconnect.config.qqconnect.accesstoken
+								End If
+							End If
+						End If 
 					End If
 					SetBlogHint True,Empty,Empty
 					Response.Redirect "main.asp"
@@ -44,6 +64,10 @@ Select Case Request.QueryString("act")
 					Call qqconnect.tconfig.write("Connect_OpenID","")
 					Call qqconnect.tconfig.write("Connect_AccessToken","")
 					Call qqconnect.tconfig.Save
+				Else
+					Set qqconnect.d.objuser=BlogUser
+					qqconnect.d.loadinfo 2
+					qqconnect.d.del
 				End If
 				SetBlogHint True,Empty,Empty
 				Response.Redirect "main.asp"
@@ -83,28 +107,38 @@ Call CheckReference("")
 <div class="divHeader">QQ互联</div>
 <div class="SubMenu"><%=qqconnect.functions.navbar(0)%></div>
 <div id="divMain2">
-<div id="ShowBlogHint"><%=GetBlogHint%></div>
+
 <table width="100%" border="1">
     <%
 Response.Write "<tr height='32'><td>"
-Dim tmpObject
+Dim tmpObject,strTemp
 If qqconnect.config.qqconnect.appid<>"" Then
 	If BlogUser.Level=1 Then
 		qqconnect.config.qqconnect.openid=qqconnect.config.qqconnect.admin.openid
 		qqconnect.config.qqconnect.accesstoken=qqconnect.config.qqconnect.admin.accesstoken
-		If qqconnect.config.qqconnect.openid="" Then
-			Response.Write "<a href='" & qqconnect.c.Authorize() & "'><img src='resources/logo_170_32.png'/></a>"
-		Else
-			Set tmpObject=qqconnect.functions.json.toobject(qqconnect.c.api("https://graph.qq.com/user/get_user_info","{}","GET"))
+	Else
+		Set qqconnect.d.objuser=bloguser
+		If qqconnect.d.loadinfo(2) Then
+			qqconnect.config.qqconnect.openid=qqconnect.d.openid
+			qqconnect.config.qqconnect.accesstoken=qqconnect.d.accesstoken
+		End If
+	End If
+	If qqconnect.config.qqconnect.openid="" Then
+		Response.Write "<a href='" & qqconnect.c.Authorize() & "'><img src='resources/logo_170_32.png'/></a>"
+	Else
+		strTemp=qqconnect.c.api("https://graph.qq.com/user/get_user_info","{}","GET")
+		Set tmpObject=qqconnect.functions.json.toobject(strTemp)
+		If tmpObject.ret=0 Then
 			Response.Write "欢迎回来，QQ空间用户" & tmpObject.nickname & "<a href='main.asp?act=logout&type=connect'>点击这里注销</a>"
 			BlogUser.Meta.SetValue "QQConnect_Head1",tmpObject.figureurl
 			Set tmpObject=qqconnect.functions.json.toobject(qqconnect.c.api("https://graph.qq.com/user/get_info","{}","GET"))
 			BlogUser.Meta.SetValue "QQConnect_Head2",tmpObject.data.head
 			BlogUser.Edit BLogUser
+		Else
+			Response.Write "出现错误" & tmpObject.msg & "，请<a href='main.asp?act=logout&type=connect'>点此重新授权</a>。"
 		End If
-	Else
-		'xxxxx
 	End If
+
 Else
 	Response.Write "未配置QQ互联APPID，无法使用本功能。"
 End If
