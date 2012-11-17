@@ -122,7 +122,7 @@ function init_qqconnect_include(){
 				var objArticle=newClass("TArticle");
 				if(!objArticle.LoadInfoById(object.log_id)){return false}
 				var strSend,strIntro,strT;
-				strSend=UBBCode(object.Content,"[link][email][face][typeset]");
+				strSend=UBBCode(object.Content,"[link][email][face][typeset]").replace("<#ZC_BLOG_HOST#>",blogHost);
 				strSend=qqconnect.functions.formatstring(strSend);
 				strIntro=qqconnect.functions.formatstring(objArticle.Intro);
 				var tupian,t_add;
