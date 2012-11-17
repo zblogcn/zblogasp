@@ -25,7 +25,7 @@ Class qqconnect_connect
 	Sub Class_Initialize()
 		ZC_BLOG_CLSID=ZC_BLOG_CLSID
 		strHttptype = "GET&"
-		set objJSON=qqconnect_json.toobject("{}")
+		set objJSON=qqconnect.functions.json.toobject("{}")
 		'qqconnect.config.qqconnect.openid=Session(ZC_BLOG_CLSID&"qqconnect_connect_qqconnect.config.qqconnect.openid")
 		'qqconnect.config.qqconnect.accesstoken=Session(ZC_BLOG_CLSID&"qqconnect_connect_strAccessToken")
 		version="2.0"
@@ -42,7 +42,7 @@ Class qqconnect_connect
 	'** 设置CallBackUrl
 	'****************************************************************************
 	Public Property Let callbackurl(url)
-			strOauthCallbackUrl=qqconnect_encodeurl(url)
+			strOauthCallbackUrl=qqconnect.functions.encodeurl(url)
 	End Property
 	Public Property Get callbackurl
 			callbackurl=strOauthCallbackUrl
@@ -80,7 +80,7 @@ Class qqconnect_connect
 	'** 关于
 	'****************************************************************************
 	Public Function About
-		Set About=qqconnect_json.Toobject("{'author':'ZSXSOFT','url':'http://www.zsxsoft.com','version':'qqconnect_connect 1.0'}")
+		Set About=qqconnect.functions.json.Toobject("{'author':'ZSXSOFT','url':'http://www.zsxsoft.com','version':'qqconnect_connect 1.0'}")
 	End Function
 	
 	'****************************************************************************
@@ -143,7 +143,7 @@ Class qqconnect_connect
 		tempid=""
 		aryMutliContent=""
 		strHttptype = "GET&"
-		set objjson=qqconnect_json.toObject("{}")
+		set objjson=qqconnect.functions.json.toObject("{}")
 	End Function
 	
 	
@@ -158,15 +158,15 @@ Class qqconnect_connect
 	'*******************************************************************************
 	Function Share(title,url,comment,summary,images,nswb)
 		Dim b
-		Set b=qqconnect_json.toObject("{}")
-		Call qqconnect_json.addobj(b,"title",title)
-		Call qqconnect_json.addobj(b,"url",url)
-		Call qqconnect_json.addobj(b,"comment",comment)
-		Call qqconnect_json.addobj(b,"summary",summary)
+		Set b=qqconnect.functions.json.toObject("{}")
+		Call qqconnect.functions.json.addobj(b,"title",title)
+		Call qqconnect.functions.json.addobj(b,"url",url)
+		Call qqconnect.functions.json.addobj(b,"comment",comment)
+		Call qqconnect.functions.json.addobj(b,"summary",summary)
 		If images="~" Then images=""
-		Call qqconnect_json.addobj(b,"images",images)
-		Call qqconnect_json.addobj(b,"nswb",nswb)
-		b=qqconnect_json.toJSON(b)
+		Call qqconnect.functions.json.addobj(b,"images",images)
+		Call qqconnect.functions.json.addobj(b,"nswb",nswb)
+		b=qqconnect.functions.json.toJSON(b)
 		Share=API("https://graph.qq.com/share/add_share",b,"POST&")
 	End Function
 	'*******************************************************************************
@@ -174,11 +174,11 @@ Class qqconnect_connect
 	'*******************************************************************************
 	Function t(content)
 		Dim b
-		Set b=qqconnect_json.toObject("{}")
-		Call qqconnect_json.addobj(b,"format","json")
-		Call qqconnect_json.addobj(b,"content",content)
-		Call qqconnect_json.addobj(b,"clientip",qqconnect_getip())
-		b=qqconnect_json.toJSON(b)
+		Set b=qqconnect.functions.json.toObject("{}")
+		Call qqconnect.functions.json.addobj(b,"format","json")
+		Call qqconnect.functions.json.addobj(b,"content",content)
+		Call qqconnect.functions.json.addobj(b,"clientip",qqconnect.functions.getip())
+		b=qqconnect.functions.json.toJSON(b)
 		t=API("https://graph.qq.com/t/add_t",b,"POST&")
 	End Function
 	'*******************************************************************************
@@ -187,14 +187,14 @@ Class qqconnect_connect
 	Function Authorize()
 		Dim a,b,c
 		a="https://graph.qq.com/oauth2.0/authorize"
-		set b=qqconnect_json.toObject("{}")
-		Call qqconnect_json.addobj(b,"response_type","code")
-		Call qqconnect_json.addobj(b,"client_id",qqconnect.config.qqconnect.appid)
-		Call qqconnect_json.addobj(b,"redirect_uri",strOauthCallBackUrl)
-		Call qqconnect_json.addobj(b,"scope","get_user_info,add_share,get_info,add_idol,add_t")
-		Call qqconnect_json.addobj(b,"state","zsxsoft")
+		set b=qqconnect.functions.json.toObject("{}")
+		Call qqconnect.functions.json.addobj(b,"response_type","code")
+		Call qqconnect.functions.json.addobj(b,"client_id",qqconnect.config.qqconnect.appid)
+		Call qqconnect.functions.json.addobj(b,"redirect_uri",strOauthCallBackUrl)
+		Call qqconnect.functions.json.addobj(b,"scope","get_user_info,add_share,get_info,add_idol,add_t")
+		Call qqconnect.functions.json.addobj(b,"state","zsxsoft")
 	
-		c=qqconnect_json.toStr(b)
+		c=qqconnect.functions.json.toStr(b)
 		Authorize=a&"?"&c'qqconnect.n.GetHttp(a&"?"&c)
 	End Function
 	'*******************************************************************************
@@ -203,14 +203,14 @@ Class qqconnect_connect
 	Function CallBack()
 		Dim a,b,c,d
 		a="https://graph.qq.com/oauth2.0/token"
-		Set b=qqconnect_json.toObject("{}")
-		Call qqconnect_json.addobj(b,"grant_type","authorization_code")
-		Call qqconnect_json.addobj(b,"client_id",qqconnect.config.qqconnect.appid)
-		Call qqconnect_json.addobj(b,"client_secret",qqconnect.config.qqconnect.appsecret)
-		Call qqconnect_json.addobj(b,"code",Request.QueryString("code"))
-		Call qqconnect_json.addobj(b,"state","zsxsoft")
-		Call qqconnect_json.addobj(b,"redirect_uri",strOauthCallBackUrl)
-		c=qqconnect_json.toStr(b)
+		Set b=qqconnect.functions.json.toObject("{}")
+		Call qqconnect.functions.json.addobj(b,"grant_type","authorization_code")
+		Call qqconnect.functions.json.addobj(b,"client_id",qqconnect.config.qqconnect.appid)
+		Call qqconnect.functions.json.addobj(b,"client_secret",qqconnect.config.qqconnect.appsecret)
+		Call qqconnect.functions.json.addobj(b,"code",Request.QueryString("code"))
+		Call qqconnect.functions.json.addobj(b,"state","zsxsoft")
+		Call qqconnect.functions.json.addobj(b,"redirect_uri",strOauthCallBackUrl)
+		c=qqconnect.functions.json.toStr(b)
 		d=qqconnect.n.GetHttp(a&"?"&c)
 		
 		CallBack=Split(Split(d,"=")(1),"&")(0)
@@ -234,12 +234,12 @@ Class qqconnect_connect
 	'*******************************************************************************
 	Function MakeOauth2Url(ByRef oauth_url,ip,content)
 		dim iscustom
-		Call qqconnect_json.addobj(objJSON,"oauth_consumer_key",qqconnect.config.qqconnect.appid) '设置APPKEY
-		Call qqconnect_json.addobj(objJSON,"access_token",qqconnect.config.qqconnect.accesstoken)
-		Call qqconnect_json.addobj(objJSON,"openid",qqconnect.config.qqconnect.openid)
-		set objJSON=qqconnect_json.e(objJSON,qqconnect_json.toObject(content))
+		Call qqconnect.functions.json.addobj(objJSON,"oauth_consumer_key",qqconnect.config.qqconnect.appid) '设置APPKEY
+		Call qqconnect.functions.json.addobj(objJSON,"access_token",qqconnect.config.qqconnect.accesstoken)
+		Call qqconnect.functions.json.addobj(objJSON,"openid",qqconnect.config.qqconnect.openid)
+		set objJSON=qqconnect.functions.json.e(objJSON,qqconnect.functions.json.toObject(content))
 		oauth_url=replace(oauth_url,"<strPrototype>",strPrototype)
-		strMadeUpUrl=qqconnect_json.toStr(objJSON)
+		strMadeUpUrl=qqconnect.functions.json.toStr(objJSON)
 		if bolDebugMsg=true then response.write "<div class='qqconnect_connect_Debug'><font color='black'>最终生成：" & oauth_url&"?"&strMadeUpUrl & "</font></div>"
 		MakeOauth2Url=oauth_url&"?"&strMadeUpUrl
 		strPostUrl = oauth_url

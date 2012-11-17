@@ -37,7 +37,7 @@ input[type="text"] {
           <%Call GetBlogHint()%>
         </div>
         <div class="divHeader"><%=BlogTitle%></div>
-        <div class="SubMenu"><%=QQConnect_navbar(1)%></div>
+        <div class="SubMenu"><%=QQConnect.functions.navbar(1)%></div>
         <form id="form1" name="form1" method="post" action="savesetting.asp">
           <div id="divMain2">
             <div class="content-box"><!-- Start Content Box -->
@@ -220,7 +220,7 @@ input[type="text"] {
       <script type="text/javascript">
 
 SyntaxHighlighter.all();
-
+ActiveLeftMenu("anewQQConnect");
 </script>
       <%
 function d(v)

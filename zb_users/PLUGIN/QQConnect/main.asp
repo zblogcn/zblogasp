@@ -81,7 +81,7 @@ Call CheckReference("")
 <!--#include file="..\..\..\zb_system\admin\admin_top.asp"-->
 <div id="divMain"><div id="ShowBlogHint"><%Call GetBlogHint()%></div>
 <div class="divHeader">QQ互联</div>
-<div class="SubMenu"><%=qqconnect_navbar(0)%></div>
+<div class="SubMenu"><%=qqconnect.functions.navbar(0)%></div>
 <div id="divMain2">
 <div id="ShowBlogHint"><%=GetBlogHint%></div>
 <table width="100%" border="1">
@@ -95,7 +95,7 @@ If qqconnect.config.qqconnect.appid<>"" Then
 		If qqconnect.config.qqconnect.openid="" Then
 			Response.Write "<a href='" & qqconnect.c.Authorize() & "'><img src='resources/logo_170_32.png'/></a>"
 		Else
-			Set tmpObject=qqconnect_json.toobject(qqconnect.c.api("https://graph.qq.com/user/get_user_info","{}","GET"))
+			Set tmpObject=qqconnect.functions.json.toobject(qqconnect.c.api("https://graph.qq.com/user/get_user_info","{}","GET"))
 			Response.Write "欢迎回来，QQ空间用户" & tmpObject.nickname & "<a href='main.asp?act=logout&type=connect'>点击这里注销</a>"
 		End If
 	Else
@@ -113,7 +113,7 @@ If BlogUser.Level=1 Then
 	If qqconnect.config.weibo.token="" Then
 		Response.Write "<a href='" & qqconnect.t.Run(1,"","","","") & "'><img src='resources/wb_170_32.png'/></a>"
 	Else
-		Set tmpObject=qqconnect_json.toobject(qqconnect.t.api("http://open.t.qq.com/api/user/info","{}","GET"))
+		Set tmpObject=qqconnect.functions.json.toobject(qqconnect.t.api("http://open.t.qq.com/api/user/info","{}","GET"))
 		Response.Write "欢迎回来，腾讯微博用户" & tmpObject.data.nick & "(" & tmpObject.data.name & ") <a href='main.asp?act=logout&type=weibo'>点击这里注销</a>"
 		Response.Write "<p>&nbsp;</p><p><input type='text' style='width:50%' value='' id='zsx'/><input type='submit' id='ok' value='发微博'/></p>"
 		Response.Write "<p>&nbsp;</p><p><a href='javascript:;' id='href1'>得到最新微博</a>&nbsp;<a href='javascript:;' id='href2'>得到提到我的</a></p><p>&nbsp;</p>"
@@ -160,6 +160,7 @@ function exportjson(data,obj){
 	obj.html(str);
 	bmx2table()
 	}
+ActiveLeftMenu("anewQQConnect");
 </script>
 
 
