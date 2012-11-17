@@ -31,7 +31,7 @@ If Request.QueryString("act")="del" Then Call DelQQ(Request.QueryString("id"))  
 <div class="divHeader">QQ互联</div>
 <div class="SubMenu"><%=qqconnect.functions.navbar(2)%></div>
 <div id="divMain2">
-
+<script type="text/javascript">ActiveLeftMenu("anewQQConnect");</script>
 <%
 Call ExportQQList(Request.QueryString("page"),Request("qq_id"),Request("qq_uid"),Request("qq_oid"))
 Function ExportQQList(intPage,intId,intUid,strOid)

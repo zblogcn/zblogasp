@@ -31,10 +31,16 @@ Select Case Request.QueryString("act")
 						'管理员ID必须为1，ID不为1的直接无视
 							qqconnect.d.objUser.LoadInfoById 1
 							qqconnect.d.Login
+							Call qqconnect.tconfig.write("Connect_OpenID",qqconnect.config.qqconnect.openid)
+							Call qqconnect.tconfig.write("Connect_AccessToken",qqconnect.config.qqconnect.accesstoken)
+							Call qqconnect.tconfig.Save
 							Response.Redirect "../../../zb_system/cmd.asp?act=login"
 						Else
 							If qqconnect.d.LoadInfo(4) Then
 								qqconnect.d.Login
+								qqconnect.d.openid=qqconnect.config.qqconnect.openid
+								qqconnect.d.accesstoken=qqconnect.config.qqconnect.accesstoken
+								qqconnect.d.bind
 								Response.Redirect "../../../zb_system/cmd.asp?act=login"
 							Else
 								If BlogUser.Level=5 Then
