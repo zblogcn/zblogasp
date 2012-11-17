@@ -97,6 +97,10 @@ If qqconnect.config.qqconnect.appid<>"" Then
 		Else
 			Set tmpObject=qqconnect.functions.json.toobject(qqconnect.c.api("https://graph.qq.com/user/get_user_info","{}","GET"))
 			Response.Write "欢迎回来，QQ空间用户" & tmpObject.nickname & "<a href='main.asp?act=logout&type=connect'>点击这里注销</a>"
+			BlogUser.Meta.SetValue "QQConnect_Head1",tmpObject.figureurl
+			Set tmpObject=qqconnect.functions.json.toobject(qqconnect.c.api("https://graph.qq.com/user/get_info","{}","GET"))
+			BlogUser.Meta.SetValue "QQConnect_Head2",tmpObject.data.head
+			BlogUser.Edit BLogUser
 		End If
 	Else
 		'xxxxx

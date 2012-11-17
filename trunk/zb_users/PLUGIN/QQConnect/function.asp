@@ -1,6 +1,7 @@
 <!-- #include file="functions/microblog.asp"-->
 <!-- #include file="functions/qqconnect.asp"-->
 <!-- #include file="functions/network.asp"-->
+<!-- #include file="functions/database.asp"-->
 <!-- #include file="functions/hmac_sha1.asp"-->
 <%
 '我擦，还是得用VBS写。
@@ -40,6 +41,7 @@ function init_qqconnect(){
 	qqconnect["c"]=newClass("qqconnect_connect");
 	qqconnect.c.callbackurl=BlogHost+"zb_users/plugin/qqconnect/main.asp?act=callback&type=connect"
 	qqconnect["n"]=newClass("qqconnect_network");
+	qqconnect["d"]=newClass("qqconnect_db")
 	//qqconnect.c.debug=true;
 	//qqconnect.t.debug=true;
 }
@@ -56,10 +58,10 @@ qqconnect["functions"]={
 	}
 	,"navbar":function(id){
 		var json={
-			name:["main.asp","setting.asp"]
-			,cls:["m-left","m-left"]
-			,text:["首页","设置"]
-			,level:[5,4]
+			name:["main.asp","setting.asp","m.asp"]
+			,cls:["m-left","m-left","m-left"]
+			,text:["首页","设置","绑定"]
+			,level:[5,4,4]
 			};
 		var str="";
 		for(var i=0;i<json.name.length;i++){

@@ -12,7 +12,10 @@ function qqconnect_include(){
 	Add_Action_Plugin("Action_Plugin_ArticlePst_Begin","Call qqconnect.include.action.articlepst(Request.Form(\"syn_qq\"),Request.Form(\"syn_tqq\"))")
 
 }
-
+function InstallPlugin_QQConnect(){
+	init_qqconnect();
+	qqconnect.d.CreateDB()
+}
 function init_qqconnect_include(){
 
 	qqconnect["include"]={
