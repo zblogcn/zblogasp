@@ -24,6 +24,7 @@ Select Case Request.QueryString("act")
 						Call qqconnect.tconfig.write("Connect_AccessToken",qqconnect.config.qqconnect.accesstoken)
 						Call qqconnect.tconfig.Save
 					Else
+						If qqconnect.tconfig.Read("h")="False" Then Response.End
 						qqconnect.d.OpenID=qqconnect.config.qqconnect.openid
 						qqconnect.d.AccessToken=qqconnect.config.qqconnect.accesstoken
 						If qqconnect.config.qqconnect.openid=qqconnect.config.qqconnect.admin.openid Then

@@ -186,7 +186,7 @@ input[type="text"] {
 					  
 					  Dim s
 					  s=BlogUser.Meta.GetValue("qqconnect_sync")
-					  If s="" Or s="False" Then Response.Write False Else Response.Write True%>"/></td>
+					  If s="False" Then Response.Write False Else Response.Write True%>"/></td>
                     </tr>
                   </table>
                 </div>
