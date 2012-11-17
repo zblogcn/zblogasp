@@ -30,7 +30,7 @@ function qqconnect_include(){
 	//头像
 	Add_Action_Plugin("Action_Plugin_TComment_Avatar","If FAvatar=\"\" Then FAvatar=qqconnect.include.action.avatar(AuthorID)");
 	//评论同步
-	
+	Add_Filter_Plugin("Filter_Plugin_PostComment_Succeed","qqconnect.include.filter.postcomment")	
 	
 
 }
@@ -115,14 +115,69 @@ function init_qqconnect_include(){
 			"postarticle":function(object){
 				if(object.ID==0) Add_Filter_Plugin("Filter_Plugin_PostArticle_Succeed","qqconnect.include.filter.postarticle_succeed")
 			}
+			,"postcomment":function(object){
+				init_qqconnect();
+				if(qqconnect.tconfig.read("d")=="False"){return false}
+				if(object.isCheck||object.isThrow||object.id==0){return false}
+				var objArticle=newClass("TArticle");
+				if(!objArticle.LoadInfoById(object.log_id)){return false}
+				var strSend,strIntro,strT;
+				strSend=UBBCode(object.Content,"[link][email][face][typeset]");
+				strSend=qqconnect.functions.formatstring(strSend);
+				strIntro=qqconnect.functions.formatstring(objArticle.Intro);
+				var tupian,t_add;
+				if(qqconnect.tconfig.read("c")=="True") {
+					tupian=UBBCode(objArticle.Content,"[image]");
+					tupian=tupian.replace("<#ZC_BLOG_HOST#>",blogHost);
+					tupian=qqconnect.functions.getpicture(tupian);
+					if(tupian=="") tupian="~";//qqconnect.tconfig.read("");
+					tupian=tupian.replace("\\","/").replace("'","\'");
+				}else{
+					tupian="~"
+				}
+				//微博
+				if(qqconnect.tconfig.read("f")=="True"){
+					t_add=objArticle.Meta.GetValue("ZBQQConnect_WBID");
+					t_add=parseInt(t_add.toString())
+					if(t_add>0){
+						strT=qqconnect.tconfig.Read("pl");
+						strT=strT.replace("%a",object.Author);
+						strT=strT.replace("%c",strSend);
+						qqconnect.t.r(strT,t_add);
+					}
+				}
+				//空间(判断登录)
+				if(qqconnect.config.qqconnect.appid!=""){
+					if(qqconnect.tconfig.read("e")=="True"){
+						if(qqconnect.tconfig.read("g")=="True"||BlogUser.Level==1){
+							qqconnect.config.qqconnect.openid=qqconnect.config.qqconnect.admin.openid;
+							qqconnect.config.qqconnect.accesstoken=qqconnect.config.qqconnect.admin.accesstoken;
+						}
+						else{
+							if(BlogUser.Level==5){
+								//未登录同样以管理员身份同步，但加提示信息
+								qqconnect.config.qqconnect.openid=qqconnect.config.qqconnect.admin.openid;
+								qqconnect.config.qqconnect.accesstoken=qqconnect.config.qqconnect.admin.accesstoken;
+								strSend=object.Author+"评论："+strSend;
+							}
+							else{
+								//判断是否不允许同步
+								if(!(BlogUser.GetValue("qqconnect_sync")=="False")){
+									if(qqconnect.d.LoadInfo(2)){
+										qqconnect.config.qqconnect.openid=qqconnect.d.openid;
+										qqconnect.config.qqconnect.accesstoken=qqconnect.d.accesstoken;
+									}
+								}
+							}
+						}
+					}
+					if(qqconnect.config.qqconnect.openid!="") qqconnect.c.share(objArticle.Title,objArticle.Url.toString().replace("<#ZC_BLOG_HOST#>",BlogHost),strSend,strIntro,tupian,1)
+				}
+			}
 			,"postarticle_succeed":function(object){
 				if(object.ID==0||object.FType==1||object.Level<=2){return false}
 				var strT ,bolN,objTemp,strTemp;
 				init_qqconnect();
-				//Set ZBQQConnect_DB.objUser=BlogUser
-				//ZBQQConnect_DB.LoadInfo 2
-				//ZBQQConnect_Class.OpenID=ZBQQConnect_DB.OpenID
-				//ZBQQConnect_Class.AccessToken=ZBQQConnect_DB.AccessToken
 				strTemp=object.Intro.replace("<#ZC_BLOG_HOST#>",blogHost);
 				strTemp=qqconnect.functions.formatstring(strTemp);
 				var t_add,tupian;
@@ -170,6 +225,7 @@ function init_qqconnect_include(){
 				}
 			}
 		}
+		
 	}
 }
 
