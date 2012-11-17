@@ -7,6 +7,8 @@
 <script language="javascript" runat="server">
 var qqconnect={}
 function init_qqconnect(){
+	if(qqconnect["init"]) return ""
+	qqconnect["init"]=true;
 	qqconnect["tconfig"]=newClass("TConfig");
 	qqconnect.tconfig.Load("QQConnect");
 	if(qqconnect.tconfig.exists("version")==false) qqconnect.functions.checkconfig();

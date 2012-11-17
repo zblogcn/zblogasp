@@ -26,7 +26,11 @@ function qqconnect_include(){
 		Add_Action_Plugin("Action_Plugin_RegSave_End","If qqconnect.functions.savereg(RegUser.ID,Request(\"openid\"),Request(\"accesstoken\"))=True Then strResponse=\"<scri"+"pt language='javascript' type='text/javascript'>alert('恭喜，注册成功。\\n欢迎您成为本站一员。\\n\\n单击确定登陆本站。');location.href=\"\""+BlogHost+"zb_users/plugin/qqconnect/main.asp\"\"</scri"+"pt>\"")
 		
 	}
+	
+	//头像
+	Add_Action_Plugin("Action_Plugin_TComment_Avatar","If FAvatar=\"\" Then FAvatar=qqconnect.include.action.avatar(AuthorID)");
 	//评论同步
+	
 	
 
 }
@@ -95,8 +99,16 @@ function init_qqconnect_include(){
 				var sync={"zone":(sync_zone=="0"?false:true),"weibo":(sync_weibo=="0"?false:true)}
 				qqconnect["temp"]=sync;
 				Add_Filter_Plugin("Filter_Plugin_PostArticle_Core","qqconnect.include.filter.postarticle")
-				
-			
+			}
+			,"avatar":function(id){
+				init_qqconnect()
+				var headconfig=parseInt(qqconnect.tconfig.Read("a1"));
+				if(headconfig==1){headconfig=1}else if(headconfig==0){headconfig=2}else{return false}
+				var U=new VBArray(Users);
+				U=U.toArray();
+				for(var i=0;i<=U.length;i++){
+					if(U[i].ID==id) return U[i].Meta.GetValue("QQConnect_Head"+headconfig)+(headconfig==2?"/100":"")
+				}
 			}
 		}
 		,"filter":{
