@@ -191,7 +191,7 @@ Class qqconnect_connect
 		Call qqconnect.functions.json.addobj(b,"client_id",qqconnect.config.qqconnect.appid)
 		Call qqconnect.functions.json.addobj(b,"redirect_uri",strOauthCallBackUrl)
 		Call qqconnect.functions.json.addobj(b,"scope","get_user_info,add_share,get_info,add_idol,add_t")
-		Call qqconnect.functions.json.addobj(b,"state","zsxsoft")
+		Call qqconnect.functions.json.addobj(b,"state",qqconnect.functions.getstate())
 	
 		c=qqconnect.functions.json.toStr(b)
 		Authorize=a&"?"&c'qqconnect.n.GetHttp(a&"?"&c)
@@ -207,11 +207,12 @@ Class qqconnect_connect
 		Call qqconnect.functions.json.addobj(b,"client_id",qqconnect.config.qqconnect.appid)
 		Call qqconnect.functions.json.addobj(b,"client_secret",qqconnect.config.qqconnect.appsecret)
 		Call qqconnect.functions.json.addobj(b,"code",Request.QueryString("code"))
-		Call qqconnect.functions.json.addobj(b,"state","zsxsoft")
+		Call qqconnect.functions.json.addobj(b,"state",qqconnect.functions.getstate())
 		Call qqconnect.functions.json.addobj(b,"redirect_uri",strOauthCallBackUrl)
 		c=qqconnect.functions.json.toStr(b)
 		d=qqconnect.n.GetHttp(a&"?"&c)
-		
+		'Response.Write d
+		'Response.End
 		CallBack=Split(Split(d,"=")(1),"&")(0)
 		Session(ZC_BLOG_CLSID&"qqconnect_connect_strAccessToken")=CallBack
 		
@@ -244,6 +245,7 @@ Class qqconnect_connect
 		strPostUrl = oauth_url
 	End Function
 
+	
 End Class
 
 
