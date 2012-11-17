@@ -211,6 +211,7 @@ Function OpenConnect()
 	On Error Resume Next
 
 	If IsDBConnect=True Then
+		OpenConnect=True
 		Exit Function
 	End If
 
