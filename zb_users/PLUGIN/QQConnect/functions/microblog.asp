@@ -22,7 +22,6 @@ Public strPostUrl,strMadeUpUrl
 '** 初始化                                                                **
 '*******************************************************************************
 Sub Class_Initialize()
-	ZC_BLOG_CLSID=""
 	'*************在这里配置API地址*********************************************
 	'这里是Oauth1的地址
 	Oauth1_RequestToken_url = "https://open.t.qq.com/cgi-bin/request_token"
