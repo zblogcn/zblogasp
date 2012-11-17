@@ -133,6 +133,9 @@ qqconnect["functions"]={
 		}
 		return false;
 	}
+	,"getstate":function(){
+		return "zsxsoft_"+MD5("zsxsoft_"+this.getip()+Request.ServerVariables("HTTP_USER_AGENT")).substr(0,6).toLowerCase();
+	}
 }
 
 

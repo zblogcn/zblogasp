@@ -18,6 +18,11 @@ Select Case Request.QueryString("act")
 	Case "callback"
 		Select Case Request.QueryString("type")
 			Case "connect"
+					'反正也就加个验证state
+					If StrComp(Request.QueryString("state"),qqconnect.functions.getstate())<>0 Then
+						Response.Write "<script>alert('Illegal request')</script>"
+						Response.End
+					End If
 					Call qqconnect.c.GetOpenId(qqconnect.c.CallBack)
 					If BlogUser.Level=1 Then
 						Call qqconnect.tconfig.write("Connect_OpenID",qqconnect.config.qqconnect.openid)
