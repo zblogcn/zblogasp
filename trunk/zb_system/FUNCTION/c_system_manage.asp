@@ -202,7 +202,7 @@ Function ExportArticleList(intPage,intCate,intLevel,intTitle)
 				End If
 			Next
 
-			Response.Write "<td><div style='overflow:hidden;height:1.5em;'><a href=""../../view.asp?nav=" & objRS("log_ID") & """ title="""& Replace(objRS("log_Title"),"""","") &""" target=""_blank"">" & objRS("log_Title") & "</a></div></td>"
+			Response.Write "<td><div style='overflow:hidden;height:1.5em;'><a href="""&IIf(objRs("log_Level")=1,"../cmd.asp?act=ArticleEdt&amp;webedit="& ZC_BLOG_WEBEDIT &"&amp;id=" & objRS("log_ID"),"../../view.asp?nav=" & objRS("log_ID")) & """ title="""& Replace(objRS("log_Title"),"""","") &""" target=""_blank"">" & objRS("log_Title") & "</a></div></td>"
 			Response.Write "<td>" & FormatDateTime(objRS("log_PostTime"),vbShortDate) & "</td>"
 			Response.Write "<td>" & objRS("log_CommNums") & "</td>"
 			Response.Write "<td>" & ZVA_Article_Level_Name(objRS("log_Level")) & "</td>"
