@@ -55,15 +55,25 @@ $(document).ready(function(e) {
 	$("a[name='httpheader']").bind("click",function(){
 		var THIS=this;
 		$.get("main.asp",{"id":$(this).attr("_temp"),"type":"header"},function(data){$(THIS).html(data)})
-	})
+	});
 
 	$("a[name='postdata']").bind("click",function(){
 		var THIS=this
 		$.get("main.asp",{"id":$(this).attr("_temp"),"type":"postdata"},function(data){$(THIS).html(data)})
-	})
-
+	});
+	
+	$("table").colResizable({
+			liveDrag:true,
+			draggingClass:"dragging", 
+			onResize:function(e){  
+    			var table = $(e.currentTarget); //reference to the resized table
+  				}
+	}); 
 });
-</script>
+</script><script type="text/javascript" src="../script/colResizable-1.3.min.js"></script>
+<style type="text/css">
+td{text-align: center}
+</style>
 <!--#include file="..\..\..\..\zb_system\admin\admin_footer.asp"-->
 
 <%
@@ -114,7 +124,7 @@ Function ExportCounterlist(intPage,strIP,strAgent,strAQH,name)
 	End If
 	
 	Response.Write "<table border=""1"" width=""100%"" cellspacing=""1"" cellpadding=""1"" height=""40"">"
-	Response.Write "<tr><td>"& ZC_MSG076 &"</td><td>IP</td><td>类型</td><td>操作者</td><td>操作时间</td><td>操作内容</td><td>方法及URL</td><td>HTTP头</td><td>POSTDATA</td></tr>"
+	Response.Write "<tr height='32'><th width='50'>"& ZC_MSG076 &"</th><th width='80'>IP</th><th width='50'>操作者</th><th width='150'>操作时间</th><th>类型</th><th>操作内容</th><th>方法及URL</th><th>HTTP头</th><th>POSTDATA</th></th>"
 	If strsql<>"" then strsql="WHERE 1=1 "&strsql
 '	Response.Write strsql
 	objRS.Open("SELECT * FROM [blog_Counter] "& strSQL &" ORDER BY [coun_PostTime] DESC")
@@ -129,17 +139,20 @@ Function ExportCounterlist(intPage,strIP,strAgent,strAQH,name)
 			Response.Write "<tr>"
 			Response.Write "<td>" & objRS("coun_ID") & "</td>"
 			Response.Write "<td>" & vbsunescape(objRS("coun_IP")) & "</td>"
-			Response.Write "<td>" & vbsunescape(objRS("coun_logName")) & "</td>"
 			Call GetUsersbyUserIDlist(objRS("coun_UserID"))
 			Dim User
 			For Each User in Users
 				If IsObject(User) Then
 					If User.ID=objRS("coun_UserID") Then
 						Response.Write "<td>" & User.Name & "</td>"
+						Exit For
 					End If
 				End If
 			Next
 			Response.Write "<td>" & objRS("coun_PostTime") & "</td>"
+
+			Response.Write "<td>" & vbsunescape(objRS("coun_logName")) & "</td>"
+
 			Response.Write "<td>" & TransferHTML(vbsunescape(objRS("coun_Content")),"[html-format]") & "</td>"
 			Response.Write "<td>" & TransferHTML(vbsunescape(objRS("coun_URL")),"[html-format]") & "</td>"
 			Response.Write "<td style='word-break: break-all;'><a href=""javascript:void(0)"" name=""httpheader"" _temp="""&objRS("coun_ID")&""">[查看]</a></td>"
