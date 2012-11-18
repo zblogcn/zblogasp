@@ -21,12 +21,12 @@ If Request.QueryString("act")="sql" Then
 	s=Request.Form("sql")
 	On Error Resume Next
 	Set objRs=objConn.Execute(s)
-	Response.Write "查询用时" & RunTime & "ms<br/>"
+	Response.Write "<div class=""DIVBlogConfigtop""><span id=""name"">查询用时" & RunTime & "ms</span><a href='javascript:;' onclick='$(""#tree"").toggleClass(""hide"");$(""#result"").css(""margin-left"",$(""#result"").css(""margin-left"")==""200px""?""0px"":""200px"")'>[显示/隐藏左侧表]</a></div>"
 	If Err.Number=0 Then
 		If objRs.fields.count=0 Then Response.End
-		Response.Write "<table width='100%'><tr>"
+		Response.Write "<table width='100%' class='tablesorter'><tr>"
 		For i=0 To objRs.fields.count-1 
-			response.write "<td height='40'>"&objRs(i).Name& "</td>" 
+			response.write "<th height='40'>"&objRs(i).Name& "</th>" 
 		Next 
 		Response.Write "</tr>"
 		
@@ -41,13 +41,14 @@ If Request.QueryString("act")="sql" Then
 		Response.Write "</table>"
 	'End If
 	Else
-		Response.Write "出现错误：" & Err.Number & "<br/>错误信息：" & Err.Description 
+		Response.Write "<br/>出现错误：" & Err.Number & "<br/>错误信息：" & Err.Description 
 	End If
 	Response.End
 End If
 %>
 <!--#include file="..\..\..\..\zb_system\admin\admin_header.asp"-->
-
+<link rel="stylesheet" href="../css/BlogConfig.css" type="text/css" media="screen"/>
+<script type="text/javascript" src="../script/colResizable-1.3.min.js"></script>
 <!--#include file="..\..\..\..\zb_system\admin\admin_top.asp"-->
         
         <div id="divMain">
@@ -59,24 +60,63 @@ End If
           <div id="divMain2"> 
             <script type="text/javascript">ActiveTopMenu("zbdk");</script>
             <form id="form1" onSubmit="return false">
-            <label for="sql">输入SQL代码</label>
-            <input type="text" name="sql" id="sql" style="width:80%"/>
-            <input type="submit" name="ok" id="ok" value="提交" onClick=""/>
+              <label for="sql">输入SQL代码</label>
+              <input type="text" name="sql" id="sql" style="width:80%"/>
+              <input type="submit" name="ok" id="ok" value="提交" onClick=""/>
             </form>
-            <div id="result"></div>
+            <div class="DIVBlogConfig">
+              <div class="DIVBlogConfignav" name="tree" id="tree">
+                <ul>
+                  <%=ReadTables%>
+                </ul>
+              </div>
+              <div id="result" class="DIVBlogConfigcontent"> 
+               
+              </div>
+              <div class="clear"></div>
+            </div>
           </div>
         </div>
-        <script type="text/javascript">
+      </div>
+    </div>
+    <script type="text/javascript">
 		$(document).ready(function() {
             $("#form1").bind("submit",function(){
 				$("#result").html("Waiting...");
 				$.post("main.asp?act=sql",{"sql":$("#sql").val()},function(data){
 					$("#result").html(data);
 					bmx2table();
+					 $("#result table").colResizable({
+						liveDrag:true,
+//						gripInnerHtml:"<div class='grip'>ceshi</div>", 
+						draggingClass:"dragging", 
+						onResize:function(e){  
+    						var table = $(e.currentTarget); //reference to the resized table
+  						}
+					  });  
 				}
 				)
 			}
-			)
+			);
+			$("a[sql]").click(function(){
+				var h=$(this);
+				$("#sql").val('SELECT TOP 100 * FROM '+h.attr("table"));
+				$("#form1").submit();
+			});
         });
-		</script>
-        <!--#include file="..\..\..\..\zb_system\admin\admin_footer.asp"-->
+		</script> 
+    <!--#include file="..\..\..\..\zb_system\admin\admin_footer.asp"-->
+	<%
+	Function ReadTables
+		Dim objRs
+		If ZC_MSSQL_ENABLE Then
+			Set objRs=objConn.Execute("SELECT [name] FROM [dbo].[sysobjects] WHERE TYPE='u'")
+			Do Until objRs.Eof
+				ReadTables=ReadTables&"<li><a table='"&Server.HTMLEncode(objRs("name"))&"' sql='sql' id='a" & Server.HTMLEncode(objRs("name")) & "' href='javascript:;'>"&objRs("name")&"</a></li>"
+				objRs.MoveNext
+			Loop
+		Else
+		
+		End If
+	End Function
+	%>

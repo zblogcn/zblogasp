@@ -77,15 +77,17 @@ Function ExportCounterlist(intPage,strIP,strAgent,strAQH,name)
 	strIP=vbsescape(strIP)
 	strAgent=vbsescape(strAgent)
 	name=vbsescape(name)
+	Call CheckParameter(strIP,"sql","")
+	Call CheckParameter(strAgent,"sql","")
 	Call CheckParameter(strAQH,"sql",-1)
 	Call CheckParameter(name,"sql",-1)
 	Dim tmp,tmp2
 	tmp=TransferHTML(name,"[html-format]")
 	tmp2=TransferHTML(strAQH,"[html-format]")
 	Response.Write "<form id=""edit"" class=""search"" method=""post"" enctype=""application/x-www-form-urlencoded"" action=""main.asp"">"
-	Response.Write "IP:<input type='text' name='ip' id='ip' value="""&vbsunescape(TransferHTML(strIP,"[html-format]"))&"""/>"
-	Response.Write "  User-Agent:<input type='text' name='agent' id='agent' value='"&vbsunescape(TransferHTML(strAgent,"[html-format]"))&"'/>  日志类型： <input type='text' name='name' id='name' value='"&vbsunescape(IIf(tmp="-1","",tmp))&"'/>  <input type=""submit"" class=""button"" value="""&ZC_MSG087&""">  "
-	Response.Write "<br/><br/>PostData&AllHttp <input id=""content"" name=""content"" style=""width:70%"" type=""text"" value="""&vbsunescape(IIf(tmp2="-1","",tmp2))&""" /> "
+	Response.Write "IP:<input type='text' name='ip' id='ip' value="""&vbsunescape(vbsunescape(TransferHTML(strIP,"[html-format]")))&"""/>"
+	Response.Write "  User-Agent:<input type='text' name='agent' id='agent' value='"&vbsunescape(vbsunescape(TransferHTML(strAgent,"[html-format]")))&"'/>  日志类型： <input type='text' name='name' id='name' value='"&vbsunescape(vbsunescape(IIf(tmp="-1","",tmp)))&"'/>  <input type=""submit"" class=""button"" value="""&ZC_MSG087&""">  "
+	Response.Write "<br/><br/>PostData&AllHttp <input id=""content"" name=""content"" style=""width:70%"" type=""text"" value="""&vbsunescape(vbsunescape(IIf(tmp2="-1","",tmp2)))&""" /> "
 	Response.Write ""
 	Response.Write "</form>"
 	Set objRS=Server.CreateObject("ADODB.Recordset")
@@ -114,7 +116,7 @@ Function ExportCounterlist(intPage,strIP,strAgent,strAQH,name)
 	Response.Write "<table border=""1"" width=""100%"" cellspacing=""1"" cellpadding=""1"" height=""40"">"
 	Response.Write "<tr><td>"& ZC_MSG076 &"</td><td>IP</td><td>类型</td><td>操作者</td><td>操作时间</td><td>操作内容</td><td>方法及URL</td><td>HTTP头</td><td>POSTDATA</td></tr>"
 	If strsql<>"" then strsql="WHERE 1=1 "&strsql
-	Response.Write strsql
+'	Response.Write strsql
 	objRS.Open("SELECT * FROM [blog_Counter] "& strSQL &" ORDER BY [coun_PostTime] DESC")
 	objRS.PageSize=ZC_MANAGE_COUNT
 	If objRS.PageCount>0 Then objRS.AbsolutePage = intPage

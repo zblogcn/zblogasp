@@ -33,4 +33,6 @@ ZBDK.submenu=function(j){
 		Response.Write(MakeSubMenu(aryname[i],BlogHost+"zb_users/plugin/zbdk/"+aryurl[i],((j==i||j==aryname[i])?arycss[i]+" m-now":arycss[i]),false));
 	}
 }
+
+
 </script>
