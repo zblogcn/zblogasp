@@ -43,8 +43,8 @@ Next
 Call SaveConfig2Option()
 Call SetBlogHint(True,True,Empty)
 
-SetBlogHint_Custom("设置已保存!")
+SetBlogHint_Custom("设置已保存！请选择你的伪静态组件以生成规则！")
 
-Response.Redirect Request.ServerVariables("HTTP_REFERER")
+Response.Redirect "list.asp"'Request.ServerVariables("HTTP_REFERER")
 
 %>

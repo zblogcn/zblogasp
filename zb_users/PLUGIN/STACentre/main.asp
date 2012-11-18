@@ -31,7 +31,7 @@ BlogTitle="静态管理中心"
       <%Call GetBlogHint()%>
     </div>
   <div class="divHeader"><%=BlogTitle%></div>
-  <div class="SubMenu"> <a href="main.asp"><span class="m-left m-now">配置页面</span></a><a href="list.asp"><span class="m-left">ReWrite规则</span></a>
+  <div class="SubMenu"> <a href="main.asp"><span class="m-left m-now">配置页面</span></a><a href="list.asp"><span class="m-left">ReWrite规则</span></a><a href="help.asp"><span class="m-right">帮助</span></a>
   </div>
   <div id="divMain2">
     <script type="text/javascript">ActiveLeftMenu("aPlugInMng");</script>
@@ -124,7 +124,7 @@ BlogTitle="静态管理中心"
 			</div> <!-- End .content-box -->
 
 
-<p><span class="star">注意:开启文章及页面和分类页的Rewrite支持选项后,请查看"ReWrite规则"并应用在主机上方能生效.</span></p>
+<!--<p><span class="star">注意:开启文章及页面和分类页的Rewrite支持选项后,请查看"ReWrite规则"并应用在主机上方能生效.</span></p>-->
 
 <input name="" type="submit" class="button" value="保存"/>
 </form>
