@@ -31,7 +31,7 @@ If Request.QueryString("act")="sql" Then
 		Response.Write "</tr>"
 		
 		Do Until objRs.Eof
-			Response.Write "<tr>"
+			Response.Write "<tr height='32'>"
 			For i=0 To objRs.fields.count-1 
 				response.write "<td>"&TransferHTML(objRs(i),"[html-format]")& "</td>" 
 			Next 	
@@ -49,6 +49,9 @@ End If
 <!--#include file="..\..\..\..\zb_system\admin\admin_header.asp"-->
 <link rel="stylesheet" href="../css/BlogConfig.css" type="text/css" media="screen"/>
 <script type="text/javascript" src="../script/colResizable-1.3.min.js"></script>
+<style type="text/css">
+td{text-align: center}
+</style>
 <!--#include file="..\..\..\..\zb_system\admin\admin_top.asp"-->
         
         <div id="divMain">
