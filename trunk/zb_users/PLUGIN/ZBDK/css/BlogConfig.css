@@ -9,7 +9,7 @@
 }
 .DIVBlogConfignav {
 	background: #c9dfea;
-	width: 160px;
+	width: 200px;
 	position: absolute;
 	left: 0px;
 	top: 0px;
@@ -26,6 +26,10 @@
 	padding: 0 10px;
 }
 #divMain .DIVBlogConfignav ul li a:hover {
+	background: #39F;
+	color: #FFFFFF;
+}
+#divMain .DIVBlogConfignav ul li a .clicked{
 	background: #3399cc;
 	color: #FFFFFF;
 }
@@ -45,7 +49,7 @@
 }
 #divMain .DIVBlogConfigcontent {
 	background: #FFFFFF;
-	margin-left: 160px;
+	margin-left: 200px;
 	min-height: 400px;
 	_height: 400px;
 	padding-left: 10px;
@@ -58,3 +62,5 @@ table {
 	table-layout: fixed;
 	margin-bottom: 10px;
 }
+
+.hide{display:none}

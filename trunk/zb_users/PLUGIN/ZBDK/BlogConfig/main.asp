@@ -101,7 +101,7 @@ End Select
 			If m="BlogConfig" Then m=""
 			Response.Write "<div class=""DIVBlogConfigtop""><span id=""name"">"&m & "</span><a href=""javascript:;"" onclick=""run2('new','"& m&"')"">新建</a></div>"
 			Set objRs=objConn.Execute("SELECT [conf_Name] AS A,[conf_Value] AS B FROM [blog_Config] WHERE [conf_Name]='"&l&"'")	
-			Response.Write "<table width=""100%"" style='padding:0px;' cellspacing='0' cellpadding='0' id=""configt""><tr><th width=""25%"">名称</th><th>内容</th><th width=""10%""></th></tr>"
+			Response.Write "<table width=""100%"" style='padding:0px;' cellspacing='0' cellpadding='0' id=""configt""><tr height='32'><th width=""25%"">名称</th><th>内容</th><th width=""10%""></th></tr>"
 			If Not objRs.Eof Then
 				a=objRs("B")
 				b=split(a,meta_split_string_2)
@@ -111,7 +111,7 @@ End Select
 				For e=1 To Ubound(c)
 					n=TransferHTML(vbsunescape(d(e)),"[textarea]")
 					h=TransferHTML(vbsunescape(c(e)),"[textarea]")
-					Response.Write "<tr><td><input type='hidden' value='"&e&"'/><span id=""txt"&e&""">"&h&"</span></td><td onclick=""$('#ta"&e&"').show();$('#show"&e&"').hide()""><span id=""show"&e&""">"&n&"</span><textarea id=""ta"&e&""" style=""display:none;width:100%"">"&n&"</textarea></td><td><a href=""javascript:;"" onclick=""run2('edit','"&e&"','"&m&"')""><img src=""../../../../ZB_SYSTEM/image/admin/page_edit.png"" alt=""编辑"" title=""编辑"" width=""16"" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a onclick='if( window.confirm(""单击“确定”继续。单击“取消”停止。"")){run2(""del"","""&e&""","""&m&""")};' href=""javascript:;"" onclick=""run2('del','"&e&"','"&m&"')""><img src=""../../../../ZB_SYSTEM/image/admin/delete.png"" alt=""删除"" title=""删除"" width=""16"" /></a></td></tr>"
+					Response.Write "<tr height='32'><td><input type='hidden' value='"&e&"'/><span id=""txt"&e&""">"&h&"</span></td><td onclick=""$('#ta"&e&"').show();$('#show"&e&"').hide()""><span id=""show"&e&""">"&n&"</span><textarea id=""ta"&e&""" style=""display:none;width:100%"">"&n&"</textarea></td><td><a href=""javascript:;"" onclick=""run2('edit','"&e&"','"&m&"')""><img src=""../../../../ZB_SYSTEM/image/admin/page_edit.png"" alt=""编辑"" title=""编辑"" width=""16"" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a onclick='if( window.confirm(""单击“确定”继续。单击“取消”停止。"")){run2(""del"","""&e&""","""&m&""")};' href=""javascript:;"" onclick=""run2('del','"&e&"','"&m&"')""><img src=""../../../../ZB_SYSTEM/image/admin/delete.png"" alt=""删除"" title=""删除"" width=""16"" /></a></td></tr>"
 				Next
 			End If
 			Response.Write "</table>"
@@ -121,7 +121,7 @@ End Select
 Function ReadLeft
 	Set objRs=objConn.Execute("SELECT [conf_Name] FROM [blog_Config]")
 	Do Until objRs.Eof
-		Response.Write "<li><a id="""&objRs("conf_Name")&""" href=""javascript:;"" onclick=""run('open','"&objRs("conf_Name")&"')"">" & objRs("conf_Name") & "</a></li>"
+		Response.Write "<li><a id="""&objRs("conf_Name")&""" href=""javascript:;"" onclick=""clk(this);run('open','"&objRs("conf_Name")&"');"">" & objRs("conf_Name") & "</a></li>"
 		objRs.MoveNext
 	Loop
 	Response.Write "<li><a id=""BlogConfig"" href=""javascript:;"" onClick=""run('open','BlogConfig')"">新建</a></li>"
