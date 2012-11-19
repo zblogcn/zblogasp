@@ -110,16 +110,19 @@ td{text-align: center}
 		</script> 
     <!--#include file="..\..\..\..\zb_system\admin\admin_footer.asp"-->
 	<%
+
 	Function ReadTables
 		Dim objRs
 		If ZC_MSSQL_ENABLE Then
-			Set objRs=objConn.Execute("SELECT [name] FROM [dbo].[sysobjects] WHERE TYPE='u'")
-			Do Until objRs.Eof
-				ReadTables=ReadTables&"<li><a table='"&Server.HTMLEncode(objRs("name"))&"' sql='sql' id='a" & Server.HTMLEncode(objRs("name")) & "' href='javascript:;'>"&objRs("name")&"</a></li>"
-				objRs.MoveNext
-			Loop
+			Set objRs=objConn.Execute("SELECT [name] As [table_name] FROM [dbo].[sysobjects] WHERE TYPE='u'")
 		Else
-		
+			Set objRs=objConn.OpenSchema(20)
+			objRs.Filter="table_type='table'"
 		End If
+		Do Until objRs.Eof
+			ReadTables=ReadTables&"<li><a table='"&Server.HTMLEncode(objRs("table_name"))&"' sql='sql' id='a" & Server.HTMLEncode(objRs("table_name")) & "' href='javascript:;'>"&objRs("table_name")&"</a></li>"
+			objRs.MoveNext
+		Loop
+		Set objRs=Nothing
 	End Function
 	%>
