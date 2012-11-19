@@ -123,7 +123,7 @@ If f<>"" Then
 				Response.Write "$(""#ajaxtags"").html("""
 				'Response.Write EditArticle.TagToName
 				Dim objRS
-				Set objRS=objConn.Execute("SELECT [tag_ID],[tag_Name] FROM [blog_Tag] ORDER BY [tag_Count] DESC")
+				Set objRS=objConn.Execute("SELECT TOP 50 [tag_ID],[tag_Name] FROM [blog_Tag] ORDER BY [tag_Count] DESC")
 				If (Not objRS.bof) And (Not objRS.eof) Then
 					Do While Not objRS.eof
 						'If InStr(EditArticle.TagToName,"{"& objRS("tag_Name") & "}")>0 Then
