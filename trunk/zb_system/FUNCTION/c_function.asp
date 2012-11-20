@@ -1598,7 +1598,7 @@ Function RefreshStatistic
 	Call CheckParameter(allTagsNums,"int",0)
 
 	'strContent = "<table border=""0"" cellspacing=""0"" cellpadding=""0"" align=""center"" width=""100%"" class=""tableBorder"">"
-	strContent = "<tr class=""color1""><th height=""32"" colspan=""4""  align=""center"">&nbsp;" & ZC_MSG167& "&nbsp;<a href=""javascript:statistic('?reload');"">["& ZC_MSG225 &"]</a> <img id=""statloading"" style=""display:none"" src=""../image/admin/loading.gif""></th></tr>"
+	strContent = "<tr class=""color1""><th height=""32"" colspan=""4""  align=""center"">&nbsp;" & ZC_MSG167& "&nbsp;<a href=""javascript:statistic('?reload');"">["& ZC_MSG225 & ZC_MSG281 &"]</a> <img id=""statloading"" style=""display:none"" src=""../image/admin/loading.gif""></th></tr>"
 	strContent = strContent & "<tr>"
 	strContent = strContent & "<td width=""20%"">" & ZC_MSG005& " </td>"
 	strContent = strContent & "<td width=""30%""><"&"%=BlogUser</td>"

@@ -35,8 +35,6 @@ strTemplateModified=Application(ZC_BLOG_CLSID & "TEMPLATEMODIFIED")
 Application.UnLock
 If IsEmpty(strTemplateModified)=False Then
 	If LCase(CStr(strTemplateModified))<>LCase(CStr(CheckTemplateModified)) Then
-		Call ClearGlobeCache()
-		Call LoadGlobeCache()
 		Call BlogReBuild_Default()
 	End If
 End If
