@@ -8,7 +8,7 @@
 '// 程序名称:    
 '// 程序版本:    
 '// 单元名称:    c_updateinfo.asp
-'// 开始时间:    2007-1-26
+'// 开始时间:    2012-10-28
 '// 最后修改:    
 '// 备    注:    
 '///////////////////////////////////////////////////////////////////////////////
@@ -50,6 +50,7 @@ Else
 End If
 
 If IsEmpty(Request.QueryString("reload"))=False Then
+	Call MakeBlogReBuild_Core
 	b=True
 End If
 

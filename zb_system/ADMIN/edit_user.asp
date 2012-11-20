@@ -53,9 +53,10 @@ If Not IsEmpty(Request.QueryString("id")) Then
 
 Else
 
-	EditUser.Level=4
+	EditUser.Level=3
 	EditUser.Name=""
 	EditUser.Email="null@null.com"
+	EditUser.HomePage=bloghost
 
 End If
 

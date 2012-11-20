@@ -1587,7 +1587,7 @@ Class TArticle
 
 		Call GetUsersbyUserIDList(AuthorID)
 
-
+		'重新统计分类及用户的文章数、评论数
 		Dim strSQL,ary1(2),ary2(2)
 		strSQL=""
 		ary1(0)=True
@@ -1649,15 +1649,6 @@ Class TArticle
 		End If
 		
 		Set objRS=Nothing
-
-		'Set objRS=objConn.Execute("SELECT COUNT([log_ID]) FROM [blog_TrackBack] WHERE [log_ID] =" & ID)
-		'If (Not objRS.bof) And (Not objRS.eof) Then
-		'	TrackBackNums=objRS(0)
-		'End If
-		'objConn.Execute("UPDATE [blog_Article] SET [log_TrackBackNums]="& TrackBackNums &" WHERE [log_ID] =" & ID)
-		'Set objRS=Nothing
-
-		'重新统计分类及用户的文章数、评论数
 
 
 		FullUrl=Replace(Url,BlogHost,"<#ZC_BLOG_HOST#>")

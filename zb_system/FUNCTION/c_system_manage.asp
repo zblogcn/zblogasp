@@ -1124,7 +1124,7 @@ Function ExportSiteInfo()
 	
 	
 	If BlogUser.Level<4 Then 
-		Call Add_Response_Plugin("Response_Plugin_Admin_SiteInfo","<table border=""0"" cellspacing=""0"" cellpadding=""0"" align=""center"" width=""100%"" class=""tableBorder"" id=""tbStatistic""><tr><th height=""32"" colspan=""4""  align=""center"">&nbsp;"&ZC_MSG167&"&nbsp;<a href=""javascript:statistic('?reload');"">["&ZC_MSG225&"]</a> <img id=""statloading"" style=""display:none"" src=""../image/admin/loading.gif""></th></tr><tr><td></td></tr></table>")
+		Call Add_Response_Plugin("Response_Plugin_Admin_SiteInfo","<table border=""0"" cellspacing=""0"" cellpadding=""0"" align=""center"" width=""100%"" class=""tableBorder"" id=""tbStatistic""><tr><th height=""32"" colspan=""4""  align=""center"">&nbsp;"&ZC_MSG167&"&nbsp;<a href=""javascript:statistic('?reload');"">["&ZC_MSG225&ZC_MSG281&"]</a> <img id=""statloading"" style=""display:none"" src=""../image/admin/loading.gif""></th></tr><tr><td></td></tr></table>")
 	End If
 	If Len(ZC_UPDATE_INFO_URL)>0 Then
 		Call Add_Response_Plugin("Response_Plugin_Admin_SiteInfo","<table border=""0"" cellspacing=""0"" cellpadding=""0"" align=""center"" width=""100%"" class=""tableBorder""><tr><th height=""32"" colspan=""4"" align=""center"">&nbsp;"&ZC_MSG164&"&nbsp;<a href=""javascript:updateinfo('?reload');"">["&ZC_MSG225&"]</a> <img id=""infoloading"" style=""display:none"" src=""../image/admin/loading.gif""></th></tr><tr><td height=""25"" colspan=""4"" id=""tdUpdateInfo"">&nbsp;</td></tr></table>")
