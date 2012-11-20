@@ -253,8 +253,10 @@ Function DelArticle(intID)
 
 	If objArticle.LoadInfoByID(intID) Then
 
-		If objArticle.Del Then DelArticle=True
-
+		If objArticle.Del Then 
+			objArticle.Statistic
+			DelArticle=True
+		End If 
 		Call ScanTagCount(strTag)
 
 		Call BlogReBuild_Comments
