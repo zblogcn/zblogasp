@@ -1224,7 +1224,7 @@ Function CheckTemplateModified()
 	  If DateDiff("s",nd,d)>0 Then nd=d
 	Next
 
-	CheckTemplateModified=nds
+	CheckTemplateModified=nd
 
 End Function
 '*********************************************************
