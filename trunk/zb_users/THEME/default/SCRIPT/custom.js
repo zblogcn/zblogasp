@@ -1,4 +1,11 @@
-﻿sidebarloaded.add(function(){ 
+﻿$(document).ready(function(){
+	if(!$("li.msgarticle").html()){$("ul.mutuality").hide()}
+	if($("ul.msghead ~ ul.msg").length==0){$("ul.msghead").hide()}
+	$(".post-tags").each(function(){if($(this).find('a').length==0){$(this).hide()}});
+	var s=document.location;
+	$("#divNavBar").find("a").each(function(){if($(this).attr("href")==s.toString().split("#")[0]){$(this).addClass("on");return false;}});
+});
+sidebarloaded.add(function(){ 
 	$("ul.ul-subcates").prev("a").before("<span class='sh'>-</span>");
 	$("span.sh").click(function (){
 		$(this).next().next("ul").toggle("fast");
