@@ -1006,12 +1006,73 @@ End Function
 '*********************************************************
 Function CreateNewPlugin(id)
 
+	Dim strInclude,strMain
+	strInclude="<"&"%" & vbCrlf & _
+				"" & vbCrlf & _
+				"'注册插件" & vbCrlf & _
+				"Call RegisterPlugin(""__name__"",""ActivePlugin___name__"")" & vbCrlf & _
+				"'挂口部分" & vbCrlf & _
+				"Function ActivePlugin___name__()" & vbCrlf & _
+				"" & vbCrlf & _
+				"	'插件最主要在这里挂接口。" & vbCrlf & _
+				"	'Z-Blog可挂的接口有三类：Action、Filter、Response" & vbCrlf & _
+				"	'建议参考Z-Wiki进行开发" & vbCrlf & _
+				"	" & vbCrlf & _
+				"End Function" & vbCrlf & _
+				"%"&">"
+	strMain="<"&"%@ LANGUAGE=""VBSCRIPT"" CODEPAGE=""65001""%"&">" & vbCrlf & _
+			"<"&"% Option Explicit %"&">" & vbCrlf & _
+			"<"&"% 'On Error Resume Next %"&">" & vbCrlf & _
+			"<"&"% Response.Charset=""UTF-8"" %"&">" & vbCrlf & _
+			"<!-- #inclu"&"de file=""..\..\c_option.asp"" -->" & vbCrlf & _
+			"<!-- #inclu"&"de file=""..\..\..\zb_system\function\c_function.asp"" -->" & vbCrlf & _
+			"<!-- #inclu"&"de file=""..\..\..\zb_system\function\c_system_lib.asp"" -->" & vbCrlf & _
+			"<!-- #inclu"&"de file=""..\..\..\zb_system\function\c_system_base.asp"" -->" & vbCrlf & _
+			"<!-- #inclu"&"de file=""..\..\..\zb_system\function\c_system_event.asp"" -->" & vbCrlf & _
+			"<!-- #inclu"&"de file=""..\..\..\zb_system\function\c_system_manage.asp"" -->" & vbCrlf & _
+			"<!-- #inclu"&"de file=""..\..\..\zb_system\function\c_system_plugin.asp"" -->" & vbCrlf & _
+			"<!-- #inclu"&"de file=""..\p_config.asp"" -->" & vbCrlf & _
+			"<"&"%" & vbCrlf & _
+			"Call System_Initialize()" & vbCrlf & _
+			"'检查非法链接" & vbCrlf & _
+			"Call CheckReference("""")" & vbCrlf & _
+			"'检查权限" & vbCrlf & _
+			"If BlogUser.Level>__level__ Then Call ShowError(6)" & vbCrlf & _
+			"If CheckPluginState(""__name__"")=False Then Call ShowError(48)" & vbCrlf & _
+			"BlogTitle=""__title__""" & vbCrlf & _
+			"%"&">" & vbCrlf & _
+			"<!--#inclu"&"de file=""..\..\..\zb_system\admin\admin_header.asp""-->" & vbCrlf & _
+			"<!--#inclu"&"de file=""..\..\..\zb_system\admin\admin_top.asp""-->" & vbCrlf & _
+			"        <div id=""divMain"">" & vbCrlf & _
+			"          <div id=""ShowBlogHint"">" & vbCrlf & _
+			"            <"&"%Call GetBlogHint()%"&">" & vbCrlf & _
+			"          </div>" & vbCrlf & _
+			"          <div class=""divHeader""><"&"%=BlogTitle%"&"></div>" & vbCrlf & _
+			"          <div class=""SubMenu""></div>" & vbCrlf & _
+			"          <div id=""divMain2""> " & vbCrlf & _
+			"            <script type=""text/javascript"">ActiveTopMenu(""aPlugInMng"");</script> " & vbCrlf & _
+			"            在这里写入后台管理页面代码" & vbCrlf & _
+			"          </div>" & vbCrlf & _
+			"        </div>" & vbCrlf & _
+			"        <!--#inclu"&"de file=""..\..\..\zb_system\admin\admin_footer.asp""-->" & vbCrlf & _
+			"" & vbCrlf & _
+			"<"&"%Call System_Terminate()%"&">" & vbCrlf
 	Dim objFSO
 	Set objFSO = CreateObject("Scripting.FileSystemObject")
 		
 
 	If objFSO.FolderExists(BlogPath & "zb_users\plugin\"&id)=False Then
 		Call objFSO.CreateFolder(BlogPath & "zb_users\plugin\"&id)
+		If Not IsEmpty(Request.Form("app_plugin_include")) Then
+			strInclude=Replace(strInclude,"__name__",id)
+			Call SaveToFile(BlogPath & "zb_users\plugin\"&id&"\"&Request.Form("app_plugin_include"),strInclude,"utf-8",False)
+		End If
+		If Not IsEmpty(Request.Form("app_plugin_path")) Then
+			strMain=Replace(strMain,"__name__",id)
+			strMain=Replace(strMain,"__level__",Request.Form("app_plugin_level"))
+			strMain=Replace(strMain,"__title__",Request.Form("app_name"))
+			Call SaveToFile(BlogPath & "zb_users\plugin\"&id&"\"&Request.Form("app_plugin_path"),strMain,"utf-8",False)
+		End If
 	Else
 		Call SetBlogHint_Custom("已存在有相同ID的插件!!!")
 		Response.Redirect Request.ServerVariables("HTTP_REFERER")
