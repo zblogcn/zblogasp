@@ -1073,7 +1073,7 @@ Class TArticle
 		Set objRS=objConn.Execute("SELECT TOP 1 [log_ID] FROM [blog_Article] WHERE ([log_Type]=0) And ([log_Level]>2) AND ([log_PostTime]<" & ZC_SQL_POUND_KEY & PostTime & ZC_SQL_POUND_KEY &") ORDER BY [log_PostTime] DESC")
 		If (Not objRS.bof) And (Not objRS.eof) Then
 
-			s="<a class=""l"" href=""<#article/nav_l/url#>""><#article/nav_l/name#></a>"
+			s=GetTemplate("TEMPLATE_B_ARTICLE_NAVBAR_L")
 			
 			s=Replace(s,"<#article/nav_l/url#>","<#ZC_BLOG_HOST#>view.asp?navp="&ID)
 			s=Replace(s,"<#article/nav_l/name#>",ZC_MSG146)
@@ -1086,7 +1086,7 @@ Class TArticle
 		Set objRS=objConn.Execute("SELECT TOP 1 [log_ID] FROM [blog_Article] WHERE ([log_Type]=0) And ([log_Level]>2) AND ([log_PostTime]>" & ZC_SQL_POUND_KEY & PostTime & ZC_SQL_POUND_KEY &") ORDER BY [log_PostTime] ASC")
 		If (Not objRS.bof) And (Not objRS.eof) Then
 
-			t="<a class=""r"" href=""<#article/nav_r/url#>""><#article/nav_r/name#></a>"
+			t=GetTemplate("TEMPLATE_B_ARTICLE_NAVBAR_R")
 
 			t=Replace(t,"<#article/nav_r/url#>","<#ZC_BLOG_HOST#>view.asp?navn="&ID)
 			t=Replace(t,"<#article/nav_r/name#>",ZC_MSG148)
