@@ -1052,6 +1052,8 @@ If TemplateDic.Exists("TEMPLATE_B_ARTICLE_COMMENTPOST-VERIFY")=False Then Call T
 If TemplateDic.Exists("TEMPLATE_B_ARTICLE_COMMENTPOST")=False Then Call TemplateDic.add("TEMPLATE_B_ARTICLE_COMMENTPOST",LoadFromFile(BlogPath &"zb_system\defend\default\b_article_commentpost.html","utf-8"))
 If TemplateDic.Exists("TEMPLATE_B_ARTICLE_COMMENT_PAGEBAR")=False Then Call TemplateDic.add("TEMPLATE_B_ARTICLE_COMMENT_PAGEBAR",LoadFromFile(BlogPath &"zb_system\defend\default\b_article_comment_pagebar.html","utf-8"))
 If TemplateDic.Exists("TEMPLATE_B_ARTICLE_MUTUALITY")=False Then Call TemplateDic.add("TEMPLATE_B_ARTICLE_MUTUALITY",LoadFromFile(BlogPath &"zb_system\defend\default\b_article_mutuality.html","utf-8"))
+If TemplateDic.Exists("TEMPLATE_B_ARTICLE_NAVBAR_L")=False Then Call TemplateDic.add("TEMPLATE_B_ARTICLE_NAVBAR_L",LoadFromFile(BlogPath &"zb_system\defend\default\b_article_navbar_l.html","utf-8"))
+If TemplateDic.Exists("TEMPLATE_B_ARTICLE_NAVBAR_R")=False Then Call TemplateDic.add("TEMPLATE_B_ARTICLE_NAVBAR_R",LoadFromFile(BlogPath &"zb_system\defend\default\b_article_navbar_r.html","utf-8"))
 If TemplateDic.Exists("TEMPLATE_B_ARTICLE_TAG")=False Then Call TemplateDic.add("TEMPLATE_B_ARTICLE_TAG",LoadFromFile(BlogPath &"zb_system\defend\default\b_article_tag.html","utf-8"))
 If TemplateDic.Exists("TEMPLATE_B_FUNCTION")=False Then Call TemplateDic.add("TEMPLATE_B_FUNCTION",LoadFromFile(BlogPath &"zb_system\defend\default\b_function.html","utf-8"))
 If TemplateDic.Exists("TEMPLATE_B_PAGEBAR")=False Then Call TemplateDic.add("TEMPLATE_B_PAGEBAR",LoadFromFile(BlogPath &"zb_system\defend\default\b_pagebar.html","utf-8"))
@@ -1222,7 +1224,7 @@ Function CheckTemplateModified()
 	  If DateDiff("s",nd,d)>0 Then nd=d
 	Next
 
-	CheckTemplateModified=nd
+	CheckTemplateModified=nds
 
 End Function
 '*********************************************************
