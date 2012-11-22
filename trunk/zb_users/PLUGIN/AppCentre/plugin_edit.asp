@@ -38,7 +38,15 @@ End If
 
 
 If ID="" Then
-
+	app_pubdate=FormatDateTime(Now,vbShortDate)
+	app_modified=FormatDateTime(Now,vbShortDate)
+	app_author_name=BlogUser.FirstName
+	app_author_email=BlogUser.EMail
+	app_author_url=BlogUser.HomePage
+	app_plugin_path="main.asp"
+	app_plugin_include="include.asp"
+	app_price=0
+	app_version="1.0"
 Else
 
 	Call LoadPluginXmlInfo(ID)
@@ -77,8 +85,8 @@ End If
 <tr><td><p><b>· 作者邮箱</b></p></td><td><p>&nbsp;<input id="app_author_email" name="app_author_email" style="width:550px;"  type="text" value="<%=app_author_email%>" /></p></td></tr>
 <tr><td><p><b>· 作者网站</b></p></td><td><p>&nbsp;<input id="app_author_url" name="app_author_url" style="width:550px;"  type="text" value="<%=app_author_url%>" /></p></td></tr>
 
-<tr><td><p><b>· 插件管理页</b> <br/><span class="note">&nbsp;&nbsp;默认为main.asp</span></p></td><td><p>&nbsp;<input id="app_plugin_path" name="app_plugin_path" style="width:550px;"  type="text" value="<%=app_plugin_path%>" /></p></td></tr>
-<tr><td><p><b>· 插件嵌入页</b> <br/><span class="note">&nbsp;&nbsp;默认为include.asp</span></p></td><td><p>&nbsp;<input id="app_plugin_include" name="app_plugin_include" style="width:550px;"  type="text" value="<%=app_plugin_include%>" /></p></td></tr>
+<tr><td><p><b>· 插件管理页</b> <br/><span class="note">&nbsp;&nbsp;</span></p></td><td><p>&nbsp;<input id="app_plugin_path" name="app_plugin_path" style="width:550px;"  type="text" value="<%=app_plugin_path%>" /></p></td></tr>
+<tr><td><p><b>· 插件嵌入页</b> <br/><span class="note">&nbsp;&nbsp;</span></p></td><td><p>&nbsp;<input id="app_plugin_include" name="app_plugin_include" style="width:550px;"  type="text" value="<%=app_plugin_include%>" /></p></td></tr>
 <tr><td><p><b>· 插件管理权限</b> </p></td><td>
 <p>&nbsp;<select name="app_plugin_level" id="app_plugin_level" style="width:200px;">
     <option value="1" <%=IIF(app_plugin_level="1","selected='selected'","")%>><%=ZVA_User_Level_Name(1)%></option>

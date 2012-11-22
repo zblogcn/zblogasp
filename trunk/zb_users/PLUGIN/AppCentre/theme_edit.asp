@@ -38,7 +38,13 @@ End If
 
 
 If ID="" Then
-
+	app_pubdate=FormatDateTime(Now,vbShortDate)
+	app_modified=FormatDateTime(Now,vbShortDate)
+	app_author_name=BlogUser.FirstName
+	app_author_email=BlogUser.EMail
+	app_author_url=BlogUser.HomePage
+	app_price=0
+	app_version="1.0"
 Else
 
 	Call LoadThemeXmlInfo(ID)
