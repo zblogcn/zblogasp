@@ -14,7 +14,7 @@
 '///////////////////////////////////////////////////////////////////////////////
 %>
 <% Option Explicit %>
-<% 'On Error Resume Next %>
+<% On Error Resume Next %>
 <% Response.Charset="UTF-8" %>
 <% Response.Buffer=True %>
 <!-- #include file="zb_users/c_option.asp" -->
@@ -43,14 +43,14 @@ objArticle.Title="TagCloud"
 
 Dim Tag
 Dim strTagCloud()
-Dim i,j,c
+Dim i,j
 
-For each i in Tags
-	If IsObject(i) Then 
-		If i.Count<>0 Then
-			c=TagCloud(i.Count)
+For Each Tag in Tags
+	If IsObject(Tag) Then 
+		If Tag.Count<>0 Then
+			i=TagCloud(Tag.Count)
 			ReDim Preserve strTagCloud(j+1)
-			strTagCloud(j) = "<font size='"&c&"'><a title='" & i.Count & "' href='" & i.Url &"'>" &i.name & "</a></font>&nbsp;&nbsp;"
+			strTagCloud(j) = "<font size='"&i&"'><a title='" & Tag.Count & "' href='" & Tag.Url &"'>" &Tag.name & "</a></font>&nbsp;&nbsp;"
 		End If 
 	End If
 	j=j+1
