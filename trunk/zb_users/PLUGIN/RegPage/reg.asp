@@ -45,20 +45,21 @@ Next
   <div class="logo"><img src="<%=GetCurrentHost%>ZB_SYSTEM/image/admin/none.gif" title="Z-Blog<%=ZC_MSG009%>" alt="Z-Blog<%=ZC_MSG009%>"/></div>
   <div class="login">
     <div class="divHeader">注册用户</div>
-	<p class="validateTips">以下所有项均需填写。</p>
+	<p class="validateTips">以下用户名密码为必填项。</p>
     <!-- 原form -->
 	<form action="reg_save.asp" method="post" id="reg">
       <%=Response_Plugin_RegPage_Begin%>
     <dl>
-		<dd><label for="name">名称 </label><input type="text" id="name" name="name" size="30" tabindex="1" value="<%=dUsername%>"/></dd>
+		<dd><label for="name">名称 </label><input type="text" id="name" name="name" size="30" tabindex="1" value="<%=dUsername%>"/>  <span style="color:red">(*)</span></dd>
 
-		<dd><label for="password">密码 </label><input id="password" name="password" type="password" maxlength="14" size="30" tabindex="2" value="<%=dPassword%>"></dd>
+		<dd><label for="password">密码 </label><input id="password" name="password" type="password" maxlength="14" size="30" tabindex="2" value="<%=dPassword%>">  <span style="color:red">(*)</span></dd>
+		<dd><label for="repassword">确认 </label><input id="repassword" name="repassword" type="password" maxlength="14" size="30" tabindex="3" value=""></dd>
 
 		<dd><label for="email">邮箱 </label><input type="email" id="email" name="email" maxlength="32" size="30"  tabindex="4" value="<%=dEMail%>"></dd>
 
 		<dd><label for="site">网站 </label><input type="url" id="site" name="site" size="30" tabindex="5"  value="<%=dSite%>" /></dd>
 
-		<dd><label for="edtCheckOut">验证 </label><input type="number" min="10000" max="99999" id="edtCheckOut" name="edtCheckOut" size="30"  tabindex="6"/><img style="border:5px solid #ededed" src="<%=GetCurrentHost%>zb_system/function/c_validcode.asp?name=commentvalid" alt="点击刷新" title=""/></dd>
+		<dd><label for="edtCheckOut">验证 </label><input type="number" min="10000" max="99999" id="edtCheckOut" name="edtCheckOut" size="30"  tabindex="6"/><img style="border:5px solid #ededed" src="<%=GetCurrentHost%>zb_system/function/c_validcode.asp?name=commentvalid" alt="验证码" title="点击刷新"/></dd>
 
     <dd class="checkbox" >
       <!-- <dd class="checkbox"><input type="checkbox" checked="checked" name="chkRemember" id="chkRemember"  tabindex="3" /><label for="chkRemember"><%=ZC_MSG114%></label></dd> -->      
@@ -85,6 +86,7 @@ $(document).ready(function(){
 var vname = $("#name"),
 	vemail = $("#email"),
 	vpassword = $("#password"),
+	vrepassword = $("#repassword"),
 	vsite=$("#site"),
 	allFields = $([]).add( vname ).add( vemail ).add( vpassword ).add( vsite ),
 	tips = $(".validateTips");
@@ -118,22 +120,36 @@ function checkRegexp( o, regexp, n ) {
 	}
 }
 
+function checkPassword( o, n ) {
+	if ( o.val()!=n.val()) {
+		o.addClass( "state-error" );
+		n.addClass( "state-error" );
+		updateTips(  "请重新确认密码是否正确" );
+		return false;
+	} else {
+		return true;
+	}
+}
+
 function chk_reg(){
 	var bValid = true;
 	allFields.removeClass( "state-error" );
 
-	bValid = bValid && checkLength( vname, "用户名", 1, 14 );
+	bValid = bValid && checkLength( vname, "用户名", <%=ZC_USERNAME_MIN%>, <%=ZC_USERNAME_MAX%> );
 	bValid = bValid && checkRegexp( vname, /^[.A-Za-z0-9\u4e00-\u9fa5]+$/i, "用户名只能使用汉字、英文字母及数字。" );
 
-	bValid = bValid && checkLength( vpassword, "密码", 8, 16 );
+	bValid = bValid && checkLength( vpassword, "密码", <%=ZC_PASSWORD_MIN%>, <%=ZC_PASSWORD_MAX%> );
 	bValid = bValid && checkRegexp( vpassword, /^([A-Za-z0-9`~!@#\$%\^&\*\-_])+$/, "密码只能使用英文字母、数字及部分特殊字符。" );
+	bValid = bValid && checkPassword(vpassword,vrepassword);
 
-	bValid = bValid && checkLength( vemail, "邮箱", 6, 60 );
-	bValid = bValid && checkRegexp( vemail, /^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$/i, "邮箱格式有误，参考：abc@123.com" );
-
-	bValid = bValid && checkLength( vsite, "网址", 6, 60 );
-	bValid = bValid && checkRegexp( vsite, /^[a-zA-Z]+:\/\/[a-zA-Z0-9\\_\\-\\.\\&\\?\/:=#\u4e00-\u9fa5]+?\/*$/ig, "网站地址有误，参考：http://www.site.com" );
-
+	if (vemail.val().length > 0){
+		bValid = bValid && checkLength( vemail, "邮箱", 6, 60 );
+		bValid = bValid && checkRegexp( vemail, /^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$/i, "邮箱格式有误，参考格式：abc@123.com" );
+	}
+	if (vsite.val().length > 0){
+		bValid = bValid && checkLength( vsite, "网址", 6, 60 );
+		bValid = bValid && checkRegexp( vsite, /^[a-zA-Z]+:\/\/[a-zA-Z0-9\\_\\-\\.\\&\\?\/:=#\u4e00-\u9fa5]+?\/*$/ig, "网址格式有误，参考格式：http://www.site.com" );
+	}
 	if ( bValid ) {
 		$("#reg").submit();
 	}
