@@ -2273,6 +2273,15 @@ Function vbsArrayRedim(arr,i,pre)
 	Execute "Redim " & IIf(pre=True,"Preserve ","") & "arr(i)" 
 	vbsArrayRedim=arr
 End Function
+'*********************************************************
+' 目的：    vbsReplace
+' 输入：   
+' 输入：   
+' 返回：    
+'*********************************************************
+Function vbsReplace(s1,s2,s3)
+	vbsReplace=Replace(s1,s2,s3)
+End Function
 
 '*********************************************************
 ' 目的：    unescape
@@ -2297,4 +2306,5 @@ End Function
 		a=escape(source);
 		return (a==("undefined"||undefined) ? "" : a)
 	}
+	String.prototype.vbsreplace=function(s1,s2){return vbsReplace(this,s1,s2)}
 </script>
