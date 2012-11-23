@@ -65,12 +65,17 @@ If Request.QueryString("revid")<>0 Then
 	EditComment.HomePage=BlogUser.HomePage
 	EditComment.Content=""
 	EditArticle.LoadInfoByID Trim(Request.QueryString("log_id"))
+
+	BlogTitle=ZC_MSG149
+
 	IsRev=True
 Else
+	BlogTitle=ZC_MSG272
+
 	IsRev=False
 End If
 
-BlogTitle=ZC_MSG272
+
 
 '为1号输出输口准备的Action接口
 'plugin node
@@ -83,7 +88,7 @@ Next
 <!--#include file="admin_top.asp"-->
 <div id="divMain">
 <%	Call GetBlogHint()	%>
-<div class="divHeader2"><%=ZC_MSG272%></div>
+<div class="divHeader2"><%=BlogTitle%></div>
 <%
 	Response.Write "<div class=""SubMenu"">" & Response_Plugin_CommentEdt_SubMenu & "</div>"
 %>
@@ -97,7 +102,16 @@ Next
 '	Response.Write "<input type=""hidden"" id=""inpLogID"" name=""inpLogID"" value="""& EditComment.log_ID &""" />"
 'End If
 
-	Response.Write "<p><span class='title'>"& ZC_MSG095 &":</span><br/><input type=""text"" readonly=""readonly"" id=""intRevID"" name=""intRevID"" value="""& TransferHTML(EditComment.ParentID,"[html-format]") &""" size=""40""  /></p>"
+	Response.Write "<input type=""hidden"" id=""intRevID"" name=""intRevID"" value="""& TransferHTML(EditComment.ParentID,"[html-format]") &""" size=""40""  />"
+If EditComment.ParentID<>0 Then
+	Dim objComment
+	Set objComment=New TComment
+	If objComment.LoadInfoByID(EditComment.ParentID) Then
+		Response.Write "<p><span class='title'>"& ZC_MSG265 &":</span><br/>"&objComment.Author& " : "&TransferHTML(objComment.Content,"[nohtml]") &"</p>"	
+	End If
+	Set objComment=Nothing 
+End If 
+
 If IsRev=False Then
 	Response.Write "<p><span class='title'>"& ZC_MSG001 &":</span><span class='star'>(*)</span><br/><input type=""text"" id=""inpName"" name=""inpName"" value="""& TransferHTML(EditComment.Author,"[html-format]") &""" size=""40"" /></p>"
 	Response.Write "<p><span class='title'>"& ZC_MSG053 &":</span><br/><input type=""text"" name=""inpEmail"" value="""& TransferHTML(EditComment.Email,"[html-format]") &""" size=""40""  /></p>"
@@ -106,8 +120,9 @@ Else
 	Response.Write "<input type=""hidden"" id=""inpName"" name=""inpName"" value="""& TransferHTML(EditComment.Author,"[html-format]") &""" />"
 	Response.Write "<input type=""hidden"" name=""inpEmail"" value="""& TransferHTML(EditComment.Email,"[html-format]") &""" />"
 	Response.Write "<input type=""hidden"" name=""inpHomePage"" value="""& TransferHTML(EditComment.HomePage,"[html-format]") &""" />"
+	Response.Write ""
 End If
-	Response.Write "<p><span class='title'>"& ZC_MSG090 &":</span><span class='star'>(*)</span><br/><textarea name=""txaContent"" id=""txaContent"" onchange=""GetActiveText(this.id);"" onclick=""GetActiveText(this.id);"" onfocus=""GetActiveText(this.id);"" cols=""80"" rows=""12"">"&EditComment.Content&"</textarea>(*)</p>"
+	Response.Write "<p><span class='title'>"& ZC_MSG090 &":</span><span class='star'>(*)</span><br/><textarea name=""txaContent"" id=""txaContent"" onchange=""GetActiveText(this.id);"" onclick=""GetActiveText(this.id);"" onfocus=""GetActiveText(this.id);"" cols=""80"" rows=""12"">"&EditComment.Content&"</textarea></p>"
 
 	'<!-- 1号输出接口 -->
 	If Response_Plugin_EditComment_Form<>"" Then Response.Write "<div id=""divEditForm1"">"&Response_Plugin_EditComment_Form&"</div>"
