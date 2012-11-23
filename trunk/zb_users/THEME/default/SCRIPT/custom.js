@@ -1,10 +1,23 @@
 ﻿$(document).ready(function(){
+	var havecateurl=false;
+	if(typeof(cateurl)!="undefined"){
+		if(cateurl!="<#article/category/id#>") havecateurl=true;
+	}
+	
 	if(!$("li.msgarticle").html()){$("ul.mutuality").hide()}
 	if($("ul.msghead ~ ul.msg").length==0){$("ul.msghead").hide()}
 	$(".post-tags").each(function(){if($(this).find('a').length==0){$(this).hide()}});
 	var s=document.location;
-	$("#divNavBar").find("a").each(function(){if($(this).attr("href")==s.toString().split("#")[0]){$(this).addClass("on");return false;}});
+	$("#divNavBar a").each(function(){
+		if(havecateurl){
+			if(this.href==cateurl){$(this).addClass("on");return false;}
+		}
+		else{
+			if(this.href==s.toString().split("#")[0]){$(this).addClass("on");return false;}
+		}
+	});
 });
+
 sidebarloaded.add(function(){ 
 	$("ul.ul-subcates").prev("a").before("<span class='sh'>-</span>");
 	$("span.sh").click(function (){
