@@ -98,7 +98,7 @@ td,th{
 	vertical-align:middle;
 }
 tr img{
-	margin-bottom:-3px;
+	margin-bottom:-4px;
 }
 tr.color1{
 background:#ededed;
@@ -317,12 +317,14 @@ input.button:hover {background: #39c;}
 
 input.button2 { width:auto;}
 
-input[disabled]{
+input[disabled],input[disabled]:hover{
 	background:#eee;
+	border:1px solid #ccc;
 }
 
-input[readonly]{
+input[readonly],input[readonly]:hover{
 	background:#eee;
+	border:1px solid #ccc;
 }
 
 
