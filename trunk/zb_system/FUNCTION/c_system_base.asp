@@ -2654,7 +2654,7 @@ Function BlogReBuild_Authors()
 	Dim User
 	For Each User in Users
 		If IsObject(User) Then''''''
-			If User.ID>0 And User.Level<4 Then
+			If User.ID>0 And User.Level<4 And User.Count>0 Then
 				strAuthor=strAuthor & "<li><a href="""& User.Url & """>"+User.FirstName + " (" & User.Count & ")" +"</a></li>"
 			End If
 		End If
@@ -2723,8 +2723,7 @@ Function BlogReBuild_Tags()
 
 	s=Split(t,",")
 	For i=0 To UBound(s)-1
-		If s(i)<>"" Then
-		'strTag=strTag & "<li><a href="""&Tags(s(i)).Url&""">"+Tags(s(i)).Name + " <span class=""tag-count"">(" & Tags(s(i)).Count & ")</span>" +"</a></li>"
+		If s(i)<>"" And Tags(s(i)).Count<>0 Then
 			h.add s(i),Tags(s(i))
 		End If
 	Next

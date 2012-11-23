@@ -14,7 +14,7 @@
 '///////////////////////////////////////////////////////////////////////////////
 %>
 <% Option Explicit %>
-<% On Error Resume Next %>
+<% 'On Error Resume Next %>
 <% Response.Charset="UTF-8" %>
 <% Response.Buffer=True %>
 <!-- #include file="zb_users/c_option.asp" -->
@@ -43,21 +43,18 @@ objArticle.Title="TagCloud"
 
 Dim Tag
 Dim strTagCloud()
-Dim i,j
+Dim i,j,c
 
-Dim objRS
-Set objRS=objConn.Execute("SELECT [tag_ID] FROM [blog_Tag] ORDER BY [tag_Name] ASC")
-If (Not objRS.bof) And (Not objRS.eof) Then
-	Do While Not objRS.eof
-		i=TagCloud(Tags(objRS("tag_ID")).Count)
-		ReDim Preserve strTagCloud(j+1)
-		strTagCloud(j) = "<font size='+"&i&"'><a title='" & Tags(objRS("tag_ID")).Count & "' href='" & Tags(objRS("tag_ID")).Url &"'>" & Tags(objRS("tag_ID")).name & "</a></font>&nbsp;&nbsp;"
-		j=j+1
-		objRS.MoveNext
-	Loop
-End If
-objRS.Close
-Set objRS=Nothing
+For each i in Tags
+	If IsObject(i) Then 
+		If i.Count<>0 Then
+			c=TagCloud(i.Count)
+			ReDim Preserve strTagCloud(j+1)
+			strTagCloud(j) = "<font size='"&c&"'><a title='" & i.Count & "' href='" & i.Url &"'>" &i.name & "</a></font>&nbsp;&nbsp;"
+		End If 
+	End If
+	j=j+1
+Next
 
 objArticle.FType=ZC_POST_TYPE_PAGE
 objArticle.Content="<p style='line-height:1.4'><br/>" & Join(strTagCloud) & "</p>"
