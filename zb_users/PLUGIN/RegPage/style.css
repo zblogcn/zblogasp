@@ -1,6 +1,7 @@
 ﻿.divHeader{	font-weight:bolder;font-size: 2em;margin:5px 0 5px 1.8em;text-align: left;}
 
 p,label,input{font:16px/1.6 "微软雅黑","宋体", Arial, Helvetica, sans-serif;}
+span{font:16px/1.6 sans-serif;padding: 0  0 0 5px;}
 p.validateTips{clear:both;font-size:14px;margin:0 3.8em 10px 3.8em;padding:5px 0 5px 3.2em;border: 1px solid #fff;color:#666;}
 p.state-highlight{border: 1px solid #FCEFA1;background: #FBF9EE;color:#222;}
 
