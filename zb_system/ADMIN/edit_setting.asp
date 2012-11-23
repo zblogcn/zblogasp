@@ -115,9 +115,9 @@ BlogTitle=ZC_MSG247
 	strZC_BLOG_MASTER=TransferHTML(ZC_BLOG_MASTER,"[html-format]")
 
 	Response.Write "<div class=""tab-content default-tab"" style='border:none;padding:0px;margin:0;' id=""tab1"">"
-	Response.Write "<p style='display:none;'><input id=""edtZC_BLOG_HOST"" name=""edtZC_BLOG_HOST"" style=""width:600px;"" type=""text"" value=""" & strZC_BLOG_HOST & """ /></p>"
+	'Response.Write "<p style='display:none;'><input id=""edtZC_BLOG_HOST"" name=""edtZC_BLOG_HOST"" style=""width:600px;"" type=""text"" value=""" & strZC_BLOG_HOST & """ /></p>"
 	Response.Write "<table width='100%' style='padding:0px;margin:0px;' cellspacing='0' cellpadding='0'>"
-	'Response.Write "<tr><td width='30%'>" & SplitNameAndNote(ZC_MSG104) & "</td><td><p><input id=""edtZC_BLOG_HOST"" name=""edtZC_BLOG_HOST"" style=""width:600px;"" type=""text"" value=""" & strZC_BLOG_HOST & """ /></p></td></tr>"
+	Response.Write "<tr><td width='30%'>" & SplitNameAndNote(ZC_MSG282) & "</td><td><p><input id=""edtZC_BLOG_HOST"" name=""edtZC_BLOG_HOST"" style=""width:600px;"" type=""text"" readonly=""readonly"" value=""" & strZC_BLOG_HOST & """ /></p></td></tr>"
 	'Response.Write "<tr><td width='30%'>" & SplitNameAndNote(ZC_MSG091) & "</td><td><p><input id=""edtZC_BLOG_NAME"" name=""edtZC_BLOG_NAME"" style=""width:600px;"" type=""text"" value=""" & strZC_BLOG_NAME & """ /></p></td></tr>"
 	'Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG092) & "</td><td><p><input id=""edtZC_BLOG_SUB_NAME"" name=""edtZC_BLOG_SUB_NAME"" style=""width:600px;""  type=""text"" value=""" & strZC_BLOG_SUB_NAME & """ /></p></td></tr>"
 	Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG093) & "</td><td><p><input id=""edtZC_BLOG_TITLE"" name=""edtZC_BLOG_TITLE"" style=""width:600px;""  type=""text"" value=""" & strZC_BLOG_TITLE &""" /></p></td></tr>"
