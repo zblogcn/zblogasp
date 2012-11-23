@@ -61,8 +61,8 @@ m.LoadString=c.Read("CateMeta")
 If UBound(m.Names)>0 Then
 	Response.Write "<p><span class='title'>当前可以使用的标签有:</span><br/>"
 	For i=LBound(m.Names)+1 To UBound(m.Names)
-	Response.Write "<input style='width:280px' type='text' value='&lt;#article/category/meta/"&m.Names(i)&"#&gt;' /> "
-	Response.Write "<input style='width:298px' type='text' value='&lt;#articlelist/category/meta/"&m.Names(i)&"#&gt;' /> <span >("&m.GetValue(m.Names(i))&")</span><br/>"
+	Response.Write "<input style='width:280px' type='text' readonly='readonly' value='&lt;#article/category/meta/"&m.Names(i)&"#&gt;' /> "
+	Response.Write "<input style='width:298px' type='text' readonly='readonly' value='&lt;#articlelist/category/meta/"&m.Names(i)&"#&gt;' /> <span >("&m.GetValue(m.Names(i))&")</span><br/>"
 	Next
 	Response.Write "</p>"
 End If
