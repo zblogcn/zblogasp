@@ -50,14 +50,14 @@ For Each Tag in Tags
 		If Tag.Count<>0 Then
 			i=TagCloud(Tag.Count)
 			ReDim Preserve strTagCloud(j+1)
-			strTagCloud(j) = "<font size='"&i&"'><a title='" & Tag.Count & "' href='" & Tag.Url &"'>" &Tag.name & "</a></font>&nbsp;&nbsp;"
+			strTagCloud(j) = "<a href=""" & Tag.Url &""" title=""" & Tag.Count & """  class=""tag-name tag-name-size-"&i&""">" &Tag.name & "</a>"
 		End If 
 	End If
 	j=j+1
 Next
 
 objArticle.FType=ZC_POST_TYPE_PAGE
-objArticle.Content="<p style='line-height:1.4'><br/>" & Join(strTagCloud) & "</p>"
+objArticle.Content="<div class=""tgas-cloud"">"&Join(strTagCloud)&"</div>"
 objArticle.Title="TagCloud"
 objArticle.FullRegex="{%host%}/{%alias%}.html"
 
