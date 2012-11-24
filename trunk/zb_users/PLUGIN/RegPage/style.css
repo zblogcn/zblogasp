@@ -1,18 +1,14 @@
-﻿.divHeader{	font-weight:bolder;font-size: 2em;margin:5px 0 5px 1.8em;text-align: left;}
-
-p,label,input{font:16px/1.6 "微软雅黑","宋体", Arial, Helvetica, sans-serif;}
-span{font:16px/1.6 sans-serif;padding: 0  0 0 5px;}
-p.validateTips{clear:both;font-size:14px;margin:0 3.8em 10px 3.8em;padding:5px 0 5px 3.2em;border: 1px solid #fff;color:#666;}
-p.state-highlight{border: 1px solid #FCEFA1;background: #FBF9EE;color:#222;}
-
-.login dl{}
-.login dd{width: 540px;margin:.5em 4em}
-dd.checkbox{padding-left: 0px;}
-
-label {padding: 0 12px 0 0;}
-input{float: left;height: 26px;padding: 0 5px;line-height: 27px;}
-input[type="checkbox"]{margin:0px 8px 3px 45px;padding: 0;height:30px;width:15px;}
-#regButton{float:left;width:130px;	margin-left:45px;}
+﻿#reg dl{width: 100%;}
+#reg dd{width: 100%;margin:1em 4em;}
+#reg dd img{margin-bottom: -8px;display: inline-block !important;padding:0 !important;}
+#reg p,label,input{font:16px/1.6 "微软雅黑","宋体", Arial, Helvetica, sans-serif;}
+#reg span{font:16px/1.6 sans-serif;padding: 0  0 0 5px;}
+#reg label {padding: 0 12px 0 0;}
+#reg input{padding: 0 5px;line-height: 27px;}
+#reg input[type="checkbox"]{margin:0px 8px 3px 3em;}
+#regButton{margin-left:3.5em;}
 #edtCheckOut{margin-right:10px;}
+
 .state-error{border: 1px solid #CD0A0A;background: #FEF1EC;}
-/* background:#66ccff;border:1px solid #3399cc; */
+.validateTips{margin:.5em 4em !important;clear:both;font-size:14px;border: 1px solid #fff;color:#666;}
+.state-highlight{border: 1px solid #CD0A0A;background: #FBF9EE;color:#222;}
