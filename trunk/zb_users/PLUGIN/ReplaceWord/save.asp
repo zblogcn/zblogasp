@@ -39,7 +39,7 @@ Select Case Request.QueryString("act")
 			Frm=Split(str(i),"====")
 			If Ubound(Frm)=3 Then
 				Set objDom=replaceword.create(i)
-				objDom.attributes.getNamedItem("regexp").value=IIf(Frm(0)="1",True,False)
+				objDom.attributes.getNamedItem("regexp").value=IIf(Frm(0)="1","True","False")
 				objDom.selectSingleNode("str").text=Frm(1)
 				objDom.selectSingleNode("replace").text=Frm(2)
 				objDom.selectSingleNode("description").text=Frm(3)
