@@ -426,7 +426,7 @@ $('#showtags').click(function (event) {
 	var offset = $(event.target).offset();  
 	$('#ulTag').css({ top: offset.top + $(event.target).height()+20+ "px", left: offset.left});  
 	$('#ulTag').slideDown("fast"); 		
-	if(loaded==false){$.getScript('../function/c_html_js.asp?act=tags');loaded=true;}
+	if(loaded==false){$.getScript('../function/c_admin_js.asp?act=tags');loaded=true;}
 });  
 $(document).click(function (event){$('#ulTag').slideUp("fast");});  
 
