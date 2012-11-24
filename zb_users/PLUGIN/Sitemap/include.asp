@@ -80,12 +80,12 @@ Class SiteMap_Export
 		'初始化XMLDOM
 		Set cxml=xmlDom.createElement("urlset")
 		xmlDom.AppendChild(cxml)
-		cxml.setAttribute "xmlns","http://www.Sitemap.org/schemas/sitemap/0.9"	
+		cxml.setAttribute "xmlns","http://www.sitemaps.org/schemas/sitemap/0.9"	
 		'初始化WEB SITEMAP
 		Set wapcxml=xmlWapDom.createElement("urlset")
 		xmlwapDom.AppendChild(wapcxml)
 		wapcxml.setAttribute "xmlns:mobile","http://www.google.com/schemas/sitemap-mobile/1.0"
-		wapcxml.setAttribute "xmlns","http://www.Sitemap.org/schemas/sitemap/0.9"	
+		wapcxml.setAttribute "xmlns","http://www.sitemaps.org/schemas/sitemap/0.9"	
 		'初始化 WAP SITEMAP
 	End Sub
 	'**************************************************'
