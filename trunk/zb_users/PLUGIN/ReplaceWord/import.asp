@@ -21,10 +21,10 @@ replaceword.init()
 If Request.QueryString("act")="export" Then
 	Response.ContentType="application/octet-stream"
 	For i=0 To replaceword.words.length-1
-		Response.Write IIf(replaceword.regex(i)=False,0,1) & "|"
-		Response.Write TransferHTML(replaceword.str(i),"[textarea]")& "|"
-		Response.Write TransferHTML(replaceword.rep(i),"[textarea]")& "|"
-		Response.Write TransferHTML(replaceword.des(i),"[textarea]")& "|"
+		Response.Write IIf(replaceword.regex(i)=False,0,1) & "===="
+		Response.Write TransferHTML(replaceword.str(i),"[textarea]")& "===="
+		Response.Write TransferHTML(replaceword.rep(i),"[textarea]")& "===="
+		Response.Write TransferHTML(replaceword.des(i),"[textarea]")& "===="
 		Response.Write vbCrlf
 		
 	Next
@@ -49,10 +49,10 @@ Dim i
             <form id="form1" method="post" action="save.asp?act=import">
             	<%If Request.QueryString("act")<>"export" Then%>
                 <p>导入有2种方式：一种是直接覆盖config.asp，一种是在下面批量添加。</p>
-              <p>导入格式： 正则（开启为1，关闭为0）|敏感词|替换词|注释</p>
+              <p>导入格式： 正则（开启为1，关闭为0）====敏感词====替换词====注释</p>
               <p>如： </p>
-              <p>1|fuck|****|脏话</p>
-              <p>0|sb||</p>
+              <p>1====fuck====****====脏话</p>
+              <p>0====sb========</p>
               <p>
               <%End If%>
                 <label for="txaContent"></label>
