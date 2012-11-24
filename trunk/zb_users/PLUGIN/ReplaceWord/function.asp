@@ -3,7 +3,7 @@
 var replaceword={};
 replaceword["init"]=function(){
 	replaceword["xmldom"]=Server.CreateObject("Microsoft.XMLDOM");
-	replaceword.xmldom.load(Server.MapPath("config.asp"));
+	replaceword.xmldom.load(BlogPath + "zb_users/plugin/replaceword/config.asp");
 	replaceword["words"]=undefined;
 	if(replaceword.xmldom.readyState==4){
 		replaceword.words=replaceword.xmldom.documentElement.selectNodes("word");
