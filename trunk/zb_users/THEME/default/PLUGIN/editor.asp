@@ -51,13 +51,13 @@ function copydata(This){
               <table width="100%" border="1" width="100%" class="tableBorder">
               <tr>
                 <th scope="col" height="32" width="150px">配置项</th>
-                <th scope="col">配置内容</th>
-                <th scope="col" width="100px">当前头图</th>
+                <th scope="col" width="280px">配置内容</th>
+                <th scope="col">当前banar</th>
               </tr>
               <tr>
-                <th scope="row">头图(1600x180)</th>
+                <th scope="row" height="60">顶部banar图片(1600x180)</th>
                 <td><input name="include_bg-nav.jpg" type="file"/></td>
-                <td><img src="../INCLUDE/bg-nav.jpg" width="160" height="90" alt="Default"/></td>
+                <td><img src="../INCLUDE/bg-nav.jpg" width="480" height="54" alt="Default"/></td>
               </tr>
 
               </table>

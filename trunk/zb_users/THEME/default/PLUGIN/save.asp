@@ -43,7 +43,7 @@ For Each s In objUpload.FileItem
 				Call SetBlogHint_Custom(objUpload.Error2Info("include_bg-nav.jpg"))
 			End If
 		Else
-			Call SetBlogHint_Custom("分辨率必须符合1600x190!")
+			Call SetBlogHint_Custom("分辨率必须符合1600x180!")
 		End If
 	End Select
 Next
