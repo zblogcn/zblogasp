@@ -19,14 +19,29 @@ ReDim Action_Plugin_RegSave_Begin(0)
 Dim bAction_Plugin_RegSave_Begin
 Dim sAction_Plugin_RegSave_Begin
 
-Dim Action_Plugin_RegSave_VerifyOK
-ReDim Action_Plugin_RegSave_VerifyOK(0)
-Dim bAction_Plugin_RegSave_VerifyOK
-Dim sAction_Plugin_RegSave_VerifyOK
+Dim Action_Plugin_RegSave_Register
+ReDim Action_Plugin_RegSave_Register(0)
+Dim sAction_Plugin_RegSave_Register
+Dim bAction_Plugin_RegSave_Register
 
 Dim Response_Plugin_RegPage_End
 Response_Plugin_RegPage_End=""
 
 Dim Response_Plugin_RegPage_Begin
 Response_Plugin_RegPage_Begin=""
+
+Dim sFilter_Plugin_RegPage_Vaild
+Function Filter_Plugin_RegPage_Vaild(ByRef Username,ByRef Password,ByRef EMail,ByRef HomePage)
+
+	Dim s,i
+
+	If sFilter_Plugin_RegPage_Vaild="" Then Exit Function
+
+	s=Split(sFilter_Plugin_RegPage_Vaild,"|")
+
+	For i=0 To UBound(s)-1
+		Call Execute(s(i) & " " & "Username,Password,EMail,HomePage")
+	Next
+
+End Function
 %>
