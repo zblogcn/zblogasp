@@ -411,6 +411,20 @@ div.post-body p{
 	padding:0;
 }
 
+/*----------tagcloud------*/
+
+div.post-body .tags-cloud{
+	margin:10px 0 15px 0;
+}
+.tags-cloud .tag-name{margin:0 5px;}
+.tags-cloud .tag-name-size-0{font-size: 1.1em;}
+.tags-cloud .tag-name-size-1{font-size: 1.2em;}
+.tags-cloud .tag-name-size-2{font-size: 1.3em;}
+.tags-cloud .tag-name-size-3{font-size: 1.4em;}
+.tags-cloud .tag-name-size-4{font-size: 1.5em;}
+.tags-cloud .tag-name-size-5{font-size: 1.6em;}
+.tags-cloud .tag-name-size-6{font-size: 1.7em;}
+.tags-cloud .tag-name-size-7{font-size: 1.8em;}
 
 /*----------文章中引用code------*/
 
