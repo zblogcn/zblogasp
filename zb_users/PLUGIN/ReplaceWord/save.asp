@@ -28,22 +28,65 @@ Select Case Request.QueryString("act")
 		Set XmlDom=replaceword.words(id)
 		replaceword.xmldom.documentElement.removeChild xmlDom
 	Case Else
-		Dim Frm,id
+		Stop
+		Dim Frm,id,id2,objDom
 		For Each Frm In Request.Form
 			id=Split(Frm,"_")(1)
-			Select Case Left(Frm,3)
+			id2=Left(Frm,3)
+			If id2="new" Then
+				id2=id
+				id=Split(Frm,"_")(2)		
+				Set objDom=replaceword.create(id)
+			Else
+				Set objDom=replaceword.words(id)
+			End If
+			Select Case id2
 				Case "exp"
-					replaceword.words(id).attributes.getNamedItem("regexp").value=Request.Form(Frm).Item
+					objDom.attributes.getNamedItem("regexp").value=Request.Form(Frm).Item
 				Case "str"
-					replaceword.words(id).selectSingleNode("str").text=Request.Form(Frm).Item
+					objDom.selectSingleNode("str").text=Request.Form(Frm).Item
 				Case "rep"
-					replaceword.words(id).selectSingleNode("replace").text=Request.Form(Frm).Item
+					objDom.selectSingleNode("replace").text=Request.Form(Frm).Item
 				Case "des"
-					replaceword.words(id).selectSingleNode("description").text=Request.Form(Frm).Item
+					objDom.selectSingleNode("description").text=Request.Form(Frm).Item
+				Case "del"
+					If Request.Form(Frm)="True" Then
+						replaceword.del_.push CLng(id)
+					End If
 			End Select
 		Next
 End Select
+replaceword.del()
 replaceword.xmldom.Save(Server.MapPath("config.xml"))
 Response.Write "{'success':true}"
 'Response.Redirect "main.asp"
 %>
+<script language="javascript" runat="server">
+replaceword["new_id"]=[];
+replaceword["dom"]=[];
+replaceword["del_"]=[];
+replaceword["del"]=function(){
+	var id=0;
+	  replaceword.del_.sort();
+	for(var i=0; i<=replaceword.del_.length-1; i++){
+		id=replaceword.del_[i];
+		//id=id-i;
+		replaceword.xmldom.documentElement.removeChild(replaceword.words(id))
+	}
+}
+replaceword["create"]=function(id){
+	for(var i=0; i<=replaceword.new_id.length-1; i++){
+		if(replaceword.new_id[i]==id){return replaceword.dom[i]}
+	}
+	replaceword.new_id.push(id);
+	var objDom=replaceword.xmldom.createElement("word");
+	objDom.setAttribute("user",BlogUser.Level);
+	objDom.setAttribute("regexp","False");
+	objDom.appendChild(replaceword.xmldom.createElement("str"));
+	objDom.appendChild(replaceword.xmldom.createElement("replace"));
+	objDom.appendChild(replaceword.xmldom.createElement("description"));
+	replaceword.xmldom.documentElement.appendChild(objDom);
+	replaceword.dom.push(objDom);
+	return objDom;
+}
+</script>
