@@ -46,11 +46,11 @@ Function QF_URLDecode(ByVal strUrl)
 	'Err.Clear
 End Function
 '******************************************************************************
-Function CreatMini(ByVal strUrl,ByVal miniwidth,ByVal miniheight)
+Function QF_CreatMini(ByVal strUrl,ByVal miniwidth,ByVal miniheight)
 'On Error Resume Next
 	Dim strOriginalPath,strFileName
 	If strUrl="" Then
-		CreatMini=ZC_BLOG_HOST & "zb_users/plugin/zblog_alipay/noimg.jpg"
+		QF_CreatMini=ZC_BLOG_HOST & "zb_users/plugin/zblog_alipay/noimg.jpg"
 	Else
 		If InStr(LCase(strUrl),LCase(ZC_BLOG_HOST & ZC_UPLOAD_DIRECTORY))>0 Then
 			strOriginalPath=Replace(LCase(strUrl),LCase(ZC_BLOG_HOST),BlogPath)
@@ -61,7 +61,7 @@ Function CreatMini(ByVal strUrl,ByVal miniwidth,ByVal miniheight)
 
 	Dim Jpeg,h,w,m,n,strMiniPath
 	strMiniPath=Left(strOriginalPath,InStrRev(strOriginalPath,".")-1)&"_"& miniwidth&"_"&miniheight& "_miniimg.jpg"
-CreatMini=Replace(strMiniPath,BlogPath,ZC_BLOG_HOST)
+QF_CreatMini=Replace(strMiniPath,BlogPath,ZC_BLOG_HOST)
 	Set Jpeg = Server.CreateObject("Persits.Jpeg")
 
 		If QF_FileExists(strMiniPath) Then
@@ -104,7 +104,7 @@ CreatMini=Replace(strMiniPath,BlogPath,ZC_BLOG_HOST)
 	Set Jpeg=Nothing
 			
 		Else
-			CreatMini=strUrl
+			QF_CreatMini=strUrl
 		End If
 	End If
 
