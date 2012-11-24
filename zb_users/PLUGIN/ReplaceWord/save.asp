@@ -28,7 +28,6 @@ Select Case Request.QueryString("act")
 		Set XmlDom=replaceword.words(id)
 		replaceword.xmldom.documentElement.removeChild xmlDom
 	Case Else
-		Stop
 		Dim Frm,id,id2,objDom
 		For Each Frm In Request.Form
 			id=Split(Frm,"_")(1)
@@ -57,7 +56,14 @@ Select Case Request.QueryString("act")
 		Next
 End Select
 replaceword.del()
-replaceword.xmldom.Save(Server.MapPath("config.xml"))
+If replaceword.xmldom.documentElement.selectNodes("antidownload").length<=0 Then
+	Stop
+	
+	Set objDom=Server.CreateObject("Microsoft.XMLDom")
+	objDom.LoadXML "  <antidownload>"& vbCrlf & "    <![CDATA["& vbCrlf & "      <" & "% 'On Error Resume Next %" & ">"& vbCrlf & "      <" & "% Response.Charset=""UTF-8"" %" & ">"& vbCrlf & "      <!-"&"- #include file=""..\..\c_option.asp"" -->"& vbCrlf & "      <!-"&"- #include file=""..\..\..\zb_system\function\c_function.asp"" -->"& vbCrlf & "      <!-"&"- #include file=""..\..\..\zb_system\function\c_system_lib.asp"" -->"& vbCrlf & "      <!-"&"- #include file=""..\..\..\zb_system\function\c_system_base.asp"" -->"& vbCrlf & "      <!-"&"- #include file=""..\..\..\zb_system\function\c_system_event.asp"" -->"& vbCrlf & "      <!-"&"- #include file=""..\..\..\zb_system\function\c_system_manage.asp"" -->"& vbCrlf & "      <!-"&"- #include file=""..\..\..\zb_system\function\c_system_plugin.asp"" -->"& vbCrlf & "      <!-"&"- #include file=""..\p_config.asp"" -->"& vbCrlf & "	  <" & "%System_Initialize:If BlogUser.Level>1 Then Call ShowError(6)%" & ">"& vbCrlf & "	  ]]>"& vbCrlf & "  </antidownload>"
+	replaceword.xmldom.documentElement.appendChild(objDom.documentElement)
+End If
+replaceword.xmldom.Save(Server.MapPath("config.asp"))
 Response.Write "{'success':true}"
 'Response.Redirect "main.asp"
 %>

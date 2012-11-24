@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<words>
-	<word user="1" regexp="True">
-		<str>发送</str>
-		<replace>广告</replace>
-		<description>分隔符</description>
-	</word>
-	<word user="1" regexp="True"><str>啊</str><replace>啊</replace><description>啊</description></word><word user="1" regexp="False"><str>哦</str><replace>哦</replace><description>哦</description></word><word user="1" regexp="False"><str>呃</str><replace>呃</replace><description>呃</description></word></words>
