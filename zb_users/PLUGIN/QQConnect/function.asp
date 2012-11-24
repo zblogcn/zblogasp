@@ -123,7 +123,7 @@ qqconnect["functions"]={
 		return temp
 	}
 	,"savereg":function(uid,openid,accesstoken){
-		if(!(typeof(openid)==undefined)){
+		if(!(typeof(openid.Item)=="undefined")){
 			init_qqconnect();
 			qqconnect.d.OpenID=openid;
 			qqconnect.d.AccessToken=accesstoken;
