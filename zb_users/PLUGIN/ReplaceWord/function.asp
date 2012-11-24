@@ -48,5 +48,18 @@ replaceword["replace"]=function(){
 	return str;
 }
 
-
+replaceword["submenu"]=function(id){
+	var json={
+		name:["main.asp","import.asp","import.asp?act=export"]
+		,cls:["m-left","m-left","m-left"]
+		,text:["设置","导入","导出"]
+		,level:[1,1,1]
+		};
+	var str="";
+	for(var i=0;i<json.name.length;i++){
+		if(BlogUser.Level<=json.level[i]){
+		str+=MakeSubMenu(json.text[i],json.name[i],json.cls[i]+(id==i?" m-now ":""),false)}
+	}
+	return str
+}
 </script>
