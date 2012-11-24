@@ -21,7 +21,7 @@ Function QF_Export_Mutuality(Disable_Export_Mutuality,Template_Article_Mutuality
 
 		If Tag<>"" Then
 
-			Dim strCC_Count,strCC_ID,strCC_Name,strCC_Url,strCC_PostTime,strCC_Title
+			Dim strCC_Count,strCC_ID,strCC_Name,strCC_Url,strCC_PostTime,strCC_Title,strCC_Img
 			Dim strCC
 			Dim i,j,s
 			Dim objRS
@@ -67,7 +67,7 @@ Function QF_Export_Mutuality(Disable_Export_Mutuality,Template_Article_Mutuality
 						strCC_Url=objArticle.Url
 						strCC_PostTime=objArticle.PostTime
 						strCC_Title=objArticle.Title
-						strCC_Img=CreatMini(QF_GetImgSrc(objArticle.Content),qfminiwidth,qfminiheight)
+						strCC_Img=QF_CreatMini(QF_GetImgSrc(objArticle.Content),qfminiwidth,qfminiheight)
 
 						strCC=GetTemplate("TEMPLATE_B_ARTICLE_MUTUALITY")
 
