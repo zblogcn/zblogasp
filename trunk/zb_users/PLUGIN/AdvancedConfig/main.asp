@@ -39,6 +39,11 @@ If Request.QueryString("act")="save" Then
 End If
 %>
 <!--#include file="..\..\..\zb_system\admin\admin_header.asp"-->
+<style type="text/css">
+.beta td[_type="name"]{color:blue}
+.throwed{display:none}
+.hidden{display:none}
+</style>
 <!--#include file="..\..\..\zb_system\admin\admin_top.asp"-->
         <div id="divMain">
           <div id="ShowBlogHint">
@@ -47,15 +52,16 @@ End If
           <div class="divHeader"><%=BlogTitle%></div>
           <div class="SubMenu"><%=Response_Plugin_SettingMng_SubMenu%></div>
           <div id="divMain2"> 
+          	
             <script type="text/javascript">ActiveTopMenu("topmenu2");</script> 
             <form id="form1" name="form1" method="post" action="?act=save">
             
-			<table width="100%"><tr height="40"><th width="20%">配置项</th><th width="49%">配置</th><th width="30%">备注</th></tr>
+			<table width="100%"><tr height="40"><th width="20%">配置项&nbsp;&nbsp;<a href="javascript:;" onclick="$('.beta').toggleClass('hidden')">显示\隐藏Beta项</a></th><th width="49%">配置</th><th width="30%">备注</th></tr>
 			<%
 			
 			
 			For i=1 To BlogConfig.Count
-				Response.Write "<tr><td>"& GetName(BlogConfig.Meta.Names(i)) & "</td><td>"& ExportConfig(BlogConfig.Meta.Names(i),vbsunescape(BlogConfig.Meta.Values(i))) &"</td><td>"& GetValue(BlogConfig.Meta.Names(i)) &"</td></tr>"
+				Response.Write "<tr class="""&GetHide(BlogConfig.Meta.Names(i)) & GetBeta(BlogConfig.Meta.Names(i))&"""><td _type=""name"">"& GetName(BlogConfig.Meta.Names(i)) & "</td><td>"& ExportConfig(BlogConfig.Meta.Names(i),vbsunescape(BlogConfig.Meta.Values(i))) &"</td><td>"& GetValue(BlogConfig.Meta.Names(i)) &"</td></tr>"
 			Next
 			%>
           </table>
@@ -176,7 +182,7 @@ function GetName(s){
 	case "ZC_UNCATEGORIZED_ALIAS":return "自定义未分类分类别名"
 	case "ZC_UNCATEGORIZED_COUNT":return "未分类分类文章计数"
 	case "ZC_POST_STATIC_MODE":return "文章页模式（动态、静态或伪静态）"
-
+	case "ZC_HTTP_LASTMODIFIED":return "发送LastModified头"
 	default:return s
 	}
 }
@@ -201,6 +207,7 @@ function GetValue(s){
 	case "ZC_EMOTICONS_FILETYPE":return "图片后缀名，用 | 分隔，如png|gif|jpg"
 	case "ZC_SYNTAXHIGHLIGHTER_ENABLE":return "对应syntaxhighlighter代码高亮功能"
 	case "ZC_CODEMIRROR_ENABLE":return "对应UE的codemirror选项，若源码编辑较卡建议禁用"
+	case "ZC_HTTP_LASTMODIFIED":return "CDN用户专用，提醒SQUID等程序更新页面缓存"
 	}
 }
 function GetDisabled(s){
@@ -216,6 +223,23 @@ function GetDisabled(s){
 	case "ZC_BLOG_VERSION":
 	case "ZC_UNCATEGORIZED_COUNT":
 	return "disabled=\"disabled\""
+	}
+}
+function GetHide(s){
+	switch(s.toUpperCase()){
+	case "ZC_BLOG_NAME":
+	case "ZC_BLOG_SUB_NAME":
+	case "ZC_UBB_AUTOKEY_ENABLE":
+	case "ZC_EMOTICONS_FILENAME":
+	case "ZC_EMOTICONS_FILESIZE":
+	return " throwed "
+	}
+}
+function GetBeta(s){
+	switch(s.toUpperCase()){
+	case "ZC_MULTI_DOMAIN_SUPPORT":
+	case "ZC_HTTP_LASTMODIFIED":
+	return " beta hidden "
 	}
 }
 </script>
