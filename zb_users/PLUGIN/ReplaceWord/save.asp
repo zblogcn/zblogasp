@@ -36,7 +36,7 @@ Select Case Request.QueryString("act")
 		str=Replace(str,vbCr,vbCrlf)
 		str=Split(str,vbCrlf)
 		For i=0 To Ubound(str)
-			Frm=Split(str(i),"|")
+			Frm=Split(str(i),"====")
 			If Ubound(Frm)=3 Then
 				Set objDom=replaceword.create(i)
 				objDom.attributes.getNamedItem("regexp").value=IIf(Frm(0)="1",True,False)
