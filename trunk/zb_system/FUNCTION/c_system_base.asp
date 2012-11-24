@@ -3715,7 +3715,7 @@ Function RefreshOptionFormFileToDB()
 			Call Execute("Call BlogConfig.Write("""&a&""","&a&")")
 		End If
 	Next
-	Call BlogConfig.Write("ZC_BLOG_VERSION","2.0 Beta2 Build 121113")
+	Call BlogConfig.Write("ZC_BLOG_VERSION","2.0 Beta2 Build 121125")
 	Call BlogConfig.Write("ZC_BLOG_CLSID",origZC_BLOG_CLSID)
 
 	If BlogConfig.Exists("ZC_UNCATEGORIZED_NAME")=False Then Call BlogConfig.Write("ZC_UNCATEGORIZED_NAME",ZC_MSG059)
