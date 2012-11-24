@@ -33,7 +33,7 @@ objArticle.FType=ZC_POST_TYPE_PAGE
 If GetTemplate("TEMPLATE_REGPAGE")<>empty Then
     objArticle.template = "REGPAGE"
 End If
-objArticle.Title = "注册"
+objArticle.Title = "注册用户"
 objArticle.Content="" & vbCrlf & _
 "	<p class=""validateTips"">以下用户名密码为必填项。</p>" & vbCrlf & _
 "    <!-- 原form -->" & vbCrlf & _

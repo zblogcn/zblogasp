@@ -28,10 +28,23 @@
 <% If ZC_SYNTAXHIGHLIGHTER_ENABLE Then%>
 document.writeln("<script src='<%=BlogHost%>zb_system/admin/ueditor/third-party/SyntaxHighlighter/shCore.pack.js' type='text/javascript'></script><link rel='stylesheet' type='text/css' href='<%=BlogHost%>zb_system/admin/ueditor/third-party/SyntaxHighlighter/shCoreDefault.pack.css'/>");
 <%End If%>
-var bloghost="<%=BlogHost%>";var cookiespath="<%=CookiesPath()%>";var str00="<%=BlogHost%>";var str01="<%=ZC_MSG033%>";var str02="<%=ZC_MSG034%>";var str03="<%=ZC_MSG035%>";var str06="<%=ZC_MSG057%>";var intMaxLen="<%=ZC_CONTENT_MAX%>";var strFaceName="<%=ZC_EMOTICONS_FILENAME%>";var strFaceSize="<%=ZC_EMOTICONS_FILESIZE%>";var strFaceType="<%=ZC_EMOTICONS_FILETYPE%>";var strBatchView="";var strBatchInculde="";var strBatchCount="";
+var bloghost="<%=BlogHost%>";
+var cookiespath="<%=CookiesPath()%>";
+var str00="<%=BlogHost%>";
+var str01="<%=ZC_MSG033%>";
+var str02="<%=ZC_MSG034%>";
+var str03="<%=ZC_MSG035%>";
+var str06="<%=ZC_MSG057%>";
+var intMaxLen="<%=ZC_CONTENT_MAX%>";
+var strFaceName="<%=ZC_EMOTICONS_FILENAME%>";
+var strFaceSize="<%=ZC_EMOTICONS_FILESIZE%>";
+var strFaceType="<%=ZC_EMOTICONS_FILETYPE%>";
+var strBatchView="";
+var strBatchInculde="";
+var strBatchCount="";
 
 $(document).ready(function(){ 
-	$("img[src*='zb_system/function/c_validcode.asp?name=commentvalid']").css("cursor","pointer").click( function(){objImageValid.attr("src","<%=BlogHost%>zb_system/function/c_validcode.asp?name=commentvalid"+"&amp;random="+Math.random());});
+	$("img[src*='zb_system/function/c_validcode.asp?name=commentvalid']").css("cursor","pointer").click( function(){$(this).attr("src","<%=BlogHost%>zb_system/function/c_validcode.asp?name=commentvalid"+"&amp;random="+Math.random());});
 	sidebarloaded.add(function(){
 		if(GetCookie("username")!=""&&GetCookie("password")!=""){$.getScript("<%=BlogHost%>zb_system/function/c_html_js.asp?act=autoinfo")}
 		try{eval("document.getElementById(\"pCalendar_\"+(new Date()).getFullYear()+\"_\"+((new Date()).getMonth()+1)+\"_\"+(new Date()).getDate()).className+=\" cd\"");}catch(e){};
