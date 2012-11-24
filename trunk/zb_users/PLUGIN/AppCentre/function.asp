@@ -68,6 +68,18 @@ Function InstallApp(FilePath)
 			Pack_Ver = objXmlFile.documentElement.SelectSingleNode("//app").getAttributeNode("version").value
 			Pack_Type = objXmlFile.documentElement.selectSingleNode("//app").getAttributeNode("type").value
 			Pack_For = objXmlFile.documentElement.selectSingleNode("//app").getAttributeNode("for").value
+			app_adapted = objXmlFile.documentElement.selectSingleNode("//app").selectSingleNode("adapted").text
+			'Stop
+			If IsNumeric(app_adapted) Then
+				If app_adapted>BlogVersion Then
+					SetBlogHint_Custom "您的Z-Blog版本太低，无法安装该应用！"
+					SetBlogHint_Custom "该应用需求Z-Blog版本：Z-Blog 2.0 Build " & app_adapted 
+					Response.Redirect BlogHost & "zb_system/cmd.asp?act=PlugInMng"
+					Exit Function
+				End If
+			Else
+				SetBlogHint_Custom "该应用是为较低版本Z-Blog编写的应用，请仔细查看发布说明。"
+			End If
 			Pack_ID = objXmlFile.documentElement.selectSingleNode("id").text
 			Pack_Name = objXmlFile.documentElement.selectSingleNode("name").text
 
@@ -284,6 +296,8 @@ On Error Resume Next
 		If objXmlFile.readyState=4 Then
 			If objXmlFile.parseError.errorCode <> 0 Then
 			Else
+				objXmlFile.documentElement.selectSingleNode("adapted").text=BlogVersion
+				objXmlFile.Save BlogPath & "zb_users/plugin" & "/" & ID & "/" & "plugin.xml"
 
 				Theme_Id=""
 				Theme_Name=""
@@ -461,7 +475,9 @@ On Error Resume Next
 		If objXmlFile.readyState=4 Then
 			If objXmlFile.parseError.errorCode <> 0 Then
 			Else
-
+				objXmlFile.documentElement.selectSingleNode("adapted").text=BlogVersion
+				objXmlFile.Save BlogPath & "zb_users/theme" & "/" & ID & "/" & "theme.xml"
+				
 				Theme_Id=""
 				Theme_Name=""
 				Theme_Url=""
