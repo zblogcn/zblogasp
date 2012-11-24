@@ -43,6 +43,7 @@ td input[type="text"] {
             <ul>
               <li>1. 为不影响程序效率，请不要设置过多不需要的过滤内容。</li>
               <li>2. 程序将对新发布的文章和评论进行过滤，原有老评论不受影响。</li>
+              <li>3. 如果要不区分大小写，请开启“正则”并将关键词改为正确的正则表达式。</li>
               
             </ul>
             <form id="form1" method="post" action="save.asp">
