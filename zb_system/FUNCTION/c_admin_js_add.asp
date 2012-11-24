@@ -123,69 +123,17 @@ function ActiveTopMenu(name){
 // 目的：    
 //*********************************************************
 function bmx2table(){
-
-	//斑马线
-	var tables=document.getElementsByTagName("table");
-	for (var j = 0; j < tables.length; j++){
-
-		var cells = tables[j].getElementsByTagName("tr");
-		var b=false;
-		if(cells[0].getElementsByTagName("th").length>0){
-
-			cells[0].className="color1";
-			for (var i = 1; i < cells.length; i++){
-				if(b){
-					cells[i].className="color2";
-					b=false;
-					cells[i].onmouseover=function(){
-						this.className="color4";
-					}
-					cells[i].onmouseout=function(){
-						this.className="color2";
-					}
-				}
-				else{
-					cells[i].className="color3";
-					b=true;
-					cells[i].onmouseover=function(){
-						this.className="color4";
-					}
-					cells[i].onmouseout=function(){
-						this.className="color3";
-					}
-				};
-			};
-
-		}else{
-			var b=true;
-			for (var i = 0; i < cells.length; i++){
-				if(b){
-					cells[i].className="color2";
-					b=false;
-					cells[i].onmouseover=function(){
-						this.className="color4";
-					}
-					cells[i].onmouseout=function(){
-						this.className="color2";
-					}
-				}
-				else{
-					cells[i].className="color3";
-					b=true;
-					cells[i].onmouseover=function(){
-						this.className="color4";
-					}
-					cells[i].onmouseout=function(){
-						this.className="color3";
-					}
-				};
-			};
-		
-		}
-	};
+	var class_=new Array("color2","color3","color4");
+	var j=$("table tr:has(th)").addClass("color1");
+	if(j.length==0){class_[1]="color2";class_[0]="color3";}
+    $("table").each(function(){
+		var o=$(this).find("tr:not(:has(th)):even").removeClass(class_[0]).addClass(class_[1]);
+		o.mouseover(function(){$(this).addClass(class_[2])}).mouseout(function(){$(this).removeClass(class_[2])}); 
+		var o=$(this).find("tr:not(:has(th)):odd").removeClass(class_[1]).addClass(class_[0]);
+		o.mouseover(function(){$(this).addClass(class_[2])}).mouseout(function(){$(this).removeClass(class_[2])}); 
+	})
 };
 //*********************************************************
-
 
 
 
