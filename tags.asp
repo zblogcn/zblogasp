@@ -57,7 +57,7 @@ For Each Tag in Tags
 Next
 
 objArticle.FType=ZC_POST_TYPE_PAGE
-objArticle.Content="<div class=""tgas-cloud"">"&Join(strTagCloud)&"</div>"
+objArticle.Content="<div class=""tags-cloud"">"&Join(strTagCloud)&"</div>"
 objArticle.Title="TagCloud"
 objArticle.FullRegex="{%host%}/{%alias%}.html"
 
