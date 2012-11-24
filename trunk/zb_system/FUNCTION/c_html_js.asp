@@ -110,41 +110,7 @@ If f<>"" Then
 		
 		Call CloseConnect()
 
-
-	ElseIf f="tags" Then
-
-		Call OpenConnect()
-
-		Set BlogUser = New TUser
-		If BlogUser.Verify()=True Then
-			If CheckRights("ArticleEdt")=True Then
-
-				'ajax tags
-				Response.Write "$(""#ajaxtags"").html("""
-				'Response.Write EditArticle.TagToName
-				Dim objRS
-				Set objRS=objConn.Execute("SELECT TOP 50 [tag_ID],[tag_Name] FROM [blog_Tag] ORDER BY [tag_Count] DESC")
-				If (Not objRS.bof) And (Not objRS.eof) Then
-					Do While Not objRS.eof
-						'If InStr(EditArticle.TagToName,"{"& objRS("tag_Name") & "}")>0 Then
-						'	Response.Write "<a href='#' class='selected'>"& TransferHTML(objRS("tag_Name"),"[html-format]") &"</a>  "
-						'Else
-							Response.Write "<a href='#'>"& TransferHTML(objRS("tag_Name"),"[html-format]") &"</a> "
-						'End If
-						objRS.MoveNext
-					Loop
-				End If
-				objRS.Close
-				Set objRS=Nothing
-				Response.Write """);$(""#ulTag"").tagTo(""#edtTag"");"
-
-			End If
-		End If
-
-		Call CloseConnect()
-
-	End If
-
+	End If 
 	
 	Response.End
 
