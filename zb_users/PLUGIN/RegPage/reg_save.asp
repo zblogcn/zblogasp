@@ -1,6 +1,6 @@
 ﻿<%@ CODEPAGE=65001 %>
 <% Option Explicit %>
-<% On Error Resume Next %>
+<% 'On Error Resume Next %>
 <% Response.Charset="UTF-8" %>
 <!-- #include file="../../c_option.asp" -->
 <!-- #include file="../../../ZB_SYSTEM/function/c_function.asp" -->
@@ -11,6 +11,7 @@
 <!-- #include file="../p_config.asp" -->
 
 <%
+ShowError_Custom="Response.End"
 Dim strResponse
 
 Call System_Initialize()
@@ -35,7 +36,7 @@ Sub ExportErr(str)
 	Response.End
 End Sub
 If CheckVerifyNumber(Request.Form("edtCheckOut"))=False Then
-	ExportErr ZVA_ErrorMsg(38)
+'	ExportErr ZVA_ErrorMsg(38)
 End If
 
 If Request.Form("chkRemember")=False Then
@@ -83,7 +84,8 @@ if Not (objRs.Bof Or objRs.eof) then
 End If
 objRs.close
 set objRs = nothing       
-
+Stop
+Call Filter_Plugin_RegPage_Vaild(username,UserPassWord,userhomepage,UserMail)
 
 
 Dim RegUser,objConfig
@@ -97,16 +99,18 @@ RegUser.HomePage=UserHomePage
 RegUser.Password=UserPassword
 If RegUser.Register() Then
 
-	For Each sAction_Plugin_RegSave_VerifyOK in Action_Plugin_RegSave_VerifyOK
-		If Not IsEmpty(sAction_Plugin_RegSave_VerifyOK) Then Call Execute(sAction_Plugin_RegSave_VerifyOK)
+	For Each sAction_Plugin_RegSave_Register in Action_Plugin_RegSave_Register
+		If Not IsEmpty(sAction_Plugin_RegSave_Register) Then Call Execute(sAction_Plugin_RegSave_Register)
 	Next
 	
 	Response.Cookies("password")=RegUser.PassWord
 	Response.Cookies("password").Expires = DateAdd("d", 1, now)
 	Response.Cookies("password").Path = CookiesPath()
+	
 	Response.Cookies("username")=RegUser.Name
 	Response.Cookies("username").Expires = DateAdd("d", 1, now)
 	Response.Cookies("username").Path = CookiesPath()	
+	
 	strResponse="<script language='javascript' type='text/javascript'>alert('恭喜，注册成功。\n欢迎您成为本站一员。\n\n单击确定登陆本站。');location.href="""&BlogHost&"""</script>"
 
 Else
