@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <plugin version="2.0">
-<id>Gravatar</id>
-<name>Gravatar头像</name>
-<url>http://www.zsxsoft.com/</url>
-<note>前台评论、后台管理显示Gravatar头像</note>
-<type>inline</type>
-<path>main.asp</path>
-<include>include.asp</include>
-<level>1</level>
-<author>
-	<name>zsx</name>
+	<id>Gravatar</id>
+	<name>Gravatar头像</name>
 	<url>http://www.zsxsoft.com/</url>
-	<email>zsx@zsxsoft.com</email>
-</author>
-<version>1.0</version>
-<adapted>Z-Blog 2.0</adapted>
-<pubdate>2012-7-1</pubdate>
-<modified>2012-8-8</modified>
+	<note>前台评论、后台管理显示Gravatar头像</note>
+	<type>inline</type>
+	<path>main.asp</path>
+	<include>include.asp</include>
+	<level>1</level>
+	<author>
+		<name>zsx</name>
+		<url>http://www.zsxsoft.com/</url>
+		<email>zsx@zsxsoft.com</email>
+	</author>
+	<version>1.0</version>
+	<adapted>121125</adapted>
+	<pubdate>2012-7-1</pubdate>
+	<modified>2012-8-8</modified>
 </plugin>

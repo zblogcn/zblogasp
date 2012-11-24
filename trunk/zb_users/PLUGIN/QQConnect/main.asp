@@ -139,7 +139,9 @@ If qqconnect.config.qqconnect.appid<>"" Then
 		Response.Write "<a href='" & qqconnect.c.Authorize() & "'><img src='resources/logo_170_32.png'/></a>"
 	Else
 		strTemp=qqconnect.c.api("https://graph.qq.com/user/get_user_info","{}","GET")
+		Response.Write strTemp
 		Set tmpObject=qqconnect.functions.json.toobject(strTemp)
+		
 		If tmpObject.ret=0 Then
 			Response.Write "欢迎回来，QQ空间用户" & tmpObject.nickname & "<a href='main.asp?act=logout&type=connect'>点击这里注销</a>"
 			BlogUser.Meta.SetValue "QQConnect_Head1",tmpObject.figureurl

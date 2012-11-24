@@ -1,6 +1,6 @@
 <%@ LANGUAGE="VBSCRIPT" CODEPAGE="65001"%>
 <% Option Explicit %>
-<% On Error Resume Next %>
+<%' On Error Resume Next %>
 <% Response.Charset="UTF-8" %>
 <!-- #include file="../../../zb_system/admin/ueditor/asp/aspincludefile.asp"-->
 <!-- #include file="function.asp"-->

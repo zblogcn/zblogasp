@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <plugin version="2.0">
-<id>LazyLoad</id>
-<name>LazyLoad</name>
-<url>http://www.zsxsoft.com</url>
-<note>LazyLoad for Z-Blog 2.0</note>
-<type>inline</type>
-<include>include.asp</include>
-<path>main.asp</path>
-<level>1</level>
-<author>
-	<name>zsx</name>
+	<id>LazyLoad</id>
+	<name>LazyLoad</name>
 	<url>http://www.zsxsoft.com</url>
-	<email>zhengshixin163@qq.com</email>
-</author>
-<version>1.0</version>
-<adapted>Z-Blog 2.0</adapted>
-<pubdate>2012-9-8</pubdate>
-<modified>2012-9-8</modified>
+	<note>LazyLoad for Z-Blog 2.0</note>
+	<type>inline</type>
+	<include>include.asp</include>
+	<path>main.asp</path>
+	<level>1</level>
+	<author>
+		<name>zsx</name>
+		<url>http://www.zsxsoft.com</url>
+		<email>zhengshixin163@qq.com</email>
+	</author>
+	<version>1.0</version>
+	<adapted>121125</adapted>
+	<pubdate>2012-9-8</pubdate>
+	<modified>2012-9-8</modified>
 </plugin>

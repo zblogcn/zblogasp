@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <plugin version="2.0">
-<id>Wpimport</id>
-<name>Wordpress数据导入程序</name>
-<url></url>
-<note>将Wordpress输出的WXR导入进Z-BLOG</note>
-<author>
-<name>zx.asd</name><url>http://www.rainbowsoft.org/</url><email>rainbowsoft@163.com</email>
-</author>
-<author>
-<name>Zx.MYS</name><url>http://ZxMYS.com/</url><email>manyoushen@gmail.com</email>
-</author>
-<type>outline</type>
-<path>tool.asp</path>
-<include></include>
-<level>1</level>
-<adapted>Z-Blog 2.0</adapted>
-<version>2.0</version>
-<pubdate>2012-9-8</pubdate>
-<modified>2012-9-8</modified>
+	<id>Wpimport</id>
+	<name>Wordpress数据导入程序</name>
+	<url></url>
+	<note>将Wordpress输出的WXR导入进Z-BLOG</note>
+	<author>
+		<name>zx.asd</name><url>http://www.rainbowsoft.org/</url><email>rainbowsoft@163.com</email>
+	</author>
+	<author>
+		<name>Zx.MYS</name><url>http://ZxMYS.com/</url><email>manyoushen@gmail.com</email>
+	</author>
+	<type>outline</type>
+	<path>tool.asp</path>
+	<include></include>
+	<level>1</level>
+	<adapted>121125</adapted>
+	<version>2.0</version>
+	<pubdate>2012-9-8</pubdate>
+	<modified>2012-9-8</modified>
 </plugin>
