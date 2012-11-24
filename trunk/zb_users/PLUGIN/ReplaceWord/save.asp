@@ -13,7 +13,8 @@
 <!-- #include file="function.asp" -->
 
 <%
-Dim XmlDom
+Dim Frm,id,id2,objDom
+Dim i,str
 ShowError_Custom="Response.Write ""{'success':false,'error':""&id&""}"":Response.End"
 Call System_Initialize()
 '检查非法链接
@@ -25,10 +26,30 @@ BlogTitle="敏感词替换器"
 replaceword.init()
 Select Case Request.QueryString("act")
 	Case "delete"
-		Set XmlDom=replaceword.words(id)
-		replaceword.xmldom.documentElement.removeChild xmlDom
+		Set objDom=replaceword.words(id)
+		replaceword.xmldom.documentElement.removeChild objDom
+	Case "import"
+		On Error Resume Next
+		Select Case Request.Form("type")
+			Case 2
+				replaceword.xmldom.loadXML "<?xml version=""1.0"" encoding=""utf-8""?><words></words>"
+		End Select
+		str=Request.Form("txaContent")
+		str=Replace(str,vbLf,vbCr)
+		str=Replace(str,vbCr,vbCrlf)
+		str=Split(str,vbCrlf)
+		For i=0 To Ubound(str)
+			Frm=Split(str(i),"|")
+			If Ubound(Frm)=3 Then
+				Set objDom=replaceword.create(i)
+				objDom.attributes.getNamedItem("regexp").value=IIf(Frm(0)="1",True,False)
+				objDom.selectSingleNode("str").text=Frm(1)
+				objDom.selectSingleNode("replace").text=Frm(2)
+				objDom.selectSingleNode("description").text=Frm(3)
+			End If
+		Next
 	Case Else
-		Dim Frm,id,id2,objDom
+
 		For Each Frm In Request.Form
 			id=Split(Frm,"_")(1)
 			id2=Left(Frm,3)

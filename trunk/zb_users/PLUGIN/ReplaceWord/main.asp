@@ -40,7 +40,7 @@ td input[type="text"] {
             <%Call GetBlogHint()%>
           </div>
           <div class="divHeader"><%=BlogTitle%></div>
-          <div class="SubMenu"></div>
+          <div class="SubMenu"><%=replaceword.submenu(0)%></div>
           <div id="divMain2"> 
             
             <ul>
