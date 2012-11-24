@@ -50,7 +50,7 @@ td input[type="text"] {
             <form id="form1" method="post" action="save.asp">
               <table width="100%" border="0">
                 <tr height="32">
-                  <th width="20">&nbsp;</th>
+                  <th width="20">删</th>
                   <th width="50">正则</th>
                   <th width="200">关键词</th>
                   <th width="200">替换词</th>
@@ -58,9 +58,11 @@ td input[type="text"] {
                 </tr>
                 <%For i=min To max%>
                 <tr height="32">
-                  <td><a href="javascript:;" class="delete button" _id="<%=i%>">
+                  <td><!--<a href="javascript:;" class="delete button" _id="<%=i%>">
                   <img src="../../../zb_system/IMAGE/ADMIN/delete.png" width="16" height="16" alt="删除"/>
-                  </a></td>
+                  </a>-->
+                  <input name="del_<%=i%>" id="del_<%=i%>" type="checkbox" value="False" onclick="if($(this).attr('checked')=='checked'){$(this).val('True')}else{$(this).val('False')}"/>
+                  </td>
                   <td><input type="text" id="exp_<%=i%>" name="exp_<%=i%>" value="<%=TransferHTML(replaceword.regex(i),"[html-format]")%>" class="checkbox"/></td>
                   <td><input type="text" id="str_<%=i%>" name="str_<%=i%>" value="<%=TransferHTML(replaceword.str(i),"[html-format]")%>"/></td>
                   <td><input type="text" id="rep_<%=i%>" name="rep_<%=i%>" value="<%=TransferHTML(replaceword.rep(i),"[html-format]")%>"/></td>
@@ -90,7 +92,10 @@ td input[type="text"] {
 					$(this).ajaxForm(function(s){
 						var j=eval("("+s+")");
 						//alert(j.success);
-						if(j.success){showDialog("保存成功！")}else{showDialog("保存失败，错误ID："+j.error)}
+						if(j.success){
+							showDialog("保存成功！","提示",function(){location.reload();});
+							resetid(true);
+						}else{showDialog("保存失败，错误ID："+j.error)}
 					});
 					return false;
 				});
@@ -100,17 +105,20 @@ td input[type="text"] {
                  		 '<td><a href="javascript:;" class="delete button" _id="new">'+
 						 '<img src="../../../zb_system/IMAGE/ADMIN/delete.png" width="16" height="16" alt="删除"/>'+
 						 '</a></td>'+
-						 '<td><input type="text" id="exp_new" name="exp_'+New+'" value="False" class="checkbox"/></td>'+
-						 '<td><input type="text" id="str_new" name="str_'+New+'" value=""/></td>'+
-						 '<td><input type="text" id="rep_new" name="rep_'+New+'" value=""/></td>'+
-						 '<td><input type="text" id="des_new" name="des_'+New+'" value=""/></td>'+
+						 '<td><input type="text" id="exp_new" name="new_exp_'+New+'" value="False" class="checkbox"/></td>'+
+						 '<td><input type="text" id="str_new" name="new_str_'+New+'" value=""/></td>'+
+						 '<td><input type="text" id="rep_new" name="new_rep_'+New+'" value=""/></td>'+
+						 '<td><input type="text" id="des_new" name="new_des_'+New+'" value=""/></td>'+
 						 '</tr>';
 					$(this).parent().parent().before(mmm);
 					bindEvent();
 					if(!(($.browser.msie)&&($.browser.version)=='6.0')){
+						$('td').find(".imgcheck").remove();
 						$('input.checkbox').css("display","none");
-						$('input.checkbox[value="True"]').after('<span class="imgcheck imgcheck-on"></span>');
-						$('input.checkbox[value="False"]').after('<span class="imgcheck"></span>');
+						$('input.checkbox').each(function(){
+							if($(this).val()=='True'){$(this).after('<span class="imgcheck imgcheck-on"></span>')}else{
+							$(this).after('<span class="imgcheck"></span>');}
+						})
 					}else{
 						$('input.checkbox').attr('readonly','readonly');
 						$('input.checkbox').css('cursor','pointer');
@@ -120,37 +128,66 @@ td input[type="text"] {
 					$('span.imgcheck').click(function(){changeCheckValue(this)})
 
 					bmx2table();
+					New++;
 				})
 			});
 			function bindEvent(){
 					$(".delete").click(function() {
 					var _this=$(this);
 					if(_this.attr("_id")=="new"){_this.parent().parent().remove();bmx2table();return false;}
-                    $.post("save.asp?act=delete"
+                    /*$.post("save.asp?act=delete"
 						,{"id":_this.attr("_id")}
 						,function(s){
 							var j=eval("("+s+")");
 							if(j.success){
 								showDialog("删除成功！","提示",function(){location.reload();});
-								//_this.parent().parent().remove();
-								//bmx2table();
+								_this.parent().parent().remove();
+								bmx2table();
+								resetid(false);
 							}else{
 								showDialog("删除失败，错误ID："+j.error)
 							}
 						}
-					)
+					)*/
                 });
 			}
 			function showDialog(text,title,enter){
+				if(enter==undefined) enter=function() {$(this).dialog("close");}
 				var j=$('#dialog');
 				j.html(text);
 				j.dialog({
 					modal: true,
-					title: (title==""?"提示":title),
+					title: (title==undefined?"提示":title),
 					buttons: {
-						"确定": (enter==""?function() {$(this).dialog("close");}:enter)
+						"确定": enter
 					}
 				})
+			}
+			
+			function resetid(s){
+				return false;
+				var i=0;
+				$("td input[name^=exp]").each(function() {
+					var _this=$(this),notnew=_this.attr("id").indexOf("new_")==-1
+					if(s){
+						_this.attr("id","exp"+i);
+						_this.attr("name","exp"+i);
+					}else{
+						if(notnew){
+							_this.attr("id","exp"+i);
+							_this.attr("name","exp"+i);
+						}
+					}
+                    _this.parent().parent().children().find("input:not([name^=exp])").each(function(){
+						var __this=$(this)
+						if(s){
+							var o=__this.attr("id").substr(0,3);
+							__this.attr("id",o+i);
+							__this.attr("name",o+i);
+						}
+					})
+					i++;
+                });
 			}
         </script>
         <!--#include file="..\..\..\zb_system\admin\admin_footer.asp"-->
