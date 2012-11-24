@@ -12,7 +12,7 @@ var title="Z-Blog Plugin Development Kit"
 function ZBDK(){return false}
 ZBDK.main=function(){
 	Response.Write("ZBDK，全称Z-Blog Plugin Development Kit，是为插件开发人员开发的一套工具包。它集合了许多插件开发中常用的工具，可以帮助插件开发者更好地进行插件开发。"+(Request.ServerVariables("HTTP_USER_AGENT").item.toLowerCase().indexOf("ie 6")>0?"<font color='red'>但不支持IE6.</font>":"")+"<br/><br/>");
-	Response.Write("该版本ZBDK最后更新时间：2012-11-18<br/><br/>");
+	Response.Write("该版本ZBDK最后更新时间：2012-11-24<br/><br/>");
 	Response.Write("该插件有一定的危险性，一旦进行了误操作可能导致博客崩溃，请谨慎使用。<br/><br/>");
 	Response.Write("工具列表：\n\n<br/><br/><table width='100%'>");
 	Response.Write("<tr height='40'><td width='50'>ID</td><td width='120'>工具名</td><td>信息</td></tr>");
