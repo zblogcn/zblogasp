@@ -1,6 +1,6 @@
 ﻿<%@ CODEPAGE=65001 %>
 <% Option Explicit %>
-<% 'On Error Resume Next %>
+<% On Error Resume Next %>
 <% Response.Charset="UTF-8" %>
 <!-- #include file="../../c_option.asp" -->
 <!-- #include file="../../../ZB_SYSTEM/function/c_function.asp" -->
@@ -36,7 +36,7 @@ Sub ExportErr(str)
 	Response.End
 End Sub
 If CheckVerifyNumber(Request.Form("edtCheckOut"))=False Then
-'	ExportErr ZVA_ErrorMsg(38)
+	ExportErr ZVA_ErrorMsg(38)
 End If
 
 If Request.Form("chkRemember")=False Then
