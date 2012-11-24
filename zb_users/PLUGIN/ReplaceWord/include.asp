@@ -10,7 +10,7 @@ Function ActivePlugin_ReplaceWord()
 	
 	Call Add_Filter_Plugin("Filter_Plugin_PostArticle_Core","ReplaceWord_")
 	Call Add_Filter_Plugin("Filter_Plugin_PostComment_Core","ReplaceWord__")
-	Call Add_Filter_Plugin("Filter_Plugin_RegPage_Vaild","Replaceword___")
+	If CheckPluginState("RegPage") Then Call Add_Filter_Plugin("Filter_Plugin_RegPage_Vaild","Replaceword___")
 	
 End Function
 
