@@ -6,11 +6,8 @@
 <!-- #include file="..\..\..\zb_system\function\c_function.asp" -->
 <!-- #include file="..\..\..\zb_system\function\c_system_lib.asp" -->
 <!-- #include file="..\..\..\zb_system\function\c_system_base.asp" -->
-<!-- #include file="..\..\..\zb_system\function\c_system_event.asp" -->
-<!-- #include file="..\..\..\zb_system\function\c_system_manage.asp" -->
 <!-- #include file="..\..\..\zb_system\function\c_system_plugin.asp" -->
 <!-- #include file="..\p_config.asp" -->
-<!-- #include file="function.asp" -->
 
 <%
 Call System_Initialize()
@@ -46,11 +43,12 @@ td input[type="text"] {
             <ul>
               <li>1. 为不影响程序效率，请不要设置过多不需要的过滤内容。</li>
               <li>2. 程序将对新发布的文章和评论进行过滤，原有老评论不受影响。</li>
+              
             </ul>
             <form id="form1" method="post" action="save.asp">
               <table width="100%" border="0">
                 <tr height="32">
-                  <th width="20">删</th>
+                  <th width="20"><a href="javascript:;" onclick="BatchSelectAll();">删</a></th>
                   <th width="50">正则</th>
                   <th width="200">关键词</th>
                   <th width="200">替换词</th>
@@ -61,7 +59,7 @@ td input[type="text"] {
                   <td><!--<a href="javascript:;" class="delete button" _id="<%=i%>">
                   <img src="../../../zb_system/IMAGE/ADMIN/delete.png" width="16" height="16" alt="删除"/>
                   </a>-->
-                  <input name="del_<%=i%>" id="del_<%=i%>" type="checkbox" value="False" onclick="if($(this).attr('checked')=='checked'){$(this).val('True')}else{$(this).val('False')}"/>
+                  <input name="del_<%=i%>" id="del_<%=i%>" type="checkbox" value="False" onClick="if($(this).attr('checked')=='checked'){$(this).val('True')}else{$(this).val('False')}"/>
                   </td>
                   <td><input type="text" id="exp_<%=i%>" name="exp_<%=i%>" value="<%=TransferHTML(replaceword.regex(i),"[html-format]")%>" class="checkbox"/></td>
                   <td><input type="text" id="str_<%=i%>" name="str_<%=i%>" value="<%=TransferHTML(replaceword.str(i),"[html-format]")%>"/></td>
@@ -188,6 +186,20 @@ td input[type="text"] {
 					})
 					i++;
                 });
+			}
+			function BatchSelectAll() {
+				var aryChecks = document.getElementsByTagName("input");
+			
+				for (var i = 0; i < aryChecks.length; i++){
+					if((aryChecks[i].type=="checkbox")){
+						if(aryChecks[i].checked==true){
+							aryChecks[i].checked=false;
+						}
+						else{
+							aryChecks[i].checked=true;
+						};
+					}
+				}
 			}
         </script>
         <!--#include file="..\..\..\zb_system\admin\admin_footer.asp"-->
