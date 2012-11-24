@@ -1,20 +1,20 @@
-﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <plugin version="2.0">
-<id>STACentre</id>
-<name>静态管理中心</name>
-<url>http://www.rainbowsoft.org/</url>
-<note>控制ZBLOG的静态化设置,将博客, 分类页, 标签页, 作者页静态化成 HTML 页面.</note>
-<type>outline</type>
-<path>main.asp</path>
-<include>include.asp</include>
-<level>1</level>
-<author>
-	<name>zx.asd</name>
+	<id>STACentre</id>
+	<name>静态管理中心</name>
 	<url>http://www.rainbowsoft.org/</url>
-	<email></email>
-</author>
-<version>1.0</version>
-<adapted>Z-Blog 2.0</adapted>
-<pubdate>2011-5-1</pubdate>
-<modified>2011-8-13</modified>
+	<note>控制ZBLOG的静态化设置,将博客, 分类页, 标签页, 作者页静态化成 HTML 页面.</note>
+	<type>outline</type>
+	<path>main.asp</path>
+	<include>include.asp</include>
+	<level>1</level>
+	<author>
+		<name>zx.asd</name>
+		<url>http://www.rainbowsoft.org/</url>
+		<email></email>
+	</author>
+	<version>1.0</version>
+	<adapted>121125</adapted>
+	<pubdate>2011-5-1</pubdate>
+	<modified>2011-8-13</modified>
 </plugin>

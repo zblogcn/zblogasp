@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <plugin version="2.0">
-<id>Totoro</id>
-<name>TotoroⅢ</name>
-<note>基于TotoroII的Z-Blog的评论及引用管理审核系统增强版。</note>
-<type>inline</type>
-<url>http://www.zsxsoft.com/</url>
-<path>main.asp</path>
-<include>include.asp</include>
-<level>1</level>
-<author>
-	<name>zsx</name>
-	<url>http://www.zsxsoft.com</url>
-	<email>zsx@zsxsoft.com</email>
-</author>
-<version>3.0.3</version>
-<modified>2012-7-17</modified>
-<pubdate>2012-8-31</pubdate>
-<adapted>Z-Blog 2.0</adapted>
+	<id>Totoro</id>
+	<name>TotoroⅢ</name>
+	<note>基于TotoroII的Z-Blog的评论及引用管理审核系统增强版。</note>
+	<type>inline</type>
+	<url>http://www.zsxsoft.com/</url>
+	<path>main.asp</path>
+	<include>include.asp</include>
+	<level>1</level>
+	<author>
+		<name>zsx</name>
+		<url>http://www.zsxsoft.com</url>
+		<email>zsx@zsxsoft.com</email>
+	</author>
+	<version>3.0.3</version>
+	<modified>2012-7-17</modified>
+	<pubdate>2012-8-31</pubdate>
+	<adapted>121125</adapted>
 </plugin>

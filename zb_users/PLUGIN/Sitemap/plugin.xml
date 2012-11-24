@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <plugin version="2.0">
-<id>Sitemap</id>
-<name>Sitemap</name>
-<url>http://www.zsxsoft.com/</url>
-<note>发表文章时自动生成Sitemap</note>
-<type>inline</type>
-<path>main.asp</path>
-<include>include.asp</include>
-<level>2</level>
-<author>
-	<name>zsx</name>
-	<url>http://www.zsxsoft.com</url>
-	<email>www.zsxsoft.com</email>
-</author>
-<version>1.0</version>
-<modified>2012-8-20</modified>
-<pubdate>2012-8-20</pubdate>
-<adapted>Z-Blog 2.0</adapted>
+	<id>Sitemap</id>
+	<name>Sitemap</name>
+	<url>http://www.zsxsoft.com/</url>
+	<note>发表文章时自动生成Sitemap</note>
+	<type>inline</type>
+	<path>main.asp</path>
+	<include>include.asp</include>
+	<level>2</level>
+	<author>
+		<name>zsx</name>
+		<url>http://www.zsxsoft.com</url>
+		<email>www.zsxsoft.com</email>
+	</author>
+	<version>1.0</version>
+	<modified>2012-8-20</modified>
+	<pubdate>2012-8-20</pubdate>
+	<adapted>121125</adapted>
 </plugin>

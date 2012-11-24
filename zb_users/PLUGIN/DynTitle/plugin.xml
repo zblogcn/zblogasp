@@ -1,4 +1,5 @@
-﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?><plugin version="2.0"><id>DynTitle</id><name>动态名言标题</name><url>http://imzhou.com</url><note>动态名言标题</note><path></path><include>include.asp</include><level>1</level><author><name>未寒</name><email>im@imzhou.com</email><url>http://imzhou.com/</url></author><adapted>Z-Blog 2.0</adapted><version>0.1</version><pubdate>2012-10-15</pubdate><modified>2012-10-15</modified><description><![CDATA[动态名言标题
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<plugin version="2.0"><id>DynTitle</id><name>动态名言标题</name><url>http://imzhou.com</url><note>动态名言标题</note><path></path><include>include.asp</include><level>1</level><author><name>未寒</name><email>im@imzhou.com</email><url>http://imzhou.com/</url></author><adapted>121125</adapted><version>0.1</version><pubdate>2012-10-15</pubdate><modified>2012-10-15</modified><description><![CDATA[动态名言标题
 刷新一次换一个，而且源代码里不会更改标题，这又有利于用户体验，有不影响SEO，两全其美
 ---
 纯无聊折腾~看看好玩。。]]></description><price>0.0</price></plugin>
