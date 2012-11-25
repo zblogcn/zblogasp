@@ -36,22 +36,33 @@ Class qqconnect_network
 		Call qqconnect.functions.json.addobj(Par,"User-Agent",UA)
 		setRequestHeader
 		objXmlhttp.Send
-		ResponseText=objXmlhttp.ResponseText
-		ResponseBody=objXmlhttp.ResponseBody
-		GetHttp=BytesToBstr(ResponseBody,CharSet)
+		If Err.Number=0 Then 
+			ResponseText=objXmlhttp.ResponseText
+			ResponseBody=objXmlhttp.ResponseBody
+			GetHttp=BytesToBstr(ResponseBody,CharSet)
+		Else
+			ResponseText="{'code':'"&Err.Number&"','ret':'：连接服务器出错，错误原因"&qqconnect.functions.formatstring(Err.Description)&"'}"
+			GetHttp=ResponseText
+		End If
 		Set Par=qqconnect.functions.json.toobject("{}")
 	End Function
 	
 	Public Function PostHttp(Url,Data) '用POST的方式发送信息
+		On Error Resume Next
 		objXmlhttp.SetTimeOuts 10000, 10000, 10000, 10000 
 		objXmlhttp.Open "POST",url
 		Call qqconnect.functions.json.addobj(Par,"Content-type","application/x-www-form-urlencoded")
 		Call qqconnect.functions.json.addobj(Par,"User-Agent",UA)
 		setRequestHeader
 		objXmlhttp.Send Data
-		ResponseText=objXmlhttp.ResponseText
-		ResponseBody=objXmlhttp.ResponseBody
-		PostHttp=BytesToBstr(ResponseBody,CharSet)
+		If Err.Number=0 Then 
+			ResponseText=objXmlhttp.ResponseText
+			ResponseBody=objXmlhttp.ResponseBody
+			PostHttp=BytesToBstr(ResponseBody,CharSet)
+		Else
+			ResponseText="{'code':'"&Err.Number&"','ret':'：连接服务器出错，错误原因"&qqconnect.functions.formatstring(Err.Description)&"'}"
+			PostHttp=ResponseText
+		End If
 		Set Par=qqconnect.functions.json.toobject("{}")
 	End Function
 	
