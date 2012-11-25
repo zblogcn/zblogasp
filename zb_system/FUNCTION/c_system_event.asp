@@ -204,6 +204,8 @@ Function PostArticle()
 			Next 
 			objArticle.Intro=closeHTML(t)
 		End If
+	ElseIf objArticle.FType=ZC_POST_TYPE_PAGE Then
+		If CheckRights("Root")=False Then Call ShowError(6)
 	End If
 
 	Call GetMetaValuewithForm(objArticle)

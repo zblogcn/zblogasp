@@ -42,6 +42,8 @@ Dim IsPage
 
 IsPage=Request.QueryString("type")="Page"
 
+If IsPage Then If Not CheckRights("Root") Then Call ShowError(6)
+
 Dim EditArticle
 Set EditArticle=New TArticle
 
