@@ -79,7 +79,8 @@ qqconnect["functions"]={
 	,"formatstring":function(data){
 		var s=data;
 		s=TransferHTML(UBBCode(s,"[link][email][font][code][face][image][flash][typeset][media]"),"[nohtml]");
-		s=this.toHTML(s)
+		s=this.toHTML(s);
+		s=s.replace(/\r\n/g,"").replace(/\r/g,"").replace(/\n/g,"");
 		return s
 	}
 	,"json":{
