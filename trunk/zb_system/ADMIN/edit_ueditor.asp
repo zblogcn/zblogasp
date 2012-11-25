@@ -302,7 +302,7 @@ End If
 
 <!-- Istop( -->
                         <p>
-<% If Request.QueryString("type")<>"Page" Then %>
+<% If Request.QueryString("type")<>"Page" And BlogUser.Level=1 Then %>
                           <label><span class='editinputname'><%=ZC_MSG051%>:
                           <%If EditArticle.Istop Then%>
                           <input type="checkbox" name="edtIstop" id="edtIstop" value="True" checked=""/>

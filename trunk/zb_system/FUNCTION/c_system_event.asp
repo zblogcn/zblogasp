@@ -177,7 +177,7 @@ Function PostArticle()
 	objArticle.Title=Request.Form("edtTitle")
 	objArticle.Tag=ParseTag(Request.Form("edtTag"))
 	objArticle.Alias=Request.Form("edtAlias")
-	objArticle.Istop=Request.Form("edtIstop")
+	objArticle.Istop=IIf(BlogUser.Level=1,Request.Form("edtIstop"),False)
 	objArticle.TemplateName=Request.Form("edtTemplate")
 	objArticle.FType=CLng(Request.Form("edtFType"))
 
