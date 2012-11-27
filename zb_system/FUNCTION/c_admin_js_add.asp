@@ -120,15 +120,17 @@ function ActiveTopMenu(name){
 
 
 //*********************************************************
-// 目的：    
+// 目的：    表格斑马线
+// 输入：    无
+// 返回：    无
 //*********************************************************
 function bmx2table(){
 	var class_=new Array("color2","color3","color4");
 	var j=$("table tr:has(th)").addClass("color1");
     $("table").each(function(){
  		if(j.length==0){class_[1]="color2";class_[0]="color3";} 
-		var o=$(this).find("tr:not(:has(th)):odd").addClass(class_[0]);		
-		var o=$(this).find("tr:not(:has(th)):even").addClass(class_[1]);
+		$(this).find("tr:not(:has(th)):even").removeClass(class_[0]).addClass(class_[1]);
+		$(this).find("tr:not(:has(th)):odd").removeClass(class_[1]).addClass(class_[0]);
 	})
 	$("tr:not(:has(th))").mouseover(function(){$(this).addClass(class_[2])}).mouseout(function(){$(this).removeClass(class_[2])}); 
 };
@@ -136,17 +138,29 @@ function bmx2table(){
 
 
 
+
+
+//*********************************************************
+// 目的：    批量操作提醒
+// 输入：    无
+// 返回：    无
+//*********************************************************
 function Batch2Tip(s){$("#batch p").html(s)}
 function BatchContinue(){$("#batch p").before("<iframe style='width:20px;height:20px;' frameborder='0' scrolling='no' src='<%=BlogHost%>zb_system/cmd.asp?act=batch'></iframe>");$("#batch img").remove();}
 function BatchBegin(){};
 function BatchEnd(){};
 function BatchNotify(){notify($("#batch p").html())}
 function BatchCancel(){$("#batch iframe").remove();$("#batch p").before("<iframe style='width:20px;height:20px;' frameborder='0' scrolling='no' src='<%=BlogHost%>zb_system/cmd.asp?act=batch&cancel=true'></iframe>");};
+//*********************************************************
 
 
 
 
-
+//*********************************************************
+// 目的：    CheckBox
+// 输入：    无
+// 返回：    无
+//*********************************************************
 function changeCheckValue(obj){
 
 	$(obj).toggleClass('imgcheck-on');
@@ -158,9 +172,16 @@ function changeCheckValue(obj){
 	}
 
 }
+//*********************************************************
 
 
 
+
+//*********************************************************
+// 目的：    Notifications
+// 输入：    无
+// 返回：    无
+//*********************************************************
 function notify(s){
 	if (window.webkitNotifications) {
 		if (window.webkitNotifications.checkPermission() == 0) {
@@ -174,8 +195,13 @@ function notify(s){
 		}
 	} 
 }
+//*********************************************************
 
 
+
+//*********************************************************
+// 目的：    
+//*********************************************************
 $(document).ready(function(){ 
 
 	// Content box tabs:
@@ -194,11 +220,7 @@ $(document).ready(function(){
 		}
 	);
 
-});
-
-
-$(document).ready(function(){ 
-
+	//斑马线化表格
 	bmx2table();
 
 	if($('.SubMenu').find('span').length>0){
@@ -208,7 +230,8 @@ $(document).ready(function(){
 			$('.SubMenu').show();
 		//}
 	}
-
+	
+	//checkbox
 	if(!(($.browser.msie)&&($.browser.version)=='6.0')){
 		$('input.checkbox').css("display","none");
 		$('input.checkbox[value="True"]').after('<span class="imgcheck imgcheck-on"></span>');
@@ -221,6 +244,7 @@ $(document).ready(function(){
 
 	$('span.imgcheck').click(function(){changeCheckValue(this)})
 
+	//batch
 	$("#batch a").bind("click", function(){ BatchContinue();$("#batch p").html("<%=ZC_MSG109%>...");});
 
 	$(".SubMenu span.m-right").parent().css({"float":"right"});
