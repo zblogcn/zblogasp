@@ -1960,7 +1960,7 @@ Class TArticleList
 				TemplateTags_ArticleList_Author_ID=Users(i).ID
 				If IsEmpty(html)=True Then html=Users(i).Template
 				Url =ParseCustomDirectoryForUrl(Users(i).FullRegex,ZC_STATIC_DIRECTORY,"","","","","",Users(i).ID,Users(i).Name,Users(i).StaticName)
-				MixUrl=ParseCustomDirectoryForUrl("{%host%}/catalog.asp?user={%id%}",ZC_STATIC_DIRECTORY,"","","","","",Users(i).ID,Users(i).Name,Users(i).StaticName)
+				MixUrl=ParseCustomDirectoryForUrl("{%host%}/catalog.asp?auth={%id%}",ZC_STATIC_DIRECTORY,"","","","","",Users(i).ID,Users(i).Name,Users(i).StaticName)
 			End If
 		End if
 		If IsDate(dtmDate) Then
