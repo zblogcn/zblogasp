@@ -35,7 +35,12 @@ Next
 Dim ArtList
 Set ArtList=New TArticleList
 
-If ArtList.Export(Request.QueryString("page"),Request.QueryString("cate"),Request.QueryString("auth"),Request.QueryString("date"),Request.QueryString("tags"),ZC_DISPLAY_MODE_INTRO) Then
+Dim auth
+auth=Request.QueryString("auth") 
+'为beta2前错误配置做处理
+If IsEmpty(auth) Then auth=Request.QueryString("user")
+
+If ArtList.Export(Request.QueryString("page"),Request.QueryString("cate"),auth,Request.QueryString("date"),Request.QueryString("tags"),ZC_DISPLAY_MODE_INTRO) Then
 	If ArtList.FoundData=False Then Response.Status="404 Not Found":Response.End
 	ArtList.Build
 	Response.Write ArtList.html
