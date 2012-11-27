@@ -218,7 +218,7 @@ BlogTitle="静态管理中心"
 		if($(this).val()=="ACTIVE"){
 			$("#edtZC_DEFAULT_REGEX").val("{%host%}/catalog.asp");
 			$("#edtZC_CATEGORY_REGEX").val("{%host%}/catalog.asp?cate={%id%}");
-			$("#edtZC_USER_REGEX").val("{%host%}/catalog.asp?user={%id%}");
+			$("#edtZC_USER_REGEX").val("{%host%}/catalog.asp?auth={%id%}");
 			$("#edtZC_TAGS_REGEX").val("{%host%}/catalog.asp?tags={%alias%}");
 			$("#edtZC_DATE_REGEX").val("{%host%}/catalog.asp?date={%date%}");
 			$("#edtZC_STATIC_MODE").val("ACTIVE");
