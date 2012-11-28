@@ -138,12 +138,14 @@ function init_qqconnect_include(){
 				//微博
 				if(qqconnect.tconfig.read("f")=="True"){
 					t_add=objArticle.Meta.GetValue("ZBQQConnect_WBID");
-					t_add=parseInt(t_add.toString())
-					if(t_add>0){
-						strT=qqconnect.tconfig.Read("pl");
-						strT=strT.replace("%a",object.Author);
-						strT=strT.replace("%c",strSend);
-						qqconnect.t.r(strT,t_add);
+					if(typeof(t_add)!="undefined") {
+						t_add=parseInt(t_add.toString())
+						if(t_add>0){
+							strT=qqconnect.tconfig.Read("pl");
+							strT=strT.replace("%a",object.Author);
+							strT=strT.replace("%c",strSend);
+							qqconnect.t.r(strT,t_add);
+						}
 					}
 				}
 				//空间(判断登录)
