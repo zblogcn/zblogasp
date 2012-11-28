@@ -51,6 +51,8 @@ Select Case Request.QueryString("act")
 								If BlogUser.Level=5 Then
 									Response.Redirect "verify.asp?act=login&openid=" & qqconnect.d.OpenID & "&accesstoken="&qqconnect.d.AccessToken & "&dName=" & Server.URLEncode(qqconnect.functions.json.toObject(qqconnect.c.api("https://graph.qq.com/user/get_user_info","{}","GET")).nickname)
 								Else
+									Set qqconnect.d.objUser=BlogUser
+									qqconnect.d.Bind
 									qqconnect.functions.savereg BlogUser.ID,qqconnect.config.qqconnect.openid,qqconnect.config.qqconnect.accesstoken
 								End If
 							End If
