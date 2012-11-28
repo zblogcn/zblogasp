@@ -71,9 +71,10 @@ Function InstallApp(FilePath)
 			app_adapted = objXmlFile.documentElement.selectSingleNode("//app").selectSingleNode("adapted").text
 			'Stop
 			If IsNumeric(app_adapted) Then
-				If app_adapted>BlogVersion Then
+				If CLng(app_adapted)>CLng(BlogVersion) Then
 					SetBlogHint_Custom "您的Z-Blog版本太低，无法安装该应用！"
 					SetBlogHint_Custom "该应用需求Z-Blog版本：Z-Blog 2.0 Build " & app_adapted 
+					SetBlogHint_Custom "您的Z-Blog版本：Z-Blog 2.0 Build " & app_adapted
 					Response.Redirect BlogHost & "zb_system/cmd.asp?act=PlugInMng"
 					Exit Function
 				End If
