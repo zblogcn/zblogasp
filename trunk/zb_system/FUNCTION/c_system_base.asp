@@ -819,6 +819,7 @@ End Function
 '*********************************************************
 Function CheckTagByID(intTagID)
 
+	If intTagID="" Then intTagID=0
 	CheckTagByID=Not objConn.Execute("SELECT [tag_ID] FROM [blog_Tag] WHERE [tag_ID]=" & intTagID ).BOF
 
 End Function
