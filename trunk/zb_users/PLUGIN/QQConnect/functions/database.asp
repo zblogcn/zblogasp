@@ -28,6 +28,7 @@ Class QQConnect_DB
 	End Sub
 	
 	Function LoadInfo(Typ) '读取用户信息，使用ID、OPENID、EMAIL、用户ID来读取，同时兼备判断是否存在功能
+		LoadInfo=False
 		Dim strSQL
 		strSQL="SELECT [QQ_ID],[QQ_UserID],[QQ_OpenID],[QQ_AToken] FROM [blog_Plugin_QQConnect] WHERE "
 		Select Case Typ
