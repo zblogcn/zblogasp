@@ -767,10 +767,14 @@ Function FileManage_CheckFileCharset(path)
 	objStream.Position=0
 	objStream.LoadFromFile path
 	binHead=objstream.read(2)
-	If AscB(MidB(binHead,1,1))=&HEF And AscB(MidB(binHead,2,1))=&HBB Then
-		FileManage_CheckFileCharset="UTF-8"
-	ElseIf AscB(MidB(binHead,1,1))=&HFF And AscB(MidB(binHead,2,1))=&HFE Then
-		FileManage_CheckFileCharset="UNICODE"
+	If LenB(binHead)=2 Then
+		If AscB(MidB(binHead,1,1))=&HEF And AscB(MidB(binHead,2,1))=&HBB Then
+			FileManage_CheckFileCharset="UTF-8"
+		ElseIf AscB(MidB(binHead,1,1))=&HFF And AscB(MidB(binHead,2,1))=&HFE Then
+			FileManage_CheckFileCharset="UNICODE"
+		Else
+			FileManage_CheckFileCharset="GB2312"
+		End If
 	Else
 		FileManage_CheckFileCharset="GB2312"
 	End If
