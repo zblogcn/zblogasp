@@ -5,7 +5,7 @@
 '///////////////////////////////////////////////////////////////////////////////
 %>
 <% Option Explicit %>
-<% On Error Resume Next %>
+<%' On Error Resume Next %>
 <% Response.Charset="UTF-8" %>
 <!-- #include file="function.asp"-->
 <%
@@ -32,14 +32,13 @@ Next
 Select Case Request.QueryString("act")
 		Case "SiteFileDownload" Call FileManage_DownloadFile(strPath)
 		Case "SiteFilePst" Call FileManage_PostSiteFile(Request.Form("path"),Request.QueryString("OpenFolderPath"))
-		Case "SiteFileDel" Call FileManage_DeleteSiteFile(strPath)
-		Case "SiteFileRename" Call FileManage_RenameFile(strPath,Request.QueryString("newfilename"))
+		Case "SiteFileDel" Call FileManage_DeleteSiteFile(strPath,IIf(Request.QueryString("folder")="true",True,False))
+		Case "SiteFileRename" Call FileManage_RenameFile(strPath,Request.QueryString("newfilename"),IIf(Request.QueryString("folder")="true",True,False))
 		Case "SiteFileUpload" Call FileManage_Upload
 		Case "SiteCreateFolder" Call FileManage_CreateFolder(strPath,strOpenFolderPath)
 
 End Select
 
-Call SetBlogHint_Custom(" 提示:错误的编辑或删除系统文件会导致Blog无法运行;请保护好管理员账号,防止他人通过此功能威胁空间安全.")
 'Call SetBlogHint_Custom(" 若需要修改的数据>200K，请使用文件上传或FTP。")
 
 %>
