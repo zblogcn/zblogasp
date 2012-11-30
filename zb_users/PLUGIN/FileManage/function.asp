@@ -410,13 +410,23 @@ Function FileManage_ExportSiteFileEdit(tpath,OpenFolderPath)
 
 		
 	If Not IsNull(tpath) Then
-
 		Response.Write "<form id=""edit"" name=""edit"" method=""post"" action=""main.asp?act=SiteFilePst&path="&Server.URLEncode(tpath)&"&OpenFolderPath="&Server.URLEncode(OpenFolderPath)&""">" & vbCrlf
 		Response.Write "<p><br/>文件路径及文件名: <!--<a href=""javascript:void(0)"" onclick=""path.readOnly='';this.style.display='none';path.focus()"">修改文件名</a>--><INPUT TYPE=""text"" Value="""&unEscape(tpath)&""" style=""width:100%"" name=""path"" id=""path"" ></p>"
 		Response.Write "<p><textarea class=""resizable"" style=""height:300px;width:100%"" name=""txaContent"" id=""txaContent"">"&ct&"</textarea></p>" & vbCrlf
 
 		Response.Write "<hr/>"
-		Response.Write "<p><input class=""button"" type=""submit"" value="""&ZC_MSG087&""" id=""btnPost""/>&nbsp;&nbsp;<input class=""button"" type=""button"" value=""返回""  onclick=""location.href='main.asp?act=SiteFileMng&path="&Server.URLEncode(OpenFolderPath)&"'""/></p>" & vbCrlf
+		Response.Write "<p><input class=""button"" type=""submit"" value="""&ZC_MSG087&""" id=""btnPost""/>&nbsp;&nbsp;<input class=""button"" type=""button"" value=""返回""  onclick=""location.href='main.asp?act=SiteFileMng&path="&Server.URLEncode(OpenFolderPath)&"'""/>"
+		Response.Write "选择文件编码："
+		Dim cat
+		cat=FileManage_CheckFileCharset(tpath)
+		Response.Write "<input type=""radio"" name=""charset"" id=""radio"" value=""UTF-8"" "&IIf(cat="UTF-8","checked=""checked""","")&"/>"
+		Response.Write "<label for=""radio"">UTF-8</label>"
+		Response.Write "&nbsp;<input type=""radio"" name=""charset"" id=""radio2"" value=""Unicode"" "&IIf(cat="UNICODE","checked=""checked""","")&"/>"
+		Response.Write "<label for=""radio2"">Unicode</label>"
+		Response.Write "&nbsp;<input type=""radio"" name=""charset"" id=""radio3"" value=""GB2312"" "&IIf(cat="GB2312","checked=""checked""","")&" />"
+		Response.Write "<label for=""radio3"">GB2312</label>"
+		Response.Write "</p>"
+
 		Response.Write "</form>" & vbCrlf
 		If FileManage_CodeMirror Then
     	Response.Write "<script>var editor = CodeMirror.fromTextArea(document.getElementById(""txaContent""), {mode: {"
@@ -645,7 +655,7 @@ Function FileManage_PostSiteFile(tpath,OpenFolderPath)
 	If IsEmpty(txaContent) Then txaContent=Null
 	If Not IsNull(tpath) Then
 		If Not IsNull(txaContent) Then
-				Call SaveToFile(tpath,txaContent,"utf-8",False)
+				Call SaveToFile(tpath,txaContent,Request.Form("charset"),False)
 			If Err.Number=0 Then
 				Call SetBlogHint(True,Empty,Empty)
 				FileManage_PostSiteFile=True
@@ -746,4 +756,25 @@ Sub FileManage_FormatPath(ByRef Path)
 
 End Sub
 
+Function FileManage_CheckFileCharset(path)
+	On Error Resume Next
+	Dim binHead
+	Dim objStream
+	Set objStream=Server.CreateObject("adodb.stream")
+	objStream.Type=1
+	objStream.mode=3
+	objStream.open
+	objStream.Position=0
+	objStream.LoadFromFile path
+	binHead=objstream.read(2)
+	If AscB(MidB(binHead,1,1))=&HEF And AscB(MidB(binHead,2,1))=&HBB Then
+		FileManage_CheckFileCharset="UTF-8"
+	ElseIf AscB(MidB(binHead,1,1))=&HFF And AscB(MidB(binHead,2,1))=&HFE Then
+		FileManage_CheckFileCharset="UNICODE"
+	Else
+		FileManage_CheckFileCharset="GB2312"
+	End If
+	objstream.close
+	set objstream=nothing
+End Function
 %>
