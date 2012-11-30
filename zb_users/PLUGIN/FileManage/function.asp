@@ -86,11 +86,24 @@ Function FileManage_ExportInformation(foldername,path)
 
 	Dim z,k,l,n
 	n=""
+	
 	z=LCase(foldername)
 	k=LCase(path)
-	l=lcase(blogpath)
+	If foldername="" Then
+		n=Split(k,"\")
+		z=LCase(n(Ubound(n)))
+		Redim Preserve n(Ubound(n)-1)
+		k=LCase(Join(n,"\"))
+		n=""
+	End If
+	l=LCase(BlogPath)
+	
 	l=IIf(Right(l,1)="\",Left(l,Len(l)-1),l)
 	k=IIf(Right(k,1)="\",Left(k,Len(k)-1),k)
+	
+
+	
+	
 
 	dim h
 	h=replace(lcase(ZC_DATABASE_PATH),"/","\")
@@ -110,7 +123,8 @@ Function FileManage_ExportInformation(foldername,path)
 			case "wap.asp" n="Wap"
 			case "robots.txt" n="Robots"
 			case "sitemap.xml" n="站点地图"
-			
+			case "view.asp" n="动态文章浏览"
+
 		end select
 	elseif k&"\"&z=l&"\"&lcase(ZC_UPLOAD_DIRECTORY) then
 		n="上传文件夹"
@@ -128,7 +142,6 @@ Function FileManage_ExportInformation(foldername,path)
 			case "defend" n="默认调用文件夹"
 			case "cmd.asp" n="命令执行跳转"
 			case "login.asp" n="登录"
-			case "view.asp" n="动态文章浏览"
 		end select
 	elseif k=l & "\zb_users" then
 		select case z
@@ -141,9 +154,7 @@ Function FileManage_ExportInformation(foldername,path)
 			case "theme" n="主题文件夹"
 			case "emotion" n="表情文件夹"
 			'case Replace(lcase(ZC_UPLOAD_DIRECTORY),"zb_users\") n="上传文件文件夹"
-			'case "c_custom.asp" n="用户配置文件"
 			case "c_option.asp" n="网站设置文件"
-			'case "c_option_wap.asp" n="Wap设置文件"
 		end select
 	elseif k=l &  "\zb_users\include" then
 		select case z
@@ -198,6 +209,7 @@ Function FileManage_ExportInformation(foldername,path)
 			case "admin_top.asp" n="后台头文件"
 			case "c_autosaverjs.asp" n="自动保存"
 			case "c_updateinfo.asp" n="得到最新消息"
+			case "c_statistic.asp" n="后台统计数据"
 			case "edit_catalog.asp" n="编辑分类页"
 			case "edit_comment.asp" n="编辑评论页"
 			case "edit_link.asp" n="链接管理页"
@@ -215,19 +227,21 @@ Function FileManage_ExportInformation(foldername,path)
 			case "asp" n="uEditor ASP后台"
 			case "dialogs" n="uEditor 对话框"
 			case "themes" n="uEditor 主题"
+			case "lang" n="uEditor 语言包"
 			case "third-party" n="第三方组件"
-			case "editor_all_min.js" n="uEditor"
+			case "editor_all_min.js" n="uEditor主文件（压缩）"
+			case "editor_all.js" n="uEditor主文件"
 			case "editor_config.asp" n="uEditor配置"
 		end select
 	elseif k=l & "\zb_system\admin\ueditor\asp" then
 		select case z
 			case "fileup.asp" n="文件上传"
-			case "getcontent.asp" n="得到内容"
 			case "getmovie.asp" n="视频搜索"
 			case "getremoteimage.asp" n="下载远程图片"
 			case "imagemanager.asp" n="图片管理"
-			case "picup.asp" n="图片上传"
-			case "up_inc.asp" n="风声无组件上传"
+			case "imageup.asp" n="图片上传"
+			case "aspincludefile.asp" n="上传需要函数"
+			case "scrawlup.asp" n="涂鸦上传"
 		end select
 	elseif k=l & "\zb_system\function" then
 		select case z
@@ -243,6 +257,7 @@ Function FileManage_ExportInformation(foldername,path)
 			case "c_system_wap.asp" n="Z-Blog Wap支持文件"
 			case "c_urlredirect.asp" n="Z-Blog 加密Url跳转页"
 			case "c_validcode.asp" n="Z-Blog验证码"
+			case "c_admin_js_add.asp","c_admin_js.asp" n="后台JS调用文件"
 		end select
 	elseif k=l & "\zb_system\wap" then
 		select case z
@@ -292,7 +307,9 @@ Function FileManage_ExportSiteFileList(path,OpenFolderPath)
 
 
 	response.write "<p>"&ZC_MSG240&":"&path&"</p>"
-		if lcase(path)=lcase(blogpath)&"\zb_system" then call response.write("<p><font color=""red"">注意！您正在使用的Z-Blog版本为"&ZC_BLOG_VERSION&"，修改系统文件请小心！</font></p>")
+		If Instr(lcase(path),lcase(blogpath)&"zb_system")>0  then 
+			response.write "<p><font color=""red"">注意！您正在使用的Z-Blog版本为"&ZC_BLOG_VERSION&"，修改系统文件请小心！</font></p>"
+		End If
 	response.write "<div id=""fileUpload"">"
 	FileManage_ExportSiteUpload(path)
 	set fold=f.getfolder(path)
@@ -314,9 +331,14 @@ Function FileManage_ExportSiteFileList(path,OpenFolderPath)
 	Response.Write "</th></tr>"
 	Response.write "<tr><td>文件名</td><td width=""17%"">修改时间</td><td width=""7%"">大小</td><td width=""24%"">注释</td><td>操作</td></tr>"
 	for each item in fold.subfolders
+		fpath=path&"/"&item.name
+		fpath=replace(replace(fpath,"/","\"),"\\","\")
 		jpath=replace(path,"\","\\")
 		Response.write "<tr height='14'><td><img width=""11"" height=""11""src='../../../zb_system/IMAGE/FILETYPE/folder.png' />&nbsp;<a href='main.asp?act=SiteFileMng&path="&Server.URLEncode(path&IIf(Right(path,1)="\","","\")&item.name)&"&OpenFolderPath='>"&item.name&"</a>"
-		Response.write"</td><td>"&FormatDateTime(item.datelastmodified,0)&"</td><td></td><td>"&FileManage_ExportInformation(item.name,path)&"</td><td width=""15%""></td></tr>"
+		Response.write"</td><td>"&FormatDateTime(item.datelastmodified,0)&"</td><td></td><td>"&FileManage_ExportInformation(item.name,path)&"</td><td width=""15%"" align=""center"">"
+		Response.Write "&nbsp;&nbsp;<a href=""main.asp?act=SiteFileRename&path="&Server.URLEncode(fpath)&"&OpenFolderPath="& Server.URLEncode(path) &""" onmousedown='var str=prompt(""请输入新文件名"");if(str!=null){this.href+=""&folder=true&newfilename=""+encodeURIComponent(str);this.click()}else{return false}' title=""[重命名]""><img src="""&ZC_BLOG_HOST&"/zb_system/image/admin/document-rename.png"" width=""16"" height=""16"" alt='重命名' title='重命名'/></a>&nbsp;"
+		Response.Write "&nbsp;&nbsp;<a href=""main.asp?act=SiteFileDel&folder=true&path="&Server.URLEncode(fpath)&"&OpenFolderPath="& Server.URLEncode(path) &""" onclick='if(window.confirm("""&ZC_MSG058&""")){return window.confirm(""删除文件夹危险性很大，您确定要继续么？"")}else{return false}' title=""["&ZC_MSG063&"]""><img src="""&ZC_BLOG_HOST&"/zb_system/image/admin/delete.png"" width=""16"" height=""16"" alt='删除' title='删除'/></a>"
+		Response.Write "</td></tr>"
 	next
 	for each item in fold.files
 '	fpath=replace(path&"/"&item.name,BlogPath,"")
@@ -421,7 +443,7 @@ End Function
 '*********************************************************
 ' 目的：    删除文件
 '*********************************************************
-Function FileManage_DeleteSiteFile(tpath)
+Function FileManage_DeleteSiteFile(tpath,isFolder)
 	For Each sAction_Plugin_FileManage_DeleteSiteFile_Begin in Action_Plugin_FileManage_DeleteSiteFile_Begin
 		If Not IsEmpty(sAction_Plugin_FileManage_DeleteSiteFile_Begin) Then Call Execute(sAction_Plugin_FileManage_DeleteSiteFile_Begin)
 	Next
@@ -430,8 +452,18 @@ Function FileManage_DeleteSiteFile(tpath)
 	Dim SuccessPath
 	FileManage_FormatPath tpath
 	SuccessPath="main.asp?act=SiteFileMng&path="&Server.URLEncode(Request.QueryString("OpenFolderPath"))
-	If FileManage_CheckFile(tpath)=True Then FileManage_ExportError "不能删除Global.asa和Global.asax和Z-Blog以外的文件夹内的文件",SuccessPath
-	FileManage_FSO.DeleteFile(tpath)
+	If isFolder Then
+		If FileManage_CheckFolder(tpath)=True Then FileManage_ExportError "不能删除Global.asa和Global.asax和Z-Blog以外的文件夹内的文件",SuccessPath
+		If FileManage_ExportInformation("",tpath)<>"" Then
+			Call FileManage_ExportError("该文件夹禁止删除！",SuccessPath)
+		Else
+			FileManage_FSO.DeleteFolder(tpath)
+		End If
+		
+	Else
+		If FileManage_CheckFile(tpath)=True Then FileManage_ExportError "不能删除Global.asa和Global.asax和Z-Blog以外的文件夹内的文件",SuccessPath
+		FileManage_FSO.DeleteFile(tpath)
+	End If
 	If Err.Number=0 Then
 		Call SetBlogHint(True,Empty,Empty)
 	Else
@@ -490,7 +522,7 @@ End Function
 '*********************************************************
 ' 目的：    重命名文件\文件夹
 '*********************************************************
-Function FileManage_RenameFile(tpath,newname)
+Function FileManage_RenameFile(tpath,newname,isFolder)
 	For Each sAction_Plugin_FileManage_RenameFile_Begin in Action_Plugin_FileManage_RenameFile_Begin
 		If Not IsEmpty(sAction_Plugin_FileManage_RenameFile_Begin) Then Call Execute(sAction_Plugin_FileManage_RenameFile_Begin)
 	Next
@@ -500,7 +532,15 @@ Function FileManage_RenameFile(tpath,newname)
 	FileManage_FormatPath tpath
 	SuccessPath="main.asp?act=SiteFileMng&path="&Server.URLEncode(Request.QueryString("OpenFolderPath"))
 	If FileManage_CheckFile(tpath)=True Then FileManage_ExportError "不能重命名Global.asa和Global.asax和Z-Blog以外的文件夹内的文件",SuccessPath
-	FileManage_FSO.GetFile(tpath).name=newname
+	If isFolder Then
+		If FileManage_ExportInformation("",tpath)<>"" Then
+			Call FileManage_ExportError("该文件夹禁止重命名！",SuccessPath)
+		Else
+			FileManage_FSO.GetFolder(tpath).name=newname
+		End If
+	Else
+		FileManage_FSO.GetFile(tpath).name=newname
+	End If
 	If Err.Number=0 Then
 		Call SetBlogHint(True,Empty,Empty)
 	Else
