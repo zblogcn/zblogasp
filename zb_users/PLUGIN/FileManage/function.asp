@@ -399,7 +399,10 @@ Function FileManage_ExportSiteFileEdit(tpath,OpenFolderPath)
 
 	Dim Del,txaContent
 	Dim ct
-	ct=TransferHTML(LoadFromFile(unEscape(tpath),"utf-8"),"[textarea]")
+	Dim cat
+	cat=FileManage_CheckFileCharset(tpath)
+
+	ct=TransferHTML(LoadFromFile(unEscape(tpath),cat),"[textarea]")
 
 	'dim chkg
 	'chkg=lcase(BlogPath & unEscape(tpath))
@@ -417,8 +420,7 @@ Function FileManage_ExportSiteFileEdit(tpath,OpenFolderPath)
 		Response.Write "<hr/>"
 		Response.Write "<p><input class=""button"" type=""submit"" value="""&ZC_MSG087&""" id=""btnPost""/>&nbsp;&nbsp;<input class=""button"" type=""button"" value=""返回""  onclick=""location.href='main.asp?act=SiteFileMng&path="&Server.URLEncode(OpenFolderPath)&"'""/>"
 		Response.Write "选择文件编码："
-		Dim cat
-		cat=FileManage_CheckFileCharset(tpath)
+
 		Response.Write "<input type=""radio"" name=""charset"" id=""radio"" value=""UTF-8"" "&IIf(cat="UTF-8","checked=""checked""","")&"/>"
 		Response.Write "<label for=""radio"">UTF-8</label>"
 		Response.Write "&nbsp;<input type=""radio"" name=""charset"" id=""radio2"" value=""Unicode"" "&IIf(cat="UNICODE","checked=""checked""","")&"/>"
