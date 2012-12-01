@@ -111,9 +111,6 @@ Else
 
 		If fso.FileExists(Server.MapPath(c)) Then
 			Response.Write LoadFromFile(BlogPath & c,"utf-8")
-			Response.End			
-		Else
-			Response.Status="404 Not Found"
 			Response.End
 		End If
 	End If
