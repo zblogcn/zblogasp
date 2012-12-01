@@ -44,6 +44,7 @@ BlogTitle = "WindsPhoto"
 <div id="divMain">
 	<div class="divHeader">WindsPhoto 相册帮助</div>
 		<div class="SubMenu">
+<script type="text/javascript">ActiveLeftMenu("aWindsPhoto")</script>
         <a class="m-a-left m-now" href="<%=ZC_BLOG_HOST%>zb_users/PLUGIN/windsphoto/admin_main.asp"><span>相册管理</span></a>
         <a class="m-a-left" href="<%=ZC_BLOG_HOST%>zb_users/PLUGIN/windsphoto/admin_addtype.asp"><span>新建相册</span></a>
         <a class="m-a-left" href="<%=ZC_BLOG_HOST%>zb_users/PLUGIN/windsphoto/admin_setting.asp"><span>系统设置</span></a>

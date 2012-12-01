@@ -37,6 +37,7 @@ BlogTitle = "管 理 相 册"
 <div id="divMain"><div id="ShowBlogHint"><%Call GetBlogHint()%></div>
 	<div class="divHeader">WindsPhoto 后台首页</div>
     <div class="SubMenu">
+<script type="text/javascript">ActiveLeftMenu("aWindsPhoto")</script>
   <a href="<%=ZC_BLOG_HOST%>zb_users/PLUGIN/windsphoto/admin_main.asp"><span class="m-left m-now">相册管理</span></a>
   <a href="<%=ZC_BLOG_HOST%>zb_users/PLUGIN/windsphoto/admin_addtype.asp"><span class="m-left">新建相册</span></a>
   <a href="<%=ZC_BLOG_HOST%>zb_users/PLUGIN/windsphoto/admin_setting.asp"><span class="m-left">系统设置</span></a>
