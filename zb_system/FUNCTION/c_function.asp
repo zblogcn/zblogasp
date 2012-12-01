@@ -1,4 +1,4 @@
-<%
+﻿<%
 '///////////////////////////////////////////////////////////////////////////////
 '//              Z-Blog
 '// 作    者:    朱煊(zx.asd)
@@ -1111,7 +1111,7 @@ End Function
 '*********************************************************
 Function LoadFromFile(strFullName,strCharset)
 
-	On Error Resume Next
+	'On Error Resume Next
 
 	Dim objStream
 

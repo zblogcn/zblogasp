@@ -1,4 +1,4 @@
-<%@ CODEPAGE=65001 %>
+﻿<%@ CODEPAGE=65001 %>
 <!-- #include file="../../../zb_users/c_option.asp" -->
 <!-- #include file="../../function/c_function.asp" -->
 <!-- #include file="../../function/c_system_lib.asp" -->
