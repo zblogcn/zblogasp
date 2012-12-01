@@ -21,8 +21,9 @@
 <!-- #include file="function.asp" -->
 
 <%
-Call System_Initialize()
-%><!-- #include file="data/conn.asp" --><%
+Call System_Initialize
+Call WindsPhoto_Initialize()
+%><%
 '检查非法链接
 'Call CheckReference("")
 
@@ -47,8 +48,8 @@ If action = "hot" then
 	If tt = "" Then tt = 0
 
 	Set rs = Server.CreateObject("ADODB.RecordSet")
-	sql = "select * from desktop where id="&id
-	rs.Open sql, Conn, 1, 3
+	sql = "select * FROM WindsPhoto_desktop where id="&id
+	rs.Open sql, objConn, 1, 3
 	If rs("hot") = "" Or IsNull(rs("hot")) = TRUE Then
 		rs("hot") = "0"
 	Else
@@ -66,8 +67,8 @@ If action = "hot" then
 elseif action = "del" Then
 
     Set rs = server.CreateObject("adodb.recordset")
-    sql = "select * from desktop where id="&id
-    rs.Open sql, conn, 1, 3
+    sql = "select * FROM WindsPhoto_desktop where id="&id
+    rs.Open sql, objConn, 1, 3
 
     fn = rs("url")
     fn1 = rs("surl")
@@ -85,7 +86,7 @@ elseif action = "del" Then
         End If
 
     End If
-    conn.Execute "delete from desktop where id="&id
+    objconn.Execute "delete FROM WindsPhoto_desktop where id="&id
 
 	Call SetBlogHint_Custom("√ 删除照片成功.")
 
@@ -94,8 +95,8 @@ elseif action = "del" Then
 Else
 
     Set rs = server.CreateObject("adodb.recordset")
-    sql = "select * from desktop where id="&Request.QueryString("id")
-    rs.Open sql, conn, 1, 3
+    sql = "select * FROM WindsPhoto_desktop where id="&Request.QueryString("id")
+    rs.Open sql, objConn, 1, 3
     rs("name") = Request.Form("name")
     rs("url") = Request.Form("url")
     rs("surl") = Request.Form("surl")

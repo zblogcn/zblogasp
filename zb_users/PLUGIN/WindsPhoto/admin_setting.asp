@@ -20,7 +20,6 @@
 <!-- #include file="../p_config.asp" -->
 <%
 Call System_Initialize()
-
 Call CheckReference("")
 
 If BlogUser.Level>2 Then Call ShowError(6)
@@ -52,9 +51,6 @@ BlogTitle = "WindsPhoto 相册设置"
 %>
 <%
 
-Dim tmpSng
-
-tmpSng = LoadFromFile(BlogPath & "/plugin/WindsPhoto/include.asp", "utf-8")
 
 Dim strWP_SCRIPT_TYPE
 strWP_SCRIPT_TYPE = WP_SCRIPT_TYPE

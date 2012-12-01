@@ -18,8 +18,8 @@
 <!-- #include file="../../../zb_system/function/c_system_plugin.asp" -->
 <!-- #include file="../p_config.asp" -->
 
-<%
-Call System_Initialize()%><!-- #include file="data/conn.asp" --><%
+<%Call System_Initialize
+Call WindsPhoto_Initialize()%><%
 
 '检查非法链接
 Call CheckReference("")
@@ -64,9 +64,9 @@ If IsNumeric(Request.QueryString("typeid")) = FALSE Then
 Else
     typeid = CInt(Request.QueryString("typeid"))
 End If
-sql1 = "SELECT * FROM zhuanti where id="&typeid
+sql1 = "SELECT * FROM WindsPhoto_zhuanti where id="&typeid
 Set rs1 = Server.CreateObject("ADODB.Recordset")
-rs1.Open sql1, Conn, 1, 1
+rs1.Open sql1, objConn, 1, 1
 If rs1.EOF And rs1.bof Then
     Call SetBlogHint_Custom("!! 还没有该相册.")
     Response.Redirect"admin_main.asp"
@@ -118,9 +118,9 @@ location.href=document.category.list.value;
 <select name="list" onChange="jumpto()">
 <option>---选择相册分类---</option>
 <%
-sql2 = "SELECT * FROM zhuanti order by ordered,id asc"
+sql2 = "SELECT * FROM WindsPhoto_zhuanti order by ordered,id asc"
 Set rs2 = Server.CreateObject("ADODB.Recordset")
-rs2.Open sql2, Conn, 1, 1
+rs2.Open sql2, objConn, 1, 1
 If rs2.EOF And rs2.bof Then
 	Response.Write"<option>还没有相册</option>"
 Else
@@ -148,13 +148,13 @@ Else
 End If
 
 If WP_ORDER_BY="0" then
-    sql = "SELECT * FROM desktop where zhuanti="&typeid&" ORDER BY id asc"
+    sql = "SELECT * FROM WindsPhoto_desktop where zhuanti="&typeid&" ORDER BY id asc"
 Else
-    sql = "SELECT * FROM desktop where zhuanti="&typeid&" ORDER BY id desc"
+    sql = "SELECT * FROM WindsPhoto_desktop where zhuanti="&typeid&" ORDER BY id desc"
 End If
 
 Set rs = Server.CreateObject("ADODB.Recordset")
-rs.Open sql, conn, 1, 1
+rs.Open sql, objConn, 1, 1
 rs.pagesize = 24
 ipagecount = rs.pagecount
 If ipagecurrent > ipagecount Then ipagecurrent = ipagecount

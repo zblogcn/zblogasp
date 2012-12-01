@@ -1,6 +1,6 @@
 ﻿<%
 '注册插件
-Dim WP_DATA_PATH,WP_ALBUM_NAME,WP_ALBUM_INTRO,WP_SUB_DOMAIN,WP_SCRIPT_TYPE,WP_ORDER_BY,WP_SMALL_WIDTH,WP_SMALL_HEIGHT,WP_LIST_WIDTH,WP_LIST_HEIGHT,WP_UPLOAD_FILESIZE,WP_UPLOAD_DIR,WP_UPLOAD_DIRBY,WP_UPLOAD_RENAME,WP_WATERMARK_WIDTH_POSITION,WP_WATERMARK_HEIGHT_POSITION,WP_JPEG_FONTCOLOR,WP_JPEG_FONTBOLD,WP_JPEG_FONTSIZE,WP_JPEG_FONTQUALITY,WP_WATERMARK_AUTO,WP_WATERMARK_TYPE,WP_WATERMARK_TEXT,WP_WATERMARK_LOGO,WP_WATERMARK_ALPHA,WP_INDEX_PAGERCOUNT,WP_SMALL_PAGERCOUNT,WP_LIST_PAGERCOUNT,WP_BLOGPHOTO_ID,WP_IF_ASPJPEG,WP_HIDE_DIVFILESND
+Dim WP_ALBUM_NAME,WP_ALBUM_INTRO,WP_SUB_DOMAIN,WP_SCRIPT_TYPE,WP_ORDER_BY,WP_SMALL_WIDTH,WP_SMALL_HEIGHT,WP_LIST_WIDTH,WP_LIST_HEIGHT,WP_UPLOAD_FILESIZE,WP_UPLOAD_DIR,WP_UPLOAD_DIRBY,WP_UPLOAD_RENAME,WP_WATERMARK_WIDTH_POSITION,WP_WATERMARK_HEIGHT_POSITION,WP_JPEG_FONTCOLOR,WP_JPEG_FONTBOLD,WP_JPEG_FONTSIZE,WP_JPEG_FONTQUALITY,WP_WATERMARK_AUTO,WP_WATERMARK_TYPE,WP_WATERMARK_TEXT,WP_WATERMARK_LOGO,WP_WATERMARK_ALPHA,WP_INDEX_PAGERCOUNT,WP_SMALL_PAGERCOUNT,WP_LIST_PAGERCOUNT,WP_BLOGPHOTO_ID,WP_IF_ASPJPEG,WP_HIDE_DIVFILESND
 
 Call Registerplugin("WindsPhoto", "Activeplugin_WindsPhoto")
 Dim WP_Config
@@ -8,9 +8,8 @@ Function WindsPhoto_Initialize()
 	Set WP_Config=New TConfig
 	WP_Config.Load "WindsPhoto"
 	If WP_Config.Exists("WP_VER")=False Then
-		WP_Config.Write "WP_VER","2.7.4":WP_Config.Write "WP_DATA_PATH","data/windsphoto.mdb":WP_Config.Write "WP_ALBUM_NAME","我的WindsPhoto":WP_Config.Write "WP_ALBUM_INTRO","<p>WindsPhoto是基于asp+access的Z-Blog图片相册管理插件，功能简洁实用。</p>":WP_Config.Write "WP_SUB_DOMAIN","":WP_Config.Write "WP_SCRIPT_TYPE","1":WP_Config.Write "WP_ORDER_BY","1":WP_Config.Write "WP_SMALL_WIDTH",144:WP_Config.Write "WP_SMALL_HEIGHT",144:WP_Config.Write "WP_LIST_WIDTH",600:WP_Config.Write "WP_LIST_HEIGHT",600:WP_Config.Write "WP_UPLOAD_FILESIZE",2048000:WP_Config.Write "WP_UPLOAD_DIR","photofile":WP_Config.Write "WP_UPLOAD_DIRBY","1":WP_Config.Write "WP_UPLOAD_RENAME","1":WP_Config.Write "WP_WATERMARK_WIDTH_POSITION","right":WP_Config.Write "WP_WATERMARK_HEIGHT_POSITION","bottom":WP_Config.Write "WP_JPEG_FONTCOLOR","#000":WP_Config.Write "WP_JPEG_FONTBOLD","true":WP_Config.Write "WP_JPEG_FONTSIZE","14":WP_Config.Write "WP_JPEG_FONTQUALITY","4":WP_Config.Write "WP_WATERMARK_AUTO","0":WP_Config.Write "WP_WATERMARK_TYPE","1":WP_Config.Write "WP_WATERMARK_TEXT","WindsPhoto":WP_Config.Write "WP_WATERMARK_LOGO","images/nopic.jpg":WP_Config.Write "WP_WATERMARK_ALPHA","0.7":WP_Config.Write "WP_INDEX_PAGERCOUNT",12:WP_Config.Write "WP_SMALL_PAGERCOUNT",18:WP_Config.Write "WP_LIST_PAGERCOUNT",8:WP_Config.Write "WP_BLOGPHOTO_ID",1:WP_Config.Write "WP_IF_ASPJPEG","1":WP_Config.Write "WP_HIDE_DIVFILESND","1":WP_Config.Save
+		WP_Config.Write "WP_VER","2.7.4":WP_Config.Write "WP_ALBUM_NAME","我的WindsPhoto":WP_Config.Write "WP_ALBUM_INTRO","<p>WindsPhoto是基于asp+access的Z-Blog图片相册管理插件，功能简洁实用。</p>":WP_Config.Write "WP_SUB_DOMAIN","":WP_Config.Write "WP_SCRIPT_TYPE","1":WP_Config.Write "WP_ORDER_BY","1":WP_Config.Write "WP_SMALL_WIDTH",144:WP_Config.Write "WP_SMALL_HEIGHT",144:WP_Config.Write "WP_LIST_WIDTH",600:WP_Config.Write "WP_LIST_HEIGHT",600:WP_Config.Write "WP_UPLOAD_FILESIZE",2048000:WP_Config.Write "WP_UPLOAD_DIR","photofile":WP_Config.Write "WP_UPLOAD_DIRBY","1":WP_Config.Write "WP_UPLOAD_RENAME","1":WP_Config.Write "WP_WATERMARK_WIDTH_POSITION","right":WP_Config.Write "WP_WATERMARK_HEIGHT_POSITION","bottom":WP_Config.Write "WP_JPEG_FONTCOLOR","#000":WP_Config.Write "WP_JPEG_FONTBOLD","true":WP_Config.Write "WP_JPEG_FONTSIZE","14":WP_Config.Write "WP_JPEG_FONTQUALITY","4":WP_Config.Write "WP_WATERMARK_AUTO","0":WP_Config.Write "WP_WATERMARK_TYPE","1":WP_Config.Write "WP_WATERMARK_TEXT","WindsPhoto":WP_Config.Write "WP_WATERMARK_LOGO","images/nopic.jpg":WP_Config.Write "WP_WATERMARK_ALPHA","0.7":WP_Config.Write "WP_INDEX_PAGERCOUNT",12:WP_Config.Write "WP_SMALL_PAGERCOUNT",18:WP_Config.Write "WP_LIST_PAGERCOUNT",8:WP_Config.Write "WP_BLOGPHOTO_ID",1:WP_Config.Write "WP_IF_ASPJPEG","1":WP_Config.Write "WP_HIDE_DIVFILESND","1":WP_Config.Save
 	End If
-	WP_DATA_PATH = WP_Config.Read("WP_DATA_PATH")
 	WP_ALBUM_NAME = WP_Config.Read("WP_ALBUM_NAME")
 	WP_ALBUM_INTRO = WP_Config.Read("WP_ALBUM_INTRO")
 	WP_SUB_DOMAIN = WP_Config.Read("WP_SUB_DOMAIN")
@@ -45,12 +44,13 @@ End Function
 
 '安装插件
 Function Installplugin_WindsPhoto()
-    On Error Resume Next
+    'On Error Resume Next
     Call WindsPhoto_Addto_Navbar()
     Call WindsPhoto_Copy_Template()
     Call WindsPhoto_Database_Rename()
     Call SetBlogHint_Custom("? 提示:[WindsPhoto]已启用,现在进入初始化系统设置.升级请手动修改include.asp数据库参数.2.7以下版本请<a href=""update.asp"">升级数据库结构</a>")
     Response.Redirect BlogHost &"zb_users/plugin/WindsPhoto/admin_setting.asp"
+	
     Err.Clear
 End Function
 
@@ -89,21 +89,60 @@ End Function
 
 '首次安装数据库改名....
 Function WindsPhoto_Database_Rename()
-	Call WindsPhoto_Initialize
-    Dim fso, f, s, pathnew, ranNum
-    Randomize
-    ranNum = Int((99 -10 + 1) * Rnd + 99)
-    pathnew = Year(Now)&Month(Now)&Day(Now)&Hour(Now)&Minute(Now)&Second(Now)&ranNum& ".mdb"
-    Set fso = CreateObject("Scripting.FileSystemObject")
-    If fso.FileExists(BlogPath & "/zb_users/plugin/windsphoto/data/windsphoto.mdb") Then
-        Set f = fso.GetFile(BlogPath & "/zb_users/plugin/windsphoto/"& WP_DATA_PATH)
-        f.Name = pathnew
-        Set f = Nothing
-        Dim strContent, strWP_DATA_PATH
-        strWP_DATA_PATH = "data/" & pathnew
-        WP_Config.Write "WP_DATA_PATH", strWP_DATA_PATH
-		WP_Config.Save
-    End If
+	On Error Resume Next
+	objConn.Execute "SELECT TOP 1 id FROM WINDSPHOTO_ZHUANTI"
+	If Err.Number<>0 Then
+		If ZC_MSSQL_ENABLE Then
+			objConn.BeginTrans
+			objConn.Execute "CREATE TABLE [WindsPhoto_zhuanti] ("&_
+							"[id] int identity(1,1) not null primary key,"&_
+							"[data] datetime,"&_
+							"[time1] datetime,"&_
+							"[js] nvarchar(max),"&_
+							"[hot] int,"&_
+							"[pass] nvarchar(30),"&_
+							"[view] smallint,"&_
+							"[name] nvarchar(50),"&_
+							"[ordered] int)"
+			objConn.Execute "CREATE TABLE [WindsPhoto_desktop] ("&_
+							"[ID] int identity(1,1) not null primary key,"&_
+							"[name] nvarchar(50),"&_
+							"[zhuanti] smallint,"&_
+							"[jj] nvarchar(max),"&_
+							"[url] nvarchar(max),"&_
+							"[surl] nvarchar(max),"&_
+							"[hot] smallint,"&_
+							"[itime] datetime,"&_
+							"[viewnums] int"&_
+							")"
+			objConn.CommitTrans
+		Else
+			objConn.BeginTrans
+			objConn.Execute "CREATE TABLE 'WindsPhoto_desktop' ("&_
+							"'ID' AutoIncrement primary key,"&_
+							"'name' VarChar(50),"&_
+							"'zhuanti' Short,"&_
+							"'jj' LongText,"&_
+							"'url' LongText,"&_
+							"'surl' LongText,"&_
+							"'hot' Short,"&_
+							"'itime' DateTime,"&_
+							"'viewnums' Long"&_
+							")"
+			objConn.Execute "CREATE TABLE 'WindsPhoto_zhuanti' ("&_
+							"'id' AutoIncrement primary key,"&_
+							"'data' DateTime,"&_
+							"'time1' DateTime,"&_
+							"'js' LongText,"&_
+							"'hot' Long,"&_
+							"'pass' VarChar(30),"&_
+							"'view' Short,"&_
+							"'name' VarChar(50),"&_
+							"'ordered' Long"&_
+							")"
+			objConn.CommitTrans
+		End If
+	End If
 End Function
 
 '添加到导航栏和后台菜单
@@ -131,8 +170,8 @@ Function WindsPhoto_Copy_Template()
     strContent = Replace(strContent, "<#ZC_MSG050#>", "相册分类")
     strContent = Replace(strContent, "<#CACHE_INCLUDE_CALENDAR#>", "<ul><#CACHE_INCLUDE_WINDSPHOTO_SORT#></ul>")
     strContent = Replace(strContent, "id=""divCalendar""", "id=""divCatalog""")
-    Call SaveToFile(BlogPath & "/zb_users/Themes/" & ZC_BLOG_THEME & "/Template/wp_index.html", strContent, "utf-8", TRUE)
-    Call SaveToFile(BlogPath & "/zb_users/Themes/" & ZC_BLOG_THEME & "/Template/wp_album.html", strContent, "utf-8", TRUE)
+    Call SaveToFile(BlogPath & "/zb_users/Theme/" & ZC_BLOG_THEME & "/Template/wp_index.html", strContent, "utf-8", TRUE)
+    Call SaveToFile(BlogPath & "/zb_users/Theme/" & ZC_BLOG_THEME & "/Template/wp_album.html", strContent, "utf-8", TRUE)
 End Function
 	
 Function WindsPhoto_GetImgFolder()
@@ -176,12 +215,17 @@ Function WindsPhoto_uEditorUpload()
 			Path=Replace(BlogPath & FilePath & upload.form("edtFileLoad_Name"),"\","/")
 			Dim s
 			FileName=BlogHost & strUPLOADDIR &"\" & upload.form("edtFileLoad_Name")
+			Err.Clear
+			Dim Jpeg
+			Set Jpeg = Server.CreateObject("Persits.Jpeg")
+			Dim haveJpeg
+			If Err.Number=0 Then haveJpeg=True
 			If upload.Save("edtFileLoad",0)=True Then
 				Filename=FilePath & upload.form(formname)
 				FileNamet=upload.form(formname)
-				If WP_IF_ASPJPEG="1" Then
-					Dim Jpeg
-					Set Jpeg = Server.CreateObject("Persits.Jpeg")
+				If WP_IF_ASPJPEG="1" And haveJpeg Then
+					
+					
 					'如果aspjpeg版本大于1.9，启用保护Metadata
 					If Jpeg.Version>= "1.9" then Jpeg.PreserveMetadata = True
 					Jpeg.Open(FileName)
@@ -298,15 +342,10 @@ Function WindsPhoto_uEditorUpload()
 				Else
 					name = Replace(File.FileName, FileExt, "")
 				End If
-				dim db,conn,myconn
-				db=BlogPath & "\zb_users\plugin\windsphoto\" & WP_DATA_PATH
 				
-				Set Conn = Server.CreateObject("ADODB.Connection")
-				MyConn="Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & db
-				Conn.Open MyConn
 				'写入数据库
-				strSQL = "insert into desktop ([name],[itime],zhuanti,jj,url,surl,hot) values ('"&name&"','"&now&"',"&zhuanti&",'"&photointro&"','"&photourlb&"','"&photourls&"','0')"
-				conn.Execute strSQL
+				strSQL = "insert into WindsPhoto_desktop ([name],[itime],zhuanti,jj,url,surl,hot) values ('"&name&"','"&now&"',"&zhuanti&",'"&photointro&"','"&photourlb&"','"&photourls&"','0')"
+				objConn.Execute strSQL
 				iCount = iCount + 1
 		
 			End If
@@ -337,9 +376,7 @@ Function WindsPhoto_uEditorAlbumList()
 			Dim strResponse
 			db=BlogPath & "\zb_users\plugin\windsphoto\" & WP_DATA_PATH
 				
-			Set Conn = Server.CreateObject("ADODB.Connection")
-			Conn.Open "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & db
-			Set objRs=Conn.Execute("SELECT TOP 100 url FROM desktop WHERE zhuanti="&WP_BLOGPHOTO_ID)
+			Set objRs=objConn.Execute("SELECT TOP 100 url FROM WindsPhoto_desktop WHERE zhuanti="&WP_BLOGPHOTO_ID)
 
 			If Not(objRs.Eof) Then
 				For i=1 to objRS.PageSize

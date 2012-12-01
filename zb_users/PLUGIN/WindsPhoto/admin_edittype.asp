@@ -19,8 +19,9 @@
 <!-- #include file="../p_config.asp" -->
 
 <%
-Call System_Initialize()
-%><!-- #include file="data/conn.asp" --><%
+Call System_Initialize
+Call WindsPhoto_Initialize()
+
 '检查非法链接
 Call CheckReference("")
 
@@ -52,9 +53,9 @@ BlogTitle = "管 理 相 册"
         typeid = CInt(Request.QueryString("typeid"))
     End If
 
-    sql = "SELECT * FROM zhuanti where id="&typeid
+    sql = "SELECT * FROM WindsPhoto_zhuanti where id="&typeid
     Set rs = Server.CreateObject("ADODB.Recordset")
-    rs.Open sql, Conn, 1, 1
+    rs.Open sql, objConn, 1, 1
     If rs.EOF And rs.bof Then
         Call SetBlogHint_Custom("!! 还没有该相册.")
         Response.Redirect"admin_main.asp"

@@ -22,7 +22,8 @@
 
 <%
 
-Call System_Initialize()
+Call System_Initialize
+Call WindsPhoto_Initialize()
 
 '检查非法链接
 Call CheckReference("")

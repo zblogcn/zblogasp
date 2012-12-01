@@ -19,9 +19,9 @@
 <!-- #include file="../p_config.asp" -->
 
 <%
-Call System_Initialize()
+Call System_Initialize
+Call WindsPhoto_Initialize()
 %>
-<!-- #include file="data/conn.asp" -->
 <%
 '检查非法链接
 Call CheckReference("")

@@ -21,7 +21,7 @@ End Function
 
 Function GetImage(ByVal URL)
     Dim oXmlHttp
-    Set oXmlHttp = Server.CreateObject("Msxml2.ServerXMLHTTP")
+    Set oXmlHttp = Server.CreateObject("WinHttp.WinhttpRequest.5.1")
 
     If Err.Number <> 0 Then
         Response.Write("XMLHTTP Object not installed on this server, please go to Microsoft website download and install it.")
@@ -30,7 +30,7 @@ Function GetImage(ByVal URL)
 
     oXmlHttp.Open "GET", URL, FALSE
     oXmlHttp.setRequestHeader "Referer", URL
-    oXmlHttp.setRequestHeader "User-Agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; SV1; .NET CLR 1.1.4322; .NET CLR 2.0.50727)"
+    oXmlHttp.setRequestHeader "User-Agent", Request.ServerVariables("HTTP_USER_AGENT")
     oXmlHttp.Send()
 
     If oXmlHttp.readyState <> 4 Then
