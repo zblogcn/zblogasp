@@ -99,7 +99,7 @@ Set objRS=objConn.Execute("SELECT [log_ID] FROM [blog_Article] WHERE [log_Url]='
 If (Not objRS.bof) And (Not objRS.eof) Then
 	c=objRS("log_ID")
 Else
-Response.Write c
+
 	If ZC_POST_STATIC_MODE="REWRITE" Then
 
 		Dim fso, TxtFile
@@ -129,12 +129,12 @@ Response.Write c
 
 	End If
 End If
-Response.Write "111"
+
 If TryToNumeric(c)=0 Then
 	Response.Status="404 Not Found"
 	Response.End
 End If
-Response.Write "222"
+
 If Article.LoadInfoByID(c) Then
 
 	If Article.Level=1 Then Call ShowError(63)
