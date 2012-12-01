@@ -22,8 +22,8 @@
 
 <!-- #include file="function.asp" -->
 
-<%Call System_Initialize%><!-- #include file="data/conn.asp" --><%
-
+<%Call System_Initialize%><%
+Call WindsPhoto_Initialize
 LoadGlobeCache
 
 Dim objArticle

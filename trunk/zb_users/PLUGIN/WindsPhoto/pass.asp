@@ -18,7 +18,9 @@
 <!-- #include file="../../../zb_system/function/c_system_event.asp" -->
 <!-- #include file="../../../zb_system/function/c_system_plugin.asp" -->
 <!-- #include file="../p_config.asp" -->
-<%Call System_Initialize%><!-- #include file="data/conn.asp" -->
+<%Call System_Initialize
+Call WindsPhoto_Initialize
+%>
 
 <%
 pa = Request.Form("pase")
@@ -33,9 +35,9 @@ Else
     typeid = CInt(Request.QueryString("typeid"))
 End If
 Set rs = Server.CreateObject("ADODB.RecordSet")
-sql = "select * from zhuanti where id="&typeid
+sql = "select * from WindsPhoto_zhuanti where id="&typeid
 Set rs = Server.CreateObject("ADODB.Recordset")
-rs.Open sql, Conn, 1, 3
+rs.Open sql, objConn, 1, 3
 If Rs("pass") = "" Or IsNull(Rs("pass")) = TRUE Then
     Response.redirect "album.asp?typeid="&typeid
     Response.End

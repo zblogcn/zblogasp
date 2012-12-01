@@ -19,7 +19,9 @@
 <!-- #include file="../p_config.asp" -->
 
 <%
-Call System_Initialize()%><!-- #include file="data/conn.asp" --><%
+Call System_Initialize
+Call WindsPhoto_Initialize()%>
+<%
 
 '检查非法链接
 Call CheckReference("")
@@ -49,9 +51,9 @@ BlogTitle = "管 理 相 册"
     typen = Request("typeid")
     If Request.QueryString("action") = "edit" Then
         id = Request.QueryString("id")
-        sql = "SELECT * FROM desktop where id="&id
+        sql = "SELECT * FROM WindsPhoto_desktop where id="&id
         Set rs = Server.CreateObject("ADODB.Recordset")
-        rs.Open sql, Conn, 1, 1
+        rs.Open sql, objConn, 1, 1
         Name = rs("name")
         url = rs("url")
         surl = rs("surl")
@@ -77,9 +79,9 @@ BlogTitle = "管 理 相 册"
     <p>相册:
     <select name="zhuanti">
     <%
-    sql = "SELECT * FROM zhuanti order by ordered,id asc"
+    sql = "SELECT * FROM WindsPhoto_zhuanti order by ordered,id asc"
     Set rs1 = Server.CreateObject("ADODB.Recordset")
-    rs1.Open sql, Conn, 1, 1
+    rs1.Open sql, objConn, 1, 1
     If rs1.EOF And rs1.bof Then
         Response.Write"<option>还没有相册</option>"
     Else

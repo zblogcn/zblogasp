@@ -20,8 +20,9 @@
 <!-- #include file="../p_config.asp" -->
 
 <%
-Call System_Initialize()
-%><!-- #include file="data/conn.asp" --><%
+Call System_Initialize
+Call WindsPhoto_Initialize()
+%><%
 '检查非法链接
 Call CheckReference("")
 
@@ -56,15 +57,15 @@ BlogTitle = "管 理 相 册"
         ipagecurrent = CInt(request.querystring("page"))
     End If
     Set rso = Server.CreateObject("ADODB.RecordSet")
-    sql = "select * from zhuanti order by ordered,id asc"
-    sql2 = "select count(*) as C from desktop"
-    rso.Open sql2, Conn, 3, 3
+    sql = "select * FROM WindsPhoto_zhuanti order by ordered,id asc"
+    sql2 = "select count(*) as C FROM WindsPhoto_desktop"
+    rso.Open sql2, objConn, 3, 3
     sm = rso("c")
     rso.Close
     Set rso = Nothing
     Set rs = Server.CreateObject("ADODB.Recordset")
     rs.pagesize = 18
-    rs.Open sql, conn, 1, 1
+    rs.Open sql, objConn, 1, 1
     ipagecount = rs.pagecount
     If ipagecurrent > ipagecount Then ipagecurrent = ipagecount
     If ipagecurrent < 1 Then ipagecurrent = 1
@@ -81,9 +82,9 @@ BlogTitle = "管 理 相 册"
             For i = 1 To 3
 
                 If Not rs.EOF Then
-                    sqlp = "select top 1 * from desktop where zhuanti="&rs("id")&" and hot<>0 order by id asc"
+                    sqlp = "select top 1 * FROM WindsPhoto_desktop where zhuanti="&rs("id")&" and hot<>0 order by id asc"
                     Set rsp = Server.CreateObject("ADODB.RecordSet")
-                    rsp.Open sqlp, Conn, 1, 1
+                    rsp.Open sqlp, objConn, 1, 1
                     If rsp.EOF Or rsp.bof Then
                         surl = "images/notop.gif"
                     Else
@@ -93,15 +94,15 @@ BlogTitle = "管 理 相 册"
                     rsp.Close
                     Set rsp = Nothing
                     Set rso = Server.CreateObject("ADODB.RecordSet")
-                    sql = "select count(*) as C from desktop where zhuanti="&rs("id")&""
-                    rso.Open sql, Conn, 3, 3
+                    sql = "select count(*) as C FROM WindsPhoto_desktop where zhuanti="&rs("id")&""
+                    rso.Open sql, objConn, 3, 3
                     sm = rso("c")
                     rso.Close
                     Set rso = Nothing
                     Dim sqlp
                     Set rsp = Server.CreateObject("ADODB.RecordSet")
-                    sqlp = "select pass from zhuanti where id="&rs("id")&""
-                    rsp.Open sqlp, Conn, 1, 1
+                    sqlp = "select pass FROM WindsPhoto_zhuanti where id="&rs("id")&""
+                    rsp.Open sqlp, objConn, 1, 1
                     p = rsp("pass")
                     If p<>"" Then
                         surl = "images/nopass.gif"

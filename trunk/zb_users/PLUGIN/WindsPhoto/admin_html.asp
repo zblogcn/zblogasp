@@ -23,7 +23,8 @@
 
 <%
 Call System_Initialize
-%><!-- #include file="data/conn.asp" --><%
+Call WindsPhoto_Initialize
+%><%
 '检查权限
 If BlogUser.Level>2 Then Call ShowError(6)
 If CheckpluginState("windsphoto") = FALSE Then Call ShowError(48)

@@ -18,7 +18,6 @@
 <!-- #include file="../../../zb_system/function/c_system_event.asp" -->
 <!-- #include file="../../../zb_system/function/c_system_plugin.asp" -->
 <!-- #include file="../p_config.asp" --><%Call System_Initialize%>
-<!--#include file="data/conn.asp" -->
 
 <%
 Dim sSQL, rs, sCrLf, sXmlClear, sRssHead, sRssEnd
@@ -45,13 +44,13 @@ Response.Write sRssHead
 
 Set rs = server.CreateObject("adodb.recordset")
 If Request.QueryString("id") = "" or IsNumeric(Request.QueryString("id")) = FALSE Then
-    sql = "select top 20 * from desktop order by id desc"
+    sql = "select top 20 * from WindsPhoto_desktop order by id desc"
 Else
     id = Request.QueryString("id")
-    sql = "select top 20 * from desktop where zhuanti="&id&" order by id desc"    
+    sql = "select top 20 * from WindsPhoto_desktop where zhuanti="&id&" order by id desc"    
 End If
 
-rs.Open sql, conn, 1, 1
+rs.Open sql, objconn, 1, 1
 Do While Not rs.EOF
     surl = rs("surl")
     url = rs("url")
@@ -66,8 +65,8 @@ Do While Not rs.EOF
     If InStr(surl, "photo.163.com") Or InStr(surl, "photo.sina.com") Or InStr(surl, "126.net") Or InStr(surl, "photos.baidu.com") Then surl = WP_SUB_DOMAIN &"stealink.asp?" & surl End If
     
     Set rsp = Server.CreateObject("ADODB.RecordSet")
-    sqlp = "select pass from zhuanti where id="&typeid&""
-    rsp.Open sqlp, Conn, 1, 1
+    sqlp = "select pass from WindsPhoto_zhuanti where id="&typeid&""
+    rsp.Open sqlp, objConn, 1, 1
     p = rsp("pass")
     If p<>"" Then
         name = name &"[已加密]"

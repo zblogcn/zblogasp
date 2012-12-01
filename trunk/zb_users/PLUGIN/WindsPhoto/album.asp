@@ -20,7 +20,8 @@
 <!-- #include file="../../../zb_system/function/c_system_plugin.asp" -->
 <!-- #include file="../../plugin/p_config.asp" -->
 <!-- #include file="function.asp" -->
-<%Call System_Initialize%><!-- #include file="data/conn.asp" --><%
+<%Call System_Initialize
+Call WindsPhoto_Initialize%><%
 
 Dim TypeName, hot, data, data1, js, p
 If IsNumeric(Request.QueryString("typeid")) = FALSE Then
@@ -36,7 +37,7 @@ Else
     End If
 End If
 
-Set temprs = Conn.Execute("select name,hot,data,time1,js,pass,view from zhuanti where id="&typeid)
+Set temprs = objConn.Execute("select name,hot,data,time1,js,pass,[view] FROM WindsPhoto_zhuanti where id="&typeid)
 If temprs.EOF Or temprs.bof Then
     response.Write "<script>alert('对不起,该相册不存在');history.back();</script>"
     response.End
@@ -54,9 +55,9 @@ p = temprs(5)
 Set temprs = Nothing
 
 Set rs = Server.CreateObject("ADODB.RecordSet")
-sql = "select * from zhuanti where id="&typeid
+sql = "select * FROM WindsPhoto_zhuanti where id="&typeid
 Set rs = Server.CreateObject("ADODB.Recordset")
-rs.Open sql, Conn, 1, 3
+rs.Open sql, objConn, 1, 3
 ps = Rs("pass")
 If Rs("hot") = "" Or IsNull(Rs("hot")) = TRUE Then
     Rs("hot") = "1"
@@ -176,9 +177,9 @@ Function Gallery_Style
 End Function
 
 Function GetType()
-    sqlo2 = "select id from desktop where zhuanti="&typeid&" order by id asc"
+    sqlo2 = "select id FROM WindsPhoto_desktop where zhuanti="&typeid&" order by id asc"
     Set rso2 = Server.CreateObject("ADODB.RecordSet")
-    rso2.Open sqlo2, Conn, 1, 1
+    rso2.Open sqlo2, objConn, 1, 1
     If rso2.EOF Or rso2.bof Then
         sm = 0
     Else
@@ -200,9 +201,9 @@ Function GetPhoto()
         End If
     End If
     '取得相册信息
-    sqlo = "select id from desktop where zhuanti="&typeid&" order by id asc"
+    sqlo = "select id FROM WindsPhoto_desktop where zhuanti="&typeid&" order by id asc"
     Set rso = Server.CreateObject("ADODB.RecordSet")
-    rso.Open sqlo, Conn, 1, 1
+    rso.Open sqlo, objConn, 1, 1
     If rso.EOF Or rso.bof Then
         sm = 0
     Else
@@ -239,12 +240,12 @@ Function GetPhoto()
     If mo<>1 Then
         GetPhoto = GetPhoto&"<table width='100%' border='0' cellspacing='0' cellpadding='5'>"& VBCRLF
         If WP_ORDER_BY = "0" Then
-            sql = "SELECT surl,url,name,jj,id FROM desktop where zhuanti="&typeid&" ORDER BY id asc"
+            sql = "SELECT surl,url,name,jj,id FROM WindsPhoto_desktop where zhuanti="&typeid&" ORDER BY id asc"
         Else
-            sql = "SELECT surl,url,name,jj,id FROM desktop where zhuanti="&typeid&" ORDER BY id desc"
+            sql = "SELECT surl,url,name,jj,id FROM WindsPhoto_desktop where zhuanti="&typeid&" ORDER BY id desc"
         End If
         Set rs = Server.CreateObject("ADODB.Recordset")
-        rs.Open sql, Conn, 1, 1
+        rs.Open sql, objConn, 1, 1
         rs.pagesize = WP_SMALL_PAGERCOUNT
         ipagecount = rs.pagecount
         If ipagecurrent > ipagecount Then ipagecurrent = ipagecount End If
@@ -336,12 +337,12 @@ Function GetPhoto()
     Else
 
         If WP_ORDER_BY = "0" Then
-            sql = "SELECT url,name,id,jj FROM desktop where zhuanti="&typeid&" ORDER BY id asc"
+            sql = "SELECT url,name,id,jj FROM WindsPhoto_desktop where zhuanti="&typeid&" ORDER BY id asc"
         Else
-            sql = "SELECT url,name,id,jj FROM desktop where zhuanti="&typeid&" ORDER BY id desc"
+            sql = "SELECT url,name,id,jj FROM WindsPhoto_desktop where zhuanti="&typeid&" ORDER BY id desc"
         End If
         Set rs = Server.CreateObject("ADODB.Recordset")
-        rs.Open sql, Conn, 1, 1
+        rs.Open sql, objConn, 1, 1
         rs.pagesize = WP_LIST_PAGERCOUNT
         ipagecount = rs.pagecount
         If ipagecurrent > ipagecount Then ipagecurrent = ipagecount End If

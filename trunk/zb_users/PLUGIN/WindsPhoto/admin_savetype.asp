@@ -21,8 +21,9 @@
 <!-- #include file="function.asp" -->
 
 <%
-Call System_Initialize()
-%><!-- #include file="data/conn.asp" --><%
+Call System_Initialize
+Call WindsPhoto_Initialize()
+%><%
 '检查非法链接
 Call CheckReference("")
 
@@ -47,8 +48,8 @@ If Trim(Request.Form("name")) = "" Then
 Else
     Set rs = Server.CreateObject("ADODB.Recordset")
     If zt = "editzhuanti" Then
-        sql = "SELECT * FROM zhuanti where id="&Request.Form("typeid")
-        rs.Open sql, Conn, 1, 3
+        sql = "SELECT * FROM WindsPhoto_zhuanti where id="&Request.Form("typeid")
+        rs.Open sql, objConn, 1, 3
         rs("name") = Request.Form("name")
         rs("time1") = Request.Form("fabu")
         rs("data") = Request.Form("riqi")
@@ -57,9 +58,9 @@ Else
         rs("view") = Request.Form("view")
         
         If Request.Form("ordered") = "" then
-          sql2 = "select * from zhuanti order by ordered,id asc"
+          sql2 = "select * FROM WindsPhoto_zhuanti order by ordered,id asc"
           Set rs2 = Server.CreateObject("ADODB.Recordset")
-          rs2.Open sql2, conn, 1, 1
+          rs2.Open sql2, objConn, 1, 1
           ordered = rs2.RecordCount + 1
         Else
           ordered = Request.Form("ordered")
@@ -79,8 +80,8 @@ Else
     End If
 
     If zt = "addzhuanti" Then
-        sql = "SELECT * FROM zhuanti where (id is null)"
-        rs.Open sql, Conn, 1, 3
+        sql = "SELECT * FROM WindsPhoto_zhuanti where (id is null)"
+        rs.Open sql, objConn, 1, 3
         rs.addnew
         rs("name") = Request.Form("name")
         rs("time1") = Request.Form("fabu")
@@ -90,9 +91,9 @@ Else
         rs("view") = Request.Form("view")
         
         If Request.Form("ordered") = "" then
-          sql2 = "select * from zhuanti order by ordered,id asc"
+          sql2 = "select * FROM WindsPhoto_zhuanti order by ordered,id asc"
           Set rs2 = Server.CreateObject("ADODB.Recordset")
-          rs2.Open sql2, conn, 1, 1
+          rs2.Open sql2, objConn, 1, 1
           ordered = rs2.RecordCount + 1
         Else
           ordered = Request.Form("ordered")
@@ -114,8 +115,8 @@ Else
 End If
 
 If zt = "delzhuanti" Then
-    conn.Execute "delete from zhuanti where id="&Request.Form("typeid")
-    conn.Execute "delete from desktop where zhuanti="&Request.Form("typeid")
+    objconn.execute "delete FROM WindsPhoto_zhuanti where id="&Request.Form("typeid")
+    objconn.execute "delete FROM WindsPhoto_desktop where zhuanti="&Request.Form("typeid")
     
     conn.Close
     Set conn = Nothing

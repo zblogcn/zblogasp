@@ -8,14 +8,14 @@
 '// 最后版本:    2.7.3
 '///////////////////////////////////////////////////////////////////////////////
 %>
-<% On Error Resume Next %>
+<%' On Error Resume Next %>
 <% Response.Charset="UTF-8" %>
 <% Response.Buffer=True %>
 <!-- #include file="../../../zb_system/admin/ueditor/asp/aspincludefile.asp"-->
 <!-- #include file="function.asp"-->
 <%
-Call System_Initialize()%><!-- #include file="data/conn.asp" --><%
-
+Call System_Initialize()%><%
+Call WindsPhoto_Initialize
 '检查非法链接
 Call CheckReference("")
 
@@ -84,8 +84,8 @@ If url<>"" Then
         end if
     End If
 
-    strSQL = "insert into desktop ([name],[itime],zhuanti,jj,url,surl,hot) values ('"&Name&"','"&itime&"',"&zhuanti&",'"&photointro&"','"&photourlb&"','"&photourls&"','"&hot&"')"
-    conn.Execute strSQL
+    strSQL = "insert into WindsPhoto_desktop ([name],[itime],zhuanti,jj,url,surl,hot) values ('"&Name&"','"&itime&"',"&zhuanti&",'"&photointro&"','"&photourlb&"','"&photourls&"','"&hot&"')"
+    objconn.Execute strSQL
     Call SetBlogHint_Custom("√ 添加远程图片成功.</a>")
     Response.Redirect "admin_addphoto.asp?typeid=" & zhuanti
 
@@ -243,12 +243,12 @@ Else
 		If upload.Form("name")<>"" Then
 			name = upload.Form("name")
 		Else
-			name = Replace(File.FileName, FileExt, "")
+			name = Replace(upload.Form("name"), FileExt, "")
 		End If
 
 		'写入数据库
-		strSQL = "insert into desktop ([name],[itime],zhuanti,jj,url,surl,hot) values ('"&name&"','"&itime&"',"&zhuanti&",'"&photointro&"','"&photourlb&"','"&photourls&"','"&hot&"')"
-		conn.Execute strSQL
+		strSQL = "insert into WindsPhoto_desktop ([name],[itime],zhuanti,jj,url,surl,hot) values ('"&name&"','"&itime&"',"&zhuanti&",'"&photointro&"','"&photourlb&"','"&photourls&"','"&hot&"')"
+		objconn.Execute strSQL
 		iCount = iCount + 1
 		Select Case upload.form(formname&"_Err")
 			case -1:Call SetBlogHint_Custom("上传没有开始")

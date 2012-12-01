@@ -65,19 +65,19 @@ Function GetPhotoIndex()
 
     Dim tpid, sql, sql2, sql3
     Set rso = Server.CreateObject("ADODB.RecordSet")
-    sql = "select count(*) as C from desktop"
+    sql = "select count(*) as C FROM WindsPhoto_desktop"
     If WP_ORDER_BY = "0" Then
-        sql2 = "select * from zhuanti where pass<>'no' order by ordered,id asc"
+        sql2 = "select * FROM WindsPhoto_zhuanti where pass<>'no' order by ordered,id asc"
     Else
-        sql2 = "select * from zhuanti where pass<>'no' order by ordered,id asc "
+        sql2 = "select * from WindsPhoto_zhuanti where pass<>'no' order by ordered,id asc "
     End If
-    rso.Open sql, Conn, 3, 3
+    rso.Open sql, objConn, 3, 3
     sm = rso("c")
     rso.Close
     Set rso = Nothing
     Set rs2 = Server.CreateObject("ADODB.Recordset")
     rs2.pagesize = WP_INDEX_PAGERCOUNT
-    rs2.Open sql2, Conn, 1, 1
+    rs2.Open sql2, objConn, 1, 1
     ipagecount = rs2.pagecount
     If ipagecurrent > ipagecount Then ipagecurrent = ipagecount
     If ipagecurrent < 1 Then ipagecurrent = 1
@@ -95,9 +95,9 @@ Function GetPhotoIndex()
             For i = 1 To 3
 
                 If Not rs2.EOF Then
-                    sqlp = "select * from desktop where zhuanti="&rs2("id")&" and hot<>0 order by id asc"
+                    sqlp = "select * FROM WindsPhoto_desktop where zhuanti="&rs2("id")&" and hot<>0 order by id asc"
                     Set rsp = Server.CreateObject("ADODB.RecordSet")
-                    rsp.Open sqlp, Conn, 1, 1
+                    rsp.Open sqlp, objConn, 1, 1
                     If rsp.EOF Or rsp.bof Then
                         surl = WP_SUB_DOMAIN &"images/notop.gif"
                     Else
@@ -108,15 +108,15 @@ Function GetPhotoIndex()
                     rsp.Close
                     Set rsp = Nothing
                     Set rso = Server.CreateObject("ADODB.RecordSet")
-                    sql = "select count(*) as C from desktop where zhuanti="&rs2("id")&""
-                    rso.Open sql, Conn, 3, 3
+                    sql = "select count(*) as C FROM WindsPhoto_desktop where zhuanti="&rs2("id")&""
+                    rso.Open sql, objConn, 3, 3
                     sm = rso("c")
                     rso.Close
                     Set rso = Nothing
                     Dim sqlp
                     Set rsp = Server.CreateObject("ADODB.RecordSet")
-                    sqlp = "select pass from zhuanti where id="&rs2("id")&""
-                    rsp.Open sqlp, Conn, 1, 1
+                    sqlp = "select pass FROM WindsPhoto_zhuanti where id="&rs2("id")&""
+                    rsp.Open sqlp, objConn, 1, 1
                     p = rsp("pass")
                     If p<>"" Then
                         surl = WP_SUB_DOMAIN &"images/nopass.gif"
@@ -176,12 +176,12 @@ End Function
 Function SaveSortList()
     Dim rssort, rssortcount, sqlsort1, sqlsort2, countsort
     Set rssort = Server.CreateObject("ADODB.RecordSet")
-    sqlsort1= "select top 10 * from zhuanti where pass='' order by ordered,id asc"
-    rssort.Open sqlsort1, Conn, 1, 1
+    sqlsort1= "select top 10 * FROM WindsPhoto_zhuanti where pass='' order by ordered,id asc"
+    rssort.Open sqlsort1, objConn, 1, 1
     Do While Not rssort.EOF
-        sqlsort2 = "select count(*) as C from desktop where zhuanti="&rssort("id")
+        sqlsort2 = "select count(*) as C FROM WindsPhoto_desktop where zhuanti="&rssort("id")
         Set rssortcount = Server.CreateObject("ADODB.RecordSet")
-        rssortcount.Open sqlsort2, Conn, 3, 3
+        rssortcount.Open sqlsort2, objConn, 3, 3
         countsort = rssortcount("C")
         SortList = SortList&"<li><span class='feed-icon'><a href='"& WP_SUB_DOMAIN &"rss.asp?id="&rssort("id")&"' target='_blank'><img title='rss' width='20' height='12' src='http://www.wilf.cn/IMAGE/LOGO/rss.png' border='0' alt='rss' /></a>&nbsp;</span><a href='"& WP_SUB_DOMAIN &"album.asp?typeid="&rssort("id")&"'>"&rssort("name")&"<span class='article-nums'> ("&countsort&")</span></a></li>"&Chr(13)&Chr(10)
         rssortcount.Close
