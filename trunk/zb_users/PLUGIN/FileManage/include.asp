@@ -10,7 +10,7 @@
 '*********************************************************
 Const FileManage_ShowPluginName=True
 Const FileManage_ShowThemesName=True
-Const FileManage_CodeMirror=True
+Const FileManage_CodeMirror=False
 
 '注册插件
 Call RegisterPlugin("FileManage","ActivePlugin_FileManage")
