@@ -119,6 +119,7 @@ strWP_HIDE_DIVFILESND = WP_HIDE_DIVFILESND%>
   </div>
   <div class="divHeader">WindsPhoto 系统设置</div>
   <div class="SubMenu">
+<script type="text/javascript">ActiveLeftMenu("aWindsPhoto")</script>
   <a href="<%=ZC_BLOG_HOST%>zb_users/PLUGIN/windsphoto/admin_main.asp"><span class="m-left">相册管理</span></a>
   <a href="<%=ZC_BLOG_HOST%>zb_users/PLUGIN/windsphoto/admin_addtype.asp"><span class="m-left">新建相册</span></a>
   <a href="<%=ZC_BLOG_HOST%>zb_users/PLUGIN/windsphoto/admin_setting.asp"><span class="m-left m-now">系统设置</span></a>
@@ -137,7 +138,7 @@ strWP_HIDE_DIVFILESND = WP_HIDE_DIVFILESND%>
         <div class="clear"></div>
       </div>
       <div class="content-box-content">
-        <div class="tabs-div" style='border:none;padding:0px;margin:0;' id="fragment-1">
+        <div class="tab-content default-tab" style='border:none;padding:0px;margin:0;' id="fragment-1">
           <table width='100%' style='padding:0px;margin:1px;' cellspacing='0' cellpadding='0'>
             <tr>
               <td style='width:32%'><p align='left'>·相册名称</p></td>
@@ -260,7 +261,8 @@ strWP_HIDE_DIVFILESND = WP_HIDE_DIVFILESND%>
             </tr>
           </table>
         </div>
-        <div class="tabs-div" style='border:none;padding:0px;margin:0;' id="fragment-2">
+        
+        <div class="tab-content" style='border:none;padding:0px;margin:0;' id="fragment-2">
           <table width='100%' style='padding:0px;margin:1px;' cellspacing='0' cellpadding='0'>
             <tr>
               <td style='width:32%'><p align='left'>·默认开启水印</p></td>
