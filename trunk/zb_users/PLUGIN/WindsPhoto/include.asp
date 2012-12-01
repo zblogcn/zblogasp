@@ -118,27 +118,27 @@ Function WindsPhoto_Database_Rename()
 			objConn.CommitTrans
 		Else
 			objConn.BeginTrans
-			objConn.Execute "CREATE TABLE 'WindsPhoto_desktop' ("&_
-							"'ID' AutoIncrement primary key,"&_
-							"'name' VarChar(50),"&_
-							"'zhuanti' Short,"&_
-							"'jj' LongText,"&_
-							"'url' LongText,"&_
-							"'surl' LongText,"&_
-							"'hot' Short,"&_
-							"'itime' DateTime,"&_
-							"'viewnums' Long"&_
+			objConn.Execute "CREATE TABLE [WindsPhoto_desktop] ("&_
+							"`ID` AutoIncrement primary key,"&_
+							"`name` VarChar(50),"&_
+							"`zhuanti` Short,"&_
+							"`jj` LongText,"&_
+							"`url` LongText,"&_
+							"`surl` LongText,"&_
+							"`hot` Short,"&_
+							"`itime` DateTime,"&_
+							"`viewnums` Long"&_
 							")"
-			objConn.Execute "CREATE TABLE 'WindsPhoto_zhuanti' ("&_
-							"'id' AutoIncrement primary key,"&_
-							"'data' DateTime,"&_
-							"'time1' DateTime,"&_
-							"'js' LongText,"&_
-							"'hot' Long,"&_
-							"'pass' VarChar(30),"&_
-							"'view' Short,"&_
-							"'name' VarChar(50),"&_
-							"'ordered' Long"&_
+			objConn.Execute "CREATE TABLE [WindsPhoto_zhuanti] ("&_
+							"`id` AutoIncrement primary key,"&_
+							"`data` DateTime,"&_
+							"`time1` DateTime,"&_
+							"`js` LongText,"&_
+							"`hot` Long,"&_
+							"`pass` VarChar(30),"&_
+							"`view` Short,"&_
+							"`name` VarChar(50),"&_
+							"`ordered` Long"&_
 							")"
 			objConn.CommitTrans
 		End If
