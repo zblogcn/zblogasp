@@ -99,46 +99,31 @@ Set objRS=objConn.Execute("SELECT [log_ID] FROM [blog_Article] WHERE [log_Url]='
 If (Not objRS.bof) And (Not objRS.eof) Then
 	c=objRS("log_ID")
 Else
-	c=Request.QueryString("id")
+	c=Request.QueryString("id") & "." & ZC_STATIC_TYPE
 	If ZC_POST_STATIC_MODE="REWRITE" Then
 		Dim fso, TxtFile
 		Set fso = CreateObject("Scripting.FileSystemObject")
-		If fso.FileExists(Server.MapPath(c)) Then
-			If checkfile(fso.getFile(BlogPath & c).Path)=False Then
-				Dim aryExt,strExt,strRequest,aryRequest
-				aryRequest=Split(c,".")
-				strRequest=aryRequest(Ubound(aryRequest))
-				
-				aryExt=Split(ZC_PAGE_REGEX,".")
-				strExt=aryExt(Ubound(aryExt))
-				
 
-				If (strRequest=strExt And InStr(ZC_PAGE_REGEX,"default." & strExt)<=0) Then
-					Response.Write LoadFromFile(BlogPath & c,"utf-8")
-					Response.End
-				End If	
-				
-				aryExt=Split(ZC_ARTICLE_REGEX,".")
-				strExt=aryExt(Ubound(aryExt))		
-				If (strRequest=strExt And InStr(ZC_ARTICLE_REGEX,"default." & strExt)<=0) Then
-					Response.Write LoadFromFile(BlogPath & c,"utf-8")
-					Response.End
-				End If	
-			End If
-			
-		ElseIf fso.FolderExists(Server.MapPath(c)) Then
-			If fso.FileExists(Server.MapPath(c)&"\default.asp") Then Response.Redirect "default.asp"
-			If fso.FileExists(Server.MapPath(c)&"\default.html") Then Response.Redirect "default.html"
-			If fso.FileExists(Server.MapPath(c)&"\default.htm") Then Response.Redirect "default.htm"
-			Response.Write "抱歉，暂时有点问题，该文件夹无法浏览"
+		If Left(c,3)="zb_" Then
+			Response.Status="404 Not Found"
+			Response.End
+		End If
+
+		If fso.FileExists(Server.MapPath(c)) Then
+			Response.Write LoadFromFile(BlogPath & c,"utf-8")
+			Response.End			
+		Else
+			Response.Status="404 Not Found"
 			Response.End
 		End If
 	End If
 End If
+
 If IsNumeric(c)=False Then
 	Response.Status="404 Not Found"
 	Response.End
 End If
+
 If Article.LoadInfoByID(c) Then
 
 	If Article.Level=1 Then Call ShowError(63)
