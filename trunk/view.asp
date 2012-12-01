@@ -99,8 +99,8 @@ Set objRS=objConn.Execute("SELECT [log_ID] FROM [blog_Article] WHERE [log_Url]='
 If (Not objRS.bof) And (Not objRS.eof) Then
 	c=objRS("log_ID")
 Else
-	c=Request.QueryString("id") & "." & ZC_STATIC_TYPE
 	If ZC_POST_STATIC_MODE="REWRITE" Then
+		c=Request.QueryString("id") & "." & ZC_STATIC_TYPE
 		Dim fso, TxtFile
 		Set fso = CreateObject("Scripting.FileSystemObject")
 
