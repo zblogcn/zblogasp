@@ -26,11 +26,13 @@ Call WindsPhoto_Initialize%><%
 Dim TypeName, hot, data, data1, js, p
 If IsNumeric(Request.QueryString("typeid")) = FALSE Then
     response.Write "<script>alert('对不起,参数错误!');history.back();</script>"
+	Response.End
 Else
     typeid = CInt(Request.QueryString("typeid"))
 End If
 If Request.QueryString("mo") <>"" And IsNumeric(Request.QueryString("mo")) = FALSE Then
     response.Write "<script>alert('对不起,参数错误!');history.back();</script>"
+	Response.End
 Else
     If Request.QueryString("mo") <>"" Then
         mo = CInt(Request.QueryString("mo"))
