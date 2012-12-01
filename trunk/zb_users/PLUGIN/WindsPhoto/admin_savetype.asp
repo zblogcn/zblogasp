@@ -118,8 +118,7 @@ If zt = "delzhuanti" Then
     objconn.execute "delete FROM WindsPhoto_zhuanti where id="&Request.Form("typeid")
     objconn.execute "delete FROM WindsPhoto_desktop where zhuanti="&Request.Form("typeid")
     
-    Set objconn = Nothing
-    
+   
     Call SaveSortList()
     
     Call SetBlogHint_Custom("√ 删除相册分类成功.")
