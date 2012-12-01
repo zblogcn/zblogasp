@@ -1,4 +1,4 @@
-<%
+﻿<%
 Dim Action_Plugin_FileManage_Initialize()
 ReDim Action_Plugin_FileManage_Initialize(0)
 Dim bAction_Plugin_FileManage_Initialize

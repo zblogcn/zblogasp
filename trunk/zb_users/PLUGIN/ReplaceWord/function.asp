@@ -1,4 +1,4 @@
-
+﻿
 <script language="javascript" runat="server">
 var replaceword={};
 replaceword["init"]=function(){

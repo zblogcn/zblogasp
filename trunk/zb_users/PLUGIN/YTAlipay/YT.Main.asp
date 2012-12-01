@@ -1,4 +1,4 @@
-<script language="javascript" src="../YTCMS/Config.js" runat="server" type="text/javascript"></script>
+﻿<script language="javascript" src="../YTCMS/Config.js" runat="server" type="text/javascript"></script>
 <!--#include file="YT.Lib.asp" -->
 <%
 Call RegisterPlugin("YTAlipay","ActivePlugin_YT_Alipay")

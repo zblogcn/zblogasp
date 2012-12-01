@@ -1,3 +1,3 @@
-<%
+﻿<%
 	Response.Redirect "setting.asp"
 %>

@@ -1,4 +1,4 @@
-<!-- #include file="OnlinePlugin\aspcode.asp"-->
+﻿<!-- #include file="OnlinePlugin\aspcode.asp"-->
 <%
 
 '注册插件

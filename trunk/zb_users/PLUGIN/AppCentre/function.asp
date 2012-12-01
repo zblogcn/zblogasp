@@ -1,4 +1,4 @@
-<%
+﻿<%
 Const APPCENTRE_URL="http://app.rainbowsoft.org/appcentre.asp"
 
 Dim app_id

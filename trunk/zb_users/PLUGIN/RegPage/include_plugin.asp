@@ -1,4 +1,4 @@
-<%
+﻿<%
 Dim Action_Plugin_RegPage_Begin()
 ReDim Action_Plugin_RegPage_Begin(0)
 Dim bAction_Plugin_RegPage_Begin

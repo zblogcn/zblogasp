@@ -1,4 +1,4 @@
-<%@ LANGUAGE="VBSCRIPT" CODEPAGE="65001"%>
+﻿<%@ LANGUAGE="VBSCRIPT" CODEPAGE="65001"%>
 <% Option Explicit %>
 <% On Error Resume Next %>
 <% Response.Charset="UTF-8" %>

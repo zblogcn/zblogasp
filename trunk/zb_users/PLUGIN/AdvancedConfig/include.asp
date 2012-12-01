@@ -1,4 +1,4 @@
-<%
+﻿<%
 
 '注册插件
 Call RegisterPlugin("AdvancedConfig","ActivePlugin_AdvancedConfig")

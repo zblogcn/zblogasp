@@ -1,4 +1,4 @@
-<!-- #include file="functions/microblog.asp"-->
+﻿<!-- #include file="functions/microblog.asp"-->
 <!-- #include file="functions/qqconnect.asp"-->
 <!-- #include file="functions/network.asp"-->
 <!-- #include file="functions/database.asp"-->

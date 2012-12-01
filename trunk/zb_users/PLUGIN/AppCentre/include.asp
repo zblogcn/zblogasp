@@ -1,4 +1,4 @@
-<%
+﻿<%
 
 
 Call RegisterPlugin("AppCentre","ActivePlugin_AppCentre")
