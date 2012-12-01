@@ -14,7 +14,7 @@
 '///////////////////////////////////////////////////////////////////////////////
 %>
 <% Option Explicit %>
-<%' On Error Resume Next %>
+<% On Error Resume Next %>
 <% Response.Charset="UTF-8" %>
 <% Response.Buffer=True %>
 <!-- #include file="zb_users/c_option.asp" -->
@@ -99,8 +99,9 @@ Set objRS=objConn.Execute("SELECT [log_ID] FROM [blog_Article] WHERE [log_Url]='
 If (Not objRS.bof) And (Not objRS.eof) Then
 	c=objRS("log_ID")
 Else
+Response.Write c
 	If ZC_POST_STATIC_MODE="REWRITE" Then
-		d=c & "." & ZC_STATIC_TYPE
+
 		Dim fso, TxtFile
 		Set fso = CreateObject("Scripting.FileSystemObject")
 
@@ -108,19 +109,32 @@ Else
 			Response.Status="404 Not Found"
 			Response.End
 		End If
-
+		d=c & "." & ZC_STATIC_TYPE
 		If fso.FileExists(Server.MapPath(d)) Then
 			Response.Write LoadFromFile(BlogPath & d,"utf-8")
 			Response.End
 		End If
+
+		d=c & "/default." & ZC_STATIC_TYPE
+		If fso.FileExists(Server.MapPath(d)) Then
+			Response.Write LoadFromFile(BlogPath & d,"utf-8")
+			Response.End
+		End If
+
+		d=c & "/index." & ZC_STATIC_TYPE
+		If fso.FileExists(Server.MapPath(d)) Then
+			Response.Write LoadFromFile(BlogPath & d,"utf-8")
+			Response.End
+		End If
+
 	End If
 End If
-
+Response.Write "111"
 If TryToNumeric(c)=0 Then
 	Response.Status="404 Not Found"
 	Response.End
 End If
-
+Response.Write "222"
 If Article.LoadInfoByID(c) Then
 
 	If Article.Level=1 Then Call ShowError(63)
