@@ -3722,6 +3722,7 @@ Function RefreshOptionFormFileToDB()
 	If BlogConfig.Exists("ZC_UNCATEGORIZED_NAME")=False Then Call BlogConfig.Write("ZC_UNCATEGORIZED_NAME",ZC_MSG059)
 	If BlogConfig.Exists("ZC_UNCATEGORIZED_ALIAS")=False Then Call BlogConfig.Write("ZC_UNCATEGORIZED_ALIAS","")
 	If BlogConfig.Exists("ZC_UNCATEGORIZED_COUNT")=False Then Call BlogConfig.Write("ZC_UNCATEGORIZED_COUNT",0)
+	If BlogConfig.Exists("ZC_HTTP_LASTMODIFIED")=False Then Call BlogConfig.Write("ZC_HTTP_LASTMODIFIED",False)
 
 	Call BlogConfig.Save()
 	Err.Clear
