@@ -117,8 +117,8 @@ Else
 
     Call SaveLastest()
 
-    conn.Close
-    Set conn = Nothing
+ 
+    
 
     Call SetBlogHint_Custom("√ 编辑照片信息成功</a>")
     'Response.Redirect "admin_editphoto.asp?id=" & Request.QueryString("id") & "&action=edit"

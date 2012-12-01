@@ -95,8 +95,6 @@ Loop
 rs.Close
 Set rs = Nothing
 
-conn.Close
-Set conn = Nothing
 
 Response.Write sRssEnd
 
