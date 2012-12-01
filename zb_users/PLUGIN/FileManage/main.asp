@@ -72,7 +72,7 @@ End Select
 	Select Case Request.QueryString("act")
 
 		Case "SiteFileMng","" Call FileManage_ExportSiteFileList(strPath,strOpenFolderPath)
-		Case "SiteFileEdt" Call FileManage_ExportSiteFileEdit(strPath,strOpenFolderPath)
+		Case "SiteFileEdt" Call FileManage_ExportSiteFileEdit(strPath,strOpenFolderPath,IIf(Request.QueryString("charset")=Empty,"",Request.QueryString("charset")))
 		Case "SiteFileUploadShow" Call FileManage_ExportSiteUpload(strPath)
 		Case "ThemeEditor" Response.Redirect "?act=SiteFileMng&path="&server.URLEncode(blogpath&"zb_users\theme\"&zc_blog_theme)
 		Case Else Response.Write "未知的命令"
