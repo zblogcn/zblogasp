@@ -92,7 +92,7 @@ If IsEmpty(Request.QueryString("navn"))=False Then
 
 End If
 
-Dim c
+Dim c,d
 c=Request.QueryString("id")
 
 Set objRS=objConn.Execute("SELECT [log_ID] FROM [blog_Article] WHERE [log_Url]='"&FilterSQL(c)&"'")
@@ -100,23 +100,23 @@ If (Not objRS.bof) And (Not objRS.eof) Then
 	c=objRS("log_ID")
 Else
 	If ZC_POST_STATIC_MODE="REWRITE" Then
-		c=Request.QueryString("id") & "." & ZC_STATIC_TYPE
+		d=c & "." & ZC_STATIC_TYPE
 		Dim fso, TxtFile
 		Set fso = CreateObject("Scripting.FileSystemObject")
 
-		If Left(c,3)="zb_" Then
+		If Left(d,3)="zb_" Then
 			Response.Status="404 Not Found"
 			Response.End
 		End If
 
-		If fso.FileExists(Server.MapPath(c)) Then
-			Response.Write LoadFromFile(BlogPath & c,"utf-8")
+		If fso.FileExists(Server.MapPath(d)) Then
+			Response.Write LoadFromFile(BlogPath & d,"utf-8")
 			Response.End
 		End If
 	End If
 End If
 
-If IsNumeric(c)=False Then
+If TryToNumeric(c)=0 Then
 	Response.Status="404 Not Found"
 	Response.End
 End If
@@ -157,25 +157,12 @@ Call System_Terminate()
 
 
 
-Function checkfile(file)
-	checkfile=False
-	Dim Fso
-	Set fso=CreateObject("scripting.filesystemobject")
-	Dim Temp1,Temp2,Temp3
-	'If FileManage_FSO.FileExists(file)=False Then
-	'	FileManage_CheckFile=True
-	'Else
-		Temp1=fso.GetFolder(BlogPath).Path
-		If fso.FileExists(file)=True Then
-			Temp2=fso.GetFile(file).ParentFolder
-			Temp3=LCase(fso.GetFile(file).Name)
-			If Left(Temp2,Len(Temp1))<>Temp1 Then checkfile=True
-		Else
-			Temp3=file
-			If Instr(Temp3,Temp1)<=0 Then checkfile=True
-		End If
-		If CheckRegExp(Temp3,".*?global.asa(x)?") Then checkfile=True
-	'End If 
+Function TryToNumeric(str)
+	On Error Resume Next
+	Dim intN
+	intN=CLng(str)
+	TryToNumeric=IIf(Err.Number=0,intN,0) 
+	Err.Clear
 End Function
 %>
 <!-- <%=RunTime()%>ms --><%
