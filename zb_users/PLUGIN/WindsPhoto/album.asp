@@ -410,8 +410,7 @@ End Function
 %>
 
 <%
-Conn.Close
-Set Conn = Nothing
+
 If Err.Number<>0 then
 	Call ShowError(0)
 End If

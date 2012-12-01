@@ -118,8 +118,7 @@ If zt = "delzhuanti" Then
     objconn.execute "delete FROM WindsPhoto_zhuanti where id="&Request.Form("typeid")
     objconn.execute "delete FROM WindsPhoto_desktop where zhuanti="&Request.Form("typeid")
     
-    conn.Close
-    Set conn = Nothing
+    Set objconn = Nothing
     
     Call SaveSortList()
     
