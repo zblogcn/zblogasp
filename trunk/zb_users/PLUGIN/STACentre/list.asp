@@ -72,7 +72,6 @@ t=t & "RewriteRule "& r &" /view\.asp\?id=$1" & vbCrlf
 	If regex="ZC_PAGE_REGEX" Then
 	r=ZC_PAGE_REGEX
 	r=Replace(r,"{%name%}","{%alias%}")
-	If InStr(r,"/default.html")=0 Then r=Replace(r,"{%alias%}","(?!zb_){%alias%}")
 	r=Replace(r,"/default.html",IIF(page=True,"{%page%}","")&"/")
 	r=Replace(r,".html",IIF(page=True,"{%page%}","")&".html")
 t=t & "RewriteRule "& r &" /view\.asp\?id=$1" & vbCrlf
@@ -81,7 +80,7 @@ t=t & "RewriteRule "& r &" /view\.asp\?id=$1" & vbCrlf
 
 	t=Replace(t,"{%host%}/",CookiesPath())
 	t=Replace(t,"{%name%}","(.*)")
-	t=Replace(t,"{%alias%}","(.*)")
+	t=Replace(t,"{%alias%}","(?!zb_)(.*)")
 	t=Replace(t,"{%id%}","([0-9]+)")
 	t=Replace(t,"{%date%}","([0-9\-]+)")
 	t=Replace(t,"{%post%}",ZC_STATIC_DIRECTORY)
@@ -180,7 +179,6 @@ t=t & "RewriteRule ^"& r &"$ /view.asp\?id=$1 [NU]" & vbCrlf
 	If regex="ZC_PAGE_REGEX" Then
 	r=ZC_PAGE_REGEX
 	r=Replace(r,"{%name%}","{%alias%}")
-	If InStr(r,"/default.html")=0 Then r=Replace(r,"{%alias%}","(?!zb_){%alias%}")
 	r=Replace(r,"/default.html",IIF(page=True,"{%page%}","")&"/")
 	r=Replace(r,".html",IIF(page=True,"{%page%}","")&".html")
 t=t & "RewriteRule ^"& r &"$ /view.asp\?id=$1 [NU]" & vbCrlf
@@ -189,7 +187,7 @@ t=t & "RewriteRule ^"& r &"$ /view.asp\?id=$1 [NU]" & vbCrlf
 
 	t=Replace(t,"{%host%}/","")
 	t=Replace(t,"{%name%}","(.*)")
-	t=Replace(t,"{%alias%}","(.*)")
+	t=Replace(t,"{%alias%}","(?!zb_)(.*)")
 	t=Replace(t,"{%id%}","([0-9]+)")
 	t=Replace(t,"{%date%}","([0-9\-]+)")
 	t=Replace(t,"{%post%}",ZC_STATIC_DIRECTORY)
@@ -308,7 +306,6 @@ t=t & "     </rule>" & vbCrlf
 	If regex="ZC_PAGE_REGEX" Then
 	r=ZC_PAGE_REGEX
 	r=Replace(r,"{%name%}","{%alias%}")
-	If InStr(r,"/default.html")=0 Then r=Replace(r,"{%alias%}","(?!zb_){%alias%}")
 	r=Replace(r,"/default.html",IIF(page=True,"{%page%}","")&"/")
 	r=Replace(r,".html",IIF(page=True,"{%page%}","")&".html")
 t=t & "     <rule name=""Imported Rule Page"&IIF(page=True,"+Page","")&""" stopProcessing=""true"">" & vbCrlf
@@ -320,7 +317,7 @@ t=t & "     </rule>" & vbCrlf
 
 	t=Replace(t,"{%host%}/","")
 	t=Replace(t,"{%name%}","(.*)")
-	t=Replace(t,"{%alias%}","(.*)")
+	t=Replace(t,"{%alias%}","(?!zb_)(.*)")
 	t=Replace(t,"{%id%}","([0-9]+)")
 	t=Replace(t,"{%date%}","([0-9\-]+)")
 	t=Replace(t,"{%post%}",ZC_STATIC_DIRECTORY)
