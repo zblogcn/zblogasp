@@ -1,4 +1,4 @@
-<%@ CODEPAGE=65001 %>
+﻿<%@ CODEPAGE=65001 %>
 <% Option Explicit %>
 <% On Error Resume Next %>
 <% Response.Charset="UTF-8" %>
