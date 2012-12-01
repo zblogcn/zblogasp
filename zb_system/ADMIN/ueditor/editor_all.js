@@ -9425,7 +9425,7 @@ UE.plugins['highlightcode'] = function() {
         if(typeof XRegExp == "undefined"){
             utils.loadFile(document,{
                 id : "syntaxhighlighter_js",
-                src : me.options.highlightJsUrl || me.options.UEDITOR_HOME_URL + "third-party/SyntaxHighlighter/shCore.js",
+                src : me.options.highlightJsUrl || me.options.UEDITOR_HOME_URL + "third-party/SyntaxHighlighter/shCore.pack.js",
                 tag : "script",
                 type : "text/javascript",
                 defer : "defer"
@@ -9439,7 +9439,7 @@ UE.plugins['highlightcode'] = function() {
                 tag : "link",
                 rel : "stylesheet",
                 type : "text/css",
-                href : me.options.highlightCssUrl ||me.options.UEDITOR_HOME_URL + "third-party/SyntaxHighlighter/shCoreDefault.css"
+                href : me.options.highlightCssUrl ||me.options.UEDITOR_HOME_URL + "third-party/SyntaxHighlighter/shCoreDefault.pack.css"
             });
         }
 
