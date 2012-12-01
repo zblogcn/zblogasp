@@ -440,15 +440,29 @@ Function FileManage_ExportSiteFileEdit(tpath,OpenFolderPath,chars)
 
 		Response.Write "</form>" & vbCrlf
 		If FileManage_CodeMirror Then
-    	Response.Write "<script>var editor = CodeMirror.fromTextArea(document.getElementById(""txaContent""), {mode: {"
+    	Response.Write "<script>var editor = CodeMirror.fromTextArea(document.getElementById(""txaContent""), {mode: """
 			If CheckRegExp(tpath,".+?html?|.+?xml") Or ct="" Then
-				Response.Write 	"name: ""xml"","
+				Response.Write 	"text/xml"
 			ElseIf CheckRegExp(tpath,".+?js(on)?") Then
-				Response.Write  "name: ""javascript"","
+				Response.Write  "text/javascript"
 			ElseIf CheckRegExp(tpath,".+?css") Then
-				Response.Write  "name: ""css"","
+				Response.Write  "text/css"
+			ElseIf CheckRegExp(tpath,".+?asp") Then
+				Dim o
+				o=Instr(ct,"&lt;script language=""javascript""")
+				If o>0 Then
+					o=Instr(ct,"runat=""server""")
+					If o<400 And o>0 Then
+						Response.Write "text/javascript"
+					Else
+						Response.Write  "application/x-asp"
+					End If
+				Else
+					Response.Write  "application/x-asp"
+				End If
+				'Response.Write  "application/x-asp"
 			End If
-			Response.write " alignCDATA: true},lineNumbers: true}); </scr"&"ipt>"
+			Response.write """,matchBrackets: true,lineNumbers: true,theme:""monokai"",lineWrapping :true}); </scr"&"ipt>"
 		End If
 	End If
 
