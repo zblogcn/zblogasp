@@ -391,7 +391,7 @@ End Function
 '*********************************************************
 ' 目的：    输出编辑文件
 '*********************************************************
-Function FileManage_ExportSiteFileEdit(tpath,OpenFolderPath)
+Function FileManage_ExportSiteFileEdit(tpath,OpenFolderPath,chars)
 	For Each sAction_Plugin_FileManage_ExportSiteFileEdit_Begin in Action_Plugin_FileManage_ExportSiteFileEdit_Begin
 		If Not IsEmpty(sAction_Plugin_FileManage_ExportSiteFileEdit_Begin) Then Call Execute(sAction_Plugin_FileManage_ExportSiteFileEdit_Begin)
 	Next
@@ -400,8 +400,7 @@ Function FileManage_ExportSiteFileEdit(tpath,OpenFolderPath)
 	Dim Del,txaContent
 	Dim ct
 	Dim cat
-	cat=FileManage_CheckFileCharset(tpath)
-
+	cat=IIf(chars="",FileManage_CheckFileCharset(tpath),UCase(chars))
 	ct=TransferHTML(LoadFromFile(unEscape(tpath),cat),"[textarea]")
 
 	'dim chkg
@@ -410,11 +409,21 @@ Function FileManage_ExportSiteFileEdit(tpath,OpenFolderPath)
 	'	Response.Write  "<p>当前文件:" & chkg & "</p><p>对不起，为了您的其他程序的安全，您只能修改Z-Blog文件夹内的文件，同时也不允许修改Global.asa和Global.asax。</p><p><a href='main.asp?act=SiteFileMng&path="&Server.URLEncode(OpenFolderPath)&"'>点击这里返回</a></p></div>" :Response.end
 	'End If
 	If IsEmpty(txaContent) Then txaContent=Null
-
+	
+	Response.Write "使用其他编码打开："	
+	Response.Write "<input type=""radio"" name=""charset_"" id=""radio_"" value=""UTF-8"" "&IIf(cat="UTF-8","checked=""checked""","")&"/>"
+	Response.Write "<label for=""radio_"">UTF-8</label>"
+	Response.Write "&nbsp;<input type=""radio"" name=""charset_"" id=""radio2_"" value=""Unicode"" "&IIf(cat="UNICODE","checked=""checked""","")&"/>"
+	Response.Write "<label for=""radio2_"">Unicode</label>"
+	Response.Write "&nbsp;<input type=""radio"" name=""charset_"" id=""radio3_"" value=""GB2312"" "&IIf(cat="GB2312","checked=""checked""","")&" />"
+	Response.Write "<label for=""radio3_"">GB2312</label>"
+	Response.Write "<script type=""text/javascript"">$('input[name=charset_]').click(function(){location.search=location.search.replace(/&charset=.+/ig,'')+'&charset='+encodeURIComponent($(this).val())})</script>"
+	'Response.Write "<input value=""Go"" type=""submit"" class=""button"">"
+	
 		
 	If Not IsNull(tpath) Then
 		Response.Write "<form id=""edit"" name=""edit"" method=""post"" action=""main.asp?act=SiteFilePst&path="&Server.URLEncode(tpath)&"&OpenFolderPath="&Server.URLEncode(OpenFolderPath)&""">" & vbCrlf
-		Response.Write "<p><br/>文件路径及文件名: <!--<a href=""javascript:void(0)"" onclick=""path.readOnly='';this.style.display='none';path.focus()"">修改文件名</a>--><INPUT TYPE=""text"" Value="""&unEscape(tpath)&""" style=""width:100%"" name=""path"" id=""path"" ></p>"
+		Response.Write "<p>文件路径及文件名: <!--<a href=""javascript:void(0)"" onclick=""path.readOnly='';this.style.display='none';path.focus()"">修改文件名</a>--><INPUT TYPE=""text"" Value="""&unEscape(tpath)&""" style=""width:100%"" name=""path"" id=""path"" ></p>"
 		Response.Write "<p><textarea class=""resizable"" style=""height:300px;width:100%"" name=""txaContent"" id=""txaContent"">"&ct&"</textarea></p>" & vbCrlf
 
 		Response.Write "<hr/>"
