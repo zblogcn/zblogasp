@@ -191,7 +191,7 @@ Function WindsPhoto_GetImgFolder()
 End Function
 
 Function WindsPhoto_uEditorUpload()
-	On Error Resume Next
+	'On Error Resume Next
 	Call WindsPhoto_Initialize
 	If WP_BLOGPHOTO_ID <> 0 then 
 		zhuanti=WP_BLOGPHOTO_ID
@@ -221,11 +221,9 @@ Function WindsPhoto_uEditorUpload()
 			Dim haveJpeg
 			If Err.Number=0 Then haveJpeg=True
 			If upload.Save("edtFileLoad",0)=True Then
-				Filename=FilePath & upload.form(formname)
+				Filename=BlogPath & FilePath & upload.form(formname)
 				FileNamet=upload.form(formname)
 				If WP_IF_ASPJPEG="1" And haveJpeg Then
-					
-					
 					'如果aspjpeg版本大于1.9，启用保护Metadata
 					If Jpeg.Version>= "1.9" then Jpeg.PreserveMetadata = True
 					Jpeg.Open(FileName)
@@ -247,14 +245,15 @@ Function WindsPhoto_uEditorUpload()
 		
 					'保存缩略图，并进行微度锐化
 					Jpeg.Sharpen 1, 110
-					Jpeg.Save (FilePath & "small_" & FileNamet)
+					Jpeg.Save (BlogPath & FilePath & "small_" & FileNamet)
+					Jpeg.Close()
 					Dim Title,TitleWidth,PositionWidth,PositionHeight
 					If WP_WATERMARK_TYPE = "1" Then '图片水印
 							If Jpeg.Version>= "1.9" then Jpeg.PreserveMetadata = True
 							Jpeg.Open FileName
 							Jpeg.Canvas.Font.Color = Replace(WP_JPEG_FONTCOLOR, "#", "&h") '字体颜色
 							Jpeg.Canvas.Font.Family = "Tahoma" 'family设置字体
-							Jpeg.Canvas.Font.Bold = WP_JPEG_FONTBOLD '是否设置成粗体
+							Jpeg.Canvas.Font.Bold = CBool(WP_JPEG_FONTBOLD) '是否设置成粗体
 							Jpeg.Canvas.Font.Size = WP_JPEG_FONTSIZE '字体大小
 							Jpeg.Canvas.Font.Quality = WP_JPEG_FONTQUALITY ' 输出文字质量
 							Title = WP_WATERMARK_TEXT

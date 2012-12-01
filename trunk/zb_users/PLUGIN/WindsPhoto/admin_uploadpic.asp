@@ -147,16 +147,17 @@ Else
             '保存缩略图，并进行微度锐化
             Jpeg.Sharpen 1, 110
             Jpeg.Save (FilePath & "small_" & FileNamet)
-
+			
+			Jpeg.Close()
             '水印处理
 			If mark<>"" Then
 
                 If WP_WATERMARK_TYPE = "1" Then '图片水印
                     If Jpeg.Version>= "1.9" then Jpeg.PreserveMetadata = True
-                    Jpeg.Open FileName
+                    Jpeg.Open(FileName)
                     Jpeg.Canvas.Font.Color = Replace(WP_JPEG_FONTCOLOR, "#", "&h") '字体颜色
                     Jpeg.Canvas.Font.Family = "Tahoma" 'family设置字体
-                    Jpeg.Canvas.Font.Bold = WP_JPEG_FONTBOLD '是否设置成粗体
+                    Jpeg.Canvas.Font.Bold = CBool(WP_JPEG_FONTBOLD) '是否设置成粗体
                     Jpeg.Canvas.Font.Size = WP_JPEG_FONTSIZE '字体大小
                     Jpeg.Canvas.Font.Quality = WP_JPEG_FONTQUALITY ' 输出文字质量
                     Title = WP_WATERMARK_TEXT
