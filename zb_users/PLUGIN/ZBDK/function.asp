@@ -21,15 +21,14 @@ ZBDK.main=function(){
 	Response.Write("<tr height='40'><td>3</td><td><a href='RunSQL/main.asp'>RunSQL</a></td><td>SQL语句在线运行器，可以查看SQL语句的运行情况。</td></tr>");
 	Response.Write("<tr height='40'><td>4</td><td><a href='PluginInterface/main.asp'>PluginInterface</a></td><td>可以查看某个接口被哪些插件挂上和挂上接口的顺序。</td></tr>");
 	Response.Write("<tr height='40'><td>5</td><td><a href='OnlinePlugin/main.asp'>OnlinePlugin</a></td><td>不需要再创建或编辑现有插件就可以挂接口的工具（呃。。）</td></tr>");
-	Response.Write("<tr height='40'><td>6</td><td><a href='ServerVariable/main.asp'>ServerVariable</a></td><td>可以快速查询Application和Session变量</td></tr>");
 
 
 
 }
 ZBDK.submenu=function(j){
-	var aryname=new Array("首页","BlogConfig","LoadCounter","RunSQL","PluginInterface","OnlinePlugin","ServerVariable");
-	var aryurl=new Array("main.asp","BlogConfig/main.asp","LoadCounter/main.asp","RunSQL/main.asp","PluginInterface/main.asp","OnlinePlugin/main.asp","ServerVariable/main.asp");
-	var arycss=new Array("m-left","m-left","m-left","m-left","m-left");
+	var aryname=new Array("首页","BlogConfig","LoadCounter","RunSQL","PluginInterface","OnlinePlugin");
+	var aryurl=new Array("main.asp","BlogConfig/main.asp","LoadCounter/main.asp","RunSQL/main.asp","PluginInterface/main.asp","OnlinePlugin/main.asp");
+	var arycss=new Array("m-left","m-left","m-left","m-left");
 	for(var i=0;i<=aryname.length;i++){
 		Response.Write(MakeSubMenu(aryname[i],BlogHost+"zb_users/plugin/zbdk/"+aryurl[i],((j==i||j==aryname[i])?arycss[i]+" m-now":arycss[i]),false));
 	}
