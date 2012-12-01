@@ -1,4 +1,4 @@
-<%
+﻿<%
 Function AntiXSS_VbsTrim(s)
 	AntiXSS_VbsTrim=Trim(s)
 End Function

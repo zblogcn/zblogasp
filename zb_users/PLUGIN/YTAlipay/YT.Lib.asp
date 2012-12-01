@@ -1,4 +1,4 @@
-<!--#include file="YT.MD5.asp" -->
+﻿<!--#include file="YT.MD5.asp" -->
 <%
 Class YT_Alipay
 	Public sPartner

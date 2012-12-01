@@ -1,4 +1,4 @@
-<script language="javascript" type="text/javascript" runat="server">
+﻿<script language="javascript" type="text/javascript" runat="server">
 //HMAC-SHA1操作类，微博oAuth1使用，稍有改动
 /*
  * A JavaScript implementation of the Secure Hash Algorithm, SHA-1, as defined

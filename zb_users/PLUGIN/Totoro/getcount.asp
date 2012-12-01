@@ -1,4 +1,4 @@
-<% Response.Charset="UTF-8" %>
+﻿<% Response.Charset="UTF-8" %>
 <% Response.Buffer=True %>
 <!-- #include file="../../c_option.asp" -->
 <!-- #include file="../../../zb_system/function/c_function.asp" -->

@@ -1,4 +1,4 @@
-<%
+﻿<%
 '************************************
 ' Powered by ThemePluginEditor<%=版本号%>
 ' zsx http://www.zsxsoft.com

@@ -1,4 +1,4 @@
-<%@LANGUAGE="VBSCRIPT" CODEPAGE="65001"%>
+﻿<%@LANGUAGE="VBSCRIPT" CODEPAGE="65001"%>
 <%
 '************************************
 ' Powered by ThemePluginEditor<%=版本号%>

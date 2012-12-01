@@ -1,4 +1,4 @@
-<!-- #include file="function.asp"-->
+﻿<!-- #include file="function.asp"-->
 <%
 Call RegisterPlugin("QQConnect","qqconnect_include")
 %>

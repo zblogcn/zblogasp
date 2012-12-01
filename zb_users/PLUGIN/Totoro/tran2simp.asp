@@ -1,4 +1,4 @@
-<script language="javascript" runat="server">
+﻿<script language="javascript" runat="server">
 //码表来自网络。
 //顺便鄙视一下VBS的编码问题，把这堆代码扔到UTF-8的VBS里准出错！
 function Totoro_FunctionTrantoSimp(str){

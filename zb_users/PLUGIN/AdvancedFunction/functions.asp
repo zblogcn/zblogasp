@@ -1,4 +1,4 @@
-<script language="javascript" runat="server">
+﻿<script language="javascript" runat="server">
 var advancedfunction={
 	
 	config:{}

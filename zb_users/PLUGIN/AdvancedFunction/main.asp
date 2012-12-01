@@ -1,4 +1,4 @@
-<%@ LANGUAGE="VBSCRIPT" CODEPAGE="65001"%>
+﻿<%@ LANGUAGE="VBSCRIPT" CODEPAGE="65001"%>
 <%'UI设计部分有参考coolmud的列表插件%>
 <% Option Explicit %>
 <% 'On Error Resume Next %>
