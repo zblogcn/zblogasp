@@ -1,4 +1,4 @@
-<%@ CODEPAGE=65001 %>
+﻿<%@ CODEPAGE=65001 %>
 <%
 '///////////////////////////////////////////////////////////////////////////////
 '//              Z-Blog
@@ -14,7 +14,7 @@
 '///////////////////////////////////////////////////////////////////////////////
 %>
 <% Option Explicit %>
-<% On Error Resume Next %>
+<%' On Error Resume Next %>
 <% Response.Charset="UTF-8" %>
 <% Response.Buffer=True %>
 <!-- #include file="zb_users/c_option.asp" -->
@@ -104,8 +104,28 @@ Else
 		Dim fso, TxtFile
 		Set fso = CreateObject("Scripting.FileSystemObject")
 		If fso.FileExists(Server.MapPath(c)) Then
-			Response.Write LoadFromFile(BlogHost & c,"utf-8")
-			Response.End
+			If checkfile(fso.getFile(BlogPath & c).Path)=False Then
+				Dim aryExt,strExt,strRequest,aryRequest
+				aryRequest=Split(c,".")
+				strRequest=aryRequest(Ubound(aryRequest))
+				
+				aryExt=Split(ZC_PAGE_REGEX,".")
+				strExt=aryExt(Ubound(aryExt))
+				
+
+				If (strRequest=strExt And InStr(ZC_PAGE_REGEX,"default." & strExt)<=0) Then
+					Response.Write LoadFromFile(BlogPath & c,"utf-8")
+					Response.End
+				End If	
+				
+				aryExt=Split(ZC_ARTICLE_REGEX,".")
+				strExt=aryExt(Ubound(aryExt))		
+				If (strRequest=strExt And InStr(ZC_ARTICLE_REGEX,"default." & strExt)<=0) Then
+					Response.Write LoadFromFile(BlogPath & c,"utf-8")
+					Response.End
+				End If	
+			End If
+			
 		ElseIf fso.FolderExists(Server.MapPath(c)) Then
 			If fso.FileExists(Server.MapPath(c)&"\default.asp") Then Response.Redirect "default.asp"
 			If fso.FileExists(Server.MapPath(c)&"\default.html") Then Response.Redirect "default.html"
@@ -153,6 +173,28 @@ Next
 
 Call System_Terminate()
 
+
+
+Function checkfile(file)
+	checkfile=False
+	Dim Fso
+	Set fso=CreateObject("scripting.filesystemobject")
+	Dim Temp1,Temp2,Temp3
+	'If FileManage_FSO.FileExists(file)=False Then
+	'	FileManage_CheckFile=True
+	'Else
+		Temp1=fso.GetFolder(BlogPath).Path
+		If fso.FileExists(file)=True Then
+			Temp2=fso.GetFile(file).ParentFolder
+			Temp3=LCase(fso.GetFile(file).Name)
+			If Left(Temp2,Len(Temp1))<>Temp1 Then checkfile=True
+		Else
+			Temp3=file
+			If Instr(Temp3,Temp1)<=0 Then checkfile=True
+		End If
+		If CheckRegExp(Temp3,".*?global.asa(x)?") Then checkfile=True
+	'End If 
+End Function
 %>
 <!-- <%=RunTime()%>ms --><%
 If Err.Number<>0 then
