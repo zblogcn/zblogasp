@@ -14,7 +14,7 @@
 '///////////////////////////////////////////////////////////////////////////////
 %>
 <% Option Explicit %>
-<% On Error Resume Next %>
+<%' On Error Resume Next %>
 <% Response.Charset="UTF-8" %>
 <% Response.Buffer=True %>
 <!-- #include file="zb_users/c_option.asp" -->
@@ -34,7 +34,7 @@ Next
 
 Dim ArtList
 Set ArtList=New TArticleList
-
+ArtList.isCatalog=True
 Dim auth
 auth=Request.QueryString("auth") 
 '为beta2前错误配置做处理
