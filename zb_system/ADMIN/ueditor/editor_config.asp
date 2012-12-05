@@ -39,19 +39,21 @@ Next
     oDic.Add "wordImagePath",""""&Path&""""
     oDic.Add "wordImageFieldName","""edtFileLoad"""
     oDic.Add "getMovieUrl","URL+""asp/getMovie.asp"""
-	oDic.Add "toolbars","[ [ 'source', '|', 'undo', 'redo', '|', 'bold', 'italic', 'underline', 'strikethrough', 'superscript', 'subscript','forecolor', 'backcolor', '|', 'insertorderedlist', 'insertunorderedlist','indent', 'justifyleft', 'justifycenter', 'justifyright','|', 'removeformat','formatmatch','autotypeset', 'searchreplace'],[ 'fontfamily', 'fontsize','|', 'emotion','link','anchor','insertimage',,'insertvideo', 'attachment','spechars','|', 'map', 'gmap','|', "&IIf(ZC_SYNTAXHIGHLIGHTER_ENABLE,"'highlightcode',","")&"'blockquote', 'pasteplain','wordimage','inserttable', '|' ,'scrawl','horizontal','fullscreen']]"
-	'oDic.Add "maximumWords",1000000000
-	'oDic.Add "wordCountMsg","'当前已输入 {#count} 个字符 '"
+	oDic.Add "toolbars","[ [ 'source', '|', 'undo', 'redo', '|', 'bold', 'italic', 'underline', 'strikethrough', 'superscript', 'subscript','forecolor', 'backcolor', '|', 'insertorderedlist', 'insertunorderedlist','indent', 'justifyleft', 'justifycenter', 'justifyright','|', 'removeformat','formatmatch','autotypeset', 'searchreplace'],[ 'fontfamily', 'fontsize','|', 'emotion','link','music','insertimage',,'insertvideo', 'attachment','spechars','|', 'map', 'gmap','|', "&IIf(ZC_SYNTAXHIGHLIGHTER_ENABLE,"'highlightcode',","")&"'blockquote', 'pasteplain','wordimage','inserttable', '|' ,'scrawl','horizontal','fullscreen']]"
+	oDic.Add "maximumWords",1000000000
+	oDic.Add "wordCountMsg","'当前已输入 {#count} 个字符 '"
 	oDic.Add "initialContent","'<p></p>'"
 	oDic.Add "initialStyle","'body{font-size:14px;font-family:微软雅黑,宋体,Arial,Helvetica,sans-serif;}'"
-	oDic.Add "wordCount","false"
-	oDic.Add "elementPathEnabled","false"
+	oDic.Add "wordCount","true"
+	oDic.Add "elementPathEnabled","true"
 	oDic.Add "minFrameHeight","300"
     oDic.Add "scrawlUrl"," URL+""asp/scrawlUp.asp"""
     oDic.Add "scrawlPath",""""&Path&""""
 	oDic.Add "scrawlFieldName","""edtFileLoad"""
 	oDic.Add "maxImageSideLength","2147483647"
 	oDic.Add "sourceEditor",""""&IIf(ZC_CODEMIRROR_ENABLE,"codemirror","textarea")&""""
+	oDic.Add "theme","'default'"
+    oDic.Add "themePath","URL +'themes/'"
 	'oDic.Add "contextMenu","[]"
 	
 	Dim i,aryKeys,aryItems
