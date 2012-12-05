@@ -215,7 +215,7 @@ var video = {};
                  var div = document.createElement( "div" );
                  div.setAttribute( "name", j );
                  if ( j == "none" ) div.className="focus";
-                 div.style.cssText = "background:url(../../themes/default/images/" + j + "_focus.jpg);";
+                 div.style.cssText = "background:url(images/" + j + "_focus.jpg);";
                  div.setAttribute( "title", nameMaps[j] );
                  floatContainer.appendChild( div );
              }

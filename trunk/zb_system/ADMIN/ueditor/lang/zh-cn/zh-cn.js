@@ -22,8 +22,8 @@ UE.I18N['zh-cn'] = {
         'insertunorderedlist':'无序列表', 'fullscreen':'全屏', 'directionalityltr':'从左向右输入', 'directionalityrtl':'从右向左输入',
         'rowspacingtop':'段前距', 'rowspacingbottom':'段后距', 'highlightcode':'插入代码', 'pagebreak':'分页', 'insertframe':'插入Iframe', 'imagenone':'默认',
         'imageleft':'左浮动', 'imageright':'右浮动', 'attachment':'附件', 'imagecenter':'居中', 'wordimage':'图片转存',
-        'lineheight':'行间距','edittd':'单元格', 'customstyle':'自定义标题', 'autotypeset':'自动排版', 'webapp':'百度应用', 'touppercase':'字母大写', 'tolowercase':'字母小写','background':'背景','template':'模板','scrawl':'涂鸦',
-		'insertintro':'摘要分隔'
+        'lineheight':'行间距','edittd':'单元格', 'customstyle':'自定义标题', 'autotypeset':'自动排版', 'webapp':'百度应用',
+        'touppercase':'字母大写', 'tolowercase':'字母小写','background':'背景','template':'模板','scrawl':'涂鸦','music':'音乐'
     },
     'insertorderedlist':{
         'decimal':'1,2,3...',
@@ -60,7 +60,7 @@ UE.I18N['zh-cn'] = {
     elementPathTip:"元素路径",
     'wordCountTip':"字数统计",
     'wordCountMsg':'当前已输入{#count}个字符, 您还可以输入{#leave}个字符。 ',
-    'wordOverFlowMsg':'<span style="color:red;">The number of characters has been exceeded maximum allowable values, the server may refuse to save!</span>',
+    'wordOverFlowMsg':'<span style="color:red;">字数超出最大允许值，服务器可能拒绝保存！</span>',
     'ok':"确认",
     'cancel':"取消",
     'closeDialog':"关闭对话框",
@@ -87,6 +87,7 @@ UE.I18N['zh-cn'] = {
         'justifycenter':'居中对齐',
         'justifyjustify':'两端对齐',
         'table':"表格",
+        'inserttable':'插入表格',
         'deletetable':"删除表格",
         'insertparagraphbeforetable':"表格前插入行",
         'deleterow':"删除行",
@@ -103,7 +104,8 @@ UE.I18N['zh-cn'] = {
         'copy':"复制(Ctrl + c)",
         'copymsg':"请使用 'Ctrl + c'执行复制操作",
         'paste':"粘贴(Ctrl + v)",
-        'pastemsg':"请使用'Ctrl + v'执行复制操作"
+        'pastemsg':"请使用'Ctrl + v'执行复制操作",
+        'highlightcode':'插入代码'
     },
 
     'anthorMsg':"链接",
@@ -231,6 +233,17 @@ UE.I18N['zh-cn'] = {
         'imageError':"糟糕，图片读取失败了！",
         'backgroundUploading':'背景图片上传中,别急哦~'
     },
+    'music':{
+        'static':{
+            'lang_input_tips':"输入歌手/歌曲/专辑，搜索您感兴趣的音乐！",
+            'J_searchBtn':{value:'搜索歌曲'}
+        },
+        'emptyTxt':'未搜索到相关音乐结果，请换一个关键词试试。',
+        'chapter':'歌曲',
+        'singer':'歌手',
+        'special':'专辑',
+        'listenTest':'试听'
+    },
     'anchor':{
         'static':{
             'lang_input_anchorName':'锚点名字：'
@@ -297,7 +310,7 @@ UE.I18N['zh-cn'] = {
         'static':{
             'lang_input_about':'关于UEditor',
             'lang_input_shortcuts':'快捷键',
-            'lang_input_version':'版本:1.2.3',
+            'lang_input_version':'版本:1.2.4',
             'lang_input_introduction':'UEditor是由百度web前端研发部开发的所见即所得富文本web编辑器，具有轻量，可定制，注重用户体验等特点。开源基于BSD协议，允许自由使用和修改代码。',
             'lang_Txt_shortcuts':'快捷键',
             'lang_Txt_func':'功能',
