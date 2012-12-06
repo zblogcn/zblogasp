@@ -88,7 +88,6 @@ Next
 
 %>
 <!--#include file="admin_header.asp"-->
-	<link rel="stylesheet" type="text/css" href="ueditor/themes/default/ueditor.css"/>
 	<script type="text/javascript" src="../script/jquery.tagto.js"></script>
 	<script type="text/javascript" src="../script/jquery-ui-timepicker-addon.js"></script>
 	<script type="text/javascript" charset="utf-8" src="ueditor/editor_config.asp"></script>

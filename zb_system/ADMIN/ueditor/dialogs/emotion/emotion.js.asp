@@ -49,10 +49,11 @@ window.onload = function () {
 	emotion.imageCss["tab<%=(x)%>"]='<%=f(x)%>';
 	emotion.imageCssOffset["tab<%=(x)%>"]=35;
 	emotion.SmileyInfor["tab<%=(x)%>"]=[<%=e%>];
-	var tp=$G('tabMenu'),tc=$G('tabContent');
-	var dtp=document.createElement("div");
-        dtp.innerHTML  = "<%=f(x)%>";
+	var tp=$G('tabHeads'),tc=$G('tabBodys');
+	var dtp=document.createElement("span");
+        dtp.innerHTML  ="<%=f(x)%>";
 		tp.appendChild(dtp);
+		tp.innerHTML = tp.innerHTML+" \n";
 	var dtc=document.createElement("div");
 		dtc.id='tab<%=(x)%>';
 		tc.appendChild(dtc);
@@ -71,15 +72,12 @@ window.onload = function () {
 function initImgName() {
     for ( var pro in emotion.SmilmgName ) {
         var tempName = emotion.SmilmgName[pro],
-                tempBox = emotion.SmileyBox[pro],
-                tempStr = "";
-
+            tempBox = emotion.SmileyBox[pro],
+			tempStr=emotion.SmileyInfor[pro];
+			
         if ( tempBox.length ) return;
-        for ( var i = 1; i <= tempName[1]; i++ ) {
-            tempStr = tempName[0];
-            if ( i < 10 ) tempStr = tempStr + '0';
-            tempStr = tempStr + i + '.gif';
-            tempBox.push( tempStr );
+        for ( var i = 0; i < tempName[1]; i++ ) {
+            tempBox.push( tempStr[i]);
         }
     }
 }
@@ -136,38 +134,6 @@ function switchTab( index ) {
 function autoHeight( index ) {
     var iframe = dialog.getDom( "iframe" ),
             parent = iframe.parentNode.parentNode;
-    switch ( index ) {
-        case 0:
-            iframe.style.height = "380px";
-            parent.style.height = "392px";
-            break;
-        case 1:
-            iframe.style.height = "220px";
-            parent.style.height = "232px";
-            break;
-        case 2:
-            iframe.style.height = "260px";
-            parent.style.height = "272px";
-            break;
-        case 3:
-            iframe.style.height = "300px";
-            parent.style.height = "312px";
-            break;
-        case 4:
-            iframe.style.height = "140px";
-            parent.style.height = "152px";
-            break;
-        case 5:
-            iframe.style.height = "260px";
-            parent.style.height = "272px";
-            break;
-        case 6:
-            iframe.style.height = "230px";
-            parent.style.height = "242px";
-            break;
-        default:
-
-    }
 }
 
 
@@ -197,7 +163,7 @@ function createTab( tabName ) {
 
                 textHTML.push( '<td  class="' + tableCss + '"   border="1" width="' + iColWidth + '%" style="border-collapse:collapse;" align="center"  bgcolor="transparent" onclick="InsertSmiley(\'' + realUrl.replace( /'/g, "\\'" ) + '\',event)" onmouseover="over(this,\'' + sUrl + '\',\'' + posflag + '\')" onmouseout="out(this)">' );
                 textHTML.push( '<span  style="display:block;">' );
-                textHTML.push( '<img  style="background-position:left ' + offset + 'px;" title="' + infor + '" src="' + emotion.SmileyPath + (editor.options.emotionLocalization ? '0.gif" width="' : 'default/0.gif" width="') + iWidth + '" height="' + iHeight + '"></img>' );
+                textHTML.push( '<img  style="max-height:'+ iHeight +';max-width:'+ iWidth +';" title="' + infor.substr(0,infor.length-4) + '" src="'+sUrl+'"></img>' );
                 textHTML.push( '</span>' );
             } else {
                 textHTML.push( '<td width="' + iColWidth + '%"   bgcolor="#FFFFFF">' );
