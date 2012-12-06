@@ -147,13 +147,13 @@ Next
 						<!-- <p><span class='editinputname'><%=ZC_MSG055%>:</span></p> -->
 						<p style="text-align:left;"><span class='editinputname'><%=ZC_MSG055%>:</span>&nbsp;&nbsp;<span id="timemsg"></span><span id="msg2"></span><span id="msg"></span><span class='editinputname'></span><script type="text/javascript" src="c_autosaverjs.asp?act=edit&amp;type=ueditor"></script></p>
                         
-                        <textarea id="editor_ue" name="txaContent" style="width:100%"><%=TransferHTML(EditArticle.Content,"[textarea]")%></textarea><div id="contentready"><img id="statloading" src="../image/admin/loading.gif"/><%=ZC_MSG276%></div>
+                        <textarea id="editor_ue" name="txaContent" style="display:none"><%=TransferHTML(EditArticle.Content,"[textarea]")%></textarea><div id="contentready"><img id="statloading" src="../image/admin/loading.gif"/><%=ZC_MSG276%></div>
 						<p><span><%=ZC_MSG216%><a href="" onClick="try{AutoIntro();return false;}catch(e){}">[<%=ZC_MSG200%>]</a></span></p>
                       </div>
 
                       <div id="divIntro" style="display:<%If EditArticle.Intro="" Then Response.Write "none" Else Response.Write "block"%>;">
                         <p><span class='editinputname'><%=ZC_MSG016%>:</span></p>
-                        <textarea id="editor_ue2" name="txaIntro" style=""><%=TransferHTML(EditArticle.Intro,"[textarea]")%></textarea><div id="introready"><img id="statloading" src="../image/admin/loading.gif"/><%=ZC_MSG276%></div>
+                        <textarea id="editor_ue2" name="txaIntro" style="display:none"><%=TransferHTML(EditArticle.Intro,"[textarea]")%></textarea><div id="introready"><img id="statloading" src="../image/admin/loading.gif"/><%=ZC_MSG276%></div>
                       </div>
 
 <!-- 2号输出接口 -->
@@ -366,10 +366,12 @@ var editor2=UE.getEditor('editor_ue2',EditorIntroOption);
 
 editor.ready(function(){
 	$("#contentready").hide();
+	$("#editor_ue").prev().show();
 }
 );
 editor2.ready(function(){
 	$("#introready").hide();
+	$("#editor_ue2").prev().show();
 });
 //日期时间控件
 $.datepicker.regional['zh-cn'] = {
@@ -476,19 +478,21 @@ function AutoIntro() {
 }
 
 //文章编辑提交区随动JS开始
-function tools(){
- var top=$(document).scrollTop();
- if(($.browser.msie==true)&&($.browser.version==6.0)){
-  if(top>138)$("#divFloat").css({position:"absolute",top:top-138});
- }else{
-  if(top>138)$("#divFloat").css({position:"fixed",top:0});
+ var oDiv=document.getElementById("divFloat");
+ var H=0,iE6;
+ var Y=oDiv;
+ while(Y){H+=Y.offsetTop;Y=Y.offsetParent;};
+ iE6=window.ActiveXObject&&!window.XMLHttpRequest;
+ if(!iE6){
+	 window.onscroll=function()
+	 {
+		 var s=document.body.scrollTop||document.documentElement.scrollTop;
+		 if(s>H){oDiv.className="boxfloat";if(iE6){oDiv.style.top=(s-H)+"px";}}
+		 else{oDiv.className="";}   
+	};
  }
- if(top<=138)$("#divFloat").css({position:"static",top:0});
-}
-$(function(){
- window.onscroll=tools;
- window.onresize=tools;
-});
+
+//文章编辑提交区随动JS结束
 
 function selectlogtemplate(c){
 <%
@@ -508,7 +512,6 @@ function selectlogtemplatesub(a){
 //window.onbeforeunload = function(){return "您当前的编辑内容还未保存！"}
 // ]]>
 </script>
-<!--文章编辑提交区随动JS结束-->
 <!--#include file="admin_footer.asp"-->
 <%
 Call System_Terminate()
