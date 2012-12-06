@@ -148,13 +148,13 @@ Next
 						<!-- <p><span class='editinputname'><%=ZC_MSG055%>:</span></p> -->
 						<p style="text-align:left;"><span class='editinputname'><%=ZC_MSG055%>:</span>&nbsp;&nbsp;<span id="timemsg"></span><span id="msg2"></span><span id="msg"></span><span class='editinputname'></span><script type="text/javascript" src="c_autosaverjs.asp?act=edit&amp;type=ueditor"></script></p>
                         
-                        <textarea id="editor_ue" name="txaContent" style="display:none"><%=TransferHTML(EditArticle.Content,"[textarea]")%></textarea><div id="contentready"><img id="statloading" src="../image/admin/loading.gif"/><%=ZC_MSG276%></div>
+                        <textarea id="editor_ue" name="txaContent" style="width:100%"><%=TransferHTML(EditArticle.Content,"[textarea]")%></textarea><div id="contentready"><img id="statloading" src="../image/admin/loading.gif"/><%=ZC_MSG276%></div>
 						<p><span><%=ZC_MSG216%><a href="" onClick="try{AutoIntro();return false;}catch(e){}">[<%=ZC_MSG200%>]</a></span></p>
                       </div>
 
                       <div id="divIntro" style="display:<%If EditArticle.Intro="" Then Response.Write "none" Else Response.Write "block"%>;">
                         <p><span class='editinputname'><%=ZC_MSG016%>:</span></p>
-                        <textarea id="editor_ue2" name="txaIntro" style="display:none"><%=TransferHTML(EditArticle.Intro,"[textarea]")%></textarea><div id="introready"><img id="statloading" src="../image/admin/loading.gif"/><%=ZC_MSG276%></div>
+                        <textarea id="editor_ue2" name="txaIntro" style=""><%=TransferHTML(EditArticle.Intro,"[textarea]")%></textarea><div id="introready"><img id="statloading" src="../image/admin/loading.gif"/><%=ZC_MSG276%></div>
                       </div>
 
 <!-- 2号输出接口 -->
@@ -356,21 +356,21 @@ $(document).ready(function(){
 		}) //源码模式下保存时必须切换
 	});
 var loaded=false;
-var editor = new baidu.editor.ui.Editor();
-var editor2 = new baidu.editor.ui.Editor({
+var EditorIntroOption = {
 	toolbars:[['Source', 'bold', 'italic','link','insertimage','Undo', 'Redo']],
 	autoHeightEnabled:false,
 	minFrameHeight:200
-});
-editor.render('editor_ue');
-editor2.render('editor_ue2');
+};
+
+var editor=UE.getEditor('editor_ue');
+var editor2=UE.getEditor('editor_ue2',EditorIntroOption);
+
 editor.ready(function(){
-	$("#contentready").hide();$("div[id='editor_ue']").show();
+	$("#contentready").hide();
 }
 );
 editor2.ready(function(){
 	$("#introready").hide();
-	$("div[id='editor_ue2']").show();
 });
 //日期时间控件
 $.datepicker.regional['zh-cn'] = {
