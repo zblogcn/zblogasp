@@ -180,6 +180,7 @@ function createTab( tabName ) {
 function over( td, srcPath, posFlag ) {
     td.style.backgroundColor = "#ACCD3C";
     $G( 'faceReview' ).style.backgroundImage = "url(" + srcPath + ")";
+	$G( 'faceReview' ).src = "<%=GetCurrentHost()%>zb_system\/IMAGE\/ADMIN\/none.gif";
     if ( posFlag == 1 ) $G( "tabIconReview" ).className = "show";
     $G( "tabIconReview" ).style.display = 'block';
 }
