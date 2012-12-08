@@ -236,7 +236,9 @@ UE.I18N['zh-cn'] = {
     'music':{
         'static':{
             'lang_input_tips':"输入歌手/歌曲/专辑，搜索您感兴趣的音乐！",
-            'J_searchBtn':{value:'搜索歌曲'}
+            'J_searchBtn':{value:'搜索歌曲'},
+			'lang_tab_remote':"百度搜索",
+			'lang_tab_local':"网络歌曲"
         },
         'emptyTxt':'未搜索到相关音乐结果，请换一个关键词试试。',
         'chapter':'歌曲',
