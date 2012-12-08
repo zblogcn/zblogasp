@@ -863,7 +863,7 @@ Function SaveThemeXmlInfo(id)
 	'Set objPI = Nothing
 
 
-	Set objXMLrss = objXMLdoc.createElement("plugin")
+	Set objXMLrss = objXMLdoc.createElement("theme")
 
 	objXMLdoc.AppendChild(objXMLrss)
 
