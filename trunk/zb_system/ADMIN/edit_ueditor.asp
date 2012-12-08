@@ -351,28 +351,36 @@ End If
 $(document).ready(function(){
 	$("#edit").submit(function(){
 		if(editor.queryCommandState("source")==1) editor.execCommand("source");
-		if(editor2.queryCommandState("source")==1) editor2.execCommand("source")
-		}) //源码模式下保存时必须切换
-	});
+		if(editor2.queryCommandState("source")==1) editor2.execCommand("source");
+	}) //源码模式下保存时必须切换
+});
+
 var loaded=false;
+
 var EditorIntroOption = {
 	toolbars:[['Source', 'bold', 'italic','link','insertimage','Undo', 'Redo']],
 	autoHeightEnabled:false,
 	minFrameHeight:200
 };
-
 var editor=UE.getEditor('editor_ue');
 var editor2=UE.getEditor('editor_ue2',EditorIntroOption);
+
+var sContent="",sIntro="";//原内容与摘要
 
 editor.ready(function(){
 	$("#contentready").hide();
 	$("#editor_ue").prev().show();
-}
-);
+	sContent=editor.getContent();
+});
 editor2.ready(function(){
 	$("#introready").hide();
 	$("#editor_ue2").prev().show();
+	sIntro=editor2.getContent();
 });
+
+//文章内容或摘要变动提示保存
+window.onbeforeunload = function(){if (sContent!=editor.getContent() || sIntro!=editor2.getContent()) return "您当前的编辑内容还未保存！";}
+
 //日期时间控件
 $.datepicker.regional['zh-cn'] = {
 	closeText: '完成',
@@ -431,16 +439,15 @@ $('#showtags').click(function (event) {
 	$('#ulTag').slideDown("fast"); 		
 	if(loaded==false){$.getScript('../function/c_admin_js.asp?act=tags');loaded=true;}
 });  
+
 $(document).click(function (event){$('#ulTag').slideUp("fast");});  
 
 function AddKey(i) {
 	var strKey=$('#edtTag').val();
 	var strNow=","+i
-
 	if(strKey==""){
 		strNow=i
 	}
-
 	if(strKey.indexOf(strNow)==-1){
 		strKey=strKey+strNow;
 	}
@@ -450,12 +457,11 @@ function DelKey(i) {
 	var strKey=$('#edtTag').val();
 	var strNow="{"+i+"}"
 	if(strKey.indexOf(strNow)!=-1){
-
 		strKey=strKey.substring(0,strKey.indexOf(strNow))+strKey.substring(strKey.indexOf(strNow)+strNow.length,strKey.length)
-
 	}
 	$('#edtTag').val(strKey);
 }
+
 //提取摘要
 function AutoIntro() {
 	var s=editor.getContent();
@@ -492,8 +498,7 @@ function AutoIntro() {
 	};
  }
 
-//文章编辑提交区随动JS结束
-
+//选择模板
 function selectlogtemplate(c){
 <%
 	Dim Category
@@ -509,7 +514,7 @@ function selectlogtemplatesub(a){
 	$("#cmbTemplate").find("option[value='"+a+"']").attr("selected","selected");
 	edtTemplate.value=a;
 }
-//window.onbeforeunload = function(){return "您当前的编辑内容还未保存！"}
+
 // ]]>
 </script>
 <!--#include file="admin_footer.asp"-->
