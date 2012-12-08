@@ -5573,7 +5573,7 @@ UE.commands['insertimage'] = {
                             (ci.border || '') + '" ' +
                             (ci.title ? ' title="' + ci.title + '"' : '') + 
 							(ci.title ? ' alt="' + ci.title + '"' : ' alt="image" ') + 
-							+' /></p>';
+							' /></p>';
                     html.push( str );
                 }
             }
