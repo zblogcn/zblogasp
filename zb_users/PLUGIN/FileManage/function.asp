@@ -738,6 +738,7 @@ End Sub
 '*********************************************************
 Function FileManage_CheckFolder(folder)
 	
+	FileManage_CheckFolder=False
 	Dim Temp1,Temp2
 	If FileManage_FSO.FolderExists(folder)=False Then
 		FileManage_CheckFolder=True
@@ -748,6 +749,8 @@ Function FileManage_CheckFolder(folder)
 	End If 
 End Function
 Function FileManage_CheckFile(file)
+	
+	FileManage_CheckFile=False
 	
 	Dim Temp1,Temp2,Temp3
 	'If FileManage_FSO.FileExists(file)=False Then
