@@ -22,8 +22,28 @@ strAct=Request.QueryString("act")
 If strAct="" Then strAct="SiteFileMng"
 strPath=Request.QueryString("path")
 strOpenFolderPath=Request.QueryString("OpenFolderPath")
-
+Dim FileManage_ShowAppsName__,FileManage_OpenCodeMirror,FileManage_DefaultPath___
 If strPath="" Then strPath=BlogPath: strOpenFolderPath=BlogPath
+
+Dim objConfig
+Set objConfig=New TConfig
+objConfig.Load "FileManage"
+
+If objConfig.Exists("FirstRun")=False Then
+	objConfig.Write "ShowAppsName__","True"
+	objConfig.Write "OpenCodeMirror","False"
+	objConfig.Write "DefaultPath___",""
+	objConfig.Write "FirstRun","ok"
+	objConfig.Save
+End If
+
+FileManage_ShowAppsName__=CBool(objConfig.Read("ShowAppsName__"))
+FileManage_OpenCodeMirror=CBool(objConfig.Read("OpenCodeMirror"))
+FileManage_DefaultPath___=CStr(objConfig.Read("DefaultPath___"))
+If FileManage_ShowAppsName__=True Then
+	Call Add_Action_Plugin("Action_Plugin_FileManage_ExportInformation_NotFound","FileManage_GetPluginName(""{path}"",""{f}"")")
+	Call Add_Action_Plugin("Action_Plugin_FileManage_ExportInformation_NotFound","FileManage_GetThemeName(""{path}"",""{f}"")")
+End If
 
 For Each Action_Plugin_FileManage_Initialize in Action_Plugin_FileManage_Initialize
 		If Not IsEmpty(sAction_Plugin_FileManage_Initialize) Then Call Execute(sAction_Plugin_FileManage_Initialize)
@@ -47,7 +67,7 @@ End Select
 #fileUpload{display:none;border:gray 1px solid}
 
 </style>
-<%If FileManage_CodeMirror=True Then%>
+<%If FileManage_OpenCodeMirror=True Then%>
 
 <link rel="stylesheet" href="../../../ZB_SYSTEM/admin/ueditor/third-party/codemirror/codemirror.css"/>
 <script language="JavaScript" type="text/javascript" src="../../../ZB_SYSTEM/admin/ueditor/third-party/codemirror/codemirror.js"></script>
@@ -57,7 +77,17 @@ End Select
 <div id="divMain"> <div id="ShowBlogHint">
       <%Call GetBlogHint()%>
     </div>
-  <div class="divHeader"><%=BlogTitle%></div>
+  <div class="divHeader"><%=BlogTitle%>&nbsp;&nbsp;<%
+  If Request.QueryString("act")<>"Setting" Then%>
+	  <a href="main.asp?act=Setting" title="设置"><img src="../../../zb_system/IMAGE/ADMIN/setting_tools.png"/></a>
+  <%
+  Else
+  %>
+  	  <a href="javascript:history.back(-1)" title="返回"><img src="images\upload.png"/></a>
+  <%
+  End If
+  %>
+</div>
   <div class="SubMenu"> 
 <%= Response_Plugin_SiteFileMng_SubMenu%>
     <!--<span class="m-left m-now"><a href="main.asp">[插件后台管理页]</a> </span>--> 
@@ -71,10 +101,13 @@ End Select
 '	If Not CheckRights(strAct) Then Call ShowError(6)
 	Select Case Request.QueryString("act")
 
-		Case "SiteFileMng","" Call FileManage_ExportSiteFileList(strPath,strOpenFolderPath)
+		Case "" Call FileManage_ExportSiteFileList(BlogPath & FileManage_DefaultPath___,"")
+		Case "SiteFileMng" Call FileManage_ExportSiteFileList(strPath,strOpenFolderPath)
 		Case "SiteFileEdt" Call FileManage_ExportSiteFileEdit(strPath,strOpenFolderPath,IIf(Request.QueryString("charset")=Empty,"",Request.QueryString("charset")))
 		Case "SiteFileUploadShow" Call FileManage_ExportSiteUpload(strPath)
 		Case "ThemeEditor" Response.Redirect "?act=SiteFileMng&path="&server.URLEncode(blogpath&"zb_users\theme\"&zc_blog_theme)
+		Case "Setting" Call FileManage_Setting
+		Case "SaveSetting" Call FileManage_SaveSetting
 		Case Else Response.Write "未知的命令"
 	End Select
 	%>

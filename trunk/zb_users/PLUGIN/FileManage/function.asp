@@ -320,6 +320,7 @@ Function FileManage_ExportSiteFileList(path,OpenFolderPath)
 '	Response.write "&nbsp;&nbsp;<a href='javascript:void(0)' onclick='window.open(""main.asp?act=SiteFileUploadShow&path="&Server.URLEncode(fpath)&"&OpenFolderPath="& Server.URLEncode(path) &""",""Detail"",""Scrollbars=no,Toolbar=no,Location=no,Direction=no,Resizeable=no,height=165px,width=780px"")' title=""上传""><img src=""images\upload.png""/></a>"
 	Response.Write "&nbsp;&nbsp;<a href='main.asp?act=SiteCreateFolder' onmousedown=""var str=prompt('请输入文件夹名');if(str!=null){this.href+='&path='+encodeURIComponent('"&Replace(Replace(path,"\","\\"),"""","\""")&"'+'\\'+str);this.click()}else{return false}"" title='新建文件夹'><img src='images\cfolder.png'/></a>"
 	Response.Write "&nbsp;&nbsp;<a href=""main.asp?act=SiteFileEdt&path="&Server.URLEncode(path) &"&OpenFolderPath="&Server.URLEncode(path)&""" title=""创建文件""><img src=""images\newfile.png""/></a>"
+
 	
 	
 	For Each sAction_Plugin_FileManage_AddControlBar in Action_Plugin_FileManage_AddControlBar
@@ -439,7 +440,7 @@ Function FileManage_ExportSiteFileEdit(tpath,OpenFolderPath,chars)
 		Response.Write "</p>"
 
 		Response.Write "</form>" & vbCrlf
-		If FileManage_CodeMirror Then
+		If FileManage_OpenCodeMirror Then
     	Response.Write "<script>var editor = CodeMirror.fromTextArea(document.getElementById(""txaContent""), {mode: """
 			If CheckRegExp(tpath,".+?html?|.+?xml") Or ct="" Then
 				Response.Write 	"text/xml"
@@ -737,7 +738,6 @@ End Sub
 '*********************************************************
 Function FileManage_CheckFolder(folder)
 	
-	FileManage_CheckFolder=False
 	Dim Temp1,Temp2
 	If FileManage_FSO.FolderExists(folder)=False Then
 		FileManage_CheckFolder=True
@@ -749,7 +749,6 @@ Function FileManage_CheckFolder(folder)
 End Function
 Function FileManage_CheckFile(file)
 	
-	FileManage_CheckFile=False
 	Dim Temp1,Temp2,Temp3
 	'If FileManage_FSO.FileExists(file)=False Then
 	'	FileManage_CheckFile=True
@@ -805,5 +804,28 @@ Function FileManage_CheckFileCharset(path)
 	End If
 	objstream.close
 	set objstream=nothing
+End Function
+
+Function FileManage_Setting()
+	Response.Write "<form method=""post"" action=""?act=SaveSetting"">"
+	Response.Write "<table width=""100%""><tr height=""32""><th width=""300"">配置项</th><th>内容</th></tr>"
+	Response.Write "<tr height=""32""><td>打开CodeMirror代码高亮</td><td><input type=""text"" class=""checkbox"""&_
+					" name=""OpenCodeMirror"" value="""&FileManage_OpenCodeMirror&"""/></td></tr>"
+	Response.Write "<tr height=""32""><td>显示主题名和插件名</td><td><input type=""text"" class=""checkbox"""&_
+					" name=""ShowAppsName__"" value="""&FileManage_ShowAppsName__&"""/></td></tr>"
+	Response.Write "<tr height=""32""><td>点击文件管理时打开路径（相对路径）</td><td><input type=""text"" "&_
+					" name=""DefaultPath___"" value="""&FileManage_DefaultPath___&""" style=""width:70%""/></td></tr>"
+	Response.Write "</tr></table><p>&nbsp;</p>"
+	Response.Write "<input type=""submit"" class=""button"" value=""保存""/></form>"
+	
+End Function
+
+Function FileManage_SaveSetting()
+	objConfig.Write "ShowAppsName__",Request.Form("ShowAppsName__")
+	objConfig.Write "OpenCodeMirror",Request.Form("OpenCodeMirror")
+	objConfig.Write "DefaultPath___",Request.Form("DefaultPath___")
+	objConfig.Save
+	Call SetBlogHint(True,Empty,Empty)
+	Response.Redirect "?act=Setting"
 End Function
 %>
