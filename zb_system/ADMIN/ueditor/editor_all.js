@@ -13881,7 +13881,7 @@ UE.plugins['music'] = function () {
     me.commands["music"] = {
         execCommand:function (cmd, musicObj) {
             var me = this,
-                str = creatInsertStr(musicObj.url, musicObj.width || 400, musicObj.height || 95, "none", false, true);
+                str = creatInsertStr(musicObj.url, musicObj.width || 400, musicObj.height || 120, "none", false, true);
             me.execCommand("inserthtml",str);
         },
         queryCommandState:function () {
