@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?><plugin version="2.0"><id>Codename</id><name>Codename</name><url>http://imzhou.com</url><note>灵感于 Windows Live 的 WordPress 主题，移植到Z-Blog</note><author><name>未寒</name><email>im@imzhou.com</email><url>http://imzhou.com/</url></author><source><name>Picturepan2</name><email>picturepan2@hotmail.com</email><url>http://livesino.net</url></source><adapted>Z-Blog 2.0</adapted><version>2.96</version><pubdate>2011-11-11</pubdate><modified>2012-10-05</modified><description><![CDATA[灵感于 Windows Live 的 WordPress 主题， 移植到Z-Blog
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?><theme version="2.0"><id>Codename</id><name>Codename</name><url>http://imzhou.com</url><note>灵感于 Windows Live 的 WordPress 主题，移植到Z-Blog</note><author><name>未寒</name><email>im@imzhou.com</email><url>http://imzhou.com/</url></author><source><name>Picturepan2</name><email>picturepan2@hotmail.com</email><url>http://livesino.net</url></source><adapted>Z-Blog 2.0</adapted><version>2.96</version><pubdate>2011-11-11</pubdate><modified>2012-10-05</modified><description><![CDATA[灵感于 Windows Live 的 WordPress 主题， 移植到Z-Blog
 集成基于 ColorBox（轻量级 jQuery 插件）的图片特效，无需打开新页即可浏览原图，并支持键盘操作。
 集成微软WEB翻译技术
-]]></description><price></price></plugin>
+]]></description><price></price></theme>

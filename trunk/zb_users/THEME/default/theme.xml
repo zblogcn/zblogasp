@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<plugin version="2.0">
+<theme version="2.0">
 	<id>default</id>
 	<name>Default主题</name>
 	<url>http://www.rainbowsoft.org/</url>
@@ -22,4 +22,4 @@
 		<![CDATA[Z-Blog的默认主题.模板由zx制作,娇娇设计.]]>
 	</description>
 	<price></price>
-	<plugin><path>editor.asp</path><include>include.asp</include><level>1</level></plugin></plugin>
+	<plugin><path>editor.asp</path><include>include.asp</include><level>1</level></plugin></theme>
