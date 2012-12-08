@@ -97,6 +97,11 @@ End If
   </select></p>
 </td></tr>
 <tr><td><p><b>· 插件定价</b></p></td><td><p>&nbsp;<input id="app_price" name="app_price" style="width:550px;"  type="text" value="<%=app_price%>" /></p></td></tr>
+<tr><td><p><b>· 【高级】依赖插件（以|分隔）</b>(可选)</p></td><td><p>&nbsp;<input id="app_dependency" name="app_dependency" style="width:550px;"  type="text" value="<%=app_dependency%>" /></p></td></tr>
+<tr><td><p><b>· 【高级】重写系统函数列表（以|分隔）</b>(可选)</p></td><td><p>&nbsp;<input id="app_rewritefunctions" name="app_rewritefunctions" style="width:550px;"  type="text" value="<%=app_rewritefunctions%>" /></p></td></tr>
+<tr><td><p><b>· 【高级】冲突插件列表（以|分隔）</b>(可选)</p></td><td><p>&nbsp;<input id="app_conflict" name="app_conflict" style="width:550px;"  type="text" value="<%=app_conflict%>" /></p></td></tr>
+
+
 <tr><td><p><b>· 详细说明</b> (可选)</p></td><td><p>&nbsp;<textarea cols="3" rows="6" id="app_description" name="app_description" style="width:550px;"><%=TransferHTML(app_description,"[html-format]")%></textarea></p></td></tr>
 
 
