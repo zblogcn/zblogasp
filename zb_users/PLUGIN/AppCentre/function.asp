@@ -25,6 +25,10 @@ Dim app_modified
 Dim app_description
 Dim app_price
 
+Dim app_dependency
+Dim app_rewritefunctions
+Dim app_conflict
+
 
 
 
@@ -187,7 +191,11 @@ Function LoadPluginXmlInfo(id)
 				app_plugin_include=objXmlFile.documentElement.selectSingleNode("include").text
 				app_plugin_level=objXmlFile.documentElement.selectSingleNode("level").text
 
-				app_price=objXmlFile.documentElement.selectSingleNode("app_price").text
+				app_price=objXmlFile.documentElement.selectSingleNode("price").text
+				
+				app_dependency=objXmlFile.documentElement.selectSingleNode("advanced/dependency").text
+				app_rewritefunctions=objXmlFile.documentElement.selectSingleNode("advanced/rewritefunctions").text
+				app_conflict=objXmlFile.documentElement.selectSingleNode("advanced/conflict").text
 
 			End If
 		End If
@@ -245,8 +253,11 @@ Function LoadThemeXmlInfo(id)
 				app_plugin_include=objXmlFile.documentElement.selectSingleNode("plugin/include").text
 				app_plugin_level=objXmlFile.documentElement.selectSingleNode("plugin/level").text
 
-				app_price=objXmlFile.documentElement.selectSingleNode("app_price").text
+				app_price=objXmlFile.documentElement.selectSingleNode("price").text
 
+				app_dependency=objXmlFile.documentElement.selectSingleNode("advanced/dependency").text
+				app_rewritefunctions=objXmlFile.documentElement.selectSingleNode("advanced/rewritefunctions").text
+				app_conflict=objXmlFile.documentElement.selectSingleNode("advanced/conflict").text
 			End If
 		End If
 	End If
@@ -262,7 +273,6 @@ End Function
 '创建一个空的XML文件，为写入文件作准备
 Function CreatePluginXml(FilePath)
 On Error Resume Next
-
 	Dim Theme_Id
 	Dim Theme_Name
 	Dim Theme_Url
@@ -281,6 +291,10 @@ On Error Resume Next
 	Dim Theme_Adapted
 	Dim Theme_Version
 	Dim Theme_Price
+	Dim Theme_dependency
+	Dim Theme_rewritefunctions
+	Dim Theme_conflict
+
 	Dim fso
 	Dim strXmlFile
 	Dim objXmlFile
@@ -312,6 +326,9 @@ On Error Resume Next
 				Theme_Author_Url=""
 				Theme_ScreenShot=""
 				Theme_Style_Name=""
+				Theme_dependency=""
+				Theme_conflict=""
+				Theme_rewritefunctions=""
 
 				'Theme_Source_Name=objXmlFile.documentElement.selectSingleNode("source/name").text
 				'Theme_Source_Url=objXmlFile.documentElement.selectSingleNode("source/url").text
@@ -339,6 +356,9 @@ On Error Resume Next
 				Theme_Version=objXmlFile.documentElement.selectSingleNode("version").text
 				Theme_Adapted=objXmlFile.documentElement.selectSingleNode("adapted").text
 				Theme_Price=objXmlFile.documentElement.selectSingleNode("price").text
+				Theme_dependency=objXmlFile.documentElement.selectSingleNode("advanced/dependency").text
+				Theme_rewritefunctions=objXmlFile.documentElement.selectSingleNode("advanced/rewritefunctions").text
+				Theme_conflict=objXmlFile.documentElement.selectSingleNode("advanced/conflict").text
 			End If
 		End If
 	End If
@@ -361,6 +381,8 @@ On Error Resume Next
 
 		'写入文件信息
 		Dim Author,AuthorName,AuthorURL,AuthorEmail
+		Dim Advanced,Advanced_dependency,Advanced_rewritefunctions,Advanced_conflict
+
 
 		Set Plugin_ID = XmlDoc.SelectSingleNode("//app").AppendChild(XmlDoc.CreateElement("id"))
 			Plugin_ID.Text = Theme_Id
@@ -424,6 +446,22 @@ On Error Resume Next
 
 		Set Author=Nothing
 
+		Set Advanced = XmlDoc.SelectSingleNode("//app").AppendChild(XmlDoc.CreateElement("advanced"))
+
+			Set Advanced_dependency = Advanced.AppendChild(XmlDoc.CreateElement("name"))
+				Advanced_dependency.Text = Theme_dependency
+			Set Advanced_dependency=Nothing
+
+			Set Advanced_rewritefunctions = Advanced.AppendChild(XmlDoc.CreateElement("url"))
+				Advanced_rewritefunctions.Text = Theme_rewritefunctions
+			Set Advanced_rewritefunctions=Nothing
+
+			Set Advanced_conflict = Advanced.AppendChild(XmlDoc.CreateElement("email"))
+				Advanced_conflict.Text = Theme_conflict
+			Set Advanced_conflict=Nothing
+
+		Set Advanced=Nothing
+
 		XmlDoc.Save(FilePath)
 		'Response.Write XmlDoc.Xml
 		Set Root = Nothing
@@ -460,6 +498,9 @@ On Error Resume Next
 	Dim Theme_Adapted
 	Dim Theme_Version
 	Dim Theme_Price
+	Dim Theme_dependency
+	Dim Theme_rewritefunctions
+	Dim Theme_conflict
 	Dim fso
 	Dim strXmlFile
 	Dim objXmlFile
@@ -491,6 +532,9 @@ On Error Resume Next
 				Theme_Author_Url=""
 				Theme_ScreenShot=""
 				Theme_Style_Name=""
+				Theme_dependency=""
+				Theme_conflict=""
+				Theme_rewritefunctions=""
 
 				Theme_Source_Name=objXmlFile.documentElement.selectSingleNode("source/name").text
 				Theme_Source_Url=objXmlFile.documentElement.selectSingleNode("source/url").text
@@ -519,6 +563,10 @@ On Error Resume Next
 				Theme_Version=objXmlFile.documentElement.selectSingleNode("version").text
 				Theme_Adapted=objXmlFile.documentElement.selectSingleNode("adapted").text
 				Theme_Price=objXmlFile.documentElement.selectSingleNode("price").text
+				Theme_dependency=objXmlFile.documentElement.selectSingleNode("advanced/dependency").text
+				Theme_rewritefunctions=objXmlFile.documentElement.selectSingleNode("advanced/rewritefunctions").text
+				Theme_conflict=objXmlFile.documentElement.selectSingleNode("advanced/conflict").text
+
 			End If
 		End If
 	End If
@@ -603,6 +651,23 @@ On Error Resume Next
 			Set AuthorEmail=Nothing
 
 		Set Author=Nothing
+		
+		Set Advanced = XmlDoc.SelectSingleNode("//app").AppendChild(XmlDoc.CreateElement("advanced"))
+
+			Set Advanced_dependency = Advanced.AppendChild(XmlDoc.CreateElement("name"))
+				Advanced_dependency.Text = Theme_dependency
+			Set Advanced_dependency=Nothing
+
+			Set Advanced_rewritefunctions = Advanced.AppendChild(XmlDoc.CreateElement("url"))
+				Advanced_rewritefunctions.Text = Theme_rewritefunctions
+			Set Advanced_rewritefunctions=Nothing
+
+			Set Advanced_conflict = Advanced.AppendChild(XmlDoc.CreateElement("email"))
+				Advanced_conflict.Text = Theme_conflict
+			Set Advanced_conflict=Nothing
+
+		Set Advanced=Nothing
+
 
 		XmlDoc.Save(FilePath)
 		Set Root = Nothing
@@ -744,6 +809,10 @@ app_description=Request.Form("app_description")
 app_price=Request.Form("app_price")
 
 
+app_dependency=Request.Form("app_dependency")
+app_rewritefunctions=Request.Form("app_rewritefunctions")
+app_conflict=Request.Form("app_conflict")
+
 
 
 
@@ -793,6 +862,7 @@ app_price=Request.Form("app_price")
 	Set objXMLitem = objXMLdoc.createElement("url")
 	objXMLitem.text=app_author_url
 	objXMLauthor.AppendChild(objXMLitem)
+	
 
 	objXMLrss.AppendChild(objXMLauthor)
 
@@ -831,6 +901,21 @@ app_price=Request.Form("app_price")
 	objXMLrss.AppendChild(objXMLitem)
 
 
+	Set objXMLauthor = objXMLdoc.createElement("advanced")
+
+	Set objXMLitem = objXMLdoc.createElement("dependency")
+	objXMLitem.text=app_dependency
+	objXMLauthor.AppendChild(objXMLitem)
+
+	Set objXMLitem = objXMLdoc.createElement("rewritefunctions")
+	objXMLitem.text=app_rewritefunctions
+	objXMLauthor.AppendChild(objXMLitem)
+
+	Set objXMLitem = objXMLdoc.createElement("conflict")
+	objXMLitem.text=app_conflict
+	objXMLauthor.AppendChild(objXMLitem)
+	objXMLrss.AppendChild(objXMLauthor)
+	
 
 	Dim xml
 	xml="<?xml version=""1.0"" encoding=""utf-8"" standalone=""yes""?>" & objXMLdoc.xml
@@ -895,6 +980,10 @@ app_modified=Request.Form("app_modified")
 app_description=Request.Form("app_description")
 app_price=Request.Form("app_price")
 
+
+app_dependency=Request.Form("app_dependency")
+app_rewritefunctions=Request.Form("app_rewritefunctions")
+app_conflict=Request.Form("app_conflict")
 
 
 
@@ -1003,6 +1092,23 @@ app_price=Request.Form("app_price")
 		objXMLrss.selectSingleNode("description").AppendChild(objXMLcdata)
 	End If
 
+
+	Set objXMLauthor = objXMLdoc.createElement("advanced")
+
+	Set objXMLitem = objXMLdoc.createElement("dependency")
+	objXMLitem.text=app_dependency
+	objXMLauthor.AppendChild(objXMLitem)
+
+	Set objXMLitem = objXMLdoc.createElement("rewritefunctions")
+	objXMLitem.text=app_rewritefunctions
+	objXMLauthor.AppendChild(objXMLitem)
+
+	Set objXMLitem = objXMLdoc.createElement("conflict")
+	objXMLitem.text=app_conflict
+	objXMLauthor.AppendChild(objXMLitem)
+	objXMLrss.AppendChild(objXMLauthor)
+	
+	
 	Set objXMLitem = objXMLdoc.createElement("price")
 	objXMLitem.text=app_price
 	objXMLrss.AppendChild(objXMLitem)

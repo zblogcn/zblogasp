@@ -87,10 +87,13 @@ End If
 <tr><td><p><b>· 源作者名称</b> (可选)</p></td><td><p>&nbsp;<input id="app_source_name" name="app_source_name" style="width:550px;"  type="text" value="<%=app_source_name%>" /></p></td></tr>
 <tr><td><p><b>· 源作者邮箱</b> (可选)</p></td><td><p>&nbsp;<input id="app_source_email" name="app_source_email" style="width:550px;"  type="text" value="<%=app_source_email%>" /></p></td></tr>
 <tr><td><p><b>· 源作者网站</b> (可选)</p></td><td><p>&nbsp;<input id="app_source_url" name="app_source_url" style="width:550px;"  type="text" value="<%=app_source_url%>" /></p></td></tr>
+<tr><td><p><b>· 依赖插件（以|分隔）</b>(可选)</p></td><td><p>&nbsp;<input id="app_dependency" name="app_dependency" style="width:550px;"  type="text" value="<%=app_dependency%>" /></p></td></tr>
+
 
 <tr><td><p><b>· 内置插件管理页</b> (可选)<br/><span class="note">&nbsp;&nbsp;默认为main.asp</span></p></td><td><p>&nbsp;<input id="app_plugin_path" name="app_plugin_path" style="width:550px;"  type="text" value="<%=app_plugin_path%>" /></p></td></tr>
 <tr><td><p><b>· 内置插件嵌入页</b> (可选)<br/><span class="note">&nbsp;&nbsp;默认为include.asp</span></p></td><td><p>&nbsp;<input id="app_plugin_include" name="app_plugin_include" style="width:550px;"  type="text" value="<%=app_plugin_include%>" /></p></td></tr>
-<tr><td><p><b>· 内置插件管理权限</b> (可选)</p></td><td>
+<tr><td><p><b>· 内置插件管理权限</b> (可选)</p></td>
+<td>
 <p>&nbsp;<select name="app_plugin_level" id="app_plugin_level" style="width:200px;">
     <option value="1" <%=IIF(app_plugin_level="1","selected='selected'","")%>><%=ZVA_User_Level_Name(1)%></option>
     <option value="2" <%=IIF(app_plugin_level="2","selected='selected'","")%>><%=ZVA_User_Level_Name(2)%></option>
@@ -99,6 +102,9 @@ End If
     <option value="5" <%=IIF(app_plugin_level="5","selected='selected'","")%>><%=ZVA_User_Level_Name(5)%></option>
   </select></p>
 </td></tr>
+
+<tr><td><p><b>· 【高级】内置插件重写系统函数列表（以|分隔）</b>(可选)</p></td><td><p>&nbsp;<input id="app_rewritefunctions" name="app_rewritefunctions" style="width:550px;"  type="text" value="<%=app_rewritefunctions%>" /></p></td></tr>
+<tr><td><p><b>· 【高级】内置插件冲突插件列表（以|分隔）</b>(可选)</p></td><td><p>&nbsp;<input id="app_conflict" name="app_conflict" style="width:550px;"  type="text" value="<%=app_conflict%>" /></p></td></tr>
 <tr><td><p><b>· 主题定价</b></p></td><td><p>&nbsp;<input id="app_price" name="app_price" style="width:550px;"  type="text" value="<%=app_price%>" /></p></td></tr>
 <tr><td><p><b>· 详细说明</b> (可选)</p></td><td><p>&nbsp;<textarea cols="3" rows="6" id="app_description" name="app_description" style="width:550px;"><%=TransferHTML(app_description,"[html-format]")%></textarea></p></td></tr>
 
