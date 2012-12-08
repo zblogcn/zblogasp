@@ -11,7 +11,7 @@ Dim searchKey,videoType
 searchKey=Trim(Request.Form("searchKey"))
 videoType=Trim(Request.Form("videoType"))
 
-strResponse=gethtml("http://api.tudou.com/v3/gw?method=item.search&appKey=myKey&format=json&kw="&searchKey&"&pageNo=1&pageSize=20&channelId="&videoType&"&inDays=7&media=v&sort=s","utf-8")  '从土豆下载数据
+strResponse=gethtml("http://api.tudou.com/v3/gw?method=item.search&appKey=myKey&format=json&kw="&searchKey&"&pageNo=1&pageSize=20&channelId="&videoType&"&media=v&sort=s","utf-8")  '从土豆下载数据
 
 For Each sAction_Plugin_ueditor_getmovie_End in Action_Plugin_ueditor_getmovie_End
 	If Not IsEmpty(sAction_Plugin_ueditor_getmovie_End) Then Call Execute(sAction_Plugin_ueditor_getmovie_End)
