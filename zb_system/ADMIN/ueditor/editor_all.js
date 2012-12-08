@@ -6997,7 +6997,7 @@ UE.commands['horizontal'] = {
     execCommand : function( cmdName ) {
         var me = this;
         if(me.queryCommandState(cmdName)!==-1){
-            if (me.document.getElementsByClassName("more").length != 0 || (parseInt(UE.browser.version)<=8)&&UE.browser.ie) {
+            if (me.document.getElementsByTagName("hr").length != 0) {
 				me.execCommand("insertHtml", "<hr>");
 			} else {
 				me.execCommand("insertHtml", '<hr class="more"/>');
