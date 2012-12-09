@@ -366,6 +366,7 @@ var editor=UE.getEditor('editor_ue');
 var editor2=UE.getEditor('editor_ue2',EditorIntroOption);
 
 var sContent="",sIntro="";//原内容与摘要
+var isSubmit=0;//是否提交保存
 
 editor.ready(function(){
 	$("#contentready").hide();
@@ -379,7 +380,7 @@ editor2.ready(function(){
 });
 
 //文章内容或摘要变动提示保存
-window.onbeforeunload = function(){if (sContent!=editor.getContent() || sIntro!=editor2.getContent()) return "您当前的编辑内容还未保存！";}
+window.onbeforeunload = function(){if (!isSubmit && (sContent!=editor.getContent() || sIntro!=editor2.getContent())) return "您当前的编辑内容还未保存！";}
 
 //日期时间控件
 $.datepicker.regional['zh-cn'] = {
@@ -429,6 +430,7 @@ function checkArticleInfo(){
 		alert(str11);
 		return false
 	}
+	isSubmit=1;
 }
 
 //显示tags
