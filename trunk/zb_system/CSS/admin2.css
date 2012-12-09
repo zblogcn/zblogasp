@@ -261,13 +261,16 @@ background-image: url();
 }
 
 .tableBorder-thcenter th{
-text-align:center;
+	text-align:center;
 }
 
 .ui-sortable tr.color4{
-cursor:move;
+	cursor:move;
 }
 
+.noteinfo{
+	font-weight:normal;font-size:0.9em;color:#666;font-style: italic;
+}
 
 /*表   单*/
 form {background:#fff;border:0px solid black;padding:0.0em;margin:0.5em 0;}
