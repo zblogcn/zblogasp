@@ -61,6 +61,16 @@ If (Not IsEmpty(Request.QueryString("s"))) Then Call BlogReBuild_Default
 	<h3 id="normal">一般选项</h3>
 
 	<p>
+		<input  type="text" size="3" name="edtZC_DISPLAY_COUNT"  id="edtZC_DISPLAY_COUNT"  value="<%=TransferHTML(ZC_DISPLAY_COUNT,"[html-format]") %>" /> 
+		<strong>列表页每页显示文章数</strong>
+	</p>
+
+	<p>
+	<input type="text"  size="3" name="edtZC_PAGEBAR_COUNT" id="edtZC_PAGEBAR_COUNT" value="<%=TransferHTML(ZC_PAGEBAR_COUNT,"[html-format]") %>"> 
+	 <strong>分页条显示页码条数</strong>
+	</p>
+
+	<p>
 	<input type="checkbox" value="True" id="AlwaysShow" name="AlwaysShow" <%
 	If BetterPagebar_AlwaysShow then
 		Response.Write " checked=""checked"">"
@@ -69,7 +79,6 @@ If (Not IsEmpty(Request.QueryString("s"))) Then Call BlogReBuild_Default
 	End if %>
 	 <strong>是否总是显示分页向导（首页、上页、下页、尾页）？</strong>
 	</p>
-	
 	
 	<h3 id="text">文本选项</h3>
 	
@@ -92,7 +101,7 @@ If (Not IsEmpty(Request.QueryString("s"))) Then Call BlogReBuild_Default
 <hr/>	
 <p><input type="submit" class="button" id="btnPost" value="提交"/>
 	<br/><br/>
-	<small>  * </small>
+	<small>  * 列表页每页显示文章数、分页条显示页码条数为系统配置参数，不保存在插件配置中。</small>
 </p>	
 
 <hr/>

@@ -17,6 +17,11 @@ Call CheckReference("")
 If BlogUser.Level>1 Then Call ShowError(6) 
 If CheckPluginState("BetterPagebar")=False Then Call ShowError(48)
 
+	BlogConfig.Write "ZC_DISPLAY_COUNT",Request.Form("edtZC_DISPLAY_COUNT")
+	BlogConfig.Write "ZC_PAGEBAR_COUNT",Request.Form("edtZC_PAGEBAR_COUNT")
+	BlogConfig.save
+	SaveConfig2Option
+
 	Dim blnPagebar_AlwaysShow
 	
 	Dim strPagebar_FristPage
