@@ -617,10 +617,10 @@ span.note{
 	background:url("../IMAGE/ADMIN/checkbox.png") no-repeat 0 bottom;
 	width:40px;
 	height:17px;
-	display:inline;
-	float:left;
+	display:inline-block;
+/*	float:left;*/
 	cursor: pointer;
-	margin-bottom:5px;
+	margin-bottom:-3px;
 	margin-left:5px;
 }
 .imgcheck-on{
