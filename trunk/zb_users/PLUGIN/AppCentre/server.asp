@@ -33,7 +33,7 @@ Select Case Request.QueryString("act")
 	Case Else
 		strURL=""
 End Select
-
+On Error Resume Next
 strURL=strURL & Request.QueryString
 
 strURL=APPCENTRE_URL & strURL
@@ -41,11 +41,69 @@ If bolPost Then objXmlhttp.SetRequestHeader "Content-Type","application/x-www-fo
 objXmlHttp.Open Request.ServerVariables("REQUEST_METHOD"),strURL
 objXmlHttp.Send Request.Form
 
-Dim strResponse
-strResponse=objXmlhttp.ResponseText
-strResponse=Replace(strResponse,"catalog.asp?","server.asp?act=catalog&")
-strResponse=Replace(strResponse,APPCENTRE_URL&"view.asp?","server.asp?act=view&")
-strResponse=Replace(strResponse,APPCENTRE_URL&"""","server.asp""")
-
+If objXmlHttp.ReadyState=4 Then
+	If objXmlhttp.Status=200 Then
+		Dim strResponse
+		strResponse=objXmlhttp.ResponseText
+		strResponse=Replace(strResponse,"catalog.asp?","server.asp?act=catalog&")
+		strResponse=Replace(strResponse,APPCENTRE_URL&"view.asp?","server.asp?act=view&")
+		strResponse=Replace(strResponse,APPCENTRE_URL&"""","server.asp""")
+	Else
+		ShowErr
+	End If
+	'If objXmlHttp.GetRequestHeader("app_zbver")
+	
+	
+Else
+	ShowErr
+End If
+If Err.Number<>0 Then ShowErr
 Response.Write strResponse
+
+Function AddHtml(html,stat)
+	Select Case stat
+	Case 0
+		strResponse=Replace(strResponse,"</head>",html&"</head>")
+	Case 1
+		strResponse=Replace(strResponse,"</body>",html&"</body>")
+	Case 2
+		strResponse=Replace(strResponse,"<head>","<head>"&html)
+	Case 3
+		strResponse=Replace(strResponse,"<body>","<body>"&html)
+	End Select
+End Function
+
+
+Function ShowErr()
+%>
+<!--#include file="..\..\..\zb_system\admin\admin_header.asp"-->
+<!--#include file="..\..\..\zb_system\admin\admin_top.asp"-->
+        <div id="divMain">
+          <div id="ShowBlogHint">
+            <%Call GetBlogHint()%>
+          </div>
+          <div class="divHeader">应用中心</div>
+          <div class="SubMenu">
+            <%SubMenu(0)%>
+          </div>
+          <div id="divMain2"> 
+            <p>处理<a href='<%=strURL%>' target='_blank'><%=strURL%></a>(method:<%=Request.ServerVariables("REQUEST_METHOD")%>)时出错：</p>
+            <p>ASP错误信息：<%=IIf(Err.Number=0,"无",Err.Number&"("&Err.Description&")")%></p>
+            <p>HTTP状态码：<%If objXmlhttp.readyState<4 Then Response.Write "未发送请求" Else Response.Write objXmlhttp.status%></p>
+            <p>&nbsp;</p>
+            <p>可能的原因有：</p>
+            <p>
+            <ol>
+              <li>您的服务器不允许通过HTTP协议连接到：<a href="<%=APPCENTRE_URL%>" target="_blank"><%=APPCENTRE_URL%></a>；</li>
+              <li>您进行了一个错误的请求；</li>
+              <li>服务器暂时无法连接，可能是遭到攻击或者检修中。</li>
+            </ol>
+            <p>请<a href="javascript:location.reload()">点击这里刷新重试</a>，或者到<a href="http://bbs.rainbowsoft.org" target="_blank">Z-Blogger论坛</a>发帖询问。</p>
+          </div>
+        </div>
+        <script type="text/javascript">ActiveLeftMenu("aAppcentre");</script> 
+        <!--#include file="..\..\..\zb_system\admin\admin_footer.asp"-->
+<%
+	Response.End
+End Function
 %>
