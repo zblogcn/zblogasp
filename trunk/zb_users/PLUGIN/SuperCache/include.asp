@@ -1,13 +1,13 @@
 ﻿<%
-
+Dim SuperCache_Catch,SuperCache_Cache
 '注册插件
 Call RegisterPlugin("SuperCache","ActivePlugin_SuperCache")
 '挂口部分
 Function ActivePlugin_SuperCache()
 
-	Call Add_Action_Plugin("Action_Plugin_Catalog_Begin","Dim SuperCache_Catch,SuperCache_Cache:SuperCache_Cache=SuperCache_Catalog():Call SuperCache_Export(SuperCache_Cache)")
-	Call Add_Action_Plugin("Action_Plugin_View_Begin","Dim SuperCache_Catch,SuperCache_Cache:SuperCache_Cache=SuperCache_View():Call SuperCache_Export(SuperCache_Cache)")
-	Call Add_Action_Plugin("Action_Plugin_Tags_Begin","Dim SuperCache_Catch,SuperCache_Cache:SuperCache_Cache=SuperCache_Tags():Call SuperCache_Export(SuperCache_Cache)")
+	Call Add_Action_Plugin("Action_Plugin_Catalog_Begin","Call SuperCache_Catalog():Call SuperCache_Export(SuperCache_Cache)")
+	Call Add_Action_Plugin("Action_Plugin_View_Begin","Call SuperCache_View()")
+	Call Add_Action_Plugin("Action_Plugin_Tags_Begin","Call SuperCache_Tags():Call SuperCache_Export(SuperCache_Cache)")
 
 
 	Call Add_Action_Plugin("Action_Plugin_Catalog_End","If SuperCache_Catch=False Then Call SuperCache_Save(SuperCache_Cache,ArtList.html)")
@@ -17,14 +17,20 @@ Function ActivePlugin_SuperCache()
 
 End Function
 Function SuperCache_Tags()
-	SuperCache_Tags=Trim("supercache_tags")
+	SuperCache_Cache=Trim("supercache_tags")
 End Function
 
 Function SuperCache_View()
-	SuperCache_View=Trim("supercache_view_"&vbsescape(Request.QueryString("id")))
+	Call Add_Filter_Plugin("Filter_Plugin_TArticle_LoadInfobyID","SuperCache_GetArticleID(ID)'")
+End Function
+
+Function SuperCache_GetArticleID(ID)
+	SuperCache_Cache=Trim("supercache_view_"&vbsescape(ID))
+	Call SuperCache_Export(SuperCache_Cache)
 End Function
 
 Function SuperCache_Save(FileName,Html)
+	If SuperCache_Cache="" Then Exit Function
 	Dim list
 	list=Application(ZC_BLOG_CLSID&"SuperCache_Item")
 	If Not IsArray(list) Then list=Array()
@@ -43,11 +49,12 @@ Function SuperCache_Catalog()
 	aryFileName(2)=vbsescape(auth)
 	aryFileName(3)=vbsescape(Request.QueryString("date"))
 	aryFileName(4)=vbsescape(Request.QueryString("tags"))
-	SuperCache_Catalog=Trim("supercache_catalog_" & Join(aryFileName,"_"))
+	SuperCache_Cache=Trim("supercache_catalog_" & Join(aryFileName,"_"))
 End Function
 
 
 Function SuperCache_Export(FileName)
+
 	Dim aryApt,i,s
 	s=""
 	aryApt=Application(ZC_BLOG_CLSID&"SuperCache_Item")
