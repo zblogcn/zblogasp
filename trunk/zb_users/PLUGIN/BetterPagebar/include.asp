@@ -27,8 +27,8 @@ End Function
 '停用插件
 Function UnInstallPlugin_BetterPagebar()
 	'更新首页
-	Call AddBatch(ZC_MSG259,"Call BlogReBuild_Default")
-	Call SetBlogHint_Custom("分页条优化插件已停用，正为您重建首页缓存。")
+	Call AddBatch("分页条优化插件已停用，正为您重建首页缓存...","Call BlogReBuild_Default")
+	'Call SetBlogHint_Custom("分页条优化插件已停用，正为您重建首页缓存。")
 End Function
 
 
