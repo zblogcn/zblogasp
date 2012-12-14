@@ -1,5 +1,7 @@
 ﻿<%
-Const APPCENTRE_URL="http://app.rainbowsoft.org/appcentre.asp"
+Const APPCENTRE_URL="http://appcentre.zsxsoft.com/"
+Const APPCENTRE_UPDATE_URL="http://appcentre.zsxsoft.com/appcentre.asp"
+
 
 Dim app_id
 Dim app_name
@@ -34,8 +36,8 @@ Dim app_conflict
 
 Sub SubMenu(id)
 	Dim aryName,aryValue,aryPos
-	aryName=Array("在线安装插件","在线安装主题","新建插件","新建主题")
-	aryValue=Array("plugin_list.asp","theme_list.asp","plugin_edit.asp","theme_edit.asp")
+	aryName=Array("在线安装应用","新建插件","新建主题")
+	aryValue=Array("server.asp","plugin_edit.asp","theme_edit.asp")
 	aryPos=Array("m-left","m-left","m-left","m-left")
 	Dim i 
 	For i=0 To Ubound(aryName)
@@ -1225,46 +1227,6 @@ End Function
 '*********************************************************
 
 
-
-
-
-'*********************************************************
-Function GetHTTPPage(url)
-
-	On Error Resume Next
-
-	Dim Http,ServerConn
-
-	set Http=server.createobject("Msxml2.ServerXMLHTTP")
-	Http.setTimeouts 5000,5000,5000,5000
-	Http.open "GET",url,false
-	Http.send()
-
-	if Http.readystate=4 then
-		ServerConn = true
-	else
-		ServerConn = false
-	end if
-
-
-	if ServerConn = false then
-		'GetHTTPPage = "<font color='red'> × 无法连接服务器!</font>"
-		set http=nothing
-		exit function
-	end if
-
-	if http.Status=404 then
-		'GetHTTPPage = "<font color='red'> × 服务器404错误!</font>"
-		set http=nothing
-		exit function
-	end if
-
-	GetHTTPPage=Http.responseText
-
-	Set http=Nothing
-
-End Function
-'*********************************************************
 
 
 
