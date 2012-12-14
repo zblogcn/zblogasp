@@ -1,2 +1,28 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<plugin version="2.0"><id>SuperCache</id><name>超级缓存</name><url>http://www.zsxsoft.com</url><note>超级缓存</note><path>main.asp</path><include>include.asp</include><level>1</level><author><name>zsx</name><email>zsx@zsxsoft.com</email><url>http://www.zsxsoft.com</url></author><adapted>121125</adapted><version>1.0</version><pubdate>2012/11/28</pubdate><modified>2012/11/28</modified><description><![CDATA[超级缓存]]></description><price>0</price></plugin>
+<plugin version="2.0">
+	<id>SuperCache</id>
+	<name>超级缓存</name>
+	<url>http://www.zsxsoft.com</url>
+	<note>超级缓存</note>
+	<path>main.asp</path>
+	<include>include.asp</include>
+	<level>1</level>
+	<author>
+		<name>zsx</name>
+		<email>zsx@zsxsoft.com</email>
+		<url>http://www.zsxsoft.com</url>
+	</author>
+	<adapted>121125</adapted>
+	<version>1.0</version>
+	<pubdate>2012/11/28</pubdate>
+	<modified>2012/11/28</modified>
+	<description>
+		<![CDATA[超级缓存]]>
+	</description>
+	<price>0</price>
+	<advanced>
+		<dependency></dependency>
+		<rewritefunctions>ClearGlobeCache</rewritefunctions>
+		<conflict></conflict>
+	</advanced>
+</plugin>
