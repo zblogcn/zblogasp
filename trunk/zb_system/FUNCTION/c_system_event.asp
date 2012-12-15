@@ -1842,11 +1842,7 @@ Function CheckDependency(strPluginList,strName)
 		End If
 	Next
 	If bolNotInstall Then
-		If bolEnable Then
-			SetBlogHint_Custom "这些插件未启用，无法启用此插件：" & NotInstalledPlugin
-		Else
-			SetBlogHint_Custom "要禁用该插件必须先禁用这些插件：" & NotInstalledPlugin
-		End If
+		SetBlogHint_Custom "这些插件未启用，无法启用此插件：" & NotInstalledPlugin
 		CheckDependency=False
 	End If
 	Set objXml=Nothing
