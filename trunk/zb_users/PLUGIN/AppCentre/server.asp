@@ -38,6 +38,8 @@ Select Case Request.QueryString("action")
 		bolIsBinary=True
 	Case "cmd"
 		strURL="zb_system/cmd.asp?"
+	Case "install"
+		Response.Redirect "app_download.asp?url=" & Server.URLEncode(Request.QueryString("path"))
 	Case Else
 		strURL=""
 End Select
@@ -58,12 +60,19 @@ If objXmlHttp.ReadyState=4 Then
 		If bolIsBinary=False Then
 			Dim strResponse
 			strResponse=objXmlhttp.ResponseText
+			
+			strResponse=Replace(strResponse,"$bloghost$",BlogHost)
+			strResponse=Replace(strResponse,"$pluginlist$",ZC_USING_PLUGIN_LIST)
+			strResponse=Replace(strResponse,"$zbversion$",BlogVersion)
+			
+			
+			
 			strResponse=Replace(strResponse,"catalog.asp?","server.asp?action=catalog&")
 			strResponse=Replace(strResponse,APPCENTRE_URL&"app.asp?","server.asp?action=app&")
 			strResponse=Replace(strResponse,APPCENTRE_URL&"app.asp","server.asp?action=app&")
 			strResponse=Replace(strResponse,APPCENTRE_URL&"view.asp?","server.asp?action=view&")
 			strResponse=Replace(strResponse,APPCENTRE_URL&"""","server.asp""")
-			strResponse=Replace(strResponse,"$bloghost$",BlogHost)
+			
 			strResponse=Replace(strResponse,APPCENTRE_URL&"zb_system/function/c_validcode.asp?name=commentvalid","server.asp?action=vaildcode")
 			strResponse=Replace(strResponse,APPCENTRE_URL&"zb_system/cmd.asp?","server.asp?action=cmd&")
 			Dim objRegExp
