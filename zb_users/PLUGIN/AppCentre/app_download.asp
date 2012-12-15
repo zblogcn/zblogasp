@@ -25,7 +25,7 @@ If Left(strURL,Len(APPCENTRE_URL))=APPCENTRE_URL Then
 	Call SaveBinary(objXmlhttp.ResponseBody,BlogPath&"zb_users\cache\temp_" & Rnd & ".zba")
 	Call InstallApp(BlogPath&"zb_users\cache\temp_" & Rnd & ".zba")
 	Call DelToFile(BlogPath&"zb_users\cache\temp_" & Rnd & ".zba")
-	Response.Redirect "cmd.asp?act=PlugInMng"
+	Response.Redirect BlogHost & "zb_system/cmd.asp?act=PlugInMng"
 Else
 	Response.Write "Illegal URL!"
 End If
