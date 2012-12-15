@@ -1,4 +1,4 @@
-﻿<%
+<%
 '///////////////////////////////////////////////////////////////////////////////
 '//              Z-Blog
 '// 作    者:    朱煊(zx.asd)
@@ -1100,6 +1100,29 @@ Function SaveToFile(strFullName,strContent,strCharset,bolRemoveBOM)
 End Function
 '*********************************************************
 
+'*********************************************************
+' 目的：    Save Binary to File
+' 输入：    
+' 输入：    
+' 返回：    
+'*********************************************************
+Function SaveBinary(BinaryData,FilePath)
+	On Error Resume Next
+
+	Dim objStream
+
+	Set objStream = Server.CreateObject("ADODB.Stream")
+	With objStream
+		.Type = adTypeBinary
+		.Open
+		.Write BinaryData
+		.SaveToFile FilePath, adSaveCreateOverWrite
+		.Close
+	End With
+	
+	Err.Clear
+End Function
+'*********************************************************
 
 
 
