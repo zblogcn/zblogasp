@@ -30,6 +30,8 @@ Select Case Request.QueryString("act")
 		strURL="view.asp?"
 	Case "catalog"
 		strURL="catalog.asp?"
+	Case "app"
+		strURL="app.asp?"
 	Case Else
 		strURL=""
 End Select
@@ -46,8 +48,15 @@ If objXmlHttp.ReadyState=4 Then
 		Dim strResponse
 		strResponse=objXmlhttp.ResponseText
 		strResponse=Replace(strResponse,"catalog.asp?","server.asp?act=catalog&")
+		strResponse=Replace(strResponse,APPCENTRE_URL&"app.asp?","server.asp?act=app&")
+		strResponse=Replace(strResponse,APPCENTRE_URL&"app.asp","server.asp?act=app&")
 		strResponse=Replace(strResponse,APPCENTRE_URL&"view.asp?","server.asp?act=view&")
 		strResponse=Replace(strResponse,APPCENTRE_URL&"""","server.asp""")
+		Dim objRegExp
+		Set objRegExp=New RegExp
+		objRegExp.Pattern="<div class=""menu"">([\d\D]+?)</div>"
+		objRegExp.IgnoreCase=True
+		strResponse=objRegExp.Replace(strResponse,"<div class=""menu""><ul><li class=""index""><a href=""../../../zb_system/cmd.asp?act=login"">返回后台</a></li><li><a class=""on"" href=""server.asp"">应用中心</a></li><li><a href=""http://bbs.rainbowsoft.org"" target=""_blank"">Z-Blogger社区</a></li></ul></div>")
 	Else
 		ShowErr
 	End If
