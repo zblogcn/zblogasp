@@ -11,7 +11,7 @@
 '// 最后修改:
 '// 备    注:
 '///////////////////////////////////////////////////////////////////////////////
-Const jsEmpty=Empty
+
 '定义全局变量
 Dim objConn
 
@@ -86,6 +86,8 @@ Const ZC_DISPLAY_MODE_COMMENTS=6
 
 Const ZC_POST_TYPE_ARTICLE=0
 Const ZC_POST_TYPE_PAGE=1
+
+Const jsEmpty=Empty
 
 
 '如果连接数据库为MSSQL，则应为'，默认连接Access数据库则为#
