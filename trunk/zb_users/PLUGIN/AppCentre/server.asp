@@ -20,43 +20,65 @@ If CheckPluginState("AppCentre")=False Then Call ShowError(48)
 %>
 <%
 Stop
-Dim objXmlHttp,strURL,bolPost,str
+Dim objXmlHttp,strURL,bolPost,str,bolIsBinary
 bolPost=IIf(Request.ServerVariables("REQUEST_METHOD")="POST",True,False)
 
 Set objXmlHttp=Server.CreateObject("MSXML2.ServerXMLHTTP")
 
-Select Case Request.QueryString("act")
+Select Case Request.QueryString("action")
 	Case "view"
 		strURL="view.asp?"
 	Case "catalog"
 		strURL="catalog.asp?"
 	Case "app"
 		strURL="app.asp?"
+	Case "vaildcode"
+		Response.ContentType="image/gif"
+		strURL="zb_system/function/c_validcode.asp?"
+		bolIsBinary=True
+	Case "cmd"
+		strURL="zb_system/cmd.asp?"
 	Case Else
 		strURL=""
 End Select
-On Error Resume Next
+sTOP
+
+'On Error Resume Next
 strURL=strURL & Request.QueryString
 
 strURL=APPCENTRE_URL & strURL
-If bolPost Then objXmlhttp.SetRequestHeader "Content-Type","application/x-www-form-urlencoded"
 objXmlHttp.Open Request.ServerVariables("REQUEST_METHOD"),strURL
-objXmlHttp.Send Request.Form
+If bolPost Then objXmlhttp.SetRequestHeader "Content-Type","application/x-www-form-urlencoded"
+
+objXmlHttp.Send Request.Form.Item
+
 
 If objXmlHttp.ReadyState=4 Then
 	If objXmlhttp.Status=200 Then
-		Dim strResponse
-		strResponse=objXmlhttp.ResponseText
-		strResponse=Replace(strResponse,"catalog.asp?","server.asp?act=catalog&")
-		strResponse=Replace(strResponse,APPCENTRE_URL&"app.asp?","server.asp?act=app&")
-		strResponse=Replace(strResponse,APPCENTRE_URL&"app.asp","server.asp?act=app&")
-		strResponse=Replace(strResponse,APPCENTRE_URL&"view.asp?","server.asp?act=view&")
-		strResponse=Replace(strResponse,APPCENTRE_URL&"""","server.asp""")
-		Dim objRegExp
-		Set objRegExp=New RegExp
-		objRegExp.Pattern="<div class=""menu"">([\d\D]+?)</div>"
-		objRegExp.IgnoreCase=True
-		strResponse=objRegExp.Replace(strResponse,"<div class=""menu""><ul><li class=""index""><a href=""../../../zb_system/cmd.asp?act=login"">返回后台</a></li><li><a class=""on"" href=""server.asp"">应用中心</a></li><li><a href=""http://bbs.rainbowsoft.org"" target=""_blank"">Z-Blogger社区</a></li></ul></div>")
+		If bolIsBinary=False Then
+			Dim strResponse
+			strResponse=objXmlhttp.ResponseText
+			strResponse=Replace(strResponse,"catalog.asp?","server.asp?action=catalog&")
+			strResponse=Replace(strResponse,APPCENTRE_URL&"app.asp?","server.asp?action=app&")
+			strResponse=Replace(strResponse,APPCENTRE_URL&"app.asp","server.asp?action=app&")
+			strResponse=Replace(strResponse,APPCENTRE_URL&"view.asp?","server.asp?action=view&")
+			strResponse=Replace(strResponse,APPCENTRE_URL&"""","server.asp""")
+			strResponse=Replace(strResponse,"$bloghost$",BlogHost)
+			strResponse=Replace(strResponse,APPCENTRE_URL&"zb_system/function/c_validcode.asp?name=commentvalid","server.asp?action=vaildcode")
+			strResponse=Replace(strResponse,APPCENTRE_URL&"zb_system/cmd.asp?","server.asp?action=cmd&")
+			Dim objRegExp
+			Set objRegExp=New RegExp
+			objRegExp.Pattern="<div class=""menu"">([\d\D]+?)</div>"
+			objRegExp.IgnoreCase=True
+			strResponse=objRegExp.Replace(strResponse,"<div class=""menu""><ul><li class=""index""><a href=""../../../zb_system/cmd.asp?act=login"">返回后台</a></li><li><a class=""on"" href=""server.asp"">应用中心</a></li><li><a href=""http://bbs.rainbowsoft.org"" target=""_blank"">Z-Blogger社区</a></li></ul></div>")
+			objRegExp.Pattern="<!--client_begin([\d\D]+?)-->"
+			objRegExp.Global=True
+			strResponse=objRegExp.Replace(strResponse,"$1")
+			objRegExp.Pattern="<!--server_begin-->([\d\D]+?)<!--server_end-->"
+			strResponse=objRegExp.Replace(strResponse,"")
+		Else
+			Response.BinaryWrite objXmlHttp.ResponseBody
+		End If
 	Else
 		ShowErr
 	End If
