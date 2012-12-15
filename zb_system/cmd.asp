@@ -14,7 +14,7 @@
 '///////////////////////////////////////////////////////////////////////////////
 %>
 <% Option Explicit %>
-<% On Error Resume Next %>
+<% 'On Error Resume Next %>
 <% Response.Charset="UTF-8" %>
 <% Response.Buffer=True %>
 <!-- #include file="../zb_users/c_option.asp" -->
@@ -1287,10 +1287,10 @@ Function PlugInActive()
 			If bAction_Plugin_PlugInActive_Succeed=True Then Exit Function
 		Next
 
-		Response.Redirect "cmd.asp?act=PlugInMng&installed=" & Server.URLEncode(Request.QueryString("name"))
+		
 
 	End If
-
+	Response.Redirect "cmd.asp?act=PlugInMng&installed=" & Server.URLEncode(Request.QueryString("name"))
 End Function
 
 
@@ -1310,8 +1310,9 @@ Function PlugInDisable()
 			If bAction_Plugin_PlugInDisable_Succeed=True Then Exit Function
 		Next
 
-		Response.Redirect "cmd.asp?act=PlugInMng"
+		
 	End If
+	Response.Redirect "cmd.asp?act=PlugInMng"
 End Function
 
 

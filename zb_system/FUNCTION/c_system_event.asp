@@ -1770,7 +1770,8 @@ End Function
 '*********************************************************
 Function ActivePlugInByName(strPluginName)
 
-	Dim s,i,t,b
+	Dim s,i,t,b,aryAllXml,strContent
+	b=False
 	s= ZC_USING_PLUGIN_LIST
 
 	If s="" Then
@@ -1786,9 +1787,22 @@ Function ActivePlugInByName(strPluginName)
 			s=s & "|" & strPluginName
 		End If
 	End If
+	
 
+	If b=False Then
+		'走起！	
+		'第1步：判断依赖	
 
-	Dim strContent
+		If CheckDependency(ZC_USING_PLUGIN_LIST,strPluginName)=False Then Exit Function
+		'第2步：得到所有插件XML文件绝对地址
+		aryAllXml=GetAllXmlPath(s)
+		'第3步：读取所有XML文件
+		strContent=CheckConflictReWriteAndToFile(strPluginName,aryAllXml,True)
+		If strContent(0)=False Then Exit Function
+		'第4步：判断冲突
+		'第5步：判断重写
+	End If
+
 	Dim strZC_USING_PLUGIN_LIST
 
 	strZC_USING_PLUGIN_LIST=s
@@ -1797,7 +1811,7 @@ Function ActivePlugInByName(strPluginName)
 
 	Call SaveConfig2Option()
 
-	Call ScanPluginToIncludeFile(s)
+	Call ScanPluginToIncludeFile(strContent(2))
 
 	Call AddBatch(ZC_MSG202 & strPluginName,"Call InstallPlugin("""&strPluginName&""")")
 
@@ -1806,7 +1820,215 @@ Function ActivePlugInByName(strPluginName)
 End Function
 '*********************************************************
 
+'*********************************************************
+' 目的：   验证依赖
+'*********************************************************
+Function CheckDependency(strPluginList,strName)
+	CheckDependency=True
+	Dim strTemp,sptTemp
+	strTemp=UCase("|"&strPluginList&"|") '得到全部启用的插件列表以便InStr
+	Dim objXml
+	Set objXml=CreateObject("Microsoft.XMLDOM")	
+	objXml.async = False
+	objXml.ValidateOnParse=False
+	objXml.Load(BlogPath & "zb_users\plugin\" & strName & "\plugin.xml")
+	sptTemp=Split(UCase(TryToGetAdvanced(objXml,"dependency")),"|")
+	Dim i
+	Dim NotInstalledPlugin,bolNotInstall
+	For i=0 To Ubound(sptTemp)
+		If InStr(strTemp,"|"&sptTemp(i)&"|")<=0 Then
+			NotInstalledPlugin=NotInstalledPlugin & sptTemp(i) & " "
+			bolNotInstall=True
+		End If
+	Next
+	If bolNotInstall Then
+		If bolEnable Then
+			SetBlogHint_Custom "这些插件未启用，无法启用此插件：" & NotInstalledPlugin
+		Else
+			SetBlogHint_Custom "要禁用该插件必须先禁用这些插件：" & NotInstalledPlugin
+		End If
+		CheckDependency=False
+	End If
+	Set objXml=Nothing
+End Function
+'*********************************************************
 
+'*********************************************************
+' 目的：   停用时验证依赖
+'*********************************************************
+Function CheckDependencyDisable(aryPluginList,strPluginName)
+
+	Dim strXmlFile,objXmlFile
+	Dim strDependency,strReturnDependency,bolDependency,strInclude,strID
+	Dim aryR
+	Dim j,i,k
+	bolDependency=False
+	
+	Set objXmlFile=Server.CreateObject("Microsoft.XMLDOM")
+	objXmlFile.async = False
+	objXmlFile.ValidateOnParse=False
+	'Stop
+	For j=0 To Ubound(aryPluginList)
+		strXmlFile =aryPluginList(j)
+		objXmlFile.load(strXmlFile)
+		If objXmlFile.readyState=4 Then
+			If objXmlFile.parseError.errorCode <> 0 Then
+			Else
+				strID=objXmlFile.documentElement.selectSingleNode("id").text
+				strInclude=objXmlFile.documentElement.selectSingleNode("include").text
+				strDependency=Split(UCase(TryToGetAdvanced(objXmlFile,"dependency")),"|")
+				If Trim(strInclude)<>"" Then
+					If Len(LoadFromFile(BlogPath & "zb_users/plugin/" & strID & "/" & strInclude,"utf-8"))>0 Then
+						For i=0 To Ubound(strDependency)
+							If strDependency(i)=UCase(strPluginName) Then
+								strReturnDependency=strReturnDependency & strID & " "
+								i=Ubound(strDependency)+1
+								bolDependency=True
+							End If
+						Next
+					End If
+				End If
+			End If
+		End If
+	Next
+	If bolDependency Then SetBlogHint_Custom "该插件无法被停用，如果要停用请先停用这些插件：" & strReturnDependency
+	CheckDependencyDisable=Not(bolDependency)
+End Function
+'*********************************************************
+
+'*********************************************************
+' 目的：   得到全部XML地址
+'*********************************************************
+Function GetAllXmlPath(newZC_USING_PLUGIN_LIST)
+
+	Dim aryPL,i,j,s,t
+	aryPL=Split(newZC_USING_PLUGIN_LIST,"|")
+
+	If newZC_USING_PLUGIN_LIST<>"" Then
+		i=UBound(aryPL)
+	Else
+		i=0
+		GetAllXmlPath=aryPL
+		Exit Function
+	End If
+
+	Dim fso, f, f1, fc
+	Dim aryXmlFile()
+	Redim aryXmlFile(-1)
+	Set fso = CreateObject("Scripting.FileSystemObject")
+	Set f = fso.GetFolder(BlogPath & "zb_users/plugin/")
+	Set fc = f.SubFolders
+	For j=0 To i
+		If fso.FileExists(BlogPath & "zb_users/plugin/" & aryPL(j) & "/" & "plugin.xml") Then
+			If CheckPluginStateByNewValue(aryPL(j),newZC_USING_PLUGIN_LIST) Then
+				Redim Preserve aryXmlFile(Ubound(aryXmlFile)+1)
+				aryXmlFile(Ubound(aryXmlFile))=BlogPath & "zb_users/plugin/" & aryPL(j) & "/" & "plugin.xml"
+			End If
+		End If
+	Next
+	GetAllXmlPath=aryXmlFile
+	Set f=Nothing
+	Set fso=Nothing
+End Function
+'*********************************************************
+
+'*********************************************************
+' 目的：  兼容老版本Z-BLOG2.0，防止出错
+'*********************************************************
+Function TryToGetAdvanced(objXml,singleNode)
+	On Error Resume Next
+	TryToGetAdvanced=""
+	TryToGetAdvanced=objXml.documentElement.selectSingleNode("advanced/"&singleNode).text
+	Err.Clear
+End Function
+'*********************************************************
+
+
+'*********************************************************
+' 目的：   验证冲突、重写以及写入文件【好绕口，望天】
+'*********************************************************
+Function CheckConflictReWriteAndToFile(strPluginName,aryFilePath,bolCheck)
+	Dim ReturnArray(2)
+	ReturnArray(0)=True  'Conflict
+	ReturnArray(1)=True  'ReWrite
+	ReturnArray(2)=False 'GetText
+	Dim strXmlFile,objXmlFile,aryJoinText,strID,strInclude,strConflict,strRewrite
+	Dim thisRewrite,thisConflict
+	Dim strResponseConflict,strResponseRewrite
+	Dim aryR
+	Redim aryJoinText(Ubound(aryFilePath))
+	Dim j,i,k
+	
+	Set objXmlFile=Server.CreateObject("Microsoft.XMLDOM")
+	objXmlFile.async = False
+	objXmlFile.ValidateOnParse=False
+	'先读一遍自己的配置文件得到重写和冲突信息，冲突后面一个一个比对
+	If bolCheck Then
+		strXmlFile = BlogPath & "zb_users/plugin/" & strPluginName & "/" & "plugin.xml"
+		objXmlFile.load(strXmlFile)
+		thisRewrite=Split(UCase(TryToGetAdvanced(objXmlFile,"rewritefunctions")),"|")
+		thisConflict=Split(UCase(TryToGetAdvanced(objXmlFile,"conflict")),"|")
+	End If
+	
+	'Stop
+	For j=0 To Ubound(aryFilePath)
+		strXmlFile =aryFilePath(j)
+		objXmlFile.load(strXmlFile)
+		If objXmlFile.readyState=4 Then
+			If objXmlFile.parseError.errorCode <> 0 Then
+			Else
+				strID=objXmlFile.documentElement.selectSingleNode("id").text
+				strInclude=objXmlFile.documentElement.selectSingleNode("include").text
+				strRewrite=Split(UCase(TryToGetAdvanced(objXmlFile,"rewritefunctions")),"|")
+				strConflict=Split(UCase(TryToGetAdvanced(objXmlFile,"conflict")),"|")
+				If Trim(strInclude)<>"" Then
+					If Len(LoadFromFile(BlogPath & "zb_users/plugin/" & strID & "/" & strInclude,"utf-8"))>0 Then
+						aryJoinText(j)="<!--"&" #include file="""&_
+										strID &_
+										"/"&_
+										strInclude &_
+										""" -->"
+						If bolCheck Then
+							'先判断是否冲突，从两个方面判断。
+							'第一步：判断待启用插件是否与该插件冲突——
+							For i=0 To Ubound(thisConflict)
+								If thisConflict(i)=UCase(strID) Then
+									ReturnArray(0)=False
+									strResponseConflict=strResponseConflict & strID & " "
+								End If
+							Next
+							'第二步：判断该插件是否与待启用插件冲突——
+							For i=0 To Ubound(strConflict)
+								If strConflict(i)=UCase(strPluginName) Then
+									ReturnArray(0)=False
+									If InStr(strResponseConflict,strID)<=0 Then strResponseConflict=strResponseConflict & strID & " "
+								End If
+							Next
+							
+							'接着判断重写函数。
+							'直接判断待启用插件是否与该插件有重写函数即可，不需要再分两个循环判断
+							'不过貌似需要双重循环……？
+							
+							For i=0 To Ubound(thisRewrite)
+								For k=0 To Ubound(strRewrite)
+									If thisRewrite(i)=strRewrite(k) And strID<>strPluginName Then
+										ReturnArray(1)=False
+										If InStr(strResponseRewrite,strRewrite(k))<=0 Then strResponseRewrite=strResponseRewrite & strID & " "
+									End If
+								Next
+							Next
+						End If
+					End If
+				End If
+			End If
+		End If
+	Next
+	If ReturnArray(0)=False Then SetBlogHint_Custom("该插件无法被安装，这些插件与它冲突：" & strResponseConflict)
+	If ReturnArray(1)=False And ReturnArray(0)=True Then SetBlogHint_Custom("该插件可能与这些插件冲突，请关注作者官方网站：" & strResponseRewrite)
+	ReturnArray(2)=Join(aryJoinText,vbCrlf)
+	CheckConflictReWriteAndToFile=ReturnArray
+End Function
+'*********************************************************
 
 
 '*********************************************************
@@ -1829,11 +2051,16 @@ Function DisablePlugInByName(strPluginName)
 			Else
 				t=t & "|" & s(i)
 			End If
-
+			
+			
 		End If
 
 	Next
-
+	
+	Dim aryAllXmlPath
+	aryAllXmlPath=GetAllXmlPath(t)
+	
+	If CheckDependencyDisable(aryAllXmlPath,strPluginName)=False Then Exit Function
 
 	Dim strContent
 	Dim strZC_USING_PLUGIN_LIST
@@ -1843,7 +2070,8 @@ Function DisablePlugInByName(strPluginName)
 	Call BlogConfig.Write("ZC_USING_PLUGIN_LIST",strZC_USING_PLUGIN_LIST)
 
 	Call SaveConfig2Option()
-
+	
+	t=CheckConflictReWriteAndToFile(strPluginName,aryAllXmlPath,False)(2)
 	Call ScanPluginToIncludeFile(t)
 
 	DisablePlugInByName=True
@@ -1857,56 +2085,9 @@ End Function
 '*********************************************************
 ' 目的：
 '*********************************************************
-Function ScanPluginToIncludeFile(newZC_USING_PLUGIN_LIST)
-
-	On Error Resume Next
-
-	Dim aryPL,i,j,s,t
-	aryPL=Split(newZC_USING_PLUGIN_LIST,"|")
-
-	If newZC_USING_PLUGIN_LIST<>"" Then
-		i=UBound(aryPL)
-	Else
-		i=0
-	End If
-
-
-	Dim objXmlFile,strXmlFile
-	Dim fso, f, f1, fc
-	Set fso = CreateObject("Scripting.FileSystemObject")
-	Set f = fso.GetFolder(BlogPath & "zb_users/plugin/")
-	Set fc = f.SubFolders
-	For j=0 To i
-		If fso.FileExists(BlogPath & "zb_users/plugin/" & aryPL(j) & "/" & "plugin.xml") Then
-
-			strXmlFile =BlogPath & "zb_users/plugin/" & aryPL(j) & "/" & "plugin.xml"
-
-			Set objXmlFile=Server.CreateObject("Microsoft.XMLDOM")
-			objXmlFile.async = False
-			objXmlFile.ValidateOnParse=False
-			objXmlFile.load(strXmlFile)
-			If objXmlFile.readyState=4 Then
-				If objXmlFile.parseError.errorCode <> 0 Then
-				Else
-					If CheckPluginStateByNewValue(objXmlFile.documentElement.selectSingleNode("id").text,newZC_USING_PLUGIN_LIST) Then
-						If Trim(objXmlFile.documentElement.selectSingleNode("include").text)<>"" Then
-							If (fso.FileExists(BlogPath & "zb_users/plugin/" & objXmlFile.documentElement.selectSingleNode("id").text & "/" & objXmlFile.documentElement.selectSingleNode("include").text)) Then
-								t="<!-- #include file="""& objXmlFile.documentElement.selectSingleNode("id").text &"/"& objXmlFile.documentElement.selectSingleNode("include").text &""" -->"
-								If InStr(s,t)=0 Then
-									s=s & t  & vbCrLf
-								End If
-							End If
-						End If
-					End If
-				End If
-			End If
-			Set objXmlFile=Nothing
-		End If
-	Next
+Function ScanPluginToIncludeFile(s)
 
 	Call SaveToFile(BlogPath & "zb_users/PLUGIN/p_include.asp",s,"utf-8",False)
-
-	Err.Clear
 
 End Function
 '*********************************************************
