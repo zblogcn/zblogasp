@@ -191,6 +191,8 @@ End If
 Response.Cookies("password")=""
 Response.Cookies("username")=""
 
+Application.Contents.RemoveAll
+
 %>
 <%Call UpdateAccessTable():Response.Flush%><p>数据库表和数据升级成功!</p>
 <%Call InsertOptions():Response.Flush%><p>默认配置数据导入成功!</p>
