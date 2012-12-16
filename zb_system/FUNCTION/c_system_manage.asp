@@ -1329,7 +1329,7 @@ Function ExportThemeMng()
 		Response.Write "<tr><td>"&ZC_MSG197&"</td><td>" & Theme_Source_Name & "</td></tr>"
 		Response.Write "<tr><td>"&ZC_MSG054&"</td><td>" & Theme_Source_Url & "</td></tr>"
 		Response.Write "<tr><td>"&ZC_MSG011&"</td><td>" & Theme_Pubdate & "</td></tr>"
-		Response.Write "<tr><td>"&ZC_MSG261&"</td><td>" & Theme_Modified & "</td></tr>"
+		Response.Write "<tr><td>"&ZC_MSG151&"</td><td>" & Theme_Modified & "</td></tr>"
 		Response.Write "<tr><td>"&ZC_MSG198&"</td><td>" & TransferHTML(Theme_Description,"[enter]") & "</tr>"
 		Response.Write "</tbody></table>"
 		Response.Write "</div>"
