@@ -1358,11 +1358,11 @@ Function LoadGlobeCache()
 	aryTemplatesName(j+4)="CACHE_SIDEBAR4"
 	aryTemplatesName(j+5)="CACHE_SIDEBAR5"
 
-	aryTemplatesContent(j+1)=Replace(LoadFromFile(BlogPath & "zb_users\cache" & "\sidebar.asp","utf-8" ),"<"&"%","",1,1)
-	aryTemplatesContent(j+2)=Replace(LoadFromFile(BlogPath & "zb_users\cache" & "\sidebar2.asp","utf-8"),"<"&"%","",1,1)
-	aryTemplatesContent(j+3)=Replace(LoadFromFile(BlogPath & "zb_users\cache" & "\sidebar3.asp","utf-8"),"<"&"%","",1,1)
-	aryTemplatesContent(j+4)=Replace(LoadFromFile(BlogPath & "zb_users\cache" & "\sidebar4.asp","utf-8"),"<"&"%","",1,1)
-	aryTemplatesContent(j+5)=Replace(LoadFromFile(BlogPath & "zb_users\cache" & "\sidebar5.asp","utf-8"),"<"&"%","",1,1)
+	aryTemplatesContent(j+1)=LoadFromFile(BlogPath & "zb_users\cache" & "\sidebar.asp","utf-8" )
+	aryTemplatesContent(j+2)=LoadFromFile(BlogPath & "zb_users\cache" & "\sidebar2.asp","utf-8")
+	aryTemplatesContent(j+3)=LoadFromFile(BlogPath & "zb_users\cache" & "\sidebar3.asp","utf-8")
+	aryTemplatesContent(j+4)=LoadFromFile(BlogPath & "zb_users\cache" & "\sidebar4.asp","utf-8")
+	aryTemplatesContent(j+5)=LoadFromFile(BlogPath & "zb_users\cache" & "\sidebar5.asp","utf-8")
 
 
 	'加载标签
@@ -1458,7 +1458,7 @@ Function LoadGlobeCache()
 				s(i)=aryFileNameInclude_Variable(i)
 
 				strContent=""
-				strContent=Replace(LoadFromFile(BlogPath & "zb_users\" & aryFileNameInclude(i),"utf-8"),"<"&"%","",1,1)
+				strContent=LoadFromFile(BlogPath & "zb_users\" & aryFileNameInclude(i),"utf-8")
 				strContent=Replace(strContent,"<"&"%=ZC_BLOG_HOST%"&">","<#ZC_BLOG_HOST#>")
 				aryFileNameInclude_Content(i)=strContent
 
@@ -1482,7 +1482,7 @@ Function LoadGlobeCache()
 				Dim functionstype
 
 				Set functionstype=New TMeta
-				functionstype.LoadString=Replace(LoadFromFile(BlogPath & "zb_users\cache\functionstype.asp","utf-8"),"<"&"%","",1,1)
+				functionstype.LoadString=LoadFromFile(BlogPath & "zb_users\cache\functionstype.asp","utf-8")
 				
 				
 				If functionstype.GetValue(modname)="div" Then
@@ -3019,7 +3019,7 @@ Function BlogReBuild_Functions
 				s=s & Functions(aryFunctionInOrder(j)).MakeTemplate(t)
 				End If
 			Next
-			Call SaveToFile(BlogPath & "zb_users/cache/sidebar"& IIF(i>1,i,"") &".asp","<"&"%"&s,"utf-8",False)
+			Call SaveToFile(BlogPath & "zb_users/cache/sidebar"& IIF(i>1,i,"") &".asp",s,"utf-8",False)
 		End If
 	Next
 
@@ -3059,7 +3059,7 @@ Function BlogReBuild_Default
 
 		ArtList.Build
 
-		Call SaveToFile(BlogPath & "zb_users/CACHE/default.asp","<"&"%"&ArtList.html,"utf-8",False) 
+		Call SaveToFile(BlogPath & "zb_users/CACHE/default.asp",ArtList.html,"utf-8",False) 
 
 	End If
 
@@ -3523,7 +3523,7 @@ Function SaveFunctionType()
 		End If
 	Next
 
-	Call SaveToFile(BlogPath & "zb_users/CACHE/functionstype.asp","<"&"%"&t.SaveString,"utf-8",False)
+	Call SaveToFile(BlogPath & "zb_users/CACHE/functionstype.asp",t.SaveString,"utf-8",False)
 
 	SaveFunctionType=True
 
