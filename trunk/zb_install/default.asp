@@ -577,6 +577,9 @@ Call SaveConfigs()
 Response.Cookies("password")=""
 Response.Cookies("username")=""
 
+
+Application.Contents.RemoveAll
+
 %>
 
 
@@ -587,7 +590,7 @@ Response.Cookies("username")=""
 
 </div>
 <div id="bottom">
-<input type="button" name="next" onClick="window.location.href="<%=BlogHost%>"" id="netx" value="完成" />
+<input type="button" name="next" onclick="window.location.href='<%=BlogHost%>'" id="netx" value="完成" />
 </div>
 
 
