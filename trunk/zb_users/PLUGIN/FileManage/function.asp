@@ -425,7 +425,9 @@ Function FileManage_ExportSiteFileEdit(tpath,OpenFolderPath,chars)
 	If Not IsNull(tpath) Then
 		Response.Write "<form id=""edit"" name=""edit"" method=""post"" action=""main.asp?act=SiteFilePst&path="&Server.URLEncode(tpath)&"&OpenFolderPath="&Server.URLEncode(OpenFolderPath)&""">" & vbCrlf
 		Response.Write "<p>文件路径及文件名: <!--<a href=""javascript:void(0)"" onclick=""path.readOnly='';this.style.display='none';path.focus()"">修改文件名</a>--><INPUT TYPE=""text"" Value="""&unEscape(tpath)&""" style=""width:100%"" name=""path"" id=""path"" ></p>"
-		Response.Write "<p><textarea class=""resizable"" style=""height:300px;width:100%"" name=""txaContent"" id=""txaContent"">"&ct&"</textarea></p>" & vbCrlf
+		Response.Write "<p><textarea class=""resizable"" style=""height:300px;width:100%"" name=""txaContent"" id=""txaContent"">"
+		Response.Write ct
+		Response.Write "</textarea></p>" & vbCrlf
 
 		Response.Write "<hr/>"
 		Response.Write "<p><input class=""button"" type=""submit"" value="""&ZC_MSG087&""" id=""btnPost""/>&nbsp;&nbsp;<input class=""button"" type=""button"" value=""返回""  onclick=""location.href='main.asp?act=SiteFileMng&path="&Server.URLEncode(OpenFolderPath)&"'""/>"
@@ -794,19 +796,24 @@ Function FileManage_CheckFileCharset(path)
 	objStream.Position=0
 	objStream.LoadFromFile path
 	binHead=objstream.read(2)
-	If LenB(binHead)=2 Then
-		If AscB(MidB(binHead,1,1))=&HEF And AscB(MidB(binHead,2,1))=&HBB Then
-			FileManage_CheckFileCharset="UTF-8"
-		ElseIf AscB(MidB(binHead,1,1))=&HFF And AscB(MidB(binHead,2,1))=&HFE Then
-			FileManage_CheckFileCharset="UNICODE"
+	If Err.Number=0 Then
+		If LenB(binHead)=2 Then
+			If AscB(MidB(binHead,1,1))=&HEF And AscB(MidB(binHead,2,1))=&HBB Then
+				FileManage_CheckFileCharset="UTF-8"
+			ElseIf AscB(MidB(binHead,1,1))=&HFF And AscB(MidB(binHead,2,1))=&HFE Then
+				FileManage_CheckFileCharset="UNICODE"
+			Else
+				FileManage_CheckFileCharset="GB2312"
+			End If
 		Else
 			FileManage_CheckFileCharset="GB2312"
 		End If
 	Else
-		FileManage_CheckFileCharset="GB2312"
+		FileManage_CheckFileCharset="UTF-8"
 	End If
-	objstream.close
-	set objstream=nothing
+	Err.Clear
+	objStream.Close
+	set objStream=nothing
 End Function
 
 Function FileManage_Setting()
