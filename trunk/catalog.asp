@@ -14,7 +14,7 @@
 '///////////////////////////////////////////////////////////////////////////////
 %>
 <% Option Explicit %>
-<%' On Error Resume Next %>
+<% On Error Resume Next %>
 <% Response.Charset="UTF-8" %>
 <% Response.Buffer=True %>
 <!-- #include file="zb_users/c_option.asp" -->
@@ -35,12 +35,8 @@ Next
 Dim ArtList
 Set ArtList=New TArticleList
 ArtList.isCatalog=True
-Dim auth
-auth=Request.QueryString("auth") 
-'为beta2前错误配置做处理
-If IsEmpty(auth) Then auth=Request.QueryString("user")
 
-If ArtList.Export(Request.QueryString("page"),Request.QueryString("cate"),auth,Request.QueryString("date"),Request.QueryString("tags"),ZC_DISPLAY_MODE_INTRO) Then
+If ArtList.Export(Request.QueryString("page"),Request.QueryString("cate"),IIF(Not IsEmpty(Request.QueryString("auth")),Request.QueryString("auth"),Request.QueryString("user")),Request.QueryString("date"),Request.QueryString("tags"),ZC_DISPLAY_MODE_INTRO) Then
 	If ArtList.FoundData=False Then Response.Status="404 Not Found":Response.End
 	ArtList.Build
 	Response.Write ArtList.html
