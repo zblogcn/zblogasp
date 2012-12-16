@@ -45,7 +45,7 @@ Dim s
 s=LoadFromFile(BlogPath & "zb_users\cache\default.asp","utf-8")
 
 If Len(s)>0 Then
-	Response.Write Replace(Replace(s,"<#ZC_BLOG_HOST#>",BlogHost),"<"&"%","",1,1)
+	Response.Write Replace(s,"<#ZC_BLOG_HOST#>",BlogHost)
 	Response.Write "<!-- " & RunTime() & "ms -->"
 	Response.End
 End If

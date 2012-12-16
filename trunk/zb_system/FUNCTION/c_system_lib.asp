@@ -5333,7 +5333,7 @@ Class TFunction
 			Content=TransferHTML(Content,"[anti-zc_blog_host]")
 		End If
 
-		Call SaveToFile(BlogPath & "zb_users/include/"&FileName&".asp","<"&"%"&Content,"utf-8",False)
+		Call SaveToFile(BlogPath & "zb_users/include/"&FileName&".asp",Content,"utf-8",False)
 
 		SaveFile=True
 
