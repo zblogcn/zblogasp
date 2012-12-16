@@ -1789,8 +1789,6 @@ Class TArticleList
 
 	Public IsDynamicLoadSildbar
 	Public ListType
-	Public isCatalog
-	Public FoundData
 
 	Private Ftemplate
 	Public Property Let Template(strFileName)
@@ -1872,7 +1870,6 @@ Class TArticleList
 		objRS.Source=objRS.Source & "ORDER BY [log_PostTime] DESC,[log_ID] DESC"
 		objRS.Open()
 		If (Not objRS.bof) And (Not objRS.eof) Then
-			FoundData=True
 			objRS.PageSize = ZC_DISPLAY_COUNT
 			intPageCount=objRS.PageCount
 			objRS.AbsolutePage = 1
@@ -2002,6 +1999,8 @@ Class TArticleList
 
 			Template_Calendar="<script language=""JavaScript"" src=""<#ZC_BLOG_HOST#>zb_system/function/c_html_js.asp?date="&dtmDate&""" type=""text/javascript""></script>"
 
+			If IsEmpty(html)=True Then html=GetTemplate("TEMPLATE_CATALOG")
+
 			Title=Year(dtmDate) & " " & ZVA_Month(Month(dtmDate)) & IIF(Len(CStr(dtmDate))>7," " & Day(dtmDate),"")
 		End If
 		If anyTag<>"" Then
@@ -2036,7 +2035,6 @@ Class TArticleList
 		objRS.Open()
 
 		If (Not objRS.bof) And (Not objRS.eof) Then
-			FoundData=True
 			objRS.PageSize = ZC_DISPLAY_COUNT
 			intPageCount=objRS.PageCount
 			objRS.AbsolutePage = intPage
@@ -2065,7 +2063,7 @@ Class TArticleList
 
 
 
-		If IsEmpty(html)=True Then html=IIf(isCatalog,GetTemplate("TEMPLATE_CATALOG"),Template)
+		If IsEmpty(html)=True Then html=Template
 
 		Call GetTagsbyTagIDList(tt & td)
 
@@ -2372,23 +2370,6 @@ Class TArticleList
 
 		t=Url
 
-		'ListType="DEFAULT"'CATEGORY'USER'DATE'TAGS
-		'If ListType="DEFAULT" Then
-		'	If ZC_STATIC_MODE="ACTIVE" Then
-		'		t=t & "?page=%n"
-		'	End If
-		'	If ZC_STATIC_MODE="REWRITE" Then
-		'		'If InStr(t,"/default.html")>0 Then
-		'		'	t=Replace(t,"/default.html","/%n/")
-		'	'	'Else
-		'			t=Replace(t,".html","_%n.html")
-		'		'End If
-		'	End If
-		'	If ZC_STATIC_MODE="MIX" Then
-		'		t=MixUrl
-		'		t=t & "?page=%n"
-		'	End If
-		'End If
 		Dim QuerySplit
 		QuerySplit=IIf(InStr(t,"?")>0,"&","?")
 
@@ -2528,7 +2509,7 @@ Class TArticleList
 
 		IsDynamicLoadSildbar=False
 		ListType="DEFAULT"'CATEGORY'USER'DATE'TAGS
-		isCatalog=False
+		'isCatalog=False
 
 	End Sub
 

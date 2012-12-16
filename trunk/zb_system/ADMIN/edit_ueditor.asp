@@ -55,6 +55,7 @@ If Not IsEmpty(Request.QueryString("id")) Then
 			End If
 		End If
 		If EditArticle.FType=ZC_POST_TYPE_PAGE Then IsPage=True
+		If InStr(EditArticle.Content,EditArticle.Intro)>0 Then EditArticle.Intro=""
 	Else
 		Call ShowError(9)
 	End If
@@ -66,9 +67,6 @@ End If
 
 EditArticle.Content=UBBCode(EditArticle.Content,"[link][email][font][code][face][image][flash][typeset][media][autolink]")
 EditArticle.Title=UBBCode(EditArticle.Title,"[link][email][font][code][face][image][flash][typeset][media][autolink]")
-
-'EditArticle.Title=TransferHTML(EditArticle.Title,"[html-japan]")
-'EditArticle.Intro=TransferHTML(EditArticle.Intro,"[html-japan]")
 
 EditArticle.Content=TransferHTML(Replace(EditArticle.Content,"<!–more–>","<hr class=""more"" />"),"[html-japan]")
 
