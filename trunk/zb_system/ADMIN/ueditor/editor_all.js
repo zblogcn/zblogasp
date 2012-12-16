@@ -3772,7 +3772,7 @@ var fillCharReg = new RegExp(domUtils.fillChar, 'g');
             iframeCssUrl:me.options.UEDITOR_HOME_URL + 'themes/iframe.css',
             textarea:'editorValue',
             focus:false,
-            //initialFrameWidth:1000,
+            initialFrameWidth:1000,
             initialFrameHeight:me.options.minFrameHeight||320,//兼容老版本配置项
             minFrameWidth:800,
             minFrameHeight:220,
@@ -3991,11 +3991,19 @@ var fillCharReg = new RegExp(domUtils.fillChar, 'g');
             if ( options.fullscreen && me.ui ) {
                 me.ui.setFullScreen( true );
             }
-            //解决ff下点击图片会复制问题
-            //ff下的table不能编辑
-            if(browser.gecko){
+            try {
+                me.document.execCommand( '2D-position', false, false );
+            } catch ( e ) {}
+            try {
+                me.document.execCommand( 'enableInlineTableEditing', false, options.tableNativeEditInFF );
+            } catch ( e ) {}
+            try {
                 me.document.execCommand( 'enableObjectResizing', false, false );
-                me.document.execCommand( 'enableInlineTableEditing', false,options.tableNativeEditInFF );
+            } catch ( e ) {
+                domUtils.on(me.body,browser.ie ? 'resizestart' : 'resize', function( evt ) {
+                    domUtils.preventDefault(evt)
+                });
+
             }
             me.isReady = 1;
             me.fireEvent( 'ready' );
@@ -4028,7 +4036,7 @@ var fillCharReg = new RegExp(domUtils.fillChar, 'g');
                     me.body.style.height = me.iframe.offsetHeight - 20 + 'px'
                 }, 100 )
             }
-            //!options.isShow && me.setHide();
+            !options.isShow && me.setHide();
             options.readonly && me.setDisabled();
         },
         /**
@@ -13881,7 +13889,7 @@ UE.plugins['music'] = function () {
     me.commands["music"] = {
         execCommand:function (cmd, musicObj) {
             var me = this,
-                str = creatInsertStr(musicObj.url, musicObj.width || 400, musicObj.height || 120, "none", false, true);
+                str = creatInsertStr(musicObj.url, musicObj.width || 400, musicObj.height || 95, "none", false, true);
             me.execCommand("inserthtml",str);
         },
         queryCommandState:function () {
