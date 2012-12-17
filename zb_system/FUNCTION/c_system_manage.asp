@@ -219,9 +219,12 @@ Function ExportArticleList(intPage,intCate,intLevel,intTitle)
 
 	Response.Write "</table>"
 
-	strPage=ExportPageBar(intPage,intPageAll,ZC_PAGEBAR_COUNT,"../admin/admin.asp?act=ArticleMng&amp;cate="&ReQuest("cate")&"&amp;level="&ReQuest("level")&"&amp;title="&Escape(ReQuest("title")) & "&amp;page=")
+	If  intPageAll>1 Then 
+		strPage=ExportPageBar(intPage,intPageAll,ZC_PAGEBAR_COUNT,"../admin/admin.asp?act=ArticleMng&amp;cate="&ReQuest("cate")&"&amp;level="&ReQuest("level")&"&amp;title="&Escape(ReQuest("title")) & "&amp;page=")
 
-	Response.Write "<hr/><p class=""pagebar"">" & ZC_MSG042 & ": " & strPage & "</p>"
+		Response.Write "<hr/><p class=""pagebar"">" & ZC_MSG042 & ": " & strPage & "</p>"
+	End If 
+
 	Response.Write "</div>"
 
 	Response.Write "<script type=""text/javascript"">ActiveLeftMenu(""aArticleMng"");</script>"
@@ -352,9 +355,11 @@ Call Add_Response_Plugin("Response_Plugin_ArticleMng_SubMenu",MakeSubMenu(ZC_MSG
 
 	Response.Write "</table>"
 
-	strPage=ExportPageBar(intPage,intPageAll,ZC_PAGEBAR_COUNT,"../admin/admin.asp?act=ArticleMng&amp;type=Page&amp;cate="&ReQuest("cate")&"&amp;level="&ReQuest("level")&"&amp;title="&Escape(ReQuest("title")) & "&amp;page=")
+	If  intPageAll>1 Then 
+		strPage=ExportPageBar(intPage,intPageAll,ZC_PAGEBAR_COUNT,"../admin/admin.asp?act=ArticleMng&amp;type=Page&amp;cate="&ReQuest("cate")&"&amp;level="&ReQuest("level")&"&amp;title="&Escape(ReQuest("title")) & "&amp;page=")
+		Response.Write "<hr/><p class=""pagebar"">" & ZC_MSG042 & ": " & strPage & "</p>"
+	End If 
 
-	Response.Write "<hr/><p class=""pagebar"">" & ZC_MSG042 & ": " & strPage & "</p>"
 	Response.Write "</div>"
 
 	Response.Write "<script type=""text/javascript"">ActiveLeftMenu(""aPageMng"");</script>"
@@ -570,17 +575,18 @@ Function ExportCommentList(intPage,intContent,isCheck)
 
 	Response.Write "</table>"
 
-	'For i=1 to objRS.PageCount
-	'	strPage=strPage &"<a href='admin.asp?act=CommentMng&amp;page="& i &"'>["& Replace(ZC_MSG036,"%s",i) &"]</a> "
-	'Next
-	strPage=ExportPageBar(intPage,intPageAll,ZC_PAGEBAR_COUNT,"admin.asp?act=CommentMng&amp;isCheck="&isCheck&"&amp;page=")
 
 	Response.Write "<form id=""frmBatch"" style=""float:left;"" method=""post"" action=""../cmd.asp?act=CommentDelBatch""><input type=""hidden"" id=""edtBatch"" name=""edtBatch"" value=""""/><input class=""button"" type=""submit"" onclick='BatchDeleteAll(""edtBatch"");if(document.getElementById(""edtBatch"").value){return window.confirm("""& ZC_MSG058 &""");}else{return false}' value="""&ZC_MSG228&""" id=""btnPost""/>&nbsp;&nbsp;&nbsp;&nbsp;</form>" & vbCrlf
 	
 	Response.Write IIf(CheckRights("Root"),"<form id=""frmBatch2"" style=""float:left;"" method=""post"" action=""../cmd.asp?act=CommentAudit""><input type=""hidden"" id=""edtBatch2"" name=""edtBatch"" value=""""/><input class=""button"" type=""submit"" onclick='BatchDeleteAll(""edtBatch2"");if(document.getElementById(""edtBatch2"").value){return window.confirm("""& ZC_MSG058 &""");}else{return false}' value="""&IIf(isCheck,ZC_MSG174,ZC_MSG177)&""" id=""btnPost2""/>&nbsp;&nbsp;&nbsp;&nbsp;"&IIf(isCheck,"<input class=""button"" type=""submit"" onclick='document.getElementById(""edtBatch2"").value=""delall""' value="""&ZC_MSG222&""" id=""btnPost3""/>","") &"</form>","") &vbCrlf
 
+	Response.Write "<hr/><div class=""clear""></div>"
 
-	Response.Write "<hr/><div class=""clear""></div><p class=""pagebar"">" & ZC_MSG042 & ": " & strPage & "</p>"
+	If  intPageAll>1 Then 
+		strPage=ExportPageBar(intPage,intPageAll,ZC_PAGEBAR_COUNT,"admin.asp?act=CommentMng&amp;isCheck="&isCheck&"&amp;page=")
+		Response.Write "<p class=""pagebar"">" & ZC_MSG042 & ": " & strPage & "</p>"
+	End If 
+
 	Response.Write "</div>"
 
 	objRS.Close
@@ -677,12 +683,11 @@ Function ExportUserList(intPage)
 	
 	Response.Write "<p>"& ZC_MSG189 &"</p>"
 
-	'For i=1 to objRS.PageCount
-	'	strPage=strPage &"<a href='admin.asp?act=UserMng&amp;page="& i &"'>["& Replace(ZC_MSG036,"%s",i) &"]</a> "
-	'Next
-	strPage=ExportPageBar(intPage,intPageAll,ZC_PAGEBAR_COUNT,"admin.asp?act=UserMng&amp;page=")
+	If  intPageAll>1 Then 
+		strPage=ExportPageBar(intPage,intPageAll,ZC_PAGEBAR_COUNT,"admin.asp?act=UserMng&amp;page=")
+		Response.Write "<hr/><p class=""pagebar"">" & ZC_MSG042 & ": " & strPage & "</p>"
+	End If 
 
-	Response.Write "<hr/><p class=""pagebar"">" & ZC_MSG042 & ": " & strPage & "</p>"
 	Response.Write "</div>"
 
 	objRS.Close
@@ -772,12 +777,11 @@ Function ExportFileList(intPage)
 
 	Response.Write "<form id=""frmBatch"" method=""post"" action=""../cmd.asp?act=FileDelBatch""><input type=""hidden"" id=""edtBatch"" name=""edtBatch"" value=""""/><input class=""button"" type=""submit"" onclick='BatchDeleteAll(""edtBatch"");if(document.getElementById(""edtBatch"").value){return window.confirm("""& ZC_MSG058 &""");}else{return false}' value="""&ZC_MSG228&""" id=""btnPost""/></form>" & vbCrlf
 
-	'For i=1 to objRS.PageCount
-	'	strPage=strPage &"<a href='admin.asp?act=FileMng&amp;page="& i &"'>["& Replace(ZC_MSG036,"%s",i) &"]</a> "
-	'Next
-	strPage=ExportPageBar(intPage,intPageAll,ZC_PAGEBAR_COUNT,"admin.asp?act=FileMng&amp;page=")
+	If  intPageAll>1 Then
+		strPage=ExportPageBar(intPage,intPageAll,ZC_PAGEBAR_COUNT,"admin.asp?act=FileMng&amp;page=")
+		Response.Write "<hr/><p class=""pagebar"">" & ZC_MSG042 & ": " & strPage & "</p>"
+	End If 
 
-	Response.Write "<hr/><p class=""pagebar"">" & ZC_MSG042 & ": " & strPage & "</p>"
 	Response.Write "</div><script type=""text/javascript"">if(GetCookie(""chkAutoFileName"")==""true""){document.getElementById(""chkAutoName"").checked=true;document.getElementById(""edit"").action=document.getElementById(""edit"").action+String.fromCharCode(38)+""autoname=1"";};</script>"
 	objRS.Close
 	Set objRS=Nothing
@@ -878,12 +882,11 @@ Function ExportTagList(intPage)
 
 	Response.Write "</table>"
 
-	'For i=1 to objRS.PageCount
-	'	strPage=strPage &"<a href='admin.asp?act=TagMng&amp;page="& i &"'>["& Replace(ZC_MSG036,"%s",i) &"]</a> "
-	'Next
-	strPage=ExportPageBar(intPage,intPageAll,ZC_PAGEBAR_COUNT,"admin.asp?act=TagMng&amp;page=")
+	If  intPageAll>1 Then
+		strPage=ExportPageBar(intPage,intPageAll,ZC_PAGEBAR_COUNT,"admin.asp?act=TagMng&amp;page=")
+		Response.Write "<hr/><p class=""pagebar"">" & ZC_MSG042 & ": " & strPage & "</p>"
+	End If 
 
-	Response.Write "<hr/><p class=""pagebar"">" & ZC_MSG042 & ": " & strPage & "</p>"
 	Response.Write "</div>"
 
 	objRS.Close
