@@ -3176,9 +3176,9 @@ Function BuildArticle(intID,bolBuildNavigate,bolBuildCategory)
 	If objArticle.LoadInfoByID(intID) Then
 		If objArticle.Export(ZC_DISPLAY_MODE_ALL) Then
 			objArticle.SaveCache
+			objArticle.Statistic
 			objArticle.Build
 			objArticle.Save
-			objArticle.Statistic
 		End If
 
 '		If (bolBuildNavigate=True) And (ZC_USE_NAVIGATE_ARTICLE=True) Then

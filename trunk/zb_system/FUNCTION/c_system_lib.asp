@@ -756,7 +756,6 @@ Class TArticle
 			If TemplateName="PAGE" Then TemplateName=""
 		End If
 
-		'FullUrl=Replace(Url,BlogHost,"<#ZC_BLOG_HOST#>")
 		Dim objRS
 		If ID=0 Then
 			objConn.Execute("INSERT INTO [blog_Article]([log_CateID],[log_AuthorID],[log_Level],[log_Title],[log_Intro],[log_Content],[log_PostTime],[log_IP],[log_Tag],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_ViewNums],[log_Type],[log_Meta]) VALUES ("&CateID&","&AuthorID&","&Level&",'"&Title&"','"&Intro&"','"&Content&"','"&PostTime&"','"&IP&"','"&Tag&"','"&Alias&"',"&CLng(Istop)&",'"&TemplateName&"','"&FullUrl&"',0,"&CLng(FType)&",'"&MetaString&"')")
@@ -765,8 +764,10 @@ Class TArticle
 				ID=objRS(0)
 			End If
 			Set objRS=Nothing
+
+			FullUrl=Replace(Url,BlogHost,"<#ZC_BLOG_HOST#>")
+			objConn.Execute("UPDATE [blog_Article] SET [log_FullUrl]='"&FullUrl&"' WHERE [log_ID] =" & ID)
 		Else
-			'Dim objRS
 			Set objRS=objConn.Execute("SELECT [log_CateID],[log_AuthorID] FROM [blog_Article] WHERE [log_ID] =" & ID)
 			If (Not objRS.bof) And (Not objRS.eof) Then
 				If objRS(0)<>CateID Then
@@ -777,6 +778,8 @@ Class TArticle
 				End If 
 			End If
 			Set objRS=Nothing
+
+			FullUrl=Replace(Url,BlogHost,"<#ZC_BLOG_HOST#>")
 
 			objConn.Execute("UPDATE [blog_Article] SET [log_CateID]="&CateID&",[log_AuthorID]="&AuthorID&",[log_Level]="&Level&",[log_Title]='"&Title&"',[log_Intro]='"&Intro&"',[log_Content]='"&Content&"',[log_PostTime]='"&PostTime&"',[log_IP]='"&IP&"',[log_Tag]='"&Tag&"',[log_Url]='"&Alias&"',[log_Istop]="&CLng(Istop)&",[log_Template]='"&TemplateName&"',[log_FullUrl]='"&FullUrl&"',[log_Type]="&CLng(FType)&",[log_Meta]='"&MetaString&"' WHERE [log_ID] =" & ID)
 		End If
@@ -1649,11 +1652,6 @@ Class TArticle
 		End If
 		
 		Set objRS=Nothing
-
-
-		FullUrl=Replace(Url,BlogHost,"<#ZC_BLOG_HOST#>")
-
-		objConn.Execute("UPDATE [blog_Article] SET [log_FullUrl]='"&FullUrl&"' WHERE [log_ID] =" & ID)
 
 		Statistic=True
 
