@@ -1653,6 +1653,10 @@ Class TArticle
 		
 		Set objRS=Nothing
 
+		FullUrl=Replace(Url,BlogHost,"<#ZC_BLOG_HOST#>")
+
+		objConn.Execute("UPDATE [blog_Article] SET [log_FullUrl]='"&FullUrl&"' WHERE [log_ID] =" & ID)
+
 		Statistic=True
 
 	End Function
