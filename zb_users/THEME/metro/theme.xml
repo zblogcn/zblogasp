@@ -18,8 +18,8 @@
 <name></name>
 <note></note>
 <type></type>
-<path></path>
-<include></include>
+<path>editor.asp</path>
+<include>include.asp</include>
 <level></level>
 </plugin>
 <adapted>Z-Blog 2.0</adapted>
