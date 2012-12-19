@@ -13,18 +13,20 @@ If BlogUser.Level>1 Then Call ShowError(6)
 
 If CheckPluginState("AppCentre")=False Then Call ShowError(48)
 
+Dim strRnd
+Randomize
+strRnd=Rnd
 Dim strURL
 strURL=Request.QueryString("url")
-Response.Write strURL
 If Left(strURL,Len(APPCENTRE_URL))=APPCENTRE_URL Then 
 	Randomize
 	Dim objXmlHttp
 	Set objXmlHttp=Server.CreateObject("msxml2.serverxmlhttp")
-	objXmlhttp.Open "GET",strURL & "?" & Rnd
+	objXmlhttp.Open "GET",strURL & "?" & strRnd
 	objXmlHttp.Send
-	Call SaveBinary(objXmlhttp.ResponseBody,BlogPath&"zb_users\cache\temp_" & Rnd & ".zba")
-	Call InstallApp(BlogPath&"zb_users\cache\temp_" & Rnd & ".zba")
-	Call DelToFile(BlogPath&"zb_users\cache\temp_" & Rnd & ".zba")
+	Call SaveBinary(objXmlhttp.ResponseBody,BlogPath&"zb_users\cache\temp_" & strRnd & ".zba")
+	Call InstallApp(BlogPath&"zb_users\cache\temp_" & strRnd & ".zba")
+	Call DelToFile(BlogPath&"zb_users\cache\temp_" & strRnd & ".zba")
 	Response.Redirect BlogHost & "zb_system/cmd.asp?act=PlugInMng"
 Else
 	Response.Write "Illegal URL!"
