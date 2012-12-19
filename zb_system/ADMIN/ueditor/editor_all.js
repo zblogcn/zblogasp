@@ -15858,7 +15858,7 @@ baidu.editor.ui = {};
         'highlightcode':'~/dialogs/highlightcode/highlightcode.html',
         'emotion':'~/dialogs/emotion/emotion.html',
         'wordimage':'~/dialogs/wordimage/wordimage.html',
-        'attachment':'~/dialogs/attachment/attachment.html',
+        'attachment':'~/dialogs/attachment/attachment.asp',
         'insertframe':'~/dialogs/insertframe/insertframe.html',
         'edittd':'~/dialogs/table/edittd.html',
         'webapp':'~/dialogs/webapp/webapp.html',

@@ -24,7 +24,7 @@ objUpload.open
 Set BlogUser=Nothing
 Set BlogUser =New TUser
 BlogUser.LoginType="Self"
-BlogUser.name=CStr(Trim(objUpload.form("username")))
+BlogUser.name=vbsunescape(CStr(Trim(objUpload.form("username"))))
 BlogUser.Password=CStr(Trim(objUpload.form("password")))
 BlogUser.Verify()
 
