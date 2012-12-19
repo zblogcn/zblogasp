@@ -1,6 +1,6 @@
 ﻿<%
 Const APPCENTRE_URL="http://appcentre.zsxsoft.com/"
-Const APPCENTRE_UPDATE_URL="http://appcentre.zsxsoft.com/appcentre.asp"
+Const APPCENTRE_UPDATE_URL="http://appcentre.zsxsoft.com/appcentre.asp?act=checkupdate"
 
 
 Dim app_id
@@ -36,8 +36,8 @@ Dim app_conflict
 
 Sub SubMenu(id)
 	Dim aryName,aryValue,aryPos
-	aryName=Array("在线安装应用","新建插件","新建主题")
-	aryValue=Array("server.asp","plugin_edit.asp","theme_edit.asp")
+	aryName=Array("在线安装应用","新建插件","新建主题","检查更新")
+	aryValue=Array("server.asp","plugin_edit.asp","theme_edit.asp","checkupdate.asp")
 	aryPos=Array("m-left","m-left","m-left","m-left")
 	Dim i 
 	For i=0 To Ubound(aryName)
