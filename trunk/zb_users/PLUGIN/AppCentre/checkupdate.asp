@@ -55,6 +55,7 @@ Select Case Request.QueryString("act")
 		bolReDownload=True
 		bolCheck=True
 	Case Else
+		Call ReCheck
 		Call CheckXml
 		Response.Redirect "server.asp?action=update"
 End Select
@@ -121,7 +122,7 @@ Function ReCheck()
 	Dim objXmlHttp,strURL,bolPost,str,bolIsBinary
 	Set objXmlHttp=Server.CreateObject("MSXML2.ServerXMLHTTP")
 
-	strUrl=APPCENTRE_UPDATE_URL&"&tname="&Server.URLEncode(Join(GetAllThemeName,","))&"&pname="&Server.URLEncode(Replace(ZC_USING_PLUGIN_LIST,"|",","))
+	strUrl=APPCENTRE_UPDATE_URL&"&tname="&Server.URLEncode(Join(GetAllThemeName,","))&"&pname="&Server.URLEncode(Replace(ZC_USING_PLUGIN_LIST,"|",","))&"&rnd="&Rnd
 	objXmlHttp.Open "GET",strURL
 	objXmlHttp.Send 
 
