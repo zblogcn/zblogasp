@@ -1,7 +1,7 @@
 ﻿#reg dl{width: 100%;}
 #reg dd{width: 100%;margin:1em 4em;}
 #reg dd img{margin-bottom: -8px;display: inline-block !important;padding:0 !important;vertical-align:baseline !important;}
-#reg p,label,input{font:16px/1.6 "微软雅黑","宋体", Arial, Helvetica, sans-serif;}
+#reg p,#reg label,#reg input{font:16px/1.6 "微软雅黑","宋体", Arial, Helvetica, sans-serif;}
 #reg span{font:16px/1.6 sans-serif;padding: 0  0 0 5px;}
 #reg label {padding: 0 12px 0 0;}
 #reg input{padding: 0 5px;line-height: 27px;}
