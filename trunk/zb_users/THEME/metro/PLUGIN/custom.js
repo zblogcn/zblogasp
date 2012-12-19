@@ -1,11 +1,11 @@
 ﻿var theme_config={
-	default:{ BodyBg:["#eee","images/bg.jpg","repeat","2","top",""],
+	default:{ BodyBg:["#EEEEEE","images/bg.jpg","repeat","2","top",""],
 					HdBg:["","images/headbg.jpg","repeat  fixed","1","top","100",""],
-					color:["#5EAAE4","#A3D0F2","#222222","#333333","#ffffff"]
+					color:["#5EAAE4","#A3D0F2","#222222","#333333","#FFFFFF"]
 				},
-	green:{	BodyBg:["#eee","images/bg.jpg","repeat  fixed","2","top","True"],
+	green:{	BodyBg:["#EEEEEE","images/bg.jpg","repeat  fixed","2","top","True"],
 					HdBg:["","images/headbg.jpg","repeat  fixed","2","top","150",""],
-					color:["#76923c","#c3d69b","#003300","#76923c","#ffffff"]
+					color:["#76923C","#C3D69B","#003300","#76923C","#FFFFFF"]
 				}
 };
 
@@ -72,6 +72,29 @@ function loadConfig(config){
 }
 
 $(document).ready(function(){
+	var myUpload1 = $("#updatapic1").upload();
+	myUpload1.set({
+		name: 'bg.jpg',
+		action: 'saveImage.asp',
+		enctype: 'multipart/form-data',
+		autoSubmit: true,
+		onComplete: function () {
+			$('#bgpic_p').attr("src","../STYLE/images/bg.jpg");
+		}
+	});
+
+	var myUpload2 = $("#updatapic2").upload();
+	myUpload2.set({
+		name: 'headbg.jpg',
+		action: 'saveImage.asp',
+		enctype: 'multipart/form-data',
+		autoSubmit: true,
+		onComplete: function () {
+			$('#hbgpic_p').attr("src","../STYLE/images/headbg.jpg");
+		}
+	});
+	$("#updatapic1,#updatapic2").parent().css("width","auto");
+
 	$('#bodybgc0').colorpicker();
 	$('#bgpx').buttonset();
 
@@ -81,16 +104,10 @@ $(document).ready(function(){
 		else{$('#bodybgmain').hide("fast");} 
 	});
 
-	$('#hdbgc0').click(function(){
-		if($(this).attr("checked")=="checked"){
-			$('#hdbgc6').removeAttr("checked");
-			$('#hdbgmain').hide("fast");}
-	});
-
 	$('#hdbgc6').click(function(){
 		if($(this).attr("checked")!==undefined){
-			$('#hdbgmain').show("fast");$('#hdbgcolor').hide("fast");}
-		else{$('#hdbgmain').hide("fast");$('#hdbgcolor').show("fast");} 
+			$('#hdbgmain').show("fast");}
+		else{$('#hdbgmain').hide("fast");} 
 	});
 
 	$( "#hdbgpx").buttonset();

@@ -21,9 +21,14 @@ Call System_Initialize()
 Call CheckReference("")
 '检查权限
 If BlogUser.Level>1 Then Call ShowError(6)
+'检查过滤
+Dim s
+For Each s In Request.Form
+	'FilterSQL(Request.Form(s))
+Next 
 
-Dim s,i,strb,strc,strh
-i=0
+Dim strb,strc,strh
+
 strb=Request.Form("bodybg0")&"|"&Request.Form("bodybg1")&"|"&Replace(Request.Form("bodybg2"),","," ")&"|"&Request.Form("bodybg3")&"|"&Request.Form("bodybg4")&"|"&Request.Form("bodybg5")
 
 strh=Request.Form("hdbg0")&"|"&Request.Form("hdbg1")&"|"&Replace(Request.Form("hdbg2"),","," ")&"|"&Request.Form("hdbg3")&"|"&Request.Form("hdbg4")&"|"&Request.Form("hdbg5")&"|"&Request.Form("hdbg6")
@@ -43,10 +48,10 @@ If c.Exists("custom_color")=True Then
 End If 
 Set c =Nothing
 
-
+Call metro_savetofile("custom.css")
 Call SetBlogHint(True,Empty,Empty)
 
-Response.Redirect "editor.asp?s"
+Response.Redirect "editor.asp"
 %>
 
 <%Call System_Terminate()%>
