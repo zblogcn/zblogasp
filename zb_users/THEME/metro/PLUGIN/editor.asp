@@ -17,8 +17,6 @@ Call CheckReference("")
 '检查权限
 If BlogUser.Level>1 Then Call ShowError(6)
 
-If (Not IsEmpty(Request.QueryString("s"))) Then Call metro_savetofile("custom.css")
-
 BlogTitle="Metro主题配置"
 
 Dim strBodyBg,aryBodyBg
@@ -42,9 +40,11 @@ a=Array("","左","中","右")
 <!--#include file="..\..\..\..\zb_system\admin\admin_header.asp"-->
 <link href="evol.colorpicker.css" rel="stylesheet" /> 
 <script src="evol.colorpicker.min.js" type="text/javascript"></script>
+<script src="jquery.ocupload.min.js" type="text/javascript"></script>
 <script src="custom.js" type="text/javascript"></script>
 <style>
 table input{padding: 0;margin:0.25em 0;}
+table .button{padding: 2px 12px 5px 12px; margin: 0.25em 0;}
 </style>
 <!--#include file="..\..\..\..\zb_system\admin\admin_top.asp"-->
 <div id="divMain">
@@ -70,10 +70,14 @@ table input{padding: 0;margin:0.25em 0;}
 							<input type="checkbox" id="bodybgc5" name="bodybg5" <%=IIf(aryBodyBg(5)="True","checked=""checked""","")%> value="True"/> <label for="bodybgc5">使用背景图</label>
 						</div>
 						<div id="bodybgmain" <%=IIf(aryBodyBg(5)="","style=""display:none""","")%>>
-							背景图：<input id="bgurl" name="bodybg1"  value=<%=aryBodyBg(1)%> /> 
+							<input type="hidden" id="bgurl" name="bodybg1"  value=<%=aryBodyBg(1)%> /> 
+							<img src="../STYLE/images/bg.jpg" width="190" height="120" border="0" alt="" id="bgpic_p">
+							<input type="button"  id="updatapic1" class="button" value="更换图片"/>
 							<div id="bodybgs">背景设定：
-							<input type="checkbox" id="bodybg2r" name="bodybg2" <%=IIf(InStr(aryBodyBg(2),"repeat")>0,"checked=""checked""","")%> value="repeat"/><label for="bodybg2r">平铺</label>
-							<input type="checkbox" id="bodybg2f" name="bodybg2" <%=IIf(InStr(aryBodyBg(2),"fixed")>0,"checked=""checked""","")%> value="fixed"/><label for="bodybg2f">固定</label>
+							<input type="checkbox" id="bodybg2r" name="bodybg2" <%=IIf(InStr(aryBodyBg(2),"repeat")>0,"checked=""checked""","")%> value="repeat"/>
+							<label for="bodybg2r">平铺</label>  
+							<input type="checkbox" id="bodybg2f" name="bodybg2" <%=IIf(InStr(aryBodyBg(2),"fixed")>0,"checked=""checked""","")%> value="fixed"/>
+							<label for="bodybg2f">固定</label>
 							</div> 
 							<div id="bgpx"> 对齐方式： 			  
 							<%	For i=1 To 3	%>
@@ -88,17 +92,21 @@ table input{padding: 0;margin:0.25em 0;}
 					<td>顶部背景</td>
 					<td>
 						<div >顶部高度：<input id="hdbgph" type="text" name="hdbg5"  value=<%=aryHdBg(5)%> />(单位：px)</div>
-						<div id="hdbgcolor" <%=IIf(aryHdBg(6)="True","style=""display:none""","")%>>
+						<div id="hdbgcolor" >
 							<input type="checkbox" id="hdbgc0" name="hdbg0" <%=IIf(aryHdBg(0)="transparent","checked=""checked""","")%> value="transparent"/><label for="hdbgc0"> 背景透明（不透明情况下使用主色为背景色）</label>
 						</div>
 						<div >
 							<input type="checkbox" id="hdbgc6" name="hdbg6" <%=IIf(aryHdBg(6)="True","checked=""checked""","")%> value="True"/> <label for="hdbgc6">使用背景图</label>
 						</div>
 						<div id="hdbgmain" <%=IIf(aryHdBg(6)="","style=""display:none""","")%>>
-							背景图：<input id="hdbgurl" name="hdbg1"  value=<%=aryHdBg(1)%> /> 
+							<input  type="hidden"  id="hdbgurl" name="hdbg1"  value=<%=aryHdBg(1)%> /> 
+							<img src="../STYLE/images/headbg.jpg" width="190" height="120" border="0" alt="" id="hbgpic_p">
+							<input type="button"  id="updatapic2" class="button" value="更换图片" />
 							<div id="hdbgs">背景设定：
-							<input type="checkbox" id="hdbg2r" name="hdbg2" <%=IIf(InStr(aryHdBg(2),"repeat")>0,"checked=""checked""","")%> value="repeat"/><label for="hdbg2r">平铺</label>
-							<input type="checkbox" id="hdbg2f" name="hdbg2" <%=IIf(InStr(aryHdBg(2),"fixed")>0,"checked=""checked""","")%> value="fixed"/><label for="hdbg2f">固定</label>
+							<input type="checkbox" id="hdbg2r" name="hdbg2" <%=IIf(InStr(aryHdBg(2),"repeat")>0,"checked=""checked""","")%> value="repeat"/>
+							<label for="hdbg2r">平铺</label>
+							<input type="checkbox" id="hdbg2f" name="hdbg2" <%=IIf(InStr(aryHdBg(2),"fixed")>0,"checked=""checked""","")%> value="fixed"/>
+							<label for="hdbg2f">固定</label>
 							</div> 
 							<div id="hdbgpx"> 对齐方式： 			  
 								<%	For i=1 To 3	%>
