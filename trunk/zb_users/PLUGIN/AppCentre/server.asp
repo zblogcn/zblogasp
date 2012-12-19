@@ -44,7 +44,7 @@ Select Case Request.QueryString("action")
 		strURL="app.asp?act=checkupdate&updatelist="&Server.URLEncode(LoadFromFile(BlogPath&"zb_users\cache\appcentre_list.lst","utf-8"))&"&"
 		Call DelToFile(BlogPath&"zb_users\cache\appcentre_list.lst")
 	Case Else
-		strURL=""
+		strURL="?"
 End Select
 sTOP
 
