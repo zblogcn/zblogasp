@@ -48,7 +48,8 @@ End Select
 sTOP
 
 'On Error Resume Next
-strURL=strURL & Request.QueryString
+Randomize
+strURL=strURL & Request.QueryString & "&rnd="&Rnd
 
 strURL=APPCENTRE_URL & strURL
 objXmlHttp.Open Request.ServerVariables("REQUEST_METHOD"),strURL
