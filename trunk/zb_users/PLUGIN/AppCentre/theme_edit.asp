@@ -60,7 +60,7 @@ End If
     </div>
   <div class="divHeader"><%=BlogTitle%></div>
   <div class="SubMenu"> 
-	<%If ID="" Then Call SubMenu(3) Else Call SubMenu(-1) End If%>
+	<%If ID="" Then Call SubMenu(2) Else Call SubMenu(-1) End If%>
   </div>
   <div id="divMain2">
 <form method="post" action="">
