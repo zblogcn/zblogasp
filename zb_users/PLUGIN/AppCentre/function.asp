@@ -66,8 +66,10 @@ Function InstallApp(FilePath)
 	objXmlFile.load(FilePath)
 		
 	If objXmlFile.readyState<>4 Then
+		SetBlogHint_Custom "无法加载此文件！"
 	Else
 		If objXmlFile.parseError.errorCode <> 0 Then
+			SetBlogHint_Custom "该文件("&FilePath&")存在错误"
 		Else
 
 			Dim Pack_ver,Pack_Type,Pack_For,Pack_ID,Pack_Name

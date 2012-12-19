@@ -40,6 +40,8 @@ Select Case Request.QueryString("action")
 		strURL="zb_system/cmd.asp?"
 	Case "install"
 		Response.Redirect "app_download.asp?url=" & Server.URLEncode(Request.QueryString("path"))
+	Case "update"
+		strURL="app.asp?act=checkupdate&updatelist="&Server.URLEncode(LoadFromFile(BlogPath&"zb_users\cache\appcentre_list.lst","utf-8"))&"&"
 	Case Else
 		strURL=""
 End Select
