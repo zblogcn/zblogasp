@@ -77,9 +77,9 @@ If objXmlHttp.ReadyState=4 Then
 			strResponse=Replace(strResponse,APPCENTRE_URL&"zb_system/cmd.asp?","server.asp?action=cmd&")
 			Dim objRegExp
 			Set objRegExp=New RegExp
-			objRegExp.Pattern="<div class=""menu"">([\d\D]+?)</div>"
-			objRegExp.IgnoreCase=True
-			strResponse=objRegExp.Replace(strResponse,"<div class=""menu""><ul><li class=""index""><a href=""../../../zb_system/cmd.asp?act=login"">返回后台</a></li><li><a class=""on"" href=""server.asp"">应用中心</a></li><li><a href=""http://bbs.rainbowsoft.org"" target=""_blank"">Z-Blogger社区</a></li></ul></div>")
+			'objRegExp.Pattern="<div class=""menu"">([\d\D]+?)</div>"
+			'objRegExp.IgnoreCase=True
+			'strResponse=objRegExp.Replace(strResponse,"<div class=""menu""><ul><li class=""index""><a href=""../../../zb_system/cmd.asp?act=login"">返回后台</a></li><li><a class=""on"" href=""server.asp"">应用中心</a></li><li><a href=""http://bbs.rainbowsoft.org"" target=""_blank"">Z-Blogger社区</a></li></ul></div>")
 			objRegExp.Pattern="<!--client_begin([\d\D]+?)-->"
 			objRegExp.Global=True
 			strResponse=objRegExp.Replace(strResponse,"$1")
