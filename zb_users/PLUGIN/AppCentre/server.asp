@@ -1,6 +1,6 @@
 ﻿<%@ LANGUAGE="VBSCRIPT" CODEPAGE="65001"%>
 <% Option Explicit %>
-<% On Error Resume Next %>
+<% 'On Error Resume Next %>
 <% Response.Charset="UTF-8" %>
 <!-- #include file="../../c_option.asp" -->
 <!-- #include file="../../../ZB_SYSTEM/function/c_function.asp" -->
@@ -19,8 +19,8 @@ If BlogUser.Level>1 Then Call ShowError(6)
 If CheckPluginState("AppCentre")=False Then Call ShowError(48)
 %>
 <%
-Stop
-Dim objXmlHttp,strURL,bolPost,str,bolIsBinary
+
+Dim objXmlHttp,strURL,bolPost,str,bolIsBinary,strList
 bolPost=IIf(Request.ServerVariables("REQUEST_METHOD")="POST",True,False)
 
 Set objXmlHttp=Server.CreateObject("MSXML2.ServerXMLHTTP")
@@ -41,12 +41,18 @@ Select Case Request.QueryString("action")
 	Case "install"
 		Response.Redirect "app_download.asp?url=" & Server.URLEncode(Request.QueryString("path"))
 	Case "update"
-		strURL="app.asp?act=checkupdate&updatelist="&Server.URLEncode(LoadFromFile(BlogPath&"zb_users\cache\appcentre_list.lst","utf-8"))&"&"
-		Call DelToFile(BlogPath&"zb_users\cache\appcentre_list.lst")
+		strList=LoadFromFile(BlogPath&"zb_users\cache\appcentre_list.lst","utf-8")
+		If Replace(strList,",","")<>"" Then
+			strURL="app.asp?act=checkupdate&updatelist="&Server.URLEncode(strList)&"&"
+			Call DelToFile(BlogPath&"zb_users\cache\appcentre_list.lst")
+		Else
+			Call ShowErr (False,"您没有可以更新的插件")
+		
+		End If
 	Case Else
 		strURL="?"
 End Select
-sTOP
+
 
 'On Error Resume Next
 Randomize
@@ -93,15 +99,15 @@ If objXmlHttp.ReadyState=4 Then
 			Response.BinaryWrite objXmlHttp.ResponseBody
 		End If
 	Else
-		ShowErr
+		ShowErr True,"" 
 	End If
 	'If objXmlHttp.GetRequestHeader("app_zbver")
 	
 	
 Else
-	ShowErr
+	ShowErr True,"" 
 End If
-If Err.Number<>0 Then ShowErr
+If Err.Number<>0 Then ShowErr True,"" 
 Response.Write strResponse
 
 Function AddHtml(html,stat)
@@ -118,7 +124,7 @@ Function AddHtml(html,stat)
 End Function
 
 
-Function ShowErr()
+Function ShowErr(isHttp,str)
 %>
 <!--#include file="..\..\..\zb_system\admin\admin_header.asp"-->
 <!--#include file="..\..\..\zb_system\admin\admin_top.asp"-->
@@ -131,6 +137,7 @@ Function ShowErr()
             <%SubMenu(0)%>
           </div>
           <div id="divMain2"> 
+          <%If isHttp Then%>
             <p>处理<a href='<%=strURL%>' target='_blank'><%=strURL%></a>(method:<%=Request.ServerVariables("REQUEST_METHOD")%>)时出错：</p>
             <p>ASP错误信息：<%=IIf(Err.Number=0,"无",Err.Number&"("&Err.Description&")")%></p>
             <p>HTTP状态码：<%If objXmlhttp.readyState<4 Then Response.Write "未发送请求" Else Response.Write objXmlhttp.status%></p>
@@ -143,6 +150,9 @@ Function ShowErr()
               <li>服务器暂时无法连接，可能是遭到攻击或者检修中。</li>
             </ol>
             <p>请<a href="javascript:location.reload()">点击这里刷新重试</a>，或者到<a href="http://bbs.rainbowsoft.org" target="_blank">Z-Blogger论坛</a>发帖询问。</p>
+            <%Else%>
+            <%=str%>
+          <%End If%>
           </div>
         </div>
         <script type="text/javascript">ActiveLeftMenu("aAppcentre");</script> 
