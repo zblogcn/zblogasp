@@ -20,7 +20,8 @@ If CheckPluginState("AppCentre")=False Then Call ShowError(48)
 %>
 <%
 
-Dim objXmlHttp,strURL,bolPost,str,bolIsBinary,strList
+Dim objXmlHttp,strURL,bolPost,str,bolIsBinary,strList,bolFrame
+bolFrame=True
 bolPost=IIf(Request.ServerVariables("REQUEST_METHOD")="POST",True,False)
 
 Set objXmlHttp=Server.CreateObject("MSXML2.ServerXMLHTTP")
@@ -36,8 +37,10 @@ Select Case Request.QueryString("action")
 		Response.ContentType="image/gif"
 		strURL="zb_system/function/c_validcode.asp?"
 		bolIsBinary=True
+		bolFrame=False
 	Case "cmd"
 		strURL="zb_system/cmd.asp?"
+		bolFrame=False
 	Case "install"
 		Response.Redirect "app_download.asp?url=" & Server.URLEncode(Request.QueryString("path"))
 	Case "update"
@@ -108,7 +111,8 @@ Else
 	ShowErr True,"" 
 End If
 If Err.Number<>0 Then ShowErr True,"" 
-Response.Write strResponse
+
+
 
 Function AddHtml(html,stat)
 	Select Case stat
@@ -124,9 +128,16 @@ Function AddHtml(html,stat)
 End Function
 
 
-Function ShowErr(isHttp,str)
 %>
+<%
+If bolFrame Then%>
 <!--#include file="..\..\..\zb_system\admin\admin_header.asp"-->
+<%
+Dim aryTest
+aryTest=Split(Split(strResponse,"</head>")(0),"<head>")
+Response.Write aryTest(Ubound(aryTest))
+%>
+
 <!--#include file="..\..\..\zb_system\admin\admin_top.asp"-->
         <div id="divMain">
           <div id="ShowBlogHint">
@@ -137,6 +148,14 @@ Function ShowErr(isHttp,str)
             <%SubMenu(0)%>
           </div>
           <div id="divMain2"> 
+
+<%
+End If
+aryTest=Split(Split(strResponse,"</body>")(0),"<body>")
+Response.Write aryTest(Ubound(aryTest))
+Function ShowErr(isHttp,str)
+%>
+
           <%If isHttp Then%>
             <p>处理<a href='<%=strURL%>' target='_blank'><%=strURL%></a>(method:<%=Request.ServerVariables("REQUEST_METHOD")%>)时出错：</p>
             <p>ASP错误信息：<%=IIf(Err.Number=0,"无",Err.Number&"("&Err.Description&")")%></p>
@@ -153,11 +172,13 @@ Function ShowErr(isHttp,str)
             <%Else%>
             <%=str%>
           <%End If%>
-          </div>
-        </div>
-        <script type="text/javascript">ActiveLeftMenu("aAppcentre");</script> 
-        <!--#include file="..\..\..\zb_system\admin\admin_footer.asp"-->
 <%
 	Response.End
 End Function
 %>
+<%If bolFrame Then%>
+          </div>
+        </div>
+        <script type="text/javascript">ActiveLeftMenu("aAppcentre");</script> 
+        <!--#include file="..\..\..\zb_system\admin\admin_footer.asp"-->
+<%End If%>
