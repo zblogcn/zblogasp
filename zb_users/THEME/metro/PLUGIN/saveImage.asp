@@ -10,6 +10,7 @@
 <% Response.Charset="UTF-8" %>
 <!-- #include file="..\..\..\..\zb_system\admin\ueditor\asp\aspincludefile.asp" -->
 <%
+Response.Write "{""succeed"":"
 Call System_Initialize()
 '检查非法链接
 Call CheckReference("")
@@ -31,7 +32,10 @@ For Each s In objUpload.FileItem
 	'If Left(s,7)="include" Then
 		m=objUpload.Save(s,s)
 	'End If
+	Response.Write "0"
+'	Response.Write """"&objUpload.Error2Info(s)&""""
 Next
+Response.Write "}"
 %>
 
 <%Call System_Terminate()%>

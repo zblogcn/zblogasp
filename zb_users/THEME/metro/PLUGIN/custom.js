@@ -41,7 +41,7 @@ $(document).ready(function(){
 			}
 		},
 		onComplete: function () {
-			$('#bgpic_p').attr("src","../STYLE/images/bg.jpg");
+			$('#bgpic_p').attr("src","../STYLE/images/bg.jpg?"+Math.random());
 		}
 	});
 	var myUpload2 = $("#updatapic2").upload();
@@ -63,7 +63,7 @@ $(document).ready(function(){
 			}
 		},
 		onComplete: function () {
-			$('#hbgpic_p').attr("src","../STYLE/images/headbg.jpg");
+			$('#hbgpic_p').attr("src","../STYLE/images/headbg.jpg?"+Math.random());
 		}
 	});
 	$("#updatapic1,#updatapic2").parent().css("width","auto");
