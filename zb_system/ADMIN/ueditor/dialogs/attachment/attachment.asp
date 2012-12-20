@@ -38,7 +38,7 @@
             flash9_url:"../../third-party/swfupload/swfupload_fp9.swf",
             post_params:{
 				username:'<%=un(Request.Cookies("username"))%>',
-				password:'<%=Request.Cookies("password")%>'
+				password:'<%=un(Request.Cookies("password"))%>'
 			},
             file_size_limit:"100 MB",                                 //文件大小限制，此处仅是前端flash选择时候的限制，具体还需要和后端结合判断
             file_types:"*.*",                                         //允许的扩展名，多个扩展名之间用分号隔开，支持*通配符
