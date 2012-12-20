@@ -590,7 +590,7 @@ Application.Contents.RemoveAll
 
 </div>
 <div id="bottom">
-<input type="button" name="next" onclick="window.location.href='<%=BlogHost%>'" id="netx" value="完成" />
+<input type="button" name="next" onClick="window.location.href='<%=BlogHost%>'" id="netx" value="完成" />
 </div>
 
 
@@ -999,7 +999,7 @@ Call BlogConfig.Write("ZC_UPLOAD_DIRECTORY","zb_users\upload")
 
 
 '当前 Z-Blog 版本
-Call BlogConfig.Write("ZC_BLOG_VERSION","2.0 Doomsday(Dev) Build 121216")
+Call BlogConfig.Write("ZC_BLOG_VERSION","2.0 Doomsday Build 121221")
 
 
 

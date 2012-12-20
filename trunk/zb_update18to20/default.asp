@@ -709,7 +709,7 @@ Call BlogConfig.Write("ZC_UPLOAD_DIRECTORY","zb_users\upload")
 
 
 '当前 Z-Blog 版本
-Call BlogConfig.Write("ZC_BLOG_VERSION","2.0 Doomsday(Dev) Build 121216")
+Call BlogConfig.Write("ZC_BLOG_VERSION","2.0 Doomsday Build 121221")
 
 
 
