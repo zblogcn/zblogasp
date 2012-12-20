@@ -1,32 +1,27 @@
-﻿var theme_config={
-	default:{ BodyBg:["#EEEEEE","images/bg.jpg","repeat","2","top",""],
-					HdBg:["","images/headbg.jpg","repeat  fixed","1","top","100",""],
-					color:["#5EAAE4","#A3D0F2","#222222","#333333","#FFFFFF"]
-				},
-	green:{	BodyBg:["#EEEEEE","images/bg.jpg","repeat  fixed","2","top","True"],
-					HdBg:["","images/headbg.jpg","repeat  fixed","2","top","150",""],
-					color:["#76923C","#C3D69B","#003300","#76923C","#FFFFFF"]
-				},
-	black:{	BodyBg:["#d8d8d8"],
-					HdBg:[],
-					color:["#3f3f3f","#bfbfbf","#7f7f7f","#595959","#f2f2f2"]
-				},
-	chocolate:{	BodyBg:["#d8d8d8"],
-					HdBg:[],
-					color:["#974806","#fac08f","#262626","#3f3f3f","#FFFFFF"]
-				}
-};
+﻿//配色说明：第一个颜色为页面背景色，第二个为主色，依此类推。
+var color_config=[
+	{name:"默认",color:["#EEEEEE","#5EAAE4","#A3D0F2","#222222","#333333","#FFFFFF"]},
+	{name:"草绿色",color:["#EEEEEE","#76923C","#C3D69B","#003300","#76923C","#FFFFFF"]},
+	{name:"黑色",color:["#d8d8d8","#3f3f3f","#bfbfbf","#7f7f7f","#595959","#f2f2f2"]},
+	{name:"咖啡色",color:["#d8d8d8","#974806","#fac08f","#262626","#3f3f3f","#f2f2f2"]},
+	{name:"紫色",color:["#ccc1d9","#5f497a","#b2a2c7","#262626","#3f3f3f","#f2f2f2"]}
+];
 
 function loadConfig(config){
-	$('#bodybgc0').colorpicker("val",config.BodyBg[0]);
-	$('#colorP1').colorpicker("val",config.color[0]);
-	$('#colorP2').colorpicker("val",config.color[1]);
-	$('#colorP3').colorpicker("val",config.color[2]);
-	$('#colorP4').colorpicker("val",config.color[3]);
-	$('#colorP5').colorpicker("val",config.color[4]);	
+	$('#bodybgc0').colorpicker("val",config.color[0]);
+	$('#colorP1').colorpicker("val",config.color[1]);
+	$('#colorP2').colorpicker("val",config.color[2]);
+	$('#colorP3').colorpicker("val",config.color[3]);
+	$('#colorP4').colorpicker("val",config.color[4]);
+	$('#colorP5').colorpicker("val",config.color[5]);	
 }
 
 $(document).ready(function(){
+	
+	$.each(color_config, function(i,config){
+		$("<div>").attr({ title:config.name,class:"tc",onclick:"loadConfig(color_config["+i+"]);$('.active').removeClass('active');$(this).addClass('active');",style:"background-color:"+config.color[1]}).appendTo("#loadconfig");
+	});
+
 	var myUpload1 = $("#updatapic1").upload();
 	myUpload1.set({
 		name: 'bg.jpg',
