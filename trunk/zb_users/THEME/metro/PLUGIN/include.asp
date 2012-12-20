@@ -25,6 +25,7 @@ End Function
 ' 保存css文件
 '******************************************************************************************
 Function metro_savetofile(stylefile)
+	Dim strlayout
 	Dim strBodyBg,aryBodyBg
 	Dim strHdBg,aryHdBg
 	Dim strColor,aryColor
@@ -37,6 +38,7 @@ Function metro_savetofile(stylefile)
 	Set c = New TConfig
 	c.Load("metro")
 	If c.Exists("vesion")=true Then
+		strlayout=c.read("custom_layout")
 		strBodyBg=c.read("custom_bodybg")
 		strHdBg=c.read("custom_hdbg")
 		strColor=c.read("custom_color")
@@ -71,9 +73,20 @@ Function metro_savetofile(stylefile)
 		strHdBg=aryHdBg(0)
 	End If 
 
+	Dim sLeft,sRight
+	sLeft=p(1)
+	sRight=p(3)
+	If strlayout="l" Then 
+		sLeft=p(3)
+		sRight=p(1)
+	End If 
+	
 	'替换模版标签
 	Dim strContent
 	strContent=LoadFromFile(BlogPath & "zb_users\theme\metro\plugin\style.css.html" ,"utf-8")
+
+	strContent=Replace(strContent,"{%strlayoutl%}",sLeft)
+	strContent=Replace(strContent,"{%strlayoutr%}",sRight)
 
 	strContent=Replace(strContent,"{%strBodyBg%}",strBodyBg)
 	strContent=Replace(strContent,"{%strHdBg%}",strHdBg)

@@ -11,59 +11,6 @@
 
 function loadConfig(config){
 	$('#bodybgc0').colorpicker("val",config.BodyBg[0]);
-
-	$("#bgpx input ").removeAttr("checked");
-	$("#hdbgpx input ").removeAttr("checked");
-	$("#bgpx"+config.BodyBg[3]).attr("checked","checked")
-	$("#hdbgpx"+config.HdBg[3]).attr("checked","checked")
-	$( "#bgpx").buttonset("refresh");
-	$( "#hdbgpx").buttonset("refresh");
-	
-	$( "#bgurl").val(config.BodyBg[1]);
-	$( "#hdbgurl").val(config.HdBg[1]);
-
-	if (config.BodyBg[2].indexOf("repeat")>-1){
-		$( "#bodybg2r").attr("checked","checked")
-	}else{$( "#bodybg2r").removeAttr("checked");}
-	if (config.BodyBg[2].indexOf("fixed")>-1){
-		$( "#bodybg2f").attr("checked","checked")
-	}else{$( "#bodybg2f").removeAttr("checked");}
-
-	if (config.HdBg[2].indexOf("repeat")>-1){
-		$( "#hdbg2r").attr("checked","checked")
-	}else{$( "#hdbg2r").removeAttr("checked");}
-	if (config.HdBg[2].indexOf("fixed")>-1){
-		$( "#hdbg2f").attr("checked","checked")
-	}else{$( "#hdbg2f").removeAttr("checked");}
-
-
-
-	if (config.BodyBg[5]==""){
-		$('#bodybgc5').removeAttr("checked");
-		$('#bodybgmain').hide("fast");
-	}
-	else	{
-		$('#bodybgc5').attr("checked","checked");
-		$('#bodybgmain').show("fast");
-	}
-
-	if (config.HdBg[0]==""){
-		$('#hdbgc0').removeAttr("checked");
-	}
-	else	{
-		$('#hdbgc0').attr("checked","checked");
-	}
-	if (config.HdBg[6]==""){
-		$('#hdbgc6').removeAttr("checked");
-		$('#hdbgmain').hide("fast");
-	}
-	else	{
-		$('#hdbgc6').attr("checked","checked");
-		$('#hdbgmain').show("fast");
-	}
-
-	$( "#hdbgph").val(config.HdBg[5]);
-	
 	$('#colorP1').colorpicker("val",config.color[0]);
 	$('#colorP2').colorpicker("val",config.color[1]);
 	$('#colorP3').colorpicker("val",config.color[2]);
@@ -78,17 +25,40 @@ $(document).ready(function(){
 		action: 'saveImage.asp',
 		enctype: 'multipart/form-data',
 		autoSubmit: true,
+		onSelect: function (self, element) {
+			this.autoSubmit = false;
+			var re = new RegExp("(\.jpg){1}");
+			if (this.filename()!==""){
+				if (!re.test(this.filename())) {
+					alert(this.filename()+"请上传jpg图片");
+				}
+				else {
+					this.submit();
+				}
+			}
+		},
 		onComplete: function () {
 			$('#bgpic_p').attr("src","../STYLE/images/bg.jpg");
 		}
 	});
-
 	var myUpload2 = $("#updatapic2").upload();
 	myUpload2.set({
 		name: 'headbg.jpg',
 		action: 'saveImage.asp',
 		enctype: 'multipart/form-data',
 		autoSubmit: true,
+		onSelect: function (self, element) {
+			this.autoSubmit = false;
+			var re = new RegExp("(\.jpg){1}");
+			if (this.filename()!==""){
+				if (!re.test(this.filename())) {
+					alert(this.filename()+"请上传jpg图片");
+				}
+				else {
+					this.submit();
+				}
+			}
+		},
 		onComplete: function () {
 			$('#hbgpic_p').attr("src","../STYLE/images/headbg.jpg");
 		}
@@ -117,4 +87,7 @@ $(document).ready(function(){
 	$('#colorP3').colorpicker();
 	$('#colorP4').colorpicker();
 	$('#colorP5').colorpicker();
+	
+	$( "#layoutset").buttonset();
+
 });

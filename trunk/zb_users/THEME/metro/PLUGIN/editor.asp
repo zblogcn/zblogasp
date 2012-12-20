@@ -18,7 +18,7 @@ Call CheckReference("")
 If BlogUser.Level>1 Then Call ShowError(6)
 
 BlogTitle="Metro主题配置"
-
+Dim strlayout
 Dim strBodyBg,aryBodyBg
 Dim strHdBg,aryHdBg
 Dim strColor,aryColor
@@ -26,6 +26,7 @@ Dim c
 Set c = New TConfig
 c.Load("metro")
 If c.Exists("vesion")=true Then
+	strlayout=c.read("custom_layout")
 	strBodyBg=c.read("custom_bodybg")
 	strHdBg=c.read("custom_hdbg")
 	strColor=c.read("custom_color")
@@ -44,7 +45,9 @@ a=Array("","左","中","右")
 <script src="custom.js" type="text/javascript"></script>
 <style>
 table input{padding: 0;margin:0.25em 0;}
+table input[type="text"]{padding: 2px 5px;}
 table .button{padding: 2px 12px 5px 12px; margin: 0.25em 0;}
+.tc{border: solid 2px #E1E1E1;width: 50px;height: 23px;float: left;margin: 0.25em;}.tc:hover,.on{border: 2px solid #2694E8;}
 </style>
 <!--#include file="..\..\..\..\zb_system\admin\admin_top.asp"-->
 <div id="divMain">
@@ -57,11 +60,49 @@ table .button{padding: 2px 12px 5px 12px; margin: 0.25em 0;}
 		<form action="save.asp" method="post">
 			<table width="100%" border="1" width="100%" class="tableBorder">
 				<tr>
-					<th scope="col" height="32" width="150px">主题背景</th>
-					<th scope="col"></th>
+					<th scope="col"  height="32" >整体设置</th>	
+					<th></th>
 				</tr>
 				<tr>
-					<td>页面背景</td>
+					<td scope="col"  height="52">外观模式</td>					
+					<td >
+						<div id="layoutset">
+							<input type="radio" id="layoutl" name="layout" value="l" <%=IIf(strlayout="l","checked=""checked""","")%> /><label for="layoutl">侧栏居左</label>
+							<input type="radio" id="layoutr" name="layout" value="r" <%=IIf(strlayout="r","checked=""checked""","")%> /><label for="layoutr">侧栏居右</label>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>顶部背景</td>
+					<td>
+						<div >顶部高度：<input id="hdbgph" type="text" name="hdbg5"  size="3"  value=<%=aryHdBg(5)%> />（单位：px）</div>
+						<div id="hdbgcolor" >
+							<input type="checkbox" id="hdbgc0" name="hdbg0" <%=IIf(aryHdBg(0)="transparent","checked=""checked""","")%> value="transparent"/><label for="hdbgc0"> 背景透明（不透明情况下使用主色为背景色）</label>
+						</div>
+						<div >
+							<input type="checkbox" id="hdbgc6" name="hdbg6" <%=IIf(aryHdBg(6)="True","checked=""checked""","")%> value="True"/> <label for="hdbgc6">使用背景图</label>
+						</div>
+						<div id="hdbgmain" <%=IIf(aryHdBg(6)="","style=""display:none""","")%>>
+							<input  type="hidden"  id="hdbgurl" name="hdbg1"  value=<%=aryHdBg(1)%> /> 
+							<img src="../STYLE/images/headbg.jpg" width="190" height="120" border="0" alt="" id="hbgpic_p">
+							<input type="button"  id="updatapic2" class="button" value="更换图片" />
+							<div id="hdbgs">背景设定：
+							<input type="checkbox" id="hdbg2r" name="hdbg2" <%=IIf(InStr(aryHdBg(2),"repeat")>0,"checked=""checked""","")%> value="repeat"/>
+							<label for="hdbg2r">平铺</label>
+							<input type="checkbox" id="hdbg2f" name="hdbg2" <%=IIf(InStr(aryHdBg(2),"fixed")>0,"checked=""checked""","")%> value="fixed"/>
+							<label for="hdbg2f">固定</label>
+							</div> 
+							<div id="hdbgpx"> 对齐方式： 			  
+								<%	For i=1 To 3	%>
+										<input type="radio" id="hdbgpx<%=i%>" name="hdbg3" value="<%=i%>" <%=IIf(i=int(aryHdBg(3)),"checked=""checked""","")%> /><label for="hdbgpx<%=i%>">居<%=a(i)%></label>
+								<%	Next 	%>
+							</div> 
+						<input id="hdbgpy" type="hidden" name="hdbg4"  value=<%=aryHdBg(4)%> />
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td width="150px">页面背景</td>
 					<td>
 						<div id="bgcolor">
 							背景颜色：<input id="bodybgc0" name="bodybg0"  value=<%=aryBodyBg(0)%> /> 
@@ -88,48 +129,24 @@ table .button{padding: 2px 12px 5px 12px; margin: 0.25em 0;}
 						</div>
 					</td>
 				</tr>
-				<tr>
-					<td>顶部背景</td>
-					<td>
-						<div >顶部高度：<input id="hdbgph" type="text" name="hdbg5"  value=<%=aryHdBg(5)%> />(单位：px)</div>
-						<div id="hdbgcolor" >
-							<input type="checkbox" id="hdbgc0" name="hdbg0" <%=IIf(aryHdBg(0)="transparent","checked=""checked""","")%> value="transparent"/><label for="hdbgc0"> 背景透明（不透明情况下使用主色为背景色）</label>
-						</div>
-						<div >
-							<input type="checkbox" id="hdbgc6" name="hdbg6" <%=IIf(aryHdBg(6)="True","checked=""checked""","")%> value="True"/> <label for="hdbgc6">使用背景图</label>
-						</div>
-						<div id="hdbgmain" <%=IIf(aryHdBg(6)="","style=""display:none""","")%>>
-							<input  type="hidden"  id="hdbgurl" name="hdbg1"  value=<%=aryHdBg(1)%> /> 
-							<img src="../STYLE/images/headbg.jpg" width="190" height="120" border="0" alt="" id="hbgpic_p">
-							<input type="button"  id="updatapic2" class="button" value="更换图片" />
-							<div id="hdbgs">背景设定：
-							<input type="checkbox" id="hdbg2r" name="hdbg2" <%=IIf(InStr(aryHdBg(2),"repeat")>0,"checked=""checked""","")%> value="repeat"/>
-							<label for="hdbg2r">平铺</label>
-							<input type="checkbox" id="hdbg2f" name="hdbg2" <%=IIf(InStr(aryHdBg(2),"fixed")>0,"checked=""checked""","")%> value="fixed"/>
-							<label for="hdbg2f">固定</label>
-							</div> 
-							<div id="hdbgpx"> 对齐方式： 			  
-								<%	For i=1 To 3	%>
-										<input type="radio" id="hdbgpx<%=i%>" name="hdbg3" value="<%=i%>" <%=IIf(i=int(aryHdBg(3)),"checked=""checked""","")%> /><label for="hdbgpx<%=i%>">居<%=a(i)%></label>
-								<%	Next 	%>
-							</div> 
-						<input id="hdbgpy" type="hidden" name="hdbg4"  value=<%=aryHdBg(4)%> />
-						</div>
-					</td>
-				</tr>
 			</table>
 
 			<table width="100%" border="1" width="100%" class="tableBorder">
 				<tr>
 					<th scope="col" height="32" width="150px">颜色配置</th>
-					<th scope="col">（预设方案：<a  style="cursor: pointer;" onclick="loadConfig(theme_config.default);">默认</a>  <a  style="cursor: pointer;" onclick="loadConfig(theme_config.green);">绿色</a>）</th>
+					<th scope="col">
+					<div style="width:205px;">
+					<div  style="float:left;margin: 0.25em">预设方案：</div>
+					<div  style="cursor: pointer;background-color:#5EAAE4" onclick="loadConfig(theme_config.default);$('.on').removeClass('on');$(this).addClass('on');" class="tc"></div>  <div  style="cursor: pointer;background-color:#76923C" onclick="loadConfig(theme_config.green);$('.on').removeClass('on');$(this).addClass('on');" class="tc"></div>
+					</div>
+					</th>
 				</tr>
 				<tr>
-					<td>主色（深）</td>
+					<td>主色（深色）</td>
 					<td><input id="colorP1" name="color"  value=<%=aryColor(0)%> /></td>
 				</tr>
 				<tr>
-					<td>次色（浅）</td>
+					<td>次色（浅色）</td>
 					<td><input  id="colorP2" name="color"  value=<%=aryColor(1)%> /></td>
 				</tr>
 				<tr>
@@ -145,7 +162,7 @@ table .button{padding: 2px 12px 5px 12px; margin: 0.25em 0;}
 					<td><input  id="colorP5" name="color"  value=<%=aryColor(4)%> /></td>
 				</tr>
 			</table>
-			<input name="ok" type="submit" class="button" value="提交"/>
+			<input name="ok" type="submit" class="button" value="保存配置"/>
 		</form>
 	</div>
 </div>
