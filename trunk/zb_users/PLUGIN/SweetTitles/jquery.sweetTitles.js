@@ -52,6 +52,6 @@ var sweetTitles = {
         });
     }
 };
-$(document).ready(function(){
-	setTimeout(function(){sweetTitles.init();},500);
+sidebarloaded.add(function(){ 
+	sweetTitles.init();
 });
