@@ -1313,7 +1313,7 @@ Function ExportThemeMng()
 			Response.Write "<div class=""theme-name""><img width='16' title='' alt='' src='../IMAGE/ADMIN/layout.png'/> <a  target=""_blank"" href="""&Theme_Url&"""  title="""">" & "<strong style='display:none;'>" & Server.URLEncode(Theme_Id) & "</strong><b>" & Theme_Name & "</b>" & "</a>"
 			If UCase(Theme_Id)=UCase(CurrentTheme) Then
 				If fso.FileExists(BlogPath & "zb_users/theme/" & ZC_BLOG_THEME & "/plugin/" & objXmlFile.documentElement.selectSingleNode("plugin/path").text) Then
-					Response.Write "<input type=""button"" class=""theme-config button"" value="""&ZC_MSG278&""" onclick=""location.href='"&BlogHost&"/zb_users/theme/"&ZC_BLOG_THEME&"/plugin/"&objXmlFile.documentElement.selectSingleNode("plugin/path").text&"'"">"
+					Response.Write "<input type=""button"" class=""theme-config button"" value="""&ZC_MSG278&""" onclick=""location.href='"&BlogHost&"zb_users/theme/"&ZC_BLOG_THEME&"/plugin/"&objXmlFile.documentElement.selectSingleNode("plugin/path").text&"'"">"
 				End If
 			End If
 			Response.Write "</div>"
