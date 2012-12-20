@@ -1,6 +1,6 @@
 ﻿<%
-Const APPCENTRE_URL="http://appcentre.zsxsoft.com/"
-Const APPCENTRE_UPDATE_URL="http://appcentre.zsxsoft.com/appcentre.asp?act=checkupdate"
+Const APPCENTRE_URL="http://app.rainbowsoft.org/"
+Const APPCENTRE_UPDATE_URL="http://app.rainbowsoft.org/appcentre.asp?act=checkupdate"
 
 
 Dim app_id
