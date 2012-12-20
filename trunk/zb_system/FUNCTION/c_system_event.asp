@@ -1788,23 +1788,26 @@ Function ActivePlugInByName(strPluginName)
 		End If
 	End If
 	
-
+	aryAllXml=GetAllXmlPath(s)
+	
 	If b=False Then
 		'走起！	
 		'第1步：判断依赖	
 
 		If CheckDependency(ZC_USING_PLUGIN_LIST,strPluginName)=False Then Exit Function
 		'第2步：得到所有插件XML文件绝对地址
-		aryAllXml=GetAllXmlPath(s)
+		
 		'第3步：读取所有XML文件
 		strContent=CheckConflictReWriteAndToFile(strPluginName,aryAllXml,True)
 		If strContent(0)=False Then Exit Function
 		'第4步：判断冲突
 		'第5步：判断重写
+	Else
+		strContent=CheckConflictReWriteAndToFile(strPluginName,aryAllXml,False)
 	End If
 
 	Dim strZC_USING_PLUGIN_LIST
-
+	
 	strZC_USING_PLUGIN_LIST=s
 
 	Call BlogConfig.Write("ZC_USING_PLUGIN_LIST",strZC_USING_PLUGIN_LIST)
