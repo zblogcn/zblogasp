@@ -134,11 +134,12 @@ table .button{padding: 2px 12px 5px 12px; margin: 0.25em 0;}
 			<table width="100%" border="1" width="100%" class="tableBorder">
 				<tr>
 					<th scope="col" height="32" width="150px">颜色配置</th>
-					<th scope="col">
-					<div style="width:205px;">
+					<th scope="col">				
 					<div  style="float:left;margin: 0.25em">预设方案：</div>
-					<div  style="cursor: pointer;background-color:#5EAAE4" onclick="loadConfig(theme_config.default);$('.on').removeClass('on');$(this).addClass('on');" class="tc"></div>  <div  style="cursor: pointer;background-color:#76923C" onclick="loadConfig(theme_config.green);$('.on').removeClass('on');$(this).addClass('on');" class="tc"></div>
-					</div>
+					<div  style="cursor: pointer;background-color:#5EAAE4" onclick="loadConfig(theme_config.default);$('.on').removeClass('on');$(this).addClass('on');" class="tc"></div>
+					<div  style="cursor: pointer;background-color:#76923C" onclick="loadConfig(theme_config.green);$('.on').removeClass('on');$(this).addClass('on');" class="tc"></div>
+					<div  style="cursor: pointer;background-color:#3f3f3f" onclick="loadConfig(theme_config.black);$('.on').removeClass('on');$(this).addClass('on');" class="tc"></div>
+					<div  style="cursor: pointer;background-color:#974806" onclick="loadConfig(theme_config.chocolate);$('.on').removeClass('on');$(this).addClass('on');" class="tc"></div>
 					</th>
 				</tr>
 				<tr>
