@@ -47,7 +47,8 @@ a=Array("","左","中","右")
 table input{padding: 0;margin:0.25em 0;}
 table input[type="text"]{padding: 2px 5px;}
 table .button{padding: 2px 12px 5px 12px; margin: 0.25em 0;}
-.tc{border: solid 2px #E1E1E1;width: 50px;height: 23px;float: left;margin: 0.25em;}.tc:hover,.active{border: 2px solid #2694E8;}
+.tc{border: solid 2px #E1E1E1;width: 50px;height: 23px;float: left;margin: 0.25em;cursor: pointer}
+.tc:hover,.active{border: 2px solid #2694E8;}
 </style>
 <!--#include file="..\..\..\..\zb_system\admin\admin_top.asp"-->
 <div id="divMain">
@@ -136,10 +137,7 @@ table .button{padding: 2px 12px 5px 12px; margin: 0.25em 0;}
 					<th scope="col" height="32" width="150px">颜色配置</th>
 					<th scope="col">				
 					<div  style="float:left;margin: 0.25em">预设方案：</div>
-					<div  style="cursor: pointer;background-color:#5EAAE4" onclick="loadConfig(theme_config.default);$('.active').removeClass('active');$(this).addClass('active');" class="tc"></div>
-					<div  style="cursor: pointer;background-color:#76923C" onclick="loadConfig(theme_config.green);$('.active').removeClass('active');$(this).addClass('active');" class="tc"></div>
-					<div  style="cursor: pointer;background-color:#3f3f3f" onclick="loadConfig(theme_config.black);$('.active').removeClass('active');$(this).addClass('active');" class="tc"></div>
-					<div  style="cursor: pointer;background-color:#974806" onclick="loadConfig(theme_config.chocolate);$('.active').removeClass('active');$(this).addClass('active');" class="tc"></div>
+					<div id="loadconfig"></div>
 					</th>
 				</tr>
 				<tr>
