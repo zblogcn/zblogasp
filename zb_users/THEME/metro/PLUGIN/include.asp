@@ -8,6 +8,7 @@ Function ActivePlugin_metro()
 	c.Load("metro")
 	If c.Exists("vesion")=False Then
 		c.Write "vesion","1.1"
+		c.Write "custom_layout","r"
 		c.Write "custom_bodybg","#EEEEEE|images/bg.jpg|repeat|2|top|"
 		c.Write "custom_hdbg","|images/headbg.jpg|repeat  fixed|1|top|100|"
 		c.Write "custom_color","#5EAAE4| #A3D0F2| #222222| #333333| #FFFFFF"
