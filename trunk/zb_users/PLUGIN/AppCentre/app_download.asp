@@ -36,7 +36,7 @@ If Left(strURL,Len(APPCENTRE_URL))=APPCENTRE_URL Then
 	Call DelToFile(BlogPath&"zb_users\cache\temp_" & strRnd & ".zba")
 	Response.Write "Redirecting.."
 	Response.Flush
-	Response.Write "<script>location.href='"&BlogHost & "zb_system/cmd.asp?act="&Iif(UCase(Pack_For)="THEME","Theme","PlugIn")&"Mng"&"'</script>"
+	Response.Write "<script>location.href='"&BlogHost & "zb_system/cmd.asp?act="&Iif(UCase(Pack_Type)="THEME","Theme","PlugIn")&"Mng"&"'</script>"
 Else
 	Response.Write "Illegal URL!"
 End If

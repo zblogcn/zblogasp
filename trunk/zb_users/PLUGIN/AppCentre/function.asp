@@ -1,7 +1,7 @@
 ﻿<%
 Const APPCENTRE_URL="http://app.rainbowsoft.org/"
 Const APPCENTRE_UPDATE_URL="http://app.rainbowsoft.org/appcentre.asp?act=checkupdate"
-Dim Pack_For
+Dim Pack_For,Pack_Type
 
 Dim app_id
 Dim app_name
@@ -73,7 +73,7 @@ Function InstallApp(FilePath)
 			Exit Function
 		Else
 
-			Dim Pack_ver,Pack_Type,Pack_ID,Pack_Name
+			Dim Pack_ver,Pack_ID,Pack_Name
 			Pack_Ver = objXmlFile.documentElement.SelectSingleNode("//app").getAttributeNode("version").value
 			Pack_Type = objXmlFile.documentElement.selectSingleNode("//app").getAttributeNode("type").value
 			Pack_For = objXmlFile.documentElement.selectSingleNode("//app").getAttributeNode("for").value
