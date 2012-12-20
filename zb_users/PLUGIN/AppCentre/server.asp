@@ -19,7 +19,7 @@ If BlogUser.Level>1 Then Call ShowError(6)
 If CheckPluginState("AppCentre")=False Then Call ShowError(48)
 %>
 <%
-
+BlogTitle="应用中心"
 Dim objXmlHttp,strURL,bolPost,str,bolIsBinary,strList,bolFrame
 bolFrame=True
 bolPost=IIf(Request.ServerVariables("REQUEST_METHOD")="POST",True,False)
