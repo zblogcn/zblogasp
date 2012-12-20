@@ -1,7 +1,7 @@
 ﻿<%
 Const APPCENTRE_URL="http://app.rainbowsoft.org/"
 Const APPCENTRE_UPDATE_URL="http://app.rainbowsoft.org/appcentre.asp?act=checkupdate"
-
+Dim Pack_For
 
 Dim app_id
 Dim app_name
@@ -70,14 +70,15 @@ Function InstallApp(FilePath)
 	Else
 		If objXmlFile.parseError.errorCode <> 0 Then
 			SetBlogHint_Custom "该文件("&FilePath&")存在错误"
+			Exit Function
 		Else
 
-			Dim Pack_ver,Pack_Type,Pack_For,Pack_ID,Pack_Name
+			Dim Pack_ver,Pack_Type,Pack_ID,Pack_Name
 			Pack_Ver = objXmlFile.documentElement.SelectSingleNode("//app").getAttributeNode("version").value
 			Pack_Type = objXmlFile.documentElement.selectSingleNode("//app").getAttributeNode("type").value
 			Pack_For = objXmlFile.documentElement.selectSingleNode("//app").getAttributeNode("for").value
 			app_adapted = objXmlFile.documentElement.selectSingleNode("//app").selectSingleNode("adapted").text
-			'Stop
+
 			If IsNumeric(app_adapted) Then
 				If CLng(app_adapted)>CLng(BlogVersion) Then
 					SetBlogHint_Custom "您的Z-Blog版本太低，无法安装该应用！"
