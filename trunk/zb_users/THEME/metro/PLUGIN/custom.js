@@ -6,6 +6,14 @@
 	green:{	BodyBg:["#EEEEEE","images/bg.jpg","repeat  fixed","2","top","True"],
 					HdBg:["","images/headbg.jpg","repeat  fixed","2","top","150",""],
 					color:["#76923C","#C3D69B","#003300","#76923C","#FFFFFF"]
+				},
+	black:{	BodyBg:["#d8d8d8"],
+					HdBg:[],
+					color:["#3f3f3f","#bfbfbf","#7f7f7f","#595959","#f2f2f2"]
+				},
+	chocolate:{	BodyBg:["#d8d8d8"],
+					HdBg:[],
+					color:["#974806","#fac08f","#262626","#3f3f3f","#FFFFFF"]
 				}
 };
 
