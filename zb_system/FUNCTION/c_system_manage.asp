@@ -1367,14 +1367,14 @@ Function ExportThemeMng()
 						Response.Write " <option selected=""selected"" value="""& Theme_Style_Name &""">"&aryFileList(i)&"</option> "
 					Else
 						If j=1 Then
-							Response.Write " <option selected=""selected"" value="""& Theme_Style_Name &""">"&aryFileList(i)&"</option> "
+							Response.Write " <option value="""& Theme_Style_Name &""">"&aryFileList(i)&"</option> "
 						ElseIf LCase(Theme_Style_Name)="style" Then
-							Response.Write " <option selected=""selected"" value="""& Theme_Style_Name &""">"&aryFileList(i)&"</option> "
+							Response.Write " <option value="""& Theme_Style_Name &""">"&aryFileList(i)&"</option> "
 						ElseIf LCase(Theme_Style_Name)=LCase(Theme_Id) Then
-							Response.Write " <option selected=""selected"" value="""& Theme_Style_Name &""">"&aryFileList(i)&"</option> "
+							Response.Write " <option value="""& Theme_Style_Name &""">"&aryFileList(i)&"</option> "
 						Else
 							If i=1 Then
-								Response.Write " <option selected=""selected"" value="""& Theme_Style_Name &""">"&aryFileList(i)&"</option> "
+								Response.Write " <option  value="""& Theme_Style_Name &""">"&aryFileList(i)&"</option> "
 							Else
 								Response.Write " <option value="""& Theme_Style_Name &""">"&aryFileList(i)&"</option> "
 							End If

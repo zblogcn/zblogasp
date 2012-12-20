@@ -27,8 +27,9 @@ For Each s In Request.Form
 	'FilterSQL(Request.Form(s))
 Next 
 
-Dim strb,strc,strh
+Dim strb,strc,strh,strl
 
+strl=Request.Form("layout")
 strb=Request.Form("bodybg0")&"|"&Request.Form("bodybg1")&"|"&Replace(Request.Form("bodybg2"),","," ")&"|"&Request.Form("bodybg3")&"|"&Request.Form("bodybg4")&"|"&Request.Form("bodybg5")
 
 strh=Request.Form("hdbg0")&"|"&Request.Form("hdbg1")&"|"&Replace(Request.Form("hdbg2"),","," ")&"|"&Request.Form("hdbg3")&"|"&Request.Form("hdbg4")&"|"&Request.Form("hdbg5")&"|"&Request.Form("hdbg6")
@@ -41,6 +42,7 @@ Dim c
 Set c = New TConfig
 c.Load("metro")
 If c.Exists("custom_color")=True Then
+	c.Write "custom_layout",strl
 	c.Write "custom_bodybg",strb
 	c.Write "custom_hdbg",strh
 	c.Write "custom_color",strc
@@ -48,7 +50,7 @@ If c.Exists("custom_color")=True Then
 End If 
 Set c =Nothing
 
-Call metro_savetofile("custom.css")
+Call metro_savetofile("style.css")
 Call SetBlogHint(True,Empty,Empty)
 
 Response.Redirect "editor.asp"
