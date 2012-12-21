@@ -74,7 +74,7 @@ End If
 <tr><td><p><b>· 主题简介</b></p></td><td><p>&nbsp;<input id="app_note" name="app_note" style="width:550px;"  type="text" value="<%=app_note%>" /></p></td></tr>
 <tr><td><p><b>· 适用的 Z-Blog 版本</b></p></td><td>
 <p>&nbsp;<select name="app_adapted" id="app_adapted" style="width:400px;">
-    <option value="121221">Z-Blog 2.0 Doomsday(Dev) Build 121221</option>
+    <option value="121221">Z-Blog 2.0 Doomsday Build 121221</option>
     <option value="121028">Z-Blog 2.0 Beta2 Build 121028</option>
     <option value="121001">Z-Blog 2.0 Beta1 Build 121001</option>
   </select></p>
