@@ -30,10 +30,10 @@ $(document).ready(function(){
 		autoSubmit: true,
 		onSelect: function (self, element) {
 			this.autoSubmit = false;
-			var re = new RegExp("(\.jpg){1}");
+			var re = new RegExp("(\.jpg){1}$");
 			if (this.filename()!==""){
 				if (!re.test(this.filename())) {
-					alert(this.filename()+"请上传jpg图片");
+					alert("请上传jpg图片");
 				}
 				else {
 					this.submit();
@@ -56,10 +56,10 @@ $(document).ready(function(){
 		autoSubmit: true,
 		onSelect: function (self, element) {
 			this.autoSubmit = false;
-			var re = new RegExp("(\.jpg){1}");
+			var re = new RegExp("(\.jpg){1}$");
 			if (this.filename()!==""){
 				if (!re.test(this.filename())) {
-					alert(this.filename()+"请上传jpg图片");
+					alert("请上传jpg图片");
 				}
 				else {
 					this.submit();
