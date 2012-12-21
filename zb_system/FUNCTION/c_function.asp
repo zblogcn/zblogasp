@@ -315,7 +315,7 @@ Function TransferHTML(ByVal source,para)
 		source=Replace(source,"href=""http://upload/","href=""<#ZC_BLOG_HOST#>" & ZC_UPLOAD_DIRECTORY & "/")
 		source=Replace(source,"(this.nextSibling,'upload/","(this.nextSibling,'<#ZC_BLOG_HOST#>" & ZC_UPLOAD_DIRECTORY & "/")
 
-		source=Replace(source,"src=""image/face/","src=""<#ZC_BLOG_HOST#>zb_system/image/face/")
+		source=Replace(source,"src=""image/face/","src=""<#ZC_BLOG_HOST#>zb_users/emotion/face/")
 	End If
 	If Instr(para,"[anti-upload]")>0 Then
 		source=Replace(source,"src="""& GetCurrentHost() & ZC_UPLOAD_DIRECTORY & "/","src=""upload/")
@@ -324,7 +324,7 @@ Function TransferHTML(ByVal source,para)
 		source=Replace(source,"href="""& GetCurrentHost() & ZC_UPLOAD_DIRECTORY & "/","href=""http://upload/")
 		source=Replace(source,"(this.nextSibling,'"& GetCurrentHost() & ZC_UPLOAD_DIRECTORY & "/","(this.nextSibling,'upload/")
 
-		source=Replace(source,"src="""& GetCurrentHost() & "zb_system/image/face/","src=""<#ZC_BLOG_HOST#>/zb_system/image/face/")
+		source=Replace(source,"src="""& GetCurrentHost() & "zb_users/emotion/face/","src=""<#ZC_BLOG_HOST#>zb_users/emotion/face/")
 	End If
 	If Instr(para,"[zc_blog_host]")>0 Then
 		source=Replace(source,"<#ZC_BLOG_HOST#>",GetCurrentHost())
