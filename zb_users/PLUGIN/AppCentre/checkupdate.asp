@@ -1,13 +1,7 @@
 ﻿<%@ LANGUAGE="VBSCRIPT" CODEPAGE="65001"%>
-<%
-'未完成功能：
-'1.得到需要更新的主题（tname）
-'2.用XML来判断是否有app子节点
-'3.显示更新列表
-'4.下载更新
-%>
+
 <% Option Explicit %>
-<% 'On Error Resume Next %>
+<% On Error Resume Next %>
 <% Response.Charset="UTF-8" %>
 <!-- #include file="../../c_option.asp" -->
 <!-- #include file="../../../ZB_SYSTEM/function/c_function.asp" -->
@@ -18,7 +12,6 @@
 <!-- #include file="../../plugin/p_config.asp" -->
 <!-- #include file="function.asp"-->
 <%
-
 
 Call System_Initialize()
 '检查非法链接
@@ -79,7 +72,8 @@ Function CheckXml()
 					strType=objAppXml.getAttributeNode("type").value
 					dtmModified=CDate(objAppXml.getAttributeNode("modified").value)
 					Set objXml2=Server.CreateObject("Microsoft.XMLDOM")
-					objXml2.Load BlogPath&"zb_users\"&strType&"\"&strName&"\plugin.xml"
+					objXml2.Load BlogPath&"zb_users\"&strType&"\"&strName&"\"&strType&".xml"
+					
 					If objXml2.ReadyState=4 Then
 						If objXml2.parseError.errorCode=0 Then
 							dtmLocalModified=CDate(objXml2.documentElement.selectSingleNode("modified").text)
@@ -89,7 +83,7 @@ Function CheckXml()
 						Redim Preserve aryDownload(Ubound(aryDownload)+1)
 						Redim Preserve aryName(Ubound(aryName)+1)
 						aryDownload(Ubound(aryDownload))=objAppXml.getAttributeNode("url").value
-						aryName(Ubound(aryName))=strName
+						aryName(Ubound(aryName))=strName						
 					End If
 				End If
 			Next
