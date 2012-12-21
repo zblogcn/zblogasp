@@ -35,8 +35,10 @@ If c.Exists("vesion")=true Then
 	aryColor=Split(strColor,"|")
 End If 
 
-Dim i,a
+Dim i,a,r
 a=Array("","左","中","右")
+Randomize 
+r="?"&Rnd()
 %>
 <!--#include file="..\..\..\..\zb_system\admin\admin_header.asp"-->
 <link href="evol.colorpicker.css" rel="stylesheet" /> 
@@ -49,6 +51,7 @@ table input[type="text"]{padding: 2px 5px;}
 table .button{padding: 2px 12px 5px 12px; margin: 0.25em 0;}
 .tc{border: solid 2px #E1E1E1;width: 50px;height: 23px;float: left;margin: 0.25em;cursor: pointer}
 .tc:hover,.active{border: 2px solid #2694E8;}
+.upinfo{position: relative;left: 3px;top: -19px;color: white;background: #5EAAE4;width: 190px;height: 23px;display: inline-block;text-align: center;opacity: 0.8;filter: alpha(opacity=80);}
 </style>
 <!--#include file="..\..\..\..\zb_system\admin\admin_top.asp"-->
 <div id="divMain">
@@ -76,7 +79,7 @@ table .button{padding: 2px 12px 5px 12px; margin: 0.25em 0;}
 				<tr>
 					<td>顶部背景</td>
 					<td>
-						<div >顶部高度：<input id="hdbgph" type="text" name="hdbg5"  size="3"  value=<%=aryHdBg(5)%> />（单位：px）</div>
+						<div >顶部高度：<input id="hdbgph" type="text" name="hdbg5"  size="3"  value="<%=aryHdBg(5)%>" />（单位：px）</div>
 						<div id="hdbgcolor" >
 							<input type="checkbox" id="hdbgc0" name="hdbg0" <%=IIf(aryHdBg(0)="transparent","checked=""checked""","")%> value="transparent"/><label for="hdbgc0"> 背景透明（不透明情况下使用主色为背景色）</label>
 						</div>
@@ -84,9 +87,14 @@ table .button{padding: 2px 12px 5px 12px; margin: 0.25em 0;}
 							<input type="checkbox" id="hdbgc6" name="hdbg6" <%=IIf(aryHdBg(6)="True","checked=""checked""","")%> value="True"/> <label for="hdbgc6">使用背景图</label>
 						</div>
 						<div id="hdbgmain" <%=IIf(aryHdBg(6)="","style=""display:none""","")%>>
-							<input  type="hidden"  id="hdbgurl" name="hdbg1"  value=<%=aryHdBg(1)%> /> 
-							<img src="../STYLE/images/headbg.jpg" width="190" height="120" border="0" alt="" id="hbgpic_p">
-							<input type="button"  id="updatapic2" class="button" value="更换图片" />
+							<input  type="hidden"  id="hdbgurl" name="hdbg1"  value="<%=aryHdBg(1)%>" /> 
+							<div>
+								<div style="margin: 4px 0;height: 110px;width: 200px;display: inline-block;">
+									<img src="../style/<%=aryHdBg(1)%><%=r%>" width="190" height="120" border="0" alt="" id="hbgpic_p">
+									<span id="hbgupinfo" class="upinfo" style="display:none">图片上传中...</span>
+								</div>
+								<input type="button"  id="updatapic2" class="button" value="更换图片" />
+							</div>
 							<div id="hdbgs">背景设定：
 							<input type="checkbox" id="hdbg2r" name="hdbg2" <%=IIf(InStr(aryHdBg(2),"repeat")>0,"checked=""checked""","")%> value="repeat"/>
 							<label for="hdbg2r">平铺</label>
@@ -98,7 +106,7 @@ table .button{padding: 2px 12px 5px 12px; margin: 0.25em 0;}
 										<input type="radio" id="hdbgpx<%=i%>" name="hdbg3" value="<%=i%>" <%=IIf(i=int(aryHdBg(3)),"checked=""checked""","")%> /><label for="hdbgpx<%=i%>">居<%=a(i)%></label>
 								<%	Next 	%>
 							</div> 
-						<input id="hdbgpy" type="hidden" name="hdbg4"  value=<%=aryHdBg(4)%> />
+						<input id="hdbgpy" type="hidden" name="hdbg4"  value="<%=aryHdBg(4)%>" />
 						</div>
 					</td>
 				</tr>
@@ -106,15 +114,20 @@ table .button{padding: 2px 12px 5px 12px; margin: 0.25em 0;}
 					<td width="150px">页面背景</td>
 					<td>
 						<div id="bgcolor">
-							背景颜色：<input id="bodybgc0" name="bodybg0"  value=<%=aryBodyBg(0)%> /> 
+							背景颜色：<input id="bodybgc0" name="bodybg0"  value="<%=aryBodyBg(0)%>" /> 
 						</div>
 						<div >
 							<input type="checkbox" id="bodybgc5" name="bodybg5" <%=IIf(aryBodyBg(5)="True","checked=""checked""","")%> value="True"/> <label for="bodybgc5">使用背景图</label>
 						</div>
 						<div id="bodybgmain" <%=IIf(aryBodyBg(5)="","style=""display:none""","")%>>
-							<input type="hidden" id="bgurl" name="bodybg1"  value=<%=aryBodyBg(1)%> /> 
-							<img src="../STYLE/images/bg.jpg" width="190" height="120" border="0" alt="" id="bgpic_p">
-							<input type="button"  id="updatapic1" class="button" value="更换图片"/>
+							<div>
+								<input type="hidden" id="bgurl" name="bodybg1"  value="<%=aryBodyBg(1)%>" /> 
+								<div style="margin: 4px 0;height: 110px;width: 200px;display: inline-block;">
+								<img src="../style/<%=aryBodyBg(1)%><%=r%>" width="190" height="120" border="0" alt="" id="bgpic_p">
+								<span id="bgupinfo" class="upinfo" style="display:none">图片上传中...</span>
+								</div>
+								<input type="button"  id="updatapic1" class="button" value="更换图片"/>
+							</div>
 							<div id="bodybgs">背景设定：
 							<input type="checkbox" id="bodybg2r" name="bodybg2" <%=IIf(InStr(aryBodyBg(2),"repeat")>0,"checked=""checked""","")%> value="repeat"/>
 							<label for="bodybg2r">平铺</label>  
@@ -126,7 +139,7 @@ table .button{padding: 2px 12px 5px 12px; margin: 0.25em 0;}
 							<input type="radio" id="bgpx<%=i%>" name="bodybg3" value="<%=i%>" <%=IIf(i=int(aryBodyBg(3)),"checked=""checked""","")%> /><label for="bgpx<%=i%>">居<%=a(i)%></label>
 							<%	Next  %>
 							</div> 
-							<input type="hidden" id="bgpy" name="bodybg4"  value=<%=aryBodyBg(4)%> />
+							<input type="hidden" id="bgpy" name="bodybg4"  value="<%=aryBodyBg(4)%>" />
 						</div>
 					</td>
 				</tr>
@@ -142,23 +155,23 @@ table .button{padding: 2px 12px 5px 12px; margin: 0.25em 0;}
 				</tr>
 				<tr>
 					<td>主色（深色）</td>
-					<td><input id="colorP1" name="color"  value=<%=aryColor(0)%> /></td>
+					<td><input id="colorP1" name="color"  value="<%=aryColor(0)%>" /></td>
 				</tr>
 				<tr>
 					<td>次色（浅色）</td>
-					<td><input  id="colorP2" name="color"  value=<%=aryColor(1)%> /></td>
+					<td><input  id="colorP2" name="color"  value="<%=aryColor(1)%>" /></td>
 				</tr>
 				<tr>
 					<td>字体颜色</td>
-					<td><input  id="colorP3" name="color"  value=<%=aryColor(2)%> /></td>
+					<td><input  id="colorP3" name="color"  value="<%=aryColor(2)%>" /></td>
 				</tr>
 				<tr>
 					<td>链接颜色</td>
-					<td><input  id="colorP4" name="color"  value=<%=aryColor(3)%> /></td>
+					<td><input  id="colorP4" name="color"  value="<%=aryColor(3)%>" /></td>
 				</tr>
 				<tr>
 					<td>文章背景色</td>
-					<td><input  id="colorP5" name="color"  value=<%=aryColor(4)%> /></td>
+					<td><input  id="colorP5" name="color"  value="<%=aryColor(4)%>" /></td>
 				</tr>
 			</table>
 			<input name="ok" type="submit" class="button" value="保存配置"/>
