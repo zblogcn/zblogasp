@@ -40,7 +40,11 @@ $(document).ready(function(){
 				}
 			}
 		},
+		onSubmit: function (self, element) {
+              $('#updatapic1').hide();$('#bgupinfo').show();
+       },
 		onComplete: function () {
+		    $('#bgupinfo').hide();$('#updatapic1').show();
 			$('#bgpic_p').attr("src","../STYLE/images/bg.jpg?"+Math.random());
 		}
 	});
@@ -62,7 +66,12 @@ $(document).ready(function(){
 				}
 			}
 		},
+		onSubmit: function (self, element) {
+                    $('#updatapic2').hide();
+                    $('#hbgupinfo').show();
+       },
 		onComplete: function () {
+		   $('#hbgupinfo').hide();$('#updatapic2').show();
 			$('#hbgpic_p').attr("src","../STYLE/images/headbg.jpg?"+Math.random());
 		}
 	});
