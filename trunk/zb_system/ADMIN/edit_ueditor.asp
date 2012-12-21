@@ -142,7 +142,6 @@ Next
 <% End If %>
 
                       <div id="divContent" style="clear:both;">
-						<!-- <p><span class='editinputname'><%=ZC_MSG055%>:</span></p> -->
 						<p style="text-align:left;"><span class='editinputname'><%=ZC_MSG055%>:</span>&nbsp;&nbsp;<span id="timemsg"></span><span id="msg2"></span><span id="msg"></span><span class='editinputname'></span><script type="text/javascript" src="c_autosaverjs.asp?act=edit&amp;type=ueditor"></script></p>
                         
                         <textarea id="editor_ue" name="txaContent" style="display:none"><%=TransferHTML(EditArticle.Content,"[textarea]")%></textarea><div id="contentready"><img id="statloading" src="../image/admin/loading.gif"/><%=ZC_MSG276%></div>

@@ -444,6 +444,8 @@ Function ExportCategoryList(intPage)
 
 	Response.Write "</table>"
 
+	Response.Write "<p>"& ZC_MSG261 &"</p>"
+	Response.Write "<p>&nbsp;</p>"
 	Response.Write "</div>"
 
 	Response.Write "<script type=""text/javascript"">ActiveLeftMenu(""aCategoryMng"");</script>"
