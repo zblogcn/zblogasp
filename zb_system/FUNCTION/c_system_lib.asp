@@ -1360,8 +1360,8 @@ Class TArticle
 		Dim aryTemplateTagsName()
 		Dim aryTemplateTagsValue()
 		Dim i,j
-		ReDim aryTemplateTagsName(55)
-		ReDim aryTemplateTagsValue(55)
+		ReDim aryTemplateTagsName(56)
+		ReDim aryTemplateTagsValue(56)
 
 		aryTemplateTagsName(1)="article/id"
 		aryTemplateTagsValue(1)=ID
@@ -1495,6 +1495,8 @@ Class TArticle
 		aryTemplateTagsName(55)="template:sidebar5"
 		aryTemplateTagsValue(55)=GetTemplate("CACHE_SIDEBAR5")
 
+		aryTemplateTagsName(56)="article/alias"
+		aryTemplateTagsValue(56)=Alias
 
 		Call Filter_Plugin_TArticle_Export_TemplateTags(aryTemplateTagsName,aryTemplateTagsValue)
 
