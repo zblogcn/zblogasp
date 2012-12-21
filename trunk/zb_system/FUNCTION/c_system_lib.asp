@@ -2698,8 +2698,8 @@ Class TUser
 			If ID>0 Then
 				FGuid=objConn.Execute("SELECT [mem_Guid] FROM [blog_Member] WHERE [mem_ID]="&ID)(0)
 			End If
-			Guid=FGuid
 		End If
+		Guid=FGuid
 	End Property
 
 	Public Function CreatePasswordByOriginal(OriginaPassword)
