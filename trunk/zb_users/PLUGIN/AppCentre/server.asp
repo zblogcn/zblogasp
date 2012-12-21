@@ -1,6 +1,6 @@
 ﻿<%@ LANGUAGE="VBSCRIPT" CODEPAGE="65001"%>
 <% Option Explicit %>
-<% 'On Error Resume Next %>
+<% On Error Resume Next %>
 <% Response.Charset="UTF-8" %>
 <!-- #include file="../../c_option.asp" -->
 <!-- #include file="../../../ZB_SYSTEM/function/c_function.asp" -->
@@ -20,7 +20,11 @@ If CheckPluginState("AppCentre")=False Then Call ShowError(48)
 %>
 <%
 BlogTitle="应用中心"
-Dim objXmlHttp,strURL,bolPost,str,bolIsBinary,strList,bolFrame
+Dim intHighlight
+intHighlight=0
+If Request.QueryString("action")="update" Then intHighlight=3
+Dim objXmlHttp,strURL,bolPost,str,bolIsBinary,strList,bolFrame,strWrite
+strWrite=""
 bolFrame=True
 bolPost=IIf(Request.ServerVariables("REQUEST_METHOD")="POST",True,False)
 
@@ -44,14 +48,17 @@ Select Case Request.QueryString("action")
 	Case "install"
 		Response.Redirect "app_download.asp?url=" & Server.URLEncode(Request.QueryString("path"))
 	Case "update"
+		intHighlight=3
 		strList=LoadFromFile(BlogPath&"zb_users\cache\appcentre_list.lst","utf-8")
 		If Replace(strList,",","")<>"" Then
 			strURL="app.asp?act=checkupdate&updatelist="&Server.URLEncode(strList)&"&"
-			Call DelToFile(BlogPath&"zb_users\cache\appcentre_list.lst")
+			
 		Else
-			Call ShowErr (False,"您没有可以更新的插件")
-		
+			Call SetBlogHint_Custom("您没有可以更新的应用")
+			strURL="?"
 		End If
+		Call DelToFile(BlogPath&"zb_users\cache\appcentre_list.lst")
+		
 	Case Else
 		strURL="?"
 End Select
@@ -145,10 +152,10 @@ Response.Write aryTest(Ubound(aryTest))
           </div>
           <div class="divHeader">应用中心</div>
           <div class="SubMenu">
-            <%SubMenu(0)%>
+            <%SubMenu(intHighlight)%>
           </div>
           <div id="divMain2"> 
-
+<%=strWrite%>
 <%
 End If
 aryTest=Split(Split(strResponse,"</body>")(0),"<body>")
