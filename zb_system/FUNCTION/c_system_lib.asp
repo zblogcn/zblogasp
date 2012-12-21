@@ -2968,7 +2968,7 @@ Class TUser
 			End If
 			
 			Dim tmpClsID
-			tmpClsID=MD5(BlogPath & origZC_BLOG_CLSID)
+			tmpClsID=MD5(BlogPath & ZC_BLOG_CLSID_ORIGINAL)
 			Application.Lock
 			Application(tmpClsID & "QUICKLOGIN_ID" & Session(tmpClsID & "quicklogin_id"))=Empty
 			Application(tmpClsID & "QUICKLOGIN_ID" & ID)=Empty

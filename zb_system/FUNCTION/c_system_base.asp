@@ -28,9 +28,9 @@ BlogPath=GetReallyDirectory()
 Dim BlogVersion
 BlogVersion=GetBlogVersion()
 
-Dim origZC_BLOG_CLSID
-origZC_BLOG_CLSID=ZC_BLOG_CLSID
-ZC_BLOG_CLSID=MD5(BlogPath & origZC_BLOG_CLSID)
+Dim ZC_BLOG_CLSID_ORIGINAL
+ZC_BLOG_CLSID_ORIGINAL=ZC_BLOG_CLSID
+ZC_BLOG_CLSID=MD5(BlogPath & ZC_BLOG_CLSID_ORIGINAL)
 
 Dim StarTime
 Dim EndTime
@@ -86,8 +86,6 @@ Const ZC_DISPLAY_MODE_COMMENTS=6
 
 Const ZC_POST_TYPE_ARTICLE=0
 Const ZC_POST_TYPE_PAGE=1
-
-Const jsEmpty=Empty
 
 
 '如果连接数据库为MSSQL，则应为'，默认连接Access数据库则为#
@@ -3719,7 +3717,7 @@ Function RefreshOptionFormFileToDB()
 		End If
 	Next
 	Call BlogConfig.Write("ZC_BLOG_VERSION","2.0 Doomsday Build 121221")
-	Call BlogConfig.Write("ZC_BLOG_CLSID",origZC_BLOG_CLSID)
+	Call BlogConfig.Write("ZC_BLOG_CLSID",ZC_BLOG_CLSID_ORIGINAL)
 
 	If BlogConfig.Exists("ZC_UNCATEGORIZED_NAME")=False Then Call BlogConfig.Write("ZC_UNCATEGORIZED_NAME",ZC_MSG059)
 	If BlogConfig.Exists("ZC_UNCATEGORIZED_ALIAS")=False Then Call BlogConfig.Write("ZC_UNCATEGORIZED_ALIAS","")

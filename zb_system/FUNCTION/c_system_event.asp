@@ -1219,7 +1219,7 @@ Function SaveSetting()
 	Next
 	Err.Clear
 
-	Call BlogConfig.Write("ZC_BLOG_CLSID",origZC_BLOG_CLSID)
+	Call BlogConfig.Write("ZC_BLOG_CLSID",ZC_BLOG_CLSID_ORIGINAL)
 
 	For Each a In Request.Form 
 		b=Mid(a,4,Len(a))
@@ -1845,7 +1845,7 @@ Function CheckDependency(strPluginList,strName)
 		End If
 	Next
 	If bolNotInstall Then
-		SetBlogHint_Custom "这些插件未启用，无法启用此插件：" & NotInstalledPlugin
+		SetBlogHint_Custom ZC_MSG282 & NotInstalledPlugin
 		CheckDependency=False
 	End If
 	Set objXml=Nothing
@@ -1890,7 +1890,7 @@ Function CheckDependencyDisable(aryPluginList,strPluginName)
 			End If
 		End If
 	Next
-	If bolDependency Then SetBlogHint_Custom "该插件无法被停用，如果要停用请先停用这些插件：" & strReturnDependency
+	If bolDependency Then SetBlogHint_Custom ZC_MSG283 & strReturnDependency
 	CheckDependencyDisable=Not(bolDependency)
 End Function
 '*********************************************************
@@ -2022,8 +2022,8 @@ Function CheckConflictReWriteAndToFile(strPluginName,aryFilePath,bolCheck)
 			End If
 		End If
 	Next
-	If ReturnArray(0)=False Then SetBlogHint_Custom("该插件无法被安装，这些插件与它冲突：" & strResponseConflict)
-	If ReturnArray(1)=False And ReturnArray(0)=True Then SetBlogHint_Custom("该插件可能与这些插件冲突，请关注作者官方网站：" & strResponseRewrite)
+	If ReturnArray(0)=False Then SetBlogHint_Custom(ZC_MSG283 & strResponseConflict)
+	If ReturnArray(1)=False And ReturnArray(0)=True Then SetBlogHint_Custom(ZC_MSG285 & strResponseRewrite)
 	ReturnArray(2)=Join(aryJoinText,vbCrlf)
 	CheckConflictReWriteAndToFile=ReturnArray
 End Function
