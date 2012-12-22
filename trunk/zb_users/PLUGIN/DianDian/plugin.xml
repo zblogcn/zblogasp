@@ -1,2 +1,0 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<plugin version="2.0"><id>DianDian</id><name>点点转ZB插件</name><url>http://www.zsxsoft.com</url><note>导入点点数据到Z-Blog 2.0</note><path>main.asp</path><include>include.asp</include><level>1</level><author><name>zsx</name><email>zsx@zsxsoft.com</email><url>http://www.zsxsoft.com</url></author><adapted>121125</adapted><version>1.0</version><pubdate>2012-9-30</pubdate><modified>2012-9-30</modified><description><![CDATA[Z-Blog与点点互相转换]]></description><price>0</price></plugin>
