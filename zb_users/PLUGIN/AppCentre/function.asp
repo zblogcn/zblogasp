@@ -50,7 +50,7 @@ End Sub
 
 '*********************************************************
 Function InstallApp(FilePath)
-'On Error Resume Next
+	On Error Resume Next
 
 	Dim Install_Error
 	Dim Install_Path
