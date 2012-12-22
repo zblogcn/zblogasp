@@ -2383,7 +2383,7 @@ Class TArticleList
 			End If
 			If ZC_STATIC_MODE="REWRITE" Then
 				If InStr(t,"/default.html")>0 Then
-					t=Replace(t,"/default.html","_%n/default.html")
+					t=Replace(t,"/default.html","/default_%n.html")
 				Else
 					t=Replace(t,".html","_%n.html")
 				End If
