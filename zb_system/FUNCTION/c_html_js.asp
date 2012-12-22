@@ -100,7 +100,6 @@ If f<>"" Then
 		Call OpenConnect()
 
 		Set BlogUser = New TUser
-		BlogUser.doLoadInfo=False
 		If BlogUser.Verify()=True Then
 			Response.Write "try{$('#inpName').val('"&BlogUser.Name&"');}catch(e){}"
 			Response.Write "try{$('#inpEmail').val('"&BlogUser.Email&"');}catch(e){}"
