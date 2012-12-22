@@ -1,4 +1,0 @@
-﻿<%
-ZC_UBB_ENABLE=True
-ZC_UBB_AUTOLINK_ENABLE=False
-%>
