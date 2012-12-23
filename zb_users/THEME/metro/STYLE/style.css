@@ -6,12 +6,12 @@
 */
 @charset "utf-8";
 
-body { padding:0; margin:0; font-family:"微软雅黑", "宋体", "Trebuchet MS", Tahoma, Arial, sans-serif; color: #222222; font-size: 12px; line-height: 20px; background: #EEEEEE;}
+body { padding:0; margin:0; font-family:"微软雅黑", "宋体", "Trebuchet MS", Tahoma, Arial, sans-serif; color:     #222222; font-size: 12px; line-height: 20px; background: #EEEEEE;}
 * { padding:0; margin:0;}
 div, h1, h2, h3, h4, p, form, ul, label, input, textarea, img, span, dl, dt, dd { margin:0; padding:0;}
 table {border-collapse:collapse;}
-a { text-decoration: none; color:  #333333;}
-a:hover { color: #A3D0F2; text-decoration: none;}
+a { text-decoration: none; color:      #333333;}
+a:hover { color:     #A3D0F2; text-decoration: none;}
 ul { padding:0; margin:0;}
 li { list-style-type: none;}
 img { border: none;}
@@ -29,30 +29,33 @@ img { border: none;}
 .header a { color:#FFFFFF;}
 .logo { float:left;}
 /*导航*/
-.nevbarbg { width:100%; height:40px; background: #A3D0F2;}
-.navbar { width:980px; height:40px; line-height:40px; margin:0 auto; background: #A3D0F2; overflow:hidden;}
+.nevbarbg { width:100%; height:40px; background:     #A3D0F2;}
+.navbar { width:980px; height:40px; line-height:40px; margin:0 auto; background:     #A3D0F2; overflow:hidden;}
 .navbar ul li { float:left; font-size:16px; padding:0 20px 0 0;}
-.navbar ul li a { display:block; float:left; padding:0 10px; color: #333333;}
+.navbar ul li a { display:block; float:left; padding:0 10px; color:     #333333;}
 .navbar ul li a:hover{ background:#FFFFFF; color:#5EAAE4;} 
 .navbar ul li a.on{background:#5EAAE4;color:#fff;}
 /*搜索框*/
 .search { float:right; height: 40px; width: 240px; padding-top:10px;}
 #edtSearch { float:left; width:160px; padding:6px 10px; border:1px solid #FFFFFF;}
-#btnPost { float:left; background: #A3D0F2; border:none; width:50px; height:30px; font-weight:bold; color:#FFFFFF;}
+#btnPost { float:left; background:     #A3D0F2; border:none; width:50px; height:30px; font-weight:bold; color:#FFFFFF;}
 /*主要内容*/
 .post { font-size:14px; margin-bottom:30px; word-break:break-all;}
 .post h2 { font-size:16px; line-height:20px; margin-bottom:10px; color:#5EAAE4;}
 .post h4 { font-size:15px; line-height:20px; margin-bottom:10px; }
 .post a { color:#5EAAE4;}
-.post a:hover { color: #A3D0F2; text-decoration: none;}
+.post a:hover { color:     #A3D0F2; text-decoration: none;}
 .post_r { float:left; width:670px;}
-.post_body { width:640px; background: #FFFFFF; padding:15px; line-height:22px; margin-bottom:5px;}
+.post_body { width:640px; background:     #FFFFFF; padding:15px; line-height:22px; margin-bottom:5px;}
 .post_content { min-height:30px;}
 .post_content img { 
    max-width:640px;  /*IE7,Firefox*/ 
    width: expression(this.width > 640 ? 640: true);   /*IE6*/ 
 }
 .post_content p { margin-bottom:10px;}
+.post_content ul,.post_content ol{margin-left:3em;	list-style-position : outside;}
+.post_content li{	list-style-type:inherit;}
+.post_content li p{ margin:5px 0;}
 .post_tags { padding:10px 0;}
 .post_info { height:30px; line-height:30px; text-align:right; margin-top:10px;}
 /**/
@@ -154,7 +157,7 @@ li.msgarticle div.quote-title{ margin:0; padding:0; font-size:1em; color:#CC0000
 .pagebar span.now-page { color:#5EAAE4; padding:2px 8px; font-weight:bold; background:#FFFFFF; margin:5px;}
 /*网站底部*/
 .copyright { float:left; width:800px; padding:20px;}
-.copyright a { color: #A3D0F2;}
+.copyright a { color:     #A3D0F2;}
 #goTopBtn { float:right; width:120px; height:80px; cursor:pointer;}
 #goTopBtn a { display:block; width:120px; height:80px;}
 #goTopBtn span { display:none;}
