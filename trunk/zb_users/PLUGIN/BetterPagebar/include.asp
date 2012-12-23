@@ -179,6 +179,7 @@ Function BetterPagebar_ExportBar(intNowPage,intAllPage,ByRef Template_PageBar,By
 				s=Replace(t,"%n",i)
 				If ListType="DEFAULT" And i=1 Then s=ZC_BLOG_HOST
 				If (ListType="CATEGORY" Or ListType="USER" Or ListType="DATE" Or ListType="TAGS") And i=1 Then s=Url
+				If ZC_STATIC_MODE="REWRITE" Then s=Replace(s,"/default.html","/")
 
 				strPageBar=GetTemplate("TEMPLATE_B_PAGEBAR")
 				If i=intNowPage then
