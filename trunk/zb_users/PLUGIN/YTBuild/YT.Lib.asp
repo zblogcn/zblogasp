@@ -237,7 +237,7 @@ Class YTBuildLib
 		'Else
 			b=BlogReBuild_Default
 			If b Then
-				s=LoadFromFile(BlogPath & "zb_users\cache\default.html","utf-8")
+				s=LoadFromFile(BlogPath & "zb_users\cache\default.asp","utf-8")
 				If Len(s)>0 Then
 					s=Replace(s,"<#ZC_BLOG_HOST#>",ZC_BLOG_HOST)
 					js.html=s
