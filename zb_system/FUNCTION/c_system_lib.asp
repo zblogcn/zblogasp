@@ -3002,7 +3002,7 @@ Class TUser
 
 		PassWord=MD5(Password & Guid)
 
-		If (Level<>4) Then Call ShowError(16)
+		If (Level=1) Then Call ShowError(16)
 		If (Name="") Then Call ShowError(7)
 		If Len(Name) >ZC_USERNAME_MAX Then Call ShowError(7)
 		If Not CheckRegExp(Name,"[username]") Then Call ShowError(7)
