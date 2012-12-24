@@ -1014,15 +1014,6 @@ Function MakeCalendar(dtmYearMonth)
 		strCalendar=strCalendar & "	<thead>	<tr> <th title="""&ZVA_Week(1)&""" scope=""col"" abbr="""&ZVA_Week(1)&"""><small>"&ZVA_Week_Abbr(1)&"</small></th> <th title="""&ZVA_Week(2)&""" scope=""col"" abbr="""&ZVA_Week(2)&"""><small>"&ZVA_Week_Abbr(2)&"</small></th> <th title="""&ZVA_Week(3)&""" scope=""col"" abbr="""&ZVA_Week(3)&"""><small>"&ZVA_Week_Abbr(3)&"</small></th>	<th title="""&ZVA_Week(4)&""" scope=""col"" abbr="""&ZVA_Week(4)&"""><small>"&ZVA_Week_Abbr(4)&"</small></th> <th title="""&ZVA_Week(5)&""" scope=""col"" abbr="""&ZVA_Week(5)&"""><small>"&ZVA_Week_Abbr(5)&"</small></th>	<th title="""&ZVA_Week(6)&""" scope=""col"" abbr="""&ZVA_Week(6)&"""><small>"&ZVA_Week_Abbr(6)&"</small></th> <th title="""&ZVA_Week(7)&""" scope=""col"" abbr="""&ZVA_Week(7)&"""><small>"&ZVA_Week_Abbr(7)&"</small></th>	</tr>	</thead>"
 		
 	'tfoot	
-		dim strCalendarPrev
-		dim strCalendarNext
-		
-		'strCalendarPrev = "<td id=""prev"" colspan=""3"" abbr="""& pm &"月""><a title=""查看"& pm &"月的日志"" href="""& ZC_BLOG_HOST & "catalog.asp?date="& py &"-"& pm &""">« "&ZVA_Month_Abbr(pm)&"</a></td>"
-		'strCalendarNext = "<td id=""next"" colspan=""3"" abbr="""& nm &"月""><a title=""查看"& nm &"月的日志"" href="""& ZC_BLOG_HOST & "catalog.asp?date="& ny &"-"& nm &"""> "&ZVA_Month_Abbr(nm)&" »</a></td>"
-			
-		'if dtmYearMonth=Date()  Then strCalendarNext = "<td class=""pad"" id=""next"" colspan=""3""> </td>"
-
-		strCalendar=strCalendar & "	<tfoot>	<tr>" & strCalendarPrev & " <td class=""pad""> </td>" & strCalendarNext & "</tr></tfoot>"	
 		
 	'tbody	
 	strCalendar=strCalendar & "	<tbody>"
@@ -1040,7 +1031,7 @@ Function MakeCalendar(dtmYearMonth)
 			If 	Cdate(y&"-"&m&"-"&k) = Date() Then strCalendar=strCalendar & " id =""today"" "
 			
 			If aryDateLink(k) Then
-				strCalendar=strCalendar & "><a  title=""点击查看当天文章"" href="""& ZC_BLOG_HOST &"catalog.asp?date="&Year(aryDateArticle(k).PostTime)&"-"&Month(aryDateArticle(k).PostTime)&"-"&Day(aryDateArticle(k).PostTime)& """>"&(k)&"</a></td>"
+				strCalendar=strCalendar & "><a href="""& ZC_BLOG_HOST &"catalog.asp?date="&Year(aryDateArticle(k).PostTime)&"-"&Month(aryDateArticle(k).PostTime)&"-"&Day(aryDateArticle(k).PostTime)& """>"&(k)&"</a></td>"
 			Else
 				strCalendar=strCalendar &">"&(k)&"</td>"
 				
