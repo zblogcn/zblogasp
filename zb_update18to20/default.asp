@@ -715,7 +715,7 @@ Call BlogConfig.Write("ZC_BLOG_VERSION","2.0 Doomsday Build 121221")
 
 '用户名,密码,评论长度等限制
 Call BlogConfig.Write("ZC_USERNAME_MIN",4)
-Call BlogConfig.Write("ZC_USERNAME_MAX",14)
+Call BlogConfig.Write("ZC_USERNAME_MAX",20)
 Call BlogConfig.Write("ZC_PASSWORD_MIN",8)
 Call BlogConfig.Write("ZC_PASSWORD_MAX",14)
 Call BlogConfig.Write("ZC_EMAIL_MAX",30)

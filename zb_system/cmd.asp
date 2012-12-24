@@ -994,6 +994,8 @@ Function SettingMng()
 		'Call MakeBlogReBuild_Core()
 	End If
 
+	Call RefreshOptionFormFileToDB()
+
 	Response.Redirect "admin/edit_setting.asp"
 End Function
 
