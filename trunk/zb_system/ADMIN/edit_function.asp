@@ -80,7 +80,7 @@ BlogTitle=ZC_MSG144
 	Response.Write "<input id=""inpSidebarID"" name=""inpSidebarID""  type=""hidden"" value="""& EditFunction.SidebarID &""" />"
 	Response.Write "<p><span class='title'>"& ZC_MSG001 &":</span><span class='star'>(*)</span><br/><input type=""text"" id=""inpName"" name=""inpName"" value="""& EditFunction.Name &""" size=""40"" /></p>"
 	Response.Write "<p><span class='title'>"& ZC_MSG170 &":</span><span class='star'>(*)</span><br/><input "&t&" type=""text"" id=""inpFileName"" name=""inpFileName"" value="""& EditFunction.FileName &""" size=""40"" /></p>"
-	Response.Write "<p><span class='title'>"& "HTML ID" &":</span><span class='star'>(*)</span><br/><input "&t&" type=""text"" name=""inpHtmlID"" value="""&  EditFunction.HtmlId &""" size=""40""  /><br/>("&ZC_MSG137&")</p>"
+	Response.Write "<p><span class='title'>"& "HTML ID" &":</span><span class='star'>(*)</span><br/><input type=""text"" name=""inpHtmlID"" value="""&  EditFunction.HtmlId &""" size=""40""  /><br/>("&ZC_MSG137&")</p>"
 
 	Response.Write "<p><span class='title'>"& ZC_MSG061 &":</span><br/>"
 	Response.Write "<label><input "&u&" name=""inpFtype"" type=""radio"" value=""div"" "&IIF(EditFunction.Ftype="div","checked=""checked""","")&" onclick=""$('#pMaxLi').css('display','none');"" />&nbsp;DIV </label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label><input "&u&"  type=""radio"" name=""inpFtype"" value=""ul"" "&IIF(EditFunction.Ftype<>"div","checked=""checked""","")&" onclick=""$('#pMaxLi').css('display','block');"" />&nbsp;UL</label>"
