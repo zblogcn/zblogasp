@@ -1429,7 +1429,7 @@ Function ExportFunctionList()
 
 	Call Add_Response_Plugin("Response_Plugin_FunctionMng_SubMenu",MakeSubMenu(ZC_MSG142 & "","../cmd.asp?act=FunctionEdt","m-left",False))
 
-Call Add_Response_Plugin("Response_Plugin_FunctionMng_SubMenu",MakeSubMenu(ZC_MSG233 & "","../cmd.asp?act=FunctionEdt&amp;id="&Functions(FunctionMetas.GetValue("navbar")).ID,"m-left",False))
+Call Add_Response_Plugin("Response_Plugin_FunctionMng_SubMenu",MakeSubMenu(ZC_MSG052 & "","../cmd.asp?act=FunctionEdt&amp;id="&Functions(FunctionMetas.GetValue("navbar")).ID,"m-left",False))
 Call Add_Response_Plugin("Response_Plugin_FunctionMng_SubMenu",MakeSubMenu(ZC_MSG030 & "","../cmd.asp?act=FunctionEdt&amp;id="&Functions(FunctionMetas.GetValue("favorite")).ID,"m-left",False))
 Call Add_Response_Plugin("Response_Plugin_FunctionMng_SubMenu",MakeSubMenu(ZC_MSG031 & "","../cmd.asp?act=FunctionEdt&amp;id="&Functions(FunctionMetas.GetValue("link")).ID,"m-left",False))
 Call Add_Response_Plugin("Response_Plugin_FunctionMng_SubMenu",MakeSubMenu(ZC_MSG039 & "","../cmd.asp?act=FunctionEdt&amp;id="&Functions(FunctionMetas.GetValue("misc")).ID,"m-left",False))
