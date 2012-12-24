@@ -897,7 +897,7 @@ Class TArticle
 			If PageSize3*intPage>intCommnums Then
 				PageSize2=CLng(intCommnums Mod PageSize3)
 				If PageSize3*(intPage-1)+PageSize2>intCommnums Then
-					Template_Article_Comment="<span style=""display:none;"" id=""AjaxCommentBegin""></span>" & Template_Article_Comment & "<span style=""display:none;"" id=""AjaxCommentEnd""></span>"
+					Template_Article_Comment="<ins style=""display:none;"" id=""AjaxCommentBegin""></ins>" & Template_Article_Comment & "<ins style=""display:none;"" id=""AjaxCommentEnd""></ins>"
 					Export_CMTandTB=True
 					Exit Function
 				End If
@@ -1007,7 +1007,7 @@ Class TArticle
 			s=Replace(s,"<#template:pagebar#>",lp&rp&"<div style=""display:none;clear:both;""></div>")
 		End If
 
-		Template_Article_Comment="<div id=""AjaxCommentBegin"" style=""display:none;clear:both;""></div>" & Template_Article_Comment & s &"<div id=""AjaxCommentEnd"" style=""display:none;clear:both;""></div>"
+		Template_Article_Comment="<ins id=""AjaxCommentBegin"" style=""display:none;clear:both;""></ins>" & Template_Article_Comment & s &"<ins id=""AjaxCommentEnd"" style=""display:none;clear:both;""></ins>"
 
 
 		Template_Article_Comment=Replace(Template_Article_Comment,"<!--(count-->0<!--count)-->","<span class=""revcount""></span>")
