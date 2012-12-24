@@ -924,16 +924,7 @@ End Function
 
 
 '*********************************************************
-' 目的：    Make Calendar
-'*********************************************************
 Function MakeCalendar(dtmYearMonth)
-
-	'plugin node
-	bAction_Plugin_MakeCalendar_Begin=False
-	For Each sAction_Plugin_MakeCalendar_Begin in Action_Plugin_MakeCalendar_Begin
-		If Not IsEmpty(sAction_Plugin_MakeCalendar_Begin) Then Call Execute(sAction_Plugin_MakeCalendar_Begin)
-		If bAction_Plugin_MakeCalendar_Begin=True Then Exit Function
-	Next
 
 	Dim strCalendar
 
@@ -944,6 +935,8 @@ Function MakeCalendar(dtmYearMonth)
 	Dim lasw
 	Dim ny
 	Dim nm
+	Dim py
+	Dim pm
 
 	Dim i
 	Dim j
@@ -959,6 +952,9 @@ Function MakeCalendar(dtmYearMonth)
 	ny=y
 	nm=m+1
 	If m=12 Then ny=ny+1:nm=1
+	py=y
+	pm=m-1
+	if m=1 then py=py-1:pm=12
 
 	firw=Weekday(Cdate(y&"-"&m&"-1"))
 
@@ -978,62 +974,91 @@ Function MakeCalendar(dtmYearMonth)
 	If (firw>5) And (d<31) And (d-firw<>23) Then b=35
 
 
-'//////////////////////////////////////////////////////////
-'	逻辑处理
-	Dim aryDateLink(32)
-	Dim aryDateID(32)
-	Dim aryDateArticle(32)
-	Dim objRS
+	'//////////////////////////////////////////////////////////
+	'	逻辑处理
+		Dim aryDateLink(32)
+		Dim aryDateID(32)
+		Dim aryDateArticle(32)
+		Dim objRS
 
-	Set objRS=Server.CreateObject("ADODB.Recordset")
-	objRS.CursorType = adOpenKeyset
-	objRS.LockType = adLockReadOnly
-	objRS.ActiveConnection=objConn
-	objRS.Source=""
-	objRS.Open("SELECT [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_Type],[log_Meta] from [blog_Article] where ([log_Type]=0) And ([log_Level]>2) And ([log_PostTime] BETWEEN "& ZC_SQL_POUND_KEY &y&"-"&m&"-1"& ZC_SQL_POUND_KEY &" AND "& ZC_SQL_POUND_KEY &ny&"-"&nm&"-1"& ZC_SQL_POUND_KEY &")")
+		Set objRS=Server.CreateObject("ADODB.Recordset")
+		objRS.CursorType = adOpenKeyset
+		objRS.LockType = adLockReadOnly
+		objRS.ActiveConnection=objConn
+		objRS.Source=""
+		objRS.Open("select [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_Type],[log_Meta] from [blog_Article] where ([log_Type]=0) And ([log_Level]>2) And ([log_PostTime] BETWEEN "& ZC_SQL_POUND_KEY &y&"-"&m&"-1"& ZC_SQL_POUND_KEY &" AND "& ZC_SQL_POUND_KEY &ny&"-"&nm&"-1"& ZC_SQL_POUND_KEY &")")
 
-	If (Not objRS.bof) And (Not objRS.eof) Then
-		For i=1 To objRS.RecordCount
-			j=CLng(Day(CDate(objRS("log_PostTime"))))
-			aryDateLink(j)=True
-			aryDateID(j)=objRS("log_ID")
-			Set aryDateArticle(j)=New TArticle
-			aryDateArticle(j).LoadInfobyArray Array(objRS(0),objRS(1),objRS(2),objRS(3),objRS(4),objRS(5),objRS(6),objRS(7),objRS(8),objRS(9),objRS(10),objRS(11),objRS(12),objRS(13),objRS(14),objRS(15),objRS(16),objRS(17))
-			objRS.MoveNext
-			If objRS.eof Then Exit For
-		Next
-	End If
-	objRS.Close
-	Set objRS=Nothing
-'//////////////////////////////////////////////////////////
+		If (Not objRS.bof) And (Not objRS.eof) Then
+			For i=1 To objRS.RecordCount
+				j=CLng(Day(CDate(objRS("log_PostTime"))))
+				aryDateLink(j)=True
+				aryDateID(j)=objRS("log_ID")
+				Set aryDateArticle(j)=New TArticle
+				aryDateArticle(j).LoadInfobyArray Array(objRS(0),objRS(1),objRS(2),objRS(3),objRS(4),objRS(5),objRS(6),objRS(7),objRS(8),objRS(9),objRS(10),objRS(11),objRS(12),objRS(13),objRS(14),objRS(15),objRS(16),objRS(17))
+				objRS.MoveNext
+				If objRS.eof Then Exit For
+			Next
+		End If
+		objRS.Close
+		Set objRS=Nothing
+	'//////////////////////////////////////////////////////////
 
 	s=UrlbyDateAuto(y,m-1,"")
 	t=UrlbyDateAuto(y,m+1,"")
 	If m=1 Then s=UrlbyDateAuto(y-1,12,"")
 	If m=12 Then t=UrlbyDateAuto(y+1,1,"")
 
-	strCalendar=strCalendar & "<div class=""year"&y&" month"&m&""">"
-	strCalendar=strCalendar & "<p class=""y""><a href="""&s&""">&lt;&lt;</a>  <a href="""&UrlbyDateAuto(y,m,"")&""">"&y&"-"&m&"</a>  <a href="""&t&""">&gt;&gt;</a></p>"
-	strCalendar=strCalendar & "<p class=""w"">"&ZVA_Week_Abbr(1)&"</p><p class=""w"">"&ZVA_Week_Abbr(2)&"</p><p class=""w"">"&ZVA_Week_Abbr(3)&"</p><p class=""w"">"&ZVA_Week_Abbr(4)&"</p><p class=""w"">"&ZVA_Week_Abbr(5)&"</p><p class=""w"">"&ZVA_Week_Abbr(6)&"</p><p class=""w"">"&ZVA_Week_Abbr(7)&"</p>"
+		strCalendar="<table summary=""日历"" id=""wp-calendar""><caption><a href="""&s&""">&#00171;</a>  <a href="""&UrlbyDateAuto(y,m,"")&""">"&y&"-"&m&"</a>  <a href="""&t&""">&#00187;</a></caption>"
+		
+	'thead	
+		strCalendar=strCalendar & "	<thead>	<tr> <th title="""&ZVA_Week(1)&""" scope=""col"" abbr="""&ZVA_Week(1)&"""><small>"&ZVA_Week_Abbr(1)&"</small></th> <th title="""&ZVA_Week(2)&""" scope=""col"" abbr="""&ZVA_Week(2)&"""><small>"&ZVA_Week_Abbr(2)&"</small></th> <th title="""&ZVA_Week(3)&""" scope=""col"" abbr="""&ZVA_Week(3)&"""><small>"&ZVA_Week_Abbr(3)&"</small></th>	<th title="""&ZVA_Week(4)&""" scope=""col"" abbr="""&ZVA_Week(4)&"""><small>"&ZVA_Week_Abbr(4)&"</small></th> <th title="""&ZVA_Week(5)&""" scope=""col"" abbr="""&ZVA_Week(5)&"""><small>"&ZVA_Week_Abbr(5)&"</small></th>	<th title="""&ZVA_Week(6)&""" scope=""col"" abbr="""&ZVA_Week(6)&"""><small>"&ZVA_Week_Abbr(6)&"</small></th> <th title="""&ZVA_Week(7)&""" scope=""col"" abbr="""&ZVA_Week(7)&"""><small>"&ZVA_Week_Abbr(7)&"</small></th>	</tr>	</thead>"
+		
+	'tfoot	
+		dim strCalendarPrev
+		dim strCalendarNext
+		
+		'strCalendarPrev = "<td id=""prev"" colspan=""3"" abbr="""& pm &"月""><a title=""查看"& pm &"月的日志"" href="""& ZC_BLOG_HOST & "catalog.asp?date="& py &"-"& pm &""">« "&ZVA_Month_Abbr(pm)&"</a></td>"
+		'strCalendarNext = "<td id=""next"" colspan=""3"" abbr="""& nm &"月""><a title=""查看"& nm &"月的日志"" href="""& ZC_BLOG_HOST & "catalog.asp?date="& ny &"-"& nm &"""> "&ZVA_Month_Abbr(nm)&" »</a></td>"
+			
+		'if dtmYearMonth=Date()  Then strCalendarNext = "<td class=""pad"" id=""next"" colspan=""3""> </td>"
+
+		strCalendar=strCalendar & "	<tfoot>	<tr>" & strCalendarPrev & " <td class=""pad""> </td>" & strCalendarNext & "</tr></tfoot>"	
+		
+	'tbody	
+	strCalendar=strCalendar & "	<tbody>"
+	
 	j=0
 	For i=1 to b
+
+		If (j Mod 7)=0 Then strCalendar=strCalendar & "<tr>"
+		If (j/7)<=0 and firw<>1 then strCalendar=strCalendar & "<td class=""pad"" colspan="""& (firw-1) &"""> </td>"
+
 		If (j=>firw-1) and (k=<d) Then
+		
+			strCalendar=strCalendar & "<td "
+			
+			If 	Cdate(y&"-"&m&"-"&k) = Date() Then strCalendar=strCalendar & " id =""today"" "
+			
 			If aryDateLink(k) Then
-				strCalendar=strCalendar & "<p id=""pCalendar_"&y&"_"&m&"_"&k&""" class=""yd""><a  href="""&UrlbyDateAuto(Year(aryDateArticle(k).PostTime),Month(aryDateArticle(k).PostTime),Day(aryDateArticle(k).PostTime))& """>"&(k)&"</a></p>"
+				strCalendar=strCalendar & "><a  title=""点击查看当天文章"" href="""& ZC_BLOG_HOST &"catalog.asp?date="&Year(aryDateArticle(k).PostTime)&"-"&Month(aryDateArticle(k).PostTime)&"-"&Day(aryDateArticle(k).PostTime)& """>"&(k)&"</a></td>"
 			Else
-				strCalendar=strCalendar & "<p id=""pCalendar_"&y&"_"&m&"_"&k&""" class=""d"">"&(k)&"</p>"
+				strCalendar=strCalendar &">"&(k)&"</td>"
+				
 			End If
 
 			k=k+1
-		Else
-			strCalendar=strCalendar & "<p class=""nd""></p>"
 		End If
+			
+		if j=b-1 then strCalendar=strCalendar & "<td class=""pad"" colspan="""& (7-lasw) &"""> </td>"		
+
+		If (j Mod 7)=6 Then strCalendar=strCalendar & "</tr>"
+
 		j=j+1
 	Next
 
-	strCalendar=strCalendar & "</div>"
+	strCalendar=strCalendar & "	</tbody></table>"
 	MakeCalendar=strCalendar
-
+	
 End Function
 '*********************************************************
 

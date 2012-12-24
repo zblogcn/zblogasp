@@ -32,12 +32,15 @@ For Each sAction_Plugin_Catalog_Begin in Action_Plugin_Catalog_Begin
 	If Not IsEmpty(sAction_Plugin_Catalog_Begin) Then Call Execute(sAction_Plugin_Catalog_Begin)
 Next
 
+Dim html
+
 Dim ArtList
 Set ArtList=New TArticleList
 
 If ArtList.Export(Request.QueryString("page"),Request.QueryString("cate"),IIF(Not IsEmpty(Request.QueryString("auth")),Request.QueryString("auth"),Request.QueryString("user")),Request.QueryString("date"),Request.QueryString("tags"),ZC_DISPLAY_MODE_INTRO) Then
 	ArtList.Build
-	Response.Write ArtList.html
+	html=ArtList.html
+	Response.Write html
 End If
 
 'plugin node

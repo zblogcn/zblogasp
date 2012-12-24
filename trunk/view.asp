@@ -32,6 +32,8 @@ For Each sAction_Plugin_View_Begin in Action_Plugin_View_Begin
 	If Not IsEmpty(sAction_Plugin_View_Begin) Then Call Execute(sAction_Plugin_View_Begin)
 Next
 
+Dim html
+
 Dim objRS
 Dim Article
 Set Article=New TArticle
@@ -155,7 +157,8 @@ If Article.LoadInfoByID(c) Then
 			Response.AddHeader "Last-Modified",strLastModified
 		End If
 		Article.Build
-		Response.Write Article.html
+		html=Article.html
+		Response.Write html
 	End If
 Else
 	Response.Status="404 Not Found"

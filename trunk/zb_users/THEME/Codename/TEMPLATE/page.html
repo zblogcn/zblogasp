@@ -9,7 +9,7 @@
 				<#CACHE_INCLUDE_NAVBAR#>
 			</ul>
 			<div class="search hfr">
-				<form method="post" class="searchform" name="searchform" id="searchform" action="<#ZC_BLOG_HOST#>cmd.asp?act=Search">
+				<form method="post" class="searchform" name="searchform" id="searchform" action="<#ZC_BLOG_HOST#>zb_system/cmd.asp?act=Search">
 				<input type="text" class="search-input hfl" name="edtSearch" size="24" value="搜索 " name="s" onfocus="if (this.value == '搜索 ') {this.value = '';}" onblur="if (this.value == '') {this.value = '搜索 ';}"/>
 				<input type="submit" class="search-submit hfr" value=""/>
 				</form>
@@ -25,7 +25,7 @@
 	<div id="sidebar">
 	<div class="sidebar-widget">
 			<div class="sidebar-feeds"><a href="<#ZC_BLOG_HOST#>feed.asp" id="feeds" target="_blank" style="color:#F36E30;text-decoration:none;">RSS 订阅</a></div>
-			<div class="translator"><a href="javascript:void(0);" onclick="translatePage();" style="color:#4B72A9">Translate this page</a></div>
+			
 		</div>
 	<#template:sidebar#>
 

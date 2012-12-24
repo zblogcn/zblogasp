@@ -2001,7 +2001,7 @@ Class TArticleList
 				objRS.Source=objRS.Source & "AND(Year([log_PostTime])="&y&") AND(Month([log_PostTime])="&m&")"
 			End If
 
-			Template_Calendar="<script language=""JavaScript"" src=""<#ZC_BLOG_HOST#>zb_system/function/c_html_js.asp?date="&dtmDate&""" type=""text/javascript""></script>"
+			Template_Calendar="<script src=""<#ZC_BLOG_HOST#>zb_system/function/c_html_js.asp?date="&dtmDate&""" type=""text/javascript""></script>"
 
 			If IsEmpty(html)=True Then html=GetTemplate("TEMPLATE_CATALOG")
 

@@ -41,11 +41,11 @@ If ZC_HTTP_LASTMODIFIED=True Then
 	Response.AddHeader "Last-Modified",GetFileModified(BlogPath & "zb_users\cache\default.asp")
 End If
 
-Dim s
-s=LoadFromFile(BlogPath & "zb_users\cache\default.asp","utf-8")
+Dim html
+html=LoadFromFile(BlogPath & "zb_users\cache\default.asp","utf-8")
 
-If Len(s)>0 Then
-	Response.Write Replace(s,"<#ZC_BLOG_HOST#>",BlogHost)
+If Len(html)>0 Then
+	Response.Write Replace(html,"<#ZC_BLOG_HOST#>",BlogHost)
 	Response.Write "<!-- " & RunTime() & "ms -->"
 	Response.End
 End If
@@ -61,7 +61,9 @@ If ArtList.Export("","","","","",ZC_DISPLAY_MODE_INTRO) Then
 
 	ArtList.Build
 
-	Response.Write ArtList.html
+	html=ArtList.html
+
+	Response.Write html
 
 End If
 
