@@ -655,6 +655,10 @@ p.w{
 	font-size:0.9em;
 }
 
+#divCalendar table{
+	width:220px;
+}
+
 /*---------------------------文章和评论翻页条------------------------*/
 a.l{
 	text-align:left;
