@@ -7,6 +7,7 @@
 	if(!$("li.msgarticle").html()){$("ul.mutuality").hide()}
 	if($("ul.msghead ~ ul.msg").length==0){$("ul.msghead").hide()}
 	$(".post-tags").each(function(){if($(this).find('a').length==0){$(this).hide()}});
+
 	var s=document.location;
 	$("#divNavBar a").each(function(){
 		if(havecateurl){
@@ -18,19 +19,6 @@
 	});
 });
 
-sidebarloaded.add(function(){ 
-	$("ul.ul-subcates").prev("a").before("<span class='sh'>-</span>");
-	$("span.sh").click(function (){
-		$(this).next().next("ul").toggle("fast");
-	})
-	.toggle(
-		function () {
-		$(this).html("+");
-		},
-		function () {
-		$(this).html("-");
-	});
-})
 
 function ReComment_CallBack(){for(var i=0;i<=ReComment_CallBack.list.length-1;i++){ReComment_CallBack.list[i]()}}
 ReComment_CallBack.list=[];
