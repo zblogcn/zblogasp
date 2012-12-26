@@ -23,7 +23,7 @@ Function AppCentre_NewVersionFound()
 	Dim o
 	o=LoadFromFile(BlogPath&"zb_users\cache\appcentre_list.lst","utf-8")
 	If Replace(o,",","")<>"" Then
-		Call Add_Response_Plugin("Response_Plugin_Admin_Top",MakeTopMenu(1,"<font color='red'>发现插件更新</font>",BlogHost&"zb_users/plugin/appcentre/checkupdate.asp","AppCentre_Update",""))
+		Call Add_Response_Plugin("Response_Plugin_Admin_Top",MakeTopMenu(1,"<font color='red'>发现应用更新</font>",BlogHost&"zb_users/plugin/appcentre/checkupdate.asp","AppCentre_Update",""))
 	End If
 End Function
 %>

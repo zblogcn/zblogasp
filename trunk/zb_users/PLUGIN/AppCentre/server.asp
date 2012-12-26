@@ -17,6 +17,9 @@ Call CheckReference("")
 '检查权限
 If BlogUser.Level>1 Then Call ShowError(6)
 If CheckPluginState("AppCentre")=False Then Call ShowError(48)
+Call LoadPluginXmlInfo("AppCentre")
+Call InitConfig
+
 %>
 <%
 BlogTitle="应用中心"
@@ -44,11 +47,11 @@ Select Case Request.QueryString("action")
 		bolFrame=False
 	Case "cmd"
 		strURL="zb_system/cmd.asp?"
-		bolFrame=False
+		bolFrame=False	
 	Case "install"
 		Response.Redirect "app_download.asp?url=" & Server.URLEncode(Request.QueryString("path"))
 	Case "update"
-		intHighlight=3
+		intHighlight=7
 		strList=LoadFromFile(BlogPath&"zb_users\cache\appcentre_list.lst","utf-8")
 		If Replace(strList,",","")<>"" Then
 			strURL="app.asp?act=checkupdate&updatelist="&Server.URLEncode(strList)&"&"
@@ -71,7 +74,8 @@ strURL=strURL & Request.QueryString & "&rnd="&Rnd
 strURL=APPCENTRE_URL & strURL
 objXmlHttp.Open Request.ServerVariables("REQUEST_METHOD"),strURL
 If bolPost Then objXmlhttp.SetRequestHeader "Content-Type","application/x-www-form-urlencoded"
-
+objXmlhttp.SetRequestHeader "User-Agent","AppCentre/"&app_version
+objXmlhttp.SetRequestHeader "Cookie","username="&vbsescape(login_un)&"; password="&vbsescape(login_pw)
 objXmlHttp.Send Request.Form.Item
 
 
@@ -84,6 +88,8 @@ If objXmlHttp.ReadyState=4 Then
 			strResponse=Replace(strResponse,"$bloghost$",BlogHost)
 			strResponse=Replace(strResponse,"$pluginlist$",ZC_USING_PLUGIN_LIST)
 			strResponse=Replace(strResponse,"$zbversion$",BlogVersion)
+			strResponse=Replace(strResponse,"$appcentre$",app_version)
+			strResponse=Replace(strResponse,"$username_$",login_un)
 			
 			
 			
