@@ -47,7 +47,7 @@ r="?"&Rnd()
 <script src="custom.js" type="text/javascript"></script>
 <style>
 table input{padding: 0;margin:0.25em 0;}
-table input[type="text"]{padding: 2px 5px;}
+table input#hdbgph{padding: 2px 5px;}
 table .button{padding: 2px 12px 5px 12px; margin: 0.25em 0;}
 .tc{border: solid 2px #E1E1E1;width: 50px;height: 23px;float: left;margin: 0.25em;cursor: pointer}
 .tc:hover,.active{border: 2px solid #2694E8;}
@@ -155,23 +155,23 @@ table .button{padding: 2px 12px 5px 12px; margin: 0.25em 0;}
 				</tr>
 				<tr>
 					<td>主色（深色）</td>
-					<td><input id="colorP1" name="color"  value="<%=aryColor(0)%>" /></td>
+					<td><input id="colorP1" name="color"  value=<%=aryColor(0)%> /></td>
 				</tr>
 				<tr>
 					<td>次色（浅色）</td>
-					<td><input  id="colorP2" name="color"  value="<%=aryColor(1)%>" /></td>
+					<td><input  id="colorP2" name="color"  value=<%=aryColor(1)%> /></td>
 				</tr>
 				<tr>
 					<td>字体颜色</td>
-					<td><input  id="colorP3" name="color"  value="<%=aryColor(2)%>" /></td>
+					<td><input  id="colorP3" name="color"  value=<%=aryColor(2)%> /></td>
 				</tr>
 				<tr>
 					<td>链接颜色</td>
-					<td><input  id="colorP4" name="color"  value="<%=aryColor(3)%>" /></td>
+					<td><input  id="colorP4" name="color"  value=<%=aryColor(3)%> /></td>
 				</tr>
 				<tr>
 					<td>文章背景色</td>
-					<td><input  id="colorP5" name="color"  value="<%=aryColor(4)%>" /></td>
+					<td><input  id="colorP5" name="color"  value=<%=aryColor(4)%> /></td>
 				</tr>
 			</table>
 			<input name="ok" type="submit" class="button" value="保存配置"/>

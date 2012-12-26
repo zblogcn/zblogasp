@@ -19,7 +19,7 @@ function loadConfig(config){
 $(document).ready(function(){
 	
 	$.each(color_config, function(i,config){
-		$("<div>").attr({ title:config.name,class:"tc",onclick:"loadConfig(color_config["+i+"]);$('.active').removeClass('active');$(this).addClass('active');",style:"background-color:"+config.color[1]}).appendTo("#loadconfig");
+		$("<div>").attr({"title":config.name,"class":"tc",onclick:"loadConfig(color_config["+i+"]);$('.active').removeClass('active');$(this).addClass('active');","style":"background-color:"+config.color[1]}).appendTo("#loadconfig");
 	});
 
 	var myUpload1 = $("#updatapic1").upload();

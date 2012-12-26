@@ -105,7 +105,7 @@ img { border: none;}
 #divPrevious .function_t { background: url(images/icon/Previous.png) no-repeat 10px 5px;} /*最新文章*/
 #divTags .function_t { background: url(images/icon/Tags.png) no-repeat 10px 5px;} /*标签云集*/
 #divSearchPanel .function_t { background: url(images/icon/Search.png) no-repeat 10px 5px;} /*搜索*/
-/*日历*/
+/*旧版日历*/
 #divCalendar { width:235px; padding:0 0 15px 5px; text-align:center;}
 #divCalendar .function_t { display:none;}
 #divCalendar .function_c { width:240px; padding:0 0 0 0;}
@@ -117,6 +117,17 @@ p.yd { background:{%aryColor(0)%}; color:#FFFFFF;}
 p.yd a { color:#FFFFFF;}
 p.cd { font-weight:bold;}
 p.w { background:#A9B8C5; padding:3px 0 2px 0; height:1.7em; color:#FFFFFF; text-transform: uppercase;}
+/*新版表格日历*/
+#divCalendar .function_t { display:none;}
+#divCalendar .function_c { width:232px; padding:0 4px 15px 4px;}
+#divCalendar table{width:100%; table-layout:fixed}
+#divCalendar caption{ text-align:center; height:24px; margin:0; padding:0; font-size:12px; font-weight:bold;}
+#divCalendar caption a { padding:0 20px;}
+#divCalendar th{background: {%aryColor(1)%};color: #FFFFFF;text-transform: uppercase;border:1px solid #E0E1E2;height:26px}
+#divCalendar td{text-align:center;background:#F0F0F0;border:1px solid #E0E1E2;height:30px;}
+#divCalendar td.pad{background:none}
+#divCalendar td a{display:block;line-height:30px;background:{%aryColor(0)%}; color:#FFFFFF;}
+#today{font-weight:bold;}/*这个today真的不该有！*/
 /*侧边搜索*/
 .function #edtSearch { float:left; width:110px; padding:6px 10px; border:1px solid #FFFFFF;}
 .function #btnPost { float:left; background:{%aryColor(0)%}; border:none; width:50px; height:29px; font-weight:bold;color:#FFFFFF;}
