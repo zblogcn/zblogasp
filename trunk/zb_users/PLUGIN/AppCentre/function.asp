@@ -31,7 +31,7 @@ Dim app_dependency
 Dim app_rewritefunctions
 Dim app_conflict
 
-
+Dim app_path
 
 
 Sub SubMenu(id)
@@ -44,6 +44,35 @@ Sub SubMenu(id)
 		Response.Write MakeSubMenu(aryName(i),aryValue(i),aryPos(i) & IIf(id=i," m-now",""),False)
 	Next
 End Sub
+
+
+
+Function AppCentre_GetLastModifiTime(dirpath)
+	Call AppCentre_BianLi(dirpath)
+	AppCentre_GetLastModifiTime=Year(AppCentre_LastModifiTime) &"-"&Month(AppCentre_LastModifiTime)&"-"&Day(AppCentre_LastModifiTime)
+End Function
+
+Dim AppCentre_LastModifiTime
+
+Function AppCentre_BianLi(Path) '遍历递归搜索所有文件
+	Dim Fso,ObjFolder,ObjFile 'Fso对象,子目录对象,文件对象
+	Set Fso=Server.CreateObject("scripting.filesystemObject") '创建FSO读写对象
+
+	If AppCentre_LastModifiTime="" Then AppCentre_LastModifiTime=Year(2000)
+
+	For Each ObjFile in Fso.GetFolder(Path).Files '读取当前目录下的文件
+		If DateDiff("s", ObjFile.DateLastModified, AppCentre_LastModifiTime)<0 Then 
+	
+			AppCentre_LastModifiTime=ObjFile.DateLastModified
+		End If
+	Next
+
+	For Each ObjFolder In Fso.GetFolder(Path).SubFolders '读取子目录
+		AppCentre_BianLi(Path & "\" & ObjFolder.Name) '调用递归搜索子目录完整路径
+	Next
+End Function
+
+
 
 
 
@@ -155,6 +184,8 @@ Function LoadPluginXmlInfo(id)
 
 	On Error Resume Next
 
+	app_path=BlogPath & "zb_users/plugin" & "/" & id & "/"
+
 	Dim objXmlFile,strXmlFile
 	Dim fso, s
 	Set fso = CreateObject("Scripting.FileSystemObject")
@@ -221,6 +252,8 @@ Function LoadThemeXmlInfo(id)
 	Dim objXmlFile,strXmlFile
 	Dim fso, s
 	Set fso = CreateObject("Scripting.FileSystemObject")
+
+	app_path=BlogPath & "zb_users/theme" & "/" & id & "/"
 
 	If fso.FileExists(BlogPath & "zb_users/theme" & "/" & id & "/" & "theme.xml") Then
 
