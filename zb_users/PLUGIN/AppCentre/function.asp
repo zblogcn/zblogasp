@@ -1,6 +1,9 @@
 ﻿<%
 Const APPCENTRE_URL="http://app.rainbowsoft.org/"
 Const APPCENTRE_UPDATE_URL="http://app.rainbowsoft.org/appcentre.asp?act=checkupdate"
+
+Dim app_config
+Dim login_un,login_pw
 Dim Pack_For,Pack_Type
 
 Dim app_id
@@ -36,16 +39,21 @@ Dim app_path
 
 Sub SubMenu(id)
 	Dim aryName,aryValue,aryPos
-	aryName=Array("在线安装应用","新建插件","新建主题","检查更新")
-	aryValue=Array("server.asp","plugin_edit.asp","theme_edit.asp","checkupdate.asp")
-	aryPos=Array("m-left","m-left","m-left","m-left")
+	aryName=Array("在线安装应用","新建插件","新建主题","开发者登录","主题列表","插件列表","检查更新")
+	aryValue=Array("server.asp","plugin_edit.asp","theme_edit.asp","login.asp","server.asp?action=catalog&cate=2","server.asp?action=catalog&cate=1","checkupdate.asp")
+	aryPos=Array("m-left","m-right","m-right","m-right","m-left","m-left","m-left")
 	Dim i 
 	For i=0 To Ubound(aryName)
 		Response.Write MakeSubMenu(aryName(i),aryValue(i),aryPos(i) & IIf(id=i," m-now",""),False)
 	Next
 End Sub
 
-
+Sub InitConfig
+	Set app_config=New TConfig
+	app_config.Load "AppCentre"
+	login_un=app_config.read("DevelopUserName")
+	login_pw=app_config.read("DevelopPassWord")
+End Sub
 
 Function AppCentre_GetLastModifiTime(dirpath)
 	Call AppCentre_BianLi(dirpath)
