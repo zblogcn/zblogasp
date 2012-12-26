@@ -1,6 +1,6 @@
 ﻿<%@ LANGUAGE="VBSCRIPT" CODEPAGE="65001"%>
 <% Option Explicit %>
-<% On Error Resume Next %>
+<% 'On Error Resume Next %>
 <% Response.Charset="UTF-8" %>
 <!-- #include file="../../c_option.asp" -->
 <!-- #include file="../../../ZB_SYSTEM/function/c_function.asp" -->
@@ -48,6 +48,8 @@ If ID="" Then
 Else
 
 	Call LoadThemeXmlInfo(ID)
+	If app_price="" Then app_price=0
+	app_modified=AppCentre_GetLastModifiTime(app_path)
 
 End If 
 
@@ -72,16 +74,16 @@ End If
 <tr><td><p><b>· 主题名称</b></p></td><td><p>&nbsp;<input id="app_name" name="app_name" style="width:550px;"  type="text" value="<%=app_name%>" /></p></td></tr>
 <tr><td><p><b>· 主题发布页面</b></p></td><td><p>&nbsp;<input id="app_url" name="app_url" style="width:550px;"  type="text" value="<%=app_url%>" /></p></td></tr>
 <tr><td><p><b>· 主题简介</b></p></td><td><p>&nbsp;<input id="app_note" name="app_note" style="width:550px;"  type="text" value="<%=app_note%>" /></p></td></tr>
-<tr><td><p><b>· 适用的 Z-Blog 版本</b></p></td><td>
+<tr><td><p><b>· 适用的最低要求 Z-Blog 版本</b></p></td><td>
 <p>&nbsp;<select name="app_adapted" id="app_adapted" style="width:400px;">
-    <option value="121221">Z-Blog 2.0 Doomsday Build 121221</option>
+    <option value="121221" selected="selected">Z-Blog 2.0 Doomsday Build 121221</option>
     <option value="121028">Z-Blog 2.0 Beta2 Build 121028</option>
     <option value="121001">Z-Blog 2.0 Beta1 Build 121001</option>
   </select></p>
 </td></tr>
-<tr><td><p><b>· 主题版本号</b></p></td><td><p>&nbsp;<input id="app_version" name="app_version" style="width:550px;"  type="text" value="<%=app_version%>" /></p></td></tr>
+<tr><td><p><b>· 主题版本号</b></p></td><td><p>&nbsp;<input id="app_version" name="app_version" style="width:550px;" type="number" step="0.1" value="<%=app_version%>" /></p></td></tr>
 <tr><td><p><b>· 主题首发时间</b><br/><span class="note">&nbsp;&nbsp;日期格式为2012-12-12</span></p></td><td><p>&nbsp;<input id="app_pubdate" name="app_pubdate" style="width:550px;"  type="text" value="<%=app_pubdate%>" /></p></td></tr>
-<tr><td><p><b>· 主题最后修改时间</b></p></td><td><p>&nbsp;<input id="app_modified" name="app_modified" style="width:550px;"  type="text" value="<%=app_modified%>" /></p></td></tr>
+<tr><td><p><b>· 主题最后修改时间</b><br/><span class="note">&nbsp;&nbsp;系统自动检查目录内文件的最后修改日期</span></p></td><td><p>&nbsp;<input id="app_modified" name="app_modified" style="width:550px;"  type="text" value="<%=app_modified%>" readonly="readonly" /></p></td></tr>
 
 <tr><td><p><b>· 作者名称</b></p></td><td><p>&nbsp;<input id="app_author_name" name="app_author_name" style="width:550px;"  type="text" value="<%=app_author_name%>" /></p></td></tr>
 <tr><td><p><b>· 作者邮箱</b></p></td><td><p>&nbsp;<input id="app_author_email" name="app_author_email" style="width:550px;"  type="text" value="<%=app_author_email%>" /></p></td></tr>
