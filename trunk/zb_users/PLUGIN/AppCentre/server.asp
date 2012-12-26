@@ -18,7 +18,7 @@ Call CheckReference("")
 If BlogUser.Level>1 Then Call ShowError(6)
 If CheckPluginState("AppCentre")=False Then Call ShowError(48)
 Call LoadPluginXmlInfo("AppCentre")
-Call InitConfig
+Call AppCentre_InitConfig
 
 %>
 <%
@@ -193,5 +193,10 @@ End Function
           </div>
         </div>
         <script type="text/javascript">ActiveLeftMenu("aAppcentre");</script> 
+<%
+	If login_pw<>"" Then
+		Response.Write "<script type='text/javascript'>$('div.SubMenu a[href=\'login.asp\']').hide();$('div.footer_nav p').html('&nbsp;&nbsp;&nbsp;<b>"&login_un&"</b>您好,欢迎来到APP应用中心!').css('visibility','inherit');</script>"
+	End If
+%>
         <!--#include file="..\..\..\zb_system\admin\admin_footer.asp"-->
 <%End If%>

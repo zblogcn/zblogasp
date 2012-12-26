@@ -48,7 +48,7 @@ Sub SubMenu(id)
 	Next
 End Sub
 
-Sub InitConfig
+Sub AppCentre_InitConfig
 	Set app_config=New TConfig
 	app_config.Load "AppCentre"
 	login_un=app_config.read("DevelopUserName")
@@ -57,24 +57,29 @@ End Sub
 
 Function AppCentre_GetLastModifiTime(dirpath)
 	Call AppCentre_BianLi(dirpath)
-	AppCentre_GetLastModifiTime=Year(AppCentre_LastModifiTime) &"-"&Month(AppCentre_LastModifiTime)&"-"&Day(AppCentre_LastModifiTime)
+
+	Dim i,j,d,nd
+
+	For Each i In AppCentre_LastModifiTime.Items
+
+	  d=i
+	  If nd="" Then nd=d
+	  If DateDiff("s",nd,d)>0 Then nd=d
+
+	Next
+
+	AppCentre_GetLastModifiTime=Year(nd) &"-"&Month(nd)&"-"&Day(nd)
 End Function
 
 Dim AppCentre_LastModifiTime
+Set AppCentre_LastModifiTime=CreateObject("Scripting.Dictionary")
 
 Function AppCentre_BianLi(Path) '遍历递归搜索所有文件
 	Dim Fso,ObjFolder,ObjFile 'Fso对象,子目录对象,文件对象
 	Set Fso=Server.CreateObject("scripting.filesystemObject") '创建FSO读写对象
-
-	If AppCentre_LastModifiTime="" Then AppCentre_LastModifiTime=Year(2000)
-
 	For Each ObjFile in Fso.GetFolder(Path).Files '读取当前目录下的文件
-		If DateDiff("s", ObjFile.DateLastModified, AppCentre_LastModifiTime)<0 Then 
-	
-			AppCentre_LastModifiTime=ObjFile.DateLastModified
-		End If
+		AppCentre_LastModifiTime.Add AppCentre_LastModifiTime.Count,ObjFile.DateLastModified
 	Next
-
 	For Each ObjFolder In Fso.GetFolder(Path).SubFolders '读取子目录
 		AppCentre_BianLi(Path & "\" & ObjFolder.Name) '调用递归搜索子目录完整路径
 	Next
@@ -192,7 +197,7 @@ Function LoadPluginXmlInfo(id)
 
 	On Error Resume Next
 
-	app_path=BlogPath & "zb_users/plugin" & "/" & id & "/"
+	app_path=BlogPath & "zb_users\plugin" & "\" & id & "\"
 
 	Dim objXmlFile,strXmlFile
 	Dim fso, s
@@ -261,7 +266,7 @@ Function LoadThemeXmlInfo(id)
 	Dim fso, s
 	Set fso = CreateObject("Scripting.FileSystemObject")
 
-	app_path=BlogPath & "zb_users/theme" & "/" & id & "/"
+	app_path=BlogPath & "zb_users\theme" & "\" & id & "\"
 
 	If fso.FileExists(BlogPath & "zb_users/theme" & "/" & id & "/" & "theme.xml") Then
 

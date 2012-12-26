@@ -1,6 +1,6 @@
 ﻿<%@ LANGUAGE="VBSCRIPT" CODEPAGE="65001"%>
 <% Option Explicit %>
-<% 'On Error Resume Next %>
+<% On Error Resume Next %>
 <% Response.Charset="UTF-8" %>
 <!-- #include file="../../c_option.asp" -->
 <!-- #include file="../../../ZB_SYSTEM/function/c_function.asp" -->
@@ -19,6 +19,7 @@ If BlogUser.Level>1 Then Call ShowError(6)
 
 If CheckPluginState("AppCentre")=False Then Call ShowError(48)
 
+Call AppCentre_InitConfig
 
 Dim ID
 
@@ -62,7 +63,7 @@ End If
     </div>
   <div class="divHeader"><%=BlogTitle%></div>
   <div class="SubMenu"> 
-	<%If ID="" Then Call SubMenu(2) Else Call SubMenu(-1) End If%>
+	<%If ID="" Then Call SubMenu(2) Else Call SubMenu(-1):Response.Write "<a href=""theme_pack.asp?id="&ID&""" target=""_blank""><span class=""m-right"">导出当前主题</span></a>" End If%>
   </div>
   <div id="divMain2">
 <form method="post" action="">
@@ -122,4 +123,9 @@ End If
   </div>
 </div>
    <script type="text/javascript">ActiveLeftMenu("aAppcentre");</script>
+<%
+	If login_pw<>"" Then
+		Response.Write "<script type='text/javascript'>$('div.SubMenu a[href=\'login.asp\']').hide();$('div.footer_nav p').html('&nbsp;&nbsp;&nbsp;<b>"&login_un&"</b>您好,欢迎来到APP应用中心!').css('visibility','inherit');</script>"
+	End If
+%>
 <!--#include file="..\..\..\zb_system\admin\admin_footer.asp"-->
