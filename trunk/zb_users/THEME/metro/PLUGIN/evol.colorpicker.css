@@ -77,11 +77,17 @@
 }
 .evo-colorind{
 	position:relative;
-	top:2px;
+	top:3px;
 }
 .evo-colorind-ie{
 	position:relative;
-	top:-23px;
+	_top:-30px;
+	+top:-30px;
+	top:4px\0;
+}
+:root .evo-colorind-ie{
+	position:relative;
+	top:3px\9;
 }
 .evo-colorbox-ie{
 	font-size:8px;
