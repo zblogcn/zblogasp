@@ -93,7 +93,7 @@ End Function
 '*********************************************************
 Function InstallApp(FilePath)
 	On Error Resume Next
-
+	InstallApp=False
 	Dim Install_Error
 	Dim Install_Path
 	Dim objXmlFile
@@ -109,6 +109,7 @@ Function InstallApp(FilePath)
 		
 	If objXmlFile.readyState<>4 Then
 		SetBlogHint_Custom "无法加载此文件！"
+		Exit Function
 	Else
 		If objXmlFile.parseError.errorCode <> 0 Then
 			SetBlogHint_Custom "该文件("&FilePath&")存在错误"
@@ -179,7 +180,7 @@ Function InstallApp(FilePath)
 			'End If
 
 			Call SetBlogHint_Custom("安装'<b>"& Pack_Name &" ("&Pack_ID&")</b>'成功!")
-
+			InstallApp=True
 		End If
 	End If
 		
