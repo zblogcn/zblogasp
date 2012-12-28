@@ -40,7 +40,8 @@ Call SetBlogHint_Custom("如果您的空间有打开过滤功能，千万不要�
 <!--#include file="..\..\..\zb_system\admin\admin_header.asp"-->
 <!--#include file="..\..\..\zb_system\admin\admin_top.asp"-->
         
-        <div id="divMain"><div id="ShowBlogHint"><%=GetBlogHint%></div>
+        <div id="divMain">
+          <div id="ShowBlogHint"><%=GetBlogHint%></div>
           <div class="divHeader"><%=BlogTitle%></div>
           <div class="SubMenu"><a href="setting.asp"><span class="m-left m-now">TotoroⅢ设置</span></a><a href="regexptest.asp"><span class="m-right">黑词测试</span></a><a href="onlinetest.asp"><span class="m-right">模拟测试</span></a></div>
           <div id="divMain2">
@@ -54,6 +55,7 @@ Call SetBlogHint_Custom("如果您的空间有打开过滤功能，千万不要�
                   <li><a href="#tab2"><span>过滤列表设置</span></a></li>
                   <li><a href="#tab4"><span>过滤设置</span></a></li>
                   <li><a href="#tab5"><span>提示语设置</span></a></li>
+                  <li><a href="#tab6"><span>其他设置</span></a></li>
                   <li><a href="#tab3"><span>关于TotoroⅢ</span></a></li>
                 </ul>
                 <div class="clear"></div>
@@ -137,13 +139,17 @@ Call SetBlogHint_Custom("如果您的空间有打开过滤功能，千万不要�
 %>
               <div class="tab-content" style='border:none;padding:0px;margin:0;' id="tab2">
                 <table width='100%' style='padding:0px;margin:1px;' cellspacing='0' cellpadding='0'>
-                <tr><td height="40">过滤IP(分隔符'|')</td></tr>
-                <tr><td><%
+                  <tr>
+                    <td height="40">过滤IP(分隔符'|')</td>
+                  </tr>
+                  <tr>
+                    <td><%
                 	Dim strTOTORO_FILTERIP
 	strTOTORO_FILTERIP=Totoro_Config.Read("TOTORO_FILTERIP")
 		strTOTORO_FILTERIP=TransferHTML(strTOTORO_FILTERIP,"[html-format]")
 		Response.Write "<textarea rows=""6"" name=""strTOTORO_FILTERIP"" style=""width:99%"" >"& strTOTORO_FILTERIP &"</textarea>"
-%></td></tr>
+%></td>
+                  </tr>
                   <tr>
                     <td height="40">黑词列表(请使用正则,最后一个字符不能是|):</td>
                   </tr>
@@ -179,36 +185,43 @@ Call SetBlogHint_Custom("如果您的空间有打开过滤功能，千万不要�
                   </tr>
                   <tr height='32'>
                     <td>自动转换火星文</td>
-                    <td><%	Response.Write "<input name=""bolTOTORO_ConHuoxingwen"" id=""bolTOTORO_ConHuoxingwen"" type=""text"" class=""checkbox"" value="""&CStr(Totoro_Config.Read("TOTORO_ConHuoxingwen"))&""""%>></td>
+                    <td><%	Response.Write "<input name=""bolTOTORO_ConHuoxingwen"" id=""bolTOTORO_ConHuoxingwen"" type=""text"" class=""checkbox"" value="""&CStr(Totoro_Config.Read("TOTORO_ConHuoxingwen"))&""""%>
+                      ></td>
                     <td>将把希腊文俄文字母、罗马数字、列表符、全角字符、汉语拼音、菊花文、西欧字符转换为半角英文字母、半角数字、半角符号再进行反spam测试，不影响实际显示的评论</td>
                   </tr>
                   <tr height='32'>
                     <td>简繁转换</td>
-                    <td><%	Response.Write "<input name=""bolTOTORO_TRANTOSIMP"" id=""bolTOTORO_TRANTOSIMP"" type=""text"" class=""checkbox"" value="""&CStr(Totoro_Config.Read("TOTORO_TRANTOSIMP"))&""""%>></td>
+                    <td><%	Response.Write "<input name=""bolTOTORO_TRANTOSIMP"" id=""bolTOTORO_TRANTOSIMP"" type=""text"" class=""checkbox"" value="""&CStr(Totoro_Config.Read("TOTORO_TRANTOSIMP"))&""""%>
+                      ></td>
                     <td>将把繁体字转换为简化字再进行反spam测试，不影响实际显示的评论</td>
                   </tr>
                   <tr height='32'>
                     <td>后台审核</td>
-                    <td><%	Response.Write "<input name=""bolTOTORO_DEL_DIRECTLY"" id=""bolTOTORO_DEL_DIRECTLY"" type=""text"" class=""checkbox"" value="""&CStr(Totoro_Config.Read("TOTORO_DEL_DIRECTLY"))&""""%>></td>
+                    <td><%	Response.Write "<input name=""bolTOTORO_DEL_DIRECTLY"" id=""bolTOTORO_DEL_DIRECTLY"" type=""text"" class=""checkbox"" value="""&CStr(Totoro_Config.Read("TOTORO_DEL_DIRECTLY"))&""""%>
+                      ></td>
                     <td>点击[<img src="<%=BlogHost%>zb_system/image/admin/minus-shield.png" alt="加入审核"/>]提取域名后直接删除评论（若不删除则进入审核）</td>
                   </tr>
                   <tr height='32'>
                     <td>标点过滤</td>
-                    <td><%	Response.Write "<input name=""bolTOTORO_PM"" id=""bolTOTORO_PM"" type=""text"" class=""checkbox"" value="""&CStr(Totoro_Config.Read("TOTORO_PM"))&""""%>></td>
+                    <td><%	Response.Write "<input name=""bolTOTORO_PM"" id=""bolTOTORO_PM"" type=""text"" class=""checkbox"" value="""&CStr(Totoro_Config.Read("TOTORO_PM"))&""""%>
+                      ></td>
                     <td>把大部分标点和HTML代码过滤再进行反spam测试，不影响实际显示的评论</td>
                   </tr>
                 </table>
-                
               </div>
-                  <div class="tab-content" style='border:none;padding:0px;margin:0;' id="tab5">
-                      <table width='100%' style='padding:0px;margin:1px;' cellspacing='0' cellpadding='0'>
-                <tr><td height="40">评论被过滤时的提示</td></tr>
-                <tr><td><%
+              <div class="tab-content" style='border:none;padding:0px;margin:0;' id="tab5">
+                <table width='100%' style='padding:0px;margin:1px;' cellspacing='0' cellpadding='0'>
+                  <tr>
+                    <td height="40">评论被过滤时的提示</td>
+                  </tr>
+                  <tr>
+                    <td><%
                 	Dim strTOTORO_CHECKSTR
 	strTOTORO_CHECKSTR=Totoro_Config.Read("TOTORO_CHECKSTR")
 		strTOTORO_CHECKSTR=TransferHTML(strTOTORO_CHECKSTR,"[html-format]")
 		Response.Write "<textarea rows=""6"" name=""strTOTORO_CHECKSTR"" style=""width:99%"" >"& strTOTORO_CHECKSTR &"</textarea>"
-%></td></tr>
+%></td>
+                  </tr>
                   <tr>
                     <td height="40">评论被拦截时的提示</td>
                   </tr>
@@ -234,7 +247,7 @@ Call SetBlogHint_Custom("如果您的空间有打开过滤功能，千万不要�
 %></td>
                   </tr>
                 </table>
-                  </div>
+              </div>
               <div class="tab-content" style='border:none;padding:0px;margin:0;' id="tab3">
                 <dl class="totoro">
                   <dd>Totoro是个采用评分机制的防止垃圾留言的插件，原作<a href="http://www.rainbowsoft.org/" target="_blank">zx.asd</a>。<br/>
@@ -245,7 +258,14 @@ Call SetBlogHint_Custom("如果您的空间有打开过滤功能，千万不要�
                   <dd></dd>
                 </dl>
               </div>
+              <div class="tab-content default-tab" style='border:none;padding:0px;margin:0;' id="tab6">
+               <dl class="totoro">
+              <dd>若您的配置因为主机的关键词过滤而失效，您可以点击右侧按钮初始化Totoro设置以修复。<input style="float:right" class="button" type="button" value="初始化Totoro设置" onclick="if(confirm('您确定要初始化Totoro设置吗？该操作不可逆！')){$('#edit').attr('action','savesetting.asp?act=delall');$('#edit').submit()}"/></dd>
+              <dd></dd>
+              </dl>
               </div>
+              </div>
+              
               <!-- End .content-box-content -->
               
               </div>
@@ -295,7 +315,7 @@ function ChangeValue(obj){
 
 
 </script> 
-<script type="text/javascript">ActiveLeftMenu("aCommentMng");</script>
+        <script type="text/javascript">ActiveLeftMenu("aCommentMng");</script> 
       </div>
     </div>
     <!--#include file="..\..\..\zb_system\admin\admin_footer.asp"-->

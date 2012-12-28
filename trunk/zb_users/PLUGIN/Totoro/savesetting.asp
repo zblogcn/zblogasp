@@ -31,7 +31,15 @@ If BlogUser.Level>1 Then Call ShowError(6)
 
 If CheckPluginState("Totoro")=False Then Call ShowError(48)
 
-	Call Totoro_Initialize
+Call Totoro_Initialize
+	
+	
+	
+If Request.QueryString("act")="delall" Then
+	Totoro_Config.Delete
+	Call SetBlogHint_Custom("配置初始化成功")
+Else
+	
 	Totoro_Config.Write "TOTORO_INTERVAL_VALUE",Request.Form("strZC_TOTORO_INTERVAL_VALUE")
 	Totoro_Config.Write "TOTORO_BADWORD_VALUE",Request.Form("strZC_TOTORO_BADWORD_VALUE")
 	Totoro_Config.Write "TOTORO_HYPERLINK_VALUE",Request.Form("strZC_TOTORO_HYPERLINK_VALUE")
@@ -50,12 +58,14 @@ If CheckPluginState("Totoro")=False Then Call ShowError(48)
 	Totoro_Config.Write "TOTORO_FILTERIP",Request.Form("strTOTORO_FILTERIP")
 	Totoro_Config.Write "TOTORO_PM",Request.Form("bolTOTORO_PM")
 	Totoro_Config.Write "TOTORO_TRANTOSIMP",Request.Form("bolTOTORO_TRANTOSIMP")
-    Totoro_Config.Write "TOTORO_THROWSTR",Replace(Replace(Request.Form("strTOTORO_THROWSTR"),vbCrlf,""),vbLf,"")
-    Totoro_Config.Write "TOTORO_KILLIPSTR",Replace(Replace(Request.Form("strTOTORO_KILLIPSTR"),vbCrlf,""),vbLf,"")
-    Totoro_Config.Write "TOTORO_CHECKSTR",Replace(Replace(Request.Form("strTOTORO_CHECKSTR"),vbCrlf,""),vbLf,"")
+	Totoro_Config.Write "TOTORO_THROWSTR",Replace(Replace(Request.Form("strTOTORO_THROWSTR"),vbCrlf,""),vbLf,"")
+	Totoro_Config.Write "TOTORO_KILLIPSTR",Replace(Replace(Request.Form("strTOTORO_KILLIPSTR"),vbCrlf,""),vbLf,"")
+	Totoro_Config.Write "TOTORO_CHECKSTR",Replace(Replace(Request.Form("strTOTORO_CHECKSTR"),vbCrlf,""),vbLf,"")
 	Totoro_Config.Save
 	Set Totoro_Config=Nothing
-Call SetBlogHint_Custom("配置保存成功！强烈建议去<a href='onlinetest.asp'>对配置进行一次测试！</a>")
+	Call SetBlogHint_Custom("配置保存成功！强烈建议去<a href='onlinetest.asp'>对配置进行一次测试！</a>")
+	
+End If
 Call System_Terminate()
 
 If Err.Number<>0 then
