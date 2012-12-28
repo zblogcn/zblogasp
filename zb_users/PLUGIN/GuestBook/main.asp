@@ -79,7 +79,7 @@ If Not objRs.Eof Then Call SetBlogHint_Custom("检测到有1.8的留言未升级
 Set objRs=objConn.Execute("SELECT [log_ID],[log_Title] FROM [blog_Article] WHERE [log_Type]=1")
 Do Until objRs.Eof
 %>
-<p><label><input type="radio"  name="id"  value="<%=objRs("log_ID")%>"<%=IIf(CStr(objConfig.Read("g"))=CStr(objRs("log_ID"))," checked=""checked"" ","")%>/><%=objRs("log_Title")%> （ID=<%=objRs("log_ID")%>）</label></p>
+<p><label><input type="radio"  name="id"  value="<%=objRs("log_ID")%>"<%=IIf(CStr(objConfig.Read("g"))=CStr(objRs("log_ID"))," checked=""checked"" ","")%>/>  &nbsp;<%=objRs("log_Title")%> （ID=<%=objRs("log_ID")%>）</label></p>
 <%
 objRs.MoveNext
 Loop
