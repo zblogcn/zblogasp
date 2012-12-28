@@ -354,6 +354,7 @@ End Function
 
 
 Function Totoro_checkBadWord(ByVal content)
+	On Error Resume Next
 	If Totoro_SV+TOTORO_BADWORD_VALUE=0 Then Exit Function
 	Dim o
 	Set o=New RegExp
@@ -362,18 +363,27 @@ Function Totoro_checkBadWord(ByVal content)
 	o.IgnoreCase=True
 	dim matches
 	set matches=o.execute(content)
-	Totoro_SV=Totoro_SV+TOTORO_BADWORD_VALUE*matches.count
+	If Err.Number=0 Then
+		Totoro_SV=Totoro_SV+TOTORO_BADWORD_VALUE*matches.count
+	Else
+		Totoro_AddDebug "黑词列表错误"
+	End If
 	Set o=Nothing
 End Function
 
 Function Totoro_replaceWord(content)
+	On Error Resume Next
 	Dim o
 	If TOTORO_REPLACE_LIST="" Then Totoro_replaceWord=content:Exit Function
 	Set o=New RegExp
 	o.Pattern=TOTORO_REPLACE_LIST
 	o.Global=True
 	o.IgnoreCase=True
-	Totoro_replaceWord=o.replace(content,TOTORO_REPLACE_KEYWORD)
+	If Err.Number=0 Then
+		Totoro_replaceWord=o.replace(content,TOTORO_REPLACE_KEYWORD)
+	Else
+		Totoro_AddDebug "敏感词列表错误"
+	End If
 	Set o=Nothing
 End Function
 
@@ -398,15 +408,22 @@ End Function
 
 
 Function Totoro_checkInterval(ByVal ip)
-
+	On Error Resume Next
 	If TOTORO_INTERVAL_VALUE=0 Then Exit Function
 	Dim i,j,t,s,m,n
 	Dim objRS
+	i=0
 	m="SELECT COUNT([comm_ID]) FROM [blog_Comment] WHERE [comm_IP] ='" & ip & "'"
+	
 	m=m&" AND [comm_PostTime]>"&ZC_SQL_POUND_KEY& FormatDateTime( DateAdd("h", -1, now) ) &ZC_SQL_POUND_KEY
 	Set objRS=objConn.Execute(m)
-	If (Not objRS.bof) And (Not objRS.eof) Then
-		i=objRS(0)
+	If Err.Number=0 Then
+		If (Not objRS.bof) And (Not objRS.eof) Then
+			i=objRS(0)
+		End If
+	Else
+		i=0
+		Totoro_AddDebug "时间格式可能有误"
 	End If
 	Set objRS=Nothing
 	If i>0 Then

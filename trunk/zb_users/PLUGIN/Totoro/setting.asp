@@ -35,6 +35,7 @@ If CheckPluginState("Totoro")=False Then Call ShowError(48)
 
 BlogTitle="TotoroⅢ（基于TotoroⅡ的Z-Blog的评论管理审核系统增强版）"
 
+Call SetBlogHint_Custom("如果您的空间有打开过滤功能，千万不要对本页面进行任何修改，否则您配置的黑词极有可能会失效！")
 %>
 <!--#include file="..\..\..\zb_system\admin\admin_header.asp"-->
 <!--#include file="..\..\..\zb_system\admin\admin_top.asp"-->
@@ -176,22 +177,22 @@ BlogTitle="TotoroⅢ（基于TotoroⅡ的Z-Blog的评论管理审核系统增强
                     <td width='50'>开关</td>
                     <td>详细说明</td>
                   </tr>
-                  <tr>
+                  <tr height='32'>
                     <td>自动转换火星文</td>
                     <td><%	Response.Write "<input name=""bolTOTORO_ConHuoxingwen"" id=""bolTOTORO_ConHuoxingwen"" type=""text"" class=""checkbox"" value="""&CStr(Totoro_Config.Read("TOTORO_ConHuoxingwen"))&""""%>></td>
                     <td>将把希腊文俄文字母、罗马数字、列表符、全角字符、汉语拼音、菊花文、西欧字符转换为半角英文字母、半角数字、半角符号再进行反spam测试，不影响实际显示的评论</td>
                   </tr>
-                  <tr>
+                  <tr height='32'>
                     <td>简繁转换</td>
                     <td><%	Response.Write "<input name=""bolTOTORO_TRANTOSIMP"" id=""bolTOTORO_TRANTOSIMP"" type=""text"" class=""checkbox"" value="""&CStr(Totoro_Config.Read("TOTORO_TRANTOSIMP"))&""""%>></td>
                     <td>将把繁体字转换为简化字再进行反spam测试，不影响实际显示的评论</td>
                   </tr>
-                  <tr>
-                    <td>“这是SPAM”</td>
+                  <tr height='32'>
+                    <td>后台审核</td>
                     <td><%	Response.Write "<input name=""bolTOTORO_DEL_DIRECTLY"" id=""bolTOTORO_DEL_DIRECTLY"" type=""text"" class=""checkbox"" value="""&CStr(Totoro_Config.Read("TOTORO_DEL_DIRECTLY"))&""""%>></td>
-                    <td>点击[这是SPAM]按钮提取域名后直接删除评论（若不删除则进入审核）</td>
+                    <td>点击[<img src="<%=BlogHost%>zb_system/image/admin/minus-shield.png" alt="加入审核"/>]提取域名后直接删除评论（若不删除则进入审核）</td>
                   </tr>
-                  <tr>
+                  <tr height='32'>
                     <td>标点过滤</td>
                     <td><%	Response.Write "<input name=""bolTOTORO_PM"" id=""bolTOTORO_PM"" type=""text"" class=""checkbox"" value="""&CStr(Totoro_Config.Read("TOTORO_PM"))&""""%>></td>
                     <td>把大部分标点和HTML代码过滤再进行反spam测试，不影响实际显示的评论</td>
@@ -238,7 +239,7 @@ BlogTitle="TotoroⅢ（基于TotoroⅡ的Z-Blog的评论管理审核系统增强
                 <dl class="totoro">
                   <dd>Totoro是个采用评分机制的防止垃圾留言的插件，原作<a href="http://www.rainbowsoft.org/" target="_blank">zx.asd</a>。<br/>
                     TotoroⅡ是<a href="http://ZxMYS.COM" target="_blank">Zx.MYS</a>在Totoro的基础上修改而成的增强版，加入了诸多新特性，同时修正一些问题。<br/>
-                    TotoroⅢ是由<a href="http://www.zsxsoft.com" target="_blank">ZSXSOFT</a>将TotoroII升级到2.0版本后增添新特性的版本。</dd>
+                    TotoroⅢ是由<a href="http://www.zsxsoft.com" target="_blank">zsx</a>将TotoroII升级到2.0版本后增添新特性的版本。</dd>
                   <dd>Spam Value(SV)初始值为0，经过相关运算后的SV分值越高Spam嫌疑越大，超过设定的阈值这条评论就进入审核状态或直接被删除。</dd>
                   <dd>配置完成之后，请一定要测试，切记切记！</dd>
                   <dd></dd>
