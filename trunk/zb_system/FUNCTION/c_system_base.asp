@@ -2148,7 +2148,10 @@ End Function
 '*********************************************************
 ' 目的： 激活插件函数
 '*********************************************************
+Dim IsRunActivePlugin
 Function ActivePlugin()
+
+	If IsRunActivePlugin=True Then Exit Function
 
 	On Error Resume Next
 
@@ -2160,6 +2163,8 @@ Function ActivePlugin()
 	Next
 
 	Err.Clear
+
+	IsRunActivePlugin=True
 
 End Function
 '*********************************************************

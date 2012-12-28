@@ -1004,7 +1004,7 @@ Class TArticle
 			End If
 			
 			s=GetTemplate("TEMPLATE_B_ARTICLE_COMMENT_PAGEBAR")
-			s=Replace(s,"<#template:pagebar#>",lp&rp&"<div style=""display:none;clear:both;""></div>")
+			s=Replace(s,"<#template:pagebar#>",lp&rp&"")
 		End If
 
 		Template_Article_Comment="<ins id=""AjaxCommentBegin"" style=""display:none;clear:both;""></ins>" & Template_Article_Comment & s &"<ins id=""AjaxCommentEnd"" style=""display:none;clear:both;""></ins>"
@@ -3002,7 +3002,7 @@ Class TUser
 
 		PassWord=MD5(Password & Guid)
 
-		If (Level=1) Then Call ShowError(16)
+		If (Level<=1) Then Call ShowError(16)
 		If (Name="") Then Call ShowError(7)
 		If Len(Name) >ZC_USERNAME_MAX Then Call ShowError(7)
 		If Not CheckRegExp(Name,"[username]") Then Call ShowError(7)
