@@ -47,6 +47,12 @@ If Request.QueryString("act")="save" Then
 		SetBlogHint_Custom("用户名或密码输入错误!")
 		Response.Redirect "login.asp"
 	End If
+ElseIf Request.QueryString("act")="logout" Then
+
+	app_config.Write "DevelopUserName",""
+	app_config.Write "DevelopPassWord",""
+	app_config.Save
+	Response.Redirect "login.asp"
 
 End If
 %>
