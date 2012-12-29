@@ -115,7 +115,7 @@ End If
 
 
 </table>
-<p> 提示:主题的缩略图是名为ScreenShot.png的320x240px大小的png文件,放在插件的目录下.</p>
+<p> 提示:主题的缩略图是名为ScreenShot.png的<b>320x240px</b>大小的png文件,放在插件的目录下.</p>
 <p><br/><input type="submit" class="button" value="提交" id="btnPost" onclick='' /></p><p>&nbsp;</p>
 
 

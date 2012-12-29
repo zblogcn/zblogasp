@@ -112,7 +112,7 @@ End If
 
 
 </table>
-<p> 提示:插件的图标是名为Logo.png的96x96px大小的png文件,插件的缩略图是名为ScreenShot.png的320x240px大小的png文件,放在插件的目录下.</p>
+<p> 提示:插件的图标是名为Logo.png的<b>128x128px</b>大小的png文件,插件的缩略图是名为ScreenShot.png的<b>320x240px</b>大小的png文件,放在插件的目录下.</p>
 <p><br/><input type="submit" class="button" value="提交" id="btnPost" onclick='' /></p><p>&nbsp;</p>
 
 
