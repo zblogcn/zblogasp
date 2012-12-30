@@ -67,7 +67,7 @@ BlogTitle="应用中心-登录"
           </div>
           <div class="divHeader">应用中心</div>
           <div class="SubMenu">
-            <%SubMenu(3)%>
+            <%AppCentre_SubMenu(3)%>
           </div>
           <div id="divMain2" style="margin:auto 0;">
             <form action="?act=save" method="post">

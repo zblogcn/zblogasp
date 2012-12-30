@@ -33,7 +33,7 @@ BlogTitle="应用中心"
     </div>
   <div class="divHeader"><%=BlogTitle%></div>
   <div class="SubMenu"> 
-	<%Call SubMenu(2)%>
+	<%Call AppCentre_SubMenu(2)%>
   </div>
   <div id="divMain2">
    <script type="text/javascript">ActiveLeftMenu("aPlugInMng");</script>
