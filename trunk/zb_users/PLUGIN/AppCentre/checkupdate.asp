@@ -19,6 +19,36 @@ Call CheckReference("")
 '检查权限
 If BlogUser.Level>1 Then Call ShowError(6)
 If CheckPluginState("AppCentre")=False Then Call ShowError(48)
+
+
+Dim s,id
+AppCentre_InitConfig
+s=disableupdate_theme
+
+Select Case Request.QueryString("act")
+Case "dut"
+
+	id=Request.QueryString("id")
+
+	If InStr(s,id & ":")=0 Then
+		s=s & id & ":"
+	End If
+	app_config.Write "DisableUpdateTheme",s
+	app_config.Save
+
+	Response.Redirect BlogHost & "zb_system/cmd.asp?act=ThemeMng"
+Case "eut"
+
+	id=Request.QueryString("id")
+
+	If InStr(s,id & ":")>0 Then
+		s=Replace(s,id & ":","")
+	End If
+	app_config.Write "DisableUpdateTheme",s
+	app_config.Save
+
+	Response.Redirect BlogHost & "zb_system/cmd.asp?act=ThemeMng"
+End Select
 %>
 <!--#include file="..\..\..\zb_system\admin\admin_header.asp"-->
 <!--#include file="..\..\..\zb_system\admin\admin_top.asp"-->
@@ -28,7 +58,7 @@ If CheckPluginState("AppCentre")=False Then Call ShowError(48)
           </div>
           <div class="divHeader">应用中心</div>
           <div class="SubMenu">
-            <%SubMenu(3)%>
+            <%AppCentre_SubMenu(3)%>
           </div>
           <div id="divMain2">
             <%

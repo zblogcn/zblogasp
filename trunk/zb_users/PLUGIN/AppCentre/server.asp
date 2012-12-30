@@ -158,7 +158,7 @@ Response.Write aryTest(Ubound(aryTest))
           </div>
           <div class="divHeader">应用中心</div>
           <div class="SubMenu">
-            <%SubMenu(intHighlight)%>
+            <%AppCentre_SubMenu(intHighlight)%>
           </div>
           <div id="divMain2"> 
 <%=strWrite%>

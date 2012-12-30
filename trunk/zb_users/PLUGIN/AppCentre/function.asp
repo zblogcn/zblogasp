@@ -3,7 +3,7 @@ Const APPCENTRE_URL="http://app.rainbowsoft.org/"
 Const APPCENTRE_UPDATE_URL="http://app.rainbowsoft.org/appcentre.asp?act=checkupdate"
 
 Dim app_config
-Dim login_un,login_pw
+Dim login_un,login_pw,disableupdate_theme
 Dim Pack_For,Pack_Type
 
 Dim app_id
@@ -37,7 +37,7 @@ Dim app_conflict
 Dim app_path
 
 
-Sub SubMenu(id)
+Sub AppCentre_SubMenu(id)
 	Dim aryName,aryValue,aryPos
 	aryName=Array("在线安装应用","新建插件","新建主题","开发者登录","主题列表","插件列表","检查更新")
 	aryValue=Array("server.asp","plugin_edit.asp","theme_edit.asp","login.asp","server.asp?action=catalog&cate=2","server.asp?action=catalog&cate=1","checkupdate.asp")
@@ -53,6 +53,7 @@ Sub AppCentre_InitConfig
 	app_config.Load "AppCentre"
 	login_un=app_config.read("DevelopUserName")
 	login_pw=app_config.read("DevelopPassWord")
+	disableupdate_theme=app_config.read("DisableUpdateTheme")
 End Sub
 
 Function AppCentre_GetLastModifiTime(dirpath)
