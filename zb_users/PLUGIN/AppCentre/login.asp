@@ -71,9 +71,9 @@ BlogTitle="应用中心-登录"
           </div>
           <div id="divMain2" style="margin:auto 0;">
             <form action="?act=save" method="post">
-              <table width="60%" border="0">
+              <table style="margin-left:25%;margin-top:5em;margin-right:25%;line-height:3em;" width="50%" border="0">
                 <tr height="32">
-                  <td colspan="2" align="center">开发者请在这里填写您在"APP应用中心"的用户名和密码,并点登陆。</td>
+                  <th colspan="2" align="center">开发者请填写您在"APP应用中心"的用户名和密码并点登陆</td>
                 </tr>
                 <tr height="32" align="center">
                   <td>用户名</td>
@@ -84,7 +84,7 @@ BlogTitle="应用中心-登录"
                   <td><input type="password" name="app_password" value="" style="width:90%" /></td>
                 </tr>
                 <tr height="32" align="center">
-                  <td colspan="2" align="center"><input type="submit" value="提交" class="button" /></td>
+                  <td colspan="2" align="center"><input type="submit" value="登陆" class="button" /></td>
                 </tr>
               </table>
 
@@ -96,4 +96,5 @@ BlogTitle="应用中心-登录"
 		Response.Write "<script type='text/javascript'>$('div.SubMenu a[href=\'login.asp\']').hide();</script>"
 	End If
 %>
+<script type="text/javascript">ActiveLeftMenu("aAppcentre");</script>
 <!--#include file="..\..\..\zb_system\admin\admin_footer.asp"-->
