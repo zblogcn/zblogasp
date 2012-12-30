@@ -129,15 +129,24 @@ End Function
 
 
 Function GetAllThemeName
+	Dim aryTheme,bolFound
+	bolFound=False
+	aryTheme=Split(LCase(disableupdate_theme),":")
 	Dim aryReturn()
 	Redim aryReturn(0)
-	Dim fso,f,fc,f1
+	Dim fso,f,fc,f1,f2
 	Set fso = CreateObject("Scripting.FileSystemObject")
 	Set f = fso.GetFolder(BlogPath & "zb_users/theme" & "/")
 	Set fc = f.SubFolders
 	For Each f1 In fc
-		Redim Preserve aryReturn(Ubound(aryReturn)+1)
-		aryReturn(Ubound(aryReturn))=f1.Name
+		For f2=0 To Ubound(aryTheme)
+			If aryTheme(f2)=LCase(f1.Name) Then bolFound=True:Exit For
+		Next
+		If bolFound=False Then
+			Redim Preserve aryReturn(Ubound(aryReturn)+1)
+			aryReturn(Ubound(aryReturn))=f1.Name
+		End If
+		bolFound=False
 	Next
 	GetAllThemeName=aryReturn
 End Function
