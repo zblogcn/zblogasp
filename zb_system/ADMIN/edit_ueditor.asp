@@ -42,7 +42,7 @@ Dim IsPage
 
 IsPage=Request.QueryString("type")="Page"
 
-If IsPage Then If Not CheckRights("Root") Then Call ShowError(6)
+If IsPage Then If CheckRights("Root")=False And CheckRights("ArticleAll")=False Then Call ShowError(6)
 
 Dim EditArticle
 Set EditArticle=New TArticle
@@ -50,7 +50,7 @@ Set EditArticle=New TArticle
 If Not IsEmpty(Request.QueryString("id")) Then
 	If EditArticle.LoadInfobyID(Request.QueryString("id")) Then
 		If EditArticle.AuthorID<>BlogUser.ID Then
-			If CheckRights("Root")=False Then
+			If CheckRights("Root")=False And CheckRights("ArticleAll")=False Then
 				Call ShowError(6)
 			End If
 		End If
@@ -269,7 +269,7 @@ End If
 	For Each User in Users
 		If IsObject(User) Then
 			If User.Level<4 Then
-			If CheckRights("Root")=True Then
+			If CheckRights("Root")=True Or CheckRights("ArticleAll")=True Then
 				Response.Write "<option value="""&User.ID&""" "
 				If User.ID=EditArticle.AuthorID Then
 					Response.Write "selected=""selected"""

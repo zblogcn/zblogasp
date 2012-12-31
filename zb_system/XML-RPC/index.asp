@@ -161,7 +161,7 @@ Function this_getRecentPosts(numberOfPosts)
 	objRS.ActiveConnection=objConn
 	objRS.Source=""
 
-	If CheckRights("Root")=False Then strSQL="WHERE [log_AuthorID] = " & BlogUser.ID
+	If CheckRights("Root")=False And CheckRights("ArticleAll")=False Then strSQL="WHERE [log_AuthorID] = " & BlogUser.ID
 
 	objRS.Open("SELECT [log_ID] FROM [blog_Article] "& strSQL &" ORDER BY [log_PostTime] DESC")
 	objRS.PageSize=numberOfPosts
@@ -324,7 +324,7 @@ Function this_editPost(intPostID,structPost,bolPublish)
 	Set objArticle=New TArticle
 
 	If objArticle.LoadInfoByID(intPostID) Then
-		If Not((objArticle.AuthorID=BlogUser.ID) Or (CheckRights("Root")=True)) Then Call RespondError(6,ZVA_ErrorMsg(6))
+		If Not((objTestArticle.AuthorID=BlogUser.ID) Or (CheckRights("Root")=True) Or (CheckRights("ArticleAll")=True)) Then Call RespondError(6,ZVA_ErrorMsg(6))
 	Else
 		Call RespondError(9,ZVA_ErrorMsg(9))
 	End If
@@ -523,7 +523,7 @@ Function this_deletePost(intPostID)
 	Set objArticle=New TArticle
 
 	If objArticle.LoadInfoByID(intPostID) Then
-		If Not((objArticle.AuthorID=BlogUser.ID) Or (CheckRights("Root")=True)) Then Call RespondError(6,ZVA_ErrorMsg(6))
+		If Not((objTestArticle.AuthorID=BlogUser.ID) Or (CheckRights("Root")=True) Or (CheckRights("ArticleAll")=True)) Then Call RespondError(6,ZVA_ErrorMsg(6))
 	Else
 		Call RespondError(9,ZVA_ErrorMsg(9))
 	End If
