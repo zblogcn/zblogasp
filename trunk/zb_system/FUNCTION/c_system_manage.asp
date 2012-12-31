@@ -138,7 +138,7 @@ Function ExportArticleList(intPage,intCate,intLevel,intTitle)
 
 	strSQL="WHERE ([log_Type]=0) AND ([log_Level]>0) AND (1=1) "
 
-	If CheckRights("Root")=False Then strSQL= strSQL & "AND [log_AuthorID] = " & BlogUser.ID
+	If CheckRights("Root")=False And CheckRights("ArticleAll")=False Then strSQL= strSQL & "AND [log_AuthorID] = " & BlogUser.ID
 
 	If intCate<>-1 Then
 		Dim strSubCateID : strSubCateID=Join(GetSubCateID(intCate,True),",")
@@ -293,7 +293,7 @@ Call Add_Response_Plugin("Response_Plugin_ArticleMng_SubMenu",MakeSubMenu(ZC_MSG
 
 	strSQL="WHERE ([log_Type]=1) AND ([log_Level]>0) AND (1=1) "
 
-	If CheckRights("Root")=False Then strSQL= strSQL & "AND [log_AuthorID] = " & BlogUser.ID
+	If CheckRights("Root")=False And CheckRights("ArticleAll")=False Then strSQL= strSQL & "AND [log_AuthorID] = " & BlogUser.ID
 
 	If intCate<>-1 Then
 		Dim strSubCateID : strSubCateID=Join(GetSubCateID(intCate,True),",")
@@ -504,7 +504,7 @@ Function ExportCommentList(intPage,intContent,isCheck)
 		strSQL=strSQL&" WHERE  ([log_ID]>0) AND ([comm_isCheck]=0) "
 	End If
 	
-	If CheckRights("Root")=False Then
+	If CheckRights("Root")=False And CheckRights("CommentAll")=False Then
 		strSQL=strSQL & "AND( ([comm_AuthorID] = " & BlogUser.ID & " ) OR ((SELECT [log_AuthorID] FROM [blog_Article] WHERE [blog_Article].[log_ID]=[blog_Comment].[log_ID])=" & BlogUser.ID & " )) "
 	End If
 
@@ -735,7 +735,7 @@ Function ExportFileList(intPage)
 	objRS.ActiveConnection=objConn
 	objRS.Source=""
 
-	If CheckRights("Root")=False Then strSQL="WHERE [ul_AuthorID] = " & BlogUser.ID
+	If CheckRights("Root")=False And CheckRights("FileAll")=False Then strSQL="WHERE [ul_AuthorID] = " & BlogUser.ID
 
 	Response.Write "<table border=""1"" width=""100%"" cellspacing=""0"" cellpadding=""0"" class=""tableBorder tableBorder-thcenter"">"
 	Response.Write "<tr><th width='5%'>"& ZC_MSG076 &"</th><th width='10%'>"& ZC_MSG003 &"</th><th width=''>"& ZC_MSG001 &"</th><th width='12%'>"& ZC_MSG041 &"</th><th width='12%'>"& ZC_MSG075 &"</th><th width='5%'></th><th width='5%'><a href='' onclick='BatchSelectAll();return false'>"& ZC_MSG229 &"</a></th></tr>"

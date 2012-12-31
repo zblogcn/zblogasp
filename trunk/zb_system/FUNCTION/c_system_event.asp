@@ -129,7 +129,7 @@ Function DelFile(intID)
 
 	If objUpLoadFile.LoadInfoByID(intID) Then
 
-		If (objUpLoadFile.AuthorID=BlogUser.ID) Or (CheckRights("Root")=True) Then
+		If (objUpLoadFile.AuthorID=BlogUser.ID) Or (CheckRights("Root")=True)  Or (CheckRights("FileAll")=True) Then
 			If objUpLoadFile.Del Then DelFile=True
 		End If
 
@@ -158,7 +158,7 @@ Function PostArticle()
 		Dim objTestArticle
 		Set objTestArticle=New TArticle
 		If objTestArticle.LoadInfobyID(Request.Form("edtID")) Then
-			If Not((objTestArticle.AuthorID=BlogUser.ID) Or (CheckRights("Root")=True)) Then Exit Function
+			If Not((objTestArticle.AuthorID=BlogUser.ID) Or (CheckRights("Root")=True) Or (CheckRights("ArticleAll")=True)) Then Exit Function
 			strTag=objTestArticle.Tag
 			objTestArticle.DelFile
 		Else
@@ -170,7 +170,7 @@ Function PostArticle()
 	Set objArticle=New TArticle
 	objArticle.ID=Request.Form("edtID")
 	objArticle.CateID=Request.Form("edtCateID")
-	objArticle.AuthorID=IIf(CheckRights("Root"),Request.Form("edtAuthorID"),BlogUser.ID)
+	objArticle.AuthorID=IIf(CheckRights("Root") Or CheckRights("ArticleAll"),Request.Form("edtAuthorID"),BlogUser.ID)
 	objArticle.Level=Request.Form("edtLevel")
 '	objArticle.PostTime=Request.Form("edtYear") & "-" & Request.Form("edtMonth") & "-" & Request.Form("edtDay") & " " &  Request.Form("edtTime")
 	objArticle.PostTime=Request.Form("edtDateTime")
@@ -205,7 +205,7 @@ Function PostArticle()
 			objArticle.Intro=closeHTML(t)
 		End If
 	ElseIf objArticle.FType=ZC_POST_TYPE_PAGE Then
-		If CheckRights("Root")=False Then Call ShowError(6)
+		If CheckRights("Root")=False And CheckRights("ArticleAll")=False Then Call ShowError(6)
 	End If
 
 	Call GetMetaValuewithForm(objArticle)
@@ -242,7 +242,7 @@ Function DelArticle(intID)
 		Dim objTestArticle
 		Set objTestArticle=New TArticle
 		If objTestArticle.LoadInfobyID(intID) Then
-			If Not((objTestArticle.AuthorID=BlogUser.ID) Or (CheckRights("Root")=True)) Then Exit Function
+			If Not((objTestArticle.AuthorID=BlogUser.ID) Or (CheckRights("Root")=True) Or (CheckRights("ArticleAll")=True)) Then Exit Function
 			strTag=objTestArticle.Tag
 		Else
 			Call ShowError(9)
@@ -471,7 +471,7 @@ Function DelComment(intID,intLog_ID)
 			Dim objTestArticle
 			Set objTestArticle=New TArticle
 			If objTestArticle.LoadInfobyID(objComment.log_ID) Then
-				If Not((objComment.AuthorID=BlogUser.ID) Or (objTestArticle.AuthorID=BlogUser.ID) Or (CheckRights("Root")=True)) Then Exit Function
+				If Not((objComment.AuthorID=BlogUser.ID) Or (objTestArticle.AuthorID=BlogUser.ID) Or (CheckRights("Root")=True) Or (CheckRights("CommentAll")=True)) Then Exit Function
 			Else
 				Call ShowError(9)
 			End If
@@ -532,7 +532,7 @@ Function SaveComment()
 	If objComment.log_ID>0 Then
 		Set objArticle=New TArticle
 		If objArticle.LoadInfoByID(objComment.log_ID) Then
-			If Not ((objArticle.AuthorID=BlogUser.ID) Or (objComment.AuthorID=BlogUser.ID) Or (CheckRights("Root")=True)) Then Exit Function
+			If Not ((objArticle.AuthorID=BlogUser.ID) Or (objComment.AuthorID=BlogUser.ID) Or (CheckRights("Root")=True) Or (CheckRights("CommentAll")=True)) Then Exit Function
 		End If
 		Set objArticle=Nothing
 	End If
@@ -591,7 +591,7 @@ Function SaveRevComment()
 	If objNewComment.log_ID>0 Then
 		Set objArticle=New TArticle
 		If objArticle.LoadInfoByID(objNewComment.log_ID) Then
-			If Not ((objArticle.AuthorID=BlogUser.ID) Or (objNewComment.AuthorID=BlogUser.ID) Or (CheckRights("Root")=True)) Then Exit Function
+			If Not ((objArticle.AuthorID=BlogUser.ID) Or (objNewComment.AuthorID=BlogUser.ID) Or (CheckRights("Root")=True) Or (CheckRights("CommentAll")=True)) Then Exit Function
 		End If
 		Set objArticle=Nothing
 	End If
