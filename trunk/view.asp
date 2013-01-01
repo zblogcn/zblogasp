@@ -141,7 +141,7 @@ If Article.LoadInfoByID(c) Then
 
 	If Article.Level=1 Then Call ShowError(63)
 	If Article.Level=2 Then
-		If Not CheckRights("Root") Then
+		If CheckRights("Root")=False And CheckRights("ArticleAll")=False Then
 			If (Article.AuthorID<>BlogUser.ID) Then Call ShowError(6)
 		End If
 	End If
