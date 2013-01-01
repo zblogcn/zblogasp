@@ -152,7 +152,7 @@ End Function
 Function PostArticle()
 
 	Dim s,i,t,k
-	Dim strTag
+	Dim strTag,strMeta
 
 	If Request.Form("edtID")<>"0" Then
 		Dim objTestArticle
@@ -160,7 +160,7 @@ Function PostArticle()
 		If objTestArticle.LoadInfobyID(Request.Form("edtID")) Then
 			If Not((objTestArticle.AuthorID=BlogUser.ID) Or (CheckRights("Root")=True) Or (CheckRights("ArticleAll")=True)) Then Exit Function
 			strTag=objTestArticle.Tag
-			objTestArticle.DelFile
+			strMeta=objTestArticle.MetaString
 		Else
 			Call ShowError(9)
 		End If
@@ -208,6 +208,7 @@ Function PostArticle()
 		If CheckRights("Root")=False And CheckRights("ArticleAll")=False Then Call ShowError(6)
 	End If
 
+	objArticle.MetaString=strMeta
 	Call GetMetaValuewithForm(objArticle)
 
 	'接口
@@ -300,6 +301,7 @@ Function PostCategory()
 	objCategory.TemplateName=Request.Form("edtTemplate")
 	objCategory.LogTemplate=Request.Form("edtLogTemplate")
 
+	If CLng(objCategory.ID)>0 Then objCategory.MetaString=objConn.Execute("SELECT [cate_Meta] FROM [blog_Category] WHERE [cate_ID]="&CLng(objCategory.ID))(0)
 	Call GetMetaValuewithForm(objCategory)
 
 	'接口
@@ -902,6 +904,7 @@ Function EditUser()
 		If Not CheckRegExp(Request.Form("edtPassWord"),"[password]") Then Call ShowError(54)
 	End If
 
+	If CLng(objUser.ID)>0 Then objUser.MetaString=objConn.Execute("SELECT [mem_Meta] FROM [blog_Member] WHERE [mem_ID]="&CLng(objUser.ID))(0)
 	Call GetMetaValuewithForm(objUser)
 
 	If Not((CLng(objUser.ID)=BlogUser.ID) Or (CheckRights("Root")=True)) Then Exit Function
@@ -1303,6 +1306,8 @@ Function PostTag()
 	objTag.Intro=Request.Form("edtIntro")
 	objTag.Alias=Request.Form("edtAlias")
 	objTag.TemplateName=Request.Form("edtTemplate")
+
+	If CLng(objTag.ID)>0 Then objTag.MetaString=objConn.Execute("SELECT [tag_Meta] FROM [blog_Tag] WHERE [tag_ID]="&CLng(objTag.ID))(0)
 
 	'接口
 	Call Filter_Plugin_PostTag_Core(objTag)
@@ -2234,6 +2239,7 @@ Function SaveFunction()
 
 	'接口
 	'Call Filter_Plugin_SaveFunction_Core(objFunction)
+	If CLng(objFunction.ID)>0 Then objFunction.MetaString=objConn.Execute("SELECT [fn_Meta] FROM [blog_Function] WHERE [fn_ID]="&CLng(objFunction.ID))(0)
 
 	If objFunction.Post Then
 
