@@ -112,6 +112,8 @@ Class TCategory
 		Url =ParseCustomDirectoryForUrl(FullRegex,ZC_STATIC_DIRECTORY,"","","","","",ID,Name,StaticName)
 		If Right(Url,12)="default.html" Then Url=Left(Url,Len(Url)-12)
 
+		Url=Replace(Url,"//","/")
+
 		Call Filter_Plugin_TCategory_Url(Url)
 
 	End Property
@@ -486,6 +488,8 @@ Class TArticle
 			If Right(Url,12)="default.html" Then Url=Left(Url,Len(Url)-12)
 			'If Right(Url,10)="index.html" Then Url=Left(Url,Len(Url)-10)
 		End If
+
+		Url=Replace(Url,"//","/")
 
 		Call Filter_Plugin_TArticle_Url(Url)
 
@@ -2273,7 +2277,7 @@ Class TArticleList
 			End If
 		Next
 
-
+		Url=Replace(Url,"//","/")
 
 		Export=True
 
@@ -2628,6 +2632,8 @@ Class TUser
 
 		Url =ParseCustomDirectoryForUrl(FullRegex,ZC_STATIC_DIRECTORY,"","","","","",ID,Name,StaticName)
 		If Right(Url,12)="default.html" Then Url=Left(Url,Len(Url)-12)
+
+		Url=Replace(Url,"//","/")
 
 		Call Filter_Plugin_TUser_Url(Url)
 
@@ -4176,6 +4182,8 @@ Class TTag
 
 		Url =ParseCustomDirectoryForUrl(FullRegex,ZC_STATIC_DIRECTORY,"","","","","",ID,Name,EncodeName)
 		If Right(Url,12)="default.html" Then Url=Left(Url,Len(Url)-12)
+
+		Url=Replace(Url,"//","/")
 
 		Call Filter_Plugin_TTag_Url(Url)
 
