@@ -2842,6 +2842,7 @@ Class TUser
 			If IsNull(Email) Or IsEmpty(Email) Or Len(Email)=0 Then Email="null@null.com"
 			If IsNull(HomePage) Then HomePage=""
 			If IsNull(Alias) Then Alias=""
+			If IsNull(TemplateName) Then TemplateName=""
 
 			LoadInfobyID=True
 		End If
@@ -2875,6 +2876,7 @@ Class TUser
 			If IsNull(Email) Or IsEmpty(Email) Or Len(Email)=0 Then Email="a@b.com"
 			If IsNull(HomePage) Then HomePage=""
 			If IsNull(Alias) Then Alias=""
+			If IsNull(TemplateName) Then TemplateName=""
 
 			LoadInfoByArray=True		
 
