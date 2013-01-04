@@ -78,6 +78,7 @@ BlogTitle=ZC_MSG144
 	Response.Write "<input id=""inpID"" name=""inpID""  type=""hidden"" value="""& EditFunction.ID &""" />"
 	Response.Write "<input id=""inpOrder"" name=""inpOrder""  type=""hidden"" value="""& EditFunction.Order &""" />"
 	Response.Write "<input id=""inpSidebarID"" name=""inpSidebarID""  type=""hidden"" value="""& EditFunction.SidebarID &""" />"
+	Response.Write "<input id=""inpSource"" name=""inpSource""  type=""hidden"" value="""& EditFunction.Source &""" />"
 	Response.Write "<p><span class='title'>"& ZC_MSG001 &":</span><span class='star'>(*)</span><br/><input type=""text"" id=""inpName"" name=""inpName"" value="""& EditFunction.Name &""" size=""40"" /></p>"
 	Response.Write "<p><span class='title'>"& ZC_MSG170 &":</span><span class='star'>(*)</span><br/><input "&t&" type=""text"" id=""inpFileName"" name=""inpFileName"" value="""& EditFunction.FileName &""" size=""40"" /></p>"
 	Response.Write "<p><span class='title'>"& "HTML ID" &":</span><span class='star'>(*)</span><br/><input type=""text"" name=""inpHtmlID"" value="""&  EditFunction.HtmlId &""" size=""40""  /><br/>("&ZC_MSG137&")</p>"
@@ -89,9 +90,9 @@ BlogTitle=ZC_MSG144
 
 	Response.Write "<p><span class='title'>"& ZC_MSG279 &":</span></p>"
 	
-	Response.Write "<label><input id=""viewtype1"" name=""viewtype"" value=""auto"" type=""radio"" "&IIf(EditFunction.Meta.GetValue("viewtype")="" Or EditFunction.Meta.GetValue("viewtype")="auto", "checked=""checked""","") & " />&nbsp;&nbsp;"& ZC_MSG280 &"&nbsp;&nbsp;&nbsp;&nbsp;</label>"
-	Response.Write "<label><input id=""viewtype2"" name=""viewtype"" value=""js"" type=""radio"" "&IIf(EditFunction.Meta.GetValue("viewtype")="js", "checked=""checked""","") & " />&nbsp;&nbsp;JavaScript&nbsp;&nbsp;&nbsp;&nbsp;</label>"
-	Response.Write "<label><input id=""viewtype3"" name=""viewtype"" value=""html"" type=""radio"" "&IIf(EditFunction.Meta.GetValue("viewtype")="html", "checked=""checked""","") & " />&nbsp;&nbsp;HTML&nbsp;&nbsp;&nbsp;&nbsp;</label>"
+	Response.Write "<label><input id=""viewtype1"" name=""inpViewType"" value="""" type=""radio"" "&IIf(EditFunction.ViewType="" Or EditFunction.ViewType="auto", "checked=""checked""","") & " />&nbsp;&nbsp;"& ZC_MSG280 &"&nbsp;&nbsp;&nbsp;&nbsp;</label>"
+	Response.Write "<label><input id=""viewtype2"" name=""inpViewType"" value=""js"" type=""radio"" "&IIf(EditFunction.ViewType="js", "checked=""checked""","") & " />&nbsp;&nbsp;JavaScript&nbsp;&nbsp;&nbsp;&nbsp;</label>"
+	Response.Write "<label><input id=""viewtype3"" name=""inpViewType"" value=""html"" type=""radio"" "&IIf(EditFunction.ViewType="html", "checked=""checked""","") & " />&nbsp;&nbsp;HTML&nbsp;&nbsp;&nbsp;&nbsp;</label>"
 
 	Response.Write "<p><span class='title'>"& ZC_MSG017 &":</span></p><input id=""inpShow"" name=""inpShow"" style="""" type=""text"" value="""&IIF(EditFunction.SideBarID=-1,"False","True")&""" class=""checkbox""/><hr/>"
 		

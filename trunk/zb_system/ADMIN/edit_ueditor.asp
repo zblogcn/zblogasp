@@ -511,7 +511,7 @@ function selectlogtemplate(c){
 }
 function selectlogtemplatesub(a){
 	$("#cmbTemplate").find("option[value='"+a+"']").attr("selected","selected");
-	edtTemplate.value=a;
+	$("#edtTemplate").val(a);
 }
 
 // ]]>

@@ -3742,12 +3742,12 @@ End Function
 '**************************************************<
 '类型:filter
 '名称:Filter_Plugin_TFunction_Post
-'参数:ID,Name,FileName,Order,Content,IsSystem,SidebarID,HtmlID,Ftype,MaxLi,MetaString
+'参数:ID,Name,FileName,Order,Content,IsHidden,SidebarID,HtmlID,Ftype,MaxLi,Source,ViewType,MetaString
 '说明:
 '调用:
 '**************************************************>
 Dim sFilter_Plugin_TFunction_Post
-Function Filter_Plugin_TFunction_Post(ByRef ID,ByRef Name,ByRef FileName,ByRef Order,ByRef Content,ByRef IsSystem,ByRef SidebarID,ByRef HtmlID,ByRef Ftype,ByRef MaxLi,ByRef MetaString)
+Function Filter_Plugin_TFunction_Post(ByRef ID,ByRef Name,ByRef FileName,ByRef Order,ByRef Content,ByRef IsHidden,ByRef SidebarID,ByRef HtmlID,ByRef Ftype,ByRef MaxLi,ByRef Source,ByRef ViewType,ByRef MetaString)
 
 	Dim s,i
 
@@ -3756,7 +3756,7 @@ Function Filter_Plugin_TFunction_Post(ByRef ID,ByRef Name,ByRef FileName,ByRef O
 	s=Split(sFilter_Plugin_TFunction_Post,"|")
 
 	For i=0 To UBound(s)-1
-		Call Execute(s(i) & " " & "ID,Name,FileName,Order,Content,IsSystem,SidebarID,HtmlID,Ftype,MaxLi,MetaString")
+		Call Execute(s(i) & " " & "ID,Name,FileName,Order,Content,IsHidden,SidebarID,HtmlID,Ftype,MaxLi,Source,ViewType,MetaString")
 	Next
 
 End Function
@@ -3768,12 +3768,12 @@ End Function
 '**************************************************<
 '类型:filter
 '名称:Filter_Plugin_TFunction_LoadInfoByArray
-'参数:ID,Name,FileName,Order,Content,IsSystem,SidebarID,HtmlID,Ftype,MaxLi,MetaString
+'参数:ID,Name,FileName,Order,Content,IsHidden,SidebarID,HtmlID,Ftype,MaxLi,Source,ViewType,MetaString
 '说明:
 '调用:
 '**************************************************>
 Dim sFilter_Plugin_TFunction_LoadInfoByArray
-Function Filter_Plugin_TFunction_LoadInfoByArray(ByRef ID,ByRef Name,ByRef FileName,ByRef Order,ByRef Content,ByRef IsSystem,ByRef SidebarID,ByRef HtmlID,ByRef Ftype,ByRef MaxLi,ByRef MetaString)
+Function Filter_Plugin_TFunction_LoadInfoByArray(ByRef ID,ByRef Name,ByRef FileName,ByRef Order,ByRef Content,ByRef IsHidden,ByRef SidebarID,ByRef HtmlID,ByRef Ftype,ByRef MaxLi,ByRef Source,ByRef ViewType,ByRef MetaString)
 
 	Dim s,i
 
@@ -3782,7 +3782,7 @@ Function Filter_Plugin_TFunction_LoadInfoByArray(ByRef ID,ByRef Name,ByRef FileN
 	s=Split(sFilter_Plugin_TFunction_LoadInfoByArray,"|")
 
 	For i=0 To UBound(s)-1
-		Call Execute(s(i) & " " & "ID,Name,FileName,Order,Content,IsSystem,SidebarID,HtmlID,Ftype,MaxLi,MetaString")
+		Call Execute(s(i) & " " & "ID,Name,FileName,Order,Content,IsHidden,SidebarID,HtmlID,Ftype,MaxLi,Source,ViewType,MetaString")
 	Next
 
 End Function
@@ -3794,12 +3794,12 @@ End Function
 '**************************************************<
 '类型:filter
 '名称:Filter_Plugin_TFunction_Del
-'参数:ID,Name,FileName,Order,Content,IsSystem,SidebarID,HtmlID,Ftype,MaxLi,MetaString
+'参数:ID,Name,FileName,Order,Content,IsHidden,SidebarID,HtmlID,Ftype,MaxLi,Source,ViewType,MetaString
 '说明:
 '调用:
 '**************************************************>
 Dim sFilter_Plugin_TFunction_Del
-Function Filter_Plugin_TFunction_Del(ByRef ID,ByRef Name,ByRef FileName,ByRef Order,ByRef Content,ByRef IsSystem,ByRef SidebarID,ByRef HtmlID,ByRef Ftype,ByRef MaxLi,ByRef MetaString)
+Function Filter_Plugin_TFunction_Del(ByRef ID,ByRef Name,ByRef FileName,ByRef Order,ByRef Content,ByRef IsHidden,ByRef SidebarID,ByRef HtmlID,ByRef Ftype,ByRef MaxLi,ByRef Source,ByRef ViewType,ByRef MetaString)
 
 	Dim s,i
 
@@ -3808,7 +3808,7 @@ Function Filter_Plugin_TFunction_Del(ByRef ID,ByRef Name,ByRef FileName,ByRef Or
 	s=Split(sFilter_Plugin_TFunction_Del,"|")
 
 	For i=0 To UBound(s)-1
-		Call Execute(s(i) & " " & "ID,Name,FileName,Order,Content,IsSystem,SidebarID,HtmlID,Ftype,MaxLi,MetaString")
+		Call Execute(s(i) & " " & "ID,Name,FileName,Order,Content,IsHidden,SidebarID,HtmlID,Ftype,MaxLi,Source,ViewType,MetaString")
 	Next
 
 End Function
@@ -3820,12 +3820,12 @@ End Function
 '**************************************************<
 '类型:filter
 '名称:Filter_Plugin_TFunction_LoadInfoByID
-'参数:ID,Name,FileName,Order,Content,IsSystem,SidebarID,HtmlID,Ftype,MaxLi,MetaString
+'参数:ID,Name,FileName,Order,Content,IsHidden,SidebarID,HtmlID,Ftype,MaxLi,Source,ViewType,MetaString
 '说明:
 '调用:
 '**************************************************>
 Dim sFilter_Plugin_TFunction_LoadInfoByID
-Function Filter_Plugin_TFunction_LoadInfoByID(ByRef ID,ByRef Name,ByRef FileName,ByRef Order,ByRef Content,ByRef IsSystem,ByRef SidebarID,ByRef HtmlID,ByRef Ftype,ByRef MaxLi,ByRef MetaString)
+Function Filter_Plugin_TFunction_LoadInfoByID(ByRef ID,ByRef Name,ByRef FileName,ByRef Order,ByRef Content,ByRef IsHidden,ByRef SidebarID,ByRef HtmlID,ByRef Ftype,ByRef MaxLi,ByRef Source,ByRef ViewType,ByRef MetaString)
 
 	Dim s,i
 
@@ -3834,7 +3834,7 @@ Function Filter_Plugin_TFunction_LoadInfoByID(ByRef ID,ByRef Name,ByRef FileName
 	s=Split(sFilter_Plugin_TFunction_LoadInfoByID,"|")
 
 	For i=0 To UBound(s)-1
-		Call Execute(s(i) & " " & "ID,Name,FileName,Order,Content,IsSystem,SidebarID,HtmlID,Ftype,MaxLi,MetaString")
+		Call Execute(s(i) & " " & "ID,Name,FileName,Order,Content,IsHidden,SidebarID,HtmlID,Ftype,MaxLi,Source,ViewType,MetaString")
 	Next
 
 End Function
