@@ -2681,7 +2681,7 @@ Class TUser
 	Private FEmailMD5
 	Public Property Get EmailMD5
 		If FEmailMD5="" Then
-			If Email="" Then
+			If Email="" Or IsNull(Email)=True Then
 				FEmailMD5=""
 			Else
 				FEmailMD5=MD5(Email)
@@ -3223,7 +3223,7 @@ Class TComment
 		If AuthorID>0 Then
 			EmailMD5=Users(AuthorID).EmailMD5
 		Else
-			If Email="" Then
+			If Email="" Or IsNull(Email)=True Then
 				EmailMD5=""
 			Else
 				EmailMD5=MD5(Email)
@@ -5065,12 +5065,43 @@ Class TFunction
 	Public FileName
 	Public Order
 	Public Content
-	Public IsSystem
+	Public IsHidden
 	Public SidebarID
 	Public HtmlID
 	Public Ftype 'div or ul
 	Public MaxLi
 	Public Meta
+	Public Source
+	Public ViewType
+
+	Public Property Get IsSystem
+		If Source="system" Then
+			IsSystem=True
+		Else
+			IsSystem=False
+		End If
+	End Property
+	Public Property Let IsSystem(s)
+		If s=True Then
+			Source="system"
+		End If
+	End Property
+
+	Public Property Get IsUsers
+		If Source="users" Then
+			IsUsers=True
+		Else
+			IsUsers=False
+		End If
+	End Property
+	Public Property Let IsUsers(s)
+		If s=True Then
+			Source="users"
+		End If
+	End Property
+
+
+
 
 	Public Property Get MetaString
 		MetaString=Meta.SaveString
@@ -5081,17 +5112,19 @@ Class TFunction
 
 	Public Function Post()
 
-		Call Filter_Plugin_TFunction_Post(ID,Name,FileName,Order,Content,IsSystem,SidebarID,HtmlID,Ftype,MaxLi,MetaString)
+		Call Filter_Plugin_TFunction_Post(ID,Name,FileName,Order,Content,IsHidden,SidebarID,HtmlID,Ftype,MaxLi,Source,ViewType,MetaString)
 
 		Call CheckParameter(ID,"int",0)
 		Call CheckParameter(Order,"int",0)
 		Call CheckParameter(SidebarID,"int",1)
-		Call CheckParameter(IsSystem,"bool",False)
+		Call CheckParameter(IsHidden,"bool",False)
 		Call CheckParameter(MaxLi,"int",0)
 
 		Name=FilterSQL(Name)
 		FileName=Replace(TransferHTML(LCase(FilterSQL(FileName)),"[delspace][filename][normalname]"),".","")
 		HtmlID=TransferHTML(FilterSQL(HtmlID),"[delspace][filename]")
+		Source=FilterSQL(Source)
+		ViewType=FilterSQL(ViewType)
 
 		If Name="" Then
 			Name="Function"
@@ -5117,6 +5150,10 @@ Class TFunction
 			Order=GetNewOrder
 		End If
 
+		If Source="" Then
+			Source="users"
+		End If
+
 		Name=Left(Name,50)
 		FileName=Left(FileName,50)
 		HtmlID=Left(HtmlID,50)
@@ -5127,7 +5164,7 @@ Class TFunction
 		Content=TransferHTML(Content,"[anti-zc_blog_host]")
 
 		If ID=0 Then
-			objConn.Execute("INSERT INTO [blog_Function]([fn_Name],[fn_FileName],[fn_Order],[fn_Content],[fn_IsSystem],[fn_SidebarID],[fn_HtmlID],[fn_Ftype],[fn_MaxLi],[fn_Meta]) VALUES ('"&Name&"','"&FileName&"',"&Order&",'"&Content&"',"&CLng(IsSystem)&","&SidebarID&",'"&HtmlID&"','"&Ftype&"',"&MaxLi&",'"&MetaString&"')")
+			objConn.Execute("INSERT INTO [blog_Function]([fn_Name],[fn_FileName],[fn_Order],[fn_Content],[fn_IsHidden],[fn_SidebarID],[fn_HtmlID],[fn_Ftype],[fn_MaxLi],[fn_Source],[fn_ViewType],[fn_Meta]) VALUES ('"&Name&"','"&FileName&"',"&Order&",'"&Content&"',"&CLng(IsHidden)&","&SidebarID&",'"&HtmlID&"','"&Ftype&"',"&MaxLi&",'"&Source&"','"&ViewType&"','"&MetaString&"')")
 
 			Dim objRS
 			Set objRS=objConn.Execute("SELECT MAX([fn_ID]) FROM [blog_Function]")
@@ -5136,7 +5173,7 @@ Class TFunction
 			End If
 
 		Else
-			objConn.Execute("UPDATE [blog_Function] SET [fn_Name]='"&Name&"',[fn_FileName]='"&FileName&"',[fn_Order]="&Order&",[fn_Content]='"&Content&"',[fn_IsSystem]="&CLng(IsSystem)&",[fn_SidebarID]="&SidebarID&",[fn_HtmlID]='"&HtmlID&"',[fn_Ftype]='"&Ftype&"',[fn_MaxLi]="&MaxLi&",[fn_Meta]='"&MetaString&"' WHERE [fn_ID] =" & ID)
+			objConn.Execute("UPDATE [blog_Function] SET [fn_Name]='"&Name&"',[fn_FileName]='"&FileName&"',[fn_Order]="&Order&",[fn_Content]='"&Content&"',[fn_IsHidden]="&CLng(IsHidden)&",[fn_SidebarID]="&SidebarID&",[fn_HtmlID]='"&HtmlID&"',[fn_Ftype]='"&Ftype&"',[fn_MaxLi]="&MaxLi&",[fn_Source]='"&Source&"',[fn_ViewType]='"&ViewType&"',[fn_Meta]='"&MetaString&"' WHERE [fn_ID] =" & ID)
 		End If
 
 		Post=True
@@ -5149,7 +5186,7 @@ Class TFunction
 		Call CheckParameter(fn_ID,"int",0)
 
 		Dim objRS
-		Set objRS=objConn.Execute("SELECT [fn_ID],[fn_Name],[fn_FileName],[fn_Order],[fn_Content],[fn_IsSystem],[fn_SidebarID],[fn_HtmlID],[fn_Ftype],[fn_MaxLi],[fn_Meta] FROM [blog_Function] WHERE [fn_ID]=" & fn_ID)
+		Set objRS=objConn.Execute("SELECT [fn_ID],[fn_Name],[fn_FileName],[fn_Order],[fn_Content],[fn_IsHidden],[fn_SidebarID],[fn_HtmlID],[fn_Ftype],[fn_MaxLi],[fn_Source],[fn_ViewType],[fn_Meta] FROM [blog_Function] WHERE [fn_ID]=" & fn_ID)
 
 		If (Not objRS.bof) And (Not objRS.eof) Then
 
@@ -5158,11 +5195,13 @@ Class TFunction
 			FileName=objRS("fn_FileName")
 			Order=objRS("fn_Order")
 			Content=objRS("fn_Content")
-			IsSystem=objRS("fn_IsSystem")
+			IsHidden=objRS("fn_IsHidden")
 			SidebarID=objRS("fn_SidebarID")
 			HtmlID=objRS("fn_HtmlID")
 			Ftype=objRS("fn_Ftype")
 			MaxLi=objRS("fn_MaxLi")
+			Source=objRS("fn_Source")
+			ViewType=objRS("fn_ViewType")
 			MetaString=objRS("fn_Meta")
 
 			LoadInfoByID=True
@@ -5172,7 +5211,7 @@ Class TFunction
 		objRS.Close
 		Set objRS=Nothing
 
-		Call Filter_Plugin_TFunction_LoadInfoByID(ID,Name,FileName,Order,Content,IsSystem,SidebarID,HtmlID,Ftype,MaxLi,MetaString)
+		Call Filter_Plugin_TFunction_LoadInfoByID(ID,Name,FileName,Order,Content,IsHidden,SidebarID,HtmlID,Ftype,MaxLi,Source,ViewType,MetaString)
 
 	End Function
 
@@ -5186,17 +5225,19 @@ Class TFunction
 			FileName=aryCateInfo(2)
 			Order=aryCateInfo(3)
 			Content=aryCateInfo(4)
-			IsSystem=aryCateInfo(5)
+			IsHidden=aryCateInfo(5)
 			SidebarID=aryCateInfo(6)
 			HtmlID=aryCateInfo(7)
 			Ftype=aryCateInfo(8)
 			MaxLi=aryCateInfo(9)
-			MetaString=aryCateInfo(10)
+			Source=aryCateInfo(10)
+			ViewType=aryCateInfo(11)
+			MetaString=aryCateInfo(12)
 		End If
 
 		LoadInfoByArray=True
 
-		Call Filter_Plugin_TFunction_LoadInfoByArray(ID,Name,FileName,Order,Content,IsSystem,SidebarID,HtmlID,Ftype,MaxLi,MetaString)
+		Call Filter_Plugin_TFunction_LoadInfoByArray(ID,Name,FileName,Order,Content,IsHidden,SidebarID,HtmlID,Ftype,MaxLi,Source,ViewType,MetaString)
 
 	End Function
 
@@ -5214,13 +5255,13 @@ Class TFunction
 
 	End Function
 
-	Public Property Get IsHidden
-		If SidebarID=-1 Then
-			IsHidden=True
-		Else
-			IsHidden=False
-		End If
-	End Property
+	'Public Property Get IsHidden
+	'	If SidebarID=-1 Then
+	'		IsHidden=True
+	'	Else
+	'		IsHidden=False
+	'	End If
+	'End Property
 
 
 	Public Function InSidebars(num)
@@ -5266,20 +5307,20 @@ Class TFunction
 
 		If Ftype="div" Then
 			s="<div><#CACHE_INCLUDE_" & UCase(FileName) & "#></div>"
-			If Meta.GetValue("viewtype")="js" Then
+			If ViewType="js" Then
 				s="<div><#CACHE_INCLUDE_" & UCase(FileName) & "_JS#></div>"
 			End If
-			If Meta.GetValue("viewtype")="html" Then
+			If ViewType="html" Then
 				s="<div><#CACHE_INCLUDE_" & UCase(FileName) & "_HTML#></div>"
 			End If
 		End If
 
 		If Ftype="ul" Then
 			s="<ul><#CACHE_INCLUDE_" & UCase(FileName) & "#></ul>"
-			If Meta.GetValue("viewtype")="js" Then
+			If ViewType="js" Then
 				s="<ul><#CACHE_INCLUDE_" & UCase(FileName) & "_JS#></ul>"
 			End If
-			If Meta.GetValue("viewtype")="html" Then
+			If ViewType="html" Then
 				s="<ul><#CACHE_INCLUDE_" & UCase(FileName) & "_HTML#></ul>"
 			End If
 		End If
@@ -5360,7 +5401,7 @@ Class TFunction
 
 	Public Function Del()
 
-		Call Filter_Plugin_TFunction_Del(ID,Name,FileName,Order,Content,IsSystem,SidebarID,HtmlID,Ftype,MaxLi,MetaString)
+		Call Filter_Plugin_TFunction_Del(ID,Name,FileName,Order,Content,IsHidden,SidebarID,HtmlID,Ftype,MaxLi,Source,ViewType,MetaString)
 
 		Call CheckParameter(ID,"int",0)
 
@@ -5387,8 +5428,9 @@ Class TFunction
 		ID=0
 		Ftype="div"
 		SidebarID=1
-		IsSystem=False
+		IsHidden=False
 		MaxLi=0
+		Source="users"
 		Set Meta=New TMeta
 	End Sub
 

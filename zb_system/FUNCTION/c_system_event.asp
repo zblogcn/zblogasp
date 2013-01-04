@@ -1210,6 +1210,26 @@ Function SaveSetting()
 	
 	If BlogConfig.Exists("ZC_HTTP_LASTMODIFIED")=False Then Call BlogConfig.Write("ZC_HTTP_LASTMODIFIED",False)
 
+	If BlogConfig.Exists("ZC_UNCATEGORIZED_NAME")=False Then Call BlogConfig.Write("ZC_UNCATEGORIZED_NAME",ZC_MSG059)
+
+	If BlogConfig.Exists("ZC_UNCATEGORIZED_ALIAS")=False Then Call BlogConfig.Write("ZC_UNCATEGORIZED_ALIAS","")
+
+	If BlogConfig.Exists("ZC_UNCATEGORIZED_COUNT")=False Then Call BlogConfig.Write("ZC_UNCATEGORIZED_COUNT",0)
+
+	If BlogConfig.Exists("ZC_HTTP_LASTMODIFIED")=False Then Call BlogConfig.Write("ZC_HTTP_LASTMODIFIED",False)
+
+
+	If BlogConfig.Exists("ZC_SIDEBAR_ORDER" )=False Then Call BlogConfig.Write("ZC_SIDEBAR_ORDER","calendar:controlpanel:catalog:searchpanel:comments:archives:favorite:link:misc")
+
+	If BlogConfig.Exists("ZC_SIDEBAR_ORDER2")=False Then Call BlogConfig.Write("ZC_SIDEBAR_ORDER2","")
+
+	If BlogConfig.Exists("ZC_SIDEBAR_ORDER3")=False Then Call BlogConfig.Write("ZC_SIDEBAR_ORDER3","")
+
+	If BlogConfig.Exists("ZC_SIDEBAR_ORDER4")=False Then Call BlogConfig.Write("ZC_SIDEBAR_ORDER4","")
+
+	If BlogConfig.Exists("ZC_SIDEBAR_ORDER5")=False Then Call BlogConfig.Write("ZC_SIDEBAR_ORDER5","")
+
+
 	Dim a,b,c,d
 	b=LoadFromFile(BlogPath &"zb_users\c_option.asp","utf-8")
 	Set d=CreateObject("Scripting.Dictionary")
@@ -2228,7 +2248,8 @@ Function SaveFunction()
 	objFunction.MaxLi=Request.Form("inpMaxLi")
 	objFunction.SidebarID=Request.Form("inpSidebarID")
 	objFunction.Content=Replace(Request.Form("inpContent"),VBCrlf,"")
-	objFunction.Meta.SetValue "viewtype",IIf(Request.Form("viewtype")="js","js",IIf(Request.Form("viewtype")="html","html","auto"))
+	objFunction.ViewType=Request.Form("inpViewType")
+	objFunction.Source=Request.Form("inpSource")
 
 	If Request.Form("inpFileName")="navbar" Then
 		Call GetFunction()

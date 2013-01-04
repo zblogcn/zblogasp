@@ -508,7 +508,7 @@ Function GetFunction()
 		ReDim Functions(i)
 	End If
 
-	Set objRS=objConn.Execute("SELECT [fn_ID],[fn_Name],[fn_FileName],[fn_Order],[fn_Content],[fn_IsSystem],[fn_SidebarID],[fn_HtmlID],[fn_Ftype],[fn_MaxLi],[fn_Meta] FROM [blog_Function] ORDER BY [fn_ID] ASC")
+	Set objRS=objConn.Execute("SELECT [fn_ID],[fn_Name],[fn_FileName],[fn_Order],[fn_Content],[fn_IsHidden],[fn_SidebarID],[fn_HtmlID],[fn_Ftype],[fn_MaxLi],[fn_Source],[fn_ViewType],[fn_Meta] FROM [blog_Function] ORDER BY [fn_ID] ASC")
 	If (Not objRS.bof) And (Not objRS.eof) Then
 
 
@@ -520,7 +520,7 @@ Function GetFunction()
 		l=UBound(aryAllData,2)
 		For i=0 To l
 			Set Functions(aryAllData(0,i))=New TFunction
-			Functions(aryAllData(0,i)).LoadInfoByArray(Array(aryAllData(0,i),aryAllData(1,i),aryAllData(2,i),aryAllData(3,i),aryAllData(4,i),aryAllData(5,i),aryAllData(6,i),aryAllData(7,i),aryAllData(8,i),aryAllData(9,i),aryAllData(10,i)))
+			Functions(aryAllData(0,i)).LoadInfoByArray(Array(aryAllData(0,i),aryAllData(1,i),aryAllData(2,i),aryAllData(3,i),aryAllData(4,i),aryAllData(5,i),aryAllData(6,i),aryAllData(7,i),aryAllData(8,i),aryAllData(9,i),aryAllData(10,i),aryAllData(11,i),aryAllData(12,i)))
 			Call FunctionMetas.SetValue(aryAllData(2,i),aryAllData(0,i))
 		Next
 
@@ -3738,6 +3738,32 @@ End Function
 '*********************************************************
 Function RefreshOptionFormFileToDB()
 	On Error Resume Next
+
+	If Not CheckUpdateDB("[fn_Source]","[blog_Function]") Then
+		IF ZC_MSSQL_ENABLE=True Then	
+			objConn.execute("ALTER TABLE [blog_Function] ADD fn_Source nvarchar(50) default ''")
+			objConn.execute("ALTER TABLE [blog_Function] ADD fn_ViewType nvarchar(50) default ''")
+			objConn.execute("ALTER TABLE [blog_Function] ADD fn_IsHidden bit default 0")
+		Else
+			objConn.execute("ALTER TABLE [blog_Function] ADD COLUMN fn_Source VARCHAR(50) default """"")
+			objConn.execute("ALTER TABLE [blog_Function] ADD COLUMN fn_ViewType VARCHAR(50) default """"")
+			objConn.execute("ALTER TABLE [blog_Function] ADD COLUMN fn_IsHidden YESNO DEFAULT 0")
+		End If
+
+		objConn.execute("UPDATE [blog_Function] SET [fn_Source]='system' WHERE [fn_IsSystem]<>0")
+		objConn.execute("UPDATE [blog_Function] SET [fn_Source]='users' WHERE [fn_IsSystem]=0")
+		objConn.execute("UPDATE [blog_Function] SET [fn_IsHidden]=0")
+		objConn.execute("UPDATE [blog_Function] SET [fn_ViewType]=''")
+		objConn.execute("UPDATE [blog_Function] SET [fn_Meta]=''")
+
+		IF ZC_MSSQL_ENABLE=True Then	
+			objConn.execute("ALTER TABLE [blog_Function] DROP COLUMN fn_IsSystem")
+		Else
+			objConn.execute("ALTER TABLE [blog_Function] DROP COLUMN fn_IsSystem")
+		End If
+
+	End If
+
 	Dim a,b
 	b=LoadFromFile(BlogPath &"zb_users\c_option.asp","utf-8")
 	For Each a In BlogConfig.Meta.Names
@@ -3748,13 +3774,28 @@ Function RefreshOptionFormFileToDB()
 	Call BlogConfig.Write("ZC_BLOG_VERSION","2.0 Doomsday Build 121221")
 	Call BlogConfig.Write("ZC_BLOG_CLSID",ZC_BLOG_CLSID_ORIGINAL)
 
-	If BlogConfig.Exists("ZC_UNCATEGORIZED_NAME")=False Then Call BlogConfig.Write("ZC_UNCATEGORIZED_NAME",ZC_MSG059)
-	If BlogConfig.Exists("ZC_UNCATEGORIZED_ALIAS")=False Then Call BlogConfig.Write("ZC_UNCATEGORIZED_ALIAS","")
-	If BlogConfig.Exists("ZC_UNCATEGORIZED_COUNT")=False Then Call BlogConfig.Write("ZC_UNCATEGORIZED_COUNT",0)
-	If BlogConfig.Exists("ZC_HTTP_LASTMODIFIED")=False Then Call BlogConfig.Write("ZC_HTTP_LASTMODIFIED",False)
-
 	Call BlogConfig.Save()
+
 	Err.Clear
+End Function
+'*********************************************************
+
+
+
+
+'*********************************************************
+Function CheckUpdateDB(a,b)
+	Err.Clear
+	On Error Resume Next
+	Dim Rs
+	Set Rs=objConn.execute("SELECT "&a&" FROM "&b)
+	Set Rs=Nothing
+	If Err.Number=0 Then
+	CheckUpdateDB=True
+	Else
+	Err.Clear
+	CheckUpdateDB=False
+	End If	
 End Function
 '*********************************************************
 
@@ -3901,6 +3942,26 @@ Function CheckUndefined()
 		Call Execute("ZC_HTTP_LASTMODIFIED=False")
 	End If
 
+	If InStr(a,"DIM ZC_SIDEBAR_ORDER")=0 Then
+		Call Execute("ZC_SIDEBAR_ORDER=""calendar:controlpanel:catalog:searchpanel:comments:archives:favorite:link:misc""")
+	End If
+
+	If InStr(a,"DIM ZC_SIDEBAR_ORDER2")=0 Then
+		Call Execute("ZC_SIDEBAR_ORDER2=""""")
+	End If
+
+	If InStr(a,"DIM ZC_SIDEBAR_ORDER3")=0 Then
+		Call Execute("ZC_SIDEBAR_ORDER3=""""")
+	End If
+
+	If InStr(a,"DIM ZC_SIDEBAR_ORDER4")=0 Then
+		Call Execute("ZC_SIDEBAR_ORDER4=""""")
+	End If
+
+	If InStr(a,"DIM ZC_SIDEBAR_ORDER5")=0 Then
+		Call Execute("ZC_SIDEBAR_ORDER5=""""")
+	End If
+
 End Function
 '*********************************************************
 
@@ -3920,4 +3981,25 @@ Function GetBlogVersion()
 End Function
 '*********************************************************
 
+
+
+
+'*********************************************************
+' 目的：为主题提供的便捷函数,可以生成自己的模块
+' 参数:主题ID,模块ID(文件名),模块名,模块HtmlID,模块类型(div/ul),模块Maxli(默认0),模块内容
+'*********************************************************
+Function AddThemeFunction(ThemeID,FunctionID,FunctionName,FunctionHtmlID,FunctionType,FunctionMaxLi,FunctionContent)
+
+End Function
+'*********************************************************
+
+
+'*********************************************************
+' 目的：为插件... 
+' 参数:插件ID,模块ID(文件名),模块名,模块HtmlID,模块类型(div/ul),模块Maxli(默认0),模块内容
+'*********************************************************
+Function AddPluginFunction(ThemeID,FunctionID,FunctionName,FunctionHtmlID,FunctionType,FunctionMaxLi,FunctionContent)
+
+End Function
+'*********************************************************
 %>

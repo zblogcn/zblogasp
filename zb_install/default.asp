@@ -629,7 +629,7 @@ Function CreateAccessTable()
 	objConn.execute("CREATE TABLE [blog_Config] (conf_Name VARCHAR(255) default """" not null,conf_Value text default """")")
 	'objConn.execute("CREATE UNIQUE INDEX index_conf_Name ON [blog_Config](conf_Name)")
 
-	objConn.execute("CREATE TABLE [blog_Function] (fn_ID AutoIncrement primary key,fn_Name VARCHAR(50) default """",fn_FileName VARCHAR(50) default """",fn_Order int default 0,fn_Content text default """",fn_IsSystem YESNO DEFAULT 0,fn_SidebarID int default 0,fn_HtmlID VARCHAR(50) default """",fn_Ftype VARCHAR(5) default """",fn_MaxLi int default 0,fn_Meta text default """")")
+	objConn.execute("CREATE TABLE [blog_Function] (fn_ID AutoIncrement primary key,fn_Name VARCHAR(50) default """",fn_FileName VARCHAR(50) default """",fn_Order int default 0,fn_Content text default """",fn_IsHidden YESNO DEFAULT 0,fn_SidebarID int default 0,fn_HtmlID VARCHAR(50) default """",fn_Ftype VARCHAR(5) default """",fn_MaxLi int default 0,fn_Source VARCHAR(50) default """",fn_ViewType VARCHAR(50) default """",fn_Meta text default """")")
 
 	objConn.Execute("INSERT INTO [blog_Member]([mem_Level],[mem_Name],[mem_PassWord],[mem_Email],[mem_HomePage],[mem_Intro],[mem_Guid]) VALUES (1,'"&username&"','"&password&"','null@null.com','','','"&userguid&"')")
 
@@ -663,7 +663,7 @@ Function CreateMssqlTable()
 
 	objConn.execute("CREATE TABLE [blog_Config] (conf_Name nvarchar(255) not null default '',conf_Value text default '')")
 
-	objConn.execute("CREATE TABLE [blog_Function] (fn_ID int identity(1,1) not null primary key,fn_Name nvarchar(50) default '',fn_FileName nvarchar(50) default '',fn_Order int default 0,fn_Content ntext default '',fn_IsSystem bit DEFAULT 0,fn_SidebarID int default 0,fn_HtmlID nvarchar(50) default '',fn_Ftype nvarchar(5) default '',fn_MaxLi int default 0,fn_Meta ntext default '')")
+	objConn.execute("CREATE TABLE [blog_Function] (fn_ID int identity(1,1) not null primary key,fn_Name nvarchar(50) default '',fn_FileName nvarchar(50) default '',fn_Order int default 0,fn_Content ntext default '',fn_IsHidden bit DEFAULT 0,fn_SidebarID int default 0,fn_HtmlID nvarchar(50) default '',fn_Ftype nvarchar(5) default '',fn_MaxLi int default 0,fn_Source nvarchar(50) default '',fn_ViewType nvarchar(50) default '',fn_Meta ntext default '')")
 
 	objConn.Execute("INSERT INTO [blog_Member]([mem_Level],[mem_Name],[mem_PassWord],[mem_Email],[mem_HomePage],[mem_Intro],[mem_Guid]) VALUES (1,'"&username&"','"&password&"','null@null.com','','','"&userguid&"')")
 
@@ -679,7 +679,8 @@ Dim t
 Set t=new Tfunction
 t.Name="导航栏"
 t.FileName="navbar"
-t.IsSystem=True
+t.IsHidden=False
+t.Source="system"
 t.SidebarID=0
 t.Order=1
 t.Content="<li><a href=""<#ZC_BLOG_HOST#>"">首页</a></li><li><a href=""<#ZC_BLOG_HOST#>tags.asp"">标签</a></li><li><a href=""<#ZC_BLOG_HOST#>guestbook.html"">留言本</a></li>"
@@ -691,7 +692,8 @@ t.post
 Set t=new Tfunction
 t.Name="日历"
 t.FileName="calendar"
-t.IsSystem=True
+t.IsHidden=False
+t.Source="system"
 t.SidebarID=1
 t.Order=2
 t.Content=""
@@ -705,7 +707,8 @@ t.post
 Set t=new Tfunction
 t.Name="控制面板"
 t.FileName="controlpanel"
-t.IsSystem=True
+t.IsHidden=False
+t.Source="system"
 t.SidebarID=1
 t.Order=3
 t.Content="<span class=""cp-login""><a href=""<#ZC_BLOG_HOST#>zb_system/cmd.asp?act=login"">[<#ZC_MSG009#>]</a></span>&nbsp;&nbsp;<span class=""cp-vrs""><a href=""<#ZC_BLOG_HOST#>zb_system/cmd.asp?act=vrs"">[<#ZC_MSG021#>]</a></span>"
@@ -719,7 +722,8 @@ t.post
 Set t=new Tfunction
 t.Name="网站分类"
 t.FileName="catalog"
-t.IsSystem=True
+t.IsHidden=False
+t.Source="system"
 t.SidebarID=1
 t.Order=4
 t.Content=""
@@ -731,7 +735,8 @@ t.post
 Set t=new Tfunction
 t.Name="搜索"
 t.FileName="searchpanel"
-t.IsSystem=True
+t.IsHidden=False
+t.Source="system"
 t.SidebarID=1
 t.Order=5
 t.Content="<form method=""post"" action=""<#ZC_BLOG_HOST#>zb_system/cmd.asp?act=Search""><input type=""text"" name=""edtSearch"" id=""edtSearch"" size=""12"" /> <input type=""submit"" value=""<#ZC_MSG087#>"" name=""btnPost"" id=""btnPost"" /></form>"
@@ -743,7 +748,8 @@ t.post
 Set t=new Tfunction
 t.Name="最新留言"
 t.FileName="comments"
-t.IsSystem=True
+t.IsHidden=False
+t.Source="system"
 t.SidebarID=1
 t.Order=6
 t.Content=""
@@ -757,7 +763,8 @@ t.post
 Set t=new Tfunction
 t.Name="文章归档"
 t.FileName="archives"
-t.IsSystem=True
+t.IsHidden=False
+t.Source="system"
 t.SidebarID=1
 t.Order=7
 t.Content=""
@@ -770,7 +777,8 @@ t.post
 Set t=new Tfunction
 t.Name="站点统计"
 t.FileName="statistics"
-t.IsSystem=True
+t.IsHidden=False
+t.Source="system"
 t.SidebarID=0
 t.Order=8
 t.Content=""
@@ -784,7 +792,8 @@ t.post
 Set t=new Tfunction
 t.Name="网站收藏"
 t.FileName="favorite"
-t.IsSystem=True
+t.IsHidden=False
+t.Source="system"
 t.SidebarID=1
 t.Order=9
 t.Content="<li><a href=""http://bbs.rainbowsoft.org/"" target=""_blank"">ZBlogger社区</a></li><li><a href=""http://download.rainbowsoft.org/"" target=""_blank"">菠萝的海</a></li><li><a href=""http://t.qq.com/zblogcn"" target=""_blank"">Z-Blog微博</a></li>"
@@ -798,7 +807,8 @@ t.post
 Set t=new Tfunction
 t.Name="友情链接"
 t.FileName="link"
-t.IsSystem=True
+t.IsHidden=False
+t.Source="system"
 t.SidebarID=1
 t.Order=10
 t.Content="<li><a href=""http://www.dbshost.cn/"" target=""_blank"" title=""独立博客服务 Z-Blog官方主机"">DBS主机</a></li><li><a href=""http://www.dutory.com/blog/"" target=""_blank"">Dutory官方博客</a></li>"
@@ -811,7 +821,8 @@ t.post
 Set t=new Tfunction
 t.Name="图标汇集"
 t.FileName="misc"
-t.IsSystem=True
+t.IsHidden=False
+t.Source="system"
 t.SidebarID=1
 t.Order=11
 t.Content="<li><a href=""http://www.rainbowsoft.org/"" target=""_blank""><img src=""<#ZC_BLOG_HOST#>zb_system/image/logo/zblog.gif"" height=""31"" width=""88"" border=""0"" alt=""RainbowSoft Studio Z-Blog"" /></a></li><li><a href=""<#ZC_BLOG_HOST#>feed.asp"" target=""_blank""><img src=""<#ZC_BLOG_HOST#>zb_system/image/logo/rss.png"" height=""31"" width=""88"" border=""0"" alt=""订阅本站的 RSS 2.0 新闻聚合"" /></a></li>"
@@ -825,7 +836,8 @@ t.post
 Set t=new Tfunction
 t.Name="作者列表"
 t.FileName="authors"
-t.IsSystem=True
+t.IsHidden=False
+t.Source="system"
 t.SidebarID=0
 t.Order=12
 t.Content=""
@@ -839,7 +851,8 @@ t.post
 Set t=new Tfunction
 t.Name="最近发表"
 t.FileName="previous"
-t.IsSystem=True
+t.IsHidden=False
+t.Source="system"
 t.SidebarID=0
 t.Order=13
 t.Content=""
@@ -852,7 +865,8 @@ t.post
 Set t=new Tfunction
 t.Name="Tags列表"
 t.FileName="tags"
-t.IsSystem=True
+t.IsHidden=False
+t.Source="system"
 t.SidebarID=0
 t.Order=14
 t.Content=""
