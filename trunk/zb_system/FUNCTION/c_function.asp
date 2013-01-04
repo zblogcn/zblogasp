@@ -1662,7 +1662,8 @@ Function GetCurrentHost()
 	End If
 	Set fso=Nothing
 
-	PhysicsPath=CreateObject("Scripting.FileSystemObject").GetFolder(PhysicsPath).Path & "\"
+	PhysicsPath=CreateObject("Scripting.FileSystemObject").GetFolder(PhysicsPath).Path
+	If Right(PhysicsPath,1)<>"\" Then PhysicsPath=PhysicsPath & "\"
 	CurrentReallyDirectory=PhysicsPath
 
 	Dim s,t,u,i,w,x
