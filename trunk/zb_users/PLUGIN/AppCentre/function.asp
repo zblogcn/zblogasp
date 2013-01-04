@@ -364,8 +364,8 @@ On Error Resume Next
 		If objXmlFile.readyState=4 Then
 			If objXmlFile.parseError.errorCode <> 0 Then
 			Else
-				objXmlFile.documentElement.selectSingleNode("adapted").text=BlogVersion
-				objXmlFile.Save BlogPath & "zb_users/plugin" & "/" & ID & "/" & "plugin.xml"
+				'objXmlFile.documentElement.selectSingleNode("adapted").text=BlogVersion
+				'objXmlFile.Save BlogPath & "zb_users/plugin" & "/" & ID & "/" & "plugin.xml"
 
 				Theme_Id=""
 				Theme_Name=""
@@ -570,8 +570,8 @@ On Error Resume Next
 		If objXmlFile.readyState=4 Then
 			If objXmlFile.parseError.errorCode <> 0 Then
 			Else
-				objXmlFile.documentElement.selectSingleNode("adapted").text=BlogVersion
-				objXmlFile.Save BlogPath & "zb_users/theme" & "/" & ID & "/" & "theme.xml"
+				'objXmlFile.documentElement.selectSingleNode("adapted").text=BlogVersion
+				'objXmlFile.Save BlogPath & "zb_users/theme" & "/" & ID & "/" & "theme.xml"
 				
 				Theme_Id=""
 				Theme_Name=""
