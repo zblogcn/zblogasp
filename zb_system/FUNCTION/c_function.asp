@@ -1049,12 +1049,16 @@ End Function
 '*********************************************************
 Function DelToFile(strFullName)
 
+	On Error Resume Next
+	DelToFile=False
+
 	Dim fso, TxtFile
 
 	Set fso = CreateObject("Scripting.FileSystemObject")
 	If fso.FileExists(strFullName) Then
 		Set TxtFile = fso.GetFile(strFullName)
 		TxtFile.Delete
+		If Err.Number=0 Then DelToFile=True
 	End If
 	Set fso=Nothing
 
@@ -1658,8 +1662,7 @@ Function GetCurrentHost()
 	End If
 	Set fso=Nothing
 
-	PhysicsPath=CreateObject("Scripting.FileSystemObject").GetFolder(PhysicsPath).Path
-	If Right(PhysicsPath,1)<>"\" Then PhysicsPath=PhysicsPath & "\"
+	PhysicsPath=CreateObject("Scripting.FileSystemObject").GetFolder(PhysicsPath).Path & "\"
 	CurrentReallyDirectory=PhysicsPath
 
 	Dim s,t,u,i,w,x
