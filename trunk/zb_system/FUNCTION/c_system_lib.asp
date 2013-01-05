@@ -4649,11 +4649,11 @@ Class TNewRss2Export
 	End Function
 
 	Public Function SaveToFile(strFileName)
-
+		On Error Resume Next
 		objXMLdoc.save(strFileName)
 
 		SaveToFile=True
-
+		Err.Clear
 	End Function
 
 
