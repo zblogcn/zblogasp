@@ -1,18 +1,4 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<plugin version="2.0"><id>gbook_gravatar</id><name>带gravatar头像的最新评论</name>
-	<url>http://www.dazhuer.cn/post/zblog-default-gravatar.html</url>
-	<note>带gravatar头像的最新评论 for Z-BLOG 2.0是一个对ZBLOG现有的留言评论增加gravatar头像的扩充插件，此插件可以在首页调用最新留言时增加gravatar头像的显示。</note>
-	<author>
-		<name>大猪</name>
-		<url>http://www.izhu.org/</url>
-		<email>myllop@gmail.com</email>
-	</author>
-	<type>inline</type>
-	<path>setting.asp</path>
-	<include>include.asp</include>
-	<level>1</level>
-	<version>1.0</version>
-	<pubdate>2012-8-10</pubdate>
-	<modified>2012-8-10</modified>
-	<adapted>121125</adapted>
-</plugin>
+<plugin version="2.0"><id>gbook_gravatar</id><name>带gravatar头像的最新评论</name><url>http://www.izhu.org/post/28.html</url><note>带gravatar头像的最新评论 for Z-BLOG 2.0是一个对ZBLOG现有的留言评论增加gravatar头像的扩充插件，此插件可以在首页调用最新留言时增加gravatar头像的显示。</note><path>setting.asp</path><include>include.asp</include><level>1</level><author><name>大猪</name><email>myllop@gmail.com</email><url>http://www.izhu.org/</url></author><adapted>121221</adapted><version>1.0</version><pubdate>2012-8-10</pubdate><modified>2013-1-4</modified><description><![CDATA[该插件由大猪(izhu.org)生产，此版本是vitoland(vlee.org)在其基础上增加了三种样式，比大猪原作好看点。有问题请找大猪……
+本次更新的主要内容如下：
+1.修改过滤评论用户方式，由ID改成评论用户名(更方便操作)]]></description><price>0</price><advanced><dependency></dependency><rewritefunctions></rewritefunctions><conflict></conflict></advanced></plugin>

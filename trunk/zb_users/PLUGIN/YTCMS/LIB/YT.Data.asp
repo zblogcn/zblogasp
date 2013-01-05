@@ -27,7 +27,7 @@ Class YT_Table
 		End If
 		List = t
 	End Function
-	Sub Import(t)
+	Function Import(t)
 		Dim x,d,b:b = false
 			d=BlogPath&"ZB_USERS/THEME/"&ZC_BLOG_THEME&"/DATA/"&t
 		Set x=CreateObject("Microsoft.XMLDOM")
@@ -56,6 +56,7 @@ Class YT_Table
 								Redim Field(-1)
 								Redim Value(-1)
 								For s = 0 To n.childNodes.length-1
+									If s > Ubound(T2) Then Exit For
 									Dim obj:Set obj=YT.eval(T2(s))
 									If obj.auto Then
 										If UBound(T4) = -1 Then
@@ -69,7 +70,7 @@ Class YT_Table
 										T4(l) = Array(n.childNodes(s).Text,a+1)
 									End If
 									If obj.auto = false Then
-										If obj.name = n.childNodes(s).nodeName Then
+										If n.getElementsByTagName(obj.name).length > 0 Then
 											j = UBound(Field)+1
 											ReDim Preserve Field(j)
 											ReDim Preserve Value(j)
@@ -131,19 +132,20 @@ Class YT_Table
 				End If
 			End If
 		Set x=Nothing
-		If b Then
-			Dim fso,XmlFile
-			Set fso = CreateObject("Scripting.FileSystemObject")
-				Set XmlFile = fso.GetFile(d)
-					XmlFile.Delete
-				Set XmlFile = Nothing
-			Set fso = Nothing
-		End If
-	End Sub 
+		Import = b
+'		If b Then
+'			Dim fso,XmlFile
+'			Set fso = CreateObject("Scripting.FileSystemObject")
+'				Set XmlFile = fso.GetFile(d)
+'					XmlFile.Delete
+'				Set XmlFile = Nothing
+'			Set fso = Nothing
+'		End If
+	End Function 
 	Function Exist(TableName)
 		On Error Resume Next
 		Dim Rs
-		Set Rs=objConn.Execute("SELECT TOP 1 * FROM "&TableName)
+		Set Rs=objConn.Execute("SELECT TOP 1 * FROM ["&TableName&"]")
 		Set Rs=Nothing
 		If Err.Number=0 Then
 			Exist=True
@@ -169,7 +171,13 @@ Class YT_Table
 			Sql=Replace(Sql,"COUNTER(1,1)","INT IDENTITY(1,1) NOT NULL")
 			Sql=Replace(Sql,"VARCHAR","VARCHAR(500)")
 		End If
-		Sql = Sql & "[log_ID] INT)"
+		If Right(Sql,1)="," Then
+			Sql = Left(Sql,Len(Sql)-1)
+		End If
+		If Node.selectSingleNode("Table/Bind").Text <> "" Then
+			Sql = Sql & ",[log_ID] INT"
+		End If
+		Sql = Sql & ")"
 		objConn.Execute(Sql)
 	End Sub
 	Function GetFields(TableName)
@@ -201,7 +209,7 @@ Class YT_Article
 		ID = Split(ID,",")
 		If isArray(ID) Then
 			Dim Rs
-			Set Rs = objConn.Execute("select * from blog_Article WHERE [log_Type]=0 AND [log_ID] IN ("&Join(ID,",")&")")
+			Set Rs = objConn.Execute("select [log_ID] from blog_Article WHERE [log_ID] IN ("&Join(ID,",")&")")
 				If Not (Rs.EOF and Rs.BOF) Then GetArticleModel = Rs.GetRows
 			Set Rs = Nothing
 		End If
@@ -424,7 +432,7 @@ Class YT_Comment
 	Function GetCommentComments(Rows)
 		If IsNumeric(Rows) Then
 			Dim Rs
-			Set Rs = objConn.Execute("SELECT top "& CStr(Rows) &" [comm_ID] FROM [blog_Article],[blog_Comment] WHERE blog_Article.log_CateID<>0 AND blog_Article.log_ID>0 and blog_Comment.log_ID=blog_Article.log_ID AND  comm_ParentID = 0 ORDER BY [comm_PostTime] DESC,[comm_ID] DESC")
+			Set Rs = objConn.Execute("SELECT top "& CStr(Rows) &" [comm_ID] FROM [blog_Comment] WHERE   comm_ParentID = 0 ORDER BY [comm_PostTime] DESC,[comm_ID] DESC")
 				If Not (Rs.EOF and Rs.BOF) Then GetCommentComments = Rs.GetRows(Rows)
 			Set Rs = Nothing
 		End If

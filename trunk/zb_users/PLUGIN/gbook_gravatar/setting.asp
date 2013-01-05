@@ -2,7 +2,7 @@
 <%
 '///////////////////////////////////////////////////////////////////////////////
 '// 插件应用:    Z-Blog 1.8
-'// 插件制作:    
+'// 插件制作:    大猪
 '// 备    注:    
 '// 最后修改：   
 '// 最后版本:    
@@ -110,6 +110,54 @@ BlogTitle="最新评论 - 查看/操作"
   <td><input name="str_DZ_COUNT_VALUE" type="text" id="str_DZ_COUNT_VALUE" value="<%=str_DZ_COUNT_VALUE%>" size="4" />
     </td>
 </tr>
+<%
+	
+	Dim str_DZ_ISREPLY
+	str_DZ_ISREPLY=gbook_gravatar_Config.Read("DZ_ISREPLY")
+	str_DZ_ISREPLY=TransferHTML(str_DZ_ISREPLY,"[html-format]")
+%>
+
+<tr>
+  <td height="29">显示回复：</td>
+  <td><label>
+        <input type="radio" name="str_DZ_ISREPLY" value="1" id="isreply_1" />
+        显示</label>
+    <label>
+      <input type="radio" name="str_DZ_ISREPLY" value="0" id="isreply_0" />
+        不显示</label>
+         <script language="javascript" type="text/javascript">document.getElementById('isreply_<%=str_DZ_ISREPLY%>').checked=true;</script>
+    </td>
+</tr>
+<%
+	
+	Dim str_DZ_USERIDS
+	str_DZ_USERIDS=gbook_gravatar_Config.Read("DZ_USERIDS")
+	str_DZ_USERIDS=TransferHTML(str_DZ_USERIDS,"[html-format]")
+%>
+
+<tr>
+  <td height="29">不显示用户：</td>
+  <td><input name="str_DZ_USERIDS" type="text" id="str_DZ_USERIDS" value="<%=str_DZ_USERIDS%>" size="65" />
+    </td>
+</tr>
+
+<%
+ 	Dim str_DZ_STYLE_VALUE
+ 	str_DZ_STYLE_VALUE=gbook_gravatar_Config.Read("DZ_STYLE_VALUE")
+ 	str_DZ_STYLE_VALUE=TransferHTML(str_DZ_STYLE_VALUE,"[html-format]")
+ %>
+ <tr>
+   <td height="29">外观样式：</td>
+   <td>
+    <!--<p>当前样式：<%=str_DZ_STYLE_VALUE%></p>-->
+    <!--<p>-->
+    <input type="radio" name="str_DZ_STYLE_VALUE" id="str_DZ_STYLE_VALUE_1" value="1" />&nbsp;<label for="str_DZ_STYLE_VALUE_1">昵称+留言</label>&nbsp;&nbsp;
+    <input type="radio" name="str_DZ_STYLE_VALUE" id="str_DZ_STYLE_VALUE_2" value="2" onClick="javascript:document.getElementById('str_DZ_WH_VALUE').value='16';" />&nbsp;<label for="str_DZ_STYLE_VALUE_2">小头像+留言</label>&nbsp;&nbsp;
+    <input type="radio" name="str_DZ_STYLE_VALUE" id="str_DZ_STYLE_VALUE_3" value="3"onclick="javascript:document.getElementById('str_DZ_WH_VALUE').value='32';" />&nbsp;<label for="str_DZ_STYLE_VALUE_3">大头像+昵称+留言</label>
+    <!--</p>-->
+    <script language="javascript" type="text/javascript">document.getElementById('str_DZ_STYLE_VALUE_<%=str_DZ_STYLE_VALUE%>').checked=true;</script>
+     </td>
+ </tr>
 
 <tr>
   <td>&nbsp;</td>

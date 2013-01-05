@@ -72,9 +72,14 @@ Set TemplateDic=CreateObject("Scripting.Dictionary")
 Set TemplateTagsDic=CreateObject("Scripting.Dictionary")
 
 
-Const ZC_BLOG_WEBEDIT="ueditor"
-Const ZC_TB_EXCERPT_MAX=250
-Const ZC_TRACKBACK_TURNOFF=True
+Dim ZC_BLOG_WEBEDIT
+ZC_BLOG_WEBEDIT="ueditor"
+
+Dim ZC_TB_EXCERPT_MAX
+ZC_TB_EXCERPT_MAX=250
+
+Dim ZC_TRACKBACK_TURNOFF
+ZC_TRACKBACK_TURNOFF=True
 
 Const ZC_DISPLAY_MODE_ALL=1
 Const ZC_DISPLAY_MODE_INTRO=2

@@ -948,7 +948,7 @@ Function ExportPluginMng()
 
 
 	Response.Write "<table border=""1"" width=""100%"" cellspacing=""0"" cellpadding=""0"" class=""tableBorder tableBorder-thcenter"">"
-	Response.Write "<tr><th width=""50px"">"& ZC_MSG201 &"</th><th width=""50px"">"& ZC_MSG079 &"</th><th>"& ZC_MSG001 &"</th><th width=""13%"">"& ZC_MSG128 &"</th><th width=""10%"">"& ZC_MSG150 &"</th><th width=""12%"">"& ZC_MSG151 &"</th><th width=""10%""></th></tr>"
+	Response.Write "<tr><th width=""50px""></th></th><th>"& ZC_MSG001 &"</th><th width=""12%"">"& ZC_MSG128 &"</th><th width=""12%"">"& ZC_MSG151 &"</th><th width=""10%""></th></tr>"
 
 	Dim objXmlFile,strXmlFile
 
@@ -969,11 +969,11 @@ Function ExportPluginMng()
 				If Err.Number=0 Then
 
 					Response.Write "<tr>"
-					Response.Write "<td align='center'><img width='16' src='../IMAGE/ADMIN/ok.png'/></td>"
-					Response.Write "<td>"& "0" &"</td>"
-					Response.Write "<td><a id=""mylink"&Left(md5(objXmlFile.documentElement.selectSingleNode("id").text),6)&""" href=""$div"&Left(md5(objXmlFile.documentElement.selectSingleNode("id").text),6)&"tip?width=300"" class=""betterTip"" title=""$content"">" & "" & objXmlFile.documentElement.selectSingleNode("name").text & " ("& ZC_MSG199 &")" & "</a><div id=""div"&Left(md5(objXmlFile.documentElement.selectSingleNode("id").text),6)&"tip"" style=""display:none;"">"&objXmlFile.documentElement.selectSingleNode("note").text&"</div></td>"
+					Response.Write "<td align='center'><img alt='' width='32' src='../IMAGE/ADMIN/app-logo.png' style='margin:2px;'/></td>"
+					'Response.Write "<td>"& "0" &"</td>"
+					Response.Write "<td><a id=""mylink"&Left(md5(objXmlFile.documentElement.selectSingleNode("id").text),6)&""" href=""$div"&Left(md5(objXmlFile.documentElement.selectSingleNode("id").text),6)&"tip?width=300"" class=""betterTip"" title=""$content"">" & "" & objXmlFile.documentElement.selectSingleNode("name").text & " ("& ZC_MSG199 &")&nbsp;&nbsp;ver" & objXmlFile.documentElement.selectSingleNode("version").text  & "</a><div id=""div"&Left(md5(objXmlFile.documentElement.selectSingleNode("id").text),6)&"tip"" style=""display:none;"">"&objXmlFile.documentElement.selectSingleNode("note").text&"</div></td>"
 					Response.Write "<td>" & "<a target=""_blank"" href=""" & objXmlFile.documentElement.selectSingleNode("author/url").text & """>"& objXmlFile.documentElement.selectSingleNode("author/name").text & "</td>"
-					Response.Write "<td>" & objXmlFile.documentElement.selectSingleNode("version").text & "</td>"
+					'Response.Write "<td>" & objXmlFile.documentElement.selectSingleNode("version").text & "</td>"
 					Response.Write "<td>"& objXmlFile.documentElement.selectSingleNode("modified").text &"</td>"
 					Response.Write "<td align='center'>"
 					If BlogUser.Level<=CLng(objXmlFile.documentElement.selectSingleNode("plugin/level").text) Then
@@ -1033,19 +1033,24 @@ Function ExportPluginMng()
 			End If
 
 			If CheckPluginState(objXmlFile.documentElement.selectSingleNode("id").text) Then
-				s=s & "<img width='16' src='../IMAGE/ADMIN/ok.png'/>"
+
+				If fso.FileExists(BlogPath & "zb_users/plugin/" & f1.name & "/" & "logo.png") Then
+					s=s & "<img alt='' width='32' src='"&BlogHost & "zb_users/plugin/" & f1.name & "/" & "logo.png"&"'/ style='margin:2px;'>"
+				Else
+					s=s & "<img alt='' width='32' src='../IMAGE/ADMIN/app-logo.png'/ style='margin:2px;'>"
+				End If
 			Else
-				s=s
+				s=s & "<img alt='' width='32' src='../IMAGE/ADMIN/app-logo.png'/ style='margin:2px;visibility:hidden;'>"
 			End If
 
 			s=s & "<strong style='display:none;'>"& Server.URLEncode(objXmlFile.documentElement.selectSingleNode("id").text) &"</strong>"
 
 			s=s & "</td>"
 
-			s=s & "<td>"& m &"</td>"
-			s=s & "<td><a id=""mylink"&Left(md5(objXmlFile.documentElement.selectSingleNode("id").text),6)&""" href=""$div"&objXmlFile.documentElement.selectSingleNode("id").text&"tip?width=300"" class=""betterTip"" title=""$content"">" & "" & objXmlFile.documentElement.selectSingleNode("name").text & "" & "</a><div id=""div"&objXmlFile.documentElement.selectSingleNode("id").text&"tip"" style=""display:none;"">"&objXmlFile.documentElement.selectSingleNode("note").text&"</div></td>"
+			's=s & "<td>"& m &"</td>"
+			s=s & "<td><a id=""mylink"&Left(md5(objXmlFile.documentElement.selectSingleNode("id").text),6)&""" href=""$div"&objXmlFile.documentElement.selectSingleNode("id").text&"tip?width=300"" class=""betterTip"" title=""$content"">" & "" & objXmlFile.documentElement.selectSingleNode("name").text & "&nbsp;&nbsp;ver" & objXmlFile.documentElement.selectSingleNode("version").text & "</a><div id=""div"&objXmlFile.documentElement.selectSingleNode("id").text&"tip"" style=""display:none;"">"&objXmlFile.documentElement.selectSingleNode("note").text&"</div></td>"
 			s=s & "<td>" & "<a target=""_blank"" href=""" & objXmlFile.documentElement.selectSingleNode("author/url").text & """>"& objXmlFile.documentElement.selectSingleNode("author/name").text & "</a></td>"
-			s=s & "<td>" & objXmlFile.documentElement.selectSingleNode("version").text & "</td>"
+			's=s & "<td>" & objXmlFile.documentElement.selectSingleNode("version").text & "</td>"
 			s=s & "<td>"& objXmlFile.documentElement.selectSingleNode("modified").text &"</td>"
 
 				s=s & "<td align='center'>"

@@ -282,14 +282,16 @@ $.ajax({
 	}
 });
 function addModelField(arrObject,Model){
-	arrObject.push({
-		Group:'「模型>'+ $('Table>Description',Model).text()+'」',Fields:[]
-	});	
-	var u = arrObject.length - 1;
-	$('Field',Model).each(function(){
-		arrObject[u].Fields.push({
-			Text:$(this).find('Description').text(),
-			Value:'{$'+$(this).find('Name').text()+'}'
-		});						   
-	});
+	if($('Bind',Model).text()!=''){
+		arrObject.push({
+			Group:'「模型>'+ $('Table>Description',Model).text()+'」',Fields:[]
+		});	
+		var u = arrObject.length - 1;
+		$('Field',Model).each(function(){
+			arrObject[u].Fields.push({
+				Text:$(this).find('Description').text(),
+				Value:'{$'+$(this).find('Name').text()+'}'
+			});						   
+		});
+	}
 }

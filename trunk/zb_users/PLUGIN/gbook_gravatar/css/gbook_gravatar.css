@@ -1,16 +1,5 @@
-.n_cmt_div {clear:both;margin:0 0 0 -10px!important;padding:0 0 0 0!important;}
-
-.n_cmt_gravatar{float:left; margin:0px 8px 0 0;padding:0!important;}
-
-.n_cmt_content{list-style:none;padding:0!important;white-space:normal!important;}
-
-.n_cmt_time{font-size:10px; font-weight:bold; }
-.n_cmt_auth{ background:url("images/icon_comment.png") no-repeat scroll right center transparent;
- margin:3px 0;
- padding-right:20px;
- font-weight:bold;
- }
-.n_cmt_auth a{color:#0A95D8;}
-
-.n_cmt_content blockquote{display:none;}
-.n_cmt_content img{max-width:210px;}
+﻿.C_CMT_32 {text-overflow:ellipsis;clear:both;padding:5px 3px;border-bottom: 1px dashed #CCCCCC;}
+.C_CMT_Gravatar {float:left;margin:0 5px 0 0;padding:0!important;}
+.C_CMT_Content a {padding:0;margin:0;line-height:130%;white-space:normal !important;}
+.C_CMT_32 .C_CMT_A {color:#136475;}
+.C_CMT_32 img {max-width:100px;}

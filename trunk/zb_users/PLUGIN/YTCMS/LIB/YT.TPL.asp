@@ -4,19 +4,12 @@
 '// 技术支持:    33195@qq.com
 '// 程序名称:    	模板类
 '// 开始时间:    	2012.08.30
-'// 最后修改:    2012.09.03
+'// 最后修改:    2012.10.24
 '///////////////////////////////////////////////////////////////////////////////
 Class YT_TPL
-	Private REG,DIC
+	Private REG
 	Private sIndex
-	Private sTemplate
-	Public Property Get template
-		template = sTemplate
-	End Property
-	Public Property Let template(s)
-		'替换标签兼容旧系统
-		sTemplate = reg_replace("\<(YT\:([a-z]+)[^\>]+)\>([\s\S]+?)\<(\/YT)\>","{$1}$3{$4:$2}",s)
-	End Property
+	Public template
 	Public Property Get code
 		Dim s
 		s = "<"&"%"&vbCrlf
@@ -30,18 +23,25 @@ Class YT_TPL
 		s = s&"%"&">"&vbCrlf
 		s = s&vbNullChar
 		s = s&"<"&"%"&vbCrlf
+		s = s&vbTab&"For Each h{%i%} In Split(YTARRAY,"","")"&vbcrlf
+		s = s&vbTab&vbTab&"Execute(h{%i%}&""=empty"")"&vbcrlf
+		s = s&vbTab&"Next"&vbcrlf
+		s = s&vbTab&"YTARRAY=Empty"&vbCrlf
 		s = s&vbTab&"End If"&vbCrlf
 		s = s&"Next"&vbCrlf
 		s = s&"End If"&vbCrlf
 		s = s&"%"&">"&vbCrlf
 		s = s&vbNullChar
 		s = s&"Model{%i%} = getModel($1{%i%}.CateID,$1{%i%}.ID)"&vbcrlf
-		s = s&vbTab&vbTab&"If Not isEmpty(Model{%i%}) Then Set Model{%i%}=YT.eval(Model{%i%})"&vbcrlf
-		s = s&vbTab&vbTab&"If isObject(Model{%i%}) Then"&vbcrlf
-		s = s&vbTab&vbTab&"For Each k{%i%} In Model{%i%}.YTARRAY"&vbcrlf
-		s = s&vbTab&vbTab&vbTab&"Execute(k{%i%}&""=YT.unescape(Model{%i%}.""&k{%i%}&"")"")"&vbcrlf
-		s = s&vbTab&vbTab&"Next"&vbcrlf
-		s = s&vbTab&vbTab&"End If"&vbcrlf
+		s = s&vbTab&vbTab&"If len(Trim(Model{%i%}))>0 Then"&vbcrlf
+		s = s&vbTab&vbTab&"Set Model{%i%}=YT.eval(Model{%i%})"&vbcrlf
+		s = s&vbTab&vbTab&vbTab&"If isObject(Model{%i%}) Then"&vbcrlf
+		s = s&vbTab&vbTab&vbTab&vbTab&"Execute(""YTARRAY=Model{%i%}.YTARRAY"")"&vbcrlf
+		s = s&vbTab&vbTab&vbTab&vbTab&"For Each k{%i%} In Split(YTARRAY,"","")"&vbcrlf
+		s = s&vbTab&vbTab&vbTab&vbTab&vbTab&"Execute(k{%i%}&""=YT.unescape(Model{%i%}.""&k{%i%}&"")"")"&vbcrlf
+		s = s&vbTab&vbTab&vbTab&vbTab&"Next"&vbcrlf
+		s = s&vbTab&vbTab&vbTab&"End If"&vbCrlf
+		s = s&vbTab&vbTab&"End If"&vbCrlf
 		code = s
 	End Property
 	Private Sub Class_Initialize()
@@ -49,39 +49,8 @@ Class YT_TPL
 		Set REG = New Regexp
 			REG.IgnoreCase = True
 			REG.Global = True
-		Set DIC = CreateObject("Scripting.Dictionary")	
-			DIC.Add "<#article/trackback_url#>","<"&"%=$1{%i%}.TrackBack%"&">"
-			DIC.Add "<#article/category/name#>","<"&"%=$1{%i%}.HtmlName%"&">"
-			DIC.Add "<#article/category/url#>","<"&"%=$1{%i%}.HtmlUrl%"&">"
-			DIC.Add "<#article/author/url#>","<"&"%=$1{%i%}.HtmlUrl%"&">"
-			DIC.Add "<#article/author/level#>","<"&"%=ZVA_User_Level_Name(Users($1{%i%}.AuthorID).Level)%"&">"
-			DIC.Add "<#article/posttime/longdate#>","<"&"%=FormatDateTime($1{%i%}.PostTime,vbLongDate)%"&">"
-			DIC.Add "<#article/posttime/shortdate#>","<"&"%=FormatDateTime($1{%i%}.PostTime,vbShortDate)%"&">"
-			DIC.Add "<#article/posttime/longtime#>","<"&"%=FormatDateTime($1{%i%}.PostTime,vbLongTime)%"&">"
-			DIC.Add "<#article/posttime/shorttime#>","<"&"%=FormatDateTime($1{%i%}.PostTime,vbShortTime)%"&">"
-			DIC.Add "<#article/posttime/year#>","<"&"%=Year($1{%i%}.PostTime)%"&">"
-			DIC.Add "<#article/posttime/month#>","<"&"%=Month($1{%i%}.PostTime)%"&">"
-			DIC.Add "<#article/posttime/monthname#>","<"&"%=ZVA_Month(Month($1{%i%}.PostTime))%"&">"
-			DIC.Add "<#article/posttime/day#>","<"&"%=Day($1{%i%}.PostTime)%"&">"
-			DIC.Add "<#article/posttime/weekday#>","<"&"%=Weekday($1{%i%}.PostTime)%"&">"
-			DIC.Add "<#article/posttime/weekdayname#>","<"&"%=ZVA_Week(Weekday($1{%i%}.PostTime))%"&">"
-			DIC.Add "<#article/posttime/hour#>","<"&"%=Hour($1{%i%}.PostTime)%"&">"
-			DIC.Add "<#article/posttime/minute#>","<"&"%=Minute($1{%i%}.PostTime)%"&">"
-			DIC.Add "<#article/posttime/second#>","<"&"%=Second($1{%i%}.PostTime)%"&">"
-			DIC.Add "<#article/posttime/monthnameabbr#>","<"&"%=ZVA_Month_Abbr(Month($1{%i%}.PostTime))%"&">"
-			DIC.Add "<#article/posttime/weekdaynameabbr#>","<"&"%=ZVA_Week_Abbr(Weekday($1{%i%}.PostTime))%"&">"
-			DIC.Add "<#article/commentrss#>","<"&"%=Second($1{%i%}.WfwCommentRss)%"&">"
-			DIC.Add "<#article/commentposturl#>","<"&"%=TransferHTML($1{%i%}.CommentPostUrl,""[html-format]"")%"&">"
-			DIC.Add "<#article/pretrackback_url#>","<"&"%=TransferHTML($1{%i%}.PreTrackBack,""[html-format]"")%"&">"
-			DIC.Add "<#article/comment/name#>","<"&"%=$1{%i%}.Author%"&">"
-			DIC.Add "<#article/comment/url#>","<"&"%=$1{%i%}.HomePage%"&">"
-			DIC.Add "<#article/comment/email#>","<"&"%=$1{%i%}.SafeEmail%"&">"
-			DIC.Add "<#article/comment/urlencoder#>","<"&"%=$1{%i%}.HomePageForAntiSpam%"&">"
-			DIC.Add "<#article/tag/name#>","<"&"%=$1{%i%}.HtmlName%"&">"
-			DIC.Add "<#article/tag/intro#>","<"&"%=$1{%i%}.HtmlIntro%"&">"
 	End Sub
 	Private Sub Class_Terminate()
-		Set DIC = Nothing
 		Set REG = Nothing
 	End Sub
 	Private Function html_replace(str)
@@ -102,6 +71,8 @@ Class YT_TPL
 		s = reg_replace("\{elseif\s+(.+?)\}","<"&"%ElseIf $1 Then%"&">",s)	
 		s = Replace(s,"{/if}","<"&"%End If%"&">")
 		s = Replace(s,"{else}","<"&"%Else%"&">")
+		s = reg_replace("\{code\}","<"&"%",s)
+		s = Replace(s,"{/code}","%"&">")
 		s = reg_replace("\{eval\s+(.+?)\}","<"&"% $1 %"&">",s)
 		s = reg_replace("\{echo\s+(.+?)\}","<"&"%=$1%"&">",s)
 		html_replace = s
@@ -140,18 +111,13 @@ Class YT_TPL
 	End Function
 	Public Function display()
 		On Error Resume Next
-		Dim d,e,h,j,k,l,m,n,p,r,t,u,v,w,x
-		Dim s
+		Dim d,e,h,j,k,l,m,n,p
+		Dim s,r,t,u,v,w,x
 		w = template
 		template = html_replace(template)
-		d = reg_match("\{YT\:([a-z]+)([^\>]+)\}",template)
+		d = reg_match("\{YT\:([a-z]+)([^\}]+)\}",template)
 		For Each e In d
 			REG.Global = True
-			m = DIC.Keys
-			n = DIC.Items
-			For l = 0 To DIC.Count - 1
-				template=Replace(template,m(l),Replace(Replace(n(l),"{%i%}",sIndex),"$1",e(0)))
-			Next
 			s = code
 			If LCase(e(0)) = "article" Then s = Replace(s,"$4",Split(s,vbNullChar)(2))
 			s = Replace(s,"$4",Empty)
@@ -181,11 +147,6 @@ Class YT_TPL
 					display()
 					t = reg_match("\{YT\:([a-z]+)([^\}]+)\}",template)
 				Wend
-				r = reg_replace("\<#article\/([a-z]+)#\>","<"&"%="&e(0)&sIndex&".$1%"&">",r)
-				r = reg_replace("\<#article\/comment\/([a-z]+)#\>","<"&"%="&e(0)&sIndex&".$1%"&">",r)
-				r = reg_replace("\<#article\/category\/([a-z]+)#\>","<"&"%=Categorys("&e(0)&sIndex&".CateID).$1%"&">",r)
-				r = reg_replace("\<#article\/author\/([a-z]+)#\>","<"&"%=Users("&e(0)&sIndex&".AuthorID).$1%"&">",r)
-				r = reg_replace("\<#article\/model\/(\w+)#\>","<"&"%=$1%"&">"&"<"&"%$1=Empty%"&">",r)
 				template = Replace(template,p,r)
 			End If
 			sIndex = sIndex + 1
@@ -197,7 +158,6 @@ Class YT_TPL
 			s = Replace(s,"$1",Err.Source)
 			s = Replace(s,"$2",Err.Number&vbTab&Err.Description)
 			Err.Clear
-			s = s&w
 			display = s
 		Else
 			htm = replace(htm,"{::vbcrlf}",vbcrlf)
@@ -239,7 +199,7 @@ Class YT_TPL
 		End If
 		str_match = d
 	End Function
-	Private Function reg_match(Pattern,s)
+	Public Function reg_match(Pattern,s)
 		Dim ms,m,i,j:j=0
 			REG.Pattern = Pattern
 		Set ms = REG.Execute(s)
