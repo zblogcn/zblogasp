@@ -1449,102 +1449,116 @@ Call Add_Response_Plugin("Response_Plugin_FunctionMng_SubMenu",MakeSubMenu(ZC_MS
 	Response.Write "<div class=""widget-list"">"
 
 
-	Dim aryFunctionInOrder
-	aryFunctionInOrder=GetFunctionOrder()
+	'Dim aryFunctionInOrder
+	'aryFunctionInOrder=GetFunctionOrder()
 
-	If IsArray(aryFunctionInOrder) Then
+	'If IsArray(aryFunctionInOrder) Then
 Response.Write "<script type=""text/javascript"">"
 Response.Write "var functions = {"
-	For i=LBound(aryFunctionInOrder)+1 To Ubound(aryFunctionInOrder)
-
-Response.Write "'"&Functions(aryFunctionInOrder(i)).FileName&"' : '"&Functions(aryFunctionInOrder(i)).SourceType&"'"
-If i<>Ubound(aryFunctionInOrder) Then Response.Write ","
-
-
+	For i=LBound(Functions)+1 To Ubound(Functions)
+		If IsObject(Functions(i)) Then
+			Response.Write "'"&Functions(i).FileName&"' : '"&Functions(i).SourceType&"'"
+			If i<>Ubound(Functions) Then Response.Write ","
+		End If
 	Next
 Response.Write "};"
 Response.Write "</script>"
 
 	Response.Write "<div class=""widget-list-header"">系统模块</div>"
-	For i=LBound(aryFunctionInOrder)+1 To Ubound(aryFunctionInOrder)
-		If Functions(aryFunctionInOrder(i)).IsSystem Then
-			Response.Write "<div class=""widget widget_source_"& Functions(aryFunctionInOrder(i)).SourceType &" " & Functions(aryFunctionInOrder(i)).FileName & """>"
-			Response.Write "	<div class=""widget-title""><img class=""more-action"" width=""16"" src=""../image/admin/brick.png"" alt="""" />"& Functions(aryFunctionInOrder(i)).Name 
+	For i=LBound(Functions)+1 To Ubound(Functions)
+		If IsObject(Functions(i)) Then
+		If Functions(i).IsSystem Then
+			Response.Write "<div class=""widget widget_source_"& Functions(i).SourceType &" " & Functions(i).FileName & """>"
+			Response.Write "	<div class=""widget-title""><img class=""more-action"" width=""16"" src=""../image/admin/brick.png"" alt="""" />"& Functions(i).Name 
 
-			Response.Write "	<span class=""widget-action""><a href=""../cmd.asp?act=FunctionEdt&amp;id="&Functions(aryFunctionInOrder(i)).ID&"""><img class=""edit-action"" src=""../image/admin/brick_edit.png"" alt=""" & ZC_MSG078 & """ title=""" & ZC_MSG078 & """ width=""16"" /></a>"
+			Response.Write "	<span class=""widget-action""><a href=""../cmd.asp?act=FunctionEdt&amp;id="&Functions(i).ID&"""><img class=""edit-action"" src=""../image/admin/brick_edit.png"" alt=""" & ZC_MSG078 & """ title=""" & ZC_MSG078 & """ width=""16"" /></a>"
 
 			Response.Write "	</span>"
-			Response.Write "	</div>"			
+			Response.Write "	</div>"
+			Response.Write "	<div class=""funid"" style=""display:none"">"& Functions(i).FileName &"</div>"	
 			Response.Write "</div>"
+		End If
 		End If
 	Next
 
 	Response.Write "<div class=""widget-list-header"">用户自定义模块</div>"
-	For i=LBound(aryFunctionInOrder)+1 To Ubound(aryFunctionInOrder)
-		If Functions(aryFunctionInOrder(i)).IsUsers Then
-			Response.Write "<div class=""widget widget_source_"& Functions(aryFunctionInOrder(i)).SourceType &" " & Functions(aryFunctionInOrder(i)).FileName & """>"
-			Response.Write "	<div class=""widget-title""><img class=""more-action"" width=""16"" src=""../image/admin/brick.png"" alt="""" />"& Functions(aryFunctionInOrder(i)).Name 
+	For i=LBound(Functions)+1 To Ubound(Functions)
+		If IsObject(Functions(i)) Then
+		If Functions(i).IsUsers Then
+			Response.Write "<div class=""widget widget_source_"& Functions(i).SourceType &" " & Functions(i).FileName & """>"
+			Response.Write "	<div class=""widget-title""><img class=""more-action"" width=""16"" src=""../image/admin/brick.png"" alt="""" />"& Functions(i).Name 
 
-			Response.Write "	<span class=""widget-action""><a href=""../cmd.asp?act=FunctionEdt&amp;id="&Functions(aryFunctionInOrder(i)).ID&"""><img class=""edit-action"" src=""../image/admin/brick_edit.png"" alt=""" & ZC_MSG078 & """ title=""" & ZC_MSG078 & """ width=""16"" /></a>"
+			Response.Write "	<span class=""widget-action""><a href=""../cmd.asp?act=FunctionEdt&amp;id="&Functions(i).ID&"""><img class=""edit-action"" src=""../image/admin/brick_edit.png"" alt=""" & ZC_MSG078 & """ title=""" & ZC_MSG078 & """ width=""16"" /></a>"
 
-			Response.Write "&nbsp;<a onclick='return window.confirm("""& ZC_MSG058 &""");' href=""../cmd.asp?act=FunctionDel&amp;id="& Functions(aryFunctionInOrder(i)).ID &"""><img src=""../image/admin/delete.png"" alt=""" & ZC_MSG063 & """ title=""" & ZC_MSG063 & """ width=""16"" /></a>"
+			Response.Write "&nbsp;<a onclick='return window.confirm("""& ZC_MSG058 &""");' href=""../cmd.asp?act=FunctionDel&amp;id="& Functions(i).ID &"""><img src=""../image/admin/delete.png"" alt=""" & ZC_MSG063 & """ title=""" & ZC_MSG063 & """ width=""16"" /></a>"
 
 			Response.Write "	</span>"
 			Response.Write "	</div>"
+			Response.Write "	<div class=""funid"" style=""display:none"">"& Functions(i).FileName &"</div>"	
 			Response.Write "</div>"
+		End If
 		End If
 	Next
 
 	Response.Write "<div class=""widget-list-header"">主题定义模块</div>"
-	For i=LBound(aryFunctionInOrder)+1 To Ubound(aryFunctionInOrder)
-		If Functions(aryFunctionInOrder(i)).IsTheme Then
-			Response.Write "<div class=""widget widget_source_"& Functions(aryFunctionInOrder(i)).SourceType &" " & Functions(aryFunctionInOrder(i)).FileName & """>"
-			Response.Write "	<div class=""widget-title""><img class=""more-action"" width=""16"" src=""../image/admin/brick.png"" alt="""" />"& Functions(aryFunctionInOrder(i)).Name 
+	For i=LBound(Functions)+1 To Ubound(Functions)
+		If IsObject(Functions(i)) Then
+		If Functions(i).IsTheme Then
+			Response.Write "<div class=""widget widget_source_"& Functions(i).SourceType &" " & Functions(i).FileName & """>"
+			Response.Write "	<div class=""widget-title""><img class=""more-action"" width=""16"" src=""../image/admin/brick.png"" alt="""" />"& Functions(i).Name 
 
-			Response.Write "	<span class=""widget-action""><a href=""../cmd.asp?act=FunctionEdt&amp;id="&Functions(aryFunctionInOrder(i)).ID&"""><img class=""edit-action"" src=""../image/admin/brick_edit.png"" alt=""" & ZC_MSG078 & """ title=""" & ZC_MSG078 & """ width=""16"" /></a>"
+			Response.Write "	<span class=""widget-action""><a href=""../cmd.asp?act=FunctionEdt&amp;id="&Functions(i).ID&"""><img class=""edit-action"" src=""../image/admin/brick_edit.png"" alt=""" & ZC_MSG078 & """ title=""" & ZC_MSG078 & """ width=""16"" /></a>"
 
-			Response.Write "&nbsp;<a onclick='return window.confirm("""& ZC_MSG058 &""");' href=""../cmd.asp?act=FunctionDel&amp;id="& Functions(aryFunctionInOrder(i)).ID &"""><img src=""../image/admin/delete.png"" alt=""" & ZC_MSG063 & """ title=""" & ZC_MSG063 & """ width=""16"" /></a>"
+			Response.Write "&nbsp;<a onclick='return window.confirm("""& ZC_MSG058 &""");' href=""../cmd.asp?act=FunctionDel&amp;id="& Functions(i).ID &"""><img src=""../image/admin/delete.png"" alt=""" & ZC_MSG063 & """ title=""" & ZC_MSG063 & """ width=""16"" /></a>"
 
 			Response.Write "	</span>"
 			Response.Write "	</div>"
+			Response.Write "	<div class=""funid"" style=""display:none"">"& Functions(i).FileName &"</div>"	
 			Response.Write "</div>"
+		End If
 		End If
 	Next
 	Response.Write "<div class=""widget-list-header"">插件定义模块</div>"
-	For i=LBound(aryFunctionInOrder)+1 To Ubound(aryFunctionInOrder)
-		If Functions(aryFunctionInOrder(i)).IsPlugin Then
-			Response.Write "<div class=""widget widget_source_"& Functions(aryFunctionInOrder(i)).SourceType &" " & Functions(aryFunctionInOrder(i)).FileName & """>"
-			Response.Write "	<div class=""widget-title""><img class=""more-action"" width=""16"" src=""../image/admin/brick.png"" alt="""" />"& Functions(aryFunctionInOrder(i)).Name 
+	For i=LBound(Functions)+1 To Ubound(Functions)
+		If IsObject(Functions(i)) Then
+		If Functions(i).IsPlugin Then
+			Response.Write "<div class=""widget widget_source_"& Functions(i).SourceType &" " & Functions(i).FileName & """>"
+			Response.Write "	<div class=""widget-title""><img class=""more-action"" width=""16"" src=""../image/admin/brick.png"" alt="""" />"& Functions(i).Name 
 
-			Response.Write "	<span class=""widget-action""><a href=""../cmd.asp?act=FunctionEdt&amp;id="&Functions(aryFunctionInOrder(i)).ID&"""><img class=""edit-action"" src=""../image/admin/brick_edit.png"" alt=""" & ZC_MSG078 & """ title=""" & ZC_MSG078 & """ width=""16"" /></a>"
+			Response.Write "	<span class=""widget-action""><a href=""../cmd.asp?act=FunctionEdt&amp;id="&Functions(i).ID&"""><img class=""edit-action"" src=""../image/admin/brick_edit.png"" alt=""" & ZC_MSG078 & """ title=""" & ZC_MSG078 & """ width=""16"" /></a>"
 
-			Response.Write "&nbsp;<a onclick='return window.confirm("""& ZC_MSG058 &""");' href=""../cmd.asp?act=FunctionDel&amp;id="& Functions(aryFunctionInOrder(i)).ID &"""><img src=""../image/admin/delete.png"" alt=""" & ZC_MSG063 & """ title=""" & ZC_MSG063 & """ width=""16"" /></a>"
+			Response.Write "&nbsp;<a onclick='return window.confirm("""& ZC_MSG058 &""");' href=""../cmd.asp?act=FunctionDel&amp;id="& Functions(i).ID &"""><img src=""../image/admin/delete.png"" alt=""" & ZC_MSG063 & """ title=""" & ZC_MSG063 & """ width=""16"" /></a>"
 
 			Response.Write "	</span>"
 			Response.Write "	</div>"
+			Response.Write "	<div class=""funid"" style=""display:none"">"& Functions(i).FileName &"</div>"	
 			Response.Write "</div>"
+		End If
 		End If
 	Next
 	Response.Write "<div class=""widget-list-header"">未注册模块</div>"
-	For i=LBound(aryFunctionInOrder)+1 To Ubound(aryFunctionInOrder)
-		If Functions(aryFunctionInOrder(i)).IsOther Then
-			Response.Write "<div class=""widget widget_source_"& Functions(aryFunctionInOrder(i)).SourceType &" " & Functions(aryFunctionInOrder(i)).FileName & """>"
-			Response.Write "	<div class=""widget-title""><img class=""more-action"" width=""16"" src=""../image/admin/brick.png"" alt="""" />"& Functions(aryFunctionInOrder(i)).Name 
+	For i=LBound(Functions)+1 To Ubound(Functions)
+		If IsObject(Functions(i)) Then
+		If Functions(i).IsOther Then
+			Response.Write "<div class=""widget widget_source_"& Functions(i).SourceType &" " & Functions(i).FileName & """>"
+			Response.Write "	<div class=""widget-title""><img class=""more-action"" width=""16"" src=""../image/admin/brick.png"" alt="""" />"& Functions(i).Name 
 
-			Response.Write "	</div>"			
+			Response.Write "	</div>"
+			Response.Write "	<div class=""funid"" style=""display:none"">"& Functions(i).FileName &"</div>"	
 			Response.Write "</div>"
+		End If
 		End If
 	Next
 
-	End If
+	'End If
 	Response.Write "</div>"
 
 	Response.Write "<div class=""siderbar-list"">"
-	Response.Write "<div class=""siderbar-drop"" id=""siderbar""><div class=""siderbar-header"">默认侧栏</div></div>"
-	Response.Write "<div class=""siderbar-drop"" id=""siderbar2""><div class=""siderbar-header"">侧栏2</div></div>"
-	Response.Write "<div class=""siderbar-drop"" id=""siderbar3""><div class=""siderbar-header"">侧栏3</div></div>"
-	Response.Write "<div class=""siderbar-drop"" id=""siderbar4""><div class=""siderbar-header"">侧栏4</div></div>"
-	Response.Write "<div class=""siderbar-drop"" id=""siderbar5""><div class=""siderbar-header"">侧栏5</div></div>"
+	Response.Write "<div class=""siderbar-drop"" id=""siderbar""><div class=""siderbar-header"">"&ZC_MSG277&"</div></div>"
+	Response.Write "<div class=""siderbar-drop"" id=""siderbar2""><div class=""siderbar-header"">"&ZC_MSG008&"2</div></div>"
+	Response.Write "<div class=""siderbar-drop"" id=""siderbar3""><div class=""siderbar-header"">"&ZC_MSG008&"3</div></div>"
+	Response.Write "<div class=""siderbar-drop"" id=""siderbar4""><div class=""siderbar-header"">"&ZC_MSG008&"4</div></div>"
+	Response.Write "<div class=""siderbar-drop"" id=""siderbar5""><div class=""siderbar-header"">"&ZC_MSG008&"5</div></div>"
 	Response.Write "</div>"
 
 	Response.Write "<div class=""clear""></div>"

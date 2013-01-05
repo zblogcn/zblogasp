@@ -99,16 +99,15 @@ BlogTitle=ZC_MSG144
 
 
 	
-	Response.Write "<p id=""pShow"" "&IIF(EditFunction.SideBarID=-1,"style=""display:none;""","")&"><label><input id=""inpNoSidebar"" type=""checkbox"" "&IIf(EditFunction.SidebarID=0, "checked=""checked""","") & " />&nbsp;&nbsp;"&ZC_MSG074&"</label>&nbsp;&nbsp;&nbsp;&nbsp;"
+	'Response.Write "<p id=""pShow"" "&IIF(EditFunction.SideBarID=-1,"style=""display:none;""","")&"><label><input id=""inpNoSidebar"" type=""checkbox"" "&IIf(EditFunction.SidebarID=0, "checked=""checked""","") & " />&nbsp;&nbsp;"&ZC_MSG074&"</label>&nbsp;&nbsp;&nbsp;&nbsp;"
 	
-	Response.Write "<label><input id=""inpSidebar""  type=""checkbox"" "&IIf(EditFunction.InSidebar=True, "checked=""checked""","") & " />&nbsp;&nbsp;"  & ZC_MSG008 & "&nbsp;&nbsp;&nbsp;&nbsp;</label>"
-	Response.Write "<label><input id=""inpSidebar2"" type=""checkbox"" "&IIf(EditFunction.InSidebar2=True,"checked=""checked""","") & " />&nbsp;&nbsp;"  & ZC_MSG008 & "2&nbsp;&nbsp;&nbsp;&nbsp;</label>"
-	Response.Write "<label><input id=""inpSidebar3"" type=""checkbox"" "&IIf(EditFunction.InSidebar3=True,"checked=""checked""","") & " />&nbsp;&nbsp;"  & ZC_MSG008 & "3&nbsp;&nbsp;&nbsp;&nbsp;</label>"
-	Response.Write "<label><input id=""inpSidebar4"" type=""checkbox"" "&IIf(EditFunction.InSidebar4=True,"checked=""checked""","") & " />&nbsp;&nbsp;"  & ZC_MSG008 & "4&nbsp;&nbsp;&nbsp;&nbsp;</label>"
-	Response.Write "<label><input id=""inpSidebar5"" type=""checkbox"" "&IIf(EditFunction.InSidebar5=True,"checked=""checked""","") & " />&nbsp;&nbsp;"  & ZC_MSG008 & "5&nbsp;&nbsp;&nbsp;&nbsp;</label>"
+	'Response.Write "<label><input id=""inpSidebar""  type=""checkbox"" "&IIf(EditFunction.InSidebar=True, "checked=""checked""","") & " />&nbsp;&nbsp;"  & ZC_MSG008 & "&nbsp;&nbsp;&nbsp;&nbsp;</label>"
+	'Response.Write "<label><input id=""inpSidebar2"" type=""checkbox"" "&IIf(EditFunction.InSidebar2=True,"checked=""checked""","") & " />&nbsp;&nbsp;"  & ZC_MSG008 & "2&nbsp;&nbsp;&nbsp;&nbsp;</label>"
+	'Response.Write "<label><input id=""inpSidebar3"" type=""checkbox"" "&IIf(EditFunction.InSidebar3=True,"checked=""checked""","") & " />&nbsp;&nbsp;"  & ZC_MSG008 & "3&nbsp;&nbsp;&nbsp;&nbsp;</label>"
+	'Response.Write "<label><input id=""inpSidebar4"" type=""checkbox"" "&IIf(EditFunction.InSidebar4=True,"checked=""checked""","") & " />&nbsp;&nbsp;"  & ZC_MSG008 & "4&nbsp;&nbsp;&nbsp;&nbsp;</label>"
+	'Response.Write "<label><input id=""inpSidebar5"" type=""checkbox"" "&IIf(EditFunction.InSidebar5=True,"checked=""checked""","") & " />&nbsp;&nbsp;"  & ZC_MSG008 & "5&nbsp;&nbsp;&nbsp;&nbsp;</label>"
 
-	Response.Write "</p>"
-	Response.Write "<p>"&ZC_MSG277&"</p>"
+	'Response.Write "</p>"
 	
 	Response.Write "<p><span class='title'>"& ZC_MSG090 &":</span><br/><textarea name=""inpContent"" id=""inpContent"" onchange=""GetActiveText(this.id);"" onclick=""GetActiveText(this.id);"" onfocus=""GetActiveText(this.id);"" cols=""80"" rows=""12"" " & IIF(InStr("|calendar|catalog|comments|previous|archives|authors|tags|statistics|","|"&EditFunction.FileName&"|")>0,"disabled=""disabled""","") & " >"&s&"</textarea></p>"
 

@@ -5135,6 +5135,9 @@ Class TFunction
 		If InStr(Source,"theme_")>0 Then
 			SourceType="theme"
 		End If
+		If Source="other" Then
+			SourceType="other"
+		End If
 	End Property
 
 	Public Property Get IsOther

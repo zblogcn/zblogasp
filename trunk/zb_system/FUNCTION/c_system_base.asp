@@ -531,6 +531,37 @@ Function GetFunction()
 
 	End If
 
+
+	Dim aryFileList
+
+	aryFileList=LoadIncludeFilesOnlyType("zb_users\INCLUDE" & "\")
+
+	If IsArray(aryFileList) Then
+		j=UBound(aryFileList)
+		If j>0 Then
+			For i=1 to j
+				If Right(aryFileList(i),4)=".asp" Then
+				l=Replace(aryFileList(i),".asp","")
+				If FunctionMetas.Exists(l) =False Then
+
+					k=UBound(Functions)+1
+
+					ReDim Preserve Functions(k)
+
+					Set Functions(k)=New TFunction
+					Functions(k).Ftype=k
+					Functions(k).ID=k
+					Functions(k).FileName=l
+					Functions(k).Name=l
+					Functions(k).Source="other"
+					Functions(k).HtmlID="fn"&l
+					Call FunctionMetas.SetValue(l,k)
+				End If
+				End If
+			Next
+		End If
+	End If
+
 	Set Functions(0)=New TFunction
 
 	IsRunFunctions=True
