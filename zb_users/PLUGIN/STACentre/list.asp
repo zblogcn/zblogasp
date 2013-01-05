@@ -15,6 +15,7 @@
 <!-- #include file="../../../ZB_SYSTEM/function/c_system_event.asp" -->
 <!-- #include file="../../plugin/p_config.asp" -->
 <%
+Dim RootPath
 Call System_Initialize()
 '检查非法链接
 Call CheckReference("")
@@ -22,12 +23,12 @@ Call CheckReference("")
 If BlogUser.Level>1 Then Call ShowError(6)
 If CheckPluginState("STACentre")=False Then Call ShowError(48)
 BlogTitle="静态管理中心"
-
+RootPath=Replace(BlogPath,Replace(CookiesPath(),"/","\"),"\")
 Function AddRule1(s,regex,page)
 	Dim t,r
 	If regex="ZC_DEFAULT_REGEX" Then
 	r=Replace(ZC_DEFAULT_REGEX,".html","{%page%}\.html")
-t=t & "RewriteRule "& r &" /catalog\.asp\?page=$1" & vbCrlf
+t=t & "RewriteRule "& r &" {%host%}/catalog\.asp\?page=$1" & vbCrlf
 	End If
 
 
@@ -35,14 +36,14 @@ t=t & "RewriteRule "& r &" /catalog\.asp\?page=$1" & vbCrlf
 	r=ZC_CATEGORY_REGEX
 	r=Replace(r,"/default.html",IIF(page=True,"{%page%}","")&"/")
 	r=Replace(r,".html",IIF(page=True,"{%page%}","")&".html")
-t=t & "RewriteRule "& r &" /catalog\.asp\?cate=$1"&IIF(page=True,"&page=$2","") & vbCrlf
+t=t & "RewriteRule "& r &" {%host%}/catalog\.asp\?cate=$1"&IIF(page=True,"&page=$2","") & vbCrlf
 	End If
 
 	If regex="ZC_USER_REGEX" Then
 	r=ZC_USER_REGEX
 	r=Replace(r,"/default.html",IIF(page=True,"{%page%}","")&"/")
 	r=Replace(r,".html",IIF(page=True,"{%page%}","")&".html")
-t=t & "RewriteRule "& r &" /catalog\.asp\?auth=$1"&IIF(page=True,"&page=$2","") & vbCrlf
+t=t & "RewriteRule "& r &" {%host%}/catalog\.asp\?auth=$1"&IIF(page=True,"&page=$2","") & vbCrlf
 	End If
 
 
@@ -50,14 +51,14 @@ t=t & "RewriteRule "& r &" /catalog\.asp\?auth=$1"&IIF(page=True,"&page=$2","") 
 	r=ZC_TAGS_REGEX
 	r=Replace(r,"/default.html",IIF(page=True,"{%page%}","")&"/")
 	r=Replace(r,".html",IIF(page=True,"{%page%}","")&".html")
-t=t & "RewriteRule "& r &" /catalog\.asp\?tags=$1"&IIF(page=True,"&page=$2","") & vbCrlf
+t=t & "RewriteRule "& r &" {%host%}/catalog\.asp\?tags=$1"&IIF(page=True,"&page=$2","") & vbCrlf
 	End If
 
 	If regex="ZC_DATE_REGEX" Then
 	r=ZC_DATE_REGEX
 	r=Replace(r,"/default.html",IIF(page=True,"{%page%}","")&"/")
 	r=Replace(r,".html",IIF(page=True,"{%page%}","")&".html")
-t=t & "RewriteRule "& r &" /catalog\.asp\?date=$1"&IIF(page=True,"&page=$2","") & vbCrlf
+t=t & "RewriteRule "& r &" {%host%}/catalog\.asp\?date=$1"&IIF(page=True,"&page=$2","") & vbCrlf
 	End If
 
 
@@ -65,7 +66,7 @@ t=t & "RewriteRule "& r &" /catalog\.asp\?date=$1"&IIF(page=True,"&page=$2","") 
 	r=ZC_ARTICLE_REGEX
 	r=Replace(r,"/default.html",IIF(page=True,"{%page%}","")&"/")
 	r=Replace(r,".html",IIF(page=True,"{%page%}","")&".html")
-t=t & "RewriteRule "& r &" /view\.asp\?id=$1" & vbCrlf
+t=t & "RewriteRule "& r &" {%host%}/view\.asp\?id=$1" & vbCrlf
 	End If
 
 
@@ -74,7 +75,7 @@ t=t & "RewriteRule "& r &" /view\.asp\?id=$1" & vbCrlf
 	r=Replace(r,"{%name%}","{%alias%}")
 	r=Replace(r,"/default.html",IIF(page=True,"{%page%}","")&"/")
 	r=Replace(r,".html",IIF(page=True,"{%page%}","")&".html")
-t=t & "RewriteRule "& r &" /view\.asp\?id=$1" & vbCrlf
+t=t & "RewriteRule "& r &" {%host%}/view\.asp\?id=$1" & vbCrlf
 	End If
 
 
@@ -376,11 +377,11 @@ End Function
 
 
 If Request("mak")="1" Then
-	Call SaveToFile(BlogPath & "httpd.ini",MakeIIS6Rewrite2(),"iso-8859-1",False)
+	Call SaveToFile(RootPath & "httpd.ini",MakeIIS6Rewrite2(),"iso-8859-1",False)
 	Call SetBlogHint_Custom("创建httpd.ini成功!")
 End If
 If Request("mak")="2" Then
-	Call SaveToFile(BlogPath & ".htaccess",MakeIIS6Rewrite3(),"utf-8",False)
+	Call SaveToFile(RootPath & ".htaccess",MakeIIS6Rewrite3(),"utf-8",False)
 	Call SetBlogHint_Custom("创建.htaccess成功!")
 End If
 If Request("mak")="3" Then
@@ -400,74 +401,106 @@ If Request("del")="3" Then
 	Call SetBlogHint_Custom("删除web.config成功!")
 End IF
 
+Function FileExists(Path)
+	FileExists=0
+	Dim fso
+	Set fso = CreateObject("Scripting.FileSystemObject")
+	If fso.FileExists(Path) Then
+		FileExists=1
+	End If
+	Set fso=Nothing
+End Function
 %>
 <!--#include file="..\..\..\zb_system\admin\admin_header.asp"-->
 <style type="text/css">
-pre{
-	border:1px solid #ededed;
-	margin:0px;
+pre {
+	border: 1px solid #ededed;
+	margin: 0px;
 }
 </style>
+<script type="text/javascript">
+function showmsg(int){
+	var ary=[<%=FileExists(RootPath&"httpd.ini")%>,<%=FileExists(RootPath&".htaccess")%>,<%=FileExists(BlogPath&"web.config")%>];
+	if(ary[2]===1&&int==3){
+		if(!confirm("检测到您的网站web.config文件存在，是否要继续操作？")) return false
+	}
+	else if(ary[0]===1&&int==1){
+		if(!confirm("检测到您的根目录下httpd.ini文件存在，是否要继续操作？")) return false
+	}
+	else if(ary[1]===1&&int==2){
+		if(!confirm("检测到您的根目录下.htaccess文件存在，是否要继续操作？")) return false
+	}
+	return true
+}
+</script>
 <!--#include file="..\..\..\zb_system\admin\admin_top.asp"-->
-
-<div id="divMain"><div id="ShowBlogHint">
-      <%Call GetBlogHint()%>
-    </div>
-  <div class="divHeader"><%=BlogTitle%></div>
-  <div class="SubMenu"> <a href="main.asp"><span class="m-left">配置页面</span></a><a href="list.asp"><span class="m-left m-now">ReWrite规则</span></a>
-  <a href="help.asp"><span class="m-right">帮助</span></a></div>
-  <div id="divMain2">
-    <script type="text/javascript">ActiveLeftMenu("aPlugInMng");</script>
-<%If ZC_POST_STATIC_MODE="REWRITE" Or ZC_STATIC_MODE="REWRITE" Then%>
-			<div class="content-box"><!-- Start Content Box -->
-				
-				<div class="content-box-header">
-			
-					<ul class="content-box-tabs">
-
-	<li><a href="#tab1" class="default-tab"><span>IIS6+ISAPI Rewrite 2.X</span></a></li>
-	<li><a href="#tab2"><span>IIS6+ISAPI Rewrite 3.X</span></a></li>
-	<li><a href="#tab3"><span>IIS7、7.5、8+Url Rewrite</span></a></li>
-					</ul>
-					
-					<div class="clear"></div>
-					
-				</div> <!-- End .content-box-header -->
-
-				<div class="content-box-content">
-<div class="tab-content default-tab" style='border:none;padding:0px;margin:0;' id="tab1">
-<pre>
+        
+        <div id="divMain">
+          <div id="ShowBlogHint">
+            <%Call GetBlogHint()%>
+          </div>
+          <div class="divHeader"><%=BlogTitle%></div>
+          <div class="SubMenu"> <a href="main.asp"><span class="m-left">配置页面</span></a><a href="list.asp"><span class="m-left m-now">ReWrite规则</span></a> <a href="help.asp"><span class="m-right">帮助</span></a></div>
+          <div id="divMain2"> 
+            <script type="text/javascript">ActiveLeftMenu("aPlugInMng");</script>
+            <%If ZC_POST_STATIC_MODE="REWRITE" Or ZC_STATIC_MODE="REWRITE" Then%>
+            <div class="content-box"><!-- Start Content Box -->
+              
+              <div class="content-box-header">
+                <ul class="content-box-tabs">
+                  <li><a href="#tab1" class="default-tab"><span>IIS6+ISAPI Rewrite 2.X</span></a></li>
+                  <li><a href="#tab2"><span>IIS6+ISAPI Rewrite 3.X</span></a></li>
+                  <li><a href="#tab3"><span>IIS7、7.5、8+Url Rewrite</span></a></li>
+                </ul>
+                <div class="clear"></div>
+              </div>
+              <!-- End .content-box-header -->
+              
+              <div class="content-box-content">
+                <div class="tab-content default-tab" style='border:none;padding:0px;margin:0;' id="tab1">
+                  <textarea style="width:80%;height:300px" disabled="disabled">
 <%=TransferHTML(MakeIIS6Rewrite2(),"[html-format]")%>
-</pre>
-<hr/>
-<p><input type="button" onClick="window.location.href='?mak=1'" value="创建httpd.ini" />&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" onClick="window.location.href='?del=1'" value="删除httpd.ini" />&nbsp;&nbsp;&nbsp;&nbsp;<span class="star">请在网站根目录创建httpd.ini文件并把相关内容复制进去,httpd.ini文件必须为ANSI编码,也可以点击按钮生成.</span></p>
-</div>
-
-
-<div class="tab-content" style='border:none;padding:0px;margin:0;' id="tab2">
-<pre>
+</textarea>
+                  <hr/>
+                  <p>
+                    <input type="button" onClick="if(showmsg(1)){window.location.href='?mak=1'}" value="创建httpd.ini" />
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="button" onClick="if(showmsg(1)){window.location.href='?del=1'}" value="删除httpd.ini" />
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="star">请在网站根目录创建httpd.ini文件并把相关内容复制进去,httpd.ini文件必须为ANSI编码,也可以点击按钮生成.</span></p>
+                </div>
+                <div class="tab-content" style='border:none;padding:0px;margin:0;' id="tab2">
+                  <textarea style="width:80%;height:300px" disabled="disabled">
 <%=TransferHTML(MakeIIS6Rewrite3(),"[html-format]")%>
-</pre>
-<hr/>
-<p><input type="button" onClick="window.location.href='?mak=2'" value="创建.htaccess" />&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" onClick="window.location.href='?del=2'" value="删除.htaccess" />&nbsp;&nbsp;&nbsp;&nbsp;<span class="star">请在网站根目录创建.htaccess文件并把相关内容复制进去,也可以点击按钮生成..</span></p>
-</div>
-
-<div class="tab-content" style='border:none;padding:0px;margin:0;' id="tab3">
-<pre>
+</textarea>
+                  <hr/>
+                  <p>
+                    <input type="button" onClick="if(showmsg(2)){window.location.href='?mak=2'}" value="创建.htaccess" />
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="button" onClick="if(showmsg(2)){window.location.href='?del=2'}" value="删除.htaccess" />
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="star">请在网站根目录创建.htaccess文件并把相关内容复制进去,也可以点击按钮生成..</span></p>
+                </div>
+                <div class="tab-content" style='border:none;padding:0px;margin:0;' id="tab3">
+                  <textarea style="width:80%;height:300px" disabled="disabled">
 <%=TransferHTML(MakeIIS7UrlRewrite(),"[html-format]")%>
-</pre>
-<hr/>
-<p><input type="button" onClick="window.location.href='?mak=3'" value="创建web.config" />&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" onClick="window.location.href='?del=3'" value="删除web.config" />&nbsp;&nbsp;&nbsp;&nbsp;<span class="star">请在网站<u>"当前目录"</u>创建web.config文件并把相关内容复制进去,也可以点击按钮生成..</span></p>
-</div>
-
-				</div> <!-- End .content-box-content -->
-				
-			</div> <!-- End .content-box -->
-<%Else%>
-<hr/>
-<p><b>文章及页面和分类页都没有启用动态模式+Rewrite支持,所以没有可用规则.</b></p>
-<%End If%>
-<p><br/></p>
-</div>
-</div>
-<!--#include file="..\..\..\zb_system\admin\admin_footer.asp"-->
+</textarea>
+                  <hr/>
+                  <p>
+                    <input type="button" onClick="if(showmsg(3)){window.location.href='?mak=3'}" value="创建web.config" />
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="button" onClick="if(showmsg(3)){window.location.href='?del=3'}" value="删除web.config" />
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="star">请在网站<u>"当前目录"</u>创建web.config文件并把相关内容复制进去,也可以点击按钮生成..</span></p>
+                </div>
+              </div>
+              <!-- End .content-box-content --> 
+              
+            </div>
+            <!-- End .content-box -->
+            <%Else%>
+            <hr/>
+            <p><b>文章及页面和分类页都没有启用动态模式+Rewrite支持,所以没有可用规则.</b></p>
+            <%End If%>
+            <p><br/>
+            </p>
+          </div>
+        </div>
+        <!--#include file="..\..\..\zb_system\admin\admin_footer.asp"-->
