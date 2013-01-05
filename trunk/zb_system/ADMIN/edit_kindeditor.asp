@@ -368,7 +368,10 @@ var editor,editor2;
 
 KindEditor.ready(function(K) {
 	$("#contentready").hide();
-	editor = K.create('#editor_ke');
+	editor = K.create('#editor_ke',{
+		uploadJson:'kindeditor/asp/upload_json.asp'
+		,fileManagerJson:'kindeditor/asp/file_manager_json.asp'
+	});
 	$("#editor_ke").prev().removeAttr("style");
 	sContent=editor.html()
 	
@@ -380,7 +383,7 @@ KindEditor.ready(function(K) {
 
 
 //文章内容或摘要变动提示保存
-window.onbeforeunload = function(){if (!isSubmit && (sContent!=editor.getContent() || sIntro!=editor2.getContent())) return "您当前的编辑内容还未保存！";}
+window.onbeforeunload = function(){if (!isSubmit && (sContent!=editor.html() || sIntro!=editor2.html())) return "您当前的编辑内容还未保存！";}
 
 //日期时间控件
 $.datepicker.regional['zh-cn'] = {
