@@ -5137,6 +5137,18 @@ Class TFunction
 		End If
 	End Property
 
+	Public Property Get IsOther
+		If Source="other" Then
+			IsOther=True
+		Else
+			IsOther=False
+		End If
+	End Property
+	Public Property Let IsOther(s)
+		If s=True Then
+			Source="other"
+		End If
+	End Property
 
 	Public Property Get MetaString
 		MetaString=Meta.SaveString
@@ -5289,14 +5301,6 @@ Class TFunction
 		GetNewOrder=CLng(objConn.Execute("SELECT TOP 1 [fn_Order] FROM [blog_Function] ORDER BY [fn_Order] DESC")(0))+1
 
 	End Function
-
-	'Public Property Get IsHidden
-	'	If SidebarID=-1 Then
-	'		IsHidden=True
-	'	Else
-	'		IsHidden=False
-	'	End If
-	'End Property
 
 
 	Public Function InSidebars(num)

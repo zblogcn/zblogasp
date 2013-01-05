@@ -971,7 +971,7 @@ Function ExportPluginMng()
 					Response.Write "<tr>"
 					Response.Write "<td align='center'><img alt='' width='32' src='../IMAGE/ADMIN/app-logo.png' style='margin:2px;'/></td>"
 					'Response.Write "<td>"& "0" &"</td>"
-					Response.Write "<td><a id=""mylink"&Left(md5(objXmlFile.documentElement.selectSingleNode("id").text),6)&""" href=""$div"&Left(md5(objXmlFile.documentElement.selectSingleNode("id").text),6)&"tip?width=300"" class=""betterTip"" title=""$content"">" & "" & objXmlFile.documentElement.selectSingleNode("name").text & " ("& ZC_MSG199 &")&nbsp;&nbsp;ver" & objXmlFile.documentElement.selectSingleNode("version").text  & "</a><div id=""div"&Left(md5(objXmlFile.documentElement.selectSingleNode("id").text),6)&"tip"" style=""display:none;"">"&objXmlFile.documentElement.selectSingleNode("note").text&"</div></td>"
+					Response.Write "<td><a id=""mylink"&Left(md5(objXmlFile.documentElement.selectSingleNode("id").text),6)&""" href=""$div"&Left(md5(objXmlFile.documentElement.selectSingleNode("id").text),6)&"tip?width=300"" class=""betterTip"" title=""$content"">" & "" & objXmlFile.documentElement.selectSingleNode("name").text & " ("& ZC_MSG199 &")&nbsp;&nbsp;&nbsp;" & objXmlFile.documentElement.selectSingleNode("version").text  & "</a><div id=""div"&Left(md5(objXmlFile.documentElement.selectSingleNode("id").text),6)&"tip"" style=""display:none;"">"&objXmlFile.documentElement.selectSingleNode("note").text&"</div></td>"
 					Response.Write "<td>" & "<a target=""_blank"" href=""" & objXmlFile.documentElement.selectSingleNode("author/url").text & """>"& objXmlFile.documentElement.selectSingleNode("author/name").text & "</td>"
 					'Response.Write "<td>" & objXmlFile.documentElement.selectSingleNode("version").text & "</td>"
 					Response.Write "<td>"& objXmlFile.documentElement.selectSingleNode("modified").text &"</td>"
@@ -1040,7 +1040,7 @@ Function ExportPluginMng()
 					s=s & "<img alt='' width='32' src='../IMAGE/ADMIN/app-logo.png'/ style='margin:2px;'>"
 				End If
 			Else
-				s=s & "<img alt='' width='32' src='../IMAGE/ADMIN/app-logo.png'/ style='margin:2px;visibility:hidden;'>"
+				's=s & "<img alt='' width='32' src='../IMAGE/ADMIN/none.gif'/ style='margin:2px;visibility:hidden;'>"
 			End If
 
 			s=s & "<strong style='display:none;'>"& Server.URLEncode(objXmlFile.documentElement.selectSingleNode("id").text) &"</strong>"
@@ -1048,7 +1048,7 @@ Function ExportPluginMng()
 			s=s & "</td>"
 
 			's=s & "<td>"& m &"</td>"
-			s=s & "<td><a id=""mylink"&Left(md5(objXmlFile.documentElement.selectSingleNode("id").text),6)&""" href=""$div"&objXmlFile.documentElement.selectSingleNode("id").text&"tip?width=300"" class=""betterTip"" title=""$content"">" & "" & objXmlFile.documentElement.selectSingleNode("name").text & "&nbsp;&nbsp;ver" & objXmlFile.documentElement.selectSingleNode("version").text & "</a><div id=""div"&objXmlFile.documentElement.selectSingleNode("id").text&"tip"" style=""display:none;"">"&objXmlFile.documentElement.selectSingleNode("note").text&"</div></td>"
+			s=s & "<td><a id=""mylink"&Left(md5(objXmlFile.documentElement.selectSingleNode("id").text),6)&""" href=""$div"&objXmlFile.documentElement.selectSingleNode("id").text&"tip?width=300"" class=""betterTip"" title=""$content"">" & "" & objXmlFile.documentElement.selectSingleNode("name").text & "&nbsp;&nbsp;&nbsp;" & objXmlFile.documentElement.selectSingleNode("version").text & "</a><div id=""div"&objXmlFile.documentElement.selectSingleNode("id").text&"tip"" style=""display:none;"">"&objXmlFile.documentElement.selectSingleNode("note").text&"</div></td>"
 			s=s & "<td>" & "<a target=""_blank"" href=""" & objXmlFile.documentElement.selectSingleNode("author/url").text & """>"& objXmlFile.documentElement.selectSingleNode("author/name").text & "</a></td>"
 			's=s & "<td>" & objXmlFile.documentElement.selectSingleNode("version").text & "</td>"
 			s=s & "<td>"& objXmlFile.documentElement.selectSingleNode("modified").text &"</td>"
@@ -1439,77 +1439,254 @@ Call Add_Response_Plugin("Response_Plugin_FunctionMng_SubMenu",MakeSubMenu(ZC_MS
 Call Add_Response_Plugin("Response_Plugin_FunctionMng_SubMenu",MakeSubMenu(ZC_MSG031 & "","../cmd.asp?act=FunctionEdt&amp;id="&Functions(FunctionMetas.GetValue("link")).ID,"m-left",False))
 Call Add_Response_Plugin("Response_Plugin_FunctionMng_SubMenu",MakeSubMenu(ZC_MSG039 & "","../cmd.asp?act=FunctionEdt&amp;id="&Functions(FunctionMetas.GetValue("misc")).ID,"m-left",False))
 
-	Dim i,j,s
 
+	Dim i,j,s
+	Dim a,b,c,d,e,f
 	Response.Write "<div class=""divHeader"">" & ZC_MSG007 & "</div>"
 	Response.Write "<div class=""SubMenu"">" & Response_Plugin_FunctionMng_SubMenu & "</div>"
 	Response.Write "<div id=""divMain2"">"
 
+	Response.Write "<div class=""widget-list"">"
 
-	Response.Write "<table border=""1"" width=""100%"" cellspacing=""0"" cellpadding=""0"" class='tableBorder tableBorder-thcenter'>"
-	Response.Write "<tr><th width=""50""></th><th width=""50"">"& ZC_MSG079 &"</th><th width=""8%"" style=""display:none"">"& ZC_MSG076 &"</th><th>"& ZC_MSG001 &"</th><th>Html ID</th><th width=""14%"">"&ZC_MSG061&"</th><th width=""14%"">"&ZC_MSG017&"</th><th width=""14%""></th></tr>"
 
 	Dim aryFunctionInOrder
 	aryFunctionInOrder=GetFunctionOrder()
 
 	If IsArray(aryFunctionInOrder) Then
+Response.Write "<script type=""text/javascript"">"
+Response.Write "var functions = {"
 	For i=LBound(aryFunctionInOrder)+1 To Ubound(aryFunctionInOrder)
 
-		s=""
+Response.Write "'"&Functions(aryFunctionInOrder(i)).FileName&"' : '"&Functions(aryFunctionInOrder(i)).SourceType&"'"
+If i<>Ubound(aryFunctionInOrder) Then Response.Write ","
 
-		If Functions(aryFunctionInOrder(i)).SidebarID=0 Then s=""
-		If Functions(aryFunctionInOrder(i)).InSidebar Then s=ZC_MSG008 & " "
-		If Functions(aryFunctionInOrder(i)).InSidebar2 Then s=s & ZC_MSG008 &"2" & " "
-		If Functions(aryFunctionInOrder(i)).InSidebar3 Then s=s & ZC_MSG008 &"3" & " "
-		If Functions(aryFunctionInOrder(i)).InSidebar4 Then s=s & ZC_MSG008 &"4" & " "
-		If Functions(aryFunctionInOrder(i)).InSidebar5 Then s=s & ZC_MSG008 &"5"
-
-
-		Response.Write "<tr><td align=""center""><img width=""16"" src=""../image/admin/brick.png"" alt="""" /></td>"
-		Response.Write "<td>" & Functions(aryFunctionInOrder(i)).Order & "</td>"
-		Response.Write "<td class='funid' style='display:none'>" & Functions(aryFunctionInOrder(i)).ID & "</td>"
-		Response.Write "<td>" & Functions(aryFunctionInOrder(i)).Name & "</td>"
-		Response.Write "<td>" & Functions(aryFunctionInOrder(i)).HtmlID & "</td>"
-		Response.Write "<td>" & UCase(Functions(aryFunctionInOrder(i)).Ftype) & "</td>"
-		Response.Write "<td>" & s & "</td>"
-		Response.Write "<td align=""center""><a href=""../cmd.asp?act=FunctionEdt&amp;id="& Functions(aryFunctionInOrder(i)).ID &"""><img src=""../image/admin/brick_edit.png"" alt=""" & ZC_MSG078 & """ title=""" & ZC_MSG078 & """ width=""16"" /></a>"
-		If Functions(aryFunctionInOrder(i)).IsSystem=False Then
-		Response.Write "&nbsp;&nbsp;&nbsp;&nbsp;<a onclick='return window.confirm("""& ZC_MSG058 &""");' href=""../cmd.asp?act=FunctionDel&amp;id="& Functions(aryFunctionInOrder(i)).ID &"""><img src=""../image/admin/delete.png"" alt=""" & ZC_MSG063 & """ title=""" & ZC_MSG063 & """ width=""16"" /></a>"
-		End If
-		Response.Write "</td></tr>"
 
 	Next
+Response.Write "};"
+Response.Write "</script>"
+
+	Response.Write "<div class=""widget-list-header"">系统模块</div>"
+	For i=LBound(aryFunctionInOrder)+1 To Ubound(aryFunctionInOrder)
+		If Functions(aryFunctionInOrder(i)).IsSystem Then
+			Response.Write "<div class=""widget widget_source_"& Functions(aryFunctionInOrder(i)).SourceType &" " & Functions(aryFunctionInOrder(i)).FileName & """>"
+			Response.Write "	<div class=""widget-title""><img class=""more-action"" width=""16"" src=""../image/admin/brick.png"" alt="""" />"& Functions(aryFunctionInOrder(i)).Name 
+
+			Response.Write "	<span class=""widget-action""><a href=""../cmd.asp?act=FunctionEdt&amp;id="&Functions(aryFunctionInOrder(i)).ID&"""><img class=""edit-action"" src=""../image/admin/brick_edit.png"" alt=""" & ZC_MSG078 & """ title=""" & ZC_MSG078 & """ width=""16"" /></a>"
+
+			Response.Write "	</span>"
+			Response.Write "	</div>"			
+			Response.Write "</div>"
+		End If
+	Next
+
+	Response.Write "<div class=""widget-list-header"">用户自定义模块</div>"
+	For i=LBound(aryFunctionInOrder)+1 To Ubound(aryFunctionInOrder)
+		If Functions(aryFunctionInOrder(i)).IsUsers Then
+			Response.Write "<div class=""widget widget_source_"& Functions(aryFunctionInOrder(i)).SourceType &" " & Functions(aryFunctionInOrder(i)).FileName & """>"
+			Response.Write "	<div class=""widget-title""><img class=""more-action"" width=""16"" src=""../image/admin/brick.png"" alt="""" />"& Functions(aryFunctionInOrder(i)).Name 
+
+			Response.Write "	<span class=""widget-action""><a href=""../cmd.asp?act=FunctionEdt&amp;id="&Functions(aryFunctionInOrder(i)).ID&"""><img class=""edit-action"" src=""../image/admin/brick_edit.png"" alt=""" & ZC_MSG078 & """ title=""" & ZC_MSG078 & """ width=""16"" /></a>"
+
+			Response.Write "&nbsp;<a onclick='return window.confirm("""& ZC_MSG058 &""");' href=""../cmd.asp?act=FunctionDel&amp;id="& Functions(aryFunctionInOrder(i)).ID &"""><img src=""../image/admin/delete.png"" alt=""" & ZC_MSG063 & """ title=""" & ZC_MSG063 & """ width=""16"" /></a>"
+
+			Response.Write "	</span>"
+			Response.Write "	</div>"
+			Response.Write "</div>"
+		End If
+	Next
+
+	Response.Write "<div class=""widget-list-header"">主题定义模块</div>"
+	For i=LBound(aryFunctionInOrder)+1 To Ubound(aryFunctionInOrder)
+		If Functions(aryFunctionInOrder(i)).IsTheme Then
+			Response.Write "<div class=""widget widget_source_"& Functions(aryFunctionInOrder(i)).SourceType &" " & Functions(aryFunctionInOrder(i)).FileName & """>"
+			Response.Write "	<div class=""widget-title""><img class=""more-action"" width=""16"" src=""../image/admin/brick.png"" alt="""" />"& Functions(aryFunctionInOrder(i)).Name 
+
+			Response.Write "	<span class=""widget-action""><a href=""../cmd.asp?act=FunctionEdt&amp;id="&Functions(aryFunctionInOrder(i)).ID&"""><img class=""edit-action"" src=""../image/admin/brick_edit.png"" alt=""" & ZC_MSG078 & """ title=""" & ZC_MSG078 & """ width=""16"" /></a>"
+
+			Response.Write "&nbsp;<a onclick='return window.confirm("""& ZC_MSG058 &""");' href=""../cmd.asp?act=FunctionDel&amp;id="& Functions(aryFunctionInOrder(i)).ID &"""><img src=""../image/admin/delete.png"" alt=""" & ZC_MSG063 & """ title=""" & ZC_MSG063 & """ width=""16"" /></a>"
+
+			Response.Write "	</span>"
+			Response.Write "	</div>"
+			Response.Write "</div>"
+		End If
+	Next
+	Response.Write "<div class=""widget-list-header"">插件定义模块</div>"
+	For i=LBound(aryFunctionInOrder)+1 To Ubound(aryFunctionInOrder)
+		If Functions(aryFunctionInOrder(i)).IsPlugin Then
+			Response.Write "<div class=""widget widget_source_"& Functions(aryFunctionInOrder(i)).SourceType &" " & Functions(aryFunctionInOrder(i)).FileName & """>"
+			Response.Write "	<div class=""widget-title""><img class=""more-action"" width=""16"" src=""../image/admin/brick.png"" alt="""" />"& Functions(aryFunctionInOrder(i)).Name 
+
+			Response.Write "	<span class=""widget-action""><a href=""../cmd.asp?act=FunctionEdt&amp;id="&Functions(aryFunctionInOrder(i)).ID&"""><img class=""edit-action"" src=""../image/admin/brick_edit.png"" alt=""" & ZC_MSG078 & """ title=""" & ZC_MSG078 & """ width=""16"" /></a>"
+
+			Response.Write "&nbsp;<a onclick='return window.confirm("""& ZC_MSG058 &""");' href=""../cmd.asp?act=FunctionDel&amp;id="& Functions(aryFunctionInOrder(i)).ID &"""><img src=""../image/admin/delete.png"" alt=""" & ZC_MSG063 & """ title=""" & ZC_MSG063 & """ width=""16"" /></a>"
+
+			Response.Write "	</span>"
+			Response.Write "	</div>"
+			Response.Write "</div>"
+		End If
+	Next
+	Response.Write "<div class=""widget-list-header"">未注册模块</div>"
+	For i=LBound(aryFunctionInOrder)+1 To Ubound(aryFunctionInOrder)
+		If Functions(aryFunctionInOrder(i)).IsOther Then
+			Response.Write "<div class=""widget widget_source_"& Functions(aryFunctionInOrder(i)).SourceType &" " & Functions(aryFunctionInOrder(i)).FileName & """>"
+			Response.Write "	<div class=""widget-title""><img class=""more-action"" width=""16"" src=""../image/admin/brick.png"" alt="""" />"& Functions(aryFunctionInOrder(i)).Name 
+
+			Response.Write "	</div>"			
+			Response.Write "</div>"
+		End If
+	Next
+
 	End If
+	Response.Write "</div>"
 
-	Response.Write "</table>"
+	Response.Write "<div class=""siderbar-list"">"
+	Response.Write "<div class=""siderbar-drop"" id=""siderbar""><div class=""siderbar-header"">默认侧栏</div></div>"
+	Response.Write "<div class=""siderbar-drop"" id=""siderbar2""><div class=""siderbar-header"">侧栏2</div></div>"
+	Response.Write "<div class=""siderbar-drop"" id=""siderbar3""><div class=""siderbar-header"">侧栏3</div></div>"
+	Response.Write "<div class=""siderbar-drop"" id=""siderbar4""><div class=""siderbar-header"">侧栏4</div></div>"
+	Response.Write "<div class=""siderbar-drop"" id=""siderbar5""><div class=""siderbar-header"">侧栏5</div></div>"
+	Response.Write "</div>"
 
-	Response.Write "<form id=""frmBatch"" method=""post"" action=""""><input type=""hidden"" id=""edtBatch"" name=""edtBatch"" value=""""/><input class=""button"" type=""submit"" onclick='if($(""#edtBatch"").attr(""value"")==""""){return false;}$(""#frmBatch"").attr(""action"",""../cmd.asp?act=FunctionMng"");' value="""&ZC_MSG087&""" id=""btnPost""/>&nbsp;&nbsp;&nbsp;&nbsp;("&ZC_MSG145&")</form>" & vbCrlf
+	Response.Write "<div class=""clear""></div>"
+
+	Response.Write "<form id=""frmBatch"" method=""post"" action="""">"
+	Response.Write "<input type=""hidden"" id=""edtSidebar"" name=""edtSidebar"" value="""&ZC_SIDEBAR_ORDER&"""/>"
+	Response.Write "<input type=""hidden"" id=""edtSidebar2"" name=""edtSidebar2"" value="""&ZC_SIDEBAR_ORDER2&"""/>"
+	Response.Write "<input type=""hidden"" id=""edtSidebar3"" name=""edtSidebar3"" value="""&ZC_SIDEBAR_ORDER3&"""/>"
+	Response.Write "<input type=""hidden"" id=""edtSidebar4"" name=""edtSidebar4"" value="""&ZC_SIDEBAR_ORDER4&"""/>"
+	Response.Write "<input type=""hidden"" id=""edtSidebar5"" name=""edtSidebar5"" value="""&ZC_SIDEBAR_ORDER5&"""/>"
+
+	Response.Write "<input class=""button"" type=""submit"" onclick='$(""#frmBatch"").attr(""action"",""../cmd.asp?act=FunctionMng"");' value="""&ZC_MSG087&""" id=""btnPost""/>&nbsp;&nbsp;&nbsp;&nbsp;("&ZC_MSG145&")</form>" & vbCrlf
+
 
 	Response.Write "</div>"
+
 
 	Response.Write "<script type=""text/javascript"">ActiveLeftMenu(""aFunctionMng"");</script>"
 
 %>
+<style type="text/css">
+.widget-list{min-width:540px;width:800px;background:#eee;margin:3px;padding:3px;float:left;}
+.widget-list-header {clear:both;}
+.widget-list-header,.siderbar-header{background:#fff;margin:5px;padding:5px;font-size: 1.2em;font-weight: blod;text-align: center;}
+.widget{width:252px;background:#fff;border:1px solid #ccc;margin:3px;padding:3px;float:left;}
+.widget img{margin:3px;margin-bottom: -3px;}
+
+.widget-title {margin:3px;padding:6px;;color: white;}
+.widget-title {cursor: move;} .widget-title img{cursor: pointer;} 
+.widget-action{float:right;}
+.siderbar-list{float:left;width:300px;margin-left:10px;}
+.siderbar-drop{float:right;width:265px;min-height:60px;background:#fefefe;border:5px solid #eee;margin: 3px 15px;padding:5px;}
+
+.widget_source_system .widget-title{background: #3FA7DB;}
+.widget_source_users .widget-title{background: #556B2F;}
+.widget_source_theme .widget-title{background: #483D8B;}
+.widget_source_plugin .widget-title{background: #008080;}
+.widget_source_other .widget-title{background: #696969;}
+
+
+/*.custom-state-active{background: #B5DCF0;}*/
+</style>
 <script type="text/javascript">
 
-function sortFunction(){
+	function getFunctionType(filename){
+		var s=functions[filename];
+		if(s==undefined){
+			return "other";
+		}else{
+			return s;
+		}
+	}
 
-	$("#edtBatch").attr('value','');
-
-	$(".funid").each(function(){
-	   $("#edtBatch").attr('value',$("#edtBatch").attr('value')+ $(this).html()+'_')
-	 });
-
-};
-
-$(document).ready(function(){ 
+	function getEditfrom(url){
+        $.get(url, function(data){
+			$("#edtfrom").html(data);bmx2table();
+			wpWidgetsinit();
+		});
+        $( "#edtfrom" ).dialog( "open" );
+	};
 
 	$(function() {
-		$( ".tableBorder" ).sortable({"items":'tr.color2,tr.color3,tr.color4',stop:function(event, ui){bmx2table();sortFunction();}});
-		$( ".tableBorder" ).disableSelection();
-	});
+
+		function sortFunction(){
+
+			//$("#edtBatch").attr('value','');
+
+			//$(".funid").each(function(){
+			   //$("#edtBatch").attr('value',$("#edtBatch").attr('value')+ $(this).html()+'_')
+			//});
+		};
+
+
+        $( "#edtfrom" ).dialog({
+        	autoOpen: false,
+        	position:"top",
+            width: 650,
+            modal: true,
+            buttons: {
+                "提交": function() {
+                    $.post('zb_system/cmd.asp?act=FunctionSav', $('#edit').serialize());
+                    $( this ).dialog( "close" );
+                }
+            }
+        });
+
+		$(".more-action").click(function() {
+            $(this).parent().next().toggle("fast");
+        });
+
+
+ 		$( ".siderbar-drop" ).sortable({
+ 			items:'.widget',
+ 			stop:function(event, ui){sortFunction();}
+ 		});
+		$( ".siderbar-drop" ).disableSelection(); 
+
+		$( ".widget" ).draggable({
+            connectToSortable: ".siderbar-drop",
+            revert: "invalid", // when not dropped, the item will revert back to its initial position
+            containment: "document",
+            helper: "clone",
+            cursor: "move"
+        });
+		$( ".siderbar-drop" ).droppable({
+			accept:".widget-list>.widget",
+            activeClass: "custom-state-active",
+            drop: function( event, ui ) {
+            	//ui.draggable.appendTo($(this));
+            	var c=ui.draggable.find(".funid").html();
+            	if ($( ".siderbar-drop" ).find(".funid").html()==c){
+                        ui.item.draggable("destroy")
+                }
+            },
+            out: function( event, ui ) {
+            	ui.draggable.remove();
+            }           
+        });
+
+		$( ".widget-list" ).droppable({
+			accept:".siderbar-drop>.widget",
+            activeClass: "custom-state-active",
+            drop: function( event, ui ) {
+            	ui.draggable.remove();
+            }
+        });
+
+
+        function addWidget( $item,$box ) {
+            $item.fadeOut(function() {
+                $item.appendTo( $box );
+            });
+        }
+
+        function deleteWidget( $item,$box ) {
+            $item.fadeOut(function() {
+                $item.appendTo( $box ).fadeIn();
+            });
+        }
 
 });
+
 </script>
 <%
 
