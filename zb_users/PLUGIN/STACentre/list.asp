@@ -375,7 +375,7 @@ s=s & "</configuration>" & vbCrlf
 	MakeIIS7UrlRewrite=s
 End Function
 
-
+Dim tempString
 If Request("mak")="1" Then
 	Call SaveToFile(RootPath & "httpd.ini",MakeIIS6Rewrite2(),"iso-8859-1",False)
 	Call SetBlogHint_Custom("创建httpd.ini成功!")
@@ -387,6 +387,12 @@ End If
 If Request("mak")="3" Then
 	Call SaveToFile(BlogPath & "web.config",MakeIIS7UrlRewrite(),"utf-8",False)
 	Call SetBlogHint_Custom("创建web.config成功!")
+End If
+If Request("add")="1" Then
+	tempString=LoadFromFile(RootPath & "httpd.ini","iso-8859-1")
+	If InStr(tempString,"[ISAPI_Rewrite]") Then tempString=Split(tempString,"[ISAPI_Rewrite]")(1)
+	Call SaveToFile(RootPath & "httpd.ini",MakeIIS6Rewrite2() & vbCrLf & tempString,"iso-8859-1",False)
+	Call SetBlogHint_Custom("追加httpd.ini成功!")
 End If
 If Request("del")="1" Then
 	Call DelToFile(BlogPath & "httpd.ini")
@@ -466,6 +472,8 @@ function showmsg(int){
                     <input type="button" onClick="if(showmsg(1)){window.location.href='?mak=1'}" value="创建httpd.ini" />
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <input type="button" onClick="if(showmsg(1)){window.location.href='?del=1'}" value="删除httpd.ini" />
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="button" onClick="if(showmsg(1)){window.location.href='?add=1'}" value="追加httpd.ini" />
                     &nbsp;&nbsp;&nbsp;&nbsp;<span class="star">请在网站根目录创建httpd.ini文件并把相关内容复制进去,httpd.ini文件必须为ANSI编码,也可以点击按钮生成.</span></p>
                 </div>
                 <div class="tab-content" style='border:none;padding:0px;margin:0;' id="tab2">
