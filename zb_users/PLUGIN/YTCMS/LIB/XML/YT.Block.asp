@@ -15,6 +15,7 @@ Class YT_Block_XML
 	End Sub
 	Function Add(Object,Index)
 		If RootNode Is Nothing Then Exit Function
+		if len(Object)>0 then set Object = YT.eval(Object)
 		If IsObject(Object) Then
 			Dim BlockNode,Node
 				Set BlockNode = XmlDom.createElement("Block")
@@ -55,10 +56,10 @@ Class YT_Block_XML
 			Set tpl = Nothing
 		Next
 	End Sub
-	Sub Del(Index)
+	Function Del(Index)
 		RootNode.RemoveChild RootNode.childNodes.item(Index)
-		Call Save()
-	End Sub
+		Del = Save
+	End Function
 	Sub Create()
 		Dim Header
 		Set Header = XmlDom.createProcessingInstruction("xml","version=""1.0"" encoding=""utf-8""")

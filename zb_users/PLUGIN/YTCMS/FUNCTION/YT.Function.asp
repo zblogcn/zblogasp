@@ -3,10 +3,10 @@
 <!--#include file="../LIB/XML/YT.Model.asp" -->
 <!--#include file="../LIB/XML/YT.Block.asp" -->
 <%
-Function YT_CMS_Filter_Plugin_TArticle_Build_Template(ByRef html)
+Function YT_CMS_Filter_Plugin_TArticle_Build_Template_Succeed(ByRef html)
 	If Not IsEmpty(html) Then Call YT_TPL_display(html)
 End Function
-Function YT_CMS_Filter_Plugin_TArticleList_Build_Template(ByRef html)
+Function YT_CMS_Filter_Plugin_TArticleList_Build_Template_Succeed(ByRef html)
 	If Not IsEmpty(html) Then Call YT_TPL_display(html)
 End Function
 Function YT_CMS_Filter_Plugin_TArticle_Del(ByRef ID,ByRef Tag,ByRef CateID,ByRef Title,ByRef Intro,ByRef Content,ByRef Level,ByRef AuthorID,ByRef PostTime,ByRef CommNums,ByRef ViewNums,ByRef TrackBackNums,ByRef Alias,ByRef Istop,ByRef TemplateName,ByRef FullUrl,ByRef FType,ByRef MetaString)
@@ -20,34 +20,29 @@ Function YT_CMS_Filter_Plugin_TArticle_Del(ByRef ID,ByRef Tag,ByRef CateID,ByRef
 	Set Node = Nothing
 	Set YTModelXML = Nothing
 End Function
-Function YT_CMS_Filter_Plugin_TArticle_Export_TemplateTags(ByRef aryTemplateTagsName,ByRef aryTemplateTagsValue)
-	Dim j,YTModelXML,Node,Object,Field
-		Set YTModelXML = new YT_Model_XML
-		Set Node = YTModelXML.GetModel(aryTemplateTagsValue(12))
+Function YT_CMS_Action_Plugin_TArticle_Export_End(byref html,byref subhtml,byref aryTemplateTagsName,byref aryTemplateTagsValue)
+	Dim j,mx,Node,Object,Field,os
+		Set mx = new YT_Model_XML
+		Set Node = mx.GetModel(aryTemplateTagsValue(12))
 			If Not Node Is Nothing Then
-				Dim Json
+				Dim Json,YTARRAY
 					Json = YT_Data_GetRow(Node.selectSingleNode("Table/Name").Text,aryTemplateTagsValue(1))
 					If IsEmpty(Json) Then Exit Function
 					Set Object = YT.eval(Json)
-					For Each Field In Object.YTARRAY
-						j = Ubound(aryTemplateTagsName) + 1
-						ReDim Preserve aryTemplateTagsName(j)
-						ReDim Preserve aryTemplateTagsValue(j)
-						Execute("aryTemplateTagsName(j) = ""article/model/"&Field&"""")
-						Execute("aryTemplateTagsValue(j) = Replace(YT.unescape(Object."&Field&"),VBCRLF,CHR(32))")
+					Execute("YTARRAY=Object.YTARRAY")
+					For Each Field In Split(YTARRAY,",")
+						Execute(Field&" = YT.unescape(Object."&Field&")")
+					Next
+					os = subhtml
+					Call YT_TPL_display(subhtml)
+					html = Replace(html,os,subhtml)
+					For Each Field In Split(YTARRAY,",")
+						Execute(Field&" = Empty")
 					Next
 					Set Object = Nothing
 			End If
 		Set Node = Nothing
-		Set YTModelXML = Nothing
-End Function
-Function YT_CMS_Filter_Plugin_TArticle_Build_TemplateTags(ByRef aryTemplateTagsName,ByRef aryTemplateTagsValue)
-	Dim l,s
-	For l = LBound(aryTemplateTagsName) To UBound(aryTemplateTagsName)
-		If InStr(aryTemplateTagsName(l),"TEMPLATE_INCLUDE_") Then
-			Call YT_TPL_display(aryTemplateTagsValue(l))
-		End If
-	Next
+		Set mx = Nothing
 End Function
 Function YT_CMS_Filter_Plugin_PostArticle_Succeed(ByRef objArticle)
 	Dim Sql:Sql = YT_Data_GetSql(objArticle.CateID,objArticle.ID)
@@ -60,7 +55,7 @@ End Function
 Function YT_Model_Analysis()
 	Dim Script
 		Script = Script & "<p id=""model"">"
-        Script = Script & "<script>var ZC_BLOG_HOST='"&ZC_BLOG_HOST&"';var YT_CMS_XML_URL='"&ZC_BLOG_HOST&"ZB_USERS/THEME/"&ZC_BLOG_THEME&"/"&"';</script>"
+        Script = Script & "<script>var ZC_BLOG_HOST='"&ZC_BLOG_HOST&"';var ZC_BLOG_THEME = '"&ZC_BLOG_THEME&"';var YT_CMS_XML_URL=ZC_BLOG_HOST+'ZB_USERS/THEME/'+ZC_BLOG_THEME+'/';</script>"
 		Script = Script & "<script src=""../../ZB_USERS/PLUGIN/YTCMS/Config.js""></script>"
 		Script = Script & "<script src=""../../ZB_USERS/PLUGIN/YTCMS/SCRIPT/YT.Lib.js""></script>"
 		Script = Script & "<script>$(document).ready(function(){YT.Panel.Analysis();});</script>"
@@ -80,7 +75,7 @@ Function YT_Data_GetRow(TableName,ID)
 				R(j) = Chr(34)&Field.Name&Chr(34)&":"&Chr(34)&Rs(Field.Name)&Chr(34)
 				F(j) = Chr(34)&Field.Name&Chr(34)
 			Next
-			YT_Data_GetRow = "{"&Join(R,",")&",YTARRAY:["&Join(F,",")&"]}"
+			YT_Data_GetRow = "{"&Join(R,",")&",""YTARRAY"":["&Join(F,",")&"]}"
 		End If
 	Set Rs = Nothing
 End Function
@@ -151,6 +146,19 @@ Function YT_SaveFile(Byval fileName,Byval fileContent)
 	Call LoadGlobeCache()
 	YT_SaveFile = True
 End Function
+Function YT_DelFile(Byval fileName)
+	Call ClearGlobeCache()
+	Dim themesDir
+	themesDir="ZB_USERS/THEME"&"/"&ZC_BLOG_THEME&"/"&ZC_TEMPLATE_DIRECTORY
+	Dim fso
+	Set fso = CreateObject("Scripting.FileSystemObject")
+	If fso.FileExists(BlogPath&themesDir&"/"&fileName) Then
+		fso.GetFile(BlogPath&themesDir&"/"&fileName).Delete
+		YT_DelFile = True
+	End If
+	Set fso=Nothing
+	Call LoadGlobeCache()
+End Function
 Sub YT_TPL_display(Byref block)
 	Dim t
 	Set t = New YT_TPL
@@ -158,32 +166,30 @@ Sub YT_TPL_display(Byref block)
 		block = t.display()
 	Set t = Nothing
 End Sub
-'*********************************************************
-' 目的：    检查引用
-' 输入：    SQL值（引用）
-' 返回：    
-'*********************************************************
+
 Function FilterSQL(strSQL)
 	Dim s,t
 	Set t = New YT_TPL
 	s = strSQL
 	s = CStr(Replace(s,chr(39),chr(39)&chr(39)))
-	s = t.reg_replace("\<\!\-\-\{(.+?)\}\-\-\>","",s)
-	s = t.reg_replace("\{\$(.+?)\}", "",s)
-	s = t.reg_replace("\{foreach\s+(.+?)\s+(.+?)\}", "",s)
-	s = t.reg_replace("\{for\s+(.+?)\s+(.+?)\}", "",s)
-	s = Replace(s,"{/next}","<"&"%Next%"&">")
-	s = t.reg_replace("\{(do|loop)\s+(while|until)\s+(.+?)\}","",s)
-	s = Replace(s,"{do}","<"&"%Do%"&">")
-	s = Replace(s,"{loop}","")
-	s = t.reg_replace("\{while\s+(.+?)\}"	,"",s)
-	s = Replace(s,"{/wend}","")
-	s = t.reg_replace("\{if\s+(.+?)\}","",s)
-	s = t.reg_replace("\{elseif\s+(.+?)\}","",s)	
-	s = Replace(s,"{/if}","")
-	s = Replace(s,"{else}","")
-	s = t.reg_replace("\{eval\s+(.+?)\}","",s)
-	s = t.reg_replace("\{echo\s+(.+?)\}","",s)
+	s = t.reg_replace("\<\!\-\-\{(.+?)\}\-\-\>","&lt;!--&#123;$1&#125;--&gt;",s)
+	s = t.reg_replace("\{\$(.+?)\}", "&#123;&#36;$1&#125;",s)
+	s = t.reg_replace("\{foreach\s+(.+?)\s+(.+?)\}", "&#123;foreach&nbsp;$1&nbsp;$2&#125;",s)
+	s = t.reg_replace("\{for\s+(.+?)\s+(.+?)\}", "&#123;for&nbsp;$1&nbsp;$2&#125;",s)
+	s = Replace(s,"{/next}","&#123;/next&#125;")
+	s = t.reg_replace("\{(do|loop)\s+(while|until)\s+(.+?)\}","&#123;$1&nbsp;$2&nbsp;$3&#125;",s)
+	s = Replace(s,"{do}","&#123;do&#125;")
+	s = Replace(s,"{loop}","&#123;loop&#125;")
+	s = t.reg_replace("\{while\s+(.+?)\}","&#123;while&nbsp;$1&#125;",s)
+	s = Replace(s,"{/wend}","&#123;/wend&#125;")
+	s = t.reg_replace("\{if\s+(.+?)\}","&#123;if&nbsp;$1&#125;",s)
+	s = t.reg_replace("\{elseif\s+(.+?)\}","&#123;elseif&nbsp;$1&#125;",s)	
+	s = Replace(s,"{/if}","&#123;/if&#125;")
+	s = Replace(s,"{else}","&#123;else&#125;")
+	s = Replace(s,"{code}","&#123;code&#125;")
+	s = Replace(s,"{/code}","&#123;/code&#125;")
+	s = t.reg_replace("\{eval\s+(.+?)\}","&#123;eval&nbsp;$1&#125;",s)
+	s = t.reg_replace("\{echo\s+(.+?)\}","&#123;echo&nbsp;$1&#125;",s)
 	FilterSQL = s
 	Set t = Nothing
 End Function

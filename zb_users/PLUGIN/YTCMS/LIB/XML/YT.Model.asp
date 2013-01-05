@@ -15,6 +15,7 @@ Class YT_Model_XML
 	End Sub
 	Function Add(Object,Index)
 		If RootNode Is Nothing Then Exit Function
+		if len(Object)>0 then set Object = YT.eval(Object)
 		If IsObject(Object) Then
 			Dim ModelNode,Nodes,Node,Field
 				Set ModelNode = XmlDom.createElement("Model")
@@ -93,8 +94,8 @@ Class YT_Model_XML
 	Function Length()
 		Length=RootNode.childNodes.Length
 	End Function
-	Sub Model(Action,Index)
-		If RootNode Is Nothing Then Exit Sub
+	Function Model(Action,Index)
+		If RootNode Is Nothing Then Exit Function
 		Dim Nodes,Node
 		Set Nodes = RootNode.selectNodes("Model")
 		Dim YTTable,i:i=0
@@ -103,17 +104,25 @@ Class YT_Model_XML
 				If Action = "Install" Then
 					If Not YTTable.Exist(Node.selectSingleNode("Table/Name").Text) Then
 						If Not IsNumeric(Index) Then
-							Call YTTable.Create(Node)
+							Model = YTTable.Create(Node)
+							Exit Function
 						Else
-							If Int(Index) = i Then Call YTTable.Create(Node)
+							If Int(Index) = i Then
+								Model = YTTable.Create(Node)
+								Exit Function
+							End If
 						End If
 					End If
 				Else
 					If YTTable.Exist(Node.selectSingleNode("Table/Name").Text) Then
 						If Not IsNumeric(Index) Then
-							Call YTTable.Delete(Node)
+							Model = YTTable.Delete(Node)
+							Exit Function
 						Else
-							If Int(Index) = i Then Call YTTable.Delete(Node)
+							If Int(Index) = i Then
+								Model = YTTable.Delete(Node)
+								Exit Function
+							End If
 						End If
 					End If
 				End If
@@ -121,11 +130,11 @@ Class YT_Model_XML
 			Next
 		Set YTTable = Nothing
 		Set Nodes = Nothing
-	End Sub
-	Sub Del(Index)
+	End Function
+	Function Del(Index)
 		RootNode.RemoveChild RootNode.childNodes.item(Index)
-		Call Save()
-	End Sub
+		Del = Save
+	End Function
 	Function GetModel(Cate)
 		If RootNode Is Nothing Then Exit Function
 		Dim Nodes,Node,Bind,isBind,i
@@ -146,15 +155,15 @@ Class YT_Model_XML
 		Set Nodes = Nothing
 		Set GetModel = Nothing
 	End Function
-	Sub Create()
+	Function Create()
 		Dim Header
 		Set Header = XmlDom.createProcessingInstruction("xml","version=""1.0"" encoding=""utf-8""")
 			XmlDom.appendChild Header
 		Set Header = Nothing
 		Set RootNode = XmlDom.createElement("Root")
 			XmlDom.appendChild  RootNode
-		Call Save()
-	End Sub
+		Create = Save
+	End Function
 	Function Save()
 		On Error Resume Next
 		Save=false

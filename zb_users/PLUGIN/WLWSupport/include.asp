@@ -235,6 +235,8 @@ Function WLWSupport_newPost(structPost,bolPublish)
 
 	On Error Resume Next
 
+	Dim i,j,s,w
+
 	Dim objXmlFile
 	Set objXmlFile = Server.CreateObject("Microsoft.XMLDOM")
 
@@ -267,7 +269,6 @@ Function WLWSupport_newPost(structPost,bolPublish)
 	End If
 
 	Dim Cate
-	Dim i
 	For i=UBound(Categorys) To LBound(Categorys) Step -1
 		If IsObject(Categorys(i)) Then
 			objArticle.CateID=Categorys(i).ID
@@ -296,16 +297,25 @@ Function WLWSupport_newPost(structPost,bolPublish)
 		End If
 	End If
 
-	Dim objRegExp
-	Dim s
-	s=objArticle.Content
-	Set objRegExp=New RegExp
-	objRegExp.IgnoreCase =True
-	objRegExp.Global=True
-	objRegExp.Pattern="<[^>]*>"
-	s=objRegExp.Replace(s,"")
-	s=Left(s,ZC_TB_EXCERPT_MAX) & "..."
-	objArticle.Intro=objArticle.Content
+	objArticle.Content=Replace(objArticle.Content,"<hr />","<hr class=""more"" />",1,1)
+	If InStr(objArticle.Content,"<hr class=""more"" />")>0 Then
+		s=objArticle.Content
+		i=InStr(s,"<hr class=""more"" />")
+		s=Left(s,i-1)
+		objArticle.Intro=closeHTML(s)
+		objArticle.Content=Replace(objArticle.Content,"<hr class=""more"" />","<!–more–>",1,1)
+	End If
+
+	If objArticle.Intro="" Then
+		s=objArticle.Content
+		For i =0 To UBound(Split(s,"</p>"))
+			If Trim(Split(s,"</p>")(i))<>"" Then
+				w=w & Split(s,"</p>")(i) & "</p>"
+			End If
+			If Len(w)>ZC_ARTICLE_EXCERPT_MAX Then Exit for
+		Next 
+		objArticle.Intro=closeHTML(w)
+	End If
 
 	If Trim(objXmlFile.documentElement.selectSingleNode("member[name=""mt_excerpt""]/value/string").text)<>"" Then
 		objArticle.Intro=objXmlFile.documentElement.selectSingleNode("member[name=""mt_excerpt""]/value/string").text
@@ -337,6 +347,8 @@ End Function
 Function WLWSupport_editPost(intPostID,structPost,bolPublish)
 
 	On Error Resume Next
+
+	Dim i,j,s,w
 
 	Dim objXmlFile
 	Set objXmlFile = Server.CreateObject("Microsoft.XMLDOM")
@@ -371,7 +383,7 @@ Function WLWSupport_editPost(intPostID,structPost,bolPublish)
 	End If
 
 	Dim Cate
-	Dim i
+
 	For i=UBound(Categorys) To LBound(Categorys) Step -1
 		If IsObject(Categorys(i)) Then
 			objArticle.CateID=Categorys(i).ID
@@ -387,17 +399,6 @@ Function WLWSupport_editPost(intPostID,structPost,bolPublish)
 
 	objArticle.Tag=ParseTag(objXmlFile.documentElement.selectSingleNode("member[name=""mt_keywords""]/value/string").text)
 
-	Dim objRegExp
-	Dim s
-	s=objArticle.Content
-	Set objRegExp=New RegExp
-	objRegExp.IgnoreCase =True
-	objRegExp.Global=True
-	objRegExp.Pattern="<[^>]*>"
-	s=objRegExp.Replace(s,"")
-	s=Left(s,ZC_TB_EXCERPT_MAX) & "..."
-	objArticle.Intro=objArticle.Content
-
 	If objXmlFile.documentElement.SelectNodes("member[name=""dateCreated""]/value/dateTime.iso8601").count>0 Then
 		Dim y,m,d,t,dt
 		y=Mid(objXmlFile.documentElement.selectSingleNode("member[name=""dateCreated""]/value/dateTime.iso8601").text,1,4)
@@ -408,6 +409,26 @@ Function WLWSupport_editPost(intPostID,structPost,bolPublish)
 		If IsDate(dt)=True Then
 			objArticle.PostTime=dt
 		End If
+	End If
+
+	objArticle.Content=Replace(objArticle.Content,"<hr />","<hr class=""more"" />",1,1)
+	If InStr(objArticle.Content,"<hr class=""more"" />")>0 Then
+		s=objArticle.Content
+		i=InStr(s,"<hr class=""more"" />")
+		s=Left(s,i-1)
+		objArticle.Intro=closeHTML(s)
+		objArticle.Content=Replace(objArticle.Content,"<hr class=""more"" />","<!–more–>",1,1)
+	End If
+
+	If objArticle.Intro="" Then
+		s=objArticle.Content
+		For i =0 To UBound(Split(s,"</p>"))
+			If Trim(Split(s,"</p>")(i))<>"" Then
+				w=w & Split(s,"</p>")(i) & "</p>"
+			End If
+			If Len(w)>ZC_ARTICLE_EXCERPT_MAX Then Exit for
+		Next 
+		objArticle.Intro=closeHTML(w)
 	End If
 
 	If Trim(objXmlFile.documentElement.selectSingleNode("member[name=""mt_excerpt""]/value/string").text)<>"" Then
@@ -460,7 +481,7 @@ Function WLWSupport_getPost(intPostID)
 
 	s=strPost
 	s=Replace(s,"$%#1#%$",TransferHTML(objArticle.Title,"[html-japan][html-format]"))
-	s=Replace(s,"$%#2#%$",TransferHTML(objArticle.Content,"[html-japan][html-format]"))
+	s=Replace(s,"$%#2#%$",TransferHTML(Replace(objArticle.Content,"<!–more–>","<hr />"),"[html-japan][html-format]"))
 	s=Replace(s,"$%#3#%$",TransferHTML(ParseDateForRFC3339(objArticle.PostTime),"[html-format]"))
 	s=Replace(s,"$%#4#%$",TransferHTML(Categorys(objArticle.CateID).Name,"[html-format]"))
 	s=Replace(s,"$%#5#%$",TransferHTML(objArticle.ID,"[html-format]"))
@@ -468,7 +489,7 @@ Function WLWSupport_getPost(intPostID)
 	s=Replace(s,"$%#7#%$",TransferHTML(objArticle.Url,"[html-format]"))
 
 	s=Replace(s,"$%#8#%$",TransferHTML(objArticle.Intro,"[html-format]"))
-	s=Replace(s,"$%#9#%$",TransferHTML(objArticle.Alias,"[html-format]"))
+	s=Replace(s,"$%#9#%$","")
 	s=Replace(s,"$%#10#%$",TransferHTML(objArticle.TagToName,"[html-format]"))
 
 	strRecentPosts=strRecentPosts & s

@@ -1,11 +1,11 @@
 ﻿<%@LANGUAGE="VBSCRIPT" CODEPAGE="65001"%>
 <%
 '///////////////////////////////////////////////////////////////////////////////
-'// 作	 者:    	瑜廷(YT.Single)
-'// 技术支持:    13120003225@qq.com
+'// 作	 者:    	瑜廷
+'// 技术支持:    33195@qq.com
 '// 程序名称:    	Content Manage System
-'// 开始时间:    	2011.03.26
-'// 最后修改:    2012-08-08
+'// 开始时间:    	2011-03-26
+'// 最后修改:    2012-11-04
 '///////////////////////////////////////////////////////////////////////////////
 %>
 <% Option Explicit %>
@@ -26,26 +26,68 @@ Call CheckReference("")
 '检查权限
 If BlogUser.Level>1 Then Call ShowError(6) 
 If CheckPluginState("YTCMS") = False Then Call ShowError(48)
-Dim Action
+Dim Action,code
 	Action = Request("Action")
+	Response.Clear
 	Select Case Action
-		Case "tplList":Response.Write(YT_FileJsonList())
-		Case "GetFile":Response.Write(YT_GetFile(Request.QueryString("File")))
-		Case "SaveFile":Response.Write(YT_SaveFile(Request.Form("Name"),Request.Form("Content")))
-		Case "SaveModel":Response.Write(LCase(new YT_Model_XML.Add(YT.eval(Request.Form("Json")),-1)))
-		Case "UpdateModel":Response.Write(LCase(new YT_Model_XML.Add(YT.eval(Request.Form("Json")),Request.Form("Index"))))
-		Case "DelModel":Call new YT_Model_XML.Del(Request.Form("Index"))
-		Case "SaveBlock":Response.Write(LCase(new YT_Block_XML.Add(YT.eval(Request.Form("Json")),-1)))
-		Case "UpdateBlock":Response.Write(LCase(new YT_Block_XML.Add(YT.eval(Request.Form("Json")),Request.Form("Index"))))
-		Case "DelBlock":Call new YT_Block_XML.Del(Request.Form("Index"))
-		Case "Exist":Response.Write(LCase(new YT_Table.Exist(Request.Form("Name"))))
-		Case "Install":Call new YT_Model_XML.Model("Install",Request.Form("Index"))
-		Case "UnInstall":Call new YT_Model_XML.Model("UnInstall",Request.Form("Index"))
-		Case "GetData":Response.Write(YT_Data_GetRow(Request.Form("Name"),Request.Form("ID")))
-		Case "ImportList":Response.Write(Join(new YT_Table.List(),","))
-		Case "Import":Call new YT_Table.Import(Request("Name"))
+		Case "tplList":
+			Call Response.AddHeader("Content-Type","application/json")
+			Response.Write(YT_FileJsonList())
+		Case "GetFile":
+			Call Response.AddHeader("Content-Type","text/html")
+			Response.Write(YT_GetFile(Request.QueryString("File")))
+		Case "SaveFile":
+			Call Response.AddHeader("Content-Type","application/json")
+			Response.Write(LCase(YT_SaveFile(Request.Form("Name"),Request.Form("Content"))))
+		Case "DelFile":
+			Call Response.AddHeader("Content-Type","application/json")
+			Response.Write(LCase(YT_DelFile(Request.Form("Name"))))
+		Case "SaveModel":
+			Call Response.AddHeader("Content-Type","application/json")
+			Response.Write(LCase(new YT_Model_XML.Add(Request.Form("Json"),-1)))
+		Case "UpdateModel":
+			Call Response.AddHeader("Content-Type","application/json")
+			Response.Write(LCase(new YT_Model_XML.Add(Request.Form("Json"),Request.Form("Index"))))
+		Case "DelModel":
+			Call Response.AddHeader("Content-Type","application/json")
+			Response.Write(LCase(new YT_Model_XML.Del(Request.Form("Index"))))
+		Case "SaveBlock":
+			Call Response.AddHeader("Content-Type","application/json")
+			Response.Write(LCase(new YT_Block_XML.Add(Request.Form("Json"),-1)))
+		Case "UpdateBlock":
+			Call Response.AddHeader("Content-Type","application/json")
+			Response.Write(LCase(new YT_Block_XML.Add(Request.Form("Json"),Request.Form("Index"))))
+		Case "DelBlock":
+			Call Response.AddHeader("Content-Type","application/json")
+			Response.Write(LCase(new YT_Block_XML.Del(Request.Form("Index"))))
+		Case "Exist":
+			Call Response.AddHeader("Content-Type","application/json")
+			Response.Write(LCase(new YT_Table.Exist(Request.Form("Name"))))
+		Case "Install":
+			Call Response.AddHeader("Content-Type","text/html")
+			Call new YT_Model_XML.Model("Install",Request.Form("Index"))
+			Response.Write(LCase("Install"))
+		Case "UnInstall":
+			Call Response.AddHeader("Content-Type","text/html")
+			Call new YT_Model_XML.Model("UnInstall",Request.Form("Index"))
+			Response.Write(LCase("UnInstall"))
+		Case "GetData":
+			Call Response.AddHeader("Content-Type","application/json")
+			Response.Write(YT_Data_GetRow(Request.Form("Name"),Request.Form("ID")))
+		Case "ImportList":
+			Call Response.AddHeader("Content-Type","application/json")
+			code = new YT_Table.List()
+			dim xl,sxl
+			for each xl in code
+				sxl = sxl & CHR(34) & xl & CHR(34) & ","
+			next
+			if right(sxl,1) = "," then sxl = left(sxl,len(sxl)-1)
+			Response.Write("["&sxl&"]")
+		Case "Import":
+			Call Response.AddHeader("Content-Type","application/json")
+			Response.Write(LCase(new YT_Table.Import(Request("Name"))))
 		Case "Demo":
-			Dim code
+			Call Response.AddHeader("Content-Type","text/html")
 			code = LoadFromFile(Server.MapPath(".")&"\demo.html","utf-8")
 			If Len(code) > 0 Then
 				Call YT_TPL_display(code)

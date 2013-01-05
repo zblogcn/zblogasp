@@ -5100,7 +5100,42 @@ Class TFunction
 		End If
 	End Property
 
+	Public Property Get IsPlugin
+		If InStr(Source,"plugin_")>0 Then
+			IsPlugin=True
+		Else
+			IsPlugin=False
+		End If
+	End Property
+	Public Property Let IsPlugin(s)
+		Source="plugin_"&s
+	End Property
 
+	Public Property Get IsTheme
+		If InStr(Source,"theme_")>0 Then
+			IsTheme=True
+		Else
+			IsTheme=False
+		End If
+	End Property
+	Public Property Let IsTheme(s)
+		Source="theme_"&s
+	End Property
+
+	Public Property Get SourceType
+		If Source="system" Then
+			SourceType="system"
+		End If
+		If Source="users" Then
+			SourceType="users"
+		End If
+		If InStr(Source,"plugin_")>0 Then
+			SourceType="plugin"
+		End If
+		If InStr(Source,"theme_")>0 Then
+			SourceType="theme"
+		End If
+	End Property
 
 
 	Public Property Get MetaString

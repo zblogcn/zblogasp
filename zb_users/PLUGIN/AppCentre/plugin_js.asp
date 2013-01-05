@@ -33,10 +33,10 @@ $("#divMain2").prepend("<form class='search' name='edit' id='edit' method='post'
 
 
 $("tr").each(function(){
-	$(this).append("<td width='10%' align='center'></td>");
+	$(this).append("<td width='14%' align='center'></td>");
 });
 
-$("tr").first().children().last().append("AppCentre");
+$("tr").first().children().last().append("<b>开发者模式</b>");
 
 $(".plugin").each(function(){
 	var t=$(this).find("strong").html();
@@ -48,12 +48,12 @@ $(".plugin").each(function(){
 		s=s+"&nbsp;&nbsp;&nbsp;&nbsp;<a href='"+bloghost+"zb_system/admin/edit_function.asp?source="+t+"' title='给该插件增加侧栏模块'><img height='16' width='16' src='"+bloghost+"zb_users/plugin/appcentre/images/bricks.png'/></a>";
 	};
 
-	s=s+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href='"+bloghost+"zb_users/plugin/appcentre/plugin_pack.asp?id="+t+"' title='导出该插件' target='_blank'><img height='16' width='16' src='"+bloghost+"zb_users/plugin/appcentre/images/download.png'/></a>";
+	s=s+"&nbsp;&nbsp;&nbsp;&nbsp;<a href='"+bloghost+"zb_users/plugin/appcentre/plugin_pack.asp?id="+t+"' title='导出该插件' target='_blank'><img height='16' width='16' src='"+bloghost+"zb_users/plugin/appcentre/images/download.png'/></a>";
 	//s=s+"&nbsp;&nbsp;&nbsp;&nbsp;<a href='#' onclick='checkApp(\""+t+"\")' title='更新该插件'><img height='16' width='16' src='"+bloghost+"zb_users/plugin/appcentre/images/refresh.png'/></a>";
 	$(this).parent().children().last().append(s);
 
 	if(!$(this).hasClass("plugin-on")){
-		$(this).parent().children().last().prev().append("&nbsp;&nbsp;&nbsp;&nbsp;<a href='"+bloghost+"zb_users/plugin/appcentre/plugin_del.asp?id="+t+"' title='删除该插件' onclick='return window.confirm(\"单击“确定”继续。单击“取消”停止。\");'><img height='16' width='16' src='"+bloghost+"zb_users/plugin/appcentre/images/delete.png'/></a>");
+		$(this).parent().children().last().prev().append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href='"+bloghost+"zb_users/plugin/appcentre/plugin_del.asp?id="+t+"' title='删除该插件' onclick='return window.confirm(\"单击“确定”继续。单击“取消”停止。\");'><img height='16' width='16' src='"+bloghost+"zb_users/plugin/appcentre/images/delete.png'/></a>");
 	}else{
 	};
 });

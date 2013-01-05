@@ -10,6 +10,5 @@
 	};
 var YTConfig = {
 	Block:'BLOCK.XML',
-	Model:'MODEL.XML',
-	Table:['YT_Alipay']
+	Model:'MODEL.XML'
 }

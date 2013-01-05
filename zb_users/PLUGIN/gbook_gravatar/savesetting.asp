@@ -42,11 +42,16 @@ If CheckPluginState("gbook_gravatar")=False Then Call ShowError(48)
 	gbook_gravatar_Config.Write "DZ_WH_VALUE",Request.Form("str_DZ_WH_VALUE")
 	gbook_gravatar_Config.Write "DZ_TITLE_VALUE",Request.Form("str_DZ_TITLE_VALUE")
 	gbook_gravatar_Config.Write "DZ_COUNT_VALUE",Request.Form("str_DZ_COUNT_VALUE")
+	gbook_gravatar_Config.Write "DZ_ISREPLY",Request.Form("str_DZ_ISREPLY")
+	gbook_gravatar_Config.Write "DZ_USERIDS",Request.Form("str_DZ_USERIDS")
+	gbook_gravatar_Config.Write "DZ_STYLE_VALUE",Request.Form("str_DZ_STYLE_VALUE")
 	gbook_gravatar_Config.Save
 	Set gbook_gravatar_Config=Nothing
+	
+Call gbook_gravatar_BlogReBuild_GuestComments
+Call BlogReBuild_Default
 
 Call System_Terminate()
-
 If Err.Number<>0 then
   Call ShowError(0)
 End If

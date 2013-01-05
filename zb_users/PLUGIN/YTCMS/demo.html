@@ -1,7 +1,4 @@
-﻿<table width="80%" align="center" border="0" cellspacing="0" cellpadding="0">
-  <tr>
-    <td>
-<h1>YT.CMS 2.0 演示文档</h1>
+﻿<h1>YT.CMS 2.0 演示文档</h1>
 <h3>演示效果中的字段可以在YT.CMS后台面板中生成</h3>
 <fieldset>  
 <legend><h1>单体循环</h1></legend>  
@@ -49,7 +46,7 @@
         {elseif art.id > 30}
         	<h2>[<font color="blue">{$art.id}</font>]{$art.title}</h2>
         {else}
-        	<h4>[{$art.id}]{echo art.title}</h4>
+        	<h5>[{$art.id}]{echo art.title}</h5>
         {/if}
     {/if}
 {/next}
@@ -106,9 +103,6 @@
 {/next}
 <h2>代码</h2>
 </fieldset>
-    </td>
-  </tr>
-</table>
 <script language="javascript" type="text/javascript">
 var _code = [];
 	_code.push('%3Cp%3E%7BYT%3AArticle%20DataSource%3D%26quot%3BGetArticleRandomSortRand%281%29%26quot%3B%7D%3Cbr%20/%3E%0A%20%20%26lt%3Bh1%26gt%3B%7B%24Article.id%7D%7B%24Article.title%7D%26lt%3B/h1%26gt%3B%3Cbr%20/%3E%0A%20%20%7B/YT%3AArticle%7D%3C/p%3E');
