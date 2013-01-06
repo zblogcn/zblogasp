@@ -2,6 +2,8 @@
 Const APPCENTRE_URL="http://app.rainbowsoft.org/"
 Const APPCENTRE_UPDATE_URL="http://app.rainbowsoft.org/appcentre.asp?act=checkupdate"
 
+Const APPCENTRE_SYSTEM_UPDATE="http://update.rainbowsoft.org/zblog2/"
+
 Dim app_config
 Dim login_un,login_pw,disableupdate_theme
 Dim Pack_For,Pack_Type
@@ -36,12 +38,65 @@ Dim app_conflict
 
 Dim app_path
 
+Function AppCentre_CheckSystemIndex(build)
+
+	Dim objXmlFile,strXmlFile
+	Dim fso, f, f1, fc, s
+	Set fso = CreateObject("Scripting.FileSystemObject")
+
+	f=False
+	
+	If fso.FileExists(BlogPath & "zb_users/cache/"&build&".xml") Then
+
+		strXmlFile =BlogPath & "zb_users/cache/"&build&".xml"
+
+		Set objXmlFile=Server.CreateObject("Microsoft.XMLDOM")
+		objXmlFile.async = False
+		objXmlFile.ValidateOnParse=False
+		objXmlFile.load(strXmlFile)
+		If objXmlFile.readyState=4 Then
+			If objXmlFile.parseError.errorCode <> 0 Then
+			Else
+				f=True
+			End If
+		End If
+	End If
+
+	If f=False Then
+
+		Dim objPing
+		Set objPing = Server.CreateObject("MSXML2.ServerXMLHTTP")
+
+		objPing.open "GET", APPCENTRE_SYSTEM_UPDATE & build & ".xml",False
+		objPing.send ""
+
+		Call SaveToFile(BlogPath & "zb_users/cache/"&build&".xml",objPing.responseText,"utf-8",False)
+
+	End If
+
+End Function
+
+
+
+Function AppCentre_CheckSystemLast()
+
+	Dim objPing
+	Set objPing = Server.CreateObject("MSXML2.ServerXMLHTTP")
+
+	objPing.open "GET", APPCENTRE_SYSTEM_UPDATE,False
+	objPing.send ""
+
+	AppCentre_CheckSystemLast=objPing.responseText
+
+
+	Set objPing = Nothing
+End Function
 
 Sub AppCentre_SubMenu(id)
 	Dim aryName,aryValue,aryPos
-	aryName=Array("在线安装应用","新建插件","新建主题","开发者登录","主题列表","插件列表","检查更新")
-	aryValue=Array("server.asp","plugin_edit.asp","theme_edit.asp","login.asp","server.asp?action=catalog&cate=2","server.asp?action=catalog&cate=1","checkupdate.asp")
-	aryPos=Array("m-left","m-right","m-right","m-right","m-left","m-left","m-left")
+	aryName=Array("在线安装应用","新建插件","新建主题","开发者登录","主题列表","插件列表","检查应用更新","系统更新与文件校验")
+	aryValue=Array("server.asp","plugin_edit.asp","theme_edit.asp","login.asp","server.asp?action=catalog&cate=2","server.asp?action=catalog&cate=1","checkupdate.asp","update.asp")
+	aryPos=Array("m-left","m-right","m-right","m-right","m-left","m-left","m-left","m-left")
 	Dim i 
 	For i=0 To Ubound(aryName)
 		Response.Write MakeSubMenu(aryName(i),aryValue(i),aryPos(i) & IIf(id=i," m-now",""),False)

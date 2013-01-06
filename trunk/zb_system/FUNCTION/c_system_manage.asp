@@ -1448,7 +1448,7 @@ Call Add_Response_Plugin("Response_Plugin_FunctionMng_SubMenu",MakeSubMenu(ZC_MS
 	Response.Write "<div class=""SubMenu"">" & Response_Plugin_FunctionMng_SubMenu & "</div>"
 	Response.Write "<div id=""divMain2"">"
 
-	Response.Write "<div class=""widget-list"">"
+	Response.Write "<div style='min-width:1100px;'><div class=""widget-list"">"
 
 
 
@@ -1687,7 +1687,7 @@ Response.Write "</script>"
 	Response.Write "<input class=""button"" type=""submit"" onclick='$(""#frmBatch"").attr(""action"",""../cmd.asp?act=FunctionMng"");' value="""&ZC_MSG087&""" id=""btnPost""/>&nbsp;&nbsp;&nbsp;&nbsp;("&ZC_MSG145&")</form>" & vbCrlf
 
 
-	Response.Write "</div>"
+	Response.Write "</div></div>"
 
 	Response.Write "<script type=""text/javascript"">ActiveLeftMenu(""aFunctionMng"");</script>"
 

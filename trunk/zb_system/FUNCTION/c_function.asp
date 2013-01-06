@@ -2173,6 +2173,75 @@ Public Function MD5(sMessage)
     MD5 = LCase(WordToHex(a) & WordToHex(b) & WordToHex(c) & WordToHex(d))
 End Function
 '*********************************************************
+
+
+
+
+'*********************************************************
+Function CRC32(Path)
+
+	On Error Resume Next
+
+    Dim objAdo
+    Set objAdo = CreateObject("adodb.stream")
+    objAdo.Open
+    objAdo.Type = 1
+    objAdo.LoadFromFile Path
+           
+    Dim crc32Result
+    Dim i
+    Dim j
+    Dim dwCrc
+    Dim iLookup
+    Dim Lb
+    Dim Ub
+            
+     '常数
+    Const Num0 = &H0
+    Const Num1 = &H1
+    Const Num2 = &H2
+    Const Num8 = &H8
+    Const Num255 = &HFF
+    Const Num256 = &H100
+    Const Num16777215 = &HFFFFFF
+    Const dwPolynomial = &HEDB88320
+    Const Num2147483647 = &H7FFFFFFF
+    Const NumNegative1 = &HFFFFFFFF
+    Const NumNegative2 = &HFFFFFFFE
+    Const NumNegative256 = &HFFFFFF00
+            
+    'CRC32表
+    Dim crc32Table(&HFF)
+            
+    '初始化CRC32表
+    For i = Num0 To Num255
+        dwCrc = i
+        For j = Num8 To Num1 Step NumNegative1
+            If (dwCrc And Num1) Then
+                dwCrc = ((dwCrc And NumNegative2) \ Num2) And Num2147483647
+                dwCrc = dwCrc Xor dwPolynomial
+            Else
+                dwCrc = ((dwCrc And NumNegative2) \ Num2) And Num2147483647
+            End If
+        Next
+        crc32Table(i) = dwCrc
+    Next
+    crc32Result = NumNegative1
+    '计算CRC32码
+    For i = 0 To objAdo.Size-1
+        objAdo.Position=i
+        iLookup = (crc32Result And Num255) Xor AscB(objAdo.Read(1))
+        crc32Result = ((crc32Result And NumNegative256) \ Num256) And Num16777215
+        crc32Result = crc32Result Xor crc32Table(iLookup)
+    Next
+             
+    CRC32 = Hex(Not (crc32Result))
+End Function
+'*********************************************************
+
+
+
+
 '*********************************************************
 ' 目的：    newClass
 ' 输入：   
