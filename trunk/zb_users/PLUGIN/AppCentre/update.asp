@@ -135,7 +135,7 @@ If b>0 Then
 
 c=vbsunescape(a)
 
-Response.Write "<tr><td>"& c &"</td><td id='td"&b&"' align='center'>"& e &"</td></tr>"
+Response.Write "<tr><td><img src='Images/document_empty.png' width='16' alt='' /> "& c &"</td><td id='td"&b&"' align='center'>"& e &"</td></tr>"
 Response.Flush
 
 End If
