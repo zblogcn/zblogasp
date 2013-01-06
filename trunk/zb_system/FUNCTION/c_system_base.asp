@@ -140,8 +140,6 @@ Sub System_Initialize()
 		If bAction_Plugin_System_Initialize=True Then Exit Sub
 	Next
 	
-
-
 	If ZC_POST_STATIC_MODE<>"STATIC" Then
 		Dim bolRebuildFiles
 		Application.Lock
@@ -165,8 +163,6 @@ Sub System_Initialize()
 			Call MakeBlogReBuild_Core()
 		End If
 	End If
-
-
 
 	'将激活插件后移
 	
@@ -505,6 +501,8 @@ Function GetFunction()
 	Erase Functions
 	ReDim Functions(0)
 
+	Set FunctionMetas=New TMeta
+
 	Dim objRS
 
 	Set objRS=objConn.Execute("SELECT TOP 1 [fn_ID] FROM [blog_Function] ORDER BY [fn_ID] DESC")
@@ -534,10 +532,11 @@ Function GetFunction()
 
 	Dim aryFileList
 
-	aryFileList=LoadIncludeFilesOnlyType("zb_users\INCLUDE" & "\")
+	aryFileList=LoadIncludeFilesOnlyType("zb_users\INCLUDE\")
 
 	If IsArray(aryFileList) Then
 		j=UBound(aryFileList)
+
 		If j>0 Then
 			For i=1 to j
 				If Right(aryFileList(i),4)=".asp" Then

@@ -1432,6 +1432,8 @@ End Function
 '*********************************************************
 Function ExportFunctionList()
 
+	Call GetFunction()
+
 	Call Add_Response_Plugin("Response_Plugin_FunctionMng_SubMenu",MakeSubMenu(ZC_MSG142 & "","../cmd.asp?act=FunctionEdt","m-left",False))
 
 Call Add_Response_Plugin("Response_Plugin_FunctionMng_SubMenu",MakeSubMenu(ZC_MSG052 & "","../cmd.asp?act=FunctionEdt&amp;id="&Functions(FunctionMetas.GetValue("navbar")).ID,"m-left",False))
@@ -1449,10 +1451,7 @@ Call Add_Response_Plugin("Response_Plugin_FunctionMng_SubMenu",MakeSubMenu(ZC_MS
 	Response.Write "<div class=""widget-list"">"
 
 
-	'Dim aryFunctionInOrder
-	'aryFunctionInOrder=GetFunctionOrder()
 
-	'If IsArray(aryFunctionInOrder) Then
 Response.Write "<script type=""text/javascript"">"
 Response.Write "var functions = {"
 	For i=LBound(Functions)+1 To Ubound(Functions)
@@ -1550,9 +1549,8 @@ Response.Write "</script>"
 		End If
 	Next
 
-	'End If
-	Response.Write "</div>"
 
+	Response.Write "</div>"
 
 	Response.Write "<div class=""siderbar-list"">"
 	Response.Write "<div class=""siderbar-drop"" id=""siderbar""><div class=""siderbar-header"">"&ZC_MSG290&"</div>"
@@ -1695,18 +1693,18 @@ Response.Write "</script>"
 
 %>
 <style type="text/css">
-.widget-list{min-width:540px;width:800px;background:#eee;margin:3px;padding:3px;float:left;}
+.widget-list{min-width:540px;width:782px;background:#eee;margin:3px;padding:3px;float:left;}
 .widget-list-header {clear:both;}
 .widget-list-header,.siderbar-header{background:#fff;margin:5px;padding:5px;font-size: 1.2em;font-weight: blod;text-align: center;}
 .siderbar-header{padding:0 5px 0 5px;}
-.widget{width:252px;background:#fff;border:1px solid #ccc;margin:3px;padding:3px;float:left;}
+.widget{width:252px;background:#fff;border:1px solid #ccc;margin:3px;padding:0px;float:left;}
 .widget img{margin:3px;margin-bottom: -3px;}
 
-.widget-title {margin:1px;padding:6px;;color: white;}
+.widget-title {margin:0px;padding:6px;;color: white;}
 .widget-title {cursor: move;} .widget-title img{cursor: pointer;} 
 .widget-action{float:right;}
-.siderbar-list{float:left;width:300px;margin-left:10px;}
-.siderbar-drop{float:right;width:265px;min-height:60px;background:#fefefe;border:5px solid #eee;margin: 3px 15px;padding:5px;}
+.siderbar-list{float:left;width:290px;margin-left:10px;}
+.siderbar-drop{float:right;width:260px;min-height:60px;background:#fefefe;border:5px solid #eee;margin: 3px 15px;padding:5px;}
 
 .widget_source_system .widget-title{background: #3FA7DB;}
 .widget_source_users .widget-title{background: #556B2F;}
