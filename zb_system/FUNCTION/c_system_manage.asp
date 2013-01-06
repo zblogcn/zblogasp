@@ -1759,15 +1759,21 @@ Response.Write "</script>"
         //    $(this).parent().next().toggle("fast");
         //});
 
-
  		$( ".siderbar-drop" ).sortable({
  			items:'.widget',
- 			stop:function(event, ui){sortFunction();}
+			start:function(event, ui){
+				 var c=ui.item.find(".funid").html();
+				 //alert($( ".siderbar-drop").find(".widget:contains("+c+")").length);
+				 if(ui.item.parent().find(".widget:contains("+c+")").length>1){
+					ui.item.remove();
+				 };
+			} ,			
+			stop:function(event, ui){sortFunction();}
  		}).disableSelection(); 
 
 		$( ".widget-list>.widget" ).draggable({
             connectToSortable: ".siderbar-drop",
-            revert: "invalid", // when not dropped, the item will revert back to its initial position
+            revert: "invalid", 
             containment: "document",
             helper: "clone",
             cursor: "move"
@@ -1779,19 +1785,6 @@ Response.Write "</script>"
             	ui.draggable.remove();
             }
         });
-
-
-        function addWidget( $item,$box ) {
-            $item.fadeOut(function() {
-                $item.appendTo( $box );
-            });
-        }
-
-        function deleteWidget( $item,$box ) {
-            $item.fadeOut(function() {
-                $item.appendTo( $box ).fadeIn();
-            });
-        }
 
 });
 
