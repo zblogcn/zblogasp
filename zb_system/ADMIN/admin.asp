@@ -14,7 +14,7 @@
 '///////////////////////////////////////////////////////////////////////////////
 %>
 <% Option Explicit %>
-<% 'On Error Resume Next %>
+<% On Error Resume Next %>
 <% Response.Charset="UTF-8" %>
 <% Response.Buffer=True %>
 <!-- #include file="../../zb_users/c_option.asp" -->
@@ -72,7 +72,7 @@ BlogTitle=ZC_MSG022
 		Case "SiteInfo" Call ExportSiteInfo()
 		Case "AskFileReBuild" Call ExportFileReBuildAsk()
 		Case "ThemeMng" Call ExportThemeMng()
-		Case "FunctionMng" Call GetFunction():Call ExportFunctionList()
+		Case "FunctionMng" Call ExportFunctionList()
 	End Select
 
 	'Call ()

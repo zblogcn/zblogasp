@@ -1308,10 +1308,7 @@ Function SaveSetting()
 
 	Call SaveConfig2Option()
 
-	Call MakeBlogReBuild_Core()
-
 	SaveSetting=True
-
 
 End Function
 '*********************************************************
@@ -2212,18 +2209,16 @@ End Function
 '*********************************************************
 Function SaveSidebarOrder(s1,s2,s3,s4,s5)
 
+	If Right(s1,1)=":" Then s1=Left(s1,Len(s1)-1)
+	If Right(s2,1)=":" Then s2=Left(s2,Len(s2)-1)
+	If Right(s3,1)=":" Then s3=Left(s3,Len(s3)-1)
+	If Right(s4,1)=":" Then s4=Left(s4,Len(s4)-1)
+	If Right(s5,1)=":" Then s5=Left(s5,Len(s5)-1)
+
 	ZC_SIDEBAR_ORDER=s1
-
-
 	ZC_SIDEBAR_ORDER2=s2
-
-
 	ZC_SIDEBAR_ORDER3=s3
-
-
 	ZC_SIDEBAR_ORDER4=s4
-
-
 	ZC_SIDEBAR_ORDER5=s5
 
 	SaveSidebarOrder=True
