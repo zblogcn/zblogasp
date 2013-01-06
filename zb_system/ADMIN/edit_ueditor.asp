@@ -421,7 +421,7 @@ var str10="<%=ZC_MSG115%>";
 var str11="<%=ZC_MSG116%>";
 
 function checkArticleInfo(){
-	document.getElementById("edit").action="../cmd.asp?act=ArticlePst&webedit=ueditor<%=IIF(Request.QueryString("type")="Page","&type=Page","")%>";
+	document.getElementById("edit").action="../cmd.asp?act=ArticlePst&webedit=<%=ZC_BLOG_WEBEDIT & IIF(Request.QueryString("type")="Page","&type=Page","")%>";
 
 	if(!editor.getContent()){
 		alert(str11);
