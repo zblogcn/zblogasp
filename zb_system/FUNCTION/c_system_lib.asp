@@ -5117,6 +5117,7 @@ Class TFunction
 	Public Property Let IsPlugin(s)
 		Source="plugin_"&s
 	End Property
+	
 
 	Public Property Get IsTheme
 		If InStr(Source,"theme_")>0 Then
@@ -5157,6 +5158,16 @@ Class TFunction
 	Public Property Let IsOther(s)
 		If s=True Then
 			Source="other"
+		End If
+	End Property
+
+	Public Property Get AppName
+		If SourceType="plugin" Then
+			AppName=Right(Source,Len(Source)-Len("plugin_"))
+		ElseIf SourceType="theme" Then
+			AppName=Right(Source,Len(Source)-Len("theme_"))
+		Else
+			AppName=""
 		End If
 	End Property
 

@@ -1525,8 +1525,10 @@ Response.Write "</script>"
 			Response.Write "	<div class=""widget-title""><img class=""more-action"" width=""16"" src=""../image/admin/brick.png"" alt="""" />"& Functions(i).Name 
 
 			Response.Write "	<span class=""widget-action""><a href=""../cmd.asp?act=FunctionEdt&amp;id="&Functions(i).ID&"""><img class=""edit-action"" src=""../image/admin/brick_edit.png"" alt=""" & ZC_MSG078 & """ title=""" & ZC_MSG078 & """ width=""16"" /></a>"
-
-			Response.Write "&nbsp;<a onclick='return window.confirm("""& ZC_MSG058 &""");' href=""../cmd.asp?act=FunctionDel&amp;id="& Functions(i).ID &"""><img src=""../image/admin/delete.png"" alt=""" & ZC_MSG063 & """ title=""" & ZC_MSG063 & """ width=""16"" /></a>"
+			
+			If Not CheckPluginState(Functions(i).AppName) Then
+				Response.Write "&nbsp;<a onclick='return window.confirm("""& ZC_MSG058 &""");' href=""../cmd.asp?act=FunctionDel&amp;id="& Functions(i).ID &"""><img src=""../image/admin/delete.png"" alt=""" & ZC_MSG063 & """ title=""" & ZC_MSG063 & """ width=""16"" /></a>"
+			End If
 
 			Response.Write "	</span>"
 			Response.Write "	</div>"
