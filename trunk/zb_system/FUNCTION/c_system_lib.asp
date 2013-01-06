@@ -5075,6 +5075,7 @@ Class TFunction
 	Public Meta
 	Public Source
 	Public ViewType
+	Public InDataBase
 
 	Public Property Get IsDisplay
 		IsDisplay=Not IsHidden
@@ -5220,17 +5221,21 @@ Class TFunction
 		Content=FilterSQL(Content)
 		Content=TransferHTML(Content,"[anti-zc_blog_host]")
 
-		If ID=0 Then
+		
+		If ID=0 Or (InDataBase=False And Source<>"other") Then
 			objConn.Execute("INSERT INTO [blog_Function]([fn_Name],[fn_FileName],[fn_Order],[fn_Content],[fn_IsHidden],[fn_SidebarID],[fn_HtmlID],[fn_Ftype],[fn_MaxLi],[fn_Source],[fn_ViewType],[fn_Meta]) VALUES ('"&Name&"','"&FileName&"',"&Order&",'"&Content&"',"&CLng(IsHidden)&","&SidebarID&",'"&HtmlID&"','"&Ftype&"',"&MaxLi&",'"&Source&"','"&ViewType&"','"&MetaString&"')")
 
 			Dim objRS
 			Set objRS=objConn.Execute("SELECT MAX([fn_ID]) FROM [blog_Function]")
 			If (Not objRS.bof) And (Not objRS.eof) Then
 				ID=objRS(0)
+				InDataBase=True
 			End If
 
 		Else
-			objConn.Execute("UPDATE [blog_Function] SET [fn_Name]='"&Name&"',[fn_FileName]='"&FileName&"',[fn_Order]="&Order&",[fn_Content]='"&Content&"',[fn_IsHidden]="&CLng(IsHidden)&",[fn_SidebarID]="&SidebarID&",[fn_HtmlID]='"&HtmlID&"',[fn_Ftype]='"&Ftype&"',[fn_MaxLi]="&MaxLi&",[fn_Source]='"&Source&"',[fn_ViewType]='"&ViewType&"',[fn_Meta]='"&MetaString&"' WHERE [fn_ID] =" & ID)
+			If InDataBase Then
+				objConn.Execute("UPDATE [blog_Function] SET [fn_Name]='"&Name&"',[fn_FileName]='"&FileName&"',[fn_Order]="&Order&",[fn_Content]='"&Content&"',[fn_IsHidden]="&CLng(IsHidden)&",[fn_SidebarID]="&SidebarID&",[fn_HtmlID]='"&HtmlID&"',[fn_Ftype]='"&Ftype&"',[fn_MaxLi]="&MaxLi&",[fn_Source]='"&Source&"',[fn_ViewType]='"&ViewType&"',[fn_Meta]='"&MetaString&"' WHERE [fn_ID] =" & ID)
+			End If		
 		End If
 
 		Post=True
@@ -5262,6 +5267,7 @@ Class TFunction
 			MetaString=objRS("fn_Meta")
 
 			LoadInfoByID=True
+			InDataBase=True
 
 		End If
 
@@ -5293,6 +5299,7 @@ Class TFunction
 		End If
 
 		LoadInfoByArray=True
+		InDataBase=True
 
 		Call Filter_Plugin_TFunction_LoadInfoByArray(ID,Name,FileName,Order,Content,IsHidden,SidebarID,HtmlID,Ftype,MaxLi,Source,ViewType,MetaString)
 
@@ -5457,6 +5464,8 @@ Class TFunction
 		If (ID=0) Then Del=False:Exit Function
 
 		objConn.Execute("DELETE FROM [blog_Function] WHERE [fn_ID] =" & ID)
+		
+		InDataBase=False
 
 		Call DelFile()
 
@@ -5480,6 +5489,7 @@ Class TFunction
 		IsHidden=False
 		MaxLi=0
 		Source="users"
+		InDataBase=False
 		Set Meta=New TMeta
 	End Sub
 
