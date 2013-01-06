@@ -98,7 +98,7 @@ BlogTitle=ZC_MSG144
 	Response.Write "<label><input id=""viewtype2"" name=""inpViewType"" value=""js"" type=""radio"" "&IIf(EditFunction.ViewType="js", "checked=""checked""","") & " />&nbsp;&nbsp;JavaScript&nbsp;&nbsp;&nbsp;&nbsp;</label>"
 	Response.Write "<label><input id=""viewtype3"" name=""inpViewType"" value=""html"" type=""radio"" "&IIf(EditFunction.ViewType="html", "checked=""checked""","") & " />&nbsp;&nbsp;HTML&nbsp;&nbsp;&nbsp;&nbsp;</label>"
 
-	Response.Write "<p><span class='title'>"& ZC_MSG017 &":</span></p><input id=""inpIsHidden"" name=""inpIsHidden"" style="""" type=""text"" value="""& CBool(Not EditFunction.IsHidden)&""" class=""checkbox""/><hr/>"
+	Response.Write "<p><span class='title'>"& ZC_MSG017 &":</span></p><input id=""inpIsHidden"" name=""inpIsHidden"" style="""" type=""text"" value="""& EditFunction.IsDisplay &""" class=""checkbox""/><hr/>"
 		
 
 
@@ -122,67 +122,6 @@ BlogTitle=ZC_MSG144
 </div>
 
 </div>
-<script type="text/javascript">
-
-function CountSideBarID(){
-
-	if($("#inpNoSidebar").attr("checked")){
-		$("#inpSidebarID").val(0);
-	}else{
-		var s=""
-		if($("#inpSidebar5").attr("checked")){s=s+"1"}else{s=s+"0"}
-		if($("#inpSidebar4").attr("checked")){s=s+"1"}else{s=s+"0"}
-		if($("#inpSidebar3").attr("checked")){s=s+"1"}else{s=s+"0"}
-		if($("#inpSidebar2").attr("checked")){s=s+"1"}else{s=s+"0"}
-		if( $("#inpSidebar").attr("checked")){s=s+"1"}else{s=s+"0"}
-		$("#inpSidebarID").val(new Number(s.valueOf()));
-	}
-};
-
-$("#inpNoSidebar").click(function(){
-	if($(this).attr("checked")){
-		$("#inpSidebar").removeAttr("checked")
-		$("#inpSidebar2").removeAttr("checked")
-		$("#inpSidebar3").removeAttr("checked")
-		$("#inpSidebar4").removeAttr("checked")
-		$("#inpSidebar5").removeAttr("checked")
-	}else{
-		$("#inpSidebar").attr("checked","checked")
-		//$("#inpSidebar2").attr("checked","checked")
-		//$("#inpSidebar3").attr("checked","checked")
-		//$("#inpSidebar4").attr("checked","checked")
-		//$("#inpSidebar5").attr("checked","checked")
-	}
-	CountSideBarID();
-});
-
-$("#inpSidebar,#inpSidebar2,#inpSidebar3,#inpSidebar4,#inpSidebar5").click(function(){
-	if($(this).attr("checked")){
-		$("#inpNoSidebar").removeAttr("checked");
-	}
-	CountSideBarID();
-});
-
-$("#inpShow + span.imgcheck").live("click", function() {
-  $("#pShow").toggle();
-  if($("#inpShow").val()==="True"){
-	$("#inpSidebarID").val(new Number(0));
-    $("#inpNoSidebar").attr("checked","checked")
-  }else{
-	$("#inpSidebarID").val(new Number(-1));
-	$("#inpSidebar").removeAttr("checked")
-	$("#inpSidebar2").removeAttr("checked")
-	$("#inpSidebar3").removeAttr("checked")
-	$("#inpSidebar4").removeAttr("checked")
-	$("#inpSidebar5").removeAttr("checked")
-	$("#inpNoSidebar").removeAttr("checked")
-  }
-});
-
-
-</script>
-
-
 <script type="text/javascript">ActiveLeftMenu("aFunctionMng");</script>
 <!--#include file="admin_footer.asp"-->
 <% 

@@ -1467,7 +1467,7 @@ Response.Write "</script>"
 	For i=LBound(Functions)+1 To Ubound(Functions)
 		If IsObject(Functions(i)) Then
 		If Functions(i).IsSystem Then
-			Response.Write "<div class=""widget widget_source_"& Functions(i).SourceType &" " & Functions(i).FileName & """>"
+			Response.Write "<div class=""widget widget_ishidden_"&LCase(Functions(i).IsHidden)&" widget_source_"& Functions(i).SourceType &" " & Functions(i).FileName & """>"
 			Response.Write "	<div class=""widget-title""><img class=""more-action"" width=""16"" src=""../image/admin/brick.png"" alt="""" />"& Functions(i).Name 
 
 			Response.Write "	<span class=""widget-action""><a href=""../cmd.asp?act=FunctionEdt&amp;id="&Functions(i).ID&"""><img class=""edit-action"" src=""../image/admin/brick_edit.png"" alt=""" & ZC_MSG078 & """ title=""" & ZC_MSG078 & """ width=""16"" /></a>"
@@ -1484,7 +1484,7 @@ Response.Write "</script>"
 	For i=LBound(Functions)+1 To Ubound(Functions)
 		If IsObject(Functions(i)) Then
 		If Functions(i).IsUsers Then
-			Response.Write "<div class=""widget widget_source_"& Functions(i).SourceType &" " & Functions(i).FileName & """>"
+			Response.Write "<div class=""widget widget_ishidden_"&LCase(Functions(i).IsHidden)&" widget_source_"& Functions(i).SourceType &" " & Functions(i).FileName & """>"
 			Response.Write "	<div class=""widget-title""><img class=""more-action"" width=""16"" src=""../image/admin/brick.png"" alt="""" />"& Functions(i).Name 
 
 			Response.Write "	<span class=""widget-action""><a href=""../cmd.asp?act=FunctionEdt&amp;id="&Functions(i).ID&"""><img class=""edit-action"" src=""../image/admin/brick_edit.png"" alt=""" & ZC_MSG078 & """ title=""" & ZC_MSG078 & """ width=""16"" /></a>"
@@ -1503,7 +1503,7 @@ Response.Write "</script>"
 	For i=LBound(Functions)+1 To Ubound(Functions)
 		If IsObject(Functions(i)) Then
 		If Functions(i).IsTheme Then
-			Response.Write "<div class=""widget widget_source_"& Functions(i).SourceType &" " & Functions(i).FileName & """>"
+			Response.Write "<div class=""widget widget_ishidden_"&LCase(Functions(i).IsHidden)&" widget_source_"& Functions(i).SourceType &" " & Functions(i).FileName & """>"
 			Response.Write "	<div class=""widget-title""><img class=""more-action"" width=""16"" src=""../image/admin/brick.png"" alt="""" />"& Functions(i).Name 
 
 			Response.Write "	<span class=""widget-action""><a href=""../cmd.asp?act=FunctionEdt&amp;id="&Functions(i).ID&"""><img class=""edit-action"" src=""../image/admin/brick_edit.png"" alt=""" & ZC_MSG078 & """ title=""" & ZC_MSG078 & """ width=""16"" /></a>"
@@ -1521,7 +1521,7 @@ Response.Write "</script>"
 	For i=LBound(Functions)+1 To Ubound(Functions)
 		If IsObject(Functions(i)) Then
 		If Functions(i).IsPlugin Then
-			Response.Write "<div class=""widget widget_source_"& Functions(i).SourceType &" " & Functions(i).FileName & """>"
+			Response.Write "<div class=""widget widget_ishidden_"&LCase(Functions(i).IsHidden)&" widget_source_"& Functions(i).SourceType &" " & Functions(i).FileName & """>"
 			Response.Write "	<div class=""widget-title""><img class=""more-action"" width=""16"" src=""../image/admin/brick.png"" alt="""" />"& Functions(i).Name 
 
 			Response.Write "	<span class=""widget-action""><a href=""../cmd.asp?act=FunctionEdt&amp;id="&Functions(i).ID&"""><img class=""edit-action"" src=""../image/admin/brick_edit.png"" alt=""" & ZC_MSG078 & """ title=""" & ZC_MSG078 & """ width=""16"" /></a>"
@@ -1539,7 +1539,7 @@ Response.Write "</script>"
 	For i=LBound(Functions)+1 To Ubound(Functions)
 		If IsObject(Functions(i)) Then
 		If Functions(i).IsOther Then
-			Response.Write "<div class=""widget widget_source_"& Functions(i).SourceType &" " & Functions(i).FileName & """>"
+			Response.Write "<div class=""widget widget_ishidden_"&LCase(Functions(i).IsHidden)&" widget_source_"& Functions(i).SourceType &" " & Functions(i).FileName & """>"
 			Response.Write "	<div class=""widget-title""><img class=""more-action"" width=""16"" src=""../image/admin/brick.png"" alt="""" />"& Functions(i).Name 
 
 			Response.Write "	</div>"
@@ -1558,7 +1558,7 @@ Response.Write "</script>"
 	For Each s In t
 		If FunctionMetas.Exists(s)=True Then
 
-			Response.Write "<div class=""widget widget_source_"& Functions(FunctionMetas.GetValue(s)).SourceType &" " & Functions(FunctionMetas.GetValue(s)).FileName & """>"
+			Response.Write "<div class=""widget widget_ishidden_"&LCase(Functions(FunctionMetas.GetValue(s)).IsHidden)&" widget_source_"& Functions(FunctionMetas.GetValue(s)).SourceType &" " & Functions(FunctionMetas.GetValue(s)).FileName & """>"
 			Response.Write "	<div class=""widget-title""><img class=""more-action"" width=""16"" src=""../image/admin/brick.png"" alt="""" />"& Functions(FunctionMetas.GetValue(s)).Name 
 			Response.Write "	</div>"
 			Response.Write "	<div class=""funid"" style=""display:none"">"& Functions(FunctionMetas.GetValue(s)).FileName &"</div>"	
@@ -1582,7 +1582,7 @@ Response.Write "</script>"
 	For Each s In t
 		If FunctionMetas.Exists(s)=True Then
 
-			Response.Write "<div class=""widget widget_source_"& Functions(FunctionMetas.GetValue(s)).SourceType &" " & Functions(FunctionMetas.GetValue(s)).FileName & """>"
+			Response.Write "<div class=""widget widget_ishidden_"&LCase(Functions(FunctionMetas.GetValue(s)).IsHidden)&" widget_source_"& Functions(FunctionMetas.GetValue(s)).SourceType &" " & Functions(FunctionMetas.GetValue(s)).FileName & """>"
 			Response.Write "	<div class=""widget-title""><img class=""more-action"" width=""16"" src=""../image/admin/brick.png"" alt="""" />"& Functions(FunctionMetas.GetValue(s)).Name 
 			Response.Write "	</div>"
 			Response.Write "	<div class=""funid"" style=""display:none"">"& Functions(FunctionMetas.GetValue(s)).FileName &"</div>"	
@@ -1606,7 +1606,7 @@ Response.Write "</script>"
 	For Each s In t
 		If FunctionMetas.Exists(s)=True Then
 
-			Response.Write "<div class=""widget widget_source_"& Functions(FunctionMetas.GetValue(s)).SourceType &" " & Functions(FunctionMetas.GetValue(s)).FileName & """>"
+			Response.Write "<div class=""widget widget_ishidden_"&LCase(Functions(FunctionMetas.GetValue(s)).IsHidden)&" widget_source_"& Functions(FunctionMetas.GetValue(s)).SourceType &" " & Functions(FunctionMetas.GetValue(s)).FileName & """>"
 			Response.Write "	<div class=""widget-title""><img class=""more-action"" width=""16"" src=""../image/admin/brick.png"" alt="""" />"& Functions(FunctionMetas.GetValue(s)).Name 
 			Response.Write "	</div>"
 			Response.Write "	<div class=""funid"" style=""display:none"">"& Functions(FunctionMetas.GetValue(s)).FileName &"</div>"	
@@ -1630,7 +1630,7 @@ Response.Write "</script>"
 	For Each s In t
 		If FunctionMetas.Exists(s)=True Then
 
-			Response.Write "<div class=""widget widget_source_"& Functions(FunctionMetas.GetValue(s)).SourceType &" " & Functions(FunctionMetas.GetValue(s)).FileName & """>"
+			Response.Write "<div class=""widget widget_ishidden_"&LCase(Functions(FunctionMetas.GetValue(s)).IsHidden)&" widget_source_"& Functions(FunctionMetas.GetValue(s)).SourceType &" " & Functions(FunctionMetas.GetValue(s)).FileName & """>"
 			Response.Write "	<div class=""widget-title""><img class=""more-action"" width=""16"" src=""../image/admin/brick.png"" alt="""" />"& Functions(FunctionMetas.GetValue(s)).Name 
 			Response.Write "	</div>"
 			Response.Write "	<div class=""funid"" style=""display:none"">"& Functions(FunctionMetas.GetValue(s)).FileName &"</div>"	
@@ -1654,7 +1654,7 @@ Response.Write "</script>"
 	For Each s In t
 		If FunctionMetas.Exists(s)=True Then
 
-			Response.Write "<div class=""widget widget_source_"& Functions(FunctionMetas.GetValue(s)).SourceType &" " & Functions(FunctionMetas.GetValue(s)).FileName & """>"
+			Response.Write "<div class=""widget widget_ishidden_"&LCase(Functions(FunctionMetas.GetValue(s)).IsHidden)&" widget_source_"& Functions(FunctionMetas.GetValue(s)).SourceType &" " & Functions(FunctionMetas.GetValue(s)).FileName & """>"
 			Response.Write "	<div class=""widget-title""><img class=""more-action"" width=""16"" src=""../image/admin/brick.png"" alt="""" />"& Functions(FunctionMetas.GetValue(s)).Name 
 			Response.Write "	</div>"
 			Response.Write "	<div class=""funid"" style=""display:none"">"& Functions(FunctionMetas.GetValue(s)).FileName &"</div>"	
@@ -1701,7 +1701,8 @@ Response.Write "</script>"
 .widget img{margin:3px;margin-bottom: -3px;}
 
 .widget-title {margin:0px;padding:6px;;color: white;}
-.widget-title {cursor: move;} .widget-title img{cursor: pointer;} 
+.widget-title {cursor: move;} 
+.widget_ishidden_true img.more-action{opacity:0.50;}
 .widget-action{float:right;}
 .siderbar-list{float:left;width:290px;margin-left:10px;}
 .siderbar-drop{float:right;width:260px;min-height:60px;background:#fefefe;border:5px solid #eee;margin: 3px 15px;padding:5px;}
@@ -1759,9 +1760,9 @@ $("#edtSidebar5").val(s5);
 
 
 
-		$(".more-action").click(function() {
-            $(this).parent().next().toggle("fast");
-        });
+		//$(".more-action").click(function() {
+        //    $(this).parent().next().toggle("fast");
+        //});
 
 
  		$( ".siderbar-drop" ).sortable({

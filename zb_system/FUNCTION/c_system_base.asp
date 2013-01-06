@@ -2492,7 +2492,7 @@ Function BlogReBuild_Calendar()
 	Dim objRS
 	Dim k,l,m,n
 	Call GetFunction()
-	If CStr(Functions(FunctionMetas.GetValue("calendar")).SideBarID)="-1" Then 
+	If Functions(FunctionMetas.GetValue("calendar")).IsHidden=True Then 
 
 		Exit Function
 	End If
@@ -2536,7 +2536,7 @@ Function BlogReBuild_Archives()
 	Dim ArtList
 
 	Call GetFunction()
-	If CStr(Functions(FunctionMetas.GetValue("archives")).SideBarID)="-1" Then 
+	If Functions(FunctionMetas.GetValue("archives")).IsHidden=True Then 
 
 		Exit Function
 	End If
@@ -2612,7 +2612,7 @@ Function BlogReBuild_Catalogs()
 
 	IsRunGetCategory=False
 	Call GetFunction
-	If CStr(Functions(FunctionMetas.GetValue("catalog")).SideBarID)="-1" Then 
+	If Functions(FunctionMetas.GetValue("catalog")).IsHidden=True Then 
 
 		Exit Function
 	End If
@@ -2710,7 +2710,7 @@ Function BlogReBuild_Authors()
 
 	Call GetUser()
 	Call GetFunction()
-	If CStr(Functions(FunctionMetas.GetValue("authors")).SideBarID)="-1" Then 
+	If Functions(FunctionMetas.GetValue("authors")).IsHidden=True Then 
 
 		Exit Function
 	End If
@@ -2757,7 +2757,7 @@ Function BlogReBuild_Tags()
 
 	Call GetFunction()
 	
-	If CStr(Functions(FunctionMetas.GetValue("tags")).SideBarID)="-1" Then 
+	If Functions(FunctionMetas.GetValue("tags")).IsHidden=True Then 
 
 		Exit Function
 	End If
@@ -2840,7 +2840,7 @@ Function BlogReBuild_Previous()
 	Call GetFunction()
 	j=Functions(FunctionMetas.GetValue("previous")).MaxLi
 	
-	If CStr(Functions(FunctionMetas.GetValue("previous")).SideBarID)="-1" Then 
+	If Functions(FunctionMetas.GetValue("previous")).IsHidden=True Then 
 
 		Exit Function
 	End If
@@ -2891,7 +2891,7 @@ Function BlogReBuild_Comments()
 	Next
 
 	Call GetFunction()
-	If CStr(Functions(FunctionMetas.GetValue("comments")).SideBarID)="-1" Then 
+	If Functions(FunctionMetas.GetValue("comments")).IsHidden=True Then 
 
 		Exit Function
 	End If
@@ -3004,7 +3004,7 @@ Function BlogReBuild_Statistics()
 	Dim objRS
 	Dim objStream
 	Call GetFunction()
-	If CStr(Functions(FunctionMetas.GetValue("statistics")).SideBarID)="-1" Then 
+	If Functions(FunctionMetas.GetValue("statistics")).IsHidden=True Then 
 
 		Exit Function
 	End If

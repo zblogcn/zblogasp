@@ -2250,7 +2250,7 @@ Function SaveFunction()
 	objFunction.Content=Replace(Request.Form("inpContent"),VBCrlf,"")
 	objFunction.ViewType=Request.Form("inpViewType")
 	objFunction.Source=Request.Form("inpSource")
-	objFunction.IsHidden=Request.Form("inpIsHidden")
+	objFunction.IsHidden=Not (Request.Form("inpIsHidden")="True")
 
 	If Request.Form("inpFileName")="navbar" Then
 		Call GetFunction()
@@ -2261,7 +2261,7 @@ Function SaveFunction()
 
 	'接口
 	'Call Filter_Plugin_SaveFunction_Core(objFunction)
-	If CLng(objFunction.ID)>0 Then objFunction.MetaString=objConn.Execute("SELECT [fn_Meta] FROM [blog_Function] WHERE [fn_ID]="&CLng(objFunction.ID))(0)
+	'If CLng(objFunction.ID)>0 Then objFunction.MetaString=objConn.Execute("SELECT [fn_Meta] FROM [blog_Function] WHERE [fn_ID]="&CLng(objFunction.ID))(0)
 
 	If objFunction.Post Then
 
