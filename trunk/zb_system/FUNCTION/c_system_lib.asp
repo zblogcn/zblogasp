@@ -5076,6 +5076,10 @@ Class TFunction
 	Public Source
 	Public ViewType
 
+	Public Property Get IsDisplay
+		IsDisplay=Not IsHidden
+	End Property
+
 	Public Property Get IsSystem
 		If Source="system" Then
 			IsSystem=True
