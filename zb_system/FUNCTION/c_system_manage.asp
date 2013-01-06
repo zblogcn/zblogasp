@@ -1723,42 +1723,37 @@ Response.Write "</script>"
 	$(function() {
 
 		function sortFunction(){
+			var s1="";
+			$("#siderbar").find("div.funid").each(function(i){
+			   s1 += $(this).html() +":";
+			 });
 
-var s1="";
-$("#siderbar").find("div.funid").each(function(i){
-   s1 += $(this).html() +":";
- });
+			 var s2="";
+			$("#siderbar2").find("div.funid").each(function(i){
+			   s2 += $(this).html() +":";
+			 });
 
- var s2="";
-$("#siderbar2").find("div.funid").each(function(i){
-   s2 += $(this).html() +":";
- });
+			 var s3="";
+			$("#siderbar3").find("div.funid").each(function(i){
+			   s3 += $(this).html() +":";
+			 });
 
- var s3="";
-$("#siderbar3").find("div.funid").each(function(i){
-   s3 += $(this).html() +":";
- });
+			 var s4="";
+			$("#siderbar4").find("div.funid").each(function(i){
+			   s4 += $(this).html() +":";
+			 });
 
- var s4="";
-$("#siderbar4").find("div.funid").each(function(i){
-   s4 += $(this).html() +":";
- });
+			 var s5="";
+			$("#siderbar5").find("div.funid").each(function(i){
+			   s5 += $(this).html() +":";
+			 });
 
- var s5="";
-$("#siderbar5").find("div.funid").each(function(i){
-   s5 += $(this).html() +":";
- });
-
-
-$("#edtSidebar" ).val(s1);
-$("#edtSidebar2").val(s2);
-$("#edtSidebar3").val(s3);
-$("#edtSidebar4").val(s4);
-$("#edtSidebar5").val(s5);
-
+			$("#edtSidebar" ).val(s1);
+			$("#edtSidebar2").val(s2);
+			$("#edtSidebar3").val(s3);
+			$("#edtSidebar4").val(s4);
+			$("#edtSidebar5").val(s5);
 		};
-
-
 
 		//$(".more-action").click(function() {
         //    $(this).parent().next().toggle("fast");
@@ -1768,34 +1763,18 @@ $("#edtSidebar5").val(s5);
  		$( ".siderbar-drop" ).sortable({
  			items:'.widget',
  			stop:function(event, ui){sortFunction();}
- 		});
-		$( ".siderbar-drop" ).disableSelection(); 
+ 		}).disableSelection(); 
 
-		$( ".widget" ).draggable({
+		$( ".widget-list>.widget" ).draggable({
             connectToSortable: ".siderbar-drop",
             revert: "invalid", // when not dropped, the item will revert back to its initial position
             containment: "document",
             helper: "clone",
             cursor: "move"
-        });
-		$( ".siderbar-drop" ).droppable({
-			accept:".widget-list>.widget",
-            activeClass: "custom-state-active",
-            drop: function( event, ui ) {
-            	//ui.draggable.appendTo($(this));
-            	var c=ui.draggable.find(".funid").html();
-            	if ($( ".siderbar-drop" ).find(".funid").html()==c){
-                        ui.item.draggable("destroy")
-                }
-            },
-            out: function( event, ui ) {
-            	ui.draggable.remove();
-            }           
-        });
+        }).disableSelection();
 
 		$( ".widget-list" ).droppable({
 			accept:".siderbar-drop>.widget",
-            activeClass: "custom-state-active",
             drop: function( event, ui ) {
             	ui.draggable.remove();
             }
