@@ -158,8 +158,9 @@ Next
    <script type="text/javascript">
 
    function crc32(i){
+    $("#bar").prev().hide();
 	$.get("update.asp?crc32="+i, function(data){
-	  if(data!==""){i=i+1;$("#bar").prev().hide();$("#bar").html($("#bar").html()+"█");eval(data);crc32(i);}else{$("#bar").hide();$("#bar").prev().show();}
+	  if(data!==""){i=i+1;$("#bar").html($("#bar").html()+"█");eval(data);crc32(i);}else{$("#bar").hide();$("#bar").prev().show();}
 	});
    }
    
