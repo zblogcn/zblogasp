@@ -1327,9 +1327,12 @@ Function FunctionMng()
 		If bAction_Plugin_FunctionMng_Begin=True Then Exit Function
 	Next
 
-	If IsEmpty(Request.Form("edtBatch"))=False Then
+
+	If Request.Form.Count>=5 Then
 		Call SaveFunctionType()
-		Call SortFunction(Request.Form("edtBatch"))
+		If SaveSidebarOrder(Request.Form("edtSidebar"),Request.Form("edtSidebar2"),Request.Form("edtSidebar3"),Request.Form("edtSidebar4"),Request.Form("edtSidebar5")) Then
+			Call SaveSetting
+		End If
 		Call SetBlogHint(True,True,True)
 	End If
 

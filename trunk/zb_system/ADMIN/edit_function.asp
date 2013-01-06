@@ -49,6 +49,10 @@ Else
 	EditFunction.FileName="function"&EditFunction.GetNewID
 	EditFunction.HtmlID="divFunction"&EditFunction.GetNewID
 	EditFunction.Order=EditFunction.GetNewOrder
+	EditFunction.Source="users"
+	If Request.QueryString("source")<>"" Then
+		EditFunction.Source=Request.QueryString("source")
+	End If
 End If
 
 
@@ -72,8 +76,8 @@ BlogTitle=ZC_MSG144
 	s=Replace(s,"<#ZC_BLOG_HOST#>",BlogHost)
 	s=Replace(s,"</li>","</li>"&vbCrlf)
 	s=TransferHTML(s,"[html-format]")
-	If EditFunction.IsSystem=True Then t="readonly=""readonly"""
-	If EditFunction.IsSystem=True Then u="disabled=""disabled"""
+	If EditFunction.IsSystem=True Or EditFunction.IsPlugin=True Or EditFunction.IsTheme=True Then t="readonly=""readonly"""
+	If EditFunction.IsSystem=True Or EditFunction.IsPlugin=True Or EditFunction.IsTheme=True Then u="disabled=""disabled"""
 
 	Response.Write "<input id=""inpID"" name=""inpID""  type=""hidden"" value="""& EditFunction.ID &""" />"
 	Response.Write "<input id=""inpOrder"" name=""inpOrder""  type=""hidden"" value="""& EditFunction.Order &""" />"

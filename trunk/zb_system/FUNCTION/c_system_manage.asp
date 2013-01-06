@@ -1440,7 +1440,7 @@ Call Add_Response_Plugin("Response_Plugin_FunctionMng_SubMenu",MakeSubMenu(ZC_MS
 Call Add_Response_Plugin("Response_Plugin_FunctionMng_SubMenu",MakeSubMenu(ZC_MSG039 & "","../cmd.asp?act=FunctionEdt&amp;id="&Functions(FunctionMetas.GetValue("misc")).ID,"m-left",False))
 
 
-	Dim i,j,s
+	Dim i,j,s,t
 	Dim a,b,c,d,e,f
 	Response.Write "<div class=""divHeader"">" & ZC_MSG007 & "</div>"
 	Response.Write "<div class=""SubMenu"">" & Response_Plugin_FunctionMng_SubMenu & "</div>"
@@ -1464,7 +1464,7 @@ Response.Write "var functions = {"
 Response.Write "};"
 Response.Write "</script>"
 
-	Response.Write "<div class=""widget-list-header"">系统模块</div>"
+	Response.Write "<div class=""widget-list-header"">" & ZC_MSG277 & "</div>"
 	For i=LBound(Functions)+1 To Ubound(Functions)
 		If IsObject(Functions(i)) Then
 		If Functions(i).IsSystem Then
@@ -1481,7 +1481,7 @@ Response.Write "</script>"
 		End If
 	Next
 
-	Response.Write "<div class=""widget-list-header"">用户自定义模块</div>"
+	Response.Write "<div class=""widget-list-header"">" & ZC_MSG286 & "</div>"
 	For i=LBound(Functions)+1 To Ubound(Functions)
 		If IsObject(Functions(i)) Then
 		If Functions(i).IsUsers Then
@@ -1500,7 +1500,7 @@ Response.Write "</script>"
 		End If
 	Next
 
-	Response.Write "<div class=""widget-list-header"">主题定义模块</div>"
+	Response.Write "<div class=""widget-list-header"">" & ZC_MSG287 & "</div>"
 	For i=LBound(Functions)+1 To Ubound(Functions)
 		If IsObject(Functions(i)) Then
 		If Functions(i).IsTheme Then
@@ -1518,7 +1518,7 @@ Response.Write "</script>"
 		End If
 		End If
 	Next
-	Response.Write "<div class=""widget-list-header"">插件定义模块</div>"
+	Response.Write "<div class=""widget-list-header"">" & ZC_MSG288 & "</div>"
 	For i=LBound(Functions)+1 To Ubound(Functions)
 		If IsObject(Functions(i)) Then
 		If Functions(i).IsPlugin Then
@@ -1536,7 +1536,7 @@ Response.Write "</script>"
 		End If
 		End If
 	Next
-	Response.Write "<div class=""widget-list-header"">未注册模块</div>"
+	Response.Write "<div class=""widget-list-header"">" & ZC_MSG289 & "</div>"
 	For i=LBound(Functions)+1 To Ubound(Functions)
 		If IsObject(Functions(i)) Then
 		If Functions(i).IsOther Then
@@ -1553,12 +1553,128 @@ Response.Write "</script>"
 	'End If
 	Response.Write "</div>"
 
+
 	Response.Write "<div class=""siderbar-list"">"
-	Response.Write "<div class=""siderbar-drop"" id=""siderbar""><div class=""siderbar-header"">"&ZC_MSG277&"</div></div>"
-	Response.Write "<div class=""siderbar-drop"" id=""siderbar2""><div class=""siderbar-header"">"&ZC_MSG008&"2</div></div>"
-	Response.Write "<div class=""siderbar-drop"" id=""siderbar3""><div class=""siderbar-header"">"&ZC_MSG008&"3</div></div>"
-	Response.Write "<div class=""siderbar-drop"" id=""siderbar4""><div class=""siderbar-header"">"&ZC_MSG008&"4</div></div>"
-	Response.Write "<div class=""siderbar-drop"" id=""siderbar5""><div class=""siderbar-header"">"&ZC_MSG008&"5</div></div>"
+	Response.Write "<div class=""siderbar-drop"" id=""siderbar""><div class=""siderbar-header"">"&ZC_MSG290&"</div>"
+	t=Split(ZC_SIDEBAR_ORDER,":")
+	For Each s In t
+		If FunctionMetas.Exists(s)=True Then
+
+			Response.Write "<div class=""widget widget_source_"& Functions(FunctionMetas.GetValue(s)).SourceType &" " & Functions(FunctionMetas.GetValue(s)).FileName & """>"
+			Response.Write "	<div class=""widget-title""><img class=""more-action"" width=""16"" src=""../image/admin/brick.png"" alt="""" />"& Functions(FunctionMetas.GetValue(s)).Name 
+			Response.Write "	</div>"
+			Response.Write "	<div class=""funid"" style=""display:none"">"& Functions(FunctionMetas.GetValue(s)).FileName &"</div>"	
+			Response.Write "</div>"
+
+		Else
+
+			Response.Write "<div class=""widget widget_source_other " & s & """>"
+			Response.Write "	<div class=""widget-title""><img class=""more-action"" width=""16"" src=""../image/admin/brick.png"" alt="""" />"& s
+			Response.Write "	</div>"
+			Response.Write "	<div class=""funid"" style=""display:none"">"& s &"</div>"	
+			Response.Write "</div>"
+
+
+		End If
+	Next
+	Response.Write "</div>"
+
+	Response.Write "<div class=""siderbar-drop"" id=""siderbar2""><div class=""siderbar-header"">"&ZC_MSG291&"</div>"
+	t=Split(ZC_SIDEBAR_ORDER2,":")
+	For Each s In t
+		If FunctionMetas.Exists(s)=True Then
+
+			Response.Write "<div class=""widget widget_source_"& Functions(FunctionMetas.GetValue(s)).SourceType &" " & Functions(FunctionMetas.GetValue(s)).FileName & """>"
+			Response.Write "	<div class=""widget-title""><img class=""more-action"" width=""16"" src=""../image/admin/brick.png"" alt="""" />"& Functions(FunctionMetas.GetValue(s)).Name 
+			Response.Write "	</div>"
+			Response.Write "	<div class=""funid"" style=""display:none"">"& Functions(FunctionMetas.GetValue(s)).FileName &"</div>"	
+			Response.Write "</div>"
+
+		Else
+
+			Response.Write "<div class=""widget widget_source_other " & s & """>"
+			Response.Write "	<div class=""widget-title""><img class=""more-action"" width=""16"" src=""../image/admin/brick.png"" alt="""" />"& s
+			Response.Write "	</div>"
+			Response.Write "	<div class=""funid"" style=""display:none"">"& s &"</div>"	
+			Response.Write "</div>"
+
+
+		End If
+	Next
+	Response.Write "</div>"
+
+	Response.Write "<div class=""siderbar-drop"" id=""siderbar3""><div class=""siderbar-header"">"&ZC_MSG292&"</div>"
+	t=Split(ZC_SIDEBAR_ORDER3,":")
+	For Each s In t
+		If FunctionMetas.Exists(s)=True Then
+
+			Response.Write "<div class=""widget widget_source_"& Functions(FunctionMetas.GetValue(s)).SourceType &" " & Functions(FunctionMetas.GetValue(s)).FileName & """>"
+			Response.Write "	<div class=""widget-title""><img class=""more-action"" width=""16"" src=""../image/admin/brick.png"" alt="""" />"& Functions(FunctionMetas.GetValue(s)).Name 
+			Response.Write "	</div>"
+			Response.Write "	<div class=""funid"" style=""display:none"">"& Functions(FunctionMetas.GetValue(s)).FileName &"</div>"	
+			Response.Write "</div>"
+
+		Else
+
+			Response.Write "<div class=""widget widget_source_other " & s & """>"
+			Response.Write "	<div class=""widget-title""><img class=""more-action"" width=""16"" src=""../image/admin/brick.png"" alt="""" />"& s
+			Response.Write "	</div>"
+			Response.Write "	<div class=""funid"" style=""display:none"">"& s &"</div>"	
+			Response.Write "</div>"
+
+
+		End If
+	Next
+	Response.Write "</div>"
+
+	Response.Write "<div class=""siderbar-drop"" id=""siderbar4""><div class=""siderbar-header"">"&ZC_MSG293&"</div>"
+	t=Split(ZC_SIDEBAR_ORDER4,":")
+	For Each s In t
+		If FunctionMetas.Exists(s)=True Then
+
+			Response.Write "<div class=""widget widget_source_"& Functions(FunctionMetas.GetValue(s)).SourceType &" " & Functions(FunctionMetas.GetValue(s)).FileName & """>"
+			Response.Write "	<div class=""widget-title""><img class=""more-action"" width=""16"" src=""../image/admin/brick.png"" alt="""" />"& Functions(FunctionMetas.GetValue(s)).Name 
+			Response.Write "	</div>"
+			Response.Write "	<div class=""funid"" style=""display:none"">"& Functions(FunctionMetas.GetValue(s)).FileName &"</div>"	
+			Response.Write "</div>"
+
+		Else
+
+			Response.Write "<div class=""widget widget_source_other " & s & """>"
+			Response.Write "	<div class=""widget-title""><img class=""more-action"" width=""16"" src=""../image/admin/brick.png"" alt="""" />"& s
+			Response.Write "	</div>"
+			Response.Write "	<div class=""funid"" style=""display:none"">"& s &"</div>"	
+			Response.Write "</div>"
+
+
+		End If
+	Next
+	Response.Write "</div>"
+
+	Response.Write "<div class=""siderbar-drop"" id=""siderbar5""><div class=""siderbar-header"">"&ZC_MSG294&"</div>"
+	t=Split(ZC_SIDEBAR_ORDER5,":")
+	For Each s In t
+		If FunctionMetas.Exists(s)=True Then
+
+			Response.Write "<div class=""widget widget_source_"& Functions(FunctionMetas.GetValue(s)).SourceType &" " & Functions(FunctionMetas.GetValue(s)).FileName & """>"
+			Response.Write "	<div class=""widget-title""><img class=""more-action"" width=""16"" src=""../image/admin/brick.png"" alt="""" />"& Functions(FunctionMetas.GetValue(s)).Name 
+			Response.Write "	</div>"
+			Response.Write "	<div class=""funid"" style=""display:none"">"& Functions(FunctionMetas.GetValue(s)).FileName &"</div>"	
+			Response.Write "</div>"
+
+		Else
+
+			Response.Write "<div class=""widget widget_source_other " & s & """>"
+			Response.Write "	<div class=""widget-title""><img class=""more-action"" width=""16"" src=""../image/admin/brick.png"" alt="""" />"& s
+			Response.Write "	</div>"
+			Response.Write "	<div class=""funid"" style=""display:none"">"& s &"</div>"	
+			Response.Write "</div>"
+
+
+		End If
+	Next
+	Response.Write "</div>"
+
 	Response.Write "</div>"
 
 	Response.Write "<div class=""clear""></div>"
@@ -1575,7 +1691,6 @@ Response.Write "</script>"
 
 	Response.Write "</div>"
 
-
 	Response.Write "<script type=""text/javascript"">ActiveLeftMenu(""aFunctionMng"");</script>"
 
 %>
@@ -1583,10 +1698,11 @@ Response.Write "</script>"
 .widget-list{min-width:540px;width:800px;background:#eee;margin:3px;padding:3px;float:left;}
 .widget-list-header {clear:both;}
 .widget-list-header,.siderbar-header{background:#fff;margin:5px;padding:5px;font-size: 1.2em;font-weight: blod;text-align: center;}
+.siderbar-header{padding:0 5px 0 5px;}
 .widget{width:252px;background:#fff;border:1px solid #ccc;margin:3px;padding:3px;float:left;}
 .widget img{margin:3px;margin-bottom: -3px;}
 
-.widget-title {margin:3px;padding:6px;;color: white;}
+.widget-title {margin:1px;padding:6px;;color: white;}
 .widget-title {cursor: move;} .widget-title img{cursor: pointer;} 
 .widget-action{float:right;}
 .siderbar-list{float:left;width:300px;margin-left:10px;}
@@ -1603,47 +1719,47 @@ Response.Write "</script>"
 </style>
 <script type="text/javascript">
 
-	function getFunctionType(filename){
-		var s=functions[filename];
-		if(s==undefined){
-			return "other";
-		}else{
-			return s;
-		}
-	}
 
-	function getEditfrom(url){
-        $.get(url, function(data){
-			$("#edtfrom").html(data);bmx2table();
-			wpWidgetsinit();
-		});
-        $( "#edtfrom" ).dialog( "open" );
-	};
 
 	$(function() {
 
 		function sortFunction(){
 
-			//$("#edtBatch").attr('value','');
+var s1="";
+$("#siderbar").find("div.funid").each(function(i){
+   s1 += $(this).html() +":";
+ });
 
-			//$(".funid").each(function(){
-			   //$("#edtBatch").attr('value',$("#edtBatch").attr('value')+ $(this).html()+'_')
-			//});
+ var s2="";
+$("#siderbar2").find("div.funid").each(function(i){
+   s2 += $(this).html() +":";
+ });
+
+ var s3="";
+$("#siderbar3").find("div.funid").each(function(i){
+   s3 += $(this).html() +":";
+ });
+
+ var s4="";
+$("#siderbar4").find("div.funid").each(function(i){
+   s4 += $(this).html() +":";
+ });
+
+ var s5="";
+$("#siderbar5").find("div.funid").each(function(i){
+   s5 += $(this).html() +":";
+ });
+
+
+$("#edtSidebar" ).val(s1);
+$("#edtSidebar2").val(s2);
+$("#edtSidebar3").val(s3);
+$("#edtSidebar4").val(s4);
+$("#edtSidebar5").val(s5);
+
 		};
 
 
-        $( "#edtfrom" ).dialog({
-        	autoOpen: false,
-        	position:"top",
-            width: 650,
-            modal: true,
-            buttons: {
-                "提交": function() {
-                    $.post('zb_system/cmd.asp?act=FunctionSav', $('#edit').serialize());
-                    $( this ).dialog( "close" );
-                }
-            }
-        });
 
 		$(".more-action").click(function() {
             $(this).parent().next().toggle("fast");

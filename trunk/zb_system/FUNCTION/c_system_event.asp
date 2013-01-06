@@ -1230,7 +1230,7 @@ Function SaveSetting()
 	If BlogConfig.Exists("ZC_SIDEBAR_ORDER5")=False Then Call BlogConfig.Write("ZC_SIDEBAR_ORDER5","")
 
 
-	Dim a,b,c,d
+	Dim a,b,c,d,e
 	b=LoadFromFile(BlogPath &"zb_users\c_option.asp","utf-8")
 	Set d=CreateObject("Scripting.Dictionary")
 	For Each a In BlogConfig.Meta.Names
@@ -1243,6 +1243,11 @@ Function SaveSetting()
 	Err.Clear
 
 	Call BlogConfig.Write("ZC_BLOG_CLSID",ZC_BLOG_CLSID_ORIGINAL)
+
+	e=""
+	For Each a In Request.Form
+		e=e & a & "|"
+	Next
 
 	For Each a In Request.Form 
 		b=Mid(a,4,Len(a))
@@ -1293,7 +1298,9 @@ Function SaveSetting()
 	'End If
 
 	For Each a In d.Keys
-		Call BlogConfig.Write(a,d.Item(a))
+		If SearchInArrays("edt"& a,Split(e,"|"))=True Then
+			Call BlogConfig.Write(a,d.Item(a))
+		End If
 	Next
 
 	Call BlogConfig.Write("ZC_BLOG_NAME",BlogConfig.Read("ZC_BLOG_TITLE"))
@@ -2203,25 +2210,23 @@ End Function
 '*********************************************************
 ' 目的：
 '*********************************************************
-Function SortFunction(s)
+Function SaveSidebarOrder(s1,s2,s3,s4,s5)
 
-	Dim t
+	ZC_SIDEBAR_ORDER=s1
 
-	t=Split(s,"_")
 
-	Call GetFunction()
+	ZC_SIDEBAR_ORDER2=s2
 
-	Dim i,j
 
-	j=1
+	ZC_SIDEBAR_ORDER3=s3
 
-	For i=LBound(t) To UBound(t)-1
-		If (IsObject(Functions(t(i)))=True) Then
-			Functions(t(i)).Order=j
-			j=j+1
-			Functions(t(i)).Post()
-		End If
-	Next
+
+	ZC_SIDEBAR_ORDER4=s4
+
+
+	ZC_SIDEBAR_ORDER5=s5
+
+	SaveSidebarOrder=True
 
 End Function
 '*********************************************************

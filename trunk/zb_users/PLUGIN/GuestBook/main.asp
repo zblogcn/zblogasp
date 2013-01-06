@@ -42,7 +42,7 @@ If Request.QueryString("act")="save" Then
 		objArticle.Title="留言本"
 		objArticle.Intro="欢迎给我留言"
 		If objArticle.Post Then
-			Call SetBlogHint_Custom("留言本生成完成！<a href="""&GetCurrentHost&"zb_system/cmd.asp?act=ArticleEdt&type=Page&webedit=ueditor&id="&a&""">点击这里去修改提示文字。</a>")
+			Call SetBlogHint_Custom("留言本生成完成！<a href="""&GetCurrentHost&"zb_system/cmd.asp?act=ArticleEdt&type=Page&webedit="&ZC_BLOG_WEBEDIT&"&id="&a&""">点击这里去修改提示文字。</a>")
 		End If
 		a=objArticle.ID
 	End If

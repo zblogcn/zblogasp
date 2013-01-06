@@ -1740,6 +1740,26 @@ End Function
 
 
 
+Function SearchInArrays(a,arrays)
+
+	Dim b,c
+	b=False
+
+	If IsArray(arrays)=True Then
+
+		For Each c In arrays
+			If LCase(a)=LCase(c) Then
+				b=True
+			End If
+		Next
+
+	End If
+
+	SearchInArrays=b
+
+End Function
+
+
 
 '*********************************************************
 ' 目的：   

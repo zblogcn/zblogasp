@@ -4926,6 +4926,8 @@ Class TMeta
 
 	Public Function Exists(name)
 
+		If Name="" Then Exit Function
+
 		Dim s
 		For Each s In names
 			If LCase(s)=LCase(name) Then
@@ -5171,7 +5173,8 @@ Class TFunction
 		Call CheckParameter(MaxLi,"int",0)
 
 		Name=FilterSQL(Name)
-		FileName=Replace(TransferHTML(LCase(FilterSQL(FileName)),"[delspace][filename][normalname]"),".","")
+		FileName=TransferHTML(LCase(FilterSQL(FileName)),"[delspace][filename][normalname]")
+		FileName=Replace(FileName,".","")
 		HtmlID=TransferHTML(FilterSQL(HtmlID),"[delspace][filename]")
 		Source=FilterSQL(Source)
 		ViewType=FilterSQL(ViewType)
