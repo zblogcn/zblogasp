@@ -2250,6 +2250,7 @@ Function SaveFunction()
 	objFunction.Content=Replace(Request.Form("inpContent"),VBCrlf,"")
 	objFunction.ViewType=Request.Form("inpViewType")
 	objFunction.Source=Request.Form("inpSource")
+	objFunction.IsHidden=Request.Form("inpIsHidden")
 
 	If Request.Form("inpFileName")="navbar" Then
 		Call GetFunction()

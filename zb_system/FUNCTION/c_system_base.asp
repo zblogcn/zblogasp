@@ -548,12 +548,18 @@ Function GetFunction()
 					ReDim Preserve Functions(k)
 
 					Set Functions(k)=New TFunction
-					Functions(k).Ftype=k
+
 					Functions(k).ID=k
 					Functions(k).FileName=l
 					Functions(k).Name=l
 					Functions(k).Source="other"
-					Functions(k).HtmlID="fn"&l
+					Functions(k).HtmlID="fn" & l
+					Functions(k).Content=LoadFromFile(BlogPath &"zb_users\INCLUDE\"&aryFileList(i),"utf-8")
+					If Instr(Functions(k).Content,"</li>")>0 Then
+						Functions(k).FType="ul"
+					Else
+						Functions(k).FType="div"
+					End If
 					Call FunctionMetas.SetValue(l,k)
 				End If
 				End If
@@ -3059,7 +3065,7 @@ Function BlogReBuild_Functions
 
 	For Each f In Functions
 		If IsObject(f)=True Then
-			If f.id>0 Then
+			If f.id>0 And f.SourceType<>"other" Then
 				f.SaveFile
 			End If
 		End If 
@@ -3067,21 +3073,65 @@ Function BlogReBuild_Functions
 
 
 	Dim aryFunctionInOrder
-	aryFunctionInOrder=GetFunctionOrder()
+	'aryFunctionInOrder=GetFunctionOrder()
 
 	t=GetTemplate("TEMPLATE_B_FUNCTION")
 
-	For i=1 To 5
-		If IsArray(aryFunctionInOrder) Then
-			s=""
-			For j=LBound(aryFunctionInOrder)+1 To Ubound(aryFunctionInOrder)
-				If Functions(aryFunctionInOrder(j)).InSidebars(i)=True Then
-				s=s & Functions(aryFunctionInOrder(j)).MakeTemplate(t)
-				End If
-			Next
-			Call SaveToFile(BlogPath & "zb_users/cache/sidebar"& IIF(i>1,i,"") &".asp",s,"utf-8",False)
+	aryFunctionInOrder=Split(ZC_SIDEBAR_ORDER,":")
+	s=""
+	For Each f In aryFunctionInOrder
+		If FunctionMetas.Exists(f)=True Then
+			If Functions(FunctionMetas.GetValue(f)).IsHidden=False Then
+				s=s & Functions(FunctionMetas.GetValue(f)).MakeTemplate(t)
+			End If
 		End If
 	Next
+	Call SaveToFile(BlogPath & "zb_users/cache/sidebar.asp",s,"utf-8",False)
+
+	aryFunctionInOrder=Split(ZC_SIDEBAR_ORDER2,":")
+	s=""
+	For Each f In aryFunctionInOrder
+		If FunctionMetas.Exists(f)=True Then
+			If Functions(FunctionMetas.GetValue(f)).IsHidden=False Then
+				s=s & Functions(FunctionMetas.GetValue(f)).MakeTemplate(t)
+			End If
+		End If
+	Next
+	Call SaveToFile(BlogPath & "zb_users/cache/sidebar2.asp",s,"utf-8",False)
+
+	aryFunctionInOrder=Split(ZC_SIDEBAR_ORDER3,":")
+	s=""
+	For Each f In aryFunctionInOrder
+		If FunctionMetas.Exists(f)=True Then
+			If Functions(FunctionMetas.GetValue(f)).IsHidden=False Then
+				s=s & Functions(FunctionMetas.GetValue(f)).MakeTemplate(t)
+			End If
+		End If
+	Next
+	Call SaveToFile(BlogPath & "zb_users/cache/sidebar3.asp",s,"utf-8",False)
+
+	aryFunctionInOrder=Split(ZC_SIDEBAR_ORDER4,":")
+	s=""
+	For Each f In aryFunctionInOrder
+		If FunctionMetas.Exists(f)=True Then
+			If Functions(FunctionMetas.GetValue(f)).IsHidden=False Then
+				s=s & Functions(FunctionMetas.GetValue(f)).MakeTemplate(t)
+			End If
+		End If
+	Next
+	Call SaveToFile(BlogPath & "zb_users/cache/sidebar4.asp",s,"utf-8",False)
+
+	aryFunctionInOrder=Split(ZC_SIDEBAR_ORDER5,":")
+	s=""
+	For Each f In aryFunctionInOrder
+		If FunctionMetas.Exists(f)=True Then
+			If Functions(FunctionMetas.GetValue(f)).IsHidden=False Then
+				s=s & Functions(FunctionMetas.GetValue(f)).MakeTemplate(t)
+			End If
+		End If
+	Next
+	Call SaveToFile(BlogPath & "zb_users/cache/sidebar5.asp",s,"utf-8",False)
+'	Next
 
 	BlogReBuild_Functions=True
 
@@ -3527,7 +3577,7 @@ End Function
 
 
 '*********************************************************
-' 目的：    Get Function Order 输出数组.
+' 目的：    废弃
 '*********************************************************
 Function GetFunctionOrder()
 
