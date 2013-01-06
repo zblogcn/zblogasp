@@ -95,8 +95,10 @@ function ActiveLeftMenu(name){
 	$("#leftmenu li").removeClass("on");
 	$(name).parent().addClass("on");
 	var s=$(name).children("span").css("background-image");
-	s=s.replace("1.png","2.png");
-	$(name).children("span").css("background-image",s);
+	if(s!==undefined){
+		s=s.replace("1.png","2.png");
+		$(name).children("span").css("background-image",s);
+	}
 
 }
 //*********************************************************

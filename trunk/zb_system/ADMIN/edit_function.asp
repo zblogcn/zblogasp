@@ -14,7 +14,7 @@
 '///////////////////////////////////////////////////////////////////////////////
 %>
 <% Option Explicit %>
-<% On Error Resume Next %>
+<% 'On Error Resume Next %>
 <% Response.Charset="UTF-8" %>
 <% Response.Buffer=True %>
 <!-- #include file="../../zb_users/c_option.asp" -->
@@ -98,7 +98,7 @@ BlogTitle=ZC_MSG144
 	Response.Write "<label><input id=""viewtype2"" name=""inpViewType"" value=""js"" type=""radio"" "&IIf(EditFunction.ViewType="js", "checked=""checked""","") & " />&nbsp;&nbsp;JavaScript&nbsp;&nbsp;&nbsp;&nbsp;</label>"
 	Response.Write "<label><input id=""viewtype3"" name=""inpViewType"" value=""html"" type=""radio"" "&IIf(EditFunction.ViewType="html", "checked=""checked""","") & " />&nbsp;&nbsp;HTML&nbsp;&nbsp;&nbsp;&nbsp;</label>"
 
-	Response.Write "<p><span class='title'>"& ZC_MSG017 &":</span></p><input id=""inpShow"" name=""inpShow"" style="""" type=""text"" value="""&IIF(EditFunction.SideBarID=-1,"False","True")&""" class=""checkbox""/><hr/>"
+	Response.Write "<p><span class='title'>"& ZC_MSG017 &":</span></p><input id=""inpIsHidden"" name=""inpIsHidden"" style="""" type=""text"" value="""& CBool(Not EditFunction.IsHidden)&""" class=""checkbox""/><hr/>"
 		
 
 
