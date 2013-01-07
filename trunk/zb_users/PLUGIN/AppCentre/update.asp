@@ -121,8 +121,8 @@ BlogTitle="系统更新检查"
                 <input type="submit" style="display:none;" value="升级新版程序" />
               </p>
               <div class="a"></div>
-              <div class="divHeader">校验系统核心文件&nbsp;&nbsp;进度<span id="status">0</span>%；已发现<span id="count">0</span>个修改过的系统文件。<a href="update.asp?check=now"><img src="Images/refresh.png" width="16" alt="校验" /></a><span id="bar"></span></div>
-              <p>&nbsp;</p>
+              <div class="divHeader">校验系统核心文件&nbsp;&nbsp;进度<span id="status">0</span>%；已发现<span id="count">0</span>个修改过的系统文件。<a href="update.asp?check=now"><img src="Images/refresh.png" width="16" alt="校验" /></a></div>
+			  <div id="bar"></div>
               <table border="1" width="100%" cellspacing="0" cellpadding="0" class="tableBorder tableBorder-thcenter">
                 <tr>
                   <th width='78%'>文件名</th>
