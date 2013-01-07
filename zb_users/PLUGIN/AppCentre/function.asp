@@ -166,7 +166,7 @@ End Function
 Sub AppCentre_SubMenu(id)
 	Dim aryName,aryValue,aryPos
 	aryName=Array("在线安装应用","新建插件","新建主题","开发者登录","主题列表","插件列表","检查应用更新","系统更新与文件校验")
-	aryValue=Array("server.asp","plugin_edit.asp","theme_edit.asp","login.asp","server.asp?action=catalog&cate=2","server.asp?action=catalog&cate=1","checkupdate.asp","update.asp")
+	aryValue=Array("server.asp","plugin_edit.asp","theme_edit.asp","login.asp","server.asp?action=catalog&cate=2","server.asp?action=catalog&cate=1","server.asp?action=update","update.asp")
 	aryPos=Array("m-left","m-right","m-right","m-right","m-left","m-left","m-left","m-left")
 	Dim i 
 	For i=0 To Ubound(aryName)
