@@ -21,11 +21,18 @@ If CheckPluginState("AppCentre")=False Then Call ShowError(48)
 
 Call AppCentre_InitConfig
 
-If Len(Request.QueryString("update"))=13 Then
+If Request.QueryString("update")="download" Then
 	Response.Clear
-	'Response.Write AppCentre_CheckSystemLast
+	Response.Write AppCentre_Update_Download(Request.Form("filename"))
 	Response.End
 End If
+
+If Request.QueryString("update")="install" Then
+	Response.Clear
+	Response.Write AppCentre_Update_Install()
+	Response.End
+End If
+
 
 If Request.QueryString("last")="now" Then
 	Response.Clear
@@ -118,7 +125,7 @@ BlogTitle="应用中心-系统更新检查"
                 </tr>
               </table>
               <p>
-                <input type="submit" style="visibility:hidden;" value="升级新版程序" />
+                <input type="button" onclick="update();return false;" style="visibility:hidden;" value="升级新版程序" />
               </p>
 			  <hr/>
 
@@ -195,10 +202,65 @@ Next
 				var n = now.toString().match(/[0-9]{6}/);
 				var l = last.toString().match(/[0-9]{6}/);
 				if (l - n > 0) {
-					$("form").attr("action", "update.asp?update=" + n + "-" + l);
-					$("form input:submit").css("visibility","inherit");
+					$("form").attr("action", n + "-" + l);
+					$("form input:button").css("visibility","inherit");
 				}
 			
+			}
+
+			function update(){
+
+				var s = Math.random().toString();
+				var j = document.createElement("div");
+				j.id = "dialog_" + s;
+				j.innerHTML = "正在下载更新包;<br/>";
+				$(j).dialog({
+					title: "提示",
+					modal: true,
+					buttons: {
+						"确定": function() {
+							$(this).dialog("close");
+						}
+					}
+				});
+
+				 update_download(j);
+				 //update_install(j);
+			}
+
+
+			function update_download(j){
+				$.post("update.asp?update=download",
+					{
+					"filename": $("form").attr("action")
+					},
+				   function(data){
+
+						if(data!=""){
+							$(j).append(data+"<br/>");
+							update_install(j)
+						}else{
+							$(j).append("升级失败<br/>");
+						}
+				   });
+			}
+
+			function update_install(j){
+				$(j).append("开始安装文件包<br/>");
+
+				$.post("update.asp?update=install",
+					{
+					"filename": $("form").attr("action")
+					},
+				   function(data){
+
+						if(data!=""){
+							$(j).append(data+"<br/>");
+						}else{
+							$(j).append("升级失败<br/>");
+						}
+				   });
+
 			}
 			
 			$(document).ready(function() {

@@ -44,6 +44,97 @@ Redim aryDownload(0)
 Redim aryName(0)
 
 
+Function AppCentre_Update_Download(file)
+
+	On Error Resume Next
+
+	Dim objPing
+	Set objPing = Server.CreateObject("Microsoft.XMLHTTP")
+
+	objPing.open "GET", APPCENTRE_SYSTEM_UPDATE & "?" & file & ".xml",False
+	objPing.setRequestHeader "accept-encoding", "gzip, deflate"  
+	objPing.send ""
+
+	Dim MyStream
+    Set MyStream=Server.CreateObject("Adodb.Stream") 
+	MyStream.Type = adTypeBinary
+	MyStream.Mode = adModeReadWrite
+    MyStream.Open 
+    MyStream.Write objPing.responsebody
+    MyStream.SaveToFile BlogPath & "zb_users/cache/update.xml" ,2
+
+
+	If Err.Number=0 Then
+		AppCentre_Update_Download="下载成功."
+	Else
+		Response.End
+	End If
+
+End Function
+
+Function AppCentre_Update_Install()
+
+	On Error Resume Next
+
+	Dim objXmlFile,strXmlFile
+	Dim fso, f, f1, fc, s
+	Set fso = CreateObject("Scripting.FileSystemObject")
+
+	strXmlFile =BlogPath & "zb_users/cache/update.xml"
+	
+	If fso.FileExists(strXmlFile) Then
+
+		Set objXmlFile=Server.CreateObject("Microsoft.XMLDOM")
+		objXmlFile.async = False
+		objXmlFile.ValidateOnParse=False
+		objXmlFile.load(strXmlFile)
+		If objXmlFile.readyState=4 Then
+			If objXmlFile.parseError.errorCode <> 0 Then
+			Else
+
+
+
+				Dim objXmlFiles,item,objStream
+				Set objXmlFiles=objXmlFile.documentElement.SelectNodes("file")
+				for each item in objXmlFiles
+				Set objStream = CreateObject("ADODB.Stream")
+					With objStream
+					.Type = 1
+					.Mode = 3
+					.Open
+					.Write item.nodeTypedvalue
+					
+					Dim i,j,k
+					i=item.getAttributeNode("name").Value
+
+					j=Left(i,InstrRev(i,"\"))
+					k=Replace(i,j,"")
+					Call CreatDirectoryByCustomDirectory("" & j)
+
+					.SaveToFile BlogPath & "" & item.getAttributeNode("name").Value,2
+
+					s=s& "释放 " & k & "<br/>"
+					.Close
+					End With
+					Set objStream = Nothing
+				next
+
+				s=s& "升级成功!!!<br/>"
+			End If
+		End If
+	End If
+
+
+
+	If Err.Number=0 Then
+		AppCentre_Update_Install=s
+	Else
+		Response.End
+	End If
+
+End Function
+
+
 Function AppCentre_CheckSystemIndex(build)
 
 	Dim objXmlFile,strXmlFile
