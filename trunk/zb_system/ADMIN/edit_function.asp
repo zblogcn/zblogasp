@@ -78,6 +78,7 @@ BlogTitle=ZC_MSG144
 	s=TransferHTML(s,"[html-format]")
 	If EditFunction.IsSystem=True Or EditFunction.IsPlugin=True Or EditFunction.IsTheme=True Then t="readonly=""readonly"""
 	If EditFunction.IsSystem=True Or EditFunction.IsPlugin=True Or EditFunction.IsTheme=True Then u="disabled=""disabled"""
+	If EditFunction.ID=0 Then  u="":t=""
 
 	Response.Write "<input id=""inpID"" name=""inpID""  type=""hidden"" value="""& EditFunction.ID &""" />"
 	Response.Write "<input id=""inpOrder"" name=""inpOrder""  type=""hidden"" value="""& EditFunction.Order &""" />"
