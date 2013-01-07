@@ -157,7 +157,7 @@ Next
         </div>
         <script type="text/javascript">ActiveLeftMenu("aAppcentre");</script> 
         <script type="text/javascript">
-			var _max = parseInt("<%=Round(PathAndCrc32.Count/10)+1%>"),_conflict=0;
+			var _max = parseInt("<%=Round(PathAndCrc32.Count/10)+1%>"),_conflict=0,_sort=0;
 			var _bar = $("#bar"),_status = $("#status"),_count=$("#count");
 			
 			function crc32(i) {
@@ -177,7 +177,15 @@ Next
 					} else {
 						_bar.hide();
 						_bar.prev().show();
-						$("#s").html("<a href='javascript:void(0);'>")
+						$("#_s").html("<a href='javascript:void(0);'>修改排序</a>").find("a").click(function(){
+							var o=$(this);
+							switch(_sort){
+								case 0:$(".check_normal").hide();_sort=1;break;
+								case 1:$(".check_normal").show();$(".check_conflict").hide();_sort=2;break;
+								case 2:$(".check_conflict").show();_sort=0;break;
+							}
+							return false
+						});
 					}
 			
 				});
