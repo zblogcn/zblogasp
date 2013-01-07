@@ -1704,7 +1704,7 @@ Response.Write "</script>"
 
 .widget-title {margin:0px;padding:6px;;color: white;}
 .widget-title {cursor: move;} 
-.widget_ishidden_true img.more-action{opacity:0.50;}
+.widget_ishidden_true img.more-action{opacity:0.40;}
 .widget-action{float:right;}
 .siderbar-list{float:left;width:290px;margin-left:10px;}
 .siderbar-drop{float:right;width:260px;min-height:30px;background:#fefefe;border:5px solid #eee;margin: 3px 15px;padding:5px;}

@@ -21,10 +21,10 @@ If CheckPluginState("AppCentre")=False Then Call ShowError(48)
 
 Call AppCentre_InitConfig
 
-If Request.QueryString("update")="now" Then
-	'Response.Clear
+If Len(Request.QueryString("update"))=13 Then
+	Response.Clear
 	'Response.Write AppCentre_CheckSystemLast
-	'Response.End
+	Response.End
 End If
 
 If Request.QueryString("last")="now" Then
@@ -109,13 +109,13 @@ BlogTitle="系统更新检查"
 <table border="1" width="100%" cellspacing="0" cellpadding="0" class="tableBorder tableBorder-thcenter">
 <tr><th width='50%'>当前版本</th><th>最新版本</th></tr>
 
-<tr><td align='center'>Z-Blog <%=ZC_BLOG_VERSION%></td>
-<td align='center' id="last"></td></tr>
+<tr><td align='center' id='now'>Z-Blog <%=ZC_BLOG_VERSION%></td>
+<td align='center' id='last'></td></tr>
 
 
 </table>
 
-<p><input type="button" onClick="location='update.asp?update=now'" value="升级新版程序" /></p>
+<p><input type="submit" style="display:none;" value="升级新版程序" /></p>
 <div class="a"></div>
 <div class="divHeader">校验系统核心文件&nbsp;&nbsp;<a href="update.asp?check=now"><img src="Images/refresh.png" width="16" alt="校验" /></a><span id="bar"></sp></div>
 
@@ -159,25 +159,35 @@ Next
 
    function crc32(i){
     $("#bar").prev().hide();
-	$.get("update.asp?crc32="+i, function(data){
-	  if(data!==""){i=i+1;$("#bar").html($("#bar").html()+"█");eval(data);crc32(i);}else{$("#bar").hide();$("#bar").prev().show();}
-	});
+		$.get("update.asp?crc32="+i, function(data){
+		  if(data!==""){i=i+1;$("#bar").html($("#bar").html()+"█");eval(data);crc32(i);}else{$("#bar").hide();$("#bar").prev().show();}
+		});
+   }
+
+   function checklast(now,last){
+		var n=now.toString().match(/[0-9]{6}/);
+		var l=last.toString().match(/[0-9]{6}/);
+		if(l-n>0){
+			$("form").attr("action","update.asp?update="+n+"-"+l);	
+			$("form input:submit").show();
+			
+		}
    }
    
    $(document).ready(function(){
    
-$.get("update.asp?last=now", function(data){
-  $("#last").html("Z-Blog "+data);
-});
-
-   });
-
+		$.get("update.asp?last=now", function(data){
+		  $("#last").html("Z-Blog "+data);
+		  checklast($("#now").html(),$("#last").html());
+		});
 
 <%
 If Request.QueryString("check")="now" Then
 	Response.Write "crc32(1)"
 End If
 %>
+
+   });
    
    </script>
 <%

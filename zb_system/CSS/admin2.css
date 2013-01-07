@@ -663,6 +663,8 @@ span.note{
 a.button{
 	border-radius:1px;
 	padding:2px 3px 2px 3px;
+	line-height: 1.0em;
+	font-size:1em;
 }
 
 a.button:hover{
