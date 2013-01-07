@@ -1558,7 +1558,7 @@ Response.Write "</script>"
 	Response.Write "<input type=""hidden"" id=""edtSidebar4"" name=""edtSidebar4"" value="""&ZC_SIDEBAR_ORDER4&"""/>"
 	Response.Write "<input type=""hidden"" id=""edtSidebar5"" name=""edtSidebar5"" value="""&ZC_SIDEBAR_ORDER5&"""/>"
 
-	Response.Write "<p>"&ZC_MSG145&"</p></form>" & vbCrlf
+	Response.Write "</form><p style='clear:both;'>"&ZC_MSG145&"</p>" & vbCrlf
 	Response.Write "</div>"
 
 	Response.Write "<div class=""siderbar-list"">"
