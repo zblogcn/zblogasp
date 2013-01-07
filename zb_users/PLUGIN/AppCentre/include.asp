@@ -18,7 +18,7 @@ Function ActivePlugin_AppCentre()
 	Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(1,"应用中心",GetCurrentHost&"zb_users/plugin/appcentre/main.asp","nav_appcentre","aAppcentre",GetCurrentHost&"zb_users/plugin/appcentre/images/cube1.png"))
 
 	'检查更新
-	Call Add_Response_Plugin("Response_Plugin_SiteInfo_SubMenu","<script type='text/javascript'>$.get(bloghost+'zb_users/plugin/appcentre/checkupdate.asp?act=silent');</script>")
+	Call Add_Response_Plugin("Response_Plugin_SiteInfo_SubMenu","<script type='text/javascript'>$.get(bloghost+'zb_users/plugin/appcentre/server.asp?action=update&silent=true');</script>")
 
 	Call Add_Action_Plugin("Action_Plugin_Admin_Begin","Call AppCentre_NewVersionFound()")
 	Call Add_Action_Plugin("Action_Plugin_Admin_Begin","Call SetBlogHint_Custom(""Z-Blog有新版本!马上升级!!! <a href='"&BlogHost &"zb_users/PLUGIN/AppCentre/update.asp'>升级</a>"")")
