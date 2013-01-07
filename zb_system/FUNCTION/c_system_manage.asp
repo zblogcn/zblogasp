@@ -1480,7 +1480,7 @@ Response.Write "</script>"
 		End If
 	Next
 
-	Response.Write "<div class=""widget-list-header"">" & ZC_MSG286 & "</div>"
+	Response.Write "<hr/><div class=""widget-list-header"">" & ZC_MSG286 & "</div>"
 	For i=LBound(Functions)+1 To Ubound(Functions)
 		If IsObject(Functions(i)) Then
 		If Functions(i).IsUsers Then
@@ -1499,7 +1499,7 @@ Response.Write "</script>"
 		End If
 	Next
 
-	Response.Write "<div class=""widget-list-header"">" & ZC_MSG287 & "</div>"
+	Response.Write "<hr/><div class=""widget-list-header"">" & ZC_MSG287 & "</div>"
 	For i=LBound(Functions)+1 To Ubound(Functions)
 		If IsObject(Functions(i)) Then
 		If Functions(i).IsTheme Then
@@ -1517,7 +1517,7 @@ Response.Write "</script>"
 		End If
 		End If
 	Next
-	Response.Write "<div class=""widget-list-header"">" & ZC_MSG288 & "</div>"
+	Response.Write "<hr/><div class=""widget-list-header"">" & ZC_MSG288 & "</div>"
 	For i=LBound(Functions)+1 To Ubound(Functions)
 		If IsObject(Functions(i)) Then
 		If Functions(i).IsPlugin Then
@@ -1537,7 +1537,7 @@ Response.Write "</script>"
 		End If
 		End If
 	Next
-	Response.Write "<div class=""widget-list-header"">" & ZC_MSG289 & "</div>"
+	Response.Write "<hr/><div class=""widget-list-header"">" & ZC_MSG289 & "</div>"
 	For i=LBound(Functions)+1 To Ubound(Functions)
 		If IsObject(Functions(i)) Then
 		If Functions(i).IsOther Then
@@ -1551,8 +1551,18 @@ Response.Write "</script>"
 		End If
 	Next
 
+	Response.Write "<hr/><p>&nbsp;</p><form id=""frmBatch"" method=""post"" action="""">"
+	Response.Write "<input type=""hidden"" id=""edtSidebar"" name=""edtSidebar"" value="""&ZC_SIDEBAR_ORDER&"""/>"
+	Response.Write "<input type=""hidden"" id=""edtSidebar2"" name=""edtSidebar2"" value="""&ZC_SIDEBAR_ORDER2&"""/>"
+	Response.Write "<input type=""hidden"" id=""edtSidebar3"" name=""edtSidebar3"" value="""&ZC_SIDEBAR_ORDER3&"""/>"
+	Response.Write "<input type=""hidden"" id=""edtSidebar4"" name=""edtSidebar4"" value="""&ZC_SIDEBAR_ORDER4&"""/>"
+	Response.Write "<input type=""hidden"" id=""edtSidebar5"" name=""edtSidebar5"" value="""&ZC_SIDEBAR_ORDER5&"""/>"
+
+	Response.Write "<input class=""button"" type=""submit"" onclick='$(""#frmBatch"").attr(""action"",""../cmd.asp?act=FunctionMng"");' value="""&ZC_MSG087&""" id=""btnPost""/>&nbsp;&nbsp;&nbsp;&nbsp;("&ZC_MSG145&")</form>" & vbCrlf
+
 
 	Response.Write "</div>"
+
 
 	Response.Write "<div class=""siderbar-list"">"
 	Response.Write "<div class=""siderbar-drop"" id=""siderbar""><div class=""siderbar-header"">"&ZC_MSG290&"</div>"
@@ -1679,26 +1689,16 @@ Response.Write "</script>"
 
 	Response.Write "<div class=""clear""></div>"
 
-	Response.Write "<form id=""frmBatch"" method=""post"" action="""">"
-	Response.Write "<input type=""hidden"" id=""edtSidebar"" name=""edtSidebar"" value="""&ZC_SIDEBAR_ORDER&"""/>"
-	Response.Write "<input type=""hidden"" id=""edtSidebar2"" name=""edtSidebar2"" value="""&ZC_SIDEBAR_ORDER2&"""/>"
-	Response.Write "<input type=""hidden"" id=""edtSidebar3"" name=""edtSidebar3"" value="""&ZC_SIDEBAR_ORDER3&"""/>"
-	Response.Write "<input type=""hidden"" id=""edtSidebar4"" name=""edtSidebar4"" value="""&ZC_SIDEBAR_ORDER4&"""/>"
-	Response.Write "<input type=""hidden"" id=""edtSidebar5"" name=""edtSidebar5"" value="""&ZC_SIDEBAR_ORDER5&"""/>"
-
-	Response.Write "<input class=""button"" type=""submit"" onclick='$(""#frmBatch"").attr(""action"",""../cmd.asp?act=FunctionMng"");' value="""&ZC_MSG087&""" id=""btnPost""/>&nbsp;&nbsp;&nbsp;&nbsp;("&ZC_MSG145&")</form>" & vbCrlf
-
-
 	Response.Write "</div></div>"
 
 	Response.Write "<script type=""text/javascript"">ActiveLeftMenu(""aFunctionMng"");</script>"
 
 %>
 <style type="text/css">
-.widget-list{min-width:540px;width:782px;background:#eee;margin:3px;padding:3px;float:left;}
-.widget-list-header {clear:both;}
-.widget-list-header,.siderbar-header{background:#fff;margin:5px;padding:5px;font-size: 1.2em;font-weight: blod;text-align: center;}
-.siderbar-header{padding:0 5px 0 5px;}
+.widget-list{min-width:540px;width:782px;float:left;}
+.widget-list-header,.siderbar-header{padding:5px;font-size: 1.2em;font-weight: blod;text-align: center;}
+.widget-list-header {clear:both;background:#eee;margin:4px;}
+.siderbar-header{padding:0 5px 0 5px;margin-bottom:5px;cursor: pointer;}
 .widget{width:252px;background:#fff;border:1px solid #ccc;margin:3px;padding:0px;float:left;}
 .widget img{margin:3px;margin-bottom: -3px;}
 
@@ -1757,9 +1757,9 @@ Response.Write "</script>"
 			$("#edtSidebar5").val(s5);
 		};
 
-		//$(".more-action").click(function() {
-        //    $(this).parent().next().toggle("fast");
-        //});
+		$(".siderbar-header").click(function() {
+            $(this).parent().slideUp("slow");
+        });
 
  		$( ".siderbar-drop" ).sortable({
  			items:'.widget',
