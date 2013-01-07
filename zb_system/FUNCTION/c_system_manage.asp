@@ -1758,7 +1758,7 @@ Response.Write "</script>"
 		};
 
 		$(".siderbar-header").click(function() {
-            $(this).parent().slideUp("slow");
+            $(this).parent().children(".widget").slideToggle("slow");
         });
 
  		$( ".siderbar-drop" ).sortable({
