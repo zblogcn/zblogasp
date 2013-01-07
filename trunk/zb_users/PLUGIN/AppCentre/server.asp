@@ -1,6 +1,6 @@
 ﻿<%@ LANGUAGE="VBSCRIPT" CODEPAGE="65001"%>
 <% Option Explicit %>
-<% On Error Resume Next %>
+<% 'On Error Resume Next %>
 <% Response.Charset="UTF-8" %>
 <!-- #include file="../../c_option.asp" -->
 <!-- #include file="../../../ZB_SYSTEM/function/c_function.asp" -->
@@ -52,15 +52,22 @@ Select Case Request.QueryString("action")
 		Response.Redirect "app_download.asp?url=" & Server.URLEncode(Request.QueryString("path"))
 	Case "update"
 		intHighlight=6
+		Call ReCheck
+		Call CheckXML
 		strList=LoadFromFile(BlogPath&"zb_users\cache\appcentre_list.lst","utf-8")
 		If Replace(strList,",","")<>"" Then
 			strURL="app.asp?act=checkupdate&updatelist="&Server.URLEncode(strList)&"&"
-			
 		Else
 			Call SetBlogHint_Custom("您没有可以更新的应用")
 			strURL="?"
 		End If
-		Call DelToFile(BlogPath&"zb_users\cache\appcentre_list.lst")
+		
+		If Request.QueryString("silent")<>"true" Then 
+			Call DelToFile(BlogPath&"zb_users\cache\appcentre_list.lst")
+		Else
+			Response.Write strList
+			Response.End
+		End If
 		
 	Case Else
 		strURL="?"
@@ -195,8 +202,35 @@ End Function
         <script type="text/javascript">ActiveLeftMenu("aAppcentre");</script> 
 <%
 	If login_pw<>"" Then
-		Response.Write "<script type='text/javascript'>$('div.SubMenu a[href=\'login.asp\']').hide();$('div.footer_nav p').html('&nbsp;&nbsp;&nbsp;<b>"&login_un&"</b>您好,欢迎来到APP应用中心!<a href=\'login.asp?act=logout\'>[退出登陆]</a>').css('visibility','inherit');</script>"
+		Response.Write "<script type='text/javascript'>$('div.SubMenu a[href=\'login.asp\']').hide();$('div.footer_nav p').html('&nbsp;&nbsp;&nbsp;<b>"&login_un&"</b>您好,欢迎来到APP应用中心!<a href=\'login.asp?act=logout\'>[退出登录]</a>').css('visibility','inherit');</script>"
 	End If
 %>
         <!--#include file="..\..\..\zb_system\admin\admin_footer.asp"-->
 <%End If%>
+
+<%
+
+Function ReCheck()
+	Dim objXmlHttp,strURL,bolPost,str,bolIsBinary
+	Set objXmlHttp=Server.CreateObject("MSXML2.ServerXMLHTTP")
+
+	strUrl=APPCENTRE_UPDATE_URL&"&tname="&Server.URLEncode(Join(GetAllThemeName,","))&"&pname="&Server.URLEncode(Replace(ZC_USING_PLUGIN_LIST,"|",","))&"&rnd="&Rnd
+	objXmlHttp.Open "GET",strURL
+	objXmlHttp.Send 
+
+	If objXmlHttp.ReadyState=4 Then
+		If objXmlhttp.Status=200 Then
+		Else
+			Call ShowErr(True,"")
+		End If
+		
+		
+	Else
+		ShowErr
+	End If
+	If Err.Number<>0 Then Call ShowErr(True,"")
+	
+	Call SaveToFile(BlogPath&"zb_users\cache\appcentre_plugin.xml",objXmlHttp.ResponseText,"utf-8",False)
+End Function
+
+%>

@@ -38,6 +38,12 @@ Dim app_conflict
 
 Dim app_path
 
+Dim aryDownload(),aryName()
+
+Redim aryDownload(0)
+Redim aryName(0)
+
+
 Function AppCentre_CheckSystemIndex(build)
 
 	Dim objXmlFile,strXmlFile
@@ -90,6 +96,71 @@ Function AppCentre_CheckSystemLast()
 
 
 	Set objPing = Nothing
+End Function
+
+
+Function CheckXml()
+	Dim strTemp,strName,strType,dtmModified,dtmLocalModified
+	Dim objXml,objXml2,objChildXml,objAppXml,i,objFso
+	Set objXml=Server.CreateObject("Microsoft.XMLDOM")
+	objXml.Load BlogPath&"zb_users\cache\appcentre_plugin.xml"
+	If objXml.ReadyState=4 Then
+		'这里该显示更新列表了
+		If objXml.parseError.errorCode=0 Then
+			Set objChildXml=objXml.selectNodes("//apps/app")
+			For i=0 To objChildXml.length-1
+				Set objAppXml=objChildXml(i)'
+				If CLng(objAppXml.getAttributeNode("zbversion").value)<=BlogVersion Then
+					strName=objAppXml.getAttributeNode("name").value
+					strType=objAppXml.getAttributeNode("type").value
+					dtmModified=CDate(objAppXml.getAttributeNode("modified").value)
+					Set objXml2=Server.CreateObject("Microsoft.XMLDOM")
+					objXml2.Load BlogPath&"zb_users\"&strType&"\"&strName&"\"&strType&".xml"
+					
+					If objXml2.ReadyState=4 Then
+						If objXml2.parseError.errorCode=0 Then
+							dtmLocalModified=CDate(objXml2.documentElement.selectSingleNode("modified").text)
+						End If
+					End If
+					If DateDiff("d","1970-1-1 08:00",dtmModified)>DateDiff("d","1970-1-1 08:00",dtmLocalModified) Then
+						Redim Preserve aryDownload(Ubound(aryDownload)+1)
+						Redim Preserve aryName(Ubound(aryName)+1)
+						aryDownload(Ubound(aryDownload))=objAppXml.getAttributeNode("url").value
+						aryName(Ubound(aryName))=strName						
+					End If
+				End If
+			Next
+		End If
+	End If
+	For i=0 To Ubound(aryName)
+		CheckXml=CheckXml & "," & aryName(i)
+	Next
+	Call SaveToFile(BlogPath&"zb_users\cache\appcentre_list.lst",CheckXml,"utf-8",False)
+	
+End Function
+
+
+Function GetAllThemeName()
+	Dim aryTheme,bolFound
+	bolFound=False
+	aryTheme=Split(LCase(disableupdate_theme),":")
+	Dim aryReturn()
+	Redim aryReturn(0)
+	Dim fso,f,fc,f1,f2
+	Set fso = CreateObject("Scripting.FileSystemObject")
+	Set f = fso.GetFolder(BlogPath & "zb_users/theme" & "/")
+	Set fc = f.SubFolders
+	For Each f1 In fc
+		For f2=0 To Ubound(aryTheme)
+			If aryTheme(f2)=LCase(f1.Name) Then bolFound=True:Exit For
+		Next
+		If bolFound=False Then
+			Redim Preserve aryReturn(Ubound(aryReturn)+1)
+			aryReturn(Ubound(aryReturn))=f1.Name
+		End If
+		bolFound=False
+	Next
+	GetAllThemeName=aryReturn
 End Function
 
 Sub AppCentre_SubMenu(id)
