@@ -58,7 +58,7 @@ End Select
           </div>
           <div class="divHeader">应用中心</div>
           <div class="SubMenu">
-            <%AppCentre_SubMenu(3)%>
+            <%AppCentre_SubMenu(6)%>
           </div>
           <div id="divMain2">
             <%

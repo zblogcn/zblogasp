@@ -51,7 +51,7 @@ Select Case Request.QueryString("action")
 	Case "install"
 		Response.Redirect "app_download.asp?url=" & Server.URLEncode(Request.QueryString("path"))
 	Case "update"
-		intHighlight=7
+		intHighlight=6
 		strList=LoadFromFile(BlogPath&"zb_users\cache\appcentre_list.lst","utf-8")
 		If Replace(strList,",","")<>"" Then
 			strURL="app.asp?act=checkupdate&updatelist="&Server.URLEncode(strList)&"&"
