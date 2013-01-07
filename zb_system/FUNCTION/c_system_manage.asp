@@ -1707,7 +1707,7 @@ Response.Write "</script>"
 .widget_ishidden_true img.more-action{opacity:0.50;}
 .widget-action{float:right;}
 .siderbar-list{float:left;width:290px;margin-left:10px;}
-.siderbar-drop{float:right;width:260px;min-height:60px;background:#fefefe;border:5px solid #eee;margin: 3px 15px;padding:5px;}
+.siderbar-drop{float:right;width:260px;min-height:30px;background:#fefefe;border:5px solid #eee;margin: 3px 15px;padding:5px;}
 
 .widget_source_system .widget-title{background: #3FA7DB;}
 .widget_source_users .widget-title{background: #556B2F;}
