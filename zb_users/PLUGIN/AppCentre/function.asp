@@ -101,13 +101,13 @@ End Function
 
 Function CheckXml()
 	Dim strTemp,strName,strType,dtmModified,dtmLocalModified
-	Dim objXml,objXml2,objChildXml,objAppXml,i,objFso
+	Dim objXml,objXml2,objChildXml,objAppXml,i,objFso,j
 	Set objXml=Server.CreateObject("Microsoft.XMLDOM")
 	objXml.Load BlogPath&"zb_users\cache\appcentre_plugin.xml"
 	If objXml.ReadyState=4 Then
 		'这里该显示更新列表了
 		If objXml.parseError.errorCode=0 Then
-			Set objChildXml=objXml.selectNodes("//apps/app")
+			Set objChildXml=objXml.selectNodes("//data/apps/app")
 			For i=0 To objChildXml.length-1
 				Set objAppXml=objChildXml(i)'
 				If CLng(objAppXml.getAttributeNode("zbversion").value)<=BlogVersion Then
@@ -130,13 +130,16 @@ Function CheckXml()
 					End If
 				End If
 			Next
+			j=objXml.SelectSingleNode("//data/blog").text
+
 		End If
 	End If
 	For i=0 To Ubound(aryName)
 		CheckXml=CheckXml & "," & aryName(i)
 	Next
 	Call SaveToFile(BlogPath&"zb_users\cache\appcentre_list.lst",CheckXml,"utf-8",False)
-	
+
+	If CLng(j)> BlogVersion Then Call SetBlogHint_Custom("Z-Blog有新版本!请立刻升级!!! <a href='"&BlogHost &"zb_users/PLUGIN/AppCentre/update.asp'>升级</a>")
 End Function
 
 

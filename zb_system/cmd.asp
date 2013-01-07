@@ -1332,6 +1332,7 @@ Function FunctionMng()
 		Call SaveFunctionType()
 		If SaveSidebarOrder(Request.Form("edtSidebar"),Request.Form("edtSidebar2"),Request.Form("edtSidebar3"),Request.Form("edtSidebar4"),Request.Form("edtSidebar5")) Then
 			Call SaveSetting
+			Response.End
 		End If
 		Call SetBlogHint(True,True,True)
 	End If

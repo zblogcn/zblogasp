@@ -58,7 +58,7 @@ Select Case Request.QueryString("action")
 		If Replace(strList,",","")<>"" Then
 			strURL="app.asp?act=checkupdate&updatelist="&Server.URLEncode(strList)&"&"
 		Else
-			Call SetBlogHint_Custom("您没有可以更新的应用")
+			If Request.QueryString("action")="update" Then Call SetBlogHint_Custom("您没有可以更新的应用.")
 			strURL="?"
 		End If
 		

@@ -20,9 +20,7 @@ Function ActivePlugin_AppCentre()
 	'检查更新
 	Call Add_Response_Plugin("Response_Plugin_SiteInfo_SubMenu","<script type='text/javascript'>$.get(bloghost+'zb_users/plugin/appcentre/server.asp?action=update&silent=true');</script>")
 
-	Call Add_Action_Plugin("Action_Plugin_Admin_Begin","Call AppCentre_NewVersionFound()")
-	Call Add_Action_Plugin("Action_Plugin_Admin_Begin","Call SetBlogHint_Custom(""Z-Blog有新版本!马上升级!!! <a href='"&BlogHost &"zb_users/PLUGIN/AppCentre/update.asp'>升级</a>"")")
-
+	Call Add_Action_Plugin("Action_Plugin_Admin_Begin","If Request.QueryString(""act"")=""SiteInfo"" Then Call AppCentre_NewVersionFound()")
 
 End Function
 
@@ -31,7 +29,8 @@ Function AppCentre_NewVersionFound()
 	Dim o
 	o=LoadFromFile(BlogPath&"zb_users\cache\appcentre_list.lst","utf-8")
 	If Replace(o,",","")<>"" Then
-		Call Add_Response_Plugin("Response_Plugin_Admin_Top",MakeTopMenu(1,"<font color='red'>发现应用更新</font>",BlogHost&"zb_users/plugin/appcentre/checkupdate.asp","AppCentre_Update",""))
+	'	Call Add_Response_Plugin("Response_Plugin_Admin_Top",MakeTopMenu(1,"<font color='red'>发现应用更新</font>",BlogHost&"zb_users/plugin/appcentre/checkupdate.asp","AppCentre_Update",""))
+		Call SetBlogHint_Custom("发现"& (UBound(Split(o,","))-1) &"个应用更新! <a href='"&BlogHost&"zb_users/plugin/appcentre/server.asp?action=update'>更新</a>")
 	End If
 End Function
 %>
