@@ -1551,11 +1551,18 @@ Response.Write "</script>"
 		End If
 	Next
 
+	Response.Write "<hr/><form id=""frmBatch"" method=""post"" action=""../cmd.asp?act=FunctionMng"" style=""position: absolute;"">"
+	Response.Write "<input type=""hidden"" id=""edtSidebar"" name=""edtSidebar"" value="""&ZC_SIDEBAR_ORDER&"""/>"
+	Response.Write "<input type=""hidden"" id=""edtSidebar2"" name=""edtSidebar2"" value="""&ZC_SIDEBAR_ORDER2&"""/>"
+	Response.Write "<input type=""hidden"" id=""edtSidebar3"" name=""edtSidebar3"" value="""&ZC_SIDEBAR_ORDER3&"""/>"
+	Response.Write "<input type=""hidden"" id=""edtSidebar4"" name=""edtSidebar4"" value="""&ZC_SIDEBAR_ORDER4&"""/>"
+	Response.Write "<input type=""hidden"" id=""edtSidebar5"" name=""edtSidebar5"" value="""&ZC_SIDEBAR_ORDER5&"""/>"
 
+	Response.Write "<p>"&ZC_MSG145&"</p></form>" & vbCrlf
 	Response.Write "</div>"
 
 	Response.Write "<div class=""siderbar-list"">"
-	Response.Write "<div class=""siderbar-drop"" id=""siderbar""><div class=""siderbar-header"">"&ZC_MSG290&"<span class=""ui-icon ui-icon-triangle-1-s""></span></div><div  class=""siderbar-sort-list"" >"
+	Response.Write "<div class=""siderbar-drop"" id=""siderbar""><div class=""siderbar-header"">"&ZC_MSG290&"&nbsp;<img class=""roll"" src=""../image/admin/loading.gif"" width=""16"" alt="""" /><span class=""ui-icon ui-icon-triangle-1-s""></span></div><div  class=""siderbar-sort-list"" >"
 	t=Split(ZC_SIDEBAR_ORDER,":")	
 	'Response.Write "<div class=""siderbar-note"" "&IIf(UBound(t)>0," style=""display:none""","")&"></div>"
 	For Each s In t
@@ -1580,7 +1587,7 @@ Response.Write "</script>"
 	Next
 	Response.Write "</div></div>"
 
-	Response.Write "<div class=""siderbar-drop"" id=""siderbar2""><div class=""siderbar-header"">"&ZC_MSG291&"<span class=""ui-icon ui-icon-triangle-1-s""></span></div><div  class=""siderbar-sort-list"" >"
+	Response.Write "<div class=""siderbar-drop"" id=""siderbar2""><div class=""siderbar-header"">"&ZC_MSG291&"&nbsp;<img class=""roll"" src=""../image/admin/loading.gif"" width=""16"" alt="""" /><span class=""ui-icon ui-icon-triangle-1-s""></span></div><div  class=""siderbar-sort-list"" >"
 	t=Split(ZC_SIDEBAR_ORDER2,":")
 	'Response.Write "<div class=""siderbar-note"" "&IIf(UBound(t)>0," style=""display:none""","")&"></div>"
 	For Each s In t
@@ -1605,7 +1612,7 @@ Response.Write "</script>"
 	Next
 	Response.Write "</div></div>"
 
-	Response.Write "<div class=""siderbar-drop"" id=""siderbar3""><div class=""siderbar-header"">"&ZC_MSG292&"<span class=""ui-icon ui-icon-triangle-1-s""></span></div><div  class=""siderbar-sort-list"" >"
+	Response.Write "<div class=""siderbar-drop"" id=""siderbar3""><div class=""siderbar-header"">"&ZC_MSG292&"&nbsp;<img class=""roll"" src=""../image/admin/loading.gif"" width=""16"" alt="""" /><span class=""ui-icon ui-icon-triangle-1-s""></span></div><div  class=""siderbar-sort-list"" >"
 	t=Split(ZC_SIDEBAR_ORDER3,":")
 	'Response.Write "<div class=""siderbar-note"" "&IIf(UBound(t)>0," style=""display:none""","")&"></div>"
 	For Each s In t
@@ -1630,7 +1637,7 @@ Response.Write "</script>"
 	Next
 	Response.Write "</div></div>"
 
-	Response.Write "<div class=""siderbar-drop"" id=""siderbar4""><div class=""siderbar-header"">"&ZC_MSG293&"<span class=""ui-icon ui-icon-triangle-1-s""></span></div><div  class=""siderbar-sort-list"" >"
+	Response.Write "<div class=""siderbar-drop"" id=""siderbar4""><div class=""siderbar-header"">"&ZC_MSG293&"&nbsp;<img class=""roll"" src=""../image/admin/loading.gif"" width=""16"" alt="""" /><span class=""ui-icon ui-icon-triangle-1-s""></span></div><div  class=""siderbar-sort-list"" >"
 	t=Split(ZC_SIDEBAR_ORDER4,":")
 	'Response.Write "<div class=""siderbar-note"" "&IIf(UBound(t)>0," style=""display:none""","")&"></div>"
 	For Each s In t
@@ -1655,7 +1662,7 @@ Response.Write "</script>"
 	Next
 	Response.Write "</div></div>"
 
-	Response.Write "<div class=""siderbar-drop"" id=""siderbar5""><div class=""siderbar-header"">"&ZC_MSG294&"<span class=""ui-icon ui-icon-triangle-1-s""></span></div><div  class=""siderbar-sort-list"" >"
+	Response.Write "<div class=""siderbar-drop"" id=""siderbar5""><div class=""siderbar-header"">"&ZC_MSG294&"&nbsp;<img class=""roll"" src=""../image/admin/loading.gif"" width=""16"" alt="""" /><span class=""ui-icon ui-icon-triangle-1-s""></span></div><div  class=""siderbar-sort-list"" >"
 	t=Split(ZC_SIDEBAR_ORDER5,":")
 	'Response.Write "<div class=""siderbar-note"" "&IIf(UBound(t)>0," style=""display:none""","")&"></div>"
 	For Each s In t
@@ -1683,16 +1690,6 @@ Response.Write "</script>"
 	Response.Write "<div class=""clear""></div></div>"
 
 	Response.Write "<div class=""clear""></div>"
-
-	Response.Write "<hr/><form id=""frmBatch"" method=""post"" action="""" style=""position: absolute;"">"
-	Response.Write "<input type=""hidden"" id=""edtSidebar"" name=""edtSidebar"" value="""&ZC_SIDEBAR_ORDER&"""/>"
-	Response.Write "<input type=""hidden"" id=""edtSidebar2"" name=""edtSidebar2"" value="""&ZC_SIDEBAR_ORDER2&"""/>"
-	Response.Write "<input type=""hidden"" id=""edtSidebar3"" name=""edtSidebar3"" value="""&ZC_SIDEBAR_ORDER3&"""/>"
-	Response.Write "<input type=""hidden"" id=""edtSidebar4"" name=""edtSidebar4"" value="""&ZC_SIDEBAR_ORDER4&"""/>"
-	Response.Write "<input type=""hidden"" id=""edtSidebar5"" name=""edtSidebar5"" value="""&ZC_SIDEBAR_ORDER5&"""/>"
-
-	Response.Write "<input class=""button"" type=""submit"" onclick='$(""#frmBatch"").attr(""action"",""../cmd.asp?act=FunctionMng"");' value="""&ZC_MSG087&""" id=""btnPost""/>&nbsp;&nbsp;&nbsp;&nbsp;("&ZC_MSG145&")</form>" & vbCrlf
-
 
 	Response.Write "</div>"
 
@@ -1733,6 +1730,20 @@ Response.Write "</script>"
 			$("#edtSidebar3").val(s3);
 			$("#edtSidebar4").val(s4);
 			$("#edtSidebar5").val(s5);
+
+
+			$.post($("#frmBatch").attr("action"),
+				{
+				"edtSidebar": s1,
+				"edtSidebar2": s2,
+				"edtSidebar3": s3,
+				"edtSidebar4": s4,
+				"edtSidebar5": s5
+				},
+			   function(data){
+				 //alert("Data Loaded: " + data);
+			   });
+
 		};
 
 		var t;
@@ -1764,7 +1775,7 @@ Response.Write "</script>"
 					ui.item.remove();
 				 };
 			} ,			
-			stop:function(event, ui){sortFunction();}
+			stop:function(event, ui){$(this).parent().find(".roll").show("slow");sortFunction();$(this).parent().find(".roll").hide("slow");}
  		}).disableSelection(); 
 
 		$( ".widget-list>.widget" ).draggable({
