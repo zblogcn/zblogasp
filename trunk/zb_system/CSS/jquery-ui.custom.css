@@ -449,7 +449,7 @@ button.ui-button::-moz-focus-inner { border: 0; padding: 0; } /* reset extra pad
  *
  * http://docs.jquery.com/UI/Progressbar#theming
  */
-.ui-progressbar { height:2em; text-align: left; overflow: hidden; }
+.ui-progressbar { height:2em; text-align: left; overflow: hidden;height:18px;}
 .ui-progressbar .ui-progressbar-value {margin: -1px; height:100%; }
 
 #ui-datepicker-div, .ui-datepicker{ font-size: 90%;box-shadow: 0 0 15px #aaa;}	

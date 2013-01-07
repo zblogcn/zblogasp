@@ -1448,7 +1448,7 @@ Call Add_Response_Plugin("Response_Plugin_FunctionMng_SubMenu",MakeSubMenu(ZC_MS
 	Response.Write "<div class=""SubMenu"">" & Response_Plugin_FunctionMng_SubMenu & "</div>"
 	Response.Write "<div id=""divMain2"">"
 
-	Response.Write "<div style='min-width:1100px;'><div class=""widget-list"">"
+	Response.Write "<div class=""widget-list"">"
 
 
 
@@ -1480,7 +1480,7 @@ Response.Write "</script>"
 		End If
 	Next
 
-	Response.Write "<hr/><div class=""widget-list-header"">" & ZC_MSG286 & "</div>"
+	Response.Write "<div class=""widget-list-header"">" & ZC_MSG286 & "</div>"
 	For i=LBound(Functions)+1 To Ubound(Functions)
 		If IsObject(Functions(i)) Then
 		If Functions(i).IsUsers Then
@@ -1499,7 +1499,7 @@ Response.Write "</script>"
 		End If
 	Next
 
-	Response.Write "<hr/><div class=""widget-list-header"">" & ZC_MSG287 & "</div>"
+	Response.Write "<div class=""widget-list-header"">" & ZC_MSG287 & "</div>"
 	For i=LBound(Functions)+1 To Ubound(Functions)
 		If IsObject(Functions(i)) Then
 		If Functions(i).IsTheme Then
@@ -1517,7 +1517,7 @@ Response.Write "</script>"
 		End If
 		End If
 	Next
-	Response.Write "<hr/><div class=""widget-list-header"">" & ZC_MSG288 & "</div>"
+	Response.Write "<div class=""widget-list-header"">" & ZC_MSG288 & "</div>"
 	For i=LBound(Functions)+1 To Ubound(Functions)
 		If IsObject(Functions(i)) Then
 		If Functions(i).IsPlugin Then
@@ -1537,7 +1537,7 @@ Response.Write "</script>"
 		End If
 		End If
 	Next
-	Response.Write "<hr/><div class=""widget-list-header"">" & ZC_MSG289 & "</div>"
+	Response.Write "<div class=""widget-list-header"">" & ZC_MSG289 & "</div>"
 	For i=LBound(Functions)+1 To Ubound(Functions)
 		If IsObject(Functions(i)) Then
 		If Functions(i).IsOther Then
@@ -1551,7 +1551,140 @@ Response.Write "</script>"
 		End If
 	Next
 
-	Response.Write "<hr/><p>&nbsp;</p><form id=""frmBatch"" method=""post"" action="""">"
+
+	Response.Write "</div>"
+
+	Response.Write "<div class=""siderbar-list"">"
+	Response.Write "<div class=""siderbar-drop"" id=""siderbar""><div class=""siderbar-header"">"&ZC_MSG290&"<span class=""ui-icon ui-icon-triangle-1-s""></span></div><div  class=""siderbar-sort-list"" >"
+	t=Split(ZC_SIDEBAR_ORDER,":")	
+	'Response.Write "<div class=""siderbar-note"" "&IIf(UBound(t)>0," style=""display:none""","")&"></div>"
+	For Each s In t
+		If FunctionMetas.Exists(s)=True Then
+
+			Response.Write "<div class=""widget widget_ishidden_"&LCase(Functions(FunctionMetas.GetValue(s)).IsHidden)&" widget_source_"& Functions(FunctionMetas.GetValue(s)).SourceType &" " & Functions(FunctionMetas.GetValue(s)).FileName & """>"
+			Response.Write "	<div class=""widget-title""><img class=""more-action"" width=""16"" src=""../image/admin/brick.png"" alt="""" />"& Functions(FunctionMetas.GetValue(s)).Name 
+			Response.Write "	</div>"
+			Response.Write "	<div class=""funid"" style=""display:none"">"& Functions(FunctionMetas.GetValue(s)).FileName &"</div>"	
+			Response.Write "</div>"
+
+		Else
+
+			Response.Write "<div class=""widget widget_source_other " & s & """>"
+			Response.Write "	<div class=""widget-title""><img class=""more-action"" width=""16"" src=""../image/admin/brick.png"" alt="""" />"& s
+			Response.Write "	</div>"
+			Response.Write "	<div class=""funid"" style=""display:none"">"& s &"</div>"	
+			Response.Write "</div>"
+
+
+		End If
+	Next
+	Response.Write "</div></div>"
+
+	Response.Write "<div class=""siderbar-drop"" id=""siderbar2""><div class=""siderbar-header"">"&ZC_MSG291&"<span class=""ui-icon ui-icon-triangle-1-s""></span></div><div  class=""siderbar-sort-list"" >"
+	t=Split(ZC_SIDEBAR_ORDER2,":")
+	'Response.Write "<div class=""siderbar-note"" "&IIf(UBound(t)>0," style=""display:none""","")&"></div>"
+	For Each s In t
+		If FunctionMetas.Exists(s)=True Then
+
+			Response.Write "<div class=""widget widget_ishidden_"&LCase(Functions(FunctionMetas.GetValue(s)).IsHidden)&" widget_source_"& Functions(FunctionMetas.GetValue(s)).SourceType &" " & Functions(FunctionMetas.GetValue(s)).FileName & """>"
+			Response.Write "	<div class=""widget-title""><img class=""more-action"" width=""16"" src=""../image/admin/brick.png"" alt="""" />"& Functions(FunctionMetas.GetValue(s)).Name 
+			Response.Write "	</div>"
+			Response.Write "	<div class=""funid"" style=""display:none"">"& Functions(FunctionMetas.GetValue(s)).FileName &"</div>"	
+			Response.Write "</div>"
+
+		Else
+
+			Response.Write "<div class=""widget widget_source_other " & s & """>"
+			Response.Write "	<div class=""widget-title""><img class=""more-action"" width=""16"" src=""../image/admin/brick.png"" alt="""" />"& s
+			Response.Write "	</div>"
+			Response.Write "	<div class=""funid"" style=""display:none"">"& s &"</div>"	
+			Response.Write "</div>"
+
+
+		End If
+	Next
+	Response.Write "</div></div>"
+
+	Response.Write "<div class=""siderbar-drop"" id=""siderbar3""><div class=""siderbar-header"">"&ZC_MSG292&"<span class=""ui-icon ui-icon-triangle-1-s""></span></div><div  class=""siderbar-sort-list"" >"
+	t=Split(ZC_SIDEBAR_ORDER3,":")
+	'Response.Write "<div class=""siderbar-note"" "&IIf(UBound(t)>0," style=""display:none""","")&"></div>"
+	For Each s In t
+		If FunctionMetas.Exists(s)=True Then
+
+			Response.Write "<div class=""widget widget_ishidden_"&LCase(Functions(FunctionMetas.GetValue(s)).IsHidden)&" widget_source_"& Functions(FunctionMetas.GetValue(s)).SourceType &" " & Functions(FunctionMetas.GetValue(s)).FileName & """>"
+			Response.Write "	<div class=""widget-title""><img class=""more-action"" width=""16"" src=""../image/admin/brick.png"" alt="""" />"& Functions(FunctionMetas.GetValue(s)).Name 
+			Response.Write "	</div>"
+			Response.Write "	<div class=""funid"" style=""display:none"">"& Functions(FunctionMetas.GetValue(s)).FileName &"</div>"	
+			Response.Write "</div>"
+
+		Else
+
+			Response.Write "<div class=""widget widget_source_other " & s & """>"
+			Response.Write "	<div class=""widget-title""><img class=""more-action"" width=""16"" src=""../image/admin/brick.png"" alt="""" />"& s
+			Response.Write "	</div>"
+			Response.Write "	<div class=""funid"" style=""display:none"">"& s &"</div>"	
+			Response.Write "</div>"
+
+
+		End If
+	Next
+	Response.Write "</div></div>"
+
+	Response.Write "<div class=""siderbar-drop"" id=""siderbar4""><div class=""siderbar-header"">"&ZC_MSG293&"<span class=""ui-icon ui-icon-triangle-1-s""></span></div><div  class=""siderbar-sort-list"" >"
+	t=Split(ZC_SIDEBAR_ORDER4,":")
+	'Response.Write "<div class=""siderbar-note"" "&IIf(UBound(t)>0," style=""display:none""","")&"></div>"
+	For Each s In t
+		If FunctionMetas.Exists(s)=True Then
+
+			Response.Write "<div class=""widget widget_ishidden_"&LCase(Functions(FunctionMetas.GetValue(s)).IsHidden)&" widget_source_"& Functions(FunctionMetas.GetValue(s)).SourceType &" " & Functions(FunctionMetas.GetValue(s)).FileName & """>"
+			Response.Write "	<div class=""widget-title""><img class=""more-action"" width=""16"" src=""../image/admin/brick.png"" alt="""" />"& Functions(FunctionMetas.GetValue(s)).Name 
+			Response.Write "	</div>"
+			Response.Write "	<div class=""funid"" style=""display:none"">"& Functions(FunctionMetas.GetValue(s)).FileName &"</div>"	
+			Response.Write "</div>"
+
+		Else
+
+			Response.Write "<div class=""widget widget_source_other " & s & """>"
+			Response.Write "	<div class=""widget-title""><img class=""more-action"" width=""16"" src=""../image/admin/brick.png"" alt="""" />"& s
+			Response.Write "	</div>"
+			Response.Write "	<div class=""funid"" style=""display:none"">"& s &"</div>"	
+			Response.Write "</div>"
+
+
+		End If
+	Next
+	Response.Write "</div></div>"
+
+	Response.Write "<div class=""siderbar-drop"" id=""siderbar5""><div class=""siderbar-header"">"&ZC_MSG294&"<span class=""ui-icon ui-icon-triangle-1-s""></span></div><div  class=""siderbar-sort-list"" >"
+	t=Split(ZC_SIDEBAR_ORDER5,":")
+	'Response.Write "<div class=""siderbar-note"" "&IIf(UBound(t)>0," style=""display:none""","")&"></div>"
+	For Each s In t
+		If FunctionMetas.Exists(s)=True Then
+
+			Response.Write "<div class=""widget widget_ishidden_"&LCase(Functions(FunctionMetas.GetValue(s)).IsHidden)&" widget_source_"& Functions(FunctionMetas.GetValue(s)).SourceType &" " & Functions(FunctionMetas.GetValue(s)).FileName & """>"
+			Response.Write "	<div class=""widget-title""><img class=""more-action"" width=""16"" src=""../image/admin/brick.png"" alt="""" />"& Functions(FunctionMetas.GetValue(s)).Name 
+			Response.Write "	</div>"
+			Response.Write "	<div class=""funid"" style=""display:none"">"& Functions(FunctionMetas.GetValue(s)).FileName &"</div>"	
+			Response.Write "</div>"
+
+		Else
+
+			Response.Write "<div class=""widget widget_source_other " & s & """>"
+			Response.Write "	<div class=""widget-title""><img class=""more-action"" width=""16"" src=""../image/admin/brick.png"" alt="""" />"& s
+			Response.Write "	</div>"
+			Response.Write "	<div class=""funid"" style=""display:none"">"& s &"</div>"	
+			Response.Write "</div>"
+
+
+		End If
+	Next
+	Response.Write "</div></div>"
+
+	Response.Write "<div class=""clear""></div></div>"
+
+	Response.Write "<div class=""clear""></div>"
+
+	Response.Write "<hr/><form id=""frmBatch"" method=""post"" action="""" style=""position: absolute;"">"
 	Response.Write "<input type=""hidden"" id=""edtSidebar"" name=""edtSidebar"" value="""&ZC_SIDEBAR_ORDER&"""/>"
 	Response.Write "<input type=""hidden"" id=""edtSidebar2"" name=""edtSidebar2"" value="""&ZC_SIDEBAR_ORDER2&"""/>"
 	Response.Write "<input type=""hidden"" id=""edtSidebar3"" name=""edtSidebar3"" value="""&ZC_SIDEBAR_ORDER3&"""/>"
@@ -1563,165 +1696,10 @@ Response.Write "</script>"
 
 	Response.Write "</div>"
 
-
-	Response.Write "<div class=""siderbar-list"">"
-	Response.Write "<div class=""siderbar-drop"" id=""siderbar""><div class=""siderbar-header"">"&ZC_MSG290&"</div>"
-	t=Split(ZC_SIDEBAR_ORDER,":")
-	For Each s In t
-		If FunctionMetas.Exists(s)=True Then
-
-			Response.Write "<div class=""widget widget_ishidden_"&LCase(Functions(FunctionMetas.GetValue(s)).IsHidden)&" widget_source_"& Functions(FunctionMetas.GetValue(s)).SourceType &" " & Functions(FunctionMetas.GetValue(s)).FileName & """>"
-			Response.Write "	<div class=""widget-title""><img class=""more-action"" width=""16"" src=""../image/admin/brick.png"" alt="""" />"& Functions(FunctionMetas.GetValue(s)).Name 
-			Response.Write "	</div>"
-			Response.Write "	<div class=""funid"" style=""display:none"">"& Functions(FunctionMetas.GetValue(s)).FileName &"</div>"	
-			Response.Write "</div>"
-
-		Else
-
-			Response.Write "<div class=""widget widget_source_other " & s & """>"
-			Response.Write "	<div class=""widget-title""><img class=""more-action"" width=""16"" src=""../image/admin/brick.png"" alt="""" />"& s
-			Response.Write "	</div>"
-			Response.Write "	<div class=""funid"" style=""display:none"">"& s &"</div>"	
-			Response.Write "</div>"
-
-
-		End If
-	Next
-	Response.Write "</div>"
-
-	Response.Write "<div class=""siderbar-drop"" id=""siderbar2""><div class=""siderbar-header"">"&ZC_MSG291&"</div>"
-	t=Split(ZC_SIDEBAR_ORDER2,":")
-	For Each s In t
-		If FunctionMetas.Exists(s)=True Then
-
-			Response.Write "<div class=""widget widget_ishidden_"&LCase(Functions(FunctionMetas.GetValue(s)).IsHidden)&" widget_source_"& Functions(FunctionMetas.GetValue(s)).SourceType &" " & Functions(FunctionMetas.GetValue(s)).FileName & """>"
-			Response.Write "	<div class=""widget-title""><img class=""more-action"" width=""16"" src=""../image/admin/brick.png"" alt="""" />"& Functions(FunctionMetas.GetValue(s)).Name 
-			Response.Write "	</div>"
-			Response.Write "	<div class=""funid"" style=""display:none"">"& Functions(FunctionMetas.GetValue(s)).FileName &"</div>"	
-			Response.Write "</div>"
-
-		Else
-
-			Response.Write "<div class=""widget widget_source_other " & s & """>"
-			Response.Write "	<div class=""widget-title""><img class=""more-action"" width=""16"" src=""../image/admin/brick.png"" alt="""" />"& s
-			Response.Write "	</div>"
-			Response.Write "	<div class=""funid"" style=""display:none"">"& s &"</div>"	
-			Response.Write "</div>"
-
-
-		End If
-	Next
-	Response.Write "</div>"
-
-	Response.Write "<div class=""siderbar-drop"" id=""siderbar3""><div class=""siderbar-header"">"&ZC_MSG292&"</div>"
-	t=Split(ZC_SIDEBAR_ORDER3,":")
-	For Each s In t
-		If FunctionMetas.Exists(s)=True Then
-
-			Response.Write "<div class=""widget widget_ishidden_"&LCase(Functions(FunctionMetas.GetValue(s)).IsHidden)&" widget_source_"& Functions(FunctionMetas.GetValue(s)).SourceType &" " & Functions(FunctionMetas.GetValue(s)).FileName & """>"
-			Response.Write "	<div class=""widget-title""><img class=""more-action"" width=""16"" src=""../image/admin/brick.png"" alt="""" />"& Functions(FunctionMetas.GetValue(s)).Name 
-			Response.Write "	</div>"
-			Response.Write "	<div class=""funid"" style=""display:none"">"& Functions(FunctionMetas.GetValue(s)).FileName &"</div>"	
-			Response.Write "</div>"
-
-		Else
-
-			Response.Write "<div class=""widget widget_source_other " & s & """>"
-			Response.Write "	<div class=""widget-title""><img class=""more-action"" width=""16"" src=""../image/admin/brick.png"" alt="""" />"& s
-			Response.Write "	</div>"
-			Response.Write "	<div class=""funid"" style=""display:none"">"& s &"</div>"	
-			Response.Write "</div>"
-
-
-		End If
-	Next
-	Response.Write "</div>"
-
-	Response.Write "<div class=""siderbar-drop"" id=""siderbar4""><div class=""siderbar-header"">"&ZC_MSG293&"</div>"
-	t=Split(ZC_SIDEBAR_ORDER4,":")
-	For Each s In t
-		If FunctionMetas.Exists(s)=True Then
-
-			Response.Write "<div class=""widget widget_ishidden_"&LCase(Functions(FunctionMetas.GetValue(s)).IsHidden)&" widget_source_"& Functions(FunctionMetas.GetValue(s)).SourceType &" " & Functions(FunctionMetas.GetValue(s)).FileName & """>"
-			Response.Write "	<div class=""widget-title""><img class=""more-action"" width=""16"" src=""../image/admin/brick.png"" alt="""" />"& Functions(FunctionMetas.GetValue(s)).Name 
-			Response.Write "	</div>"
-			Response.Write "	<div class=""funid"" style=""display:none"">"& Functions(FunctionMetas.GetValue(s)).FileName &"</div>"	
-			Response.Write "</div>"
-
-		Else
-
-			Response.Write "<div class=""widget widget_source_other " & s & """>"
-			Response.Write "	<div class=""widget-title""><img class=""more-action"" width=""16"" src=""../image/admin/brick.png"" alt="""" />"& s
-			Response.Write "	</div>"
-			Response.Write "	<div class=""funid"" style=""display:none"">"& s &"</div>"	
-			Response.Write "</div>"
-
-
-		End If
-	Next
-	Response.Write "</div>"
-
-	Response.Write "<div class=""siderbar-drop"" id=""siderbar5""><div class=""siderbar-header"">"&ZC_MSG294&"</div>"
-	t=Split(ZC_SIDEBAR_ORDER5,":")
-	For Each s In t
-		If FunctionMetas.Exists(s)=True Then
-
-			Response.Write "<div class=""widget widget_ishidden_"&LCase(Functions(FunctionMetas.GetValue(s)).IsHidden)&" widget_source_"& Functions(FunctionMetas.GetValue(s)).SourceType &" " & Functions(FunctionMetas.GetValue(s)).FileName & """>"
-			Response.Write "	<div class=""widget-title""><img class=""more-action"" width=""16"" src=""../image/admin/brick.png"" alt="""" />"& Functions(FunctionMetas.GetValue(s)).Name 
-			Response.Write "	</div>"
-			Response.Write "	<div class=""funid"" style=""display:none"">"& Functions(FunctionMetas.GetValue(s)).FileName &"</div>"	
-			Response.Write "</div>"
-
-		Else
-
-			Response.Write "<div class=""widget widget_source_other " & s & """>"
-			Response.Write "	<div class=""widget-title""><img class=""more-action"" width=""16"" src=""../image/admin/brick.png"" alt="""" />"& s
-			Response.Write "	</div>"
-			Response.Write "	<div class=""funid"" style=""display:none"">"& s &"</div>"	
-			Response.Write "</div>"
-
-
-		End If
-	Next
-	Response.Write "</div>"
-
-	Response.Write "</div>"
-
-	Response.Write "<div class=""clear""></div>"
-
-	Response.Write "</div></div>"
-
 	Response.Write "<script type=""text/javascript"">ActiveLeftMenu(""aFunctionMng"");</script>"
 
 %>
-<style type="text/css">
-.widget-list{min-width:540px;width:782px;float:left;}
-.widget-list-header,.siderbar-header{padding:5px;font-size: 1.2em;font-weight: blod;text-align: center;}
-.widget-list-header {clear:both;background:#eee;margin:4px;}
-.siderbar-header{padding:0 5px 0 5px;margin-bottom:5px;cursor: pointer;}
-.widget{width:252px;background:#fff;border:1px solid #ccc;margin:3px;padding:0px;float:left;}
-.widget img{margin:3px;margin-bottom: -3px;}
-
-.widget-title {margin:0px;padding:6px;;color: white;}
-.widget-title {cursor: move;} 
-.widget_ishidden_true img.more-action{opacity:0.40;}
-.widget-action{float:right;}
-.siderbar-list{float:left;width:290px;margin-left:10px;}
-.siderbar-drop{float:right;width:260px;min-height:30px;background:#fefefe;border:5px solid #eee;margin: 3px 15px;padding:5px;}
-
-.widget_source_system .widget-title{background: #3FA7DB;}
-.widget_source_users .widget-title{background: #556B2F;}
-.widget_source_theme .widget-title{background: #483D8B;}
-.widget_source_plugin .widget-title{background: #008080;}
-.widget_source_other .widget-title{background: #696969;}
-
-
-/*.custom-state-active{background: #B5DCF0;}*/
-</style>
 <script type="text/javascript">
-
-
-
 	$(function() {
 
 		function sortFunction(){
@@ -1757,15 +1735,31 @@ Response.Write "</script>"
 			$("#edtSidebar5").val(s5);
 		};
 
-		$(".siderbar-header").click(function() {
-            $(this).parent().children(".widget").slideToggle("slow");
-        });
+		var t;
+		function hideWidget(item){
+				item.find(".ui-icon").removeClass("ui-icon-triangle-1-s").addClass("ui-icon-triangle-1-w");
+				t=item.next()
+				t.find(".widget").hide("fast").end().show();
+		}
+		function showWidget(item){
+				item.find(".ui-icon").removeClass("ui-icon-triangle-1-w").addClass("ui-icon-triangle-1-s");
+				t=item.next()
+				t.find(".widget").show("fast");
+				//t.find(".siderbar-note").hide();
+		}
 
- 		$( ".siderbar-drop" ).sortable({
+		$(".siderbar-header").toggle( function () {
+				hideWidget($(this));
+			  },
+			  function () {
+				showWidget($(this));
+			  });
+
+ 		$( ".siderbar-sort-list" ).sortable({
  			items:'.widget',
 			start:function(event, ui){
+				showWidget(ui.item.parent().prev());
 				 var c=ui.item.find(".funid").html();
-				 //alert($( ".siderbar-drop").find(".widget:contains("+c+")").length);
 				 if(ui.item.parent().find(".widget:contains("+c+")").length>1){
 					ui.item.remove();
 				 };
@@ -1774,7 +1768,7 @@ Response.Write "</script>"
  		}).disableSelection(); 
 
 		$( ".widget-list>.widget" ).draggable({
-            connectToSortable: ".siderbar-drop",
+            connectToSortable: ".siderbar-sort-list",
             revert: "invalid", 
             containment: "document",
             helper: "clone",
@@ -1782,7 +1776,7 @@ Response.Write "</script>"
         }).disableSelection();
 
 		$( ".widget-list" ).droppable({
-			accept:".siderbar-drop>.widget",
+			accept:".siderbar-sort-list>.widget",
             drop: function( event, ui ) {
             	ui.draggable.remove();
             }
