@@ -53,22 +53,20 @@ Select Case Request.QueryString("action")
 	Case "update"
 		intHighlight=6
 		Call ReCheck
-		Call CheckXML
-		strList=LoadFromFile(BlogPath&"zb_users\cache\appcentre_list.lst","utf-8")
+		strList=CheckXML()
+		Session("appcentre_updatelist")=strList
 		If Replace(strList,",","")<>"" Then
 			strURL="app.asp?act=checkupdate&updatelist="&Server.URLEncode(strList)&"&"
 		Else
 			strURL="?"
 		End If
 		
-		If Request.QueryString("silent")<>"true" Then 
-			Call DelToFile(BlogPath&"zb_users\cache\appcentre_list.lst")
-		Else
+		If Request.QueryString("silent")="true" Then 
 			Response.Write strList
 			Response.End
 		End If
 
-		If Replace(strList,",","")="" Then
+		If Replace(strList,",","")<>"" Then
 			Call SetBlogHint_Custom("您没有可以更新的应用.")
 		End If
 		
@@ -210,30 +208,3 @@ End Function
 %>
         <!--#include file="..\..\..\zb_system\admin\admin_footer.asp"-->
 <%End If%>
-
-<%
-
-Function ReCheck()
-	Dim objXmlHttp,strURL,bolPost,str,bolIsBinary
-	Set objXmlHttp=Server.CreateObject("MSXML2.ServerXMLHTTP")
-
-	strUrl=APPCENTRE_UPDATE_URL&"&tname="&Server.URLEncode(Join(GetAllThemeName,","))&"&pname="&Server.URLEncode(Replace(ZC_USING_PLUGIN_LIST,"|",","))&"&rnd="&Rnd
-	objXmlHttp.Open "GET",strURL
-	objXmlHttp.Send 
-
-	If objXmlHttp.ReadyState=4 Then
-		If objXmlhttp.Status=200 Then
-		Else
-			Call ShowErr(True,"")
-		End If
-		
-		
-	Else
-		ShowErr
-	End If
-	If Err.Number<>0 Then Call ShowErr(True,"")
-	
-	Call SaveToFile(BlogPath&"zb_users\cache\appcentre_plugin.xml",objXmlHttp.ResponseText,"utf-8",False)
-End Function
-
-%>

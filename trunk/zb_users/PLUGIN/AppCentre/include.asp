@@ -27,10 +27,16 @@ End Function
 
 Function AppCentre_NewVersionFound()
 	Dim o
-	o=LoadFromFile(BlogPath&"zb_users\cache\appcentre_list.lst","utf-8")
+	o=Session("appcentre_updatelist")
 	If Replace(o,",","")<>"" Then
 	'	Call Add_Response_Plugin("Response_Plugin_Admin_Top",MakeTopMenu(1,"<font color='red'>发现应用更新</font>",BlogHost&"zb_users/plugin/appcentre/checkupdate.asp","AppCentre_Update",""))
-		Call SetBlogHint_Custom("发现"& (UBound(Split(o,","))-1) &"个应用更新! <a href='"&BlogHost&"zb_users/plugin/appcentre/server.asp?action=update'>更新</a>")
+		Call SetBlogHint_Custom("发现"& (UBound(Split(o,","))) &"个应用更新! <a href='"&BlogHost&"zb_users/plugin/appcentre/server.asp?action=update'>更新</a>")
 	End If
+
+	o=Session("appcentre_blog_last")
+	If CLng(o)> BlogVersion Then
+		Call SetBlogHint_Custom("Z-Blog有新版本!请立刻升级!!! <a href='"&BlogHost &"zb_users/PLUGIN/AppCentre/update.asp'>升级</a>")
+	End If
+
 End Function
 %>

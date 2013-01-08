@@ -4012,6 +4012,9 @@ Function CheckUndefined()
 	On Error Resume Next
 	Dim a
 	a=UCase(LoadFromFile(BlogPath &"zb_users\c_option.asp","utf-8"))
+
+	If Trim(a)="" Then Exit Function
+
 	If InStr(a,"DIM ZC_SYNTAXHIGHLIGHTER_ENABLE")=0 Then
 		Call Execute("ZC_SYNTAXHIGHLIGHTER_ENABLE=True")
 	End If
