@@ -315,11 +315,11 @@ Function FileManage_ExportSiteFileList(path,OpenFolderPath)
 	set fold=f.getfolder(path)
 	response.write "</div>"
 	Response.write"<table width=""100%"" border=""0"" class=""tableBorder"">"
-	Response.write "<tr><th colspan=""5""><a href='main.asp?act=SiteFileMng&path="&Server.URLEncode(backfolder)&"' title='"&ZC_MSG239&"'><img src=""images\up.png""/></a>"
-	Response.Write "&nbsp;&nbsp;<a href=""javascript:void(0)"" onclick=""if($('#fileUpload').css('display')=='none'){$('#fileUpload').show()}else{$('#fileUpload').hide()}"" title=""上传""><img src=""images\upload.png""/></a>"
+	Response.write "<tr><th colspan=""5""><a href='main.asp?act=SiteFileMng&path="&Server.URLEncode(backfolder)&"' title='"&ZC_MSG239&"'><img src=""images\up.png"" width=""16"" alt="""" /></a>"
+	Response.Write "&nbsp;&nbsp;<a href=""javascript:void(0)"" onclick=""if($('#fileUpload').css('display')=='none'){$('#fileUpload').show()}else{$('#fileUpload').hide()}"" title=""上传""><img src=""images\upload.png"" width=""16"" alt="""" /></a>"
 '	Response.write "&nbsp;&nbsp;<a href='javascript:void(0)' onclick='window.open(""main.asp?act=SiteFileUploadShow&path="&Server.URLEncode(fpath)&"&OpenFolderPath="& Server.URLEncode(path) &""",""Detail"",""Scrollbars=no,Toolbar=no,Location=no,Direction=no,Resizeable=no,height=165px,width=780px"")' title=""上传""><img src=""images\upload.png""/></a>"
-	Response.Write "&nbsp;&nbsp;<a href='main.asp?act=SiteCreateFolder' onmousedown=""var str=prompt('请输入文件夹名');if(str!=null){this.href+='&path='+encodeURIComponent('"&Replace(Replace(path,"\","\\"),"""","\""")&"'+'\\'+str);this.click()}else{return false}"" title='新建文件夹'><img src='images\cfolder.png'/></a>"
-	Response.Write "&nbsp;&nbsp;<a href=""main.asp?act=SiteFileEdt&path="&Server.URLEncode(path) &"&OpenFolderPath="&Server.URLEncode(path)&""" title=""创建文件""><img src=""images\newfile.png""/></a>"
+	Response.Write "&nbsp;&nbsp;<a href='main.asp?act=SiteCreateFolder' onmousedown=""var str=prompt('请输入文件夹名');if(str!=null){this.href+='&path='+encodeURIComponent('"&Replace(Replace(path,"\","\\"),"""","\""")&"'+'\\'+str);this.click()}else{return false}"" title='新建文件夹'><img src='images\cfolder.png' width='16' alt='' /></a>"
+	Response.Write "&nbsp;&nbsp;<a href=""main.asp?act=SiteFileEdt&path="&Server.URLEncode(path) &"&OpenFolderPath="&Server.URLEncode(path)&""" title=""创建文件""><img src=""images\newfile.png"" width=""16"" alt="""" /></a>"
 
 	
 	

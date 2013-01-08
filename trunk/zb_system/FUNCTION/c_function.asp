@@ -1666,7 +1666,7 @@ Function GetCurrentHost()
 	If Right(PhysicsPath,1)<>"\" Then PhysicsPath=PhysicsPath & "\"
 	CurrentReallyDirectory=PhysicsPath
 
-	Dim s,t,u,i,w,x
+	Dim s,t,u,i,w,x,j
 
 	s=LCase(Replace(Request.ServerVariables("PATH_TRANSLATED"),"\","/"))
 
@@ -1675,9 +1675,15 @@ Function GetCurrentHost()
 
 	w=LCase(Replace(PhysicsPath,"\","/"))
 
-	x=Right(s,Len(s)-Len(w))
+	'x=Right(s,Len(s)-Len(w))
 
-	u=Replace(t,x,"")
+	'u=Replace(t,x,"")
+	For i=Len(s) To 1 Step -1
+		If InStr(t,Right(s,i))>0 Then
+			u=Left(t,Len(t)-i)
+			Exit For
+		End If
+	Next
 
 	if Request.ServerVariables("HTTPS")<>"on" Then
 	'Kangle的返回值为True\False..

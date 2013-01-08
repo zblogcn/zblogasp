@@ -203,7 +203,6 @@ background-image: url(../image/common/window_2.png);
 #leftmenu #nav_themes span { background-image: url(../image/common/themes_1.png);}
 #leftmenu #nav_plugin span { background-image: url(../image/common/plugin_1.png);}
 #leftmenu #nav_function span { background-image: url(../image/common/link_1.png);}
-#leftmenu #nav_file span { background-image: url(../image/common/file_1.png);}
 #leftmenu #nav_user span { background-image: url(../image/common/user_1.png);}
 
 /*高亮导航图标区*/
@@ -220,14 +219,12 @@ background-image: url(../image/common/window_2.png);
 #leftmenu #nav_themes.on span { background-image: url(../image/common/themes_2.png);}
 #leftmenu #nav_plugin.on span { background-image: url(../image/common/plugin_2.png);}
 #leftmenu #nav_function.on span { background-image: url(../image/common/link_2.png);}
-#leftmenu #nav_file.on span { background-image: url(../image/common/file_2.png);}
 #leftmenu #nav_user.on span { background-image: url(../image/common/user_2.png);}
 
 
 #leftmenu li span{
 background-repeat:no-repeat;
 background-position: 100px 8px;
-background-image: url();
 }
 
 

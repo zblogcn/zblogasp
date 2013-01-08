@@ -15,7 +15,7 @@ Call RegisterPlugin("FileManage","ActivePlugin_FileManage")
 '挂口部分
 Function ActivePlugin_FileManage()
 
-	Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(1,ZC_MSG210,GetCurrentHost&"zb_users/plugin/filemanage/main.asp","nav_file","aSiteFileMng",""))
+	Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(1,ZC_MSG210,GetCurrentHost&"zb_users/plugin/filemanage/main.asp","nav_file","aSiteFileMng",BlogHost&"zb_users/plugin/filemanage/images/folder_1.png"))
  
 	Call Add_Response_Plugin("Response_Plugin_ThemeMng_SubMenu",MakeSubMenu("修改当前主题模板","../../ZB_USERS/plugin/FileManage/main.asp?act=ThemeEditor","m-left",False))
 
