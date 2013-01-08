@@ -1354,7 +1354,7 @@ Class TArticle
 			End If
 		Next
 
-		If ZC_MULTI_DOMAIN_SUPPORT=True Then
+		If ZC_MULTI_DOMAIN_SUPPORT=True And ZC_PERMANENT_DOMAIN_ENABLE=False Then
 			Content=Replace(Content,"href=""" & BlogHost,"href=""<#ZC_BLOG_HOST#>")
 			Content=Replace(Content,"src=""" & BlogHost,"src=""<#ZC_BLOG_HOST#>")
 			Intro=Replace(Intro,"href=""" & BlogHost,"href=""<#ZC_BLOG_HOST#>")
@@ -1542,7 +1542,7 @@ Class TArticle
 		TemplateTagsDic.Item("ZC_BLOG_HOST")=BlogHost
 
 
-		If ZC_MULTI_DOMAIN_SUPPORT=True Then
+		If ZC_MULTI_DOMAIN_SUPPORT=True And ZC_PERMANENT_DOMAIN_ENABLE=False Then
 			Dim x,y
 			x=CStr(Replace(Url,BlogHost,""))
 			x=Replace(x,"/////","/"):x=Replace(x,"////","/"):x=Replace(x,"///","/"):x=Replace(x,"//","/")
@@ -2306,7 +2306,7 @@ Class TArticleList
 		TemplateTagsDic.Item("ZC_BLOG_HOST")=BlogHost
 
 
-		If ZC_MULTI_DOMAIN_SUPPORT=True Then
+		If ZC_MULTI_DOMAIN_SUPPORT=True And ZC_PERMANENT_DOMAIN_ENABLE=False Then
 			Dim x,y
 			x=CStr(Replace(Url,BlogHost,""))
 			x=Replace(x,"/////","/"):x=Replace(x,"////","/"):x=Replace(x,"///","/"):x=Replace(x,"//","/")

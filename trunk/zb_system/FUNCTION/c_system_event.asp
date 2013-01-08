@@ -1218,6 +1218,7 @@ Function SaveSetting()
 
 	If BlogConfig.Exists("ZC_HTTP_LASTMODIFIED")=False Then Call BlogConfig.Write("ZC_HTTP_LASTMODIFIED",False)
 
+	If BlogConfig.Exists("ZC_PERMANENT_DOMAIN_ENABLE")=False Then Call BlogConfig.Write("ZC_PERMANENT_DOMAIN_ENABLE",False)
 
 	If BlogConfig.Exists("ZC_SIDEBAR_ORDER" )=False Then Call BlogConfig.Write("ZC_SIDEBAR_ORDER","calendar:controlpanel:catalog:searchpanel:comments:archives:favorite:link:misc")
 

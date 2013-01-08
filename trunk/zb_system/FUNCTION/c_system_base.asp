@@ -16,14 +16,19 @@
 Dim objConn
 
 Dim BlogTitle
-Dim BlogUser
-Set BlogUser =New TUser
-
-Dim BlogHost
-BlogHost=GetCurrentHost()
 
 Dim BlogPath
 BlogPath=GetReallyDirectory()
+
+'补上c_option.asp未更新的参数
+Call CheckUndefined()
+
+Dim BlogHost
+If ZC_PERMANENT_DOMAIN_ENABLE=False Then
+	BlogHost=GetCurrentHost()
+Else
+	BlogHost=ZC_BLOG_HOST
+End If
 
 Dim BlogVersion
 BlogVersion=GetBlogVersion()
@@ -35,6 +40,9 @@ ZC_BLOG_CLSID=MD5(BlogPath & ZC_BLOG_CLSID_ORIGINAL)
 Dim StarTime
 Dim EndTime
 StarTime = Timer()
+
+Dim BlogUser
+Set BlogUser =New TUser
 
 Dim Categorys()
 Dim Users()
@@ -96,9 +104,6 @@ Const ZC_POST_TYPE_PAGE=1
 '如果连接数据库为MSSQL，则应为'，默认连接Access数据库则为#
 Dim ZC_SQL_POUND_KEY
 ZC_SQL_POUND_KEY="#"
-
-'补上c_option.asp未更新的参数
-Call CheckUndefined()
 
 
 '*********************************************************
@@ -4025,6 +4030,10 @@ Function CheckUndefined()
 	
 	If InStr(a,"DIM ZC_HTTP_LASTMODIFIED")=0 Then
 		Call Execute("ZC_HTTP_LASTMODIFIED=False")
+	End If
+
+	If InStr(a,"DIM ZC_PERMANENT_DOMAIN_ENABLE")=0 Then
+		Call Execute("ZC_PERMANENT_DOMAIN_ENABLE=False")
 	End If
 
 	If InStr(a,"DIM ZC_SIDEBAR_ORDER")=0 Then
