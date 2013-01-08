@@ -66,7 +66,7 @@ Select Case Request.QueryString("action")
 			Response.End
 		End If
 
-		If Replace(strList,",","")<>"" Then
+		If Replace(strList,",","")="" Then
 			Call SetBlogHint_Custom("您没有可以更新的应用.")
 		End If
 		
