@@ -1564,7 +1564,7 @@ Response.Write "</script>"
 	Response.Write "<div class=""siderbar-list"">"
 	Response.Write "<div class=""siderbar-drop"" id=""siderbar""><div class=""siderbar-header"">"&ZC_MSG290&"&nbsp;<img class=""roll"" src=""../image/admin/loading.gif"" width=""16"" alt="""" /><span class=""ui-icon ui-icon-triangle-1-s""></span></div><div  class=""siderbar-sort-list"" >"
 	t=Split(ZC_SIDEBAR_ORDER,":")	
-	'Response.Write "<div class=""siderbar-note"" "&IIf(UBound(t)>0," style=""display:none""","")&"></div>"
+	Response.Write "<div class=""siderbar-note"" "&IIf(UBound(t)>-1," style=""display:none""","")&">"&Replace(ZC_MSG295,"%n",UBound(t)+1)&"</div>"
 	For Each s In t
 		If FunctionMetas.Exists(s)=True Then
 
@@ -1589,7 +1589,7 @@ Response.Write "</script>"
 
 	Response.Write "<div class=""siderbar-drop"" id=""siderbar2""><div class=""siderbar-header"">"&ZC_MSG291&"&nbsp;<img class=""roll"" src=""../image/admin/loading.gif"" width=""16"" alt="""" /><span class=""ui-icon ui-icon-triangle-1-s""></span></div><div  class=""siderbar-sort-list"" >"
 	t=Split(ZC_SIDEBAR_ORDER2,":")
-	'Response.Write "<div class=""siderbar-note"" "&IIf(UBound(t)>0," style=""display:none""","")&"></div>"
+	Response.Write "<div class=""siderbar-note"" "&IIf(UBound(t)>-1," style=""display:none""","")&">"&Replace(ZC_MSG295,"%n",UBound(t)+1)&"</div>"
 	For Each s In t
 		If FunctionMetas.Exists(s)=True Then
 
@@ -1614,7 +1614,7 @@ Response.Write "</script>"
 
 	Response.Write "<div class=""siderbar-drop"" id=""siderbar3""><div class=""siderbar-header"">"&ZC_MSG292&"&nbsp;<img class=""roll"" src=""../image/admin/loading.gif"" width=""16"" alt="""" /><span class=""ui-icon ui-icon-triangle-1-s""></span></div><div  class=""siderbar-sort-list"" >"
 	t=Split(ZC_SIDEBAR_ORDER3,":")
-	'Response.Write "<div class=""siderbar-note"" "&IIf(UBound(t)>0," style=""display:none""","")&"></div>"
+	Response.Write "<div class=""siderbar-note"" "&IIf(UBound(t)>-1," style=""display:none""","")&">"&Replace(ZC_MSG295,"%n",UBound(t)+1)&"</div>"
 	For Each s In t
 		If FunctionMetas.Exists(s)=True Then
 
@@ -1639,7 +1639,7 @@ Response.Write "</script>"
 
 	Response.Write "<div class=""siderbar-drop"" id=""siderbar4""><div class=""siderbar-header"">"&ZC_MSG293&"&nbsp;<img class=""roll"" src=""../image/admin/loading.gif"" width=""16"" alt="""" /><span class=""ui-icon ui-icon-triangle-1-s""></span></div><div  class=""siderbar-sort-list"" >"
 	t=Split(ZC_SIDEBAR_ORDER4,":")
-	'Response.Write "<div class=""siderbar-note"" "&IIf(UBound(t)>0," style=""display:none""","")&"></div>"
+	Response.Write "<div class=""siderbar-note"" "&IIf(UBound(t)>-1," style=""display:none""","")&">"&Replace(ZC_MSG295,"%n",UBound(t)+1)&"</div>"
 	For Each s In t
 		If FunctionMetas.Exists(s)=True Then
 
@@ -1664,7 +1664,7 @@ Response.Write "</script>"
 
 	Response.Write "<div class=""siderbar-drop"" id=""siderbar5""><div class=""siderbar-header"">"&ZC_MSG294&"&nbsp;<img class=""roll"" src=""../image/admin/loading.gif"" width=""16"" alt="""" /><span class=""ui-icon ui-icon-triangle-1-s""></span></div><div  class=""siderbar-sort-list"" >"
 	t=Split(ZC_SIDEBAR_ORDER5,":")
-	'Response.Write "<div class=""siderbar-note"" "&IIf(UBound(t)>0," style=""display:none""","")&"></div>"
+	Response.Write "<div class=""siderbar-note"" "&IIf(UBound(t)>-1," style=""display:none""","")&">"&Replace(ZC_MSG295,"%n",UBound(t)+1)&"</div>"
 	For Each s In t
 		If FunctionMetas.Exists(s)=True Then
 
@@ -1749,14 +1749,17 @@ Response.Write "</script>"
 		var t;
 		function hideWidget(item){
 				item.find(".ui-icon").removeClass("ui-icon-triangle-1-s").addClass("ui-icon-triangle-1-w");
-				t=item.next()
+				t=item.next();
 				t.find(".widget").hide("fast").end().show();
+				t.find(".siderbar-note>span").text(t.find(".widget").length);
+				t.find(".siderbar-note").show();
 		}
 		function showWidget(item){
 				item.find(".ui-icon").removeClass("ui-icon-triangle-1-w").addClass("ui-icon-triangle-1-s");
-				t=item.next()
+				t=item.next();
 				t.find(".widget").show("fast");
-				//t.find(".siderbar-note").hide();
+				if (t.find(".widget").length==0){t.find(".siderbar-note>span").text(0);t.find(".siderbar-note").show();}
+				else{t.find(".siderbar-note").hide("fast");}
 		}
 
 		$(".siderbar-header").toggle( function () {
@@ -1775,7 +1778,9 @@ Response.Write "</script>"
 					ui.item.remove();
 				 };
 			} ,			
-			stop:function(event, ui){$(this).parent().find(".roll").show("slow");sortFunction();$(this).parent().find(".roll").hide("slow");}
+			stop:function(event, ui){$(this).parent().find(".roll").show("slow");sortFunction();$(this).parent().find(".roll").hide("slow");
+				showWidget($(this).parent().prev());
+			}
  		}).disableSelection(); 
 
 		$( ".widget-list>.widget" ).draggable({
