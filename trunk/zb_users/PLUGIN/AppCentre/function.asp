@@ -104,7 +104,7 @@ Function AppCentre_Update_Install()
 					.Open
 					.Write item.nodeTypedvalue
 					
-					Dim i,j,k
+					Dim i,j,k,l
 					i=item.getAttributeNode("name").Value
 
 					j=Left(i,InstrRev(i,"\"))
@@ -113,13 +113,16 @@ Function AppCentre_Update_Install()
 
 					.SaveToFile BlogPath & "" & item.getAttributeNode("name").Value,2
 
-					s=s& "释放 " & k & "<br/>"
+					's=s& "释放 " & k & ";"
 					.Close
 					End With
 					Set objStream = Nothing
+					l=l+1
 				next
-
+				s=s& "释放 " & l & " 个文件;<br/>"
 				s=s& "升级成功!!!<br/>"
+
+				Call DelToFile(BlogPath & "zb_users/cache/update.xml")
 			End If
 		End If
 	End If

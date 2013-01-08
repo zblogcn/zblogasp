@@ -21,6 +21,14 @@ If CheckPluginState("AppCentre")=False Then Call ShowError(48)
 
 Call AppCentre_InitConfig
 
+
+If Request.QueryString("restore")="now" Then
+	Response.Clear
+	Response.Write APPCENTRE_SYSTEM_UPDATE & Request.Form("build") & "\" & Request.Form("filename")
+	Response.End
+End If
+
+
 If Request.QueryString("update")="download" Then
 	Response.Clear
 	Response.Write AppCentre_Update_Download(Request.Form("filename"))
@@ -33,6 +41,12 @@ If Request.QueryString("update")="install" Then
 	Response.End
 End If
 
+If Request.QueryString("update")="success" Then
+	Response.Clear
+	Call SetBlogHint_Custom("恭喜您升级到最新的Z-Blog,请保存网站设置完成系统更新.")
+	Response.Redirect BlogHost & "zb_system/cmd.asp?act=SettingMng"
+	Response.End
+End If
 
 If Request.QueryString("last")="now" Then
 	Response.Clear
@@ -77,14 +91,14 @@ End If
 If CLng(Request.QueryString("crc32"))>0 Then
 
 	Response.Clear
-	If CLng(Request.QueryString("crc32"))<=Round(PathAndCrc32.Count/10) Then
+	If CLng(Request.QueryString("crc32"))<=Round(PathAndCrc32.Count/10)+1 Then
 
 		Dim i,j,k,l,m,n
 		k=CLng(Request.QueryString("crc32"))
 		i=(k-1)*10+1
 		j=k*10
-		m="<img src=\'"&BlogHost&"zb_system/image/admin/ok.png\'/>"
-		n="<img src=\'"&BlogHost&"zb_system/image/admin/exclamation.png\' />"
+		m="<img src=\'"&BlogHost&"zb_system/image/admin/ok.png\' width=\'16\' alt=\'\' />"
+		n="<a href=\'#\' onclick=\'restore(this)\' title=\'还原系统文件\'><img src=\'"&BlogHost&"zb_system/image/admin/exclamation.png\' width=\'16\' alt=\'\' /></a>"
 		For l=i To j
 			If l>PathAndCrc32.Count Then Exit For
 			If CRC32(BlogPath & vbsunescape(PathAndCrc32.Names(l)))<>PathAndCrc32.Values(l) Then
@@ -93,7 +107,8 @@ If CLng(Request.QueryString("crc32"))>0 Then
 				Response.Write "$('#td"&l&"').html('"&m&"').parent().addClass(""check_normal"");"
 			End If
 		Next
-		
+	Else
+		Call DelToFile(BlogPath & "zb_users/cache/"&BlogVersion&".xml")
 	End If
 	Response.End
 
@@ -147,7 +162,7 @@ If b>0 Then
 
 c=vbsunescape(a)
 
-Response.Write "<tr><td><img src='Images/document_empty.png' width='16' alt='' /> "& c &"</td><td id='td"&b&"' align='center'>"& e &"</td></tr>"
+Response.Write "<tr><td><img src='Images/document_empty.png' width='16' alt='' /> <span>"& c &"</span></td><td id='td"&b&"' align='center'>"& e &"</td></tr>"
 Response.Flush
 
 End If
@@ -163,7 +178,7 @@ Next
         </div>
         <script type="text/javascript">ActiveLeftMenu("aAppcentre");</script> 
         <script type="text/javascript">
-			var _max = parseInt("<%=Round(PathAndCrc32.Count/10)+1%>"),_conflict=0,_sort=0;
+			var _max = parseInt("<%=Round(PathAndCrc32.Count/10)+2%>"),_conflict=0,_sort=0;
 			var _bar = $("#bar"),_status = $("#status"),_count=$("#count");
 			
 			function crc32(i) {
@@ -213,13 +228,14 @@ Next
 				var s = Math.random().toString();
 				var j = document.createElement("div");
 				j.id = "dialog_" + s;
-				j.innerHTML = "正在下载更新包;<br/>";
+				j.innerHTML = "正在下载更新包<br/>";
 				$(j).dialog({
 					title: "提示",
 					modal: true,
 					buttons: {
 						"确定": function() {
-							$(this).dialog("close");
+							//$(this).dialog("close");
+							update_success(j);
 						}
 					}
 				});
@@ -262,6 +278,29 @@ Next
 				   });
 
 			}
+
+			function update_success(j){
+				location.href="update.asp?update=success";
+			}
+
+			function restore(t){
+				var b=$("#now").html().match(/[0-9]{6}/);
+				var f=$(t).parent().prev().find("span").html();
+				$.post("update.asp?restore=now",
+					{
+					"build":b.toString(),
+					"filename":f
+					},
+				   function(data){
+
+						if(data!=""){
+							alert(data);
+						}else{
+
+						}
+				   });
+			}
+
 			
 			$(document).ready(function() {
 			
@@ -269,7 +308,6 @@ Next
 				function(data) {
 					$("#last").html("Z-Blog " + data);
 					checklast($("#now").html(), $("#last").html());
-			
 				});
 			
 <%
@@ -278,7 +316,7 @@ If Request.QueryString("check")="now" Then
 End If
 %>
 
-   });
+			});
    
    </script>
         <%
