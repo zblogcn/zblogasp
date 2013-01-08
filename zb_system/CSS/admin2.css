@@ -689,7 +689,7 @@ a.button:hover{
 
 .siderbar-list{float:right;width:282px;margin-left:10px;}
 .siderbar-drop{float: right;background:#fefefe;border:2px solid #eee;margin: 0 15px 10px 15px;}
-.siderbar-sort-list{float:right;width:262x;min-height:30px;}
+.siderbar-sort-list{float:right;width:262px;min-height:30px;}
 .siderbar-header:hover { cursor: pointer;color:#000000; background:#b0cdee;}
 .siderbar-header .ui-icon{float: right;}
 .siderbar-note{color:#999;background:#fff;margin:0;padding:0;height:20px;}
