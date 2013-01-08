@@ -79,11 +79,11 @@ End Select
     </div>
   <div class="divHeader"><%=BlogTitle%>&nbsp;&nbsp;<%
   If Request.QueryString("act")<>"Setting" Then%>
-	  <a href="main.asp?act=Setting" title="设置"><img src="../../../zb_system/IMAGE/ADMIN/setting_tools.png"/></a>
+	  <a href="main.asp?act=Setting" title="设置"><img src="../../../zb_system/IMAGE/ADMIN/setting_tools.png" width="16" alt=""/></a>
   <%
   Else
   %>
-  	  <a href="javascript:history.back(-1)" title="返回"><img src="images\upload.png"/></a>
+  	  <a href="javascript:history.back(-1)" title="返回"><img src="images\upload.png" width="16" alt="" /></a>
   <%
   End If
   %>
