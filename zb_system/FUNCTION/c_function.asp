@@ -1666,7 +1666,7 @@ Function GetCurrentHost()
 	If Right(PhysicsPath,1)<>"\" Then PhysicsPath=PhysicsPath & "\"
 	CurrentReallyDirectory=PhysicsPath
 
-	Dim s,t,u,i,w,x,j
+	Dim s,t,u,i,w,x,j,s1,s2,s3,s4,sd
 
 	s=LCase(Replace(Request.ServerVariables("PATH_TRANSLATED"),"\","/"))
 
@@ -1678,12 +1678,28 @@ Function GetCurrentHost()
 	'x=Right(s,Len(s)-Len(w))
 
 	'u=Replace(t,x,"")
-	For i=Len(s) To 1 Step -1
-		If InStr(t,Right(s,i))>0 Then
-			u=Left(t,Len(t)-i)
+	'For i=Len(s) To 1 Step -1
+	'	If InStr(t,Right(s,i))>0 Then
+	'		u=Left(t,Len(t)-i)
+	'		Exit For
+	'	End If
+	'Next
+
+	s1=LCase(Request.ServerVariables("HTTP_HOST") & Split(Request.ServerVariables("URL"),"?")(0))
+	s2=Request.ServerVariables("SERVER_NAME")
+	s3=Replace(s1,s2,"")
+	s4=Replace(s3,"/","\")
+
+	For i=Len(s4) To 1 Step -1
+		If InStr(CurrentReallyDirectory,Left(s4,i))>0 Then 
+			sd=Left(s4,i)
 			Exit For
 		End If
 	Next
+
+	sd=Replace(sd,"\","/")
+
+	u=Request.ServerVariables("SERVER_NAME") & sd
 
 	if Request.ServerVariables("HTTPS")<>"on" Then
 	'Kangle的返回值为True\False..
@@ -1692,7 +1708,6 @@ Function GetCurrentHost()
 		Else 
 			u= "http://" & u
 		End If
-		
 	else
 		u= "https://" & u
 	end If
