@@ -193,6 +193,30 @@ Function AppCentre_CheckSystemLast()
 End Function
 
 
+Function ReCheck()
+	Dim objXmlHttp,strURL,bolPost,str,bolIsBinary
+	Set objXmlHttp=Server.CreateObject("MSXML2.ServerXMLHTTP")
+
+	strUrl=APPCENTRE_UPDATE_URL&"&tname="&Server.URLEncode(Join(GetAllThemeName,","))&"&pname="&Server.URLEncode(Replace(ZC_USING_PLUGIN_LIST,"|",","))&"&rnd="&Rnd
+	objXmlHttp.Open "GET",strURL
+	objXmlHttp.Send 
+
+	If objXmlHttp.ReadyState=4 Then
+		If objXmlhttp.Status=200 Then
+		Else
+			Call ShowErr(True,"")
+		End If
+		
+		
+	Else
+		ShowErr
+	End If
+	If Err.Number<>0 Then Call ShowErr(True,"")
+	
+	Call SaveToFile(BlogPath&"zb_users\cache\appcentre_plugin.xml",objXmlHttp.ResponseText,"utf-8",False)
+End Function
+
+
 Function CheckXml()
 	Dim strTemp,strName,strType,dtmModified,dtmLocalModified
 	Dim objXml,objXml2,objChildXml,objAppXml,i,objFso,j
@@ -225,15 +249,12 @@ Function CheckXml()
 				End If
 			Next
 			j=objXml.SelectSingleNode("//data/blog").text
-
+			Session("appcentre_blog_last")=CStr(j)
 		End If
 	End If
-	For i=0 To Ubound(aryName)
-		CheckXml=CheckXml & "," & aryName(i)
-	Next
-	Call SaveToFile(BlogPath&"zb_users\cache\appcentre_list.lst",CheckXml,"utf-8",False)
 
-	If CLng(j)> BlogVersion Then Call SetBlogHint_Custom("Z-Blog有新版本!请立刻升级!!! <a href='"&BlogHost &"zb_users/PLUGIN/AppCentre/update.asp'>升级</a>")
+	CheckXml=Join(aryName,",")
+
 End Function
 
 

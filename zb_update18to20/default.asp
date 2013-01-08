@@ -683,9 +683,12 @@ Call BlogConfig.Write("ZC_REBUILD_FILE_INTERVAL",1)
 
 
 
-
-
-
+'侧栏
+Call BlogConfig.Write("ZC_SIDEBAR_ORDER","calendar:controlpanel:catalog:searchpanel:comments:archives:favorite:link:misc")
+Call BlogConfig.Write("ZC_SIDEBAR_ORDER2","")
+Call BlogConfig.Write("ZC_SIDEBAR_ORDER3","")
+Call BlogConfig.Write("ZC_SIDEBAR_ORDER4","")
+Call BlogConfig.Write("ZC_SIDEBAR_ORDER5","")
 
 
 
