@@ -1464,6 +1464,7 @@ Response.Write "};"
 Response.Write "</script>"
 
 	Response.Write "<div class=""widget-list-header"">" & ZC_MSG277 & "</div>"
+	Response.Write "<div class=""widget-list-note"">"&ZC_MSG145&"</div>" & vbCrlf
 	For i=LBound(Functions)+1 To Ubound(Functions)
 		If IsObject(Functions(i)) Then
 		If Functions(i).IsSystem Then
@@ -1558,13 +1559,13 @@ Response.Write "</script>"
 	Response.Write "<input type=""hidden"" id=""edtSidebar4"" name=""edtSidebar4"" value="""&ZC_SIDEBAR_ORDER4&"""/>"
 	Response.Write "<input type=""hidden"" id=""edtSidebar5"" name=""edtSidebar5"" value="""&ZC_SIDEBAR_ORDER5&"""/>"
 
-	Response.Write "</form><p style='clear:both;'>"&ZC_MSG145&"</p>" & vbCrlf
+	Response.Write "</form>" & vbCrlf
 	Response.Write "</div>"
 
 	Response.Write "<div class=""siderbar-list"">"
 	Response.Write "<div class=""siderbar-drop"" id=""siderbar""><div class=""siderbar-header"">"&ZC_MSG290&"&nbsp;<img class=""roll"" src=""../image/admin/loading.gif"" width=""16"" alt="""" /><span class=""ui-icon ui-icon-triangle-1-s""></span></div><div  class=""siderbar-sort-list"" >"
 	t=Split(ZC_SIDEBAR_ORDER,":")	
-	Response.Write "<div class=""siderbar-note"" "&IIf(UBound(t)>-1," style=""display:none""","")&">"&Replace(ZC_MSG295,"%n",UBound(t)+1)&"</div>"
+	Response.Write "<div class=""siderbar-note"" >"&Replace(ZC_MSG295,"%n",UBound(t)+1)&"</div>"
 	For Each s In t
 		If FunctionMetas.Exists(s)=True Then
 
@@ -1589,7 +1590,7 @@ Response.Write "</script>"
 
 	Response.Write "<div class=""siderbar-drop"" id=""siderbar2""><div class=""siderbar-header"">"&ZC_MSG291&"&nbsp;<img class=""roll"" src=""../image/admin/loading.gif"" width=""16"" alt="""" /><span class=""ui-icon ui-icon-triangle-1-s""></span></div><div  class=""siderbar-sort-list"" >"
 	t=Split(ZC_SIDEBAR_ORDER2,":")
-	Response.Write "<div class=""siderbar-note"" "&IIf(UBound(t)>-1," style=""display:none""","")&">"&Replace(ZC_MSG295,"%n",UBound(t)+1)&"</div>"
+	Response.Write "<div class=""siderbar-note"" >"&Replace(ZC_MSG295,"%n",UBound(t)+1)&"</div>"
 	For Each s In t
 		If FunctionMetas.Exists(s)=True Then
 
@@ -1614,7 +1615,7 @@ Response.Write "</script>"
 
 	Response.Write "<div class=""siderbar-drop"" id=""siderbar3""><div class=""siderbar-header"">"&ZC_MSG292&"&nbsp;<img class=""roll"" src=""../image/admin/loading.gif"" width=""16"" alt="""" /><span class=""ui-icon ui-icon-triangle-1-s""></span></div><div  class=""siderbar-sort-list"" >"
 	t=Split(ZC_SIDEBAR_ORDER3,":")
-	Response.Write "<div class=""siderbar-note"" "&IIf(UBound(t)>-1," style=""display:none""","")&">"&Replace(ZC_MSG295,"%n",UBound(t)+1)&"</div>"
+	Response.Write "<div class=""siderbar-note"" >"&Replace(ZC_MSG295,"%n",UBound(t)+1)&"</div>"
 	For Each s In t
 		If FunctionMetas.Exists(s)=True Then
 
@@ -1639,7 +1640,7 @@ Response.Write "</script>"
 
 	Response.Write "<div class=""siderbar-drop"" id=""siderbar4""><div class=""siderbar-header"">"&ZC_MSG293&"&nbsp;<img class=""roll"" src=""../image/admin/loading.gif"" width=""16"" alt="""" /><span class=""ui-icon ui-icon-triangle-1-s""></span></div><div  class=""siderbar-sort-list"" >"
 	t=Split(ZC_SIDEBAR_ORDER4,":")
-	Response.Write "<div class=""siderbar-note"" "&IIf(UBound(t)>-1," style=""display:none""","")&">"&Replace(ZC_MSG295,"%n",UBound(t)+1)&"</div>"
+	Response.Write "<div class=""siderbar-note"" >"&Replace(ZC_MSG295,"%n",UBound(t)+1)&"</div>"
 	For Each s In t
 		If FunctionMetas.Exists(s)=True Then
 
@@ -1664,7 +1665,7 @@ Response.Write "</script>"
 
 	Response.Write "<div class=""siderbar-drop"" id=""siderbar5""><div class=""siderbar-header"">"&ZC_MSG294&"&nbsp;<img class=""roll"" src=""../image/admin/loading.gif"" width=""16"" alt="""" /><span class=""ui-icon ui-icon-triangle-1-s""></span></div><div  class=""siderbar-sort-list"" >"
 	t=Split(ZC_SIDEBAR_ORDER5,":")
-	Response.Write "<div class=""siderbar-note"" "&IIf(UBound(t)>-1," style=""display:none""","")&">"&Replace(ZC_MSG295,"%n",UBound(t)+1)&"</div>"
+	Response.Write "<div class=""siderbar-note"" >"&Replace(ZC_MSG295,"%n",UBound(t)+1)&"</div>"
 	For Each s In t
 		If FunctionMetas.Exists(s)=True Then
 
@@ -1752,14 +1753,12 @@ Response.Write "</script>"
 				t=item.next();
 				t.find(".widget").hide("fast").end().show();
 				t.find(".siderbar-note>span").text(t.find(".widget").length);
-				t.find(".siderbar-note").show();
 		}
 		function showWidget(item){
 				item.find(".ui-icon").removeClass("ui-icon-triangle-1-w").addClass("ui-icon-triangle-1-s");
 				t=item.next();
 				t.find(".widget").show("fast");
-				if (t.find(".widget").length==0){t.find(".siderbar-note>span").text(0);t.find(".siderbar-note").show();}
-				else{t.find(".siderbar-note").hide("fast");}
+				t.find(".siderbar-note>span").text(t.find(".widget").length);
 		}
 
 		$(".siderbar-header").toggle( function () {

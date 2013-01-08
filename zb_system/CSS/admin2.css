@@ -675,24 +675,27 @@ a.button:hover{
 }
 
 /*侧栏管理*/
-.widget-list{min-width:560px;margin-right:300px;float:left;position: absolute;border: 2px solid #EEE;}
+.widget-list{min-width:560px;margin-right:300px;float:left;position: absolute;border: 2px solid #EEE;+width:60%;}
 .widget-list-header,.siderbar-header,.siderbar-note{clear:both;background:#EDEDED;padding:5px;font-size: 1.1em;font-weight: blod;text-align: center;margin-bottom:3px;}
 
 
 .widget{width:252px;border:1px solid #ccc;margin:3px 4px 3px 4px;padding:0px;float:left;}
 .widget img{margin:3px;margin-bottom: -3px;}
 
-.widget-title {margin:0px;padding:6px;;color: #333;}
-.widget-title {cursor: move;} 
+.widget-title {margin:0px;padding:6px;;color: #333;cursor: move;}
+.widget-title span{+display:inline-block;} 
 .widget_ishidden_true img.more-action{opacity:0.50;}
 .widget-action{float:right;}
 
 .siderbar-list{float:right;width:282px;margin-left:10px;}
 .siderbar-drop{float: right;background:#fefefe;border:2px solid #eee;margin: 0 15px 10px 15px;}
-.siderbar-sort-list{float:right;width:262px;min-height:30px;}
+.siderbar-sort-list{float:right;width:262px;min-height:30px;position: relative;z-index: 0;}
 .siderbar-header:hover { cursor: pointer;color:#000000; background:#b0cdee;}
 .siderbar-header .ui-icon{float: right;}
-.siderbar-note{color:#999;background:#fff;margin:0;padding:0;height:20px;}
+
+.widget-list-note,.siderbar-note{color:#666;background:#fff;margin:0;padding:0;height:20px;text-align: center;}
+.siderbar-note{position: absolute;z-index: 1;top: 0;left:0;margin-top: 3px;width: 252px;}
+.siderbar-sort-list .widget{position: relative;z-index: 2;}
 
 .widget_source_system .widget-title{background: #e3e4e4;}
 .widget_source_users .widget-title{background: #c6d4e5;}
