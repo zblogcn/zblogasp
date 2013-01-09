@@ -140,7 +140,7 @@ BlogTitle="应用中心-系统更新检查"
                 </tr>
               </table>
               <p>
-                <input type="button" onclick="update();return false;" style="visibility:hidden;" value="升级新版程序" />
+                <input type="button" onClick="update();return false;" style="visibility:hidden;" value="升级新版程序" />
               </p>
 			  <hr/>
 
@@ -198,6 +198,7 @@ Next
 					} else {
 						_bar.hide();
 						_bar.prev().show();
+						_status.html(100);
 						$("#_s").html("<a href='javascript:void(0);'>修改排序</a>").find("a").click(function(){
 							var o=$(this);
 							switch(_sort){
