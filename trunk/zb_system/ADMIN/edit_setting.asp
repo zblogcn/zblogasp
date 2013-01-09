@@ -104,7 +104,7 @@ BlogTitle=ZC_MSG247
 	Dim strZC_BLOG_SUB_NAME
 	Dim strZC_BLOG_COPYRIGHT
 	Dim strZC_BLOG_MASTER
-
+	Dim strZC_PERMANENT_DOMAIN_ENABLE
 
 	strZC_BLOG_HOST=TransferHTML(ZC_BLOG_HOST,"[html-format]")
 	strZC_BLOG_TITLE=TransferHTML(ZC_BLOG_TITLE,"[html-format]")
@@ -113,11 +113,13 @@ BlogTitle=ZC_MSG247
 	strZC_BLOG_SUB_NAME=TransferHTML(ZC_BLOG_SUB_NAME,"[html-format]")
 	strZC_BLOG_COPYRIGHT=TransferHTML(ZC_BLOG_COPYRIGHT,"[html-format]")
 	strZC_BLOG_MASTER=TransferHTML(ZC_BLOG_MASTER,"[html-format]")
+	strZC_PERMANENT_DOMAIN_ENABLE=TransferHTML(ZC_PERMANENT_DOMAIN_ENABLE,"[html-format]")
+
 
 	Response.Write "<div class=""tab-content default-tab"" style='border:none;padding:0px;margin:0;' id=""tab1"">"
-	'Response.Write "<p style='display:none;'><input id=""edtZC_BLOG_HOST"" name=""edtZC_BLOG_HOST"" style=""width:600px;"" type=""text"" value=""" & strZC_BLOG_HOST & """ /></p>"
+	Response.Write "<input id=""edtZC_PERMANENT_DOMAIN_ENABLE"" name=""edtZC_PERMANENT_DOMAIN_ENABLE"" type=""hidden"" value=""" & strZC_PERMANENT_DOMAIN_ENABLE & """ />"
 	Response.Write "<table width='100%' style='padding:0px;margin:0px;' cellspacing='0' cellpadding='0'>"
-	Response.Write "<tr><td width='30%'>" & SplitNameAndNote(ZC_MSG126) & "</td><td><p><input id=""edtZC_BLOG_HOST"" name=""edtZC_BLOG_HOST"" style=""width:600px;"" type=""text"" readonly=""readonly"" value=""" & strZC_BLOG_HOST & """ /></p></td></tr>"
+	Response.Write "<tr><td width='30%'>" & SplitNameAndNote(ZC_MSG126) & "</td><td><p><input id=""edtZC_BLOG_HOST"" name=""edtZC_BLOG_HOST"" style=""width:600px;"" type=""text"" "&IIF(CBool(ZC_PERMANENT_DOMAIN_ENABLE),"","readonly=""readonly""")&" value=""" & strZC_BLOG_HOST & """ /><br/><label><input type='radio' name='ZC_PERMANENT_DOMAIN_ENABLE' "&IIF(CBool(ZC_PERMANENT_DOMAIN_ENABLE)=True,"","checked=""checked""")&" value='False' onchange=""$('#edtZC_PERMANENT_DOMAIN_ENABLE').val('False');$('#edtZC_BLOG_HOST').prop('readonly', true);"" />"&ZC_MSG297&"</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label><input type='radio' name='ZC_PERMANENT_DOMAIN_ENABLE' "&IIF(CBool(ZC_PERMANENT_DOMAIN_ENABLE)=False,"","checked=""checked""")&" value='True'   onchange=""$('#edtZC_PERMANENT_DOMAIN_ENABLE').val('True');$('#edtZC_BLOG_HOST').prop('readonly', false);"" />"&ZC_MSG296&"</label></p></td></tr>"
 	'Response.Write "<tr><td width='30%'>" & SplitNameAndNote(ZC_MSG091) & "</td><td><p><input id=""edtZC_BLOG_NAME"" name=""edtZC_BLOG_NAME"" style=""width:600px;"" type=""text"" value=""" & strZC_BLOG_NAME & """ /></p></td></tr>"
 	'Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG092) & "</td><td><p><input id=""edtZC_BLOG_SUB_NAME"" name=""edtZC_BLOG_SUB_NAME"" style=""width:600px;""  type=""text"" value=""" & strZC_BLOG_SUB_NAME & """ /></p></td></tr>"
 	Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG093) & "</td><td><p><input id=""edtZC_BLOG_TITLE"" name=""edtZC_BLOG_TITLE"" style=""width:600px;""  type=""text"" value=""" & strZC_BLOG_TITLE &""" /></p></td></tr>"

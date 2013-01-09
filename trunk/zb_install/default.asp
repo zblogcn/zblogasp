@@ -23,9 +23,9 @@ CanInstall=""
 Dim zblogstep
 zblogstep=Request.QueryString("step")
 
-'If ZC_DATABASE_PATH<>"" Or ZC_MSSQL_DATABASE<>"" Then
-'	zblogstep=0
-'End If
+If ZC_DATABASE_PATH<>"" Or ZC_MSSQL_DATABASE<>"" Then
+	zblogstep=0
+End If
 
 If zblogstep="" Then zblogstep=1
 

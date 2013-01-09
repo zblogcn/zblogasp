@@ -1632,6 +1632,8 @@ Dim CurrentHostUrl
 Dim CurrentReallyDirectory
 Function GetCurrentHost()
 
+	On Error Resume Next
+
 	If CurrentHostUrl<>"" Then
 		GetCurrentHost=CurrentHostUrl
 		Exit Function
@@ -1665,6 +1667,15 @@ Function GetCurrentHost()
 	PhysicsPath=CreateObject("Scripting.FileSystemObject").GetFolder(PhysicsPath).Path
 	If Right(PhysicsPath,1)<>"\" Then PhysicsPath=PhysicsPath & "\"
 	CurrentReallyDirectory=PhysicsPath
+	
+	Err.Clear
+	If ZC_PERMANENT_DOMAIN_ENABLE=True Then
+		CurrentHostUrl=ZC_BLOG_HOST
+		GetCurrentHost=CurrentHostUrl
+		If Err.Number=0 Then
+			Exit Function
+		End If
+	End If
 
 	Dim s,t,u,i,w,x
 
