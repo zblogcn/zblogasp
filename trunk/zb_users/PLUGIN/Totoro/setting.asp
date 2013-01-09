@@ -9,9 +9,7 @@
 '///////////////////////////////////////////////////////////////////////////////
 %>
 <% Option Explicit %>
-<%
-On Error Resume Next
- %>
+<% On Error Resume Next %>
 <% Response.Charset="UTF-8" %>
 <% Response.Buffer=True %>
 <!-- #include file="../../c_option.asp" -->
@@ -35,7 +33,6 @@ If CheckPluginState("Totoro")=False Then Call ShowError(48)
 
 BlogTitle="TotoroⅢ（基于TotoroⅡ的Z-Blog的评论管理审核系统增强版）"
 
-Call SetBlogHint_Custom("如果您的空间有打开过滤功能，千万不要对本页面进行任何修改，否则您配置的黑词极有可能会失效！")
 %>
 <!--#include file="..\..\..\zb_system\admin\admin_header.asp"-->
 <!--#include file="..\..\..\zb_system\admin\admin_top.asp"-->
@@ -158,8 +155,10 @@ Call SetBlogHint_Custom("如果您的空间有打开过滤功能，千万不要�
 
 	Dim strZC_TOTORO_BADWORD_LIST
 	strZC_TOTORO_BADWORD_LIST=Totoro_Config.Read("TOTORO_BADWORD_LIST")
-		strZC_TOTORO_BADWORD_LIST=TransferHTML(strZC_TOTORO_BADWORD_LIST,"[html-format]")
-		Response.Write "<textarea rows=""6"" name=""strZC_TOTORO_BADWORD_LIST"" style=""width:99%"" >"& strZC_TOTORO_BADWORD_LIST &"</textarea>"
+	strZC_TOTORO_BADWORD_LIST=TransferHTML(strZC_TOTORO_BADWORD_LIST,"[html-format]")
+	If Left(strZC_TOTORO_BADWORD_LIST,1)<>"%" Then strZC_TOTORO_BADWORD_LIST=vbsescape(strZC_TOTORO_BADWORD_LIST)
+		Response.Write "<textarea style=""display:none"" name=""strZC_TOTORO_BADWORD_LIST"" id=""escape_badword"">"&strZC_TOTORO_BADWORD_LIST&"</textarea>"
+		Response.Write "<textarea rows=""6""  id=""unescape_badword"" style=""width:99%"" >请稍候，正在为您解码..</textarea>"
 %></td>
                   </tr>
                   <tr>
@@ -170,8 +169,11 @@ Call SetBlogHint_Custom("如果您的空间有打开过滤功能，千万不要�
 
 	Dim strZC_TOTORO_REPLACE_LIST
 	strZC_TOTORO_REPLACE_LIST=Totoro_Config.Read("TOTORO_REPLACE_LIST")
-		strZC_TOTORO_REPLACE_LIST=TransferHTML(strZC_TOTORO_REPLACE_LIST,"[html-format]")
-		Response.Write "<textarea rows=""6"" name=""strZC_TOTORO_REPLACE_LIST"" style=""width:99%"" >"& strZC_TOTORO_REPLACE_LIST &"</textarea>"	
+	strZC_TOTORO_REPLACE_LIST=TransferHTML(strZC_TOTORO_REPLACE_LIST,"[html-format]")
+	If Left(strZC_TOTORO_REPLACE_LIST,1)<>"%" Then strZC_TOTORO_REPLACE_LIST=vbsescape(strZC_TOTORO_REPLACE_LIST)
+		Response.Write "<textarea style=""display:none"" name=""strZC_TOTORO_REPLACE_LIST""  id=""escape_replace"" style=""display:none"">"&strZC_TOTORO_REPLACE_LIST&"</textarea>"
+		Response.Write "<textarea rows=""6"" id=""unescape_replace"" style=""width:99%"" >请稍候，正在为您解码..</textarea>"
+
 %></td>
                   </tr>
                 </table>
@@ -260,7 +262,7 @@ Call SetBlogHint_Custom("如果您的空间有打开过滤功能，千万不要�
               </div>
               <div class="tab-content default-tab" style='border:none;padding:0px;margin:0;' id="tab6">
                <dl class="totoro">
-              <dd>若您的配置因为主机的关键词过滤而失效，您可以点击右侧按钮初始化Totoro设置以修复。<input style="float:right" class="button" type="button" value="初始化Totoro设置" onclick="if(confirm('您确定要初始化Totoro设置吗？该操作不可逆！')){$('#edit').attr('action','savesetting.asp?act=delall');$('#edit').submit()}"/></dd>
+              <dd>若您的配置因为主机的关键词过滤而失效，您可以点击右侧按钮初始化Totoro设置以修复。<input style="float:right" class="button" type="button" value="初始化Totoro设置" onClick="if(confirm('您确定要初始化Totoro设置吗？该操作不可逆！')){$('#edit').attr('action','savesetting.asp?act=delall');$('#edit').submit()}"/></dd>
               <dd></dd>
               </dl>
               </div>
@@ -275,47 +277,16 @@ Call SetBlogHint_Custom("如果您的空间有打开过滤功能，千万不要�
             </form>
           </div>
         </div>
-        <script language="javascript">
-
-
-function ChangeValue(obj){
-
-	if (obj.value=="True")
-	{
-	obj.value="False";
-	return true;
-	}
-
-	if (obj.value=="False")
-	{
-	obj.value="True";
-	return true;
-	}
-}
-
-
-    // Content box tabs:
-		
-		$('.content-box .content-box-content div.tab-content').hide(); // Hide the content divs
-		$('ul.content-box-tabs li a.default-tab').addClass('current'); // Add the class "current" to the default tab
-		$('.content-box-content div.default-tab').show(); // Show the div with class "default-tab"
-		
-		$('.content-box ul.content-box-tabs li a').click( // When a tab is clicked...
-			function() { 
-				$(this).parent().siblings().find("a").removeClass('current'); // Remove "current" class from all tabs
-				$(this).addClass('current'); // Add class "current" to clicked tab
-				var currentTab = $(this).attr('href'); // Set variable "currentTab" to the value of href of clicked tab
-				$(currentTab).siblings().hide(); // Hide all content divs
-				$(currentTab).show(); // Show the content div with the id equal to the id of clicked tab
-				return false; 
-			}
-		);
-
-
-
-
-</script> 
-        <script type="text/javascript">ActiveLeftMenu("aCommentMng");</script> 
+        <script type="text/javascript">
+		ActiveLeftMenu("aCommentMng");
+		$(document).ready(function(){
+			$("#unescape_badword").text(unescape($("#escape_badword").val()));
+			$("#unescape_replace").text(unescape($("#escape_replace").val()));
+			$("form").submit(function(){
+				$("#escape_badword").text(escape($("#unescape_badword").val()));
+				$("#escape_replace").text(escape($("#unescape_replace").val()));
+			})
+		})</script> 
       </div>
     </div>
     <!--#include file="..\..\..\zb_system\admin\admin_footer.asp"-->

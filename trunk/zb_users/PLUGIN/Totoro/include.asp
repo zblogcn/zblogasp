@@ -154,8 +154,10 @@ Function InstallPlugin_Totoro()
 End Function
 
 Function Totoro_Initialize()
+	'On Error Resume Next
 	InstallPlugin_Totoro
 	TOTORO_INTERVAL_VALUE=CLng(Totoro_Config.Read ("TOTORO_INTERVAL_VALUE"))
+	If Err.Number<>0 Then Totoro_Config.Remove("TOTORO_VERSION"):Totoro_Config.Save:Call InstallPlugin_Totoro:TOTORO_INTERVAL_VALUE=CLng(Totoro_Config.Read ("TOTORO_INTERVAL_VALUE")):Call SetBlogHint_Custom("Totoro配置出错，已经重新初始化！")
 	TOTORO_BADWORD_VALUE=CLng(Totoro_Config.Read ("TOTORO_BADWORD_VALUE"))
 	TOTORO_HYPERLINK_VALUE=CLng(Totoro_Config.Read ("TOTORO_HYPERLINK_VALUE"))
 	TOTORO_NAME_VALUE=CLng(Totoro_Config.Read ("TOTORO_NAME_VALUE"))
