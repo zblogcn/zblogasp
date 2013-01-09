@@ -36,7 +36,7 @@ window.onload = function () {
 			j=UBound(aryFileList)
 			For i=1 to j
 				If InStr(ZC_EMOTICONS_FILETYPE,Right(aryFileList(i),3))>0 Then 
-					e="'"&aryFileList(i)&"',"& e 
+					e="'"&Replace(Server.URLEncode(aryFileList(i)),"+","%20")&"',"& e 
 					p=i
 				End If 
 			Next
@@ -179,7 +179,7 @@ function createTab( tabName ) {
 
 function over( td, srcPath, posFlag ) {
     td.style.backgroundColor = "#ACCD3C";
-    $G( 'faceReview' ).style.backgroundImage = "url(" + srcPath + ")";
+    $G( 'faceReview' ).style.backgroundImage = "url('" + srcPath + "')";
 	$G( 'faceReview' ).src = "<%=GetCurrentHost()%>zb_system\/IMAGE\/ADMIN\/none.gif";
     if ( posFlag == 1 ) $G( "tabIconReview" ).className = "show";
     $G( "tabIconReview" ).style.display = 'block';
