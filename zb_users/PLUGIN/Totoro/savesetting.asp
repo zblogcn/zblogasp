@@ -66,10 +66,10 @@ Else
 	Call SetBlogHint_Custom("配置保存成功！强烈建议去<a href='onlinetest.asp'>对配置进行一次测试！</a>")
 	
 End If
+Response.Redirect "setting.asp"
 Call System_Terminate()
 
 If Err.Number<>0 then
   Call ShowError(0)
 End If
 %>
-<script type="text/javascript">window.location="setting.asp"</script>
