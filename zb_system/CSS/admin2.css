@@ -690,7 +690,7 @@ a.button:hover{
 .siderbar-header:hover { cursor: pointer;color:#000000; background:#b0cdee;}
 .siderbar-header .ui-icon{float: right;}
 
-.widget-list-note,.siderbar-note{color:#666;background:#fff;margin:0;padding:0;height:20px;text-align: center;}
+.widget-list-note,.siderbar-note{color:#666;background:#fff;margin:0;padding:0;text-align: center;}
 .siderbar-note{position: absolute;z-index: 1;top: 0;left:0;margin-top: 3px;width: 252px;}
 .siderbar-sort-list .widget{position: relative;z-index: 2;}
 
