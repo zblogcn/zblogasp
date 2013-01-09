@@ -144,7 +144,7 @@ BlogTitle="应用中心-系统更新检查"
               </p>
 			  <hr/>
 
-              <div class="divHeader">校验系统核心文件&nbsp;&nbsp;<a href="update.asp?check=now"><img src="Images/refresh.png" width="16" alt="校验" /></a></div>
+              <div class="divHeader">校验系统核心文件&nbsp;&nbsp;<a href="update.asp?check=now" title="开始校验"><img src="Images/refresh.png" width="16" alt="校验" /></a></div>
 			  <div>进度<span id="status">0</span>%；已发现<span id="count">0</span>个修改过的系统文件。<div id="bar"></div></div>
               <table border="1" width="100%" cellspacing="0" cellpadding="0" class="tableBorder tableBorder-thcenter">
                 <tr>

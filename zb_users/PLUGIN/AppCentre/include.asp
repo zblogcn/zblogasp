@@ -20,7 +20,7 @@ Function ActivePlugin_AppCentre()
 	'检查更新
 	Call Add_Response_Plugin("Response_Plugin_SiteInfo_SubMenu","<script type='text/javascript'>$.get(bloghost+'zb_users/plugin/appcentre/server.asp?action=update&silent=true');</script>")
 
-	Call Add_Action_Plugin("Action_Plugin_Admin_Begin","If Request.QueryString(""act"")=""SiteInfo"" Then Call AppCentre_NewVersionFound()")
+	Call Add_Action_Plugin("Action_Plugin_Admin_Begin","If Request.QueryString(""act"")=""SiteInfo"" And BlogUser.Level=1 Then Call AppCentre_NewVersionFound()")
 
 End Function
 

@@ -17,18 +17,16 @@ Dim objConn
 
 Dim BlogTitle
 
+
+Dim BlogHost
+BlogHost=GetCurrentHost()
+
 Dim BlogPath
 BlogPath=GetReallyDirectory()
 
 '补上c_option.asp未更新的参数
 Call CheckUndefined()
 
-Dim BlogHost
-If ZC_PERMANENT_DOMAIN_ENABLE=False Then
-	BlogHost=GetCurrentHost()
-Else
-	BlogHost=ZC_BLOG_HOST
-End If
 
 Dim BlogVersion
 BlogVersion=GetBlogVersion()
@@ -3767,7 +3765,13 @@ Function SaveConfig2Option()
 	Dim i
 
 	For i=1 To BlogConfig.Count
-		strContent=Replace(strContent,"<#"&BlogConfig.Meta.Names(i)&"#>",Replace(BlogConfig.Meta.GetValue(BlogConfig.Meta.Names(i)),"""",""""""))
+
+		If Trim(BlogConfig.Meta.GetValue(BlogConfig.Meta.Names(i)))="" And InStr(strContent,""""& "<#"&BlogConfig.Meta.Names(i)&"#>" &"""")=0 Then
+			strContent=Replace(strContent,"<#"&BlogConfig.Meta.Names(i)&"#>","Empty")
+		Else
+			strContent=Replace(strContent,"<#"&BlogConfig.Meta.Names(i)&"#>",Replace(BlogConfig.Meta.GetValue(BlogConfig.Meta.Names(i)),"""",""""""))
+		End If
+
 	Next
 
 	Call BlogConfig.Save()
