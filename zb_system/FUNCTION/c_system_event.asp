@@ -1800,7 +1800,7 @@ End Function
 '*********************************************************
 Function ActivePlugInByName(strPluginName)
 
-	Dim s,i,t,b,aryAllXml,strContent
+	Dim s,i,t,b,a,aryAllXml,strContent
 	b=False
 	s= ZC_USING_PLUGIN_LIST
 
@@ -1846,7 +1846,11 @@ Function ActivePlugInByName(strPluginName)
 
 	Call ScanPluginToIncludeFile(strContent(2))
 
-	Call AddBatch(ZC_MSG202 & strPluginName,"Call InstallPlugin("""&strPluginName&""")")
+	a=LoadFromFile(BlogPath & "zb_users\PLUGIN\"& strPluginName &"\include.asp","utf-8")
+
+	If InStr(LCase(a),LCase("InstallPlugin_"))>0 Then
+		Call AddBatch(ZC_MSG202 & strPluginName,"Call InstallPlugin("""&strPluginName&""")")
+	End If
 
 	ActivePlugInByName=True
 
@@ -2131,7 +2135,7 @@ Function ScanPluginToThemeFile(newZC_BLOG_CSS,newZC_BLOG_THEME)
 
 	On Error Resume Next
 
-	Dim objXmlFile,strXmlFile,s
+	Dim objXmlFile,strXmlFile,s,t
 
 	strXmlFile =BlogPath & "zb_users/theme/" & newZC_BLOG_THEME & "/" & "theme.xml"
 
@@ -2145,8 +2149,12 @@ Function ScanPluginToThemeFile(newZC_BLOG_CSS,newZC_BLOG_THEME)
 			If LCase(objXmlFile.documentElement.selectSingleNode("id").text)=LCase(newZC_BLOG_THEME) Then
 				Dim fso
 				Set fso = CreateObject("Scripting.FileSystemObject")
-				If (fso.FileExists(BlogPath & "zb_users/theme/" & objXmlFile.documentElement.selectSingleNode("id").text &"/plugin/" & objXmlFile.documentElement.selectSingleNode("plugin/include").text)) Then
+				If fso.FileExists(BlogPath & "zb_users/theme/" & objXmlFile.documentElement.selectSingleNode("id").text &"/plugin/" & objXmlFile.documentElement.selectSingleNode("plugin/include").text) Then
 					If Trim(objXmlFile.documentElement.selectSingleNode("plugin/include").text)<>"" Then
+						t=LoadFromFile(BlogPath & "zb_users/theme/" & objXmlFile.documentElement.selectSingleNode("id").text &"/plugin/" & objXmlFile.documentElement.selectSingleNode("plugin/include").text,"utf-8")
+						If InStr(LCase(t),LCase("InstallPlugin_"))>0 Then
+							Call AddBatch(ZC_MSG202 & objXmlFile.documentElement.selectSingleNode("id").text,"Call InstallPlugin("""&objXmlFile.documentElement.selectSingleNode("id").text&""")")	
+						End If
 						s=s & "<!-- #include file=""../theme/"& objXmlFile.documentElement.selectSingleNode("id").text &"/plugin/"& objXmlFile.documentElement.selectSingleNode("plugin/include").text &""" -->" & vbCrLf
 					End If
 				End If
