@@ -1077,26 +1077,45 @@ Class TArticle
 
 		Dim objRS
 
-		Set objRS=objConn.Execute("SELECT TOP 1 [log_ID] FROM [blog_Article] WHERE ([log_Type]=0) And ([log_Level]>2) AND ([log_PostTime]<" & ZC_SQL_POUND_KEY & PostTime & ZC_SQL_POUND_KEY &") ORDER BY [log_PostTime] DESC")
+		Set objRS=objConn.Execute("SELECT TOP 1 [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_Type],[log_Meta] FROM [blog_Article] WHERE ([log_Type]=0) And ([log_Level]>2) AND ([log_PostTime]<" & ZC_SQL_POUND_KEY & PostTime & ZC_SQL_POUND_KEY &") ORDER BY [log_PostTime] DESC")
 		If (Not objRS.bof) And (Not objRS.eof) Then
 
+			Set objNavArticle=New TArticle
+			If objNavArticle.LoadInfoByArray(Array(objRS(0),objRS(1),objRS(2),objRS(3),objRS(4),objRS(5),objRS(6),objRS(7),objRS(8),objRS(9),objRS(10),objRS(11),objRS(12),objRS(13),objRS(14),objRS(15),objRS(16),objRS(17))) Then
+				strName=objNavArticle.Title
+				strUrl=objNavArticle.FullUrl
+			End If
+			Set objNavArticle=Nothing
+
 			s=GetTemplate("TEMPLATE_B_ARTICLE_NAVBAR_L")
-			
-			s=Replace(s,"<#article/nav_l/url#>","<#ZC_BLOG_HOST#>view.asp?navp="&ID)
-			s=Replace(s,"<#article/nav_l/name#>",ZC_MSG146)
+
+			's=Replace(s,"<#article/nav_l/url#>","<#ZC_BLOG_HOST#>view.asp?navp="&ID)
+			's=Replace(s,"<#article/nav_l/name#>",ZC_MSG146)
+			s=Replace(s,"<#article/nav_l/url#>",strUrl)
+			s=Replace(s,"<#article/nav_l/name#>",strName)
 
 			Template_Article_Navbar_L=s
 
 		End If
 		Set objRS=Nothing
 
-		Set objRS=objConn.Execute("SELECT TOP 1 [log_ID] FROM [blog_Article] WHERE ([log_Type]=0) And ([log_Level]>2) AND ([log_PostTime]>" & ZC_SQL_POUND_KEY & PostTime & ZC_SQL_POUND_KEY &") ORDER BY [log_PostTime] ASC")
+		Set objRS=objConn.Execute("SELECT TOP 1 [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_Type],[log_Meta] FROM [blog_Article] WHERE ([log_Type]=0) And ([log_Level]>2) AND ([log_PostTime]>" & ZC_SQL_POUND_KEY & PostTime & ZC_SQL_POUND_KEY &") ORDER BY [log_PostTime] ASC")
+
 		If (Not objRS.bof) And (Not objRS.eof) Then
+
+			Set objNavArticle=New TArticle
+			If objNavArticle.LoadInfoByArray(Array(objRS(0),objRS(1),objRS(2),objRS(3),objRS(4),objRS(5),objRS(6),objRS(7),objRS(8),objRS(9),objRS(10),objRS(11),objRS(12),objRS(13),objRS(14),objRS(15),objRS(16),objRS(17))) Then
+				strName=objNavArticle.Title
+				strUrl=objNavArticle.FullUrl
+			End If
+			Set objNavArticle=Nothing
 
 			t=GetTemplate("TEMPLATE_B_ARTICLE_NAVBAR_R")
 
-			t=Replace(t,"<#article/nav_r/url#>","<#ZC_BLOG_HOST#>view.asp?navn="&ID)
-			t=Replace(t,"<#article/nav_r/name#>",ZC_MSG148)
+			't=Replace(t,"<#article/nav_r/url#>","<#ZC_BLOG_HOST#>view.asp?navn="&ID)
+			't=Replace(t,"<#article/nav_r/name#>",ZC_MSG148)
+			t=Replace(t,"<#article/nav_r/url#>",strUrl)
+			t=Replace(t,"<#article/nav_r/name#>",strName)
 
 			Template_Article_Navbar_R=t
 
