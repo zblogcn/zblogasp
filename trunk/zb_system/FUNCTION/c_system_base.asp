@@ -1437,7 +1437,7 @@ Function LoadGlobeCache()
 	a=0
 	b=21
 	c=1
-	d=300
+	d=350
 	e=0
 	a2=0
 	a3=0
