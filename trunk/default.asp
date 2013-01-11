@@ -33,7 +33,7 @@ For Each sAction_Plugin_Default_Begin in Action_Plugin_Default_Begin
 Next
 
 
-If CheckMobile() Then Response.Redirect ZC_FILENAME_WAP
+If ZC_DISPLAY_COUNT_WAP>0 Then If CheckMobile() Then Response.Redirect ZC_FILENAME_WAP
 
 If ZC_DATABASE_PATH="" And ZC_MSSQL_DATABASE="" Then Response.Redirect("zb_install/")
 
