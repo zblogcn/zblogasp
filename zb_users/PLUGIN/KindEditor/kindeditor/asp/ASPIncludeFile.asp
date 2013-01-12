@@ -20,14 +20,4 @@ Function RandomFileName(Ext)
 	RandomFileName=m_strDate&Right("00000000"&m_lngTime,8)&"."&ext
 End Function
 
-Function Add_Upload(AuthorID,FileSize,FileName)
-	dim SQLRs
-	Set SQLRs=objConn.Execute("INSERT INTO `blog_UpLoad` ('ul_AuthorID','ul_FileSize','ul_FileName','ul_DirByTime') VALUES (AuthorID,FileSize,FileName,""-1"");")
-	if not SQLRs.eof then
-		CheckFields = SQLRs("fn_ID")
-		else
-		CheckFields = 0
-	end if
-	Set SQLRs = nothing
-End Function
 %>

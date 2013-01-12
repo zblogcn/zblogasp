@@ -6,12 +6,8 @@
 <!--#include file="JSON_2.0.4.asp"-->
 <!--#include file="ASPIncludeFile.asp"-->
 <%
-
 ' KindEditor ASP
-'
-' 本ASP程序是演示程序，建议不要直接在实际项目中使用。
-' 如果您确定直接使用本程序，使用之前请仔细确认相关安全设置。
-'
+'未寒
 
 Dim aspUrl, savePath, saveUrl, maxSize, fileName, fileExt, newFileName, filePath, fileUrl, dirName
 Dim extStr, imageExtStr, flashExtStr, mediaExtStr, fileExtStr
@@ -96,7 +92,9 @@ end if
 
 filePath = Server.mappath(savePath & file.filename)
 fileUrl = saveUrl & file.filename
-
+Dim filenameupload,filesizeupload
+filenameupload=file.filename
+filesizeupload=upload.TotalSize
 Set upload = nothing
 Set file = nothing
 
@@ -104,7 +102,14 @@ If Not fso.FileExists(filePath) Then
 	showError("上传文件失败。")
 End If
 
-'Add_Upload("1","888",file.filename)
+	Dim uf
+	Set uf=New TUpLoadFile
+	uf.AuthorID=BlogUser.ID
+	uf.AutoName=False
+	uf.IsManual=True
+	uf.FileSize= filesizeupload
+	uf.FileName= filenameupload
+	uf.UpLoad
 
 Response.AddHeader "Content-Type", "text/html; charset=UTF-8"
 Set hash = jsObject()

@@ -24,7 +24,7 @@ aspUrl = left(aspUrl, InStrRev(aspUrl, "/"))
 '根目录路径，可以指定绝对路径，比如 /var/www/attached/
 rootPath = "../../../../../"' & ZC_UPLOAD_DIRECTORY & "/"
 '根目录URL，可以指定绝对路径，比如 http://www.yoursite.com/attached/
-rootUrl = ZC_BLOG_HOST' & ZC_UPLOAD_DIRECTORY & "/"
+rootUrl = ZC_BLOG_HOST & ZC_UPLOAD_DIRECTORY & "/"
 '图片扩展名
 fileTypes = "gif,jpg,jpeg,png,bmp"
 
@@ -37,7 +37,7 @@ Set fso = Server.CreateObject("Scripting.FileSystemObject")
 
 '目录名
 'dirName = Request.QueryString("dir")
-dirName = ZC_UPLOAD_DIRECTORY&"/2013"	'上传根目录
+dirName = "../../../../../" & ZC_UPLOAD_DIRECTORY & "/"  'ZC_UPLOAD_DIRECTORY	'上传根目录
 If Not isEmpty(dirName) Then
 	' If instr(lcase("image,flash,media,file"), dirName) < 1 Then
 		' Response.Write "Invalid Directory name."
