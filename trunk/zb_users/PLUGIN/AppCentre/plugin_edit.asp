@@ -85,7 +85,7 @@ End If
 </td></tr>
 <tr><td><p><b>· 插件版本号</b></p></td><td><p>&nbsp;<input id="app_version" name="app_version" style="width:550px;" type="number" step="0.1" value="<%=app_version%>" /></p></td></tr>
 <tr><td><p><b>· 插件首发时间</b><br/><span class="note">&nbsp;&nbsp;日期格式为2012-12-12</span></p></td><td><p>&nbsp;<input id="app_pubdate" name="app_pubdate" style="width:550px;"  type="text" value="<%=app_pubdate%>" /></p></td></tr>
-<tr><td><p><b>· 插件最后修改时间</b><br/><span class="note">&nbsp;&nbsp;系统自动检查目录内文件的最后修改日期</span></p></td><td><p>&nbsp;<input id="app_modified" name="app_modified" style="width:550px;"  type="text" value="<%=app_modified%>" readonly="readonly" /></p></td></tr>
+<tr><td><p><b>· 插件最后修改时间</b><br/><span class="note">&nbsp;&nbsp;系统自动检查目录内文件的最后修改日期</span></p></td><td><p>&nbsp;<input id="app_modified" name="app_modified" style="width:550px;"  type="text" value="<%=app_modified%>" readonly /></p></td></tr>
 
 <tr><td><p><b>· 作者名称</b></p></td><td><p>&nbsp;<input id="app_author_name" name="app_author_name" style="width:550px;"  type="text" value="<%=app_author_name%>" /></p></td></tr>
 <tr><td><p><b>· 作者邮箱</b></p></td><td><p>&nbsp;<input id="app_author_email" name="app_author_email" style="width:550px;"  type="text" value="<%=app_author_email%>" /></p></td></tr>
