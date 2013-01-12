@@ -54,7 +54,9 @@ Select Case Request.QueryString("action")
 		intHighlight=6
 		Call ReCheck
 		strList=CheckXML()
-		Session("appcentre_updatelist")=strList
+		Application.Lock
+		Application("APPCENTRE_UPDATELIST")=strList
+		Application.UnLock
 		If Replace(strList,",","")<>"" Then
 			strURL="app.asp?act=checkupdate&updatelist="&Server.URLEncode(strList)&"&"
 		Else
