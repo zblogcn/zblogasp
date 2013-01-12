@@ -20,8 +20,8 @@ If BlogUser.Level>1 Then Call ShowError(6)
 If CheckPluginState("AppCentre")=False Then Call ShowError(48)
 
 Call AppCentre_InitConfig
-BlogVersion="130128"
-ZC_BLOG_VERSION="Z-Blog 2.1 Phoenix Build 130128"
+'BlogVersion="130128"
+'ZC_BLOG_VERSION="Z-Blog 2.1 Phoenix Build 130128"
 If Request.QueryString("restore")="now" Then
 	Response.Clear
 	Response.Write AppCentre_Update_Restore(Request.Form("build"),Request.Form("filename"))
@@ -327,7 +327,7 @@ Next
 		}
 		
 		function update_success(j) {
-			location.href = "update.asp?update=success&file="$("form").attr("action");
+			location.href = "update.asp?update=success&file="+$("form").attr("action");
 		
 		}
 		
