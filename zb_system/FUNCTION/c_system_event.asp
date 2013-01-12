@@ -1764,7 +1764,23 @@ Function SaveTheme()
 	Call ScanPluginToThemeFile(strZC_BLOG_CSS,strZC_BLOG_THEME)
 
 	If UCase(strZC_BLOG_CSS)<>UCase(CStr(ZC_BLOG_CSS)) Then Call SetBlogHint(Empty,True,Empty)
-	If UCase(strZC_BLOG_THEME)<>UCase(CStr(ZC_BLOG_THEME)) Then Call SetBlogHint(Empty,True,True):Call UninstallPlugin(ZC_BLOG_THEME)
+	If UCase(strZC_BLOG_THEME)<>UCase(CStr(ZC_BLOG_THEME)) Then
+		Call SetBlogHint(Empty,True,True)
+		Call UninstallPlugin(ZC_BLOG_THEME)
+		Call ScanFunctionAndSidebarToThemeFile(strZC_BLOG_THEME)
+
+		Call GetFunction()
+		Dim fun
+		Dim Fso
+		For Each fun In Functions
+			If IsObject(fun)=True Then
+				If fun.Source="theme_"&ZC_BLOG_THEME Then
+					fun.Del
+				End If
+			End If
+		Next
+	
+	End If
 
 	Call BlogConfig.Write("ZC_BLOG_CSS",strZC_BLOG_CSS)
 
@@ -1776,6 +1792,60 @@ Function SaveTheme()
 
 	SaveTheme=True
 
+End Function
+'*********************************************************
+
+
+
+
+'*********************************************************
+' 目的：
+'*********************************************************
+Function ScanFunctionAndSidebarToThemeFile(newZC_BLOG_THEME)
+	On Error Resume Next
+
+	Dim objXmlFile,strXmlFile,s,t
+
+	strXmlFile =BlogPath & "zb_users/theme/" & newZC_BLOG_THEME & "/" & "theme.xml"
+
+	Set objXmlFile=Server.CreateObject("Microsoft.XMLDOM")
+	objXmlFile.async = False
+	objXmlFile.ValidateOnParse=False
+	objXmlFile.load(strXmlFile)
+	If objXmlFile.readyState=4 Then
+		If objXmlFile.parseError.errorCode <> 0 Then
+		Else
+			If objXmlFile.documentElement.selectNodes("sidebars/sidebar1").length>0 Then
+				Call BlogConfig.Write("ZC_SIDEBAR_ORDER",objXmlFile.documentElement.selectSingleNode("sidebars/sidebar1").text) 
+			End If
+			If objXmlFile.documentElement.selectNodes("sidebars/sidebar21").length>0 Then
+				Call BlogConfig.Write("ZC_SIDEBAR_ORDER2",objXmlFile.documentElement.selectSingleNode("sidebars/sidebar2").text) 
+			End If
+			If objXmlFile.documentElement.selectNodes("sidebars/sidebar3").length>0 Then
+				Call BlogConfig.Write("ZC_SIDEBAR_ORDER3",objXmlFile.documentElement.selectSingleNode("sidebars/sidebar3").text) 
+			End If
+			If objXmlFile.documentElement.selectNodes("sidebars/sidebar4").length>0 Then
+				Call BlogConfig.Write("ZC_SIDEBAR_ORDER4",objXmlFile.documentElement.selectSingleNode("sidebars/sidebar4").text) 
+			End If
+			If objXmlFile.documentElement.selectNodes("sidebars/sidebar5").length>0 Then
+				Call BlogConfig.Write("ZC_SIDEBAR_ORDER5",objXmlFile.documentElement.selectSingleNode("sidebars/sidebar5").text) 
+			End If
+
+			Dim objXmlitems,item
+			Set objXmlitems=objXmlFile.documentElement.SelectNodes("functions/function")
+			for each item in objXmlitems
+
+				Call AddThemeFunction(newZC_BLOG_THEME,item.getAttribute("name"),item.getAttribute("filename"),item.getAttribute("htmlid"),item.getAttribute("ftype"),item.getAttribute("maxli"),item.text)
+
+			Next
+
+		End If
+	End If
+	Set objXmlFile=Nothing
+
+	Call SaveToFile(BlogPath & "zb_users/PLUGIN/p_theme.asp",s,"utf-8",False)
+
+	Err.Clear
 End Function
 '*********************************************************
 
@@ -2251,8 +2321,8 @@ Function SaveFunction()
 	objFunction.ID=Request.Form("inpID")
 	objFunction.Name=Request.Form("inpName")
 	If objFunction.IsSystem=False Then objFunction.FileName=Request.Form("inpFileName")
-	If objFunction.IsSystem=False Then objFunction.HtmlID=Request.Form("inpHtmlID")
 	If objFunction.IsSystem=False Then objFunction.Ftype=Request.Form("inpFtype")
+	objFunction.HtmlID=Request.Form("inpHtmlID")
 	objFunction.Order=Request.Form("inpOrder")
 	objFunction.MaxLi=Request.Form("inpMaxLi")
 	objFunction.SidebarID=Request.Form("inpSidebarID")

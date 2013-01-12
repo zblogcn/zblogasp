@@ -1509,7 +1509,9 @@ Response.Write "</script>"
 
 			Response.Write "	<span class=""widget-action""><a href=""../cmd.asp?act=FunctionEdt&amp;id="&Functions(i).ID&"""><img class=""edit-action"" src=""../image/admin/brick_edit.png"" alt=""" & ZC_MSG078 & """ title=""" & ZC_MSG078 & """ width=""16"" /></a>"
 
-			Response.Write "&nbsp;<a onclick='return window.confirm("""& ZC_MSG058 &""");' href=""../cmd.asp?act=FunctionDel&amp;id="& Functions(i).ID &"""><img src=""../image/admin/delete.png"" alt=""" & ZC_MSG063 & """ title=""" & ZC_MSG063 & """ width=""16"" /></a>"
+			'If Functions(i).AppName<>ZC_BLOG_THEME Then
+				Response.Write "&nbsp;<a onclick='return window.confirm("""& ZC_MSG058 &""");' href=""../cmd.asp?act=FunctionDel&amp;id="& Functions(i).ID &"""><img src=""../image/admin/delete.png"" alt=""" & ZC_MSG063 & """ title=""" & ZC_MSG063 & """ width=""16"" /></a>"
+			'End If
 
 			Response.Write "	</span>"
 			Response.Write "	</div>"

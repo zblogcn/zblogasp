@@ -1,21 +1,11 @@
 ﻿$(document).ready(function(){
-	var havecateurl=false;
-	if(typeof(cateurl)!="undefined"){
-		if(cateurl!="<#article/category/id#>") havecateurl=true;
-	}
-	
 	if(!$("li.msgarticle").html()){$("ul.mutuality").hide()}
 	if($("ul.msghead ~ ul.msg").length==0){$("ul.msghead").hide()}
 	$(".post-tags").each(function(){if($(this).find('a').length==0){$(this).hide()}});
 
 	var s=document.location;
 	$("#divNavBar a").each(function(){
-		if(havecateurl){
-			if(this.href==cateurl){$(this).addClass("on");return false;}
-		}
-		else{
-			if(this.href==s.toString().split("#")[0]){$(this).addClass("on");return false;}
-		}
+		if(this.href==s.toString().split("#")[0]){$(this).addClass("on");return false;}
 	});
 });
 
@@ -55,6 +45,7 @@ function ReComment(comId,comClass,mClass,frmId,i){
 	ReComment_CallBack();
 	return false;
 }
+
 //重写GetComments，防止评论框消失
 function GetComments(logid,page){
 	$('span.commentspage').html("Waiting...");

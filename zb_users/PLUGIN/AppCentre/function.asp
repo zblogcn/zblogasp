@@ -38,6 +38,8 @@ Dim app_conflict
 
 Dim app_path
 
+Dim app_sidebars
+
 Dim aryDownload(),aryName()
 
 Redim aryDownload(0)
@@ -591,6 +593,16 @@ Function LoadThemeXmlInfo(id)
 				app_dependency=objXmlFile.documentElement.selectSingleNode("advanced/dependency").text
 				app_rewritefunctions=objXmlFile.documentElement.selectSingleNode("advanced/rewritefunctions").text
 				app_conflict=objXmlFile.documentElement.selectSingleNode("advanced/conflict").text
+
+				app_sidebars=objXmlFile.documentElement.selectSingleNode("sidebars").xml
+
+				Dim objXmlitems,item,c
+				Set objXmlitems=objXmlFile.documentElement.SelectNodes("functions/function")
+				for each item in objXmlitems
+					ExecuteGlobal "Dim app_function_" & item.getAttribute("filename")
+					c=item.text
+					Execute "app_function_" & item.getAttribute("filename") & "=c"
+				Next
 			End If
 		End If
 	End If
@@ -1318,7 +1330,7 @@ app_dependency=Request.Form("app_dependency")
 app_rewritefunctions=Request.Form("app_rewritefunctions")
 app_conflict=Request.Form("app_conflict")
 
-
+app_sidebars=Request.Form("app_sidebars")
 
 
 	Dim objXMLitem,objXMLcdata
@@ -1446,6 +1458,64 @@ app_conflict=Request.Form("app_conflict")
 	objXMLitem.text=app_price
 	objXMLrss.AppendChild(objXMLitem)
 
+	Set objXMLauthor = objXMLdoc.createElement("sidebars")
+
+If InStr(app_sidebars,"sidebar1")>0 Then
+	Set objXMLitem = objXMLdoc.createElement("sidebar1")
+	objXMLitem.text=ZC_SIDEBAR_ORDER
+	objXMLauthor.AppendChild(objXMLitem)
+End If
+
+If InStr(app_sidebars,"sidebar2")>0 Then
+	Set objXMLitem = objXMLdoc.createElement("sidebar2")
+	objXMLitem.text=ZC_SIDEBAR_ORDER2
+	objXMLauthor.AppendChild(objXMLitem)
+End If
+
+If InStr(app_sidebars,"sidebar3")>0 Then
+	Set objXMLitem = objXMLdoc.createElement("sidebar3")
+	objXMLitem.text=ZC_SIDEBAR_ORDER3
+	objXMLauthor.AppendChild(objXMLitem)
+End If
+
+If InStr(app_sidebars,"sidebar4")>0 Then
+	Set objXMLitem = objXMLdoc.createElement("sidebar4")
+	objXMLitem.text=ZC_SIDEBAR_ORDER4
+	objXMLauthor.AppendChild(objXMLitem)
+End If
+
+If InStr(app_sidebars,"sidebar5")>0 Then
+	Set objXMLitem = objXMLdoc.createElement("sidebar5")
+	objXMLitem.text=ZC_SIDEBAR_ORDER5
+	objXMLauthor.AppendChild(objXMLitem)
+End If
+
+	objXMLrss.AppendChild(objXMLauthor)
+
+
+	Set objXMLauthor = objXMLdoc.createElement("functions")
+
+Call GetFunction()
+Dim fun
+For Each fun In Functions
+	If IsObject(fun)=True Then
+		If fun.Source="theme_"&app_id Then
+	Set objXMLitem = objXMLdoc.createElement("function")
+	'objXMLitem.text="<name>"&TransferHTML(fun.Name,"[html-format]")&"</name><filename>"&TransferHTML(fun.FileName,"[html-format]")&"</filename><content>"&TransferHTML(fun.Content,"[html-format]")&"</content><htmlid>"&TransferHTML(fun.HtmlID,"[html-format]")&"</htmlid><ftype>"&fun.FType&"</ftype><maxli>"&fun.MaxLi&"</maxli>"
+objXMLitem.setAttribute "name",TransferHTML(fun.Name,"[html-format]")
+objXMLitem.setAttribute "filename",TransferHTML(fun.FileName,"[html-format]")
+objXMLitem.setAttribute "htmlid",TransferHTML(fun.HtmlID,"[html-format]")
+objXMLitem.setAttribute "ftype",TransferHTML(fun.FType,"[html-format]")
+objXMLitem.setAttribute "maxli",TransferHTML(fun.MaxLi,"[html-format]")
+objXMLitem.text=Replace(Request.Form("app_function_"&fun.filename),vbCrlf,"")'fun.Content
+
+	objXMLauthor.AppendChild(objXMLitem)
+		End If
+	End If
+Next
+
+
+	objXMLrss.AppendChild(objXMLauthor)
 
 	Dim xml
 	xml="<?xml version=""1.0"" encoding=""utf-8"" standalone=""yes""?>" & objXMLdoc.xml

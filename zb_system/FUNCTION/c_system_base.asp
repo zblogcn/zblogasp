@@ -3923,17 +3923,14 @@ Function GetFunctionByFileName(fn)
 
 	Call GetFunction()
 
-	If FunctionMetas.Exists(fn) Then
-		Set GetFunctionByFileName=Functions(FunctionMetas.GetValue(n))
+	Dim objRSsub
+	Set objRSsub=objConn.Execute("SELECT * FROM [blog_Function] WHERE [fn_FileName]='"& fn &"'" )
+	If (Not objRSsub.bof) And (Not objRSsub.eof) Then
+		Set GetFunctionByFileName=Functions(objRSsub("fn_ID"))
 	Else
-		IsRunFunctions=False
-		Call GetFunction()
-		If FunctionMetas.Exists(fn) Then
-			Set GetFunctionByFileName=Functions(FunctionMetas.GetValue(n))
-		Else
-			Set GetFunctionByFileName=New TFunction
-		End If
+		Set GetFunctionByFileName=New TFunction
 	End If
+	Set objRSsub=Nothing
 
 End Function
 '*********************************************************
@@ -4087,19 +4084,53 @@ End Function
 
 '*********************************************************
 ' 目的：为主题提供的便捷函数,可以生成自己的模块
-' 参数:主题ID,模块ID(文件名),模块名,模块HtmlID,模块类型(div/ul),模块Maxli(默认0),模块内容
+' 参数:主题ID,模块名,模块ID(文件名),模块HtmlID,模块类型(div/ul),模块Maxli(默认0),模块内容
 '*********************************************************
-Function AddThemeFunction(ThemeID,FunctionID,FunctionName,FunctionHtmlID,FunctionType,FunctionMaxLi,FunctionContent)
+Function AddThemeFunction(ThemeID,FunctionName,FunctionFileName,FunctionHtmlID,FunctionType,FunctionMaxLi,FunctionContent)
+
+	Dim objFunction
+	Set objFunction=GetFunctionByFileName(FunctionFileName)
+
+	objFunction.Name=FunctionName
+	objFunction.FileName=FunctionFileName
+	objFunction.HtmlID=FunctionHtmlID
+	objFunction.Ftype=FunctionType
+	objFunction.MaxLi=FunctionMaxLi
+	objFunction.Content=FunctionContent
+	objFunction.Source="theme_"& ThemeID
+
+	If objFunction.Post Then
+		AddThemeFunction=True
+	End If
+	Set objFunction=Nothing
 
 End Function
 '*********************************************************
 
 
+
+
 '*********************************************************
 ' 目的：为插件... 
-' 参数:插件ID,模块ID(文件名),模块名,模块HtmlID,模块类型(div/ul),模块Maxli(默认0),模块内容
+' 参数:插件ID,模块名,模块ID(文件名),模块HtmlID,模块类型(div/ul),模块Maxli(默认0),模块内容
 '*********************************************************
-Function AddPluginFunction(ThemeID,FunctionID,FunctionName,FunctionHtmlID,FunctionType,FunctionMaxLi,FunctionContent)
+Function AddPluginFunction(PluginID,FunctionName,FunctionFileName,FunctionHtmlID,FunctionType,FunctionMaxLi,FunctionContent)
+
+	Dim objFunction
+	Set objFunction=GetFunctionByFileName(FunctionFileName)
+
+	objFunction.Name=FunctionName
+	objFunction.FileName=FunctionFileName
+	objFunction.HtmlID=FunctionHtmlID
+	objFunction.Ftype=FunctionType
+	objFunction.MaxLi=FunctionMaxLi
+	objFunction.Content=FunctionContent
+	objFunction.Source="plugin_"& PluginID
+
+	If objFunction.Post Then
+		AddPluginFunction=True
+	End If
+	Set objFunction=Nothing
 
 End Function
 '*********************************************************
