@@ -38,5 +38,8 @@ Function AppCentre_NewVersionFound()
 		Call SetBlogHint_Custom("Z-Blog有新版本!请立刻升级!!! <a href='"&BlogHost &"zb_users/PLUGIN/AppCentre/update.asp'>升级</a>")
 	End If
 
+	Session("appcentre_updatelist")=Empty
+	Session("appcentre_blog_last")=Empty
+
 End Function
 %>

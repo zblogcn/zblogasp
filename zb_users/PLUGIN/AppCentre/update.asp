@@ -43,7 +43,7 @@ End If
 
 If Request.QueryString("update")="success" Then
 	Response.Clear
-	Call SetBlogHint_Custom("恭喜您升级到最新的Z-Blog.")
+	Call SetBlogHint_Custom("恭喜您升级到最新版的Z-Blog.")
 	Response.Redirect BlogHost & "zb_system/cmd.asp?act=SettingMng&update=" & Request.QueryString("file")
 	Response.End
 End If
@@ -162,7 +162,7 @@ If b>0 Then
 
 c=vbsunescape(a)
 
-Response.Write "<tr><td><img src='Images/document_empty.png' width='16' alt='' /> <span>"& c &"</span><cite>"& PathAndCrc32.GetValue(c) &"</cite></td><td id='td"&b&"' align='center'>"& e &"</td></tr>"
+Response.Write "<tr><td><img src='Images/document_empty.png' width='16' alt='' /> <span>"& c &"</span><cite style='display:none;'>"& PathAndCrc32.GetValue(c) &"</cite></td><td id='td"&b&"' align='center'>"& e &"</td></tr>"
 Response.Flush
 
 End If
@@ -342,14 +342,13 @@ Next
 			{
 				"build": b.toString(),
 				"filename": f,
-				"crc32":c,
-		
+				"crc32":c
 			},
 			function(data) {
 				$("#checknow").hide();
 				if (data != "") {
-					alert(data);
-					//$(t).parent().find("img").attr("src",bloghost+'zb_system/image/admin/exclamation.png');
+					//alert(data);
+					$(t).find("img").attr("src",bloghost+'zb_system/image/admin/ok.png');
 				}else{
 					alert("更新失败");
 				}
