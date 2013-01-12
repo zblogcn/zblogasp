@@ -44,9 +44,9 @@ Redim aryDownload(0)
 Redim aryName(0)
 
 
-Function AppCentre_Update_Restore(build,file,crc32)
+Function AppCentre_Update_Restore(build,file,crc32_)
 
-	On Error Resume Next
+	'On Error Resume Next
 
 	Dim objPing
 	Set objPing = Server.CreateObject("Microsoft.XMLHTTP")
@@ -55,13 +55,21 @@ Function AppCentre_Update_Restore(build,file,crc32)
 	objPing.setRequestHeader "accept-encoding", "gzip, deflate"  
 	objPing.send ""
 
+	
 	Dim MyStream
     Set MyStream=Server.CreateObject("Adodb.Stream") 
 	MyStream.Type = adTypeBinary
 	MyStream.Mode = adModeReadWrite
     MyStream.Open 
     MyStream.Write objPing.responsebody
-    MyStream.SaveToFile BlogPath & file ,2
+	
+	If CRC32(MyStream)=crc32_ Then
+	    MyStream.SaveToFile BlogPath & file ,2
+	Else
+		Response.Write "文件错误，可能是因为被您的ISP运营商劫持，也有可能是网络传输中出错。"
+		Response.End
+	End If
+
 
 
 	If Err.Number=0 Then
@@ -1455,7 +1463,7 @@ End Function
 '*********************************************************
 Function CreateNewPlugin(id)
 
-	Dim strInclude,strMain
+	Dim strInclude,strMain,strFunction
 	strInclude="<"&"%" & vbCrlf & _
 				"" & vbCrlf & _
 				"'注册插件" & vbCrlf & _
@@ -1466,6 +1474,16 @@ Function CreateNewPlugin(id)
 				"	'插件最主要在这里挂接口。" & vbCrlf & _
 				"	'Z-Blog可挂的接口有三类：Action、Filter、Response" & vbCrlf & _
 				"	'建议参考Z-Wiki进行开发" & vbCrlf & _
+				"	" & vbCrlf & _
+				"End Function" & vbCrlf & vbCrlf & vbCrlf & _
+				"Function InstallPlugin___name__()" & vbCrlf & _
+				"" & vbCrlf & _
+				"	'用户激活插件之后的操作" & vbCrlf & _
+				"	" & vbCrlf & _
+				"End Function" & vbCrlf & vbCrlf & vbCrlf & _
+				"Function UnInstallPlugin___name__()" & vbCrlf & _
+				"" & vbCrlf & _
+				"	'用户停用插件之后的操作" & vbCrlf & _
 				"	" & vbCrlf & _
 				"End Function" & vbCrlf & _
 				"%"&">"
@@ -1712,13 +1730,15 @@ End Function
 Function CRC32(Path)
 
 	On Error Resume Next
-
-    Dim objAdo
-    Set objAdo = CreateObject("adodb.stream")
-    objAdo.Open
-    objAdo.Type = 1
-    objAdo.LoadFromFile Path
-           
+	Dim objAdo
+	If IsObject(Path) Then	
+		Set objAdo=Path
+	Else
+		Set objAdo = CreateObject("adodb.stream")
+		objAdo.Open
+		objAdo.Type = 1
+		objAdo.LoadFromFile Path
+    End If   
     Dim crc32Result
     Dim i
     Dim j
@@ -1765,8 +1785,10 @@ Function CRC32(Path)
         crc32Result = ((crc32Result And NumNegative256) \ Num256) And Num16777215
         crc32Result = crc32Result Xor crc32Table(iLookup)
     Next
-             
+    objAdo.Position=0
     CRC32 = Hex(Not (crc32Result))
 End Function
 '*********************************************************
+
+
 %>

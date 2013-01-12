@@ -98,7 +98,7 @@ If CLng(Request.QueryString("crc32"))>0 Then
 		i=(k-1)*10+1
 		j=k*10
 		m="<img src=\'"&BlogHost&"zb_system/image/admin/ok.png\' width=\'16\' alt=\'\' />"
-		n="<a href=\'javascript:restore(this)\' title=\'还原系统文件\'><img src=\'"&BlogHost&"zb_system/image/admin/exclamation.png\' width=\'16\' alt=\'\' /></a>"
+		n="<a href=\'javascript:void(0)\' onclick=\'restore(this)\' title=\'还原系统文件\'><img src=\'"&BlogHost&"zb_system/image/admin/exclamation.png\' width=\'16\' alt=\'\' /></a>"
 		For l=i To j
 			If l>PathAndCrc32.Count Then Exit For
 			If CRC32(BlogPath & vbsunescape(PathAndCrc32.Names(l)))<>PathAndCrc32.Values(l) Then
@@ -348,7 +348,8 @@ Next
 			function(data) {
 				$("#checknow").hide();
 				if (data != "") {
-
+					alert(data);
+					//$(t).parent().find("img").attr("src",bloghost+'zb_system/image/admin/exclamation.png');
 				}else{
 					alert("更新失败");
 				}
