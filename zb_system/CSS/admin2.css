@@ -438,6 +438,7 @@ div.theme-other{
 div.theme-other a{
 	cursor:pointer;
 }
+div.theme-other .theme-name img{opacity:0.50;}
 
 div.theme-now .betterTip img{	
 	box-shadow: 0 0 10px #3A6EA5;
