@@ -1464,8 +1464,23 @@ End Function
 Function CreateNewPlugin(id)
 
 	Dim strInclude,strMain,strFunction
-	strInclude="<"&"%" & vbCrlf & _
-				"" & vbCrlf & _
+	strFunction="<"&"%" & vbCrlf & _
+				"'****************************************" & vbCrlf & _
+				"' __name__ 子菜单"& vbCrlf & _
+				"'****************************************"& vbCrlf & _
+				"Function __name___SubMenu(id)" & vbCrlf & _
+				"	Dim aryName,aryPath,aryFloat,aryInNewWindow,i" & vbCrlf & _
+				"	aryName=Array(""首页"")" & vbCrlf & _
+				"	aryPath=Array(""__path__"")" & vbCrlf & _
+				"	aryFloat=Array(""m-left"")" & vbCrlf & _
+				"	aryInNewWindow=Array(False)" & vbCrlf & _
+				"	For i=0 To Ubound(aryName)" & vbCrlf & _
+				"		__name___SubMenu=__name___SubMenu & MakeSubMenu(aryName(i),aryPath(i),aryFloat(i)&IIf(i=id,"" m-now"",""""),aryInNewWindow(i))"& vbCrlf & _
+				"	Next" & vbCrlf & _
+				"End Function" & vbCrlf & _
+				"%"&">"
+	strInclude="<!-- #includ"&"e file=""function.asp"" -->" & vbCrlf & _
+				"<"&"%" & vbCrlf & _
 				"'注册插件" & vbCrlf & _
 				"Call RegisterPlugin(""__name__"",""ActivePlugin___name__"")" & vbCrlf & _
 				"'挂口部分" & vbCrlf & _
@@ -1515,7 +1530,7 @@ Function CreateNewPlugin(id)
 			"            <"&"%Call GetBlogHint()%"&">" & vbCrlf & _
 			"          </div>" & vbCrlf & _
 			"          <div class=""divHeader""><"&"%=BlogTitle%"&"></div>" & vbCrlf & _
-			"          <div class=""SubMenu""></div>" & vbCrlf & _
+			"          <div class=""SubMenu""><"&"%=__name___SubMenu(0)%"&"></div>" & vbCrlf & _
 			"          <div id=""divMain2""> " & vbCrlf & _
 			"            <script type=""text/javascript"">ActiveTopMenu(""aPlugInMng"");</script> " & vbCrlf & _
 			"            在这里写入后台管理页面代码" & vbCrlf & _
@@ -1538,7 +1553,10 @@ Function CreateNewPlugin(id)
 			strMain=Replace(strMain,"__name__",id)
 			strMain=Replace(strMain,"__level__",Request.Form("app_plugin_level"))
 			strMain=Replace(strMain,"__title__",Request.Form("app_name"))
+			strFunction=Replace(strFunction,"__path__",Request.Form("app_plugin_path"))
+			strFunction=Replace(strFunction,"__name__",id)
 			Call SaveToFile(BlogPath & "zb_users\plugin\"&id&"\"&Request.Form("app_plugin_path"),strMain,"utf-8",False)
+			Call SaveToFile(BlogPath & "zb_users\plugin\"&id&"\function.asp",strFunction,"utf-8",False)
 		End If
 	Else
 		Call SetBlogHint_Custom("已存在有相同ID的插件!!!")
