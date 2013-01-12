@@ -91,6 +91,17 @@ Next
 	<link rel="stylesheet" href="kindeditor/themes/default/default.css" />
 	<script charset="utf-8" src="kindeditor/kindeditor-min.js"></script>
 	<script charset="utf-8" src="kindeditor/lang/zh_CN.js"></script>
+	<!--<script type="text/javascript" charset="utf-8" src="/zb_system/admin/ueditor/editor_config.asp"></script>-->
+
+<style>
+.ke-icon-zbimages {
+      background-image: url(./skins/default.gif);
+      background-position: 0px -672px;
+      width: 16px;
+      height: 16px;
+}
+</style>
+
 <!--#include file="../../../zb_system/admin/admin_top.asp"-->
 <%If IsPage=False Then%>
 <%If EditArticle.ID=0 Then%>
@@ -364,6 +375,7 @@ var EditorIntroOption = {
 var editor=UE.getEditor('editor_ke');
 var editor2=UE.getEditor('editor_ke2',EditorIntroOption);
 */
+	
 var sContent="",sIntro="";//原内容与摘要
 var isSubmit=0;//是否提交保存
 var editor,editor2;
@@ -374,7 +386,7 @@ KindEditor.ready(function(K) {
 		uploadJson:'kindeditor/asp/upload_json.asp'
 		,fileManagerJson:'kindeditor/asp/file_manager_json.asp',
 		allowFileManager : true,
-		//themeType : 'default',
+		formatUploadUrl : false,
 		width : '980px',
 		height : '450px',
 		items : [ 'source', '|', 'undo', 'redo', '|', 'preview', 'print', 'template', 'code', 'cut', 'copy', 'paste',
@@ -384,8 +396,10 @@ KindEditor.ready(function(K) {
         'formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold',
         'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|', 'image', 'multiimage',
         'flash', 'media', 'insertfile', 'table', 'hr', 'emoticons', 'baidumap', 'pagebreak',
-        'anchor', 'link', 'unlink', '|', 'about']
+        'anchor', 'link', 'unlink', '|', 'about', 'zbimages']
 	});
+
+
 	$("#editor_ke").prev().removeAttr("style");
 	sContent=editor.html()
 	
@@ -397,7 +411,9 @@ KindEditor.ready(function(K) {
 	$("#editor_ke2").prev().removeAttr("style");
 	sIntro=editor2.html();
 });
-
+	KindEditor.lang({
+        zbimages : '图片上传'
+});
 
 //文章内容或摘要变动提示保存
 window.onbeforeunload = function(){if (!isSubmit && (sContent!=editor.html() || sIntro!=editor2.html())) return "您当前的编辑内容还未保存！";}
