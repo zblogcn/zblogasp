@@ -66,7 +66,6 @@ Function AppCentre_Update_Restore(build,file,crc32_)
 	If CRC32(MyStream)=crc32_ Then
 	    MyStream.SaveToFile BlogPath & file ,2
 	Else
-		Response.Write "文件错误，可能是因为被您的ISP运营商劫持，也有可能是网络传输中出错。"
 		Response.End
 	End If
 
