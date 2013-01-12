@@ -1,6 +1,6 @@
 ﻿<%@ LANGUAGE="VBSCRIPT" CODEPAGE="65001"%>
 <% Option Explicit %>
-<% On Error Resume Next %>
+<% 'On Error Resume Next %>
 <% Response.Charset="UTF-8" %>
 <!-- #include file="../../c_option.asp" -->
 <!-- #include file="../../../ZB_SYSTEM/function/c_function.asp" -->
@@ -29,6 +29,10 @@ BlogTitle="应用中心-主题编辑"
 
 If Request.Form.Count>0 Then
 
+'Response.Write Request.Form("app_sidebars")
+
+'Response.End
+
 	If ID="" Then
 		Call CreateNewTheme(Request.Form("app_id"))
 	End If
@@ -53,7 +57,6 @@ Else
 	app_modified=AppCentre_GetLastModifiTime(app_path)
 
 End If 
-
 
 %>
 <!--#include file="..\..\..\zb_system\admin\admin_header.asp"-->
@@ -112,7 +115,25 @@ End If
 <tr><td><p><b>· 【高级】内置插件冲突插件列表（以|分隔）</b>(可选)</p></td><td><p>&nbsp;<input id="app_conflict" name="app_conflict" style="width:550px;"  type="text" value="<%=app_conflict%>" /></p></td></tr>
 <tr><td><p><b>· 主题定价</b></p></td><td><p>&nbsp;<input id="app_price" name="app_price" style="width:550px;"  type="text" value="<%=app_price%>" /></p></td></tr>
 <tr><td><p><b>· 详细说明</b> (可选)</p></td><td><p>&nbsp;<textarea cols="3" rows="6" id="app_description" name="app_description" style="width:550px;"><%=TransferHTML(app_description,"[html-format]")%></textarea></p></td></tr>
+<tr><td><p><b>· 侧栏配置导出</b> (可选)</p></td><td><p>&nbsp;<label><input type="checkbox" name="app_sidebars" value="sidebar1" <%=IIF(InStr(app_sidebars,"<sidebar1>")>0,"checked='checked'","")%> />侧栏</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label><input type="checkbox" name="app_sidebars" value="sidebar2"  <%=IIF(InStr(app_sidebars,"<sidebar2>")>0,"checked='checked'","")%> />侧栏2</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label><input type="checkbox" name="app_sidebars" value="sidebar3"  <%=IIF(InStr(app_sidebars,"<sidebar3>")>0,"checked='checked'","")%> />侧栏3</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label><input type="checkbox" name="app_sidebars" value="sidebar4"  <%=IIF(InStr(app_sidebars,"<sidebar4>")>0,"checked='checked'","")%> />侧栏4</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label><input type="checkbox" name="app_sidebars" value="sidebar5"  <%=IIF(InStr(app_sidebars,"<sidebar5>")>0,"checked='checked'","")%> />侧栏5</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p></td></tr>
+<tr><td><p><b>· 主题模块及内容导出</b> (可选)</p></td><td>
+<%
+Call GetFunction()
+Dim fun
+For Each fun In Functions
+	If IsObject(fun)=True Then
+		If fun.Source="theme_"&app_id Then
 
+Execute "fun.Content=app_function_"&fun.filename
+%>
+<p>名称:<%= fun.name %> &nbsp;&nbsp;&nbsp;&nbsp; 文件名:<%= fun.filename %>&nbsp;&nbsp;&nbsp;&nbsp;类型:<%= fun.ftype %><br/><textarea cols="3" rows="4" name="app_function_<%= fun.filename %>" style="width:550px;"><%= fun.content %></textarea></p>
+<%
+		End If
+	End If
+Next
+%>
+
+</td></tr>
 
 </table>
 <p> 提示:主题的缩略图是名为ScreenShot.png的<b>300x240px</b>大小的png文件,放在插件的目录下.</p>
