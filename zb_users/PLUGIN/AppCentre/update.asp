@@ -24,7 +24,7 @@ Call AppCentre_InitConfig
 'ZC_BLOG_VERSION="Z-Blog 2.1 Phoenix Build 130128"
 If Request.QueryString("restore")="now" Then
 	Response.Clear
-	Response.Write AppCentre_Update_Restore(Request.Form("build"),Request.Form("filename"))
+	Response.Write AppCentre_Update_Restore(Request.Form("build"),Request.Form("filename"),Request.Form("crc32"))
 	Response.End
 End If
 
@@ -98,7 +98,7 @@ If CLng(Request.QueryString("crc32"))>0 Then
 		i=(k-1)*10+1
 		j=k*10
 		m="<img src=\'"&BlogHost&"zb_system/image/admin/ok.png\' width=\'16\' alt=\'\' />"
-		n="<a href=\'#\' onclick=\'restore(this)\' title=\'还原系统文件\'><img src=\'"&BlogHost&"zb_system/image/admin/exclamation.png\' width=\'16\' alt=\'\' /></a>"
+		n="<a href=\'javascript:restore(this)\' title=\'还原系统文件\'><img src=\'"&BlogHost&"zb_system/image/admin/exclamation.png\' width=\'16\' alt=\'\' /></a>"
 		For l=i To j
 			If l>PathAndCrc32.Count Then Exit For
 			If CRC32(BlogPath & vbsunescape(PathAndCrc32.Names(l)))<>PathAndCrc32.Values(l) Then
@@ -162,7 +162,7 @@ If b>0 Then
 
 c=vbsunescape(a)
 
-Response.Write "<tr><td><img src='Images/document_empty.png' width='16' alt='' /> <span>"& c &"</span></td><td id='td"&b&"' align='center'>"& e &"</td></tr>"
+Response.Write "<tr><td><img src='Images/document_empty.png' width='16' alt='' /> <span>"& c &"</span><cite>"& PathAndCrc32.GetValue(c) &"</cite></td><td id='td"&b&"' align='center'>"& e &"</td></tr>"
 Response.Flush
 
 End If
@@ -332,22 +332,26 @@ Next
 		}
 		
 		function restore(t) {
+			$("#checknow").attr("src",bloghost+"zb_system/image/admin/loading.gif");
+			$("#checknow").parent().click( function () {return false});
+			$("#checknow").show();
 			var b = $("#now").html().match(/[0-9]{6}/);
 			var f = $(t).parent().prev().find("span").html();
+			var c= $(t).parent().prev().find("cite").html();
 			$.post("update.asp?restore=now", 
 			{
 				"build": b.toString(),
-				"filename": f
+				"filename": f,
+				"crc32":c,
 		
 			},
 			function(data) {
-		
+				$("#checknow").hide();
 				if (data != "") {
-					alert(data);
-		
-				} else {
-		
-					}
+
+				}else{
+					alert("更新失败");
+				}
 		
 			});
 		

@@ -44,7 +44,7 @@ Redim aryDownload(0)
 Redim aryName(0)
 
 
-Function AppCentre_Update_Restore(build,file)
+Function AppCentre_Update_Restore(build,file,crc32)
 
 	On Error Resume Next
 
