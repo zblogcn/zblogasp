@@ -44,6 +44,35 @@ Redim aryDownload(0)
 Redim aryName(0)
 
 
+Function AppCentre_Update_Restore(build,file)
+
+	On Error Resume Next
+
+	Dim objPing
+	Set objPing = Server.CreateObject("Microsoft.XMLHTTP")
+
+	objPing.open "GET", APPCENTRE_SYSTEM_UPDATE & "?" & build & "\" & file ,False
+	objPing.setRequestHeader "accept-encoding", "gzip, deflate"  
+	objPing.send ""
+
+	Dim MyStream
+    Set MyStream=Server.CreateObject("Adodb.Stream") 
+	MyStream.Type = adTypeBinary
+	MyStream.Mode = adModeReadWrite
+    MyStream.Open 
+    MyStream.Write objPing.responsebody
+    MyStream.SaveToFile BlogPath & file ,2
+
+
+	If Err.Number=0 Then
+		AppCentre_Update_Restore="下载成功."
+	Else
+		Response.End
+	End If
+
+End Function
+
+
 Function AppCentre_Update_Download(file)
 
 	On Error Resume Next

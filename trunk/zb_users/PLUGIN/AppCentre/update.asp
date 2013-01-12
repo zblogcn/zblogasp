@@ -20,11 +20,11 @@ If BlogUser.Level>1 Then Call ShowError(6)
 If CheckPluginState("AppCentre")=False Then Call ShowError(48)
 
 Call AppCentre_InitConfig
-
-
+BlogVersion="130128"
+ZC_BLOG_VERSION="Z-Blog 2.1 Phoenix Build 130128"
 If Request.QueryString("restore")="now" Then
 	Response.Clear
-	Response.Write APPCENTRE_SYSTEM_UPDATE & Request.Form("build") & "\" & Request.Form("filename")
+	Response.Write AppCentre_Update_Restore(Request.Form("build"),Request.Form("filename"))
 	Response.End
 End If
 
@@ -43,8 +43,8 @@ End If
 
 If Request.QueryString("update")="success" Then
 	Response.Clear
-	Call SetBlogHint_Custom("恭喜您升级到最新的Z-Blog,请保存网站设置完成系统更新.")
-	Response.Redirect BlogHost & "zb_system/cmd.asp?act=SettingMng"
+	Call SetBlogHint_Custom("恭喜您升级到最新的Z-Blog.")
+	Response.Redirect BlogHost & "zb_system/cmd.asp?act=SettingMng&update=" & Request.QueryString("file")
 	Response.End
 End If
 
@@ -140,11 +140,11 @@ BlogTitle="应用中心-系统更新检查"
                 </tr>
               </table>
               <p>
-                <input type="button" onClick="update();return false;" style="visibility:hidden;" value="升级新版程序" />
+                <input id="updatenow" type="button" onClick="update();return false;" style="visibility:hidden;" value="升级新版程序" />
               </p>
 			  <hr/>
 
-              <div class="divHeader">校验系统核心文件&nbsp;&nbsp;<a href="update.asp?check=now" title="开始校验"><img src="Images/refresh.png" width="16" alt="校验" /></a></div>
+              <div class="divHeader">校验系统核心文件&nbsp;&nbsp;<a href="update.asp?check=now" title="开始校验"><img id="checknow" src="Images/refresh.png" width="16" alt="校验" /></a></div>
 			  <div>进度<span id="status">0</span>%；已发现<span id="count">0</span>个修改过的系统文件。<div id="bar"></div></div>
               <table border="1" width="100%" cellspacing="0" cellpadding="0" class="tableBorder tableBorder-thcenter">
                 <tr>
@@ -186,7 +186,7 @@ Next
 		_count = $("#count");
 		
 		function crc32(i) {
-		
+			if(i==1){$("#checknow").attr("src",bloghost+"zb_system/image/admin/loading.gif");$("#checknow").parent().click( function () {return false});}
 			_bar.prev().hide();
 			$.get("update.asp?crc32=" + i, 
 			function(data) {
@@ -203,6 +203,7 @@ Next
 		
 				} else {
 					_bar.hide();
+					$("#checknow").hide();
 					_bar.prev().show();
 					_status.html(100);
 					$("#_s").html("<a href='javascript:void(0);'>修改排序</a>").find("a").click(function() {
@@ -326,7 +327,7 @@ Next
 		}
 		
 		function update_success(j) {
-			location.href = "update.asp?update=success";
+			location.href = "update.asp?update=success&file="$("form").attr("action");
 		
 		}
 		

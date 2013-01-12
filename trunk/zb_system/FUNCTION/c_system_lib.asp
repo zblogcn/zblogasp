@@ -5018,6 +5018,8 @@ Class TConfig
 
 	Public Function Load(configname)
 
+		Call GetConfigs()
+
 		Name=configname
 
 		Dim s

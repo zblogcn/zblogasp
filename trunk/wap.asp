@@ -27,6 +27,7 @@
 <!-- #include file="zb_system/function/c_system_plugin.asp" -->
 <!-- #include file="zb_users/plugin/p_config.asp" -->
 <%
+ If ZC_DISPLAY_COUNT_WAP=0 Then Response.Redirect ZC_BLOG_HOST
  ShowError_Custom="Call ShowError_WAP(id)"
  Response.Cookies("CheckMobile")="true"
 %><?xml version="1.0" encoding="UTF-8"?> 
