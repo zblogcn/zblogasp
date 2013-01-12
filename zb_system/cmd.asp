@@ -991,10 +991,17 @@ Function SettingMng()
 
 	If Not IsEmpty(Request.QueryString("ok")) Then
 		Call SetBlogHint(True,Empty,Empty)
-		'Call MakeBlogReBuild_Core()
 	End If
 
 	Call RefreshOptionFormFileToDB()
+
+	If Not IsEmpty(Request.QueryString("update")) Then
+
+		If SaveSetting Then
+			Response.Redirect "cmd.asp?act=SettingMng&ok"
+		End If
+
+	End If
 
 	Response.Redirect "admin/edit_setting.asp"
 End Function
