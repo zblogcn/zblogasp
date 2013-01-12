@@ -54,9 +54,7 @@ Select Case Request.QueryString("action")
 		intHighlight=6
 		Call ReCheck
 		strList=CheckXML()
-		Application.Lock
-		Application("APPCENTRE_UPDATELIST")=strList
-		Application.UnLock
+		appcentre_updatelist=strList
 		If Replace(strList,",","")<>"" Then
 			strURL="app.asp?act=checkupdate&updatelist="&Server.URLEncode(strList)&"&"
 		Else
@@ -64,7 +62,12 @@ Select Case Request.QueryString("action")
 		End If
 		
 		If Request.QueryString("silent")="true" Then 
-			Response.Write strList
+			If CLng(appcentre_blog_last)> BlogVersion Then
+				Response.Write "$('.divHeader').before('<div class=""hint""><p class=""hint hint_teal""><font color=""orangered"">Z-Blog有新版本!请立刻升级!!! <a href="""&bloghost&"zb_users/PLUGIN/AppCentre/update.asp"">升级</a></font></p></div>');"
+			End If
+			If Replace(appcentre_updatelist,",","")<>"" Then
+				Response.Write "$('.divHeader').before('<div class=""hint""><p class=""hint hint_teal""><font color=""orangered"">发现1个应用更新! <a href="""&bloghost&"zb_users/plugin/appcentre/server.asp?action=update"">更新</a></font></p></div>');"
+			End If
 			Response.End
 		End If
 

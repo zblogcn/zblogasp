@@ -4,6 +4,8 @@ Const APPCENTRE_UPDATE_URL="http://app.rainbowsoft.org/appcentre.asp?act=checkup
 
 Const APPCENTRE_SYSTEM_UPDATE="http://update.rainbowsoft.org/zblog2/"
 
+Dim appcentre_updatelist,appcentre_blog_last
+
 Dim app_config
 Dim login_un,login_pw,disableupdate_theme
 Dim Pack_For,Pack_Type
@@ -287,9 +289,7 @@ Function CheckXml()
 				End If
 			Next
 			j=objXml.SelectSingleNode("//data/blog").text
-			Application.Lock
-			Application("APPCENTRE_BLOG_LAST")=CStr(j)
-			Application.UnLock
+			appcentre_blog_last=CStr(j)
 		End If
 	End If
 
