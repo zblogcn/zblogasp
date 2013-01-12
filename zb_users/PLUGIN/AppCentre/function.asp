@@ -287,7 +287,9 @@ Function CheckXml()
 				End If
 			Next
 			j=objXml.SelectSingleNode("//data/blog").text
-			Session("appcentre_blog_last")=CStr(j)
+			Application.Lock
+			Application("APPCENTRE_BLOG_LAST")=CStr(j)
+			Application.UnLock
 		End If
 	End If
 
