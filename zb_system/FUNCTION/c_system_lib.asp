@@ -999,8 +999,6 @@ Class TArticle
 		Call ExportCMTandTBBar(intPage,intPageAll)
 
 		Template_Article_Comment="<ins id=""AjaxCommentBegin"" style=""display:none;clear:both;""></ins>" & Template_Article_Comment & Template_Article_Comment_Pagebar &"<ins id=""AjaxCommentEnd"" style=""display:none;clear:both;""></ins>"
-		Template_Article_Comment_Pagebar=""
-
 
 		Template_Article_Comment=Replace(Template_Article_Comment,"<!--(count-->0<!--count)-->","<span class=""revcount""></span>")
 		Template_Article_Comment=Replace(Template_Article_Comment,"<!--(count-->","")
@@ -1371,7 +1369,7 @@ Class TArticle
 
 		subhtml=Replace(subhtml,"<#template:article_comment#>",Template_Article_Comment)
 		subhtml=Replace(subhtml,"<#template:article_trackback#>",Template_Article_Trackback)
-		subhtml=Replace(subhtml,"<#template:article_comment_pagebar#>",Template_Article_Comment_Pagebar)
+		subhtml=Replace(subhtml,"<#template:article_comment_pagebar#>","")
 		subhtml=Replace(subhtml,"<#template:article_commentpost#>",Template_Article_Commentpost)
 		subhtml=Replace(subhtml,"<#template:article_tag#>",Template_Article_Tag)
 		subhtml=Replace(subhtml,"<#template:article_navbar_l#>",Template_Article_Navbar_L)

@@ -733,7 +733,7 @@ Function GetComment(logid,page)
 	Set objRegExp=New RegExp
 	objRegExp.IgnoreCase =True
 	objRegExp.Global=True
-	objRegExp.Pattern="<div id=""AjaxComment[\D\d]+?</div>"
+	objRegExp.Pattern="<ins id=""AjaxComment[\D\d]+?</ins>"
 	s= objRegExp.Replace(s,"")
 
 
