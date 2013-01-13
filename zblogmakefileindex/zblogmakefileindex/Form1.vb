@@ -271,7 +271,7 @@ Public Class Crc32
                      As Integer
         Const blockSize As Integer = 4096
         Dim count As Integer
-        Dim inStream As IO.FileStream
+        Dim inStream As IO.FileStream = Nothing
         Dim bytes(blockSize - 1) As Byte
         Dim crc As Integer = initialValue
         Try
