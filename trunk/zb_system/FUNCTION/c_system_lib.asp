@@ -998,7 +998,8 @@ Class TArticle
 
 		Call ExportCMTandTBBar(intPage,intPageAll)
 
-		Template_Article_Comment="<ins id=""AjaxCommentBegin"" style=""display:none;clear:both;""></ins>" & Template_Article_Comment & s &"<ins id=""AjaxCommentEnd"" style=""display:none;clear:both;""></ins>"
+		Template_Article_Comment="<ins id=""AjaxCommentBegin"" style=""display:none;clear:both;""></ins>" & Template_Article_Comment & Template_Article_Comment_Pagebar &"<ins id=""AjaxCommentEnd"" style=""display:none;clear:both;""></ins>"
+		Template_Article_Comment_Pagebar=""
 
 
 		Template_Article_Comment=Replace(Template_Article_Comment,"<!--(count-->0<!--count)-->","<span class=""revcount""></span>")
@@ -1038,10 +1039,10 @@ Class TArticle
 			r=Replace(r,"<#article/comment_pagebar_r/url#>",rp)
 
 			If intPage=1 Then
-				r=""
+				l=""
 			End If
 			If intPage=intPageAll Then
-				l=""
+				r=""
 			End If
 			
 			s=GetTemplate("TEMPLATE_B_ARTICLE_COMMENT_PAGEBAR")
