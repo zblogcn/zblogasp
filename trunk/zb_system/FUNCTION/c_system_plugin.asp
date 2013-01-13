@@ -1798,6 +1798,31 @@ Dim bAction_Plugin_TArticle_Export_CMTandTB_Begin
 Dim sAction_Plugin_TArticle_Export_CMTandTB_Begin
 
 
+'**************************************************<
+'类型:action
+'名称:Action_Plugin_TArticle_ExportCMTandTBBar_Begin
+'参数:无
+'说明:TArticle_ExportCMTandTBBar_Begin
+'**************************************************>
+Dim Action_Plugin_TArticle_ExportCMTandTBBar_Begin()
+ReDim Action_Plugin_TArticle_ExportCMTandTBBar_Begin(0)
+Dim bAction_Plugin_TArticle_ExportCMTandTBBar_Begin
+Dim sAction_Plugin_TArticle_ExportCMTandTBBar_Begin
+
+
+
+'**************************************************<
+'类型:action
+'名称:Action_Plugin_TArticle_ExportCMTandTBBar_End
+'参数:无
+'说明:TArticle_ExportCMTandTBBar_End
+'**************************************************>
+Dim Action_Plugin_TArticle_ExportCMTandTBBar_End()
+ReDim Action_Plugin_TArticle_ExportCMTandTBBar_End(0)
+Dim bAction_Plugin_TArticle_ExportCMTandTBBar_End
+Dim sAction_Plugin_TArticle_ExportCMTandTBBar_End
+
+
 
 '**************************************************<
 '类型:action
