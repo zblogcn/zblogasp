@@ -372,6 +372,8 @@ Class TArticle
 	Private Template_Article_Navbar_R
 	Private Template_Article_Commentpost_Verify
 	Private Template_Article_Mutuality
+	Private Template_Calendar
+
 
 	Private Disable_Export_Tag
 	Private Disable_Export_CMTandTB
@@ -994,22 +996,7 @@ Class TArticle
 
 		End If
 
-		If intPageAll>1 Then
-			Dim lp,rp
-
-			lp="<a class=""l"" onclick=""GetComments("&ID&","&(intPage-1)&")"" href=""#AjaxCommentBegin""><span class=""commentspage"">"&ZC_MSG192&"</span></a>"
-			rp="<a class=""r"" onclick=""GetComments("&ID&","&(intPage+1)&")"" href=""#AjaxCommentBegin""><span class=""commentspage"">"&ZC_MSG193&"</span></a>"
-
-			If intPage=1 Then
-				lp=""
-			End If
-			If intPage=intPageAll Then
-				rp=""
-			End If
-			
-			s=GetTemplate("TEMPLATE_B_ARTICLE_COMMENT_PAGEBAR")
-			s=Replace(s,"<#template:pagebar#>",lp&rp&"")
-		End If
+		Call ExportCMTandTBBar(intPage,intPageAll)
 
 		Template_Article_Comment="<ins id=""AjaxCommentBegin"" style=""display:none;clear:both;""></ins>" & Template_Article_Comment & s &"<ins id=""AjaxCommentEnd"" style=""display:none;clear:both;""></ins>"
 
@@ -1021,6 +1008,56 @@ Class TArticle
 		Template_Article_Comment=TransferHTML(Template_Article_Comment,"[anti-zc_blog_host]")
 
 		Export_CMTandTB=True
+
+	End Function
+
+
+
+
+	Public Function ExportCMTandTBBar(intPage,intPageAll)
+
+		'plugin node
+		bAction_Plugin_TArticle_ExportCMTandTBBar_Begin=False
+		For Each sAction_Plugin_TArticle_ExportCMTandTBBar_Begin in Action_Plugin_TArticle_ExportCMTandTBBar_Begin
+			If Not IsEmpty(sAction_Plugin_TArticle_ExportCMTandTBBar_Begin) Then Call Execute(sAction_Plugin_TArticle_ExportCMTandTBBar_Begin)
+			If bAction_Plugin_TArticle_ExportCMTandTBBar_Begin=True Then Exit Function
+		Next
+
+		Dim s,l,r
+
+		If intPageAll>1 Then
+			Dim lp,rp
+
+			lp="GetComments("&ID&","&(intPage-1)&")"
+			rp="GetComments("&ID&","&(intPage+1)&")"
+
+			l=GetTemplate("TEMPLATE_B_ARTICLE_COMMENT_PAGEBAR_L")
+			r=GetTemplate("TEMPLATE_B_ARTICLE_COMMENT_PAGEBAR_R")
+
+			l=Replace(l,"<#article/comment_pagebar_l/url#>",lp)
+			r=Replace(r,"<#article/comment_pagebar_r/url#>",rp)
+
+			If intPage=1 Then
+				r=""
+			End If
+			If intPage=intPageAll Then
+				l=""
+			End If
+			
+			s=GetTemplate("TEMPLATE_B_ARTICLE_COMMENT_PAGEBAR")
+			s=Replace(s,"<#template:pagebar#>",l&r&"")
+		End If
+
+		Template_Article_Comment_Pagebar=s
+
+		ExportCMTandTBBar=True
+
+		'plugin node
+		bAction_Plugin_TArticle_ExportCMTandTBBar_End=False
+		For Each sAction_Plugin_TArticle_ExportCMTandTBBar_End in Action_Plugin_TArticle_ExportCMTandTBBar_End
+			If Not IsEmpty(sAction_Plugin_TArticle_ExportCMTandTBBar_End) Then Call Execute(sAction_Plugin_TArticle_ExportCMTandTBBar_End)
+			If bAction_Plugin_TArticle_ExportCMTandTBBar_End=True Then Exit Function
+		Next
 
 	End Function
 
@@ -1556,10 +1593,10 @@ Class TArticle
 
 		Call Filter_Plugin_TArticle_Build_Template(html)
 
-
 		TemplateTagsDic.Item("BlogTitle")=HtmlTitle
 		TemplateTagsDic.Item("ZC_BLOG_HOST")=BlogHost
 
+		If Template_Calendar="" Then Template_Calendar="<script src=""<#ZC_BLOG_HOST#>zb_system/function/c_html_js.asp?date="&Year(Date)&"-"&Month(Date)&""" type=""text/javascript""></script>"
 
 		If ZC_MULTI_DOMAIN_SUPPORT=True And ZC_PERMANENT_DOMAIN_ENABLE=False Then
 			Dim x,y
@@ -1585,7 +1622,11 @@ Class TArticle
 			If (InStr(aryTemplateTagsName(i),"CACHE_INCLUDE_")>0) And (Right(aryTemplateTagsName(i),5)<>"_HTML") And (Right(aryTemplateTagsName(i),3)<>"_JS") Then
 				s=s & aryTemplateTagsName(i) & "|"
 			End If
+			If ("<#" & aryTemplateTagsName(i) & "#>"="<#CACHE_INCLUDE_CALENDAR#>") Or ("<#" & aryTemplateTagsName(i) & "#>"="<#CACHE_INCLUDE_CALENDAR_JS#>") Or ("<#" & aryTemplateTagsName(i) & "#>"="<#CACHE_INCLUDE_CALENDAR_NOW#>") Then
+				aryTemplateTagsValue(i)=Template_Calendar
+			End If
 		Next
+
 
 		If IsDynamicLoadSildbar=True Then
 			For Each t In Split(s,"|")
@@ -2324,6 +2365,7 @@ Class TArticleList
 		TemplateTagsDic.Item("BlogTitle")=HtmlTitle
 		TemplateTagsDic.Item("ZC_BLOG_HOST")=BlogHost
 
+		If Template_Calendar="" Then Template_Calendar="<script src=""<#ZC_BLOG_HOST#>zb_system/function/c_html_js.asp?date="&Year(Date)&"-"&Month(Date)&""" type=""text/javascript""></script>"
 
 		If ZC_MULTI_DOMAIN_SUPPORT=True And ZC_PERMANENT_DOMAIN_ENABLE=False Then
 			Dim x,y
@@ -2347,14 +2389,8 @@ Class TArticleList
 			If (InStr(aryTemplateTagsName(i),"CACHE_INCLUDE_")>0) And (Right(aryTemplateTagsName(i),5)<>"_HTML") And (Right(aryTemplateTagsName(i),3)<>"_JS") Then
 				s=s & aryTemplateTagsName(i) & "|"
 			End If
-			If IsEmpty(Template_Calendar)=False Then 
-				If ("<#" & aryTemplateTagsName(i) & "#>"="<#CACHE_INCLUDE_CALENDAR#>") Or ("<#" & aryTemplateTagsName(i) & "#>"="<#CACHE_INCLUDE_CALENDAR_JS#>") Then
-					aryTemplateTagsValue(i)=Template_Calendar
-				End If
-			Else
-				If ("<#" & aryTemplateTagsName(i) & "#>"="<#CACHE_INCLUDE_CALENDAR_NOW#>") Then
-					aryTemplateTagsValue(i)=TemplateTagsDic.Item("CACHE_INCLUDE_CALENDAR")
-				End If
+			If ("<#" & aryTemplateTagsName(i) & "#>"="<#CACHE_INCLUDE_CALENDAR#>") Or ("<#" & aryTemplateTagsName(i) & "#>"="<#CACHE_INCLUDE_CALENDAR_JS#>") Or ("<#" & aryTemplateTagsName(i) & "#>"="<#CACHE_INCLUDE_CALENDAR_NOW#>") Then
+				aryTemplateTagsValue(i)=Template_Calendar
 			End If
 		Next
 
