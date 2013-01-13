@@ -1069,6 +1069,7 @@ Function MakeCalendar(dtmYearMonth)
 	strCalendar=strCalendar & "	<tbody>"
 	
 	j=0
+	Dim b1,b2
 	For i=1 to b
 
 		If (j Mod 7)=0 Then strCalendar=strCalendar & "<tr>"
@@ -1078,13 +1079,19 @@ Function MakeCalendar(dtmYearMonth)
 		
 			strCalendar=strCalendar & "<td "
 			
-			If 	Cdate(y&"-"&m&"-"&k) = Date() Then strCalendar=strCalendar & " id =""today"" "
+			If 	Cdate(y&"-"&m&"-"&k) = Date() Then
+				strCalendar=strCalendar & " id =""today"" "
+				b1="<b>"
+				b2="</b>"
+			Else
+				b1=""
+				b2=""
+			End If
 			
 			If aryDateLink(k) Then
-				strCalendar=strCalendar & "><a href="""& ZC_BLOG_HOST &"catalog.asp?date="&Year(aryDateArticle(k).PostTime)&"-"&Month(aryDateArticle(k).PostTime)&"-"&Day(aryDateArticle(k).PostTime)& """>"&(k)&"</a></td>"
+				strCalendar=strCalendar & "><a href="""& ZC_BLOG_HOST &"catalog.asp?date="&Year(aryDateArticle(k).PostTime)&"-"&Month(aryDateArticle(k).PostTime)&"-"&Day(aryDateArticle(k).PostTime)& """>"&b1&(k)&b2&"</a></td>"
 			Else
-				strCalendar=strCalendar &">"&(k)&"</td>"
-				
+				strCalendar=strCalendar &">"&b1&(k)&b2&"</td>"
 			End If
 
 			k=k+1
