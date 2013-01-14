@@ -1540,6 +1540,9 @@ Function RemoveLibyUrl(ByVal s,ByVal url)
 End Function
 '*********************************************************
 
+
+
+
 '*********************************************************
 ' 目的：    根据文件路径得到最后更改时间
 '*********************************************************
@@ -1554,6 +1557,8 @@ Function GetFileModified(Path)
 	End If
 	Set objFSO=Nothing
 End Function
+'*********************************************************
+
 
 
 
@@ -1751,24 +1756,26 @@ End Function
 
 
 
+
+'*********************************************************
 Function SearchInArrays(a,arrays)
 
-	Dim b,c
-	b=False
+	Dim c
 
 	If IsArray(arrays)=True Then
-
 		For Each c In arrays
 			If LCase(a)=LCase(c) Then
-				b=True
+				SearchInArrays=True
+				Exit Function
 			End If
 		Next
-
 	End If
 
-	SearchInArrays=b
+	SearchInArrays=False
 
 End Function
+'*********************************************************
+
 
 
 

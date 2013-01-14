@@ -99,6 +99,8 @@ Const ZC_POST_TYPE_ARTICLE=0
 Const ZC_POST_TYPE_PAGE=1
 
 
+Const ZC_DEFAULT_SIDEBAR="calendar:controlpanel:catalog:searchpanel:comments:archives:favorite:link:misc"
+
 '如果连接数据库为MSSQL，则应为'，默认连接Access数据库则为#
 Dim ZC_SQL_POUND_KEY
 ZC_SQL_POUND_KEY="#"
@@ -4062,7 +4064,7 @@ Function CheckUndefined()
 	End If
 
 	If InStr(a,"DIM ZC_SIDEBAR_ORDER")=0 Then
-		Call Execute("ZC_SIDEBAR_ORDER=""calendar:controlpanel:catalog:searchpanel:comments:archives:favorite:link:misc""")
+		Call Execute("ZC_SIDEBAR_ORDER="""&ZC_DEFAULT_SIDEBAR&"""")
 	End If
 
 	If InStr(a,"DIM ZC_SIDEBAR_ORDER2")=0 Then
