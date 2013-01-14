@@ -1220,7 +1220,7 @@ Function SaveSetting()
 
 	If BlogConfig.Exists("ZC_PERMANENT_DOMAIN_ENABLE")=False Then Call BlogConfig.Write("ZC_PERMANENT_DOMAIN_ENABLE",False)
 
-	If BlogConfig.Exists("ZC_SIDEBAR_ORDER" )=False Then Call BlogConfig.Write("ZC_SIDEBAR_ORDER","calendar:controlpanel:catalog:searchpanel:comments:archives:favorite:link:misc")
+	If BlogConfig.Exists("ZC_SIDEBAR_ORDER" )=False Then Call BlogConfig.Write("ZC_SIDEBAR_ORDER",ZC_DEFAULT_SIDEBAR)
 
 	If BlogConfig.Exists("ZC_SIDEBAR_ORDER2")=False Then Call BlogConfig.Write("ZC_SIDEBAR_ORDER2","")
 
@@ -2340,7 +2340,9 @@ Function SaveFunction()
 
 	'接口
 	'Call Filter_Plugin_SaveFunction_Core(objFunction)
-	'If CLng(objFunction.ID)>0 Then objFunction.MetaString=objConn.Execute("SELECT [fn_Meta] FROM [blog_Function] WHERE [fn_ID]="&CLng(objFunction.ID))(0)
+	If objFunction.Source<>"system" Then
+		If SearchInArrays(objFunction.FileName,Split("navbar:"&ZC_DEFAULT_SIDEBAR,":"))=True Then objFunction.FileName=objFunction.FileName & Left(CStr(Rnd()*10000),4)
+	End If
 
 	If objFunction.Post Then
 
