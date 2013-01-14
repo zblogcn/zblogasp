@@ -22,11 +22,11 @@ Dim dbtype,dbpath,dbserver,dbname,dbusername,dbpassword
 Dim zblogstep
 zblogstep=Request.QueryString("step")
 
-If ZC_DATABASE_PATH<>"" Or ZC_MSSQL_DATABASE<>"" Then
-	zblogstep=0
-End If
+'If ZC_DATABASE_PATH<>"" Or ZC_MSSQL_DATABASE<>"" Then
+'	zblogstep=0
+'End If
 
-If zblogstep="" Then zblogstep=1
+'If zblogstep="" Then zblogstep=1
 
 %><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<%=ZC_BLOG_LANGUAGE%>" lang="<%=ZC_BLOG_LANGUAGE%>">
@@ -38,6 +38,8 @@ If zblogstep="" Then zblogstep=1
 	<meta name="robots" content="nofollow" />
 	<script language="JavaScript" src="../zb_system/script/common.js" type="text/javascript"></script>
 	<script language="JavaScript" src="../zb_system/script/md5.js" type="text/javascript"></script>
+	<script language="JavaScript" src="../zb_system/script/jquery-ui.custom.min.js" type="text/javascript"></script>
+	<link rel="stylesheet" rev="stylesheet" href="../zb_system/css/jquery-ui.custom.css"  type="text/css" media="screen" />
 	<link rel="stylesheet" rev="stylesheet" href="../zb_system/css/admin3.css" type="text/css" media="screen" />
 	<title>Z-Blog 1.8 to 2.0 升级程序</title>
 </head>
@@ -55,6 +57,12 @@ End  Select
   </form></div>
 
 <script language="JavaScript" type="text/javascript">
+$(function() {
+	$( "#setup0" ).progressbar({value: 100});
+	$( "#setup1" ).progressbar({value: 0});
+	//$( "#setup2" ).progressbar({value: 50});
+	$( "#setup3" ).progressbar({value: 100});
+ });
 </script>
 </body>
 </html>
@@ -68,7 +76,7 @@ Function Setup0()
 <dl>
 <dd id="ddleft">
 <img src='../zb_system/image/admin/update.png' alt='' />
-<p>安装进度:<span><font color='#3d69aa'></font><font color='white'>██████████████████</font></span></p>
+<div class="left">安装进度： </div><div id="setup0"  class="left"></div>
 <p>升级选项及说明&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;»&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;升级结果</p>
 </dd>
 <dd id="ddright">
@@ -100,7 +108,7 @@ Function Setup1()
 <dl>
 <dd id="ddleft">
 <img src='../zb_system/image/admin/update.png' alt='' />
-<p>安装进度:<span><font color='#3d69aa'>█████████</font><font color='white'>█████████</font></span></p>
+<div class="left">安装进度： </div><div id="setup1"  class="left"></div>
 <p><b>升级选项及说明</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;»&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;升级结果</p>
 </dd>
 <dd id="ddright">
@@ -161,7 +169,7 @@ On Error Resume Next
 <dl>
 <dd id="ddleft">
 <img src='../zb_system/image/admin/update.png' alt='' />
-<p>安装进度:<span><font color='#3d69aa'>█████████████████</font><font color='white'></font></span></p>
+<div class="left">安装进度： </div><div id="setup2"  class="left"></div>
 <p><b>升级选项及说明</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;»&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>升级结果</b></p>
 </dd>
 <dd id="ddright">
@@ -194,19 +202,18 @@ Response.Cookies("username")=""
 Application.Contents.RemoveAll
 
 %>
-<%Call UpdateAccessTable():Response.Flush%><p>数据库表和数据升级成功!</p>
-<%Call InsertOptions():Response.Flush%><p>默认配置数据导入成功!</p>
-<%Call InsertFunctions():Response.Flush%><p>默认侧栏数据导入成功!</p>
-<%Call LoadOldOptions():Response.Flush%><p>读取旧配置数据成功!</p>
-<%Call LoadOldFunctions():Response.Flush%><p>读取旧侧栏模块数据成功!</p>
-<%Call FixOldTotoro():Response.Flush%><p>调整旧Totoro评论成功!</p>
-<%Call RevToComment():Response.Flush%><p>将1.8版的回复转换2.0版评论成功!</p>
-<%Call SaveConfigs():Response.Flush%><p>配置文件c_option.asp保存成功!</p>
+<%Call UpdateAccessTable():Response.Flush%><p>数据库表和数据升级成功!</p><script language=javascript>$( "#setup2" ).progressbar({value: 15});</script>
+<%Call InsertOptions():Response.Flush%><p>默认配置数据导入成功!</p><script language=javascript>$( "#setup2" ).progressbar({value: 30});</script>
+<%Call InsertFunctions():Response.Flush%><p>默认侧栏数据导入成功!</p><script language=javascript>$( "#setup2" ).progressbar({value: 40});</script>
+<%Call LoadOldOptions():Response.Flush%><p>读取旧配置数据成功!</p><script language=javascript>$( "#setup2" ).progressbar({value: 50});</script>
+<%Call LoadOldFunctions():Response.Flush%><p>读取旧侧栏模块数据成功!</p><script language=javascript>$( "#setup2" ).progressbar({value: 60});</script>
+<%Call FixOldTotoro():Response.Flush%><p>调整旧Totoro评论成功!</p><script language=javascript>$( "#setup2" ).progressbar({value: 70});</script>
+<%Call RevToComment():Response.Flush%><p>将1.8版的回复转换2.0版评论成功!</p><script language=javascript>$( "#setup2" ).progressbar({value: 80});</script>
+<%Call SaveConfigs():Response.Flush%><p>配置文件c_option.asp保存成功!</p><script language=javascript>$( "#setup2" ).progressbar({value: 90});</script>
 <%
 
 %>
-
-<p>Z-Blog 2.0升级成功了,现在您可以点击"完成"进入网站首页.</p>
+<p>Z-Blog 2.0升级成功了,现在您可以点击"完成"进入网站首页.</p><script language=javascript>$( "#setup2" ).progressbar({value: 100});</script>
 
 </div>
 <div id='bottom'>
