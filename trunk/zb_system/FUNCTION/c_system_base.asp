@@ -3349,7 +3349,13 @@ Set d = CreateObject("Scripting.Dictionary")
 
 For i=LBound(t) To UBound(t)
 	If Trim(t(i))<>"" Then
-		If d.Exists(t(i))=False Then Call d.add(t(i),t(i))
+		If UBound(Users)>=t(i) Then
+			If IsObject(Users(t(i)))=False Then
+				If d.Exists(t(i))=False Then Call d.add(t(i),t(i))
+			End If
+		Else
+			If d.Exists(t(i))=False Then Call d.add(t(i),t(i))
+		End If
 	End If
 Next
 
@@ -3447,7 +3453,13 @@ Set d = CreateObject("Scripting.Dictionary")
 
 For i=LBound(t) To UBound(t)
 	If Trim(t(i))<>"" Then
-		If d.Exists(t(i))=False Then Call d.add(t(i),t(i))
+		If UBound(Tags)>=t(i) Then
+			If IsObject(Tags(t(i)))=False Then
+				If d.Exists(t(i))=False Then Call d.add(t(i),t(i))
+			End If
+		Else
+			If d.Exists(t(i))=False Then Call d.add(t(i),t(i))
+		End If
 	End If
 Next
 
