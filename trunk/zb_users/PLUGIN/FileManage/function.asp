@@ -626,7 +626,7 @@ End Function
 ' 目的：    上传文件
 '*********************************************************
 Function FileManage_Upload()
-	On Error Resume Next
+	'On Error Resume Next
 	For Each sAction_Plugin_FileManage_Upload_Begin in Action_Plugin_FileManage_Upload_Begin
 		If Not IsEmpty(sAction_Plugin_FileManage_Upload_Begin) Then Call Execute(sAction_Plugin_FileManage_Upload_Begin)
 	Next
@@ -635,6 +635,7 @@ Function FileManage_Upload()
 	objUpload.AutoSave=2
 	objUpload.Charset="UTF-8"
 	objUpload.FileType=""
+	objUpload.MaxSize=2^31-1
 	objUpload.open
 	Dim tpath,opath,SuccessPath
 	tpath=objUpload.Form("path")
@@ -645,14 +646,13 @@ Function FileManage_Upload()
 	
 	objUpload.SavePath=tpath&"\"
 	objUpload.open
-	objUpload.save "edtFileLoad",1
 	If Err.Number=0 Then
 		Call SetBlogHint(True,Empty,Empty)
 	Else
 		FileManage_ExportError "<font color='red'>出现错误" & Hex(Err.Number) & "，描述为" & Err.Description & "，操作没有生效。</font>",SuccessPath
 	End If
 	
-	Response.Write "<script>location.href="""&SuccessPath&"""</script>"
+	Response.Redirect SuccessPath
 
 	For Each sAction_Plugin_FileManage_Upload_End in Action_Plugin_FileManage_Upload_End
 		If Not IsEmpty(sAction_Plugin_FileManage_Upload_End) Then Call Execute(sAction_Plugin_FileManage_Upload_End)
