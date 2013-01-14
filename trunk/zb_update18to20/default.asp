@@ -22,11 +22,11 @@ Dim dbtype,dbpath,dbserver,dbname,dbusername,dbpassword
 Dim zblogstep
 zblogstep=Request.QueryString("step")
 
-'If ZC_DATABASE_PATH<>"" Or ZC_MSSQL_DATABASE<>"" Then
-'	zblogstep=0
-'End If
+If ZC_DATABASE_PATH<>"" Or ZC_MSSQL_DATABASE<>"" Then
+	zblogstep=0
+End If
 
-'If zblogstep="" Then zblogstep=1
+If zblogstep="" Then zblogstep=1
 
 %><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<%=ZC_BLOG_LANGUAGE%>" lang="<%=ZC_BLOG_LANGUAGE%>">
