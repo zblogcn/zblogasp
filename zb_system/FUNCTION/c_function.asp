@@ -194,6 +194,28 @@ End Sub
 '*********************************************************
 
 
+'*********************************************************
+' 目的：    得到真实IP
+' 返回：    IP
+'*********************************************************
+Function GetReallyIP()
+
+	Dim strIP
+	strIP=Request.ServerVariables("HTTP_X_FORWARDED_FOR")
+	If strIP="" Or InStr(strIP,"unknown") Then
+		strIP=Request.ServerVariables("REMOTE_ADDR")
+	ElseIf InStr(strIP,",") Then
+		strIP=Split(strIP,",")(0)
+	ElseIf InStr(strIP,";") Then
+		strIP=Split(strIP,";")(0)
+	End If
+	
+	GetReallyIP=Trim(strIP)
+
+End Function
+'*********************************************************
+
+
 
 
 '*********************************************************
