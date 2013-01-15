@@ -449,4 +449,5 @@ ZVA_ErrorMsg(60)="回复评论失败"
 ZVA_ErrorMsg(61)="该记录不存在"
 ZVA_ErrorMsg(62)="同名用户已存在,请修改用户名."
 ZVA_ErrorMsg(63)="草稿禁止浏览"
+ZVA_ErrorMsg(64)="启用失败,该应用的xml配置信息不是Z-Blog 2.X版本的."
 %>

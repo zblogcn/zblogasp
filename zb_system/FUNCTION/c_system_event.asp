@@ -1761,6 +1761,8 @@ Function SaveTheme()
 	strZC_BLOG_CSS=Request.Form("edtZC_BLOG_CSS")
 	strZC_BLOG_THEME=Request.Form("edtZC_BLOG_THEME")
 
+	Call CheckXmlVersion(BlogPath & "zb_users\THEME\"&strZC_BLOG_THEME&"\theme.xml")
+
 	Call ScanPluginToThemeFile(strZC_BLOG_CSS,strZC_BLOG_THEME)
 
 	If UCase(strZC_BLOG_CSS)<>UCase(CStr(ZC_BLOG_CSS)) Then Call SetBlogHint(Empty,True,Empty)
@@ -1870,6 +1872,8 @@ End Function
 '*********************************************************
 Function ActivePlugInByName(strPluginName)
 
+	Call CheckXmlVersion(BlogPath & "zb_users\PLUGIN\"&strPluginName&"\plugin.xml")
+
 	Dim s,i,t,b,a,aryAllXml,strContent
 	b=False
 	s= ZC_USING_PLUGIN_LIST
@@ -1923,6 +1927,28 @@ Function ActivePlugInByName(strPluginName)
 	End If
 
 	ActivePlugInByName=True
+
+End Function
+'*********************************************************
+
+'*********************************************************
+' 目的：   检查XML版本
+'*********************************************************
+Function CheckXmlVersion(xmlpath)
+	Dim strXmlFile,objXmlFile
+	Set objXmlFile=Server.CreateObject("Microsoft.XMLDOM")
+	objXmlFile.async = False
+	objXmlFile.ValidateOnParse=False
+	objXmlFile.load(xmlpath)
+	If objXmlFile.readyState=4 Then
+		If objXmlFile.parseError.errorCode <> 0 Then
+		Else
+			If objXmlFile.documentElement.getAttribute("version")<>"2.0" Then
+				Call SetBlogHint_Custom(ZVA_ErrorMsg(64))
+				Response.Redirect Request.ServerVariables("Http_Referer")
+			End If
+		End If
+	End If
 
 End Function
 '*********************************************************
