@@ -78,9 +78,8 @@ End If
 <tr><td><p><b>· 插件简介</b></p></td><td><p>&nbsp;<input id="app_note" name="app_note" style="width:550px;"  type="text" value="<%=TransferHTML(TransferHTML(app_note,"[textarea]"),"[""]")%>" /></p></td></tr>
 <tr><td><p><b>· 适用的最低要求 Z-Blog 版本</b></p></td><td>
 <p>&nbsp;<select name="app_adapted" id="app_adapted" style="width:400px;">
+    <option value="130128">Z-Blog 2.1 Phoenix Build 130128</option>
     <option value="121221" selected="selected">Z-Blog 2.0 Doomsday Build 121221</option>
-    <option value="121028">Z-Blog 2.0 Beta2 Build 121028</option>
-    <option value="121001">Z-Blog 2.0 Beta1 Build 121001</option>
   </select></p>
 </td></tr>
 <tr><td><p><b>· 插件版本号</b></p></td><td><p>&nbsp;<input id="app_version" name="app_version" style="width:550px;" type="number" step="0.1" value="<%=app_version%>" /></p></td></tr>

@@ -723,7 +723,7 @@ On Error Resume Next
 		Set xRoot = XmlDoc.appendChild(XmlDoc.CreateElement("app"))
 			xRoot.setAttribute "version","2.0"
 			xRoot.setAttribute "type","Plugin"
-			xRoot.setAttribute "for","Z-Blog 2.0"
+			'xRoot.setAttribute "for","Z-Blog 2.0"
 		Set xRoot = Nothing
 
 		'写入文件信息
@@ -913,7 +913,6 @@ On Error Resume Next
 				Theme_dependency=objXmlFile.documentElement.selectSingleNode("advanced/dependency").text
 				Theme_rewritefunctions=objXmlFile.documentElement.selectSingleNode("advanced/rewritefunctions").text
 				Theme_conflict=objXmlFile.documentElement.selectSingleNode("advanced/conflict").text
-
 			End If
 		End If
 	End If
@@ -930,7 +929,7 @@ On Error Resume Next
 		Set xRoot = XmlDoc.appendChild(XmlDoc.CreateElement("app"))
 			xRoot.setAttribute "version","2.0"
 			xRoot.setAttribute "type","Theme"
-			xRoot.setAttribute "for","Z-Blog 2.0"
+			'xRoot.setAttribute "for","Z-Blog 2.0"
 		Set xRoot = Nothing
 
 		'写入文件信息
