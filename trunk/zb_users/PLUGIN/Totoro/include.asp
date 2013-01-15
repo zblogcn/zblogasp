@@ -204,7 +204,7 @@ End Function
 '*********************************************************
 Function Totoro_chkComment(ByRef objComment)
 	Call Totoro_Initialize
-	objComment.IP=IIf(Request.ServerVariables("HTTP_X_FORWARDED_FOR")="",Request.Servervariables("REMOTE_ADDR"),Request.ServerVariables("HTTP_X_FORWARDED_FOR"))
+	objComment.IP=GetReallyIP()
 	Call Totoro_cComment(objComment,BlogUser,False)
 
 	Totoro_chkComment=True
@@ -253,7 +253,7 @@ Sub Totoro_cComment(objComment,objUser,isDebug)
 	Totoro_AddDebug "超链接测试完毕。SV为：" & Totoro_SV
 	Call Totoro_checkBadWord(strTemp & "&" & objComment.Author & "&" & objComment.HomePage & "&" & objComment.IP & "&" & objComment.Email)
 	Totoro_AddDebug "黑词测试完毕。SV为：" & Totoro_SV
-	Call Totoro_checkInterval(Request.ServerVariables("REMOTE_ADDR"))
+	Call Totoro_checkInterval(GetReallyIP())
 	Totoro_AddDebug "发表频率测试完毕。SV为：" & Totoro_SV
 	Call Totoro_checkNumLong(strTemp)
 	Totoro_AddDebug "数字长度测试完毕。SV为：" & Totoro_SV
