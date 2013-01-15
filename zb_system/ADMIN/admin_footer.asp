@@ -7,7 +7,7 @@
 // <![CDATA[
 $(document).ready(function(){ 
 
-	$("#nav_tags").before("<li class='split'><hr/></li>");
+	$("#nav_category").before("<li class='split'><hr/></li>");
 	$("#nav_themes").before("<li class='split'><hr/></li>");
 	$("#nav_user").before("<li class='split'><hr/></li>");
 
