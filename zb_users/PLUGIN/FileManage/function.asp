@@ -646,6 +646,8 @@ Function FileManage_Upload()
 	
 	objUpload.SavePath=tpath&"\"
 	objUpload.open
+	objUpload.Save "edtFileLoad",1
+	
 	If Err.Number=0 Then
 		Call SetBlogHint(True,Empty,Empty)
 	Else
