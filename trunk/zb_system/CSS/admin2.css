@@ -670,7 +670,7 @@ span.note{
 .boxfloat{position: fixed;_position: absolute;top: 0px;z-index: 295;}
 
 a.button{
-	border-radius:1px;
+	border-radius:2px;
 	padding:2px 3px 2px 3px;
 	line-height: 1.0em;
 	font-size:1em;

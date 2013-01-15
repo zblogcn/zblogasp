@@ -1336,13 +1336,21 @@ Function FunctionMng()
 
 
 	If Request.Form.Count>=5 Then
+		Dim s1,s2,s3,s4,s5
+		s1=ZC_SIDEBAR_ORDER
+		s2=ZC_SIDEBAR_ORDER2
+		s3=ZC_SIDEBAR_ORDER3
+		s4=ZC_SIDEBAR_ORDER4
+		s5=ZC_SIDEBAR_ORDER5
 		Call SaveFunctionType()
 		If SaveSidebarOrder(Request.Form("edtSidebar"),Request.Form("edtSidebar2"),Request.Form("edtSidebar3"),Request.Form("edtSidebar4"),Request.Form("edtSidebar5")) Then
 			Call SaveSetting
 			Call MakeBlogReBuild_Core()
+			If s1<>ZC_SIDEBAR_ORDER Or s2<>ZC_SIDEBAR_ORDER2 Or s3<>ZC_SIDEBAR_ORDER3 Or s4<>ZC_SIDEBAR_ORDER4 Or s5<>ZC_SIDEBAR_ORDER5 Then
+				Call SetBlogHint(Empty,Empty,True)
+			End If
 			Response.End
 		End If
-		Call SetBlogHint(True,True,True)
 	End If
 
 

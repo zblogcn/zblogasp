@@ -1275,8 +1275,10 @@ Function SaveSetting()
 		If Right(d.Item("ZC_BLOG_HOST"),1)<>"/" Then
 			d.Item("ZC_BLOG_HOST")=d.Item("ZC_BLOG_HOST") & "/"
 		End If
-		'Call SetBlogHint(Empty,Empty,True)
+		If d.Item("ZC_PERMANENT_DOMAIN_ENABLE")="True" Then Call SetBlogHint(Empty,Empty,True)
 	End If
+
+	If BlogConfig.Read("ZC_PERMANENT_DOMAIN_ENABLE")<>d.Item("ZC_PERMANENT_DOMAIN_ENABLE") Then Call SetBlogHint(Empty,Empty,True)
 	If BlogConfig.Read("ZC_BLOG_TITLE")<>d.Item("ZC_BLOG_TITLE")Then Call SetBlogHint(Empty,Empty,True)
 	If BlogConfig.Read("ZC_BLOG_SUBTITLE")<>d.Item("ZC_BLOG_SUBTITLE")Then Call SetBlogHint(Empty,Empty,True)
 	'If BlogConfig.Read("ZC_BLOG_NAME")<>d.Item("ZC_BLOG_NAME")Then Call SetBlogHint(Empty,Empty,True)
