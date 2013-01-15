@@ -1419,8 +1419,8 @@ Class TArticle
 		Dim aryTemplateTagsName()
 		Dim aryTemplateTagsValue()
 		Dim i,j
-		ReDim aryTemplateTagsName(56)
-		ReDim aryTemplateTagsValue(56)
+		ReDim aryTemplateTagsName(58)
+		ReDim aryTemplateTagsValue(58)
 
 		aryTemplateTagsName(1)="article/id"
 		aryTemplateTagsValue(1)=ID
@@ -1556,6 +1556,10 @@ Class TArticle
 
 		aryTemplateTagsName(56)="article/alias"
 		aryTemplateTagsValue(56)=Alias
+		aryTemplateTagsName(57)="article/loadviewcount"
+		aryTemplateTagsValue(57)="<span id=""spn"&ID&"""></span><script type=""text/javascript"">LoadViewCount("&ID&")</script>"
+		aryTemplateTagsName(58)="article/addviewcount"
+		aryTemplateTagsValue(59)="<span id=""spn"&ID&"""></span><script type=""text/javascript"">AddViewCount("&ID&")</script>"
 
 		Call Filter_Plugin_TArticle_Export_TemplateTags(aryTemplateTagsName,aryTemplateTagsValue)
 
