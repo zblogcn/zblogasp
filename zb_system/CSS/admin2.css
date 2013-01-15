@@ -226,7 +226,10 @@ background-image: url(../image/common/window_2.png);
 background-repeat:no-repeat;
 background-position: 100px 8px;
 }
-
+#leftmenu li.split{
+height:2px!important;
+background:#dadada!important;
+}
 
 /*主要内容区*/
 #main .main_right {padding-left:140px;}
@@ -682,7 +685,7 @@ a.button:hover{
 
 .widget-title {margin:0px;padding:6px;;color: #333;cursor: move;}
 .widget-title span{+display:inline-block;} 
-.widget_ishidden_true img.more-action{opacity:0.50;}
+.widget_ishidden_true img.more-action{opacity:0.40;}
 .widget-action{float:right;}
 
 .siderbar-list{float:right;width:282px;margin-left:10px;}
