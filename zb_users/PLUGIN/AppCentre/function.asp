@@ -50,7 +50,7 @@ Redim aryName(0)
 
 Function AppCentre_Update_Restore(build,file,crc32_)
 
-	'On Error Resume Next
+	On Error Resume Next
 
 	Dim objPing
 	Set objPing = Server.CreateObject("Microsoft.XMLHTTP")
@@ -74,9 +74,8 @@ Function AppCentre_Update_Restore(build,file,crc32_)
 	End If
 
 
-
 	If Err.Number=0 Then
-		AppCentre_Update_Restore="下载成功."
+
 	Else
 		Response.End
 	End If
@@ -89,9 +88,9 @@ Function AppCentre_Update_Download(file)
 	On Error Resume Next
 
 	Dim objPing
-	Set objPing = Server.CreateObject("Microsoft.XMLHTTP")
+	Set objPing = Server.CreateObject("MSXML2.ServerXMLHTTP")
 
-	objPing.open "GET", APPCENTRE_SYSTEM_UPDATE & "?" & file & ".xml",False
+	objPing.open "GET", APPCENTRE_SYSTEM_UPDATE & "" & file & ".xml",False
 	objPing.setRequestHeader "accept-encoding", "gzip, deflate"  
 	objPing.send ""
 

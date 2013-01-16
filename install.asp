@@ -78,10 +78,9 @@ Function Install1
 	Response.Flush
 
 	Dim objPing
-	Set objPing = Server.CreateObject("Microsoft.XMLHTTP")
+	Set objPing = Server.CreateObject("MSXML2.ServerXMLHTTP")
 
-	objPing.open "GET", "http://update.rainbowsoft.org/zblog2?install",False
-	objPing.setRequestHeader "accept-encoding", "gzip, deflate"  
+	objPing.open "GET", "http://update.rainbowsoft.org/zblog2/Release.xml",False
 	objPing.send ""
 
 	Dim MyStream
