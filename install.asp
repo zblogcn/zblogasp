@@ -59,7 +59,7 @@ If fso.FileExists(Server.MapPath(".") & "\" & "Release.log")=True Then
 	Response.Write "<p>已运行过安装程序，将删除安装程序......</p>"
 	fso.Deletefile(Server.MapPath(".") & "\" & "Release.log") 
 	fso.Deletefile(Server.MapPath(".") & "\" & "Release.xml") 
-	fso.Deletefile(Server.MapPath(".") & "\" & Request.ServerVariables("PATH_INFO") ) 
+		fso.Deletefile(Server.MapPath(Request.ServerVariables("PATH_INFO"))) 
 Else
 
 	If fso.FileExists(Server.MapPath(".") & "\" & "Release.xml")=True Then
@@ -152,7 +152,7 @@ Function Install2
 
 	Call fso.CreateTextFile(Server.MapPath(".") & "\" & "Release.log", True)
 	fso.Deletefile(Server.MapPath(".") & "\" & "Release.xml") 
-	fso.Deletefile(Server.MapPath(".") & "\" & Request.ServerVariables("PATH_INFO") ) 
+	fso.Deletefile(Server.MapPath(Request.ServerVariables("PATH_INFO"))) 
 	Response.Write "<script>location=""zb_install/default.asp""</script>"
 
 End Function
