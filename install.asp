@@ -94,7 +94,7 @@ Function Install1
 	objPing.send 
 	strMax=CDBl(objPing.getResponseHeader("Content-Length"))
 	
-	Response.Write "大小：" & strMax & "Bytes, 下载中.."
+	Response.Write "大小：" & FormatNumber(strMax/1024/1024,"3.33") & "MB, 下载中.."
 	Response.Flush()
 	
 	
@@ -106,16 +106,15 @@ Function Install1
 
 	
 
-	For i=0 To strMax Step 1000000
+	For i=-1 To strMax Step 1000000
 		s=IIf(i+1000000>strMax,strMax,i+1000000)
 		objPing.open "GET", "http://update.rainbowsoft.org/zblog2/Release.xml"&"?rnd="&Rnd,False
 		objPing.setRequestHeader "User-Agent","Z-BlogInstaller/"&InstallerVersion&"(Host:"&Request.ServerVariables("HTTP_HOST")&") "
-		objPing.setRequestHeader "Range","bytes="&i&"-"&s
+		objPing.setRequestHeader "Range","bytes="&i+1&"-"&s
 		objPing.send 
-	 	MyStream.Write objPing.responsebody
-		Response.Write "<p>已下载：" & s & " Bytes </p>"
+	 	MyStream.Write objPing.responsebody 
+		Response.Write "<p>已下载：" & CInt(s/strMax*100) & "% </p>"
 		Response.Flush()
-		
 	Next 
 	
 	MyStream.SaveToFile Server.MapPath(".") & "\" & "Release.xml" ,2
