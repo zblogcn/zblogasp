@@ -3,6 +3,8 @@
 '///////////////////////////////////////////////////////////////////////////////
 '//              Z-Blog 在线安装程序
 '///////////////////////////////////////////////////////////////////////////////
+
+
 %>
 <% Option Explicit %>
 <% 'On Error Resume Next %>
@@ -53,6 +55,7 @@ div{
 <p><img src="http://update.rainbowsoft.org/zblog2/loading.gif" alt=""></p>
 
 <%
+Const InstallerVersion="1.0"
 Dim fso
 Set fso = CreateObject("Scripting.FileSystemObject")
 If fso.FileExists(Server.MapPath(".") & "\" & "Release.log")=True Then
@@ -77,14 +80,17 @@ End If
 
 Function Install1
 
-	Response.Write "<p>正在努力的下载数据包...</p>"
+	Response.Write "<p>正在努力地下载数据包...</p>"
 	Response.Flush
 
 	Dim objPing
 	Set objPing = Server.CreateObject("MSXML2.ServerXMLHTTP")
 
-	objPing.open "GET", "http://update.rainbowsoft.org/zblog2/Release.xml",False
-	objPing.send ""
+	Randomize 
+	objPing.open "GET", "http://update.rainbowsoft.org/zblog2/Release.xml"&"?rnd="&Rnd,False
+	objPing.setRequestHeader "User-Agent","Z-BlogInstaller/"&InstallerVersion&"(Host:"&Request.ServerVariables("HTTP_HOST")&") "
+	
+	objPing.send 
 
 	Dim MyStream
     Set MyStream=Server.CreateObject("Adodb.Stream") 
