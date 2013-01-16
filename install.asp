@@ -42,7 +42,6 @@ div{
 	padding:0;
 	overflow:hidden;
 	width:200px;
-	height:240px;
 	background-color:white;
 	text-align:center;
 }
@@ -51,7 +50,7 @@ div{
 </head>
 <body>
 <div>
-<h3>Z-Blog2在线安装程序</h3>
+<h3>Z-Blog 2 在线安装</h3>
 <p><img src="http://update.rainbowsoft.org/zblog2/loading.gif" alt=""></p>
 
 <%
@@ -80,6 +79,9 @@ End If
 
 Function Install1
 
+	
+	Dim i,strMax
+	
 	Response.Write "<p>正在努力地下载数据包...</p>"
 	Response.Flush
 
@@ -87,18 +89,37 @@ Function Install1
 	Set objPing = Server.CreateObject("MSXML2.ServerXMLHTTP")
 
 	Randomize 
-	objPing.open "GET", "http://update.rainbowsoft.org/zblog2/Release.xml"&"?rnd="&Rnd,False
+	objPing.open "HEAD", "http://update.rainbowsoft.org/zblog2/Release.xml"&"?rnd="&Rnd,False
 	objPing.setRequestHeader "User-Agent","Z-BlogInstaller/"&InstallerVersion&"(Host:"&Request.ServerVariables("HTTP_HOST")&") "
-	
 	objPing.send 
-
-	Dim MyStream
+	strMax=CDBl(objPing.getResponseHeader("Content-Length"))
+	
+	Response.Write "大小：" & strMax & "Bytes, 下载中.."
+	Response.Flush()
+	
+	
+	Dim MyStream,s
     Set MyStream=Server.CreateObject("Adodb.Stream") 
 	MyStream.Type = 1
 	MyStream.Mode = 3
     MyStream.Open 
-    MyStream.Write objPing.responsebody
-    MyStream.SaveToFile Server.MapPath(".") & "\" & "Release.xml" ,2
+
+	
+
+	For i=0 To strMax Step 1000000
+		s=IIf(i+1000000>strMax,strMax,i+1000000)
+		objPing.open "GET", "http://update.rainbowsoft.org/zblog2/Release.xml"&"?rnd="&Rnd,False
+		objPing.setRequestHeader "User-Agent","Z-BlogInstaller/"&InstallerVersion&"(Host:"&Request.ServerVariables("HTTP_HOST")&") "
+		objPing.setRequestHeader "Range","bytes="&i&"-"&s
+		objPing.send 
+	 	MyStream.Write objPing.responsebody
+		Response.Write "<p>已下载：" & s & " Bytes </p>"
+		Response.Flush()
+		
+	Next 
+	
+	MyStream.SaveToFile Server.MapPath(".") & "\" & "Release.xml" ,2
+	      
 End Function
 
 Function Install2
@@ -163,7 +184,9 @@ Function Install2
 
 End Function
 
-
+Function IIf(a,b,c)
+	If a Then IIf=b Else IIf=c
+End Function
 '*********************************************************
 ' 目的：    按照CustomDirectory指示创建相应的目录
 '*********************************************************
