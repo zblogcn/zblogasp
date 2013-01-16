@@ -1559,7 +1559,7 @@ Class TArticle
 		aryTemplateTagsName(57)="article/loadviewcount"
 		aryTemplateTagsValue(57)="<span id=""spn"&ID&"""></span><script type=""text/javascript"">LoadViewCount("&ID&")</script>"
 		aryTemplateTagsName(58)="article/addviewcount"
-		aryTemplateTagsValue(59)="<span id=""spn"&ID&"""></span><script type=""text/javascript"">AddViewCount("&ID&")</script>"
+		aryTemplateTagsValue(58)="<span id=""spn"&ID&"""></span><script type=""text/javascript"">AddViewCount("&ID&")</script>"
 
 		Call Filter_Plugin_TArticle_Export_TemplateTags(aryTemplateTagsName,aryTemplateTagsValue)
 
