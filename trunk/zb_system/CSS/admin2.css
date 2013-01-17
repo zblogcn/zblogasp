@@ -227,17 +227,11 @@ background-repeat:no-repeat;
 background-position: 100px 8px;
 }
 #leftmenu li.split{
-height:10px!important;
+height:0px!important;
 background:#fff;
 }
 #leftmenu li.split hr{
-height:2px!important;
-border-width: 1px;
-width: 78%;
-visibility: visible;
-background: #dfdfdf;
-border-color: #cfcfcf;
-margin-top: 4px;
+display:none;
 }
 /*主要内容区*/
 #main .main_right {padding-left:140px;}
