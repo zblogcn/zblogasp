@@ -1,4 +1,23 @@
-﻿//本条留言DomID,本条留言class,内容class,评论框DomID,指定父ID
+﻿$(document).ready(function(){
+	var havecateurl=false;
+	if(typeof(cateurl)!="undefined"){
+		if(cateurl!="<#article/category/id#>") havecateurl=true;
+	}
+	
+	if(!$(".mutuality li").length){$("ul.mutuality").hide()}
+	if(!$(".comment .even").length){$("h2.comment").hide()}
+	$(".post-tags").each(function(){if($(this).find('a').length==0){$(this).hide()}});
+	var s=document.location;
+	$("#divNavBar a").each(function(){
+		if(havecateurl){
+			if(this.href==cateurl){$(this).addClass("on");return false;}
+		}
+		else{
+			if(this.href==s.toString().split("#")[0]){$(this).addClass("on");return false;}
+		}
+	});
+});
+//本条留言DomID,本条留言class,内容class,评论框DomID,指定父ID
 function ReComment(comId,comClass,mClass,frmId,i){
 	intRevID=i;
 	var comm=$('#'+comId),frm=$('#'+frmId),cancel=$("#cancel-reply"),temp = $('#temp-frm');

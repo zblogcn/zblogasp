@@ -1122,10 +1122,6 @@ height:1%;
 display:block;
 }
 
-.pagebar{
-padding:20px 0;
-}
-
 .tips {
 font-size:0.9em;
 }
@@ -1151,12 +1147,20 @@ border:3px solid #FFE26E;
 padding:1px;
 }
 
+/**
+ * pagebar
+ */
 .pager {
 clear:both;
 text-align:center;
 }
 .pager a, .pager .now-page {
 padding:0.5em;
+}
+
+li.pagebar{
+padding:20px 0;
+background: transparent
 }
 
 .reply-frm{
@@ -1166,3 +1170,6 @@ padding:0.5em;
 	padding:1em !important;
 	min-width:330px;
 }
+
+.l{float:left;}
+.r{float:right;}

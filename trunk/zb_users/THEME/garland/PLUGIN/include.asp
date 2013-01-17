@@ -8,12 +8,6 @@ Function ActivePlugin_Garland()
 
 	'日历
 	Call Add_Action_Plugin("Action_Plugin_MakeCalendar_Begin","MakeCalendar=WP_MakeCalendar2(dtmYearMonth):Exit Function")
-	'评论输出表情
-	Call Add_Filter_Plugin("Filter_Plugin_TComment_LoadInfoByArray","TComment_UBBIMG")
-	'侧栏输出过滤表情
-	Call Add_Filter_Plugin("Filter_Plugin_TFunction_Post","TComment_UBBIMG_2")
-	'文章页输出添加JS
-	Call Add_Filter_Plugin("Filter_Plugin_TArticle_Build_Template_Succeed","TArticle_UBBIMG_ADDJS")
 
 End Function
 
@@ -149,76 +143,6 @@ Function WP_MakeCalendar2(dtmYearMonth)
 	strCalendar=strCalendar & "	</tbody></table>"
 	WP_MakeCalendar2=strCalendar
 	
-End Function
-'*********************************************************
-
-
-
-'*********************************************************
-' 接口：	Filter_Plugin_TComment_LoadInfoByArray
-' 目的：    解析留言UBB
-'*********************************************************
-Function TComment_UBBIMG(ID,log_ID,AuthorID,Author,ByRef Content,Email,HomePage,PostTime,IP,Agent,Reply,LastReplyIP,LastReplyTime,ParentID,IsCheck,MetaString)
-
-	Dim objRegExp
-	Set objRegExp=new RegExp
-	objRegExp.IgnoreCase =True
-	objRegExp.Global=True
-	objRegExp.Pattern="(\[IMG\])(.+?)(\[\/IMG\])"
-		
-	Content= objRegExp.Replace(Content,"<img src="""&BlogHost&"zb_users/emotion/$2"" alt="""" title=""""/>")
-
-End Function
-
-'*********************************************************
-
-
-
-'*********************************************************
-' 接口：	Filter_Plugin_TFunction_Post
-' 目的：    过滤侧栏留言UBB
-'*********************************************************
-Function TComment_UBBIMG_2(ID,Name,FileName,Order,ByRef Content,IsSystem,SidebarID,HtmlID,Ftype,MaxLi,MetaString)
-
-	Dim objRegExp
-	Set objRegExp=new RegExp
-	objRegExp.IgnoreCase =True
-	objRegExp.Global=True
-	objRegExp.Pattern="(\[IMG\])(.+?)(\[\/IMG\])"
-		
-	Content= objRegExp.Replace(Content,"")
-	
-	Set objRegExp = Nothing
-
-End Function
-'*********************************************************
-
-
-
-
-'*********************************************************
-' 接口：	Filter_Plugin_TArticle_Build_Template_Succeed
-' 目的：    文章页添加脚本
-'*********************************************************
-Function TArticle_UBBIMG_ADDJS(ByRef html)
-
-	Dim Strc
-	Strc="	<link rel=""stylesheet"" type=""text/css"" href="""&BlogHost&"zb_system/admin/ueditor/themes/default/ueditor.css""/>"& vbCrLf
-	Strc=Strc& "	<script type=""text/javascript"" charset=""utf-8"" src="""&BlogHost&"zb_system/admin/ueditor/editor_config.asp""></script>"& vbCrLf
-	Strc=Strc& "	<script type=""text/javascript"" charset=""utf-8"" src="""&BlogHost&"zb_system/admin/ueditor//editor_all_min.js""></script>"& vbCrLf
-	Strc=Strc& "	<script src="""&BlogHost&"zb_users/theme/garland/plugin/ubbimg.js"" type=""text/javascript""></script>"& vbCrLf
-	Strc=Strc& "</head>"
-
-	Dim objRegExp
-	Set objRegExp = new RegExp
-	objRegExp.IgnoreCase = True
-	objRegExp.Global = False
-	objRegExp.Pattern="(</head>)"
-		
-	html= objRegExp.Replace(html,Strc)
-
-	Set objRegExp = Nothing
-
 End Function
 '*********************************************************
 
