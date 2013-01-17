@@ -22,11 +22,12 @@ Partial Class Form1
     '不要使用代码编辑器修改它。
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.TextBox1 = New System.Windows.Forms.TextBox
-        Me.TextBox2 = New System.Windows.Forms.TextBox
-        Me.Button1 = New System.Windows.Forms.Button
-        Me.Button2 = New System.Windows.Forms.Button
-        Me.ComboBox1 = New System.Windows.Forms.ComboBox
+        Me.TextBox1 = New System.Windows.Forms.TextBox()
+        Me.TextBox2 = New System.Windows.Forms.TextBox()
+        Me.Button1 = New System.Windows.Forms.Button()
+        Me.Button2 = New System.Windows.Forms.Button()
+        Me.ComboBox1 = New System.Windows.Forms.ComboBox()
+        Me.Button3 = New System.Windows.Forms.Button()
         Me.SuspendLayout()
         '
         'TextBox1
@@ -71,16 +72,27 @@ Partial Class Form1
         Me.ComboBox1.Size = New System.Drawing.Size(121, 20)
         Me.ComboBox1.TabIndex = 4
         '
+        'Button3
+        '
+        Me.Button3.Location = New System.Drawing.Point(156, 425)
+        Me.Button3.Name = "Button3"
+        Me.Button3.Size = New System.Drawing.Size(118, 23)
+        Me.Button3.TabIndex = 5
+        Me.Button3.Text = "生成Release"
+        Me.Button3.UseVisualStyleBackColor = True
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(636, 460)
+        Me.Controls.Add(Me.Button3)
         Me.Controls.Add(Me.ComboBox1)
         Me.Controls.Add(Me.Button2)
         Me.Controls.Add(Me.Button1)
         Me.Controls.Add(Me.TextBox2)
         Me.Controls.Add(Me.TextBox1)
+        Me.MaximizeBox = False
         Me.Name = "Form1"
         Me.Text = "Z-Blog File Index Maker"
         Me.ResumeLayout(False)
@@ -92,5 +104,6 @@ Partial Class Form1
     Friend WithEvents Button1 As System.Windows.Forms.Button
     Friend WithEvents Button2 As System.Windows.Forms.Button
     Friend WithEvents ComboBox1 As System.Windows.Forms.ComboBox
+    Friend WithEvents Button3 As System.Windows.Forms.Button
 
 End Class
