@@ -1082,10 +1082,6 @@ height:1%;
 display:block;
 }
 
-.pagebar{
-padding:20px 0;
-}
-
 .tips {
 font-size:0.9em;
 }
@@ -1144,3 +1140,19 @@ text-align:center;
 .pager a, .pager .now-page {
 padding:0.5em;
 }
+
+li.pagebar{
+padding:20px 0;
+background: transparent
+}
+
+.reply-frm{
+	background:#f3f3f3;
+	box-shadow: 0 0 5px #ccc;
+	margin:1em 1% !important;
+	padding:1em !important;
+	min-width:330px;
+}
+
+.l{float:left;}
+.r{float:right;}
