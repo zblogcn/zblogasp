@@ -8,10 +8,12 @@ Public Class Form1
 
         For Each c As String In My.Computer.FileSystem.GetDirectories(My.Application.Info.DirectoryPath, FileIO.SearchOption.SearchTopLevelOnly)
 
+            If My.Computer.FileSystem.GetDirectoryInfo(c).Name.Length <> 6 Then Exit For
+
             Dim b As String = ""
             Dim d As String = ""
             Dim f As String = ""
-            b += ("<files build=''>" + vbCrLf)
+            b += ("<files build='" + My.Computer.FileSystem.GetDirectoryInfo(c).Name + "'>" + vbCrLf)
             For Each a As String In My.Computer.FileSystem.GetFiles(c, FileIO.SearchOption.SearchAllSubDirectories)
                 b += vbTab + "<file"
 
@@ -160,8 +162,11 @@ Public Class Form1
         Dim i As Integer = 0
         b += "<builds>" + vbCrLf
         For Each c As String In My.Computer.FileSystem.GetDirectories(My.Application.Info.DirectoryPath, FileIO.SearchOption.SearchTopLevelOnly)
-            b += vbTab + "<build>" + My.Computer.FileSystem.GetDirectoryInfo(c).Name + "</build>" + vbCrLf
-            i += 1
+            If My.Computer.FileSystem.GetDirectoryInfo(c).Name.Length = 6 Then
+                b += vbTab + "<build>" + My.Computer.FileSystem.GetDirectoryInfo(c).Name + "</build>" + vbCrLf
+                i += 1
+            End If
+
         Next
         b += "</builds>"
         My.Computer.FileSystem.WriteAllText(My.Application.Info.DirectoryPath + "\builds.xml", b, False)
@@ -179,6 +184,61 @@ Public Class Form1
         Next
 
 
+
+    End Sub
+
+    Private Sub Button3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button3.Click
+
+        For Each c As String In My.Computer.FileSystem.GetDirectories(My.Application.Info.DirectoryPath, FileIO.SearchOption.SearchTopLevelOnly)
+
+            If My.Computer.FileSystem.GetDirectoryInfo(c).Name = "Release" Then
+
+
+
+                Dim b As String = ""
+                Dim d As String = ""
+                Dim f As String = ""
+                Dim h As String = ""
+                Dim l As New System.Collections.Generic.List(Of String)
+                b += ("<files build='" + Me.ComboBox1.Text + "' codepage='65001' xmlns:dt='urn:schemas-microsoft-com:datatypes'>" + vbCrLf)
+                l.Add(b)
+                b = ""
+                For Each a As String In My.Computer.FileSystem.GetFiles(c, FileIO.SearchOption.SearchAllSubDirectories)
+                    b += vbTab + "<file"
+
+                    b += " name='" + a.Replace(c + "\", "") + "'"
+
+                    Dim bytMD5 As Byte() = New System.Security.Cryptography.MD5CryptoServiceProvider().ComputeHash(My.Computer.FileSystem.ReadAllBytes(a))
+
+                    d = BitConverter.ToString(bytMD5).Replace("-", String.Empty).ToUpper
+
+                    'b += " md5='" + d + "'"
+
+
+                    Dim g As New Crc32
+                    f = Convert.ToString(g.CalculateBlock(My.Computer.FileSystem.ReadAllBytes(a)), 16).ToUpper
+
+                    b += " crc32='" + f + "'"
+
+                    b += "  dt:dt='bin.base64'>"
+
+
+                    h = System.Convert.ToBase64String(My.Computer.FileSystem.ReadAllBytes(a))
+
+
+                    b += h + "</file>" + vbCrLf
+                    l.Add(b)
+                    b = ""
+
+
+                Next
+                b += "</files>"
+                l.Add(b)
+                b = Join(l.ToArray)
+                My.Computer.FileSystem.WriteAllText(My.Computer.FileSystem.GetDirectoryInfo(c).Name + ".xml", b, False)
+                Me.TextBox2.AppendText("生成文件:" + My.Computer.FileSystem.GetDirectoryInfo(c).Name + ".xml" + vbCrLf)
+            End If
+        Next
 
     End Sub
 End Class
