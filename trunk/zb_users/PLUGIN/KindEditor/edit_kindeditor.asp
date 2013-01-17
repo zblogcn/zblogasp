@@ -8,7 +8,7 @@
 '// 程序名称:
 '// 程序版本:
 '// 单元名称:    edit_kindeditor.asp
-'// 开始时间:    2012.9.6
+'// 开始时间:    2013.1.13
 '// 最后修改:
 '// 备    注:    编辑页
 '///////////////////////////////////////////////////////////////////////////////
@@ -88,14 +88,13 @@ Next
 <!--#include file="../../../zb_system/admin/admin_header.asp"-->
 	<script type="text/javascript" src="../../../zb_system/script/jquery.tagto.js"></script>
 	<script type="text/javascript" src="../../../zb_system/script/jquery-ui-timepicker-addon.js"></script>
-	<link rel="stylesheet" href="kindeditor/themes/default/default.css" />
-	<script charset="utf-8" src="kindeditor/kindeditor-min.js"></script>
+	<script charset="utf-8" src="kindeditor/kindeditor.js"></script>
 	<script charset="utf-8" src="kindeditor/lang/zh_CN.js"></script>
-	<!--<script type="text/javascript" charset="utf-8" src="/zb_system/admin/ueditor/editor_config.asp"></script>-->
+	<script type="text/javascript" charset="utf-8" src="../../../zb_system/admin/ueditor/editor_config.asp"></script>
 
 <style>
 .ke-icon-zbimages {
-      background-image: url(./skins/default.gif);
+      
       background-position: 0px -672px;
       width: 16px;
       height: 16px;
@@ -383,20 +382,22 @@ var editor,editor2;
 KindEditor.ready(function(K) {
 	$("#contentready").hide();
 	editor = K.create('#editor_ke',{
-		uploadJson:'kindeditor/asp/upload_json.asp'
-		,fileManagerJson:'kindeditor/asp/file_manager_json.asp',
-		allowFileManager : true,
+		uploadJson:'kindeditor/asp/upload_json.asp',
+		fileManagerJson:'kindeditor/asp/file_manager_json.asp',
+		allowFileManager : false,
 		formatUploadUrl : false,
 		width : '980px',
 		height : '450px',
-		items : [ 'source', '|', 'undo', 'redo', '|', 'preview', 'print', 'template', 'code', 'cut', 'copy', 'paste',
+		emoticonsPath :'../../EMOTION/',
+		allowPreviewEmoticons : false,
+		items : [ 'source', '|', 'undo', 'redo', '|', 'preview', 'print', 'template', /*'code', */'cut', 'copy', 'paste',
         'plainpaste', 'wordpaste', '|', 'justifyleft', 'justifycenter', 'justifyright',
         'justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript',
         'superscript', 'clearhtml', 'quickformat', 'selectall', '|', 'fullscreen', '/',
         'formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold',
         'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|', 'image', 'multiimage',
         'flash', 'media', 'insertfile', 'table', 'hr', 'emoticons', 'baidumap', 'pagebreak',
-        'anchor', 'link', 'unlink', '|', 'about', 'zbimages']
+        'anchor', 'link', 'unlink', '|', 'about'/*, 'zbimages'*/]
 	});
 
 
@@ -405,7 +406,6 @@ KindEditor.ready(function(K) {
 	
 	$("#introready").hide();
 	editor2 = K.create("#editor_ke2",	{
-					//themeType : 'qq',
 					items : ['source', '|','bold','italic','underline','fontname','fontsize','forecolor','hilitecolor','link']
 				});
 	$("#editor_ke2").prev().removeAttr("style");

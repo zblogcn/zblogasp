@@ -6,6 +6,12 @@
 <!-- #include file="..\..\..\..\..\zb_system\function\c_system_plugin.asp" -->
 <!-- #include file="..\..\..\p_config.asp" -->
 <%
+Sub KEupload
+	Call System_Initialize()
+	Call CheckReference("")
+	If Not CheckRights("FileUpload") Then Call ShowError(6)
+End Sub
+
 '得到当前的真实路径
 Dim uEditor_ASPPath
 uEditor_ASPPath=BlogPath

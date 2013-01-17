@@ -8,6 +8,7 @@
 <%
 ' KindEditor ASP
 '未寒
+KEupload
 
 Dim aspUrl, savePath, saveUrl, maxSize, fileName, fileExt, newFileName, filePath, fileUrl, dirName
 Dim extStr, imageExtStr, flashExtStr, mediaExtStr, fileExtStr
@@ -93,8 +94,10 @@ end if
 filePath = Server.mappath(savePath & file.filename)
 fileUrl = saveUrl & file.filename
 Dim filenameupload,filesizeupload
+
 filenameupload=file.filename
 filesizeupload=upload.TotalSize
+
 Set upload = nothing
 Set file = nothing
 
