@@ -241,7 +241,8 @@ display:none;
 
 /*后台首页*/
 #divMain {float:left;width:100%;background:#FFFFFF;padding:0px;margin:0px;}
-#divMain a,#divMain2 a{color:#2A4C88;} #divMain a:hover,#divMain2  a:hover{color:#D60000;}
+#divMain a,#divMain2 a{color:#1d4c7d;}
+#divMain a:hover,#divMain2  a:hover{color:#D60000;}
 #divMain2 { padding:0px;margin:0px;}
 .divHeader { height:1.8em; line-height:1.8em; font-size:1.5em; padding:0; background:#FFF;}
 .divHeader2 { height:1.8em; line-height:1.8em; font-size:1.5em; padding:0; background:#FFF;border-bottom:5px solid #e0e0e0;}
@@ -509,17 +510,17 @@ span.note{
 	font-size:0.9em;
 }
 .pagebar span{
-	color:#3a6ea5;
+	color:#333;
 	font-weight:bolder;
-	padding:2px 5px 2px 5px;
-	border:1px solid #7190ba;
-	background:#99b6dd;
+	padding:3px 5px 2px 5px;
+	border:1px solid #999;
+	background:#aaa;
 	margin:1px;
 }
 
 .pagebar a{
-	border:1px solid #7aa4d0;
-	background:#e8f6ff;
+	border:1px solid #999;
+	background:#eee;
 	padding:2px;
 	padding:2px 5px 2px 5px;
 	margin:1px;

@@ -396,13 +396,13 @@ Function InsertFunctions()
 Dim t
 
 Set t=new Tfunction
-t.Name="导航栏"
+t.Name="导航栏菜单"
 t.FileName="navbar"
 t.IsHidden=False
 t.Source="system"
 t.SidebarID=0
 t.Order=1
-t.Content="<li><a href=""<#ZC_BLOG_HOST#>"">首页</a></li><li><a href=""<#ZC_BLOG_HOST#>tags.asp"">标签</a></li><li><a href=""<#ZC_BLOG_HOST#>guestbook.html"">留言本</a></li>"
+t.Content="<li><a href=""<#ZC_BLOG_HOST#>"">首页</a></li><li><a href=""<#ZC_BLOG_HOST#>tags.asp"">标签</a></li>"
 t.HtmlID="divNavBar"
 t.Ftype="ul"
 t.post
