@@ -2358,7 +2358,7 @@ Function SaveFunction()
 	objFunction.ViewType=Request.Form("inpViewType")
 	objFunction.Source=Request.Form("inpSource")
 	objFunction.IsHidden=Not (Request.Form("inpIsHidden")="True")
-
+	objFunction.IsHideTitle=(Request.Form("inpIsHideTitle")="True")
 	If Request.Form("inpFileName")="navbar" Then
 		Call GetFunction()
 		If TransferHTML(objFunction.Content,"[anti-zc_blog_host]")<>Functions(FunctionMetas.GetValue("navbar")).Content Then

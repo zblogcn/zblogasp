@@ -376,7 +376,7 @@ Function UpdateAccessTable()
 
 	If Not CheckUpdateDB("[conf_Name]","[blog_Config]") Then
 		objConn.execute("CREATE TABLE [blog_Config] (conf_Name VARCHAR(255) default """" not null,conf_Value text default """")")
-		objConn.execute("CREATE TABLE [blog_Function] (fn_ID AutoIncrement primary key,fn_Name VARCHAR(50) default """",fn_FileName VARCHAR(50) default """",fn_Order int default 0,fn_Content text default """",fn_IsHidden YESNO DEFAULT 0,fn_SidebarID int default 0,fn_HtmlID VARCHAR(50) default """",fn_Ftype VARCHAR(5) default """",fn_MaxLi int default 0,fn_Source VARCHAR(50) default """",fn_ViewType VARCHAR(50) default """",fn_Meta text default """")")
+		objConn.execute("CREATE TABLE [blog_Function] (fn_ID AutoIncrement primary key,fn_Name VARCHAR(50) default """",fn_FileName VARCHAR(50) default """",fn_Order int default 0,fn_Content text default """",fn_IsHidden YESNO DEFAULT 0,fn_SidebarID int default 0,fn_HtmlID VARCHAR(50) default """",fn_Ftype VARCHAR(5) default """",fn_MaxLi int default 0,fn_Source VARCHAR(50) default """",fn_ViewType VARCHAR(50) default """",fn_IsHideTitle YESNO DEFAULT 0,fn_Meta text default """")")
 	End If
 
 	If Not CheckUpdateDB("[coun_Content]","[blog_Counter]") Then
@@ -418,6 +418,7 @@ t.Order=2
 t.Content=""
 t.HtmlID="divCalendar"
 t.Ftype="div"
+t.IsHideTitle=True
 t.post
 
 

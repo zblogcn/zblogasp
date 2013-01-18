@@ -299,7 +299,7 @@ ZC_MSG294="侧栏5"
 ZC_MSG295="内含<span>%n</span>个模块"
 ZC_MSG296="手动修改并锁定网站地址"
 ZC_MSG297="自动识别网站地址"
-ZC_MSG298=""
+ZC_MSG298="隐藏模块标题"
 ZC_MSG299=""
 ZC_MSG300=""
 

@@ -84,7 +84,7 @@ BlogTitle=ZC_MSG144
 	Response.Write "<input id=""inpOrder"" name=""inpOrder""  type=""hidden"" value="""& EditFunction.Order &""" />"
 	Response.Write "<input id=""inpSidebarID"" name=""inpSidebarID""  type=""hidden"" value="""& EditFunction.SidebarID &""" />"
 	Response.Write "<input id=""inpSource"" name=""inpSource""  type=""hidden"" value="""& EditFunction.Source &""" />"
-	Response.Write "<p><span class='title'>"& ZC_MSG001 &":</span><span class='star'>(*)</span><br/><input type=""text"" id=""inpName"" name=""inpName"" value="""& EditFunction.Name &""" size=""40"" /></p>"
+	Response.Write "<p><span class='title'>"& ZC_MSG001 &":</span><span class='star'>(*)</span><br/><input type=""text"" id=""inpName"" name=""inpName"" value="""& EditFunction.Name &""" size=""40"" />&nbsp;("&ZC_MSG298&":<input id=""inpIsHideTitle"" name=""inpIsHideTitle"" style="""" type=""text"" value="""& EditFunction.IsHideTitle &""" class=""checkbox""/>)</p>"
 	Response.Write "<p><span class='title'>"& ZC_MSG170 &":</span><span class='star'>(*)</span><br/><input "&t&" type=""text"" id=""inpFileName"" name=""inpFileName"" value="""& EditFunction.FileName &""" size=""40"" /></p>"
 	Response.Write "<p><span class='title'>"& "HTML ID" &":</span><span class='star'>(*)</span><br/><input type=""text"" name=""inpHtmlID"" value="""&  EditFunction.HtmlId &""" size=""40""  /><br/>("&ZC_MSG137&")</p>"
 
@@ -100,19 +100,6 @@ BlogTitle=ZC_MSG144
 	Response.Write "<label><input id=""viewtype3"" name=""inpViewType"" value=""html"" type=""radio"" "&IIf(EditFunction.ViewType="html", "checked=""checked""","") & " />&nbsp;&nbsp;HTML&nbsp;&nbsp;&nbsp;&nbsp;</label>"
 
 	Response.Write "<p><span class='title'>"& ZC_MSG017 &":</span></p><input id=""inpIsHidden"" name=""inpIsHidden"" style="""" type=""text"" value="""& EditFunction.IsDisplay &""" class=""checkbox""/><hr/>"
-		
-
-
-	
-	'Response.Write "<p id=""pShow"" "&IIF(EditFunction.SideBarID=-1,"style=""display:none;""","")&"><label><input id=""inpNoSidebar"" type=""checkbox"" "&IIf(EditFunction.SidebarID=0, "checked=""checked""","") & " />&nbsp;&nbsp;"&ZC_MSG074&"</label>&nbsp;&nbsp;&nbsp;&nbsp;"
-	
-	'Response.Write "<label><input id=""inpSidebar""  type=""checkbox"" "&IIf(EditFunction.InSidebar=True, "checked=""checked""","") & " />&nbsp;&nbsp;"  & ZC_MSG008 & "&nbsp;&nbsp;&nbsp;&nbsp;</label>"
-	'Response.Write "<label><input id=""inpSidebar2"" type=""checkbox"" "&IIf(EditFunction.InSidebar2=True,"checked=""checked""","") & " />&nbsp;&nbsp;"  & ZC_MSG008 & "2&nbsp;&nbsp;&nbsp;&nbsp;</label>"
-	'Response.Write "<label><input id=""inpSidebar3"" type=""checkbox"" "&IIf(EditFunction.InSidebar3=True,"checked=""checked""","") & " />&nbsp;&nbsp;"  & ZC_MSG008 & "3&nbsp;&nbsp;&nbsp;&nbsp;</label>"
-	'Response.Write "<label><input id=""inpSidebar4"" type=""checkbox"" "&IIf(EditFunction.InSidebar4=True,"checked=""checked""","") & " />&nbsp;&nbsp;"  & ZC_MSG008 & "4&nbsp;&nbsp;&nbsp;&nbsp;</label>"
-	'Response.Write "<label><input id=""inpSidebar5"" type=""checkbox"" "&IIf(EditFunction.InSidebar5=True,"checked=""checked""","") & " />&nbsp;&nbsp;"  & ZC_MSG008 & "5&nbsp;&nbsp;&nbsp;&nbsp;</label>"
-
-	'Response.Write "</p>"
 	
 	Response.Write "<p><span class='title'>"& ZC_MSG090 &":</span><br/><textarea name=""inpContent"" id=""inpContent"" onchange=""GetActiveText(this.id);"" onclick=""GetActiveText(this.id);"" onfocus=""GetActiveText(this.id);"" cols=""80"" rows=""12"" " & IIF(InStr("|calendar|catalog|comments|previous|archives|authors|tags|statistics|","|"&EditFunction.FileName&"|")>0,"disabled=""disabled""","") & " >"&s&"</textarea></p>"
 
