@@ -629,7 +629,7 @@ Function CreateAccessTable()
 	objConn.execute("CREATE TABLE [blog_Config] (conf_Name VARCHAR(255) default """" not null,conf_Value text default """")")
 	'objConn.execute("CREATE UNIQUE INDEX index_conf_Name ON [blog_Config](conf_Name)")
 
-	objConn.execute("CREATE TABLE [blog_Function] (fn_ID AutoIncrement primary key,fn_Name VARCHAR(50) default """",fn_FileName VARCHAR(50) default """",fn_Order int default 0,fn_Content text default """",fn_IsHidden YESNO DEFAULT 0,fn_SidebarID int default 0,fn_HtmlID VARCHAR(50) default """",fn_Ftype VARCHAR(5) default """",fn_MaxLi int default 0,fn_Source VARCHAR(50) default """",fn_ViewType VARCHAR(50) default """",fn_Meta text default """")")
+	objConn.execute("CREATE TABLE [blog_Function] (fn_ID AutoIncrement primary key,fn_Name VARCHAR(50) default """",fn_FileName VARCHAR(50) default """",fn_Order int default 0,fn_Content text default """",fn_IsHidden YESNO DEFAULT 0,fn_SidebarID int default 0,fn_HtmlID VARCHAR(50) default """",fn_Ftype VARCHAR(5) default """",fn_MaxLi int default 0,fn_Source VARCHAR(50) default """",fn_ViewType VARCHAR(50) default """",fn_IsHideTitle YESNO DEFAULT 0,fn_Meta text default """")")
 
 	objConn.Execute("INSERT INTO [blog_Member]([mem_Level],[mem_Name],[mem_PassWord],[mem_Email],[mem_HomePage],[mem_Intro],[mem_Guid]) VALUES (1,'"&username&"','"&password&"','null@null.com','','','"&userguid&"')")
 
@@ -663,7 +663,7 @@ Function CreateMssqlTable()
 
 	objConn.execute("CREATE TABLE [blog_Config] (conf_Name nvarchar(255) not null default '',conf_Value text default '')")
 
-	objConn.execute("CREATE TABLE [blog_Function] (fn_ID int identity(1,1) not null primary key,fn_Name nvarchar(50) default '',fn_FileName nvarchar(50) default '',fn_Order int default 0,fn_Content ntext default '',fn_IsHidden bit DEFAULT 0,fn_SidebarID int default 0,fn_HtmlID nvarchar(50) default '',fn_Ftype nvarchar(5) default '',fn_MaxLi int default 0,fn_Source nvarchar(50) default '',fn_ViewType nvarchar(50) default '',fn_Meta ntext default '')")
+	objConn.execute("CREATE TABLE [blog_Function] (fn_ID int identity(1,1) not null primary key,fn_Name nvarchar(50) default '',fn_FileName nvarchar(50) default '',fn_Order int default 0,fn_Content ntext default '',fn_IsHidden bit DEFAULT 0,fn_SidebarID int default 0,fn_HtmlID nvarchar(50) default '',fn_Ftype nvarchar(5) default '',fn_MaxLi int default 0,fn_Source nvarchar(50) default '',fn_ViewType nvarchar(50) default '',fn_IsHideTitle bit DEFAULT 0,fn_Meta ntext default '')")
 
 	objConn.Execute("INSERT INTO [blog_Member]([mem_Level],[mem_Name],[mem_PassWord],[mem_Email],[mem_HomePage],[mem_Intro],[mem_Guid]) VALUES (1,'"&username&"','"&password&"','null@null.com','','','"&userguid&"')")
 
@@ -699,6 +699,7 @@ t.Order=2
 t.Content=""
 t.HtmlID="divCalendar"
 t.Ftype="div"
+t.IsHideTitle=True
 t.post
 
 

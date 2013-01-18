@@ -254,9 +254,6 @@ h1,h2,h3,h4,h5,h6{
 	margin:0 0 0 1em;
 }
 
-#divCalendar .function_t{
-	display:none;
-}
 #divSearchPanel input[type="text"]{
 	border:1px solid #bfd0d7;
 	height:24px;
