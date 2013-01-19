@@ -11,11 +11,11 @@ Function ActivePlugin_AdminColor()
 	j=UBound(BlodColor)
 	For i =0 To j
 		If NormalColor(i)="" Then Exit For
-		s=s& "&nbsp;&nbsp;<a href='"+BlogHost+"zb_users/plugin/admincolor/css.asp?color="&i&"'><span style='height:24px;width:24px;background:"&NormalColor(i)&"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></a>&nbsp;&nbsp;"
+		s=s& "&nbsp;&nbsp;<a href='"+BlogHost+"zb_users/plugin/admincolor/css.asp?color="&i&"'><span style='height:16px;width:16px;background:"&NormalColor(i)&"'><img src='"+BlogHost+"zb_system/image/admin/none.gif' width='16' height='16' alt='' /></span></a>&nbsp;&nbsp;"
 	Next
-	s=s&"&nbsp;&nbsp;<a href='"+BlogHost+"zb_users/plugin/admincolor/css.asp?color=random' title='随机颜色'><span style='height:24px;width:24px;background:white;border:black 1px solid'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></a>&nbsp;&nbsp;"
+	s=s&"&nbsp;&nbsp;<a href='"+BlogHost+"zb_users/plugin/admincolor/css.asp?color=random' title='随机颜色'><span style='height:16px;width:16px;background:#eee;'><img src='"+BlogHost+"zb_system/image/admin/none.gif' width='16' alt=''/></span></a>&nbsp;&nbsp;"
 
-	Call Add_Response_Plugin("Response_Plugin_Admin_SiteInfo","<script type='text/javascript'>$('.divHeader').append(""<div id='admin_color' style='float:right'>"&s&"</div>"")</script>")
+	Call Add_Response_Plugin("Response_Plugin_Admin_SiteInfo","<script type='text/javascript'>$('.divHeader').append(""<div id='admin_color' style='float:right;'>"&s&"</div>"");if($.browser.msie){$('#admin_color').css('position','absolute').css('right','8px')}</script>")
 
 
 	Call Add_Response_Plugin("Response_Plugin_Admin_Header","<link rel=""stylesheet"" type=""text/css"" href="""+BlogHost+"zb_users/plugin/admincolor/css.asp""/>")
@@ -80,22 +80,22 @@ HighColor(6)="#d31b54"
 AntiColor(6)="#2039b7"
 
 
-BlodColor(7)="#ae7000"
+BlodColor(7)="#2d2606"
 NormalColor(7)="#d9b611"
-LightColor(7)="#f2be45"
-HighColor(7)="#a78e44"
+LightColor(7)="#ebd87d"
+HighColor(7)="#c4a927"
 AntiColor(7)="#d60000"
 
-BlodColor(8)="#8c4356"
-NormalColor(8)="#f47983"
+BlodColor(8)="#3f0100"
+NormalColor(8)="#e5535f"
 LightColor(8)="#ffb3a7"
-HighColor(8)="#f05654"
-AntiColor(8)="#d60000"
+HighColor(8)="#da4b4a"
+AntiColor(8)="#ff000c"
 
-BlodColor(9)="#2e4e7e"
-NormalColor(9)="#177cb0"
-LightColor(9)="#d2f0f4"
-HighColor(9)="#177cb0"
+BlodColor(9)="#06282b"
+NormalColor(9)="#2db1bd"
+LightColor(9)="#87e6ef"
+HighColor(9)="#119ba7"
 AntiColor(9)="#d60000"
 
 %>
