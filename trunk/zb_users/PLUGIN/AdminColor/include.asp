@@ -27,11 +27,11 @@ End Function
 
 
 
-Dim BlodColor(6)
-Dim NormalColor(6)
-Dim LightColor(6)
-Dim HighColor(6)
-Dim AntiColor(6)
+Dim BlodColor(7)
+Dim NormalColor(7)
+Dim LightColor(7)
+Dim HighColor(7)
+Dim AntiColor(7)
 
 
 BlodColor(0)="#1d4c7d"
@@ -75,5 +75,10 @@ HighColor(5)="#21d5a9"
 AntiColor(5)="#d60000"
 
 
+BlodColor(6)="#3a0b19"
+NormalColor(6)="#7c243f"
+LightColor(6)="#d57c98"
+HighColor(6)="#d31b549"
+AntiColor(6)="#2039b7"
 
 %>
