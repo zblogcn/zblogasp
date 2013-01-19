@@ -373,13 +373,13 @@ editor.ready(function(){
 	$("#contentready").hide();
 	$("#editor_ue").prev().show();
 	sContent=editor.getContent();
-	if(iswap){if(editor.queryCommandState("source")==0) editor.execCommand("source");}
+	//if(iswap){if(editor.queryCommandState("source")==0) editor.execCommand("source");}
 });
 editor2.ready(function(){
 	$("#introready").hide();
 	$("#editor_ue2").prev().show();
 	sIntro=editor2.getContent();
-	if(iswap){if(editor.queryCommandState("source")==0) editor.execCommand("source");}
+	//if(iswap){if(editor.queryCommandState("source")==0) editor.execCommand("source");}
 });
 
 //文章内容或摘要变动提示保存
