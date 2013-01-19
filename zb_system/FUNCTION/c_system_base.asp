@@ -105,6 +105,9 @@ Const ZC_POST_TYPE_PAGE=1
 Const ZC_DEFAULT_SIDEBAR="calendar:controlpanel:catalog:searchpanel:comments:archives:favorite:link:misc"
 
 
+Dim ZC_NAVBAR_MENU_ITEM
+ZC_NAVBAR_MENU_ITEM="<li id=""menu-%type-%id""><a href=""%url"">%name</a></li>"
+
 
 '如果连接数据库为MSSQL，则应为'，默认连接Access数据库则为#
 Dim ZC_SQL_POUND_KEY
@@ -3978,23 +3981,77 @@ End Function
 
 
 '*********************************************************
-' 目的：  
+' 目的： 
+' mode={[add][modif][del]}
+' itemtype={page,cate,tags,等等}
 '*********************************************************
-Function AddNavBar(id)
+Function AddNavBar(itemtype,id,name,url,mode)
 
 	Call GetFunction()
 
-	Dim s,objArticle
+	Dim s,s2,t,i,j,b
 
-	Set objArticle=New TArticle
-	If objArticle.LoadInfoByID(id) Then
-		s="<li><a href="""&objArticle.HtmlUrl&""">"&objArticle.HtmlTitle&"</a></li>"
+	b=False
+
+	Dim re
+	Set re = New RegExp
+	re.Global = True
+	re.Pattern = "href=""[^\""]+?"""
+	re.IgnoreCase = True
+
+
+	s=Functions(FunctionMetas.GetValue("navbar")).Content
+	s2=s
+
+	t=Split(s,"</li>")
+'Response.Write UBound(t)
+
+	If UBound(t)>0 Then
+		For i=0 To UBound(t)-1
+			t(i)=t(i) & "</li>"
+			j=t(i)
+			If InStr(j,"menu-"&itemtype&"-"&id)>0 Then
+				If InStr(mode,"[modif]")>0 Then
+					j=re.Replace(j,"href="""&url&"""")
+				End If
+				b=True
+			End If
+
+			t(i)=j
+			'Response.Write j
+		Next
 	End If
 
-	Functions(FunctionMetas.GetValue("navbar")).Content=Functions(FunctionMetas.GetValue("navbar")).Content & s
+	'ZC_NAVBAR_MENU_ITEM="<li id=""menu-%type-%id""><a href=""%url"">%name</a></li>"
+	If b=False And InStr(mode,"[add]")>0 Then
+		i=UBound(t)
+		ReDim Preserve t(i+1)
+		j=ZC_NAVBAR_MENU_ITEM
+		j=Replace(j,"%type",itemtype)
+		j=Replace(j,"%id",id)
+		j=Replace(j,"%url",url)
+		j=Replace(j,"%name",name)
+		t(i)=j
+	End If
+
+	If InStr(mode,"[del]")>0 Then
+		For i=0 To UBound(t)-1
+			j=t(i)
+			If InStr(j,"menu-"&itemtype&"-"&id)>0 Then
+				j=""
+			End If
+			t(i)=j
+		Next
+	End If
+
+	s=Join(t,"")
+
+	Functions(FunctionMetas.GetValue("navbar")).Content=s
 	Functions(FunctionMetas.GetValue("navbar")).Post()
 
-	Call SetBlogHint(Empty,Empty,True)
+	If s<>s2 Then
+		Call SetBlogHint(Empty,Empty,True)
+	End If
 
 End Function
 '*********************************************************
