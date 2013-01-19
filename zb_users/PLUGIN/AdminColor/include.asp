@@ -10,6 +10,7 @@ Function ActivePlugin_AdminColor()
 	i=0
 	j=UBound(BlodColor)
 	For i =0 To j
+		If NormalColor(i)="" Then Exit For
 		s=s& "&nbsp;&nbsp;<a href='"+BlogHost+"zb_users/plugin/admincolor/css.asp?color="&i&"'><span style='height:24px;width:24px;background:"&NormalColor(i)&"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></a>&nbsp;&nbsp;"
 	Next
 	s=s&"&nbsp;&nbsp;<a href='"+BlogHost+"zb_users/plugin/admincolor/css.asp?color=random' title='随机颜色'><span style='height:24px;width:24px;background:white;border:black 1px solid'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></a>&nbsp;&nbsp;"
@@ -24,11 +25,11 @@ End Function
 
 
 
-Dim BlodColor(7)
-Dim NormalColor(7)
-Dim LightColor(7)
-Dim HighColor(7)
-Dim AntiColor(7)
+Dim BlodColor(9)
+Dim NormalColor(9)
+Dim LightColor(9)
+Dim HighColor(9)
+Dim AntiColor(9)
 
 
 BlodColor(0)="#1d4c7d"
@@ -83,6 +84,18 @@ BlodColor(7)="#ae7000"
 NormalColor(7)="#d9b611"
 LightColor(7)="#f2be45"
 HighColor(7)="#a78e44"
-AntiColor(7)="black"
+AntiColor(7)="#d60000"
+
+BlodColor(8)="#8c4356"
+NormalColor(8)="#f47983"
+LightColor(8)="#ffb3a7"
+HighColor(8)="#f05654"
+AntiColor(8)="#d60000"
+
+BlodColor(9)="#2e4e7e"
+NormalColor(9)="#177cb0"
+LightColor(9)="#d2f0f4"
+HighColor(9)="#177cb0"
+AntiColor(9)="#d60000"
 
 %>
