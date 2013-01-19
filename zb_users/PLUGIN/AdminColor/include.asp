@@ -16,6 +16,7 @@ Function ActivePlugin_AdminColor()
 	For i =0 To j
 		s=s& "&nbsp;&nbsp;<a href='"+BlogHost+"zb_users/plugin/admincolor/css.asp?color="&i&"'><span style='height:24px;width:24px;background:"&NormalColor(i)&"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></a>&nbsp;&nbsp;"
 	Next
+	s=s&"&nbsp;&nbsp;<a href='"+BlogHost+"zb_users/plugin/admincolor/css.asp?color=random'><span style='height:24px;width:24px;background:white;border:black 1px solid'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></a>&nbsp;&nbsp;"
 
 	Call Add_Response_Plugin("Response_Plugin_Admin_SiteInfo","<p>后台配色:"&s&"<hr/></p>")
 
@@ -27,11 +28,11 @@ End Function
 
 
 
-Dim BlodColor(7)
-Dim NormalColor(7)
-Dim LightColor(7)
-Dim HighColor(7)
-Dim AntiColor(7)
+Dim BlodColor(6)
+Dim NormalColor(6)
+Dim LightColor(6)
+Dim HighColor(6)
+Dim AntiColor(6)
 
 
 BlodColor(0)="#1d4c7d"

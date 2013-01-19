@@ -29,7 +29,10 @@ If Request.QueryString("color")<>"" Then
 End If
 
 If id="" Then id=0
-
+If id="random" Then
+	Randomize
+	id=Int((Ubound(BlodColor) - LBound(BlodColor) + 1) * Rnd + LBound(BlodColor))
+End If
 
 Response.Expires=0
 Response.ContentType = "text/css"
