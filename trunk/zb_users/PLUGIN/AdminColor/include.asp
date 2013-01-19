@@ -78,7 +78,7 @@ AntiColor(5)="#d60000"
 BlodColor(6)="#3a0b19"
 NormalColor(6)="#7c243f"
 LightColor(6)="#d57c98"
-HighColor(6)="#d31b549"
+HighColor(6)="#d31b54"
 AntiColor(6)="#2039b7"
 
 %>
