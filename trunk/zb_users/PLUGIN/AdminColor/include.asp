@@ -5,18 +5,14 @@ Call RegisterPlugin("AdminColor","ActivePlugin_AdminColor")
 '挂口部分
 Function ActivePlugin_AdminColor()
 
-	'插件最主要在这里挂接口。
-	'Z-Blog可挂的接口有三类：Action、Filter、Response
-	'建议参考Z-Wiki进行开发
-
 	Dim s,i,j
 
 	i=0
-	j=UBound(BlodColor)-1
+	j=UBound(BlodColor)
 	For i =0 To j
 		s=s& "&nbsp;&nbsp;<a href='"+BlogHost+"zb_users/plugin/admincolor/css.asp?color="&i&"'><span style='height:24px;width:24px;background:"&NormalColor(i)&"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></a>&nbsp;&nbsp;"
 	Next
-	s=s&"&nbsp;&nbsp;<a href='"+BlogHost+"zb_users/plugin/admincolor/css.asp?color=random'><span style='height:24px;width:24px;background:white;border:black 1px solid'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></a>&nbsp;&nbsp;"
+	s=s&"&nbsp;&nbsp;<a href='"+BlogHost+"zb_users/plugin/admincolor/css.asp?color=random' title='随机颜色'><span style='height:24px;width:24px;background:white;border:black 1px solid'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></a>&nbsp;&nbsp;"
 
 	Call Add_Response_Plugin("Response_Plugin_Admin_SiteInfo","<p>后台配色:"&s&"<hr/></p>")
 
