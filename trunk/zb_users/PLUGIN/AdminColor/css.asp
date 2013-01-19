@@ -18,12 +18,14 @@ Call System_Initialize()
 Dim ac_config,id
 Set ac_config=New TConfig
 ac_config.Load "AdminColor"
-id=ac_config.read("ColorID")
+id=ac_config.read("Color4U_"&BlogUser.ID)
 
 If Request.QueryString("color")<>"" Then
 
-	ac_config.Write "ColorID",Request.QueryString("color")
-	ac_config.Save
+	ac_config.Write "Color4U_"&BlogUser.ID,Request.QueryString("color")
+	If BlogUser.Level<5 Then
+		ac_config.Save
+	End If
 	Response.Redirect bloghost & "zb_system/cmd.asp?act=admin"
 
 End If
@@ -56,7 +58,7 @@ c=Replace(c,c2,NormalColor(id))
 c=Replace(c,c3,LightColor(id))
 c=Replace(c,c4,HighColor(id))
 c=Replace(c,c5,AntiColor(id))
-c=Replace(c,"../IMAGE","../../../zb_system/IMAGE")
+'c=Replace(c,"../IMAGE","../../../zb_system/IMAGE")
 
 c=c & "#admin_color{line-height: 2.5em;font-size: 0.5em;letter-spacing: -0.1em;}"
 Response.Write(c) 
