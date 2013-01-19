@@ -161,6 +161,8 @@ Next
 	'End If
 
 	Response.Write "</select><input type='hidden' name='edtLogTemplate' id='edtLogTemplate' value='"&EditCategory.LogTemplate&"' />"
+
+	Response.Write "<p><label><input type='checkbox' name='edtAddNavbar' id='edtAddNavbar' value='True'' />&nbsp;&nbsp;<span class='title'>"& ZC_MSG046 &"</span></label></p>"
 	Response.Write "</p>"
 
 

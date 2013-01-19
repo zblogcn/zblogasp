@@ -219,8 +219,12 @@ Function PostArticle()
 	If objArticle.Post Then
 		Call ScanTagCount(strTag & objArticle.Tag)
 		Call BuildArticle(objArticle.ID,True,True)
-		If objArticle.FType=ZC_POST_TYPE_PAGE And Request.Form("edtAddNavBar")="True" Then
-			Call AddNavBar(objArticle.ID)
+		If objArticle.FType=ZC_POST_TYPE_PAGE Then
+			If Request.Form("edtAddNavBar")="True" Then
+				Call AddNavBar("page",objArticle.ID,objArticle.HtmlTitle,objArticle.HtmlUrl,"[modif][add]")
+			Else
+				Call AddNavBar("page",objArticle.ID,objArticle.HtmlTitle,objArticle.HtmlUrl,"[modif]")
+			End If
 		End If
 		PostArticle=True
 		Call Filter_Plugin_PostArticle_Succeed(objArticle)
@@ -313,6 +317,12 @@ Function PostCategory()
 	If objCategory.Post Then
 
 		PostCategory=True
+
+		If Request.Form("edtAddNavBar")="True" Then
+			Call AddNavBar("cate",objCategory.ID,objCategory.HtmlName,objCategory.HtmlUrl,"[modif][add]")
+		Else
+			Call AddNavBar("cate",objCategory.ID,objCategory.HtmlName,objCategory.HtmlUrl,"[modif]")
+		End If
 
 		Call Filter_Plugin_PostCategory_Succeed(objCategory)
 

@@ -5520,7 +5520,7 @@ Class TFunction
 						b(i)=""
 					End If
 				Next
-				Content=Join(b)
+				Content=Join(b,"")
 			End if
 		End If
 

@@ -24,8 +24,22 @@
 <!-- #include file="../../../zb_system/function/c_system_base.asp" -->
 <!-- #include file="../../../zb_system/function/c_system_plugin.asp" -->
 <!-- #include file="../../../zb_users/plugin/p_config.asp" -->
+<!-- #include file="function.asp"-->
+<% 
 
-<% Response.Clear %>
+Call System_Initialize()
+'检查非法链接
+Call CheckReference("")
+'检查权限
+If BlogUser.Level=1 Then
+	If CheckPluginState("AppCentre")=True Then 
+Call LoadPluginXmlInfo("AppCentre")
+Call AppCentre_InitConfig
+	End If
+End If
+Response.Clear
+
+%>
 
 $(document).ready(function(){ 
 
@@ -53,6 +67,9 @@ $(".theme").each(function(){
 		s=s+"&nbsp;&nbsp;&nbsp;&nbsp;<a href='"+bloghost+"zb_users/plugin/appcentre/theme_del.asp?id="+t+"' title='删除该主题' onclick='return window.confirm(\"单击“确定”继续。单击“取消”停止。\");'><img height='16' width='16' src='"+bloghost+"zb_users/plugin/appcentre/images/delete.png'/></a>";
 	}
 
+<%If login_pw<>"" Then%>
+	s=s+"&nbsp;&nbsp;&nbsp;&nbsp;<a href='"+bloghost+"zb_users/plugin/appcentre/theme_pack.asp?id="+t+"' title='上传主题到应用中心' target='_blank'><img height='16' width='16' src='"+bloghost+"zb_users/plugin/appcentre/images/drive-upload.png'/></a>";
+<%End If%>
 	s=s+"</p>";
 	$(this).append(s);
 	
