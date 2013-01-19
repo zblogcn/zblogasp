@@ -37,7 +37,7 @@ Response.ContentType = "text/css"
 Dim c
 c=LoadFromFile(BlogPath & "zb_system\CSS\admin2.css","utf-8")
 
-c=Replace(c,"url(../image/","url(../../../zb_system/image/")
+c=Replace(c,"url(../","url(../../../zb_system/")
 
 
 
