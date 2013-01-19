@@ -87,6 +87,9 @@ ZC_TB_EXCERPT_MAX=250
 Dim ZC_TRACKBACK_TURNOFF
 ZC_TRACKBACK_TURNOFF=True
 
+Dim ZC_ISWAP
+ZC_ISWAP=False
+
 Const ZC_DISPLAY_MODE_ALL=1
 Const ZC_DISPLAY_MODE_INTRO=2
 Const ZC_DISPLAY_MODE_ONTOP=3
@@ -100,6 +103,8 @@ Const ZC_POST_TYPE_PAGE=1
 
 
 Const ZC_DEFAULT_SIDEBAR="calendar:controlpanel:catalog:searchpanel:comments:archives:favorite:link:misc"
+
+
 
 '如果连接数据库为MSSQL，则应为'，默认连接Access数据库则为#
 Dim ZC_SQL_POUND_KEY

@@ -290,11 +290,17 @@ End Function
 ' 输入：    要替换的字符代号
 ' 返回：    
 '*********************************************************
-Function TransferHTML(ByVal source,para)
+Function TransferHTML(ByVal source,ByVal para)
 
 	Dim objRegExp
 
 	If IsNull(source)=True Then Exit Function
+
+
+	If InStr(para,"[mobilerequest]") Then
+		para=para&"[enter][closehtml]"	
+		'如何判断HTML标签和用户输入的类似0<1这种数据，还真是个大麻烦	
+	End If
 
 	'先换"&"
 	If Instr(para,"[&]")>0 Then  source=Replace(source,"&","&amp;")
