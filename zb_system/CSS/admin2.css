@@ -13,7 +13,7 @@ font-family:"微软雅黑","宋体", Arial, Helvetica, sans-serif;
 color:#444444;
 font-size: 14px;
 line-height: 20px;
-background: #FFFFFF url("../image/admin/bg-left.gif") repeat-y;
+background: #ffffff url("../image/admin/bg-left.gif") repeat-y;
 };
 * { padding:0; margin:0;}
 
@@ -107,7 +107,7 @@ tr.color2{
 background:#F4F4F4;
 }
 tr.color3{
-background:#FFFFFF;
+background:#ffffff;
 }
 tr.color4{
 background:#ffffdd;
@@ -122,11 +122,11 @@ background:#ffffdd;
 /**/
 .logo { width:190px; height:62px; padding:10px 0 0 0; left:20px;}
 /**/
-.user { position: absolute; right:13px; top:10px; width:400px; height:40px; text-align:right; color:#FFFFFF;}
+.user { position: absolute; right:13px; top:10px; width:400px; height:40px; text-align:right; color:#ffffff;}
 .user #avatar { float:right; width:40px; height:40px; margin-left:10px;margin-top:0px;}
 .username { padding:0;height:20px; line-height:20px; overflow:hidden;}
 .userbtn { padding:0;height:20px;line-height:20px;}
-.userbtn a { padding:0;margin-left:15px; color:#FFFFFF;height:20px;line-height:20px;vertical-align:top;}
+.userbtn a { padding:0;margin-left:15px; color:#ffffff;height:20px;line-height:20px;vertical-align:top;}
 .userbtn a.logout { padding-left:20px;background: url(../image/common/tuic_2.png) no-repeat left center;}
 .userbtn .logout:hover { padding-left:20px;color:#000000; background: url(../image/common/tuic_1.png) no-repeat left center;}
 .userbtn a.profile { padding-left:20px;background: url(../image/common/home_2.png) no-repeat left center;}
@@ -135,8 +135,8 @@ background:#ffffdd;
 .menu { height:30px; position: absolute; right:10px; bottom:0px;}
 .menu ul {float:right;margin:0;padding:0;}
 .menu ul li { float:left;line-height:30px; padding:0;height:30px; margin:0 3px; text-align:center;}
-.menu ul li a {float:left;line-height:30px;height:30px; padding:0px 15px; color:#383838; background:#FFFFFF;}
-.menu ul li a:hover {float:left;line-height:30px;height:30px; padding:0px 15px; color:#FFFFFF; background: #b0cdee;}
+.menu ul li a {float:left;line-height:30px;height:30px; padding:0px 15px; color:#383838; background:#ffffff;}
+.menu ul li a:hover {float:left;line-height:30px;height:30px; padding:0px 15px; color:#ffffff; background: #b0cdee;}
 .menu ul li.on { font-weight:bold;}
 
 
@@ -153,7 +153,7 @@ background:#ffffdd;
 #main .main_left #leftmenu span {  float:left;width:90px; height:32px; line-height:32px; padding-right:50px; text-align:right;cursor:pointer;}
 
 /*导航高亮*/
-#main .main_left #leftmenu .on a,#main .main_left #leftmenu #on a:hover { color:#FFFFFF; background:#3399cc;}
+#main .main_left #leftmenu .on a,#main .main_left #leftmenu #on a:hover { color:#ffffff; background:#3399cc;}
 
 #main .main_left #leftmenu li.sub {
 	float:left; width:140px; height:auto; margin-bottom:0;border-bottom:5px solid #fff;cursor:pointer;
@@ -240,9 +240,9 @@ display:none;
 
 
 /*后台首页*/
-#divMain {float:left;width:100%;background:#FFFFFF;padding:0px;margin:0px;}
+#divMain {float:left;width:100%;background:#ffffff;padding:0px;margin:0px;}
 #divMain a,#divMain2 a{color:#1d4c7d;}
-#divMain a:hover,#divMain2  a:hover{color:#D60000;}
+#divMain a:hover,#divMain2  a:hover{color:#d60000;}
 #divMain2 { padding:0px;margin:0px;}
 .divHeader { height:1.8em; line-height:1.8em; font-size:1.5em; padding:0; background:#FFF;}
 .divHeader2 { height:1.8em; line-height:1.8em; font-size:1.5em; padding:0; background:#FFF;border-bottom:5px solid #e0e0e0;}
@@ -310,7 +310,7 @@ textarea{
 }
 
 input.button,input[type="submit"],input[type="button"] { 
-	color:#FFFFFF; 
+	color:#ffffff; 
 	font-size:1.1em; 
 	height:29px;
 	padding: 2px 18px 3px 18px;
@@ -611,7 +611,7 @@ span.note{
 .totoro { padding:10px;} 
 .totoro dd { line-height:28px; margin-bottom:5px;}
 .totoro .totorotxt { font-size:12px;}
-#totorobox textarea { background:#FFFFFF; padding:10px 0; border:none;}
+#totorobox textarea { background:#ffffff; padding:10px 0; border:none;}
 
 
 

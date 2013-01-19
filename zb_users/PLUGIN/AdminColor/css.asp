@@ -15,6 +15,21 @@
 Call System_Initialize()
 
 
+Dim ac_config,id
+Set ac_config=New TConfig
+ac_config.Load "AdminColor"
+id=ac_config.read("ColorID")
+
+If Request.QueryString("color")<>"" Then
+
+	ac_config.Write "ColorID",Request.QueryString("color")
+	ac_config.Save
+	Response.Redirect bloghost & "zb_system/cmd.asp?act=admin"
+
+End If
+
+If id="" Then id=0
+
 
 Response.Expires=0
 Response.ContentType = "text/css"
@@ -24,6 +39,8 @@ c=LoadFromFile(BlogPath & "zb_system\CSS\admin2.css","utf-8")
 
 c=Replace(c,"url(../image/","url(../../../zb_system/image/")
 
+
+
 Dim c1,c2,c3,c4,c5
 c1="#1d4c7d"
 c2="#3a6ea5"
@@ -31,11 +48,11 @@ c3="#b0cdee"
 c4="#3399cc"
 c5="#d60000"
 
-c=Replace(c,c1,BlodColor(1))
-c=Replace(c,c2,NormalColor(1))
-c=Replace(c,c3,LightColor(1))
-c=Replace(c,c4,HighColor(1))
-c=Replace(c,c5,AntiColor(1))
+c=Replace(c,c1,BlodColor(id))
+c=Replace(c,c2,NormalColor(id))
+c=Replace(c,c3,LightColor(id))
+c=Replace(c,c4,HighColor(id))
+c=Replace(c,c5,AntiColor(id))
 
 Response.Write(c) 
 
