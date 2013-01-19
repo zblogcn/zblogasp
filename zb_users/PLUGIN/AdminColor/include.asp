@@ -60,9 +60,9 @@ HighColor(3)="#8627d7"
 AntiColor(3)="#08a200"
 
 BlodColor(4)="#656215"
-NormalColor(4)="#87832a"
-LightColor(4)="#b3b057"
-HighColor(4)="#d7d01a"
+NormalColor(4)="#9d982f"
+LightColor(4)="#bfbb52"
+HighColor(4)="#cbc41c"
 AntiColor(4)="#d60000"
 
 
