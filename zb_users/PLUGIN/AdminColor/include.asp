@@ -15,7 +15,7 @@ Function ActivePlugin_AdminColor()
 	Next
 	s=s&"&nbsp;&nbsp;<a href='"+BlogHost+"zb_users/plugin/admincolor/css.asp?color=random' title='随机颜色'><span style='height:24px;width:24px;background:white;border:black 1px solid'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></a>&nbsp;&nbsp;"
 
-	Call Add_Response_Plugin("Response_Plugin_Admin_SiteInfo","<p>后台配色:"&s&"<hr/></p>")
+	Call Add_Response_Plugin("Response_Plugin_Admin_SiteInfo","<script type='text/javascript'>$('.divHeader').append(""<div id='admin_color' style='float:right'>"&s&"</div>"")</script>")
 
 
 	Call Add_Response_Plugin("Response_Plugin_Admin_Header","<link rel=""stylesheet"" type=""text/css"" href="""+BlogHost+"zb_users/plugin/admincolor/css.asp""/>")

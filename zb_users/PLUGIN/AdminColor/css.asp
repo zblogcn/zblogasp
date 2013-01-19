@@ -58,6 +58,7 @@ c=Replace(c,c4,HighColor(id))
 c=Replace(c,c5,AntiColor(id))
 c=Replace(c,"../IMAGE","../../../zb_system/IMAGE")
 
+c=c & "#admin_color{line-height: 2.5em;font-size: 0.5em;letter-spacing: -0.1em;}"
 Response.Write(c) 
 
 Call System_Terminate()
