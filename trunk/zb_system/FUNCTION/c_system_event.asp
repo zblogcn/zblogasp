@@ -181,9 +181,9 @@ Function PostArticle()
 	objArticle.TemplateName=Request.Form("edtTemplate")
 	objArticle.FType=CLng(Request.Form("edtFType"))
 
-	objArticle.Intro=Request.Form("txaIntro")
+	objArticle.Intro=IIf(ZC_ISWAP,TransferHTML(Request.Form("txaIntro"),"[mobilerequest]"),Request.Form("txaIntro"))
 
-	objArticle.Content=Request.Form("txaContent")
+	objArticle.Content=IIf(ZC_ISWAP,TransferHTML(Request.Form("txaContent"),"[mobilerequest]"),Request.Form("txaContent"))
 
 	If objArticle.FType=ZC_POST_TYPE_ARTICLE Then
 		If InStr(objArticle.Content,"<hr class=""more"" />")>0 Then
@@ -196,9 +196,11 @@ Function PostArticle()
 
 		If objArticle.Intro="" Then
 			s=objArticle.Content
-			For i =0 To UBound(Split(s,"</p>"))
-				If Trim(Split(s,"</p>")(i))<>"" Then
-					t=t & Split(s,"</p>")(i) & "</p>"
+			Dim aryIntro
+			aryIntro=Split(s,"</p>")
+			For i = 0 To UBound(aryIntro)
+				If Trim(aryIntro(i))<>"" Then
+					t=t & aryIntro(i) &  IIf(InStr(aryIntro(i),"<p>")>0,"</p>","")
 				End If
 				If Len(t)>ZC_ARTICLE_EXCERPT_MAX Then Exit for
 			Next 
