@@ -56,6 +56,7 @@ c=Replace(c,c2,NormalColor(id))
 c=Replace(c,c3,LightColor(id))
 c=Replace(c,c4,HighColor(id))
 c=Replace(c,c5,AntiColor(id))
+c=Replace(c,"../IMAGE","../../../zb_system/IMAGE")
 
 Response.Write(c) 
 
