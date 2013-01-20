@@ -425,7 +425,7 @@ Function FileManage_ExportSiteFileEdit(tpath,OpenFolderPath,chars)
 	Response.Write "<label for=""radio2_"">Unicode</label>"
 	Response.Write "&nbsp;<input type=""radio"" name=""charset_"" id=""radio3_"" value=""GB2312"" "&IIf(cat="GB2312","checked=""checked""","")&" />"
 	Response.Write "<label for=""radio3_"">GB2312</label>"
-	Response.Write "<script type=""text/javascript"">$('input[name=charset_]').click(function(){location.search=location.search.Replace(/&charset=.+/ig,'')+'&charset='+encodeURIComponent($(this).val())})</script>"
+	Response.Write "<script type=""text/javascript"">$('input[name=charset_]').click(function(){location.search=location.search.replace(/&charset=.+/ig,'')+'&charset='+encodeURIComponent($(this).val())})</script>"
 	'Response.Write "<input value=""Go"" type=""submit"" class=""button"">"
 	
 		
