@@ -144,6 +144,8 @@ If f<>"" Then
 
 	f=Request.QueryString("date")
 
+	If f="now" Then f=Year(Date)&"-"&Month(Date)
+
 	s=Replace(MakeCalendar(f),"<#ZC_BLOG_HOST#>",BlogHost)
 
 	Response.Clear

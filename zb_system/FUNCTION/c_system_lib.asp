@@ -1599,7 +1599,7 @@ Class TArticle
 		TemplateTagsDic.Item("BlogTitle")=HtmlTitle
 		TemplateTagsDic.Item("ZC_BLOG_HOST")=BlogHost
 
-		If Template_Calendar="" Then Template_Calendar="<script src=""<#ZC_BLOG_HOST#>zb_system/function/c_html_js.asp?date="&Year(Date)&"-"&Month(Date)&""" type=""text/javascript""></script>"
+		If Template_Calendar="" Then Template_Calendar="<script src=""<#ZC_BLOG_HOST#>zb_system/function/c_html_js.asp?date=now"" type=""text/javascript""></script>"
 
 		If ZC_MULTI_DOMAIN_SUPPORT=True And ZC_PERMANENT_DOMAIN_ENABLE=False Then
 			Dim x,y
@@ -2368,7 +2368,7 @@ Class TArticleList
 		TemplateTagsDic.Item("BlogTitle")=HtmlTitle
 		TemplateTagsDic.Item("ZC_BLOG_HOST")=BlogHost
 
-		If Template_Calendar="" Then Template_Calendar="<script src=""<#ZC_BLOG_HOST#>zb_system/function/c_html_js.asp?date="&Year(Date)&"-"&Month(Date)&""" type=""text/javascript""></script>"
+		If Template_Calendar="" Then Template_Calendar="<script src=""<#ZC_BLOG_HOST#>zb_system/function/c_html_js.asp?date=now"" type=""text/javascript""></script>"
 
 		If ZC_MULTI_DOMAIN_SUPPORT=True And ZC_PERMANENT_DOMAIN_ENABLE=False Then
 			Dim x,y

@@ -764,7 +764,7 @@ t.post
 Set t=new Tfunction
 t.Name="文章归档"
 t.FileName="archives"
-t.IsHidden=False
+t.IsHidden=True
 t.Source="system"
 t.SidebarID=1
 t.Order=7
