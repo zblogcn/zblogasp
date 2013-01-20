@@ -633,7 +633,8 @@ Function FileManage_Upload()
 	objUpload.AutoSave=2
 	objUpload.Charset="UTF-8"
 	objUpload.FileType=""
-	objUpload.open
+	objUpload.MaxSize=2^31-1
+	objUpload.Open
 	Dim tpath,opath,SuccessPath
 	tpath=objUpload.Form("path")
 	SuccessPath="main.asp?act=SiteFileMng&path="&Server.URLEncode(tpath)
@@ -642,15 +643,15 @@ Function FileManage_Upload()
 	If FileManage_CheckFile(tpath) Then FileManage_ExportError "不能上传Global.asa和Global.asax，也不能往Z-Blog以外的文件夹上传文件。",SuccessPath
 	
 	objUpload.SavePath=tpath&"\"
-	objUpload.open
-	objUpload.save "edtFileLoad",1
-	If Err.Number=0 Then
+	objUpload.Open
+	objUpload.Save "edtFileLoad",1
+	If Err.Number=0 And objUpload.Form("edtFileLoad_Err")=0 Then
 		Call SetBlogHint(True,Empty,Empty)
 	Else
-		FileManage_ExportError "<font color='red'>出现错误" & Hex(Err.Number) & "，描述为" & Err.Description & "，操作没有生效。</font>",SuccessPath
+		FileManage_ExportError objUpload.Error2Info("edtFileLoad"),SuccessPath
 	End If
 	
-	Response.Write "<script>location.href="""&SuccessPath&"""</script>"
+	Response.Redirect SuccessPath
 
 	For Each sAction_Plugin_FileManage_Upload_End in Action_Plugin_FileManage_Upload_End
 		If Not IsEmpty(sAction_Plugin_FileManage_Upload_End) Then Call Execute(sAction_Plugin_FileManage_Upload_End)
@@ -727,7 +728,7 @@ End Function
 
 Sub FileManage_ExportError(Msg,Url)
 	On Error Resume Next
-	Call SetBlogHint_Custom("<font color='red'>"&Msg&"</font>")
+	Call SetBlogHint_Custom("<span style='color:red'>"&Msg&"</font>")
 	Response.Clear
 	Response.Write "<script>location.href="""&Url&"""</script>"
 	Response.End
