@@ -65,8 +65,9 @@ End Select
 %>
 <!--#include file="..\..\..\zb_system\admin\admin_header.asp"-->
 <style type="text/css">
-#fileUpload{display:none;border:gray 1px solid}
+#fileUpload{display:none;}
 #fileUpload #edit{background:none}
+#fileUpload #edit .button{float:right}
 </style>
 <%If FileManage_OpenCodeMirror=True Then%>
 
@@ -114,6 +115,20 @@ End Select
 	%>
   </div>
 </div>
+<script type="text/javascript">
+$(".rename_folder").mousedown(function(){
+	var str=prompt("请输入新文件夹名");if(str!=null){this.href+="&folder=true&newfilename="+encodeURIComponent(str);this.click()}else{return false}
+});
+$(".rename_file").mousedown(function(){
+	var str=prompt("请输入新文件名");if(str!=null){this.href+="&newfilename="+encodeURIComponent(str);this.click()}else{return false}
+});
+$(".delete_folder").click(function(){
+	if(window.confirm("<%=ZC_MSG058%>")){return window.confirm("删除文件夹危险性很大，您确定要继续么？")}else{return false}
+});
+$(".delete_file").click(function(){
+	return window.confirm("<%=ZC_MSG058%>");
+});
+</script>
 <!--#include file="..\..\..\zb_system\admin\admin_footer.asp"-->
 
 <%
