@@ -6,7 +6,7 @@ Dim FileManage_FSO
 ' 目的：    格式化文件大小
 '*********************************************************
 Function FileManage_GetSize(FileSize)
-	For Each sAction_Plugin_FileManage_GetSize_Begin in Action_Plugin_FileManage_GetSize_Begin
+	For Each sAction_Plugin_FileManage_GetSize_Begin In Action_Plugin_FileManage_GetSize_Begin
 		If Not IsEmpty(sAction_Plugin_FileManage_GetSize_Begin) Then Call Execute(sAction_Plugin_FileManage_GetSize_Begin)
 	Next
 	
@@ -18,7 +18,7 @@ Function FileManage_GetSize(FileSize)
 	b=formatnumber(b,2)
 	FileManage_GetSize=b&m
 
-	For Each sAction_Plugin_FileManage_GetSize_End in Action_Plugin_FileManage_GetSize_End
+	For Each sAction_Plugin_FileManage_GetSize_End In Action_Plugin_FileManage_GetSize_End
 		If Not IsEmpty(sAction_Plugin_FileManage_GetSize_End) Then Call Execute(sAction_Plugin_FileManage_GetSize_End)
 	Next
 End Function
@@ -27,7 +27,7 @@ End Function
 ' 目的：    得到文件图标
 '*********************************************************
 Function FileManage_GetTypeIco(FileName)
-	For Each sAction_Plugin_FileManage_GetTypeIco_Begin in Action_Plugin_FileManage_GetTypeIco_Begin
+	For Each sAction_Plugin_FileManage_GetTypeIco_Begin In Action_Plugin_FileManage_GetTypeIco_Begin
 		If Not IsEmpty(sAction_Plugin_FileManage_GetTypeIco_Begin) Then Call Execute(sAction_Plugin_FileManage_GetTypeIco_Begin)
 	Next
 	
@@ -59,7 +59,7 @@ Function FileManage_GetTypeIco(FileName)
 
 		Case Else  		
 			Dim strFound
-			For Each sAction_Plugin_FileManage_GetTypeIco_NotFound in Action_Plugin_FileManage_GetTypeIco_NotFound
+			For Each sAction_Plugin_FileManage_GetTypeIco_NotFound In Action_Plugin_FileManage_GetTypeIco_NotFound
 				If Not IsEmpty(sAction_Plugin_FileManage_GetTypeIco_NotFound) Then
 					sAction_Plugin_FileManage_GetTypeIco_NotFound=Replace(Replace(sAction_Plugin_FileManage_GetTypeIco_NotFound,"{path}",Replace(path,"""","""""")),"{f}",Replace(foldername,"""",""""""))
 					Execute "strFound="&sAction_Plugin_FileManage_GetTypeIco_NotFound&vbcrlf&"if strFound<>"""" then Tag=strfound"
@@ -69,7 +69,7 @@ Function FileManage_GetTypeIco(FileName)
 	End Select
 	FileManage_GetTypeIco=Replace(ImgTag,"{tag}",tag)
 
-	For Each sAction_Plugin_FileManage_GetTypeIco_End in Action_Plugin_FileManage_GetTypeIco_End
+	For Each sAction_Plugin_FileManage_GetTypeIco_End In Action_Plugin_FileManage_GetTypeIco_End
 		If Not IsEmpty(sAction_Plugin_FileManage_GetTypeIco_End) Then Call Execute(sAction_Plugin_FileManage_GetTypeIco_End)
 	Next
 End Function
@@ -78,7 +78,7 @@ End Function
 '*********************************************************
 
 Function FileManage_ExportInformation(foldername,path)
-	For Each sAction_Plugin_FileManage_ExportInformation_Begin in Action_Plugin_FileManage_ExportInformation_Begin
+	For Each sAction_Plugin_FileManage_ExportInformation_Begin In Action_Plugin_FileManage_ExportInformation_Begin
 		If Not IsEmpty(sAction_Plugin_FileManage_ExportInformation_Begin) Then Call Execute(sAction_Plugin_FileManage_ExportInformation_Begin)
 	Next
 
@@ -269,14 +269,14 @@ Function FileManage_ExportInformation(foldername,path)
 	
 	else
 		Dim strFound
-		For Each sAction_Plugin_FileManage_ExportInformation_NotFound in Action_Plugin_FileManage_ExportInformation_NotFound
+		For Each sAction_Plugin_FileManage_ExportInformation_NotFound In Action_Plugin_FileManage_ExportInformation_NotFound
 			If Not IsEmpty(sAction_Plugin_FileManage_ExportInformation_NotFound) Then
 				sAction_Plugin_FileManage_ExportInformation_NotFound=Replace(Replace(sAction_Plugin_FileManage_ExportInformation_NotFound,"{path}",Replace(path,"""","""""")),"{f}",Replace(foldername,"""",""""""))
 				Execute "strFound="&sAction_Plugin_FileManage_ExportInformation_NotFound&vbcrlf&"if strFound<>"""" then n=strfound"
 			End If
 		Next
 	end if
-	For Each sAction_Plugin_FileManage_ExportInformation_End in Action_Plugin_FileManage_ExportInformation_End
+	For Each sAction_Plugin_FileManage_ExportInformation_End In Action_Plugin_FileManage_ExportInformation_End
 		If Not IsEmpty(sAction_Plugin_FileManage_ExportInformation_End) Then Call Execute(sAction_Plugin_FileManage_ExportInformation_End)
 	Next
 	FileManage_ExportInformation=n
@@ -285,7 +285,7 @@ End Function
 ' 目的：    输出文件列表
 '*********************************************************
 Function FileManage_ExportSiteFileList(path,OpenFolderPath)
-	For Each sAction_Plugin_FileManage_ExportSiteFileList_Begin in Action_Plugin_FileManage_ExportSiteFileList_Begin
+	For Each sAction_Plugin_FileManage_ExportSiteFileList_Begin In Action_Plugin_FileManage_ExportSiteFileList_Begin
 		If Not IsEmpty(sAction_Plugin_FileManage_ExportSiteFileList_Begin) Then Call Execute(sAction_Plugin_FileManage_ExportSiteFileList_Begin)
 	Next
 	
@@ -323,7 +323,7 @@ Function FileManage_ExportSiteFileList(path,OpenFolderPath)
 
 	
 	
-	For Each sAction_Plugin_FileManage_AddControlBar in Action_Plugin_FileManage_AddControlBar
+	For Each sAction_Plugin_FileManage_AddControlBar In Action_Plugin_FileManage_AddControlBar
 		If Not IsEmpty(sAction_Plugin_FileManage_AddControlBar) Then Call Execute(sAction_Plugin_FileManage_AddControlBar)
 	Next
 	
@@ -331,7 +331,10 @@ Function FileManage_ExportSiteFileList(path,OpenFolderPath)
 	
 	Response.Write "</th></tr>"
 	Response.Write "<tr><td>文件名</td><td width=""17%"">修改时间</td><td width=""7%"">大小</td><td width=""24%"">注释</td><td>操作</td></tr>"
-	for each item in fold.subfolders
+	
+	
+	For Each item In fold.subfolders
+	
 		fpath=path&"/"&item.name
 		fpath=Replace(Replace(fpath,"/","\"),"\\","\")
 		jpath=Replace(path,"\","\\")
@@ -340,34 +343,35 @@ Function FileManage_ExportSiteFileList(path,OpenFolderPath)
 		Response.Write "&nbsp;&nbsp;<a href=""main.asp?act=SiteFileRename&path="&Server.URLEncode(fpath)&"&OpenFolderPath="& Server.URLEncode(path) &""" class='rename_folder' title=""[重命名]""><img src="""&ZC_BLOG_HOST&"/zb_system/image/admin/document-rename.png"" width=""16"" height=""16"" alt='重命名' title='重命名'/></a>&nbsp;"
 		Response.Write "&nbsp;&nbsp;<a href=""main.asp?act=SiteFileDel&folder=true&path="&Server.URLEncode(fpath)&"&OpenFolderPath="& Server.URLEncode(path) &""" class='delete_folder' title=""["&ZC_MSG063&"]""><img src="""&ZC_BLOG_HOST&"/zb_system/image/admin/delete.png"" width=""16"" height=""16"" alt='删除' title='删除'/></a>"
 		Response.Write "</td></tr>"
-	next
-	for each item in fold.files
-'	fpath=Replace(path&"/"&item.name,BlogPath,"")
-	fpath=path&"/"&item.name
-	fpath=Replace(Replace(fpath,"/","\"),"\\","\")
-	Response.Write "<tr><td>"&FileManage_GetTypeIco(item.name)&"&nbsp;<a href="""
-	Dim isEmptyPlugin
-	isEmptyPlugin=True
-	For Each sAction_Plugin_FileManage_FileOpenType in Action_Plugin_FileManage_FileOpenType
-		If Not IsEmpty(sAction_Plugin_FileManage_FileOpenType) Then
-			Call Execute(sAction_Plugin_FileManage_FileOpenType)
-			isEmptyPlugin=False
-		End If
 	Next
-	If isEmptyPlugin Then Response.Write ZC_BLOG_HOST & Replace(LCase(path),LCase(blogpath),"")&"/"&item.name
 	
-	Response.Write """ target=""_blank"" title='"&FormatDateTime(item.datelastmodified,0)&";"&ZC_MSG238&":"&clng(item.size/1024)&"k'>"&item.name&"</a></td><td>"&FormatDateTime(item.datelastmodified,0)&"</td><td>"&FileManage_GetSize(item.size)&"</td><td>"&FileManage_ExportInformation(item.name,path)&"</td><td align=""center"">"
-	Response.Write"<a href=""main.asp?act=SiteFileEdt&path="&Server.URLEncode(fpath)&"&OpenFolderPath="& Server.URLEncode(path) &""" title=""["&ZC_MSG078&"]""><img src="""&ZC_BLOG_HOST&"/zb_system/image/admin/script_edit.png"" width=""16"" height=""16"" alt='编辑' title='编辑'/></a>&nbsp;"
-	Response.Write "&nbsp;&nbsp;<a href=""main.asp?act=SiteFileDownload&path="&Server.URLEncode(fpath)&"&OpenFolderPath="& Server.URLEncode(path) &""" target=""_blank"" title=""[下载]""><img src="""&ZC_BLOG_HOST&"/zb_system/image/admin/download.png"" width=""16"" height=""16"" alt='下载' title='下载'/></a>&nbsp;"
-	Response.Write "&nbsp;&nbsp;<a href=""main.asp?act=SiteFileRename&path="&Server.URLEncode(fpath)&"&OpenFolderPath="& Server.URLEncode(path) &""" class=""rename_file"" title=""[重命名]""><img src="""&ZC_BLOG_HOST&"/zb_system/image/admin/document-rename.png"" width=""16"" height=""16"" alt='重命名' title='重命名'/></a>&nbsp;"
-
-	Response.Write "&nbsp;&nbsp;<a href=""main.asp?act=SiteFileDel&path="&Server.URLEncode(fpath)&"&OpenFolderPath="& Server.URLEncode(path) &""" class=""delete_file"" title=""["&ZC_MSG063&"]""><img src="""&ZC_BLOG_HOST&"/zb_system/image/admin/delete.png"" width=""16"" height=""16"" alt='删除' title='删除'/></a>"
-	For Each sAction_Plugin_FileManage_AddControlList in Action_Plugin_FileManage_AddControlList
-		If Not IsEmpty(sAction_Plugin_FileManage_AddControlList) Then Call Execute(sAction_Plugin_FileManage_AddControlList)
+	
+	For Each item In fold.files
+		fpath=path&"/"&item.name
+		fpath=Replace(Replace(fpath,"/","\"),"\\","\")
+		Response.Write "<tr><td>"&FileManage_GetTypeIco(item.name)&"&nbsp;<a href="""
+		Dim isEmptyPlugin
+		isEmptyPlugin=True
+		For Each sAction_Plugin_FileManage_FileOpenType In Action_Plugin_FileManage_FileOpenType
+			If Not IsEmpty(sAction_Plugin_FileManage_FileOpenType) Then
+				Call Execute(sAction_Plugin_FileManage_FileOpenType)
+				isEmptyPlugin=False
+			End If
+		Next
+		If isEmptyPlugin Then Response.Write ZC_BLOG_HOST & Replace(LCase(path),LCase(blogpath),"")&"/"&item.name
+		
+		Response.Write """ target=""_blank"" title='"&FormatDateTime(item.datelastmodified,0)&";"&ZC_MSG238&":"&clng(item.size/1024)&"k'>"&item.name&"</a></td><td>"&FormatDateTime(item.datelastmodified,0)&"</td><td>"&FileManage_GetSize(item.size)&"</td><td>"&FileManage_ExportInformation(item.name,path)&"</td><td align=""center"">"
+		Response.Write"<a href=""main.asp?act=SiteFileEdt&path="&Server.URLEncode(fpath)&"&OpenFolderPath="& Server.URLEncode(path) &""" title=""["&ZC_MSG078&"]""><img src="""&ZC_BLOG_HOST&"/zb_system/image/admin/script_edit.png"" width=""16"" height=""16"" alt='编辑' title='编辑'/></a>&nbsp;"
+		Response.Write "&nbsp;&nbsp;<a href=""main.asp?act=SiteFileDownload&path="&Server.URLEncode(fpath)&"&OpenFolderPath="& Server.URLEncode(path) &""" target=""_blank"" title=""[下载]""><img src="""&ZC_BLOG_HOST&"/zb_system/image/admin/download.png"" width=""16"" height=""16"" alt='下载' title='下载'/></a>&nbsp;"
+		Response.Write "&nbsp;&nbsp;<a href=""main.asp?act=SiteFileRename&path="&Server.URLEncode(fpath)&"&OpenFolderPath="& Server.URLEncode(path) &""" class=""rename_file"" title=""[重命名]""><img src="""&ZC_BLOG_HOST&"/zb_system/image/admin/document-rename.png"" width=""16"" height=""16"" alt='重命名' title='重命名'/></a>&nbsp;"
+	
+		Response.Write "&nbsp;&nbsp;<a href=""main.asp?act=SiteFileDel&path="&Server.URLEncode(fpath)&"&OpenFolderPath="& Server.URLEncode(path) &""" class=""delete_file"" title=""["&ZC_MSG063&"]""><img src="""&ZC_BLOG_HOST&"/zb_system/image/admin/delete.png"" width=""16"" height=""16"" alt='删除' title='删除'/></a>"
+		For Each sAction_Plugin_FileManage_AddControlList In Action_Plugin_FileManage_AddControlList
+			If Not IsEmpty(sAction_Plugin_FileManage_AddControlList) Then Call Execute(sAction_Plugin_FileManage_AddControlList)
+		Next
+		Response.Write "</td></tr>"
+		Response.Write vbCrlf 
 	Next
-	Response.Write "</td></tr>"
-
-	next
 	Response.Write"</table>"
 	Set fold=Nothing
 
@@ -379,7 +383,7 @@ Function FileManage_ExportSiteFileList(path,OpenFolderPath)
 	Err.Clear
 
 
-	For Each sAction_Plugin_FileManage_ExportSiteFileList_End in Action_Plugin_FileManage_ExportSiteFileList_End
+	For Each sAction_Plugin_FileManage_ExportSiteFileList_End In Action_Plugin_FileManage_ExportSiteFileList_End
 		If Not IsEmpty(sAction_Plugin_FileManage_ExportSiteFileList_End) Then Call Execute(sAction_Plugin_FileManage_ExportSiteFileList_End)
 	Next
 End Function
@@ -393,7 +397,7 @@ End Function
 ' 目的：    输出编辑文件
 '*********************************************************
 Function FileManage_ExportSiteFileEdit(tpath,OpenFolderPath,chars)
-	For Each sAction_Plugin_FileManage_ExportSiteFileEdit_Begin in Action_Plugin_FileManage_ExportSiteFileEdit_Begin
+	For Each sAction_Plugin_FileManage_ExportSiteFileEdit_Begin In Action_Plugin_FileManage_ExportSiteFileEdit_Begin
 		If Not IsEmpty(sAction_Plugin_FileManage_ExportSiteFileEdit_Begin) Then Call Execute(sAction_Plugin_FileManage_ExportSiteFileEdit_Begin)
 	Next
 	
@@ -473,7 +477,7 @@ Function FileManage_ExportSiteFileEdit(tpath,OpenFolderPath,chars)
 	FileManage_ExportSiteFileEdit=True
 
 
-	For Each sAction_Plugin_FileManage_ExportSiteFileEdit_End in Action_Plugin_FileManage_ExportSiteFileEdit_End
+	For Each sAction_Plugin_FileManage_ExportSiteFileEdit_End In Action_Plugin_FileManage_ExportSiteFileEdit_End
 		If Not IsEmpty(sAction_Plugin_FileManage_ExportSiteFileEdit_End) Then Call Execute(sAction_Plugin_FileManage_ExportSiteFileEdit_End)
 	Next
 End Function
@@ -482,7 +486,7 @@ End Function
 ' 目的：    删除文件
 '*********************************************************
 Function FileManage_DeleteSiteFile(tpath,isFolder)
-	For Each sAction_Plugin_FileManage_DeleteSiteFile_Begin in Action_Plugin_FileManage_DeleteSiteFile_Begin
+	For Each sAction_Plugin_FileManage_DeleteSiteFile_Begin In Action_Plugin_FileManage_DeleteSiteFile_Begin
 		If Not IsEmpty(sAction_Plugin_FileManage_DeleteSiteFile_Begin) Then Call Execute(sAction_Plugin_FileManage_DeleteSiteFile_Begin)
 	Next
 	  
@@ -512,7 +516,7 @@ Function FileManage_DeleteSiteFile(tpath,isFolder)
 	Response.End
 	 	
 
-	For Each sAction_Plugin_FileManage_DeleteSiteFile_End in Action_Plugin_FileManage_DeleteSiteFile_End
+	For Each sAction_Plugin_FileManage_DeleteSiteFile_End In Action_Plugin_FileManage_DeleteSiteFile_End
 		If Not IsEmpty(sAction_Plugin_FileManage_DeleteSiteFile_End) Then Call Execute(sAction_Plugin_FileManage_DeleteSiteFile_End)
 	Next
 End Function
@@ -521,7 +525,7 @@ End Function
 ' 目的：    下载文件
 '*********************************************************
 Function FileManage_DownloadFile(ByVal tpath)
-	For Each sAction_Plugin_FileManage_DownloadFile_Begin in Action_Plugin_FileManage_DownloadFile_Begin
+	For Each sAction_Plugin_FileManage_DownloadFile_Begin In Action_Plugin_FileManage_DownloadFile_Begin
 		If Not IsEmpty(sAction_Plugin_FileManage_DownloadFile_Begin) Then Call Execute(sAction_Plugin_FileManage_DownloadFile_Begin)
 	Next
 	
@@ -552,7 +556,7 @@ Function FileManage_DownloadFile(ByVal tpath)
 	 
 	Set objADO=Nothing
 
-	For Each sAction_Plugin_FileManage_DownloadFile_End in Action_Plugin_FileManage_DownloadFile_End
+	For Each sAction_Plugin_FileManage_DownloadFile_End In Action_Plugin_FileManage_DownloadFile_End
 		If Not IsEmpty(sAction_Plugin_FileManage_DownloadFile_End) Then Call Execute(sAction_Plugin_FileManage_DownloadFile_End)
 	Next
 End Function
@@ -561,7 +565,7 @@ End Function
 ' 目的：    重命名文件\文件夹
 '*********************************************************
 Function FileManage_RenameFile(tpath,newname,isFolder)
-	For Each sAction_Plugin_FileManage_RenameFile_Begin in Action_Plugin_FileManage_RenameFile_Begin
+	For Each sAction_Plugin_FileManage_RenameFile_Begin In Action_Plugin_FileManage_RenameFile_Begin
 		If Not IsEmpty(sAction_Plugin_FileManage_RenameFile_Begin) Then Call Execute(sAction_Plugin_FileManage_RenameFile_Begin)
 	Next
 	
@@ -590,7 +594,7 @@ Function FileManage_RenameFile(tpath,newname,isFolder)
 	Set objGetFile=Nothing 
 	 
 
-	For Each sAction_Plugin_FileManage_RenameFile_End in Action_Plugin_FileManage_RenameFile_End
+	For Each sAction_Plugin_FileManage_RenameFile_End In Action_Plugin_FileManage_RenameFile_End
 		If Not IsEmpty(sAction_Plugin_FileManage_RenameFile_End) Then Call Execute(sAction_Plugin_FileManage_RenameFile_End)
 	Next
 End Function
@@ -600,7 +604,7 @@ End Function
 ' 目的：    输出上传
 '*********************************************************
 Function FileManage_ExportSiteUpload(path)
-	For Each sAction_Plugin_FileManage_ExportSiteUpload_Begin in Action_Plugin_FileManage_ExportSiteUpload_Begin
+	For Each sAction_Plugin_FileManage_ExportSiteUpload_Begin In Action_Plugin_FileManage_ExportSiteUpload_Begin
 		If Not IsEmpty(sAction_Plugin_FileManage_ExportSiteUpload_Begin) Then Call Execute(sAction_Plugin_FileManage_ExportSiteUpload_Begin)
 	Next
 	
@@ -619,7 +623,7 @@ Function FileManage_ExportSiteUpload(path)
 	
 	Response.Write "</p></form>"
 
-	For Each sAction_Plugin_FileManage_ExportSiteUpload_End in Action_Plugin_FileManage_ExportSiteUpload_End
+	For Each sAction_Plugin_FileManage_ExportSiteUpload_End In Action_Plugin_FileManage_ExportSiteUpload_End
 		If Not IsEmpty(sAction_Plugin_FileManage_ExportSiteUpload_End) Then Call Execute(sAction_Plugin_FileManage_ExportSiteUpload_End)
 	Next
 End Function
@@ -629,7 +633,7 @@ End Function
 '*********************************************************
 Function FileManage_Upload()
 	On Error Resume Next
-	For Each sAction_Plugin_FileManage_Upload_Begin in Action_Plugin_FileManage_Upload_Begin
+	For Each sAction_Plugin_FileManage_Upload_Begin In Action_Plugin_FileManage_Upload_Begin
 		If Not IsEmpty(sAction_Plugin_FileManage_Upload_Begin) Then Call Execute(sAction_Plugin_FileManage_Upload_Begin)
 	Next
 	Dim objUpload
@@ -657,7 +661,7 @@ Function FileManage_Upload()
 	
 	Response.Redirect SuccessPath
 
-	For Each sAction_Plugin_FileManage_Upload_End in Action_Plugin_FileManage_Upload_End
+	For Each sAction_Plugin_FileManage_Upload_End In Action_Plugin_FileManage_Upload_End
 		If Not IsEmpty(sAction_Plugin_FileManage_Upload_End) Then Call Execute(sAction_Plugin_FileManage_Upload_End)
 	Next
 End Function
@@ -666,7 +670,7 @@ End Function
 ' 目的：    保存文件
 '*********************************************************
 Function FileManage_PostSiteFile(tpath,OpenFolderPath)
-	For Each sAction_Plugin_FileManage_PostSiteFile_Begin in Action_Plugin_FileManage_PostSiteFile_Begin
+	For Each sAction_Plugin_FileManage_PostSiteFile_Begin In Action_Plugin_FileManage_PostSiteFile_Begin
 		If Not IsEmpty(sAction_Plugin_FileManage_PostSiteFile_Begin) Then Call Execute(sAction_Plugin_FileManage_PostSiteFile_Begin)
 	Next
 	Dim SuccessPath
@@ -699,7 +703,7 @@ Function FileManage_PostSiteFile(tpath,OpenFolderPath)
 	Response.End
 
 
-	For Each sAction_Plugin_FileManage_PostSiteFile_End in Action_Plugin_FileManage_PostSiteFile_End
+	For Each sAction_Plugin_FileManage_PostSiteFile_End In Action_Plugin_FileManage_PostSiteFile_End
 		If Not IsEmpty(sAction_Plugin_FileManage_PostSiteFile_End) Then Call Execute(sAction_Plugin_FileManage_PostSiteFile_End)
 	Next
 End Function
@@ -708,7 +712,7 @@ End Function
 ' 目的：    创建文件夹
 '*********************************************************
 Function FileManage_CreateFolder(tpath,openpath)
-	For Each sAction_Plugin_FileManage_CreateFolder_Begin in Action_Plugin_FileManage_CreateFolder_Begin
+	For Each sAction_Plugin_FileManage_CreateFolder_Begin In Action_Plugin_FileManage_CreateFolder_Begin
 		If Not IsEmpty(sAction_Plugin_FileManage_CreateFolder_Begin) Then Call Execute(sAction_Plugin_FileManage_CreateFolder_Begin)
 	Next
 	Dim SuccessPath
@@ -723,7 +727,7 @@ Function FileManage_CreateFolder(tpath,openpath)
 	Response.Write "<script type=""text/javascript"">location.href="""&SuccessPath&"""</script>"
 	Response.End
 
-	For Each sAction_Plugin_FileManage_CreateFolder_End in Action_Plugin_FileManage_CreateFolder_End
+	For Each sAction_Plugin_FileManage_CreateFolder_End In Action_Plugin_FileManage_CreateFolder_End
 		If Not IsEmpty(sAction_Plugin_FileManage_CreateFolder_End) Then Call Execute(sAction_Plugin_FileManage_CreateFolder_End)
 	Next
 End Function
