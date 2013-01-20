@@ -7,7 +7,8 @@
 <% Option Explicit %>
 <%' On Error Resume Next %>
 <% Response.Charset="UTF-8" %>
-<!-- #include file="function.asp"-->
+<!-- #include file="../../../zb_system/admin/ueditor/asp/aspincludefile.asp"-->
+
 <%
 Call System_Initialize()
 '检查非法链接

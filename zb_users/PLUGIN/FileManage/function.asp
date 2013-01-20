@@ -1,6 +1,4 @@
-﻿<!-- #include file="include_plugin.asp"-->
-<!-- #include file="../../../zb_system/admin/ueditor/asp/aspincludefile.asp"-->
-<%
+﻿<%
 Dim FileManage_FSO
 
 
@@ -38,7 +36,7 @@ Function FileManage_GetTypeIco(FileName)
 	Dim strType
 	strType=LCase(aryFn(Ubound(aryFn)))
 	Dim ImgTag,Tag
-	ImgTag="<img width=""11"" height=""11"" src=""..\..\..\zb_system\IMAGE\FILETYPE\{tag}.png""/>"
+	ImgTag="<img width=""16"" height=""16"" src=""..\..\..\zb_system\IMAGE\FILETYPE\{tag}.png""/>"
 	Select Case strType
 		Case "jar","jad" Tag="jar"
 		Case "txt","config","ini","inf","log" Tag="txt"
@@ -335,7 +333,7 @@ Function FileManage_ExportSiteFileList(path,OpenFolderPath)
 		fpath=path&"/"&item.name
 		fpath=replace(replace(fpath,"/","\"),"\\","\")
 		jpath=replace(path,"\","\\")
-		Response.write "<tr height='14'><td><img width=""11"" height=""11""src='../../../zb_system/IMAGE/FILETYPE/folder.png' />&nbsp;<a href='main.asp?act=SiteFileMng&path="&Server.URLEncode(path&IIf(Right(path,1)="\","","\")&item.name)&"&OpenFolderPath='>"&item.name&"</a>"
+		Response.write "<tr height='14'><td><img width=""16"" height=""16"" src='../../../zb_system/IMAGE/FILETYPE/folder.png' />&nbsp;<a href='main.asp?act=SiteFileMng&path="&Server.URLEncode(path&IIf(Right(path,1)="\","","\")&item.name)&"&OpenFolderPath='>"&item.name&"</a>"
 		Response.write"</td><td>"&FormatDateTime(item.datelastmodified,0)&"</td><td></td><td>"&FileManage_ExportInformation(item.name,path)&"</td><td width=""15%"" align=""center"">"
 		Response.Write "&nbsp;&nbsp;<a href=""main.asp?act=SiteFileRename&path="&Server.URLEncode(fpath)&"&OpenFolderPath="& Server.URLEncode(path) &""" onmousedown='var str=prompt(""请输入新文件名"");if(str!=null){this.href+=""&folder=true&newfilename=""+encodeURIComponent(str);this.click()}else{return false}' title=""[重命名]""><img src="""&ZC_BLOG_HOST&"/zb_system/image/admin/document-rename.png"" width=""16"" height=""16"" alt='重命名' title='重命名'/></a>&nbsp;"
 		Response.Write "&nbsp;&nbsp;<a href=""main.asp?act=SiteFileDel&folder=true&path="&Server.URLEncode(fpath)&"&OpenFolderPath="& Server.URLEncode(path) &""" onclick='if(window.confirm("""&ZC_MSG058&""")){return window.confirm(""删除文件夹危险性很大，您确定要继续么？"")}else{return false}' title=""["&ZC_MSG063&"]""><img src="""&ZC_BLOG_HOST&"/zb_system/image/admin/delete.png"" width=""16"" height=""16"" alt='删除' title='删除'/></a>"
@@ -626,7 +624,7 @@ End Function
 ' 目的：    上传文件
 '*********************************************************
 Function FileManage_Upload()
-	'On Error Resume Next
+	On Error Resume Next
 	For Each sAction_Plugin_FileManage_Upload_Begin in Action_Plugin_FileManage_Upload_Begin
 		If Not IsEmpty(sAction_Plugin_FileManage_Upload_Begin) Then Call Execute(sAction_Plugin_FileManage_Upload_Begin)
 	Next
@@ -635,7 +633,6 @@ Function FileManage_Upload()
 	objUpload.AutoSave=2
 	objUpload.Charset="UTF-8"
 	objUpload.FileType=""
-	objUpload.MaxSize=2^31-1
 	objUpload.open
 	Dim tpath,opath,SuccessPath
 	tpath=objUpload.Form("path")
@@ -646,15 +643,14 @@ Function FileManage_Upload()
 	
 	objUpload.SavePath=tpath&"\"
 	objUpload.open
-	objUpload.Save "edtFileLoad",1
-	
+	objUpload.save "edtFileLoad",1
 	If Err.Number=0 Then
 		Call SetBlogHint(True,Empty,Empty)
 	Else
 		FileManage_ExportError "<font color='red'>出现错误" & Hex(Err.Number) & "，描述为" & Err.Description & "，操作没有生效。</font>",SuccessPath
 	End If
 	
-	Response.Redirect SuccessPath
+	Response.Write "<script>location.href="""&SuccessPath&"""</script>"
 
 	For Each sAction_Plugin_FileManage_Upload_End in Action_Plugin_FileManage_Upload_End
 		If Not IsEmpty(sAction_Plugin_FileManage_Upload_End) Then Call Execute(sAction_Plugin_FileManage_Upload_End)
