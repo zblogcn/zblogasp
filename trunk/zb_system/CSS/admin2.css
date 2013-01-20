@@ -10,17 +10,17 @@ min-width:1020px;
 padding:0;
 margin:0;
 font-family:"微软雅黑","宋体", Arial, Helvetica, sans-serif;
-color:#444444;
+color:#333333;
 font-size: 14px;
 line-height: 20px;
-background: #ffffff url(../image/admin/bg-left.gif) repeat-y;
+background:#ffffff url(../image/admin/bg-left.gif) repeat-y;
 };
 * { padding:0; margin:0;}
 
 div, h1, h2, h3, h4, p, form, ul, label, input, textarea, select, img, span{margin:0; padding:0;}
 input, textarea, select{font-family:"微软雅黑","宋体", Arial, Helvetica, sans-serif;}
 table{border-collapse:collapse;}
-a { text-decoration: none;color: #383838;}
+a { text-decoration: none;color: #333333;}
 a:hover { color:#d60000;}
 ul { padding:0; margin:0;}
 li { list-style-type: none;}
@@ -135,14 +135,10 @@ background:#ffffdd;
 .menu { height:30px; position: absolute; right:10px; bottom:0px;}
 .menu ul {float:right;margin:0;padding:0;}
 .menu ul li { float:left;line-height:30px; padding:0;height:30px; margin:0 3px; text-align:center;}
-.menu ul li a {float:left;line-height:30px;height:30px; padding:0px 15px; color:#383838; background:#ffffff;}
+.menu ul li a {float:left;line-height:30px;height:30px; padding:0px 15px; color:#333333; background:#ffffff;}
 .menu ul li a:hover {float:left;line-height:30px;height:30px; padding:0px 15px; color:#ffffff; background: #b0cdee;}
 .menu ul li.on { font-weight:bold;}
 
-
-/*官方公告区*/
-#header .info {display:none; height:36px; line-height:36px; padding:0 0 0 70px; color:#04376C; background: #b0cdee url(../image/IMG/horn.png) no-repeat 40px 8px;}
-#header .info a { color:#04376C;}
 
 /*左边导航*/
 #main .main_left { float:left; width:140px; background:#ededed; padding:0px;margin:0 0 0 0;position: absolute;}
@@ -548,7 +544,7 @@ span.note{
 	text-align:center;
 	padding:0px 10px;
 	cursor: pointer;
-	color:#383838;
+	color:#333333;
 }
 
 .SubMenu span.m-left,.SubMenu span.m-right{

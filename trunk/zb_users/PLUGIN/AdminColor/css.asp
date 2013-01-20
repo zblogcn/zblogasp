@@ -12,7 +12,10 @@
 <!-- #include file="..\p_config.asp" -->
 <%
 
-Call System_Initialize()
+Call OpenConnect()
+Call GetConfigs()
+BlogConfig.Load("Blog")
+BlogUser.Verify()
 
 
 Dim ac_config,id
@@ -40,11 +43,32 @@ Response.Expires=0
 Response.ContentType = "text/css"
 
 Dim c
-c=LoadFromFile(BlogPath & "zb_system\CSS\admin2.css","utf-8")
+''c=LoadFromFile(BlogPath & "zb_system\CSS\admin2.css","utf-8")
 
-c=Replace(c,"url(../","url(../../../zb_system/")
+'c=Replace(c,"url(../","url(../../../zb_system/")
 
+c=c & "#header .top {background-color:#3a6ea5;}" & vbCrlf
+c=c & "input.button,input[type='submit'],input[type='button'] {background-color:#3a6ea5;}" & vbCrlf
+c=c & "div.theme-now .betterTip img{box-shadow: 0 0 10px #3a6ea5;}" & vbCrlf
 
+c=c & "#divMain a,#divMain2 a{color:#1d4c7d;}" & vbCrlf
+
+c=c & ".menu ul li a:hover {background-color: #b0cdee;}" & vbCrlf
+c=c & "#main .main_left #leftmenu a:hover { background-color: #b0cdee;}" & vbCrlf
+c=c & "div.theme-now{background-color:#b0cdee;}" & vbCrlf
+c=c & "div.theme-other .betterTip img:hover{border-color:#b0cdee;}" & vbCrlf
+c=c & ".SubMenu a:hover {background-color:#b0cdee;}" & vbCrlf
+c=c & ".siderbar-header:hover {background-color:#b0cdee;}" & vbCrlf
+
+c=c & "#main .main_left #leftmenu .on a,#main .main_left #leftmenu #on a:hover {background-color:#3399cc;}" & vbCrlf
+c=c & "input.button,input[type=""submit""],input[type=""button""] { border-color:#3399cc;}" & vbCrlf
+c=c & "input.button:hover {background-color: #3399cc;}" & vbCrlf
+c=c & "div.theme-other .betterTip img:hover{box-shadow: 0 0 10px #3399cc;}" & vbCrlf
+c=c & ".SubMenu{border-bottom-color:#3399cc;}" & vbCrlf
+c=c & ".SubMenu span.m-now{background-color:#3399cc;}" & vbCrlf
+
+c=c & "a:hover { color:#d60000;}" & vbCrlf
+c=c & "#divMain a:hover,#divMain2  a:hover{color:#d60000;}" & vbCrlf
 
 Dim c1,c2,c3,c4,c5
 c1="#1d4c7d"
@@ -58,10 +82,10 @@ c=Replace(c,c2,NormalColor(id))
 c=Replace(c,c3,LightColor(id))
 c=Replace(c,c4,HighColor(id))
 c=Replace(c,c5,AntiColor(id))
-c=Replace(c,"../IMAGE","../../../zb_system/IMAGE")
+'c=Replace(c,"../IMAGE","../../../zb_system/IMAGE")
 
-c=c & vbCrlf & vbCrlf & "/*AdminColor*/" & vbCrlf & "#admin_color{line-height: 2.5em;font-size: 0.5em;letter-spacing: -0.1em;}"
+c=c & vbCrlf & vbCrlf & "/*AdminColor*/" & vbCrlf & "#admin_color{float:right;line-height: 2.5em;font-size: 0.5em;letter-spacing: -0.1em;}"
 Response.Write(c) 
 
-Call System_Terminate()
+Call CloseConnect()
 %>
