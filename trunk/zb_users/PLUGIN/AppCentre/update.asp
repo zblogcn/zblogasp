@@ -185,217 +185,255 @@ Next
         </div>
         <script type="text/javascript">ActiveLeftMenu("aAppcentre");</script> 
         <script type="text/javascript">
-		var _max = parseInt("<%=Round(PathAndCrc32.Count/10)+2%>"),
-		_conflict = 0,
-		_sort = 0;
-		var _bar = $("#bar"),
-		_status = $("#status"),
-		_count = $("#count");
-		
-		function crc32(i) {
-			if(i==1){$("#checknow").html("<img src='"+bloghost+"zb_system/image/admin/loading.gif' alt='loading' width='16' />");$("#checknow").parent().click( function () {return false});}
-			_bar.prev().hide();
-			$.get("update.asp?crc32=" + i, 
-			function(data) {
-				if (data !== "") {
-					i = i + 1;
-					_bar.progressbar({
-						value: (i / _max) * 100
-		
-					});
-					_status.html(parseInt((i / _max) * 100));
-					eval(data);
-					crc32(i);
-		
-		
-				} else {
-					_bar.hide();
-					$("#checknow").hide();
-					_bar.prev().show();
-					_status.html(100);
-					$("#_s").html("<a href='javascript:void(0);'>修改排序</a>").find("a").click(function() {
-						var o = $(this);
-						switch (_sort) {
-							case 0:
-							$(".check_normal").hide();
-							_sort = 1;
-							break;
-							case 1:
-							$(".check_normal").show();
-							$(".check_conflict").hide();
-							_sort = 2;
-							break;
-							case 2:
-							$(".check_conflict").show();
-							_sort = 0;
-							break;
-		
-						}
-						return false
-		
-					});
-		
-				}
-		
-		
-			});
-		
-		
-		}
-		
-		function checklast(now, last) {
-			var n = now.toString().match(/[0-9]{6}/);
-			var l = last.toString().match(/[0-9]{6}/);
-			if (l - n > 0) {
-				$("form").attr("action", n + "-" + l);
-				$("form input:button").css("visibility", "inherit");
-		
-			}
-		
-		
-		}
-		
-		function update() {
-		
-			var s = Math.random().toString();
-			var j = document.createElement("div");
-			j.id = "dialog_" + s;
-			j.innerHTML = "正在下载更新包<br/>";
-			$(j).dialog({
-				title: "提示",
-				modal: true,
-				buttons: {
-					"取消": function() {
-						//$(this).dialog("close");
-						location.href = "update.asp"
-		
-					}
-		
-				}
-		
-			});
-		
-			update_download(j);
-			//update_install(j);
-		
-		}
-		
-		
-		function update_download(j) {
-			$.post("update.asp?update=download", 
-			{
-				"filename": $("form").attr("action")
-		
-			},
-			function(data) {
-		
-				if (data != "") {
-					$(j).append(data + "<br/>");
-					update_install(j)
-		
-				} else {
-					$(j).append("升级失败<br/>");
-		
-				}
-		
-			});
-		
-		}
-		
-		function update_install(j) {
-			$(j).append("开始安装文件包<br/>");
-			delallJQueryUIDialogButton($(j));
-			$.post("update.asp?update=install", 
-			{
-				"filename": $("form").attr("action")
-		
-			},
-			function(data) {
-		
-				if (data != "") {
-					$(j).append(data + "<br/>");
-					createnewJQueryUIDialogButton($(j), "确定", 
-					function() {
-						update_success(j)
-					});
-		
-				} else {
-					$(j).append("升级失败<br/>");
-					createnewJQueryUIDialogButton($(j), "确定", 
-					function() {
-						$(j).dialog("close")
-					});
-		
-				}
-		
-			});
-		
-		
-		}
-		
-		function update_success(j) {
-			location.href = "update.asp?update=success&file="+$("form").attr("action");
-		
-		}
-		
-		function restore(t) {
-			$("#checknow").attr("src",bloghost+"zb_system/image/admin/loading.gif");
-			$("#checknow").parent().click( function () {return false});
-			$("#checknow").show();
-			var b = $("#now").html().match(/[0-9]{6}/);
-			var f = $(t).parent().prev().find("span").html();
-			var c= $(t).parent().prev().find("cite").html();
-			$.post("update.asp?restore=now", 
-			{
-				"build": b.toString(),
-				"filename": f,
-				"crc32":c
-			},
-			function(data) {
-				$("#checknow").hide();
-				if (data != "") {
-					//alert(data);
-					$(t).find("img").attr("src",bloghost+'zb_system/image/admin/ok.png');
-				}else{
-					alert("更新失败");
-				}
-		
-			});
-		
-		}
-		
-		
-		function createnewJQueryUIDialogButton(jqobj, text, e) {
-			var objid = "btn_" + parseInt(new Date().valueOf().toString() + Math.random() * 1000);
-			jqobj.parent().find('.ui-dialog-buttonset').append('<button type="button" id="' + objid + '" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false"><span class="ui-button-text">' + text + '</span></button>');
-			$("#" + objid).click(e)
-		}
-		
-		
-		function delallJQueryUIDialogButton(jqobj) {
-			jqobj.parent().find('.ui-dialog-buttonset').html("");
-		}
-		
-		
-		$(document).ready(function() {
-		
-			$.get("update.asp?last=now", 
-			function(data) {
-				$("#last").html("Z-Blog " + data);
-				checklast($("#now").html(), $("#last").html());
-		
-			});
-		
-		
-
+			var _max = parseInt("<%=Round(PathAndCrc32.Count/10)+2%>"),
+			_conflict = 0,
+			_sort = 0;
+			var _bar = $("#bar"),
+			_status = $("#status"),
+			_count = $("#count");
 			
-<%
-If Request.QueryString("check")="now" Then
-	Response.Write "crc32(1)"
-End If
-%>
-
-			});
+			function crc32(i) {
+				if (i == 1) {
+					$("#checknow").html("<img src='" + bloghost + "zb_system/image/admin/loading.gif' alt='loading' width='16' />");
+					$("#checknow").parent().click(function() {
+						return false
+					});
+				}
+				_bar.prev().hide();
+				$.get("update.asp?crc32=" + i, 
+				function(data) {
+					if (data !== "") {
+						i = i + 1;
+						_bar.progressbar({
+							value: (i / _max) * 100
+			
+			
+						});
+						_status.html(parseInt((i / _max) * 100));
+						eval(data);
+						crc32(i);
+			
+			
+			
+					} else {
+						_bar.hide();
+						$("#checknow").hide();
+						_bar.prev().show();
+						_status.html(100);
+						$("#_s").html("<a href='javascript:void(0);'>筛选</a>").find("a").click(function() {
+							var o = $(this);
+							switch (_sort) {
+								case 0:
+								$(".check_normal").hide();
+								_sort = 1;
+								break;
+								case 1:
+								$(".check_normal").show();
+								$(".check_conflict").hide();
+								_sort = 2;
+								break;
+								case 2:
+								$(".check_conflict").show();
+								_sort = 0;
+								break;
+			
+			
+							}
+							return false
+			
+			
+						});
+			
+			
+					}
+			
+			
+			
+				});
+			
+			
+			
+			}
+			
+			function checklast(now, last) {
+				var n = now.toString().match(/[0-9]{6}/);
+				var l = last.toString().match(/[0-9]{6}/);
+				if (l - n > 0) {
+					$("form").attr("action", n + "-" + l);
+					$("form input:button").css("visibility", "inherit");
+			
+			
+				}
+			
+			
+			
+			}
+			
+			function update() {
+			
+				var s = Math.random().toString();
+				var j = document.createElement("div");
+				j.id = "dialog_" + s;
+				j.innerHTML = "正在下载更新包<br/>";
+				$(j).dialog({
+					title: "提示",
+					modal: true,
+					buttons: {
+						"取消": function() {
+							//$(this).dialog("close");
+							location.href = "update.asp"
+			
+			
+						}
+			
+			
+					}
+			
+			
+				});
+			
+				update_download(j);
+				//update_install(j);
+			
+			
+			}
+			
+			
+			function update_download(j) {
+				$.post("update.asp?update=download", 
+				{
+					"filename": $("form").attr("action")
+			
+			
+				},
+				function(data) {
+			
+					if (data != "") {
+						$(j).append(data + "<br/>");
+						update_install(j)
+			
+			
+					} else {
+						$(j).append("升级失败<br/>");
+			
+			
+					}
+			
+			
+				});
+			
+			
+			}
+			
+			function update_install(j) {
+				$(j).append("开始安装文件包<br/>");
+				delallJQueryUIDialogButton($(j));
+				$.post("update.asp?update=install", 
+				{
+					"filename": $("form").attr("action")
+			
+			
+				},
+				function(data) {
+			
+					if (data != "") {
+						$(j).append(data + "<br/>");
+						createnewJQueryUIDialogButton($(j), "确定", 
+						function() {
+							update_success(j)
+			
+						});
+			
+			
+					} else {
+						$(j).append("升级失败<br/>");
+						createnewJQueryUIDialogButton($(j), "确定", 
+						function() {
+							$(j).dialog("close")
+			
+						});
+			
+			
+					}
+			
+			
+				});
+			
+			
+			
+			}
+			
+			function update_success(j) {
+				location.href = "update.asp?update=success&file=" + $("form").attr("action");
+			
+			
+			}
+			
+			function restore(t) {
+				$("#checknow").attr("src", bloghost + "zb_system/image/admin/loading.gif");
+				$("#checknow").parent().click(function() {
+					return false
+				});
+				$("#checknow").show();
+				var b = $("#now").html().match(/[0-9]{6}/);
+				var f = $(t).parent().prev().find("span").html();
+				var c = $(t).parent().prev().find("cite").html();
+				$.post("update.asp?restore=now", 
+				{
+					"build": b.toString(),
+					"filename": f,
+					"crc32": c
+			
+				},
+				function(data) {
+					$("#checknow").hide();
+					if (data != "") {
+						//alert(data);
+						$(t).find("img").attr("src", bloghost + 'zb_system/image/admin/ok.png');
+			
+					} else {
+						alert("更新失败");
+			
+					}
+			
+			
+				});
+			
+			
+			}
+			
+			
+			function createnewJQueryUIDialogButton(jqobj, text, e) {
+				var objid = "btn_" + parseInt(new Date().valueOf().toString() + Math.random() * 1000);
+				jqobj.parent().find('.ui-dialog-buttonset').append('<button type="button" id="' + objid + '" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false"><span class="ui-button-text">' + text + '</span></button>');
+				$("#" + objid).click(e)
+			
+			}
+			
+			
+			function delallJQueryUIDialogButton(jqobj) {
+				jqobj.parent().find('.ui-dialog-buttonset').html("");
+			
+			}
+			
+			
+			$(document).ready(function() {
+			
+				$.get("update.asp?last=now", 
+				function(data) {
+					$("#last").html("Z-Blog " + data);
+					checklast($("#now").html(), $("#last").html());
+			
+			
+				});
+						
+			<%
+			If Request.QueryString("check")="now" Then
+				Response.Write "crc32(1)"
+			End If
+			%>
+			
+						});
    
    </script>
         <%
