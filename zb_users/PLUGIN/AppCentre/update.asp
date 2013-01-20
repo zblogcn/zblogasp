@@ -144,7 +144,7 @@ BlogTitle="应用中心-系统更新检查"
               </p>
 			  <hr/>
 
-              <div class="divHeader">校验系统核心文件&nbsp;&nbsp;<a href="update.asp?check=now" title="开始校验"><img id="checknow" src="Images/refresh.png" width="16" alt="校验" /></a></div>
+              <div class="divHeader">校验系统核心文件&nbsp;&nbsp;<span id="checknow"><a href="update.asp?check=now" title="开始校验"><img src="Images/refresh.png" width="16" alt="校验" /></a></span></div>
 			  <div>进度<span id="status">0</span>%；已发现<span id="count">0</span>个修改过的系统文件。<div id="bar"></div></div>
               <table border="1" width="100%" cellspacing="0" cellpadding="0" class="tableBorder tableBorder-thcenter">
                 <tr>
@@ -153,7 +153,8 @@ BlogTitle="应用中心-系统更新检查"
                 </tr>
 
 <%
-
+Dim FileManageEnabled
+FileManageEnabled=CheckPluginState("FileManage")
 Dim a,b,c,d,e
 b=0
 For Each a In PathAndCrc32.Names
@@ -162,7 +163,13 @@ If b>0 Then
 
 c=vbsunescape(a)
 
-Response.Write "<tr><td><img src='Images/document_empty.png' width='16' alt='' /> <span>"& c &"</span><cite style='display:none;'>"& PathAndCrc32.GetValue(c) &"</cite></td><td id='td"&b&"' align='center'>"& e &"</td></tr>"
+Response.Write "<tr><td>"
+If FileManageEnabled Then 
+	Response.Write FileManage_GetTypeIco(c)
+Else
+	Response.Write "<img src='Images/document_empty.png' width='16' alt='' />"
+End If
+Response.Write " <span>"& c &"</span><cite style='display:none;'>"& PathAndCrc32.GetValue(c) &"</cite></td><td id='td"&b&"' align='center'>"& e &"</td></tr>"
 Response.Flush
 
 End If
@@ -186,7 +193,7 @@ Next
 		_count = $("#count");
 		
 		function crc32(i) {
-			if(i==1){$("#checknow").attr("src",bloghost+"zb_system/image/admin/loading.gif");$("#checknow").parent().click( function () {return false});}
+			if(i==1){$("#checknow").html("<img src='"+bloghost+"zb_system/image/admin/loading.gif' alt='loading' width='16' />");$("#checknow").parent().click( function () {return false});}
 			_bar.prev().hide();
 			$.get("update.asp?crc32=" + i, 
 			function(data) {
