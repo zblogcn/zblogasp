@@ -64,16 +64,26 @@ End Select
 
 %>
 <!--#include file="..\..\..\zb_system\admin\admin_header.asp"-->
+
+<%If FileManage_OpenCodeMirror=True Then%>
+<link rel="stylesheet" href="../../../ZB_SYSTEM/admin/ueditor/third-party/codemirror/codemirror.css"/>
+<script language="JavaScript" type="text/javascript" src="../../../ZB_SYSTEM/admin/ueditor/third-party/codemirror/codemirror.js"></script>
+<%End If%>
+<!--<script language="JavaScript" type="text/javascript" src="jquery.dataTables.min.js"></script>
+<link rel="stylesheet" href="jquery.dataTables.css"/>-->
 <style type="text/css">
 #fileUpload{display:none;}
 #fileUpload #edit{background:none}
 #fileUpload #edit .button{float:right}
-</style>
-<%If FileManage_OpenCodeMirror=True Then%>
+#siteList {margin-top: -13px;}
+/*table.dataTable tr.odd{background: #F4F4F4 !important;}
+table.dataTable tr.even{background: #FFFFFF !important;}
+tr.even td.sorting_1{background: #FFFFFF !important;}
+table.dataTable tr.odd td.sorting_1{background: #F4F4F4 !important;}
+table.dataTable tr.color4 {background: #ffffdd !important;}
+table.dataTable tr.color4 td.sorting_1{background: #ffffdd !important;}*/
 
-<link rel="stylesheet" href="../../../ZB_SYSTEM/admin/ueditor/third-party/codemirror/codemirror.css"/>
-<script language="JavaScript" type="text/javascript" src="../../../ZB_SYSTEM/admin/ueditor/third-party/codemirror/codemirror.js"></script>
-<%End If%>
+</style>
 <!--#include file="..\..\..\zb_system\admin\admin_top.asp"-->
 
 <div id="divMain"> <div id="ShowBlogHint">
@@ -128,6 +138,24 @@ $(".delete_folder").click(function(){
 $(".delete_file").click(function(){
 	return window.confirm("<%=ZC_MSG058%>");
 });
+/*
+$(document).ready(function(){
+	//$("tr").unbind("mouseover");
+	$("#siteList").dataTable({ "oLanguage": {
+            "sLengthMenu": "每页显示 _MENU_ 个文件",
+            "sZeroRecords": "未找到",
+            "sInfo": "显示 _START_ 到 _END_ 共 _TOTAL_ 个文件",
+            "sInfoEmpty": "显示 0 to 到 of 共 0 个文件",
+            "sInfoFiltered": "(从_MAX_条记录里过滤)",
+			"sEmptyTable":"没有任何文件",
+			"sSearch":"搜索",
+			"oPaginate":{
+				"sFirst":"首页","sLast":"尾页","sNext":"下一页","sPrevious":"上一页"
+			}
+        }
+    });
+})
+*/
 </script>
 <!--#include file="..\..\..\zb_system\admin\admin_footer.asp"-->
 
