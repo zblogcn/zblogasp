@@ -66,7 +66,7 @@ End Select
 <!--#include file="..\..\..\zb_system\admin\admin_header.asp"-->
 <style type="text/css">
 #fileUpload{display:none;border:gray 1px solid}
-
+#fileUpload #edit{background:none}
 </style>
 <%If FileManage_OpenCodeMirror=True Then%>
 
