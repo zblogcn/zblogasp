@@ -333,7 +333,7 @@ Function FileManage_ExportSiteFileList(path,OpenFolderPath)
 	Response.Write "</th></tr></tbody></table>"
 	Response.Write "<table width=""100%"" border=""0"" class=""tableBorder"" id=""siteList"">"
 
-	Response.Write "<thead><tr><td>文件名</td><td width=""17%"">修改时间</td><td width=""7%"">大小</td><td width=""24%"">注释</td><td>操作</td></tr></thead><tbody>"
+	Response.Write "<thead><tr><th>文件名</th><th width=""17%"">修改时间</th><th width=""7%"">大小</th><th width=""24%"">注释</th><th>操作</th></tr></thead><tbody>"
 	
 	
 	For Each item In fold.subfolders
