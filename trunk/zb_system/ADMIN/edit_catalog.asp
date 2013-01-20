@@ -73,9 +73,11 @@ Next
 <%
 	Response.Write "<input id=""edtID"" name=""edtID""  type=""hidden"" value="""& EditCategory.ID &""" />"
 	Response.Write "<p><span class='title'>"& ZC_MSG001 &":</span><span class='star'>(*)</span><br/><input id=""edtName"" style='width:300px;' size=""40"" name=""edtName"" maxlength=""50"" type=""text"" value="""& TransferHTML(EditCategory.Name,"[html-format]") &""" /></p>"
-	Response.Write "<p><span class='title'>"& ZC_MSG079 &":</span><br/><input id=""edtOrder"" style='width:300px;' size=""40"" name=""edtOrder""  type=""text"" value="""& EditCategory.Order &""" /></p>"
-
 	Response.Write "<p><span class='title'>"& ZC_MSG147 &":</span><br/><input id=""edtAlias"" style='width:300px;' size=""40"" name=""edtAlias""  type=""text"" value="""& TransferHTML(EditCategory.Alias,"[html-format]") &""" /></p>"
+
+If Request.QueryString("id")<>"0" Then
+
+	Response.Write "<p><span class='title'>"& ZC_MSG079 &":</span><br/><input id=""edtOrder"" style='width:300px;' size=""40"" name=""edtOrder""  type=""text"" value="""& EditCategory.Order &""" /></p>"
 
 	Response.Write "<p><span class='title'>"& ZC_MSG195 &":</span><br/><select style='width:310px;' id=""edtPareID"" name=""edtPareID"" class=""edit"" size=""1"">"
 	Response.Write "<option value=""0"" "
@@ -162,10 +164,12 @@ Next
 
 	Response.Write "</select><input type='hidden' name='edtLogTemplate' id='edtLogTemplate' value='"&EditCategory.LogTemplate&"' />"
 
-	Response.Write "<p><label><input type='checkbox' name='edtAddNavbar' id='edtAddNavbar' value='True'' />&nbsp;&nbsp;<span class='title'>"& ZC_MSG046 &"</span></label></p>"
 	Response.Write "</p>"
 
-
+	Response.Write "<p><label><input type='checkbox' name='edtAddNavbar' id='edtAddNavbar' value='True'' />&nbsp;&nbsp;<span class='title'>"& ZC_MSG046 &"</span></label></p>"
+Else
+	Response.Write "<p>"& ZC_MSG261 &"</p>"
+End If
 
 	'<!-- 1号输出接口 -->
 	If Response_Plugin_EditCatalog_Form<>"" Then Response.Write "<div id=""divEditForm1"">"&Response_Plugin_EditCatalog_Form&"</div>"
