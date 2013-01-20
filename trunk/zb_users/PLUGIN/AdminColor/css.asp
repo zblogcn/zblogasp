@@ -58,9 +58,9 @@ c=Replace(c,c2,NormalColor(id))
 c=Replace(c,c3,LightColor(id))
 c=Replace(c,c4,HighColor(id))
 c=Replace(c,c5,AntiColor(id))
-'c=Replace(c,"../IMAGE","../../../zb_system/IMAGE")
+c=Replace(c,"../IMAGE","../../../zb_system/IMAGE")
 
-c=c & "#admin_color{line-height: 2.5em;font-size: 0.5em;letter-spacing: -0.1em;}"
+c=c & vbCrlf & vbCrlf & "/*AdminColor*/" & vbCrlf & "#admin_color{line-height: 2.5em;font-size: 0.5em;letter-spacing: -0.1em;}"
 Response.Write(c) 
 
 Call System_Terminate()
