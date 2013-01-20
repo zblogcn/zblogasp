@@ -314,7 +314,8 @@ Function FileManage_ExportSiteFileList(path,OpenFolderPath)
 	
 	Set fold=f.getfolder(path)
 	
-	Response.Write"<table width=""100%"" border=""0"" class=""tableBorder"">"
+	Response.Write "<table width=""100%"" border=""0"" class=""tableBorder"">"
+	Response.Write "<tbody>"
 	Response.Write "<tr><th colspan=""5""><a href='main.asp?act=SiteFileMng&path="&Server.URLEncode(backfolder)&"' title='"&ZC_MSG239&"'><img src=""images\up.png"" width=""16"" alt="""" /></a>"
 	Response.Write "&nbsp;&nbsp;<a href=""javascript:void(0)"" onclick=""$('#fileUpload').dialog({width:'741px',title:'上传'})"" title=""上传""><img src=""images\upload.png"" width=""16"" alt="""" /></a>"
 '	Response.Write "&nbsp;&nbsp;<a href='javascript:void(0)' onclick='window.open(""main.asp?act=SiteFileUploadShow&path="&Server.URLEncode(fpath)&"&OpenFolderPath="& Server.URLEncode(path) &""",""Detail"",""Scrollbars=no,Toolbar=no,Location=no,Direction=no,Resizeable=no,height=165px,width=780px"")' title=""上传""><img src=""images\upload.png""/></a>"
@@ -329,8 +330,10 @@ Function FileManage_ExportSiteFileList(path,OpenFolderPath)
 	
 	
 	
-	Response.Write "</th></tr>"
-	Response.Write "<tr><td>文件名</td><td width=""17%"">修改时间</td><td width=""7%"">大小</td><td width=""24%"">注释</td><td>操作</td></tr>"
+	Response.Write "</th></tr></tbody></table>"
+	Response.Write "<table width=""100%"" border=""0"" class=""tableBorder"" id=""siteList"">"
+
+	Response.Write "<thead><tr><td>文件名</td><td width=""17%"">修改时间</td><td width=""7%"">大小</td><td width=""24%"">注释</td><td>操作</td></tr></thead><tbody>"
 	
 	
 	For Each item In fold.subfolders
@@ -372,7 +375,7 @@ Function FileManage_ExportSiteFileList(path,OpenFolderPath)
 		Response.Write "</td></tr>"
 		Response.Write vbCrlf 
 	Next
-	Response.Write"</table>"
+	Response.Write "</tbody><tfoot></tfoot></table>"
 	Set fold=Nothing
 
 	Set f=Nothing
@@ -734,10 +737,13 @@ End Function
 
 
 
+'*********************************************************
+' 目的：    输出错误
+'*********************************************************
 Sub FileManage_ExportError(Msg,Url)
 	On Error Resume Next
-	Call SetBlogHint_Custom("<span style='color:red'>"&Msg&"</font>")
 	Response.Clear
+	Call SetBlogHint_Custom("<span style='color:red' id='_err'>"&Msg&"</span><script>$('#_err').parent().parent().addClass('hint_red').removeClass('hint_teal');</script>")
 	Response.Write "<script>location.href="""&Url&"""</script>"
 	Response.End
 End Sub
