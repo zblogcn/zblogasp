@@ -66,9 +66,26 @@ c=c & "input.button:hover {background-color: #3399cc;}" & vbCrlf
 c=c & "div.theme-other .betterTip img:hover{box-shadow: 0 0 10px #3399cc;}" & vbCrlf
 c=c & ".SubMenu{border-bottom-color:#3399cc;}" & vbCrlf
 c=c & ".SubMenu span.m-now{background-color:#3399cc;}" & vbCrlf
+c=c & "div #BT_title {background-color: #3399cc;border-color:#3399cc;}" & vbCrlf
 
 c=c & "a:hover { color:#d60000;}" & vbCrlf
 c=c & "#divMain a:hover,#divMain2  a:hover{color:#d60000;}" & vbCrlf
+
+'appcenter
+c=c & ".tabs { border-bottom-color:#3a6ea5!important;}" & vbCrlf
+c=c & ".tabs li a.selected {background-color:#3a6ea5!important;}" & vbCrlf
+c=c & "div.heart-vote {background-color:#3a6ea5!important;}" & vbCrlf
+c=c & "div.heart-vote ul {border-color:#3a6ea5!important;}" & vbCrlf
+c=c & ".install {background-color:#3a6ea5!important;}" & vbCrlf
+c=c & ".install:hover{background-color: #3399cc!important;}" & vbCrlf
+c=c & "input.button{background-color:#3a6ea5!important;border-color:#3399cc!important;}" & vbCrlf
+c=c & "input.button:hover{background-color:#3399cc!important;}" & vbCrlf
+c=c & ".themes_body ul li img:hover,.plugin_body ul li img:hover,.main_plugin ul li img:hover,.main_theme ul li img:hover{box-shadow: 0 0 10px #3399cc!important;}" & vbCrlf
+c=c & ".left_nav h2,.text h2 {color: #3a6ea5!important;}" & vbCrlf
+c=c & ".pagebar span{ background:#3399cc!important; border-color:#3399cc!important;color:#fff;}" & vbCrlf
+c=c & ".pagebar span.now-page,.pagebar span:hover{ background:#eee!important;border-color:#eee!important; color:#3399cc!important;}" & vbCrlf
+
+
 
 Dim c1,c2,c3,c4,c5
 c1="#1d4c7d"

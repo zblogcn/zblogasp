@@ -46,10 +46,10 @@ HighColor(1)="#6ac726"
 AntiColor(1)="#d60000"
 
 
-BlodColor(2)="#333333"
-NormalColor(2)="#555555"
-LightColor(2)="#ababab"
-HighColor(2)="#8b8b8b"
+BlodColor(2)="#06282b"
+NormalColor(2)="#2db1bd"
+LightColor(2)="#87e6ef"
+HighColor(2)="#119ba7"
 AntiColor(2)="#d60000"
 
 
@@ -58,6 +58,7 @@ NormalColor(3)="#5c2c84"
 LightColor(3)="#a777d0"
 HighColor(3)="#8627d7"
 AntiColor(3)="#08a200"
+
 
 BlodColor(4)="#656215"
 NormalColor(4)="#9d982f"
@@ -92,10 +93,11 @@ LightColor(8)="#ffb3a7"
 HighColor(8)="#da4b4a"
 AntiColor(8)="#ff000c"
 
-BlodColor(9)="#06282b"
-NormalColor(9)="#2db1bd"
-LightColor(9)="#87e6ef"
-HighColor(9)="#119ba7"
+
+BlodColor(9)="#333333"
+NormalColor(9)="#555555"
+LightColor(9)="#ababab"
+HighColor(9)="#8b8b8b"
 AntiColor(9)="#d60000"
 
 %>

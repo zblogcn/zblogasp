@@ -464,7 +464,7 @@ function showmsg(int){
               
               <div class="content-box-content">
                 <div class="tab-content default-tab" style='border:none;padding:0px;margin:0;' id="tab1">
-                  <textarea style="width:80%;height:300px" disabled="disabled">
+                  <textarea style="width:80%;height:300px" readonly="readonly">
 <%=TransferHTML(MakeIIS6Rewrite2(),"[html-format]")%>
 </textarea>
                   <hr/>
@@ -477,7 +477,7 @@ function showmsg(int){
                     &nbsp;&nbsp;&nbsp;&nbsp;<span class="star">请在网站根目录创建httpd.ini文件并把相关内容复制进去,httpd.ini文件必须为ANSI编码,也可以点击按钮生成.</span></p>
                 </div>
                 <div class="tab-content" style='border:none;padding:0px;margin:0;' id="tab2">
-                  <textarea style="width:80%;height:300px" disabled="disabled">
+                  <textarea style="width:80%;height:300px" readonly="readonly">
 <%=TransferHTML(MakeIIS6Rewrite3(),"[html-format]")%>
 </textarea>
                   <hr/>
@@ -488,7 +488,7 @@ function showmsg(int){
                     &nbsp;&nbsp;&nbsp;&nbsp;<span class="star">请在网站根目录创建.htaccess文件并把相关内容复制进去,也可以点击按钮生成..</span></p>
                 </div>
                 <div class="tab-content" style='border:none;padding:0px;margin:0;' id="tab3">
-                  <textarea style="width:80%;height:300px" disabled="disabled">
+                  <textarea style="width:80%;height:300px" readonly="readonly">
 <%=TransferHTML(MakeIIS7UrlRewrite(),"[html-format]")%>
 </textarea>
                   <hr/>
