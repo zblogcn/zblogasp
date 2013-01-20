@@ -1,4 +1,7 @@
-﻿<%
+﻿<!-- #include file="include_plugin.asp"-->
+<!-- #include file="function.asp"-->
+
+<%
 '///////////////////////////////////////////////////////////////////////////////
 '// 插件应用:    1.9 其它版本的Z-blog未知
 '// 插件制作:    ZSXSOFT(http://www.zsxsoft.com/)
