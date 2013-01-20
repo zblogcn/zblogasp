@@ -48,9 +48,30 @@ Redim aryDownload(0)
 Redim aryName(0)
 
 
+Function AppCentre_GetVersionByBuild(b)
+
+	Dim s
+	b=CStr(b)
+	Select Case b
+	Case "121028"
+	s="Z-Blog 2.0 Beta2 Build 121028"
+	Case "121001"
+	s="Z-Blog 2.0 Beta1 Build 121001"
+	Case "121221"
+	s="Z-Blog 2.0 Doomsday Build 121221"
+	Case "130128"
+	s="Z-Blog 2.1 Phoenix Build 130128"
+	Case Else
+	s="Z-Blog 2.X Other Build " & s
+	End Select
+	AppCentre_GetVersionByBuild=s
+
+End Function
+
+
 Function AppCentre_Update_Restore(build,file,crc32_)
 
-	On Error Resume Next
+	'On Error Resume Next
 
 	Dim objPing
 	Set objPing = Server.CreateObject("Microsoft.XMLHTTP")
@@ -74,8 +95,9 @@ Function AppCentre_Update_Restore(build,file,crc32_)
 	End If
 
 
-	If Err.Number=0 Then
 
+	If Err.Number=0 Then
+		AppCentre_Update_Restore="下载成功."
 	Else
 		Response.End
 	End If
@@ -88,9 +110,9 @@ Function AppCentre_Update_Download(file)
 	On Error Resume Next
 
 	Dim objPing
-	Set objPing = Server.CreateObject("MSXML2.ServerXMLHTTP")
+	Set objPing = Server.CreateObject("Microsoft.XMLHTTP")
 
-	objPing.open "GET", APPCENTRE_SYSTEM_UPDATE & "" & file & ".xml",False
+	objPing.open "GET", APPCENTRE_SYSTEM_UPDATE & "?" & file & ".xml",False
 	objPing.setRequestHeader "accept-encoding", "gzip, deflate"  
 	objPing.send ""
 
@@ -408,10 +430,8 @@ Function InstallApp(FilePath)
 
 			If IsNumeric(app_adapted) Then
 				If CLng(app_adapted)>CLng(BlogVersion) Then
-					SetBlogHint_Custom "您的Z-Blog版本太低，无法安装该应用！"
-					SetBlogHint_Custom "该应用需求Z-Blog版本：Z-Blog 2.0 Build " & app_adapted 
-					SetBlogHint_Custom "您的Z-Blog版本：Z-Blog 2.0 Build " & BlogVersion
-					Response.Redirect BlogHost & "zb_system/cmd.asp?act=PlugInMng"
+					SetBlogHint_Custom "您的Z-Blog版本太低，无法安装该应用！" & "<br/>" & "该应用需求Z-Blog版本：" & AppCentre_GetVersionByBuild(app_adapted) & "<br/>" & "您的Z-Blog版本：" & AppCentre_GetVersionByBuild(BlogVersion)
+					Response.Redirect Request.ServerVariables("HTTP_REFERER")
 					Exit Function
 				End If
 			Else
@@ -722,7 +742,7 @@ On Error Resume Next
 		Set xRoot = XmlDoc.appendChild(XmlDoc.CreateElement("app"))
 			xRoot.setAttribute "version","2.0"
 			xRoot.setAttribute "type","Plugin"
-			'xRoot.setAttribute "for","Z-Blog 2.0"
+			xRoot.setAttribute "for","Z-Blog 2.0"
 		Set xRoot = Nothing
 
 		'写入文件信息
@@ -912,6 +932,7 @@ On Error Resume Next
 				Theme_dependency=objXmlFile.documentElement.selectSingleNode("advanced/dependency").text
 				Theme_rewritefunctions=objXmlFile.documentElement.selectSingleNode("advanced/rewritefunctions").text
 				Theme_conflict=objXmlFile.documentElement.selectSingleNode("advanced/conflict").text
+
 			End If
 		End If
 	End If
@@ -928,7 +949,7 @@ On Error Resume Next
 		Set xRoot = XmlDoc.appendChild(XmlDoc.CreateElement("app"))
 			xRoot.setAttribute "version","2.0"
 			xRoot.setAttribute "type","Theme"
-			'xRoot.setAttribute "for","Z-Blog 2.0"
+			xRoot.setAttribute "for","Z-Blog 2.0"
 		Set xRoot = Nothing
 
 		'写入文件信息
