@@ -998,6 +998,7 @@ Function SettingMng()
 	If Not IsEmpty(Request.QueryString("update")) Then
 
 		If SaveSetting Then
+			Call SetBlogHint(True,True,True)
 			Response.Redirect "cmd.asp?act=SettingMng&ok"
 		End If
 
