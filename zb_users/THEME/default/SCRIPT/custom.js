@@ -1,8 +1,4 @@
 ﻿$(document).ready(function(){
-	if(!$("li.msgarticle").html()){$("ul.mutuality").hide()}
-	if($("ul.msghead ~ ul.msg").length==0){$("ul.msghead").hide()}
-	$(".post-tags").each(function(){if($(this).find('a').length==0){$(this).hide()}});
-
 	var s=document.location;
 	$("#divNavBar a").each(function(){
 		if(this.href==s.toString().split("#")[0]){$(this).addClass("on");return false;}

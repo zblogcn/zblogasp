@@ -381,6 +381,10 @@ Class TArticle
 	Private Disable_Export_Mutuality
 	Private Disable_Export_NavBar
 
+	Private HasTag
+	Private HasCMTandTB
+	Private HasMutuality
+
 	Public html
 	Public subhtml
 	Public subhtml_TemplateName
@@ -813,6 +817,9 @@ Class TArticle
 		Dim t,i,s,j
 
 		If Tag<>"" Then
+
+			HasTag=True
+
 			s=Replace(Tag,"}","")
 			t=Split(s,"{")
 			For i=LBound(t) To UBound(t)
@@ -859,6 +866,7 @@ Class TArticle
 		intCommnums=objConn.Execute("SELECT COUNT([log_ID]) FROM [blog_Comment] WHERE [log_ID] =" & ID & " AND [comm_isCheck]=0 AND [comm_ParentID]=0")(0)
 		If intCommnums > 0 Then
 
+			HasCMTandTB=True
 
 			Dim strC_Count,strC,strT_Count,strT
 
@@ -1248,6 +1256,8 @@ Class TArticle
 				Dim objArticle
 				For i=1 To ZC_MUTUALITY_COUNT '相关文章数目，可自行设定
 
+					HasMutuality=True
+
 					Set objArticle=New TArticle
 
 					If objArticle.LoadInfoByArray(Array(objRS(0),objRS(1),objRS(2),objRS(3),objRS(4),objRS(5),objRS(6),objRS(7),objRS(8),objRS(9),objRS(10),objRS(11),objRS(12),objRS(13),objRS(14),objRS(15),objRS(16),objRS(17)))  Then
@@ -1570,6 +1580,35 @@ Class TArticle
 				html = Replace(html,"<#" & aryTemplateTagsName(i) & "#>", aryTemplateTagsValue(i))
 			End If
 		Next
+
+		Set RE = New RegExp 
+		RE.IgnoreCase = True 
+		RE.Global = True 
+
+		If HasTag=False Then
+			RE.Pattern = "<#template:article_tag:begin#>(.|\n)*<#template:article_tag:end#>"
+			subhtml = RE.Replace(subhtml, "")
+		Else
+			subhtml=Replace(subhtml,"<#template:article_tag:begin#>","")
+			subhtml=Replace(subhtml,"<#template:article_tag:end#>","")
+		End If
+		If HasCMTandTB=False Then
+			RE.Pattern = "<#template:article_comment:begin#>(.|\n)*<#template:article_comment:end#>"
+			subhtml = RE.Replace(subhtml, "<ins id=""AjaxCommentBegin"" style=""display:none;clear:both;""></ins><ins id=""AjaxCommentEnd"" style=""display:none;clear:both;""></ins>") 
+		Else
+			subhtml=Replace(subhtml,"<#template:article_comment:begin#>","")
+			subhtml=Replace(subhtml,"<#template:article_comment:end#>","")
+		End IF
+		If HasMutuality=False Then
+			RE.Pattern = "<#template:article_mutuality:begin#>(.|\n)*<#template:article_mutuality:end#>"
+			subhtml = RE.Replace(subhtml, "") 
+		Else
+			subhtml=Replace(subhtml,"<#template:article_mutuality:begin#>","")
+			subhtml=Replace(subhtml,"<#template:article_mutuality:end#>","")
+		End If
+
+		Set RE = Nothing
+
 
 		html=Replace(html,"<#"&subhtml_TemplateName&"#>",subhtml)
 
@@ -5432,15 +5471,21 @@ Class TFunction
 
 
 
-	Public Function MakeTemplate(strFunction,strFunctionTitle)
+	Public Function MakeTemplate(strFunction)
 
-		Dim html,i,j,s
+		Dim html,i,j,s,RE
 		html=strFunction
 
+		Set RE = New RegExp 
+		RE.IgnoreCase = True 
+		RE.Global = True 
+
 		If IsHideTitle=True Then 
-			html=Replace(html,"<#template:function_title#>","")
+			RE.Pattern = "<#template:function_title:begin#>(.|\n)*<#template:function_title:end#>"
+			html = RE.Replace(html, "")
 		Else
-			html=Replace(html,"<#template:function_title#>",strFunctionTitle)
+			html=Replace(html,"<#template:function_title:begin#>","")
+			html=Replace(html,"<#template:function_title:end#>","")
 		End If
 
 		If Ftype="div" Then

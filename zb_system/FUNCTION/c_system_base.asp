@@ -1152,7 +1152,6 @@ If TemplateDic.Exists("TEMPLATE_B_ARTICLE-PAGE")=False Then Call TemplateDic.add
 If TemplateDic.Exists("TEMPLATE_PAGE")=False Then Call TemplateDic.add("TEMPLATE_PAGE",LoadFromFile(BlogPath &"zb_system\defend\default\page.html","utf-8"))
 If TemplateDic.Exists("TEMPLATE_B_ARTICLE_COMMENT_PAGEBAR_L")=False Then Call TemplateDic.add("TEMPLATE_B_ARTICLE_COMMENT_PAGEBAR_L",LoadFromFile(BlogPath &"zb_system\defend\default\b_article_comment_pagebar_l.html","utf-8"))
 If TemplateDic.Exists("TEMPLATE_B_ARTICLE_COMMENT_PAGEBAR_R")=False Then Call TemplateDic.add("TEMPLATE_B_ARTICLE_COMMENT_PAGEBAR_R",LoadFromFile(BlogPath &"zb_system\defend\default\b_article_comment_pagebar_r.html","utf-8"))
-If TemplateDic.Exists("TEMPLATE_B_FUNCTION_TITLE")=False Then Call TemplateDic.add("TEMPLATE_B_FUNCTION_TITLE",LoadFromFile(BlogPath &"zb_system\defend\default\b_function_title.html","utf-8"))
 
 	Dim i,j
 	'在模板文件中先替换一次模板INCLUDE里的文件标签
@@ -3084,7 +3083,7 @@ Function BlogReBuild_Functions
 
 	Call SaveFunctionType()
 
-	Dim i,j,s,t,f,tt
+	Dim i,j,s,t,f
 
 	For Each f In Functions
 		If IsObject(f)=True Then
@@ -3099,14 +3098,13 @@ Function BlogReBuild_Functions
 	'aryFunctionInOrder=GetFunctionOrder()
 
 	t=GetTemplate("TEMPLATE_B_FUNCTION")
-	tt=GetTemplate("TEMPLATE_B_FUNCTION_TITLE")
 
 	aryFunctionInOrder=Split(ZC_SIDEBAR_ORDER,":")
 	s=""
 	For Each f In aryFunctionInOrder
 		If FunctionMetas.Exists(f)=True Then
 			If Functions(FunctionMetas.GetValue(f)).IsHidden=False Then
-				s=s & Functions(FunctionMetas.GetValue(f)).MakeTemplate(t,tt)
+				s=s & Functions(FunctionMetas.GetValue(f)).MakeTemplate(t)
 			End If
 		End If
 	Next
@@ -3117,7 +3115,7 @@ Function BlogReBuild_Functions
 	For Each f In aryFunctionInOrder
 		If FunctionMetas.Exists(f)=True Then
 			If Functions(FunctionMetas.GetValue(f)).IsHidden=False Then
-				s=s & Functions(FunctionMetas.GetValue(f)).MakeTemplate(t,tt)
+				s=s & Functions(FunctionMetas.GetValue(f)).MakeTemplate(t)
 			End If
 		End If
 	Next
@@ -3128,7 +3126,7 @@ Function BlogReBuild_Functions
 	For Each f In aryFunctionInOrder
 		If FunctionMetas.Exists(f)=True Then
 			If Functions(FunctionMetas.GetValue(f)).IsHidden=False Then
-				s=s & Functions(FunctionMetas.GetValue(f)).MakeTemplate(t,tt)
+				s=s & Functions(FunctionMetas.GetValue(f)).MakeTemplate(t)
 			End If
 		End If
 	Next
@@ -3139,7 +3137,7 @@ Function BlogReBuild_Functions
 	For Each f In aryFunctionInOrder
 		If FunctionMetas.Exists(f)=True Then
 			If Functions(FunctionMetas.GetValue(f)).IsHidden=False Then
-				s=s & Functions(FunctionMetas.GetValue(f)).MakeTemplate(t,tt)
+				s=s & Functions(FunctionMetas.GetValue(f)).MakeTemplate(t)
 			End If
 		End If
 	Next
@@ -3150,7 +3148,7 @@ Function BlogReBuild_Functions
 	For Each f In aryFunctionInOrder
 		If FunctionMetas.Exists(f)=True Then
 			If Functions(FunctionMetas.GetValue(f)).IsHidden=False Then
-				s=s & Functions(FunctionMetas.GetValue(f)).MakeTemplate(t,tt)
+				s=s & Functions(FunctionMetas.GetValue(f)).MakeTemplate(t)
 			End If
 		End If
 	Next
