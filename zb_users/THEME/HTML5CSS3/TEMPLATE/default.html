@@ -1,0 +1,27 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+<title><#ZC_BLOG_TITLE#><#ZC_MSG044#><#BlogTitle#></title>
+<meta http-equiv="Content-Type" content="text/html; charset=<#ZC_BLOG_LANGUAGE#>" />
+<meta http-equiv="Content-Language" content="<#ZC_BLOG_LANGUAGE#>" />
+<#TEMPLATE_INCLUDE#>
+</head>
+<body class="multi default">
+<#TEMPLATE_HEADER#>
+<section>
+  <section id="main">
+    <section>
+      <#template:article-multi#>
+      <nav><#template:pagebar#></nav>
+    </section>
+    <aside>
+      <#template:sidebar#>
+    </aside>
+  </section>
+  <aside id="extra">
+    <#template:sidebar2#>
+  </aside>
+</section>
+<#TEMPLATE_FOOTER#>
+</body>
+</html>
