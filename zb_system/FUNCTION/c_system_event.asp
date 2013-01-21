@@ -1834,7 +1834,7 @@ Function ScanFunctionAndSidebarToThemeFile(newZC_BLOG_THEME)
 			If objXmlFile.documentElement.selectNodes("sidebars/sidebar1").length>0 Then
 				Call BlogConfig.Write("ZC_SIDEBAR_ORDER",objXmlFile.documentElement.selectSingleNode("sidebars/sidebar1").text) 
 			End If
-			If objXmlFile.documentElement.selectNodes("sidebars/sidebar21").length>0 Then
+			If objXmlFile.documentElement.selectNodes("sidebars/sidebar2").length>0 Then
 				Call BlogConfig.Write("ZC_SIDEBAR_ORDER2",objXmlFile.documentElement.selectSingleNode("sidebars/sidebar2").text) 
 			End If
 			If objXmlFile.documentElement.selectNodes("sidebars/sidebar3").length>0 Then
