@@ -1139,13 +1139,7 @@ If TemplateDic.Exists("TEMPLATE_B_ARTICLE_MUTUALITY")=False Then Call TemplateDi
 If TemplateDic.Exists("TEMPLATE_B_ARTICLE_NAVBAR_L")=False Then Call TemplateDic.add("TEMPLATE_B_ARTICLE_NAVBAR_L",LoadFromFile(BlogPath &"zb_system\defend\default\b_article_navbar_l.html","utf-8"))
 If TemplateDic.Exists("TEMPLATE_B_ARTICLE_NAVBAR_R")=False Then Call TemplateDic.add("TEMPLATE_B_ARTICLE_NAVBAR_R",LoadFromFile(BlogPath &"zb_system\defend\default\b_article_navbar_r.html","utf-8"))
 If TemplateDic.Exists("TEMPLATE_B_ARTICLE_TAG")=False Then Call TemplateDic.add("TEMPLATE_B_ARTICLE_TAG",LoadFromFile(BlogPath &"zb_system\defend\default\b_article_tag.html","utf-8"))
-If TemplateDic.Exists("TEMPLATE_B_FUNCTION")=False Then
-	Call TemplateDic.add("TEMPLATE_B_FUNCTION",LoadFromFile(BlogPath &"zb_system\defend\default\b_function.html","utf-8"))
-Else
-	If InStr(TemplateDic.Item("TEMPLATE_B_FUNCTION"),"<#template:function_title#>")=0 Then
-		TemplateDic.Item("TEMPLATE_B_FUNCTION")=LoadFromFile(BlogPath &"zb_system\defend\default\b_function.html","utf-8")
-	End If
-End If
+If TemplateDic.Exists("TEMPLATE_B_FUNCTION")=False Then Call TemplateDic.add("TEMPLATE_B_FUNCTION",LoadFromFile(BlogPath &"zb_system\defend\default\b_function.html","utf-8"))
 If TemplateDic.Exists("TEMPLATE_B_PAGEBAR")=False Then Call TemplateDic.add("TEMPLATE_B_PAGEBAR",LoadFromFile(BlogPath &"zb_system\defend\default\b_pagebar.html","utf-8"))
 If TemplateDic.Exists("TEMPLATE_CATALOG")=False Then Call TemplateDic.add("TEMPLATE_CATALOG",LoadFromFile(BlogPath &"zb_system\defend\default\catalog.html","utf-8"))
 If TemplateDic.Exists("TEMPLATE_DEFAULT")=False Then Call TemplateDic.add("TEMPLATE_DEFAULT",LoadFromFile(BlogPath &"zb_system\defend\default\default.html","utf-8"))

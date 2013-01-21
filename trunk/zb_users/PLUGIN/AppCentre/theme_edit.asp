@@ -122,8 +122,9 @@ Dim fun
 For Each fun In Functions
 	If IsObject(fun)=True Then
 		If fun.Source="theme_"&app_id Then
-
-Execute "fun.Content=app_function_"&fun.filename
+If app_ishasfunctions=True Then
+	Execute "fun.Content=app_function_"&fun.filename
+End If
 %>
 <p>名称:<%= fun.name %> &nbsp;&nbsp;&nbsp;&nbsp; 文件名:<%= fun.filename %>&nbsp;&nbsp;&nbsp;&nbsp;类型:<%= fun.ftype %><br/><textarea cols="3" rows="4" name="app_function_<%= fun.filename %>" style="width:550px;"><%= fun.content %></textarea></p>
 <%
