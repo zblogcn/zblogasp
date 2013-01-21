@@ -134,9 +134,9 @@ blog.js.sidebar=function(){
      });
 	$("#btnPost").addClass("btn");
 	try{
-		$("aside#extra").html(function(i,s){
-			return $.trim(s)==""?"<dl><dt>温馨提示</dt><dd>请在后台【侧栏管理】分配部分侧栏模块到【侧栏2】！</dd></dl>":s;
-		});
+		//$("aside#extra").html(function(i,s){
+		//	return $.trim(s)==""?"<dl><dt>温馨提示</dt><dd>请在后台【侧栏管理】分配部分侧栏模块到【侧栏2】！</dd></dl>":s;
+		//});
 	}catch(e){}
 };
 //创建回复评论
