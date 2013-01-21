@@ -79,7 +79,7 @@ Function AppCentre_Update_Restore(build,file,crc32_)
 	Set objPing = Server.CreateObject("Microsoft.XMLHTTP")
 
 	objPing.open "GET", APPCENTRE_SYSTEM_UPDATE & "?" & build & "\" & file ,False
-	objPing.setRequestHeader "accept-encoding", "gzip, deflate"  
+	'objPing.setRequestHeader "accept-encoding", "gzip, deflate"  
 	objPing.send ""
 
 	
@@ -115,7 +115,7 @@ Function AppCentre_Update_Download(file)
 	Set objPing = Server.CreateObject("Microsoft.XMLHTTP")
 
 	objPing.open "GET", APPCENTRE_SYSTEM_UPDATE & "?" & file & ".xml",False
-	objPing.setRequestHeader "accept-encoding", "gzip, deflate"  
+	'objPing.setRequestHeader "accept-encoding", "gzip, deflate"  
 	objPing.send ""
 
 	Dim MyStream
