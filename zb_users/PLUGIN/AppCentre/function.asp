@@ -42,6 +42,8 @@ Dim app_path
 
 Dim app_sidebars
 
+Dim app_ishasfunctions
+
 Dim aryDownload(),aryName()
 
 Redim aryDownload(0)
@@ -620,6 +622,7 @@ Function LoadThemeXmlInfo(id)
 				Dim objXmlitems,item,c
 				Set objXmlitems=objXmlFile.documentElement.SelectNodes("functions/function")
 				for each item in objXmlitems
+					app_ishasfunctions=True
 					ExecuteGlobal "Dim app_function_" & item.getAttribute("filename")
 					c=item.text
 					Execute "app_function_" & item.getAttribute("filename") & "=c"
@@ -1528,6 +1531,7 @@ objXMLitem.setAttribute "filename",TransferHTML(fun.FileName,"[html-format]")
 objXMLitem.setAttribute "htmlid",TransferHTML(fun.HtmlID,"[html-format]")
 objXMLitem.setAttribute "ftype",TransferHTML(fun.FType,"[html-format]")
 objXMLitem.setAttribute "maxli",TransferHTML(fun.MaxLi,"[html-format]")
+objXMLitem.setAttribute "hidetitle",TransferHTML(fun.IsHideTitle,"[html-format]")
 objXMLitem.text=Replace(Request.Form("app_function_"&fun.filename),vbCrlf,"")'fun.Content
 
 	objXMLauthor.AppendChild(objXMLitem)

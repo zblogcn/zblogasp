@@ -103,6 +103,10 @@ BlogTitle=ZC_MSG144
 	
 	Response.Write "<p><span class='title'>"& ZC_MSG090 &":</span><br/><textarea name=""inpContent"" id=""inpContent"" onchange=""GetActiveText(this.id);"" onclick=""GetActiveText(this.id);"" onfocus=""GetActiveText(this.id);"" cols=""80"" rows=""12"" " & IIF(InStr("|calendar|catalog|comments|previous|archives|authors|tags|statistics|","|"&EditFunction.FileName&"|")>0,"disabled=""disabled""","") & " >"&s&"</textarea></p>"
 
+If Not (IsEmpty(Request.QueryString("id")) Or Request.QueryString("id")="") Then
+	Response.Write ZC_MSG299 & "&lt;CACHE_INCLUDE_"&UCase(EditFunction.FileName)&"&gt;"
+End If
+
 	Response.Write "<p><input type=""submit"" class=""button"" value="""& ZC_MSG087 &""" id=""btnPost"" /></p>"
 
 %>
