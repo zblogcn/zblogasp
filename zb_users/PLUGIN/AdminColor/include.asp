@@ -60,17 +60,17 @@ HighColor(3)="#8627d7"
 AntiColor(3)="#08a200"
 
 
-BlodColor(4)="#656215"
-NormalColor(4)="#9d982f"
-LightColor(4)="#bfbb52"
-HighColor(4)="#cbc41c"
+BlodColor(4)="#3f280d"
+NormalColor(4)="#b26e1e"
+LightColor(4)="#e3b987"
+HighColor(4)="#d88625"
 AntiColor(4)="#d60000"
 
 
 BlodColor(5)="#0a4f3e"
 NormalColor(5)="#267662"
 LightColor(5)="#68cdb4"
-HighColor(5)="#21d5a9"
+HighColor(5)="#e18213"
 AntiColor(5)="#d60000"
 
 
