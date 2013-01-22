@@ -171,7 +171,7 @@ article~dl dd a:hover,
 aside dd a:hover{color:#39C}
 #extra>dl:first-child figure{float:left;margin:0 10px 0 0;}
 /*=search*/
-#edtSearch{width:133px;height:25px;float:left;margin:0 5px 0 0;line-height:25px;}
+#edtSearch{width:60%;height:25px;float:left;margin:0 5px 0 0;line-height:25px;}
 #btnPost{width:50px;height:27px;font-size:12px;margin:0;line-height:27px;padding:0}
 /*=canledar*/
 #divCalendar table{width:100%;table-layout:fixed;text-align:center;border:none}
