@@ -100,6 +100,7 @@ var blog={
         var v={
             <%
 			If (Request.Cookies("username")<>"") Then
+				Call System_Initialize
 				BlogUser.Verify()
 			%>
             level:"<%=ZVA_User_Level_Name(BlogUser.Level)%>",
@@ -108,7 +109,7 @@ var blog={
             name:"<%=BlogUser.FirstName%>",
             email:"<%=BlogUser.Email%>",
             homepage:"<%=BlogUser.HomePage%>",
-            avatar:"http://gravatar.com/avatar/<%=md5(BlogUser.Email)%>?d="+escape(blog.avatar+"0.png"),
+            avatar:"<%=BlogUser.Avatar%>",
             visited:"<%=BlogUser.LastVisitTime%>"
             <%Else%>
             name:blog.cookies.get("inpName"),
