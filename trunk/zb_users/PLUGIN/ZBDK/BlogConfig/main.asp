@@ -22,7 +22,7 @@ If BlogUser.Level>1 Then Call ShowError(6)
 
 If CheckPluginState("ZBDK")=False Then Call ShowError(48)
 
-BlogTitle=title
+BlogTitle=zbdk_title
 Dim objRs,a,b,c,d,e,objC
 Select Case Request("act")
 	Case "open"
@@ -73,7 +73,7 @@ End Select
             <%Call GetBlogHint()%>
           </div>
           <div class="divHeader"><%=BlogTitle%></div>
-          <div class="SubMenu"><%=ZBDK.submenu(1)%></a> </div>
+          <div class="SubMenu"><%=ZBDK.submenu.export("BlogConfig")%></a> </div>
           <div id="divMain2"> <script type="text/javascript">ActiveTopMenu("zbdk");</script>
             <div class="DIVBlogConfig">
               <div class="DIVBlogConfignav" name="tree" id="tree">

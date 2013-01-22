@@ -15,7 +15,7 @@ Call CheckReference("")
 '检查权限
 If BlogUser.Level>1 Then Call ShowError(6)
 If CheckPluginState("ZBDK")=False Then Call ShowError(48)
-BlogTitle=title
+BlogTitle=zbdk_title
 If Request.QueryString("act")="sql" Then
 	Dim s,objRs,i
 	s=Request.Form("sql")
@@ -66,7 +66,7 @@ td {
             <%Call GetBlogHint()%>
           </div>
           <div class="divHeader"><%=BlogTitle%></div>
-          <div class="SubMenu"> <%=ZBDK.submenu(3)%> </div>
+          <div class="SubMenu"> <%=ZBDK.submenu.Export("RunSQL")%> </div>
           <div id="divMain2"> 
             <script type="text/javascript">ActiveTopMenu("zbdk");</script>
             <form id="form1" onSubmit="return false">

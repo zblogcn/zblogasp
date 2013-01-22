@@ -15,7 +15,7 @@ Call CheckReference("")
 '检查权限
 If BlogUser.Level>1 Then Call ShowError(6)
 If CheckPluginState("ZBDK")=False Then Call ShowError(48)
-BlogTitle=title
+BlogTitle=zbdk_title
 If Request.QueryString("act")="interface" Then
 	Dim s,n,j,i
 	s=LCase(Request.Form("interface"))
@@ -382,7 +382,7 @@ function showlist()
             <%Call GetBlogHint()%>
           </div>
           <div class="divHeader"><%=BlogTitle%></div>
-          <div class="SubMenu"> <%=ZBDK.submenu(4)%> </div>
+          <div class="SubMenu"> <%=ZBDK.submenu.export("PluginInterface")%> </div>
           <div id="divMain2"> 
             <script type="text/javascript">ActiveTopMenu("zbdk");</script>
             <form id="form1" onSubmit="return false">

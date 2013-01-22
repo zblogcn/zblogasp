@@ -1,5 +1,3 @@
 ﻿<%
-Sub ZBDK_OnlinePlugin_ActivePlugin
-	'Enter Code Here
-End Sub
+'在这里键入代码，仅限纯正的ASP。
 %>
