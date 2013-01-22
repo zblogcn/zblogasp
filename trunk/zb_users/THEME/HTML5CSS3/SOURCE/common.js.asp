@@ -27,8 +27,9 @@
 
 Response.Clear
 
-Dim JQ:JQ=LoadFromFile(BlogPath&"/zb_users/theme/"&ZC_BLOG_THEME&"/script/jquery.js","utf-8")
-response.Write JQ
+Dim strjQuery
+strjQuery=LoadFromFile(BlogPath&"/zb_users/theme/"&ZC_BLOG_THEME&"/script/jquery.js","utf-8")
+Response.Write strjQuery
 
 %>
 
@@ -230,8 +231,10 @@ if(typeof jQuery=="undefined"){
 }
 
 <%
-Dim JS:JS=LoadFromFile(BlogPath&"/zb_users/theme/"&ZC_BLOG_THEME&"/script/custom.js","utf-8")
-response.Write JS
+Dim strJS
+strJS=LoadFromFile(BlogPath&"/zb_users/theme/"&ZC_BLOG_THEME&"/script/custom.js","utf-8")
+strJS=Replace(strJS,"<!html5_warn!>",Replace(LoadFromFile(BlogPath&"/zb_users/theme/"&ZC_BLOG_THEME&"/include/html5_warn.html","utf-8"),"""","\"""))
+Response.Write strJS
 %>
 
 <%=Response_Plugin_Html_Js_Add%>

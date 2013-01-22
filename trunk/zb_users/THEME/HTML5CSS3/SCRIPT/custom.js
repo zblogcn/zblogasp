@@ -208,8 +208,8 @@ function Admin(){
 }
 //不支持HTML5的浏览器提示
 function NoHTML5(){
-	var IEstr=$.support.opacity?"":"<big>珍爱生命，远离IE！或升级到IE9+吧！</big>";
-	$("body").prepend("<hgroup><h3 id='nohtml5'>"+IEstr+"对不起！您的浏览器不支持HTML5，像iPhone5和WIN8一样，HTML5，你值得拥有！请升级你的浏览器到最新版本，以获得更佳浏览体验，感谢您对互联网的贡献及对<big>HTML5</big>的认可！</h3></hgroup>");
+	//var IEstr=$.support.opacity?"":"<big>珍爱生命，远离IE！或升级到IE9+吧！</big>";
+	$("body").prepend("<!html5_warn!>");
 	$("#nohtml5").css("display",function(i,s){
 		if(s=="none")$(this).parent().remove();
 	})
