@@ -74,7 +74,7 @@ blog.js.ajaxCmt=function(){
 		$tip.text("请输入验证码");
 		return false;
 	};
-	$tip.text("提交中，请稍后……");
+	$tip.text("提交中，请稍候……");
 	$btn.attr("disabled",true).fadeTo(500,.5);
 	$.post($form.cmt[0].action,{
 		"inpAjax":true,
