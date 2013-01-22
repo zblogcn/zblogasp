@@ -15,7 +15,7 @@ Call CheckReference("")
 '检查权限
 If BlogUser.Level>1 Then Call ShowError(6)
 If CheckPluginState("ZBDK")=False Then Call ShowError(48)
-BlogTitle=title
+BlogTitle=zbdk_title
 Select Case Request.QueryString("type")
 	Case "header"
 		Dim a
@@ -39,7 +39,7 @@ End Select
     
   <div class="divHeader"><%=BlogTitle%></div>
   <div class="SubMenu"> 
-	<%=ZBDK.submenu(2)%>
+	<%=ZBDK.submenu.export("LoadCounter")%>
   </div>
   <div id="divMain2">
  <script type="text/javascript">ActiveTopMenu("zbdk");</script>
