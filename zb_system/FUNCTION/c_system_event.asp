@@ -1851,7 +1851,7 @@ Function ScanFunctionAndSidebarToThemeFile(newZC_BLOG_THEME)
 			Set objXmlitems=objXmlFile.documentElement.SelectNodes("functions/function")
 			for each item in objXmlitems
 
-				Call AddThemeFunction(newZC_BLOG_THEME,item.getAttribute("name"),item.getAttribute("filename"),item.getAttribute("htmlid"),item.getAttribute("ftype"),item.getAttribute("maxli"),item.text)
+				Call AddThemeFunction(newZC_BLOG_THEME,item.getAttribute("name"),item.getAttribute("filename"),item.getAttribute("htmlid"),item.getAttribute("ftype"),item.getAttribute("maxli"),item.getAttribute("hidetitle"),item.text)
 
 			Next
 

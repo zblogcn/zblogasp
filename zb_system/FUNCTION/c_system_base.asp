@@ -3688,15 +3688,20 @@ Function CreateAdminLeftMenu()
 Response_Plugin_Admin_Left=""
 
 Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("ArticleEdt"),ZC_MSG168,BlogHost&"zb_system/cmd.asp?act=ArticleEdt&amp;webedit="&ZC_BLOG_WEBEDIT,"nav_new","aArticleEdt",""))
-'Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("FileReBuild"),ZC_MSG073,BlogHost&"zb_system/cmd.asp?act=AskFileReBuild","nav_build","aAskFileReBuild",""))
 Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("ArticleMng"),ZC_MSG067,BlogHost&"zb_system/cmd.asp?act=ArticleMng","nav_article","aArticleMng",""))
 Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("ArticleAll"),ZC_MSG111,BlogHost&"zb_system/cmd.asp?act=ArticleMng&amp;type=Page","nav_page","aPageMng",""))
-Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("CategoryMng"),ZC_MSG066,BlogHost&"zb_system/cmd.asp?act=CategoryMng","nav_category","aCategoryMng",""))
 
+Call Add_Response_Plugin("Response_Plugin_Admin_Left","<li class='split'><hr/></li>")
+
+
+Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("CategoryMng"),ZC_MSG066,BlogHost&"zb_system/cmd.asp?act=CategoryMng","nav_category","aCategoryMng",""))
 Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("TagMng"),ZC_MSG141,BlogHost&"zb_system/cmd.asp?act=TagMng","nav_tags","aTagMng",""))
 Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("CommentMng"),ZC_MSG068,BlogHost&"zb_system/cmd.asp?act=CommentMng","nav_comments","aCommentMng",""))
 Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("FileMng"),ZC_MSG071,BlogHost&"zb_system/cmd.asp?act=FileMng","nav_accessories","aFileMng",""))
 Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("UserMng"),ZC_MSG070,BlogHost&"zb_system/cmd.asp?act=UserMng","nav_user","aUserMng",""))
+
+Call Add_Response_Plugin("Response_Plugin_Admin_Left","<li class='split'><hr/></li>")
+
 Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("ThemeMng"),ZC_MSG223,BlogHost&"zb_system/cmd.asp?act=ThemeMng","nav_themes","aThemeMng",""))
 Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("PlugInMng"),ZC_MSG107,BlogHost&"zb_system/cmd.asp?act=PlugInMng","nav_plugin","aPlugInMng",""))
 Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("FunctionMng"),ZC_MSG007,BlogHost&"zb_system/cmd.asp?act=FunctionMng","nav_function","aFunctionMng",""))
@@ -4177,7 +4182,7 @@ End Function
 ' 目的：为主题提供的便捷函数,可以生成自己的模块
 ' 参数:主题ID,模块名,模块ID(文件名),模块HtmlID,模块类型(div/ul),模块Maxli(默认0),模块内容
 '*********************************************************
-Function AddThemeFunction(ThemeID,FunctionName,FunctionFileName,FunctionHtmlID,FunctionType,FunctionMaxLi,FunctionContent)
+Function AddThemeFunction(ThemeID,FunctionName,FunctionFileName,FunctionHtmlID,FunctionType,FunctionMaxLi,FunctionHideTitle,FunctionContent)
 
 	Dim objFunction
 	Set objFunction=GetFunctionByFileName(FunctionFileName)
@@ -4188,6 +4193,7 @@ Function AddThemeFunction(ThemeID,FunctionName,FunctionFileName,FunctionHtmlID,F
 	objFunction.Ftype=FunctionType
 	objFunction.MaxLi=FunctionMaxLi
 	objFunction.Content=FunctionContent
+	objFunction.IsHideTitle=CBool(FunctionHideTitle)
 	objFunction.Source="theme_"& ThemeID
 
 	If objFunction.Post Then
@@ -4205,7 +4211,7 @@ End Function
 ' 目的：为插件... 
 ' 参数:插件ID,模块名,模块ID(文件名),模块HtmlID,模块类型(div/ul),模块Maxli(默认0),模块内容
 '*********************************************************
-Function AddPluginFunction(PluginID,FunctionName,FunctionFileName,FunctionHtmlID,FunctionType,FunctionMaxLi,FunctionContent)
+Function AddPluginFunction(PluginID,FunctionName,FunctionFileName,FunctionHtmlID,FunctionType,FunctionMaxLi,FunctionHideTitle,FunctionContent)
 
 	Dim objFunction
 	Set objFunction=GetFunctionByFileName(FunctionFileName)
@@ -4216,6 +4222,7 @@ Function AddPluginFunction(PluginID,FunctionName,FunctionFileName,FunctionHtmlID
 	objFunction.Ftype=FunctionType
 	objFunction.MaxLi=FunctionMaxLi
 	objFunction.Content=FunctionContent
+	objFunction.IsHideTitle=CBool(FunctionHideTitle)
 	objFunction.Source="plugin_"& PluginID
 
 	If objFunction.Post Then
