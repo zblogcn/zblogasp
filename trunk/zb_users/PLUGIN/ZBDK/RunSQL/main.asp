@@ -54,6 +54,13 @@ End If
 <!--#include file="..\..\..\..\zb_system\admin\admin_header.asp"-->
 <link rel="stylesheet" href="../css/BlogConfig.css" type="text/css" media="screen"/>
 <script type="text/javascript" src="../script/colResizable-1.3.min.js"></script>
+<script type="text/javascript">
+var _table="";
+function edittext(o){
+	$('#sql').val(o.val().replace(/\[table\]/g,_table))	
+}
+</script>
+
 <style type="text/css">
 td {
 	text-align: center
@@ -105,9 +112,22 @@ td {
                 <option value="28">28. adSchemaPrimaryKeys </option>
                 <option value="29">29. adSchemaProcedureColumns </option>
               </select>
+
               <input type="text" name="sql" id="sql" style="width:60%" value="SELECT '输入SQL语句'"/>
+
               <input type="submit" name="ok" id="ok" value="提交" onClick=""/>
             </form>
+            <div id="sql_div">
+              <select name="sql_select" id="sql_select" style="width:80%" onclick="if($(this).val()=='HIDE'){$('#sql_div').hide();return false};edittext($(this))">
+              <option value="SELECT TOP 100 * FROM [table]">SELECT TOP 100 * FROM [table]</option>
+              <option value="UPDATE [table] SET [ ]='XXX' WHERE [ ]='XXX'">UPDATE [table] SET [ ]='XXX' WHERE [ ]='XXX'</option>
+              <option value="DELETE FROM [table] WHERE [ ]='xxx'">DELETE FROM [table] WHERE [ ]='xxx'</option>
+              <option value="ALTER TABLE [table] ADD COLUMN [ ] TYPE(XX)">ALTER TABLE [table] ADD COLUMN [ ] TYPE(XX)</option>
+              <option value="ALTER TABLE [table] DROP COLUMN [ ] ">ALTER TABLE [table] DROP COLUMN [ ] </option>
+              <option value="HIDE">HIDE</option>
+              </select>
+              <p>&nbsp;</p>
+            </div>
             <div class="DIVBlogConfig">
               <div class="DIVBlogConfignav" name="tree" id="tree">
                 <ul>
@@ -126,6 +146,7 @@ td {
             $("#form1").bind("submit",function(){
 				$("#result").html("Waiting...");
 				$.post("main.asp?act=sql",{"sql":$("#sql").val(),"sch":$("#openSchema").val()},function(data){
+					
 					$("#result").html(data);
 					bmx2table();
 					 $("#result table").colResizable({
@@ -142,6 +163,7 @@ td {
 			);
 			$("a[sql]").click(function(){
 				var h=$(this);
+				_table=h.attr("table");
 				$("#sql").val('SELECT TOP 100 * FROM '+h.attr("table"));
 				$("#form1").submit();
 			});
