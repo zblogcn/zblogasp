@@ -46,11 +46,8 @@ td {
               <div id="result" class="DIVBlogConfigcontent">
                 <div class="DIVBlogConfigtop"><span id="templatename">请选择</span></div>
                 <table width="100%" style='padding:0px;' cellspacing='0' cellpadding='0' id="table_tr">
-                  <tr height='32'>
-                    <th width="25%">标签</th>
-                    <th>注释</th>
-                    <th>其他说明</th>
-                  </tr>
+
+                  
                 </table>
               </div>
               <div class="clear"></div>
@@ -60,17 +57,47 @@ td {
       </div>
     </div>
     <script type="text/javascript">
+	var _head="<tr height='32'><th width='25%'>标签</th><th>注释</th><th>其他说明</td></tr>";
 $(document).ready(function() {
 	$("#tree").html(function(){
 		var o=template_tags.filename,str="";
 		for(var i=0;i<o.length;i++){
-			str+="<li><a href='javascript:;' title='"+o[i].data+"'>"+(o[i].filename!="all"?o[i].filename+".html":o[i].data)+"</a></li>"
+			str+="<li><a href='javascript:;' title='"+o[i].data+"' _filename='"+o[i].filename+"'>"+(!o[i].isglobal?o[i].filename+".html":o[i].data)+"</a></li>"
 		};
 		return str;
 	});
 	$("#tree li a").click(function(){
-		var o=$(this);
-		$("#templatename").html(o.text()+" "+o.attr("title"));
+		
+		var o=$(this),s=template_tags.tags;
+		var pp=o.attr("_filename"),jj=o.attr("title");
+		$("#templatename").html(pp+" "+jj);
+		var _tr="<tr height='32'><td><input type='text' value='<!tag!>' style='width:100%'/></td><td><!note!></td><td><!msg!></td></tr>";
+		var j,k,l,m,str;
+		str+=_head;
+		for(j=0;j<s.length;j++){
+			if(s[j].file.join(",").indexOf(pp.split(".html")[0])>-1){
+				if(!s[j].ajax){
+					k=s[j].tags;
+					for(l=0;l<k.length;l++){
+						m=_tr;
+						m=m.replace("<!tag!>","<#"+k[l].tag+"#>").replace("<!msg!>",k[l].msg).replace("<!note!>",k[l].note);
+						str+=m;
+					}
+				}
+				else{
+					s[j].ajax_config.success=function(data){
+						str=_head;
+						$("#table_tr").html(str+data);
+						bmx2table()
+					}
+					str+="<tr height='32'><td>请稍候，获取中</td><td></td><td></td></tr>"
+					$.ajax(s[j].ajax_config);
+					
+				}
+			}
+		}
+		$("#table_tr").html(str);
+		bmx2table()
 		
 	})
 });

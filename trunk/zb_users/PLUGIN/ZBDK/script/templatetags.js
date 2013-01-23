@@ -1,5 +1,20 @@
 var template_tags = {
 	"filename": [{
+		"filename": "includetag",
+		"data": "INCLUDE标签",
+		"isglobal": true
+	},
+	{
+		"filename": "systemvar",
+		"data": "系统全局变量",
+		"isglobal": true
+	},
+	{
+		"filename": "language",
+		"data": "系统语言标签",
+		"isglobal": true
+	},
+	{
 		"filename": "default",
 		"data": "首页主模板文件"
 	},
@@ -52,10 +67,6 @@ var template_tags = {
 		"data": "日志页面文章导航，显示“下一篇”日志链接 // （:!:Z-Blog 2.0默认删除，改为可选模板）//"
 	},
 	{
-		"filename": "b_article_trackback",
-		"data": "每条引用通告显示模板"
-	},
-	{
 		"filename": "b_article_mutuality",
 		"data": "每条相关文章显示模板"
 	},
@@ -74,16 +85,7 @@ var template_tags = {
 	{
 		"filename": "b_article_tag",
 		"data": "每个tag 的显示样式"
-	},
-	{
-		"filename": "search",
-		"data": "搜索页模板，显示搜索页面 // （ :!:Z-Blog 2.0默认删除，改为可选模板）//"
-	},
-	{
-		"filename": "tags",
-		"data": "标签页模板，显示TagCloud // （:!:Z-Blog 2.0默认删除，改为可选模板）//"
-	},
-	],
+	}],
 	"tags": [{
 		"message": "文章基本数据",
 		"file": ["b_article-istop.html", "b_article-multi.html", "b_article-single.html", "b_article-page.html"],
@@ -254,11 +256,6 @@ var template_tags = {
 			"tag": "template:article_mutuality",
 			"note": "相关文章",
 			"msg": "    b_article_mutuality.html"
-		},
-		{
-			"tag": "template:article_trackback",
-			"note": "引用列表",
-			"msg": "    article_trackback.html"
 		},
 		{
 			"tag": "template:article_comment",
@@ -765,7 +762,7 @@ var template_tags = {
 			"msg": "  "
 		},
 		{
-			"tag": "articlelist/page/all",
+			"tag": "articlelist/page/includetag",
 			"note": "总页数",
 			"msg": "  "
 		},
@@ -821,26 +818,26 @@ var template_tags = {
 	},
 	{
 		"message": "文件缓存",
-		"file": ["all"],
+		"file": ["includetag"],
 		"tags": [{
-			"tag": "CACHE_INCLUDE_文件名（全大写且不要后缀）",
-			"note": "",
-			"msg": "可以引用**系统目录**((“系统目录”在1.8版中指根目录，在2.0版中指zb_system目录))INCLUDE文件夹下的文本文件内容"
+			"tag": "CACHE_INCLUDE_文件名",
+			"note": "可以引用zb_users\INCLUDE文件夹下的文本文件内容",
+			"msg": "文件名全大写，不可有后缀"
 		},
 		{
 			"tag": "CACHE_INCLUDE_文件名_HTML",
-			"note": "",
-			"msg": "表示强制引用**系统目录**INCLUDE文件夹下的文件内容"
+			"note": "直接引用zb_users\INCLUDE文件夹下的文本文件内容",
+			"msg": "文件名全大写，不可有后缀"
 		},
 		{
 			"tag": "CACHE_INCLUDE_文件名_JS",
-			"note": "",
-			"msg": "表示强制JS方式动态引用**系统目录**INCLUDE文件夹下的文件"
+			"note": "JavaScript方式动态引用zb_users\INCLUDE文件夹下的文本文件内容",
+			"msg": "文件名全大写，不可有后缀"
 		},
 		{
 			"tag": "TEMPLATE_INCLUDE_文件名（全大写且不要后缀）",
-			"note": "",
-			"msg": "可以引用zb_users/THEME/INCLUDE文件夹下的文本文件内容"
+			"note": "可以引用zb_users/THEME/INCLUDE文件夹下的文本文件内容",
+			"msg": "文件名全大写，不可有后缀"
 		},
 		{
 			"tag": "CACHE_INCLUDE_CATALOG",
@@ -878,11 +875,6 @@ var template_tags = {
 			"msg": "指留言本中的最新留言  "
 		},
 		{
-			"tag": "CACHE_INCLUDE_TRACKBACKS",
-			"note": "最近引用",
-			"msg": "    "
-		},
-		{
 			"tag": "CACHE_INCLUDE_CALENDAR",
 			"note": "日    历",
 			"msg": "    "
@@ -918,5 +910,104 @@ var template_tags = {
 			"msg": "   "
 		},
 		]
-	}]
+	},
+	{
+		"message": "语言标签",
+		"file": ["language"],
+		"ajax": true,
+		"ajax_config": {
+			"url": bloghost + "zb_users/plugin/zbdk/templatetags/zbdk_ajax.asp?id=language",
+			"dataType": "text",
+			"async": true
+		},
+		
+	},
+	{
+		"message":"全局标签",
+		"file":["systemvar"],
+		"tags":[
+					{
+			"tag": "ZC_BLOG_VERSION",
+			"note": "版本号  ",
+			"msg": " 	  "
+		},
+ 
+		{
+			"tag": "ZC_BLOG_LANGUAGE",
+			"note": "博客页面语言  ",
+			"msg": "默认为zh-CN  "
+		},
+ 
+		{
+			"tag": "ZC_BLOG_HOST",
+			"note": "博客网址 	  ",
+			"msg": "   "
+		},
+ 
+		{
+			"tag": "ZC_BLOG_TITLE",
+			"note": "博客标题  ",
+			"msg": "显示于浏览器标题栏  "
+		},
+ 
+		{
+			"tag": "ZC_BLOG_SUBTITLE",
+			"note": "博客简介  ",
+			"msg": "   "
+		},
+ 	
+		{
+			"tag": "ZC_BLOG_NAME",
+			"note": "博客名称	 ",
+			"msg": "显示于页面中，2.0改与<#ZC_BLOG_TITLE#>合并  "
+		},
+ 	
+		{
+			"tag": "ZC_BLOG_SUB_NAME",
+			"note": "博客副标题	  ",
+			"msg": "2.0改与<#ZC_BLOG_SUBTITLE#>合并   "
+		},
+ 	
+		{
+			"tag": "ZC_BLOG_COPYRIGHT",
+			"note": "版权说明	  ",
+			"msg": "   "
+		},
+ 	
+		{
+			"tag": "ZC_BLOG_MASTER",
+			"note": "博客站长名	  ",
+			"msg": "   "
+		},
+ 	
+		{
+			"tag": "ZC_CONTENT_MAX",
+			"note": "留言最长字数	  ",
+			"msg": "   "
+		},
+ 	 	
+		{
+			"tag": "ZC_BLOG_CLSID",
+			"note": "博客唯一标识号	  ",
+			"msg": "自动获取    "
+		},
+ 	
+		{
+			"tag": "ZC_TIME_ZONE",
+			"note": "博客时区		  ",
+			"msg": "默认为+0800 ,即北京时间 "
+		},
+
+ 	
+		{
+			"tag": "ZC_BLOG_THEME",
+			"note": "主题名称 ",
+			"msg": "   "
+		},
+ 	
+ 	
+		]
+	}
+	
+	]
 }
