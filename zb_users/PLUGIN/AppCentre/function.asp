@@ -1,6 +1,8 @@
 ﻿<%
 Const APPCENTRE_URL="http://app.rainbowsoft.org/"
 Const APPCENTRE_UPDATE_URL="http://app.rainbowsoft.org/appcentre.asp?act=checkupdate"
+Const APPCENTRE_SUBMIT_URL="http://app.rainbowsoft.org/appcentre.asp?act=submitbefore"
+Const APPCENTRE_SUBMITBEFORE_URL="http://app.rainbowsoft.org/appcentre.asp?act=submitbefore&id="
 
 Const APPCENTRE_SYSTEM_UPDATE="http://update.rainbowsoft.org/zblog2/"
 
@@ -43,6 +45,8 @@ Dim app_path
 Dim app_sidebars
 
 Dim app_ishasfunctions
+
+Dim app_size
 
 Dim aryDownload(),aryName()
 
@@ -728,6 +732,8 @@ On Error Resume Next
 				Theme_dependency=objXmlFile.documentElement.selectSingleNode("advanced/dependency").text
 				Theme_rewritefunctions=objXmlFile.documentElement.selectSingleNode("advanced/rewritefunctions").text
 				Theme_conflict=objXmlFile.documentElement.selectSingleNode("advanced/conflict").text
+
+				app_modified=objXmlFile.documentElement.selectSingleNode("modified").text
 			End If
 		End If
 	End If
@@ -936,6 +942,7 @@ On Error Resume Next
 				Theme_rewritefunctions=objXmlFile.documentElement.selectSingleNode("advanced/rewritefunctions").text
 				Theme_conflict=objXmlFile.documentElement.selectSingleNode("advanced/conflict").text
 
+				app_modified=objXmlFile.documentElement.selectSingleNode("modified").text
 			End If
 		End If
 	End If
