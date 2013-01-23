@@ -24,7 +24,6 @@ BlogTitle=zbdk_title
 <script type="text/javascript">
 
 </script>
-
 <style type="text/css">
 td {
 	text-align: center
@@ -38,16 +37,21 @@ td {
           </div>
           <div class="divHeader"><%=BlogTitle%></div>
           <div class="SubMenu"> <%=ZBDK.submenu.Export("TemplateTags")%> </div>
-          <div id="divMain2"> 
-
+          <div id="divMain2">
             <div class="DIVBlogConfig">
               <div class="DIVBlogConfignav">
                 <ul name="tree" id="tree">
-                  
                 </ul>
               </div>
               <div id="result" class="DIVBlogConfigcontent">
-              	<div class="DIVBlogConfigtop"><span id="templatename">请选择</span></div>
+                <div class="DIVBlogConfigtop"><span id="templatename">请选择</span></div>
+                <table width="100%" style='padding:0px;' cellspacing='0' cellpadding='0' id="table_tr">
+                  <tr height='32'>
+                    <th width="25%">标签</th>
+                    <th>注释</th>
+                    <th>其他说明</th>
+                  </tr>
+                </table>
               </div>
               <div class="clear"></div>
             </div>
@@ -55,20 +59,20 @@ td {
         </div>
       </div>
     </div>
-<script type="text/javascript">
+    <script type="text/javascript">
 $(document).ready(function() {
 	$("#tree").html(function(){
 		var o=template_tags.filename,str="";
 		for(var i=0;i<o.length;i++){
-			str+="<li><a href='javascript:;' title='"+o[i].data+"'>"+o[i].filename+".html</a></li>"
+			str+="<li><a href='javascript:;' title='"+o[i].data+"'>"+(o[i].filename!="all"?o[i].filename+".html":o[i].data)+"</a></li>"
 		};
 		return str;
 	});
 	$("#tree li a").click(function(){
 		var o=$(this);
-		$("#templatename").html(o.text()+" "+o.attr("title"))
+		$("#templatename").html(o.text()+" "+o.attr("title"));
+		
 	})
 });
 </script> 
     <!--#include file="..\..\..\..\zb_system\admin\admin_footer.asp"-->
-
