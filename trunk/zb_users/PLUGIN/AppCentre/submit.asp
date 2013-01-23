@@ -27,39 +27,39 @@ ID=Request.QueryString("id")
 
 BlogTitle="应用中心-上传应用到官方网站"
 
-
-
 Dim ZipPathDir,ZipPathFile,PackFile,ShortDir,ID
 
 ID=Request.QueryString("id")
 
-If Request.QueryString("type")="plugin" Then
+If Request.Form.Count=0 Then
 
-	PackFile=MD5(ZC_BLOG_CLSID & ID) & ".zba"
-	ZipPathDir = BlogPath & "zb_users\plugin\" & ID & "\"
-	ZipPathFile = BlogPath & "zb_users\cache\" & PackFile
-	ShortDir = ID & "\"
+	If Request.QueryString("type")="plugin" Then
 
-
-	Call CreatePluginXml(ZipPathFile)
-	Call LoadAppFiles(ZipPathDir,ZipPathFile,ShortDir)
-
-End If
-
-If Request.QueryString("type")="theme" Then
-
-	PackFile=MD5(ZC_BLOG_CLSID & ID) & ".zba"
-	ZipPathDir = BlogPath & "zb_users\theme\" & ID & "\"
-	ZipPathFile = BlogPath & "zb_users\cache\" & PackFile
-	ShortDir = ID & "\"
+		PackFile=MD5(ZC_BLOG_CLSID & ID) & ".zba"
+		ZipPathDir = BlogPath & "zb_users\plugin\" & ID & "\"
+		ZipPathFile = BlogPath & "zb_users\cache\" & PackFile
+		ShortDir = ID & "\"
 
 
-	Call CreateThemeXml(ZipPathFile)
-	Call LoadAppFiles(ZipPathDir,ZipPathFile,ShortDir)
+		Call CreatePluginXml(ZipPathFile)
+		Call LoadAppFiles(ZipPathDir,ZipPathFile,ShortDir)
 
-End If
+	End If
 
-Dim s
+	If Request.QueryString("type")="theme" Then
+
+		PackFile=MD5(ZC_BLOG_CLSID & ID) & ".zba"
+		ZipPathDir = BlogPath & "zb_users\theme\" & ID & "\"
+		ZipPathFile = BlogPath & "zb_users\cache\" & PackFile
+		ShortDir = ID & "\"
+
+
+		Call CreateThemeXml(ZipPathFile)
+		Call LoadAppFiles(ZipPathDir,ZipPathFile,ShortDir)
+
+	End If
+
+	Dim s
 
 	Dim objPing
 	Set objPing = Server.CreateObject("MSXML2.ServerXMLHTTP")
@@ -69,8 +69,26 @@ Dim s
 
 	s=objPing.responseText
 
-
 	Set objPing = Nothing
+
+Else
+
+	Dim t
+	Dim objXmlHttp
+	Set objXmlHttp=Server.CreateObject("MSXML2.ServerXMLHTTP")
+
+	objXmlHttp.Open "POST",APPCENTRE_SUBMIT_URL
+	objXmlhttp.SetRequestHeader "Content-Type","application/x-www-form-urlencoded"
+	objXmlhttp.SetRequestHeader "Cookie","username="&vbsescape(login_un)&"; password="&vbsescape(login_pw)
+	objXmlHttp.Send ""'zsx帮我加这个zba输出到server
+
+	If objXmlHttp.ReadyState=4 Then
+		If objXmlhttp.Status=200 Then
+			t=objXmlhttp.ResponseText
+		End If
+	End If
+
+End If
 
 %>
 <!--#include file="..\..\..\zb_system\admin\admin_header.asp"-->
@@ -97,8 +115,8 @@ Dim s
 <table border="1" width="100%" cellspacing="0" cellpadding="0" class="tableBorder tableBorder-thcenter">
 <tr><th colspan="2" width='28%'>&nbsp;应用中心目标应用的相关信息</th></tr>
 
-<tr><td><p><b>· 应用提交用户</b></p></td><td><p>&nbsp;<input id="zblog_app_id" name="app_id" style="width:550px;"  type="text" value="<%=s%>" readonly="readonly" /></p></td></tr>
-<tr><td><p><b>· 最后更新日期</b></p></td><td><p>&nbsp;<input id="zblog_app_name" name="app_name" style="width:550px;"  type="text" value="" readonly="readonly" /></p></td></tr>
+<tr><td><p><b>· 应用提交用户</b></p></td><td><p>&nbsp;<input id="zblog_app_id" name="zblog_app_id" style="width:550px;"  type="text" value="" readonly="readonly" /></p></td></tr>
+<tr><td><p><b>· 最后更新日期</b></p></td><td><p>&nbsp;<input id="zblog_app_name" name="zblog_app_name" style="width:550px;"  type="text" value="" readonly="readonly" /></p></td></tr>
 
 
 </table>
@@ -112,6 +130,13 @@ Dim s
   </div>
 </div>
    <script type="text/javascript">ActiveLeftMenu("aAppcentre");</script>
+<script type="text/javascript">alert('<%=t%>')</script>
+<script type="text/javascript">
+var jsoninfo=eval(<%=s%>);
+$("#zblog_app_id").val(jsoninfo.username);
+$("#zblog_app_name").val(jsoninfo.lastmodified);
+</script>
+
 <%
 	If login_pw<>"" Then
 		Response.Write "<script type='text/javascript'>$('div.SubMenu a[href=\'login.asp\']').hide();$('div.footer_nav p').html('&nbsp;&nbsp;&nbsp;<b>"&login_un&"</b>您好,欢迎来到APP应用中心!').css('visibility','inherit');</script>"
