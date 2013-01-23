@@ -36,8 +36,11 @@ Set objXmlHttp=Server.CreateObject("MSXML2.ServerXMLHTTP")
 Select Case Request.QueryString("action")
 	Case "view"
 		strURL="view.asp?"
+		intHighlight=-1
 	Case "catalog"
 		strURL="catalog.asp?"
+		If Request.QueryString("cate")=2 Then intHighlight=4
+		If Request.QueryString("cate")=1 Then intHighlight=5
 	Case "app"
 		strURL="app.asp?"
 	Case "vaildcode"
@@ -73,6 +76,7 @@ Select Case Request.QueryString("action")
 
 		If Replace(strList,",","")="" Then
 			Call SetBlogHint_Custom("您没有可以更新的应用.")
+			Response.Redirect "server.asp"
 		End If
 		
 	Case Else
