@@ -68,7 +68,7 @@ End If
 EditArticle.Content=UBBCode(EditArticle.Content,"[link][email][font][code][face][image][flash][typeset][media][autolink]")
 EditArticle.Title=UBBCode(EditArticle.Title,"[link][email][font][code][face][image][flash][typeset][media][autolink]")
 
-EditArticle.Content=TransferHTML(Replace(EditArticle.Content,"<!–more–>","<hr class=""more"" />"),"[html-japan]")
+EditArticle.Content=TransferHTML(Replace(EditArticle.Content,"<!--more-->","<hr class=""more"" />"),"[html-japan]")
 
 EditArticle.Title=TransferHTML(EditArticle.Title,"[html-format]")
 
