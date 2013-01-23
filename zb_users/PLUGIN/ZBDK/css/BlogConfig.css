@@ -9,7 +9,7 @@
 }
 .DIVBlogConfignav {
 	background: #c9dfea;
-	width: 200px;
+	width: 230px;
 	position: absolute;
 	left: 0px;
 	top: 0px;
@@ -24,6 +24,8 @@
 	height: 36px;
 	line-height: 36px;
 	padding: 0 10px;
+	overflow: hidden;
+	word-break: break-all;
 }
 #divMain .DIVBlogConfignav ul li a:hover {
 	background: #39F;
@@ -49,7 +51,7 @@
 }
 #divMain .DIVBlogConfigcontent {
 	background: #FFFFFF;
-	margin-left: 200px;
+	margin-left: 230px;
 	min-height: 400px;
 	_height: 400px;
 	padding-left: 10px;
