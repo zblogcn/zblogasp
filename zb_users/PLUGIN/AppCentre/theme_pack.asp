@@ -30,7 +30,7 @@ ZipPathFile = BlogPath & "zb_users\cache\" & MD5(ZC_BLOG_CLSID & ID) & ".zba"
 Pack_PluginDir = ID & "\"
 
 Call CreateThemeXml(ZipPathFile)
-Call LoadAppFiles(ZipPathDir,ZipPathFile)
+Call LoadAppFiles(ZipPathDir,ZipPathFile,Pack_PluginDir)
 
 
 

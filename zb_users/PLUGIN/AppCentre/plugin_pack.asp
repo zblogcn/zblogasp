@@ -31,7 +31,7 @@ Pack_PluginDir = ID & "\"
 
 
 Call CreatePluginXml(ZipPathFile)
-Call LoadAppFiles(ZipPathDir,ZipPathFile)
+Call LoadAppFiles(ZipPathDir,ZipPathFile,Pack_PluginDir)
 
 
 Response.AddHeader   "Content-Disposition","attachment;filename="& ID &".zba"
