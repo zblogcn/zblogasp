@@ -1859,8 +1859,6 @@ Function ScanFunctionAndSidebarToThemeFile(newZC_BLOG_THEME)
 	End If
 	Set objXmlFile=Nothing
 
-	Call SaveToFile(BlogPath & "zb_users/PLUGIN/p_theme.asp",s,"utf-8",False)
-
 	Err.Clear
 End Function
 '*********************************************************
