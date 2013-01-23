@@ -87,6 +87,17 @@ c=c & ".pagebar span.now-page,.pagebar span:hover{ background:#eee!important;bor
 
 
 
+'zbdk
+c=c & "#divMain .DIVBlogConfignav ul li a:hover {background-color: #3399cc!important;}" & vbCrlf
+c=c & "#divMain .DIVBlogConfignav ul li a.clicked{background-color: #b0cdee!important;}" & vbCrlf
+c=c & ".DIVBlogConfignav {background-color: #ededed!important;}" & vbCrlf
+c=c & "#divMain .DIVBlogConfigtop {background-color: #3399cc!important;}" & vbCrlf
+c=c & "#divMain .DIVBlogConfig {background-color: #ededed!important;}" & vbCrlf
+
+
+c=c & Response_Plugin_AdminColor_Css
+
+
 Dim c1,c2,c3,c4,c5
 c1="#1d4c7d"
 c2="#3a6ea5"

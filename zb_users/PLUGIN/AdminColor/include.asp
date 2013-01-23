@@ -1,5 +1,8 @@
 ﻿<!-- #include file="function.asp" -->
 <%
+Dim Response_Plugin_AdminColor_Css
+Response_Plugin_AdminColor_Css=""
+
 '注册插件
 Call RegisterPlugin("AdminColor","ActivePlugin_AdminColor")
 '挂口部分
