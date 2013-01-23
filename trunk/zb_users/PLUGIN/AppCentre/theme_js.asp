@@ -68,7 +68,7 @@ $(".theme").each(function(){
 	}
 
 <%If login_pw<>"" Then%>
-	s=s+"&nbsp;&nbsp;&nbsp;&nbsp;<a href='"+bloghost+"zb_users/plugin/appcentre/theme_pack.asp?id="+t+"' title='上传主题到应用中心' target='_blank'><img height='16' width='16' src='"+bloghost+"zb_users/plugin/appcentre/images/drive-upload.png'/></a>";
+	s=s+"&nbsp;&nbsp;&nbsp;&nbsp;<a href='"+bloghost+"zb_users/plugin/appcentre/submit.asp?type=theme&amp;id="+t+"' title='上传主题到官方网站应用中心' target='_blank'><img height='16' width='16' src='"+bloghost+"zb_users/plugin/appcentre/images/drive-upload.png'/></a>";
 <%End If%>
 	s=s+"</p>";
 	$(this).append(s);

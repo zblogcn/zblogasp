@@ -745,7 +745,7 @@ On Error Resume Next
 		Set xRoot = XmlDoc.appendChild(XmlDoc.CreateElement("app"))
 			xRoot.setAttribute "version","2.0"
 			xRoot.setAttribute "type","Plugin"
-			xRoot.setAttribute "for","Z-Blog 2.0"
+			'xRoot.setAttribute "for","Z-Blog 2.0"
 		Set xRoot = Nothing
 
 		'写入文件信息
@@ -952,7 +952,7 @@ On Error Resume Next
 		Set xRoot = XmlDoc.appendChild(XmlDoc.CreateElement("app"))
 			xRoot.setAttribute "version","2.0"
 			xRoot.setAttribute "type","Theme"
-			xRoot.setAttribute "for","Z-Blog 2.0"
+			'xRoot.setAttribute "for","Z-Blog 2.0"
 		Set xRoot = Nothing
 
 		'写入文件信息
@@ -1051,7 +1051,7 @@ End Function
 
 '*********************************************************
 '遍历目录内的所有文件以及文件夹
-Function LoadAppFiles(DirPath,FilePath)
+Function LoadAppFiles(DirPath,FilePath,ShortDir)
 'On Error Resume Next
 
 	Dim XmlDoc
@@ -1077,7 +1077,7 @@ Function LoadAppFiles(DirPath,FilePath)
 	'写入每个文件夹路径
 	Set Xfolder = XmlDoc.SelectSingleNode("//app").AppendChild(XmlDoc.CreateElement("folder"))
 	Set Xfpath = Xfolder.AppendChild(XmlDoc.CreateElement("path"))
-		Xfpath.text = replace(DirPath,ZipPathDir,Pack_PluginDir)
+		Xfpath.text = replace(DirPath,ZipPathDir,ShortDir)
 
 		Set objFiles=objFolder.Files
 			for each objFile in objFiles
@@ -1087,7 +1087,7 @@ Function LoadAppFiles(DirPath,FilePath)
 					'写入文件的路径及文件内容
 				   Set Xfile = XmlDoc.SelectSingleNode("//app").AppendChild(XmlDoc.CreateElement("file"))
 				   Set Xpath = Xfile.AppendChild(XmlDoc.CreateElement("path"))
-					   Xpath.text = replace(PathNameStr,ZipPathDir,Pack_PluginDir)
+					   Xpath.text = replace(PathNameStr,ZipPathDir,ShortDir)
 				   '创建文件流读入文件内容，并写入XML文件中
 				   Set objStream = Server.CreateObject("ADODB.Stream")
 				   objStream.Type = 1
@@ -1118,7 +1118,7 @@ Function LoadAppFiles(DirPath,FilePath)
 		'调用递归遍历子文件夹
 		for each objSubFolder in objSubFolders
 			pathname = DirPath & objSubFolder.name & "\"
-			Call LoadAppFiles(pathname,FilePath)
+			Call LoadAppFiles(pathname,FilePath,ShortDir)
 		next
 	Set objFolder=Nothing
 	Set objSubFolders=Nothing

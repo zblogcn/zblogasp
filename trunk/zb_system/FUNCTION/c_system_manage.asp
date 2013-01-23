@@ -945,7 +945,7 @@ Function ExportPluginMng()
 
 
 	Response.Write "<table border=""1"" width=""100%"" cellspacing=""0"" cellpadding=""0"" class=""tableBorder tableBorder-thcenter"">"
-	Response.Write "<tr><th width=""50px""></th></th><th>"& ZC_MSG001 &"</th><th width=""12%"">"& ZC_MSG128 &"</th><th width=""12%"">"& ZC_MSG151 &"</th><th width=""10%""></th></tr>"
+	Response.Write "<tr><th width=""50px""></th></th><th>"& ZC_MSG001 &"</th><th width=""12%"">"& ZC_MSG128 &"</th><th width=""12%"">"& ZC_MSG151 &"</th><th width=""14%""></th></tr>"
 
 	Dim objXmlFile,strXmlFile
 
