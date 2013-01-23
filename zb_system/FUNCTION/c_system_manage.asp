@@ -69,7 +69,7 @@ End Function
 '*********************************************************
 ' 目的：    Manager Articles
 '*********************************************************
-Function ExportArticleList(intPage,intCate,intLevel,intTitle)
+Function ExportArticleList(intPage,intCate,intLevel,bolIstop,intTitle)
 
 'Call Add_Response_Plugin("Response_Plugin_ArticleMng_SubMenu",MakeSubMenu(ZC_MSG168 & "","../cmd.asp?act=ArticleEdt&amp;webedit=" & ZC_BLOG_WEBEDIT,"m-left",False))
 
@@ -82,6 +82,7 @@ Function ExportArticleList(intPage,intCate,intLevel,intTitle)
 	Call CheckParameter(intPage,"int",1)
 	Call CheckParameter(intCate,"int",-1)
 	Call CheckParameter(intLevel,"int",-1)
+	Call CheckParameter(bolIstop,"bool",False)
 	Call CheckParameter(intTitle,"sql",-1)
 	intTitle=vbsunescape(intTitle)
 	intTitle=FilterSQL(intTitle)
@@ -94,7 +95,7 @@ Function ExportArticleList(intPage,intCate,intLevel,intTitle)
 
 	Response.Write "<form class=""search"" id=""edit"" method=""post"" action=""../admin/admin.asp?act=ArticleMng"">"
 
-	Response.Write "<p>"&ZC_MSG158&":&nbsp;&nbsp;&nbsp;&nbsp;"
+	Response.Write "<p>"&ZC_MSG158&":&nbsp;&nbsp;"
 
 	Response.Write ZC_MSG012&" <select class=""edit"" size=""1"" id=""cate"" name=""cate"" style=""width:100px;"" ><option value=""-1"">"&ZC_MSG157&"</option> "
 
@@ -123,12 +124,12 @@ Function ExportArticleList(intPage,intCate,intLevel,intTitle)
 	Next
 	Response.Write "</select>"
 
+	Response.Write "&nbsp;&nbsp;&nbsp;&nbsp;<label><input type=""checkbox"" name=""istop"" id=""istop"" value=""True""/>&nbsp;"&ZC_MSG051&"</label>"
+
 	Response.Write "&nbsp;&nbsp;&nbsp;&nbsp;<input id=""title"" name=""title"" style=""width:250px;"" type=""text"" value="""" /> "
 	Response.Write "&nbsp;&nbsp;&nbsp;&nbsp;<input type=""submit"" class=""button"" value="""&ZC_MSG087&"""/>"
 
 	Response.Write "</p></form>"
-
-
 
 	Set objRS=Server.CreateObject("ADODB.Recordset")
 	objRS.CursorType = adOpenKeyset
@@ -147,6 +148,10 @@ Function ExportArticleList(intPage,intCate,intLevel,intTitle)
 
 	If intLevel<>-1 Then
 		strSQL= strSQL & " AND [log_Level] = " & intLevel
+	End If
+
+	If bolIstop=True Then
+		strSQL= strSQL & " AND [log_IsTop] <> 0"
 	End If
 
 	If intTitle<>"-1" Then
@@ -179,12 +184,6 @@ Function ExportArticleList(intPage,intCate,intLevel,intTitle)
 					If Category.ID=objRS("log_CateID") Then
 						Response.Write "<td>"
 						If Not Category.ParentID=0 Then
-							'dim objRS2
-							'Set ObjRS2=objConn.Execute("SELECT [cate_name] FROM [blog_Category] WHERE cate_id="&Category.ParentID&"")
-							'Response.Write objRS2("cate_Name")
-							'objRS2.Close
-							'Set ObjRS2=Nothing
-							'Response.Write "&nbsp;-->&nbsp;"
 						end if
 						Response.Write Category.Name
 						Response.Write "</td>"

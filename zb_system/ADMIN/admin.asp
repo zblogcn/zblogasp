@@ -14,7 +14,7 @@
 '///////////////////////////////////////////////////////////////////////////////
 %>
 <% Option Explicit %>
-<% On Error Resume Next %>
+<% 'On Error Resume Next %>
 <% Response.Charset="UTF-8" %>
 <% Response.Buffer=True %>
 <!-- #include file="../../zb_users/c_option.asp" -->
@@ -60,7 +60,7 @@ BlogTitle=ZC_MSG022
 			If Request.QueryString("type")="Page" Then
 			Call ExportPageList(Request.QueryString("page"),Request("cate"),Request("level"),Escape(Request("title")))
 			Else
-			Call ExportArticleList(Request.QueryString("page"),Request("cate"),Request("level"),Escape(Request("title")))
+			Call ExportArticleList(Request.QueryString("page"),Request("cate"),Request("level"),Request("istop"),Escape(Request("title")))
 			End If
 		Case "CategoryMng" Call ExportCategoryList(Request.QueryString("page"))
 		Case "CommentMng" Call ExportCommentList(Request.QueryString("page"),Request("intContent"),Request("isCheck"))
