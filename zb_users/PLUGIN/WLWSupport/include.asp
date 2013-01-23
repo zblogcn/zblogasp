@@ -297,13 +297,23 @@ Function WLWSupport_newPost(structPost,bolPublish)
 		End If
 	End If
 
-	objArticle.Content=Replace(objArticle.Content,"<hr />","<hr class=""more"" />",1,1)
+
+	If InStr(objArticle.Content,"<!--more-->")=0 Then
+		If InStr(objArticle.Content,"<hr>")>0 Then
+			objArticle.Content=Replace(objArticle.Content,"<hr>","<hr class=""more"" />",1,1)
+		Else
+			objArticle.Content=Replace(objArticle.Content,"<hr />","<hr class=""more"" />",1,1)
+		End If
+	Else
+		objArticle.Content=Replace(objArticle.Content,"<!--more-->","<hr class=""more"" />",1,1)
+	End If
+
 	If InStr(objArticle.Content,"<hr class=""more"" />")>0 Then
 		s=objArticle.Content
 		i=InStr(s,"<hr class=""more"" />")
 		s=Left(s,i-1)
 		objArticle.Intro=closeHTML(s)
-		objArticle.Content=Replace(objArticle.Content,"<hr class=""more"" />","<!–more–>",1,1)
+		objArticle.Content=Replace(objArticle.Content,"<hr class=""more"" />","<!--more-->",1,1)
 	End If
 
 	If objArticle.Intro="" Then
@@ -317,8 +327,10 @@ Function WLWSupport_newPost(structPost,bolPublish)
 		objArticle.Intro=closeHTML(w)
 	End If
 
-	If Trim(objXmlFile.documentElement.selectSingleNode("member[name=""mt_excerpt""]/value/string").text)<>"" Then
-		objArticle.Intro=objXmlFile.documentElement.selectSingleNode("member[name=""mt_excerpt""]/value/string").text
+	If InStr(objArticle.Content,"<!--more-->")=0 Then
+		If Trim(objXmlFile.documentElement.selectSingleNode("member[name=""mt_excerpt""]/value/string").text)<>"" Then
+			objArticle.Intro=objXmlFile.documentElement.selectSingleNode("member[name=""mt_excerpt""]/value/string").text
+		End If
 	End If
 
 	If objArticle.Post=True Then
@@ -411,13 +423,22 @@ Function WLWSupport_editPost(intPostID,structPost,bolPublish)
 		End If
 	End If
 
-	objArticle.Content=Replace(objArticle.Content,"<hr />","<hr class=""more"" />",1,1)
+	If InStr(objArticle.Content,"<!--more-->")=0 Then
+		If InStr(objArticle.Content,"<hr>")>0 Then
+			objArticle.Content=Replace(objArticle.Content,"<hr>","<hr class=""more"" />",1,1)
+		Else
+			objArticle.Content=Replace(objArticle.Content,"<hr />","<hr class=""more"" />",1,1)
+		End If
+	Else
+		objArticle.Content=Replace(objArticle.Content,"<!--more-->","<hr class=""more"" />",1,1)
+	End If
+
 	If InStr(objArticle.Content,"<hr class=""more"" />")>0 Then
 		s=objArticle.Content
 		i=InStr(s,"<hr class=""more"" />")
 		s=Left(s,i-1)
 		objArticle.Intro=closeHTML(s)
-		objArticle.Content=Replace(objArticle.Content,"<hr class=""more"" />","<!–more–>",1,1)
+		objArticle.Content=Replace(objArticle.Content,"<hr class=""more"" />","<!--more-->",1,1)
 	End If
 
 	If objArticle.Intro="" Then
@@ -431,8 +452,10 @@ Function WLWSupport_editPost(intPostID,structPost,bolPublish)
 		objArticle.Intro=closeHTML(w)
 	End If
 
-	If Trim(objXmlFile.documentElement.selectSingleNode("member[name=""mt_excerpt""]/value/string").text)<>"" Then
-		objArticle.Intro=objXmlFile.documentElement.selectSingleNode("member[name=""mt_excerpt""]/value/string").text
+	If InStr(objArticle.Content,"<!--more-->")=0 Then
+		If Trim(objXmlFile.documentElement.selectSingleNode("member[name=""mt_excerpt""]/value/string").text)<>"" Then
+			objArticle.Intro=objXmlFile.documentElement.selectSingleNode("member[name=""mt_excerpt""]/value/string").text
+		End If
 	End If
 
 	If objArticle.Post=True Then
@@ -481,7 +504,8 @@ Function WLWSupport_getPost(intPostID)
 
 	s=strPost
 	s=Replace(s,"$%#1#%$",TransferHTML(objArticle.Title,"[html-japan][html-format]"))
-	s=Replace(s,"$%#2#%$",TransferHTML(Replace(objArticle.Content,"<!–more–>","<hr />"),"[html-japan][html-format]"))
+	s=Replace(s,"$%#2#%$",TransferHTML(Replace(objArticle.Content,"<!--more-->","<hr class=""more"" />"),"[html-japan][html-format]"))
+	's=Replace(s,"$%#2#%$",TransferHTML(objArticle.Content,"[html-japan][html-format]"))
 	s=Replace(s,"$%#3#%$",TransferHTML(ParseDateForRFC3339(objArticle.PostTime),"[html-format]"))
 	s=Replace(s,"$%#4#%$",TransferHTML(Categorys(objArticle.CateID).Name,"[html-format]"))
 	s=Replace(s,"$%#5#%$",TransferHTML(objArticle.ID,"[html-format]"))
