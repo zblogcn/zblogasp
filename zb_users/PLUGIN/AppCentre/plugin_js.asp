@@ -47,7 +47,7 @@ $("#divMain2").prepend("<form class='search' name='edit' id='edit' method='post'
 
 
 $("tr").each(function(){
-	$(this).append("<td width='14%' align='center'></td>");
+	$(this).append("<td width='16%' align='center'></td>");
 });
 
 $("tr").first().children().last().append("<b>开发者模式</b>");
@@ -59,13 +59,13 @@ $(".plugin").each(function(){
 
 	if(!$(this).hasClass("plugin-on")){
 	}else{
-		//s=s+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href='"+bloghost+"zb_system/admin/edit_function.asp?source=plugin_"+t+"' title='给该插件增加侧栏模块'><img height='16' width='16' src='"+bloghost+"zb_users/plugin/appcentre/images/bricks.png'/></a>";
+		//s=s+"&nbsp;&nbsp;&nbsp;&nbsp;<a href='"+bloghost+"zb_system/admin/edit_function.asp?source=plugin_"+t+"' title='给该插件增加侧栏模块'><img height='16' width='16' src='"+bloghost+"zb_users/plugin/appcentre/images/bricks.png'/></a>";
 	};
 
-	s=s+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href='"+bloghost+"zb_users/plugin/appcentre/plugin_pack.asp?id="+t+"' title='导出该插件' target='_blank'><img height='16' width='16' src='"+bloghost+"zb_users/plugin/appcentre/images/download.png'/></a>";
+	s=s+"&nbsp;&nbsp;&nbsp;&nbsp;<a href='"+bloghost+"zb_users/plugin/appcentre/plugin_pack.asp?id="+t+"' title='导出该插件' target='_blank'><img height='16' width='16' src='"+bloghost+"zb_users/plugin/appcentre/images/download.png'/></a>";
 
 <%If login_pw<>"" Then%>
-	s=s+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href='"+bloghost+"zb_users/plugin/appcentre/plugin_pack.asp?id="+t+"' title='上传插件到应用中心' target='_blank'><img height='16' width='16' src='"+bloghost+"zb_users/plugin/appcentre/images/drive-upload.png'/></a>";
+	s=s+"&nbsp;&nbsp;&nbsp;&nbsp;<a href='"+bloghost+"zb_users/plugin/appcentre/plugin_pack.asp?id="+t+"' title='上传插件到应用中心' target='_blank'><img height='16' width='16' src='"+bloghost+"zb_users/plugin/appcentre/images/drive-upload.png'/></a>";
 <%End If%>
 
 

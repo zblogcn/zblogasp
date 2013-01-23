@@ -524,7 +524,7 @@ Function ExportCommentList(intPage,intContent,isCheck)
 	Response.Write "</p></form>"
 
 	Response.Write "<table border=""1"" width=""100%"" cellspacing=""0"" cellpadding=""0"" class=""tableBorder tableBorder-thcenter"">"
-	Response.Write "<tr><th width=""4%""></th><th width=""5%"">"& ZC_MSG076 &"</th><th width=""6%"">"&ZC_MSG152&"</th><th width='10%'>"& ZC_MSG003 &"</th><th>"& ZC_MSG055 &"</th><th width=""15%"">"& ZC_MSG048 &"</th><th width='14%'></th><th width='5%'  align='center'><a href='' onclick='BatchSelectAll();return false'>"& ZC_MSG229 &"</a></th></tr>"'
+	Response.Write "<tr><th width=""5%"">"& ZC_MSG076 &"</th><th width=""6%"">"&ZC_MSG152&"</th><th width='10%'>"& ZC_MSG003 &"</th><th>"& ZC_MSG055 &"</th><th width=""15%"">"& ZC_MSG048 &"</th><th width='18%'></th><th width='5%'  align='center'><a href='' onclick='BatchSelectAll();return false'>"& ZC_MSG229 &"</a></th></tr>"'
 
 	objRS.Open("SELECT * FROM [blog_Comment] "& strSQL &" ORDER BY [comm_ID] DESC")
 
@@ -546,7 +546,6 @@ Function ExportCommentList(intPage,intContent,isCheck)
 			End If
 
 			Response.Write "<tr>"
-			Response.Write "<td align=""center""><a href="""&objArticle.URL&"#cmt"&objRS("comm_ID")&""" target=""_blank""><img src=""../image/admin/comment.png"" alt=""" & ZC_MSG212& " @ " & objArticle.HtmlTitle & """ title=""" & ZC_MSG212& " @ " & objArticle.HtmlTitle & """ width=""16"" /></a></td>"
 			Response.Write "<td>" & objRS("comm_ID") & "</td>"
 			Response.Write "<td>"&IIF(objRs("comm_ParentID")>0,objRs("comm_ParentID"),"")&"</td>"
 			If Trim(objRS("comm_Email"))="" Then
@@ -555,8 +554,8 @@ Function ExportCommentList(intPage,intContent,isCheck)
 			Response.Write "<td><a href=""mailto:"& objRS("comm_Email") &""">" & objRS("comm_Author") & "</a></td>"
 			End If
 
-			Response.Write "<td><a id=""mylink"&objRS("comm_ID")&""" href=""$div"&objRS("comm_ID")&"tip?width=400"" class=""betterTip"" title="""&ZC_MSG055&""">" & Left(objRS("comm_Content"),30) & "</a><div id=""div"&objRS("comm_ID")&"tip"" style=""display:none;""><p>"& objRS("comm_Content") &"</p><br/><p>" & ZC_MSG080 & " : " &objRS("comm_IP") & "</p><p>" & ZC_MSG075 & " : " &objRS("comm_PostTime") & "</p></div></td>"
-			Response.Write "<td><div style='overflow:hidden;height:1.5em;'>"& Left(objArticle.HtmlTitle,20) &"</div></td>"
+			Response.Write "<td><a href="""&objArticle.URL&"#cmt"&objRS("comm_ID")&""" target=""_blank""><img src=""../image/admin/comment.png"" alt=""" & ZC_MSG212& " @ " & objArticle.HtmlTitle & """ title=""" & ZC_MSG212& " @ " & objArticle.HtmlTitle & """ width=""16"" /></a><a id=""mylink"&objRS("comm_ID")&""" href=""$div"&objRS("comm_ID")&"tip?width=400"" class=""betterTip"" title="""&ZC_MSG055&""">" & Left(objRS("comm_Content"),30) & "</a><div id=""div"&objRS("comm_ID")&"tip"" style=""display:none;""><p>"& objRS("comm_Content") &"</p><br/><p>" & ZC_MSG080 & " : " &objRS("comm_IP") & "</p><p>" & ZC_MSG075 & " : " &objRS("comm_PostTime") & "</p></div></td>"
+			Response.Write "<td><div style='overflow:hidden;height:1.5em;'>"& Left(objArticle.HtmlTitle,18) &"</div></td>"
 			Response.Write "<td align=""center""><a href=""../cmd.asp?act=CommentEdt&amp;id=" & objRS("comm_ID") &"&amp;revid="&objRs("comm_ID")&"&amp;log_id="& objRS("log_ID") &"""><img src=""../image/admin/comments.png"" alt=""" & ZC_MSG149 & """ title=""" & ZC_MSG149 & """ width=""16"" /></a>&nbsp;&nbsp;&nbsp;&nbsp;<a href=""../cmd.asp?act=CommentEdt&amp;id=" & objRS("comm_ID") & "&amp;log_id="& objRS("log_ID") &"&amp;revid=0""><img src=""../image/admin/comment_edit.png"" alt=""" & ZC_MSG078 & """ title=""" & ZC_MSG078 & """ width=""16"" /></a>&nbsp;&nbsp;&nbsp;&nbsp;<a href=""../cmd.asp?act=CommentDel&amp;id=" & objRS("comm_ID")  &""" onclick='return window.confirm("""& ZC_MSG058 &""");'><img src=""../image/admin/delete.png"" alt=""" & ZC_MSG063 & """ title=""" & ZC_MSG063 & """ width=""16"" /></a>"
 			
 			Response.Write IIf(CheckRights("Root"),"&nbsp;&nbsp;&nbsp;&nbsp;<a href=""../cmd.asp?act=CommentAudit&amp;id="&objRs("comm_ID")&"""><img src=""../image/admin/"&IIf(isCheck,"ok.png","minus-shield.png")&""" alt="""&IIf(isCheck,ZC_MSG091,ZC_MSG092)&""" title="""&IIf(isCheck,ZC_MSG091,ZC_MSG092)&""" width=""16""/></a>","")
@@ -1068,7 +1067,7 @@ Function ExportPluginMng()
 			If CheckPluginState(objXmlFile.documentElement.selectSingleNode("id").text) Then
 				If BlogUser.Level<=CLng(objXmlFile.documentElement.selectSingleNode("level").text) Then
 					If fso.FileExists(BlogPath & "zb_users/plugin/" & f1.name & "/" & objXmlFile.documentElement.selectSingleNode("path").text) Then
-						s=s & "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href=""../../ZB_USERS/plugin/" & f1.name & "/" & objXmlFile.documentElement.selectSingleNode("path").text &"""><img width='16' title='"&ZC_MSG022&"' alt='"&ZC_MSG022&"' src='../IMAGE/ADMIN/setting_tools.png'/></a>"
+						s=s & "&nbsp;&nbsp;&nbsp;&nbsp;<a href=""../../ZB_USERS/plugin/" & f1.name & "/" & objXmlFile.documentElement.selectSingleNode("path").text &"""><img width='16' title='"&ZC_MSG022&"' alt='"&ZC_MSG022&"' src='../IMAGE/ADMIN/setting_tools.png'/></a>"
 					End If
 				End If
 			Else
@@ -1442,7 +1441,7 @@ Call Add_Response_Plugin("Response_Plugin_FunctionMng_SubMenu",MakeSubMenu(ZC_MS
 	Dim a,b,c,d,e,f
 	Response.Write "<div class=""divHeader"">" & ZC_MSG007 & "</div>"
 	Response.Write "<div class=""SubMenu"">" & Response_Plugin_FunctionMng_SubMenu & "</div>"
-	Response.Write "<div id=""divMain2"">"
+	Response.Write "<div id=""divMain2"" style=""min-width:850px;"">"
 
 	Response.Write "<div class=""widget-list"">"
 
