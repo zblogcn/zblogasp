@@ -11,6 +11,8 @@
 <!-- #include file="../../plugin/p_config.asp" -->
 <!-- #include file="function.asp"-->
 <%
+Dim bError
+bError=False
 Call System_Initialize()
 '检查非法链接
 Call CheckReference("")
@@ -164,11 +166,7 @@ If b>0 Then
 c=vbsunescape(a)
 
 Response.Write "<tr><td>"
-If FileManageEnabled Then 
-	Response.Write FileManage_GetTypeIco(c)
-Else
-	Response.Write "<img src='Images/document_empty.png' width='16' alt='' />"
-End If
+Response.Write AppCentre_GetTypeIco(c)
 Response.Write " <span>"& c &"</span><cite style='display:none;'>"& PathAndCrc32.GetValue(c) &"</cite></td><td id='td"&b&"' align='center'>"& e &"</td></tr>"
 Response.Flush
 
@@ -442,3 +440,15 @@ Next
 	End If
 %>
         <!--#include file="..\..\..\zb_system\admin\admin_footer.asp"-->
+<%
+		
+Function AppCentre_GetTypeIco(c)
+	On Error Resume Next
+	If FileManageEnabled And Not bError Then 
+		Response.Write FileManage_GetTypeIco(c)
+		If Err.Number<>0 Then bError=True:Response.Write "<img src='Images/document_empty.png' width='16' alt='' />"
+	Else
+		Response.Write "<img src='Images/document_empty.png' width='16' alt='' />"
+	End If
+End Function
+%>
