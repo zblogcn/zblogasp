@@ -1068,7 +1068,7 @@ Function MakeCalendar(dtmYearMonth)
 	If m=1 Then s=UrlbyDateAuto(y-1,12,"")
 	If m=12 Then t=UrlbyDateAuto(y+1,1,"")
 
-		strCalendar="<table><caption><a href="""&s&""">&#00171;</a>  <a href="""&UrlbyDateAuto(y,m,"")&""">"&Replace(Replace(ZC_MSG233,"%y",y),"%m",ZVA_Month_Abbr(m))&"</a>  <a href="""&t&""">&#00187;</a></caption>"
+		strCalendar="<table><caption><a href="""&s&""">&#00171;</a>  <a href="""&UrlbyDateAuto(y,m,"")&""">"&Replace(ZC_MSG233,"%y",y)& " " & ZVA_Month_Abbr(m)&"</a>  <a href="""&t&""">&#00187;</a></caption>"
 		
 	'thead	
 		strCalendar=strCalendar & "	<thead>	<tr> <th title="""&ZVA_Week(1)&""" scope=""col"" abbr="""&ZVA_Week(1)&"""><small>"&ZVA_Week_Abbr(1)&"</small></th> <th title="""&ZVA_Week(2)&""" scope=""col"" abbr="""&ZVA_Week(2)&"""><small>"&ZVA_Week_Abbr(2)&"</small></th> <th title="""&ZVA_Week(3)&""" scope=""col"" abbr="""&ZVA_Week(3)&"""><small>"&ZVA_Week_Abbr(3)&"</small></th>	<th title="""&ZVA_Week(4)&""" scope=""col"" abbr="""&ZVA_Week(4)&"""><small>"&ZVA_Week_Abbr(4)&"</small></th> <th title="""&ZVA_Week(5)&""" scope=""col"" abbr="""&ZVA_Week(5)&"""><small>"&ZVA_Week_Abbr(5)&"</small></th>	<th title="""&ZVA_Week(6)&""" scope=""col"" abbr="""&ZVA_Week(6)&"""><small>"&ZVA_Week_Abbr(6)&"</small></th> <th title="""&ZVA_Week(7)&""" scope=""col"" abbr="""&ZVA_Week(7)&"""><small>"&ZVA_Week_Abbr(7)&"</small></th>	</tr>	</thead>"
@@ -2554,6 +2554,7 @@ Function BlogReBuild_Archives()
 	Dim n
 	Dim objRS
 	Dim objStream
+	Dim s
 
 	Dim ArtList
 
@@ -2583,6 +2584,7 @@ Function BlogReBuild_Archives()
 	objRS.Close
 	Set objRS=Nothing
 
+	s=""
 	j=Functions(FunctionMetas.GetValue("archives")).MaxLi
 
 	If Not IsEmpty(dtmYM) Then
@@ -2595,7 +2597,9 @@ Function BlogReBuild_Archives()
 			Set objRS=objConn.Execute("SELECT COUNT([log_ID]) FROM [blog_Article] WHERE ([log_Type]=0) And ([log_Level]>1) AND [log_PostTime] BETWEEN "& ZC_SQL_POUND_KEY & Year(dtmYM(i)) &"-"& Month(dtmYM(i)) &"-1"& ZC_SQL_POUND_KEY &" AND "& ZC_SQL_POUND_KEY & l &"-"& n &"-1" & ZC_SQL_POUND_KEY)
 
 			If (Not objRS.bof) And (Not objRS.eof) Then
-				strArchives=strArchives & "<li><a href="""& UrlbyDateAuto(Year(dtmYM(i)),Month(dtmYM(i)),"") &""">" &  Replace(Replace(ZC_MSG233,"%y",Year(dtmYM(i))),"%m",ZVA_Month(Month(dtmYM(i))))  & "<span class=""article-nums""> (" & objRS(0) & ")</span>" +"</a></li>"
+				If InStr(s,"<!-- year -->"&Replace(ZC_MSG233,"%y",Year(dtmYM(i)))&"<!-- year -->")=0 Then s=s & "</li><li><!-- year -->"&Replace(ZC_MSG233,"%y",Year(dtmYM(i)))&"<!-- year --><br/>"
+				
+				s=s & "<a href="""& UrlbyDateAuto(Year(dtmYM(i)),Month(dtmYM(i)),"") &""">" &  ZVA_Month_Abbr(Month(dtmYM(i)))  & "<span class=""article-nums"">(" & objRS(0) & ")</span>" +"</a>&nbsp; "
 				If j>0 Then
 					If i=j Then Exit For
 				End If
@@ -2605,7 +2609,7 @@ Function BlogReBuild_Archives()
 			Set objRS=Nothing
 		Next
 	End If
-
+	strArchives=s & "</li>"
 	strArchives=TransferHTML(strArchives,"[no-asp]")
 
 
