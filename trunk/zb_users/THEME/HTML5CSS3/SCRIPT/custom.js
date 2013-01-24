@@ -193,7 +193,7 @@ function CmtForm($form){
 			$form.email.val("").parents("p").show(500);
 			$form.homepage.val("").parents("p").show(500);
 			$(this).fadeOut(500);
-			$name.text("blog.msg.noName");
+			$name.text(blog.msg.noName);
 			$avatar.find("img").attr("src",blog.user("avatar"));
 		});
 	if(!blog.user("id"))$avatar.append($notme);
@@ -208,9 +208,9 @@ function CmtForm($form){
 		})
 	}).blur();
 	$form.name.keyup(function(){
-		$name.text(this.value?this.value:"blog.msg.noName");
+		$name.text(this.value?this.value:blog.msg.noName);
 	}).blur(function(){
-		$name.text(this.value?this.value:"blog.msg.noName");
+		$name.text(this.value?this.value:blog.msg.noName);
 	})
 	$form.name.val()&&$form.name.parents("p").hide();
 	$form.email.val()&&$form.email.parents("p").hide();
@@ -234,16 +234,3 @@ function NoHTML5(){
 		opacity:.8
 	});
 }
-//侧栏回调|系统版
-function sidebar(){
-	this.list=[];
-	this.add=function(d){
-		this.list.push(d);
-	}
-	this.execute=function(){
-		for ( var i = 0 ; i < this.list.length ; i++ ){
-			this.list[i]();
-		}
-	}
-}
-var sidebarloaded=new sidebar();
