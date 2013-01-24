@@ -253,8 +253,11 @@ Function AppCentre_CheckSystemLast()
 	objPing.open "GET", APPCENTRE_SYSTEM_UPDATE,False
 	objPing.send ""
 
-	AppCentre_CheckSystemLast=objPing.responseText
-
+	If objPing.ReadyState=4 Then
+		If objPing.Status=200 Then
+			AppCentre_CheckSystemLast=objPing.responseText
+		End If
+	End If
 
 	Set objPing = Nothing
 End Function
