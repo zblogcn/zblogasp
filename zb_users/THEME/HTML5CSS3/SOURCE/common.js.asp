@@ -237,6 +237,10 @@ strJS=LoadFromFile(BlogPath&"/zb_users/theme/"&ZC_BLOG_THEME&"/script/custom.js"
 strJS=Replace(strJS,"<!html5_warn!>",Replace(LoadFromFile(BlogPath&"/zb_users/theme/"&ZC_BLOG_THEME&"/include/html5_warn.html","utf-8"),"""","\"""))
 Response.Write strJS
 %>
+
+
+
+//系统命，不可违，不敢不从，不从我就被扼杀在摇篮里了，55555
 var bloghost="<%=BlogHost%>";
 var cookiespath="<%=CookiesPath()%>";
 var str00="<%=BlogHost%>";
@@ -245,10 +249,10 @@ var str02="<%=ZC_MSG034%>";
 var str03="<%=ZC_MSG035%>";
 var str06="<%=ZC_MSG057%>";
 var intMaxLen="<%=ZC_CONTENT_MAX%>";
-var strFaceName="<%=ZC_EMOTICONS_FILENAME%>";
-var strFaceSize="<%=ZC_EMOTICONS_FILESIZE%>";
-var strFaceType="<%=ZC_EMOTICONS_FILETYPE%>";
 var strBatchView="";
 var strBatchInculde="";
 var strBatchCount="";
+
+
 <%=Response_Plugin_Html_Js_Add%>
+

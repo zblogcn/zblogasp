@@ -234,3 +234,16 @@ function NoHTML5(){
 		opacity:.8
 	});
 }
+//侧栏回调|系统版
+function sidebar(){
+	this.list=[];
+	this.add=function(d){
+		this.list.push(d);
+	}
+	this.execute=function(){
+		for ( var i = 0 ; i < this.list.length ; i++ ){
+			this.list[i]();
+		}
+	}
+}
+var sidebarloaded=new sidebar();
