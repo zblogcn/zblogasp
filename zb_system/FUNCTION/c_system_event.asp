@@ -1242,6 +1242,16 @@ Function SaveSetting()
 
 	If BlogConfig.Exists("ZC_SIDEBAR_ORDER5")=False Then Call BlogConfig.Write("ZC_SIDEBAR_ORDER5","")
 
+	If BlogConfig.Exists("ZC_SIDEBAR_ORDER_OLD" )=False Then Call BlogConfig.Write("ZC_SIDEBAR_ORDER_OLD" ,"")
+
+	If BlogConfig.Exists("ZC_SIDEBAR_ORDER2_OLD")=False Then Call BlogConfig.Write("ZC_SIDEBAR_ORDER2_OLD","")
+
+	If BlogConfig.Exists("ZC_SIDEBAR_ORDER3_OLD")=False Then Call BlogConfig.Write("ZC_SIDEBAR_ORDER3_OLD","")
+
+	If BlogConfig.Exists("ZC_SIDEBAR_ORDER4_OLD")=False Then Call BlogConfig.Write("ZC_SIDEBAR_ORDER4_OLD","")
+
+	If BlogConfig.Exists("ZC_SIDEBAR_ORDER5_OLD")=False Then Call BlogConfig.Write("ZC_SIDEBAR_ORDER5_OLD","")
+
 
 	Dim a,b,c,d,e
 	b=LoadFromFile(BlogPath &"zb_users\c_option.asp","utf-8")
@@ -1822,6 +1832,8 @@ Function ScanFunctionAndSidebarToThemeFile(newZC_BLOG_THEME)
 
 	Dim objXmlFile,strXmlFile,s,t
 
+	Dim oldSB1,oldSB2,oldSB3,oldSB4,oldSB5
+
 	strXmlFile =BlogPath & "zb_users/theme/" & newZC_BLOG_THEME & "/" & "theme.xml"
 
 	Set objXmlFile=Server.CreateObject("Microsoft.XMLDOM")
@@ -1832,19 +1844,54 @@ Function ScanFunctionAndSidebarToThemeFile(newZC_BLOG_THEME)
 		If objXmlFile.parseError.errorCode <> 0 Then
 		Else
 			If objXmlFile.documentElement.selectNodes("sidebars/sidebar1").length>0 Then
+				Call BlogConfig.Write("ZC_SIDEBAR_ORDER_OLD",ZC_SIDEBAR_ORDER)
 				Call BlogConfig.Write("ZC_SIDEBAR_ORDER",objXmlFile.documentElement.selectSingleNode("sidebars/sidebar1").text) 
+			Else
+				oldSB1=BlogConfig.Read("ZC_SIDEBAR_ORDER_OLD")
+				If oldSB1<>"" Then
+					Call BlogConfig.Write("ZC_SIDEBAR_ORDER",oldSB1)
+					Call BlogConfig.Write("ZC_SIDEBAR_ORDER_OLD","")
+				End If
 			End If
 			If objXmlFile.documentElement.selectNodes("sidebars/sidebar2").length>0 Then
-				Call BlogConfig.Write("ZC_SIDEBAR_ORDER2",objXmlFile.documentElement.selectSingleNode("sidebars/sidebar2").text) 
+				Call BlogConfig.Write("ZC_SIDEBAR_ORDER2_OLD",ZC_SIDEBAR_ORDER2)
+				Call BlogConfig.Write("ZC_SIDEBAR_ORDER2",objXmlFile.documentElement.selectSingleNode("sidebars/sidebar2").text)
+			Else
+				oldSB2=BlogConfig.Read("ZC_SIDEBAR_ORDER2_OLD")
+				If oldSB2<>"" Then
+					Call BlogConfig.Write("ZC_SIDEBAR_ORDER2",oldSB2)
+					Call BlogConfig.Write("ZC_SIDEBAR_ORDER2_OLD","")
+				End If
 			End If
 			If objXmlFile.documentElement.selectNodes("sidebars/sidebar3").length>0 Then
-				Call BlogConfig.Write("ZC_SIDEBAR_ORDER3",objXmlFile.documentElement.selectSingleNode("sidebars/sidebar3").text) 
+				Call BlogConfig.Write("ZC_SIDEBAR_ORDER3_OLD",ZC_SIDEBAR_ORDER3)
+				Call BlogConfig.Write("ZC_SIDEBAR_ORDER3",objXmlFile.documentElement.selectSingleNode("sidebars/sidebar3").text)
+			Else
+				oldSB3=BlogConfig.Read("ZC_SIDEBAR_ORDER3_OLD")
+				If oldSB3<>"" Then
+					Call BlogConfig.Write("ZC_SIDEBAR_ORDER3",oldSB3)
+					Call BlogConfig.Write("ZC_SIDEBAR_ORDER3_OLD","")
+				End If
 			End If
 			If objXmlFile.documentElement.selectNodes("sidebars/sidebar4").length>0 Then
-				Call BlogConfig.Write("ZC_SIDEBAR_ORDER4",objXmlFile.documentElement.selectSingleNode("sidebars/sidebar4").text) 
+				Call BlogConfig.Write("ZC_SIDEBAR_ORDER4_OLD",ZC_SIDEBAR_ORDER4)
+				Call BlogConfig.Write("ZC_SIDEBAR_ORDER4",objXmlFile.documentElement.selectSingleNode("sidebars/sidebar4").text)
+			Else
+				oldSB4=BlogConfig.Read("ZC_SIDEBAR_ORDER4_OLD")
+				If oldSB4<>"" Then
+					Call BlogConfig.Write("ZC_SIDEBAR_ORDER4",oldSB4)
+					Call BlogConfig.Write("ZC_SIDEBAR_ORDER4_OLD","")
+				End If
 			End If
 			If objXmlFile.documentElement.selectNodes("sidebars/sidebar5").length>0 Then
-				Call BlogConfig.Write("ZC_SIDEBAR_ORDER5",objXmlFile.documentElement.selectSingleNode("sidebars/sidebar5").text) 
+				Call BlogConfig.Write("ZC_SIDEBAR_ORDER5_OLD",ZC_SIDEBAR_ORDER5)
+				Call BlogConfig.Write("ZC_SIDEBAR_ORDER5",objXmlFile.documentElement.selectSingleNode("sidebars/sidebar5").text)
+			Else
+				oldSB5=BlogConfig.Read("ZC_SIDEBAR_ORDER5_OLD")
+				If oldSB5<>"" Then
+					Call BlogConfig.Write("ZC_SIDEBAR_ORDER5",oldSB5)
+					Call BlogConfig.Write("ZC_SIDEBAR_ORDER5_OLD","")
+				End If
 			End If
 
 			Dim objXmlitems,item
