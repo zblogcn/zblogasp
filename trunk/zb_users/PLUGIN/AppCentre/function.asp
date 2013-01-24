@@ -1913,4 +1913,88 @@ End Function
 '*********************************************************
 
 
+Class Upload2Server
+	Public objXMLHttp
+	Public objStream, objStream2
+	Public strCharset, strBoundary, strCookies
+
+	Private Sub Class_Initialize()
+		Set objXMLHttp = Server.CreateObject("MSXML2.ServerXMLHTTP")
+		Set objStream = Server.CreateObject("ADODB.Stream")
+		Set objStream2 = Server.CreateObject("ADODB.Stream")
+		objStream.Type = 1
+		objStream.Open
+		objStream2.Type = 2
+		objStream2.CharSet = "utf-8"
+		strCharset = "utf-8"
+		strBoundary = "__NextPart__ZBlogAppCentre_UploadBoundary_" & MD5(RndGuid()) & "_HelloWorld"
+	End Sub
+
+	Private Sub Class_Terminate()
+ 	   objStream.Close
+ 	   Set objStream = Nothing
+	   Set objStream2 = Nothing
+ 	   Set objXMLHttp = Nothing
+	End Sub
+
+
+	Public Function StringToBytes(strData)
+		objStream2.Type = 2
+		objStream2.Open
+		objStream2.WriteText strData
+		objStream2.Position = 0
+		objStream2.Type = 1
+		objStream2.Position = 3
+		StringToBytes = objStream2.Read(-1)
+		objStream2.Close
+	End Function
+	
+	Public Function GetBinary(strPath)
+		objStream2.Open
+		objStream2.LoadFromFile strPath
+		GetBinary = objStream2.Read(-1)
+		objStream2.Close
+	End Function
+
+	Public Sub AddText(ByVal strName, ByVal strValue)
+		Dim strUpload
+		strUpload = vbCrlf & "--$1"&vbCrlf&"Content-Disposition: form-data; name=""$2"""&vbCrlf&vbCrlf&"$3"
+		strUpload = Replace(tmp, "$1", strBoundary)
+		strUpload = Replace(tmp, "$2", strName)
+		strUpload = Replace(tmp, "$3", strValue)
+		objStream.Write StringToBytes(strUpload)
+	End Sub
+
+
+
+	Public Sub AddFile(ByVal strName, ByVal strFileName, ByVal strFileType, ByVal strPath)
+		Dim strUpload
+		strUpload = vbCrlf&"--$1"&vbCrlf&"Content-Disposition: form-data; name=""$2""; filename=""$3"""&vbCrlf&"Content-Type: $4"&vbCrlf&vbCrlf
+		strUpload = Replace(strUpload, "$1", strBoundary)
+		strUpload = Replace(strUpload, "$2", strName)
+		strUpload = Replace(strUpload, "$3", strFileName)
+		strUpload = Replace(strUpload, "$4", strFileType)
+		objStream.Write StringToBytes(strUpload)
+		objStream.Write GetBinary(strPath)
+	End Sub
+
+
+	Public Sub AddEnd()
+		objStream.Write StringToBytes(vbCrlf & "--" & strBoundary & "--" & vbCrlf)
+		objStream.Position = 2
+	End Sub
+
+
+	Public Function Post(ByVal strURL)
+		Call AddEnd
+		objXMLHttp.Open "POST", strURL, False
+		objXMLHttp.setRequestHeader "Content-Type", "multipart/form-data,boundary="&strBoundary
+		objXMLHttp.setRequestHeader "Content-Length", objStream.Size
+		objXMLHttp.setRequestHeader "User-Agent","Z-Blog AppCentre"
+		objXMLHttp.setRequestHeader "Cookie",strCookies
+		objXMLHttp.Send objStream
+		Post=objXmlHttp.ResponseText
+	End Function
+End Class
+
 %>
