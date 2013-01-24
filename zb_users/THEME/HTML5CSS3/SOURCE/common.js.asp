@@ -34,20 +34,19 @@ Response.Write strjQuery
 %>
 
 var blog={
-    host:"<%=BlogHost%>",
+    host:bloghost="<%=BlogHost%>",
     url:document.URL.toLowerCase().substr(<%=Len(BlogHost)%>),
     nav:"",
     cookies:{
-        path:"<%=CookiesPath()%>",
+        path:cookiespath="<%=CookiesPath()%>",
         set:function(sName, sValue,iExpireDays) {
-            var path="<%=CookiesPath()%>";
             if (iExpireDays){
                 var dExpire = new Date();
                 dExpire.setTime(dExpire.getTime()+parseInt(iExpireDays*24*60*60*1000));
-                document.cookie = sName + "=" + escape(sValue) + "; expires=" + dExpire.toGMTString()+ "; path="+path;
+                document.cookie = sName + "=" + escape(sValue) + "; expires=" + dExpire.toGMTString()+ "; path="+cookiespath;
             }
             else{
-                document.cookie = sName + "=" + escape(sValue)+ "; path="+path;
+                document.cookie = sName + "=" + escape(sValue)+ "; path="+cookiespath;
             }
         },
         get:function(sName){
@@ -56,10 +55,10 @@ var blog={
             return null;
         }
     },
-    theme:"<%=BlogHost%>zb_users/theme/<%=ZC_BLOG_THEME%>/",
-    include:"<%=BlogHost%>zb_users/include/",
-    sys:"<%=BlogHost%>zb_system/",
-    avatar:"<%=BlogHost%>zb_users/avatar/",
+    theme:bloghost+"zb_users/theme/<%=ZC_BLOG_THEME%>/",
+    include:bloghost+"zb_users/include/",
+    sys:bloghost+"zb_system/",
+    avatar:bloghost+"zb_users/avatar/",
     msg:{
         _009:"<%=ZC_MSG009%>",
         _020:"<%=ZC_MSG020%>",
@@ -74,7 +73,7 @@ var blog={
             email:"<%=ZC_MSG034%>",
             msg:"<%=ZC_MSG035%>",
             reply:"<%=ZC_MSG265%>",
-            max:"<%=ZC_CONTENT_MAX%>",
+            max:intMaxLen="<%=ZC_CONTENT_MAX%>",
             page:"努力翻页中"
         }
     },
@@ -198,8 +197,6 @@ blog.ready=function(){
             return bln===true?$("<ins id='AjaxReply"+id+"' onclick='Reply("+id+")'>"+blog.msg.cmt.reply+"</ins>"):$("#AjaxCommentEnd"+id);
         }
     };
-    
-    if(blog.url=="tags.asp")blog.cmt.list.remove();
 
     $("count").attr("id",function(){
     	blog.js.count+=this.id+"="+this.id+",";
@@ -220,6 +217,7 @@ blog.ready=function(){
         blog.js.sidebar()
     });
     blog.js.int();
+    if(blog.url=="tags.asp")blog.cmt.list.remove();
     blog.nav[0]&&blog.js.navTab(blog.nav);
 };
 
@@ -234,25 +232,7 @@ if(typeof jQuery=="undefined"){
 <%
 Dim strJS
 strJS=LoadFromFile(BlogPath&"/zb_users/theme/"&ZC_BLOG_THEME&"/script/custom.js","utf-8")
-strJS=Replace(strJS,"<!html5_warn!>",Replace(LoadFromFile(BlogPath&"/zb_users/theme/"&ZC_BLOG_THEME&"/include/html5_warn.html","utf-8"),"""","\"""))
 Response.Write strJS
 %>
 
-
-
-//系统命，不可违，不敢不从，不从我就被扼杀在摇篮里了，55555
-var bloghost="<%=BlogHost%>";
-var cookiespath="<%=CookiesPath()%>";
-var str00="<%=BlogHost%>";
-var str01="<%=ZC_MSG033%>";
-var str02="<%=ZC_MSG034%>";
-var str03="<%=ZC_MSG035%>";
-var str06="<%=ZC_MSG057%>";
-var intMaxLen="<%=ZC_CONTENT_MAX%>";
-var strBatchView="";
-var strBatchInculde="";
-var strBatchCount="";
-
-
 <%=Response_Plugin_Html_Js_Add%>
-
