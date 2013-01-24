@@ -1844,51 +1844,66 @@ Function ScanFunctionAndSidebarToThemeFile(newZC_BLOG_THEME)
 		If objXmlFile.parseError.errorCode <> 0 Then
 		Else
 			If objXmlFile.documentElement.selectNodes("sidebars/sidebar1").length>0 Then
-				Call BlogConfig.Write("ZC_SIDEBAR_ORDER_OLD",ZC_SIDEBAR_ORDER)
+				oldSB1=ZC_SIDEBAR_ORDER
+				If oldSB1="" Then oldSB1=" "
+				Call BlogConfig.Write("ZC_SIDEBAR_ORDER_OLD",oldSB1)
 				Call BlogConfig.Write("ZC_SIDEBAR_ORDER",objXmlFile.documentElement.selectSingleNode("sidebars/sidebar1").text) 
 			Else
 				oldSB1=BlogConfig.Read("ZC_SIDEBAR_ORDER_OLD")
 				If oldSB1<>"" Then
+					If oldSB1=" " Then oldSB1=""
 					Call BlogConfig.Write("ZC_SIDEBAR_ORDER",oldSB1)
 					Call BlogConfig.Write("ZC_SIDEBAR_ORDER_OLD","")
 				End If
 			End If
 			If objXmlFile.documentElement.selectNodes("sidebars/sidebar2").length>0 Then
-				Call BlogConfig.Write("ZC_SIDEBAR_ORDER2_OLD",ZC_SIDEBAR_ORDER2)
+				oldSB2=ZC_SIDEBAR_ORDER2
+				If oldSB2="" Then oldSB2=" "
+				Call BlogConfig.Write("ZC_SIDEBAR_ORDER2_OLD",oldSB2)
 				Call BlogConfig.Write("ZC_SIDEBAR_ORDER2",objXmlFile.documentElement.selectSingleNode("sidebars/sidebar2").text)
 			Else
 				oldSB2=BlogConfig.Read("ZC_SIDEBAR_ORDER2_OLD")
 				If oldSB2<>"" Then
+					If oldSB2=" " Then oldSB2=""
 					Call BlogConfig.Write("ZC_SIDEBAR_ORDER2",oldSB2)
 					Call BlogConfig.Write("ZC_SIDEBAR_ORDER2_OLD","")
 				End If
 			End If
 			If objXmlFile.documentElement.selectNodes("sidebars/sidebar3").length>0 Then
-				Call BlogConfig.Write("ZC_SIDEBAR_ORDER3_OLD",ZC_SIDEBAR_ORDER3)
+				oldSB3=ZC_SIDEBAR_ORDER3
+				If oldSB3="" Then oldSB3=" "
+				Call BlogConfig.Write("ZC_SIDEBAR_ORDER3_OLD",oldSB3)
 				Call BlogConfig.Write("ZC_SIDEBAR_ORDER3",objXmlFile.documentElement.selectSingleNode("sidebars/sidebar3").text)
 			Else
 				oldSB3=BlogConfig.Read("ZC_SIDEBAR_ORDER3_OLD")
 				If oldSB3<>"" Then
+					If oldSB3=" " Then oldSB3=""
 					Call BlogConfig.Write("ZC_SIDEBAR_ORDER3",oldSB3)
 					Call BlogConfig.Write("ZC_SIDEBAR_ORDER3_OLD","")
 				End If
 			End If
 			If objXmlFile.documentElement.selectNodes("sidebars/sidebar4").length>0 Then
-				Call BlogConfig.Write("ZC_SIDEBAR_ORDER4_OLD",ZC_SIDEBAR_ORDER4)
+				oldSB4=ZC_SIDEBAR_ORDER4
+				If oldSB4="" Then oldSB4=" "
+				Call BlogConfig.Write("ZC_SIDEBAR_ORDER4_OLD",oldSB4)
 				Call BlogConfig.Write("ZC_SIDEBAR_ORDER4",objXmlFile.documentElement.selectSingleNode("sidebars/sidebar4").text)
 			Else
 				oldSB4=BlogConfig.Read("ZC_SIDEBAR_ORDER4_OLD")
 				If oldSB4<>"" Then
+					If oldSB4=" " Then oldSB4=""
 					Call BlogConfig.Write("ZC_SIDEBAR_ORDER4",oldSB4)
 					Call BlogConfig.Write("ZC_SIDEBAR_ORDER4_OLD","")
 				End If
 			End If
 			If objXmlFile.documentElement.selectNodes("sidebars/sidebar5").length>0 Then
-				Call BlogConfig.Write("ZC_SIDEBAR_ORDER5_OLD",ZC_SIDEBAR_ORDER5)
+				oldSB5=ZC_SIDEBAR_ORDER5
+				If oldSB5="" Then oldSB5=" "
+				Call BlogConfig.Write("ZC_SIDEBAR_ORDER5_OLD",oldSB5)
 				Call BlogConfig.Write("ZC_SIDEBAR_ORDER5",objXmlFile.documentElement.selectSingleNode("sidebars/sidebar5").text)
 			Else
 				oldSB5=BlogConfig.Read("ZC_SIDEBAR_ORDER5_OLD")
 				If oldSB5<>"" Then
+					If oldSB5=" " Then oldSB5=""
 					Call BlogConfig.Write("ZC_SIDEBAR_ORDER5",oldSB5)
 					Call BlogConfig.Write("ZC_SIDEBAR_ORDER5_OLD","")
 				End If
