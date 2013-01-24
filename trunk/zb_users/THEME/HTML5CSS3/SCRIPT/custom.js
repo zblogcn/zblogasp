@@ -5,10 +5,29 @@
  Last Modified: 2013-1-21
 ----------------------*/
 
+/********用户自定义内容*********/
+
+//评论名为空的文字
+blog.msg.noName="无名氏";
+//评论用户名非我的文字
+blog.msg.notMe="不是我";
+//评论回复文字
+blog.msg.cmt.reply="[回复]";
+//评论成功后自动保存cookies提示文字
+blog.msg.cmt.record="您的资料已记录";
+//评论提交中的提示文字
+blog.msg.cmt.submiting="提交中，请稍候……";
+//评论发表成功的提示文字
+blog.msg.cmt.success="发表成功！"
+//不支持HTML5浏览器的提示文字
+blog.msg.noHtml5="对不起！您的浏览器不支持HTML5，像iPhone5和WIN8一样，HTML5，你值得拥有！请升级你的浏览器到最新版本，以获得更佳浏览体验，感谢您对互联网的贡献及对<big>HTML5</big>的认可！";
+//针对IE的不支持HTML5浏览器的提示文字
+blog.msg.ltIE9="<big>珍爱生命，远离IE！或升级到IE9+吧！</big>";
+
+/*！！！！若无特殊需求或你不懂编程请勿修改以下内容！！！！*/
+
 //网站加载完毕后初始化
 blog.js.int=function(){
-	//修改默认回复语言
-	blog.msg.cmt.reply="[回复]";
 	//有评论表单就初始化
 	blog.form.cmt[0]&&CmtForm(blog.form);
 	//判断是否有评论
@@ -42,8 +61,7 @@ blog.js.ajaxCmt=function(){
 		$btn=$(":submit",$form.cmt),
 		tip=blog.msg.cmt,
 		$tip=$("#cmttip"),
-		$cmt=blog.cmt,
-		$rtip=$("#replytip");
+		$cmt=blog.cmt;
 	$(".err").removeClass("err");
 	$tip.empty().stop().show(200);;
 	var val={
@@ -53,7 +71,7 @@ blog.js.ajaxCmt=function(){
 		txt:$.trim($form.txt.val()),
 		verify:$.trim($form.verify.val())
 	};
-	tip.record=blog.user("name")!=val.name?"您的资料已记录":"";
+	if(blog.user("name")==val.name) tip.record="";
 	if(val.txt==""||val.txt.length>blog.msg.max){
 		$form.txt.addClass("err").focus();
 		$tip.text(tip.msg);
@@ -74,7 +92,7 @@ blog.js.ajaxCmt=function(){
 		$tip.text("请输入验证码");
 		return false;
 	};
-	$tip.text("提交中，请稍候……");
+	$tip.text(tip.submiting);
 	$btn.attr("disabled",true).fadeTo(500,.5);
 	$.post($form.cmt[0].action,{
 		"inpAjax":true,
@@ -113,7 +131,7 @@ blog.js.ajaxCmt=function(){
 			blog.cookies.set("inpName",val.name,365);
 			blog.cookies.set("inpEmail",val.email,365);
 			blog.cookies.set("inpHomePage",val.homepage,365);
-			$tip.text("发表成功！"+tip.record).delay(5000).fadeOut(500);
+			$tip.text(tip.success+tip.record).delay(5000).fadeOut(500);
 		}
 		$btn.attr("disabled",false).fadeTo(500,1);
 	});
@@ -132,7 +150,6 @@ blog.js.sidebar=function(){
 	$("view,count").each(function(){
         $(this).replaceWith($(this).text());
      });
-	$("#btnPost").addClass("btn");
 	try{
 		if(!$.trim($("aside#extra").html())) $("aside#extra").html("<dl><dt>温馨提示</dt><dd>请在后台【侧栏管理】分配部分侧栏模块到【侧栏2】！</dd></dl>");
 	}catch(e){}
@@ -146,7 +163,7 @@ function ReplyForm(id,self){
 	}
 	var $cmt=blog.cmt,
 		$form=blog.form,
-		$cancel=$("<b id='cancelreply'>[取消回复]</b>").click(function(){
+		$cancel=$("<b id='cancelreply'>[取消"+blog.msg.cmt.reply.match(/\[(.+?)\]/)[1]+"]</b>").click(function(){
 			$(this).hide(500,function(){
 				$(this).remove();
 			}).prev("ins").show(500);
@@ -166,18 +183,18 @@ function ReplyForm(id,self){
 	})
 	$cmt.post.hide(500);
 	$cmt.list.find("nav").hide(500);
-};
+}
 //初始化评论表单
 function CmtForm($form){
 	var $avatar=$("<figure><img src='"+blog.user("avatar")+"' alt='"+blog.user("name")+"的头像' border='0'/></figure>").insertBefore($form.cmt),
 		$name=$("<b>"+blog.user("name")+"</b>").appendTo($avatar),
-		$notme=$("<ins style='cursor:pointer'>[不是我]</ins>").click(function(){
+		$notme=$("<ins style='cursor:pointer'>["+blog.msg.notMe+"]</ins>").click(function(){
 			$form.name.val("").parents("p").show(500);
 			$form.email.val("").parents("p").show(500);
 			$form.homepage.val("").parents("p").show(500);
 			$(this).fadeOut(500);
-			$name.text("无名氏");
-			$avatar.find("img").attr("src","http://gravatar.com/avatar/");
+			$name.text("blog.msg.noName");
+			$avatar.find("img").attr("src",blog.user("avatar"));
 		});
 	if(!blog.user("id"))$avatar.append($notme);
 	$form.cmt.find(":submit").after("<b id='cmttip'/>");
@@ -191,9 +208,9 @@ function CmtForm($form){
 		})
 	}).blur();
 	$form.name.keyup(function(){
-		$name.text(this.value?this.value:"无名氏")
+		$name.text(this.value?this.value:"blog.msg.noName");
 	}).blur(function(){
-		$name.text(this.value?this.value:"无名氏")
+		$name.text(this.value?this.value:"blog.msg.noName");
 	})
 	$form.name.val()&&$form.name.parents("p").hide();
 	$form.email.val()&&$form.email.parents("p").hide();
@@ -208,9 +225,12 @@ function Admin(){
 }
 //不支持HTML5的浏览器提示
 function NoHTML5(){
-	//var IEstr=$.support.opacity?"":"<big>珍爱生命，远离IE！或升级到IE9+吧！</big>";
-	$("body").prepend("<!html5_warn!>");
-	$("#nohtml5").css("display",function(i,s){
-		if(s=="none")$(this).parent().remove();
-	})
+	var strIE=$.support.opacity?"":blog.msg.ltIE9;
+	$("body").prepend("<hgroup><h3 id='nohtml5'>"+strIE+blog.msg.noHtml5+"</h3></hgroup>");
+	$("#nohtml5").css({
+		display:function(i,s){
+			if(s=="none")$(this).parent().remove();
+		},
+		opacity:.8
+	});
 }
