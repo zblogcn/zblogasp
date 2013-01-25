@@ -1,7 +1,7 @@
 ﻿<%
 Const APPCENTRE_URL="http://app.rainbowsoft.org/"
 Const APPCENTRE_UPDATE_URL="http://app.rainbowsoft.org/appcentre.asp?act=checkupdate"
-Const APPCENTRE_SUBMIT_URL="http://app.rainbowsoft.org/appcentre.asp?act=submit"
+Const APPCENTRE_SUBMIT_URL="http://app.rainbowsoft.org/zb_users/plugin/appcentre_server/upload.asp?act=save&id=0&client=true"
 Const APPCENTRE_SUBMITBEFORE_URL="http://app.rainbowsoft.org/appcentre.asp?act=submitbefore&id="
 
 Const APPCENTRE_SYSTEM_UPDATE="http://update.rainbowsoft.org/zblog2/"
