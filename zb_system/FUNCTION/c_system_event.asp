@@ -906,6 +906,7 @@ Function EditUser()
 	objUser.Email=Request.Form("edtEmail")
 	objUser.HomePage=Request.Form("edtHomePage")
 	objUser.Alias=Request.Form("edtAlias")
+	objUser.TemplateName=Request.Form("edtTemplate")
 
 	If BlogUser.Level<4 Then
 		objUser.Intro=Request.Form("edtIntro")
