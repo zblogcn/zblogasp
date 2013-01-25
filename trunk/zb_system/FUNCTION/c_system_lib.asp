@@ -2172,8 +2172,13 @@ Class TArticleList
 		Set objRS=Nothing
 
 
-
-		If IsEmpty(html)=True Then html=Template
+		If IsEmpty(html)=True Then
+			If intPage>1 And ZC_DEFAULT_PAGES_TEMPLATE<>"" Then
+				html=GetTemplate("TEMPLATE_" & ZC_DEFAULT_PAGES_TEMPLATE)
+			Else
+				html=Template
+			End If
+		End If
 
 		Call GetTagsbyTagIDList(tt & td)
 
