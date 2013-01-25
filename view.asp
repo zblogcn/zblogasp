@@ -154,7 +154,7 @@ If Article.LoadInfoByID(c) Then
 			If Not(objRs.Eof) And Not(objRs.Bof) Then
 				If DateDiff("s",objRs("comm_PostTime"),strLastModified)<0 Then strLastModified=objRs("comm_PostTime")
 			End If
-			Response.AddHeader "Last-Modified",strLastModified
+			Response.AddHeader "Last-Modified",ParseDateForRFC822GMT(strLastModified)
 		End If
 		Article.Build
 		html=Article.html

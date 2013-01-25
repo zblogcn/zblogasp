@@ -1145,8 +1145,7 @@ Function ExportSiteInfo()
 	Response.Write Response_Plugin_Admin_SiteInfo
 	Response.Write "</div>"
 
-	Response.Write "<script type=""text/javascript"">function statistic(s){$(""#statloading"").show();$(""#updatatime"").hide();$.post(""c_statistic.asp""+s,{},function(data){$(""#tbStatistic"").html(data);bmx2table();$(""#statloading"").hide();$(""#updatatime"").show();});};function updateinfo(s){$(""#infoloading"").show();$.post(""c_updateinfo.asp""+s,{},function(data){$(""#tdUpdateInfo"").html(data);$(""#infoloading"").hide();})};</script>"
-	Response.Write "<script type=""text/javascript"">$(document).ready(function(){statistic("""");updateinfo("""");});</script>"
+	Response.Write "<script type=""text/javascript"">statistic("""");updateinfo("""");</script>"
 	Response.Write "<script type=""text/javascript"">ActiveLeftMenu(""aSiteInfo"");</script>"
 	Response.Write "<script type=""text/javascript"">ActiveTopMenu(""topmenu1"");</script>"
 

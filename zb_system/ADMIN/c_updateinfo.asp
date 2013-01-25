@@ -22,79 +22,65 @@
 <!-- #include file="../function/c_system_base.asp" -->
 <%
 
-	Response.ExpiresAbsolute   =   Now()   -   1           
-	Response.Expires   =   0   
-	Response.CacheControl   =   "no-cache"   
+'Response.ExpiresAbsolute   =   Now()   -   1           
+'Response.Expires   =   0   
+'Response.CacheControl   =   "no-cache"
 
-	If Len(ZC_UPDATE_INFO_URL)>0 Then
+If Len(ZC_UPDATE_INFO_URL)>0 Then
 
-		Dim strPingTime
-		Dim strPingContent
+	Dim strPingTime
+	Dim strPingContent
 
-		Dim b
-		b=False
-		Dim fso,f
-		Set fso = CreateObject("Scripting.FileSystemObject")
-		If fso.FileExists(BlogPath & "zb_users\CACHE\updateinfo.txt")=True Then
-			Set f = fso.GetFile(BlogPath & "zb_users\CACHE\updateinfo.txt")
+	Dim b,h
+	b=False
+	h=Now
+	Dim fso,f
+	Set fso = CreateObject("Scripting.FileSystemObject")
+	If fso.FileExists(BlogPath & "zb_users\CACHE\updateinfo.txt")=True Then
+		Set f = fso.GetFile(BlogPath & "zb_users\CACHE\updateinfo.txt")
 
-			strPingContent=LoadFromFile(BlogPath & "zb_users\CACHE\updateinfo.txt","utf-8")
-			If DateDiff("h",f.DateLastModified,Now)>12 Then
-				b=True
-			End If
+		strPingContent=LoadFromFile(BlogPath & "zb_users\CACHE\updateinfo.txt","utf-8")
+		If DateDiff("h",f.DateLastModified,Now)>24 Then
+			b=True
 		Else
-			b=True
+			h=f.DateLastModified
 		End If
+	Else
+		b=True
+	End If
 
-		If IsEmpty(Request.QueryString("reload"))=False Then
-		'	Application.Lock
-		'	Application(ZC_BLOG_CLSID & "PING_TIME")=Empty
-		'	Application(ZC_BLOG_CLSID & "PING_CONTENT")=Empty
-		'	Application.UnLock
-			b=True
-		End If
+	If IsEmpty(Request.QueryString("reload"))=False Then
+		b=True
+	End If
 
 
-		'Application.Lock
-		'strPingTime=Application(ZC_BLOG_CLSID & "PING_TIME")
-		'strPingContent=Application(ZC_BLOG_CLSID & "PING_CONTENT")
-		'Application.UnLock
+	If b=True Then
+		Dim strSendTB
+		strSendTB = "inpHost=" & Server.URLEncode(BlogHost) & "&inpTimezone=" & Server.URLEncode(ZC_TIME_ZONE) & "&inpVersion=" & Server.URLEncode(ZC_BLOG_VERSION) & "&inpLanguage=" & Server.URLEncode(ZC_BLOG_LANGUAGE) & "&inpIP=" & Server.URLEncode(Request.ServerVariables("LOCAL_ADDR"))
 
-		'If IsDate(strPingTime)=True Then
-		'	strPingTime=DateDiff("h", strPingTime,Now)
-		'End If
+		Dim objPing
+		Set objPing = Server.CreateObject("MSXML2.ServerXMLHTTP")
 
-		If b=True Then
-			Dim strSendTB
-			strSendTB = "inpHost=" & Server.URLEncode(BlogHost) & "&inpTimezone=" & Server.URLEncode(ZC_TIME_ZONE) & "&inpVersion=" & Server.URLEncode(ZC_BLOG_VERSION) & "&inpLanguage=" & Server.URLEncode(ZC_BLOG_LANGUAGE) & "&inpIP=" & Server.URLEncode(Request.ServerVariables("LOCAL_ADDR"))
+		objPing.open "POST",ZC_UPDATE_INFO_URL,False
 
-			Dim objPing
-			Set objPing = Server.CreateObject("MSXML2.ServerXMLHTTP")
+		objPing.setRequestHeader "Content-Type", "application/x-www-form-urlencoded"
+		objPing.send strSendTB
 
-			objPing.open "POST",ZC_UPDATE_INFO_URL,False
+		strPingContent=objPing.responseText
+		Dim objRegExp
+		Set objRegExp=New RegExp
+		objRegExp.IgnoreCase =True
+		objRegExp.Global=True
+		objRegExp.Pattern="<script.*/*>|</script>|<[a-zA-Z][^>]*=['""]+javascript:\w+.*['""]+>|<\w+[^>]*\son\w+=.*[ /]*>"
+		strPingContent= objRegExp.Replace(strPingContent,"")
 
-			objPing.setRequestHeader "Content-Type", "application/x-www-form-urlencoded"
-			objPing.send strSendTB
+		Set objPing = Nothing
 
-			strPingContent=objPing.responseText
-			Dim objRegExp
-			Set objRegExp=New RegExp
-			objRegExp.IgnoreCase =True
-			objRegExp.Global=True
-			objRegExp.Pattern="<script.*/*>|</script>|<[a-zA-Z][^>]*=['""]+javascript:\w+.*['""]+>|<\w+[^>]*\son\w+=.*[ /]*>"
-			strPingContent= objRegExp.Replace(strPingContent,"")
-
-			Set objPing = Nothing
-
-			Call SaveToFile(BlogPath & "zb_users\CACHE\updateinfo.txt",strPingContent,"utf-8",False)
-
-			'Application.Lock
-			'Application(ZC_BLOG_CLSID & "PING_TIME")=Now
-			'Application(ZC_BLOG_CLSID & "PING_CONTENT")=strPingContent
-			'Application.UnLock
-		End If
-
-		Response.Write strPingContent
+		Call SaveToFile(BlogPath & "zb_users\CACHE\updateinfo.txt",strPingContent,"utf-8",False)
 
 	End If
+	Response.AddHeader "Last-Modified",ParseDateForRFC822GMT(h)
+	Response.Write strPingContent
+
+End If
 %>

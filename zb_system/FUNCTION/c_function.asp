@@ -1849,6 +1849,54 @@ End Function
 
 
 '*********************************************************
+Function ParseDateForRFC822GMT(dtmDate)
+
+	dtmDate=DateAdd("h", 0-(CInt(ZC_HOST_TIME_ZONE)/100), dtmDate)
+
+	Dim dtmDay, dtmWeekDay, dtmMonth, dtmYear
+	Dim dtmHours, dtmMinutes, dtmSeconds
+
+	Select Case WeekDay(dtmDate)
+		Case 1:dtmWeekDay="Sun"
+		Case 2:dtmWeekDay="Mon"
+		Case 3:dtmWeekDay="Tue"
+		Case 4:dtmWeekDay="Wed"
+		Case 5:dtmWeekDay="Thu"
+		Case 6:dtmWeekDay="Fri"
+		Case 7:dtmWeekDay="Sat"
+	End Select
+
+	Select Case Month(dtmDate)
+		Case 1:dtmMonth="Jan"
+		Case 2:dtmMonth="Feb"
+		Case 3:dtmMonth="Mar"
+		Case 4:dtmMonth="Apr"
+		Case 5:dtmMonth="May"
+		Case 6:dtmMonth="Jun"
+		Case 7:dtmMonth="Jul"
+		Case 8:dtmMonth="Aug"
+		Case 9:dtmMonth="Sep"
+		Case 10:dtmMonth="Oct"
+		Case 11:dtmMonth="Nov"
+		Case 12:dtmMonth="Dec"
+	End Select
+
+	dtmYear = Year(dtmDate)
+	dtmDay = Right("00" & Day(dtmDate),2)
+
+	dtmHours = Right("00" & Hour(dtmDate),2)
+	dtmMinutes = Right("00" & Minute(dtmDate),2)
+	dtmSeconds = Right("00" & Second(dtmDate),2)
+
+	ParseDateForRFC822GMT = dtmWeekDay & ", " & dtmDay &" " & dtmMonth & " " & dtmYear & " " & dtmHours & ":" & dtmMinutes & ":" & dtmSeconds & " GMT"
+
+End Function
+'*********************************************************
+
+
+
+
+'*********************************************************
 ' Derived from the RSA Data Security, Inc. MD5 Message-Digest Algorithm,
 ' as set out in the memo RFC1321.
 '

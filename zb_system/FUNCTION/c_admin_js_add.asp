@@ -204,6 +204,33 @@ function notify(s){
 
 
 
+function statistic(s){
+	$("#statloading").show();
+	$("#updatatime").hide();
+	$.get("c_statistic.asp"+s,{},
+		function(data){
+			$("#tbStatistic").html(data);
+			bmx2table();
+			$("#statloading").hide();
+			$("#updatatime").show();
+		}
+	);
+}
+
+function updateinfo(s){
+	$("#infoloading").show();
+	$.get("c_updateinfo.asp"+s,{},
+		function(data){
+			$("#tdUpdateInfo").html(data);
+			$("#infoloading").hide();
+		}
+	);
+}
+
+
+
+
+
 //*********************************************************
 // 目的：    
 //*********************************************************
