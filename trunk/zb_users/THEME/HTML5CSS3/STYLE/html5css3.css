@@ -1,24 +1,21 @@
-﻿@charset "utf-8";
-/* -----copyright------
+﻿/* -----copyright------
  Theme Name: Html5CSS3
  Author: jgpy.cn
  Pub Date: 2013-1-16
- Last Modified: 2013-1-21
+ Last Modified: 2013-1-25
 ----------------------*/
 
 /*=global*/
-html{background:#def;}
-body{font:14px "微软雅黑",Arial;text-shadow:1px 1px rgba(255,255,255,.8);color:#456;word-break:break-all;padding:30px;margin:100px 50px 50px\9;background:#fff\9;_margin:50px;}
-:root body{background:none;margin:0;}
+body{background:#def;font:14px "微软雅黑",Arial;text-shadow:1px 1px rgba(255,255,255,.8);color:#456;word-break:break-all;padding:30px;margin:0;}
 img{border:none;vertical-align:text-bottom}
-ul,ol{list-style:none;zoom:1}
+ul,ol{list-style:none;}
 ins,a{text-decoration:none}
 a{color:#3A6EA5}
 a:hover{color:#39C}
 input,
 textarea,
 select{outline:none;border:1px solid #ddd;border-radius:3px;box-shadow:0 0 2px 2px #eee inset;background:#f9f9f9;padding:0 5px;font:14px/32px "微软雅黑",Arial;color:#666;}
-textarea{line-height:24px;padding:5px}
+textarea{line-height:24px;padding:5px;overflow:auto}
 input:focus,
 textarea:focus{border-color:#39C;background:#fff;color:#123}
 input.err,
@@ -29,28 +26,28 @@ select{padding:5px 5px 5px 1px;}
 button,
 input[type='submit'],
 .btn{outline:none;border:1px solid #069;box-shadow:0 -10px 10px rgba(0,0,0,.2) inset, 0 0 1px #fff inset;background:#3A6EA5;color:#fff;border-radius:6px;text-shadow:0 -1px rgba(0,0,0,.5);cursor:pointer;height:34px;padding:0 15px;font:bold 14px "微软雅黑",Arial;margin:0 10px 0 0;}
-pre{width:100%\9;overflow:hidden\9;}
 
 /*=nohtml5*/
 #nohtml5{position:fixed;z-index:99999;top:0;left:0;padding:0 1%;width:98%;color:#F30;background:#FFC;line-height:2;text-align:center;font-size:1em;margin:0;}
 :root hgroup>#nohtml5{display:none}
 
 /*=header*/
-body>header{max-width:1160px;background:#3A6EA5;color:#fff;padding:20px;margin:0 auto;text-shadow:1px 1px rgba(0,0,0,.5);height:60px;position:relative;}
+body>header{max-width:1160px;background:#3A6EA5;color:#fff;padding:20px;margin:0 auto;text-shadow:1px 1px rgba(0,0,0,.5);position:relative;}
 body>header a,
 body>header a:hover{color:#fff}
 body>header h2{float:left;font-size:2.2em;letter-spacing:-3px;line-height:40px;margin:0}
 body>header h2 sup{display:block;font-size:.5em;font-weight:100;letter-spacing:0;line-height:20px;}
-body>header nav{float:right;line-height:60px;}
-body>header nav ul{margin:0;padding:0}
-body>header nav li{float:left;margin:0 0 0 10px}
+body>header nav{float:right;line-height:1.8;margin:17px 0 0}
+body>header nav ul{margin:0;padding:0;}
+body>header nav li{float:left;margin:0 0 0 10px;height:26px;}
 body>header nav li:before{content:" / ";color:rgba(0,0,0,.3);margin:0 8px 0 0;text-shadow:none}
 body>header nav li:first-child::before{display:none}
+body>header:after{display:block;content:".";clear:both;height:0;overflow:hidden;}
 body>header:before,
-body>header:after,
+body>header nav:after,
 #main>section:before,
 #main>section:after{width:45%;height:0;overflow:hidden;display:block;clear:both;content:".";-webkit-box-shadow:0 0 15px 20px rgba(0,0,0,.4);box-shadow:0 0 15px 20px rgba(0,0,0,.4);border-radius:3px;-webkit-transform:rotate(-2deg);transform:rotate(-2deg);z-index:-1;position:absolute;left:50px;bottom:20px;}
-body>header:after,
+body>header nav:after,
 #main>section:after{margin:0 0 0 30px;-webkit-transform:rotate(2deg);transform:rotate(2deg);left:auto;right:50px;}
 
 /*=wrap*/
@@ -58,7 +55,7 @@ body>section{max-width:940px;margin:30px auto;position:relative;padding:0 260px 
 body>header ul:after,
 body>section:after,
 #main:after,
-#extra>dl:first-child dd:after{content:".";height:0;clear:both;overflow:hidden;font:0/0 arial;display:block}
+#extra>dl:first-child dd:after{content:".";height:0;clear:both;overflow:hidden;font:0px/0 arial;display:block}
 
 /*=global layout*/
 #main>section,
@@ -114,11 +111,9 @@ article~dl:last-child{border-bottom:none}
 #related li time{float:right;color:#abc}
 /*=comment*/
 #comment{}
-#comment blockquote{position:relative;padding:0 0 0 70px;margin:0 0 20px;zoom:1}
+#comment blockquote{position:relative;padding:0 0 0 70px;margin:0 0 20px;}
 #comment figure{position:absolute;left:0;top:0;margin:0;padding:0;overflow:hidden}
 #comment figure img{display:block;width:50px;height:50px;background:#def;border-radius:3px;}
-#comment img{position:absolute\9;left:0;top:0;}
-#comment q img{position:static\9}
 #comment cite{font-style:normal;display:block;overflow:hidden}
 #comment cite b{float:left}
 #comment cite a{color:#345}
@@ -127,7 +122,7 @@ article~dl:last-child{border-bottom:none}
 #comment blockquote blockquote,
 #postreply{margin:15px 0 0;border:1px solid #cde;padding:5px 8px 8px 47px;border-radius:3px}
 #comment blockquote blockquote:before,
-#postreply:before{content:".";overflow:hidden;height:0;width:0;font:0/0 arial;border:10px solid;border-color:transparent transparent #def transparent;position:absolute;left:10px;top:-20px}
+#postreply:before{content:".";overflow:hidden;height:0;width:0;font:0px/0 arial;border:10px solid;border-color:transparent transparent #def transparent;position:absolute;left:10px;top:-20px}
 #comment blockquote blockquote figure{margin:8px 0 0 8px;}
 #comment blockquote blockquote figure img{width:32px;height:32px;}
 #comment blockquote blockquote cite b,
@@ -135,23 +130,19 @@ article~dl:last-child{border-bottom:none}
 /*=reply*/
 #comment q ins{margin:0 0 0 10px;color:#abc;cursor:pointer}
 #comment q ins:hover{color:#3A6EA5}
-#postreply{clear:both;position:relative;padding:66px 20px 8px 8px;*padding-top:8px}
+#postreply{clear:both;position:relative;padding:66px 20px 8px 8px;}
 #postreply form{position:relative;}
 #postreply textarea{height:48px;left:0;top:-70px}
-#postreply img{position:absolute;left:auto;top:auto;}
 #cancelreply{margin:0 0 0 10px;cursor:pointer;color:#3A6EA5}
 /*=pstcmt*/
-#postcmt dd{position:relative;padding:108px 0 0 0;margin:0 12px 0 100px;*padding:0;zoom:1}
-#postcmt dd h5{font-size:14px;font-weight:100;position:absolute;left:10px;top:5px;margin:0;display:none\9}
-:root #postcmt dd h5{display:inline}
-form[action*='act=cmt'] p{margin:12px 0 0;*margin:0 0 12px;}
+#postcmt dd{position:relative;padding:108px 0 0 0;margin:0 12px 0 100px;}
+#postcmt dd h5{font-size:14px;font-weight:100;position:absolute;left:10px;top:5px;margin:0;}
+form[action*='act=cmt'] p{margin:12px 0 0;}
 form[action*='act=cmt'] p label{margin:0 -10px 0 10px;display:block}
 form[action*='act=cmt'] p img{right:0;position:absolute;margin:-24px -5px 0 0;z-index:2}
 form[action*='act=cmt'] p sup{color:#F36;position:absolute}
-form[action*='act=cmt'] input{height:32px;width:100%;display:block;background:none;margin:0 0 -29px -10px;text-indent:60px;background:#fff\9;}
-:root form[action*='act=cmt'] input{background:none;}
-form[action*='act=cmt'] textarea{height:96px;position:absolute;top:0;left:0;background:none;width:100%;*position:static;background:#fff\9}
-:root form[action*='act=cmt'] textarea{background:none;}
+form[action*='act=cmt'] input{height:32px;width:100%;display:block;background:none;margin:0 0 -29px -10px;text-indent:60px;}
+form[action*='act=cmt'] textarea{height:96px;position:absolute;top:0;left:0;background:none;width:100%;}
 form[action*='act=cmt'] textarea:focus{background:#fff!important;}
 form[action*='act=cmt'] button{}
 #postcmt figure{position:absolute;left:-100px;top:0;margin:0;padding:0;width:80px;}
@@ -179,16 +170,14 @@ article~dl dd a:hover,
 aside dd a:hover{color:#39C}
 #extra>dl:first-child figure{float:left;margin:0 10px 0 0;}
 /*=search*/
-#divSearchPanel form{padding:0 67px 0 0;position:relative;zoom:1;}
-#edtSearch{width:100%;height:25px;margin:0 5px 0 0;line-height:25px;*width:auto}
-#btnPost{width:50px;height:27px;font-size:12px;margin:0;line-height:27px;padding:0;position:absolute;right:0;top:0;*position:static}
+#divSearchPanel form{padding:0 67px 0 0;position:relative;}
+#edtSearch{width:100%;height:25px;margin:0 5px 0 0;line-height:25px;}
+#btnPost{width:50px;height:27px;font-size:12px;margin:0;line-height:27px;padding:0;position:absolute;right:0;top:0;}
 /*=canledar*/
 #divCalendar table{width:100%;table-layout:fixed;text-align:center;border:none}
 #divCalendar small{font-size:12px;}
-#divCalendar td a{display:block;background:#def;display:inline\9}
-:root #divCalendar td a{display:block;}
-#divCalendar td b{display:block;background:#3A6EA5;color:#fff;text-shadow:none;display:inline\9}
-:root #divCalendar td b{display:block;}
+#divCalendar td a{display:block;background:#def;}
+#divCalendar td b{display:block;background:#3A6EA5;color:#fff;text-shadow:none;}
 #today{font-weight:bold}
 /*=catalog*/
 #divCatalog ul ul{margin:0 0 0 10px}
@@ -196,7 +185,7 @@ aside dd a:hover{color:#39C}
 /*=footer*/
 body>footer{color:#3A6EA5;text-align:center;clear:both;}
 body>footer *{font-size:1em;font-weight:100;}
-body>footer h4{font-size:.8em;margin:10px 0 0}
+body>footer h5{font-size:.8em;margin:10px 0 0}
 body>footer a{color:#3A6EA5}
 
 /*for mobile user*/
@@ -228,7 +217,7 @@ body>header nav{float:none;line-height:2;margin:10px 0 0 -10px;}
 #extra>dl:first-child{float:none;width:auto;border-bottom:1px solid #eee;margin:0 20px;}
 #extra>dl:first-child>dt,
 #extra>dl:first-child>dd{margin:0}
-#extra>dl:first-child li{float:left;width:33.%;}
+#extra>dl:first-child li{float:left;width:33%;}
 #extra>dl:first-child p{display:inline}
 }
 @media only screen and (max-width: 600px) {
@@ -288,7 +277,7 @@ body>header nav:before{position:absolute;right:10px;top:10px;content:"三";borde
 body>header nav ul{background:#fff;-webkit-box-shadow:0 0 5px 1px rgba(0,0,0,.5);box-shadow:0 0 5px 1px rgba(0,0,0,.5);border-radius:5px;z-index:10;padding:10px;text-shadow:none;margin:0 20px;display:none}
 body>header nav:hover{left:0;padding:60px 0 0;}
 body>header nav:hover ul{display:block;}
-body>header nav li{float:none;display:block;margin:0;border-top:1px solid #eee;font-size:1.4em}
+body>header nav li{float:none;display:block;margin:0;border-top:1px solid #eee;font-size:1.4em;height:auto}
 body>header nav li:before{display:none}
 body>header nav li:first-child{border:none}
 body>header nav a{color:#3A6EA5}
@@ -298,7 +287,7 @@ body>section{margin:0}
 #main>aside,
 #extra{-webkit-box-shadow:none;box-shadow:none;margin:2px 0 0}
 body>header:before,
-body>header:after,
+body>header nav:after,
 #main>section:before,
 #main>section:after,
 #main>aside:before,
@@ -307,7 +296,7 @@ body>header:after,
 #extra:after{display:none}
 article>header time{float:none;margin:0;line-height:1}
 #main>aside li{float:none;width:auto}
-body>footer h4{margin:0 0 5px;}
+body>footer h5{margin:0 0 5px;}
 }
 @media only screen and (max-width: 400px) {
 #postcmt dd{margin-left:0;margin-top:30px;}
