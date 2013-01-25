@@ -84,7 +84,7 @@ BlogTitle=ZC_MSG144
 	Response.Write "<input id=""inpOrder"" name=""inpOrder""  type=""hidden"" value="""& EditFunction.Order &""" />"
 	Response.Write "<input id=""inpSidebarID"" name=""inpSidebarID""  type=""hidden"" value="""& EditFunction.SidebarID &""" />"
 	Response.Write "<input id=""inpSource"" name=""inpSource""  type=""hidden"" value="""& EditFunction.Source &""" />"
-	Response.Write "<p><span class='title'>"& ZC_MSG001 &":</span><span class='star'>(*)</span><br/><input type=""text"" id=""inpName"" name=""inpName"" value="""& EditFunction.Name &""" size=""40"" />&nbsp;&nbsp;"&ZC_MSG298&":<input id=""inpIsHideTitle"" name=""inpIsHideTitle"" style="""" type=""text"" value="""& EditFunction.IsHideTitle &""" class=""checkbox""/></p>"
+	Response.Write "<p><span class='title'>"& ZC_MSG001 &":</span><span class='star'>(*)</span><br/><input type=""text"" id=""inpName"" name=""inpName"" value="""& TransferHTML(EditFunction.Name,"[html-format]") &""" size=""40"" />&nbsp;&nbsp;"&ZC_MSG298&":<input id=""inpIsHideTitle"" name=""inpIsHideTitle"" style="""" type=""text"" value="""& EditFunction.IsHideTitle &""" class=""checkbox""/></p>"
 	Response.Write "<p><span class='title'>"& ZC_MSG170 &":</span><span class='star'>(*)</span><br/><input "&t&" type=""text"" id=""inpFileName"" name=""inpFileName"" value="""& EditFunction.FileName &""" size=""40"" /></p>"
 	Response.Write "<p><span class='title'>"& "HTML ID" &":</span><span class='star'>(*)</span><br/><input type=""text"" name=""inpHtmlID"" value="""&  EditFunction.HtmlId &""" size=""40""  /><br/>("&ZC_MSG137&")</p>"
 
