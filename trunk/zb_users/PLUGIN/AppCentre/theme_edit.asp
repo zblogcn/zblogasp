@@ -146,7 +146,7 @@ Next
    <script type="text/javascript">ActiveLeftMenu("aAppcentre");</script>
 <%
 	If login_pw<>"" Then
-		Response.Write "<script type='text/javascript'>$('div.SubMenu a[href=\'login.asp\']').hide();$('div.footer_nav p').html('&nbsp;&nbsp;&nbsp;<b>"&login_un&"</b>您好,欢迎来到APP应用中心!').css('visibility','inherit');</script>"
+		Response.Write "<script type='text/javascript'>$('div.footer_nav p').html('&nbsp;&nbsp;&nbsp;<b>"&login_un&"</b>您好,欢迎来到APP应用中心!').css('visibility','inherit');</script>"
 	End If
 %>
 <!--#include file="..\..\..\zb_system\admin\admin_footer.asp"-->

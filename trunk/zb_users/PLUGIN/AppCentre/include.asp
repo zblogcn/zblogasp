@@ -20,7 +20,7 @@ Function ActivePlugin_AppCentre()
 	'检查更新
 	If BlogUser.Level=1 Then
 		Randomize
-		Call Add_Response_Plugin("Response_Plugin_SiteInfo_SubMenu","<script type='text/javascript'>$.get(bloghost+'zb_users/plugin/appcentre/server.asp?action=update&silent=true&rnd="&Rnd()&"',function(data){eval(data);});</script>")
+		Call Add_Response_Plugin("Response_Plugin_SiteInfo_SubMenu","<script type='text/javascript'>$(document).ready(function(){  $.get(bloghost+'zb_users/plugin/appcentre/server.asp?action=update&silent=true&rnd="&Rnd()&"',function(data){eval(data);}); });</script>")
 	End If
 
 End Function

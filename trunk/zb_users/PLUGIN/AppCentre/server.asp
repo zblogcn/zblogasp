@@ -54,6 +54,13 @@ Select Case Request.QueryString("action")
 	Case "install"
 		Response.Redirect "app_download.asp?url=" & Server.URLEncode(Request.QueryString("path"))
 	Case "update"
+		If Request.QueryString("silent")="true" Then
+			If disable_check="True" Then
+				Response.Write "void"
+				Response.End
+			End If
+		End If
+
 		intHighlight=6
 		Call ReCheck
 		strList=CheckXML()
@@ -212,7 +219,7 @@ End Function
         <script type="text/javascript">ActiveLeftMenu("aAppcentre");</script> 
 <%
 	If login_pw<>"" Then
-		Response.Write "<script type='text/javascript'>$('div.SubMenu a[href=\'login.asp\']').hide();$('div.footer_nav p').html('&nbsp;&nbsp;&nbsp;<b>"&login_un&"</b>您好,欢迎来到APP应用中心!<a href=\'login.asp?act=logout\'>[退出登录]</a>').css('visibility','inherit');</script>"
+		Response.Write "<script type='text/javascript'>$('div.footer_nav p').html('&nbsp;&nbsp;&nbsp;<b>"&login_un&"</b>您好,欢迎来到APP应用中心!<a href=\'setting.asp?act=logout\'>[退出登录]</a>').css('visibility','inherit');</script>"
 	End If
 %>
         <!--#include file="..\..\..\zb_system\admin\admin_footer.asp"-->

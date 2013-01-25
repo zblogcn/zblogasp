@@ -45,14 +45,15 @@ $(document).ready(function(){
 
 $("#divMain2").prepend("<form class='search' name='edit' id='edit' method='post' enctype='multipart/form-data' action='"+bloghost+"zb_users/plugin/appcentre/app_upload.asp'><p>本地上传插件zba文件:&nbsp;<input type='file' id='edtFileLoad' name='edtFileLoad' size='40' />&nbsp;&nbsp;&nbsp;&nbsp;<input type='submit' class='button' value='提交' name='B1' />&nbsp;&nbsp;<input class='button' type='reset' value='重置' name='B2' />&nbsp;</p></form>")
 
-
+<%If enable_develop="True" Then%>
 $("tr").each(function(){
 	$(this).append("<td width='16%' align='center'></td>");
 });
-
 $("tr").first().children().last().append("<b>开发者模式</b>");
+<%End If%>
 
 $(".plugin").each(function(){
+
 	var t=$(this).find("strong").html();
 	var s=""
 	s=s+"<a href='"+bloghost+"zb_users/plugin/appcentre/plugin_edit.asp?id="+t+"' title='编辑该插件信息'><img height='16' width='16' src='"+bloghost+"zb_users/plugin/appcentre/images/application_edit.png'/></a>";
@@ -68,11 +69,11 @@ $(".plugin").each(function(){
 	s=s+"&nbsp;&nbsp;&nbsp;&nbsp;<a href='"+bloghost+"zb_users/plugin/appcentre/submit.asp?type=plugin&amp;id="+t+"' title='上传插件到官方网站应用中心' target='_blank'><img height='16' width='16' src='"+bloghost+"zb_users/plugin/appcentre/images/drive-upload.png'/></a>";
 <%End If%>
 
-
+<%If enable_develop="True" Then%>
 	$(this).parent().children().last().append(s);
-
+<%End If%>
 	if(!$(this).hasClass("plugin-on")){
-		$(this).parent().children().last().prev().append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href='"+bloghost+"zb_users/plugin/appcentre/plugin_del.asp?id="+t+"' title='删除该插件' onclick='return window.confirm(\"单击“确定”继续。单击“取消”停止。\");'><img height='16' width='16' src='"+bloghost+"zb_users/plugin/appcentre/images/delete.png'/></a>");
+		$(this).parent().children().eq(4).append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href='"+bloghost+"zb_users/plugin/appcentre/plugin_del.asp?id="+t+"' title='删除该插件' onclick='return window.confirm(\"单击“确定”继续。单击“取消”停止。\");'><img height='16' width='16' src='"+bloghost+"zb_users/plugin/appcentre/images/delete.png'/></a>");
 	}else{
 	};
 
