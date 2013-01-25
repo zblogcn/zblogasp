@@ -76,7 +76,7 @@ BlogTitle="应用中心-设置与开发者登录"
           </div>
           <div class="divHeader"><%=BlogTitle%></div>
           <div class="SubMenu">
-            <%AppCentre_SubMenu(3)%>
+            <%AppCentre_SubMenu(1)%>
           </div>
 
           <div id="divMain2" style="margin:auto 0;">
