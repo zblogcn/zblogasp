@@ -28,6 +28,8 @@ If Request.QueryString("act")="save" Then
 	app_config.Write "DisableCheck",disable_check
 	app_config.Save
 
+	Call SetBlogHint_Custom("设置成功.")
+
 ElseIf Request.QueryString("act")="login" Then
 
 	Dim strSendTB,s
