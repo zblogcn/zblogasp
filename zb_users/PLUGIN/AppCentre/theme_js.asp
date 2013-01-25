@@ -50,6 +50,7 @@ $("#divMain2").prepend("<form class='search' name='edit' id='edit' method='post'
 $(".theme").each(function(){
 	var t=$(this).find("strong").html();
 	var s="<p>";
+<%If enable_develop="True" Then%>
 	s=s+"<a href='"+bloghost+"zb_users/plugin/appcentre/theme_edit.asp?id="+t+"' title='编辑该主题信息'><img height='16' width='16' src='"+bloghost+"zb_users/plugin/appcentre/images/application_edit.png'/></a>";
 
 	if($(this).hasClass("theme-now")){
@@ -63,12 +64,17 @@ $(".theme").each(function(){
 	}else{
 		s=s+"&nbsp;&nbsp;&nbsp;&nbsp;<a href='"+bloghost+"zb_users/plugin/appcentre/checkupdate.asp?act=eut&id="+t+"' title='允许应用中心更新该主题'><img height='16' width='16' src='"+bloghost+"zb_users/plugin/appcentre/images/refresh2.png'/></a>";
 	}
+	s=s+"&nbsp;&nbsp;&nbsp;&nbsp;"
+
+<%End If%>
 	if($(this).hasClass("theme-other")){
-		s=s+"&nbsp;&nbsp;&nbsp;&nbsp;<a href='"+bloghost+"zb_users/plugin/appcentre/theme_del.asp?id="+t+"' title='删除该主题' onclick='return window.confirm(\"单击“确定”继续。单击“取消”停止。\");'><img height='16' width='16' src='"+bloghost+"zb_users/plugin/appcentre/images/delete.png'/></a>";
+		s=s+"<a href='"+bloghost+"zb_users/plugin/appcentre/theme_del.asp?id="+t+"' title='删除该主题' onclick='return window.confirm(\"单击“确定”继续。单击“取消”停止。\");'><img height='16' width='16' src='"+bloghost+"zb_users/plugin/appcentre/images/delete.png'/></a>";
 	}
 
+<%If enable_develop="True" Then%>
 <%If login_pw<>"" Then%>
 	s=s+"&nbsp;&nbsp;&nbsp;&nbsp;<a href='"+bloghost+"zb_users/plugin/appcentre/submit.asp?type=theme&amp;id="+t+"' title='上传主题到官方网站应用中心' target='_blank'><img height='16' width='16' src='"+bloghost+"zb_users/plugin/appcentre/images/drive-upload.png'/></a>";
+<%End If%>
 <%End If%>
 	s=s+"</p>";
 	$(this).append(s);

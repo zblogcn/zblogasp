@@ -19,7 +19,16 @@ If BlogUser.Level>1 Then Call ShowError(6)
 If CheckPluginState("AppCentre")=False Then Call ShowError(48)
 Call LoadPluginXmlInfo("AppCentre")
 Call AppCentre_InitConfig
+
 If Request.QueryString("act")="save" Then
+
+	enable_develop=Request.Form("app_enabledevelop")
+	disable_check=Request.Form("app_disablecheck")
+	app_config.Write "EnableDevelop",enable_develop
+	app_config.Write "DisableCheck",disable_check
+	app_config.Save
+
+ElseIf Request.QueryString("act")="login" Then
 
 	Dim strSendTB,s
 
@@ -45,19 +54,19 @@ If Request.QueryString("act")="save" Then
 		Response.Redirect "server.asp"
 	Else
 		SetBlogHint_Custom("用户名或密码输入错误!")
-		Response.Redirect "login.asp"
+		Response.Redirect "setting.asp"
 	End If
 ElseIf Request.QueryString("act")="logout" Then
 
 	app_config.Write "DevelopUserName",""
 	app_config.Write "DevelopPassWord",""
 	app_config.Save
-	Response.Redirect "login.asp"
+	Response.Redirect "setting.asp"
 
 End If
 %>
 <%
-BlogTitle="应用中心-登录"
+BlogTitle="应用中心-设置与开发者登录"
 %>
 <!--#include file="..\..\..\zb_system\admin\admin_header.asp"-->
 <!--#include file="..\..\..\zb_system\admin\admin_top.asp"-->
@@ -65,26 +74,48 @@ BlogTitle="应用中心-登录"
           <div id="ShowBlogHint">
             <%Call GetBlogHint()%>
           </div>
-          <div class="divHeader">应用中心</div>
+          <div class="divHeader"><%=BlogTitle%></div>
           <div class="SubMenu">
             <%AppCentre_SubMenu(3)%>
           </div>
+
           <div id="divMain2" style="margin:auto 0;">
+
             <form action="?act=save" method="post">
-              <table style="margin-left:25%;margin-top:5em;margin-right:25%;line-height:3em;" width="50%" border="0">
+              <table width="100%" border="0">
                 <tr height="32">
-                  <th colspan="2" align="center">开发者请填写您在"APP应用中心"的用户名和密码并点登陆</td>
+                  <th colspan="2" align="center">设置</td>
+                </tr>
+                <tr height="32">
+                  <td width="30%" align="center">开启开发者模式</td>
+                  <td><input id="app_enabledevelop" name="app_enabledevelop" style="" type="text" value="<%=enable_develop%>" class="checkbox"/></td>
+                </tr>
+                <tr height="32">
+                  <td width="30%" align="center">禁用自动检查更新</td>
+                  <td><input id="app_disablecheck" name="app_disablecheck" style="" type="text" value="<%=disable_check%>" class="checkbox"/></td>
+                </tr>
+
+              </table>
+<hr/>
+<p><input type="submit" value="提交" class="button" /></p>
+<hr/>
+            </form>
+
+<div class="divHeader">开发者登录</div>
+
+            <form action="?act=login" method="post">
+              <table style="line-height:3em;" width="100%" border="0">
+                <tr height="32">
+                  <th  align="center">开发者请填写您在"APP应用中心"的用户名和密码并点登陆</td>
+                </tr>
+                <tr height="32">
+                  <td  align="center">用户名:<input type="text" name="app_username" value="" style="width:40%"/></td>
+                </tr>
+                <tr height="32">
+                  <td  align="center">密&nbsp;&nbsp;&nbsp;&nbsp;码:<input type="password" name="app_password" value="" style="width:40%" /></td>
                 </tr>
                 <tr height="32" align="center">
-                  <td>用户名</td>
-                  <td><input type="text" name="app_username" value="" style="width:90%"/></td>
-                </tr>
-                <tr height="32" align="center">
-                  <td>密&nbsp;&nbsp;&nbsp;&nbsp;码</td>
-                  <td><input type="password" name="app_password" value="" style="width:90%" /></td>
-                </tr>
-                <tr height="32" align="center">
-                  <td colspan="2" align="center"><input type="submit" value="登陆" class="button" /></td>
+                  <td align="center"><input type="submit" value="登陆" class="button" /></td>
                 </tr>
               </table>
 

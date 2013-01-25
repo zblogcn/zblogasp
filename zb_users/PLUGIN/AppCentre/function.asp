@@ -10,6 +10,7 @@ Dim appcentre_updatelist,appcentre_blog_last
 
 Dim app_config
 Dim login_un,login_pw,disableupdate_theme
+Dim enable_develop,disable_check
 Dim Pack_For,Pack_Type
 
 Dim app_id
@@ -353,9 +354,14 @@ End Function
 
 Sub AppCentre_SubMenu(id)
 	Dim aryName,aryValue,aryPos
-	aryName=Array("浏览在线应用","新建插件","新建主题","开发者登录","主题列表","插件列表","检查应用更新","系统更新与校验")
-	aryValue=Array("server.asp","plugin_edit.asp","theme_edit.asp","login.asp","server.asp?action=catalog&cate=2","server.asp?action=catalog&cate=1","server.asp?action=update","update.asp")
-	aryPos=Array("m-left","m-right","m-right","m-right","m-left","m-left","m-left","m-left")
+	aryName=Array("浏览在线应用","设置","主题列表","插件列表","检查应用更新","系统更新与校验","新建插件","新建主题")
+	aryValue=Array("server.asp","setting.asp","server.asp?action=catalog&cate=2","server.asp?action=catalog&cate=1","server.asp?action=update","update.asp","plugin_edit.asp","theme_edit.asp")
+	aryPos=Array("m-left","m-right","m-left","m-left","m-left","m-left","m-right","m-right")
+	If enable_develop<>"True" Then
+		ReDim Preserve aryName(5)
+		ReDim Preserve aryValue(5)
+		ReDim Preserve aryPos(5)
+	End If
 	Dim i 
 	For i=0 To Ubound(aryName)
 		Response.Write MakeSubMenu(aryName(i),aryValue(i),aryPos(i) & IIf(id=i," m-now",""),False)
@@ -367,7 +373,12 @@ Sub AppCentre_InitConfig
 	app_config.Load "AppCentre"
 	login_un=app_config.read("DevelopUserName")
 	login_pw=app_config.read("DevelopPassWord")
+	enable_develop=app_config.read("EnableDevelop")
+	disable_check=app_config.read("DisableCheck")
 	disableupdate_theme=app_config.read("DisableUpdateTheme")
+
+	If enable_develop="" Then enable_develop=False
+	If disable_check="" Then disable_check=False
 End Sub
 
 Function AppCentre_GetLastModifiTime(dirpath)
