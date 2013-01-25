@@ -2,7 +2,7 @@
  Custom Script for Z-Blog Theme Html5CSS3
  Author: jgpy.cn
  Pub Date: 2013-1-16
- Last Modified: 2013-1-21
+ Last Modified: 2013-1-25
 ----------------------*/
 
 /********用户自定义内容*********/
@@ -44,8 +44,6 @@ blog.js.int=function(){
 	NoHTML5();
 	//启用当前页高亮
 	blog.nav=$("body header nav ul");
-	//管理员登录链接
-	Admin();
 	//文章内容图片居中
 	$("article>section img").parent("p").css("text-align","center");
 	//标签云
@@ -150,6 +148,8 @@ blog.js.sidebar=function(){
 	$("view,count").each(function(){
         $(this).replaceWith($(this).text());
      });
+	//管理员登录链接
+	Admin();
 	try{
 		if(!$.trim($("aside#extra").html())) $("aside#extra").html("<dl><dt>温馨提示</dt><dd>请在后台【侧栏管理】分配部分侧栏模块到【侧栏2】！</dd></dl>");
 	}catch(e){}
@@ -218,9 +218,9 @@ function CmtForm($form){
 };
 //管理链接
 function Admin(){
-	if($("#divContorPanel")[0]) return;
+	if($("a[href$='cmd.asp?act=login']")[0]) return;
 	if(blog.user("level")=="管理员"){
-		$("body>footer h4:last").append(" [<a target='_blank' href='"+blog.sys+"cmd.asp?act=login'>"+blog.msg._248+"</a>]");
+		$("body>footer h5:last").append(" [<a target='_blank' href='"+blog.sys+"cmd.asp?act=login'>"+blog.msg._248+"</a>]");
 	}
 }
 //不支持HTML5的浏览器提示
