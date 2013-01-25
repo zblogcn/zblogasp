@@ -8,5 +8,5 @@
 <!-- #include file="..\p_config.asp" -->
 <%
 Dim zbdk_title
-zbdk_title="Z-Blog Plugin Development Kit"
+zbdk_title="Z-Blog Development Kit"
 %>
