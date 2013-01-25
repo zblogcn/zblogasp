@@ -26,7 +26,7 @@ If Request.QueryString("act")="sql" Then
 		Set objRs=objConn.OpenSchema(Request.Form("sch"))
 		objRs.Filter=s
 	End If
-	Response.Write "<div class=""DIVBlogConfigtop""><span id=""name"">查询用时" & RunTime & "ms</span><a href='javascript:;' onclick='$(""#tree"").toggleClass(""hide"");$(""#result"").css(""margin-left"",$(""#result"").css(""margin-left"")==""200px""?""0px"":""200px"")'>[显示/隐藏左侧表]</a></div>"
+	Response.Write "<div class=""DIVBlogConfigtop""><span id=""name"">查询用时" & RunTime & "ms</span><a href='javascript:;' onclick='$(""#tree"").toggleClass(""hide"");$(""#result"").css(""margin-left"",$(""#result"").css(""margin-left"")==""230px""?""0px"":""230px"")'>[显示/隐藏左侧表]</a></div>"
 	If Err.Number=0 Then
 		If objRs.fields.count=0 Then Response.End
 		Response.Write "<table width='100%' class='tablesorter'><tr>"
