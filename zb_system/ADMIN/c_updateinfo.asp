@@ -66,7 +66,12 @@ If Len(ZC_UPDATE_INFO_URL)>0 Then
 		objPing.setRequestHeader "Content-Type", "application/x-www-form-urlencoded"
 		objPing.send strSendTB
 
-		strPingContent=objPing.responseText
+		If objPing.ReadyState=4 Then
+			If objPing.Status=200 Then
+				strPingContent=objPing.responseText
+			End If
+		End If
+
 		Dim objRegExp
 		Set objRegExp=New RegExp
 		objRegExp.IgnoreCase =True
