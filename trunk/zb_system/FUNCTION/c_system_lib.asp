@@ -3033,7 +3033,7 @@ Class TUser
 			End If
 			Set objRS2=Nothing
 
-			objConn.Execute("INSERT INTO [blog_Member]([mem_Level],[mem_Name],[mem_PassWord],[mem_Email],[mem_HomePage],[mem_Url],[mem_Guid],[mem_Intro],[mem_Meta]) VALUES ("&Level&",'"&Name&"','"&PassWord&"','"&Email&"','"&HomePage&"','"&Alias&"','"&Guid&"','"&Intro&"','"&MetaString&"')")
+			objConn.Execute("INSERT INTO [blog_Member]([mem_Level],[mem_Name],[mem_PassWord],[mem_Email],[mem_HomePage],[mem_Url],[mem_Guid],[mem_Intro],[mem_Template],[mem_Meta]) VALUES ("&Level&",'"&Name&"','"&PassWord&"','"&Email&"','"&HomePage&"','"&Alias&"','"&Guid&"','"&Intro&"','"&TemplateName&"','"&MetaString&"')")
 			
 			Dim objRS
 			Set objRS=objConn.Execute("SELECT MAX([mem_ID]) FROM [blog_Member]")
@@ -3067,7 +3067,7 @@ Class TUser
 
 				If Len(PassWord)<>32 Then Call ShowError(55)
 
-				objConn.Execute("UPDATE [blog_Member] SET [mem_Level]="&Level&",[mem_Name]='"&Name&"',[mem_PassWord]='"&PassWord&"',[mem_Email]='"&Email&"',[mem_HomePage]='"&HomePage&"',[mem_Url]='"&Alias&"',[mem_Intro]='"&Intro&"',[mem_Meta]='"&MetaString&"' WHERE [mem_ID]="&ID)
+				objConn.Execute("UPDATE [blog_Member] SET [mem_Level]="&Level&",[mem_Name]='"&Name&"',[mem_PassWord]='"&PassWord&"',[mem_Email]='"&Email&"',[mem_HomePage]='"&HomePage&"',[mem_Url]='"&Alias&"',[mem_Intro]='"&Intro&"',[mem_Template]='"&TemplateName&"',[mem_Meta]='"&MetaString&"' WHERE [mem_ID]="&ID)
 
 				If Name <> targetUser.Name Then
 					objConn.Execute("UPDATE [blog_Comment] SET [comm_Author]='"&Name&"' WHERE [comm_AuthorID]="&ID)

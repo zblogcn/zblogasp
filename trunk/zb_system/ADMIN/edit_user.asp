@@ -107,6 +107,35 @@ Next
 	Response.Write "<p><span class='title'>"& ZC_MSG054 &":</span><br/><input id=""edtHomePage"" size=""50"" name=""edtHomePage""  type=""text"" value="""& TransferHTML(EditUser.HomePage,"[html-format]") &""" /></p>"
 	Response.Write "<p><span class='title'>"& ZC_MSG198 &":</span><br/><textarea "& IIF(BlogUser.Level>3,"readonly=""readonly""","") &" cols=""3"" rows=""6"" id=""edtIntro"" name=""edtIntro"" style=""width:600px;"">"& TransferHTML(EditUser.Intro,"[html-format]") &"</textarea></p>"
 
+	Response.Write "<p><span class='title'>"&ZC_MSG188&":</span><br/><select style='width:310px;' class='edit' size='1' id='cmbTemplate' onchange='edtTemplate.value=this.options[this.selectedIndex].value'>"
+
+	Dim aryFileList
+	aryFileList=LoadIncludeFilesOnlyType("zb_users\theme" & "/" & ZC_BLOG_THEME & "/" & ZC_TEMPLATE_DIRECTORY)
+
+	If IsArray(aryFileList) Then
+		Dim j,t
+		j=UBound(aryFileList)
+		For i=1 to j
+			t=UCase(Left(aryFileList(i),InStr(aryFileList(i),".")-1))
+			If Left(t,2)<>"B_" AND t<>"FOOTER" And t<>"HEADER" And t<>"SINGLE" And t<>"PAGE" Then
+				If EditUser.GetDefaultTemplateName=t Then
+					Response.Write "<option value="""&t&""" selected=""selected"">"&t&IIF(EditUser.TemplateName=""," ("&ZC_MSG187&")","")&"</option>"
+				Else
+					Response.Write "<option value="""&t&""">"&t&"</option>"
+				End If
+			End If
+		Next
+	End If
+
+	'If EditCategory.TemplateName="" Then
+	'Response.Write "<option value='' selected='selected'>"&ZC_MSG187&"(CATALOG)</option>"
+	'Else
+	'Response.Write "<option value=''>"&ZC_MSG187&"(CATALOG)</option>"
+	'End If
+
+	Response.Write "</select><input type='hidden' name='edtTemplate' id='edtTemplate' value='"&EditUser.TemplateName&"' />"
+	Response.Write "</p>"
+
 	'<!-- 1号输出接口 -->
 	If Response_Plugin_EditUser_Form<>"" Then Response.Write "<div id=""divEditForm1"">"&Response_Plugin_EditUser_Form&"</div>"
 
