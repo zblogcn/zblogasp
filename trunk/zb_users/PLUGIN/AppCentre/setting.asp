@@ -89,11 +89,11 @@ BlogTitle="应用中心-设置与开发者登录"
                   <th colspan="2" align="center">设置</td>
                 </tr>
                 <tr height="32">
-                  <td width="30%" align="center">开启开发者模式</td>
+                  <td width="60%" align="left"><b>启用开发者模式</b><br/><small>(启用开发者模式可以修改,导出应用,注册开发者还可以远程提交应用到APP应用中心)</small></td>
                   <td><input id="app_enabledevelop" name="app_enabledevelop" style="" type="text" value="<%=enable_develop%>" class="checkbox"/></td>
                 </tr>
                 <tr height="32">
-                  <td width="30%" align="center">禁用自动检查更新</td>
+                  <td width="60%" align="left"><b>禁用自动检查更新</b><br/><small>(禁用自动检查后,需要手动检查应用更新和系统更新)</small></td>
                   <td><input id="app_disablecheck" name="app_disablecheck" style="" type="text" value="<%=disable_check%>" class="checkbox"/></td>
                 </tr>
 
@@ -103,14 +103,14 @@ BlogTitle="应用中心-设置与开发者登录"
 <hr/>
             </form>
 
-<div class="divHeader">开发者登录</div>
+<div class="divHeader2">开发者登录</div>
 
 
 <%
 	If login_pw<>"" Then
 %>
             <form action="?act=logout" method="post">
-
+<p>开发者 <b><%=login_un%></b> 您好,您已经在当前客户端登录Z-Blog官方网站-APP应用中心.</p>
 <p><input type="submit" value="退出登录" class="button" /></p>
 
             </form>
