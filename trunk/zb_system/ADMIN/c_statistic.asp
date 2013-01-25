@@ -25,24 +25,27 @@
 <!-- #include file="../function/c_system_plugin.asp" -->
 <!-- #include file="../../zb_users/plugin/p_config.asp" -->
 <%
-Call System_Initialize()
+Call OpenConnect()
+BlogUser.Verify()
 '检查权限
-If Not CheckRights("SiteInfo") Then Call ShowError(6)
+If Not CheckRights("SiteInfo") Then Response.End
 
-Response.ExpiresAbsolute = FormatDateTime(Now()) - 1           
-Response.Expires = 0
-Response.CacheControl = "no-cache"   
+'Response.ExpiresAbsolute = FormatDateTime(Now()) - 1           
+'Response.Expires = 0
+'Response.CacheControl = "no-cache"
 
 Dim strContent
 
-Dim b
+Dim b,h
 b=False
+h=Now
 Dim fso,f
 Set fso = CreateObject("Scripting.FileSystemObject")
 If fso.FileExists(BlogPath & "zb_users\CACHE\statistic.asp")=True Then
 	If DateDiff("h",fso.GetFile(BlogPath & "zb_users\CACHE\statistic_"&ZC_BLOG_CLSID&".asp").DateLastModified,Now)>24 Then
 		b=True
 	Else
+		h=fso.GetFile(BlogPath & "zb_users\CACHE\statistic_"&ZC_BLOG_CLSID&".asp").DateLastModified
 		strContent=LoadFromFile(BlogPath & "zb_users\CACHE\statistic_"&ZC_BLOG_CLSID&".asp","utf-8")
 	End If
 Else
@@ -50,7 +53,6 @@ Else
 End If
 
 If IsEmpty(Request.QueryString("reload"))=False Then
-	Call MakeBlogReBuild_Core
 	b=True
 End If
 
@@ -60,9 +62,11 @@ strContent=Replace(strContent,"<"&"%=BlogUser",BlogUser.Name& "  (" & ZVA_User_L
 strContent=Replace(strContent,"<"&"%=Theme",GetNameFormTheme(ZC_BLOG_THEME)& "  / " & ZC_BLOG_CSS& ".css")
 strContent=Replace(strContent,"<"&"%=Version",ZC_BLOG_VERSION)
 strContent=Replace(strContent,"<"&"%=BlogHost",BlogHost)
+
+Response.AddHeader "Last-Modified",ParseDateForRFC822GMT(h)
 Response.Write strContent
 Set Fso=Nothing
-Call System_Terminate()
+Call CloseConnect()
 
 '*********************************************************
 ' 目的：   刷新统计
@@ -178,8 +182,4 @@ Function RefreshStatistic
 	RefreshStatistic=strContent
 End Function
 '*********************************************************
-
-If Err.Number<>0 then
-	Call ShowError(0)
-End If
 %>
