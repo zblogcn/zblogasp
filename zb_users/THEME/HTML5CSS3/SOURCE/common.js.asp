@@ -8,7 +8,7 @@
 '// 程序版本:    1.0
 '// 单元名称:    common.js.asp
 '// 开始时间:    2012-11-23
-'// 最后修改:    2013-01-21
+'// 最后修改:    2013-01-25
 '// 备　　注:    如需添加自定义脚本，请在主题SCRIPT文件夹中新建custom.js，程序会自动合并输出，需要页面加载完毕后（如JQuery的document.ready）执行的脚本可以使用blog.js.int函数导入。若无特殊需求，或除非你完全理解本文件内容，否则请勿轻易修改。
 '///////////////////////////////////////////////////////////////////////////////
 %>
@@ -130,7 +130,7 @@ function LoadFunction(name){
 }
 
 function GetComments(logid,page){
-	$("a[href^='#AjaxComment']").hide().first().after("<center>"+blog.msg.cmt.page+"</center>");
+    $("a[href^='#AjaxComment']").hide().first().after("<center>"+blog.msg.cmt.page+"</center>");
     var $cmt=blog.cmt;
 	$.get(blog.sys+"cmd.asp?act=CommentGet&logid="+logid+"&page="+page, function(data){
 		$cmt.begin.nextUntil($cmt.end).remove()
@@ -206,14 +206,14 @@ blog.ready=function(){
     });
     
     $.getScript(blog.sys+"function/c_html_js.asp?act=batch&view="+escape(blog.js.view)+"&inculde="+escape(blog.js.include)+"&count="+escape(blog.js.count)+"&r="+Math.random(),function(){
-    	if(blog.user("id")){
-            $(".cp-login").find("a").attr("target","_blank").text("["+blog.msg._248+"]");
-            $(".cp-vrs").replaceWith("<span class='cp-newpost'><a target='_blank' href='"+blog.sys+"cmd.asp?act=ArticleEdt&webedit=ueditor'>["+blog.msg._168+"]</a></span>");
-            $(".cp-login").before("<span class='cp-hello'><%=Replace(ZC_MSG023,"%s","")%><b>"+blog.user("name")+"</b> (<a href='"+blog.sys+"cmd.asp?act=vrs' title='"+blog.msg._021+"' class='cp-vrs'>"+blog.user("level")+"</a>) <a class='cp-logout' href='"+blog.sys+"cmd.asp?act=logout' title='"+blog.msg._020+"'><small>[退出]</small></a></span><br/>");
-            $(".cp-logout").click(function(){
-                if(!confirm("确认退出？"))return false;
-            })
-        }
+        <%
+		Dim arrSidebar
+		arrSidebar=ZC_SIDEBAR_ORDER&":"&ZC_SIDEBAR_ORDER2&":"&ZC_SIDEBAR_ORDER3&":"&ZC_SIDEBAR_ORDER4&":"&ZC_SIDEBAR_ORDER5
+		If (Request.Cookies("username")<>"" And Instr(arrSidebar,"controlpanel")>0) Then
+		%>
+        $("a[href$='cmd.asp?act=vrs']").first().hide();
+        $("a[href$='cmd.asp?act=login']").first().attr("target","_blank").text("["+blog.msg._248+"]").before("<%=Replace(ZC_MSG023,"%s","")%><b>"+blog.user("name")+"</b> (<a href='"+blog.sys+"cmd.asp?act=vrs' title='"+blog.msg._021+"' class='cp-vrs'>"+blog.user("level")+"</a>) <a class='cp-logout' href='"+blog.sys+"cmd.asp?act=logout' title='"+blog.msg._020+"'><small>[退出]</small></a><br/>").after(" <a target='_blank' href='"+blog.sys+"cmd.asp?act=ArticleEdt&webedit=ueditor'>["+blog.msg._168+"]</a>");
+		<%End If%>
         blog.js.sidebar()
     });
     blog.js.int();
