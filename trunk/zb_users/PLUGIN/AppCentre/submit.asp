@@ -1,6 +1,6 @@
 ﻿<%@ LANGUAGE="VBSCRIPT" CODEPAGE="65001"%>
 <% Option Explicit %>
-<% 'On Error Resume Next %>
+<% On Error Resume Next %>
 <% Response.Charset="UTF-8" %>
 <!-- #include file="../../c_option.asp" -->
 <!-- #include file="../../../ZB_SYSTEM/function/c_function.asp" -->
@@ -80,7 +80,7 @@ Else
 	objXmlHttp.strCookies="username="&vbsescape(login_un)&"; password="&vbsescape(login_pw)
 	
 
-	Response.Write objXmlHttp.Post(APPCENTRE_SUBMIT_URL)
+	Response.Write objXmlHttp.Post(APPCENTRE_SUBMIT_URL&Request.Form("zblog_app_id"))
 	Response.End
 
 	Set objXmlHttp = Nothing
@@ -114,12 +114,14 @@ End If
 <%If s<>"" Then%>
 <table border="1" width="100%" cellspacing="0" cellpadding="0" class="tableBorder tableBorder-thcenter">
 <tr><th colspan="2" width='28%'>&nbsp;应用中心目标应用的相关信息</th></tr>
-<tr><td><p><b>· 应用提交用户</b></p></td><td><p>&nbsp;<input id="zblog_app_id" name="zblog_app_id" style="width:550px;"  type="text" value="" readonly /></p></td></tr>
+<tr><td><p><b>· 应用发布ID</b></p></td><td><p>&nbsp;<input id="zblog_app_id" name="zblog_app_id" style="width:550px;"  type="text" value="" readonly /></p></td></tr>
+<tr><td><p><b>· 应用提交用户</b></p></td><td><p>&nbsp;<input id="zblog_app_user" name="zblog_app_user" style="width:550px;"  type="text" value="" readonly /></p></td></tr>
 <tr><td><p><b>· 最后更新日期</b></p></td><td><p>&nbsp;<input id="zblog_app_name" name="zblog_app_name" style="width:550px;"  type="text" value="" readonly /></p></td></tr>
 </table>
 <script type="text/javascript">
 var jsoninfo=eval(<%=s%>);
-$("#zblog_app_id").val(jsoninfo.username=="null"?"未提交":jsoninfo.username);
+$("#zblog_app_id").val(jsoninfo.id);
+$("#zblog_app_user").val(jsoninfo.username=="null"?"未提交":jsoninfo.username);
 $("#zblog_app_name").val(jsoninfo.lastmodified=="null"?"未提交":jsoninfo.lastmodified);
 </script>
 <%End If%>
