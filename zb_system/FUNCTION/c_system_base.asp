@@ -3922,9 +3922,6 @@ Function RefreshOptionFormFileToDB()
 			objConn.execute("ALTER TABLE [blog_Function] DROP COLUMN fn_IsSystem")
 		End If
 
-	End If
-
-	If Not CheckUpdateDB("[fn_IsHideTitle]","[blog_Function]") Then
 		IF ZC_MSSQL_ENABLE=True Then	
 			objConn.execute("ALTER TABLE [blog_Function] ADD fn_IsHideTitle bit default 0")
 		Else
@@ -4143,47 +4140,51 @@ Function CheckUndefined()
 	If Trim(a)="" Then Exit Function
 
 	If InStr(a,"DIM ZC_SYNTAXHIGHLIGHTER_ENABLE")=0 Then
-		Call Execute("ZC_SYNTAXHIGHLIGHTER_ENABLE=True")
+		Call ExecuteGlobal("ZC_SYNTAXHIGHLIGHTER_ENABLE=True")
 	End If
 
 	If InStr(a,"DIM ZC_CODEMIRROR_ENABLE")=0 Then
-		Call Execute("ZC_CODEMIRROR_ENABLE=True")
+		Call ExecuteGlobal("ZC_CODEMIRROR_ENABLE=True")
 	End If
 
 	If InStr(a,"DIM ZC_ARTICLE_EXCERPT_MAX")=0 Then
-		Call Execute("ZC_ARTICLE_EXCERPT_MAX=250")
+		Call ExecuteGlobal("ZC_ARTICLE_EXCERPT_MAX=250")
 	End If
 
 	If InStr(a,"DIM ZC_POST_STATIC_MODE")=0 Then
-		Call Execute("ZC_POST_STATIC_MODE=""STATIC""")
+		Call ExecuteGlobal("ZC_POST_STATIC_MODE=""STATIC""")
 	End If
 	
 	If InStr(a,"DIM ZC_HTTP_LASTMODIFIED")=0 Then
-		Call Execute("ZC_HTTP_LASTMODIFIED=False")
+		Call ExecuteGlobal("ZC_HTTP_LASTMODIFIED=False")
 	End If
 
 	If InStr(a,"DIM ZC_PERMANENT_DOMAIN_ENABLE")=0 Then
-		Call Execute("ZC_PERMANENT_DOMAIN_ENABLE=False")
+		Call ExecuteGlobal("ZC_PERMANENT_DOMAIN_ENABLE=False")
+	End If
+
+	If InStr(a,"DIM ZC_DEFAULT_PAGES_TEMPLATE")=0 Then
+		Call ExecuteGlobal("ZC_DEFAULT_PAGES_TEMPLATE=""""")
 	End If
 
 	If InStr(a,"DIM ZC_SIDEBAR_ORDER")=0 Then
-		Call Execute("ZC_SIDEBAR_ORDER="""&ZC_DEFAULT_SIDEBAR&"""")
+		Call ExecuteGlobal("ZC_SIDEBAR_ORDER="""&ZC_DEFAULT_SIDEBAR&"""")
 	End If
 
 	If InStr(a,"DIM ZC_SIDEBAR_ORDER2")=0 Then
-		Call Execute("ZC_SIDEBAR_ORDER2=""""")
+		Call ExecuteGlobal("ZC_SIDEBAR_ORDER2=""""")
 	End If
 
 	If InStr(a,"DIM ZC_SIDEBAR_ORDER3")=0 Then
-		Call Execute("ZC_SIDEBAR_ORDER3=""""")
+		Call ExecuteGlobal("ZC_SIDEBAR_ORDER3=""""")
 	End If
 
 	If InStr(a,"DIM ZC_SIDEBAR_ORDER4")=0 Then
-		Call Execute("ZC_SIDEBAR_ORDER4=""""")
+		Call ExecuteGlobal("ZC_SIDEBAR_ORDER4=""""")
 	End If
 
 	If InStr(a,"DIM ZC_SIDEBAR_ORDER5")=0 Then
-		Call Execute("ZC_SIDEBAR_ORDER5=""""")
+		Call ExecuteGlobal("ZC_SIDEBAR_ORDER5=""""")
 	End If
 
 End Function

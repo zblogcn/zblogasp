@@ -1233,6 +1233,8 @@ Function SaveSetting()
 
 	If BlogConfig.Exists("ZC_PERMANENT_DOMAIN_ENABLE")=False Then Call BlogConfig.Write("ZC_PERMANENT_DOMAIN_ENABLE",False)
 
+	If BlogConfig.Exists("ZC_DEFAULT_PAGES_TEMPLATE")=False Then Call BlogConfig.Write("ZC_DEFAULT_PAGES_TEMPLATE","")
+
 	If BlogConfig.Exists("ZC_SIDEBAR_ORDER" )=False Then Call BlogConfig.Write("ZC_SIDEBAR_ORDER",ZC_DEFAULT_SIDEBAR)
 
 	If BlogConfig.Exists("ZC_SIDEBAR_ORDER2")=False Then Call BlogConfig.Write("ZC_SIDEBAR_ORDER2","")
