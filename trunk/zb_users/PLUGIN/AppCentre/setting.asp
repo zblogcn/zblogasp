@@ -103,6 +103,18 @@ BlogTitle="应用中心-设置与开发者登录"
 
 <div class="divHeader">开发者登录</div>
 
+
+<%
+	If login_pw<>"" Then
+%>
+            <form action="?act=logout" method="post">
+
+<p><input type="submit" value="退出登录" class="button" /></p>
+
+            </form>
+<%
+	Else
+%>
             <form action="?act=login" method="post">
               <table style="line-height:3em;" width="100%" border="0">
                 <tr height="32">
@@ -118,14 +130,14 @@ BlogTitle="应用中心-设置与开发者登录"
                   <td align="center"><input type="submit" value="登陆" class="button" /></td>
                 </tr>
               </table>
-
             </form>
-          </div>
-        </div>
 <%
-	If login_pw<>"" Then
-		Response.Write "<script type='text/javascript'>$('div.SubMenu a[href=\'login.asp\']').hide();</script>"
 	End If
 %>
+
+
+          </div>
+        </div>
+
 <script type="text/javascript">ActiveLeftMenu("aAppcentre");</script>
 <!--#include file="..\..\..\zb_system\admin\admin_footer.asp"-->
