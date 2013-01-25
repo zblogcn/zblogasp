@@ -22,9 +22,9 @@
 <!-- #include file="../function/c_system_base.asp" -->
 <%
 
-'Response.ExpiresAbsolute   =   Now()   -   1           
-'Response.Expires   =   0   
-'Response.CacheControl   =   "no-cache"
+Response.ExpiresAbsolute   =   Now()   -   1           
+Response.Expires   =   0   
+Response.CacheControl   =   "no-cache"
 
 If Len(ZC_UPDATE_INFO_URL)>0 Then
 
@@ -79,7 +79,7 @@ If Len(ZC_UPDATE_INFO_URL)>0 Then
 		Call SaveToFile(BlogPath & "zb_users\CACHE\updateinfo.txt",strPingContent,"utf-8",False)
 
 	End If
-	Response.AddHeader "Last-Modified",ParseDateForRFC822GMT(h)
+	'Response.AddHeader "Last-Modified",ParseDateForRFC822GMT(h)
 	Response.Write strPingContent
 
 End If

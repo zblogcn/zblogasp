@@ -30,9 +30,9 @@ BlogUser.Verify()
 '检查权限
 If Not CheckRights("SiteInfo") Then Response.End
 
-'Response.ExpiresAbsolute = FormatDateTime(Now()) - 1           
-'Response.Expires = 0
-'Response.CacheControl = "no-cache"
+Response.ExpiresAbsolute = FormatDateTime(Now()) - 1           
+Response.Expires = 0
+Response.CacheControl = "no-cache"
 
 Dim strContent
 
@@ -63,7 +63,7 @@ strContent=Replace(strContent,"<"&"%=Theme",GetNameFormTheme(ZC_BLOG_THEME)& "  
 strContent=Replace(strContent,"<"&"%=Version",ZC_BLOG_VERSION)
 strContent=Replace(strContent,"<"&"%=BlogHost",BlogHost)
 
-Response.AddHeader "Last-Modified",ParseDateForRFC822GMT(h)
+'Response.AddHeader "Last-Modified",ParseDateForRFC822GMT(h)
 Response.Write strContent
 Set Fso=Nothing
 Call CloseConnect()
