@@ -39,8 +39,8 @@ Select Case Request.QueryString("action")
 		intHighlight=-1
 	Case "catalog"
 		strURL="catalog.asp?"
-		If Request.QueryString("cate")=2 Then intHighlight=4
-		If Request.QueryString("cate")=1 Then intHighlight=5
+		If Request.QueryString("cate")=2 Then intHighlight=2
+		If Request.QueryString("cate")=1 Then intHighlight=3
 	Case "app"
 		strURL="app.asp?"
 	Case "vaildcode"
@@ -61,7 +61,7 @@ Select Case Request.QueryString("action")
 			End If
 		End If
 
-		intHighlight=6
+		intHighlight=4
 		Call ReCheck
 		strList=CheckXML()
 		appcentre_updatelist=strList

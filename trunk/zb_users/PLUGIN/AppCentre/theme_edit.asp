@@ -66,7 +66,7 @@ End If
     </div>
   <div class="divHeader"><%=BlogTitle%></div>
   <div class="SubMenu"> 
-	<%If ID="" Then Call AppCentre_SubMenu(2) Else Call AppCentre_SubMenu(-1):Response.Write "<a href=""theme_pack.asp?id="&ID&""" target=""_blank""><span class=""m-right"">导出当前主题</span></a>" End If%>
+	<%If ID="" Then Call AppCentre_SubMenu(7) Else Call AppCentre_SubMenu(-1):Response.Write "<a href=""theme_pack.asp?id="&ID&""" target=""_blank""><span class=""m-right"">导出当前主题</span></a>" End If%>
   </div>
   <div id="divMain2">
 <form method="post" action="">
