@@ -835,7 +835,7 @@ var template_tags = {
 			"msg": "文件名全大写，不可有后缀"
 		},
 		{
-			"tag": "TEMPLATE_INCLUDE_文件名（全大写且不要后缀）",
+			"tag": "TEMPLATE_INCLUDE_文件名",
 			"note": "可以引用zb_users/THEME/INCLUDE文件夹下的文本文件内容",
 			"msg": "文件名全大写，不可有后缀"
 		},
