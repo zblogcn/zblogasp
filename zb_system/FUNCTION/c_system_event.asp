@@ -1252,6 +1252,7 @@ Function SaveSetting()
 
 	If BlogConfig.Exists("ZC_SIDEBAR_ORDER5_OLD")=False Then Call BlogConfig.Write("ZC_SIDEBAR_ORDER5_OLD","")
 
+	If BlogConfig.Exists("ZC_ARCHIVES_OLD_LISTTYPE")=False Then Call BlogConfig.Write("ZC_ARCHIVES_OLD_LISTTYPE","")
 
 	Dim a,b,c,d,e
 	b=LoadFromFile(BlogPath &"zb_users\c_option.asp","utf-8")
