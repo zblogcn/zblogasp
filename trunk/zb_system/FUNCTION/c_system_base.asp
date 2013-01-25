@@ -2584,9 +2584,33 @@ Function BlogReBuild_Archives()
 	objRS.Close
 	Set objRS=Nothing
 
-	s="<li>"
+
 	j=Functions(FunctionMetas.GetValue("archives")).MaxLi
 
+
+If BlogConfig.Read("ZC_ARCHIVES_OLD_LISTTYPE")="True" Then
+	If Not IsEmpty(dtmYM) Then
+		For i=1 to UBound(dtmYM)
+
+			l=Year(dtmYM(i))
+			n=Month(dtmYM(i))+1
+			IF n>12 Then l=l+1:n=1
+
+			Set objRS=objConn.Execute("SELECT COUNT([log_ID]) FROM [blog_Article] WHERE ([log_Type]=0) And ([log_Level]>1) AND [log_PostTime] BETWEEN "& ZC_SQL_POUND_KEY & Year(dtmYM(i)) &"-"& Month(dtmYM(i)) &"-1"& ZC_SQL_POUND_KEY &" AND "& ZC_SQL_POUND_KEY & l &"-"& n &"-1" & ZC_SQL_POUND_KEY)
+
+			If (Not objRS.bof) And (Not objRS.eof) Then
+				strArchives=strArchives & "<li><a href="""& UrlbyDateAuto(Year(dtmYM(i)),Month(dtmYM(i)),"") &""">" & Year(dtmYM(i)) & " " & ZVA_Month(Month(dtmYM(i))) & "<span class=""article-nums""> (" & objRS(0) & ")</span>" +"</a></li>"
+				If j>0 Then
+					If i=j Then Exit For
+				End If
+			End If
+
+			objRS.Close
+			Set objRS=Nothing
+		Next
+	End If
+Else
+	s="<li>"
 	If Not IsEmpty(dtmYM) Then
 		For i=1 to UBound(dtmYM)
 
@@ -2612,9 +2636,9 @@ Function BlogReBuild_Archives()
 	s=s & "</li>"
 	s=Replace(s,"<li></li>","")
 	strArchives=Replace(s,"<!-- year -->","")
+End If
+
 	strArchives=TransferHTML(strArchives,"[no-asp]")
-
-
 	Functions(FunctionMetas.GetValue("archives")).Content=strArchives
 	Functions(FunctionMetas.GetValue("archives")).Post()
 
