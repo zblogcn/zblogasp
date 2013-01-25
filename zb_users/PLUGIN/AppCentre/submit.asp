@@ -45,6 +45,8 @@ If Request.Form.Count=0 Then
 
 	Set objPing = Nothing
 
+	If Request.QueryString("type")="plugin" Then Call LoadPluginXmlInfo(ID) Else Call LoadThemeXmlInfo(ID) 
+
 Else
 
 	If Request.QueryString("type")="plugin" Then
