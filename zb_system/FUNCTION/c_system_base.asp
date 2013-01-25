@@ -2584,7 +2584,7 @@ Function BlogReBuild_Archives()
 	objRS.Close
 	Set objRS=Nothing
 
-	s=""
+	s="<li>"
 	j=Functions(FunctionMetas.GetValue("archives")).MaxLi
 
 	If Not IsEmpty(dtmYM) Then
@@ -2609,7 +2609,9 @@ Function BlogReBuild_Archives()
 			Set objRS=Nothing
 		Next
 	End If
-	strArchives=s & "</li>"
+	s=s & "</li>"
+	s=Replace(s,"<li></li>","")
+	strArchives=Replace(s,"<!-- year -->","")
 	strArchives=TransferHTML(strArchives,"[no-asp]")
 
 
