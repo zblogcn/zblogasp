@@ -100,6 +100,8 @@ table.dataTable tr.color4 td.sorting_1{background: #ffffdd !important;}*/
 <%
 End If
 %>
+<div id="loading" style="display:none"><img src='../../../zb_system/image/admin/loading.gif' />Waiting</div>
+
 <div id="ShowBlogHint">
       <%Call GetBlogHint()%>
     </div>
@@ -151,12 +153,7 @@ function something_others(domready){
 	$(".rename_file").mousedown(function(){
 		var str=prompt("请输入新文件名");if(str!=null){this.href+="&newfilename="+encodeURIComponent(str);this.click()}else{return false}
 	});
-	/*$(".delete_folder").click(function(){
-		if(window.confirm("<%=ZC_MSG058%>")){return window.confirm("删除文件夹危险性很大，您确定要继续么？")}else{return false}
-	});
-	$(".delete_file").click(function(){
-		return window.confirm("<%=ZC_MSG058%>");
-	});*/
+
 	$("a[h='_']").click(function(){
 		var This=$(this);
 		var _href=This.attr("href");
@@ -165,11 +162,17 @@ function something_others(domready){
 		if(cls){
 			if(!window.confirm("<%=ZC_MSG058%>")){return false;}
 		}
+		
+		$("#loading").show();
+		
 		$.get(_href+(/\?/.test(_href)?"&":"?")+"ajax=True",{},function(data){
 			$("#divMain").html(data);
 			something_others(true);
 		});
 		History.pushState({rand:Math.random()},"<%=ZC_BLOG_TITLE & ZC_MSG044 & BlogTitle%>", _href); 
+		
+		$("#loading").hide();
+		
 		return false;
 	});
 	
