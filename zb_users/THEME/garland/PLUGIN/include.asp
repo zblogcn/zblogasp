@@ -1,149 +1,37 @@
 ﻿<%
+'************************************
+' Powered by ThemePluginEditor 1.1
+' zsx http://www.zsxsoft.com
+'************************************
+Dim garland_theme(1)
+garland_theme(0)=Array("公告")
+garland_theme(1)=Array("new.html")
 
-'注册插件
-Call RegisterPlugin("garland","ActivePlugin_Garland")
+Call RegisterPlugin("garland","ActivePlugin_garland")
 
-'具体的接口挂接
-Function ActivePlugin_Garland() 
-
-	'日历
-	Call Add_Action_Plugin("Action_Plugin_MakeCalendar_Begin","MakeCalendar=WP_MakeCalendar2(dtmYearMonth):Exit Function")
-
+Function ActivePlugin_garland()
+	'如果插件需要include代码，则直接在这里加。
+    Call Add_Response_Plugin("Response_Plugin_Admin_Top",MakeTopMenu(1,"主题配置",BlogHost & "/zb_users/theme/garland/plugin/editor.asp","agarlandManage",""))
+	'这里加文件管理
+	If CheckPluginState("FileManage") Then
+		Call Add_Action_Plugin("Action_Plugin_FileManage_ExportInformation_NotFound","garland_exportdetail(""{path}"",""{f}"")")
+	End If
+    '这里是给后台加管理按钮
+    If BlogVersion<=121028 Then Call Add_Response_Plugin("Response_Plugin_ThemeMng_SubMenu","<script type='text/javascript'>$(document).ready(function(){$(""#theme-garland .theme-name"").append('<input class=""button"" style=""float:right;margin:0;padding-left:10px;padding-right:10px;"" type=""button"" value=""配置"" onclick=""location.href=\'"&BlogHost&"/zb_users/theme/garland/plugin/editor.asp\'"">')})</script>")
 End Function
 
-'*********************************************************
-' 接口：	Action_Plugin_MakeCalendar_Begin:Exit Function
-' 目的：    WP 之 Make Calendar2
-'*********************************************************
-Function WP_MakeCalendar2(dtmYearMonth)
-
-	Dim strCalendar
-
-	Dim y
-	Dim m
-	Dim d
-	Dim firw
-	Dim lasw
-	Dim ny
-	Dim nm
-	Dim py
-	Dim pm
-
-	Dim i
-	Dim j
-	Dim k
-	Dim b
-
-	Call CheckParameter(dtmYearMonth,"dtm",Date())
-
-	y=year(dtmYearMonth)
-	m=month(dtmYearMonth)
-	ny=y
-	nm=m+1
-	If m=12 Then ny=ny+1:nm=1
-	py=y
-	pm=m-1
-	if m=1 then py=py-1:pm=12
-
-	firw=Weekday(Cdate(y&"-"&m&"-1"))
-
-	For i=28 to 32
-		If IsDate(y&"-"&m&"-"&i) Then
-			lasw=Weekday(Cdate(y&"-"&m&"-"&i))
-		Else
-			Exit For
-		End If
-	Next
-
-	d=i-1
-	k=1
-
-	If firw>5 Then b=42 Else b=35
-	If (d=28) And (firw=1) Then b=28
-	If (firw>5) And (d<31) And (d-firw<>23) Then b=35
-
-
-	'//////////////////////////////////////////////////////////
-	'	逻辑处理
-		Dim aryDateLink(32)
-		Dim aryDateID(32)
-		Dim aryDateArticle(32)
-		Dim objRS
-
-		Set objRS=Server.CreateObject("ADODB.Recordset")
-		objRS.CursorType = adOpenKeyset
-		objRS.LockType = adLockReadOnly
-		objRS.ActiveConnection=objConn
-		objRS.Source=""
-		objRS.Open("select [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_Type],[log_Meta] from [blog_Article] where ([log_Type]=0) And ([log_Level]>2) And ([log_PostTime] BETWEEN "& ZC_SQL_POUND_KEY &y&"-"&m&"-1"& ZC_SQL_POUND_KEY &" AND "& ZC_SQL_POUND_KEY &ny&"-"&nm&"-1"& ZC_SQL_POUND_KEY &")")
-
-		If (Not objRS.bof) And (Not objRS.eof) Then
-			For i=1 To objRS.RecordCount
-				j=CLng(Day(CDate(objRS("log_PostTime"))))
-				aryDateLink(j)=True
-				aryDateID(j)=objRS("log_ID")
-				Set aryDateArticle(j)=New TArticle
-				aryDateArticle(j).LoadInfobyArray Array(objRS(0),objRS(1),objRS(2),objRS(3),objRS(4),objRS(5),objRS(6),objRS(7),objRS(8),objRS(9),objRS(10),objRS(11),objRS(12),objRS(13),objRS(14),objRS(15),objRS(16),objRS(17))
-				objRS.MoveNext
-				If objRS.eof Then Exit For
-			Next
-		End If
-		objRS.Close
-		Set objRS=Nothing
-	'//////////////////////////////////////////////////////////
-
-		strCalendar="<table summary=""日历"" id=""wp-calendar""><caption>"&y&"年"&m&"月</caption>"
-		
-	'thead	
-		strCalendar=strCalendar & "	<thead>	<tr> <th title=""星期日"" scope=""col"" abbr=""星期日"">日</th> <th title=""星期一"" scope=""col"" abbr=""星期一"">一</th> <th title=""星期二"" scope=""col"" abbr=""星期二"">二</th>	<th title=""星期三"" scope=""col"" abbr=""星期三"">三</th> <th title=""星期四"" scope=""col"" abbr=""星期四"">四</th>	<th title=""星期五"" scope=""col"" abbr=""星期五"">五</th> <th title=""星期六"" scope=""col"" abbr=""星期六"">六</th>	</tr>	</thead>"
-		
-	'tfoot	
-		dim strCalendarPrev
-		dim strCalendarNext
-		
-		strCalendarPrev = "<td id=""prev"" colspan=""3"" abbr="""& pm &"月""><a title=""查看"& pm &"月的日志"" href="""& ZC_BLOG_HOST & "catalog.asp?date="& py &"-"& pm &""">« "&ZVA_Month_Abbr(pm)&"</a></td>"
-		strCalendarNext = "<td id=""next"" colspan=""3"" abbr="""& nm &"月""><a title=""查看"& nm &"月的日志"" href="""& ZC_BLOG_HOST & "catalog.asp?date="& ny &"-"& nm &"""> "&ZVA_Month_Abbr(nm)&" »</a></td>"
-			
-		if dtmYearMonth=Date()  Then strCalendarNext = "<td class=""pad"" id=""next"" colspan=""3""> </td>"
-
-		strCalendar=strCalendar & "	<tfoot>	<tr>" & strCalendarPrev & " <td class=""pad""> </td>" & strCalendarNext & "</tr></tfoot>"	
-		
-	'tbody	
-	strCalendar=strCalendar & "	<tbody>"
-	
-	j=0
-	For i=1 to b
-
-		If (j Mod 7)=0 Then strCalendar=strCalendar & "<tr>"
-		If (j/7)<=0 and firw<>1 then strCalendar=strCalendar & "<td class=""pad"" colspan="""& (firw-1) &"""> </td>"
-
-		If (j=>firw-1) and (k=<d) Then
-		
-			strCalendar=strCalendar & "<td "
-			
-			If 	Cdate(y&"-"&m&"-"&k) = Date() Then strCalendar=strCalendar & " id =""today"" "
-			
-			If aryDateLink(k) Then
-				strCalendar=strCalendar & "><a  title=""点击查看当天文章"" href="""& ZC_BLOG_HOST &"catalog.asp?date="&Year(aryDateArticle(k).PostTime)&"-"&Month(aryDateArticle(k).PostTime)&"-"&Day(aryDateArticle(k).PostTime)& """>"&(k)&"</a></td>"
-			Else
-				strCalendar=strCalendar &">"&(k)&"</td>"
-				
-			End If
-
-			k=k+1
-		End If
-			
-		if j=b-1 then strCalendar=strCalendar & "<td class=""pad"" colspan="""& (7-lasw) &"""> </td>"		
-
-		If (j Mod 7)=6 Then strCalendar=strCalendar & "</tr>"
-
-		j=j+1
-	Next
-
-	strCalendar=strCalendar & "	</tbody></table>"
-	WP_MakeCalendar2=strCalendar
-	
+Function garland_exportdetail(p,f)
+	On Error Resume Next
+	dim z,k,l,i
+	z=LCase(f)
+	k=LCase(p)
+	l=lcase(blogpath)
+	k=IIf(Right(k,1)="\",Left(k,Len(k)-1),k)
+	l=IIf(Right(l,1)="\",Left(l,Len(l)-1),l)
+	if k=l & "\zb_users\theme\garland\include" Then
+		For i=0 To Ubound(garland_theme(1))
+			If garland_theme(1)(i)=z Then garland_exportdetail=garland_theme(0)(i)
+		Next
+	End If
 End Function
-'*********************************************************
-
 %>

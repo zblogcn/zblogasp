@@ -1,6 +1,7 @@
 ﻿//配色说明：第一个颜色为页面背景色，第二个为主色，依此类推。
 var color_config=[
 	{name:"默认",color:["#EEEEEE","#5EAAE4","#A3D0F2","#222222","#333333","#FFFFFF"]},
+	{name:"海蓝色",color:["#EEEEEE","#005f92","#A3D0F2","#222222","#333333","#FFFFFF"]},
 	{name:"草绿色",color:["#EEEEEE","#76923C","#C3D69B","#003300","#76923C","#FFFFFF"]},
 	{name:"黑色",color:["#d8d8d8","#3f3f3f","#bfbfbf","#7f7f7f","#595959","#f2f2f2"]},
 	{name:"咖啡色",color:["#d8d8d8","#974806","#fac08f","#262626","#3f3f3f","#f2f2f2"]},
