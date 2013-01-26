@@ -23,7 +23,7 @@ strAct=Request.QueryString("act")
 If strAct="" Then strAct="SiteFileMng"
 strPath=Request.QueryString("path")
 strOpenFolderPath=Request.QueryString("OpenFolderPath")
-Dim FileManage_ShowAppsName__,FileManage_OpenCodeMirror,FileManage_DefaultPath___
+Dim FileManage_ShowAppsName__,FileManage_OpenCodeMirror,FileManage_DefaultPath___,FileManage_Return2List___
 If strPath="" Then strPath=BlogPath: strOpenFolderPath=BlogPath
 
 Dim objConfig
@@ -34,12 +34,18 @@ If objConfig.Exists("FirstRun")=False Then
 	objConfig.Write "ShowAppsName__","True"
 	objConfig.Write "OpenCodeMirror","False"
 	objConfig.Write "DefaultPath___",""
-	objConfig.Write "FirstRun","ok"
+	objConfig.Write "Return2List___","True"
+	objConfig.Write "FirstRun","guess"
+	objConfig.Save
+ElseIf objConfig.Read("FirstRun")="ok" Then 'v1.0
+	objConfig.Write "Return2List___","True"
+	objConfig.Write "FirstRun","guess"
 	objConfig.Save
 End If
 
 FileManage_ShowAppsName__=CBool(objConfig.Read("ShowAppsName__"))
 FileManage_OpenCodeMirror=CBool(objConfig.Read("OpenCodeMirror"))
+FileManage_Return2List___=CBool(objConfig.Read("Return2List___"))
 FileManage_DefaultPath___=CStr(objConfig.Read("DefaultPath___"))
 If FileManage_ShowAppsName__=True Then
 	Call Add_Action_Plugin("Action_Plugin_FileManage_ExportInformation_NotFound","FileManage_GetPluginName(""{path}"",""{f}"")")
