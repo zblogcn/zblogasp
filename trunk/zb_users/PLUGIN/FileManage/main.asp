@@ -46,25 +46,35 @@ If FileManage_ShowAppsName__=True Then
 	Call Add_Action_Plugin("Action_Plugin_FileManage_ExportInformation_NotFound","FileManage_GetThemeName(""{path}"",""{f}"")")
 End If
 
+
+
+
 For Each Action_Plugin_FileManage_Initialize in Action_Plugin_FileManage_Initialize
 		If Not IsEmpty(sAction_Plugin_FileManage_Initialize) Then Call Execute(sAction_Plugin_FileManage_Initialize)
 Next
 
-Select Case Request.QueryString("act")
+Select Case strAct
 		Case "SiteFileDownload" Call FileManage_DownloadFile(strPath)
 		Case "SiteFilePst" Call FileManage_PostSiteFile(Request.Form("path"),Request.QueryString("OpenFolderPath"))
-		Case "SiteFileDel" Call FileManage_DeleteSiteFile(strPath,IIf(Request.QueryString("folder")="true",True,False))
-		Case "SiteFileRename" Call FileManage_RenameFile(strPath,Request.QueryString("newfilename"),IIf(Request.QueryString("folder")="true",True,False))
+		Case "SiteFileDel" Call FileManage_DeleteSiteFile(strPath,IIf(Request.QueryString("folder")="true",True,False)):strAct="SiteFileMng"
+		Case "SiteFileRename" Call FileManage_RenameFile(strPath,Request.QueryString("newfilename"),IIf(Request.QueryString("folder")="true",True,False)):strAct="SiteFileMng"
 		Case "SiteFileUpload" Call FileManage_Upload
-		Case "SiteCreateFolder" Call FileManage_CreateFolder(strPath,strOpenFolderPath)
+		Case "SiteCreateFolder" Call FileManage_CreateFolder(strPath,strOpenFolderPath):strAct="SiteFileMng"
 
 End Select
+
+
+Dim bolAjax
+bolAjax=IIf(Request.QueryString("ajax")="True",True,False)
 
 'Call SetBlogHint_Custom(" 若需要修改的数据>200K，请使用文件上传或FTP。")
 
 %>
+<%
+If Not bolAjax Then
+%>
 <!--#include file="..\..\..\zb_system\admin\admin_header.asp"-->
-
+<script type="text/javascript" src="jquery.history.js"></script>
 <%If FileManage_OpenCodeMirror=True Then%>
 <link rel="stylesheet" href="../../../ZB_SYSTEM/admin/ueditor/third-party/codemirror/codemirror.css"/>
 <script language="JavaScript" type="text/javascript" src="../../../ZB_SYSTEM/admin/ueditor/third-party/codemirror/codemirror.js"></script>
@@ -86,16 +96,20 @@ table.dataTable tr.color4 td.sorting_1{background: #ffffdd !important;}*/
 </style>
 <!--#include file="..\..\..\zb_system\admin\admin_top.asp"-->
 
-<div id="divMain"> <div id="ShowBlogHint">
+<div id="divMain">
+<%
+End If
+%>
+<div id="ShowBlogHint">
       <%Call GetBlogHint()%>
     </div>
   <div class="divHeader"><%=BlogTitle%>&nbsp;&nbsp;<%
   If Request.QueryString("act")<>"Setting" Then%>
-	  <a href="main.asp?act=Setting" title="设置"><img src="../../../zb_system/IMAGE/ADMIN/setting_tools.png" width="16" alt=""/></a>
+	  <a h='_' href="main.asp?act=Setting" title="设置"><img src="../../../zb_system/IMAGE/ADMIN/setting_tools.png" width="16" alt=""/></a>
   <%
   Else
   %>
-  	  <a href="javascript:history.back(-1)" title="返回"><img src="images\upload.png" width="16" alt="" /></a>
+  	  <a h='_' href="<%=Request.ServerVariables("HTTP_REFERER")%>" title="返回"><img src="images\upload.png" width="16" alt="" /></a>
   <%
   End If
   %>
@@ -111,7 +125,7 @@ table.dataTable tr.color4 td.sorting_1{background: #ffffdd !important;}*/
 
 '	If strOpenFolderPath="" Then strOpenFolderPath=BlogPath
 '	If Not CheckRights(strAct) Then Call ShowError(6)
-	Select Case Request.QueryString("act")
+	Select Case strAct
 
 		Case "" Call FileManage_ExportSiteFileList(BlogPath & FileManage_DefaultPath___,"")
 		Case "SiteFileMng" Call FileManage_ExportSiteFileList(strPath,strOpenFolderPath)
@@ -124,20 +138,64 @@ table.dataTable tr.color4 td.sorting_1{background: #ffffdd !important;}*/
 	End Select
 	%>
   </div>
+<%
+If Not bolAjax Then
+%>
 </div>
+
 <script type="text/javascript">
-$(".rename_folder").mousedown(function(){
-	var str=prompt("请输入新文件夹名");if(str!=null){this.href+="&folder=true&newfilename="+encodeURIComponent(str);this.click()}else{return false}
-});
-$(".rename_file").mousedown(function(){
-	var str=prompt("请输入新文件名");if(str!=null){this.href+="&newfilename="+encodeURIComponent(str);this.click()}else{return false}
-});
-$(".delete_folder").click(function(){
-	if(window.confirm("<%=ZC_MSG058%>")){return window.confirm("删除文件夹危险性很大，您确定要继续么？")}else{return false}
-});
-$(".delete_file").click(function(){
-	return window.confirm("<%=ZC_MSG058%>");
-});
+function something_others(domready){
+	$(".rename_folder").mousedown(function(){
+		var str=prompt("请输入新文件夹名");if(str!=null){this.href+="&folder=true&newfilename="+encodeURIComponent(str);this.click()}else{return false}
+	});
+	$(".rename_file").mousedown(function(){
+		var str=prompt("请输入新文件名");if(str!=null){this.href+="&newfilename="+encodeURIComponent(str);this.click()}else{return false}
+	});
+	/*$(".delete_folder").click(function(){
+		if(window.confirm("<%=ZC_MSG058%>")){return window.confirm("删除文件夹危险性很大，您确定要继续么？")}else{return false}
+	});
+	$(".delete_file").click(function(){
+		return window.confirm("<%=ZC_MSG058%>");
+	});*/
+	$("a[h='_']").click(function(){
+		var This=$(this);
+		var _href=This.attr("href");
+		var cls=This.hasClass("delete_file")||This.hasClass("delete_folder");
+		
+		if(cls){
+			if(!window.confirm("<%=ZC_MSG058%>")){return false;}
+		}
+		$.get(_href+(/\?/.test(_href)?"&":"?")+"ajax=True",{},function(data){
+			$("#divMain").html(data);
+			something_others(true);
+		});
+		History.pushState({rand:Math.random()},"<%=ZC_BLOG_TITLE & ZC_MSG044 & BlogTitle%>", _href); 
+		return false;
+	});
+	
+	if(domready){
+		bmx2table();
+		if(!(($.browser.msie)&&($.browser.version)=='6.0')){
+			$('input.checkbox').css("display","none");
+			$('input.checkbox[value="True"]').after('<span class="imgcheck imgcheck-on"></span>');
+			$('input.checkbox[value!="True"]').after('<span class="imgcheck"></span>');
+		}else{
+			$('input.checkbox').attr('readonly','readonly');
+			$('input.checkbox').css('cursor','pointer');
+			$('input.checkbox').click(function(){  if($(this).val()=='True'){$(this).val('False')}else{$(this).val('True')} })
+		}
+
+		$('span.imgcheck').click(function(){changeCheckValue(this)})
+
+		$("#batch a").bind("click", function(){ BatchContinue();$("#batch p").html(" 操作正在进行中,请稍候......");});
+	
+		$(".SubMenu span.m-right").parent().css({"float":"right"});
+		$("img[width='16']").each(function(){if($(this).parent().is("a")){$(this).parent().addClass("button")}});
+
+	
+		}
+};
+something_others(false);
 /*
 $(document).ready(function(){
 	//$("tr").unbind("mouseover");
@@ -158,7 +216,7 @@ $(document).ready(function(){
 */
 </script>
 <!--#include file="..\..\..\zb_system\admin\admin_footer.asp"-->
-
+<%End If%>
 <%
 For Each Action_Plugin_FileManage_Terminate in Action_Plugin_FileManage_Terminate
 		If Not IsEmpty(sAction_Plugin_FileManage_Terminate) Then Call Execute(sAction_Plugin_FileManage_Terminate)
