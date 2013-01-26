@@ -3950,6 +3950,31 @@ End Function
 
 
 '*********************************************************
+Function GetVersionByBuild(b)
+
+	Dim s
+	b=CStr(b)
+	Select Case b
+	Case "121028"
+	s="Z-Blog 2.0 Beta2 Build 121028"
+	Case "121001"
+	s="Z-Blog 2.0 Beta1 Build 121001"
+	Case "121221"
+	s="Z-Blog 2.0 Doomsday Build 121221"
+	Case "130128"
+	s="Z-Blog 2.1 Phoenix Build 130128"
+	Case Else
+	s="Z-Blog 2.X Other Build " & s
+	End Select
+	GetVersionByBuild=s
+
+End Function
+'*********************************************************
+
+
+
+
+'*********************************************************
 Function CheckUpdateDB(a,b)
 	Err.Clear
 	On Error Resume Next
