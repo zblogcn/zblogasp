@@ -22,8 +22,7 @@ If BlogUser.Level>1 Then Call ShowError(6)
 If CheckPluginState("AppCentre")=False Then Call ShowError(48)
 
 Call AppCentre_InitConfig
-'BlogVersion="130128"
-'ZC_BLOG_VERSION="Z-Blog 2.1 Phoenix Build 130128"
+
 If Request.QueryString("restore")="now" Then
 	Response.Clear
 	Response.Write AppCentre_Update_Restore(Request.Form("build"),Request.Form("filename"),Request.Form("crc32"))
@@ -93,6 +92,11 @@ End If
 If CLng(Request.QueryString("crc32"))>0 Then
 
 	Response.Clear
+
+	Response.ExpiresAbsolute   =   Now()   -   1           
+	Response.Expires   =   0   
+	Response.CacheControl   =   "no-cache"
+
 	If CLng(Request.QueryString("crc32"))<=Round(PathAndCrc32.Count/10)+1 Then
 
 		Dim i,j,k,l,m,n
@@ -234,15 +238,10 @@ Next
 								$(".check_conflict").show();
 								_sort = 0;
 								break;
-			
-			
 							}
 							return false
-			
-			
 						});
-			
-			
+						$("#_s").find("a").click();			
 					}
 			
 			
