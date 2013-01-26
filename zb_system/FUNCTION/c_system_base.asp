@@ -3937,7 +3937,7 @@ Function RefreshOptionFormFileToDB()
 			Call Execute("Call BlogConfig.Write("""&a&""","&a&")")
 		End If
 	Next
-	Call BlogConfig.Write("ZC_BLOG_VERSION","2.0 Doomsday Build 121221")
+	Call BlogConfig.Write("ZC_BLOG_VERSION","2.1 Phoenix Build 130128")
 	Call BlogConfig.Write("ZC_BLOG_CLSID",ZC_BLOG_CLSID_ORIGINAL)
 
 	Call BlogConfig.Save()
