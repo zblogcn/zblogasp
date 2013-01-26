@@ -1068,7 +1068,7 @@ Function MakeCalendar(dtmYearMonth)
 	If m=1 Then s=UrlbyDateAuto(y-1,12,"")
 	If m=12 Then t=UrlbyDateAuto(y+1,1,"")
 
-		strCalendar="<table><caption><a href="""&s&""">&#00171;</a>  <a href="""&UrlbyDateAuto(y,m,"")&""">"&Replace(ZC_MSG233,"%y",y)& " " & ZVA_Month_Abbr(m)&"</a>  <a href="""&t&""">&#00187;</a></caption>"
+		strCalendar="<table id=""tbCalendar""><caption><a href="""&s&""">&#00171;</a>  <a href="""&UrlbyDateAuto(y,m,"")&""">"&Replace(ZC_MSG233,"%y",y)& " " & ZVA_Month_Abbr(m)&"</a>  <a href="""&t&""">&#00187;</a></caption>"
 		
 	'thead	
 		strCalendar=strCalendar & "	<thead>	<tr> <th title="""&ZVA_Week(1)&""" scope=""col"" abbr="""&ZVA_Week(1)&"""><small>"&ZVA_Week_Abbr(1)&"</small></th> <th title="""&ZVA_Week(2)&""" scope=""col"" abbr="""&ZVA_Week(2)&"""><small>"&ZVA_Week_Abbr(2)&"</small></th> <th title="""&ZVA_Week(3)&""" scope=""col"" abbr="""&ZVA_Week(3)&"""><small>"&ZVA_Week_Abbr(3)&"</small></th>	<th title="""&ZVA_Week(4)&""" scope=""col"" abbr="""&ZVA_Week(4)&"""><small>"&ZVA_Week_Abbr(4)&"</small></th> <th title="""&ZVA_Week(5)&""" scope=""col"" abbr="""&ZVA_Week(5)&"""><small>"&ZVA_Week_Abbr(5)&"</small></th>	<th title="""&ZVA_Week(6)&""" scope=""col"" abbr="""&ZVA_Week(6)&"""><small>"&ZVA_Week_Abbr(6)&"</small></th> <th title="""&ZVA_Week(7)&""" scope=""col"" abbr="""&ZVA_Week(7)&"""><small>"&ZVA_Week_Abbr(7)&"</small></th>	</tr>	</thead>"
