@@ -148,7 +148,7 @@ function createTab( tabName ) {
             cssOffset = emotion.imageCssOffset[tabName],
             textHTML = ['<table class="smileytable">'],
             i = 0, imgNum = emotion.SmileyBox[tabName].length, imgColNum = 11, faceImage,
-            sUrl, realUrl, posflag, offset, infor;
+            sUrl, realUrl, posflag, offset, infor,infordecode;
 
     for ( ; i < imgNum; ) {
         textHTML.push( '<tr>' );
@@ -160,10 +160,11 @@ function createTab( tabName ) {
                 posflag = j < positionLine ? 0 : 1;
                 offset = cssOffset * i * (-1) - 1;
                 infor = emotion.SmileyInfor[tabName][i];
+				infordecode=decodeURI(infor.replace(/\%23/g,"#"));
 
                 textHTML.push( '<td  class="' + tableCss + '"   border="1" width="' + iColWidth + '%" style="border-collapse:collapse;" align="center"  bgcolor="transparent" onclick="InsertSmiley(\'' + realUrl.replace( /'/g, "\\'" ) + '\',event)" onmouseover="over(this,\'' + sUrl + '\',\'' + posflag + '\')" onmouseout="out(this)">' );
                 textHTML.push( '<span  style="display:block;">' );
-                textHTML.push( '<img  style="max-height:'+ iHeight +';max-width:'+ iWidth +';" title="' + infor.substr(0,infor.length-4) + '" src="'+sUrl+'"></img>' );
+                textHTML.push( '<img  style="max-height:'+ iHeight +';max-width:'+ iWidth +';" title="' + infordecode.substr(0,infordecode.length-4) + '" src="'+sUrl+'"></img>' );
                 textHTML.push( '</span>' );
             } else {
                 textHTML.push( '<td width="' + iColWidth + '%"   bgcolor="#FFFFFF">' );
