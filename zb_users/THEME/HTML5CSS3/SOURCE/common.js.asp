@@ -73,7 +73,7 @@ var blog={
             email:"<%=ZC_MSG034%>",
             msg:"<%=ZC_MSG035%>",
             reply:"<%=ZC_MSG265%>",
-            max:intMaxLen="<%=ZC_CONTENT_MAX%>",
+            max:intMaxLen=<%=ZC_CONTENT_MAX%>,
             page:"努力翻页中"
         }
     },
