@@ -211,8 +211,14 @@ blog.ready=function(){
 		arrSidebar=ZC_SIDEBAR_ORDER&":"&ZC_SIDEBAR_ORDER2&":"&ZC_SIDEBAR_ORDER3&":"&ZC_SIDEBAR_ORDER4&":"&ZC_SIDEBAR_ORDER5
 		If (Request.Cookies("username")<>"" And Instr(arrSidebar,"controlpanel")>0) Then
 		%>
-        $("a[href$='cmd.asp?act=vrs']").first().hide();
-        $("a[href$='cmd.asp?act=login']").first().attr("target","_blank").text("["+blog.msg._248+"]").before("<%=Replace(ZC_MSG023,"%s","")%><b>"+blog.user("name")+"</b> (<a href='"+blog.sys+"cmd.asp?act=vrs' title='"+blog.msg._021+"' class='cp-vrs'>"+blog.user("level")+"</a>) <a class='cp-logout' href='"+blog.sys+"cmd.asp?act=logout' title='"+blog.msg._020+"'><small>[退出]</small></a><br/>").after(" <a target='_blank' href='"+blog.sys+"cmd.asp?act=ArticleEdt&webedit=ueditor'>["+blog.msg._168+"]</a>");
+        $(".cp-vrs").html(function(){
+        	this.className="cp-addpost";
+            return "<a target='_blank' href='"+blog.sys+"cmd.asp?act=ArticleEdt&webedit=ueditor'>["+blog.msg._168+"]</a>";
+        });
+        $(".cp-login").find("a").attr("target","_blank").text("["+blog.msg._248+"]").end().before("<span class='cp-hello'><%=Replace(ZC_MSG023,"%s","")%><b>"+blog.user("name")+"</b> (<a href='"+blog.sys+"cmd.asp?act=vrs' title='"+blog.msg._021+"' class='cp-vrs'>"+blog.user("level")+"</a>) <a class='cp-logout' href='"+blog.sys+"cmd.asp?act=logout' title='"+blog.msg._020+"'><small>[退出]</small></a></span><br/>");
+        $(".cp-logout").click(function(){
+        	if(!confirm("确认退出？"))return false;
+        });
 		<%End If%>
         blog.js.sidebar()
     });
