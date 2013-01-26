@@ -697,6 +697,9 @@ Function FileManage_PostSiteFile(tpath,OpenFolderPath)
 			End If
 		End IF
 	End If
+	
+	If Not FileManage_Return2List___ Then SuccessPath=Request.ServerVariables("HTTP_REFERER")
+	SuccessPath=Replace(SuccessPath,"\","\\")
 	Response.Write "<script type=""text/javascript"">location.href="""&SuccessPath&"""</script>"
 	Response.End
 
@@ -828,9 +831,11 @@ Function FileManage_Setting()
 					" name=""OpenCodeMirror"" value="""&FileManage_OpenCodeMirror&"""/></td></tr>"
 	Response.Write "<tr height=""32""><td>显示主题名和插件名</td><td><input type=""text"" class=""checkbox"""&_
 					" name=""ShowAppsName__"" value="""&FileManage_ShowAppsName__&"""/></td></tr>"
+	Response.Write "<tr height=""32""><td>保存文件是否回到文件列表</td><td><input type=""text"" class=""checkbox"""&_
+					" name=""Return2List___"" value="""&FileManage_Return2List___&""" style=""width:70%""/></td></tr>"
 	Response.Write "<tr height=""32""><td>点击文件管理时打开路径（相对路径）</td><td><input type=""text"" "&_
 					" name=""DefaultPath___"" value="""&FileManage_DefaultPath___&""" style=""width:70%""/></td></tr>"
-	Response.Write "</tr></table><p>&nbsp;</p>"
+	Response.Write "</table><p>&nbsp;</p>"
 	Response.Write "<input type=""submit"" class=""button"" value=""保存""/></form>"
 	
 End Function
@@ -839,6 +844,7 @@ Function FileManage_SaveSetting()
 	objConfig.Write "ShowAppsName__",Request.Form("ShowAppsName__")
 	objConfig.Write "OpenCodeMirror",Request.Form("OpenCodeMirror")
 	objConfig.Write "DefaultPath___",Request.Form("DefaultPath___")
+	objConfig.Write "Return2List___",Request.Form("Return2List___")
 	objConfig.Save
 	Call SetBlogHint(True,Empty,Empty)
 	Response.Redirect "?act=Setting"
