@@ -174,11 +174,10 @@ aside dd a:hover{color:#39C}
 #edtSearch{width:100%;height:25px;margin:0 5px 0 0;line-height:25px;}
 #btnPost{width:50px;height:27px;font-size:12px;margin:0;line-height:27px;padding:0;position:absolute;right:0;top:0;}
 /*=canledar*/
-#divCalendar table{width:100%;table-layout:fixed;text-align:center;border:none}
-#divCalendar small{font-size:12px;}
-#divCalendar td a{display:block;background:#def;}
-#divCalendar td b{display:block;background:#3A6EA5;color:#fff;text-shadow:none;}
-#today{font-weight:bold}
+table[id$='Calendar']{width:100%;table-layout:fixed;text-align:center;border:none}
+table[id$='Calendar'] small{font-size:12px;}
+table[id$='Calendar'] td a{display:block;background:#def;}
+table[id$='Calendar'] td b{display:block;background:#3A6EA5;color:#fff;text-shadow:none;}
 /*=catalog*/
 #divCatalog ul ul{margin:0 0 0 10px}
 #divCatalog ul ul li:before{content:"└ ";color:#ddd;margin:0 0 5px}
