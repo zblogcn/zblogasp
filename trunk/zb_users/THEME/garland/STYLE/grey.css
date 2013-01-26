@@ -20,7 +20,7 @@ body {
 }
 
 input {
-  font: 12px/100% "Verdana";
+  font: 14px/100% "Verdana";
   color: #494949;
 }
 
@@ -699,12 +699,22 @@ padding:0pt 0.5em;
   background: #fff url(grey/gradient-inner.png) repeat-x 0 0;
 }
 
-.comment {
+.comment, .quote3 {
   margin: 0 -25px;
   padding: 1.5em 25px 1.5em;
   border-top: 1px solid #e9eff3;
 }
-
+.quote3 {
+  margin: 0 25px;
+}
+.quote3 .quote-title{
+	color:#0062A0;
+	padding-bottom:0.5em;
+}
+.quote3 .quote-title:first-letter{
+	color:#494949;
+	font-size:140%;
+}
 .indented {
   margin-left: 25px;
 }
@@ -716,7 +726,24 @@ padding:0pt 0.5em;
 .node .content, .comment .content {
   margin: 0.6em 0;
 }
+.content .comment {
+  margin:0.3em ;
+}
 
+.content .comment .submitted {
+float: none;
+clear: left;
+padding-left: 0em;
+}
+
+.content .comment h3 {
+float: right;
+clear: left;
+}
+
+.comment .comment h3 {
+  display:none;
+}
 /**
  * Aggregator.module
  */
@@ -1022,7 +1049,7 @@ padding:0pt;
 
 .form-item {
   margin-top: 1em;
-  margin-bottom: 1em;
+  margin-bottom: .5em;
 }
 .form-item input.error, .form-item textarea.error, .form-item select.error {
 border:2px solid red;
@@ -1037,6 +1064,10 @@ font-weight:bold;
 .form-item label.option {
 display:inline;
 font-weight:normal;
+}
+.form-item input {
+padding:2pt;
+margin:5pt 0em ;
 }
 .form-checkboxes, .form-radios {
 margin:0em 5pt;

@@ -56,3 +56,7 @@ function GetComments(logid,page){
 		$('#AjaxCommentEnd').before(data);
 	});
 }
+
+$(document).ready(function(){ 
+	$("#mission").load("http://localhost/zb_users/theme/garland/include/new.html");
+});

@@ -30,14 +30,19 @@
 
 </div>
 
+<#template:article_mutuality:begin#>
 <ul class="msg mutuality">
 	<h2 ><#ZC_MSG231#></h2>
 	<ul> <#template:article_mutuality#> </ul>
 </ul>
+<#template:article_mutuality:end#>
 
 <div id="comment">
+
+<#template:article_comment:begin#>
 <h2 class="comment">评论</h2>
-<#template:article_trackback#>
 <#template:article_comment#>
+<#template:article_comment:end#>
+
 <#template:article_commentpost#>
 </div>
