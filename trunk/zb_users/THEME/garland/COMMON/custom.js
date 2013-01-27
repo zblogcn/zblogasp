@@ -58,5 +58,5 @@ function GetComments(logid,page){
 }
 
 $(document).ready(function(){ 
-	$("#mission").load("http://localhost/zb_users/theme/garland/include/new.html");
+	$("#mission").load(bloghost+"/zb_users/theme/garland/include/new.html");
 });
