@@ -53,6 +53,7 @@ Else
 End If
 
 If IsEmpty(Request.QueryString("reload"))=False Then
+	Call MakeBlogReBuild_Core
 	b=True
 End If
 
