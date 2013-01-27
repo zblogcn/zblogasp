@@ -488,6 +488,9 @@ function AutoIntro() {
 	$('html,body').animate({scrollTop:$('#divIntro').offset().top},'fast');
 }
 
+<%
+If  Not CheckMobile() Then 
+%>
 //文章编辑提交区随动JS开始
  var oDiv=document.getElementById("divFloat");
  var H=0,iE6;
@@ -502,7 +505,9 @@ function AutoIntro() {
 		 else{oDiv.className="";}   
 	};
  }
-
+<% 
+	End if
+%>
 //选择模板
 function selectlogtemplate(c){
 <%
