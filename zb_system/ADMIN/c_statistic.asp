@@ -14,7 +14,7 @@
 '///////////////////////////////////////////////////////////////////////////////
 %>
 <% Option Explicit %>
-<% On Error Resume Next %>
+<% 'On Error Resume Next %>
 <% Response.Charset="UTF-8" %>
 <% Response.Buffer=True %>
 <!-- #include file="../../zb_users/c_option.asp" -->
@@ -25,12 +25,12 @@
 <!-- #include file="../function/c_system_plugin.asp" -->
 <!-- #include file="../../zb_users/plugin/p_config.asp" -->
 <%
-Call OpenConnect()
+Call System_Initialize()
 BlogUser.Verify()
 '检查权限
 If Not CheckRights("SiteInfo") Then Response.End
 
-Response.ExpiresAbsolute = FormatDateTime(Now()) - 1           
+Response.ExpiresAbsolute = Now()- 1           
 Response.Expires = 0
 Response.CacheControl = "no-cache"
 
@@ -67,7 +67,7 @@ strContent=Replace(strContent,"<"&"%=BlogHost",BlogHost)
 'Response.AddHeader "Last-Modified",ParseDateForRFC822GMT(h)
 Response.Write strContent
 Set Fso=Nothing
-Call CloseConnect()
+Call System_Terminate()
 
 '*********************************************************
 ' 目的：   刷新统计
