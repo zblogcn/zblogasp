@@ -11,7 +11,7 @@ $(document).ready(function(){
 	$("img[width='16']").each(function(){if($(this).parent().is("a")){$(this).parent().addClass("button")}});
 
 	if($("p.hint_green:visible").length>0){
-		$("p.hint_green:visible").eq(0).hide(1500,function(){});
+		$("p.hint_green:visible").eq(0).delay(1500).hide(1500,function(){});
 	}
 });
 // ]]>
