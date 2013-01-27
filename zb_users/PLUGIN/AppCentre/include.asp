@@ -23,5 +23,7 @@ Function ActivePlugin_AppCentre()
 		Call Add_Response_Plugin("Response_Plugin_SiteInfo_SubMenu","<script type='text/javascript'>$(document).ready(function(){  $.get(bloghost+'zb_users/plugin/appcentre/server.asp?action=update&silent=true&rnd="&Rnd()&"',function(data){eval(data);}); });</script>")
 	End If
 
+	Call Add_Response_Plugin("Response_Plugin_SettingMng_SubMenu",MakeSubMenu("应用中心设置",GetCurrentHost() & "zb_users/plugin/appcentre/setting.asp","m-left",False))
+
 End Function
 %>
