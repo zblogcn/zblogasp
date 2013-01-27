@@ -43,7 +43,7 @@ If zblogstep="" Then zblogstep=1
     <script language="JavaScript" src="../zb_system/script/jquery-ui.custom.min.js" type="text/javascript"></script>
 	<link rel="stylesheet" rev="stylesheet" href="../zb_system/css/jquery-ui.custom.css"  type="text/css" media="screen" />
 	<link rel="stylesheet" rev="stylesheet" href="../zb_system/css/admin3.css" type="text/css" media="screen" />
-	<title>Z-Blog 2.0 安装程序</title>
+	<title>Z-Blog <%=ZC_BLOG_VERSION%> 安装程序</title>
     
 </head>
 <body>
@@ -136,7 +136,7 @@ Function Setup1()
 <p><b>安装协议</b> » 环境检查 » 数据库建立与设置 » 安装结果</p>
 </dd>
 <dd id="ddright">
-<div id="title">安装协议</div>
+<div id="title">Z-Blog <%=Left(ZC_BLOG_VERSION,3)%> 安装协议</div>
 <div id="content">
   <textarea readonly>
 Z-Blog  最终用户授权协议 
@@ -957,10 +957,9 @@ Call BlogConfig.Write("ZC_COMMENTS_DISPLAY_COUNT",10)
 
 Call BlogConfig.Write("ZC_USE_NAVIGATE_ARTICLE",True)
 Call BlogConfig.Write("ZC_RSS_EXPORT_WHOLE",False)
+Call BlogConfig.Write("ZC_DEFAULT_PAGES_TEMPLATE","")
+Call BlogConfig.Write("ZC_ARCHIVES_OLD_LISTTYPE","")
 
-Call BlogConfig.Write("ZC_SYNTAXHIGHLIGHTER_ENABLE",False)
-Call BlogConfig.Write("ZC_CODEMIRROR_ENABLE",False)
-Call BlogConfig.Write("ZC_ARTICLE_EXCERPT_MAX",250)
 
 
 
@@ -1039,7 +1038,10 @@ Call BlogConfig.Write("ZC_CONTENT_MAX",1000)
 Call BlogConfig.Write("ZC_UNCATEGORIZED_NAME","未分类")
 Call BlogConfig.Write("ZC_UNCATEGORIZED_ALIAS","")
 Call BlogConfig.Write("ZC_UNCATEGORIZED_COUNT","0")
-
+Call BlogConfig.Write("ZC_SYNTAXHIGHLIGHTER_ENABLE",False)
+Call BlogConfig.Write("ZC_CODEMIRROR_ENABLE",False)
+Call BlogConfig.Write("ZC_ARTICLE_EXCERPT_MAX",250)
+Call BlogConfig.Write("ZC_HTTP_LASTMODIFIED",False)
 
 
 '---------------------------------静态化配置-----------------------------------
@@ -1086,7 +1088,6 @@ Call BlogConfig.Write("ZC_DISPLAY_CATE_ALL_WAP",True)
 Call BlogConfig.Write("ZC_DISPLAY_PAGEBAR_ALL_WAP",True)
 '数量
 Call BlogConfig.Write("ZC_WAP_MUTUALITY_LIMIT",5)
-Call BlogConfig.Write("ZC_HTTP_LASTMODIFIED",False)
 
 BlogConfig.Save
 
@@ -1148,6 +1149,7 @@ Function SaveConfigs()
 	Dim a,b
 	b=LoadFromFile(BlogPath &"zb_users\c_option.asp","utf-8")
 	For Each a In BlogConfig.Meta.Names
+		If a="ZC_BLOG_CLSID" Then ZC_BLOG_CLSID=RndGuid()
 		If InStr(b,"Dim "& a)>0 Then
 			Call Execute("Call BlogConfig.Write("""&a&""","&a&")")
 		End If

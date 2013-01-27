@@ -41,7 +41,7 @@ If zblogstep="" Then zblogstep=1
 	<script language="JavaScript" src="../zb_system/script/jquery-ui.custom.min.js" type="text/javascript"></script>
 	<link rel="stylesheet" rev="stylesheet" href="../zb_system/css/jquery-ui.custom.css"  type="text/css" media="screen" />
 	<link rel="stylesheet" rev="stylesheet" href="../zb_system/css/admin3.css" type="text/css" media="screen" />
-	<title>Z-Blog 1.8 to 2.0 升级程序</title>
+	<title>Z-Blog 1.8 to 2.X 升级程序</title>
 </head>
 <body>
   <div class="setup"><form method="post" action="?step=<%=zblogstep+1%>">
@@ -134,10 +134,10 @@ Function Setup1()
 
 %>
 <p class='title'>升级说明</p>
-<p>1.将Z-Blog 1.8目录中DATA目录下的文件转移至Z-Blog 2.0的zb_users\DATA目录下.</p>
-<p>2.将Z-Blog 1.8目录中UPLOAD目录下的文件转移至Z-Blog 2.0的zb_users\UPLOAD目录下.</p>
-<p>3.将Z-Blog 1.8目录中INCLUDE目录下的文件转移至Z-Blog 2.0的zb_users\INCLUDE目录下.</p>
-<p>4.将Z-Blog 1.8目录中c_custom.asp和c_option.asp文件转移至Z-Blog 2.0的根目录下.</p>
+<p>1.将Z-Blog 1.8目录中DATA目录下的文件转移至Z-Blog 2.X的zb_users\DATA目录下.</p>
+<p>2.将Z-Blog 1.8目录中UPLOAD目录下的文件转移至Z-Blog 2.X的zb_users\UPLOAD目录下.</p>
+<p>3.将Z-Blog 1.8目录中INCLUDE目录下的文件转移至Z-Blog 2.X的zb_users\INCLUDE目录下.</p>
+<p>4.将Z-Blog 1.8目录中c_custom.asp和c_option.asp文件转移至Z-Blog 2.X的根目录下.</p>
 <p>5.运行http://你的网站/zb_update18to20/进入升级程序.</p>
 </div>
 <div id='bottom'>
@@ -678,8 +678,9 @@ Call BlogConfig.Write("ZC_COMMENTS_DISPLAY_COUNT",10)
 
 
 Call BlogConfig.Write("ZC_USE_NAVIGATE_ARTICLE",True)
-
 Call BlogConfig.Write("ZC_RSS_EXPORT_WHOLE",False)
+Call BlogConfig.Write("ZC_DEFAULT_PAGES_TEMPLATE","")
+Call BlogConfig.Write("ZC_ARCHIVES_OLD_LISTTYPE","")
 
 
 
@@ -757,9 +758,6 @@ Call BlogConfig.Write("ZC_SYNTAXHIGHLIGHTER_ENABLE",True)
 Call BlogConfig.Write("ZC_CODEMIRROR_ENABLE",True)
 Call BlogConfig.Write("ZC_ARTICLE_EXCERPT_MAX",250)
 Call BlogConfig.Write("ZC_HTTP_LASTMODIFIED",False)
-
-
-
 
 
 '---------------------------------静态化配置-----------------------------------
@@ -872,6 +870,7 @@ Function SaveConfigs()
 	Dim a,b
 	b=LoadFromFile(BlogPath &"zb_users\c_option.asp","utf-8")
 	For Each a In BlogConfig.Meta.Names
+		If a="ZC_BLOG_CLSID" Then ZC_BLOG_CLSID=RndGuid()
 		If InStr(b,"Dim "& a)>0 Then
 			Call Execute("Call BlogConfig.Write("""&a&""","&a&")")
 		End If
