@@ -205,6 +205,7 @@ End Function
 Function Totoro_chkComment(ByRef objComment)
 	Call Totoro_Initialize
 	objComment.IP=GetReallyIP()
+	objComment.Agent=Request.ServerVariables("HTTP_USER_AGENT")
 	Call Totoro_cComment(objComment,BlogUser,False)
 
 	Totoro_chkComment=True
