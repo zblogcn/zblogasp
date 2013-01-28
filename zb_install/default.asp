@@ -712,7 +712,7 @@ t.IsHidden=False
 t.Source="system"
 t.SidebarID=1
 t.Order=3
-t.Content="<span class=""cp-login""><a href=""<#ZC_BLOG_HOST#>zb_system/cmd.asp?act=login"">[<#ZC_MSG009#>]</a></span>&nbsp;&nbsp;<span class=""cp-vrs""><a href=""<#ZC_BLOG_HOST#>zb_system/cmd.asp?act=vrs"">[<#ZC_MSG021#>]</a></span>"
+t.Content="<span class=""cp-hello"">您好,欢迎到访网站!</span><br/><span class=""cp-login""><a href=""<#ZC_BLOG_HOST#>zb_system/cmd.asp?act=login"">[<#ZC_MSG009#>]</a></span>&nbsp;&nbsp;<span class=""cp-vrs""><a href=""<#ZC_BLOG_HOST#>zb_system/cmd.asp?act=vrs"">[<#ZC_MSG021#>]</a></span>"
 t.HtmlID="divContorPanel"
 t.Ftype="div"
 t.post
