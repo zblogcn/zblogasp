@@ -685,7 +685,7 @@ a.button:hover{
 .widget-title {margin:0px;padding:6px;;color: #333;cursor: move;}
 .widget-title span{+display:inline-block;} 
 .widget_ishidden_true img.more-action{opacity:0.40;}
-.widget-action{float:right;}
+.widget-action{float:right;+float:none;}
 
 .siderbar-list{float:right;width:282px;margin-left:10px;}
 .siderbar-drop{float: right;background:#fefefe;border:2px solid #eee;margin: 0 15px 10px 15px;}
