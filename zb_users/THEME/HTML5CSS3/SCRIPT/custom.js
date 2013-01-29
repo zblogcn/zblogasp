@@ -179,7 +179,7 @@ function ReplyForm(id,self,callBack){
 	$form.cmt.wrap("<div id='postreply'/>").parent().hide(500,function(){
 		$(this).show(500,function(){
 			$form.txt.focus();
-			if(typeof callBack=="function")callBack();
+			if(typeof callBack=="function") callBack();
 		}).insertAfter($cancel);
 	})
 	$cmt.post.hide(500);
