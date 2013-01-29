@@ -2,7 +2,7 @@
  Custom Script for Z-Blog Theme Html5CSS3
  Author: jgpy.cn
  Pub Date: 2013-1-16
- Last Modified: 2013-1-25
+ Last Modified: 2013-1-29
 ----------------------*/
 
 /********用户自定义内容*********/
@@ -139,9 +139,9 @@ blog.js.ajaxCmt=function(){
 blog.js.getCmt=function(){
 	$("#comment blockquote").each(function(){
 		var id=this.id.substr(3);
-		$(">q",this).children().first().before(blog.cmt.reply(id,true).click(function(){ReplyForm(id,this)}))
+		($(">q>blockquote",this)[0]?$(">q>blockquote",this).first():$(">q>a[id^='AjaxCommentEnd']",this)).before(blog.cmt.reply(id,true).click(function(){ReplyForm(id,this,blog.js.replyForm)}))
 	});
-	blog.cmt.post.show(500);
+	//blog.cmt.post.show(500);
 };
 //侧栏加载成功后回调
 blog.js.sidebar=function(){
@@ -155,7 +155,7 @@ blog.js.sidebar=function(){
 	}catch(e){}
 };
 //创建回复评论
-function ReplyForm(id,self){
+function ReplyForm(id,self,callBack){
 	if($("#cancelreply")[0]){
 		$("#cancelreply").hide(500,function(){
 			$(this).remove();
@@ -168,7 +168,7 @@ function ReplyForm(id,self){
 				$(this).remove();
 			}).prev("ins").show(500);
 			$("#postreply").hide(500,function(){
-				$cmt.post.show(500).find("dd").append($form.cmt.hide().show(500));
+				$cmt.post.show(500).find("dd").append($form.cmt.hide().show(500,blog.js.replyForm));
 				$(this).remove();
 			});
 			$cmt.list.find("nav").show(500);
@@ -179,6 +179,7 @@ function ReplyForm(id,self){
 	$form.cmt.wrap("<div id='postreply'/>").parent().hide(500,function(){
 		$(this).show(500,function(){
 			$form.txt.focus();
+			if(typeof callBack=="function")callBack();
 		}).insertAfter($cancel);
 	})
 	$cmt.post.hide(500);
@@ -204,16 +205,16 @@ function CmtForm($form){
 	$form.email.blur(function(){
 		var val=this.value;
 		val&&$.getScript(blog.sys+"script/md5.js",function(){
-			$avatar.find("img").attr("src","http://gravatar.com/avatar/"+MD5(val));
+			$avatar.find("img").attr("src","http://gravatar.com/avatar/"+MD5(val)+"?d="+escape(blog.avatar)+"0.png");
 		})
-	}).blur();
+	});
 	$form.name.keyup(function(){
 		$name.text(this.value?this.value:blog.msg.noName);
 	}).blur(function(){
 		$name.text(this.value?this.value:blog.msg.noName);
 	})
 	$form.name.val()&&$form.name.parents("p").hide();
-	$form.email.val()&&$form.email.parents("p").hide();
+	$form.email.val()&&$form.email.blur().parents("p").hide();
 	$form.homepage.val()&&$form.homepage.parents("p").hide();
 };
 //管理链接
