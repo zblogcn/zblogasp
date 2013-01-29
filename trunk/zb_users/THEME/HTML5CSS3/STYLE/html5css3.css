@@ -132,7 +132,8 @@ article~dl:last-child{border-bottom:none}
 #comment q ins:hover{color:#3A6EA5}
 #postreply{clear:both;position:relative;padding:66px 20px 8px 8px;}
 #postreply form{position:relative;}
-#postreply textarea{height:48px;left:0;top:-70px}
+#postreply textarea,
+#postreply span[class^='xhe_']{height:48px;left:0;top:-70px}
 #cancelreply{margin:0 0 0 10px;cursor:pointer;color:#3A6EA5}
 /*=pstcmt*/
 #postcmt dd{position:relative;padding:108px 0 0 0;margin:0 12px 0 100px;}
@@ -142,7 +143,8 @@ form[action*='act=cmt'] p label{margin:0 -10px 0 10px;display:block}
 form[action*='act=cmt'] p img{right:0;position:absolute;margin:-24px -5px 0 0;z-index:2}
 form[action*='act=cmt'] p sup{color:#F36;position:absolute}
 form[action*='act=cmt'] input{height:32px;width:100%;display:block;background:none;margin:0 0 -29px -10px;text-indent:60px;}
-form[action*='act=cmt'] textarea{height:96px;position:absolute;top:0;left:0;background:none;width:100%;}
+form[action*='act=cmt'] textarea,
+form[action*='act=cmt'] span[class^='xhe_']{height:96px;position:absolute;top:0;left:0;background:none;width:100%!important;}
 form[action*='act=cmt'] textarea:focus{background:#fff!important;}
 form[action*='act=cmt'] button{}
 #postcmt figure{position:absolute;left:-100px;top:0;margin:0;padding:0;width:80px;}
