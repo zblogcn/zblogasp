@@ -27,18 +27,19 @@ function detect_os(useragent)
         }
 
     }
-    else if (/Android/i.test(useragent))
+    else if (/Android/i.test(useragent)||/MQQBrowser.+?Adr/.test(useragent))
     {
         _link = "http://www.android.com/";
         title = "Android";
         code = "android";
-
-        if (/Android[\ |\/]?([.0-9a-zA-Z]+)/i.test(useragent)) {
-            regmatch = /Android[\ |\/]?([.0-9a-zA-Z]+)/i.exec(useragent);
-            version = regmatch[1];
-            title += " " + version;
-
-        }
+		if (!/Android\/Mozilla/i.test(useragent)){ //I hate MQQBrowser
+			if (/Android[\ |\/]?([.0-9a-zA-Z]+)/i.test(useragent)) {
+				regmatch = /Android[\ |\/]?([.0-9a-zA-Z]+)/i.exec(useragent);
+				version = regmatch[1];
+				title += " " + version;
+	
+			}
+		}
 
         if (/x86_64/i.test(useragent))
         {
@@ -274,7 +275,7 @@ function detect_os(useragent)
     }
     else if (/IRIX/i.test(useragent))
     {
-        _link = "http://www+sgi.com/partners/?/technology/irix/";
+        _link = "http://www.sgi.com/partners/?/technology/irix/";
         title = "IRIX Linux";
 
         if (/IRIX(64)?\ ([.0-9a-zA-Z]+)/i.test(useragent)) {
@@ -649,7 +650,7 @@ function detect_os(useragent)
     }
     else if (/Sabayon/i.test(useragent))
     {
-        _link = "http://www+sabayonlinux.org/";
+        _link = "http://www.sabayonlinux.org/";
         title = "Sabayon Linux";
         code = "sabayon";
 
@@ -662,7 +663,7 @@ function detect_os(useragent)
     }
     else if (/Slackware/i.test(useragent))
     {
-        _link = "http://www+slackware.com/";
+        _link = "http://www.slackware.com/";
         title = "Slackware";
         code = "slackware";
 
@@ -675,14 +676,14 @@ function detect_os(useragent)
     }
     else if (/Solaris/i.test(useragent))
     {
-        _link = "http://www+sun.com/software/solaris/";
+        _link = "http://www.sun.com/software/solaris/";
         title = "Solaris";
         code = "solaris";
 
     }
     else if (/SunOS/i.test(useragent))
     {
-        _link = "http://www+sun.com/software/solaris/";
+        _link = "http://www.sun.com/software/solaris/";
         title = "Solaris";
         code = "solaris";
 
@@ -702,7 +703,7 @@ function detect_os(useragent)
     }
     else if (/Symb[ian]?[OS]?/i.test(useragent))
     {
-        _link = "http://www+symbianos.org/";
+        _link = "http://www.symbianos.org/";
         title = "SymbianOS";
 
         if (/Symb[ian]?[OS]?\/([.0-9a-zA-Z]+)/i.test(useragent)) {
@@ -1037,7 +1038,7 @@ function detect_os(useragent)
     }
     else if (/J2ME\/MIDP/i.test(useragent))
     {
-        _link = "http://java+sun.com/javame/";
+        _link = "http://java.sun.com/javame/";
         title = "J2ME/MIDP Device";
         code = "java";
 
@@ -1048,13 +1049,13 @@ function detect_os(useragent)
 	else if (/Mac/i.test(useragent)
     || /Darwin/i.test(useragent))
     {
-        _link = "http://www.apple+com/macosx/";
+        _link = "http://www.apple.com/macosx/";
 
         if (/Mac OS X/i.test(useragent))
         {
 			
 			
-            title = useragent.substr(0,useragent.toString().toLowerCase().indexOf("mac os x"));
+            title = useragent.substr(useragent.toLowerCase().indexOf("Mac OS X".toLowerCase()),useragent.length);
             title = title.substr(0, title.indexOf(")"));
 
             if (title.indexOf(";")>=0)
@@ -1069,7 +1070,7 @@ function detect_os(useragent)
         }
         else if (/Mac OSX/i.test(useragent))
         {
-            title = useragent.substr(0,useragent.toLowerCase().indexOf("Mac OS X".toLowerCase()));
+            title = useragent.substr(useragent.toLowerCase().indexOf("Mac OS X".toLowerCase()),useragent.length);
             title = title.substr(0, title.indexOf(")"));
 
             if (title.indexOf(";")>=0)
@@ -1096,6 +1097,9 @@ function detect_os(useragent)
         }
 
     }
+	else{
+		title = "Unknown";
+	}
 
 
     // How should we display this?

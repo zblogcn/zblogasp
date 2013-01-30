@@ -15,14 +15,18 @@ Call System_Initialize()
 '检查非法链接
 Call CheckReference("")
 
-Dim UserAgent
+Dim UserAgent,Req
+Req=Request.QueryString("list")
+If IsEmpty(Req) Then Req=0
+Req=CInt(Req)
 UserAgent=Request.ServerVariables("HTTP_USER_AGENT").Item
 '检查权限
 If BlogUser.Level>1 Then Call ShowError(6)
 If CheckPluginState("CommentUserAgent")=False Then Call ShowError(48)
 BlogTitle="评论UA"
-
-If Request.QueryString("act")="design" Then
+Dim objConfig
+Set objConfig=New TConfig
+objConfig.Load "CommentUserAgent"
 	Dim aryUA(29)
 	aryUA(0)="Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.19 (KHTML, like Gecko) Chrome/25.0.1323.1 Safari/537.19"
 	aryUA(1)="Mozilla/5.0 (Windows NT 6.2) AppleWebKit/537.19 (KHTML, like Gecko) Chrome/25.0.1323.1 Safari/537.19"
@@ -54,6 +58,8 @@ If Request.QueryString("act")="design" Then
 	aryUA(27)="Mozilla/5.0 (X11; Linux i686) AppleWebKit/534.34 (KHTML, like Gecko) rekonq/1.1 Safari/534.34"
 	aryUA(28)="Opera/9.80 (Windows NT 6.1; WOW64; U; en) Presto/2.10.229 Version/11.64"
 	aryUA(29)="Mozilla/5.0 (X11; U; FreeBSD amd64; en; rv:1.8.1.20) Gecko/20090422 Epiphany/2.22 Firefox/2.0.0.20"
+
+If Request.QueryString("act")="design" Then
 	Dim objRs,objRs2
 	Set objRs=objConn.Execute("SELECT [comm_id] FROM [blog_Comment] WHERE [comm_Agent]=''")
 	Do Until objRs.Eof
@@ -62,6 +68,23 @@ If Request.QueryString("act")="design" Then
 		objRs.MoveNext
 	Loop
 	Call SetBlogHint_Custom("SUCCESS!")
+ElseIf Request.QueryString("act")="back" Then
+	objConn.Execute "UPDATE [blog_Comment] SET [comm_Agent]='' WHERE [comm_Agent] LIKE '%(Unreal_CommentUserAgentAutoGenerate)'"
+ElseIf Request.QueryString("act")="save" Then
+	Dim i,sss(),mmm,jjj
+	Redim sss(-1)
+	mmm=0
+	jjj=Split(Request.Form("selecttags").Item,", ")
+	For i=0 To 13 
+		If jjj(i)="True" Then 
+			Redim Preserve sss(mmm)
+			sss(mmm)=i
+			mmm=mmm+1
+		End If
+		objConfig.Write "Item",Join(sss,",")
+		objConfig.Save
+		Call SetBlogHint(True,Empty,Empty)
+	Next
 End If
 %>
 <!--#include file="..\..\..\zb_system\admin\admin_header.asp"-->
@@ -72,95 +95,167 @@ End If
             <%Call GetBlogHint()%>
           </div>
           <div class="divHeader"><%=BlogTitle%></div>
-          <div class="SubMenu"><%=commentuseragent.functions.submenu(0)%></div>
+          <div class="SubMenu"><%=commentuseragent.functions.submenu(Req)%></div>
           <div id="divMain2"> 
             <script type="text/javascript">ActiveTopMenu("aPlugInMng");</script>
-              <%
+            <%
+				If Req=0 Then
+			%>
+            <%
+				
+				Dim k
+				k=objConfig.Read("Item")
+				k=","&k&","
+				
 				Dim s
 				Set s=detect_webbrowser(UserAgent)
 				%>
-              <%
+            <%
 				Dim o
 				Set o=detect_platform(UserAgent)
 				
 				%>
-            
-            <p>本插件需要修改模板代码，加入下面的标签才可正常使用。</p>
-            <p>Z-Blog 2.0 Doomsday 121221和之前版本Z-Blog的Totoro有一个BUG，得到的评论均无User-Agent，所以一定会显示“Unknown”。您可以<a href='?act=design' style="color:red">点击这里</a>为它们随便设计一个User-Agent。</p>
-            <table width="100%">
-              <thead>
-                <tr height="32">
-                  <th width="20%">标签</th>
-                  <th width="10%">效果</th>
-                  <th>详细</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr height="32">
-                  <td>&lt;#zsxsoft/cmtua/useragent#&gt;</td>
-                  <td><%=TransferHTML(UserAgent,"[html-format]")%></td>
-                  <td>User-Agent</td>
-                </tr>
-                <tr height="32">
-                  <td>&lt;#zsxsoft/cmtua/platform/src#&gt;</td>
-                  <td><%=BlogHost & "zb_users/plugin/commentuseragent/img/" & o.fullfilename%></td>
-                  <td>设备的图片地址</td>
-                </tr>
-                <tr height="32">
-                  <td>&lt;#zsxsoft/cmtua/platform/system#&gt;</td>
-                  <td><%=o.text%></td>
-                  <td>设备的详细说明</td>
-                </tr>
-                <tr height="32">
-                  <td>&lt;#zsxsoft/cmtua/platform/version#&gt;</td>
-                  <td><%=o.ver%></td>
-                  <td>设备版本号</td>
-                </tr>
-                <tr height="32">
-                  <td>&lt;#zsxsoft/cmtua/platform/link#&gt;</td>
-                  <td><%=o.link%></td>
-                  <td>设备官网</td>
-                </tr>
-                <tr height="32">
-                  <td>&lt;#zsxsoft/cmtua/platform/img#&gt;</td>
-                  <td><%="<img src='"&BlogHost & "zb_users/plugin/commentuseragent/img/" & o.fullfilename&"' width='16 height='16' alt='"&o.text&"系统' />"%></td>
-                  <td>设备Logo</td>
-                </tr>
-                <tr height="32">
-                  <td>&lt;#zsxsoft/cmtua/browser/src#&gt;</td>
-                  <td><%=BlogHost & "zb_users/plugin/commentuseragent/img/" & s.fullfilename%></td>
-                  <td>浏览器图片地址</td>
-                </tr>
-                <tr height="32">
-                  <td>&lt;#zsxsoft/cmtua/browser/browser#&gt;</td>
-                  <td><%=s.text%></td>
-                  <td>浏览器详细说明</td>
-                </tr>
-                <tr height="32">
-                  <td>&lt;#zsxsoft/cmtua/browser/version#&gt;</td>
-                  <td><%=s.ver%></td>
-                  <td>浏览器版本号</td>
-                </tr>
-                <tr height="32">
-                  <td>&lt;#zsxsoft/cmtua/browser/link#&gt;</td>
-                  <td><%=s.link%></td>
-                  <td>浏览器官网</td>
-                </tr>
-                <tr height="32">
-                  <td>&lt;#zsxsoft/cmtua/browser/img#&gt;</td>
-                  <td><%="<img src='"&BlogHost & "zb_users/plugin/commentuseragent/img/" & s.fullfilename&"' width='16 height='16' alt='"&s.text&"浏览器' />"%></td>
-                  <td>浏览器Logo</td>
-                </tr>
-                <tr height="32">
-                  <td>&lt;#zsxsoft/cmtua/all#&gt;</td>
-                  <td><%="<div class='cmtua'><div class='cmtua_platform'><img src='"&BlogHost & "zb_users/plugin/commentuseragent/img/" & o.fullfilename&"' width='16 height='16' alt='"&o.text&"系统' />"&o.text&"</div><div class='cmtua_browser'><img src='"&BlogHost & "zb_users/plugin/commentuseragent/img/" & s.fullfilename&"' width='16 height='16' alt='"&s.text&"浏览器' />"&s.text&"</div></div>"%></td>
-                  <td>直接显示全部信息</td>
-                </tr>
-              </tbody>
-            </table>
-            <p> 
+            <p>以下，您可以选择要在评论后跟上哪些内容，也可以自己在模板里插入标签。</p>
+            <form method="post" enctype="application/x-www-form-urlencoded" action="main.asp?act=save">
+              <table width="100%">
+                <thead>
+                  <tr height="32">
+                    <th width="05%">显示</th>
+                    <th width="20%">标签</th>
+                    <th width="10%">效果</th>
+                    <th>详细</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr height="32">
+                    <td><input type="text" class="checkbox" name="selecttags" value="<%=GConfig(0)%>" /></td>
+                    <td>&lt;#zsxsoft/cmtua/useragent#&gt;</td>
+                    <td><%=TransferHTML(UserAgent,"[html-format]")%></td>
+                    <td>User-Agent</td>
+                  </tr>
+                  <tr height="32">
+                    <td><input type="text" class="checkbox" name="selecttags" value="<%=GConfig(1)%>" /></td>
+                    <td>&lt;#zsxsoft/cmtua/platform/src#&gt;</td>
+                    <td><%=BlogHost & "zb_users/plugin/commentuseragent/img/" & o.fullfilename%></td>
+                    <td>设备的图片地址</td>
+                  </tr>
+                  <tr height="32">
+                    <td><input type="text" class="checkbox" name="selecttags" value="<%=GConfig(2)%>" /></td>
+                    <td>&lt;#zsxsoft/cmtua/platform/system#&gt;</td>
+                    <td><%=o.text%></td>
+                    <td>设备的详细说明</td>
+                  </tr>
+                  <tr height="32">
+                    <td><input type="text" class="checkbox" name="selecttags" value="<%=GConfig(3)%>" /></td>
+                    <td>&lt;#zsxsoft/cmtua/platform/version#&gt;</td>
+                    <td><%=o.ver%></td>
+                    <td>设备版本号</td>
+                  </tr>
+                  <tr height="32">
+                    <td><input type="text" class="checkbox" name="selecttags" value="<%=GConfig(4)%>" /></td>
+                    <td>&lt;#zsxsoft/cmtua/platform/link#&gt;</td>
+                    <td><%=o.link%></td>
+                    <td>设备官网</td>
+                  </tr>
+                  <tr height="32">
+                    <td><input type="text" class="checkbox" name="selecttags" value="<%=GConfig(5)%>" /></td>
+                    <td>&lt;#zsxsoft/cmtua/platform/img#&gt;</td>
+                    <td><%="<img src='"&BlogHost & "zb_users/plugin/commentuseragent/img/" & o.fullfilename&"' width='16 height='16' alt='"&o.text&"系统' />"%></td>
+                    <td>设备Logo</td>
+                  </tr>
+                  <tr height="32">
+                    <td><input type="text" class="checkbox" name="selecttags" value="<%=GConfig(6)%>" /></td>
+                    <td>&lt;#zsxsoft/cmtua/platform#&gt;</td>
+                    <td><%="<span class='cmtua_platform'><img src='"&BlogHost & "zb_users/plugin/commentuseragent/img/" & o.fullfilename&"' width='16 height='16' alt='"&o.text&"系统' />"&o.text&"</span>"%></td>
+                    <td>设备</td>
+                  </tr>
+
+                  <tr height="32">
+                    <td><input type="text" class="checkbox" name="selecttags" value="<%=GConfig(7)%>" /></td>
+                    <td>&lt;#zsxsoft/cmtua/browser/src#&gt;</td>
+                    <td><%=BlogHost & "zb_users/plugin/commentuseragent/img/" & s.fullfilename%></td>
+                    <td>浏览器图片地址</td>
+                  </tr>
+                  <tr height="32">
+                    <td><input type="text" class="checkbox" name="selecttags" value="<%=GConfig(8)%>" /></td>
+                    <td>&lt;#zsxsoft/cmtua/browser/browser#&gt;</td>
+                    <td><%=s.text%></td>
+                    <td>浏览器详细说明</td>
+                  </tr>
+                  <tr height="32">
+                    <td><input type="text" class="checkbox" name="selecttags" value="<%=GConfig(9)%>" /></td>
+                    <td>&lt;#zsxsoft/cmtua/browser/version#&gt;</td>
+                    <td><%=s.ver%></td>
+                    <td>浏览器版本号</td>
+                  </tr>
+                  <tr height="32">
+                    <td><input type="text" class="checkbox" name="selecttags" value="<%=GConfig(10)%>" /></td>
+                    <td>&lt;#zsxsoft/cmtua/browser/link#&gt;</td>
+                    <td><%=s.link%></td>
+                    <td>浏览器官网</td>
+                  </tr>
+                  <tr height="32">
+                    <td><input type="text" class="checkbox" name="selecttags" value="<%=GConfig(11)%>" /></td>
+                    <td>&lt;#zsxsoft/cmtua/browser/img#&gt;</td>
+                    <td><%="<img src='"&BlogHost & "zb_users/plugin/commentuseragent/img/" & s.fullfilename&"' width='16 height='16' alt='"&s.text&"浏览器' />"%></td>
+                    <td>浏览器Logo</td>
+                  </tr>
+                  <tr height="32">
+                    <td><input type="text" class="checkbox" name="selecttags" value="<%=GConfig(12)%>" /></td>
+                    <td>&lt;#zsxsoft/cmtua/browser#&gt;</td>
+                    <td><%="<span class='cmtua_browser'><img src='"&BlogHost & "zb_users/plugin/commentuseragent/img/" & s.fullfilename&"' width='16 height='16' alt='"&s.text&"浏览器' />"&s.text&"</span>"%></td>
+                    <td>浏览器</td>
+                  </tr>
+                  <tr height="32">
+                    <td><input type="text" class="checkbox" name="selecttags" value="<%=GConfig(13)%>" /></td>
+                    <td>&lt;#zsxsoft/cmtua/all#&gt;</td>
+                    <td><%="<div class='cmtua'><span class='cmtua_platform'><img src='"&BlogHost & "zb_users/plugin/commentuseragent/img/" & o.fullfilename&"' width='16 height='16' alt='"&o.text&"系统' />"&o.text&"</span><span class='cmtua_browser'><img src='"&BlogHost & "zb_users/plugin/commentuseragent/img/" & s.fullfilename&"' width='16 height='16' alt='"&s.text&"浏览器' />"&s.text&"</span></div>"%></td>
+                    <td>直接显示全部信息</td>
+                  </tr>
+                </tbody>
+              </table>
+              <p><input type="submit" class="button" value="保存设置" /></p>
+            </form>
+            <%
+			ElseIf req=1 Then
+			%>
+            <p>插件内大部分图标和代码来自WordPress插件wp-useragent,zsx将其转换为ASP后做成了Z-Blog插件。</p>
+            <p>Z-Blog 2.0 Doomsday 121221和之前版本Z-Blog的Totoro有一个BUG，得到的评论均无User-Agent，所以一定会显示“Unknown”。</p>
+            <p>您可以
+              <input type="button" class="button" value="点击这里" onclick="location.href='?act=design'"/>
+              为它们随便设计一个User-Agent。</p>
+            <p>当然，如果您蛋疼，也可以
+              <input type="button" class="button" value="点击这里" onclick="location.href='?act=back'"/>
+              把随便设计的切换回来</p>
+            <%
+			ElseIf req=2 Then
+			%>
+            	<table width="100%"><thead><tr height="32"><td width="50%">图</td><td>UA</td></tr></thead><tbody>
+            <%
+				For i=0 To Ubound(aryUA)
+					Set o=detect_platform(aryUA(i))
+			%>
+            	<tr height="32"><td><%="<span class='cmtua_platform'><img src='"&BlogHost & "zb_users/plugin/commentuseragent/img/" & o.fullfilename&"' width='16 height='16' alt='"&o.text&"系统' />"&o.text&"</span>"%>
+            <%
+					Set s=detect_webbrowser(aryUA(i))
+			%>
+            	<%="<span class='cmtua_browser'><img src='"&BlogHost & "zb_users/plugin/commentuseragent/img/" & s.fullfilename&"' width='16 height='16' alt='"&s.text&"浏览器' />"&s.text&"</span>"%></td>
+            	<td><%=aryUA(i)%></td></tr>
+            <%
+				Next
+			%>
+            	</tbody></table>
+            <%
+			End If%>
           </div>
         </div>
         <!--#include file="..\..\..\zb_system\admin\admin_footer.asp"-->
 
 <%Call System_Terminate()%>
+
+<%
+
+Function GConfig(code)
+	If InStr(k,","&code&",") Then GConfig=True Else GConfig=False
+End Function
+%>

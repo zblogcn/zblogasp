@@ -3,13 +3,13 @@ var commentuseragent={}
 commentuseragent["functions"]={
 	"submenu":function(id){
         var json = {
-            name: ["main.asp"]
+            name: ["main.asp?list=0","main.asp?list=1","main.asp?list=2"]
             ,
-            cls: ["m-left", "m-left", "m-left"]
+            cls: ["m-left", "m-left","m-right"]
             ,
-            text: ["首页"]
+            text: ["首页","说明","测试"]
             ,
-            level: [5]
+            level: [1,1,1]
 
         };
         var str = "";

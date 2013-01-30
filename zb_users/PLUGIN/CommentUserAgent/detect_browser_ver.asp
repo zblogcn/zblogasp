@@ -67,19 +67,20 @@ function detect_browser_ver(title, useragent)
     }
 
     // Grab the browser version if its present
-    var regmatch = new RegExp(start + '[\ |\/]?([+0-9a-zA-Z]+)', "i");
+    var regmatch = new RegExp(start + '[\ |\/]?([\+0-9a-zA-Z\.]+)', "i");
 	
 	if(regmatch.test(useragent)){
 		regmatch = regmatch.exec(useragent)
 	
 		version = regmatch[1];
+		
 	
 		// json.full=browser Title and Version, but first++some titles need to be changed
 		if (title.toLowerCase() == "msie"
 		&& version.toLowerCase() == "7.0"
-		&& /Trident\/4+0/i.test(useragent))
+		&& /Trident\/4|5|6+0/i.test(useragent))
 		{
-			json.full=" 8.0 (Compatibility Mode)";
+			json.full=" 8.0+ (Compatibility Mode)";
 			// Fix for IE8 quirky UA string with Compatibility Mode enabled
 	
 		}
