@@ -54,7 +54,8 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-Public strTemplateFolder As String, objFSO As FileSystemObject, objRegExp As RegExp, objADO As Object
+Public strTemplateFolder As String, objFSO As FileSystemObject, objRegExp As RegExp, objADO As Object, objXML As New DOMDocument
+Dim aryTemplateFile() As String, aryPluginFile() As String, strSource As String, strXMLPath As String
 
 
 Private Sub cmdBrowse_Click()
@@ -67,6 +68,18 @@ Private Sub cmdBrowse_Click()
     End If
 End Sub
 
+Private Sub cmdOpen_Click()
+    Dim i As Integer
+    Log_Clear
+    strTemplateFolder = txtPath.Text
+    If GetSubFolder(strTemplateFolder) Then
+        Log "开始升级模板文件"
+        For i = 0 To UBound(aryTemplateFile)
+            Update aryTemplateFile(i), 1
+        Next
+    End If
+End Sub
+
 Private Sub Form_Load()
     Set objRegExp = New RegExp
     Set objFSO = New FileSystemObject
@@ -74,6 +87,9 @@ Private Sub Form_Load()
     strTemplateFolder = ""
     objRegExp.Global = True
     objRegExp.IgnoreCase = True
+    ReDim aryTemplateFile(0)
+    ReDim aryPluginFile(0)
+    strSource = ""
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
@@ -87,11 +103,65 @@ End Sub
 
 'Usage:日志
 'Param:str--日志内容
-Function Log(ByVal str As String)
+Sub Log(ByVal str As String)
     lstLog.AddItem "【" & Now & "】" & str
-End Function
+End Sub
 
 'Usage:清除日志
-Function Log_Clear()
+Sub Log_Clear()
     lstLog.Clear
+End Sub
+
+'Usage:扫描文件夹
+'Param:Folder--文件夹
+Function GetSubFolder(ByVal Folder As String) As Boolean
+    GetSubFolder = False
+    Dim objSub As Object, objFor
+    If objFSO.FolderExists(Folder) Then
+        If objFSO.FileExists(Folder & "/theme.xml") Then
+            strXMLPath = objFSO.GetFile(Folder & "/theme.xml").Path
+            Log "找到主题XML信息"
+        Else
+            Log "主题XML不存在"
+            Exit Function
+        End If
+        If objFSO.FolderExists(Folder & "/template") Then
+            For Each objFor In objFSO.GetFolder(Folder & "/template").Files
+                ReDim Preserve aryTemplateFile(UBound(aryTemplateFile) + 1)
+                aryTemplateFile(UBound(aryTemplateFile)) = objFor.Path
+                Log "找到主题文件：" & objFor.Name
+            Next
+        End If
+        If objFSO.FolderExists(Folder & "/plugin") Then
+            For Each objFor In objFSO.GetFolder(Folder & "/plugin").Files
+                ReDim Preserve aryPluginFile(UBound(aryPluginFile) + 1)
+                aryPluginFile(UBound(aryPluginFile)) = objFor.Path
+                Log "找到主题插件：" & objFor.Name
+            Next
+        End If
+        If objFSO.FileExists(Folder & "/source/style.css.asp") Then
+            strSource = objFSO.GetFile(Folder & "/source/style.css.asp").Path
+            Log "找到STYLE.CSS.ASP"
+        End If
+        GetSubFolder = True
+    Else
+        Log "文件夹不存在！"
+    End If
 End Function
+
+
+'Usage:得到XML信息以判断是否Z-Blog
+'Param:XMLPath--XML地址
+Function LoadXMLInfo(ByVal XMLPath As String) As Boolean
+
+End Function
+
+
+
+
+'Usage:升级
+'Param:strFile--文件名,intType--升级类型
+Function Update(ByVal strFile As String, Optional intType As Integer = 1) As Boolean
+
+End Function
+
