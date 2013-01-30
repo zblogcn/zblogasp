@@ -3140,6 +3140,33 @@ Function Filter_Plugin_TComment_MakeTemplate_Template(ByRef html)
 End Function
 
 
+
+
+'**************************************************<
+'类型:filter
+'名称:Filter_Plugin_TComment_MakeTemplate_Template_Succeed
+'参数:html
+'说明:
+'调用:
+'**************************************************>
+Dim sFilter_Plugin_TComment_MakeTemplate_Template_Succeed
+Function Filter_Plugin_TComment_MakeTemplate_Template_Succeed(ByRef html)
+
+	Dim s,i
+
+	If sFilter_Plugin_TComment_MakeTemplate_Template_Succeed="" Then Exit Function
+
+	s=Split(sFilter_Plugin_TComment_MakeTemplate_Template_Succeed,"|")
+
+	For i=0 To UBound(s)-1
+		Call Execute(s(i) & " " & "html")
+	Next
+
+End Function
+
+
+
+
 '**************************************************<
 '类型:filter
 '名称:Filter_Plugin_CommentAduit_Core
