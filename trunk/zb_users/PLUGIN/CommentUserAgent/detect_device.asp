@@ -15,7 +15,7 @@ function detect_device(useragent)
 
         if (/CPU\ OS\ ([._0-9a-zA-Z]+)/i.test(useragent)) {
             regmatch = /CPU\ OS\ ([._0-9a-zA-Z]+)/i.exec(useragent);
-            title += " iOS " + regmatch[1].replace(/_/g, "+");
+            title += " iOS " + regmatch[1].replace(/_/g, ".");
 
         }
 
@@ -29,7 +29,7 @@ function detect_device(useragent)
 
         if (/iPhone\ OS\ ([._0-9a-zA-Z]+)/i.test(useragent)) {
             regmatch = /iPhone\ OS\ ([._0-9a-zA-Z]+)/i.exec(useragent);
-            title += " iOS " + regmatch[1].replace(/_/g, "+");
+            title += " iOS " + regmatch[1].replace(/_/g, ".");
 
         }
 
@@ -43,7 +43,7 @@ function detect_device(useragent)
 
         if (/iPhone\ OS\ ([._0-9a-zA-Z]+)/i.test(useragent)) {
             regmatch = /iPhone\ OS\ ([._0-9a-zA-Z]+)/i.exec(useragent);
-            title += " iOS " + regmatch[1].replace(/_/g, "+");
+            title += " iOS " + regmatch[1].replace(/_/g, ".");
 
         }
 
@@ -263,7 +263,7 @@ function detect_device(useragent)
     {
         _link = "http://www.microsoft.com/windowsphone/";
         title += "Windows Phone 7";
-        code = "wp7";
+        code = "windowsphone";
 
     }
 

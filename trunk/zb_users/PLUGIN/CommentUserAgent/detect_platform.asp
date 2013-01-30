@@ -15,7 +15,7 @@ function detect_platform(useragent)
 			return json;
 		}
 		else{
-			json["filename"]="null";
+			json["filename"]="Unknown";
 			json["link"]="#";
 			json["code"]="null";
 			json["fullfilename"]="16/os/null.png";

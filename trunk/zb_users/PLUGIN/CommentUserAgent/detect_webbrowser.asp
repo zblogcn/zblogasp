@@ -137,10 +137,11 @@ function detect_webbrowser(useragent)
 
 
     }
-    else if (/bidubrowser/i.test(useragent))
+    else if (/ba?idubrowser/i.test(useragent))
     {
         _link = "http://liulanqi.baidu.com/";
-        _ver = detect_browser_ver("BIDUBrowser", useragent);
+        _ver = detect_browser_ver("BIDUBrowser", useragent)
+		if(_ver.version=="") _ver=detect_browser_ver("BAIDUBrowser", useragent);
         ver = _ver.version;
         title = _ver.full;
         code = "bidubrowser";
@@ -1377,7 +1378,9 @@ function detect_webbrowser(useragent)
     else if (/MQQBrowser/i.test(useragent))
     {
         _link = "http://browser.qq.com/";
-        title = "QQbrowser";
+		_ver = detect_browser_ver("MQQBrowser", useragent);
+		ver = _ver.version;
+        title = _ver.full;
         code = "qqbrowser";
 
 
@@ -2669,7 +2672,7 @@ function detect_webbrowser(useragent)
     {
         _link = "http://google.com/chrome/";
         _ver = detect_browser_ver("Chrome", useragent);
-        title = "Google " + _ver.full;
+        title = (/chrome.+?mobile/i.test(useragent)?"Mobile ":"")+ "Google " + _ver.full;
         ver = _ver.version;
         code = "chrome";
 
