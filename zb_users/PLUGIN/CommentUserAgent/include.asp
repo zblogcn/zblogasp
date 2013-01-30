@@ -13,7 +13,11 @@ End Function
 
 Function CommentUserAgent_Comment_MakeTemplate_TemplateTags(ByRef aryTemplateTagsName,ByRef aryTemplateTagsValue)
 
-	CommentUserAgent_UserAgent=aryTemplateTagsValue(27)
+	If UBound(aryTemplateTagsValue)>26 Then
+		CommentUserAgent_UserAgent=aryTemplateTagsValue(27)
+	Else
+		CommentUserAgent_UserAgent=objConn.Execute("SELECT [comm_Agent] FROM [blog_Comment] WHERE [comm_ID]="&aryTemplateTagsValue(1))(0)
+	End if
 
 	Dim strFull
 	Dim img
@@ -55,7 +59,7 @@ Function CommentUserAgent_Comment_MakeTemplate_TemplateTags(ByRef aryTemplateTag
 
 	Call Execute("strFull=t14")'在这里把设置代入吧,骚年
 
-	Call SetValueByNameInArrays(aryTemplateTagsName,aryTemplateTagsValue,"article/comment/content",aryTemplateTagsValue(7) & strFull)
+	aryTemplateTagsValue(7)=aryTemplateTagsValue(7) & strFull
 
 
 End Function
