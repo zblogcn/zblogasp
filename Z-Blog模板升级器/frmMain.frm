@@ -104,7 +104,6 @@ Private Sub Form_Load()
     ReDim aryTemplateFile(0)
     ReDim aryPluginFile(0)
     strSource = ""
-    txtPath.Text = "D:\Win8\Desktop\THEMES\Couple"
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
@@ -130,6 +129,7 @@ End Sub
 'Usage:扫描文件夹
 'Param:Folder--文件夹
 Function GetSubFolder(ByVal Folder As String) As Boolean
+    objRegExp.Pattern = "b_article-guestbook|b_article_trackback|guestbook|search"
     GetSubFolder = False
     Dim objSub As Object, objFor
     If objFSO.FolderExists(Folder) Then
@@ -142,6 +142,22 @@ Function GetSubFolder(ByVal Folder As String) As Boolean
         End If
         If objFSO.FolderExists(Folder & "/template") Then
             For Each objFor In objFSO.GetFolder(Folder & "/template").Files
+
+                
+                '顺便做个删除吧
+                
+                If objRegExp.Test(objFor.Name) Then
+                    Log "删除无用文件：" & objFor.Name
+                    objFSO.DeleteFile objFor.Path
+                Else
+                    ReDim Preserve aryTemplateFile(UBound(aryTemplateFile) + 1)
+                    aryTemplateFile(UBound(aryTemplateFile)) = objFor.Path
+                    Log "找到主题文件：" & objFor.Name
+                End If
+            Next
+        End If
+        If objFSO.FolderExists(Folder & "/include") Then
+            For Each objFor In objFSO.GetFolder(Folder & "/include").Files
                 ReDim Preserve aryTemplateFile(UBound(aryTemplateFile) + 1)
                 aryTemplateFile(UBound(aryTemplateFile)) = objFor.Path
                 Log "找到主题文件：" & objFor.Name
@@ -183,7 +199,7 @@ Function Update(ByVal strFilePath As String, Optional intType As Integer = 1) As
         strFile = LoadFromFile(strFilePath)
         Select Case intType
             Case 1
-                '模板主体升级
+                '模板主体和INCLUDE文件夹升级
                 
                 
                 '替换zb_system下文件
@@ -217,7 +233,7 @@ Function Update(ByVal strFilePath As String, Optional intType As Integer = 1) As
                 
                 
                 '替换那些玩意
-                objRegExp.Pattern = "var (str0[0-9]|intMaxLen|strBatchView|strBatchInculde|strBatchCount)=.+?;"
+                objRegExp.Pattern = "var (str0[0-9]|intMaxLen|strBatchView|strBatchInculde|strBatchCount|strFaceName|strFaceSize)=.+?;"
                 For Each objExec In objRegExp.Execute(strFile)
                     strFile = Replace(strFile, objExec.Value, "", 1, 1)
                     Log objExec.Value & "-->" & """"""
@@ -236,12 +252,35 @@ Function Update(ByVal strFilePath As String, Optional intType As Integer = 1) As
                     Log objExec.Value & "-->" & """"""
                 Next
                 
+                
+                '替换计数
+                strFile = Replace(strFile, "strBatchCount+=""spn<#article/id#>=<#article/id#>,""", "AddViewCount(<#article/id#>)")
+                strFile = Replace(strFile, "strBatchView+=""spn<#article/id#>=<#article/id#>,""", "LoadViewCount(<#article/id#>)")
+                Log "计数部分修改"
+                
+                '替换无用标签
+                objRegExp.Pattern = "<#template:article_trackback#>|<#article/pretrackback_url#>|<#ZC_MSG014#>|<#article/trackbacknums#>"
+                For Each objExec In objRegExp.Execute(strFile)
+                    strFile = Replace(strFile, objExec.Value, "", 1, 1)
+                    Log objExec.Value & "-->" & """"""
+                Next
+                
+                '替换Try--elScript
+                objRegExp.Pattern = "try{" & vbCrLf & ".+?elScript[\d\D]+?catch\(e\){};?"
+                For Each objExec In objRegExp.Execute(strFile)
+                    strFile = Replace(strFile, objExec.Value, "", 1, 1)
+                    Log objExec.Value & "-->" & """"""
+                Next
+                
                 '替换空行
                 objRegExp.Pattern = "[" & vbTab & vbSpace & "]+" & vbCrLf
                 For Each objExec In objRegExp.Execute(strFile)
                     strFile = Replace(strFile, objExec.Value, "", 1, 1)
                     Log objExec.Value & "-->" & """"""
                 Next
+                
+                
+                
                 '保存
                 SaveToFile strFilePath, strFile
                 Log "保存完毕"
