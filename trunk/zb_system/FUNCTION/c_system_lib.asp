@@ -3535,8 +3535,8 @@ Class TComment
 		Dim aryTemplateTagsName()
 		Dim aryTemplateTagsValue()
 
-		ReDim aryTemplateTagsName(26)
-		ReDim aryTemplateTagsValue(26)
+		ReDim aryTemplateTagsName(27)
+		ReDim aryTemplateTagsValue(27)
 
 		If ParentID="" Then ParentID=0
 
@@ -3604,6 +3604,8 @@ Class TComment
 		aryTemplateTagsValue(25)=Right("0"&Minute(PostTime),2)
 		aryTemplateTagsName( 26)="article/comment/posttime/second"
 		aryTemplateTagsValue(26)=Right("0"&Second(PostTime),2)
+		aryTemplateTagsName( 27)="article/comment/agent"
+		aryTemplateTagsValue(27)=Agent
 
 		'plugin node
 		Call Filter_Plugin_TComment_MakeTemplate_TemplateTags(aryTemplateTagsName,aryTemplateTagsValue)
@@ -3612,6 +3614,8 @@ Class TComment
 		For i=1 to j
 			html=Replace(html,"<#" & aryTemplateTagsName(i) & "#>",aryTemplateTagsValue(i))
 		Next
+
+		Call Filter_Plugin_TComment_MakeTemplate_Template_Succeed(html)
 
 		MakeTemplate=html
 
