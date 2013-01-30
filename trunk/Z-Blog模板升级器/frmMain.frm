@@ -54,8 +54,7 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-Public strTemplateFolder As String, objFSO As FileSystemObject, objRegExp As RegExp, objADO As Object, objXML As New DOMDocument
-Dim aryTemplateFile() As String, aryPluginFile() As String, strSource As String, strXMLPath As String
+Dim strTemplateFolder As String, aryTemplateFile() As String, aryPluginFile() As String, strSource As String, strXMLPath As String
 
 
 Private Sub cmdBrowse_Click()
@@ -75,8 +74,11 @@ Private Sub cmdOpen_Click()
     If GetSubFolder(strTemplateFolder) Then
         Log "开始升级模板文件"
         For i = 0 To UBound(aryTemplateFile)
-            Update aryTemplateFile(i), 1
+            If Trim(aryTemplateFile(i)) <> "" Then Update aryTemplateFile(i), 1
         Next
+        Log "模板文件升级完毕"
+        Log "开始升级source下asp"
+        
     End If
 End Sub
 
@@ -90,6 +92,7 @@ Private Sub Form_Load()
     ReDim aryTemplateFile(0)
     ReDim aryPluginFile(0)
     strSource = ""
+    txtPath.Text = "D:\Win8\Desktop\THEMES\Qeeke"
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
@@ -160,8 +163,78 @@ End Function
 
 
 'Usage:升级
-'Param:strFile--文件名,intType--升级类型
-Function Update(ByVal strFile As String, Optional intType As Integer = 1) As Boolean
-
+'Param:strFilePath--文件名,intType--升级类型
+Function Update(ByVal strFilePath As String, Optional intType As Integer = 1) As Boolean
+    Dim strFile As String, objExec As Object
+    If objFSO.FileExists(strFilePath) Then
+        Log "Update: " & strFilePath & "  type:" & intType
+        strFile = LoadFromFile(strFilePath)
+        Select Case intType
+            Case 1
+                '替换zb_system下文件
+                objRegExp.Pattern = "\<\#ZC_BLOG_HOST\#\>(admin|script|function|image|cmd.asp|login.asp)"
+                
+                For Each objExec In objRegExp.Execute(strFile)
+                    strFile = Replace(strFile, objExec.Value, "<#ZC_BLOG_HOST#>zb_system/" & objExec.SubMatches(0), 1, 1)
+                    Log objExec.SubMatches(0) & "-->" & "zb_system/" & objExec.SubMatches(0)
+                Next
+                
+                '替换zb_users下文件
+                objRegExp.Pattern = "\<\#ZC_BLOG_HOST\#\>(plugin|language|cache|upload)"
+                For Each objExec In objRegExp.Execute(strFile)
+                    strFile = Replace(strFile, objExec.Value, "<#ZC_BLOG_HOST#>zb_users/" & objExec.SubMatches(0), 1, 1)
+                    Log objExec.SubMatches(0) & "-->" & "zb_users/" & objExec.SubMatches(0)
+                Next
+                
+                '替换theme
+                objRegExp.Pattern = "(\<\#ZC_BLOG_HOST\#\>themes)"
+                For Each objExec In objRegExp.Execute(strFile)
+                    strFile = Replace(strFile, objExec.SubMatches(0), "<#ZC_BLOG_HOST#>zb_users/theme", 1, 1)
+                    Log objExec.SubMatches(0) & "-->" & "<#ZC_BLOG_HOST#>zb_users/theme"
+                Next
+                
+                '替换rss
+                objRegExp.Pattern = "(\<\#ZC_BLOG_HOST\#\>rss\.xml)"
+                For Each objExec In objRegExp.Execute(strFile)
+                    strFile = Replace(strFile, objExec.SubMatches(0), "<#ZC_BLOG_HOST#>feed.asp", 1, 1)
+                    Log objExec.SubMatches(0) & "-->" & "<#ZC_BLOG_HOST#>feed.asp"
+                Next
+                
+                
+                '替换那些玩意
+                objRegExp.Pattern = "var (str0[0-9]|intMaxLen|strBatchView|strBatchInculde|strBatchCount)=.+?;"
+                For Each objExec In objRegExp.Execute(strFile)
+                    strFile = Replace(strFile, objExec.Value, "", 1, 1)
+                    Log objExec.Value & "-->" & """"""
+                Next
+                
+                '强插c_html_js_add.asp
+                If InStr(LCase(strFile), "c_html_js_add.asp") = 0 And InStr(LCase(strFile), "</head>") > 0 Then
+                    strFile = Replace(strFile, "</head>", "<script src=""<#ZC_BLOG_HOST#>zb_system/function/c_html_js_add.asp"" type=""text/javascript""></script>" & vbCrLf & "</head>")
+                    Log "强制插入c_html_js_add.asp"
+                End If
+                
+                '删除无用UBB部分
+                objRegExp.Pattern = "InsertQuote.+?\;|ExportUbbFrame\(\)\;?"
+                For Each objExec In objRegExp.Execute(strFile)
+                    strFile = Replace(strFile, objExec.Value, "", 1, 1)
+                    Log objExec.Value & "-->" & """"""
+                Next
+                
+                '替换空行
+                objRegExp.Pattern = "[" & vbTab & vbSpace & "]+" & vbCrLf
+                For Each objExec In objRegExp.Execute(strFile)
+                    strFile = Replace(strFile, objExec.Value, "", 1, 1)
+                    Log objExec.Value & "-->" & """"""
+                Next
+                '保存
+                SaveToFile strFilePath, strFile
+                Log "保存完毕"
+        End Select
+    Else
+        Log strFile & "找不到！"
+    End If
 End Function
+
+
 

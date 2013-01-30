@@ -1,4 +1,5 @@
 Attribute VB_Name = "mdlBase"
+Public objFSO As FileSystemObject, objRegExp As RegExp, objADO As Object, objXML As New DOMDocument
 
 '获得文件夹路径
 Public Declare Function SHGetPathFromIDList Lib "shell32.dll" _
@@ -20,6 +21,30 @@ Public Type BROWSEINFO
 End Type
 
 Const BIF_RETURNONLYFSDIRS = &H1
+Const adOpenForwardOnly = 0
+Const adOpenKeyset = 1
+Const adOpenDynamic = 2
+Const adOpenStatic = 3
+
+Const adLockReadOnly = 1
+Const adLockPessimistic = 2
+Const adLockOptimistic = 3
+Const adLockBatchOptimistic = 4
+
+Const ForReading = 1
+Const ForWriting = 2
+Const ForAppending = 8
+
+Const adTypeBinary = 1
+Const adTypeText = 2
+
+Const adModeRead = 1
+Const adModeReadWrite = 3
+
+Const adSaveCreateNotExist = 1
+Const adSaveCreateOverWrite = 2
+
+
 
 
 'Usage:打开一个文件夹选取窗口
@@ -46,3 +71,38 @@ Function GetFolderPath(ByVal strMsg As String, ByRef hWnd As Long)
     End If
     
 End Function
+
+Function LoadFromFile(ByVal strPath As String, Optional strCharset As String = "UTF-8")
+
+    With objADO
+        .Type = adTypeText
+        .Mode = adModeReadWrite
+        .Open
+        .Charset = strCharset
+        .Position = .Size
+        .LoadFromFile strPath
+        LoadFromFile = .ReadText
+        .Close
+    End With
+
+    Err.Clear
+
+End Function
+
+Function SaveToFile(strFullName As String, strContent As String, Optional strCharset As String = "UTF-8")
+
+
+    With objADO
+        .Type = adTypeText
+        .Mode = adModeReadWrite
+        .Open
+        .Charset = strCharset
+        .Position = .Size
+        .WriteText = strContent
+        .SaveToFile strFullName, adSaveCreateOverWrite
+        .Close
+    End With
+    
+
+End Function
+
