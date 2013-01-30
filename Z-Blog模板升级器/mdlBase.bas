@@ -1,13 +1,16 @@
 Attribute VB_Name = "mdlBase"
 Public objFSO As FileSystemObject, objRegExp As RegExp, objADO As Object, objXML As New DOMDocument
+Public bolAero As Boolean
 
-'获得文件夹路径
-Public Declare Function SHGetPathFromIDList Lib "shell32.dll" _
-               Alias "SHGetPathFromIDListA" (ByVal pidl As Long, _
-                                             ByVal pszPath As String) As Long
-'显示文件夹列表框
-Public Declare Function SHBrowseForFolder Lib "shell32.dll" _
-               Alias "SHBrowseForFolderA" (lpBrowseInfo As BROWSEINFO) As Long
+Public Type OSVERSIONINFO
+    dwOSVersionInfoSize As Long
+    dwMajorVersion As Long
+    dwMinorVersion As Long
+    dwBuildNumber As Long
+    dwPlatformID As Long
+    szCSDVersion As String * 128
+End Type
+
 
 Public Type BROWSEINFO
     hOwner As Long
@@ -19,6 +22,19 @@ Public Type BROWSEINFO
     lParam As Long
     iImage As Long
 End Type
+
+
+'获得文件夹路径
+Public Declare Function SHGetPathFromIDList Lib "shell32.dll" _
+               Alias "SHGetPathFromIDListA" (ByVal pidl As Long, _
+                                             ByVal pszPath As String) As Long
+'显示文件夹列表框
+Public Declare Function SHBrowseForFolder Lib "shell32.dll" _
+               Alias "SHBrowseForFolderA" (lpBrowseInfo As BROWSEINFO) As Long
+
+'得到操作系统版本
+Public Declare Function GetVersionEx Lib "kernel32" _
+               Alias "GetVersionExA" (lpVersionInformation As OSVERSIONINFO) As Long
 
 Const BIF_RETURNONLYFSDIRS = &H1
 Const adOpenForwardOnly = 0
@@ -49,7 +65,6 @@ Const adSaveCreateOverWrite = 2
 
 'Usage:打开一个文件夹选取窗口
 'Param:strMsg--标题，hWnd--Form句柄
-
 Function GetFolderPath(ByVal strMsg As String, ByRef hWnd As Long)
 
     Dim broInfo As BROWSEINFO
@@ -70,6 +85,18 @@ Function GetFolderPath(ByVal strMsg As String, ByRef hWnd As Long)
         GetFolderPath = False
     End If
     
+End Function
+
+'Usage:得到系统版本
+Function GetSystemVersion()
+    Dim objOS As OSVERSIONINFO
+    objOS.dwOSVersionInfoSize = 148
+    objOS.szCSDVersion = Space$(128)
+    Call GetVersionEx(objOS)
+    GetSystemVersion = CDbl(objOS.dwMajorVersion & "." & objOS.dwMinorVersion)
+    If GetSystemVersion >= 6 Then
+        bolAero = True
+    End If
 End Function
 
 Function LoadFromFile(ByVal strPath As String, Optional strCharset As String = "UTF-8")

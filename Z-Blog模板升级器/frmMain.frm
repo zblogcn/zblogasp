@@ -1,14 +1,15 @@
 VERSION 5.00
 Begin VB.Form frmMain 
+   BackColor       =   &H00FFFFFF&
    BorderStyle     =   1  'Fixed Single
    Caption         =   "1.8 模板升级器"
-   ClientHeight    =   5370
+   ClientHeight    =   6855
    ClientLeft      =   7710
    ClientTop       =   4950
    ClientWidth     =   10725
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
-   ScaleHeight     =   5370
+   ScaleHeight     =   6855
    ScaleWidth      =   10725
    Begin VB.ListBox lstLog 
       Height          =   4200
@@ -18,7 +19,7 @@ Begin VB.Form frmMain
       Width           =   10215
    End
    Begin VB.CommandButton cmdOpen 
-      Caption         =   "打开(&O)"
+      Caption         =   "升级(&U)"
       Height          =   375
       Left            =   9360
       TabIndex        =   3
@@ -26,11 +27,15 @@ Begin VB.Form frmMain
       Width           =   975
    End
    Begin VB.CommandButton cmdBrowse 
+      Appearance      =   0  'Flat
+      BackColor       =   &H00FFFFFF&
       Caption         =   "浏览(&B)"
       Height          =   375
       Left            =   8280
+      MaskColor       =   &H00FFFFFF&
       TabIndex        =   2
       Top             =   240
+      UseMaskColor    =   -1  'True
       Width           =   975
    End
    Begin VB.TextBox txtPath 
@@ -40,7 +45,16 @@ Begin VB.Form frmMain
       Top             =   280
       Width           =   7095
    End
+   Begin VB.Label lblNote 
+      BackStyle       =   0  'Transparent
+      Height          =   1575
+      Left            =   240
+      TabIndex        =   5
+      Top             =   5160
+      Width           =   10215
+   End
    Begin VB.Label lblFolder 
+      BackStyle       =   0  'Transparent
       Caption         =   "模板路径"
       Height          =   255
       Left            =   240
@@ -54,7 +68,18 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-Dim strTemplateFolder As String, aryTemplateFile() As String, aryPluginFile() As String, strSource As String, strXMLPath As String
+Private Declare Function LoadImage Lib "user32.dll" Alias "LoadImageA" (ByVal hInst As Long, ByVal lpsz As String, ByVal un1 As Long, ByVal n1 As Long, ByVal n2 As Long, ByVal un2 As Long) As Long
+Private Declare Function SendMessage Lib "user32.dll" Alias "SendMessageA" (ByVal hWnd As Long, ByVal wMsg As Long, ByVal wParam As Long, ByRef lParam As Any) As Long
+Private Const WM_SETICON As Long = &H80
+Private Const ICON_SMALL As Long = 0
+Private Const IMAGE_ICON As Long = 1
+Private Const LR_DEFAULTSIZE As Long = &H40
+Private Const LR_LOADFROMFILE As Long = &H10
+
+
+
+
+Dim strTemplateFolder As String, aryTemplateFile() As String, aryPluginFile() As String, strSource As String, strXMLPath As String, objAero As clsAero
 
 
 Private Sub cmdBrowse_Click()
@@ -74,7 +99,7 @@ Private Sub cmdOpen_Click()
     If GetSubFolder(strTemplateFolder) Then
         Log "开始升级模板文件"
         For i = 0 To UBound(aryTemplateFile)
-            If Trim(aryTemplateFile(i)) <> "" Then Update aryTemplateFile(i), 1
+            If Trim(aryTemplateFile(i)) <> "" Then Update aryTemplateFile(i), 1: Update aryTemplateFile(i), 4
         Next
         Log "模板文件升级完毕"
         Log "开始升级source下asp"
@@ -95,6 +120,23 @@ Private Sub cmdOpen_Click()
 End Sub
 
 Private Sub Form_Load()
+    Call GetSystemVersion
+    
+    If bolAero Then
+        Set objAero = New clsAero
+        objAero.hDc = Me.hDc
+        objAero.hWnd = Me.hWnd
+        objAero.Init
+    End If
+    
+    Set Me.Icon = Nothing
+    Dim hIcon As Long
+    hIcon = LoadImage(0&, App.Path & "\zblog.ico", IMAGE_ICON, 0&, 0&, LR_DEFAULTSIZE Or LR_LOADFROMFILE)
+    If hIcon Then
+        SendMessage Me.hWnd, WM_SETICON, ICON_SMALL, ByVal hIcon
+    End If
+    
+    
     Set objRegExp = New RegExp
     Set objFSO = New FileSystemObject
     Set objADO = CreateObject("ADODB.Stream")
@@ -104,6 +146,20 @@ Private Sub Form_Load()
     ReDim aryTemplateFile(0)
     ReDim aryPluginFile(0)
     strSource = ""
+    lblNote.Caption = "说明：" & vbCrLf & _
+                "升级前必须备份。" & vbCrLf & _
+                "您要升级的1.8模板必须符合以下要求：" & vbCrLf & _
+                 "      1.模板在TEMPLATE文件夹下，扩展名为html" & vbCrLf & _
+                 "      2.HTML标签全部闭合" & vbCrLf & _
+                 "      3.未重写系统自带的common.js" & vbCrLf & _
+                 "      4.未使用主题插件" & vbCrLf & _
+                 "以上条件有任意一点不符合，则本程序无法升级你的主题。"
+End Sub
+
+Private Sub Form_Paint()
+    If bolAero Then
+        objAero.Paint
+    End If
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
@@ -151,6 +207,10 @@ Function GetSubFolder(ByVal Folder As String) As Boolean
                     objFSO.DeleteFile objFor.Path
                 Else
                     ReDim Preserve aryTemplateFile(UBound(aryTemplateFile) + 1)
+                    '复制page模板
+                    If objFor.Name Like "single*" Then
+                        If Not objFSO.FileExists(Folder & "/template/page.html") Then objFSO.CopyFile objFor.Path, Folder & "/template/page.html": Log "复制PAGE模板"
+                    End If
                     aryTemplateFile(UBound(aryTemplateFile)) = objFor.Path
                     Log "找到主题文件：" & objFor.Name
                 End If
@@ -272,6 +332,14 @@ Function Update(ByVal strFilePath As String, Optional intType As Integer = 1) As
                     Log objExec.Value & "-->" & """"""
                 Next
                 
+                
+                '替换验证码
+                objRegExp.Pattern = "if.+?inpVerify[\d\D]+?Math.random\(\)[\d\D]+?}[\d\D]+?}"
+                For Each objExec In objRegExp.Execute(strFile)
+                    strFile = Replace(strFile, objExec.Value, "", 1, 1)
+                    Log objExec.Value & "-->" & """"""
+                Next
+                
                 '替换空行
                 objRegExp.Pattern = "[" & vbTab & vbSpace & "]+" & vbCrLf
                 For Each objExec In objRegExp.Execute(strFile)
@@ -307,6 +375,17 @@ Function Update(ByVal strFilePath As String, Optional intType As Integer = 1) As
                 '插件\主题插件升级
         Case 4
                 '侧栏管理升级
+                '侧栏管理只按照默认主题的结构弄，非默认主题的结构不管他
+                '抽样调查20个主题，默认主题侧栏结构约占50%上下
+                
+                objRegExp.Pattern = "<div id=""divSidebar"">[\d\D]+?<div class=""function"""
+                '判断是否存在结构与默认主题相同的侧栏
+                If objRegExp.Test(strFile) Then
+                
+                    'objRegExp.Pattern = "<div id=""divSidebar"">[\d\D]+?</div>"
+                    
+                End If
+                
         Case 5
                 'XML升级
                 
