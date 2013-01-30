@@ -78,8 +78,20 @@ Private Sub cmdOpen_Click()
         Next
         Log "模板文件升级完毕"
         Log "开始升级source下asp"
+        Update strSource, 2
+        Log "source下asp升级完毕"
+        Log "开始升级主题自带插件"
+        For i = 0 To UBound(aryPluginFile)
+            If Trim(aryPluginFile(i)) <> "" Then Update aryPluginFile(i), 3
+        Next
+        Log "主题自带插件升级完毕"
+        '还差侧栏管理的升级
+        'Log "升级XML信息"
+        '升级XML是不是让APP升级好一点
         
+        MsgBox Replace("升级完毕！\n\n剩余以下部分没有升级，请自行修改：\n\n侧栏部分（须符合2.0侧栏规范）\n主题插件\nXML信息\n\n升级完成后，请在APP中心里编辑主题信息并保存，即可在2.0里激活主题。", "\n", vbCrLf), vbInformation
     End If
+    
 End Sub
 
 Private Sub Form_Load()
@@ -92,7 +104,7 @@ Private Sub Form_Load()
     ReDim aryTemplateFile(0)
     ReDim aryPluginFile(0)
     strSource = ""
-    txtPath.Text = "D:\Win8\Desktop\THEMES\Qeeke"
+    txtPath.Text = "D:\Win8\Desktop\THEMES\Couple"
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
@@ -171,6 +183,9 @@ Function Update(ByVal strFilePath As String, Optional intType As Integer = 1) As
         strFile = LoadFromFile(strFilePath)
         Select Case intType
             Case 1
+                '模板主体升级
+                
+                
                 '替换zb_system下文件
                 objRegExp.Pattern = "\<\#ZC_BLOG_HOST\#\>(admin|script|function|image|cmd.asp|login.asp)"
                 
@@ -230,6 +245,32 @@ Function Update(ByVal strFilePath As String, Optional intType As Integer = 1) As
                 '保存
                 SaveToFile strFilePath, strFile
                 Log "保存完毕"
+        Case 2
+                'SOURCE\STYLE.CSS.ASP升级
+                
+                '替换<%
+                strFile = Replace(strFile, "<%", "<!-- #include file=""../../../../zb_system/function/c_function.asp"" -->" & vbCrLf & "<%")
+                Log "引用c_function.asp"
+                
+                '替换路径
+                strFile = Replace(strFile, """themes""", """zb_users/theme""")
+                Log """themes"" --> ""zb_users/theme"""
+                
+                '替换HOST
+                strFile = Replace(strFile, "ZC_BLOG_HOST", "GetCurrentHost()")
+                Log "ZC_BLOG_HOST --> GetCurrentHost()"
+                
+                
+                SaveToFile strFilePath, strFile
+                Log "保存完毕"
+        
+        Case 3
+                '插件\主题插件升级
+        Case 4
+                '侧栏管理升级
+        Case 5
+                'XML升级
+                
         End Select
     Else
         Log strFile & "找不到！"

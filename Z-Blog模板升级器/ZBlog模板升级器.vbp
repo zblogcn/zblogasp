@@ -8,6 +8,7 @@ Module=mdlBase; mdlBase.bas
 IconForm="frmMain"
 Startup="frmMain"
 HelpFile=""
+ExeName32="ZBlog模板升级器.exe"
 Command32=""
 Name="ZBlog模板升级器"
 HelpContextID="0"
