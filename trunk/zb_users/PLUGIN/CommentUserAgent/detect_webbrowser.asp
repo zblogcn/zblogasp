@@ -2631,7 +2631,7 @@ function detect_webbrowser(useragent)
     }
     else if (/YaBrowser/i.test(useragent))
     {
-        _link = "http://ie.114la.com/";
+        _link = "http://browser.yandex.com/";
         _ver = detect_browser_ver("Browser", useragent);
         title = "Yandex." + _ver.full;
         ver = _ver.version;
@@ -2871,9 +2871,8 @@ function detect_webbrowser(useragent)
     else if (/AppleWebkit/i.test(useragent))
     {
         _link = "http://www.apple.com/safari/";
-        title = "Safari";
-
-        code = "webkit"
+        title = "Webkit Browser";
+        code = "safari"
 
 
 
