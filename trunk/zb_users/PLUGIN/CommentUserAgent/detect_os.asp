@@ -992,35 +992,36 @@ function detect_os(useragent)
     {
         _link = "http://www.ubuntu.com/";
         title = "Ubuntu";
+		code = "ubuntu-2";
 
         if (/Ubuntu[\/|\ ]([.0-9a-zA-Z]+)/i.test(useragent)) {
             regmatch = /Ubuntu[\/|\ ]([.0-9a-zA-Z]+)/i.exec(useragent);
             version += " " + regmatch[1];
+			if (regmatch[1] < 10)
+			{
+				code = "ubuntu-1";
+	
+			}
+			else
+			{
+				code = "ubuntu-2";
+	
+			}
+	
+			if (version.length > 1)
+			{
+				title += version;
+	
+			}
+	
+			if (/x86_64/i.test(useragent))
+			{
+				title += " x64";
+	
+			}
 
         }
 
-        if (regmatch[1] < 10)
-        {
-            code = "ubuntu-1";
-
-        }
-        else
-        {
-            code = "ubuntu-2";
-
-        }
-
-        if (version.length > 1)
-        {
-            title += version;
-
-        }
-
-        if (/x86_64/i.test(useragent))
-        {
-            title += " x64";
-
-        }
 
     }
     else if (/Linux/i.test(useragent))

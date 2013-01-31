@@ -21,7 +21,7 @@ If IsEmpty(Req) Then Req=0
 Req=CInt(Req)
 UserAgent=Request.ServerVariables("HTTP_USER_AGENT").Item
 '检查权限
-If BlogUser.Level>1 Then Call ShowError(6)
+'If BlogUser.Level>1 Then Call ShowError(6)
 If CheckPluginState("CommentUserAgent")=False Then Call ShowError(48)
 BlogTitle="评论UA"
 Dim objConfig
@@ -88,6 +88,9 @@ ElseIf Request.QueryString("act")="save" Then
 End If
 %>
 <!--#include file="..\..\..\zb_system\admin\admin_header.asp"-->
+<style type="text/css">
+td{white-space:nowrap}
+</style>
 <!--#include file="..\..\..\zb_system\admin\admin_top.asp"-->
         
         <div id="divMain">
@@ -222,25 +225,28 @@ End If
             <p>插件内大部分图标和代码来自WordPress插件wp-useragent,zsx将其转换为ASP后做成了Z-Blog插件。</p>
             <p>Z-Blog 2.0 Doomsday 121221和之前版本Z-Blog的Totoro有一个BUG，得到的评论均无User-Agent，所以一定会显示“Unknown”。</p>
             <p>您可以
-              <input type="button" class="button" value="点击这里" onclick="location.href='?act=design'"/>
+              <input type="button" class="button" value="点击这里" onClick="location.href='?act=design'"/>
               为它们随便设计一个User-Agent。</p>
             <p>当然，如果您蛋疼，也可以
-              <input type="button" class="button" value="点击这里" onclick="location.href='?act=back'"/>
+              <input type="button" class="button" value="点击这里" onClick="location.href='?act=back'"/>
               把随便设计的切换回来</p>
             <%
 			ElseIf req=2 Then
 			%>
             	<table width="100%"><thead><tr height="32"><td width="50%">图</td><td>UA</td></tr></thead><tbody>
             <%
-				For i=0 To Ubound(aryUA)
-					Set o=detect_platform(aryUA(i))
+				Dim kk
+				kk=Split(LoadFromFile(Server.MapPath("test.txt"),"utf-8"),vbCrlf)
+				'kk=aryUA
+				For i=0 To Ubound(kk)
+					Set o=detect_platform(kk(i))
 			%>
             	<tr height="32"><td><%="<span class='cmtua_platform'><img src='"&BlogHost & "zb_users/plugin/commentuseragent/img/" & o.fullfilename&"' width='16 height='16' alt='"&o.text&"系统' />"&o.text&"</span>"%>
             <%
-					Set s=detect_webbrowser(aryUA(i))
+					Set s=detect_webbrowser(kk(i))
 			%>
             	<%="<span class='cmtua_browser'><img src='"&BlogHost & "zb_users/plugin/commentuseragent/img/" & s.fullfilename&"' width='16 height='16' alt='"&s.text&"浏览器' />"&s.text&"</span>"%></td>
-            	<td><%=aryUA(i)%></td></tr>
+            	<td><%=kk(i)%></td></tr>
             <%
 				Next
 			%>
