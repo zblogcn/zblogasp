@@ -236,8 +236,9 @@ td{white-space:nowrap}
             	<table width="100%"><thead><tr height="32"><td width="50%">图</td><td>UA</td></tr></thead><tbody>
             <%
 				Dim kk
-				kk=Split(LoadFromFile(Server.MapPath("test.txt"),"utf-8"),vbCrlf)
-				'kk=aryUA
+				
+				'kk=Split(LoadFromFile(Server.MapPath("test.txt"),"utf-8"),vbCrlf)
+				kk=aryUA
 				For i=0 To Ubound(kk)
 					Set o=detect_platform(kk(i))
 			%>
