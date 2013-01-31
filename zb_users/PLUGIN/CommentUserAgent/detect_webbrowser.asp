@@ -2,9 +2,9 @@
 // Detect Web Browsers
 function detect_webbrowser(useragent)
  {
-    var _link = "",
-    title = "",
-    code = "",
+    var _link = "#",
+    title = "Unknown",
+    code = "null",
     ver = "",
     regmatch;
 
@@ -124,15 +124,6 @@ function detect_webbrowser(useragent)
         ver = _ver.version;
         title = _ver.full;
         code = "atomicwebbrowser";
-
-
-
-    }
-    else if (/Avant\ (Browser|TriCore)/i.test(useragent))
-    {
-        _link = "http://www.avantbrowser.com/";
-        title = "Avant Browser";
-        code = "avantbrowser";
 
 
 
@@ -374,17 +365,6 @@ function detect_webbrowser(useragent)
         title = "SRWare " + _ver.full;
         ver = _ver.version;
         code = "srwareiron";
-
-
-
-    }
-    else if (/Chromium/i.test(useragent))
-    {
-        _link = "http://www.chromium.org/";
-        _ver = detect_browser_ver("Chromium", useragent);
-        ver = _ver.version;
-        title = _ver.full;
-        code = "chromium";
 
 
 
@@ -1091,6 +1071,18 @@ function detect_webbrowser(useragent)
 
 
     }
+    else if (/kchrome/i.test(useragent))
+    {
+        _link = "http://www.kkllq.com/";
+        _ver = detect_browser_ver("KChrome", useragent);
+        ver = _ver.version;
+        title = _ver.full;
+        code = "KChrome";
+
+
+
+    }
+
     else if (/Strata/i.test(useragent))
     {
         _link = "http://www.kirix.com/";
@@ -1962,7 +1954,9 @@ function detect_webbrowser(useragent)
     && /MetaSr/i.test(useragent))
     {
         _link = "http://ie.sogou.com/";
-        title = "Sogou Explorer";
+		_ver = detect_browser_ver("SE", useragent)
+        title = "Sogou Explorer " + _ver.version;
+		ver = _ver.version;
         code = "sogou";
 
 
@@ -2246,8 +2240,10 @@ function detect_webbrowser(useragent)
     }
     else if (/TencentTraveler/i.test(useragent))
     {
-        _link = "http://www.tencent.com/en-us/index.shtml";
-        title = "Tencent Traveler";
+        _link = "http://tt.qq.com/";
+		_ver = detect_browser_ver("TencentTraveler", useragent);
+		ver = _ver.version;
+        title = _ver.full;
         code = "tencenttraveler";
 
 
@@ -2459,6 +2455,17 @@ function detect_webbrowser(useragent)
 
 
     }
+    else if (/elinks/i.test(useragent))
+    {
+        _link = "http://elinks.or.cz/";
+        _ver = detect_browser_ver("elinks", useragent);
+        ver = _ver.version;
+        title = _ver.full;
+        code = "null";
+
+
+
+    }
     else if (/AppleWebkit/i.test(useragent)
     && /Android/i.test(useragent)
     && !/Chrome/i.test(useragent))
@@ -2624,7 +2631,7 @@ function detect_webbrowser(useragent)
     }
     else if (/YaBrowser/i.test(useragent))
     {
-        _link = "http://browser.yandex.com/";
+        _link = "http://ie.114la.com/";
         _ver = detect_browser_ver("Browser", useragent);
         title = "Yandex." + _ver.full;
         ver = _ver.version;
@@ -2633,6 +2640,16 @@ function detect_webbrowser(useragent)
 
 
     }
+    else if (/YLMFBR/i.test(useragent))
+    {
+        _link = "http://ie.114la.com/";
+        title = "YLMF 114La";
+        code = "114la";
+
+
+
+    }
+
     else if (/zBrowser/i.test(useragent))
     {
         _link = "http://sites.google.com/site/zeromusparadoxe01/zbrowser";
@@ -2668,6 +2685,28 @@ function detect_webbrowser(useragent)
 
 
     }
+	//Avant can edit registry..
+    else if (/Avant\ (Browser|TriCore)/i.test(useragent))
+    {
+        _link = "http://www.avantbrowser.com/";
+        title = "Avant Browser";
+        code = "avantbrowser";
+
+
+
+    }
+    else if (/Chromium/i.test(useragent))
+    {
+        _link = "http://www.chromium.org/";
+        _ver = detect_browser_ver("Chromium", useragent);
+        ver = _ver.version;
+        title = _ver.full;
+        code = "chromium";
+
+
+
+    }
+
     else if (/Chrome/i.test(useragent))
     {
         _link = "http://google.com/chrome/";
@@ -2758,13 +2797,13 @@ function detect_webbrowser(useragent)
 		}
 		else if (regmatch[1] >= 7)
 		{
-			/*var s = /Windows NT (6\.2|1)/i.exec(useragent);
-			if (s.length == 0)
-			{*/
+			if (!/Windows NT 6/i.test(useragent))
+			{
 				code = "msie7"
-			/*}
+			}
 			else
 			{
+				var s = /Windows NT (6\.\d)/i.exec(useragent);
 				if (s[1] == "6.1")
 				{
 					code = "msie9";   //Windows 7 + Internet Explorer 9 in Compatibility Mode
@@ -2779,7 +2818,7 @@ function detect_webbrowser(useragent)
 					title = "Internet Explorer 10";
 					
 				}
-			}*/
+			}
 			
         }
         else if (regmatch[1] >= 6)
@@ -2829,6 +2868,17 @@ function detect_webbrowser(useragent)
 
 
     }
+    else if (/AppleWebkit/i.test(useragent))
+    {
+        _link = "http://www.apple.com/safari/";
+        title = "Safari";
+
+        code = "webkit"
+
+
+
+    }
+
     else if (/Mozilla/i.test(useragent))
     {
         _link = "http://www.mozilla.org/";
@@ -2843,15 +2893,6 @@ function detect_webbrowser(useragent)
         }
 
         code = "mozilla";
-
-
-
-    }
-    else
-    {
-        _link = "#";
-        title = "Unknown";
-        code = "null";
 
 
 

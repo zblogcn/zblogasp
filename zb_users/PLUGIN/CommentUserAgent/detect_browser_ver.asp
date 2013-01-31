@@ -147,7 +147,7 @@ function detect_browser_ver(title, useragent)
 		}
 		else if (title.toLowerCase() == "tencenttraveler")
 		{
-			json.full="TT Explorer " + version;
+			json.full="Tencent Traveler " + version;
 	
 		}
 		else if (title.toLowerCase() == "crmo")
