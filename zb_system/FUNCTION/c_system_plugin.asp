@@ -357,6 +357,21 @@ Dim sAction_Plugin_Default_Begin
 
 '**************************************************<
 '类型:action
+'名称:Action_Plugin_Default_WithOutConnect_Begin
+'参数:无
+'说明:Default.asp
+'**************************************************>
+Dim Action_Plugin_Default_WithOutConnect_Begin()
+ReDim Action_Plugin_Default_WithOutConnect_Begin(0)
+Dim bAction_Plugin_Default_WithOutConnect_Begin
+Dim sAction_Plugin_Default_WithOutConnect_Begin
+
+
+
+
+
+'**************************************************<
+'类型:action
 '名称:Action_Plugin_Default_End
 '参数:无
 '说明:Default.asp

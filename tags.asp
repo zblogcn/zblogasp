@@ -25,6 +25,8 @@
 <!-- #include file="zb_system/function/c_system_plugin.asp" -->
 <!-- #include file="zb_users/plugin/p_config.asp" -->
 <%
+Dim html
+
 Call System_Initialize()
 
 'plugin node
@@ -67,14 +69,14 @@ End If
 
 If objArticle.Export(ZC_DISPLAY_MODE_SYSTEMPAGE) Then
 	objArticle.Build
-	Response.Write objArticle.html
+	html=objArticle.html
+	Response.Write html
 End If
 
 'plugin node
 For Each sAction_Plugin_Tags_End in Action_Plugin_Tags_End
 	If Not IsEmpty(sAction_Plugin_Tags_End) Then Call Execute(sAction_Plugin_Tags_End)
 Next
-
 
 Call System_Terminate()
 
