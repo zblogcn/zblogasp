@@ -4513,7 +4513,9 @@ Class TTag
 
 	Private Sub Class_Initialize()
 
+		ID=0
 		ReCount=0
+		Order=0
 
 		Set Meta=New TMeta
 
