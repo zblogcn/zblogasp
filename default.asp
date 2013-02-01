@@ -34,8 +34,6 @@ Next
 
 If ZC_DATABASE_PATH="" And ZC_MSSQL_DATABASE="" Then Response.Redirect("zb_install/")
 
-If ZC_DISPLAY_COUNT_WAP>0 Then If CheckMobile() Then Response.Redirect ZC_FILENAME_WAP
-
 If ZC_HTTP_LASTMODIFIED=True Then
 	Response.AddHeader "Last-Modified",ParseDateForRFC822GMT(GetFileModified(BlogPath & "zb_users\cache\default.asp"))
 End If
