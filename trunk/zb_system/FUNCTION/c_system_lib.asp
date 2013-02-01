@@ -3623,6 +3623,9 @@ Class TComment
 
 	Private Sub Class_Initialize()
 
+		ID=0
+		log_ID=0
+		AuthorID=0
 		Set Meta=New TMeta
 
 	End Sub
@@ -4197,6 +4200,8 @@ Class TUpLoadFile
 
 	Private Sub Class_Initialize()
 
+		ID=0
+		AuthorID=0
 		Set Meta=New TMeta
 		AutoName=False
 		IsManual=False
@@ -4514,8 +4519,10 @@ Class TTag
 	Private Sub Class_Initialize()
 
 		ID=0
-		ReCount=0
 		Order=0
+		ParentID=0
+		Count=0
+		ReCount=0
 
 		Set Meta=New TMeta
 
