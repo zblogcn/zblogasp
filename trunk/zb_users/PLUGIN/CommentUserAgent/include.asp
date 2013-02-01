@@ -14,7 +14,11 @@ End Function
 Function CommentUserAgent_Comment_MakeTemplate_TemplateTags(ByRef aryTemplateTagsName,ByRef aryTemplateTagsValue)
 
 	If UBound(aryTemplateTagsValue)>26 Then
-		CommentUserAgent_UserAgent=aryTemplateTagsValue(27)
+		If aryTemplateTagsName(27)="article/comment/agent" Then
+			CommentUserAgent_UserAgent=aryTemplateTagsValue(27)
+		Else
+			CommentUserAgent_UserAgent=objConn.Execute("SELECT [comm_Agent] FROM [blog_Comment] WHERE [comm_ID]="&aryTemplateTagsValue(1))(0)
+		End If
 	Else
 		CommentUserAgent_UserAgent=objConn.Execute("SELECT [comm_Agent] FROM [blog_Comment] WHERE [comm_ID]="&aryTemplateTagsValue(1))(0)
 	End if
