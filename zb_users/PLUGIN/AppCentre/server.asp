@@ -98,7 +98,7 @@ strURL=strURL & Request.QueryString & "&rnd="&Rnd
 strURL=APPCENTRE_URL & strURL
 objXmlHttp.Open Request.ServerVariables("REQUEST_METHOD"),strURL
 If bolPost Then objXmlhttp.SetRequestHeader "Content-Type","application/x-www-form-urlencoded"
-objXmlhttp.SetRequestHeader "User-Agent","AppCentre/"&app_version
+objXmlhttp.SetRequestHeader "User-Agent","AppCentre/"&app_version & " ZBlog/"&BlogVersion&" "&Request.ServerVariables("HTTP_USER_AGENT") &""
 objXmlhttp.SetRequestHeader "Cookie","username="&vbsescape(login_un)&"; password="&vbsescape(login_pw)
 objXmlHttp.Send Request.Form.Item
 
