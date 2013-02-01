@@ -1360,6 +1360,7 @@ Function PostTag()
 	objTag.Alias=Request.Form("edtAlias")
 	objTag.TemplateName=Request.Form("edtTemplate")
 
+
 	If CLng(objTag.ID)>0 Then objTag.MetaString=objConn.Execute("SELECT [tag_Meta] FROM [blog_Tag] WHERE [tag_ID]="&CLng(objTag.ID))(0)
 
 	'接口

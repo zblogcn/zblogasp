@@ -4523,6 +4523,7 @@ Class TTag
 		ParentID=0
 		Count=0
 		ReCount=0
+		ID=0
 
 		Set Meta=New TMeta
 
