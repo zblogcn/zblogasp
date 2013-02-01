@@ -489,7 +489,7 @@ function AutoIntro() {
 }
 
 <%
-If  Not CheckMobile() Then 
+
 %>
 //文章编辑提交区随动JS开始
  var oDiv=document.getElementById("divFloat");
@@ -506,7 +506,7 @@ If  Not CheckMobile() Then
 	};
  }
 <% 
-	End if
+
 %>
 //选择模板
 function selectlogtemplate(c){

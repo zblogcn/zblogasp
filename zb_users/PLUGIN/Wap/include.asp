@@ -37,7 +37,7 @@ Function CheckMobile()
 	
 		'是否（智能）手机浏览器
 	Dim MobileBrowser_List,PCBrowser_List,UserAgent
-	MobileBrowser_List ="up.browser|up.link|mmp|iphone|android|wap|netfront|java|opera\smini|ucweb|windows\sce|symbian|series|webos|sonyericsson|sony|blackberry|cellphone|dopod|nokia|samsung|palmsource|palmos|pda|xphone|xda|smartphone|pieplus|meizu|midp|cldc|brew|tear|ipad|kindle"
+	MobileBrowser_List ="up.browser|up.link|mmp|iphone|android|wap|netfront|java|opera\smini|ucweb|windows\sce|symbian|series|webos|sonyericsson|sony|blackberry|cellphone|dopod|nokia|samsung|palmsource|palmos|pda|xphone|xda|smartphone|pieplus|meizu|midp|cldc|brew|tear|ipad|kindle|windows\sphone"
 	PCBrowser_List="mozilla|chrome|safari|opera|m3gate|winwap|openwave"
 	UserAgent = LCase(Request.ServerVariables("HTTP_USER_AGENT"))
 	If CheckRegExp(UserAgent,MobileBrowser_List) Then 

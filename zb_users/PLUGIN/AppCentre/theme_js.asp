@@ -64,10 +64,10 @@ $(".theme").each(function(){
 	}else{
 		s=s+"&nbsp;&nbsp;&nbsp;&nbsp;<a href='"+bloghost+"zb_users/plugin/appcentre/checkupdate.asp?act=eut&id="+t+"' title='允许应用中心更新该主题'><img height='16' width='16' src='"+bloghost+"zb_users/plugin/appcentre/images/refresh2.png'/></a>";
 	}
-	s=s+"&nbsp;&nbsp;&nbsp;&nbsp;"
 
 <%End If%>
 	if($(this).hasClass("theme-other")){
+		s=s+"&nbsp;&nbsp;&nbsp;&nbsp;"
 		s=s+"<a href='"+bloghost+"zb_users/plugin/appcentre/theme_del.asp?id="+t+"' title='删除该主题' onclick='return window.confirm(\"单击“确定”继续。单击“取消”停止。\");'><img height='16' width='16' src='"+bloghost+"zb_users/plugin/appcentre/images/delete.png'/></a>";
 	}
 
