@@ -25,14 +25,14 @@
 <!-- #include file="zb_system/function/c_system_event.asp" -->
 <!-- #include file="zb_users/plugin/p_config.asp" -->
 <%
+Dim html
+
 Call System_Initialize()
 
 'plugin node
 For Each sAction_Plugin_Catalog_Begin in Action_Plugin_Catalog_Begin
 	If Not IsEmpty(sAction_Plugin_Catalog_Begin) Then Call Execute(sAction_Plugin_Catalog_Begin)
 Next
-
-Dim html
 
 Dim ArtList
 Set ArtList=New TArticleList

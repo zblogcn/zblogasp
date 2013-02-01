@@ -25,23 +25,21 @@
 <!-- #include file="zb_system/function/c_system_plugin.asp" -->
 <!-- #include file="zb_users/plugin/p_config.asp" -->
 <%
-Call ActivePlugin
+Dim html
 
 'plugin node
-For Each sAction_Plugin_Default_Begin in Action_Plugin_Default_Begin
-	If Not IsEmpty(sAction_Plugin_Default_Begin) Then Call Execute(sAction_Plugin_Default_Begin)
+For Each sAction_Plugin_Default_WithOutConnect_Begin in Action_Plugin_Default_WithOutConnect_Begin
+	If Not IsEmpty(sAction_Plugin_Default_WithOutConnect_Begin) Then Call Execute(sAction_Plugin_Default_WithOutConnect_Begin)
 Next
-
-
-If ZC_DISPLAY_COUNT_WAP>0 Then If CheckMobile() Then Response.Redirect ZC_FILENAME_WAP
 
 If ZC_DATABASE_PATH="" And ZC_MSSQL_DATABASE="" Then Response.Redirect("zb_install/")
 
+If ZC_DISPLAY_COUNT_WAP>0 Then If CheckMobile() Then Response.Redirect ZC_FILENAME_WAP
+
 If ZC_HTTP_LASTMODIFIED=True Then
-	Response.AddHeader "Last-Modified",GetFileModified(BlogPath & "zb_users\cache\default.asp")
+	Response.AddHeader "Last-Modified",ParseDateForRFC822GMT(GetFileModified(BlogPath & "zb_users\cache\default.asp"))
 End If
 
-Dim html
 html=LoadFromFile(BlogPath & "zb_users\cache\default.asp","utf-8")
 
 If Len(html)>0 Then
@@ -50,8 +48,12 @@ If Len(html)>0 Then
 	Response.End
 End If
 
-
 Call System_Initialize()
+
+'plugin node
+For Each sAction_Plugin_Default_Begin in Action_Plugin_Default_Begin
+	If Not IsEmpty(sAction_Plugin_Default_Begin) Then Call Execute(sAction_Plugin_Default_Begin)
+Next
 
 
 Dim ArtList

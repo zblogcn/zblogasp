@@ -24,6 +24,7 @@
 <!-- #include file="zb_system/function/c_system_plugin.asp" -->
 <!-- #include file="zb_users/plugin/p_config.asp" -->
 <%
+Dim html
 
 Call System_Initialize()
 
@@ -31,8 +32,6 @@ Call System_Initialize()
 For Each sAction_Plugin_View_Begin in Action_Plugin_View_Begin
 	If Not IsEmpty(sAction_Plugin_View_Begin) Then Call Execute(sAction_Plugin_View_Begin)
 Next
-
-Dim html
 
 Dim objRS
 Dim Article
