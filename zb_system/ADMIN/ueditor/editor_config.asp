@@ -54,10 +54,6 @@ Next
 	oDic.Add "sourceEditor",""""&IIf(ZC_CODEMIRROR_ENABLE,"codemirror","textarea")&""""
 	oDic.Add "theme","'default'"
     oDic.Add "themePath","URL +'themes/'"
-	'Call CheckMobile()
-	'If ZC_ISWAP Then oDic.Add "sourceEditorFirst","true"
-	'好像不起作用
-	'oDic.Add "contextMenu","[]"
 	
 	Dim i,aryKeys,aryItems
 	aryKeys=oDic.Keys

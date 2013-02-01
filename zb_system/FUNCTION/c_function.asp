@@ -1800,6 +1800,47 @@ End Function
 
 
 '*********************************************************
+' 目的：   检查是否手机端访问
+'*********************************************************
+Function CheckMobile()
+
+	CheckMobile=False
+
+	'是否（智能）手机浏览器
+	Dim MobileBrowser_List,PCBrowser_List,UserAgent
+	MobileBrowser_List ="android|iphone|ipad|windows\sphone|kindle|netfront|java|opera\smini|opera\smobi|ucweb|windows\sce|symbian|series|webos|sonyericsson|sony|blackberry|cellphone|dopod|nokia|samsung|palmsource|palmos|xphone|xda|smartphone|meizu|up.browser|up.link|pieplus|midp|cldc|motorola|foma|docomo|huawei|coolpad|alcatel|amoi|ktouch|philips|benq|haier|bird|zte|wap"
+	PCBrowser_List="mozilla|chrome|safari|opera|m3gate|winwap|openwave"
+	UserAgent = LCase(Request.ServerVariables("HTTP_USER_AGENT"))
+	If CheckRegExp(UserAgent,MobileBrowser_List) Then 
+		CheckMobile=True
+		Exit Function
+	End If 
+
+	'是否专用wap浏览器
+	If InStr(LCase(Request.ServerVariables("HTTP_ACCEPT")), "application/vnd.wap.xhtml+xml") Then
+		CheckMobile=True
+		Exit Function
+	End If
+	If InStr(LCase(Request.ServerVariables("HTTP_VIA")), "wap")>0 Then
+		CheckMobile=True
+		Exit Function
+	End If
+	If Not IsEmpty(Request.ServerVariables("HTTP_X_WAP_PROFILE")) Then
+		CheckMobile=True
+		Exit Function
+	End If
+	If Not IsEmpty(Request.ServerVariables("HTTP_PROFILE")) Then
+		CheckMobile=True
+		Exit Function
+	End If
+
+End Function 
+'*********************************************************
+
+
+
+
+'*********************************************************
 Function ParseDateForRFC822GMT(dtmDate)
 
 	dtmDate=DateAdd("h", 0-(CInt(ZC_HOST_TIME_ZONE)/100), dtmDate)

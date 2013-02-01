@@ -58,7 +58,7 @@ Function WapNav()
 		Response.Write "<a  href="""&WapUrlStr&"&act=AddArt"">"&ZC_MSG168&"</a><b>|</b>"	
 		End If
 
-		Response.Write "<a href="""&BlogHost&""">电脑版</a>"		
+		Response.Write "<a href="""&BlogHost&"?mod=pc"">电脑版</a>"		
 		Response.Write "</div><div class=""adm"">" &WapCheckLogin
 		Response.Write "</div>"
 End Function
