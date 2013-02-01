@@ -181,9 +181,9 @@ Function PostArticle()
 	objArticle.TemplateName=Request.Form("edtTemplate")
 	objArticle.FType=CLng(Request.Form("edtFType"))
 
-	objArticle.Intro=IIf(ZC_ISWAP,TransferHTML(Request.Form("txaIntro"),"[mobilerequest]"),Request.Form("txaIntro"))
+	objArticle.Intro=Request.Form("txaIntro")
 
-	objArticle.Content=IIf(ZC_ISWAP,TransferHTML(Request.Form("txaContent"),"[mobilerequest]"),Request.Form("txaContent"))
+	objArticle.Content=Request.Form("txaContent")
 
 	If objArticle.FType=ZC_POST_TYPE_ARTICLE Then
 		If InStr(objArticle.Content,"<hr class=""more"" />")>0 Then

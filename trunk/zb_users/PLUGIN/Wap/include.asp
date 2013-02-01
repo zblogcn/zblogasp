@@ -7,53 +7,61 @@ Function ActivePlugin_Wap()
 
 End Function
 
-Call Add_Action_Plugin("Action_Plugin_Default_WithOutConnect_Begin","If ZC_DISPLAY_COUNT_WAP>0 Then If CheckMobile() Then Server.Transfer ""zb_users\plugin\wap\wap.asp"":Response.End")
+Call Add_Action_Plugin("Action_Plugin_Default_WithOutConnect_Begin","Wap_Check()")
 
 
-'*********************************************************
-' 目的：   检查是否手机端访问
-'*********************************************************
-Function CheckMobile()
-	
-	
-	Dim bolCheck
-	bolCheck=True
-	'是否由wap转入电脑版
-	If Request.Cookies("CheckMobile")="false" Then
-		CheckMobile=False
-		bolCheck=False
+Function Wap_Check()
+
+	If Request.QueryString("mod")="pc" Then
+		Exit Function
 	End If
-	If  Not IsEmpty(Request.ServerVariables("HTTP_REFERER"))  And  InStr(LCase(Request.ServerVariables("HTTP_REFERER")),ZC_FILENAME_WAP) Then 
-			CheckMobile=False
-			Response.Cookies("CheckMobile")="false"
-			bolCheck=False
-	End If 
-	'是否专用wap浏览器
-	If InStr(LCase(Request.ServerVariables("HTTP_ACCEPT")), "application/vnd.wap.xhtml+xml") Or Not IsEmpty(Request.ServerVariables("HTTP_X_PROFILE")) Or Not IsEmpty(Request.ServerVariables("HTTP_PROFILE")) Then
-			CheckMobile=True
-			ZC_ISWAP=True
-			Exit Function
-	End If 
-	
-		'是否（智能）手机浏览器
-	Dim MobileBrowser_List,PCBrowser_List,UserAgent
-	MobileBrowser_List ="up.browser|up.link|mmp|iphone|android|wap|netfront|java|opera\smini|ucweb|windows\sce|symbian|series|webos|sonyericsson|sony|blackberry|cellphone|dopod|nokia|samsung|palmsource|palmos|pda|xphone|xda|smartphone|pieplus|meizu|midp|cldc|brew|tear|ipad|kindle|windows\sphone"
-	PCBrowser_List="mozilla|chrome|safari|opera|m3gate|winwap|openwave"
-	UserAgent = LCase(Request.ServerVariables("HTTP_USER_AGENT"))
-	If CheckRegExp(UserAgent,MobileBrowser_List) Then 
-		If bolCheck Then CheckMobile=True
-		ZC_ISWAP=True
-		Exit Function
-	ElseIf CheckRegExp(UserAgent,PCBrowser_List) Then '未知手机浏览器，其UA标识为常见浏览器，不跳转
-		If bolCheck Then CheckMobile=False
-		ZC_ISWAP=False
-		Exit Function
-	Else 
-		ZC_ISWAP=False
-		If bolCheck Then CheckMobile=False 
-	End If 
+
+	If Wap_CheckMobile()="pad" Then Server.Transfer "zb_users\plugin\wap\pad.asp":Response.End
+
+	If Wap_CheckMobile()="wap" Then Server.Transfer "zb_users\plugin\wap\wap.asp":Response.End
 
 End Function 
-'*********************************************************
 
+
+Function Wap_CheckMobile()
+
+	Wap_CheckMobile=""
+
+	Dim Mobile_List,Pad_List,UserAgent
+	UserAgent = LCase(Request.ServerVariables("HTTP_USER_AGENT"))
+
+
+	Pad_List="android|iphone|ipad|windows\sphone|kindle|gt\-p1000|gt\-n7000"
+	If CheckRegExp(UserAgent,Pad_List) Then 
+		Wap_CheckMobile="pad"
+		Exit Function
+	End If
+
+
+	'是否（智能）手机浏览器
+	Mobile_List ="android|iphone|ipad|windows\sphone|kindle|netfront|java|opera\smini|opera\smobi|ucweb|windows\sce|symbian|series|webos|sonyericsson|sony|blackberry|cellphone|dopod|nokia|samsung|palmsource|palmos|xphone|xda|smartphone|meizu|up.browser|up.link|pieplus|midp|cldc|motorola|foma|docomo|huawei|coolpad|alcatel|amoi|ktouch|philips|benq|haier|bird|zte|wap"
+	If CheckRegExp(UserAgent,Mobile_List) Then 
+		Wap_CheckMobile="wap"
+		Exit Function
+	End If
+
+	'是否专用wap浏览器
+	If InStr(LCase(Request.ServerVariables("HTTP_ACCEPT")), "application/vnd.wap.xhtml+xml") Then
+		Wap_CheckMobile="wap"
+		Exit Function
+	End If
+	If InStr(LCase(Request.ServerVariables("HTTP_VIA")), "wap")>0 Then
+		Wap_CheckMobile="wap"
+		Exit Function
+	End If
+	If Not IsEmpty(Request.ServerVariables("HTTP_X_WAP_PROFILE")) Then
+		Wap_CheckMobile="wap"
+		Exit Function
+	End If
+	If Not IsEmpty(Request.ServerVariables("HTTP_PROFILE")) Then
+		Wap_CheckMobile="wap"
+		Exit Function
+	End If
+
+End Function
 %>
