@@ -27,9 +27,8 @@
 <!-- #include file="../../../zb_system/function/c_system_plugin.asp" -->
 <!-- #include file="../../../zb_users/plugin/p_config.asp" -->
 <%
- If ZC_DISPLAY_COUNT_WAP=0 Then Response.Redirect ZC_BLOG_HOST
  ShowError_Custom="Call ShowError_WAP(id)"
- Response.Cookies("CheckMobile")="true"
+ Wap_Type="wap"
 %><?xml version="1.0" encoding="UTF-8"?> 
 <!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd"> 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -89,7 +88,8 @@ Call System_Terminate()
 If Err.Number<>0 then
 	Call ShowError(0)
 End If
+
 %>
-<div id="ft">Powered By <a href="http://bbs.rainbowsoft.org">Z-Blog</a></div>
+<div id="ft">Powered By <a href="http://bbs.rainbowsoft.org">Z-Blog</a>&nbsp;&nbsp;<a href="<%=BlogHost%>?mod=pad">触屏版</a>|<a href="<%=BlogHost%>?mod=wap">手机版</a>|<a href="<%=BlogHost%>?mod=pc">电脑版</a></div>
 </body>
 </html>

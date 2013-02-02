@@ -23,13 +23,12 @@
 <!-- #include file="../../../zb_system/function/c_system_lib.asp" -->
 <!-- #include file="../../../zb_system/function/c_system_base.asp" -->
 <!-- #include file="../../../zb_system/function/c_system_event.asp" -->
-<!-- #include file="../../../zb_users/plugin/wap/c_system_wap.asp" -->
+<!-- #include file="../../../zb_users/plugin/wap/c_system_pad.asp" -->
 <!-- #include file="../../../zb_system/function/c_system_plugin.asp" -->
 <!-- #include file="../../../zb_users/plugin/p_config.asp" -->
 <%
- If ZC_DISPLAY_COUNT_WAP=0 Then Response.Redirect ZC_BLOG_HOST
  ShowError_Custom="Call ShowError_WAP(id)"
- Response.Cookies("CheckMobile")="true"
+ Wap_Type="pad"
 %><?xml version="1.0" encoding="UTF-8"?> 
 <!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd"> 
 <html xmlns="http://www.w3.org/1999/xhtml">
