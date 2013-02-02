@@ -72,7 +72,7 @@ Function WapCheckLogin()
 	BlogUser.LoginType="Cookies"
 	BlogUser.Verify
 
-	s=BlogUser.FirstName&" "&ZVA_User_Level_Name(BlogUser.Level)&""
+	s=BlogUser.FirstName&"("&ZVA_User_Level_Name(BlogUser.Level)&")"
 	If BlogUser.ID<>0 Then
 		s=s&" <a href="""&WapUrlStr&"&act=Logout"">"&ZC_MSG020&"</a>"
 	Else
@@ -388,9 +388,9 @@ Function WapEdtArt()
 	'template
 	Response.Write "<input type=""hidden"" name=""edtTemplate"" id=""edtTemplate"" value="""&EditArticle.TemplateName&""" />"
 	'title
-	Response.Write "<p>"&ZC_MSG060&" : <input type=""text"" name=""edtTitle"" class=""i"" value="""&EditArticle.Title&"""/></p>"
+	Response.Write "<p>"&ZC_MSG060&": <input type=""text"" name=""edtTitle"" class=""i"" value="""&EditArticle.Title&"""/></p>"
 	'alias
-	Response.Write "<p>"&ZC_MSG147&" : <input type=""text"" name=""edtAlias"" class=""i"" value="""&TransferHTML(EditArticle.Alias,"[html-format]")&"""/></p>"
+	Response.Write "<p>"&ZC_MSG147&": <input type=""text"" name=""edtAlias"" class=""i"" value="""&TransferHTML(EditArticle.Alias,"[html-format]")&"""/></p>"
 	'tags
 	Response.Write "<p>"&ZC_MSG138&": <input name=""edtTag""  class=""i""  maxlength=""100"" value="""&TransferHTML(EditArticle.TagToName,"[html-format]")&""" /></p>"
 
@@ -431,7 +431,7 @@ Function WapEdtArt()
 	Response.Write "</select></p>"
 
 	'istop
-	Response.Write "<p><span>"&ZC_MSG051&"</span> : "
+	Response.Write "<p><span>"&ZC_MSG051&"</span>:"
     If EditArticle.Istop Then
 	Response.Write "<input type=""checkbox"" name=""edtIstop"" id=""edtIstop"" value=""True"" checked=""""/>"
     Else
@@ -440,11 +440,11 @@ Function WapEdtArt()
 
 	Response.Write "<input type=""hidden"" name=""edtDateTime"" id=""edtDateTime"" value="""&EditArticle.PostTime&""" />"
 	
-	Response.Write "<p>"&ZC_MSG055&" : <br />"
+	Response.Write "<p>"&ZC_MSG055&":<br />"
 	Response.Write "<textarea  name=""txaContent""  class=""i""  style=""min-height:160px;width:98%"">"&EditArticle.Content&"</textarea></p>"
 	Dim idis:idis="block"
 	If Len(EditArticle.Intro)=0 Then idis="none"
-	Response.Write "<p style=""display:"&idis&""">"&ZC_MSG016&" : <br />"
+	Response.Write "<p style=""display:"&idis&""">"&ZC_MSG016&":<br />"
 	Response.Write "<textarea  name=""txaIntro""  class=""i"" style=""min-height:100px;width:98%"">"&EditArticle.Intro&"</textarea></p>"
 
 	Response.Write "<p class=""t""><input  type=""submit"" value="""&ZC_MSG087&""" /></p>"
@@ -854,7 +854,7 @@ Function WapCom()
 			PageBar=" <a href="""&WapUrlStr&"&act=Com&amp;id="&log_ID&"&amp;Page=1"">&lt;</a> "			
 			For i=a to b 		
 				If i=CurrentPage Then
-				PageBar=PageBar&" "&i&" "
+				PageBar=PageBar&" <span>"&i&"</span> "
 				Else
 				PageBar=PageBar&" <a href="""&WapUrlStr&"&act=Com&amp;id="&log_ID&"&amp;Page="&i&""">"&i&"</a> "
 				End If
@@ -943,7 +943,11 @@ Function WapView()
 				Article.Build
 				Article.html=Replace(Article.html,"<#article/pagecontent#>",ArticleContent)
 				Article.html=Replace(Article.html,"<#ZC_FILENAME_WAP#>",WapUrlStr)
-				Article.html=Replace(Article.html,"<#article/wapmutuality#>",WapRelateList(Article.ID,Article.Tag))
+				
+				Dim wapmutuality
+				wapmutuality=WapRelateList(Article.ID,Article.Tag)
+				Article.html=Replace(Article.html,"<#article/wapmutuality#>",wapmutuality)
+				If wapmutuality="" Then Article.html=Replace(Article.html,"id=""m""","id=""m"" style=""display:none;""")
 
 			    If BlogUser.Level<=3 Then	
 					Article.html=Replace(Article.html,"<#adbegin#>","")
@@ -1343,7 +1347,7 @@ Function WapExportBar(intNowPage,intAllPage,intCateId,intAuthorId,dtmYearMonth,s
 				strPageBar=" <a href="""&WapUrlStr & t &"page=1"">&lt;</a> "			
 				For i=a to b 		
 					If i=intNowPage Then
-					strPageBar=strPageBar&" "&i&" "
+					strPageBar=strPageBar&" <span>"&i&"</span> "
 					Else
 					strPageBar=strPageBar&" <a href="""&WapUrlStr& t &"page="&i&""">"&i&"</a> "
 					End If
