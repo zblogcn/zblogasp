@@ -11,7 +11,7 @@ function detect_webbrowser(useragent)
 
     var mobile = 0;
 
-    if (/360se|360ee/i.test(useragent))
+    if (/360se|360ee|360browser|(360 .phone browser)/i.test(useragent))
     {
         _link = "http://se.360.cn/";
         title = "360UnSafe Explorer";
@@ -2298,6 +2298,16 @@ function detect_webbrowser(useragent)
 
 
     }
+    else if (/tiantian/i.test(useragent))
+    {
+        _link = "http://browser.vmall.com/";
+        title = "Tiantian";
+        code = "tiantian";
+
+
+
+    }
+
     else if (/Tjusig/i.test(useragent))
     {
         _link = "http://www.tjusig.cz/";
@@ -2332,10 +2342,10 @@ function detect_webbrowser(useragent)
 
 
     }
-    else if (/UC\ Browser/i.test(useragent))
+    else if (/UCBrowser/i.test(useragent))
     {
         _link = "http://www.uc.cn/English/index.shtml";
-        _ver = detect_browser_ver("UC Browser", useragent);
+        _ver = detect_browser_ver("UCBrowser", useragent);
         ver = _ver.version;
         title = _ver.full;
         code = "ucbrowser";
