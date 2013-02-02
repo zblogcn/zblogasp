@@ -107,7 +107,7 @@ function detect_os(useragent)
         }
 
     }
-    else if (/CrOS/i.test(useragent))
+    else if (/CrOS/i.test(useragent) && !/Microsoft/i.test(useragent))
     {
         _link = "http://en.wikipedia.org/wiki/Google_Chrome_OS";
         title = "Google Chrome OS";
@@ -167,31 +167,31 @@ function detect_os(useragent)
         if (/Edubuntu[\/|\ ]([.0-9a-zA-Z]+)/i.test(useragent)) {
             regmatch = /Edubuntu[\/|\ ]([.0-9a-zA-Z]+)/i.exec(useragent);
             version += " " + regmatch[1];
+			if (regmatch[1] < 10)
+			{
+				code = "edubuntu-1";
+	
+			}
+			else
+			{
+				code = "edubuntu-2";
+	
+			}
+	
+			if (version.length > 1)
+			{
+				title += version;
+	
+			}
+	
+			if (/x86_64/i.test(useragent))
+			{
+				title += " x64";
+	
+			}
 
         }
 
-        if (regmatch[1] < 10)
-        {
-            code = "edubuntu-1";
-
-        }
-        else
-        {
-            code = "edubuntu-2";
-
-        }
-
-        if (version.length > 1)
-        {
-            title += version;
-
-        }
-
-        if (/x86_64/i.test(useragent))
-        {
-            title += " x64";
-
-        }
 
     }
     else if (/Fedora/i.test(useragent))
@@ -339,28 +339,6 @@ function detect_os(useragent)
 
         }
 
-        if (regmatch[1] < 10)
-        {
-            code = "kubuntu-1";
-
-        }
-        else
-        {
-            code = "kubuntu-2";
-
-        }
-
-        if (version.length > 1)
-        {
-            title += version;
-
-        }
-
-        if (/x86_64/i.test(useragent))
-        {
-            title += " x64";
-
-        }
 
     }
     else if (/LindowsOS/i.test(useragent))
@@ -372,6 +350,28 @@ function detect_os(useragent)
         if (/x86_64/i.test(useragent))
         {
             title += " x64";
+			if (regmatch[1] < 10)
+			{
+				code = "kubuntu-1";
+	
+			}
+			else
+			{
+				code = "kubuntu-2";
+	
+			}
+	
+			if (version.length > 1)
+			{
+				title += version;
+	
+			}
+	
+			if (/x86_64/i.test(useragent))
+			{
+				title += " x64";
+	
+			}
 
         }
 
@@ -417,31 +417,31 @@ function detect_os(useragent)
         if (/Lubuntu[\/|\ ]([.0-9a-zA-Z]+)/i.test(useragent)) {
             regmatch = /Lubuntu[\/|\ ]([.0-9a-zA-Z]+)/i.exec(useragent);
             version += " " + regmatch[1];
+			if (regmatch[1] < 10)
+			{
+				code = "lubuntu-1";
+	
+			}
+			else
+			{
+				code = "lubuntu-2";
+	
+			}
+	
+			if (version.length > 1)
+			{
+				title += version;
+	
+			}
+	
+			if (/x86_64/i.test(useragent))
+			{
+				title += " x64";
+	
+			}
 
         }
 
-        if (regmatch[1] < 10)
-        {
-            code = "lubuntu-1";
-
-        }
-        else
-        {
-            code = "lubuntu-2";
-
-        }
-
-        if (version.length > 1)
-        {
-            title += version;
-
-        }
-
-        if (/x86_64/i.test(useragent))
-        {
-            title += " x64";
-
-        }
 
     }
     else if (/Mageia/i.test(useragent))
@@ -947,30 +947,31 @@ function detect_os(useragent)
             regmatch = /Xubuntu[\/|\ ]([.0-9a-zA-Z]+)/i.exec(useragent);
             version += " " + regmatch[1];
 
+			if (regmatch[1] < 10)
+			{
+				code = "xubuntu-1";
+	
+			}
+			else
+			{
+				code = "xubuntu-2";
+	
+			}
+	
+			if (version.length > 1)
+			{
+				title += version;
+	
+			}
+	
+			if (/x86_64/i.test(useragent))
+			{
+				title += " x64";
+	
+			}
+
         }
 
-        if (regmatch[1] < 10)
-        {
-            code = "xubuntu-1";
-
-        }
-        else
-        {
-            code = "xubuntu-2";
-
-        }
-
-        if (version.length > 1)
-        {
-            title += version;
-
-        }
-
-        if (/x86_64/i.test(useragent))
-        {
-            title += " x64";
-
-        }
 
     }
     else if (/Zenwalk/i.test(useragent))
@@ -994,8 +995,8 @@ function detect_os(useragent)
         title = "Ubuntu";
 		code = "ubuntu-2";
 
-        if (/Ubuntu[\/|\ ]([.0-9a-zA-Z]+)/i.test(useragent)) {
-            regmatch = /Ubuntu[\/|\ ]([.0-9a-zA-Z]+)/i.exec(useragent);
+        if (/Ubuntu[\/|\ ]([.0-9]+)/i.test(useragent)) {
+            regmatch = /Ubuntu[\/|\ ]([.0-9]+)/i.exec(useragent);
             version += " " + regmatch[1];
 			if (regmatch[1] < 10)
 			{

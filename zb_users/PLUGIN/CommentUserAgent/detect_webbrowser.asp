@@ -1954,10 +1954,17 @@ function detect_webbrowser(useragent)
     && /MetaSr/i.test(useragent))
     {
         _link = "http://ie.sogou.com/";
-		_ver = detect_browser_ver("SE", useragent)
-        title = "Sogou Explorer " + _ver.version;
-		ver = _ver.version;
-        code = "sogou";
+		if(!/browser/i.test(useragent))
+		{		
+			_ver = detect_browser_ver("SE", useragent)
+        	title = "Sogou Explorer " + _ver.version;
+			ver = _ver.version;
+		}
+		else
+		{
+			title = "Sogou Explorer";
+		}
+		code = "sogou";
 
 
 
@@ -2243,7 +2250,7 @@ function detect_webbrowser(useragent)
         _link = "http://tt.qq.com/";
 		_ver = detect_browser_ver("TencentTraveler", useragent);
 		ver = _ver.version;
-        title = _ver.full;
+        title = "Tencent Traveler " + _ver.version;
         code = "tencenttraveler";
 
 
@@ -2344,6 +2351,14 @@ function detect_webbrowser(useragent)
         title = _ver.full;
         code = "ucweb";
 
+
+
+    }
+    else if (/UC.+?Mobile/i.test(useragent))
+    {
+        _link = "http://www.uc.cn/English/index.shtml";
+        title = "UC Browser";
+        code = "ucbrowser";
 
 
     }

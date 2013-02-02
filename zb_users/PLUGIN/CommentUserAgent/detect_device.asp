@@ -68,7 +68,7 @@ function detect_device(useragent)
     }
 	
     // 魅族
-    else if (/MEIZU MX|M9/i.test(useragent))
+    else if (/(MEIZU (MX|M9))/i.test(useragent))
     {
         _link = "http://www.meizu.com/";
         title = "meizu";
@@ -495,9 +495,14 @@ function detect_device(useragent)
 
     }
 
-    // No Device match
+	//Some special UA..
+	//is MSIE
+	if(/MSIE.+?Windows.+?Trident/.test(useragent)){
+		_link = "";
+		title = "";
+		code = "";		
+	}
 
-// How should we display this?
 
 	var json = {
         "link": _link,
