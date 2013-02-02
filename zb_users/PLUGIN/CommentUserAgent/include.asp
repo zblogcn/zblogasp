@@ -12,7 +12,8 @@ End Function
 
 
 Function CommentUserAgent_Comment_MakeTemplate_TemplateTags(ByRef aryTemplateTagsName,ByRef aryTemplateTagsValue)
-
+	On Error Resume Next
+	
 	If UBound(aryTemplateTagsValue)>26 Then
 		If aryTemplateTagsName(27)="article/comment/agent" Then
 			CommentUserAgent_UserAgent=aryTemplateTagsValue(27)
