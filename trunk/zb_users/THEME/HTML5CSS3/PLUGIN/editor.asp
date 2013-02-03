@@ -1,7 +1,7 @@
 ﻿<%@LANGUAGE="VBSCRIPT" CODEPAGE="65001"%>
 <%
 '************************************
-' Powered by tdemePluginEditor 1.1
+' Powered by ThemePluginEditor 1.1
 ' zsx http://www.zsxsoft.com
 '************************************
 %>
