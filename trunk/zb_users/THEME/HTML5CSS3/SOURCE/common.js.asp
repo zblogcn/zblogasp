@@ -23,6 +23,7 @@
 <!-- #include file="../../../../zb_system/function/c_system_base.asp" -->
 <!-- #include file="../../../../zb_system/function/c_system_plugin.asp" -->
 <!-- #include file="../../../plugin/p_config.asp" -->
+<!-- #include file="language.asp" -->
 <%
 
 Response.Clear
@@ -68,13 +69,24 @@ var blog={
         _087:"<%=ZC_MSG087%>",
         _168:"<%=ZC_MSG168%>",
         _248:"<%=ZC_MSG248%>",
+        noName:unescape("<%=blog.msg.noName%>"),
+        notMe:unescape("<%=blog.msg.notMe%>"),
+        noHtml5:unescape("<%=blog.msg.noHtml5%>"),
+        ltIE9:unescape("<%=blog.msg.ltIE9%>"),
         cmt:{
             name:"<%=ZC_MSG033%>",
             email:"<%=ZC_MSG034%>",
             msg:"<%=ZC_MSG035%>",
-            reply:"<%=ZC_MSG265%>",
+            reply:unescape("<%=blog.msg.cmt.reply%>"),
             max:intMaxLen=<%=ZC_CONTENT_MAX%>,
-            page:"努力翻页中"
+            page:unescape("<%=blog.msg.cmt.page%>"),
+            record:unescape("<%=blog.msg.cmt.record%>"),
+            submiting:unescape("<%=blog.msg.cmt.submiting%>"),
+            success:unescape("<%=blog.msg.cmt.success%>")
+        },
+        valid:{
+        	beforeEnter:unescape("<%=blog.msg.valid.beforeEnter%>"),
+            change:unescape("<%=blog.msg.valid.change%>")
         }
     },
     js:{
@@ -102,6 +114,7 @@ var blog={
 				Call System_Initialize
 				BlogUser.Verify()
 			%>
+            level_:<%=BlogUser.Level%>,
             level:"<%=ZVA_User_Level_Name(BlogUser.Level)%>",
             alias:"<%=BlogUser.Alias%>",
             id:<%=BlogUser.Id%>,
