@@ -26,15 +26,19 @@ Call CheckReference("")
 If BlogUser.Level>1 Then Call ShowError(6)
 
 
-Dim s
+Dim s,f,o,k
+Set o=New RegExp
+o.Global=True
+o.IgnoreCase=True
+f=LoadFromFile(BlogPath & "zb_users/theme/html5css3/source/language.asp","utf-8")
+
 For Each s In Request.Form
-	If Left(s,7)="include" Then
-		Call SaveToFile(BlogPath & "zb_users/theme/HTML5CSS3/include/" & Right(s,Len(s)-8),Request.Form(s),"utf-8",False)
+	o.Pattern="blog\.(" & Replace(s,"_","\.") & ")=""(.+?)?"";"
+	If o.Test(f) Then
+		f=o.replace(f,"blog.$1=""" & vbsescape(Request.Form(s)) & """;")
 	End If
 Next
-ClearGlobeCache
-LoadGlobeCache
-BlogRebuild_Default
+Call SaveToFile(BlogPath & "zb_users/theme/html5css3/source/language.asp",f,"utf-8",False)
 Call SetBlogHint(True,Empty,Empty)
 Response.Redirect "editor.asp"
 %>

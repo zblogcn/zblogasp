@@ -5,24 +5,6 @@
  Last Modified: 2013-1-29
 ----------------------*/
 
-/********用户自定义内容*********/
-
-//评论名为空的文字
-blog.msg.noName="无名氏";
-//评论用户名非我的文字
-blog.msg.notMe="不是我";
-//评论回复文字
-blog.msg.cmt.reply="[回复]";
-//评论成功后自动保存cookies提示文字
-blog.msg.cmt.record="您的资料已记录";
-//评论提交中的提示文字
-blog.msg.cmt.submiting="提交中，请稍候……";
-//评论发表成功的提示文字
-blog.msg.cmt.success="发表成功！"
-//不支持HTML5浏览器的提示文字
-blog.msg.noHtml5="对不起！您的浏览器不支持HTML5，像iPhone5和WIN8一样，HTML5，你值得拥有！请升级你的浏览器到最新版本，以获得更佳浏览体验，感谢您对互联网的贡献及对<big>HTML5</big>的认可！";
-//针对IE的不支持HTML5浏览器的提示文字
-blog.msg.ltIE9="<big>珍爱生命，远离IE！或升级到IE9+吧！</big>";
 
 /*！！！！若无特殊需求或你不懂编程请勿修改以下内容！！！！*/
 
@@ -87,7 +69,7 @@ blog.js.ajaxCmt=function(){
 	};
 	if($form.verify[0]&&!val.verify){
 		$form.verify.addClass("err").focus();
-		$tip.text("请输入验证码");
+		$tip.text(blog.msg.valid.beforeEnter);
 		return false;
 	};
 	$tip.text(tip.submiting);
@@ -220,7 +202,7 @@ function CmtForm($form){
 //管理链接
 function Admin(){
 	if($("a[href$='cmd.asp?act=login']")[0]) return;
-	if(blog.user("level")=="管理员"){
+	if(blog.user("level_")==1){
 		$("body>footer h5:last").append(" [<a target='_blank' href='"+blog.sys+"cmd.asp?act=login'>"+blog.msg._248+"</a>]");
 	}
 }
