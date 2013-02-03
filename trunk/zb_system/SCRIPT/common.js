@@ -117,18 +117,11 @@ var strFormAction;
 var intRevID=0;
 function VerifyMessage() {
 
-	var strName=document.getElementById("inpName").value;
-	var strEmail=document.getElementById("inpEmail").value;
-	var strHomePage=document.getElementById("inpHomePage").value;
-	var strArticle;
+	var strName=$("#inpName").val();
+	var strEmail=$("#inpEmail").val();
+	var strHomePage=$("#inpHomePage").val();
+	var strArticle=$("#txaArticle").val();
 	
-
-	if(document.getElementById("txaArticle").value){
-		strArticle=document.getElementById("txaArticle").value;
-	}
-	else{
-		strArticle=document.getElementById("txaArticle").innerText;
-	}
 
 	if(strName==""){
 		alert(str01);
@@ -171,10 +164,10 @@ function VerifyMessage() {
 		}
 	}
 
-	document.getElementById("inpArticle").value=strArticle;
-	document.getElementById("inpLocation").value=parent.window.location.href;
-	if(document.getElementById("frmSumbit").action.search("act=cmt")>0){
-		strFormAction=document.getElementById("frmSumbit").action;
+	$("#inpArticle").val(strArticle);
+	$("#inpLocation").val(parent.window.location.href);
+	if($("#frmSumbit").attr("action").search("act=cmt")>0){
+		strFormAction=$("#frmSumbit").attr("action");
 	}
 
 	var bolRemember=document.getElementById("chkRemember").checked;
@@ -187,17 +180,15 @@ function VerifyMessage() {
 	}
 
 	var strSubmit=$("#frmSumbit :submit").val();
-	$("#frmSumbit :submit").val("Waiting...");
-	$("#frmSumbit :submit").attr("disabled","disabled");
-	$("#frmSumbit :submit").addClass("btnloading");
+	$("#frmSumbit :submit").val("Waiting...").attr("disabled","disabled").addClass("btnloading");
 
 
 	//ajax comment begin
-	$.post(document.getElementById("frmSumbit").action,
+	$.post(strFormAction,
 		{
 		"inpAjax":true,
 		"inpID":$("#inpId").val(),
-		"inpVerify":(document.getElementById("inpVerify")?$("#inpVerify").val():""),
+		"inpVerify":($("#inpVerify").length>0?$("#inpVerify").val():""),
 		"inpEmail":strEmail,
 		"inpName":strName,
 		"inpArticle":strArticle,
@@ -224,11 +215,11 @@ function VerifyMessage() {
 				//$("#divAjaxComment"+i).fadeTo("normal", 1);
 				//$("#divAjaxComment"+i).show("slow");
 				if(strFormAction){
-					document.getElementById("frmSumbit").action=strFormAction;
+					$("#frmSumbit").attr("action",strFormAction);
 				}
 				$("#txaArticle").val("");
 			}
-			if(document.getElementById("inpVerify")){
+			if($("#inpVerify").length>0){
 				$("#inpVerify").val("");
 				var objImageValid=$("img[src^='"+str00+"zb_system/function/c_validcode.asp?name=commentvalid']");
 				objImageValid.attr("src",str00+"zb_system/function/c_validcode.asp?name=commentvalid"+"&random="+Math.random());
