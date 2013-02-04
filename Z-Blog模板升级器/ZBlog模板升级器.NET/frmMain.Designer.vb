@@ -1,143 +1,65 @@
-<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> Partial Class frmMain
-#Region "Windows ´°ÌåÉè¼ÆÆ÷Éú³ÉµÄ´úÂë "
-	<System.Diagnostics.DebuggerNonUserCode()> Public Sub New()
-		MyBase.New()
-		'´Ëµ÷ÓÃÊÇ Windows ´°ÌåÉè¼ÆÆ÷Ëù±ØĞèµÄ¡£
-		InitializeComponent()
-	End Sub
-	'´°ÌåÖØĞ´ÊÍ·Å£¬ÒÔÇåÀí×é¼şÁĞ±í¡£
-	<System.Diagnostics.DebuggerNonUserCode()> Protected Overloads Overrides Sub Dispose(ByVal Disposing As Boolean)
-		If Disposing Then
-			If Not components Is Nothing Then
-				components.Dispose()
-			End If
-		End If
-		MyBase.Dispose(Disposing)
-	End Sub
-	'Windows ´°ÌåÉè¼ÆÆ÷Ëù±ØĞèµÄ
-	Private components As System.ComponentModel.IContainer
-	Public ToolTip1 As System.Windows.Forms.ToolTip
-	Public WithEvents lstLog As System.Windows.Forms.ListBox
-	Public WithEvents cmdOpen As System.Windows.Forms.Button
-	Public WithEvents cmdBrowse As System.Windows.Forms.Button
-	Public WithEvents txtPath As System.Windows.Forms.TextBox
-	Public WithEvents lblNote As System.Windows.Forms.Label
-	Public WithEvents lblFolder As System.Windows.Forms.Label
-	'×¢Òâ: ÒÔÏÂ¹ı³ÌÊÇ Windows ´°ÌåÉè¼ÆÆ÷Ëù±ØĞèµÄ
-	'¿ÉÒÔÊ¹ÓÃ Windows ´°ÌåÉè¼ÆÆ÷À´ĞŞ¸ÄËü¡£
-	'²»ÒªÊ¹ÓÃ´úÂë±à¼­Æ÷ĞŞ¸ÄËü¡£
-	<System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
-        Me.components = New System.ComponentModel.Container()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmMain))
-        Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.lstLog = New System.Windows.Forms.ListBox()
-        Me.cmdOpen = New System.Windows.Forms.Button()
-        Me.cmdBrowse = New System.Windows.Forms.Button()
-        Me.txtPath = New System.Windows.Forms.TextBox()
-        Me.lblNote = New System.Windows.Forms.Label()
-        Me.lblFolder = New System.Windows.Forms.Label()
-        Me.fbdDialog = New System.Windows.Forms.FolderBrowserDialog()
+ï»¿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+Partial Class frmMain
+    Inherits System.Windows.Forms.Form
+
+    'Form é‡å†™ Disposeï¼Œä»¥æ¸…ç†ç»„ä»¶åˆ—è¡¨ã€‚
+    <System.Diagnostics.DebuggerNonUserCode()> _
+    Protected Overrides Sub Dispose(ByVal disposing As Boolean)
+        Try
+            If disposing AndAlso components IsNot Nothing Then
+                components.Dispose()
+            End If
+        Finally
+            MyBase.Dispose(disposing)
+        End Try
+    End Sub
+
+    'Windows çª—ä½“è®¾è®¡å™¨æ‰€å¿…éœ€çš„
+    Private components As System.ComponentModel.IContainer
+
+    'æ³¨æ„: ä»¥ä¸‹è¿‡ç¨‹æ˜¯ Windows çª—ä½“è®¾è®¡å™¨æ‰€å¿…éœ€çš„
+    'å¯ä»¥ä½¿ç”¨ Windows çª—ä½“è®¾è®¡å™¨ä¿®æ”¹å®ƒã€‚
+    'ä¸è¦ä½¿ç”¨ä»£ç ç¼–è¾‘å™¨ä¿®æ”¹å®ƒã€‚
+    <System.Diagnostics.DebuggerStepThrough()> _
+    Private Sub InitializeComponent()
+        Me.btnPlugin = New System.Windows.Forms.Button()
+        Me.btnTheme = New System.Windows.Forms.Button()
         Me.SuspendLayout()
         '
-        'lstLog
+        'btnPlugin
         '
-        Me.lstLog.BackColor = System.Drawing.SystemColors.Window
-        Me.lstLog.Cursor = System.Windows.Forms.Cursors.Default
-        Me.lstLog.ForeColor = System.Drawing.SystemColors.WindowText
-        Me.lstLog.ItemHeight = 12
-        Me.lstLog.Location = New System.Drawing.Point(16, 56)
-        Me.lstLog.Name = "lstLog"
-        Me.lstLog.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.lstLog.Size = New System.Drawing.Size(681, 280)
-        Me.lstLog.TabIndex = 4
+        Me.btnPlugin.Font = New System.Drawing.Font("å¾®è½¯é›…é»‘", 21.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.btnPlugin.Location = New System.Drawing.Point(26, 12)
+        Me.btnPlugin.Name = "btnPlugin"
+        Me.btnPlugin.Size = New System.Drawing.Size(489, 54)
+        Me.btnPlugin.TabIndex = 0
+        Me.btnPlugin.Text = "å‡çº§æ’ä»¶"
+        Me.btnPlugin.UseVisualStyleBackColor = True
         '
-        'cmdOpen
+        'btnTheme
         '
-        Me.cmdOpen.BackColor = System.Drawing.SystemColors.Control
-        Me.cmdOpen.Cursor = System.Windows.Forms.Cursors.Default
-        Me.cmdOpen.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.cmdOpen.Location = New System.Drawing.Point(624, 16)
-        Me.cmdOpen.Name = "cmdOpen"
-        Me.cmdOpen.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.cmdOpen.Size = New System.Drawing.Size(65, 25)
-        Me.cmdOpen.TabIndex = 3
-        Me.cmdOpen.Text = "Éı¼¶(&U)"
-        Me.cmdOpen.UseVisualStyleBackColor = False
-        '
-        'cmdBrowse
-        '
-        Me.cmdBrowse.BackColor = System.Drawing.SystemColors.Control
-        Me.cmdBrowse.Cursor = System.Windows.Forms.Cursors.Default
-        Me.cmdBrowse.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.cmdBrowse.Location = New System.Drawing.Point(552, 16)
-        Me.cmdBrowse.Name = "cmdBrowse"
-        Me.cmdBrowse.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.cmdBrowse.Size = New System.Drawing.Size(65, 25)
-        Me.cmdBrowse.TabIndex = 2
-        Me.cmdBrowse.Text = "ä¯ÀÀ(&B)"
-        Me.cmdBrowse.UseVisualStyleBackColor = False
-        '
-        'txtPath
-        '
-        Me.txtPath.AcceptsReturn = True
-        Me.txtPath.BackColor = System.Drawing.SystemColors.Window
-        Me.txtPath.Cursor = System.Windows.Forms.Cursors.IBeam
-        Me.txtPath.ForeColor = System.Drawing.SystemColors.WindowText
-        Me.txtPath.Location = New System.Drawing.Point(72, 19)
-        Me.txtPath.MaxLength = 0
-        Me.txtPath.Name = "txtPath"
-        Me.txtPath.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.txtPath.Size = New System.Drawing.Size(473, 21)
-        Me.txtPath.TabIndex = 1
-        '
-        'lblNote
-        '
-        Me.lblNote.BackColor = System.Drawing.Color.Transparent
-        Me.lblNote.Cursor = System.Windows.Forms.Cursors.Default
-        Me.lblNote.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.lblNote.Location = New System.Drawing.Point(16, 344)
-        Me.lblNote.Name = "lblNote"
-        Me.lblNote.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.lblNote.Size = New System.Drawing.Size(681, 105)
-        Me.lblNote.TabIndex = 5
-        '
-        'lblFolder
-        '
-        Me.lblFolder.BackColor = System.Drawing.Color.Transparent
-        Me.lblFolder.Cursor = System.Windows.Forms.Cursors.Default
-        Me.lblFolder.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.lblFolder.Location = New System.Drawing.Point(16, 22)
-        Me.lblFolder.Name = "lblFolder"
-        Me.lblFolder.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.lblFolder.Size = New System.Drawing.Size(65, 17)
-        Me.lblFolder.TabIndex = 0
-        Me.lblFolder.Text = "Ä£°åÂ·¾¶"
+        Me.btnTheme.Font = New System.Drawing.Font("å¾®è½¯é›…é»‘", 21.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.btnTheme.Location = New System.Drawing.Point(26, 72)
+        Me.btnTheme.Name = "btnTheme"
+        Me.btnTheme.Size = New System.Drawing.Size(489, 56)
+        Me.btnTheme.TabIndex = 1
+        Me.btnTheme.Text = "å‡çº§ä¸»é¢˜"
+        Me.btnTheme.UseVisualStyleBackColor = True
         '
         'frmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(715, 457)
-        Me.Controls.Add(Me.lstLog)
-        Me.Controls.Add(Me.cmdOpen)
-        Me.Controls.Add(Me.cmdBrowse)
-        Me.Controls.Add(Me.txtPath)
-        Me.Controls.Add(Me.lblNote)
-        Me.Controls.Add(Me.lblFolder)
-        Me.Cursor = System.Windows.Forms.Cursors.Default
+        Me.ClientSize = New System.Drawing.Size(538, 152)
+        Me.Controls.Add(Me.btnTheme)
+        Me.Controls.Add(Me.btnPlugin)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
-        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
-        Me.Location = New System.Drawing.Point(514, 330)
         Me.MaximizeBox = False
         Me.Name = "frmMain"
-        Me.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.StartPosition = System.Windows.Forms.FormStartPosition.Manual
-        Me.Text = "1.8 Ä£°åÉı¼¶Æ÷"
+        Me.Text = "è¯·é€‰æ‹©"
         Me.ResumeLayout(False)
-        Me.PerformLayout()
 
-End Sub
-    Friend WithEvents fbdDialog As System.Windows.Forms.FolderBrowserDialog
-#End Region 
+    End Sub
+    Friend WithEvents btnPlugin As System.Windows.Forms.Button
+    Friend WithEvents btnTheme As System.Windows.Forms.Button
 End Class

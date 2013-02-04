@@ -32,7 +32,7 @@ Namespace My
         
         <Global.System.Diagnostics.DebuggerStepThroughAttribute()>  _
         Protected Overrides Sub OnCreateMainForm()
-            Me.MainForm = Global.ZBlog模板升级器.frmMain
+            Me.MainForm = Global.ZBlog模板插件升级器.frmMain
         End Sub
     End Class
 End Namespace

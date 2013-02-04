@@ -8,14 +8,14 @@
     <ProjectGuid>{A88FC4C7-D4E2-445E-8D68-350B15F915E4}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <AssemblyName>ZBlog模板升级器</AssemblyName>
+    <AssemblyName>ZBlog模板插件升级器</AssemblyName>
     <OutputType>WinExe</OutputType>
-    <StartupObject>ZBlog模板升级器.My.MyApplication</StartupObject>
+    <StartupObject>ZBlog模板插件升级器.My.MyApplication</StartupObject>
     <AssemblyMajorVersion>1</AssemblyMajorVersion>
     <AssemblyMinorVersion>0</AssemblyMinorVersion>
     <AssemblyRevisionNumber>0</AssemblyRevisionNumber>
     <GenerateRevisionNumber>False</GenerateRevisionNumber>
-    <RootNamespace>ZBlog模板升级器</RootNamespace>
+    <RootNamespace>ZBlog模板插件升级器</RootNamespace>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
@@ -40,7 +40,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <OutputPath>.\bin\</OutputPath>
-    <DocumentationFile>ZBlog模板升级器.xml</DocumentationFile>
+    <DocumentationFile>ZBlog模板插件升级器.xml</DocumentationFile>
     <DebugSymbols>True</DebugSymbols>
     <DefineDebug>True</DefineDebug>
     <DefineTrace>True</DefineTrace>
@@ -51,7 +51,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>.\bin\</OutputPath>
-    <DocumentationFile>ZBlog模板升级器.xml</DocumentationFile>
+    <DocumentationFile>ZBlog模板插件升级器.xml</DocumentationFile>
     <DebugSymbols>False</DebugSymbols>
     <DefineDebug>False</DefineDebug>
     <DefineTrace>True</DefineTrace>
@@ -106,10 +106,22 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="frmMain.Designer.vb">
-      <SubType>Code</SubType>
       <DependentUpon>frmMain.vb</DependentUpon>
     </Compile>
     <Compile Include="frmMain.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmUpdatePlugin.Designer.vb">
+      <DependentUpon>frmUpdatePlugin.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmUpdatePlugin.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmUpdateTheme.Designer.vb">
+      <SubType>Code</SubType>
+      <DependentUpon>frmUpdateTheme.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmUpdateTheme.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="mdlBase.vb">
@@ -124,8 +136,14 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="frmMain.resX">
+    <EmbeddedResource Include="frmMain.resx">
       <DependentUpon>frmMain.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmUpdatePlugin.resx">
+      <DependentUpon>frmUpdatePlugin.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmUpdateTheme.resX">
+      <DependentUpon>frmUpdateTheme.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
