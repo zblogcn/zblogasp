@@ -1,4 +1,14 @@
-D:\Website\IIS\zb\Z-Blog模板升级器\ZBlog模板升级器.NET\obj\Debug\Interop.MSXML2.dll
-D:\Website\IIS\zb\Z-Blog模板升级器\ZBlog模板升级器.NET\obj\Debug\Interop.Scripting.dll
 D:\Website\IIS\zb\Z-Blog模板升级器\ZBlog模板升级器.NET\obj\Debug\Interop.VBScript_RegExp_55.dll
 D:\Website\IIS\zb\Z-Blog模板升级器\ZBlog模板升级器.NET\obj\Debug\ZBlog模板升级器.vbproj.ResolveComReference.cache
+D:\Website\IIS\zb\Z-Blog模板升级器\ZBlog模板升级器.NET\bin\ZBlog模板升级器.exe
+D:\Website\IIS\zb\Z-Blog模板升级器\ZBlog模板升级器.NET\bin\ZBlog模板升级器.pdb
+D:\Website\IIS\zb\Z-Blog模板升级器\ZBlog模板升级器.NET\bin\ZBlog模板升级器.xml
+D:\Website\IIS\zb\Z-Blog模板升级器\ZBlog模板升级器.NET\bin\Interop.VBScript_RegExp_55.dll
+D:\Website\IIS\zb\Z-Blog模板升级器\ZBlog模板升级器.NET\obj\Debug\ZBlog模板升级器.frmMain.resources
+D:\Website\IIS\zb\Z-Blog模板升级器\ZBlog模板升级器.NET\obj\Debug\ZBlog模板升级器.Resources.resources
+D:\Website\IIS\zb\Z-Blog模板升级器\ZBlog模板升级器.NET\obj\Debug\ZBlog模板升级器.vbproj.GenerateResource.Cache
+D:\Website\IIS\zb\Z-Blog模板升级器\ZBlog模板升级器.NET\obj\Debug\ZBlog模板升级器.exe
+D:\Website\IIS\zb\Z-Blog模板升级器\ZBlog模板升级器.NET\obj\Debug\ZBlog模板升级器.xml
+D:\Website\IIS\zb\Z-Blog模板升级器\ZBlog模板升级器.NET\obj\Debug\ZBlog模板升级器.pdb
+D:\Website\IIS\zb\Z-Blog模板升级器\ZBlog模板升级器.NET\bin\ZBlog模板升级器.exe.CodeAnalysisLog.xml
+D:\Website\IIS\zb\Z-Blog模板升级器\ZBlog模板升级器.NET\bin\ZBlog模板升级器.exe.lastcodeanalysissucceeded

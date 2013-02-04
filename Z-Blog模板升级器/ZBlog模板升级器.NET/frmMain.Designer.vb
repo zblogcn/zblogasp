@@ -27,136 +27,117 @@
 	'可以使用 Windows 窗体设计器来修改它。
 	'不要使用代码编辑器修改它。
 	<System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
-		Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(frmMain))
-		Me.components = New System.ComponentModel.Container()
-		Me.ToolTip1 = New System.Windows.Forms.ToolTip(components)
-		Me.lstLog = New System.Windows.Forms.ListBox
-		Me.cmdOpen = New System.Windows.Forms.Button
-		Me.cmdBrowse = New System.Windows.Forms.Button
-		Me.txtPath = New System.Windows.Forms.TextBox
-		Me.lblNote = New System.Windows.Forms.Label
-		Me.lblFolder = New System.Windows.Forms.Label
-		Me.SuspendLayout()
-		Me.ToolTip1.Active = True
-		Me.StartPosition = System.Windows.Forms.FormStartPosition.Manual
-		Me.BackColor = System.Drawing.Color.White
-		Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
-		Me.Text = "1.8 模板升级器"
-		Me.ClientSize = New System.Drawing.Size(715, 457)
-		Me.Location = New System.Drawing.Point(514, 330)
-		Me.MaximizeBox = False
-		Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-		Me.ControlBox = True
-		Me.Enabled = True
-		Me.KeyPreview = False
-		Me.MinimizeBox = True
-		Me.Cursor = System.Windows.Forms.Cursors.Default
-		Me.RightToLeft = System.Windows.Forms.RightToLeft.No
-		Me.ShowInTaskbar = True
-		Me.HelpButton = False
-		Me.WindowState = System.Windows.Forms.FormWindowState.Normal
-		Me.Name = "frmMain"
-		Me.lstLog.Size = New System.Drawing.Size(681, 283)
-		Me.lstLog.Location = New System.Drawing.Point(16, 56)
-		Me.lstLog.TabIndex = 4
-		Me.lstLog.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-		Me.lstLog.BackColor = System.Drawing.SystemColors.Window
-		Me.lstLog.CausesValidation = True
-		Me.lstLog.Enabled = True
-		Me.lstLog.ForeColor = System.Drawing.SystemColors.WindowText
-		Me.lstLog.IntegralHeight = True
-		Me.lstLog.Cursor = System.Windows.Forms.Cursors.Default
-		Me.lstLog.SelectionMode = System.Windows.Forms.SelectionMode.One
-		Me.lstLog.RightToLeft = System.Windows.Forms.RightToLeft.No
-		Me.lstLog.Sorted = False
-		Me.lstLog.TabStop = True
-		Me.lstLog.Visible = True
-		Me.lstLog.MultiColumn = False
-		Me.lstLog.Name = "lstLog"
-		Me.cmdOpen.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-		Me.cmdOpen.Text = "升级(&U)"
-		Me.cmdOpen.Size = New System.Drawing.Size(65, 25)
-		Me.cmdOpen.Location = New System.Drawing.Point(624, 16)
-		Me.cmdOpen.TabIndex = 3
-		Me.cmdOpen.BackColor = System.Drawing.SystemColors.Control
-		Me.cmdOpen.CausesValidation = True
-		Me.cmdOpen.Enabled = True
-		Me.cmdOpen.ForeColor = System.Drawing.SystemColors.ControlText
-		Me.cmdOpen.Cursor = System.Windows.Forms.Cursors.Default
-		Me.cmdOpen.RightToLeft = System.Windows.Forms.RightToLeft.No
-		Me.cmdOpen.TabStop = True
-		Me.cmdOpen.Name = "cmdOpen"
-		Me.cmdBrowse.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-		Me.cmdBrowse.BackColor = System.Drawing.SystemColors.Control
-		Me.cmdBrowse.Text = "浏览(&B)"
-		Me.cmdBrowse.Size = New System.Drawing.Size(65, 25)
-		Me.cmdBrowse.Location = New System.Drawing.Point(552, 16)
-		Me.cmdBrowse.TabIndex = 2
-		Me.cmdBrowse.CausesValidation = True
-		Me.cmdBrowse.Enabled = True
-		Me.cmdBrowse.ForeColor = System.Drawing.SystemColors.ControlText
-		Me.cmdBrowse.Cursor = System.Windows.Forms.Cursors.Default
-		Me.cmdBrowse.RightToLeft = System.Windows.Forms.RightToLeft.No
-		Me.cmdBrowse.TabStop = True
-		Me.cmdBrowse.Name = "cmdBrowse"
-		Me.txtPath.AutoSize = False
-		Me.txtPath.Size = New System.Drawing.Size(473, 18)
-		Me.txtPath.Location = New System.Drawing.Point(72, 19)
-		Me.txtPath.TabIndex = 1
-		Me.txtPath.AcceptsReturn = True
-		Me.txtPath.TextAlign = System.Windows.Forms.HorizontalAlignment.Left
-		Me.txtPath.BackColor = System.Drawing.SystemColors.Window
-		Me.txtPath.CausesValidation = True
-		Me.txtPath.Enabled = True
-		Me.txtPath.ForeColor = System.Drawing.SystemColors.WindowText
-		Me.txtPath.HideSelection = True
-		Me.txtPath.ReadOnly = False
-		Me.txtPath.Maxlength = 0
-		Me.txtPath.Cursor = System.Windows.Forms.Cursors.IBeam
-		Me.txtPath.MultiLine = False
-		Me.txtPath.RightToLeft = System.Windows.Forms.RightToLeft.No
-		Me.txtPath.ScrollBars = System.Windows.Forms.ScrollBars.None
-		Me.txtPath.TabStop = True
-		Me.txtPath.Visible = True
-		Me.txtPath.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-		Me.txtPath.Name = "txtPath"
-		Me.lblNote.Size = New System.Drawing.Size(681, 105)
-		Me.lblNote.Location = New System.Drawing.Point(16, 344)
-		Me.lblNote.TabIndex = 5
-		Me.lblNote.TextAlign = System.Drawing.ContentAlignment.TopLeft
-		Me.lblNote.BackColor = System.Drawing.Color.Transparent
-		Me.lblNote.Enabled = True
-		Me.lblNote.ForeColor = System.Drawing.SystemColors.ControlText
-		Me.lblNote.Cursor = System.Windows.Forms.Cursors.Default
-		Me.lblNote.RightToLeft = System.Windows.Forms.RightToLeft.No
-		Me.lblNote.UseMnemonic = True
-		Me.lblNote.Visible = True
-		Me.lblNote.AutoSize = False
-		Me.lblNote.BorderStyle = System.Windows.Forms.BorderStyle.None
-		Me.lblNote.Name = "lblNote"
-		Me.lblFolder.Text = "模板路径"
-		Me.lblFolder.Size = New System.Drawing.Size(65, 17)
-		Me.lblFolder.Location = New System.Drawing.Point(16, 22)
-		Me.lblFolder.TabIndex = 0
-		Me.lblFolder.TextAlign = System.Drawing.ContentAlignment.TopLeft
-		Me.lblFolder.BackColor = System.Drawing.Color.Transparent
-		Me.lblFolder.Enabled = True
-		Me.lblFolder.ForeColor = System.Drawing.SystemColors.ControlText
-		Me.lblFolder.Cursor = System.Windows.Forms.Cursors.Default
-		Me.lblFolder.RightToLeft = System.Windows.Forms.RightToLeft.No
-		Me.lblFolder.UseMnemonic = True
-		Me.lblFolder.Visible = True
-		Me.lblFolder.AutoSize = False
-		Me.lblFolder.BorderStyle = System.Windows.Forms.BorderStyle.None
-		Me.lblFolder.Name = "lblFolder"
-		Me.Controls.Add(lstLog)
-		Me.Controls.Add(cmdOpen)
-		Me.Controls.Add(cmdBrowse)
-		Me.Controls.Add(txtPath)
-		Me.Controls.Add(lblNote)
-		Me.Controls.Add(lblFolder)
-		Me.ResumeLayout(False)
-		Me.PerformLayout()
-	End Sub
+        Me.components = New System.ComponentModel.Container()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmMain))
+        Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+        Me.lstLog = New System.Windows.Forms.ListBox()
+        Me.cmdOpen = New System.Windows.Forms.Button()
+        Me.cmdBrowse = New System.Windows.Forms.Button()
+        Me.txtPath = New System.Windows.Forms.TextBox()
+        Me.lblNote = New System.Windows.Forms.Label()
+        Me.lblFolder = New System.Windows.Forms.Label()
+        Me.fbdDialog = New System.Windows.Forms.FolderBrowserDialog()
+        Me.SuspendLayout()
+        '
+        'lstLog
+        '
+        Me.lstLog.BackColor = System.Drawing.SystemColors.Window
+        Me.lstLog.Cursor = System.Windows.Forms.Cursors.Default
+        Me.lstLog.ForeColor = System.Drawing.SystemColors.WindowText
+        Me.lstLog.ItemHeight = 12
+        Me.lstLog.Location = New System.Drawing.Point(16, 56)
+        Me.lstLog.Name = "lstLog"
+        Me.lstLog.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.lstLog.Size = New System.Drawing.Size(681, 280)
+        Me.lstLog.TabIndex = 4
+        '
+        'cmdOpen
+        '
+        Me.cmdOpen.BackColor = System.Drawing.SystemColors.Control
+        Me.cmdOpen.Cursor = System.Windows.Forms.Cursors.Default
+        Me.cmdOpen.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.cmdOpen.Location = New System.Drawing.Point(624, 16)
+        Me.cmdOpen.Name = "cmdOpen"
+        Me.cmdOpen.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.cmdOpen.Size = New System.Drawing.Size(65, 25)
+        Me.cmdOpen.TabIndex = 3
+        Me.cmdOpen.Text = "升级(&U)"
+        Me.cmdOpen.UseVisualStyleBackColor = False
+        '
+        'cmdBrowse
+        '
+        Me.cmdBrowse.BackColor = System.Drawing.SystemColors.Control
+        Me.cmdBrowse.Cursor = System.Windows.Forms.Cursors.Default
+        Me.cmdBrowse.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.cmdBrowse.Location = New System.Drawing.Point(552, 16)
+        Me.cmdBrowse.Name = "cmdBrowse"
+        Me.cmdBrowse.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.cmdBrowse.Size = New System.Drawing.Size(65, 25)
+        Me.cmdBrowse.TabIndex = 2
+        Me.cmdBrowse.Text = "浏览(&B)"
+        Me.cmdBrowse.UseVisualStyleBackColor = False
+        '
+        'txtPath
+        '
+        Me.txtPath.AcceptsReturn = True
+        Me.txtPath.BackColor = System.Drawing.SystemColors.Window
+        Me.txtPath.Cursor = System.Windows.Forms.Cursors.IBeam
+        Me.txtPath.ForeColor = System.Drawing.SystemColors.WindowText
+        Me.txtPath.Location = New System.Drawing.Point(72, 19)
+        Me.txtPath.MaxLength = 0
+        Me.txtPath.Name = "txtPath"
+        Me.txtPath.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.txtPath.Size = New System.Drawing.Size(473, 21)
+        Me.txtPath.TabIndex = 1
+        '
+        'lblNote
+        '
+        Me.lblNote.BackColor = System.Drawing.Color.Transparent
+        Me.lblNote.Cursor = System.Windows.Forms.Cursors.Default
+        Me.lblNote.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.lblNote.Location = New System.Drawing.Point(16, 344)
+        Me.lblNote.Name = "lblNote"
+        Me.lblNote.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.lblNote.Size = New System.Drawing.Size(681, 105)
+        Me.lblNote.TabIndex = 5
+        '
+        'lblFolder
+        '
+        Me.lblFolder.BackColor = System.Drawing.Color.Transparent
+        Me.lblFolder.Cursor = System.Windows.Forms.Cursors.Default
+        Me.lblFolder.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.lblFolder.Location = New System.Drawing.Point(16, 22)
+        Me.lblFolder.Name = "lblFolder"
+        Me.lblFolder.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.lblFolder.Size = New System.Drawing.Size(65, 17)
+        Me.lblFolder.TabIndex = 0
+        Me.lblFolder.Text = "模板路径"
+        '
+        'frmMain
+        '
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
+        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.BackColor = System.Drawing.Color.White
+        Me.ClientSize = New System.Drawing.Size(715, 457)
+        Me.Controls.Add(Me.lstLog)
+        Me.Controls.Add(Me.cmdOpen)
+        Me.Controls.Add(Me.cmdBrowse)
+        Me.Controls.Add(Me.txtPath)
+        Me.Controls.Add(Me.lblNote)
+        Me.Controls.Add(Me.lblFolder)
+        Me.Cursor = System.Windows.Forms.Cursors.Default
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
+        Me.Location = New System.Drawing.Point(514, 330)
+        Me.MaximizeBox = False
+        Me.Name = "frmMain"
+        Me.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.Manual
+        Me.Text = "1.8 模板升级器"
+        Me.ResumeLayout(False)
+        Me.PerformLayout()
+
+End Sub
+    Friend WithEvents fbdDialog As System.Windows.Forms.FolderBrowserDialog
 #End Region 
 End Class
