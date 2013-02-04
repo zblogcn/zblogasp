@@ -33,7 +33,7 @@
 <!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd"> 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<link rel="stylesheet" href="<%=BlogHost%>zb_users/plugin/wap/style/wap.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="<%=BlogHost%>zb_users/plugin/wap/style/pad.css" type="text/css" media="screen" charset="utf-8" />
 <%
 Call System_Initialize()
 
