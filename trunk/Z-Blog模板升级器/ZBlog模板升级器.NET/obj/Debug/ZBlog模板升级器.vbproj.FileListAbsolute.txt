@@ -1,0 +1,4 @@
+D:\Website\IIS\zb\Z-Blog模板升级器\ZBlog模板升级器.NET\obj\Debug\Interop.MSXML2.dll
+D:\Website\IIS\zb\Z-Blog模板升级器\ZBlog模板升级器.NET\obj\Debug\Interop.Scripting.dll
+D:\Website\IIS\zb\Z-Blog模板升级器\ZBlog模板升级器.NET\obj\Debug\Interop.VBScript_RegExp_55.dll
+D:\Website\IIS\zb\Z-Blog模板升级器\ZBlog模板升级器.NET\obj\Debug\ZBlog模板升级器.vbproj.ResolveComReference.cache
