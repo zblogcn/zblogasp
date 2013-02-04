@@ -44,7 +44,7 @@ Function Wap_CheckMobile()
 	UserAgent = LCase(Request.ServerVariables("HTTP_USER_AGENT"))
 
 
-	Pad_List="android|iphone|ipad|windows\sphone|kindle|gt\-p|gt\-n"
+	Pad_List="android|iphone|ipad|windows\sphone|kindle|gt\-p|gt\-n|meego"
 	If CheckRegExp(UserAgent,Pad_List) Then 
 		Wap_CheckMobile="pad"
 		Exit Function
@@ -52,7 +52,7 @@ Function Wap_CheckMobile()
 
 
 	'是否（智能）手机浏览器
-	Mobile_List ="android|iphone|ipad|windows\sphone|kindle|netfront|java|opera\smini|opera\smobi|ucweb|windows\sce|symbian|series|webos|sonyericsson|sony|blackberry|cellphone|dopod|nokia|samsung|palmsource|palmos|xphone|xda|smartphone|meizu|up.browser|up.link|pieplus|midp|cldc|motorola|foma|docomo|huawei|coolpad|alcatel|amoi|ktouch|philips|benq|haier|bird|zte|wap"
+	Mobile_List ="android|iphone|ipad|windows\sphone|kindle|rim\stablet|meego|netfront|java|opera\smini|opera\smobi|ucweb|windows\sce|symbian|series|webos|sonyericsson|sony|blackberry|cellphone|dopod|nokia|samsung|palmsource|palmos|xphone|xda|smartphone|meizu|up.browser|up.link|pieplus|midp|cldc|motorola|foma|docomo|huawei|coolpad|alcatel|amoi|ktouch|philips|benq|haier|bird|zte|wap|mobile"
 	If CheckRegExp(UserAgent,Mobile_List) Then 
 		Wap_CheckMobile="wap"
 		Exit Function
