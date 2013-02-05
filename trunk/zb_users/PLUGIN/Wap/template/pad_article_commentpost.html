@@ -10,8 +10,6 @@
 	<#template:article_commentpost-verify#>
 	<p><label for="txaArticle"><#ZC_MSG055#>(*)(<#ZC_MSG056#>:<#ZC_CONTENT_MAX#>)</label></p>
 	<p><textarea name="txaArticle" id="txaArticle" onchange="GetActiveText(this.id);" onclick="GetActiveText(this.id);" onfocus="GetActiveText(this.id);" class="text" cols="50" rows="4" tabindex="5" ></textarea></p>
-	<p><input name="btnSumbit" type="submit" tabindex="6" value="<#ZC_MSG087#>" onclick="JavaScript:return VerifyMessage()" class="button" /> <input type="checkbox" name="chkRemember" value="1" id="chkRemember" /> <label for="chkRemember"><#ZC_MSG049#></label></p>
-	<script language="JavaScript" type="text/javascript">objActive="txaArticle";ExportUbbFrame();</script>
-	<p class="postbottom"><#ZC_MSG040#></p>
+	<p><input name="btnSumbit" type="submit" tabindex="6" value="<#ZC_MSG087#>" onclick="JavaScript:return VerifyMessage()" class="button" /></p>
 	</form>
 </section>
