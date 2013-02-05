@@ -13,6 +13,7 @@ a:link{color:#369;text-decoration:none}a:visited{color:#669;text-decoration:none
 a:hover{color:#fff;text-decoration:none;background:#00a8d2}a:active{color:#fff;text-decoration:none;background:#f93}
 b{color:#ddd;margin: 0 3px;}
 .h{background:#fefeff;color:#333;margin:4px 2px;}
+.h *{font-size:1.2em;}
 .n{border:1px solid #ffed00;background:#fffcaa}
 .a,.stamp,#m h3,#m li{color:#666;font-size:0.9em;margin:2px;}
 .t{color:#666;margin:3px;text-align:left;}

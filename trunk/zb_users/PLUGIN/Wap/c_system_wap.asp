@@ -143,7 +143,7 @@ Public Function WapTitle(strCom,strBrowserTitle)
 	'If ZC_DISPLAY_CATE_ALL_WAP Then 
 		Dim Category
 		WapTitle = WapTitle & "<div class=""h"">"
-		    WapTitle = WapTitle & "<a href="""&WapUrlStr&""">"&ZC_MSG213&"</a><b>|</b><select onchange=""location.href=this.options[this.selectedIndex].value;selectlogtemplate(this.options[this.selectedIndex].value);"">"
+		    WapTitle = WapTitle & "<a href="""&WapUrlStr&""">"&ZC_MSG213&"</a><b>&nbsp;|</b><select onchange=""location.href=this.options[this.selectedIndex].value;selectlogtemplate(this.options[this.selectedIndex].value);"">"
 			WapTitle = WapTitle & "<option value="""&WapUrlStr&"&amp;act=Main"">所有分类</option>"
 			For Each Category in Categorys
 				If IsObject(Category) Then 
@@ -157,7 +157,7 @@ Public Function WapTitle(strCom,strBrowserTitle)
 
 	'If IsEmpty(Request.QueryString("act")) Then 
 
-    WapTitle = WapTitle & "<b>|</b>"
+    WapTitle = WapTitle & "<b>&nbsp;|</b>"
 	WapTitle = WapTitle & "	<input type=""hidden"" name=""act"" value=""Search"">"
     WapTitle = WapTitle & "    <input type=""search"" class=""i"" name=""q"" value="""" id=""q"">"
     WapTitle = WapTitle & "   <input type=""submit"" value=""搜索"">"
