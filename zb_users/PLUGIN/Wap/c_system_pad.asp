@@ -186,27 +186,28 @@ Class TPad
 		TemplateDic.Item("TEMPLATE_B_ARTICLE-MULTI")=LoadFromFile(BlogPath &"zb_users\plugin\wap\template\pad_article-multi.html","utf-8")
 		TemplateDic.Item("TEMPLATE_B_ARTICLE-SINGLE")=LoadFromFile(BlogPath &"zb_users\plugin\wap\template\pad_article-single.html","utf-8")
 
-ZC_POST_STATIC_MODE="ACTIVE"
-ZC_STATIC_MODE="ACTIVE"
 
+		ZC_POST_STATIC_MODE="ACTIVE"
 
-ZC_ARTICLE_REGEX="{%host%}/?mod=pad&id={%id%}"
+		ZC_STATIC_MODE="ACTIVE"
 
-ZC_PAGE_REGEX="{%host%}/?mod=pad&id={%id%}"
+		ZC_ARTICLE_REGEX="{%host%}/?mod=pad&id={%id%}"
 
-ZC_CATEGORY_REGEX="{%host%}/?mod=pad&cate={%id%}"
+		ZC_PAGE_REGEX="{%host%}/?mod=pad&id={%id%}"
 
-ZC_USER_REGEX="{%host%}/?mod=pad&user={%id%}"
+		ZC_CATEGORY_REGEX="{%host%}/?mod=pad&cate={%id%}"
 
-ZC_TAGS_REGEX="{%host%}/?mod=pad&tags={%alias%}"
+		ZC_USER_REGEX="{%host%}/?mod=pad&user={%id%}"
 
-ZC_DATE_REGEX="{%host%}/?mod=pad&date={%date%}"
+		ZC_TAGS_REGEX="{%host%}/?mod=pad&tags={%alias%}"
 
-ZC_DEFAULT_REGEX="{%host%}/?mod=pad"
+		ZC_DATE_REGEX="{%host%}/?mod=pad&date={%date%}"
 
-ZC_PAGE_AND_ARTICLE_PRIVATE_REGEX="{%host%}/?mod=pad&id={%id%}"
+		ZC_DEFAULT_REGEX="{%host%}/?mod=pad"
 
-ZC_PAGE_AND_ARTICLE_DRAFT_REGEX="{%host%}/?mod=pad&id={%id%}"
+		ZC_PAGE_AND_ARTICLE_PRIVATE_REGEX="{%host%}/?mod=pad&id={%id%}"
+
+		ZC_PAGE_AND_ARTICLE_DRAFT_REGEX="{%host%}/?mod=pad&id={%id%}"
 
 
 	End Sub
