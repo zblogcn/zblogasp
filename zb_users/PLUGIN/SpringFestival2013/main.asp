@@ -32,6 +32,13 @@ BlogTitle="迎春"
             在这里写入后台管理页面代码
           </div>
         </div>
+        <img id="toolTip" src="mouse.gif" style="display:block"/>
         <!--#include file="..\..\..\zb_system\admin\admin_footer.asp"-->
-
+<script>
+$("html").mousemove(function(event){
+		$("#toolTip").css({ top: event.clientY-20, left: event.clientX-20,position:'absolute'});
+});
+document.getElementById("toolTip").oncontextmenu=function(){return false}
+$("#toolTip").mousedown(function(){return false}).dblclick(function(){$(this).remove()})
+</script>
 <%Call System_Terminate()%>
