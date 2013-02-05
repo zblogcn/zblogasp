@@ -130,16 +130,72 @@ Class TPad
 		Next
 		html=Replace(html,"<#" & aryTemplateTagsName(0) & "#>",aryTemplateTagsValue(0))
 
+		Call SetVar("PAD_SIDE",Catalogs)
+
 		Build=True
 
 	End Function
 
 
-	Public Function ExportBar(intNowPage,intAllPage)
+Function Catalogs()
 
-		ExportBar=True
 
-	End Function
+	Call GetCategory()
+	
+	Dim objRS
+	Dim objStream
+
+	Dim ArtList
+
+	'Catalogs
+	Dim strCatalog,bolHasSubCate
+
+	Dim aryCateInOrder 
+	aryCateInOrder=GetCategoryOrder()
+
+
+	Categorys(0).Count=CLng(objConn.Execute("SELECT COUNT([log_ID]) FROM [blog_Article] WHERE [log_Level]>1 AND [log_Type]=0 AND [log_CateID]=0")(0))
+	If Categorys(0).Count>0 Then
+		strCatalog=strCatalog & "<li class=""li-cate cate-"& Categorys(0).id &"""><a href="""& Categorys(0).Url & """>"+Categorys(0).Name + "<span class=""article-nums""> (" & Categorys(0).Count & ")</span>" +"</a></li>"
+	End If
+
+	Dim i,j,c
+	Dim strPrecata,strSubcate
+	For i=Lbound(aryCateInOrder)+1 To Ubound(aryCateInOrder)
+		strPrecata="":strSubcate=""
+		If Categorys(aryCateInOrder(i)).ParentID=0 Then
+			c=Categorys(aryCateInOrder(i)).Count
+
+			bolHasSubCate=False
+			For j=Lbound(aryCateInOrder)+1 To UBound(aryCateInOrder)
+				If Categorys(aryCateInOrder(j)).ParentID=Categorys(aryCateInOrder(i)).ID Then bolHasSubCate=True
+			Next
+			'If bolHasSubCate Then strSubcate = "<ul class=""ul-subcates"">"
+			For j=Lbound(aryCateInOrder)+1 To UBound(aryCateInOrder)
+				If Categorys(aryCateInOrder(j)).ParentID=Categorys(aryCateInOrder(i)).ID And Categorys(aryCateInOrder(j)).Count>0 Then
+					strSubcate=strSubcate & "<li class=""li-subcate cate-"& Categorys(aryCateInOrder(j)).ID &"""><a href="""& Categorys(aryCateInOrder(j)).Url & """>"+Categorys(aryCateInOrder(j)).Name + "<span class=""article-nums""> (" & Categorys(aryCateInOrder(j)).Count & ")</span>" +"</a></li>"
+					c=c+Categorys(aryCateInOrder(j)).Count
+				End If
+			Next
+			If bolHasSubCate And strSubcate<>"" Then strSubcate="<ul class=""ul-subcates"">" & strSubcate & "</ul>"
+
+			If c>0 Then strPrecata="<li class=""li-cate cate-"& Categorys(aryCateInOrder(i)).ID &"""><a href="""& Categorys(aryCateInOrder(i)).Url & """>"+Categorys(aryCateInOrder(i)).Name + "<span class=""article-nums""> (" & c & ")</span>" +"</a>"& strSubcate &"</li>"
+
+			strCatalog=strCatalog & strPrecata
+		End If
+
+	Next
+
+	strCatalog=TransferHTML(strCatalog,"[no-asp]")
+
+	Dim f
+	Set f = New TFunction
+	f.Name="所有分类"
+	f.Ftype="ul"
+	Catalogs=Replace(f.MakeTemplate(GetTemplate("TEMPLATE_B_FUNCTION")),"<#CACHE_INCLUDE_#>",strCatalog)
+
+End Function
+
 
 
 	Function SetVar(TemplateTag,TemplateValue)
@@ -202,6 +258,7 @@ Class TPad
 	Private Sub Class_Initialize()
 
 		ZC_PAGEBAR_COUNT=5
+		ZC_COMMENT_VERIFY_ENABLE=False
 
 		Dim s
 		s=LoadFromFile(BlogPath &"zb_users\plugin\wap\template\pad.html","utf-8")
@@ -216,7 +273,10 @@ Class TPad
 		TemplateDic.Item("TEMPLATE_B_ARTICLE_COMMENT")=LoadFromFile(BlogPath &"zb_users\plugin\wap\template\pad_article_comment.html","utf-8")
 		TemplateDic.Item("TEMPLATE_B_ARTICLE_COMMENTPOST-VERIFY")=LoadFromFile(BlogPath &"zb_users\plugin\wap\template\pad_article_commentpost-verify.html","utf-8")
 		TemplateDic.Item("TEMPLATE_B_ARTICLE_COMMENTPOST")=LoadFromFile(BlogPath &"zb_users\plugin\wap\template\pad_article_commentpost.html","utf-8")
-
+		TemplateDic.Item("TEMPLATE_B_ARTICLE_COMMENT_PAGEBAR")=LoadFromFile(BlogPath &"zb_users\plugin\wap\template\pad_article_comment_pagebar.html","utf-8")
+		TemplateDic.Item("TEMPLATE_B_ARTICLE_COMMENT_PAGEBAR_L")=LoadFromFile(BlogPath &"zb_users\plugin\wap\template\pad_article_comment_pagebar_l.html","utf-8")
+		TemplateDic.Item("TEMPLATE_B_ARTICLE_COMMENT_PAGEBAR_R")=LoadFromFile(BlogPath &"zb_users\plugin\wap\template\pad_article_comment_pagebar_r.html","utf-8")
+		TemplateDic.Item("TEMPLATE_B_FUNCTION")=LoadFromFile(BlogPath &"zb_users\plugin\wap\template\pad_function.html","utf-8")
 
 		ZC_POST_STATIC_MODE="ACTIVE"
 
