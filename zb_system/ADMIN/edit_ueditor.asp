@@ -346,7 +346,7 @@ End If
 <script type="text/javascript">
 
 // <![CDATA[
-<%Call CheckMobile()%>
+
 $(document).ready(function(){
 	
 	$("#edit").submit(function(){

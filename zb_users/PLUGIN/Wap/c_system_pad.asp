@@ -14,16 +14,182 @@
 
 
 
+
+
+Class TPad
+
+	Public Title
+
+	Public html
+	Public subhtml
+	Public subhtml_TemplateName
+
+	Public ListType
+
+	Private Ftemplate
+	Public Property Let Template(strFileName)
+		Ftemplate=GetTemplate("TEMPLATE_" & strFileName)
+	End Property
+	Public Property Get Template
+		If Ftemplate="" Then
+			Ftemplate=GetTemplate("TEMPLATE_DEFAULT")
+		End If
+
+		Template = Ftemplate
+	End Property
+
+
+	Private Ffullregex
+	Public Property Let FullRegex(s)
+		Ffullregex=s
+	End Property
+	Public Property Get FullRegex
+		If Ffullregex<>"" Then 
+			FullRegex=Ffullregex
+		Else
+			FullRegex=ZC_DEFAULT_REGEX
+		End If
+	End Property
+
+
+	Public Url
+	Private MixUrl
+
+
+	Public Property Get HtmlTitle
+		HtmlTitle=TransferHTML(Title,"[html-japan][html-format]")
+	End Property
+
+
+	Public Function Export(intPage,anyCate,anyAuthor,dtmDate,anyTag,intType)
+
+		Title=ZC_BLOG_SUBTITLE
+
+
+		If IsEmpty(html) Then html=Template
+
+		Url=Replace(Replace(Url,"//","/"),":/","://",1,1)
+
+		Export=True
+
+
+	End Function
+
+
+
+	Public Function Build()
+
+		Dim i,j
+
+		Dim aryTemplateTagsName
+		Dim aryTemplateTagsValue
+
+		TemplateTagsDic.Item("BlogTitle")=HtmlTitle
+		TemplateTagsDic.Item("ZC_BLOG_HOST")=BlogHost
+
+		aryTemplateTagsName=TemplateTagsDic.Keys
+		aryTemplateTagsValue=TemplateTagsDic.Items
+
+		j=UBound(aryTemplateTagsName)
+		For i=1 to j
+			html=Replace(html,"<#" & aryTemplateTagsName(i) & "#>",aryTemplateTagsValue(i))
+		Next
+		html=Replace(html,"<#" & aryTemplateTagsName(0) & "#>",aryTemplateTagsValue(0))
+
+		Build=True
+
+	End Function
+
+
+	Public Function ExportBar(intNowPage,intAllPage)
+
+		ExportBar=True
+
+	End Function
+
+
+	Function SetVar(TemplateTag,TemplateValue)
+
+		If IsEmpty(html) Then html=Template
+
+		html=Replace(html,"<#" & TemplateTag & "#>",TemplateValue)
+
+	End Function
+
+
+	Function Save()
+
+
+	End Function
+
+
+	Function Run()
+
+		Select Case Request.QueryString("act")
+			Case "Main"
+				Call PadMain()
+			Case "View"
+				Call WapView()
+			Case "Com"
+				Call WapCom()
+			Case "Err"
+				Call WapError()
+			Case "AddCom"		
+				Call WapAddCom(0)
+			Case "PostCom"
+				Call WapPostCom()
+			Case "DelCom"
+				Call WapDelCom()
+			Case "AddArt"
+				Call WapEdtArt()
+			Case "EdtArt"
+				Call WapEdtArt()		
+			Case "PostArt"
+				Call WapPostArt()
+			Case "DelArt"
+				Call WapDelArt()
+			Case "Search"
+				Call WapSearch()
+			Case "Login"
+				Call WapLogin()
+			Case "Logout"
+				Call WapLogout()
+			Case Else
+				Call Export(Request("page"),Request("cate"),Request("auth"),Request("date"),Request("tags"),ZC_DISPLAY_MODE_ALL)		
+		End Select
+
+		Build()
+
+		Response.Write html
+
+
+
+	End Function
+
+
+	Private Sub Class_Initialize()
+
+		TemplateDic.Item("TEMPLATE_DEFAULT")=LoadFromFile(BlogPath &"zb_users\plugin\wap\template\pad.html","utf-8")
+
+	End Sub
+
+End Class
+'*********************************************************
+
+
+
+
+
 '*********************************************************
 ' 目的:     主页
 '*********************************************************
-Function WapMain()
+Function PadMain()
 		
 		'列表页模板暂不考虑
-		Response.Write WapExport(Request("page"),Request("cate"),Request("auth"),Request("date"),Request("tags"),ZC_DISPLAY_MODE_ALL)
-		Response.Write WapExportBar(Request("page"),intPageCount,Request("cate"),Request("auth"),Request("date"),Request("tags"),Request("q"))
+		'Response.Write WapExport(Request("page"),Request("cate"),Request("auth"),Request("date"),Request("tags"),ZC_DISPLAY_MODE_ALL)
+		'Response.Write WapExportBar(Request("page"),intPageCount,Request("cate"),Request("auth"),Request("date"),Request("tags"),Request("q"))
 		
-		WapNav()
+		'WapNav()
 				
 End Function
 
@@ -87,42 +253,6 @@ Function WapCheckLogin()
 		   
 End Function
 
-
-'*********************************************************
-' 目的:     查看分类
-'*********************************************************
-Function WapCate()
-	Dim Category
-	Response.Write WapTitle(ZC_MSG214,"")
-	Response.Write "<ul>"
-		For Each Category in Categorys
-			If IsObject(Category) Then
-				Response.Write "<li>"&Category.ID&".<a href="""&WapUrlStr&"&act=Main&amp;cate="&Category.ID&""">"&TransferHTML(Category.Name,"[html-format]")&"</a>("&Category.Count&")</li>"
-			End If
-		Next
-	Response.Write "</ul>"	
-	WapNav()	
-End Function
-
-
-'*********************************************************
-' 目的:     最新发表
-'*********************************************************
-Function WapPrev()
-	Response.Write  WapTitle(ZC_MSG032,"")
-	Response.Write  "<ul>" & LoadFromFile(BlogPath & "/INCLUDE/previous.asp","utf-8") & "</ul>"
-	WapNav()
-End Function
-
-
-'*********************************************************
-' 目的:     查看站点统计
-'*********************************************************
-Function WapStat()
-	Response.Write  WapTitle(ZC_MSG026,"")
-	Response.Write  "<ul>" & LoadFromFile(BlogPath & "/INCLUDE/statistics.asp","utf-8") & "</ul>"
-	WapNav()
-End Function
 
 
 '*********************************************************
@@ -223,7 +353,7 @@ Function WapLogin()
 			Response.Cookies("password").Expires=Date+30
 			Response.Cookies("password").Path = "/"
 
-			Response.Write WapMain()
+			Response.Write PadMain()
 		End If
 
 	End If

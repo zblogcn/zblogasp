@@ -1807,7 +1807,7 @@ Function CheckMobile()
 	CheckMobile=False
 
 	'是否（智能）手机浏览器
-	Dim MobileBrowser_List
+	Dim MobileBrowser_List,UserAgent
 	MobileBrowser_List ="android|iphone|ipad|windows\sphone|kindle|rim\stablet|meego|netfront|java|opera\smini|opera\smobi|ucweb|windows\sce|symbian|series|webos|sonyericsson|sony|blackberry|cellphone|dopod|nokia|samsung|palmsource|palmos|xphone|xda|smartphone|meizu|up.browser|up.link|pieplus|midp|cldc|motorola|foma|docomo|huawei|coolpad|alcatel|amoi|ktouch|philips|benq|haier|bird|zte|wap|mobile"
 
 	UserAgent = LCase(Request.ServerVariables("HTTP_USER_AGENT"))

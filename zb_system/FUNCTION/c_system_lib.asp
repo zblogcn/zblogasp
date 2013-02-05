@@ -463,9 +463,21 @@ Class TArticle
 			FullRegex=Ffullregex
 		Else
 			If IsPage=True Then
-				FullRegex=ZC_PAGE_REGEX
+				If Level>2 Then
+					FullRegex=ZC_PAGE_REGEX
+				ElseIf Level>1 Then
+					FullRegex=ZC_PAGE_AND_ARTICLE_PRIVATE_REGEX	
+				Else
+					FullRegex=ZC_PAGE_AND_ARTICLE_DRAFT_REGEX
+				End If
 			Else
-				FullRegex=ZC_ARTICLE_REGEX
+				If Level>2 Then
+					FullRegex=ZC_ARTICLE_REGEX
+				ElseIf Level>1 Then
+					FullRegex=ZC_PAGE_AND_ARTICLE_PRIVATE_REGEX	
+				Else
+					FullRegex=ZC_PAGE_AND_ARTICLE_DRAFT_REGEX
+				End If
 			End If
 		End If
 	End Property
@@ -477,27 +489,31 @@ Class TArticle
 	End Property
 
 
+	Private FUrl
 	Public Property Get Url
 
-		'plugin node
-		bAction_Plugin_TArticle_Url=False
-		For Each sAction_Plugin_TArticle_Url in Action_Plugin_TArticle_Url
-			If Not IsEmpty(sAction_Plugin_TArticle_Url) Then Call Execute(sAction_Plugin_TArticle_Url)
-			If bAction_Plugin_TArticle_Url=True Then Exit Property
-		Next
-
-		If Level<=2 Then
-			Url = BlogHost & "view.asp?id=" & ID
+		If FUrl<>"" Then 
+			Url=FUrl
 		Else
+
+			'plugin node
+			bAction_Plugin_TArticle_Url=False
+			For Each sAction_Plugin_TArticle_Url in Action_Plugin_TArticle_Url
+				If Not IsEmpty(sAction_Plugin_TArticle_Url) Then Call Execute(sAction_Plugin_TArticle_Url)
+				If bAction_Plugin_TArticle_Url=True Then Exit Property
+			Next
+
 			Call GetUsersbyUserIDList(AuthorID)
-			Url =ParseCustomDirectoryForUrl(FullRegex,ZC_STATIC_DIRECTORY,Categorys(CateID).StaticName,Users(AuthorID).StaticName,Year(PostTime),Month(PostTime),Day(PostTime),ID,StaticName,StaticName)
-			If Right(Url,12)="default.html" Then Url=Left(Url,Len(Url)-12)
+			FUrl =ParseCustomDirectoryForUrl(FullRegex,ZC_STATIC_DIRECTORY,Categorys(CateID).StaticName,Users(AuthorID).StaticName,Year(PostTime),Month(PostTime),Day(PostTime),ID,StaticName,StaticName)
+			If Right(FUrl,12)="default.html" Then FUrl=Left(FUrl,Len(FUrl)-12)
 			'If Right(Url,10)="index.html" Then Url=Left(Url,Len(Url)-10)
+
+			FUrl=Replace(Replace(FUrl,"//","/"),":/","://",1,1)
+
+			Call Filter_Plugin_TArticle_Url(FUrl)
+			Url=FUrl
+
 		End If
-
-		Url=Replace(Replace(Url,"//","/"),":/","://",1,1)
-
-		Call Filter_Plugin_TArticle_Url(Url)
 
 	End Property
 
@@ -575,7 +591,7 @@ Class TArticle
 	End Property
 
 	Public Property Get HtmlUrl
-		HtmlUrl=TransferHTML(TransferHTML(FullUrl,"[zc_blog_host]"),"[html-format]")
+		HtmlUrl=TransferHTML(TransferHTML(Url,"[zc_blog_host]"),"[html-format]")
 	End Property
 
 	Public Property Get TagToName
@@ -775,8 +791,8 @@ Class TArticle
 			End If
 			Set objRS=Nothing
 
-			FullUrl=Replace(Url,BlogHost,"<#ZC_BLOG_HOST#>")
-			objConn.Execute("UPDATE [blog_Article] SET [log_FullUrl]='"&FullUrl&"' WHERE [log_ID] =" & ID)
+			'FullUrl=Replace(Url,BlogHost,"<#ZC_BLOG_HOST#>")
+			'objConn.Execute("UPDATE [blog_Article] SET [log_FullUrl]='"&FullUrl&"' WHERE [log_ID] =" & ID)
 		Else
 			Set objRS=objConn.Execute("SELECT [log_CateID],[log_AuthorID] FROM [blog_Article] WHERE [log_ID] =" & ID)
 			If (Not objRS.bof) And (Not objRS.eof) Then
@@ -789,7 +805,7 @@ Class TArticle
 			End If
 			Set objRS=Nothing
 
-			FullUrl=Replace(Url,BlogHost,"<#ZC_BLOG_HOST#>")
+			'FullUrl=Replace(Url,BlogHost,"<#ZC_BLOG_HOST#>")
 
 			objConn.Execute("UPDATE [blog_Article] SET [log_CateID]="&CateID&",[log_AuthorID]="&AuthorID&",[log_Level]="&Level&",[log_Title]='"&Title&"',[log_Intro]='"&Intro&"',[log_Content]='"&Content&"',[log_PostTime]='"&PostTime&"',[log_IP]='"&IP&"',[log_Tag]='"&Tag&"',[log_Url]='"&Alias&"',[log_Istop]="&CLng(Istop)&",[log_Template]='"&TemplateName&"',[log_FullUrl]='"&FullUrl&"',[log_Type]="&CLng(FType)&",[log_Meta]='"&MetaString&"' WHERE [log_ID] =" & ID)
 		End If
@@ -1127,7 +1143,7 @@ Class TArticle
 			Set objNavArticle=New TArticle
 			If objNavArticle.LoadInfoByArray(Array(objRS(0),objRS(1),objRS(2),objRS(3),objRS(4),objRS(5),objRS(6),objRS(7),objRS(8),objRS(9),objRS(10),objRS(11),objRS(12),objRS(13),objRS(14),objRS(15),objRS(16),objRS(17))) Then
 				strName=objNavArticle.Title
-				strUrl=objNavArticle.FullUrl
+				strUrl=objNavArticle.Url
 			End If
 			Set objNavArticle=Nothing
 
@@ -1150,7 +1166,7 @@ Class TArticle
 			Set objNavArticle=New TArticle
 			If objNavArticle.LoadInfoByArray(Array(objRS(0),objRS(1),objRS(2),objRS(3),objRS(4),objRS(5),objRS(6),objRS(7),objRS(8),objRS(9),objRS(10),objRS(11),objRS(12),objRS(13),objRS(14),objRS(15),objRS(16),objRS(17))) Then
 				strName=objNavArticle.Title
-				strUrl=objNavArticle.FullUrl
+				strUrl=objNavArticle.Url
 			End If
 			Set objNavArticle=Nothing
 
@@ -1761,9 +1777,8 @@ Class TArticle
 		
 		Set objRS=Nothing
 
-		FullUrl=Replace(Url,BlogHost,"<#ZC_BLOG_HOST#>")
-
-		objConn.Execute("UPDATE [blog_Article] SET [log_FullUrl]='"&FullUrl&"' WHERE [log_ID] =" & ID)
+		'FullUrl=Replace(Url,BlogHost,"<#ZC_BLOG_HOST#>")
+		'objConn.Execute("UPDATE [blog_Article] SET [log_FullUrl]='"&FullUrl&"' WHERE [log_ID] =" & ID)
 
 		Statistic=True
 
