@@ -16,10 +16,11 @@ body>#main{background:#f8f8f8;border-radius:25px 0 0 25px;border-top:1px solid #
 body>footer{margin-top:10px;padding:10px;background:#f8f8f8;border-radius:25px 25px 0 0;border-top:1px solid #ddd;border-bottom:1px solid #e0e0e0;}
 
 body>#main>article{margin-bottom:20px;}
-body>#main>article>h2{background:#e0e0e0;;border-radius:10px;padding:5px;}
-
+body>#main>article>h2{background:#e0e0e0;;border-radius:5px;padding:5px;}
+body>#main>article img{width:auto;}
 /*=nav*/
-#main section.pagebar{text-align:center;}
-#main section.pagebar span,#main section.pagebar a{margin:0 5px;}
-#main section.pagebar span{display:inline-block;height:24px;line-height:24px;padding:0 8px;border:1px solid #eee;border-radius:3px}
-#main section.pagebar span{background:#def;box-shadow:0 0 2px rgba(0,0,0,.2) inset;border-color:#abc;}
+#main section.pagebar{text-align:center;padding:5px 0;}
+#main section.pagebar span{margin:0 15px;}
+#main section.pagebar span{display:inline-block;padding:0 8px;border:1px solid #eee;border-radius:3px}
+#main section.pagebar a span{background:#e0e0e0;box-shadow:0 0 1px rgba(0,0,0,.2) inset;border-color:#abc;}
+#main section.pagebar a:hover span{border-color:#333;}
