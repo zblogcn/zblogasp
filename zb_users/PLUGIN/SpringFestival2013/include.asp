@@ -5,6 +5,7 @@ Call RegisterPlugin("SpringFestival2013","ActivePlugin_SpringFestival2013")
 '挂口部分
 Function ActivePlugin_SpringFestival2013()
 
+	Call Add_Response_Plugin("Response_Plugin_Admin_Header","<link rel=""stylesheet"" type=""text/css"" href="""+BlogHost+"zb_users/plugin/springfestival2013/css.asp""/>")
 	Call Add_Response_Plugin("Response_Plugin_Admin_Header","<style type=""text/css"">.top{background:url(" & BlogHost & "zb_users/plugin/springfestival2013/top.jpg) !important}</style>")
 	
 End Function
