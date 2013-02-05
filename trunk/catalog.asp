@@ -37,7 +37,7 @@ Next
 Dim ArtList
 Set ArtList=New TArticleList
 
-If ArtList.Export(Request.QueryString("page"),Request.QueryString("cate"),IIF(Not IsEmpty(Request.QueryString("auth")),Request.QueryString("auth"),Request.QueryString("user")),Request.QueryString("date"),Request.QueryString("tags"),ZC_DISPLAY_MODE_INTRO) Then
+If ArtList.Export(Request.QueryString("page"),Request.QueryString("cate"),Request.QueryString("auth"),Request.QueryString("date"),Request.QueryString("tags"),ZC_DISPLAY_MODE_INTRO) Then
 	ArtList.Build
 	html=ArtList.html
 	Response.Write html
