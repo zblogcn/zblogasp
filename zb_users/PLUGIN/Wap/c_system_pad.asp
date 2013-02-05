@@ -65,8 +65,16 @@ Class TPad
 
 		Title=ZC_BLOG_SUBTITLE
 
+		Dim ArtList
+		Set ArtList=New TArticleList
+		ArtList.html=Template
 
-		If IsEmpty(html) Then html=Template
+		If ArtList.Export(intPage,anyCate,anyAuthor,dtmDate,anyTag,intType) Then
+			html=ArtList.html
+		End If
+
+
+		'If IsEmpty(html) Then html=Template
 
 		Url=Replace(Replace(Url,"//","/"),":/","://",1,1)
 
@@ -170,6 +178,36 @@ Class TPad
 	Private Sub Class_Initialize()
 
 		TemplateDic.Item("TEMPLATE_DEFAULT")=LoadFromFile(BlogPath &"zb_users\plugin\wap\template\pad.html","utf-8")
+		TemplateDic.Item("TEMPLATE_DEFAULT")=LoadFromFile(BlogPath &"zb_users\plugin\wap\template\pad.html","utf-8")
+		TemplateDic.Item("TEMPLATE_DEFAULT")=LoadFromFile(BlogPath &"zb_users\plugin\wap\template\pad.html","utf-8")
+		TemplateDic.Item("TEMPLATE_DEFAULT")=LoadFromFile(BlogPath &"zb_users\plugin\wap\template\pad.html","utf-8")
+
+		TemplateDic.Item("TEMPLATE_B_ARTICLE-ISTOP")=LoadFromFile(BlogPath &"zb_users\plugin\wap\template\pad_article-istop.html","utf-8")
+		TemplateDic.Item("TEMPLATE_B_ARTICLE-MULTI")=LoadFromFile(BlogPath &"zb_users\plugin\wap\template\pad_article-multi.html","utf-8")
+		TemplateDic.Item("TEMPLATE_B_ARTICLE-SINGLE")=LoadFromFile(BlogPath &"zb_users\plugin\wap\template\pad_article-single.html","utf-8")
+
+ZC_POST_STATIC_MODE="ACTIVE"
+ZC_STATIC_MODE="ACTIVE"
+
+
+ZC_ARTICLE_REGEX="{%host%}/?mod=pad&id={%id%}"
+
+ZC_PAGE_REGEX="{%host%}/?mod=pad&id={%id%}"
+
+ZC_CATEGORY_REGEX="{%host%}/?mod=pad&cate={%id%}"
+
+ZC_USER_REGEX="{%host%}/?mod=pad&user={%id%}"
+
+ZC_TAGS_REGEX="{%host%}/?mod=pad&tags={%alias%}"
+
+ZC_DATE_REGEX="{%host%}/?mod=pad&date={%date%}"
+
+ZC_DEFAULT_REGEX="{%host%}/?mod=pad"
+
+ZC_PAGE_AND_ARTICLE_PRIVATE_REGEX="{%host%}/?mod=pad&id={%id%}"
+
+ZC_PAGE_AND_ARTICLE_DRAFT_REGEX="{%host%}/?mod=pad&id={%id%}"
+
 
 	End Sub
 
