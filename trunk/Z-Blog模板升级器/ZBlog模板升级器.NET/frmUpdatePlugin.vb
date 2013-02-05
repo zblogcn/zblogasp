@@ -1,6 +1,8 @@
 ﻿Option Strict Off
 Option Explicit On
 Imports System.IO
+Imports System.Text.RegularExpressions
+
 Friend Class frmUpdatePlugin
     Inherits System.Windows.Forms.Form
 
@@ -51,10 +53,7 @@ Friend Class frmUpdatePlugin
         End If
 
 
-        objRegExp = New VBScript_RegExp_55.RegExp
         strTemplateFolder = ""
-        objRegExp.Global = True
-        objRegExp.IgnoreCase = True
         ReDim aryPluginFile(0)
         ReDim aryOldPath(0)
         ReDim aryNewPath(0)
@@ -66,7 +65,6 @@ Friend Class frmUpdatePlugin
 
 
     Private Sub frmMain_FormClosed(ByVal eventSender As System.Object, ByVal eventArgs As System.Windows.Forms.FormClosedEventArgs) Handles Me.FormClosed
-        objRegExp = Nothing
         End
     End Sub
 
@@ -134,7 +132,7 @@ Friend Class frmUpdatePlugin
     'Usage:升级
     'Param:strFilePath--文件名,intType--升级类型
     Function Update_Plugin(ByVal strFilePath As String, Optional ByRef intType As Short = 1, Optional ByVal OldPath As String = "", Optional ByVal NewPath As String = "") As Boolean
-        Dim strFile As String = ""
+        Dim strFile As String = "", strTemp As String = ""
         Dim objExec As Object = Nothing
         If File.Exists(strFilePath) Then
 
@@ -146,60 +144,52 @@ Friend Class frmUpdatePlugin
 
                     OldPath = OldPath.Replace("..\", "..[/\\]")
                     '替换INCLUDE地址
-                    objRegExp.Pattern = "<!-- +?#include +?file=""(" & OldPath & ").+?"""
-
-                    For Each objExec In objRegExp.Execute(strFile)
-                        strFile = Replace(strFile, objExec.Submatches(0), NewPath, 1, 1)
-                        Log(objExec.SubMatches(0) & "-->" & NewPath)
+                    For Each objExec In New Regex("<!-- +?#include +?file=""(" & OldPath & ").+?""", RegexOptions.IgnoreCase).Matches(strFile)
+                        strFile = Replace(strFile, objExec.Groups(1).Value, NewPath, 1, 1)
+                        Log(objExec.Groups(1).Value & "-->" & NewPath)
                     Next objExec
 
 
                     '替换空行
-                    objRegExp.Pattern = "[" & vbTab & " ]+" & vbCrLf
-                    For Each objExec In objRegExp.Execute(strFile)
+                    For Each objExec In New Regex("[" & vbTab & " ]+" & vbCrLf, RegexOptions.IgnoreCase).Matches(strFile)
                         strFile = Replace(strFile, objExec.Value, "", 1, 1)
                         Log(objExec.Value & "-->" & """""")
                     Next objExec
 
 
                     '替换HEADER
-                    objRegExp.Pattern = "<div class=[""']Header[""']>"
-                    For Each objExec In objRegExp.Execute(strFile)
+                    For Each objExec In New Regex("<div class=[""']Header[""']>", RegexOptions.IgnoreCase).Matches(strFile)
                         strFile = Replace(strFile, objExec.Value, "<div class=""divHeader"">", 1, 1)
                         Log(objExec.Value & "-->" & "<div class=""divHeader"">")
                     Next objExec
 
 
                     '替换<head>
-                    objRegExp.Pattern = "<!DOCTYPE html.+?>"
-                    For Each objExec In objRegExp.Execute(strFile)
+                    For Each objExec In New Regex("<!DOCTYPE html.+?>", RegexOptions.IgnoreCase).Matches(strFile)
                         strFile = Replace(strFile, objExec.Value, "<!--#include file=""" & NewPath & "zb_system\admin\admin_header.asp""-->", 1, 1)
                         Log(objExec.Value & "-->" & "<!--#include file=""" & NewPath & "zb_system\admin\admin_header.asp""-->")
                     Next objExec
-                    objRegExp.Pattern = "<html.+?>" & vbCrLf & "|<title>.+?</title>|<head>|<meta.+?>" & vbCrLf & "|<body>|</head>|</html>" & _
+                    strTemp = "<html.+?>" & vbCrLf & "|<title>.+?</title>|<head>|<meta.+?>" & vbCrLf & "|<body>|</head>|</html>" & _
                         "|<link rel=[""']stylesheet[""'] +?rev=[""']stylesheet[""'] +?href=[""'].+?CSS\/admin.css[""'] +?type=[""']text/css[""'] +?media=""screen"".+?>"
-                    For Each objExec In objRegExp.Execute(strFile)
+
+                    For Each objExec In New Regex(strTemp, RegexOptions.IgnoreCase).Matches(strFile)
                         strFile = Replace(strFile, objExec.Value, "", 1, 1)
                         Log(objExec.Value & "-->" & "")
                     Next objExec
-                    objRegExp.Pattern = "<div id=[""']divMain[""']>"
-                    For Each objExec In objRegExp.Execute(strFile)
+                    For Each objExec In New Regex("<div id=[""']divMain[""']>", RegexOptions.IgnoreCase).Matches(strFile)
                         strFile = Replace(strFile, objExec.Value, "<!--#include file=""" & NewPath & "zb_system\admin\admin_top.asp""--><div id=""divMain"">", 1, 1)
                         Log(objExec.Value & "-->" & "<!--#include file=""" & NewPath & "zb_system\admin\admin_top.asp""--><div id=""divMain"">")
                     Next objExec
-                    objRegExp.Pattern = "<div id=[""']divMain2[""']>"
-                    For Each objExec In objRegExp.Execute(strFile)
+                    For Each objExec In New Regex("<div id=[""']divMain2[""']>", RegexOptions.IgnoreCase).Matches(strFile)
                         strFile = Replace(strFile, objExec.Value, "<div id=""divMain2""><script type=""text/javascript"">ActiveLeftMenu(""aPlugInMng"");</script>", 1, 1)
                         Log(objExec.Value & "-->" & "<div id=""divMain2""><script type=""text/javascript"">ActiveLeftMenu(""aPlugInMng"");</script>")
                     Next objExec
 
-                    objRegExp.Pattern = "<% +?Call GetBlogHint\(\) +?%>"
-                    For Each objExec In objRegExp.Execute(strFile)
+                    For Each objExec In New Regex("<% +?Call GetBlogHint\(\) +?%>", RegexOptions.IgnoreCase).Matches(strFile)
                         strFile = Replace(strFile, objExec.Value, "<div id=""ShowBlogHint""><%Call GetBlogHint()%></div>", 1, 1)
                         Log(objExec.Value & "-->" & "<div id=""ShowBlogHint""><%Call GetBlogHint()%></div>")
                     Next objExec
-                    objRegExp.Pattern = "</div>[" & vbCrLf & vbTab & " ]+?</body>"
-                    For Each objExec In objRegExp.Execute(strFile)
+                    For Each objExec In New Regex("</div>[" & vbCrLf & vbTab & " ]+?</body>", RegexOptions.IgnoreCase).Matches(strFile)
                         strFile = Replace(strFile, objExec.Value, "<!--#include file=""" & NewPath & "zb_system\admin\admin_footer.asp""-->", 1, 1)
                         Log(objExec.Value & "-->" & "<!--#include file=""" & NewPath & "zb_system\admin\admin_footer.asp""-->")
                     Next objExec
