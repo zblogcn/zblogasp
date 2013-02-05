@@ -1,13 +1,14 @@
 Option Strict Off
 Option Explicit On
 Imports System.IO
+Imports System.Text.RegularExpressions
 Module mdlBase
-	Public objRegExp As VBScript_RegExp_55.RegExp
 	Public objADO As Object
     Public objXML As Object
     Public bolAero As Boolean
 
     Function Update_Plugin(ByVal strFilePath As String, Optional ByRef intType As Short = 1) As Boolean
+
         Dim strFile As String = ""
         Dim objExec As Object = Nothing
         If File.Exists(strFilePath) Then
@@ -17,11 +18,9 @@ Module mdlBase
             Select Case intType
                 Case 1
                     'Ìæ»»zb_systemÏÂÎÄ¼þ
-                    objRegExp.Pattern = "\<\#ZC_BLOG_HOST\#\>(admin|script|function|image|cmd.asp|login.asp)"
-
-                    For Each objExec In objRegExp.Execute(strFile)
-                        strFile = Replace(strFile, objExec.Value, "<#ZC_BLOG_HOST#>zb_system/" & objExec.SubMatches(0), 1, 1)
-                        Log(objExec.SubMatches(0) & "-->" & "zb_system/" & objExec.SubMatches(0))
+                    For Each objExec In New Regex("\<\#ZC_BLOG_HOST\#\>(admin|script|function|image|cmd.asp|login.asp)").Matches(strFile)
+                        strFile = Replace(strFile, objExec.Value, "<#ZC_BLOG_HOST#>zb_system/" & objExec.Groups(1).Value, 1, 1)
+                        Log(objExec.Groups(1).Value & "-->" & "zb_system/" & objExec.Groups(1).Value)
                     Next objExec
 
 

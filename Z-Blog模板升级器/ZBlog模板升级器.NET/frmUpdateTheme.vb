@@ -1,6 +1,8 @@
 Option Strict Off
 Option Explicit On
 Imports System.IO
+Imports System.Text.RegularExpressions
+
 Friend Class frmUpdateTheme
     Inherits System.Windows.Forms.Form
 
@@ -61,10 +63,7 @@ Friend Class frmUpdateTheme
 
 
 
-        objRegExp = New VBScript_RegExp_55.RegExp
         strTemplateFolder = ""
-        objRegExp.Global = True
-        objRegExp.IgnoreCase = True
         ReDim aryTemplateFile(0)
         ReDim aryPluginFile(0)
         strSource = ""
@@ -73,7 +72,6 @@ Friend Class frmUpdateTheme
 
 
     Private Sub frmMain_FormClosed(ByVal eventSender As System.Object, ByVal eventArgs As System.Windows.Forms.FormClosedEventArgs) Handles Me.FormClosed
-        objRegExp = Nothing
         End
     End Sub
 
@@ -94,7 +92,7 @@ Friend Class frmUpdateTheme
     'Usage:扫描文件夹
     'Param:Folder--文件夹
     Function GetSubFolder(ByVal Folder As String) As Boolean
-        objRegExp.Pattern = "b_article-guestbook|b_article_trackback|guestbook|search"
+        Dim objRegExp As New Regex("b_article-guestbook|b_article_trackback|guestbook|search", RegexOptions.IgnoreCase)
         GetSubFolder = False
         Dim objFor As Object
         If Directory.Exists(Folder) Then
@@ -110,7 +108,7 @@ Friend Class frmUpdateTheme
 
                     '顺便做个删除吧
 
-                    If objRegExp.Test(objFor) Then
+                    If objRegExp.Match(objFor).Success Then
                         Log("删除无用文件：" & objFor)
                         File.Delete(objFor)
                     Else
@@ -175,38 +173,33 @@ Friend Class frmUpdateTheme
 
 
                     '替换zb_system下文件
-                    objRegExp.Pattern = "\<\#ZC_BLOG_HOST\#\>(admin|script|function|image|cmd.asp|login.asp)"
 
-                    For Each objExec In objRegExp.Execute(strFile)
-                        strFile = Replace(strFile, objExec.Value, "<#ZC_BLOG_HOST#>zb_system/" & objExec.SubMatches(0), 1, 1)
-                        Log(objExec.SubMatches(0) & "-->" & "zb_system/" & objExec.SubMatches(0))
+                    For Each objExec In New Regex("\<\#ZC_BLOG_HOST\#\>(admin|script|function|image|cmd.asp|login.asp)", RegexOptions.IgnoreCase).Matches(strFile)
+                        strFile = Replace(strFile, objExec.Value, "<#ZC_BLOG_HOST#>zb_system/" & objExec.Groups(1).Value, 1, 1)
+                        Log(objExec.Groups(1).Value & "-->" & "zb_system/" & objExec.Groups(1).Value)
                     Next objExec
 
                     '替换zb_users下文件
-                    objRegExp.Pattern = "\<\#ZC_BLOG_HOST\#\>(plugin|language|cache|upload)"
-                    For Each objExec In objRegExp.Execute(strFile)
-                        strFile = Replace(strFile, objExec.Value, "<#ZC_BLOG_HOST#>zb_users/" & objExec.SubMatches(0), 1, 1)
-                        Log(objExec.SubMatches(0) & "-->" & "zb_users/" & objExec.SubMatches(0))
+                    For Each objExec In New Regex("\<\#ZC_BLOG_HOST\#\>(plugin|language|cache|upload)", RegexOptions.IgnoreCase).Matches(strFile)
+                        strFile = Replace(strFile, objExec.Value, "<#ZC_BLOG_HOST#>zb_users/" & objExec.Groups(1).Value, 1, 1)
+                        Log(objExec.Groups(1).Value & "-->" & "zb_users/" & objExec.Groups(1).Value)
                     Next objExec
 
                     '替换theme
-                    objRegExp.Pattern = "(\<\#ZC_BLOG_HOST\#\>themes)"
-                    For Each objExec In objRegExp.Execute(strFile)
-                        strFile = Replace(strFile, objExec.SubMatches(0), "<#ZC_BLOG_HOST#>zb_users/theme", 1, 1)
-                        Log(objExec.SubMatches(0) & "-->" & "<#ZC_BLOG_HOST#>zb_users/theme")
+                    For Each objExec In New Regex("(\<\#ZC_BLOG_HOST\#\>themes)", RegexOptions.IgnoreCase).Matches(strFile)
+                        strFile = Replace(strFile, objExec.Groups(1).Value, "<#ZC_BLOG_HOST#>zb_users/theme", 1, 1)
+                        Log(objExec.Groups(1).Value & "-->" & "<#ZC_BLOG_HOST#>zb_users/theme")
                     Next objExec
 
                     '替换rss
-                    objRegExp.Pattern = "(\<\#ZC_BLOG_HOST\#\>rss\.xml)"
-                    For Each objExec In objRegExp.Execute(strFile)
-                        strFile = Replace(strFile, objExec.SubMatches(0), "<#ZC_BLOG_HOST#>feed.asp", 1, 1)
-                        Log(objExec.SubMatches(0) & "-->" & "<#ZC_BLOG_HOST#>feed.asp")
+                    For Each objExec In New Regex("(\<\#ZC_BLOG_HOST\#\>rss\.xml)", RegexOptions.IgnoreCase).Matches(strFile)
+                        strFile = Replace(strFile, objExec.Groups(1).Value, "<#ZC_BLOG_HOST#>feed.asp", 1, 1)
+                        Log(objExec.Groups(1).Value & "-->" & "<#ZC_BLOG_HOST#>feed.asp")
                     Next objExec
 
 
                     '替换那些玩意
-                    objRegExp.Pattern = "var (str0[0-9]|intMaxLen|strBatchView|strBatchInculde|strBatchCount|strFaceName|strFaceSize)=.+?;"
-                    For Each objExec In objRegExp.Execute(strFile)
+                    For Each objExec In New Regex("var (str0[0-9]|intMaxLen|strBatchView|strBatchInculde|strBatchCount|strFaceName|strFaceSize)=.+?;", RegexOptions.IgnoreCase).Matches(strFile)
                         strFile = Replace(strFile, objExec.Value, "", 1, 1)
                         Log(objExec.Value & "-->" & """""")
                     Next objExec
@@ -218,8 +211,7 @@ Friend Class frmUpdateTheme
                     End If
 
                     '删除无用UBB部分
-                    objRegExp.Pattern = "InsertQuote.+?\;|ExportUbbFrame\(\)\;?"
-                    For Each objExec In objRegExp.Execute(strFile)
+                    For Each objExec In New Regex("InsertQuote.+?\;|ExportUbbFrame\(\)\;?", RegexOptions.IgnoreCase).Matches(strFile)
                         strFile = Replace(strFile, objExec.Value, "", 1, 1)
                         Log(objExec.Value & "-->" & """""")
                     Next objExec
@@ -231,30 +223,26 @@ Friend Class frmUpdateTheme
                     Log("计数部分修改")
 
                     '替换无用标签
-                    objRegExp.Pattern = "<#template:article_trackback#>|<#article/pretrackback_url#>|<#ZC_MSG014#>|<#article/trackbacknums#>"
-                    For Each objExec In objRegExp.Execute(strFile)
+                    For Each objExec In New Regex("<#template:article_trackback#>|<#article/pretrackback_url#>|<#ZC_MSG014#>|<#article/trackbacknums#>", RegexOptions.IgnoreCase).Matches(strFile)
                         strFile = Replace(strFile, objExec.Value, "", 1, 1)
                         Log(objExec.Value & "-->" & """""")
                     Next objExec
 
                     '替换Try--elScript
-                    objRegExp.Pattern = "try{" & vbCrLf & ".+?elScript[\d\D]+?catch\(e\){};?"
-                    For Each objExec In objRegExp.Execute(strFile)
+                    For Each objExec In New Regex("try{" & vbCrLf & ".+?elScript[\d\D]+?catch\(e\){};?", RegexOptions.IgnoreCase).Matches(strFile)
                         strFile = Replace(strFile, objExec.Value, "", 1, 1)
                         Log(objExec.Value & "-->" & """""")
                     Next objExec
 
 
                     '替换验证码
-                    objRegExp.Pattern = "if.+?inpVerify[\d\D]+?Math.random\(\)[\d\D]+?}[\d\D]+?}"
-                    For Each objExec In objRegExp.Execute(strFile)
+                    For Each objExec In New Regex("if.+?inpVerify[\d\D]+?Math.random\(\)[\d\D]+?}[\d\D]+?}", RegexOptions.IgnoreCase).Matches(strFile)
                         strFile = Replace(strFile, objExec.Value, "", 1, 1)
                         Log(objExec.Value & "-->" & """""")
                     Next objExec
 
                     '替换空行
-                    objRegExp.Pattern = "[" & vbTab & " ]+" & vbCrLf
-                    For Each objExec In objRegExp.Execute(strFile)
+                    For Each objExec In New Regex("[" & vbTab & " ]+" & vbCrLf).Matches(strFile)
                         strFile = Replace(strFile, objExec.Value, "", 1, 1)
                         Log(objExec.Value & "-->" & """""")
                     Next objExec
@@ -290,9 +278,9 @@ Friend Class frmUpdateTheme
                     '侧栏管理只按照默认主题的结构弄，非默认主题的结构不管他
                     '抽样调查20个主题，默认主题侧栏结构约占50%上下
 
-                    objRegExp.Pattern = "<div id=""divSidebar"">[\d\D]+?<div class=""function"""
+                    Dim objRegExp As New Regex("<div id=""divSidebar"">[\d\D]+?<div class=""function""", RegexOptions.IgnoreCase)
                     '判断是否存在结构与默认主题相同的侧栏
-                    If objRegExp.Test(strFile) Then
+                    If objRegExp.Match(strFile).Success Then
 
                         'objRegExp.Pattern = "<div id=""divSidebar"">[\d\D]+?</div>"
 
