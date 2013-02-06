@@ -71,6 +71,7 @@ Class TPad
 
 		If ArtList.Export(intPage,anyCate,anyAuthor,dtmDate,anyTag,intType) Then
 			html=ArtList.html
+			Title=ArtList.Title
 		End If
 
 		Url=Replace(Replace(Url,"//","/"),":/","://",1,1)
@@ -99,6 +100,7 @@ Class TPad
 
 			If Article.Export(ZC_DISPLAY_MODE_ALL)= True Then
 				html=Article.html
+				Title=Article.Title
 			End If
 		Else
 
@@ -241,6 +243,19 @@ Class TPad
 	End Function
 
 
+	Function Comment()
+
+		Dim objArticle
+		Set objArticle=New TArticle
+		If objArticle.LoadInfoByID(Request.Form("inpID")) Then
+			Call PostComment(objArticle.CommentKey,CLng(Request.Form("inpRevID")))
+		Else
+
+		End If
+
+	End Function
+
+
 
 Public Function Errors(id)
 	If Not IsNumeric(ID) Then
@@ -273,6 +288,7 @@ Function Login()
 	s="<form id=""login"" method=""post"" action=""<#ZC_BLOG_HOST#>?mod=pad&amp;act=logging""><dl><dt>用户登录</dt><dd>用户:<input type=""text"" name=""username"" id=""username"" value="""" /></dd><dd>密码:<input type=""password"" name=""password"" id=""password"" value="""" /></dd><dd><input type=""submit"" value=""登录"" /></dd></dl></form>"
 
 	Call SetVar("PAD_MAIN",s)
+	Title="用户登录"
 
 End Function
 
@@ -413,8 +429,6 @@ Function FunCatalogs()
 
 End Function
 
-
-
 	Function SetVar(TemplateTag,TemplateValue)
 
 		If IsEmpty(html) Then html=Template
@@ -450,6 +464,8 @@ End Function
 				Call WapDelArt()
 			Case "search"
 				Call Search(Request("q"))
+			Case "cmt"
+				Call Comment()
 			Case "login"
 				Call Login()
 			Case "logout"

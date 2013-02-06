@@ -113,7 +113,6 @@ function GetCookie(sName) {
 // 输入：    无
 // 返回：    无
 //*********************************************************
-var strFormAction;
 var intRevID=0;
 function VerifyMessage() {
 
@@ -121,7 +120,7 @@ function VerifyMessage() {
 	var strEmail=$("#inpEmail").val();
 	var strHomePage=$("#inpHomePage").val();
 	var strArticle=$("#txaArticle").val();
-	
+	var strFormAction=$("#frmSumbit").attr("action");
 
 	if(strName==""){
 		alert(str01);
@@ -166,9 +165,6 @@ function VerifyMessage() {
 
 	$("#inpArticle").val(strArticle);
 	$("#inpLocation").val(parent.window.location.href);
-	if($("#frmSumbit").attr("action").search("act=cmt")>0){
-		strFormAction=$("#frmSumbit").attr("action");
-	}
 
 	var bolRemember=document.getElementById("chkRemember").checked;
 
@@ -180,7 +176,7 @@ function VerifyMessage() {
 	}
 
 	var strSubmit=$("#frmSumbit :submit").val();
-	$("#frmSumbit :submit").val("Waiting...").attr("disabled","disabled").addClass("btnloading");
+	$("#frmSumbit :submit").val("Waiting...").attr("disabled","disabled").addClass("loading");
 
 
 	//ajax comment begin
@@ -211,12 +207,6 @@ function VerifyMessage() {
 					window.location="#cmt"+intRevID
 				}
 				$("#divAjaxComment"+i).fadeIn("slow");
-				//$("#divAjaxComment"+i).fadeTo("normal", 0);
-				//$("#divAjaxComment"+i).fadeTo("normal", 1);
-				//$("#divAjaxComment"+i).show("slow");
-				if(strFormAction){
-					$("#frmSumbit").attr("action",strFormAction);
-				}
 				$("#txaArticle").val("");
 			}
 			if($("#inpVerify").length>0){
@@ -225,14 +215,12 @@ function VerifyMessage() {
 				objImageValid.attr("src",str00+"zb_system/function/c_validcode.asp?name=commentvalid"+"&random="+Math.random());
 			}
 
-			$("#frmSumbit :submit").removeClass("btnloading");
+			$("#frmSumbit :submit").removeClass("loading");
 			$("#frmSumbit :submit").removeAttr("disabled");
 			$("#frmSumbit :submit").val(strSubmit);
 
 		}
 	);
-
-
 
 	return false;
 	//ajax comment end
