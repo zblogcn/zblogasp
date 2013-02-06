@@ -23,12 +23,7 @@ function sidetoggle(){
 
 }
 
-
-
-
-
-$(document).ready(function(){ 
-
+function autoscreen(){
 	if(screen.width<640){
 		$("#modarrow>dt>a>img").css("background-image","url('"+bloghost+"zb_users/plugin/wap/style/larrow.png')");
 		sidetoggle();
@@ -36,5 +31,4 @@ $(document).ready(function(){
 		$("#modarrow>dt>a>img").css("background-image","url('"+bloghost+"zb_users/plugin/wap/style/rarrow.png')");
 		sidetoggle();
 	}
-
-});
+}

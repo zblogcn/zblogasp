@@ -116,6 +116,8 @@ Class TPad
 
 		Call SetVar("COOKIESPATH",CookiesPath())
 
+		Call SetVar("PAD_SCRIPT","autoscreen()")
+		
 		Dim i,j
 
 		Dim aryTemplateTagsName
@@ -143,6 +145,7 @@ Function Login()
 Template="PAD"
 html=Template
 html=Replace(html,"<#PAD_SIDE#>","")
+Call SetVar("PAD_SCRIPT","")
 
 Dim s
 
