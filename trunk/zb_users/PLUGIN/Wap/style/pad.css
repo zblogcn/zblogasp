@@ -1,4 +1,4 @@
-﻿*{font:18px 黑体,Arial;}
+﻿*{font:18px 微软雅黑,黑体,Arial;}
 body{margin:0 0;padding:0;background:#f1f2f5;color:#333;text-shadow:1px 1px rgba(255,255,255,.8);}
 body{border-bottom:1px solid #ffffff;}
 a{font-size:1em;color:#666666;text-decoration:none;}
@@ -15,25 +15,38 @@ body>header>nav>ul>li{background:#f8f8f8;border-radius: 0 0 5px 5px ;}
 
 body>#side{background:#f0f0f0;width:180px;position:absolute;top:90px;left:0px;border-radius:0 10px 10px 0;border-top:1px solid #fff;border-bottom:1px solid #ddd;}
 body>#main{background:#ffffff;border-radius:10px 0 0 10px;border-top:1px solid #fff;border-bottom:1px solid #ddd;padding:10px 10px 10px 15px;margin-left:190px;}
-
 body>footer{clear:both;margin-top:10px;padding:10px;background:#f8f8f8;border-radius:5px 5px 0 0;border-top:1px solid #ddd;border-bottom:1px solid #e0e0e0;}
 
-#side>dl{padding:5px;}
-#side>dl>dt{padding:2px;background:#ffffff;;border-radius:5px;}
+#side>dl{padding:5px;clear:both;}
+#side>dl>dt{padding:2px;background:#ffffff;border-radius:5px;}
 #side>dl>dd{padding:5px;}
+#side>dl>dd>ul>li{padding:1px 0 5px 0;}
+#side>dl>dd>ul>li>ul>li{padding:5px 0 0 10px;}
 
 #main>article{margin-bottom:20px;}
 #main>article>h2{background:#e0e0e0;;border-radius:5px;padding:5px;}
 #main>article img{width:auto;}
 
+#login dt,#login dd{text-align:center;padding:5px;}
+#search>input[name=q]{width:100px;}
+#search>input[type=submit]{width:40px;}
 
 #main>article>section.postcomment{margin-top:10px;background:#e8e8e8;;border-radius:5px;padding:5px;}
 #main>article>section.postcomment:first-child{margin-bottom:10px;}
 #main>article>section.comments>ul{width:auto;border:1px solid #e0e0e0;border-radius:5px;padding:5px;margin:10px;}
 #main>article>section.comments>ul ul{width:auto;border:1px solid #e0e0e0;border-radius:3px;padding:3px;margin:5px;}
+
+#modarrow>dt{background:transparent!important;}
+#modarrow>dt>a{float:right;}
+#modarrow>dt>a>img{background-image:url(larrow.png);border:none;}
+
 /*=nav*/
 #main section.pagebar{text-align:center;padding:5px 0;}
 #main section.pagebar span{margin:0 15px;}
 #main section.pagebar span{display:inline-block;padding:0 8px;border:1px solid #eee;border-radius:3px}
 #main section.pagebar a span{background:#e0e0e0;box-shadow:0 0 1px rgba(0,0,0,.2) inset;border-color:#abc;}
 #main section.pagebar a:hover span{border-color:#333;}
+
+body>#side{width:0;}
+body>#main{margin-left:0;}
+body>#side>dl{display:none;}
