@@ -272,6 +272,7 @@ Public Function Errors(id)
 	Call SetVar("PAD_SIDE","")
 	Call SetVar("PAD_AUTOSCREEN","")
 	Call SetVar("PAD_MAIN",s)
+	Title="错误"
 
 End Function
 
