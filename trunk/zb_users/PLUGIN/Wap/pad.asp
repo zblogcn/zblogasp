@@ -26,11 +26,9 @@
 <!-- #include file="../../../zb_system/function/c_system_plugin.asp" -->
 <!-- #include file="../../../zb_users/plugin/p_config.asp" -->
 <%
- ShowError_Custom="Call ShowError_WAP(id)"
- Wap_Type="pad"
- If ZC_DISPLAY_COUNT_WAP=0 Then ZC_DISPLAY_COUNT_WAP=5
-%><%
 Call System_Initialize()
+
+Wap_Type="pad"
 
 Dim Pad
 Set Pad=New TPad

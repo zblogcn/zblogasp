@@ -86,7 +86,7 @@ Class TPad
 
 		Dim Article
 		Set Article=New TArticle
-		Article.html=GetTemplate("single")
+		Article.Template="SINGLE"
 
 		If Article.LoadInfoByID(intId) Then
 
@@ -107,6 +107,107 @@ Class TPad
 	End Function
 
 
+	Function Search(q)
+
+
+		Dim strQuestion
+		strQuestion=TransferHTML(q,"[nohtml]")
+
+		Dim objArticle
+		Set objArticle=New TArticle
+
+		Dim i
+		Dim j
+		Dim s
+		Dim aryArticleList()
+
+		Dim objRS
+		Dim intPageCount
+		Dim objSubArticle
+
+		Dim cate
+		If IsEmpty(Request.QueryString("cate"))=False Then
+		cate=CLng(Request.QueryString("cate"))
+		End If
+
+		strQuestion=Trim(strQuestion)
+
+		If Len(strQuestion)>0 Then
+
+			strQuestion=FilterSQL(strQuestion)
+
+			Set objRS=Server.CreateObject("ADODB.Recordset")
+			objRS.CursorType = adOpenKeyset
+			objRS.LockType = adLockReadOnly
+			objRS.ActiveConnection=objConn
+
+			objRS.Source="SELECT [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_Type],[log_Meta] FROM [blog_Article] WHERE ([log_Type]=0) And ([log_ID]>0) AND ([log_Level]>2)"
+
+			If ZC_MSSQL_ENABLE=False Then
+				objRS.Source=objRS.Source & "AND( (InStr(1,LCase([log_Title]),LCase('"&strQuestion&"'),0)<>0) OR (InStr(1,LCase([log_Intro]),LCase('"&strQuestion&"'),0)<>0) OR (InStr(1,LCase([log_Content]),LCase('"&strQuestion&"'),0)<>0) )"
+			Else
+				objRS.Source=objRS.Source & "AND( (CHARINDEX('"&strQuestion&"',[log_Title])<>0) OR (CHARINDEX('"&strQuestion&"',[log_Intro])<>0) OR (CHARINDEX('"&strQuestion&"',[log_Content])<>0) )"
+			End If
+
+			If IsEmpty(cate)=False Then
+				objRS.Source=objRS.Source & "AND ([log_CateID]="&cate&")"
+			End If
+
+			objRS.Source=objRS.Source & "ORDER BY [log_PostTime] DESC,[log_ID] DESC"
+			objRS.Open()
+
+			If (Not objRS.bof) And (Not objRS.eof) Then
+				objRS.PageSize = ZC_SEARCH_COUNT
+				intPageCount=objRS.PageCount
+				objRS.AbsolutePage = 1
+
+				For i = 1 To objRS.PageSize
+
+					ReDim Preserve aryArticleList(i)
+
+					Set objSubArticle=New TArticle
+					If objSubArticle.LoadInfoByArray(Array(objRS(0),objRS(1),objRS(2),objRS(3),objRS(4),objRS(5),objRS(6),objRS(7),objRS(8),objRS(9),objRS(10),objRS(11),objRS(12),objRS(13),objRS(14),objRS(15),objRS(16),objRS(17))) Then
+						objSubArticle.SearchText=Request.QueryString("q")
+						If objSubArticle.Export(ZC_DISPLAY_MODE_SEARCH)= True Then
+							aryArticleList(i)=objSubArticle.subhtml
+						End If
+					End If
+					Set objSubArticle=Nothing
+
+					objRS.MoveNext
+					If objRS.EOF Then Exit For
+
+				Next
+
+			Else
+				ReDim Preserve aryArticleList(0)
+			End If
+
+			objRS.Close()
+			Set objRS=Nothing
+
+		Else
+			ReDim Preserve aryArticleList(0)
+		End If
+
+		objArticle.Template="PAGE"
+		objArticle.FType=ZC_POST_TYPE_PAGE
+		objArticle.Content=Join(aryArticleList)
+		objArticle.Content=Replace(objArticle.Content,"<#ZC_BLOG_HOST#>",BlogHost)
+		objArticle.Title=ZC_MSG085 + ":" + TransferHTML(strQuestion,"[html-format]")
+		objArticle.FullRegex="{%host%}/{%alias%}.html"
+
+		If objArticle.Export(ZC_DISPLAY_MODE_SYSTEMPAGE) Then
+			'objArticle.Build
+			'Response.Write objArticle.html
+			html=objArticle.html
+		End If
+
+		Title=objArticle.Title
+		Call SetVar("PAD_SIDE","")
+		Call SetVar("PAD_AUTOSCREEN","")
+	End Function
+
 
 	Public Function Build()
 
@@ -116,7 +217,7 @@ Class TPad
 
 		Call SetVar("COOKIESPATH",CookiesPath())
 
-		Call SetVar("PAD_SCRIPT","autoscreen()")
+		Call SetVar("PAD_AUTOSCREEN","autoscreen();")
 		
 		Dim i,j
 
@@ -140,20 +241,38 @@ Class TPad
 	End Function
 
 
+
+Public Function Errors(id)
+	If Not IsNumeric(ID) Then
+		ID=0
+	ElseIf CLng(ID)>Ubound(ZVA_ErrorMsg) Or CLng(ID)<0 Then
+		ID=0
+	End If
+	Dim s
+	s=s&"<p>错误:"&ZVA_ErrorMsg(ID)&"</p>"
+	s=s&"<p><span class=""stamp""><a href=""javascript:history.go(-1)"">"&ZC_MSG065&"</a></span></p>"
+
+	Template="PAD"
+	html=Template
+	Call SetVar("PAD_SIDE","")
+	Call SetVar("PAD_AUTOSCREEN","")
+	Call SetVar("PAD_MAIN",s)
+
+End Function
+
+
 Function Login()
 
-Template="PAD"
-html=Template
-html=Replace(html,"<#PAD_SIDE#>","")
-Call SetVar("PAD_SCRIPT","")
+	Template="PAD"
+	html=Template
+	Call SetVar("PAD_SIDE","")
+	Call SetVar("PAD_AUTOSCREEN","")
 
-Dim s
+	Dim s
 
-s="<form id=""login"" method=""post"" action=""<#ZC_BLOG_HOST#>?mod=pad&amp;act=logging""><dl><dt>用户登录</dt><dd>用户:<input type=""text"" name=""username"" id=""username"" value="""" /></dd><dd>密码:<input type=""password"" name=""password"" id=""password"" value="""" /></dd><dd><input type=""submit"" value=""登录"" /></dd></dl></form>"
+	s="<form id=""login"" method=""post"" action=""<#ZC_BLOG_HOST#>?mod=pad&amp;act=logging""><dl><dt>用户登录</dt><dd>用户:<input type=""text"" name=""username"" id=""username"" value="""" /></dd><dd>密码:<input type=""password"" name=""password"" id=""password"" value="""" /></dd><dd><input type=""submit"" value=""登录"" /></dd></dl></form>"
 
-s=s&"<script type=""text/javascript"">$(document).ready(function(){ $('#side').css('display','none');$('#main').css('margin-left','0'); });</script>"
-
-html=Replace(html,"<#PAD_MAIN#>",s)
+	Call SetVar("PAD_MAIN",s)
 
 End Function
 
@@ -305,11 +424,6 @@ End Function
 	End Function
 
 
-	Function Search(q)
-
-
-	End Function
-
 
 	Function Run()
 
@@ -318,8 +432,8 @@ End Function
 				Call View(Request("id"))
 			Case "Com"
 				Call WapCom()
-			Case "Err"
-				Call WapError()
+			Case "err"
+				Call Errors(Request.QueryString("id"))
 			Case "AddCom"		
 				Call WapAddCom(0)
 			Case "PostCom"
@@ -353,8 +467,16 @@ End Function
 	End Function
 
 
+	Function ShowError(id)
+		Response.Redirect BlogHost&"?mod=pad&act=err&id="&id
+	End Function
+
 
 	Private Sub Class_Initialize()
+
+		ShowError_Custom="Call Pad.ShowError(id)"
+
+		If ZC_DISPLAY_COUNT_WAP=0 Then ZC_DISPLAY_COUNT_WAP=5
 
 		ZC_PAGEBAR_COUNT=5
 		ZC_COMMENT_VERIFY_ENABLE=False
@@ -367,6 +489,7 @@ End Function
 
 		TemplateDic.Item("TEMPLATE_DEFAULT")=Replace(s,"<#PAD_MAIN#>","<#template:article-multi#><section class=""pagebar""><#template:pagebar#></section>")
 		TemplateDic.Item("TEMPLATE_SINGLE")=Replace(s,"<#PAD_MAIN#>","<#template:article-single#>")
+		TemplateDic.Item("TEMPLATE_PAGE")=Replace(s,"<#PAD_MAIN#>","<#template:article-page#>")
 
 		TemplateDic.Item("TEMPLATE_B_ARTICLE-ISTOP")=LoadFromFile(BlogPath &"zb_users\plugin\wap\template\pad_article-istop.html","utf-8")
 		TemplateDic.Item("TEMPLATE_B_ARTICLE-MULTI")=LoadFromFile(BlogPath &"zb_users\plugin\wap\template\pad_article-multi.html","utf-8")
@@ -410,27 +533,5 @@ End Class
 
 
 
-
-
-
-'*********************************************************
-' 目的:     查看错误
-'*********************************************************
-Public Function WapError()
-	Dim ID
-	ID=Request.QueryString("id")
-	If Not IsNumeric(ID) Then
-		ID=0
-	ElseIf CLng(ID)>Ubound(ZVA_ErrorMsg) Or CLng(ID)<0 Then
-		ID=0
-	End If
-	Response.Write WapTitle(ZVA_ErrorMsg(ID),"") & "<p class=""n"">"&ZVA_ErrorMsg(ID)&" <span class=""stamp""><a href=""javascript:history.go(-1)"">"&ZC_MSG065&"</a></span></p>"
-End Function
-
-'*********************************************************
-
-Function ShowError_WAP(id)
-	Response.Redirect WapUrlStr&"&act=Err&id="&id
-End Function
 
 %>
