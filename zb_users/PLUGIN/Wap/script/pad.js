@@ -32,3 +32,117 @@ function autoscreen(){
 		sidetoggle();
 	}
 }
+
+
+
+
+
+function RevertComment(i) {
+	intRevID=i;
+}
+
+
+var strFormAction;
+var intRevID=0;
+function VerifyMessage() {
+
+	var strName=$("#inpName").val();
+	var strEmail=$("#inpEmail").val();
+	var strHomePage=$("#inpHomePage").val();
+	var strArticle=$("#txaArticle").val();
+	
+
+	if(strName==""){
+		alert("请输入正确信息");
+		return false;
+	}
+	else{
+		re = new RegExp("^[.A-Za-z0-9\u4e00-\u9fa5]+$");
+		if (!re.test(strName)){
+			alert("请输入正确信息");
+			return false;
+		}
+	}
+
+	if(strEmail==""){
+	}
+	else{
+		re = new RegExp("^[\\w-]+(\\.[\\w-]+)*@[\\w-]+(\\.[\\w-]+)+$");
+		if (!re.test(strEmail)){
+			alert("请输入正确信息");
+			return false;
+		}
+	}
+
+	if(typeof(strArticle)=="undefined"){
+		alert("请输入正确信息");
+		return false;
+	}
+
+	if(typeof(strArticle)=="string"){
+		if(strArticle==""){
+			alert("请输入正确信息");
+			return false;
+		}
+		if(strArticle.length>1000)
+		{
+			alert("请输入正确信息");
+			return false;
+		}
+	}
+
+	$("#inpArticle").val(strArticle);
+	$("#inpLocation").val(parent.window.location.href);
+
+	strFormAction=$("#frmSumbit").attr("action");
+
+
+
+	var strSubmit=$("#frmSumbit :submit").val();
+	$("#frmSumbit :submit").val("Waiting...").attr("disabled","disabled").addClass("loading");
+
+
+	//ajax comment begin
+	$.post(strFormAction,
+		{
+		"inpAjax":true,
+		"inpID":$("#inpId").val(),
+		"inpEmail":strEmail,
+		"inpName":strName,
+		"inpArticle":strArticle,
+		"inpHomePage":strHomePage,
+		"inpRevID":intRevID
+		},
+		function(data){
+			var s =data;
+			if((s.search("faultCode")>0)&&(s.search("faultString")>0))
+			{
+				alert(s.match("<string>.+?</string>")[0].replace("<string>","").replace("</string>",""))
+			}
+			else{
+				var i=Math.round(Math.random()*1000);
+				var s =data;
+				if(intRevID==0){
+					$(s).insertBefore("#AjaxCommentEnd");
+				}else{
+					$(s).insertBefore("#AjaxCommentEnd"+intRevID);
+					window.location="#cmt"+intRevID
+				}
+				$("#divAjaxComment"+i).fadeIn("slow");
+				$("#txaArticle").val("");
+			}
+
+			$("#frmSumbit :submit").removeClass("loading");
+			$("#frmSumbit :submit").removeAttr("disabled");
+			$("#frmSumbit :submit").val(strSubmit);
+
+		}
+	);
+
+
+
+	return false;
+	//ajax comment end
+
+}
+//*********************************************************
