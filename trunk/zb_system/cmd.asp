@@ -622,7 +622,7 @@ Function CommentPost
 			Response.End
 		End If
 
-		Response.Redirect Request.Form("inpLocation")
+		Response.Redirect Request.ServerVariables("HTTP_REFERER")
 
 	Else
 		Call ShowError(14)
