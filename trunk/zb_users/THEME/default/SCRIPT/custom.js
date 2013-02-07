@@ -10,18 +10,19 @@ function ReComment_CallBack(){for(var i=0;i<=ReComment_CallBack.list.length-1;i+
 ReComment_CallBack.list=[];
 ReComment_CallBack.add=function(s){ReComment_CallBack.list.push(s)};
 //本条留言DomID,本条留言class,内容class,评论框DomID,指定父ID
-function ReComment(comId,comClass,mClass,frmId,i){
+function ReComment(i){
 	$("#inpRevID").val(i);
-	var comm=$('#'+comId),frm=$('#'+frmId),cancel=$("#cancel-reply"),temp = $('#temp-frm');
-	if ( ! comm.length || ! frm.length || ! cancel.length)return;
-	if ( ! temp.length ) {
-			var div = document.createElement('div');
-			div.id = 'temp-frm';
-			div.style.display = 'none';
-			frm.before(div);
-	}
-	if (comm.has('.'+comClass).length){comm.find('.'+comClass).first().before(frm);}
-	else comm.find('.'+mClass).first().append(frm);
+	var frm=$('#divCommentPost'),cancel=$("#cancel-reply"),temp = $('#temp-frm');
+
+
+	var div = document.createElement('div');
+	div.id = 'temp-frm';
+	div.style.display = 'none';
+	frm.before(div);
+
+
+	$('#AjaxCommentEnd'+i).before(frm);
+
 	frm.addClass("reply-frm");
 	
 	cancel.show();
