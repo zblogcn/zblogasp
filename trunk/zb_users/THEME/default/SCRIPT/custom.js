@@ -9,7 +9,9 @@
 function ReComment_CallBack(){for(var i=0;i<=ReComment_CallBack.list.length-1;i++){ReComment_CallBack.list[i]()}}
 ReComment_CallBack.list=[];
 ReComment_CallBack.add=function(s){ReComment_CallBack.list.push(s)};
-//本条留言DomID,本条留言class,内容class,评论框DomID,指定父ID
+
+
+//重写了common.js里的同名函数
 function ReComment(i){
 	$("#inpRevID").val(i);
 	var frm=$('#divCommentPost'),cancel=$("#cancel-reply"),temp = $('#temp-frm');
@@ -28,7 +30,7 @@ function ReComment(i){
 	cancel.show();
 	cancel.click(function(){
 		$("#inpRevID").val(0);
-		var temp = $('#temp-frm'), frm=$('#'+frmId);
+		var temp = $('#temp-frm'), frm=$('#divCommentPost');
 		if ( ! temp.length || ! frm.length )return;
 		temp.before(frm);
 		temp.remove();
