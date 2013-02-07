@@ -40,9 +40,9 @@ Function CommentUserAgent_Comment_MakeTemplate_TemplateTags(ByRef aryTemplateTag
 	aryTag(5)="zsxsoft/cmtua/platform/link"
 	aryValue(5)=img.link
 	aryTag(6)="zsxsoft/cmtua/platform/img"
-	aryValue(6)="<img src='"&BlogHost & "zb_users/plugin/commentuseragent/img/" & img.fullfilename&"' width='16 height='16' alt='"&img.text&"系统' />"
+	aryValue(6)="<img src='"&BlogHost & "zb_users/plugin/commentuseragent/img/" & img.fullfilename&"' width='16' height='16' alt='"&img.text&"系统' />"
 	aryTag(7)="zsxsoft/cmtua/platform"
-	aryValue(7)="<span class='cmtua_platform'><img src='"&BlogHost & "zb_users/plugin/commentuseragent/img/" & img.fullfilename&"' width='16 height='16' alt='"&img.text&"系统' title='"&img.text&"'/>"&img.text&"</span>"
+	aryValue(7)="<span class='cmtua_platform'><img src='"&BlogHost & "zb_users/plugin/commentuseragent/img/" & img.fullfilename&"' width='16' height='16' alt='"&img.text&"系统' title='"&img.text&"'/>"&img.text&"</span>"
 	
 	Set img=detect_webbrowser(CommentUserAgent_UserAgent)
 	aryTag(8)="zsxsoft/cmtua/browser/src"
@@ -54,9 +54,9 @@ Function CommentUserAgent_Comment_MakeTemplate_TemplateTags(ByRef aryTemplateTag
 	aryTag(11)="zsxsoft/cmtua/browser/link"
 	aryValue(11)=img.link
 	aryTag(12)="zsxsoft/cmtua/browser/img"
-	aryValue(12)="<img src='"&BlogHost & "zb_users/plugin/commentuseragent/img/" & img.fullfilename&"' width='16 height='16' alt='"&img.text&"浏览器' />"
+	aryValue(12)="<img src='"&BlogHost & "zb_users/plugin/commentuseragent/img/" & img.fullfilename&"' width='16' height='16' alt='"&img.text&"浏览器' />"
 	aryTag(13)="zsxsoft/cmtua/browser"
-	aryValue(13)="<span class='cmtua_browser'><img src='"&BlogHost & "zb_users/plugin/commentuseragent/img/" & img.fullfilename&"' width='16 height='16' alt='"&img.text&"浏览器' title='"&img.text&"' />"&img.text&"</span>"
+	aryValue(13)="<span class='cmtua_browser'><img src='"&BlogHost & "zb_users/plugin/commentuseragent/img/" & img.fullfilename&"' width='16' height='16' alt='"&img.text&"浏览器' title='"&img.text&"' />"&img.text&"</span>"
 
 	aryTag(14)="zsxsoft/cmtua/all"
 	aryValue(14)="<div class='cmtua'>"&aryValue(7)&"&nbsp;&nbsp;"&aryValue(13)&"</div>"
