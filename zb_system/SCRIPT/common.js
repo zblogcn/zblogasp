@@ -113,7 +113,7 @@ function GetCookie(sName) {
 // 输入：    无
 // 返回：    无
 //*********************************************************
-var intRevID=0;
+
 function VerifyMessage() {
 
 	var strName=$("#inpName").val();
@@ -121,6 +121,7 @@ function VerifyMessage() {
 	var strHomePage=$("#inpHomePage").val();
 	var strArticle=$("#txaArticle").val();
 	var strFormAction=$("#frmSumbit").attr("action");
+	var intRevID=$("#inpRevID").val()==""?0:$("#inpRevID").val();
 
 	if(strName==""){
 		alert(str01);
@@ -164,7 +165,6 @@ function VerifyMessage() {
 	}
 
 	$("#inpArticle").val(strArticle);
-	$("#inpLocation").val(parent.window.location.href);
 
 	var bolRemember=document.getElementById("chkRemember").checked;
 
@@ -507,7 +507,11 @@ function InsertQuote(strName,strText) {
 // 返回：    无
 //*********************************************************
 function RevertComment(i) {
-	intRevID=i;
+	if($("#inpRevID").length==0){
+		intRevID=i;
+	}else{
+		$("#inpRevID").val(i);
+	}
 }
 //*********************************************************
 
@@ -590,7 +594,7 @@ var sidebarloaded=new sidebar();
 
 
 //*********************************************************
-// 目的：    
+// 目的：  预留空函数,留给主题用  
 //*********************************************************
 function BatchComplete(){
 }
@@ -599,7 +603,7 @@ function BatchComplete(){
 
 
 //*********************************************************
-// 目的：    
+// 目的：  预留空函数,留给主题用  
 //*********************************************************
 function AutoinfoComplete(){
 }

@@ -1159,6 +1159,19 @@ If TemplateDic.Exists("TEMPLATE_PAGE")=False Then Call TemplateDic.add("TEMPLATE
 If TemplateDic.Exists("TEMPLATE_B_ARTICLE_COMMENT_PAGEBAR_L")=False Then Call TemplateDic.add("TEMPLATE_B_ARTICLE_COMMENT_PAGEBAR_L",LoadFromFile(BlogPath &"zb_system\defend\default\b_article_comment_pagebar_l.html","utf-8"))
 If TemplateDic.Exists("TEMPLATE_B_ARTICLE_COMMENT_PAGEBAR_R")=False Then Call TemplateDic.add("TEMPLATE_B_ARTICLE_COMMENT_PAGEBAR_R",LoadFromFile(BlogPath &"zb_system\defend\default\b_article_comment_pagebar_r.html","utf-8"))
 
+'为2.2改了模板的默认表单
+Dim s
+s=TemplateDic.Item("TEMPLATE_B_ARTICLE_COMMENTPOST")
+
+If InStr(s,"inpRevID")=0 Then
+	If InStr(s,"inpLocation")>0 Then
+		s=Replace(s,"inpLocation","inpRevID")
+	Else
+		s=Replace(s,"<input","<input type=""hidden"" name=""inpRevID"" id=""inpRevID"" value="""" /><input",1,1)
+	End If
+End If
+TemplateDic.Item("TEMPLATE_B_ARTICLE_COMMENTPOST")=s
+
 	Dim i,j
 	'在模板文件中先替换一次模板INCLUDE里的文件标签
 	For Each i In TemplateDic.Keys

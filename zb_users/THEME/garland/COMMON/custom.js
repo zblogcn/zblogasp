@@ -19,7 +19,7 @@
 });
 //本条留言DomID,本条留言class,内容class,评论框DomID,指定父ID
 function ReComment(comId,comClass,mClass,frmId,i){
-	intRevID=i;
+	$("#inpRevID").val(i);
 	var comm=$('#'+comId),frm=$('#'+frmId),cancel=$("#cancel-reply"),temp = $('#temp-frm');
 	if ( ! comm.length || ! frm.length || ! cancel.length)return;
 	if ( ! temp.length ) {
@@ -34,7 +34,7 @@ function ReComment(comId,comClass,mClass,frmId,i){
 
 	cancel.show();
 	cancel.click(function(){
-		intRevID=0;
+		$("#inpRevID").val(0);
 		var temp = $('#temp-frm'), frm=$('#'+frmId);
 		if ( ! temp.length || ! frm.length )return;
 		temp.before(frm);
