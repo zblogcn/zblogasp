@@ -39,6 +39,8 @@ function autoscreen(){
 
 function RevertComment(i) {
 	$("#inpRevID").val(i);
+	location.hash="comment";
+	return false;
 }
 
 
