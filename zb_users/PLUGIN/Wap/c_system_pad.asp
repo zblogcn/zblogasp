@@ -220,6 +220,11 @@ Class TPad
 		Call SetVar("COOKIESPATH",CookiesPath())
 
 		Call SetVar("PAD_AUTOSCREEN","autoscreen();")
+
+		Call SetVar("PAD_FIRSTNAME",BlogUser.FirstName)
+		Call SetVar("PAD_NAME",BlogUser.Name)
+		Call SetVar("PAD_EMAIL",BlogUser.EMail)
+		Call SetVar("PAD_HOMEPAGE",BlogUser.HomePage)	
 		
 		Dim i,j
 
@@ -514,7 +519,11 @@ End Function
 		TemplateDic.Item("TEMPLATE_B_ARTICLE-PAGE")=LoadFromFile(BlogPath &"zb_users\plugin\wap\template\pad_article-page.html","utf-8")
 		TemplateDic.Item("TEMPLATE_B_ARTICLE_COMMENT")=LoadFromFile(BlogPath &"zb_users\plugin\wap\template\pad_article_comment.html","utf-8")
 		TemplateDic.Item("TEMPLATE_B_ARTICLE_COMMENTPOST-VERIFY")=LoadFromFile(BlogPath &"zb_users\plugin\wap\template\pad_article_commentpost-verify.html","utf-8")
-		TemplateDic.Item("TEMPLATE_B_ARTICLE_COMMENTPOST")=LoadFromFile(BlogPath &"zb_users\plugin\wap\template\pad_article_commentpost.html","utf-8")
+		If BlogUser.ID>0 Then
+			TemplateDic.Item("TEMPLATE_B_ARTICLE_COMMENTPOST")=LoadFromFile(BlogPath &"zb_users\plugin\wap\template\pad_article_commentpost2.html","utf-8")
+		Else
+			TemplateDic.Item("TEMPLATE_B_ARTICLE_COMMENTPOST")=LoadFromFile(BlogPath &"zb_users\plugin\wap\template\pad_article_commentpost.html","utf-8")
+		End If
 		TemplateDic.Item("TEMPLATE_B_ARTICLE_COMMENT_PAGEBAR")=LoadFromFile(BlogPath &"zb_users\plugin\wap\template\pad_article_comment_pagebar.html","utf-8")
 		TemplateDic.Item("TEMPLATE_B_ARTICLE_COMMENT_PAGEBAR_L")=LoadFromFile(BlogPath &"zb_users\plugin\wap\template\pad_article_comment_pagebar_l.html","utf-8")
 		TemplateDic.Item("TEMPLATE_B_ARTICLE_COMMENT_PAGEBAR_R")=LoadFromFile(BlogPath &"zb_users\plugin\wap\template\pad_article_comment_pagebar_r.html","utf-8")

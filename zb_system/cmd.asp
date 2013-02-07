@@ -607,7 +607,7 @@ Function CommentPost
 		If bAction_Plugin_CommentPost_Begin=True Then Exit Function
 	Next
 
-	If PostComment(Request.QueryString("key"),CLng(Request.Form("inpRevID"))) Then
+	If PostComment(Request.QueryString("key"),CLng(IIf(Request.Form("inpRevID")="",0,Request.Form("inpRevID")))) Then
 
 		Call ClearGlobeCache
 		Call LoadGlobeCache
