@@ -38,19 +38,19 @@ function autoscreen(){
 
 
 function RevertComment(i) {
-	intRevID=i;
+	$("#inpRevID").val(i);
 }
 
 
-var strFormAction;
-var intRevID=0;
+
 function VerifyMessage() {
 
 	var strName=$("#inpName").val();
 	var strEmail=$("#inpEmail").val();
 	var strHomePage=$("#inpHomePage").val();
-	var strArticle=$("#txaArticle").val();
-	
+	var strArticle=$("#inpArticle").val();
+	var strFormAction=$("#frmSumbit").attr("action");
+	var intRevID=$("#inpRevID").val()==""?0:$("#inpRevID").val();
 
 	if(strName==""){
 		alert("请输入正确信息");
@@ -91,58 +91,7 @@ function VerifyMessage() {
 		}
 	}
 
-	$("#inpArticle").val(strArticle);
-	$("#inpLocation").val(parent.window.location.href);
-
-	strFormAction=$("#frmSumbit").attr("action");
-
-
-
-	var strSubmit=$("#frmSumbit :submit").val();
-	$("#frmSumbit :submit").val("Waiting...").attr("disabled","disabled").addClass("loading");
-
-
-	//ajax comment begin
-	$.post(strFormAction,
-		{
-		"inpAjax":true,
-		"inpID":$("#inpId").val(),
-		"inpEmail":strEmail,
-		"inpName":strName,
-		"inpArticle":strArticle,
-		"inpHomePage":strHomePage,
-		"inpRevID":intRevID
-		},
-		function(data){
-			var s =data;
-			if((s.search("faultCode")>0)&&(s.search("faultString")>0))
-			{
-				alert(s.match("<string>.+?</string>")[0].replace("<string>","").replace("</string>",""))
-			}
-			else{
-				var i=Math.round(Math.random()*1000);
-				var s =data;
-				if(intRevID==0){
-					$(s).insertBefore("#AjaxCommentEnd");
-				}else{
-					$(s).insertBefore("#AjaxCommentEnd"+intRevID);
-					window.location="#cmt"+intRevID
-				}
-				$("#divAjaxComment"+i).fadeIn("slow");
-				$("#txaArticle").val("");
-			}
-
-			$("#frmSumbit :submit").removeClass("loading");
-			$("#frmSumbit :submit").removeAttr("disabled");
-			$("#frmSumbit :submit").val(strSubmit);
-
-		}
-	);
-
-
-
-	return false;
-	//ajax comment end
+	return true;
 
 }
 //*********************************************************
