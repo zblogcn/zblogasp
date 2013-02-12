@@ -966,7 +966,7 @@ Function ExportPluginMng()
 				If Err.Number=0 Then
 
 					Response.Write "<tr>"
-					Response.Write "<td align='center'><img alt='' width='32' src='../IMAGE/ADMIN/app-logo.png' style='margin:2px;'/></td>"
+					Response.Write "<td align='center'><img alt='' width='32' src='"&BlogHost & "zb_users/theme/"& ZC_BLOG_THEME &"/ScreenShot.png' style='margin:2px;'/></td>"
 					'Response.Write "<td>"& "0" &"</td>"
 					Response.Write "<td><a id=""mylink"&Left(md5(objXmlFile.documentElement.selectSingleNode("id").text),6)&""" href=""$div"&Left(md5(objXmlFile.documentElement.selectSingleNode("id").text),6)&"tip?width=300"" class=""betterTip"" title=""$content"">" & "" & objXmlFile.documentElement.selectSingleNode("name").text & " ("& ZC_MSG199 &")&nbsp;&nbsp;&nbsp;" & objXmlFile.documentElement.selectSingleNode("version").text  & "</a><div id=""div"&Left(md5(objXmlFile.documentElement.selectSingleNode("id").text),6)&"tip"" style=""display:none;"">"&objXmlFile.documentElement.selectSingleNode("note").text&"</div></td>"
 					Response.Write "<td>" & "<a target=""_blank"" href=""" & objXmlFile.documentElement.selectSingleNode("author/url").text & """>"& objXmlFile.documentElement.selectSingleNode("author/name").text & "</td>"
@@ -1440,7 +1440,7 @@ Call Add_Response_Plugin("Response_Plugin_FunctionMng_SubMenu",MakeSubMenu(ZC_MS
 	Dim a,b,c,d,e,f
 	Response.Write "<div class=""divHeader"">" & ZC_MSG007 & "</div>"
 	Response.Write "<div class=""SubMenu"">" & Response_Plugin_FunctionMng_SubMenu & "</div>"
-	Response.Write "<div id=""divMain2"" style=""min-width:850px;"">"
+	Response.Write "<div id=""divMain2"">"
 
 	Response.Write "<div class=""widget-list"">"
 
@@ -1565,7 +1565,7 @@ Response.Write "</script>"
 	For Each s In t
 		If FunctionMetas.Exists(s)=True Then
 
-			Response.Write "<div class=""widget widget_ishidden_"&LCase(Functions(FunctionMetas.GetValue(s)).IsHidden)&" widget_source_"& Functions(FunctionMetas.GetValue(s)).SourceType &" " & Functions(FunctionMetas.GetValue(s)).FileName & """>"
+			Response.Write "<div class=""widget widget_ishidden_"&LCase(Functions(FunctionMetas.GetValue(s)).IsHidden)&" widget_source_"& Functions(FunctionMetas.GetValue(s)).SourceType &" widget_id_" & Functions(FunctionMetas.GetValue(s)).FileName & """>"
 			Response.Write "	<div class=""widget-title""><img class=""more-action"" width=""16"" src=""../image/admin/brick.png"" alt="""" />"& Functions(FunctionMetas.GetValue(s)).Name 
 			Response.Write "	</div>"
 			Response.Write "	<div class=""funid"" style=""display:none"">"& Functions(FunctionMetas.GetValue(s)).FileName &"</div>"	
@@ -1590,7 +1590,7 @@ Response.Write "</script>"
 	For Each s In t
 		If FunctionMetas.Exists(s)=True Then
 
-			Response.Write "<div class=""widget widget_ishidden_"&LCase(Functions(FunctionMetas.GetValue(s)).IsHidden)&" widget_source_"& Functions(FunctionMetas.GetValue(s)).SourceType &" " & Functions(FunctionMetas.GetValue(s)).FileName & """>"
+			Response.Write "<div class=""widget widget_ishidden_"&LCase(Functions(FunctionMetas.GetValue(s)).IsHidden)&" widget_source_"& Functions(FunctionMetas.GetValue(s)).SourceType &" widget_id_" & Functions(FunctionMetas.GetValue(s)).FileName & """>"
 			Response.Write "	<div class=""widget-title""><img class=""more-action"" width=""16"" src=""../image/admin/brick.png"" alt="""" />"& Functions(FunctionMetas.GetValue(s)).Name 
 			Response.Write "	</div>"
 			Response.Write "	<div class=""funid"" style=""display:none"">"& Functions(FunctionMetas.GetValue(s)).FileName &"</div>"	
@@ -1615,7 +1615,7 @@ Response.Write "</script>"
 	For Each s In t
 		If FunctionMetas.Exists(s)=True Then
 
-			Response.Write "<div class=""widget widget_ishidden_"&LCase(Functions(FunctionMetas.GetValue(s)).IsHidden)&" widget_source_"& Functions(FunctionMetas.GetValue(s)).SourceType &" " & Functions(FunctionMetas.GetValue(s)).FileName & """>"
+			Response.Write "<div class=""widget widget_ishidden_"&LCase(Functions(FunctionMetas.GetValue(s)).IsHidden)&" widget_source_"& Functions(FunctionMetas.GetValue(s)).SourceType &" widget_id_" & Functions(FunctionMetas.GetValue(s)).FileName & """>"
 			Response.Write "	<div class=""widget-title""><img class=""more-action"" width=""16"" src=""../image/admin/brick.png"" alt="""" />"& Functions(FunctionMetas.GetValue(s)).Name 
 			Response.Write "	</div>"
 			Response.Write "	<div class=""funid"" style=""display:none"">"& Functions(FunctionMetas.GetValue(s)).FileName &"</div>"	
@@ -1640,7 +1640,7 @@ Response.Write "</script>"
 	For Each s In t
 		If FunctionMetas.Exists(s)=True Then
 
-			Response.Write "<div class=""widget widget_ishidden_"&LCase(Functions(FunctionMetas.GetValue(s)).IsHidden)&" widget_source_"& Functions(FunctionMetas.GetValue(s)).SourceType &" " & Functions(FunctionMetas.GetValue(s)).FileName & """>"
+			Response.Write "<div class=""widget widget_ishidden_"&LCase(Functions(FunctionMetas.GetValue(s)).IsHidden)&" widget_source_"& Functions(FunctionMetas.GetValue(s)).SourceType &" widget_id_" & Functions(FunctionMetas.GetValue(s)).FileName & """>"
 			Response.Write "	<div class=""widget-title""><img class=""more-action"" width=""16"" src=""../image/admin/brick.png"" alt="""" />"& Functions(FunctionMetas.GetValue(s)).Name 
 			Response.Write "	</div>"
 			Response.Write "	<div class=""funid"" style=""display:none"">"& Functions(FunctionMetas.GetValue(s)).FileName &"</div>"	
@@ -1665,7 +1665,7 @@ Response.Write "</script>"
 	For Each s In t
 		If FunctionMetas.Exists(s)=True Then
 
-			Response.Write "<div class=""widget widget_ishidden_"&LCase(Functions(FunctionMetas.GetValue(s)).IsHidden)&" widget_source_"& Functions(FunctionMetas.GetValue(s)).SourceType &" " & Functions(FunctionMetas.GetValue(s)).FileName & """>"
+			Response.Write "<div class=""widget widget_ishidden_"&LCase(Functions(FunctionMetas.GetValue(s)).IsHidden)&" widget_source_"& Functions(FunctionMetas.GetValue(s)).SourceType &" widget_id_" & Functions(FunctionMetas.GetValue(s)).FileName & """>"
 			Response.Write "	<div class=""widget-title""><img class=""more-action"" width=""16"" src=""../image/admin/brick.png"" alt="""" />"& Functions(FunctionMetas.GetValue(s)).Name 
 			Response.Write "	</div>"
 			Response.Write "	<div class=""funid"" style=""display:none"">"& Functions(FunctionMetas.GetValue(s)).FileName &"</div>"	

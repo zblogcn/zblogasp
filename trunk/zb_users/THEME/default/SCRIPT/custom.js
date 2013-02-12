@@ -12,7 +12,7 @@ ReComment_CallBack.add=function(s){ReComment_CallBack.list.push(s)};
 
 
 //重写了common.js里的同名函数
-function ReComment(i){
+function RevertComment(i){
 	$("#inpRevID").val(i);
 	var frm=$('#divCommentPost'),cancel=$("#cancel-reply"),temp = $('#temp-frm');
 

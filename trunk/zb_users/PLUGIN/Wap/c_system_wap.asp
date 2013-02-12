@@ -50,7 +50,7 @@ Function WapNav()
 		End If		
 		Response.Write "<a href="""&WapUrlStr&"&act=Com"">"&ZC_MSG027&"</a><b>|</b>"		
 
-		If Not ZC_DISPLAY_CATE_ALL_WAP Then
+		If Not WAP_DISPLAY_CATE_ALL Then
 		Response.Write "<a href="""&WapUrlStr&"&act=Cate"">"&ZC_MSG214&"</a><b>|</b>"
 		End If 
 
@@ -140,7 +140,7 @@ Public Function WapTitle(strCom,strBrowserTitle)
 	WapTitle = WapTitle & "<form action="""&WapUrlStr&""" method=""get"">"
 
 
-	'If ZC_DISPLAY_CATE_ALL_WAP Then 
+	'If WAP_DISPLAY_CATE_ALL Then 
 		Dim Category
 		WapTitle = WapTitle & "<div class=""h"">"
 		    WapTitle = WapTitle & "<a href="""&WapUrlStr&""">"&ZC_MSG213&"</a><b>&nbsp;|</b><select onchange=""location.href=this.options[this.selectedIndex].value;selectlogtemplate(this.options[this.selectedIndex].value);"">"
@@ -473,7 +473,7 @@ End Function
 '*********************************************************
 Function WapAddCom(PostType)
 
-	If ZC_WAPCOMMENT_ENABLE=False Then Call ShowError(40): Exit Function
+	If WAP_COMMENT_ENABLE=False Then Call ShowError(40): Exit Function
 	
 	Dim log_ID,par_ID,Author,Content,Email,HomePage
 
@@ -565,7 +565,7 @@ End Function
 '*********************************************************
 Function WapPostCom()
 
-	If ZC_WAPCOMMENT_ENABLE=False Then Call ShowError(40): Exit Function
+	If WAP_COMMENT_ENABLE=False Then Call ShowError(40): Exit Function
 
 	Call GetUser()
 
@@ -710,7 +710,7 @@ Function WapCom()
 			Dim strCTemplate,ComRecordCount
 			strCTemplate=GetTemplate("TEMPLATE_WAP_ARTICLE_COMMENT")
 
-			objRS.PageSize = ZC_COMMENT_COUNT_WAP
+			objRS.PageSize = WAP_COMMENT_COUNT
 			intPageCount=objRS.PageCount
 			ComRecordCount=objRS.RecordCount
 			objRS.AbsolutePage = CurrentPage
@@ -721,7 +721,7 @@ Function WapCom()
 
 				If objComment.LoadInfoByID(objRS("comm_ID")) Then 
 					Dim strC_Count
-					strC_Count=ComRecordCount-((CurrentPage-1)*ZC_COMMENT_COUNT_WAP+i)+1
+					strC_Count=ComRecordCount-((CurrentPage-1)*WAP_COMMENT_COUNT+i)+1
 
 					Call GetUsersbyUserIDList(objComment.AuthorID)
 					s = objComment.Author
@@ -819,7 +819,7 @@ Function WapCom()
 
 		Else
 			Response.Write "<span class=""t"">"& ZC_MSG256
-			If ZC_WAPCOMMENT_ENABLE Then 
+			If WAP_COMMENT_ENABLE Then 
 				Response.Write " | <a href="""& WapUrlStr &"&act=AddCom&amp;inpId="&log_ID&""">"&ZC_MSG024&"</a></span>"
 			Else 
 				Response.Write "</span>"
@@ -838,15 +838,15 @@ Function WapCom()
 		Dim PageBar
 		PageBar=""
 		
-		If ZC_DISPLAY_PAGEBAR_ALL_WAP Then
-			If intPageCount>ZC_PAGEBAR_COUNT_WAP Then
-				a=CurrentPage-CLng((ZC_PAGEBAR_COUNT_WAP-1)/2)
-				b=CurrentPage+ZC_PAGEBAR_COUNT_WAP-CLng((ZC_PAGEBAR_COUNT_WAP-1)/2)-1
+		If WAP_DISPLAY_PAGEBAR_ALL Then
+			If intPageCount>WAP_PAGEBAR_COUNT Then
+				a=CurrentPage-CLng((WAP_PAGEBAR_COUNT-1)/2)
+				b=CurrentPage+WAP_PAGEBAR_COUNT-CLng((WAP_PAGEBAR_COUNT-1)/2)-1
 				If a<=1 Then 
-					a=1:b=ZC_PAGEBAR_COUNT_WAP
+					a=1:b=WAP_PAGEBAR_COUNT
 				End If
 				If b>=intPageCount Then 
-					b=intPageCount:a=intPageCount-ZC_PAGEBAR_COUNT_WAP+1
+					b=intPageCount:a=intPageCount-WAP_PAGEBAR_COUNT+1
 				End If
 			Else
 				a=1:b=intPageCount
@@ -913,15 +913,15 @@ Function WapView()
 	        Response.Write WapTitle(Article.Title,"")
 			Dim ArticleContent,PageCount,PageBar
 			ArticleContent=Article.Content
-			If ZC_DISPLAY_MODE_ALL_WAP Then 
+			If WAP_DISPLAY_MODE_ALL Then 
 				ArticleContent=TransferHTML(UBBCode(ArticleContent,"[face][link][autolink][font][code][image][typeset][media][flash][key][upload]"),"[html-japan][vbCrlf][upload]")
 				ArticleContent=TransferHTML(ArticleContent,"[closehtml]")
 			Else 
-				PageCount = Int(Len(ArticleContent)/ZC_SINGLE_SIZE_WAP) + 1
-				ZC_SINGLE_START=CLng((CurrentPage-1)*ZC_SINGLE_SIZE_WAP+1)
+				PageCount = Int(Len(ArticleContent)/WAP_SINGLE_SIZE) + 1
+				ZC_SINGLE_START=CLng((CurrentPage-1)*WAP_SINGLE_SIZE+1)
 				If ZC_SINGLE_START<1 Then ZC_SINGLE_START=1
 				ArticleContent=TransferHTML(ArticleContent,"[html-format][wapnohtml][nbsp-br]")
-				ArticleContent=Mid(ArticleContent,ZC_SINGLE_START,ZC_SINGLE_SIZE_WAP)
+				ArticleContent=Mid(ArticleContent,ZC_SINGLE_START,WAP_SINGLE_SIZE)
 				ArticleContent=TransferHTML(ArticleContent,"[closehtml]")
 
 				If CurrentPage>1 Then
@@ -976,7 +976,7 @@ End Function
 '*********************************************************
 Function WapRelateList(intID,Tag)
 
-	If (intID=0) Or ZC_WAP_MUTUALITY_LIMIT=0 Then Exit Function
+	If (intID=0) Or WAP_MUTUALITY_LIMIT=0 Then Exit Function
 
 	If Tag<>"" Then
 		Dim strCC_Count,strCC_ID,strCC_Name,strCC_Url,strCC_PostTime,strCC_Title
@@ -996,7 +996,7 @@ Function WapRelateList(intID,Tag)
 
 		Set objRS=Server.CreateObject("ADODB.Recordset")
 
-		strSQL="SELECT TOP "& ZC_WAP_MUTUALITY_LIMIT &" [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_Type],[log_Meta] FROM [blog_Article] WHERE ([log_Type]=0) And ([log_Level]>2) AND [log_ID]<>"& intID
+		strSQL="SELECT TOP "& WAP_MUTUALITY_LIMIT &" [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_Type],[log_Meta] FROM [blog_Article] WHERE ([log_Type]=0) And ([log_Level]>2) AND [log_ID]<>"& intID
 		strSQL = strSQL & " AND ("
 
 		Dim aryTAGs,s
@@ -1022,7 +1022,7 @@ Function WapRelateList(intID,Tag)
 		objRS.Open()
 		If (Not objRS.bof) And (Not objRS.eof) Then
 	  		Dim objArticle
-			For i=1 To ZC_WAP_MUTUALITY_LIMIT '相关文章数目
+			For i=1 To WAP_MUTUALITY_LIMIT '相关文章数目
 				Set objArticle=New TArticle
 				If objArticle.LoadInfoByArray(Array(objRS(0),objRS(1),objRS(2),objRS(3),objRS(4),objRS(5),objRS(6),objRS(7),objRS(8),objRS(9),objRS(10),objRS(11),objRS(12),objRS(13),objRS(14),objRS(15),objRS(16),objRS(17)))  Then
 
@@ -1085,7 +1085,7 @@ Function WapExport(intPage,intCateId,intAuthorId,dtmYearMonth,strTagsName,intTyp
 			q=FilterSQL(q)
 			intWapCount = ZC_SEARCH_COUNT
 		Else 
-			intWapCount = ZC_DISPLAY_COUNT_WAP
+			intWapCount = WAP_DISPLAY_COUNT
 		End If 
 
 
@@ -1331,15 +1331,15 @@ Function WapExportBar(intNowPage,intAllPage,intCateId,intAuthorId,dtmYearMonth,s
 
 		
 		If intAllPage>0 Then			
-			If ZC_DISPLAY_PAGEBAR_ALL_WAP  Then	
-				If intAllPage>ZC_PAGEBAR_COUNT_WAP Then
-					a=intNowPage-CLng((ZC_PAGEBAR_COUNT_WAP-1)/2)
-					b=intNowPage+ZC_PAGEBAR_COUNT_WAP-CLng((ZC_PAGEBAR_COUNT_WAP-1)/2)-1
+			If WAP_DISPLAY_PAGEBAR_ALL  Then	
+				If intAllPage>WAP_PAGEBAR_COUNT Then
+					a=intNowPage-CLng((WAP_PAGEBAR_COUNT-1)/2)
+					b=intNowPage+WAP_PAGEBAR_COUNT-CLng((WAP_PAGEBAR_COUNT-1)/2)-1
 					If a<=1 Then 
-						a=1:b=ZC_PAGEBAR_COUNT_WAP
+						a=1:b=WAP_PAGEBAR_COUNT
 					End If
 					If b>=intAllPage Then 
-						b=intAllPage:a=intAllPage-ZC_PAGEBAR_COUNT_WAP+1
+						b=intAllPage:a=intAllPage-WAP_PAGEBAR_COUNT+1
 					End If
 				Else
 					a=1:b=intAllPage

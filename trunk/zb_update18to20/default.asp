@@ -669,9 +669,9 @@ Call BlogConfig.Write("ZC_VERIFYCODE_HEIGHT",20)
 Call BlogConfig.Write("ZC_DISPLAY_COUNT",10)
 Call BlogConfig.Write("ZC_RSS2_COUNT",10)
 Call BlogConfig.Write("ZC_SEARCH_COUNT",25)
-Call BlogConfig.Write("ZC_PAGEBAR_COUNT",15)
+Call BlogConfig.Write("ZC_PAGEBAR_COUNT",10)
 Call BlogConfig.Write("ZC_MUTUALITY_COUNT",10)
-Call BlogConfig.Write("ZC_COMMENTS_DISPLAY_COUNT",10)
+Call BlogConfig.Write("ZC_COMMENTS_DISPLAY_COUNT",50)
 
 
 
@@ -787,23 +787,6 @@ Call BlogConfig.Write("ZC_DEFAULT_REGEX","{%host%}/catalog.asp")
 
 
 
-'--------------------------WAP----------------------------------------
-Call BlogConfig.Write("ZC_DISPLAY_COUNT_WAP",5)
-Call BlogConfig.Write("ZC_COMMENT_COUNT_WAP",5)
-Call BlogConfig.Write("ZC_PAGEBAR_COUNT_WAP",5)
-Call BlogConfig.Write("ZC_SINGLE_SIZE_WAP",1000)
-Call BlogConfig.Write("ZC_SINGLE_PAGEBAR_COUNT_WAP",5)
-
-Call BlogConfig.Write("ZC_FILENAME_WAP","wap.asp")
-Call BlogConfig.Write("ZC_WAPCOMMENT_ENABLE",True)
-'全文
-Call BlogConfig.Write("ZC_DISPLAY_MODE_ALL_WAP",True)
-'显示分类导航
-Call BlogConfig.Write("ZC_DISPLAY_CATE_ALL_WAP",True)
-'分页条
-Call BlogConfig.Write("ZC_DISPLAY_PAGEBAR_ALL_WAP",True)
-'数量
-Call BlogConfig.Write("ZC_WAP_MUTUALITY_LIMIT",5)
 
 BlogConfig.Save
 

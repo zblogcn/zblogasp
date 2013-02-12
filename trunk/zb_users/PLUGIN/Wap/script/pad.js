@@ -9,14 +9,14 @@ function sidetoggle(){
 
 	if($("#modarrow>dt>a>img").css("background-image").indexOf("larrow")!=-1){
 		$(".function[id!=modarrow]").hide()
-		$("#side").animate({width: '30px'}, "fast");
-		$("#main").animate({marginLeft: '40px'}, "fast");
+		$("body>aside").animate({width: '30px'}, "fast");
+		$("body>div").animate({marginLeft: '40px'}, "fast");
 		$("#modarrow>dt>a>img").css("background-image","url('"+bloghost+"zb_users/plugin/wap/style/rarrow.png')");
 		$("#modarrow").show();
 	}else{
 		$(".function[id!=modarrow]").show()
-		$("#side").animate({width: '180px'}, "fast");
-		$("#main").animate({marginLeft: '190px'}, "fast");
+		$("body>aside").animate({width: '180px'}, "fast");
+		$("body>div").animate({marginLeft: '190px'}, "fast");
 		$("#modarrow>dt>a>img").css("background-image","url('"+bloghost+"zb_users/plugin/wap/style/larrow.png')");
 		$("#modarrow").show();
 	}
@@ -45,6 +45,21 @@ function RevertComment(i) {
 
 
 
+
+function GetComments(logid,page){
+
+	 $('span.commentspage').html("Waiting...");
+
+	$.get(bloghost+"zb_users/plugin/wap/pad.asp?mod=pad&act=CommentGet&logid="+logid+"&page="+page, function(data){
+	  $('#AjaxCommentBegin').nextUntil('#AjaxCommentEnd').remove();
+	  $('#AjaxCommentBegin').after(data);
+	});
+
+}
+
+
+
+
 function VerifyMessage() {
 
 	var strName=$("#inpName").val();
@@ -59,7 +74,7 @@ function VerifyMessage() {
 		return false;
 	}
 	else{
-		re = new RegExp("^[.A-Za-z0-9\u4e00-\u9fa5]+$");
+		re = new RegExp("^[\.\_A-Za-z0-9\u4e00-\u9fa5]+$");
 		if (!re.test(strName)){
 			alert("请输入正确信息");
 			return false;
