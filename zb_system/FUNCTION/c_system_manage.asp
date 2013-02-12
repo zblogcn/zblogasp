@@ -1462,7 +1462,7 @@ Response.Write "</script>"
 	For i=LBound(Functions)+1 To Ubound(Functions)
 		If IsObject(Functions(i)) Then
 		If Functions(i).IsSystem Then
-			Response.Write "<div class=""widget widget_ishidden_"&LCase(Functions(i).IsHidden)&" widget_source_"& Functions(i).SourceType &" " & Functions(i).FileName & """>"
+			Response.Write "<div class=""widget widget_ishidden_"&LCase(Functions(i).IsHidden)&" widget_source_"& Functions(i).SourceType &" widget_id_" & Functions(i).FileName & """>"
 			Response.Write "	<div class=""widget-title""><img class=""more-action"" width=""16"" src=""../image/admin/brick.png"" alt="""" />"& TransferHTML(Functions(i).Name,"[html-format]")
 
 			Response.Write "	<span class=""widget-action""><a href=""../cmd.asp?act=FunctionEdt&amp;id="&Functions(i).ID&"""><img class=""edit-action"" src=""../image/admin/brick_edit.png"" alt=""" & ZC_MSG078 & """ title=""" & ZC_MSG078 & """ width=""16"" /></a>"
@@ -1479,7 +1479,7 @@ Response.Write "</script>"
 	For i=LBound(Functions)+1 To Ubound(Functions)
 		If IsObject(Functions(i)) Then
 		If Functions(i).IsUsers Then
-			Response.Write "<div class=""widget widget_ishidden_"&LCase(Functions(i).IsHidden)&" widget_source_"& Functions(i).SourceType &" " & Functions(i).FileName & """>"
+			Response.Write "<div class=""widget widget_ishidden_"&LCase(Functions(i).IsHidden)&" widget_source_"& Functions(i).SourceType &" widget_id_" & Functions(i).FileName & """>"
 			Response.Write "	<div class=""widget-title""><img class=""more-action"" width=""16"" src=""../image/admin/brick.png"" alt="""" />"& TransferHTML(Functions(i).Name,"[html-format]")
 
 			Response.Write "	<span class=""widget-action""><a href=""../cmd.asp?act=FunctionEdt&amp;id="&Functions(i).ID&"""><img class=""edit-action"" src=""../image/admin/brick_edit.png"" alt=""" & ZC_MSG078 & """ title=""" & ZC_MSG078 & """ width=""16"" /></a>"
@@ -1498,7 +1498,7 @@ Response.Write "</script>"
 	For i=LBound(Functions)+1 To Ubound(Functions)
 		If IsObject(Functions(i)) Then
 		If Functions(i).IsTheme Then
-			Response.Write "<div class=""widget widget_ishidden_"&LCase(Functions(i).IsHidden)&" widget_source_"& Functions(i).SourceType &" " & Functions(i).FileName & """>"
+			Response.Write "<div class=""widget widget_ishidden_"&LCase(Functions(i).IsHidden)&" widget_source_"& Functions(i).SourceType &" widget_id_" & Functions(i).FileName & """>"
 			Response.Write "	<div class=""widget-title""><img class=""more-action"" width=""16"" src=""../image/admin/brick.png"" alt="""" />"& TransferHTML(Functions(i).Name,"[html-format]")
 
 			Response.Write "	<span class=""widget-action""><a href=""../cmd.asp?act=FunctionEdt&amp;id="&Functions(i).ID&"""><img class=""edit-action"" src=""../image/admin/brick_edit.png"" alt=""" & ZC_MSG078 & """ title=""" & ZC_MSG078 & """ width=""16"" /></a>"
@@ -1518,7 +1518,7 @@ Response.Write "</script>"
 	For i=LBound(Functions)+1 To Ubound(Functions)
 		If IsObject(Functions(i)) Then
 		If Functions(i).IsPlugin Then
-			Response.Write "<div class=""widget widget_ishidden_"&LCase(Functions(i).IsHidden)&" widget_source_"& Functions(i).SourceType &" " & Functions(i).FileName & """>"
+			Response.Write "<div class=""widget widget_ishidden_"&LCase(Functions(i).IsHidden)&" widget_source_"& Functions(i).SourceType &" widget_id_" & Functions(i).FileName & """>"
 			Response.Write "	<div class=""widget-title""><img class=""more-action"" width=""16"" src=""../image/admin/brick.png"" alt="""" />"& TransferHTML(Functions(i).Name,"[html-format]")
 
 			Response.Write "	<span class=""widget-action""><a href=""../cmd.asp?act=FunctionEdt&amp;id="&Functions(i).ID&"""><img class=""edit-action"" src=""../image/admin/brick_edit.png"" alt=""" & ZC_MSG078 & """ title=""" & ZC_MSG078 & """ width=""16"" /></a>"
@@ -1538,7 +1538,7 @@ Response.Write "</script>"
 	For i=LBound(Functions)+1 To Ubound(Functions)
 		If IsObject(Functions(i)) Then
 		If Functions(i).IsOther Then
-			Response.Write "<div class=""widget widget_ishidden_"&LCase(Functions(i).IsHidden)&" widget_source_"& Functions(i).SourceType &" " & Functions(i).FileName & """>"
+			Response.Write "<div class=""widget widget_ishidden_"&LCase(Functions(i).IsHidden)&" widget_source_"& Functions(i).SourceType &" widget_id_" & Functions(i).FileName & """>"
 			Response.Write "	<div class=""widget-title""><img class=""more-action"" width=""16"" src=""../image/admin/brick.png"" alt="""" />"& TransferHTML(Functions(i).Name,"[html-format]")
 
 			Response.Write "	</div>"
