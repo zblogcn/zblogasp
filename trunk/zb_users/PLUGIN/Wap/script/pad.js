@@ -39,7 +39,8 @@ function autoscreen(){
 
 function RevertComment(i) {
 	$("#inpRevID").val(i);
-	location.hash="comment";
+	$("#cancel-reply").show().bind("click", function(){ $("#inpRevID").val(0);$(this).hide();window.location.hash="#comment";return false; });
+	window.location.hash="#comment";
 	return false;
 }
 
