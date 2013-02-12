@@ -48,7 +48,7 @@ body>div>article>section.comments li.msgname{margin-bottom:10px;}
 #modarrow>dt>a>img{background-image:url(larrow.png);border:none;}
 
 
-body>div section.pagebar{text-align:center;padding:5px 0;}
+body>div section.pagebar{text-align:center;padding:5px 0;line-height:2em;}
 body>div section.pagebar span{margin:0 15px;}
 body>div section.pagebar span{display:inline-block;padding:0 8px;border:1px solid #eee;border-radius:3px}
 body>div section.pagebar a span{background:#e0e0e0;box-shadow:0 0 1px rgba(0,0,0,.2) inset;border-color:#abc;}
@@ -64,3 +64,4 @@ input[type=text],input[type=password],textarea{border:1px solid #ccc;border-radi
 input[type=submit],input[type=button]{border:1px solid #aaa;border-radius:5px;background:#eee;}
 
 li.msgname{background:#eee;padding:5px;border-radius:5px;}
+#cancel-reply{float:right;margin-right: 0.5em;}
