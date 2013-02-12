@@ -63,8 +63,9 @@ BlogTitle=ZC_MSG247
 	<li><a href="#tab1" class="default-tab"><span><%=ZC_MSG105%></span></a></li>
 	<li><a href="#tab2"><span><%=ZC_MSG173%></span></a></li>
 	<li><a href="#tab3"><span><%=ZC_MSG186%></span></a></li>
-	<li <%=IIF(ZC_POST_STATIC_MODE<>"STATIC","style='display:none;'","")%>><a href="#tab4"><span><%=ZC_MSG255%></span></a></li>
-	<li><a href="#tab5"><span><%=ZC_MSG215%></span></a></li>
+	<li><a href="#tab4"><span><%=ZC_MSG215%></span></a></li>
+	<li <%=IIF(ZC_POST_STATIC_MODE<>"STATIC","style='display:none;'","")%>><a href="#tab5"><span><%=ZC_MSG255%></span></a></li>
+
 					</ul>
 					
 					<div class="clear"></div>
@@ -180,6 +181,10 @@ BlogTitle=ZC_MSG247
 		Response.Write "<tr><td width='30%'>" & SplitNameAndNote(ZC_MSG190) & "</td><td><p><input id=""edtZC_DISPLAY_COUNT"" name=""edtZC_DISPLAY_COUNT"" style=""width:600px;"" type=""text"" value=""" & ZC_DISPLAY_COUNT & """ /></p></td></tr>"
 
 
+		ZC_PAGEBAR_COUNT=TransferHTML(ZC_PAGEBAR_COUNT,"[html-format]")
+		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG132) & "</td><td><p><input id=""edtZC_PAGEBAR_COUNT"" name=""edtZC_PAGEBAR_COUNT"" style=""width:600px;"" type=""text"" value=""" & ZC_PAGEBAR_COUNT & """ /></p></td></tr>"
+
+
 		ZC_SEARCH_COUNT=TransferHTML(ZC_SEARCH_COUNT,"[html-format]")
 		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG274) & "</td><td><p><input id=""edtZC_SEARCH_COUNT"" name=""edtZC_SEARCH_COUNT"" style=""width:600px;"" type=""text"" value=""" & ZC_SEARCH_COUNT & """ /></p></td></tr>"
 
@@ -190,6 +195,14 @@ BlogTitle=ZC_MSG247
 
 		ZC_MUTUALITY_COUNT=TransferHTML(ZC_MUTUALITY_COUNT,"[html-format]")
 		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG230) & "</td><td><p><input id=""edtZC_MUTUALITY_COUNT"" name=""edtZC_MUTUALITY_COUNT"" style=""width:600px;"" type=""text"" value=""" & ZC_MUTUALITY_COUNT & """ /></p></td></tr>"
+
+
+
+	Response.Write "</table>"
+	Response.Write "</div>"
+	Response.Write "<div class=""tab-content"" style='border:none;padding:0px;margin:0;' id=""tab4"">"
+	Response.Write "<table width='100%' style='padding:0px;margin:0px;' cellspacing='0' cellpadding='0'>"
+
 
 		ZC_COMMENT_TURNOFF=TransferHTML(ZC_COMMENT_TURNOFF,"[html-format]")
 		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG262) & "</td><td><p><input id=""edtZC_COMMENT_TURNOFF"" name=""edtZC_COMMENT_TURNOFF"" style="""" type=""text"" value=""" & ZC_COMMENT_TURNOFF & """ class=""checkbox""/></p></td></tr>"
@@ -207,12 +220,11 @@ BlogTitle=ZC_MSG247
 		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG185) & "</td><td><p><input id=""edtZC_COMMENT_VERIFY_ENABLE"" name=""edtZC_COMMENT_VERIFY_ENABLE"" style="""" type=""text"" value=""" & ZC_COMMENT_VERIFY_ENABLE & """ class=""checkbox""/></p></td></tr>"
 
 
-
-
 	Response.Write "</table>"
 	Response.Write "</div>"
-	Response.Write "<div class=""tab-content"" style='border:none;padding:0px;margin:0;' id=""tab4"">"
+	Response.Write "<div class=""tab-content"" style='border:none;padding:0px;margin:0;' id=""tab5"">"
 	Response.Write "<table width='100%' style='padding:0px;margin:0px;' cellspacing='0' cellpadding='0'>"
+
 
 
 		ZC_STATIC_DIRECTORY=TransferHTML(ZC_STATIC_DIRECTORY,"[html-format]")
@@ -227,49 +239,6 @@ BlogTitle=ZC_MSG247
 		ZC_REBUILD_FILE_INTERVAL=TransferHTML(ZC_REBUILD_FILE_INTERVAL,"[html-format]")
 		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG182) & "</td><td><p><input id=""edtZC_REBUILD_FILE_INTERVAL"" name=""edtZC_REBUILD_FILE_INTERVAL"" style=""width:600px;"" type=""text"" value=""" & ZC_REBUILD_FILE_INTERVAL & """ /></p></td></tr>"
 
-
-	Response.Write "</table>"
-	Response.Write "</div>"
-	Response.Write "<div class=""tab-content"" style='border:none;padding:0px;margin:0;' id=""tab5"">"
-	Response.Write "<table width='100%' style='padding:0px;margin:0px;' cellspacing='0' cellpadding='0'>"
-
-
-
-
-		ZC_DISPLAY_COUNT_WAP=TransferHTML(ZC_DISPLAY_COUNT_WAP,"[html-format]")
-		Response.Write "<tr><td width='30%'>" & SplitNameAndNote(ZC_MSG217) & "</td><td><p><input id=""edtZC_DISPLAY_COUNT_WAP"" name=""edtZC_DISPLAY_COUNT_WAP"" style=""width:600px;"" type=""text"" value=""" & ZC_DISPLAY_COUNT_WAP & """ /></p></td></tr>"
-
-
-
-		ZC_WAPCOMMENT_ENABLE=TransferHTML(ZC_WAPCOMMENT_ENABLE,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG205) & "</td><td><p><input id=""edtZC_WAPCOMMENT_ENABLE"" name=""edtZC_WAPCOMMENT_ENABLE"" style="""" type=""text"" value=""" & ZC_WAPCOMMENT_ENABLE & """ class=""checkbox""/></p></td></tr>"
-
-
-		ZC_COMMENT_COUNT_WAP=TransferHTML(ZC_COMMENT_COUNT_WAP,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG218) & "</td><td><p><input id=""edtZC_COMMENT_COUNT_WAP"" name=""edtZC_COMMENT_COUNT_WAP"" style=""width:600px;"" type=""text"" value=""" & ZC_COMMENT_COUNT_WAP & """ /></p></td></tr>"
-
-
-
-		ZC_DISPLAY_PAGEBAR_ALL_WAP=TransferHTML(ZC_DISPLAY_PAGEBAR_ALL_WAP,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG132) & "</td><td><p><input id=""edtZC_DISPLAY_PAGEBAR_ALL_WAP"" name=""edtZC_DISPLAY_PAGEBAR_ALL_WAP"" style="""" type=""text"" value=""" & ZC_DISPLAY_PAGEBAR_ALL_WAP & """ class=""checkbox""/></p></td></tr>"
-
-
-
-		ZC_PAGEBAR_COUNT_WAP=TransferHTML(ZC_PAGEBAR_COUNT_WAP,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG219) & "</td><td><p><input id=""edtZC_PAGEBAR_COUNT_WAP"" name=""edtZC_PAGEBAR_COUNT_WAP"" style=""width:600px;"" type=""text"" value=""" & ZC_PAGEBAR_COUNT_WAP & """ /></p></td></tr>"
-
-
-
-		ZC_DISPLAY_MODE_ALL_WAP=TransferHTML(ZC_DISPLAY_MODE_ALL_WAP,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG117) & "</td><td><p><input id=""edtZC_DISPLAY_MODE_ALL_WAP"" name=""edtZC_DISPLAY_MODE_ALL_WAP"" style="""" type=""text"" value=""" & ZC_DISPLAY_MODE_ALL_WAP & """ class=""checkbox""/></p></td></tr>"
-
-
-		ZC_DISPLAY_CATE_ALL_WAP=TransferHTML(ZC_DISPLAY_CATE_ALL_WAP,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG133) & "</td><td><p><input id=""edtZC_DISPLAY_CATE_ALL_WAP"" name=""edtZC_DISPLAY_CATE_ALL_WAP"" style="""" type=""text"" value=""" & ZC_DISPLAY_CATE_ALL_WAP & """ class=""checkbox""/></p></td></tr>"
-
-
-		ZC_WAP_MUTUALITY_LIMIT=TransferHTML(ZC_WAP_MUTUALITY_LIMIT,"[html-format]")
-		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG102) & "</td><td><p><input id=""edtZC_WAP_MUTUALITY_LIMIT"" name=""edtZC_WAP_MUTUALITY_LIMIT"" style=""width:600px;"" type=""text"" value=""" & ZC_WAP_MUTUALITY_LIMIT & """ /></p></td></tr>"
 
 
 	Response.Write "</table>"

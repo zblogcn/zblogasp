@@ -1022,7 +1022,7 @@ Class TArticle
 
 		Call ExportCMTandTBBar(intPage,intPageAll)
 
-		Template_Article_Comment="<ins id=""AjaxCommentBegin"" style=""display:none;clear:both;""></ins>" & Template_Article_Comment & Template_Article_Comment_Pagebar &"<ins id=""AjaxCommentEnd"" style=""display:none;clear:both;""></ins>"
+		Template_Article_Comment="<ins style=""display:none;"" id=""AjaxCommentBegin""></ins>" & Template_Article_Comment & Template_Article_Comment_Pagebar &"<ins style=""display:none;"" id=""AjaxCommentEnd""></ins>"
 
 		Template_Article_Comment=Replace(Template_Article_Comment,"<!--(count-->0<!--count)-->","<span class=""revcount""></span>")
 		Template_Article_Comment=Replace(Template_Article_Comment,"<!--(count-->","")
@@ -1610,7 +1610,7 @@ Class TArticle
 		End If
 		If HasCMTandTB=False Then
 			RE.Pattern = "<#template:article_comment:begin#>(.|\n)*<#template:article_comment:end#>"
-			subhtml = RE.Replace(subhtml, "<ins id=""AjaxCommentBegin"" style=""display:none;clear:both;""></ins><ins id=""AjaxCommentEnd"" style=""display:none;clear:both;""></ins>") 
+			subhtml = RE.Replace(subhtml, "<ins style=""display:none;"" id=""AjaxCommentEnd""></ins><ins style=""display:none;"" id=""AjaxCommentBegin""></ins>") 
 		Else
 			subhtml=Replace(subhtml,"<#template:article_comment:begin#>","")
 			subhtml=Replace(subhtml,"<#template:article_comment:end#>","")
@@ -4825,7 +4825,7 @@ Class TNewRss2Export
 		dtmMinutes = Right("00" & Minute(dtmDate),2)
 		dtmSeconds = Right("00" & Second(dtmDate),2)
 
-		ParseDateForRFC822 = dtmWeekDay & ", " & dtmDay &" " & dtmMonth & " " & dtmYear & " " & dtmHours & ":" & dtmMinutes & ":" & dtmSeconds & " " & TimeZone
+		ParseDateForRFC822 = dtmWeekDay & ", " & dtmDay &" " & dtmMonth & " " & dtmYear & " " & dtmHours & ":" & dtmMinutes & ":" & dtmSeconds & IIF(CLng(TimeZone)=0,""," " & TimeZone)
 
 	End Function
 

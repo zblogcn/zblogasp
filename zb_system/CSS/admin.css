@@ -22,16 +22,17 @@ img { border: none;}
 .logo { width:200px; height:70px; margin:170px auto 60px auto;}
 .logo img{width:200px;height:70px; background:url("../image/admin/logo.png");}
 input { float:left;vertical-align:middle;}
+input[type="text"],input[type="password"] {border:1px solid #3a6ea5;}
 .login { width:520px; height:100px; margin:0 auto; padding-left:30px;}
 .login dl { height:50px;}
 .login dd { width:260px; float:left;}
 dd.checkbox { padding-left:60px; width:210px;text-align :left;}
 label { line-height:30px; float:left;vertical-align:text-bottom;padding:0 5px 0 5px;}
 input[type="checkbox"]{margin:8px 0 0 0;padding:0;}
-#edtUserName, #edtPassWord { float:left; width:170px; height:25px; padding:0 5px; line-height:27px; }
+#edtUserName, #edtPassWord { float:left; width:173px; height:25px; padding:2px 5px; line-height:27px; }
 dd.submit { width:220px; }
 .button { float:right;color:#FFFFFF; font-size:14px; width:70px; height:32px; background:#3a6ea5; border:1px solid #3399CC;cursor: pointer;}
-
+.button:hover{color:#3a6ea5;background:white;cursor: pointer;}
 
 .divHeader { height:1.5em;font-weight:blod; line-height:1.5em; font-size:1.5em; padding:0; background:#FFF;text-align:center;}
 

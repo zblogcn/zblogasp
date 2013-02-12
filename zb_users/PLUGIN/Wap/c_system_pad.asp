@@ -450,8 +450,9 @@ End Function
 		Select Case Request.QueryString("act")
 			Case "view"
 				Call View(Request("id"))
-			Case "Com"
-				Call WapCom()
+			Case "CommentGet"
+				Call CommentGet()
+				Exit Function
 			Case "err"
 				Call Errors(Request.QueryString("id"))
 			Case "AddCom"		
@@ -489,6 +490,11 @@ End Function
 	End Function
 
 
+	Function CommentGet()
+		Call GetComment(Request.QueryString("logid"),CLng(Request.QueryString("page")))
+	End Function
+
+
 	Function ShowError(id)
 		Response.Redirect BlogHost&"?mod=pad&act=err&id="&id
 	End Function
@@ -498,7 +504,7 @@ End Function
 
 		ShowError_Custom="Call Pad.ShowError(id)"
 
-		If ZC_DISPLAY_COUNT_WAP=0 Then ZC_DISPLAY_COUNT_WAP=5
+		If WAP_DISPLAY_COUNT=0 Then WAP_DISPLAY_COUNT=5
 
 		ZC_PAGEBAR_COUNT=5
 		ZC_COMMENT_VERIFY_ENABLE=False

@@ -607,7 +607,7 @@ Function CommentPost
 		If bAction_Plugin_CommentPost_Begin=True Then Exit Function
 	Next
 
-	If PostComment(Request.QueryString("key"),CLng(IIf(Request.Form("inpRevID")="",0,Request.Form("inpRevID")))) Then
+	If PostComment(Request.QueryString("key")) Then
 
 		Call ClearGlobeCache
 		Call LoadGlobeCache
@@ -1516,6 +1516,12 @@ End Function
 
 
 Function CommentGet()
+
+	'plugin node
+	For Each sAction_Plugin_CommentGet_Begin in Action_Plugin_CommentGet_Begin
+		If Not IsEmpty(sAction_Plugin_CommentGet_Begin) Then Call Execute(sAction_Plugin_CommentGet_Begin)
+		If bAction_Plugin_CommentGet_Begin=True Then Exit Function
+	Next
 
 	Call GetComment(Request.QueryString("logid"),CLng(Request.QueryString("page")))
 

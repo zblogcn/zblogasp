@@ -1321,6 +1321,19 @@ Dim sAction_Plugin_Batch_End
 
 '**************************************************<
 '类型:action
+'名称:Action_Plugin_CommentGet_Begin
+'参数:无
+'说明:
+'**************************************************>
+Dim Action_Plugin_CommentGet_Begin()
+ReDim Action_Plugin_CommentGet_Begin(0)
+Dim bAction_Plugin_CommentGet_Begin
+Dim sAction_Plugin_CommentGet_Begin
+
+
+
+'**************************************************<
+'类型:action
 '名称:Action_Plugin_SiteInfo_Begin
 '参数:无
 '说明:
