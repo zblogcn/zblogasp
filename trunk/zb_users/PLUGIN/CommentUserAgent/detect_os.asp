@@ -917,7 +917,7 @@ function detect_os(useragent)
             code = "win-phone";
 
         }
-        else
+		else
         {
             title = "Windows";
             code = "win-2";
