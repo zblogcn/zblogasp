@@ -195,6 +195,7 @@ function detect_browser_ver(title, useragent)
 		}
 		json.version=version;
 	}
+	if (json.full == ""){json.full=title}
 	return json;
 
 }

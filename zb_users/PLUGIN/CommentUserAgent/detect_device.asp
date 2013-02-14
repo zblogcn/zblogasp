@@ -107,13 +107,16 @@ function detect_device(useragent)
     {
         _link = "http://www.blackberry.com/";
         title_e = "BlackBerry";
-		title_c = "黑莓";
 
         if (/blackberry([.0-9a-zA-Z]+)\//i.test(useragent)) {
             regmatch = /blackberry([.0-9a-zA-Z]+)\//i.exec(useragent);
             title_e += " " + regmatch[1];
 
         }
+		else if (useragent.indexOf("BB10")>0)
+		{
+			title_e = "BB10";
+		}
 
         code = "blackberry";
 
@@ -285,16 +288,6 @@ function detect_device(useragent)
 
     }
 
-    // Microsoft
-    else if (/Windows Phone OS 7.0/i.test(useragent)
-    || /ZuneWP7/i.test(useragent)
-    || /WP7/i.test(useragent))
-    {
-        _link = "http://www.microsoft.com/windowsphone/";
-        title_e += "Windows Phone 7";
-        code = "windowsphone";
-
-    }
 
     // Motorola
     else if (/\ Droid/i.test(useragent))
