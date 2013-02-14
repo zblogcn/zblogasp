@@ -2497,9 +2497,15 @@ function detect_webbrowser(useragent)
     {
         _link = "http://developer.android.com/reference/android/webkit/package-summary.html";
         _ver = detect_browser_ver("Android Webkit", useragent);
-        ver = _ver.version;
-        title = _ver.full;
-        code = "android-webkit";
+		if (_ver.full != "")
+		{
+	        ver = _ver.version;
+    	    title = _ver.full;
+		}
+		else{
+			title = "Android"
+		}
+		code = "android-webkit";
 
 
 
@@ -2551,72 +2557,6 @@ function detect_webbrowser(useragent)
         ver = _ver.version;
         title = _ver.full;
         code = "worldwideweb";
-
-
-
-    }
-    else if (/wp-android/i.test(useragent))
-    {
-        _link = "http://android.wordpress.org/";
-        _ver = detect_browser_ver("wp-android", useragent);
-        ver = _ver.version;
-        title = _ver.full;
-        code = "wordpress";
-
-
-
-    }
-    else if (/wp-blackberry/i.test(useragent))
-    {
-        _link = "http://blackberry.wordpress.org/";
-        _ver = detect_browser_ver("wp-blackberry", useragent);
-        ver = _ver.version;
-        title = _ver.full;
-        code = "wordpress";
-
-
-
-    }
-    else if (/wp-iphone/i.test(useragent))
-    {
-        _link = "http://ios.wordpress.org/";
-        _ver = detect_browser_ver("wp-iphone", useragent);
-        ver = _ver.version;
-        title = _ver.full;
-        code = "wordpress";
-
-
-
-    }
-    else if (/wp-nokia/i.test(useragent))
-    {
-        _link = "http://nokia.wordpress.org/";
-        _ver = detect_browser_ver("wp-nokia", useragent);
-        ver = _ver.version;
-        title = _ver.full;
-        code = "wordpress";
-
-
-
-    }
-    else if (/wp-webos/i.test(useragent))
-    {
-        _link = "http://webos.wordpress.org/";
-        _ver = detect_browser_ver("wp-webos", useragent);
-        ver = _ver.version;
-        title = _ver.full;
-        code = "wordpress";
-
-
-
-    }
-    else if (/wp-windowsphone/i.test(useragent))
-    {
-        _link = "http://windowsphone.wordpress.org/";
-        _ver = detect_browser_ver("wp-windowsphone", useragent);
-        ver = _ver.version;
-        title = _ver.full;
-        code = "wordpress";
 
 
 

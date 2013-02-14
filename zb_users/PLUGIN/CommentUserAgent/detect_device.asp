@@ -1,21 +1,22 @@
-<script language="javascript" runat="server">
+<script language="javascript" runat="server" >
 
 // Detect Console or Mobile Device
 function detect_device(useragent)
  {
     var _link = "",
-    title = "",
+    title_e = "",
+	title_c = "",
     code = "",
     regmatch;
     // Apple
     if (/iPad/i.test(useragent))
     {
         _link = "http://www.apple.com/itunes";
-        title = "iPad";
+        title_e = "iPad";
 
         if (/CPU\ OS\ ([._0-9a-zA-Z]+)/i.test(useragent)) {
             regmatch = /CPU\ OS\ ([._0-9a-zA-Z]+)/i.exec(useragent);
-            title += " iOS " + regmatch[1].replace(/_/g, ".");
+            title_e += " iOS " + regmatch[1].replace(/_/g, ".");
 
         }
 
@@ -25,11 +26,11 @@ function detect_device(useragent)
     else if (/iPod/i.test(useragent))
     {
         _link = "http://www.apple.com/itunes";
-        title = "iPod";
+        title_e = "iPod";
 
         if (/iPhone\ OS\ ([._0-9a-zA-Z]+)/i.test(useragent)) {
             regmatch = /iPhone\ OS\ ([._0-9a-zA-Z]+)/i.exec(useragent);
-            title += " iOS " + regmatch[1].replace(/_/g, ".");
+            title_e += " iOS " + regmatch[1].replace(/_/g, ".");
 
         }
 
@@ -39,11 +40,25 @@ function detect_device(useragent)
     else if (/iPhone/i.test(useragent))
     {
         _link = "http://www.apple.com/iphone";
-        title = "iPhone";
+        title_e = "iPhone";
 
         if (/iPhone\ OS\ ([._0-9a-zA-Z]+)/i.test(useragent)) {
             regmatch = /iPhone\ OS\ ([._0-9a-zA-Z]+)/i.exec(useragent);
-            title += " iOS " + regmatch[1].replace(/_/g, ".");
+            title_e += " iOS " + regmatch[1].replace(/_/g, ".");
+
+        }
+
+        code = "iphone";
+
+    }
+    else if (/iOs/i.test(useragent))
+    {
+        _link = "http://www.apple.com/";
+        title_e = "iOs";
+
+        if (/iOS\ ([._0-9a-zA-Z]+)/i.test(useragent)) {
+            regmatch = /iOS\ ([._0-9a-zA-Z]+)/i.exec(useragent);
+            title_e += " " + regmatch[1].replace(/_/g, ".");
 
         }
 
@@ -55,11 +70,11 @@ function detect_device(useragent)
     else if (/[^M]SIE/i.test(useragent))
     {
         _link = "http://en.wikipedia.org/wiki/BenQ-Siemens";
-        title = "BenQ-Siemens";
+        title_e = "BenQ-Siemens";
 
         if (/[^M]SIE-([.0-9a-zA-Z]+)\//i.test(useragent)) {
             regmatch = /[^M]SIE-([.0-9a-zA-Z]+)\//i.exec(useragent);
-            title += " " + regmatch[1];
+            title_e += " " + regmatch[1];
 
         }
 
@@ -71,7 +86,8 @@ function detect_device(useragent)
     else if (/(MEIZU (MX|M9))/i.test(useragent))
     {
         _link = "http://www.meizu.com/";
-        title = "meizu";
+        title_e = "meizu";
+		title_c = "魅族";
         code = "meizu";
 
     }
@@ -80,7 +96,8 @@ function detect_device(useragent)
     else if (/MI-ONE/i.test(useragent))
     {
         _link = "http://www.xiaomi.com/";
-        title = "XiaoMi";
+        title_e = "XiaoMi";
+		title_c = "小米";
         code = "xiaomi";
 
     }
@@ -89,11 +106,12 @@ function detect_device(useragent)
     else if (/BlackBerry|PlayBook|BB10/i.test(useragent))
     {
         _link = "http://www.blackberry.com/";
-        title = "BlackBerry";
+        title_e = "BlackBerry";
+		title_c = "黑莓";
 
         if (/blackberry([.0-9a-zA-Z]+)\//i.test(useragent)) {
             regmatch = /blackberry([.0-9a-zA-Z]+)\//i.exec(useragent);
-            title += " " + regmatch[1];
+            title_e += " " + regmatch[1];
 
         }
 
@@ -105,20 +123,20 @@ function detect_device(useragent)
     else if (/Dell Mini 5/i.test(useragent))
     {
         _link = "http://en.wikipedia.org/wiki/Dell_Streak";
-        title = "Dell Mini 5";
+        title_e = "Dell Mini 5";
         code = "dell";
 
     }
     else if (/Dell Streak/i.test(useragent))
     {
         _link = "http://en.wikipedia.org/wiki/Dell_Streak";
-        title = "Dell Streak";
+        title_e = "Dell Streak";
         code = "dell";
 
     }
     else if (/Dell/i.test(useragent)) {
         _link = "http://en.wikipedia.org/wiki/Dell";
-        title = "Dell";
+        title_e = "Dell";
         code = "dell";
 
     }
@@ -127,7 +145,7 @@ function detect_device(useragent)
     else if (/Nexus One/i.test(useragent))
     {
         _link = "http://en.wikipedia.org/wiki/Nexus_One";
-        title = "Nexus One";
+        title_e = "Nexus One";
         code = "google-nexusone";
 
     }
@@ -136,7 +154,7 @@ function detect_device(useragent)
     else if (/Desire/i.test(useragent))
     {
         _link = "http://en.wikipedia.org/wiki/HTC_Desire";
-        title = "HTC Desire";
+        title_e = "HTC Desire";
         code = "htc";
 
     }
@@ -145,94 +163,105 @@ function detect_device(useragent)
     || /WMD-50433/i.test(useragent))
     {
         _link = "http://en.wikipedia.org/wiki/HTC_Touch_Pro2";
-        title = "HTC Touch Pro2";
+        title_e = "HTC Touch Pro2";
         code = "htc";
 
     }
     else if (/HTC[_|\ ]Touch[_|\ ]Pro/i.test(useragent))
     {
         _link = "http://en.wikipedia.org/wiki/HTC_Touch_Pro";
-        title = "HTC Touch Pro";
+        title_e = "HTC Touch Pro";
         code = "htc";
 
     }
     else if (/HTC/i.test(useragent))
     {
         _link = "http://en.wikipedia.org/wiki/High_Tech_Computer_Corporation";
-        title = "HTC";
+        title_e = "HTC";
 
         if (/HTC[\ |_|-]8500/i.test(useragent))
         {
             _link = "http://en.wikipedia.org/wiki/HTC_Startrek";
-            title += " Startrek";
+            title_e += " Startrek";
 
         }
         else if (/HTC[\ |_|-]Hero/i.test(useragent))
         {
             _link = "http://en.wikipedia.org/wiki/HTC_Hero";
-            title += " Hero";
+            title_e += " Hero";
 
         }
         else if (/HTC[\ |_|-]Legend/i.test(useragent))
         {
             _link = "http://en.wikipedia.org/wiki/HTC_Legend";
-            title += " Legend";
+            title_e += " Legend";
 
         }
         else if (/HTC[\ |_|-]Magic/i.test(useragent))
         {
             _link = "http://en.wikipedia.org/wiki/HTC_Magic";
-            title += " Magic";
+            title_e += " Magic";
 
         }
         else if (/HTC[\ |_|-]P3450/i.test(useragent))
         {
             _link = "http://en.wikipedia.org/wiki/HTC_Touch";
-            title += " Touch";
+            title_e += " Touch";
 
         }
         else if (/HTC[\ |_|-]P3650/i.test(useragent))
         {
             _link = "http://en.wikipedia.org/wiki/HTC_Polaris";
-            title += " Polaris";
+            title_e += " Polaris";
 
         }
         else if (/HTC[\ |_|-]S710/i.test(useragent))
         {
             _link = "http://en.wikipedia.org/wiki/HTC_S710";
-            title += " S710";
+            title_e += " S710";
 
         }
         else if (/HTC[\ |_|-]Tattoo/i.test(useragent))
         {
             _link = "http://en.wikipedia.org/wiki/HTC_Tattoo";
-            title += " Tattoo";
+            title_e += " Tattoo";
 
         }
         else if (/HTC[\ |_|-]?([.0-9a-zA-Z]+)/i.test(useragent)) {
             regmatch = /HTC[\ |_|-]?([.0-9a-zA-Z]+)/i.exec(useragent);
-            title += " " + regmatch[1];
+            title_e += " " + regmatch[1];
 
         }
         else if (/HTC([._0-9a-zA-Z]+)/i.test(useragent)) {
             regmatch = /HTC([._0-9a-zA-Z]+)/i.exec(useragent);
-            title += str_replace("_", " ", regmatch[1]);
+            title_e += str_replace("_", " ", regmatch[1]);
 
         }
 
         code = "htc";
 
     }
+	// huawei
+	else if (/Huawei/i.test(useragent))
+	{
+		_link = "http://www.huawei.com/cn/";
+		title_e = "huawei";
+		title_c = "华为";
+		code = "huawei";
+		regmatch = /HUAWEI([.0-9a-zA-Z]+)/i.exec(useragent);
+		title_e += " " + regmatch[1];
+		title_c += " " + regmatch[1];
+	}
 
     // Kindle
     else if (/Kindle/i.test(useragent))
     {
         _link = "http://en.wikipedia.org/wiki/Amazon_Kindle";
-        title = "Kindle";
+        title_e = "Kindle";
 
         if (/Kindle\/([.0-9a-zA-Z]+)/i.test(useragent)) {
             regmatch = /Kindle\/([.0-9a-zA-Z]+)/i.exec(useragent);
-            title += " " + regmatch[1];
+            title_e += " " + regmatch[1];
 
         }
 
@@ -244,11 +273,11 @@ function detect_device(useragent)
     else if (/LG/i.test(useragent))
     {
         _link = "http://www.lgmobile.com";
-        title = "LG";
+        title_e = "LG";
 
         if (/LG[E]?[\ |-|\/]([.0-9a-zA-Z]+)/i.test(useragent)) {
             regmatch = /LG[E]?[\ |-|\/]([.0-9a-zA-Z]+)/i.exec(useragent);
-            title += " " + regmatch[1];
+            title_e += " " + regmatch[1];
 
         }
 
@@ -262,7 +291,7 @@ function detect_device(useragent)
     || /WP7/i.test(useragent))
     {
         _link = "http://www.microsoft.com/windowsphone/";
-        title += "Windows Phone 7";
+        title_e += "Windows Phone 7";
         code = "windowsphone";
 
     }
@@ -271,14 +300,14 @@ function detect_device(useragent)
     else if (/\ Droid/i.test(useragent))
     {
         _link = "http://en.wikipedia.org/wiki/Motorola_Droid";
-        title += "Motorola Droid";
+        title_e += "Motorola Droid";
         code = "motorola";
 
     }
     else if (/XT720/i.test(useragent))
     {
         _link = "http://en.wikipedia.org/wiki/Motorola";
-        title += "Motorola Motoroi (XT720)";
+        title_e += "Motorola Motoroi (XT720)";
         code = "motorola";
 
     }
@@ -286,16 +315,16 @@ function detect_device(useragent)
     || /MIB/i.test(useragent))
     {
         _link = "http://en.wikipedia.org/wiki/Motorola";
-        title = "Motorola";
+        title_e = "Motorola";
 
         if (/MOTO([.0-9a-zA-Z]+)/i.test(useragent)) {
             regmatch = /MOTO([.0-9a-zA-Z]+)/i.exec(useragent);
-            title += " " + regmatch[1];
+            title_e += " " + regmatch[1];
 
         }
         if (/MOT-([.0-9a-zA-Z]+)/i.test(useragent)) {
             regmatch = /MOT-([.0-9a-zA-Z]+)/i.exec(useragent);
-            title += " " + regmatch[1];
+            title_e += " " + regmatch[1];
 
         }
 
@@ -304,7 +333,7 @@ function detect_device(useragent)
     }
     else if (/XOOM/i.test(useragent)) {
         _link = "http://en.wikipedia.org/wiki/Motorola_Xoom";
-        title += "Motorola Xoom";
+        title_e += "Motorola Xoom";
         code = "motorola";
 
     }
@@ -312,26 +341,26 @@ function detect_device(useragent)
     // Nintendo
     else if (/Nintendo/i.test(useragent))
     {
-        title = "Nintendo";
+        title_e = "Nintendo";
 
         if (/Nintendo DSi/i.test(useragent))
         {
             _link = "http://www.nintendodsi.com/";
-            title += " DSi";
+            title_e += " DSi";
             code = "nintendodsi";
 
         }
         else if (/Nintendo DS/i.test(useragent))
         {
             _link = "http://www.nintendo.com/ds";
-            title += " DS";
+            title_e += " DS";
             code = "nintendods";
 
         }
         else if (/Nintendo Wii/i.test(useragent))
         {
             _link = "http://www.nintendo.com/wii";
-            title += " Wii";
+            title_e += " Wii";
             code = "nintendowii";
 
         }
@@ -345,25 +374,41 @@ function detect_device(useragent)
     }
 
     // Nokia
-    else if (/Nokia/i.test(useragent) && !(/S(eries)?60/i.test(useragent)))
+    else if (/Nokia/i.test(useragent))
     {
-        _link = "http://www.nokia.com/";
-        title = "Nokia";
-        if (/Nokia(E|N)?([0-9]+)/i.test(useragent)) {
-            regmatch = /Nokia(E|N)?([0-9]+)/i.exec(useragent);
-            _link = "http://www.s60.com/";
-            title = "Nokia Series60";
-            code = "nokia";
-        }
-
+		/*if (!(/S(eries)?60/i.test(useragent)) || !/Symbian/i.test(useragent))
+		{*/
+			_link = "http://www.nokia.com/";
+			title_e = "Nokia";
+			code = "nokia";
+			if (/Nokia(E|N| )?([0-9]+)/i.test(useragent))
+			{
+				regmatch = /Nokia(E|N| )?([0-9]+)/i.exec(useragent);
+				title_e += " " + regmatch[1] + regmatch[2];
+			}
+			else if (/Lumia ([0-9]+)/i.test(useragent))
+			{
+				regmatch = /Lumia ([0-9]+)/i.exec(useragent);
+				title_e += " Lumia " + regmatch[1];
+			}
+		//}
     }
 
     // OLPC (One Laptop Per Child)
     else if (/OLPC/i.test(useragent))
     {
         _link = "http://www.laptop.org/";
-        title = "OLPC (XO)";
+        title_e = "OLPC (XO)";
         code = "olpc";
+
+    }
+    // 昂达
+    else if (/onda/i.test(useragent))
+    {
+        _link = "http://http://www.onda.cn/";
+        title_e = "Onda";
+		title_c = "昂达"
+        code = "onda";
 
     }
 
@@ -371,28 +416,28 @@ function detect_device(useragent)
     else if (/\ Pixi\//i.test(useragent))
     {
         _link = "http://en.wikipedia.org/wiki/Palm_Pixi";
-        title = "Palm Pixi";
+        title_e = "Palm Pixi";
         code = "palm";
 
     }
     else if (/\ Pre\//i.test(useragent))
     {
         _link = "http://en.wikipedia.org/wiki/Palm_Pre";
-        title = "Palm Pre";
+        title_e = "Palm Pre";
         code = "palm";
 
     }
     else if (/Palm/i.test(useragent))
     {
         _link = "http://www.palm.com/";
-        title = "Palm";
+        title_e = "Palm";
         code = "palm";
 
     }
     else if (/wp-webos/i.test(useragent))
     {
         _link = "http://www.palm.com/";
-        title = "Palm";
+        title_e = "Palm";
         code = "palm";
 
     }
@@ -400,25 +445,25 @@ function detect_device(useragent)
     // Playstation
     else if (/PlayStation/i.test(useragent))
     {
-        title = "PlayStation";
+        title_e = "PlayStation";
 
         if (/[PS|PlayStation\ ]3/i.test(useragent))
         {
             _link = "http://www.us.playstation.com/PS3";
-            title += " 3";
+            title_e += " 3";
 
         }
         else if (/[PlayStation Portable|PSP]/i.test(useragent))
         {
             _link = "http://www.us.playstation.com/PSP";
-            title += " Portable";
+            title_e += " Portable";
 
         }
         else if (/[PlayStation Vita|PSVita]/i.test(useragent))
         {
 
             _link = "http://us.playstation.com/psvita/";
-            title += " Vita";
+            title_e += " Vita";
 
         }
         else
@@ -435,25 +480,25 @@ function detect_device(useragent)
     else if (/Galaxy Nexus/i.test(useragent))
     {
         _link = "http://en.wikipedia.org/wiki/Galaxy_Nexus";
-        title = "Galaxy Nexus";
+        title_e = "Galaxy Nexus";
         code = "samsung";
 
     }
     else if (/SmartTV/i.test(useragent))
     {
         _link = "http://www.freethetvchallenge.com/details/faq";
-        title = "Samsung Smart TV";
+        title_e = "Samsung Smart TV";
         code = "samsung";
 
     }
     else if (/Samsung/i.test(useragent))
     {
         _link = "http://www.samsungmobile.com/";
-        title = "Samsung";
+        title_e = "Samsung";
 
         if (/Samsung-([.\-0-9a-zA-Z]+)/i.test(useragent)) {
             regmatch = /Samsung-([.\-0-9a-zA-Z]+)/i.exec(useragent);
-            title += " " + regmatch[1];
+            title_e += " " + regmatch[1];
 
         }
 
@@ -465,18 +510,18 @@ function detect_device(useragent)
     else if (/SonyEricsson/i.test(useragent))
     {
         _link = "http://en.wikipedia.org/wiki/SonyEricsson";
-        title = "SonyEricsson";
+        title_e = "SonyEricsson";
 
         if (/SonyEricsson([.0-9a-zA-Z]+)/i.test(useragent)) {
             regmatch = /SonyEricsson([.0-9a-zA-Z]+)/i.exec(useragent);
             if (regmatch[1].toLowerCase() == "u20i")
             {
-                title += " Xperia X10 Mini Pro";
+                title_e += " Xperia X10 Mini Pro";
 
             }
             else
             {
-                title += " " + regmatch[1];
+                title_e += " " + regmatch[1];
 
             }
 
@@ -487,26 +532,36 @@ function detect_device(useragent)
     }
 
     // Windows Phone
-    else if (/wp-windowsphone/i.test(useragent))
+    else if (/Windows Phone( OS)? [0-9.]+/.test(useragent))
+	{
+		var regmatch = /Windows Phone( OS)? ([0-9.]+)/.exec(useragent);
+		title_e = "Windows Phone " + regmatch[2];
+		code = "windowsphone";
+		_link = "http://www.windowsphone.com/zh-cn/"
+	}
+	
+	//中兴
+    else if (/zte/i.test(useragent))
     {
-        _link = "http://www.windowsphone.com/";
-        title = "Windows Phone";
-        code = "windowsphone";
+        _link = "http://www.zte.com.cn/cn/";
+        title_e = "zte";
+		title_c = "中兴"
+        code = "ZTE";
 
     }
-
 	//Some special UA..
 	//is MSIE
-	if(/MSIE.+?Windows.+?Trident/.test(useragent)){
+	if(/MSIE.+?Windows.+?Trident/.test(useragent) && !/Windows ?Phone/.test(useragent)){
 		_link = "";
-		title = "";
+		title_e = "";
 		code = "";		
 	}
 
-
+	title_c = title_c==""?title_e:title_c;
+	
 	var json = {
         "link": _link,
-        "text": title,
+        "text": title_e,
         "filename": code,
         "folder": "device",
 		"fullfilename":"16/device/"+code+".png",
