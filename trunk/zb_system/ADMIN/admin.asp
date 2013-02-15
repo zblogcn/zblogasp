@@ -73,6 +73,7 @@ BlogTitle=ZC_MSG022
 		Case "AskFileReBuild" Call ExportFileReBuildAsk()
 		Case "ThemeMng" Call ExportThemeMng()
 		Case "FunctionMng" Call ExportFunctionList()
+		Case Else Call ExportSiteInfo()
 	End Select
 
 	'Call ()

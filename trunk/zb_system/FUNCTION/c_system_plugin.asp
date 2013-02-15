@@ -4619,6 +4619,64 @@ Response_Plugin_Html_Js_Add=""
 
 
 
+
+
+
+'**************************************************<
+'类型:filter
+'名称:Filter_Plugin_ResponseAdminLeftMenu
+'参数:s
+'说明:
+'调用:
+'**************************************************>
+Dim sFilter_Plugin_ResponseAdminLeftMenu
+Function Filter_Plugin_ResponseAdminLeftMenu(ByRef html)
+
+	Dim s,i
+
+	If sFilter_Plugin_ResponseAdminLeftMenu="" Then Exit Function
+
+	s=Split(sFilter_Plugin_ResponseAdminLeftMenu,"|")
+
+	For i=0 To UBound(s)-1
+		Call Execute(s(i) & " "& "html")
+	Next
+
+End Function
+
+
+
+
+'**************************************************<
+'类型:filter
+'名称:Filter_Plugin_ResponseAdminTopMenu
+'参数:s
+'说明:
+'调用:
+'**************************************************>
+Dim sFilter_Plugin_ResponseAdminTopMenu
+Function Filter_Plugin_ResponseAdminTopMenu(ByRef html)
+
+	Dim s,i
+
+	If sFilter_Plugin_ResponseAdminTopMenu="" Then Exit Function
+
+	s=Split(sFilter_Plugin_ResponseAdminTopMenu,"|")
+
+	For i=0 To UBound(s)-1
+		Call Execute(s(i) & " "& "html")
+	Next
+
+End Function
+
+
+
+
+
+
+
+
+
 '以下为uEditCommentor的所有接口：
 Dim Action_Plugin_UEditor_FileUpload_Begin()
 ReDim Action_Plugin_UEditor_FileUpload_Begin(0)
