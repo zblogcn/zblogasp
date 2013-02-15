@@ -3783,6 +3783,30 @@ End Function
 
 
 '*********************************************************
+' 目的：    html=Response_Plugin_Admin_Left
+'*********************************************************
+Function ResponseAdminLeftMenu(html)
+	Call Filter_Plugin_ResponseAdminLeftMenu(html)
+	ResponseAdminLeftMenu=html
+End Function
+'*********************************************************
+
+
+
+
+'*********************************************************
+' 目的：    html=Response_Plugin_Admin_Top
+'*********************************************************
+Function ResponseAdminTopMenu(html)
+	Call Filter_Plugin_ResponseAdminTopMenu(html)
+	ResponseAdminTopMenu=html
+End Function
+'*********************************************************
+
+
+
+
+'*********************************************************
 ' 目的：    Search Child Comments'递归
 '*********************************************************
 Function SearchChildComments(ByVal id,ByRef allcomm)
