@@ -1,0 +1,68 @@
+#divMain .divMenuManage {
+	background: #c9dfea;
+	padding: 0px;
+	margin: 0px;
+	position: relative;
+}
+.divMenuManage #name {
+	padding-right: 15px;
+}
+.divMenuManagenav {
+	background: #c9dfea;
+	width: 230px;
+	position: absolute;
+	left: 0px;
+	top: 0px;
+}
+#divMain .divMenuManagenav ul li {
+	height: 36px;
+	margin-bottom: 1px;
+	font-size: 14px;
+}
+#divMain .divMenuManagenav ul li a {
+	display: block;
+	height: 36px;
+	line-height: 36px;
+	padding: 0 10px;
+	overflow: hidden;
+	word-break: break-all;
+}
+#divMain .divMenuManagenav ul li a:hover {
+	background: #39F;
+	color: #FFFFFF;
+}
+#divMain .divMenuManagenav ul li a .clicked{
+	background: #3399cc;
+	color: #FFFFFF;
+}
+#divMain .divMenuManagetop {
+	height: 36px;
+	line-height: 36px;
+	font-size: 16px;
+	background: #3399cc;
+	padding-left: 15px;
+	color: #FFFFFF;
+}
+#divMain .divMenuManagetop a {
+	color: #c9dfea;
+}
+#divMain .divMenuManagetop a:hover {
+	color: #FFFFFF;
+}
+#divMain .divMenuManageContent {
+	background: #FFFFFF;
+	margin-left: 230px;
+	min-height: 400px;
+	_height: 400px;
+	padding-left: 10px;
+}
+.divMenuManageContentBody {
+	width: 100%;
+}
+table {
+	word-break: break-all;
+	table-layout: fixed;
+	margin-bottom: 10px;
+}
+
+.hide{display:none}
