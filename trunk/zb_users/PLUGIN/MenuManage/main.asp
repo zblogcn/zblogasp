@@ -25,6 +25,7 @@ If CheckPluginState("MenuManage")=False Then Call ShowError(48)
 
 BlogTitle="菜单管理器"
 
+
 Call MenuManage.page.top()
 %>
 <!--#include file="..\..\..\zb_system\admin\admin_header.asp"-->
@@ -63,10 +64,9 @@ $(document).ready(function() {
 		$("._li a").each(function(index,element){
 			s+=$(element).attr("id")+"|"
 		});
-		$("#sort").val(s.substr(0,s.length-1))
+		$.post("main.asp?act=savebar",{"bar":s.substr(0,s.length-1)});
 	}}).disableSelection();
 	$("._li a").click(function(e,o){
-		console.log(o)
 	});
 	
 
@@ -75,6 +75,7 @@ $(document).ready(function() {
 <script language="javascript" runat="server" >
 MenuManage["page"]={
 	"top":function(){
+		MenuManage.page.content();
 	},
 	"sidebar":function(){
 		var n=new VBArray(MenuManage.c.Meta.Names).toArray(),v=new VBArray(MenuManage.c.Meta.Values).toArray();
@@ -100,6 +101,13 @@ MenuManage["page"]={
 			break;
 			
 			case "delete":
+			break;
+			
+			case "savebar":
+				MenuManage.c.Write("config",Request.Form("bar").Item);
+				MenuManage.c.Save()
+				Response.Write("{'success':'ok'}")
+				Response.End();
 			break;
 		}
 	},
