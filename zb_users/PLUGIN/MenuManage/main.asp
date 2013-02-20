@@ -43,7 +43,7 @@ Call MenuManage.page.top()
             <form method="post" action="?act=save" enctype="application/x-www-form-urlencoded">
               <div class="divMenuManagenav" name="tree" id="tree">
                 <ul>
-                  <%=MenuManage.page.sidebar()%>
+                  <%=MenuManage.page.sidebar.all()%>
                 </ul>
               </div>
               <div id="content" class="divMenuManageContent">
@@ -77,17 +77,27 @@ MenuManage["page"]={
 	"top":function(){
 		MenuManage.page.content();
 	},
-	"sidebar":function(){
-		var n=new VBArray(MenuManage.c.Meta.Names).toArray(),v=new VBArray(MenuManage.c.Meta.Values).toArray();
-		var k="",o="",d="",s={};
-		for(var i=1;i<n.length;i++){
-			k=unescape(n[i]),o=unescape(v[i]);
-			if(!/^(major|config|default)$/.test(k)){
-				s=eval("("+o+")");
+	"sidebar":{
+		"used":function(){
+			var k="",o="",d="",s={},p=MenuManage.c.Read("config").split("|");
+			for(var i=0;i<p.length;i++){
+				s=eval("("+MenuManage.c.Read(p[i])+")");
 				d+="<li id='"+s.liid+"' class='_li'><a id='"+s.aid+"' class='li_a' href='javascript:;'>"+s.name+(s.custom?"":"(无法删除)")+"</a></li>"
 			}
+			return d
+		},
+		"all":function(){
+			var n=new VBArray(MenuManage.c.Meta.Names).toArray(),v=new VBArray(MenuManage.c.Meta.Values).toArray();
+			var k="",o="",d="",s={};
+			for(var i=1;i<n.length;i++){
+				k=unescape(n[i]),o=unescape(v[i]);
+				if(!/^(major|config|default)$/.test(k)){
+					s=eval("("+o+")");
+					d+="<li id='"+s.liid+"' class='_li'><a id='"+s.aid+"' class='li_a' href='javascript:;'>"+s.name+(s.custom?"":"(无法删除)")+"</a></li>"
+				}
+			}
+			return d
 		}
-		return d
 	},
 	"content":function(){
 		switch(Request.QueryString("act").Item){
