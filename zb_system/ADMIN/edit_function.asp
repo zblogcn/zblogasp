@@ -66,7 +66,7 @@ BlogTitle=ZC_MSG144
           <div id="ShowBlogHint">
             <% Call GetBlogHint() %>
           </div>
-          <div class="divHeader"><%=ZC_MSG144%></div>
+          <div class="divHeader2"><%=ZC_MSG144%></div>
           <%
 	Response.Write "<div class=""SubMenu"">" & Response_Plugin_Function_SubMenu & "</div>"
 %>
