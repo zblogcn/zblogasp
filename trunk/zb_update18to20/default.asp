@@ -616,7 +616,7 @@ Call BlogConfig.Write("ZC_BLOG_CSS","default")
 Call BlogConfig.Write("ZC_BLOG_COPYRIGHT","Copyright Your WebSite. Some Rights Reserved.")
 Call BlogConfig.Write("ZC_BLOG_MASTER","zblogger")
 Call BlogConfig.Write("ZC_BLOG_LANGUAGE","zh-CN")
-
+Call BlogConfig.Write("ZC_BLOG_LANGUAGEPACK","SimpChinese")
 
 
 
