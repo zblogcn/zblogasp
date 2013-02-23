@@ -100,6 +100,7 @@ BlogTitle=ZC_MSG247
 	Dim strZC_BLOG_COPYRIGHT
 	Dim strZC_BLOG_MASTER
 	Dim strZC_PERMANENT_DOMAIN_ENABLE
+	
 
 	strZC_BLOG_HOST=TransferHTML(ZC_BLOG_HOST,"[html-format]")
 	strZC_BLOG_TITLE=TransferHTML(ZC_BLOG_TITLE,"[html-format]")
@@ -120,6 +121,17 @@ BlogTitle=ZC_MSG247
 	Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG093) & "</td><td><p><input id=""edtZC_BLOG_TITLE"" name=""edtZC_BLOG_TITLE"" style=""width:600px;""  type=""text"" value=""" & strZC_BLOG_TITLE &""" /></p></td></tr>"
 	Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG094) & "</td><td><p><input id=""edtZC_BLOG_SUBTITLE"" name=""edtZC_BLOG_SUBTITLE"" style=""width:600px;""  type=""text"" value=""" & strZC_BLOG_SUBTITLE & """ /></p></td></tr>"
 	Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG096) & "</td><td><p><textarea cols=""3"" rows=""6"" id=""edtZC_BLOG_COPYRIGHT"" name=""edtZC_BLOG_COPYRIGHT"" style=""width:600px;"">" & strZC_BLOG_COPYRIGHT & "</textarea></p></td></tr>"
+	Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG300) & "</td><td><p><select id=""edtZC_BLOG_LANGUAGEPACK"" name=""edtZC_BLOG_LANGUAGEPACK"">"
+	Dim obj,strl
+	For Each obj In CreateObject("scripting.filesystemobject").GetFolder(BlogPath&"\zb_users\language").Files
+		strl=LoadFromFile(obj.Path,"utf-8")
+		strl=Split(strl,"</language>")
+		If Ubound(strl)>0 Then 	
+			Response.Write "<option value="""&Split(obj.Name,".")(0)&""" "&IIf(ZC_BLOG_LANGUAGEPACK&".asp"=obj.Name,"selected","")&">"
+			Response.Write TransferHTML(Split(strl(0),"<language>")(1) & "(" & obj.Name & ")","[html-format]") &"</option>"
+		End If
+	Next
+	Response.Write "</select></p></td></tr>"
 
 
 	Response.Write "</table>"
