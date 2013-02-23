@@ -190,7 +190,7 @@ Function PostArticle()
 			s=objArticle.Content
 			i=InStr(s,"<hr class=""more"" />")
 			s=Left(s,i-1)
-			objArticle.Intro=closeHTML(s)
+			objArticle.Intro=closeHTML(s) & "<!--autointro-->"
 			objArticle.Content=Replace(objArticle.Content,"<hr class=""more"" />","<!--more-->",1,1)
 		End If
 
@@ -204,7 +204,7 @@ Function PostArticle()
 				End If
 				If Len(t)>ZC_ARTICLE_EXCERPT_MAX Then Exit for
 			Next 
-			objArticle.Intro=closeHTML(t)
+			objArticle.Intro=closeHTML(t) & "<!--autointro-->"
 		End If
 	ElseIf objArticle.FType=ZC_POST_TYPE_PAGE Then
 		If CheckRights("Root")=False And CheckRights("ArticleAll")=False Then Call ShowError(6)
