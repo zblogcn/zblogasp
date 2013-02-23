@@ -1256,6 +1256,8 @@ Function SaveSetting()
 	If BlogConfig.Exists("ZC_SIDEBAR_ORDER5_OLD")=False Then Call BlogConfig.Write("ZC_SIDEBAR_ORDER5_OLD","")
 
 	If BlogConfig.Exists("ZC_ARCHIVES_OLD_LISTTYPE")=False Then Call BlogConfig.Write("ZC_ARCHIVES_OLD_LISTTYPE","")
+	
+	If BlogConfig.Exists("ZC_BLOG_LANGUAGEPACK")=False Then Call BlogConfig.Write("ZC_BLOG_LANGUAGEPACK","SimpChinese")
 
 	Dim a,b,c,d,e
 
@@ -1274,82 +1276,87 @@ Function SaveSetting()
 				d.add b,CStr(c)
 			Else
 				d.add b,Request.Form(a)
+
 			End If
 		End If
 	Next
-If d.Exists("ZC_STATIC_DIRECTORY")=True Then
-	If BlogConfig.Read("ZC_STATIC_DIRECTORY")<>d.Item("ZC_STATIC_DIRECTORY")Then
-		Call CreatDirectoryByCustomDirectory(d.Item("ZC_STATIC_DIRECTORY"))
-		Call SetBlogHint(Empty,Empty,True)
-	End If
-End If
-If d.Exists("ZC_BLOG_HOST")=True Then
-	If BlogConfig.Read("ZC_BLOG_HOST")<>d.Item("ZC_BLOG_HOST")Then
-		If Left(d.Item("ZC_BLOG_HOST"),7)<>"http://" And Left(d.Item("ZC_BLOG_HOST"),8)<>"https://" Then
-			d.Item("ZC_BLOG_HOST")="http://" & d.Item("ZC_BLOG_HOST")
+	
+	If d.Exists("ZC_STATIC_DIRECTORY")=True Then
+		If BlogConfig.Read("ZC_STATIC_DIRECTORY")<>d.Item("ZC_STATIC_DIRECTORY")Then
+			Call CreatDirectoryByCustomDirectory(d.Item("ZC_STATIC_DIRECTORY"))
+			Call SetBlogHint(Empty,Empty,True)
 		End If
-		If Right(d.Item("ZC_BLOG_HOST"),1)<>"/" Then
-			d.Item("ZC_BLOG_HOST")=d.Item("ZC_BLOG_HOST") & "/"
+	End If
+	If d.Exists("ZC_BLOG_HOST")=True Then
+		If BlogConfig.Read("ZC_BLOG_HOST")<>d.Item("ZC_BLOG_HOST")Then
+			If Left(d.Item("ZC_BLOG_HOST"),7)<>"http://" And Left(d.Item("ZC_BLOG_HOST"),8)<>"https://" Then
+				d.Item("ZC_BLOG_HOST")="http://" & d.Item("ZC_BLOG_HOST")
+			End If
+			If Right(d.Item("ZC_BLOG_HOST"),1)<>"/" Then
+				d.Item("ZC_BLOG_HOST")=d.Item("ZC_BLOG_HOST") & "/"
+			End If
+			If d.Item("ZC_PERMANENT_DOMAIN_ENABLE")="True" Then Call SetBlogHint(Empty,Empty,True)
 		End If
-		If d.Item("ZC_PERMANENT_DOMAIN_ENABLE")="True" Then Call SetBlogHint(Empty,Empty,True)
 	End If
-End If
-If d.Exists("ZC_PERMANENT_DOMAIN_ENABLE")=True Then
-	If BlogConfig.Read("ZC_PERMANENT_DOMAIN_ENABLE")<>d.Item("ZC_PERMANENT_DOMAIN_ENABLE") Then Call SetBlogHint(Empty,Empty,True)
-End If
-If d.Exists("ZC_BLOG_TITLE")=True Then
-	If BlogConfig.Read("ZC_BLOG_TITLE")<>d.Item("ZC_BLOG_TITLE")Then Call SetBlogHint(Empty,Empty,True)
-End If
-If d.Exists("ZC_BLOG_SUBTITLE")=True Then
-	If BlogConfig.Read("ZC_BLOG_SUBTITLE")<>d.Item("ZC_BLOG_SUBTITLE")Then Call SetBlogHint(Empty,Empty,True)
-End If
-If d.Exists("ZC_BLOG_COPYRIGHT")=True Then
-	If BlogConfig.Read("ZC_BLOG_COPYRIGHT")<>d.Item("ZC_BLOG_COPYRIGHT")Then Call SetBlogHint(Empty,Empty,True)
-End If
-If d.Exists("ZC_BLOG_LANGUAGE")=True Then
-	If BlogConfig.Read("ZC_BLOG_LANGUAGE")<>d.Item("ZC_BLOG_LANGUAGE")Then Call SetBlogHint(Empty,Empty,True)
-End If
-If d.Exists("ZC_BLOG_COPYRIGHT")=True Then
-	If BlogConfig.Read("ZC_BLOG_COPYRIGHT")<>d.Item("ZC_BLOG_COPYRIGHT")Then
-		d.Item("ZC_BLOG_COPYRIGHT")=Replace(Replace(d.Item("ZC_BLOG_COPYRIGHT"),vbCr,""),vbLf,"")
-		Call SetBlogHint(Empty,Empty,True)
+	If d.Exists("ZC_PERMANENT_DOMAIN_ENABLE")=True Then
+		If BlogConfig.Read("ZC_PERMANENT_DOMAIN_ENABLE")<>d.Item("ZC_PERMANENT_DOMAIN_ENABLE") Then Call SetBlogHint(Empty,Empty,True)
 	End If
-End If
-If d.Exists("ZC_TIME_ZONE")=True Then
-	If Trim(d.Item("ZC_TIME_ZONE"))="" Then d.Item("ZC_TIME_ZONE")="0000"
-	If IsNumeric(d.Item("ZC_TIME_ZONE"))=False Then d.Item("ZC_TIME_ZONE")="0000"
-End If
-If d.Exists("ZC_HOST_TIME_ZONE")=True Then
-	If Trim(d.Item("ZC_HOST_TIME_ZONE"))="" Then d.Item("ZC_HOST_TIME_ZONE")="0000"
-	If IsNumeric(d.Item("ZC_HOST_TIME_ZONE"))=False Then d.Item("ZC_HOST_TIME_ZONE")="0000"
-End If
-If d.Exists("ZC_BLOG_LANGUAGE")=True Then
-	If BlogConfig.Read("ZC_BLOG_LANGUAGE")<>d.Item("ZC_BLOG_LANGUAGE")Then Call SetBlogHint(Empty,Empty,True)
-End If
-If d.Exists("ZC_COMMENT_TURNOF")=True Then
-	If BlogConfig.Read("ZC_COMMENT_TURNOFF")<>d.Item("ZC_COMMENT_TURNOFF")Then Call SetBlogHint(Empty,Empty,True)
-End If
-If d.Exists("ZC_COMMENT_REVERSE_ORDER_EXPORT")=True Then
-	If BlogConfig.Read("ZC_COMMENT_REVERSE_ORDER_EXPORT")<>d.Item("ZC_COMMENT_REVERSE_ORDER_EXPORT")Then Call SetBlogHint(Empty,Empty,True)
-End If
-If d.Exists("ZC_COMMENTS_DISPLAY_COUNT")=True Then
-	If BlogConfig.Read("ZC_COMMENTS_DISPLAY_COUNT")<>d.Item("ZC_COMMENTS_DISPLAY_COUNT")Then Call SetBlogHint(Empty,Empty,True)
-End If
-If d.Exists("ZC_DISPLAY_COUNT")=True Then
-	If BlogConfig.Read("ZC_DISPLAY_COUNT")<>d.Item("ZC_DISPLAY_COUNT")Then Call SetBlogHint(Empty,True,True)
-End If
-If d.Exists("ZC_PAGEBAR_COUNT")=True Then
-	If BlogConfig.Read("ZC_PAGEBAR_COUNT")<>d.Item("ZC_PAGEBAR_COUNT")Then Call SetBlogHint(Empty,True,Empty)
-End If
-If d.Exists("ZC_MUTUALITY_COUNT")=True Then
-	If BlogConfig.Read("ZC_MUTUALITY_COUNT")<>d.Item("ZC_MUTUALITY_COUNT")Then Call SetBlogHint(Empty,True,True)
-End If
-If d.Exists("ZC_USE_NAVIGATE_ARTICLE")=True Then
-	If BlogConfig.Read("ZC_USE_NAVIGATE_ARTICLE")<>d.Item("ZC_USE_NAVIGATE_ARTICLE")Then Call SetBlogHint(Empty,True,True)
-End If
-If d.Exists("ZC_COMMENT_VERIFY_ENABLE")=True Then
-	If BlogConfig.Read("ZC_COMMENT_VERIFY_ENABLE")<>d.Item("ZC_COMMENT_VERIFY_ENABLE")Then Call SetBlogHint(Empty,True,True)
-End If
+	If d.Exists("ZC_BLOG_TITLE")=True Then
+		If BlogConfig.Read("ZC_BLOG_TITLE")<>d.Item("ZC_BLOG_TITLE")Then Call SetBlogHint(Empty,Empty,True)
+	End If
+	If d.Exists("ZC_BLOG_SUBTITLE")=True Then
+		If BlogConfig.Read("ZC_BLOG_SUBTITLE")<>d.Item("ZC_BLOG_SUBTITLE")Then Call SetBlogHint(Empty,Empty,True)
+	End If
+	If d.Exists("ZC_BLOG_COPYRIGHT")=True Then
+		If BlogConfig.Read("ZC_BLOG_COPYRIGHT")<>d.Item("ZC_BLOG_COPYRIGHT")Then Call SetBlogHint(Empty,Empty,True)
+	End If
+	If d.Exists("ZC_BLOG_LANGUAGE")=True Then
+		If BlogConfig.Read("ZC_BLOG_LANGUAGE")<>d.Item("ZC_BLOG_LANGUAGE")Then Call SetBlogHint(Empty,Empty,True)
+	End If
+	If d.Exists("ZC_BLOG_COPYRIGHT")=True Then
+		If BlogConfig.Read("ZC_BLOG_COPYRIGHT")<>d.Item("ZC_BLOG_COPYRIGHT")Then
+			d.Item("ZC_BLOG_COPYRIGHT")=Replace(Replace(d.Item("ZC_BLOG_COPYRIGHT"),vbCr,""),vbLf,"")
+			Call SetBlogHint(Empty,Empty,True)
+		End If
+	End If
+	If d.Exists("ZC_BLOG_LANGUAGEPACK")=True Then
+		If BlogConfig.Read("ZC_BLOG_LANGUAGEPACK")<>d.Item("ZC_BLOG_LANGUAGEPACK")Then Call SetBlogHint(Empty,Empty,True)
+	End If
+	If d.Exists("ZC_TIME_ZONE")=True Then
+		If Trim(d.Item("ZC_TIME_ZONE"))="" Then d.Item("ZC_TIME_ZONE")="0000"
+		If IsNumeric(d.Item("ZC_TIME_ZONE"))=False Then d.Item("ZC_TIME_ZONE")="0000"
+	End If
+	If d.Exists("ZC_HOST_TIME_ZONE")=True Then
+		If Trim(d.Item("ZC_HOST_TIME_ZONE"))="" Then d.Item("ZC_HOST_TIME_ZONE")="0000"
+		If IsNumeric(d.Item("ZC_HOST_TIME_ZONE"))=False Then d.Item("ZC_HOST_TIME_ZONE")="0000"
+	End If
+	If d.Exists("ZC_BLOG_LANGUAGE")=True Then
+		If BlogConfig.Read("ZC_BLOG_LANGUAGE")<>d.Item("ZC_BLOG_LANGUAGE")Then Call SetBlogHint(Empty,Empty,True)
+	End If
+	If d.Exists("ZC_COMMENT_TURNOF")=True Then
+		If BlogConfig.Read("ZC_COMMENT_TURNOFF")<>d.Item("ZC_COMMENT_TURNOFF")Then Call SetBlogHint(Empty,Empty,True)
+	End If
+	If d.Exists("ZC_COMMENT_REVERSE_ORDER_EXPORT")=True Then
+		If BlogConfig.Read("ZC_COMMENT_REVERSE_ORDER_EXPORT")<>d.Item("ZC_COMMENT_REVERSE_ORDER_EXPORT")Then Call SetBlogHint(Empty,Empty,True)
+	End If
+	If d.Exists("ZC_COMMENTS_DISPLAY_COUNT")=True Then
+		If BlogConfig.Read("ZC_COMMENTS_DISPLAY_COUNT")<>d.Item("ZC_COMMENTS_DISPLAY_COUNT")Then Call SetBlogHint(Empty,Empty,True)
+	End If
+	If d.Exists("ZC_DISPLAY_COUNT")=True Then
+		If BlogConfig.Read("ZC_DISPLAY_COUNT")<>d.Item("ZC_DISPLAY_COUNT")Then Call SetBlogHint(Empty,True,True)
+	End If
+	If d.Exists("ZC_PAGEBAR_COUNT")=True Then
+		If BlogConfig.Read("ZC_PAGEBAR_COUNT")<>d.Item("ZC_PAGEBAR_COUNT")Then Call SetBlogHint(Empty,True,Empty)
+	End If
+	If d.Exists("ZC_MUTUALITY_COUNT")=True Then
+		If BlogConfig.Read("ZC_MUTUALITY_COUNT")<>d.Item("ZC_MUTUALITY_COUNT")Then Call SetBlogHint(Empty,True,True)
+	End If
+	If d.Exists("ZC_USE_NAVIGATE_ARTICLE")=True Then
+		If BlogConfig.Read("ZC_USE_NAVIGATE_ARTICLE")<>d.Item("ZC_USE_NAVIGATE_ARTICLE")Then Call SetBlogHint(Empty,True,True)
+	End If
+	If d.Exists("ZC_COMMENT_VERIFY_ENABLE")=True Then
+		If BlogConfig.Read("ZC_COMMENT_VERIFY_ENABLE")<>d.Item("ZC_COMMENT_VERIFY_ENABLE")Then Call SetBlogHint(Empty,True,True)
+	End If
 
 	For Each a In d.Keys
 		If SearchInArrays("edt"& a,Split(e,"|"))=True Then

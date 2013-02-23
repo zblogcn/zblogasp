@@ -4261,6 +4261,10 @@ Function CheckUndefined()
 	If InStr(a,"DIM ZC_SIDEBAR_ORDER5")=0 Then
 		Call ExecuteGlobal("ZC_SIDEBAR_ORDER5=""""")
 	End If
+	
+	If InStr(a,"DIM ZC_BLOG_LANGUAGEPACK")=0 Then
+		Call ExecuteGlobal("ZC_BLOG_LANGUAGEPACK=""SimpChinese""")
+	End If
 
 End Function
 '*********************************************************
