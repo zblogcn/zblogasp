@@ -6,7 +6,22 @@
 '   By ZSX(http://www.zsxsoft.com)
 '   Z-Blog (http://www.rainbowsoft.org)
 '********************************************************
-uEditor_i
+
+
+If Request.QueryString("action")="snapscreen" Then
+	Call System_Initialize
+	Set BlogUser =New TUser
+	BlogUser.LoginType="Self"
+	BlogUser.name=CStr(Trim(Request.QueryString("username")))
+	BlogUser.Password=CStr(Trim(Request.QueryString("password")))
+	BlogUser.Verify()
+	If Not CheckRights("FileUpload") Then Call ShowError(6)
+	uEditor_ASPFormName="upfile"
+	uEditor_ASPCharset="GB2312"
+Else
+	Call uEditor_i
+End If
+
 For Each sAction_Plugin_UEditor_FileUpload_Begin in Action_Plugin_UEditor_FileUpload_Begin
 	If Not IsEmpty(sAction_Plugin_UEditor_FileUpload_Begin) Then Call Execute(sAction_Plugin_UEditor_FileUpload_Begin)
 Next

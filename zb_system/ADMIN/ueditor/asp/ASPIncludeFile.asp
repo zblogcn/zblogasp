@@ -16,12 +16,16 @@ End Sub
 '   By ZSX(http://www.zsxsoft.com)
 '   Z-Blog (http://www.rainbowsoft.org)
 '********************************************************
-Const uEditor_ASPCharset="UTF-8"  '设置编码
+Dim uEditor_ASPCharset
+uEditor_ASPCharset="UTF-8"  '设置编码
 Dim uEditor_ASPMaxSize
 uEditor_ASPMaxSize=ZC_UPLOAD_FILESIZE  '设置最大上传大小,单位为字节，0表示不受限
-Const uEditor_ASPFormName="edtFileLoad"  '设置表单名
-Const uEditor_Split="ue_separate_ue"  '设置UE分隔符
-Const uEditor_tmpImg="tmp"   '设置临时文件夹（主要是涂鸦）
+Dim uEditor_ASPFormName
+uEditor_ASPFormName="edtFileLoad"  '设置表单名
+Dim uEditor_Split
+uEditor_Split="ue_separate_ue"  '设置UE分隔符
+Dim uEditor_tmpImg
+uEditor_tmpImg="tmp"   '设置临时文件夹（主要是涂鸦）
 
 Dim uEditor_ASPUploadPath
 uEditor_ASPUploadPath="upload\"  '设置上传目录
