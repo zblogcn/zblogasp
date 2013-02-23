@@ -312,7 +312,7 @@ Function WLWSupport_newPost(structPost,bolPublish)
 		s=objArticle.Content
 		i=InStr(s,"<hr class=""more"" />")
 		s=Left(s,i-1)
-		objArticle.Intro=closeHTML(s)
+		objArticle.Intro=closeHTML(s) & "<!--autointro-->"
 		objArticle.Content=Replace(objArticle.Content,"<hr class=""more"" />","<!--more-->",1,1)
 	End If
 
@@ -324,7 +324,7 @@ Function WLWSupport_newPost(structPost,bolPublish)
 			End If
 			If Len(w)>ZC_ARTICLE_EXCERPT_MAX Then Exit for
 		Next 
-		objArticle.Intro=closeHTML(w)
+		objArticle.Intro=closeHTML(w) & "<!--autointro-->"
 	End If
 
 	If InStr(objArticle.Content,"<!--more-->")=0 Then

@@ -55,7 +55,7 @@ If Not IsEmpty(Request.QueryString("id")) Then
 			End If
 		End If
 		If EditArticle.FType=ZC_POST_TYPE_PAGE Then IsPage=True
-		'If InStr(EditArticle.Content,EditArticle.Intro)>0 Then EditArticle.Intro=""
+		If InStr(EditArticle.Intro,"<!--autointro-->")>0 Then EditArticle.Intro=""
 	Else
 		Call ShowError(9)
 	End If
