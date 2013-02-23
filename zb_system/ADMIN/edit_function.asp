@@ -59,18 +59,20 @@ End If
 
 BlogTitle=ZC_MSG144
 
-%><!--#include file="admin_header.asp"-->
+%>
+<!--#include file="admin_header.asp"-->
 <!--#include file="admin_top.asp"-->
-			<div id="divMain">
-<div class="divHeader2"><%=ZC_MSG144%></div>
-<%
+        <div id="divMain">
+          <div id="ShowBlogHint">
+            <% Call GetBlogHint() %>
+          </div>
+          <div class="divHeader"><%=ZC_MSG144%></div>
+          <%
 	Response.Write "<div class=""SubMenu"">" & Response_Plugin_Function_SubMenu & "</div>"
 %>
-
-<div id="divMain2">
-<div id="ShowBlogHint"><% Call GetBlogHint() %></div>
-<form id="edit" name="edit" method="post" action="../cmd.asp?act=FunctionSav">
-<%
+          <div id="divMain2">
+            <form id="edit" name="edit" method="post" action="../cmd.asp?act=FunctionSav">
+              <%
 	Dim s,t,u
 	s=EditFunction.Content
 	s=Replace(s,"<#ZC_BLOG_HOST#>",BlogHost)
@@ -110,12 +112,11 @@ End If
 	Response.Write "<p><input type=""submit"" class=""button"" value="""& ZC_MSG087 &""" id=""btnPost"" /></p>"
 
 %>
-</form>
-</div>
-
-</div>
-<script type="text/javascript">ActiveLeftMenu("aFunctionMng");</script>
-<!--#include file="admin_footer.asp"-->
+            </form>
+          </div>
+        </div>
+        <script type="text/javascript">ActiveLeftMenu("aFunctionMng");</script> 
+        <!--#include file="admin_footer.asp"-->
 <% 
 Call System_Terminate()
 
