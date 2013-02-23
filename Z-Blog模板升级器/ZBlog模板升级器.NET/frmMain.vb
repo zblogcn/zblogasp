@@ -22,4 +22,12 @@
         End If
 
     End Sub
+
+    Private Sub LinkLabel2_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles LinkLabel2.LinkClicked
+        Process.Start("https://code.google.com/p/zblog-1-9/source/browse/#svn%2Ftrunk%2FZ-Blog%E6%A8%A1%E6%9D%BF%E5%8D%87%E7%BA%A7%E5%99%A8")
+    End Sub
+
+    Private Sub LinkLabel1_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles LinkLabel1.LinkClicked
+        Process.Start("http://www.zsxsoft.com/")
+    End Sub
 End Class
