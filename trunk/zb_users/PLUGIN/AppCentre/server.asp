@@ -100,6 +100,12 @@ objXmlHttp.Open Request.ServerVariables("REQUEST_METHOD"),strURL
 If bolPost Then objXmlhttp.SetRequestHeader "Content-Type","application/x-www-form-urlencoded"
 objXmlhttp.SetRequestHeader "User-Agent","AppCentre/"&app_version & " ZBlog/"&BlogVersion&" "&Request.ServerVariables("HTTP_USER_AGENT") &""
 objXmlhttp.SetRequestHeader "Cookie","username="&vbsescape(login_un)&"; password="&vbsescape(login_pw)
+'为一些有趣的活动的防作弊
+objXmlhttp.SetRequestHeader "Website",ZC_BLOG_HOST
+objXmlhttp.SetRequestHeader "AppCentre",app_version
+objXmlhttp.SetRequestHeader "ZBlog",BlogVersion
+objXmlhttp.SetRequestHeader "ClientIP",GetReallyIP()
+
 objXmlHttp.Send Request.Form.Item
 
 
@@ -223,4 +229,23 @@ End Function
 	End If
 %>
         <!--#include file="..\..\..\zb_system\admin\admin_footer.asp"-->
-<%End If%>
+<%End If
+
+
+Function GetReallyIP()
+
+	Dim strIP
+	strIP=Request.ServerVariables("HTTP_X_FORWARDED_FOR")
+	If strIP="" Or InStr(strIP,"unknown") Then
+		strIP=Request.ServerVariables("REMOTE_ADDR")
+	ElseIf InStr(strIP,",") Then
+		strIP=Split(strIP,",")(0)
+	ElseIf InStr(strIP,";") Then
+		strIP=Split(strIP,";")(0)
+	End If
+	
+	GetReallyIP=Trim(strIP)
+
+End Function
+'for 2.0 users
+%>
