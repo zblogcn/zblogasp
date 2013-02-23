@@ -45,36 +45,30 @@ BlogTitle=ZC_MSG247
 %>
 <!--#include file="admin_header.asp"-->
 <!--#include file="admin_top.asp"-->
-			<div id="divMain">
-<% Call GetBlogHint() %>
-<div class="divHeader"><%=BlogTitle%></div>
-<%
+        <div id="divMain">
+          <% Call GetBlogHint() %>
+          <div class="divHeader"><%=BlogTitle%></div>
+          <%
 	Response.Write "<div class=""SubMenu"">" & Response_Plugin_SettingMng_SubMenu & "</div>"
 %>
-<form method="post" action="../cmd.asp?act=SettingSav">
-<div id="divMain2">
-
-			<div class="content-box"><!-- Start Content Box -->
-				
-				<div class="content-box-header">
-			
-					<ul class="content-box-tabs">
-
-	<li><a href="#tab1" class="default-tab"><span><%=ZC_MSG105%></span></a></li>
-	<li><a href="#tab2"><span><%=ZC_MSG173%></span></a></li>
-	<li><a href="#tab3"><span><%=ZC_MSG186%></span></a></li>
-	<li><a href="#tab4"><span><%=ZC_MSG215%></span></a></li>
-	<li <%=IIF(ZC_POST_STATIC_MODE<>"STATIC","style='display:none;'","")%>><a href="#tab5"><span><%=ZC_MSG255%></span></a></li>
-
-					</ul>
-					
-					<div class="clear"></div>
-					
-				</div> <!-- End .content-box-header -->
-				
-				<div class="content-box-content">
-
-<%
+          <form method="post" action="../cmd.asp?act=SettingSav">
+            <div id="divMain2">
+              <div class="content-box"><!-- Start Content Box -->
+                
+                <div class="content-box-header">
+                  <ul class="content-box-tabs">
+                    <li><a href="#tab1" class="default-tab"><span><%=ZC_MSG105%></span></a></li>
+                    <li><a href="#tab2"><span><%=ZC_MSG173%></span></a></li>
+                    <li><a href="#tab3"><span><%=ZC_MSG186%></span></a></li>
+                    <li><a href="#tab4"><span><%=ZC_MSG215%></span></a></li>
+                    <li <%=IIF(ZC_POST_STATIC_MODE<>"STATIC","style='display:none;'","")%>><a href="#tab5"><span><%=ZC_MSG255%></span></a></li>
+                  </ul>
+                  <div class="clear"></div>
+                </div>
+                <!-- End .content-box-header -->
+                
+                <div class="content-box-content">
+                  <%
 
 	Function SplitNameAndNote(s)
 
@@ -245,26 +239,27 @@ BlogTitle=ZC_MSG247
 	Response.Write "</div>"
 
 %>
-
-				</div> <!-- End .content-box-content -->
-				
-			</div> <!-- End .content-box -->
-<%
+                </div>
+                <!-- End .content-box-content --> 
+                
+              </div>
+              <!-- End .content-box -->
+              <%
 
 
 
 	Response.Write "<p><br/><input type=""submit"" class=""button"" value="""& ZC_MSG087 &""" id=""btnPost"" onclick='' /></p>"
 
 %>
-
-
-			</div></form></div>
-<script type="text/javascript">
+            </div>
+          </form>
+        </div>
+        <script type="text/javascript">
 
 ActiveTopMenu('topmenu2');
 
-</script>
-<!--#include file="admin_footer.asp"-->
+</script> 
+        <!--#include file="admin_footer.asp"-->
 <% 
 Call System_Terminate()
 
