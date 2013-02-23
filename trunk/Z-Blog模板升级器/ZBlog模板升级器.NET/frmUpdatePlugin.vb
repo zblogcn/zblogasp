@@ -6,10 +6,10 @@ Imports System.Text.RegularExpressions
 Friend Class frmUpdatePlugin
     Inherits System.Windows.Forms.Form
 
-    Dim strSource, strTemplateFolder, strXMLPath As String
-    Dim aryPluginFile() As String
-    Dim aryOldPath() As String
-    Dim aryNewPath() As String
+    Public strSource, strTemplateFolder, strXMLPath As String
+    Public aryPluginFile() As String
+    Public aryOldPath() As String
+    Public aryNewPath() As String
     Dim objAero As clsAero
 
 
@@ -25,21 +25,31 @@ Friend Class frmUpdatePlugin
         End If
     End Sub
 
-    Private Sub cmdOpen_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles cmdOpen.Click
+    Public Sub cmdOpen_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles cmdOpen.Click
+        Update_P(False)
+        MsgBox(Replace("升级完毕！\n\n剩余以下部分没有升级，请自行修改：\n\n升级完成后，请在APP中心里编辑插件信息并保存，即可在2.0里激活插件。", "\n", vbCrLf), MsgBoxStyle.Information)
+        Process.Start("http://www.zsxsoft.com/updatesuccess.html")
+
+    End Sub
+
+    Sub Update_P(ByVal otherForm As Boolean)
         Dim i As Short
         Log_Clear()
-        strTemplateFolder = txtPath.Text
-        If GetSubFolder(strTemplateFolder) Then
-            Log("开始升级插件文件")
-            For i = 0 To CShort(UBound(aryPluginFile))
-                If Trim(aryPluginFile(i)) <> "" Then
-                    Update_Plugin(aryPluginFile(i), 1, aryOldPath(i), aryNewPath(i))
-                End If
-
-            Next
-
-            MsgBox(Replace("升级完毕！\n\n剩余以下部分没有升级，请自行修改：\n\n升级完成后，请在APP中心里编辑插件信息并保存，即可在2.0里激活插件。", "\n", vbCrLf), MsgBoxStyle.Information)
+        If Not otherForm Then
+            strTemplateFolder = txtPath.Text
+            If Not GetSubFolder(strTemplateFolder) Then
+                Return
+            End If
         End If
+
+        Log("开始升级插件文件")
+        For i = 0 To CShort(UBound(aryPluginFile))
+            If Trim(aryPluginFile(i)) <> "" Then
+                Update_Plugin(aryPluginFile(i), 1, aryOldPath(i), aryNewPath(i))
+                Update_Plugin(aryPluginFile(i), 2, aryOldPath(i), aryNewPath(i))
+            End If
+
+        Next
 
     End Sub
 
@@ -68,14 +78,6 @@ Friend Class frmUpdatePlugin
         End
     End Sub
 
-
-
-
-    'Usage:日志
-    'Param:str--日志内容
-    Sub Log(ByVal str_Renamed As String)
-        lstLog.Items.Add("【" & Now & "】" & str_Renamed)
-    End Sub
 
     'Usage:清除日志
     Sub Log_Clear()
@@ -129,79 +131,5 @@ Friend Class frmUpdatePlugin
 
 
 
-    'Usage:升级
-    'Param:strFilePath--文件名,intType--升级类型
-    Function Update_Plugin(ByVal strFilePath As String, Optional ByRef intType As Short = 1, Optional ByVal OldPath As String = "", Optional ByVal NewPath As String = "") As Boolean
-        Dim strFile As String = "", strTemp As String = ""
-        Dim objExec As Object = Nothing
-        If File.Exists(strFilePath) Then
 
-            Log("Update: " & strFilePath & "  type:" & intType)
-            strFile = File.ReadAllText(strFilePath)
-            Select Case intType
-                Case 1
-                    '模板主体和INCLUDE文件夹升级
-
-                    OldPath = OldPath.Replace("..\", "..[/\\]")
-                    '替换INCLUDE地址
-                    For Each objExec In New Regex("<!-- +?#include +?file=""(" & OldPath & ").+?""", RegexOptions.IgnoreCase).Matches(strFile)
-                        strFile = Replace(strFile, objExec.Groups(1).Value, NewPath, 1, 1)
-                        Log(objExec.Groups(1).Value & "-->" & NewPath)
-                    Next objExec
-
-
-                    '替换空行
-                    For Each objExec In New Regex("[" & vbTab & " ]+" & vbCrLf, RegexOptions.IgnoreCase).Matches(strFile)
-                        strFile = Replace(strFile, objExec.Value, "", 1, 1)
-                        Log(objExec.Value & "-->" & """""")
-                    Next objExec
-
-
-                    '替换HEADER
-                    For Each objExec In New Regex("<div class=[""']Header[""']>", RegexOptions.IgnoreCase).Matches(strFile)
-                        strFile = Replace(strFile, objExec.Value, "<div class=""divHeader"">", 1, 1)
-                        Log(objExec.Value & "-->" & "<div class=""divHeader"">")
-                    Next objExec
-
-
-                    '替换<head>
-                    For Each objExec In New Regex("<!DOCTYPE html.+?>", RegexOptions.IgnoreCase).Matches(strFile)
-                        strFile = Replace(strFile, objExec.Value, "<!--#include file=""" & NewPath & "zb_system\admin\admin_header.asp""-->", 1, 1)
-                        Log(objExec.Value & "-->" & "<!--#include file=""" & NewPath & "zb_system\admin\admin_header.asp""-->")
-                    Next objExec
-                    strTemp = "<html.+?>" & vbCrLf & "|<title>.+?</title>|<head>|<meta.+?>" & vbCrLf & "|<body>|</head>|</html>" & _
-                        "|<link rel=[""']stylesheet[""'] +?rev=[""']stylesheet[""'] +?href=[""'].+?CSS\/admin.css[""'] +?type=[""']text/css[""'] +?media=""screen"".+?>"
-
-                    For Each objExec In New Regex(strTemp, RegexOptions.IgnoreCase).Matches(strFile)
-                        strFile = Replace(strFile, objExec.Value, "", 1, 1)
-                        Log(objExec.Value & "-->" & "")
-                    Next objExec
-                    For Each objExec In New Regex("<div id=[""']divMain[""']>", RegexOptions.IgnoreCase).Matches(strFile)
-                        strFile = Replace(strFile, objExec.Value, "<!--#include file=""" & NewPath & "zb_system\admin\admin_top.asp""--><div id=""divMain"">", 1, 1)
-                        Log(objExec.Value & "-->" & "<!--#include file=""" & NewPath & "zb_system\admin\admin_top.asp""--><div id=""divMain"">")
-                    Next objExec
-                    For Each objExec In New Regex("<div id=[""']divMain2[""']>", RegexOptions.IgnoreCase).Matches(strFile)
-                        strFile = Replace(strFile, objExec.Value, "<div id=""divMain2""><script type=""text/javascript"">ActiveLeftMenu(""aPlugInMng"");</script>", 1, 1)
-                        Log(objExec.Value & "-->" & "<div id=""divMain2""><script type=""text/javascript"">ActiveLeftMenu(""aPlugInMng"");</script>")
-                    Next objExec
-
-                    For Each objExec In New Regex("<% +?Call GetBlogHint\(\) +?%>", RegexOptions.IgnoreCase).Matches(strFile)
-                        strFile = Replace(strFile, objExec.Value, "<div id=""ShowBlogHint""><%Call GetBlogHint()%></div>", 1, 1)
-                        Log(objExec.Value & "-->" & "<div id=""ShowBlogHint""><%Call GetBlogHint()%></div>")
-                    Next objExec
-                    For Each objExec In New Regex("</div>[" & vbCrLf & vbTab & " ]+?</body>", RegexOptions.IgnoreCase).Matches(strFile)
-                        strFile = Replace(strFile, objExec.Value, "<!--#include file=""" & NewPath & "zb_system\admin\admin_footer.asp""-->", 1, 1)
-                        Log(objExec.Value & "-->" & "<!--#include file=""" & NewPath & "zb_system\admin\admin_footer.asp""-->")
-                    Next objExec
-
-                    '保存
-                    File.WriteAllText(strFilePath & "_update", strFile)
-                    Log("保存完毕")
-
-            End Select
-        Else
-            Log(strFile & "找不到！")
-        End If
-
-    End Function
 End Class

@@ -37,16 +37,30 @@ Friend Class frmUpdateTheme
             Log("开始升级source下asp")
             Update_Theme(strSource, 2)
             Log("source下asp升级完毕")
-            Log("开始升级主题自带插件")
-            For i = 0 To CShort(UBound(aryPluginFile))
-                If Trim(aryPluginFile(i)) <> "" Then Update_Theme(aryPluginFile(i), 3)
-            Next
-            Log("主题自带插件升级完毕")
+                Log("开始升级主题自带插件")
+
+            If Directory.Exists(strTemplateFolder & "\plugin") Then
+
+                frmUpdatePlugin.Show()
+                frmUpdatePlugin.Enabled = True
+                frmUpdatePlugin.cmdOpen.Enabled = False
+                frmUpdatePlugin.cmdBrowse.Enabled = False
+                frmUpdatePlugin.txtPath.Enabled = False
+                frmUpdatePlugin.strTemplateFolder = strTemplateFolder & "\plugin"
+
+                frmUpdatePlugin.GetSubFolder(strTemplateFolder & "\plugin", "..\..\..\", "..\..\..\..\", True)
+                frmUpdatePlugin.Update_P(True)
+                'frmUpdatePlugin.Hide()
+            End If
+
+                Log("主题自带插件升级完毕")
+
             '还差侧栏管理的升级
             'Log "升级XML信息"
             '升级XML是不是让APP升级好一点
 
             MsgBox(Replace("升级完毕！\n\n剩余以下部分没有升级，请自行修改：\n\n侧栏部分（须符合2.0侧栏规范）\n主题插件\nXML信息\n\n升级完成后，请在APP中心里编辑主题信息并保存，即可在2.0里激活主题。", "\n", vbCrLf), MsgBoxStyle.Information)
+            Process.Start("http://www.zsxsoft.com/updatesuccess.html")
         End If
 
     End Sub
@@ -67,7 +81,7 @@ Friend Class frmUpdateTheme
         ReDim aryTemplateFile(0)
         ReDim aryPluginFile(0)
         strSource = ""
-        lblNote.Text = "说明：" & vbCrLf & "升级前必须备份。" & vbCrLf & "您要升级的1.8模板必须符合以下要求：" & vbCrLf & "      1.模板在TEMPLATE文件夹下，扩展名为html" & vbCrLf & "      2.HTML标签全部闭合" & vbCrLf & "      3.未重写系统自带的common.js" & vbCrLf & "      4.未使用主题插件" & vbCrLf & "以上条件有任意一点不符合，则本程序无法升级你的主题。"
+        lblNote.Text = "说明：" & vbCrLf & "升级前必须备份。" & vbCrLf & "您要升级的1.8模板必须符合以下要求：" & vbCrLf & "      1.模板在TEMPLATE文件夹下，扩展名为html" & vbCrLf & "      2.HTML标签全部闭合" & vbCrLf & "      3.未重写系统自带的common.js" & vbCrLf & "以上条件有任意一点不符合，则本程序无法升级你的主题。"
     End Sub
 
 
@@ -131,13 +145,6 @@ Friend Class frmUpdateTheme
                     Log("找到主题文件：" & objFor)
                 Next objFor
             End If
-            If Directory.Exists(Folder & "\plugin") Then
-                For Each objFor In Directory.GetFiles(Folder & "\plugin")
-                    ReDim Preserve aryPluginFile(UBound(aryPluginFile) + 1)
-                    aryPluginFile(UBound(aryPluginFile)) = objFor
-                    Log("找到主题插件：" & objFor)
-                Next objFor
-            End If
             If Directory.Exists(Folder & "\source\style.css.asp") Then
                 strSource = Folder & "\source\style.css.asp"
                 Log("找到STYLE.CSS.ASP")
@@ -167,6 +174,7 @@ Friend Class frmUpdateTheme
 
             Log("Update: " & strFilePath & "  type:" & intType)
             strFile = File.ReadAllText(strFilePath)
+            If Trim(strFile) = "" Then Return False
             Select Case intType
                 Case 1
                     '模板主体和INCLUDE文件夹升级
@@ -273,6 +281,7 @@ Friend Class frmUpdateTheme
 
                 Case 3
                     '插件\主题插件升级
+
                 Case 4
                     '侧栏管理升级
                     '侧栏管理只按照默认主题的结构弄，非默认主题的结构不管他
