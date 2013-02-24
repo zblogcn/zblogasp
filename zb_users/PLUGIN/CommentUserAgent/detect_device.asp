@@ -93,7 +93,7 @@ function detect_device(useragent)
     }
 
 	//小米
-    else if (/MI-ONE/i.test(useragent))
+    else if (/MI-ONE|MI 2/i.test(useragent))
     {
         _link = "http://www.xiaomi.com/";
         title_e = "XiaoMi";
@@ -248,7 +248,7 @@ function detect_device(useragent)
 	else if (/Huawei/i.test(useragent))
 	{
 		_link = "http://www.huawei.com/cn/";
-		title_e = "huawei";
+		title_e = "HuaWei";
 		title_c = "华为";
 		code = "huawei";
 		regmatch = /HUAWEI([.0-9a-zA-Z]+)/i.exec(useragent);
@@ -271,7 +271,22 @@ function detect_device(useragent)
         code = "kindle";
 
     }
+    // Lenovo
+    else if (/Lenovo/i.test(useragent))
+    {
+        _link = "http://www.lenovo.com.cn";
+        title_e = "Lenovo";
+		title_c = "联想"
 
+        if (/Lenovo[\ |-|\/]([.0-9a-zA-Z]+)/i.test(useragent)) {
+            regmatch = /Lenovo[\ |-|\/]([.0-9a-zA-Z]+)/i.exec(useragent);
+            title_e += " " + regmatch[1];
+
+        }
+
+        code = "lenovo";
+
+    }
     // LG
     else if (/LG/i.test(useragent))
     {
@@ -477,6 +492,20 @@ function detect_device(useragent)
         code = "samsung";
 
     }
+	else if (/GT-\D\d+ Build\/[0-9A-Z]+/i.test(useragent))
+    {
+        _link = "http://www.samsungmobile.com/";
+        title_e = "Samsung";
+
+        if (/(GT-\D\d+) Build\/[0-9A-Z]+?/i.test(useragent)) {
+            regmatch = /(GT-\D\d+) Build\/[0-9A-Z]+/i.exec(useragent);
+            title_e += " " + regmatch[1];
+
+        }
+
+        code = "samsung";
+
+    }
     else if (/SmartTV/i.test(useragent))
     {
         _link = "http://www.freethetvchallenge.com/details/faq";
@@ -537,7 +566,7 @@ function detect_device(useragent)
     else if (/zte/i.test(useragent))
     {
         _link = "http://www.zte.com.cn/cn/";
-        title_e = "zte";
+        title_e = "ZTE";
 		title_c = "中兴"
         code = "ZTE";
 

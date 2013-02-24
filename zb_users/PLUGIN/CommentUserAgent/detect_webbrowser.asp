@@ -10,8 +10,16 @@ function detect_webbrowser(useragent)
 
 
     var mobile = 0;
+    if (/2345Explorer/i.test(useragent))
+    {
+        _link = "http://ie.2345.com/";
+        title = "2345 Explorer";
+        code = "2345";
 
-    if (/360se|360ee|360browser|(360 .phone browser)/i.test(useragent))
+
+
+    }
+    else if (/360se|360ee|360browser|(360 .phone browser)/i.test(useragent))
     {
         _link = "http://se.360.cn/";
         title = "360UnSafe Explorer";
