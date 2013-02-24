@@ -237,7 +237,7 @@ td{white-space:nowrap}
             <%
 				Dim kk
 				
-				'kk=Split(LoadFromFile(Server.MapPath("test.txt"),"utf-8"),vbCrlf)
+				'kk=Split(LoadFromFile(Server.MapPath("ua.txt"),"gb2312"),vbLf)
 				kk=aryUA
 				For i=0 To Ubound(kk)
 					Set o=detect_platform(kk(i))
