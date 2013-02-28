@@ -37,24 +37,49 @@ End Sub
 
 Sub Export
 	'文章导出，未完工
-	'Response.Write QueryToJson(objConn,"SELECT log_ID As thread_key,log_Title As title,log_id As thread_key,comm_ParentID As parent_key"&_
-					",comm_Author As author_name,comm_Email As author_email,comm_HomePage As author_url,comm_PostTime As created_at"&_
-					",comm_ip As ip,comm_agent As agent,comm_Content As message FROM blog_Comment").jsString
+	Response.ContentType="application/json"
+	Response.AddHeader "Content-Disposition", "attachment; filename=duoshuo_export.json"
+
+	Response.Write "{threads:"&ArticleData().jsString&",posts:"
 	Response.Write QueryToJson(objConn,"SELECT comm_AuthorID As author_key,comm_ID As post_key,log_id As thread_key,comm_ParentID As parent_key"&_
 					",comm_Author As author_name,comm_Email As author_email,comm_HomePage As author_url,comm_PostTime As created_at"&_
 					",comm_ip As ip,comm_agent As agent,comm_Content As message FROM blog_Comment").jsString
-	'Dim aryData(),objRs,i
+	Response.Write "}"
+	'Dim aryData(),rs,i
 	'i=0
-	'Set objRs=objConn.Execute("SELECT * FROM blog_Comment")
-	'Redim aryData(objRs.PageSize)
-	'Do Until objRs.Eof
-'		aryData(i)=objRs("comm_id")
-'		objRs.MoveNext
+	'Set rs=objConn.Execute("SELECT * FROM blog_Comment")
+	'Redim aryData(rs.PageSize)
+	'Do Until rs.Eof
+'		aryData(i)=rs("comm_id")
+'		rs.MoveNext
 '	Loop
 '	Dim s
 '	s=(new duoshuo_Duoshuo_aspjson).toJSON(aryData)
 '	Response.Write s
 End Sub
+
+Function ArticleData()
+        Dim rs, jsa, col , o
+        Set rs = objConn.Execute("SELECT [log_ID] As thread_key,[log_CateID],[log_Title] as title,[log_Intro] as excerpt,[log_Level],[log_AuthorID] as author_key,[log_PostTime],[log_ViewNums] as views,[log_Url] as url,[log_Type] FROM [blog_Article]")
+        Set jsa = jsArray()
+		jsa.Kind=1
+        While Not (rs.EOF Or rs.BOF)
+				Set o=New TArticle
+				If o.LoadInfoByArray(Array(rs(0),"",rs(1),rs(2),rs(3),"",rs(4),rs(5),rs(6),0,rs(7),0,rs(8),False,"","",rs(9),"")) Then
+	                Set jsa(Null) = jsObject()
+					For Each col In rs.Fields
+						If col.Name<>"url" And Left(col.Name,4)<>"log_" Then
+	    	            	jsa(Null)(col.Name) = col.Value
+						ElseIf col.Name="url" Then
+							jsa(Null)(col.Name) = TransferHTML(o.FullUrl,"[zc_blog_host]")
+						End If
+					Next
+        		End If
+				Set o=Nothing
+		rs.MoveNext
+        Wend
+        Set ArticleData = jsa
+End Function
 
 Function QueryToJSON(dbc, sql)
         Dim rs, jsa, col
