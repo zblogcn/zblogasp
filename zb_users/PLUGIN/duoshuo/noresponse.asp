@@ -36,14 +36,14 @@ Sub CallBack()
 End Sub
 
 Sub Export
-	'文章导出，未完工
+	
 	Response.ContentType="application/json"
 	Response.AddHeader "Content-Disposition", "attachment; filename=duoshuo_export.json"
 
-	Response.Write "{threads:"&ArticleData().jsString&",posts:"
+	Response.Write "{""threads"":"&ArticleData().jsString&",""posts"":"
 	Response.Write QueryToJson(objConn,"SELECT comm_AuthorID As author_key,comm_ID As post_key,log_id As thread_key,comm_ParentID As parent_key"&_
 					",comm_Author As author_name,comm_Email As author_email,comm_HomePage As author_url,comm_PostTime As created_at"&_
-					",comm_ip As ip,comm_agent As agent,comm_Content As message FROM blog_Comment").jsString
+					",comm_ip As ip,comm_agent As agent,comm_Content As message FROM blog_Comment WHERE comm_IsCheck=0").jsString
 	Response.Write "}"
 	'Dim aryData(),rs,i
 	'i=0
@@ -70,6 +70,8 @@ Function ArticleData()
 					For Each col In rs.Fields
 						If col.Name<>"url" And Left(col.Name,4)<>"log_" Then
 	    	            	jsa(Null)(col.Name) = col.Value
+						ElseIf col.Name = "create_at" Then
+							jsa(Null)(col.Name) = Year(col.Value) & "-" & Month(col.Value) & "-" & Day(col.Value) & " " & Hour(col.Value) & ":" & Minute(col.Value) & ":" & Second(col.Value)
 						ElseIf col.Name="url" Then
 							jsa(Null)(col.Name) = TransferHTML(o.FullUrl,"[zc_blog_host]")
 						End If
@@ -82,15 +84,20 @@ Function ArticleData()
 End Function
 
 Function QueryToJSON(dbc, sql)
-        Dim rs, jsa, col
+        Dim rs, jsa, col, k
         Set rs = dbc.Execute(sql)
         Set jsa = jsArray()
 		jsa.Kind=1
         While Not (rs.EOF Or rs.BOF)
                 Set jsa(Null) = jsObject()
                 For Each col In rs.Fields
-                        jsa(Null)(col.Name) = col.Value
-                Next
+						If col.Name = "created_at" Then
+							k=CStr(col.Value)
+							jsa(Null)(col.Name) = Year(k) & "-" & Right("0"&Month(k),2) & "-" & Right("0"&Day(k),2) & " " & Right("0"&Hour(k),2) & ":" & Right("0"&Minute(k),2) & ":" & Right("0"&Second(k),2)
+						Else
+	                        jsa(Null)(col.Name) = col.Value
+                		End If
+				Next
         rs.MoveNext
         Wend
         Set QueryToJSON = jsa
