@@ -164,7 +164,7 @@ Function AppCentre_Update_Install()
 
 				Dim objXmlFiles,item,objStream
 				Set objXmlFiles=objXmlFile.documentElement.SelectNodes("file")
-				for each item in objXmlFiles
+				For Each item in objXmlFiles
 				Set objStream = CreateObject("ADODB.Stream")
 					With objStream
 					.Type = 1
@@ -639,7 +639,7 @@ Function LoadThemeXmlInfo(id)
 
 				Dim objXmlitems,item,c
 				Set objXmlitems=objXmlFile.documentElement.SelectNodes("functions/function")
-				for each item in objXmlitems
+				For Each item in objXmlitems
 					app_ishasfunctions=True
 					ExecuteGlobal "Dim app_function_" & item.getAttribute("filename")
 					c=item.text
@@ -1101,7 +1101,7 @@ Function LoadAppFiles(DirPath,FilePath,ShortDir)
 		Xfpath.text = replace(DirPath,ZipPathDir,ShortDir)
 
 		Set objFiles=objFolder.Files
-			for each objFile in objFiles
+			For Each objFile in objFiles
 				If lcase(DirPath & objFile.name) <> lcase(Request.ServerVariables("PATH_TRANSLATED")) Then
 					PathNameStr = DirPath & "" & objFile.name
 					'================================================
@@ -1137,10 +1137,12 @@ Function LoadAppFiles(DirPath,FilePath,ShortDir)
 	'创建的子文件夹对象
 	Set objSubFolders=objFolder.Subfolders
 		'调用递归遍历子文件夹
-		for each objSubFolder in objSubFolders
-			pathname = DirPath & objSubFolder.name & "\"
-			Call LoadAppFiles(pathname,FilePath,ShortDir)
-		next
+		For Each objSubFolder In objSubFolders
+			If Not (LCase(objSubFolder.Name)=".git" Or LCase(objSubFolder.Name)=".svn") Then
+				pathname = DirPath & objSubFolder.name & "\"
+				Call LoadAppFiles(pathname,FilePath,ShortDir)
+			End If
+		Next
 	Set objFolder=Nothing
 	Set objSubFolders=Nothing
 	Set fso=Nothing
