@@ -19041,3 +19041,55 @@ baidu.editor.ui = {};
     utils.inherits(MultiMenuPop, SplitButton);
 })();
 })();
+
+//为uEditor增加新按钮，需要参数id(按钮id)、toolbar(是否加载在toolbar，加载就写数组第几项),其它参数见http://ueditor.baidu.com/website/document.html
+UE.createButton = function(cfg) {
+	var utils = baidu.editor.utils;
+    var editorui = baidu.editor.ui;
+    var _Dialog = editorui.Dialog;
+    baidu.editor.ui[cfg.id] = function(cmd) {
+        return function(editor) {
+			
+            var ui = new editorui.Button({
+                className: 'edui-for-' + cmd,
+                title: editor.options.labelMap[cmd] || editor.getLang("labelMap." + cmd) || '',
+                onclick: function() {
+                    editor.execCommand(cmd);
+
+                },
+                theme: editor.options.theme,
+                showText: false
+
+            });
+            editorui.buttons[cmd] = ui;
+            editor.addListener('selectionchange', 
+            function(type, causeByUi, uiReady) {
+                var state = editor.queryCommandState(cmd);
+                if (state == -1) {
+                    ui.setDisabled(true);
+                    ui.setChecked(false);
+
+                } else {
+                    if (!uiReady) {
+                        ui.setDisabled(false);
+                        ui.setChecked(state);
+
+                    }
+
+                }
+
+            });
+            return ui;
+
+        };
+
+    } (cfg.id);
+	if(typeof(cfg.toolbar)!=undefined){
+		UEDITOR_CONFIG.toolbars[cfg.toolbar].push(cfg.id);
+	}
+	var _id=cfg["id"]
+	delete cfg["id"];
+	delete cfg["toolbar"];
+	UE.commands[_id] = cfg;
+
+}
