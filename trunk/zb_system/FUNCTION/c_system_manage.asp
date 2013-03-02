@@ -928,12 +928,6 @@ Function ExportPluginMng()
 	ReDim aryPL_Enable(i)
 
 
-	If Request.QueryString("installed")<>"" Then
-
-		Call InstallPlugin(Request.QueryString("installed"))
-
-	End If
-
 	Dim fso, f, f1, fc
 	Set fso = CreateObject("Scripting.FileSystemObject")
 
