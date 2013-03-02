@@ -2107,7 +2107,7 @@ Function CheckDependencyDisable(aryPluginList,strPluginName)
 	Set objXmlFile=Server.CreateObject("Microsoft.XMLDOM")
 	objXmlFile.async = False
 	objXmlFile.ValidateOnParse=False
-	'Stop
+	
 	For j=0 To Ubound(aryPluginList)
 		strXmlFile =aryPluginList(j)
 		objXmlFile.load(strXmlFile)
@@ -2210,7 +2210,7 @@ Function CheckConflictReWriteAndToFile(strPluginName,aryFilePath,bolCheck)
 		thisConflict=Split(UCase(TryToGetAdvanced(objXmlFile,"conflict")),"|")
 	End If
 	
-	'Stop
+	
 	For j=0 To Ubound(aryFilePath)
 		strXmlFile =aryFilePath(j)
 		objXmlFile.load(strXmlFile)
@@ -2432,10 +2432,15 @@ Function SaveSidebarOrder(s1,s2,s3,s4,s5)
 	If Right(s5,1)=":" Then s5=Left(s5,Len(s5)-1)
 
 	ZC_SIDEBAR_ORDER=s1
+	BlogConfig.Write "ZC_SIDEBAR_ORDER",s1
 	ZC_SIDEBAR_ORDER2=s2
+	BlogConfig.Write "ZC_SIDEBAR_ORDER2",s2
 	ZC_SIDEBAR_ORDER3=s3
+	BlogConfig.Write "ZC_SIDEBAR_ORDER3",s3
 	ZC_SIDEBAR_ORDER4=s4
+	BlogConfig.Write "ZC_SIDEBAR_ORDER4",s4
 	ZC_SIDEBAR_ORDER5=s5
+	BlogConfig.Write "ZC_SIDEBAR_ORDER5",s5
 
 	SaveSidebarOrder=True
 
