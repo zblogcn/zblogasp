@@ -6,7 +6,7 @@
 <%
 '///////////////////////////////////////////////////////////////////////////////
 '//              Z-Blog
-'// 作    者:    sipo
+'// 作    者:    zsx
 '// 版权所有:    RainbowSoft Studio
 '// 技术支持:    rainbowsoft@163.com
 '// 程序名称:    
@@ -23,19 +23,38 @@
 <!-- #include file="../function/c_system_base.asp" -->
 <!-- #include file="../function/c_system_plugin.asp" -->
 <!-- #include file="../../zb_users/plugin/p_config.asp" -->
+
+
 <%
-Response.ContentType="application/x-javascript"
+'
 Call System_Initialize()
 
-Public ZC_AUTOSAVE_FILENAME
-ZC_AUTOSAVE_FILENAME="autosave"&"_"&MD5(ZC_BLOG_CLSID & BlogUser.ID)&".txt"  
+Public ZC_AUTOSAVE_FILENAME,ZC_AUTOSAVE_FILEMODIFIED
+ReGetFile
+Sub ReGetFile()
+	ZC_AUTOSAVE_FILENAME="autosave_"&MD5("autosave"&"_"&MD5(ZC_BLOG_CLSID & BlogUser.ID))&".txt"  
+	ZC_AUTOSAVE_FILEMODIFIED=GetFileModified(BlogPath&"zb_users/cache/"&ZC_AUTOSAVE_FILENAME)
+End Sub 
 
+If BlogUser.Level>3 Then
+	Response.Write ZVA_ErrorMsg(6)
+	Response.End 
+End If
 
-IF IsEmpty(ReQuest.QueryString("act")) Then
-	SaveContent()
-ElseIf Request.QueryString("act")="edit" then
-	ExportAutoSaveJS()
-End IF
+Select Case Request.QueryString("act")
+	Case "restore"
+		Response.ContentType="text/plain"
+		Restore
+	Case "save"
+		Response.ContentType="text/plain"
+		SaveContent
+	Case "del"
+		Response.ContentType="text/plain"
+		DeleteBackup
+	Case Else
+		Response.ContentType="application/javascript"
+		ExportAutoSaveJS
+End Select
 
 '*********************************************************
 ' 目的：    Convert Bytes To Str
@@ -59,31 +78,58 @@ End Function
 '*********************************************************
 ' 目的：    Save Draft And DisPlay
 '*********************************************************
-Function SaveContent()
-		If BlogUser.Level>3 Then
-		Response.Write ZVA_ErrorMsg(6)
-		Response.End 
-		End If
-		On Error Resume Next
-		Dim objStream
-		Set objStream = Server.CreateObject("ADODB.Stream")
-		With objStream
-		.Type = 2
-		.Mode = 3
-		.Open
-		.Charset = "utf-8"
-		.Position = objStream.Size
-		.WriteText=BytesToBstr(Request.BinaryRead(Request.TotalBytes),"UTF-8")
-		.SaveToFile BlogPath & "ZB_USERS/CACHE/"&ZC_AUTOSAVE_FILENAME,2
-		.Close
-		End With
-		Set objStream = NoThing
-		If Err.Number=0 then
-		Response.Write "<span style="""">&nbsp;"&formatdatetime(now,4)&":"&Right("0"&second(now),2)&"<a href="""&BlogHost&"zb_users/CACHE/"&ZC_AUTOSAVE_FILENAME&""" target=""_blank"" style=""text-decoration: none;"">"&ZC_MSG258&"</a>&nbsp;</span>"
-		End If
-		Response.End
-End Function
+Sub SaveContent()
+	Dim strJSON
+	strJSON="{""title"":"""&jsEncode(Request.Form("title"))&""",""alias"":"""&jsEncode(Request.Form("alias"))&""","
+	strJSON=strJSON & """tag"":"""&jsEncode(Request.Form("tag"))&""",""cate"":"""&jsEncode(Request.Form("cate"))&""",""content"":"""&jsEncode(Request.Form("content"))&""",""success"":true}"
+	Call SaveToFile(BlogPath & "ZB_USERS/CACHE/"&ZC_AUTOSAVE_FILENAME,strJSON,"utf-8",False)
+	
+	ReGetFile
+	Response.Write "{'result':'<span style="""">&nbsp;"&formatdatetime(now,4)&":"&Right("0"&second(now),2)&"<a href=""javascript:try{autosave.view()}catch(e){};"" target=""_blank"" style=""text-decoration: none;"">"&ZC_MSG258&"</a>&nbsp;</span>','file':{'name':'"&ZC_AUTOSAVE_FILENAME&"','modified':'"&ZC_AUTOSAVE_FILEMODIFIED&"'}}"
+	Response.End
+End Sub
 
+Sub Restore()
+	If ZC_AUTOSAVE_FILEMODIFIED=Now Then
+		Response.Write "{'title':'无','alias':'','tag':'','cate':0,'content':'没有备份数据','success':false}"
+	Else
+		Response.Write LoadFromFile(BlogPath & "ZB_USERS/CACHE/"&ZC_AUTOSAVE_FILENAME,"utf-8")
+	End If
+End Sub
+
+Sub DeleteBackup()
+	Call DelToFile(BlogPath & "ZB_USERS/CACHE/"&ZC_AUTOSAVE_FILENAME)
+End Sub
+
+Function jsEncode(str)
+	Dim charmap(127), haystack()
+	charmap(8)  = "\b"
+	charmap(9)  = "\t"
+	charmap(10) = "\n"
+	charmap(12) = "\f"
+	charmap(13) = "\r"
+	charmap(34) = "\"""
+	charmap(47) = "\/"
+	charmap(92) = "\\"
+	Dim strlen : strlen = Len(str) - 1
+	ReDim haystack(strlen)
+	Dim i, charcode
+	For i = 0 To strlen
+		haystack(i) = Mid(str, i + 1, 1)
+		charcode = AscW(haystack(i)) And 65535
+		If charcode < 127 Then
+			If Not IsEmpty(charmap(charcode)) Then
+				haystack(i) = charmap(charcode)
+			ElseIf charcode < 32 Then
+				haystack(i) = "\u" & Right("000" & Hex(charcode), 4)
+			End If
+		Else
+			haystack(i) = "\u" & Right("000" & Hex(charcode), 4)
+		End If
+	Next
+
+	jsEncode = Join(haystack, "")
+End Function
 
 '*********************************************************
 ' 目的：   输出自动保存脚本
@@ -91,88 +137,153 @@ End Function
 Function ExportAutoSaveJS()
 	Response.Clear
 	'//////////////
-	Response.Write "  function init(){"
-	Response.Write "init_ueditor();return editor.getContent();"
-	Response.Write "  }"
-	Response.Write "  function restore(obj){"
-	Response.Write "init_ueditor();return editor.setContent(obj);"
-	Response.Write "  }"
-	'/////////////
-	Response.Write "  var AutoSaveTime=60;"
-	Response.Write "  var FileName="""&BlogHost&"zb_users/CACHE/"&ZC_AUTOSAVE_FILENAME&""";"
-	Response.Write "  var postForm = null; "
-	Response.Write "  var msg = null; "
-	Response.Write "  function init_ueditor(){"
-	Response.Write "  msg = document.getElementById(""msg"");"
-	Response.Write "  postForm = document.edit.editor;"
-	Response.Write "  }"
-	'/////////////
-	'/////////////
-	Response.Write "var ti=AutoSaveTime;"
-	Response.Write "function savedraft()"
-	Response.Write "{	 init();"
-	'Response.Write "	if (postForm!=null&&typeof(postForm)!=undefined){"
-	Response.Write "		var url = ""c_autosaverjs.asp"";"
-	Response.Write "		var postStr = init();"
-	Response.Write "		if (postStr){"
-	Response.Write "		var ajax = getHTTPObject();"
-	Response.Write "		ajax.open('POST', url, true); "
-	Response.Write "		ajax.setRequestHeader(""Content-Type"",""application/x-www-form-urlencoded""); "
-	Response.Write "		ajax.onreadystatechange = function(){if (ajax.readyState == 4 && ajax.status == 200) msg.innerHTML = ajax.responseText;};"
-	Response.Write "		ajax.send(postStr);"
-	Response.Write "		ti=-1000;"
-	Response.Write "		}else{"
-	Response.Write "		msg.innerHTML = """&ZC_MSG256&""";"
-	Response.Write "		ti=-1000;}"
-	'Response.Write "	}else{msg.innerHTML = """&ZC_MSG255&""";ti=-1000;}"
-	Response.Write "}"
-	Response.Write "function restoredraft()"
-	Response.Write "{ init();"
-	Response.Write "if (window.confirm('"&ZC_MSG254&"'))"
-	Response.Write "{"
-	'Response.Write "	if (postForm!=null&&typeof(postForm)!=undefined){"
-	Response.Write "		var url = FileName;"
-	Response.Write "		var ajax = getHTTPObject();"
-	Response.Write "		ajax.open(""GET"", url+'?random='+Math.random(), true); "
-	Response.Write "		ajax.onreadystatechange = function() { "
-	Response.Write "		if (ajax.readyState == 4 && ajax.status == 200) { "
-	Response.Write "		restore(ajax.responseText);"
-	Response.Write "		msg.innerHTML ="""&ZC_MSG253&"""; } } ;"
-	Response.Write "		ajax.send(null); "
-	Response.Write "		ti=-1000;"
-	'Response.Write "	}else{msg.innerHTML = """&ZC_MSG255&""";ti=-1000;}"
-	Response.Write ""
-	Response.Write "}"
-	Response.Write "}"
-	Response.Write "function Viewdraft()"
-	Response.Write "{ "
-	Response.Write "window.open(FileName,'','');"
-	Response.Write "}"
-	Response.Write "document.getElementById(""msg2"").innerHTML =""&nbsp;&nbsp;<a href='javascript:try{Viewdraft()}catch(e){};' style='cursor:hand;'>["&ZC_MSG015&"]</a>&nbsp;&nbsp;<a href='javascript:try{restoredraft()}catch(e){};' style='cursor:hand;'>["&ZC_MSG252&"]</a>&nbsp;&nbsp;<a href='javascript:try{savedraft()}catch(e){};' style='cursor:hand;'>["&ZC_MSG004&"]</a>"";"
-	Response.Write "function timer() { "
-	Response.Write "ti=ti-1;"
-	Response.Write "var timemsg=document.getElementById(""timemsg"");timemsg.innerHTML = ti+"""&ZC_MSG251&""";"
-	Response.Write "if (ti>=0){window.setTimeout(""timer()"", 1000);}else{if (ti<=-1000)"
-	Response.Write "{ti=AutoSaveTime;timer();}else{timemsg.innerHTML = """&ZC_MSG250&"..."";savedraft"
-	Response.Write "();ti=AutoSaveTime;timer();}} }"
-	Response.Write "window.setTimeout(""timer()"", 0);"
-	Response.Write "    function getHTTPObject() {"
-	Response.Write "	var xmlhttprequest=false; "
-	Response.Write "    try {"
-	Response.Write "	  xmlhttprequest = new XMLHttpRequest();"
-	Response.Write "	} catch (trymicrosoft) {"
-	Response.Write "	  try {"
-	Response.Write "		xmlhttprequest = new ActiveXObject(""Msxml2.XMLHTTP"");"
-	Response.Write "	  } catch (othermicrosoft) {"
-	Response.Write "		try {"
-	Response.Write "		  xmlhttprequest = new ActiveXObject(""Microsoft.XMLHTTP"");"
-	Response.Write "		} catch (failed) {"
-	Response.Write "		  xmlhttprequest = false;"
-	Response.Write "		}"
-	Response.Write "	  }"
-	Response.Write "	}"
-	Response.Write "	return xmlhttprequest;"
-	Response.Write "    }"
+%>
+var autosave = {
+    file: {
+        name: "<%=ZC_AUTOSAVE_FILENAME%>",
+        modified: "<%=ZC_AUTOSAVE_FILEMODIFIED%>",
+
+    },
+    time: {
+        max: 60,
+        remain: 60
+
+    },
+    api: {
+        "getContent": function() {
+            return editor.getContent()
+
+        }
+        ,
+        "setContent": function(data) {
+            return editor.setContent(data)
+
+        }
+
+    },
+    elements: {
+        msg: $("#msg"),
+        time: $("#timemsg"),
+
+
+    },
+    save: function() {
+        if (autosave.api.getContent() == "") {
+            autosave.elements.msg.html("<%=ZC_MSG256%>");
+            return false
+        }
+        $.post("c_autosaverjs.asp?act=save", {
+            title: $("#edtTitle").val(),
+            alias: $("#edtAlias").val(),
+            tag: $("#edtTag").val(),
+            cate: $("#cmbCate").val(),
+            content: autosave.api.getContent()
+
+        },
+        function(data) {
+            var m = eval("(" + data + ")");
+            console.log(m)
+            autosave.elements.msg.html(m.result);
+            autosave.file.name = m.file.name;
+            autosave.file.modified = m.file.modified;
+
+        })
+
+    },
+    restore: function() {
+        $.get("c_autosaverjs.asp", {
+            act: "restore"
+        },
+        function(data) {
+            var m = eval("(" + data + ")");
+            if (m.success) {
+                $("#edtTitle").val(m.title);
+                $("#edtAlias").val(m.alias);
+                $("#edtTag").val(m.tag);
+                $("#cmbCate").val(m.cate);
+                autosave.api.setContent(m.content);
+
+            }
+
+        });
+
+    },
+    view: function() {
+        var r = Math.floor(Math.random() * 100);
+        var o = "<div id='autosave_get" + r + "'><p>数据获取中</p></div>";
+        $("#divMain2").append(o);
+        var k = $("#autosave_get" + r).dialog({
+            title: "预览",
+            modal: true
+
+        });
+        $.get("c_autosaverjs.asp", {
+            act: "restore"
+        },
+        function(data) {
+            var m = eval("(" + data + ")"),
+            s = "";
+            s += "<p><span style='font-weight:bold'>标题：</span>" + m.title + "</p>";
+            s += "<p><span style='font-weight:bold'>别名：</span>" + m.alias + "</p>";
+            s += "<p><span style='font-weight:bold'>Tags：</span>" + m.tag + "</p>";
+            s += "<p><span style='font-weight:bold'>分类ID：</span>" + m.cate + "</p>";
+            s += "<p><a href='javascript:;' onclick='autosave.runcode(" + r + ")'><span style='font-weight:bold'>内容：</span></a><div id='autosave_content" + r + "'>" + m.content + "</div></p>";
+            k.html(s)
+
+        });
+
+    },
+    timer: function() {
+        autosave.time.remain--;
+        autosave.elements.time.html(autosave.time.remain + "秒后自动保存");
+        if (autosave.time.remain >= 0) {
+            window.setTimeout("autosave.timer()", 1000);
+
+        } else {
+            if (autosave.time.remain <= -1000) {
+                autosave.time.remain = autosave.time.max;
+                autosave.timer();
+
+            } else {
+                autosave.elements.time.html("正在保存...");
+                autosave.save();
+                autosave.time.remain = autosave.time.max;
+                autosave.timer();
+
+            }
+
+        }
+
+    },
+    runcode: function(obj) {
+        var winname = window.open('', "_blank", '');
+        winname.document.open('text/html', 'replace');
+        winname.opener = null;
+        winname.document.write($('#autosave_content' + obj).html());
+        winname.document.close();
+
+    },
+    del: function() {
+        $.get("c_autosaverjs.asp?act=del");
+        autosave.file.name = "";
+        autosave.file.modified = "";
+        autosave.elements.msg.html("删除完毕")
+
+    }
+
+}
+
+$(document).ready(function() {
+    document.getElementById("msg2").innerHTML = "&nbsp;&nbsp;<a href='javascript:try{autosave.view()}catch(e){};' style='cursor:hand;'>[查看]</a>&nbsp;&nbsp;<a href='javascript:try{if(confirm(\"这将覆盖你原有的内容！继续？\")){autosave.restore()}}catch(e){};' style='cursor:hand;'>[恢复]</a>&nbsp;&nbsp;<a href='javascript:try{autosave.save()}catch(e){};' style='cursor:hand;'>[保存]</a>&nbsp;&nbsp;<a href='javascript:try{autosave.del()}catch(e){};' style='cursor:hand;'>[删除]</a>";
+    < %If ZC_AUTOSAVE_FILEMODIFIED < >Now Then Response.Write "document.getElementById('msg').innerHTML='检测到" & ZC_AUTOSAVE_FILEMODIFIED & "备份的数据还未使用！'" % >
+    autosave.timer();
+    $("#edit").submit(function() {
+        autosave.del()
+    })
+
+});
+
+<%
 End Function
 
 Call System_Terminate()
