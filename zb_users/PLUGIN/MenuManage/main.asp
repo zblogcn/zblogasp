@@ -59,14 +59,14 @@ Call MenuManage.page.top()
 <script type="text/javascript" language-"javscript">
 $(document).ready(function() {
 	/*$("#tree ul li");*/
-	$("#tree ul").sortable({stop:function(){
+	$("#leftmenu").sortable({stop:function(){
 		var s="";
-		$("._li a").each(function(index,element){
+		$("#leftmenu li a").each(function(index,element){
 			s+=$(element).attr("id")+"|"
 		});
 		$.post("main.asp?act=savebar",{"bar":s.substr(0,s.length-1)});
 	}}).disableSelection();
-	$("._li a").click(function(e,o){
+	$("#leftmenu li a").click(function(e,o){
 	});
 	
 
