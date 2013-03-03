@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Created with JetBrains PhpStorm.
  * User: taoqili
  * Date: 12-6-12
@@ -449,7 +449,8 @@ UE.I18N['zh-cn'] = {
         xlzm:"希腊字母",
         ewzm:"俄文字符",
         pyzm:"拼音字母",
-        zyzf:"注音及其他"
+        zyzf:"注音及其他",
+        zfha:"字符画"
     },
     'edittable':{
         'static':{
