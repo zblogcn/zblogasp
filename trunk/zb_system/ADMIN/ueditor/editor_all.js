@@ -6704,45 +6704,6 @@ UE.plugins['blockquote'] = function(){
 };
 
 
-///import core
-///commands 大小写转换
-///commandsName touppercase,tolowercase
-///commandsTitle  大写,小写
-/**
- * 大小写转换
- * @function
- * @name baidu.editor.execCommands
- * @param    {String}    cmdName     cmdName="convertcase"
- */
-UE.commands['touppercase'] =
-UE.commands['tolowercase'] = {
-    execCommand:function (cmd) {
-        var me = this;
-        var rng = me.selection.getRange();
-        if(rng.collapsed){
-            return rng;
-        }
-        var bk = rng.createBookmark(),
-            bkEnd = bk.end,
-            filterFn = function( node ) {
-                return !domUtils.isBr(node) && !domUtils.isWhitespace( node );
-            },
-            curNode = domUtils.getNextDomNode( bk.start, false, filterFn );
-        while ( curNode && (domUtils.getPosition( curNode, bkEnd ) & domUtils.POSITION_PRECEDING) ) {
-
-            if ( curNode.nodeType == 3 ) {
-                curNode.nodeValue = curNode.nodeValue[cmd == 'touppercase' ? 'toUpperCase' : 'toLowerCase']();
-            }
-            curNode = domUtils.getNextDomNode( curNode, true, filterFn );
-            if(curNode === bkEnd){
-                break;
-            }
-
-        }
-        rng.moveToBookmark(bk).select();
-    }
-};
-
 
 ///import core
 ///import plugins\paragraph.js
@@ -7192,36 +7153,6 @@ UE.commands['horizontal'] = {
         return domUtils.filterNodeList(this.selection.getStartElementPath(),'table') ? -1 : 0;
     }
 };
-
-///import core
-///import plugins\inserthtml.js
-///commands 日期,时间
-///commandsName  Date,Time
-///commandsTitle  日期,时间
-/**
- * 插入日期
- * @function
- * @name baidu.editor.execCommand
- * @param   {String}   cmdName    date插入日期
- * @author zhuwenxuan
-*/
-/**
- * 插入时间
- * @function
- * @name baidu.editor.execCommand
- * @param   {String}   cmdName    time插入时间
- * @author zhuwenxuan
-*/
-UE.commands['time'] = UE.commands["date"] = {
-    execCommand : function(cmd){
-        var date = new Date;
-        this.execCommand('insertHtml',cmd == "time" ?
-            (date.getHours()+":"+ (date.getMinutes()<10 ? "0"+date.getMinutes() : date.getMinutes())+":"+(date.getSeconds()<10 ? "0"+date.getSeconds() : date.getSeconds())) :
-            (date.getFullYear()+"-"+((date.getMonth()+1)<10 ? "0"+(date.getMonth()+1) : date.getMonth()+1)+"-"+(date.getDate()<10?"0"+date.getDate():date.getDate())));
-    }
-};
-
-
 
 
 ///import core
@@ -15320,45 +15251,6 @@ UE.plugins['webapp'] = function () {
     };
 };
 
-///import core
-///import plugins\inserthtml.js
-///import plugins\cleardoc.js
-///commands 模板
-///commandsName  template
-///commandsTitle  模板
-///commandsDialog  dialogs\template
-UE.plugins['template'] = function () {
-    UE.commands['template'] = {
-        execCommand:function (cmd, obj) {
-            obj.html && this.execCommand("inserthtml", obj.html);
-        }
-    };
-    this.addListener("click", function (type, evt) {
-        var el = evt.target || evt.srcElement,
-            range = this.selection.getRange();
-        var tnode = domUtils.findParent(el, function (node) {
-            if (node.className && domUtils.hasClass(node, "ue_t")) {
-                return node;
-            }
-        }, true);
-        tnode && range.selectNode(tnode).shrinkBoundary().select();
-    });
-    this.addListener("keydown", function (type, evt) {
-        var range = this.selection.getRange();
-        if (!range.collapsed) {
-            if (!evt.ctrlKey && !evt.metaKey && !evt.shiftKey && !evt.altKey) {
-                var tnode = domUtils.findParent(range.startContainer, function (node) {
-                    if (node.className && domUtils.hasClass(node, "ue_t")) {
-                        return node;
-                    }
-                }, true);
-                if (tnode) {
-                    domUtils.removeClasses(tnode, ["ue_t"]);
-                }
-            }
-        }
-    });
-};
 
 ///import core
 ///import plugins/inserthtml.js
@@ -17524,29 +17416,29 @@ baidu.editor.ui = {};
     };
 
     var iframeUrlMap = {
-        'anchor':'~/dialogs/anchor/anchor.html',
-        'insertimage':'~/dialogs/image/image.html',
-        'link':'~/dialogs/link/link.html',
-        'spechars':'~/dialogs/spechars/spechars.html',
-        'searchreplace':'~/dialogs/searchreplace/searchreplace.html',
-        'map':'~/dialogs/map/map.html',
-        'gmap':'~/dialogs/gmap/gmap.html',
-        'insertvideo':'~/dialogs/video/video.html',
-        'help':'~/dialogs/help/help.html',
-        'highlightcode':'~/dialogs/highlightcode/highlightcode.html',
-        'emotion':'~/dialogs/emotion/emotion.html',
-        'wordimage':'~/dialogs/wordimage/wordimage.html',
+        'anchor':'~/dialogs/anchor/anchor.asp',
+        'insertimage':'~/dialogs/image/image.asp',
+        'link':'~/dialogs/link/link.asp',
+        'spechars':'~/dialogs/spechars/spechars.asp',
+        'searchreplace':'~/dialogs/searchreplace/searchreplace.asp',
+        'map':'~/dialogs/map/map.asp',
+        'gmap':'~/dialogs/gmap/gmap.asp',
+        'insertvideo':'~/dialogs/video/video.asp',
+        'help':'~/dialogs/help/help.asp',
+        'highlightcode':'~/dialogs/highlightcode/highlightcode.asp',
+        'emotion':'~/dialogs/emotion/emotion.asp',
+        'wordimage':'~/dialogs/wordimage/wordimage.asp',
         'attachment':'~/dialogs/attachment/attachment.asp',
-        'insertframe':'~/dialogs/insertframe/insertframe.html',
-        'edittip':'~/dialogs/table/edittip.html',
-        'edittable':'~/dialogs/table/edittable.html',
-        'edittd':'~/dialogs/table/edittd.html',
-        'webapp':'~/dialogs/webapp/webapp.html',
-        'snapscreen':'~/dialogs/snapscreen/snapscreen.html',
-        'scrawl':'~/dialogs/scrawl/scrawl.html',
-        'music':'~/dialogs/music/music.html',
-        'template':'~/dialogs/template/template.html',
-        'background':'~/dialogs/background/background.html'
+        'insertframe':'~/dialogs/insertframe/insertframe.asp',
+        'edittip':'~/dialogs/table/edittip.asp',
+        'edittable':'~/dialogs/table/edittable.asp',
+        'edittd':'~/dialogs/table/edittd.asp',
+        'webapp':'~/dialogs/webapp/webapp.asp',
+        'snapscreen':'~/dialogs/snapscreen/snapscreen.asp',
+        'scrawl':'~/dialogs/scrawl/scrawl.asp',
+        'music':'~/dialogs/music/music.asp',
+        'template':'~/dialogs/template/template.asp',
+        'background':'~/dialogs/background/background.asp'
     };
     //为工具栏添加按钮，以下都是统一的按钮触发命令，所以写在一起
     var btnCmds = ['undo', 'redo', 'formatmatch',
