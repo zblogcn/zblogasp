@@ -1409,9 +1409,11 @@ div.edui-box {
 .edui-default .edui-cellalignpicker-body table {
     border-collapse: separate;
     border-spacing: 0;
+	border:0;
 }
 .edui-default .edui-cellalignpicker-body td{
     padding: 1px;
+	border:0;
 }
 .edui-default .edui-cellalignpicker-body .edui-icon{
     height: 20px;
