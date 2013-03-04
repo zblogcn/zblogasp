@@ -57,11 +57,12 @@ strJSON="{'state':'"& objUpload.Error2Info(uEditor_ASPFormName) & "',"  '输出�
 strJSON=strJSON&"'url':'"& objUpload.form(uEditor_ASPFormName&"_Name") &"',"  '输出上传后URL
 strJSON=strJSON&"'fileType':'."&objUpload.form(uEditor_ASPFormName&"_Ext")&"',"  '输出扩展名
 strJSON=strJSON&"'original':'"&objUpload.Form(uEditor_ASPFormName&"_Name")&"'}"  '输出源文件
-Response.write strJSON
-	
+
 For Each sAction_Plugin_uEditor_FileUpload_End in Action_Plugin_uEditor_FileUpload_End
 	If Not IsEmpty(sAction_Plugin_uEditor_FileUpload_End) Then Call Execute(sAction_Plugin_uEditor_FileUpload_End)
 Next
+
+Response.write strJSON
 
 set upload=nothing
 Call System_Terminate()
