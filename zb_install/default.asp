@@ -17,7 +17,8 @@
 
 Dim username,password,userguid
 Dim dbtype,dbpath,dbserver,dbname,dbusername,dbpassword
-Dim Checked123(3,7,2),strErrorMsg
+Dim Checked123(3,7,2),strErrorMsg,bolError
+bolError=False
 strErrorMsg=""
 
 Dim zblogstep
@@ -197,22 +198,26 @@ End Function
 
 Function Setup2()
 %>
+<%CheckServer%>
 <dl>
 <dd id="ddleft">
 <img src="../zb_system/image/admin/install.png" alt="Z-Blog2.0在线安装" />
 <div class="left">安装进度： </div><div id="setup2"  class="left"></div>
 <p><b>安装协议</b> » <b>环境检查</b> » 数据库建立与设置 » 安装结果</p>
+<p>错误信息：<ul>
+<%=IIf(strErrorMsg="","<li>恭喜，全部测试通过</li>",strErrorMsg)%>
+</ul></p>
 </dd>
 <dd id="ddright">
 <div id="title">环境检查</div>
 <div id="content">
-<%CheckServer%>
+
 <table border="0" style="width:100%;">
   <tr>
     <th colspan="3" scope="row">服务器环境检查</th>
   </tr>
   <tr>
-    <td scope="row">IIS版本</td>
+    <td scope="row">HTTP服务器</td>
     <td style="text-align:center"><%=Checked123(0,0,0)%></td>
     <td style="text-align:center"><%=Checked123(0,0,1)%></td>
   </tr>
@@ -319,49 +324,37 @@ Function Setup2()
 </table>
 
 
-    
+
 </div>
 <div id="bottom">
-<div id="dialog-message" title="错误提示">
+
+<script type="text/javascript">bmx2table();</script>
 
 </div>
-<script type="text/javascript">bmx2table();function showDialog(){$(function() {$("#dialog-message").dialog({modal: true,buttons: {确定: function() {$(this).dialog("close");}}});});}</script>
 <%
-
-If InStr(strErrorMsg,"{0}") Then
-	Response.Write "<script>$('#dialog-message').html($('#dialog-message').html()+'不要使用IIS以外的服务器运行Z-Blog，也不要把Z-Blog放置到中文文件夹下。<br/>')</script>"
-End If
-If InStr(strErrorMsg,"{1}") Then
-	Response.Write "<script>$('#dialog-message').html($('#dialog-message').html()+'请检查服务器是否未安装或注销了某个组件。<br/>')</script>"
-End If
-If InStr(strErrorMsg,"{2}") Then
-	Response.Write "<script>$('#dialog-message').html($('#dialog-message').html()+'请检查Users用户组是否有Z-Blog运行目录的全部权限。<br/>')</script>"
-End If
-If InStr(strErrorMsg,"{3}") Then
-	Response.Write "<script>$('#dialog-message').html($('#dialog-message').html()+'如果您准备使用MSSQL，可以忽略此条警告。否则请确认您的IIS是否运行于32位模式下，临时文件夹是否有权限。<br/>');</script>"
-End If
-If strErrorMsg="" Or strErrorMsg="{3}" Then
-	Response.Write "<input type=""submit"" name=""next"" id=""netx"" value=""下一步"" />"
-End If
-If strErrorMsg<>"" Then
-	Response.Write "<script>showDialog()</script>"
+If Not bolError Then
+%>
+<input type="submit" name="next" id="netx" value="下一步" />
+<%
 End If
 %>
-</div>
 </dd>
 </dl>
-<%
 
+<%
 End Function
 
-
+Sub ExportError(strData,bError)
+	strErrorMsg=strErrorMsg& "<li>"&strData&"</li>"
+	If bError=True Then bolError=True
+End Sub
 
 Function CheckServer()
 	'On Error Resume Next
 	Dim a,b
 	Dim Pass,strTemp,strDesc
 	For a=0 To 3
-		For b=0 To 6
+		For b=0 To 7
 			Select Case a
 				Case 0
 					Select Case b
@@ -370,14 +363,18 @@ Function CheckServer()
 							Checked123(a,b,0)=strTemp
 							If InStr(LCase(strTemp),"iis") Then
 								Checked123(a,b,2)=True
+							Else
+								Call ExportError("您不是IIS的用户",False)
 							End If
 						Case 1
-							Checked123(a,b,2)=IIf(vbsunescape("Z-Blog")="Z-Blog",True,False)
+							Checked123(a,b,2)=IIf(vbsunescape("Z-Blog")<>"Z-Blog",False,True)
 							Checked123(a,b,0)="需要服务端支持VBScript和JavaScript"
+							If Not Checked123(a,b,2) Then Call ExportError("服务软件不支持Microsoft JScript",True)
 						Case 2
 							Checked123(a,b,0)=Request.ServerVariables("PATH_TRANSLATED")
 							Checked123(a,b,2)=Not(CheckRegExp(Request.ServerVariables("PATH_TRANSLATED"),"[^\x00-\xff]"))
-						Case 3,4,5,6 Checked123(a,b,2)=True
+							If Not Checked123(a,b,2) Then Call ExportError("Z-Blog不允许放在中文文件夹下",True)
+						Case 3,4,5,6,7 Checked123(a,b,2)=True
 					End Select
 				Case 1
 				
@@ -390,29 +387,42 @@ Function CheckServer()
 						Case 5 strTemp="MSXML2.ServerXMLHTTP":strDesc="用于公告、应用中心"
 						Case 6 strTemp="Microsoft.XMLDOM":strDesc="用于XML操作"
 					End Select
-					Checked123(a,b,2)=IsObjInstalled(strTemp)
+					Checked123(a,b,2)=IIf(b<=6,IsObjInstalled(strTemp),True)
 					Checked123(a,b,0)=strDesc
+					If Not Checked123(a,b,2) Then
+						Call ExportError("Z-Blog使用必备基础组件未注册",True)
+					End If
 				Case 2
 					If Checked123(1,3,2) And Checked123(1,0,2) And Checked123(0,2,2) Then
-						
 						Select Case b
 							Case 0
 								Call CheckVrs("zb_users","Folder",Checked123,a,b)
+'								Checked123(a,b,0)="用户文件夹"
 							Case 1
 								Call CheckVrs("zb_users\cache","Folder",Checked123,a,b)
+'								Checked123(a,b,0)="缓存文件夹"
 							Case 2
 								Call CheckVrs("zb_users\data","Folder",Checked123,a,b)
+'								Checked123(a,b,0)="Access文件夹"
 							Case 3
 								Call CheckVrs("zb_users\include","Folder",Checked123,a,b)
+'								Checked123(a,b,0)="引用文件夹"
 							Case 4
 								Call CheckVrs("zb_users\theme","Folder",Checked123,a,b)
+'								Checked123(a,b,0)="模板文件夹"
 							Case 5
 								Call CheckVrs("zb_users\plugin","Folder",Checked123,a,b)
+'								Checked123(a,b,0)="插件文件夹"
 							Case 6
 								Call CheckVrs("zb_users\upload","Folder",Checked123,a,b)
+'								Checked123(a,b,0)="上传文件夹"
 							Case 7
 								Call CheckVrs("zb_users\c_option.asp","File",Checked123,a,b)
+'								Checked123(a,b,0)="系统配置"
 						End Select
+						If Not Checked123(a,b,2) Then
+							Call ExportError(Checked123(a,b,0),True)
+						End If
 					Else
 						Checked123(a,b,2)=False
 					End If
@@ -423,9 +433,15 @@ Function CheckServer()
 						Dim strConnection
 						strConnection="Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & BlogPath & ZC_DATABASE_PATH
 						Checked123(a,b,0)=strConnection
-						If OpenConnect Then Checked123(a,b,2)=True
+						If OpenConnect Then
+							Checked123(a,b,2)=True
+							CloseConnect
+						End If
 					Else
 						Checked123(a,b,2)=True
+					End If
+					If Not Checked123(a,b,2) Then
+						Call ExportError("IIS可能不运行于32位模式下，无法使用Access数据库",False)
 					End If
 					
 			End Select
@@ -433,7 +449,6 @@ Function CheckServer()
 				Checked123(a,b,1)="<span class=""bingo""></span>"
 			Else
 				Checked123(a,b,1)="<span class=""error""></span>"
-				strErrorMsg=strErrorMsg & "{" & a & "}"
 			End If
 		Next
 	Next
@@ -443,13 +458,23 @@ End Function
 
 
 Function CheckVrs(ByVal Path,ByVal Method,ByRef ary,ByVal itemA,ByVal itemB)
-	Dim objFSO,sSub,sSubsSub
+	Dim objFSO,sSub,strData
 	ary(itemA,itemB,2)=False
 	Set objFSO=Server.CreateObject("Scripting.FileSystemObject")
 	If Method="File" Then 
 		If objFSO.FileExists(BlogPath & Path) Then
-			Set sSub=objFSO.GetFile(BlogPath & Path)
-			'此处逻辑未写，关机
+			strData=LoadFromFile(BlogPath & Path,"utf-8")
+			If strData<>"" Then
+				Call SaveToFile(BlogPath & Path,strData & "Hello Z-Blog(test)","utf-8",False)
+				If InStr(LoadFromFile(BlogPath & Path,"utf-8"),"Hello Z-Blog(test)")>0 Then
+					Call SaveToFile(BlogPath & Path,strData,"utf-8",False)
+					ary(itemA,itemB,2)=True
+				Else
+					ary(itemA,itemB,0)="没有覆盖文件的权限"
+				End If
+			Else
+				ary(itemA,itemB,0)="没有读取文件的权限"
+			End If
 		Else
 			ary(itemA,itemB,0)="文件不存在，请检查是否上传完整"
 		End If	
@@ -494,6 +519,7 @@ Function CheckVrs(ByVal Path,ByVal Method,ByRef ary,ByVal itemA,ByVal itemB)
 			ary(itemA,itemB,0)="文件夹不存在，请检查是否上传完整"
 		End If	
 	End If
+	ary(itemA,itemB,0)=BlogPath & Path & ary(itemA,itemB,0)
 	CheckVrs=True
 End Function
 
