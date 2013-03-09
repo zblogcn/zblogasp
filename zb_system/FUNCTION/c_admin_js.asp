@@ -43,7 +43,7 @@ If f<>"" Then
 				'ajax tags
 				Response.Write "$(""#ajaxtags"").html("""
 				Dim objRS
-				Set objRS=objConn.Execute("SELECT TOP 50 [tag_ID],[tag_Name] FROM [blog_Tag] ORDER BY [tag_Count] DESC")
+				Set objRS=objConn.Execute("SELECT TOP 50 [tag_ID],[tag_Name] FROM [blog_Tag] ORDER BY [tag_Count] DESC,[tag_ID] ASC")
 				If (Not objRS.bof) And (Not objRS.eof) Then
 					Do While Not objRS.eof
 						Response.Write "<a href='#'>"& TransferHTML(objRS("tag_Name"),"[html-format]") &"</a> "
