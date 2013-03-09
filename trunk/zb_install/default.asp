@@ -5,7 +5,7 @@
 '///////////////////////////////////////////////////////////////////////////////
 %>
 <% Option Explicit %>
-<% On Error Resume Next %>
+<% 'On Error Resume Next %>
 <% Response.Charset="UTF-8" %>
 <% Response.Buffer=True %>
 <!-- #include file="../zb_users/c_option.asp" -->
@@ -17,8 +17,8 @@
 
 Dim username,password,userguid
 Dim dbtype,dbpath,dbserver,dbname,dbusername,dbpassword
-Dim Checked123(3,6,2),CanInstall
-CanInstall=""
+Dim Checked123(3,7,2),strErrorMsg
+strErrorMsg=""
 
 Dim zblogstep
 zblogstep=Request.QueryString("step")
@@ -268,42 +268,47 @@ Function Setup2()
     <th colspan="3" scope="row">权限检查</th>
   </tr>
   <tr>
-    <td scope="row">创建文件夹</td>
+    <td scope="row">zb_users</td>
     <td style="text-align:center"><%=Checked123(2,0,0)%></td>
     <td style="text-align:center"><%=Checked123(2,0,1)%></td>
   </tr>
   <tr>
-    <td scope="row">读取文件</td>
+    <td scope="row">zb_users\cache</td>
     <td style="text-align:center"><%=Checked123(2,1,0)%></td>
     <td style="text-align:center"><%=Checked123(2,1,1)%></td>
   </tr>
   <tr>
-    <td scope="row">创建文件</td>
+    <td scope="row">zb_users\data</td>
     <td style="text-align:center"><%=Checked123(2,2,0)%></td>
     <td style="text-align:center"><%=Checked123(2,2,1)%></td>
   </tr>
   <tr>
-    <td scope="row">编辑文件</td>
+    <td scope="row">zb_users\include</td>
     <td style="text-align:center"><%=Checked123(2,3,0)%></td>
     <td style="text-align:center"><%=Checked123(2,3,1)%></td>
   </tr>
   <tr>
-    <td scope="row">重命名文件</td>
+    <td scope="row">zb_users\theme</td>
     <td style="text-align:center"><%=Checked123(2,4,0)%></td>
     <td style="text-align:center"><%=Checked123(2,4,1)%></td>
   </tr>
   <tr>
-    <td scope="row">删除文件</td>
+    <td scope="row">zb_users\plugin</td>
     <td style="text-align:center"><%=Checked123(2,5,0)%></td>
     <td style="text-align:center"><%=Checked123(2,5,1)%></td>
   </tr>
   <tr>
-    <td scope="row">删除文件夹</td>
+    <td scope="row">zb_users\upload</td>
     <td style="text-align:center"><%=Checked123(2,6,0)%></td>
     <td style="text-align:center"><%=Checked123(2,6,1)%></td>
   </tr>
   <tr>
-    <td colspan="3" scope="row">数据库连接检查</th>
+    <td scope="row">zb_users\c_option.asp</td>
+    <td style="text-align:center"><%=Checked123(2,7,0)%></td>
+    <td style="text-align:center"><%=Checked123(2,7,1)%></td>
+  </tr>
+  <tr>
+    <th colspan="3" scope="row">数据库连接检查</th>
   </tr>
   <tr>
     <td scope="row">可连接Access</td>
@@ -323,22 +328,22 @@ Function Setup2()
 <script type="text/javascript">bmx2table();function showDialog(){$(function() {$("#dialog-message").dialog({modal: true,buttons: {确定: function() {$(this).dialog("close");}}});});}</script>
 <%
 
-If InStr(CanInstall,"{0}") Then
+If InStr(strErrorMsg,"{0}") Then
 	Response.Write "<script>$('#dialog-message').html($('#dialog-message').html()+'不要使用IIS以外的服务器运行Z-Blog，也不要把Z-Blog放置到中文文件夹下。<br/>')</script>"
 End If
-If InStr(CanInstall,"{1}") Then
+If InStr(strErrorMsg,"{1}") Then
 	Response.Write "<script>$('#dialog-message').html($('#dialog-message').html()+'请检查服务器是否未安装或注销了某个组件。<br/>')</script>"
 End If
-If InStr(CanInstall,"{2}") Then
+If InStr(strErrorMsg,"{2}") Then
 	Response.Write "<script>$('#dialog-message').html($('#dialog-message').html()+'请检查Users用户组是否有Z-Blog运行目录的全部权限。<br/>')</script>"
 End If
-If InStr(CanInstall,"{3}") Then
+If InStr(strErrorMsg,"{3}") Then
 	Response.Write "<script>$('#dialog-message').html($('#dialog-message').html()+'如果您准备使用MSSQL，可以忽略此条警告。否则请确认您的IIS是否运行于32位模式下，临时文件夹是否有权限。<br/>');</script>"
 End If
-If CanInstall="" Or CanInstall="{3}" Then
+If strErrorMsg="" Or strErrorMsg="{3}" Then
 	Response.Write "<input type=""submit"" name=""next"" id=""netx"" value=""下一步"" />"
 End If
-If CanInstall<>"" Then
+If strErrorMsg<>"" Then
 	Response.Write "<script>showDialog()</script>"
 End If
 %>
@@ -352,7 +357,7 @@ End Function
 
 
 Function CheckServer()
-	On Error Resume Next
+	'On Error Resume Next
 	Dim a,b
 	Dim Pass,strTemp,strDesc
 	For a=0 To 3
@@ -392,25 +397,21 @@ Function CheckServer()
 						
 						Select Case b
 							Case 0
-								Call CreateObject("scripting.filesystemobject").CreateFolder(BlogPath & "\zb_users\testfolder")
-								Checked123(a,b,2)=IIf(Err.Number<>0,False,True)
+								Call CheckVrs("zb_users","Folder",Checked123,a,b)
 							Case 1
-								Checked123(a,b,2)=IIf(LoadFromFile(Server.MapPath("default.asp"),"utf-8")="",False,True)
+								Call CheckVrs("zb_users\cache","Folder",Checked123,a,b)
 							Case 2
-								Call SaveToFile(BlogPath & "\zb_users\testfolder\test.html","Hello Z-Blog","utf-8",False)
-								Checked123(a,b,2)=CreateObject("scripting.filesystemobject").FileExists(BlogPath & "\zb_users\testfolder\test.html")
+								Call CheckVrs("zb_users\data","Folder",Checked123,a,b)
 							Case 3
-								Call SaveToFile(BlogPath & "\zb_users\testfolder\test.html","Edit testfile","utf-8",False)
-								If LoadFromFile(BlogPath & "\zb_users\testfolder\test.html","utf-8")="Edit testfile" Then Checked123(a,b,2)=True
+								Call CheckVrs("zb_users\include","Folder",Checked123,a,b)
 							Case 4
-								Call CreateObject("scripting.filesystemobject").MoveFile(BlogPath & "\zb_users\testfolder\test.html",BlogPath & "\zb_users\testfolder\zblog.html")
-								Checked123(a,b,2)=IIf(Err.Number<>0,False,True)
+								Call CheckVrs("zb_users\theme","Folder",Checked123,a,b)
 							Case 5
-								Call CreateObject("scripting.filesystemobject").GetFile(BlogPath & "\zb_users\testfolder\zblog.html").Delete
-								Checked123(a,b,2)=IIf(Err.Number<>0,False,True)
+								Call CheckVrs("zb_users\plugin","Folder",Checked123,a,b)
 							Case 6
-								Call CreateObject("scripting.filesystemobject").GetFolder(BlogPath & "\zb_users\testfolder").Delete
-								Checked123(a,b,2)=IIf(Err.Number<>0,False,True)
+								Call CheckVrs("zb_users\upload","Folder",Checked123,a,b)
+							Case 7
+								Call CheckVrs("zb_users\c_option.asp","File",Checked123,a,b)
 						End Select
 					Else
 						Checked123(a,b,2)=False
@@ -432,7 +433,7 @@ Function CheckServer()
 				Checked123(a,b,1)="<span class=""bingo""></span>"
 			Else
 				Checked123(a,b,1)="<span class=""error""></span>"
-				CanInstall=CanInstall & "{" & a & "}"
+				strErrorMsg=strErrorMsg & "{" & a & "}"
 			End If
 		Next
 	Next
@@ -441,7 +442,60 @@ End Function
 
 
 
-
+Function CheckVrs(ByVal Path,ByVal Method,ByRef ary,ByVal itemA,ByVal itemB)
+	Dim objFSO,sSub,sSubsSub
+	ary(itemA,itemB,2)=False
+	Set objFSO=Server.CreateObject("Scripting.FileSystemObject")
+	If Method="File" Then 
+		If objFSO.FileExists(BlogPath & Path) Then
+			Set sSub=objFSO.GetFile(BlogPath & Path)
+			'此处逻辑未写，关机
+		Else
+			ary(itemA,itemB,0)="文件不存在，请检查是否上传完整"
+		End If	
+	Else
+		If objFSO.FolderExists(BlogPath & Path) Then
+			On Error Resume Next
+			If objFSO.FolderExists(BlogPath & Path& "\testfolder") Then
+				Call objFSO.DeleteFolder(BlogPath & Path & "\testfolder")
+			End If
+			Err.Clear
+			Call objFSO.CreateFolder(BlogPath & Path & "\testfolder")
+			If Err.Number=0 Then
+				Call SaveToFile(BlogPath & Path & "\testfolder\test.html","Hello Z-Blog","utf-8",False)
+				If objFSO.FileExists(BlogPath & Path & "\testfolder\test.html") Then
+					If LoadFromFile(BlogPath & Path & "\testfolder\test.html","utf-8")="Hello Z-Blog" Then
+						Call SaveToFile(BlogPath & Path & "\testfolder\test.html","Hello Z-Blog(test)","utf-8",False)
+						If LoadFromFile(BlogPath & Path & "\testfolder\test.html","utf-8")="Hello Z-Blog(test)" Then
+							Call objFSO.DeleteFile(BlogPath & Path & "\testfolder\test.html")
+							If Err.Number=0 Then
+								Call objFSO.DeleteFolder(BlogPath & Path & "\testfolder")
+								If Err.Number=0 Then
+									ary(itemA,itemB,2)=True
+								Else
+									ary(itemA,itemB,0)="没有删除文件夹的权限"
+								End If
+							Else
+								ary(itemA,itemB,0)="没有删除文件的权限"
+							End If
+						Else
+							ary(itemA,itemB,0)="没有覆盖文件的权限"
+						End If
+					Else
+						ary(itemA,itemB,0)="没有读取文件的权限"
+					End If
+				Else
+					ary(itemA,itemB,0)="没有创建文件的权限"
+				End If
+			Else
+				ary(itemA,itemB,0)="没有创建文件夹的权限"
+			End If
+		Else
+			ary(itemA,itemB,0)="文件夹不存在，请检查是否上传完整"
+		End If	
+	End If
+	CheckVrs=True
+End Function
 
 
 
