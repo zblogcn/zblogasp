@@ -48,7 +48,7 @@ If zblogstep="" Then zblogstep=1
     
 </head>
 <body>
-  <div class="setup"><form method="post" action="?step=<%=zblogstep+1%>">
+  <div class="setup"><form method="post" action="default.asp?step=<%=zblogstep+1%>">
 <%
 
 Select Case zblogstep
@@ -142,13 +142,13 @@ Function Setup1()
   <textarea readonly>
 Z-Blog  最终用户授权协议 
 
-感谢您选择Z-Blog。 Z-Blog基于 ASP+Access和MSSQL 的技术开发，全部源码开放。希望我们的努力能为您提供一个高效快速、强大的站点解决方案。
+感谢您选择Z-Blog。 Z-Blog基于 ASP 的技术开发，采用Microsoft Access 和 Microsoft SQL Server作为数据库，全部源码开放。希望我们的努力能为您提供一个高效快速、强大的站点解决方案。
 
 Z-Blog官方网址：http://www.rainbowsoft.org
 
 为了使您正确并合法的使用本软件，请您在使用前务必阅读清楚下面的协议条款： 
 
-一、本授权协议适用且仅适用于 Z-Blog 2.0 版本，Rainbow Studio官方对本授权协议拥有最终解释权。
+一、本授权协议适用且仅适用于 Z-Blog 2.2 版本，Rainbow Studio官方对本授权协议拥有最终解释权。
 
 二、协议许可的权利
 
@@ -361,14 +361,19 @@ Function CheckServer()
 						Case 0
 							strTemp=Request.ServerVariables("SERVER_SOFTWARE")
 							Checked123(a,b,0)=strTemp
-							If InStr(LCase(strTemp),"iis") Then
+							strTemp=LCase(StrTemp)
+							If CheckRegExp(strTemp,"iis") Then 'IIS
 								Checked123(a,b,2)=True
+							ElseIf CheckRegExp(strTemp,"kangle") Then 'Kangle
+								Call ExportError("Kangle下运行Z-Blog可能有未知问题，建议在IIS下使用",False)
+							ElseIf CheckRegExp(strTemp,"apache|win32") Then 'Apache + SeilSoft AHTML
+								Call ExportError("Apache下运行Z-Blog可能有未知问题，建议在IIS下使用",False)
 							Else
-								Call ExportError("您不是IIS的用户",False)
+								Call ExportError("非IIS可能有未知问题，建议在IIS下使用",False)
 							End If
 						Case 1
 							Checked123(a,b,2)=IIf(vbsunescape("Z-Blog")<>"Z-Blog",False,True)
-							Checked123(a,b,0)="需要服务端支持VBScript和JavaScript"
+							Checked123(a,b,0)="需要服务端同时支持支持Microsoft VBScript和Microsoft JScript"
 							If Not Checked123(a,b,2) Then Call ExportError("服务软件不支持Microsoft JScript",True)
 						Case 2
 							Checked123(a,b,0)=Request.ServerVariables("PATH_TRANSLATED")
@@ -441,7 +446,7 @@ Function CheckServer()
 						Checked123(a,b,2)=True
 					End If
 					If Not Checked123(a,b,2) Then
-						Call ExportError("IIS可能不运行于32位模式下，无法使用Access数据库",False)
+						Call ExportError("IIS可能不运行于32位模式下，无法使用Access数据库。若您准备使用MSSQL数据库，可无视本条错误提示。",False)
 					End If
 					
 			End Select
