@@ -1,0 +1,21 @@
+﻿<div class="ds-replybox" style="display: block;">
+	<form id="frmSumbit" target="_self" method="post" action="<#article/commentposturl#>">
+		<input type="hidden" name="inpId" id="inpId" value="<#article/id#>" />
+		<input type="hidden" name="inpArticle" id="inpArticle" value="" />
+		<input type="hidden" name="inpLocation" id="inpLocation" value="" />
+
+		<div class="ds-textarea-wrapper ds-rounded-top">
+			<textarea name="message" title="说点什么吧…" name="txaArticle" id="txaArticle" onchange="GetActiveText(this.id);" onclick="GetActiveText(this.id);" onfocus="GetActiveText(this.id);"  tabindex="5" placeholder="说点什么吧…"></textarea><pre class="ds-hidden-text"></pre>
+		</div>
+		<div class="ds-post-toolbar">
+			<div class="ds-post-options ds-gradient-bg"></div>
+			<button class="ds-post-button" type="submit" name="btnSumbit" tabindex="6" onclick="JavaScript:return VerifyMessage()">发布</button>
+			<div class="ds-toolbar-buttons"><input type="checkbox" name="chkRemember" value="true" id="chkRemember" /><label for="chkRemember"><#ZC_MSG049#></label></div>
+		</div>
+		<div class="ds-input"><input type="text" name="inpName" id="inpName" value="" required=""  tabindex="1"><label for="ds-dialog-name"><#ZC_MSG001#>(必填)</label></div>
+		<div class="ds-input"><input type="text" name="inpEmail" id="inpEmail" value="" required=""  tabindex="2"><label for="ds-dialog-email"><#ZC_MSG053#>(可选)</label></div>
+		<div class="ds-input"><input type="text" name="inpHomePage" id="inpHomePage" value="" tabindex="3"><label for="ds-dialog-url"><#ZC_MSG054#></label></div>
+		<#template:article_commentpost-verify#>
+	</form>
+	<script language="JavaScript" type="text/javascript">LoadRememberInfo();</script>
+</div>
