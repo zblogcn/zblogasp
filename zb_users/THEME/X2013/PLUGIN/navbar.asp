@@ -78,51 +78,51 @@ p{line-height:1.5em;padding:0.5em 0;}
                         <a href="#">文章</a>
                         <div>
                            <div class="input-control select">
-                                    <select multiple="1" size="10">
+                                    <select multiple="1" size="10" id="post">
 										<%Response.Write GetContent("Post")%>
                                     </select>
                                 </div>
-								<input type="button" value="添加"/>
+								<input type="button" value="添加" onclick="addsekectpartent('post')"/>
                         </div>
                     </li>
                     <li class="">
                         <a href="#">独立页面</a>
                         <div style="display: none;">
                            <div class="input-control select">
-                                    <select multiple="1" size="8">
+                                    <select multiple="1" size="8" id="page">
 										<%Response.Write GetContent("Page")%>
                                     </select>
                                 </div>
-								<input type="button" value="添加"/>
+								<input type="button" value="添加" onclick="addsekectpartent('page')"/>
                         </div>
                     </li>
                     <li>
                         <a href="#">分类</a>
                         <div>
                             <div class="input-control select">
-                                    <select multiple="1" size="8">
+                                    <select multiple="1" size="8" id="cate">
 										<%Response.Write GetContent("Category")%>
                                     </select>
                                 </div>
-								<input type="button" value="添加"/>
+								<input type="button" value="添加" onclick="addsekectpartent('cate')"/>
                         </div>
                     </li>
 					<li>
                         <a href="#">Tags标签</a>
                         <div>
                             <div class="input-control select">
-                                    <select multiple="1" size="10">
+                                    <select multiple="1" size="10" id="tag">
 										<%Response.Write GetContent("Tags")%>
                                     </select>
                                 </div>
-								<input type="button" value="添加"/>
+								<input type="button" value="添加" onclick="addsekectpartent('tag')"/>
                         </div>
                     </li>
                     <li>
                         <a href="#">自定义链接</a>
                         <div>
                             <div class="input-control text">
-        <input type="url" required="required" placeholder="输入网址" style="width:30%"><input type="text"  required="required" placeholder="输入标题" style="width:20%"><input type="button" value="添加"/>
+        <input type="url" id="addurl" placeholder="输入网址" style="width:50%"><input type="text"  id="addtitle" placeholder="输入标题" style="width:20%"><input type="button" value="添加" onclick="addurlpartent()">
     </div>
                         </div>
                     </li>
@@ -155,16 +155,6 @@ p{line-height:1.5em;padding:0.5em 0;}
 	$(document).ready(function(){
 		$("#connect").sortable();
 		$("#connect").disableSelection();
-		//$("#btn").click(function(){
-		//	
-		//	//var result = $("#connect").sortable("serialize", {
-		//	//	connected: true,
-		//	//	attribute: "att",
-		//	//	key: "att",
-		//	//	expression: /^(?:sort_)(.+)$/
-		//	//});
-		//	//$("#msg").html($("#msg").html() + result + "<br />");
-		//});
 	});
 	function verify(){
 		var result = document.getElementById("connect").innerHTML;
@@ -172,6 +162,36 @@ p{line-height:1.5em;padding:0.5em 0;}
 		document.getElementById("inpContent").value=result;
 		//document.getElementById("form1").action="?act=Save";
 		return true
+	}
+	function addsekectpartent(vartype){
+		var result = document.getElementById("connect").innerHTML;
+
+		if(vartype=="post"){
+			$("#post option:selected").each(function() {
+				result = result+"<li class='menu-item'><a href='"+$(this).val()+"'>"+$(this).text()+"</a></li>";
+			});
+		}else if(vartype=="page"){
+			$("#page option:selected").each(function() {
+				result = result+"<li class='menu-item'><a href='"+$(this).val()+"'>"+$(this).text()+"</a></li>";
+			});
+		}else if(vartype=="cate"){
+			$("#cate option:selected").each(function() {
+				result = result+"<li class='menu-item'><a href='"+$(this).val()+"'>"+$(this).text()+"</a></li>";
+			});
+		}else if(vartype=="tag"){
+			$("#tag option:selected").each(function() {
+				result = result+"<li class='menu-item'><a href='"+$(this).val()+"'>"+$(this).text()+"</a></li>";
+			});
+		}
+		//alert(result);
+		document.getElementById("connect").innerHTML = result;
+	}
+	function addurlpartent(){
+		var addurl = document.getElementById("addurl").value;
+		var addtitle = document.getElementById("addtitle").value;
+		var result = document.getElementById("connect").innerHTML;
+		result = result+"<li class='menu-item'><a href='"+addurl+"'>"+addtitle+"</a></li>";
+		document.getElementById("connect").innerHTML = result;
 	}
 
 </script>	
