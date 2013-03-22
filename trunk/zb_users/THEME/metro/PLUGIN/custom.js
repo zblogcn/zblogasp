@@ -50,16 +50,27 @@ $(document).ready(function(){
 	
 	$( "#layoutset").buttonset();
 
-	//var ueconfig = window.UEDITOR_CONFIG || {};
+	//插入图片
+	var myEditorImage; 
+	var d,e;
+	function upImage() { 
+		d = myEditorImage.getDialog("insertimage"); 
+		d.render(); 
+		d.open(); 
+	} 
+	myEditorImage= new UE.ui.Editor(); 
+	myEditorImage.render('myEditorImage');
+	myEditorImage.ready(function(){ 
+		myEditorImage.setDisabled(); 
+		myEditorImage.hide();
+	 });
 	$( "#updatapic1,#updatapic2").click(function(){
-		this.callbacks = function(obj,win){
-			for(key in obj) {
-				$("#url_"+$(this).attr("id")).val(imagePath.replace(ZC_BLOG_HOST,'') + obj[key].url);
-				$("#pic_"+$(this).attr("id")).attr("src",imagePath+ obj[key].url+"?"+Math.random());
-			}
-			win.close();
-		};
-		window.showModalDialog(ZC_BLOG_HOST+'zb_users/THEME/metro/PLUGIN/image.html',this,'dialogWidth:625px;dialogHeight:340px;resizable:no;scroll:no;status:no;');
+		upImage();	
+		e=$(this).attr("id");
+		myEditorImage.addListener('beforeInsertImage',function(t, arg){ 
+				$("#url_"+e).val( arg[0].src.replace(ZC_BLOG_HOST,'') );
+				$("#pic_"+e).attr("src", arg[0].src+"?"+Math.random());
+		 })
 	});
 
 });
