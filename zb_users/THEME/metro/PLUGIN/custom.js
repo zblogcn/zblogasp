@@ -23,59 +23,6 @@ $(document).ready(function(){
 		$("<div>").attr({"title":config.name,"class":"tc",onclick:"loadConfig(color_config["+i+"]);$('.active').removeClass('active');$(this).addClass('active');","style":"background-color:"+config.color[1]}).appendTo("#loadconfig");
 	});
 
-	var myUpload1 = $("#updatapic1").upload();
-	myUpload1.set({
-		name: 'bg.jpg',
-		action: 'saveImage.asp',
-		enctype: 'multipart/form-data',
-		autoSubmit: true,
-		onSelect: function (self, element) {
-			this.autoSubmit = false;
-			var re = new RegExp("(\.jpg){1}$");
-			if (this.filename()!==""){
-				if (!re.test(this.filename())) {
-					alert("请上传jpg图片");
-				}
-				else {
-					this.submit();
-				}
-			}
-		},
-		onSubmit: function (self, element) {
-              $('#updatapic1').hide();$('#bgupinfo').show();
-       },
-		onComplete: function () {
-		    $('#bgupinfo').hide();$('#updatapic1').show();
-			$('#bgpic_p').attr("src","../STYLE/images/bg.jpg?"+Math.random());
-		}
-	});
-	var myUpload2 = $("#updatapic2").upload();
-	myUpload2.set({
-		name: 'headbg.jpg',
-		action: 'saveImage.asp',
-		enctype: 'multipart/form-data',
-		autoSubmit: true,
-		onSelect: function (self, element) {
-			this.autoSubmit = false;
-			var re = new RegExp("(\.jpg){1}$");
-			if (this.filename()!==""){
-				if (!re.test(this.filename())) {
-					alert("请上传jpg图片");
-				}
-				else {
-					this.submit();
-				}
-			}
-		},
-		onSubmit: function (self, element) {
-                    $('#updatapic2').hide();
-                    $('#hbgupinfo').show();
-       },
-		onComplete: function () {
-		   $('#hbgupinfo').hide();$('#updatapic2').show();
-			$('#hbgpic_p').attr("src","../STYLE/images/headbg.jpg?"+Math.random());
-		}
-	});
 	$("#updatapic1,#updatapic2").parent().css("width","auto");
 
 	$('#bodybgc0').colorpicker();
@@ -102,5 +49,17 @@ $(document).ready(function(){
 	$('#colorP5').colorpicker();
 	
 	$( "#layoutset").buttonset();
+
+	//var ueconfig = window.UEDITOR_CONFIG || {};
+	$( "#updatapic1,#updatapic2").click(function(){
+		this.callbacks = function(obj,win){
+			for(key in obj) {
+				$("#url_"+$(this).attr("id")).val(imagePath.replace(ZC_BLOG_HOST,'') + obj[key].url);
+				$("#pic_"+$(this).attr("id")).attr("src",imagePath+ obj[key].url+"?"+Math.random());
+			}
+			win.close();
+		};
+		window.showModalDialog(ZC_BLOG_HOST+'zb_users/THEME/metro/PLUGIN/image.html',this,'dialogWidth:625px;dialogHeight:340px;resizable:no;scroll:no;status:no;');
+	});
 
 });

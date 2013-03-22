@@ -43,7 +43,6 @@ r="?"&Rnd()
 <!--#include file="..\..\..\..\zb_system\admin\admin_header.asp"-->
 <link href="evol.colorpicker.css" rel="stylesheet" /> 
 <script src="evol.colorpicker.min.js" type="text/javascript"></script>
-<script src="jquery.ocupload.min.js" type="text/javascript"></script>
 <script src="custom.js" type="text/javascript"></script>
 <style>
 table input{padding: 0;margin:0.25em 0;}
@@ -87,11 +86,10 @@ table .button{padding: 2px 12px 5px 12px; margin: 0.25em 0;}
 							<input type="checkbox" id="hdbgc6" name="hdbg6" <%=IIf(aryHdBg(6)="True","checked=""checked""","")%> value="True"/> <label for="hdbgc6">使用背景图</label>
 						</div>
 						<div id="hdbgmain" <%=IIf(aryHdBg(6)="","style=""display:none""","")%>>
-							<input  type="hidden"  id="hdbgurl" name="hdbg1"  value="<%=aryHdBg(1)%>" /> 
+							<input  type="hidden"  id="url_updatapic2" name="hdbg1"  value="<%=aryHdBg(1)%>" /> 
 							<div>
 								<div style="margin: 4px 0;height: 110px;width: 200px;display: inline-block;">
-									<img src="../style/<%=aryHdBg(1)%><%=r%>" width="190" height="120" border="0" alt="" id="hbgpic_p">
-									<span id="hbgupinfo" class="upinfo" style="display:none">图片上传中...</span>
+									<img src="<%=ZC_BLOG_HOST&aryHdBg(1)%><%=r%>" width="190" height="120" border="0" alt="" id="pic_updatapic2">
 								</div>
 								<input type="button"  id="updatapic2" class="button" value="更换图片" />
 							</div>
@@ -121,10 +119,9 @@ table .button{padding: 2px 12px 5px 12px; margin: 0.25em 0;}
 						</div>
 						<div id="bodybgmain" <%=IIf(aryBodyBg(5)="","style=""display:none""","")%>>
 							<div>
-								<input type="hidden" id="bgurl" name="bodybg1"  value="<%=aryBodyBg(1)%>" /> 
+								<input type="hidden" id="url_updatapic1" name="bodybg1"  value="<%=aryBodyBg(1)%>" /> 
 								<div style="margin: 4px 0;height: 110px;width: 200px;display: inline-block;">
-								<img src="../style/<%=aryBodyBg(1)%><%=r%>" width="190" height="120" border="0" alt="" id="bgpic_p">
-								<span id="bgupinfo" class="upinfo" style="display:none">图片上传中...</span>
+									<img src=<%=ZC_BLOG_HOST&aryBodyBg(1)%><%=r%>" width="190" height="120" border="0" alt="" id="pic_updatapic1">
 								</div>
 								<input type="button"  id="updatapic1" class="button" value="更换图片"/>
 							</div>
@@ -179,7 +176,13 @@ table .button{padding: 2px 12px 5px 12px; margin: 0.25em 0;}
 	</div>
 </div>
 <!--#include file="..\..\..\..\zb_system\admin\admin_footer.asp"-->
+<%
+	Dim strUPLOADDIR
+	strUPLOADDIR = Replace(ZC_UPLOAD_DIRECTORY&"/"&Year(GetTime(Now()))&"/"&Month(GetTime(Now())),"\","/")&"/"
+%>
 <script type="text/javascript">
+var ZC_BLOG_HOST="<%=ZC_BLOG_HOST%>";
+var imagePath=ZC_BLOG_HOST+"<%=strUPLOADDIR%>";
 ActiveTopMenu("ametroManage");
 </script> 
 
