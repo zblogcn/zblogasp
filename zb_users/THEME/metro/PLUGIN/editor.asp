@@ -41,6 +41,8 @@ Randomize
 r="?"&Rnd()
 %>
 <!--#include file="..\..\..\..\zb_system\admin\admin_header.asp"-->
+<script type="text/javascript" charset="utf-8" src="../../../../zb_system/admin/ueditor/editor_config.asp"></script>
+<script type="text/javascript" charset="utf-8" src="../../../../zb_system/admin/ueditor/editor_all.pack.js"></script>
 <link href="evol.colorpicker.css" rel="stylesheet" /> 
 <script src="evol.colorpicker.min.js" type="text/javascript"></script>
 <script src="custom.js" type="text/javascript"></script>
@@ -51,6 +53,7 @@ table .button{padding: 2px 12px 5px 12px; margin: 0.25em 0;}
 .tc{border: solid 2px #E1E1E1;width: 50px;height: 23px;float: left;margin: 0.25em;cursor: pointer}
 .tc:hover,.active{border: 2px solid #2694E8;}
 .upinfo{position: relative;left: 3px;top: -19px;color: white;background: #5EAAE4;width: 190px;height: 23px;display: inline-block;text-align: center;opacity: 0.8;filter: alpha(opacity=80);}
+.imageshow{margin:0.25em 0;}.imageshow img{margin:0 10px;margin-bottom:-10px;}
 </style>
 <!--#include file="..\..\..\..\zb_system\admin\admin_top.asp"-->
 <div id="divMain">
@@ -86,11 +89,9 @@ table .button{padding: 2px 12px 5px 12px; margin: 0.25em 0;}
 							<input type="checkbox" id="hdbgc6" name="hdbg6" <%=IIf(aryHdBg(6)="True","checked=""checked""","")%> value="True"/> <label for="hdbgc6">使用背景图</label>
 						</div>
 						<div id="hdbgmain" <%=IIf(aryHdBg(6)="","style=""display:none""","")%>>
-							<input  type="hidden"  id="url_updatapic2" name="hdbg1"  value="<%=aryHdBg(1)%>" /> 
-							<div>
-								<div style="margin: 4px 0;height: 110px;width: 200px;display: inline-block;">
-									<img src="<%=ZC_BLOG_HOST&aryHdBg(1)%><%=r%>" width="190" height="120" border="0" alt="" id="pic_updatapic2">
-								</div>
+							<div class="imageshow">
+								<input  type="hidden"  id="url_updatapic2" name="hdbg1"  value="<%=aryHdBg(1)%>" /> 
+								<img src="<%=ZC_BLOG_HOST&aryHdBg(1)%><%=r%>" width="190" height="120" border="0" alt="" id="pic_updatapic2">
 								<input type="button"  id="updatapic2" class="button" value="更换图片" />
 							</div>
 							<div id="hdbgs">背景设定：
@@ -118,12 +119,10 @@ table .button{padding: 2px 12px 5px 12px; margin: 0.25em 0;}
 							<input type="checkbox" id="bodybgc5" name="bodybg5" <%=IIf(aryBodyBg(5)="True","checked=""checked""","")%> value="True"/> <label for="bodybgc5">使用背景图</label>
 						</div>
 						<div id="bodybgmain" <%=IIf(aryBodyBg(5)="","style=""display:none""","")%>>
-							<div>
-								<input type="hidden" id="url_updatapic1" name="bodybg1"  value="<%=aryBodyBg(1)%>" /> 
-								<div style="margin: 4px 0;height: 110px;width: 200px;display: inline-block;">
+							<div class="imageshow">
+									<input type="hidden" id="url_updatapic1" name="bodybg1"  value="<%=aryBodyBg(1)%>" /> 
 									<img src=<%=ZC_BLOG_HOST&aryBodyBg(1)%><%=r%>" width="190" height="120" border="0" alt="" id="pic_updatapic1">
-								</div>
-								<input type="button"  id="updatapic1" class="button" value="更换图片"/>
+									<input type="button"  id="updatapic1" class="button" value="更换图片"/>
 							</div>
 							<div id="bodybgs">背景设定：
 							<input type="checkbox" id="bodybg2r" name="bodybg2" <%=IIf(InStr(aryBodyBg(2),"repeat")>0,"checked=""checked""","")%> value="repeat"/>
