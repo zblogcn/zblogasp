@@ -20,36 +20,28 @@ If BlogUser.Level>1 Then Call ShowError(6)
 If CheckPluginState("Watermark")=False Then Call ShowError(48)
 BlogTitle="图片水印设置"
 
+Dim Jpeg
+Set Jpeg = Server.CreateObject("Persits.Jpeg")
+If -2147221005 = Err Or Jpeg.Expires<Now() Then Call SetBlogHint_Custom("不可用,当前服务器没有<a href=""http://www.aspjpeg.com/"" target=""_blank"">ASPJPEG组件</a>.")
+Set Jpeg = Nothing
+
 Dim act:act = Request.QueryString("act")
 If act="save" Then Call SaveConfig()
 
 Function SaveConfig()
 
-	Dim strWATERMARK_TYPE,strWATERMARK_FONTBOLD,strWATERMARK_FONTQUALITY,strWATERMARK_FONTSIZE,strWATERMARK_FONTCOLOR,strWATERMARK_TEXT,strWATERMARK_QUALITY,strWATERMARK_WIDTH_POSITION,strWATERMARK_HEIGHT_POSITION,strWATERMARK_LOGO,strWATERMARK_ALPHA
-	
-	strWATERMARK_TYPE = Request.Form("strWATERMARK_TYPE")
-	strWATERMARK_FONTBOLD = Request.Form("strWATERMARK_FONTBOLD")
-	strWATERMARK_FONTQUALITY = Request.Form("strWATERMARK_FONTQUALITY")
-	strWATERMARK_FONTSIZE = Request.Form("strWATERMARK_FONTSIZE")
-	strWATERMARK_FONTCOLOR = Request.Form("strWATERMARK_FONTCOLOR")
-	strWATERMARK_TEXT = Request.Form("strWATERMARK_TEXT")
-	strWATERMARK_QUALITY = Request.Form("strWATERMARK_QUALITY")
-	strWATERMARK_WIDTH_POSITION = Request.Form("strWATERMARK_WIDTH_POSITION")
-	strWATERMARK_HEIGHT_POSITION = Request.Form("strWATERMARK_HEIGHT_POSITION")
-	strWATERMARK_LOGO = Request.Form("strWATERMARK_LOGO")
-	strWATERMARK_ALPHA = Request.Form("strWATERMARK_ALPHA")
-	
-	Watermark_Config.Write "TYPE",strWATERMARK_TYPE
-	Watermark_Config.Write "FONTBOLD",strWATERMARK_FONTBOLD
-	Watermark_Config.Write "FONTQUALITY",strWATERMARK_FONTQUALITY
-	Watermark_Config.Write "FONTSIZE",strWATERMARK_FONTSIZE
-	Watermark_Config.Write "FONTCOLOR",strWATERMARK_FONTCOLOR
-	Watermark_Config.Write "TEXT",strWATERMARK_TEXT
-	Watermark_Config.Write "WIDTH_POSITION",strWATERMARK_WIDTH_POSITION
-	Watermark_Config.Write "HEIGHT_POSITION",strWATERMARK_HEIGHT_POSITION
-	Watermark_Config.Write "QUALITY",strWATERMARK_QUALITY
-	Watermark_Config.Write "LOGO",strWATERMARK_LOGO
-	Watermark_Config.Write "ALPHA",strWATERMARK_ALPHA
+	Watermark_Config.Write "TYPE",Request.Form("strWATERMARK_TYPE")
+	Watermark_Config.Write "FONTBOLD",Request.Form("strWATERMARK_FONTBOLD")
+	Watermark_Config.Write "FONTQUALITY",Request.Form("strWATERMARK_FONTQUALITY")
+	Watermark_Config.Write "FONTSIZE",Request.Form("strWATERMARK_FONTSIZE")
+	Watermark_Config.Write "FONTCOLOR",Request.Form("strWATERMARK_FONTCOLOR")
+	Watermark_Config.Write "FONTFAMILY",Request.Form("strWATERMARK_FONTFAMILY")
+	Watermark_Config.Write "TEXT",Request.Form("strWATERMARK_TEXT")
+	Watermark_Config.Write "WIDTH_POSITION",Request.Form("strWATERMARK_WIDTH_POSITION")
+	Watermark_Config.Write "HEIGHT_POSITION",Request.Form("strWATERMARK_HEIGHT_POSITION")
+	Watermark_Config.Write "QUALITY",Request.Form("strWATERMARK_QUALITY")
+	Watermark_Config.Write "LOGO",Request.Form("strWATERMARK_LOGO")
+	Watermark_Config.Write "ALPHA",Request.Form("strWATERMARK_ALPHA")
 	Watermark_Config.Save
 
 	Call SetBlogHint(True,False,False)
@@ -65,29 +57,29 @@ End Function
           </div>
           <div class="divHeader"><%=BlogTitle%></div>
           <div class="SubMenu"></div>
-          <div id="divMain2"> 
+          <div id="divMain2">
             <script type="text/javascript">ActiveTopMenu("aPlugInMng");</script>
 			<form name="edit" method="post" action="main.asp?act=save">
 			<table width="100%" style="padding:0px;margin:1px;" cellspacing="0" cellpadding="0">
 				<tr>
 					<td style="width:32%"><p align="left">水印类型</p></td>
 					<td><p>
-					  <input type="radio" name="strWATERMARK_TYPE" value="1" <%=IIF(WATERMARK_TYPE=1,"checked","")%> />文字水印
-					  <input type="radio" name="strWATERMARK_TYPE" value="2" <%=IIF(WATERMARK_TYPE=2,"checked","")%> />图片水印</p></td>
+					  <input type="radio" name="strWATERMARK_TYPE" id="type_1" value="1" <%=IIF(WATERMARK_TYPE=1,"checked","")%> /><label for="type_1">文字水印</label>
+					  <input type="radio" name="strWATERMARK_TYPE" id="type_2" value="2" <%=IIF(WATERMARK_TYPE=2,"checked","")%> /><label for="type_2">图片水印</label></p></td>
 				</tr>
 				<tr>
 					<td><p align="left">水印水平位置</p></td>
 					<td><p>
-					<input type="radio" name="strWATERMARK_WIDTH_POSITION" value="left" <%=IIF(WATERMARK_WIDTH_POSITION="left","checked","")%> />左
-					<input type="radio" name="strWATERMARK_WIDTH_POSITION" value="center" <%=IIF(WATERMARK_WIDTH_POSITION="center","checked","")%> />中
-					<input type="radio" name="strWATERMARK_WIDTH_POSITION" value="right" <%=IIF(WATERMARK_WIDTH_POSITION="right","checked","")%> />右</p></td>
+					<input type="radio" name="strWATERMARK_WIDTH_POSITION" id="w_left" value="left" <%=IIF(WATERMARK_WIDTH_POSITION="left","checked","")%> /><label for="w_left">左</label>
+					<input type="radio" name="strWATERMARK_WIDTH_POSITION" id="w_center" value="center" <%=IIF(WATERMARK_WIDTH_POSITION="center","checked","")%> /><label for="w_center">中</label>
+					<input type="radio" name="strWATERMARK_WIDTH_POSITION" id="w_right" value="right" <%=IIF(WATERMARK_WIDTH_POSITION="right","checked","")%> /><label for="w_right">右</label></p></td>
 				</tr>
 				<tr>
 					<td><p align="left">水印垂直位置</p></td>
 					<td><p>
-					<input type="radio" name="strWATERMARK_HEIGHT_POSITION" value="top" <%=IIF(WATERMARK_HEIGHT_POSITION="top","checked","")%> />上
-					<input type="radio" name="strWATERMARK_HEIGHT_POSITION" value="center" <%=IIF(WATERMARK_HEIGHT_POSITION="center","checked","")%> />中
-					<input type="radio" name="strWATERMARK_HEIGHT_POSITION" value="bottom" <%=IIF(WATERMARK_HEIGHT_POSITION="bottom","checked","")%> />下</p></td>
+					<input type="radio" name="strWATERMARK_HEIGHT_POSITION" id="h_top" value="top" <%=IIF(WATERMARK_HEIGHT_POSITION="top","checked","")%> /><label for="h_top">上</label>
+					<input type="radio" name="strWATERMARK_HEIGHT_POSITION" id="h_center" value="center" <%=IIF(WATERMARK_HEIGHT_POSITION="center","checked","")%> /><label for="h_center">中</label>
+					<input type="radio" name="strWATERMARK_HEIGHT_POSITION" id="h_bottom" value="bottom" <%=IIF(WATERMARK_HEIGHT_POSITION="bottom","checked","")%> /><label for="h_bottom">下</p></label></td>
 				</tr>
 				<tr>
 					<td><p align="left">图片压缩质量(0-100,0为最低,100为最高)</p></td>
@@ -111,6 +103,12 @@ End Function
 					<td><p align="left">水印文字</p></td>
 					<td><p>
 					<input name="strWATERMARK_TEXT" style="width:95%" type="text" value="<%=WATERMARK_TEXT%>" />
+					</p></td>
+				</tr>
+				<tr>
+					<td><p align="left">水印字体</p></td>
+					<td><p>
+					<input name="strWATERMARK_FONTFAMILY" style="width:95%" type="text" value="<%=WATERMARK_FONTFAMILY%>" />
 					</p></td>
 				</tr>
 				<tr>
