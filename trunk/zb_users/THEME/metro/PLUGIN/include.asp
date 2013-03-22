@@ -62,14 +62,14 @@ Function metro_savetofile(stylefile)
 	End If 
 
 	If aryBodyBg(5)="True" Then 
-		strBodyBg=aryBodyBg(0)&" "&"url('"& aryBodyBg(1) &"') "&" "& aryBodyBg(2) &" "& aryBodyBg(3) &" "& aryBodyBg(4) 
+		strBodyBg=aryBodyBg(0)&" "&"url('"& ZC_BLOG_HOST&aryBodyBg(1) &"') "&" "& aryBodyBg(2) &" "& aryBodyBg(3) &" "& aryBodyBg(4) 
 	Else 
 		strBodyBg=aryBodyBg(0)
 	End If 
 
 	If aryHdBg(0)<>"transparent" Then aryHdBg(0)=aryColor(0)
 	If aryHdBg(6)="True" Then 
-		strHdBg=aryHdBg(0)&" "&"url('"& aryHdBg(1) &"') "& aryHdBg(2) &" "& aryHdBg(3) &" "& aryHdBg(4) 
+		strHdBg=aryHdBg(0)&" "&"url('"& ZC_BLOG_HOST&aryHdBg(1) &"') "& aryHdBg(2) &" "& aryHdBg(3) &" "& aryHdBg(4) 
 	Else 
 		strHdBg=aryHdBg(0)
 	End If 
