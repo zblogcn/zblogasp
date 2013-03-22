@@ -155,7 +155,20 @@ p{line-height:1.5em;padding:0.5em 0;}
 	$(document).ready(function(){
 		$("#connect").sortable();
 		$("#connect").disableSelection();
+
+		$("#connect li").hover(
+			  function () {
+				$(this).append("<a class='del' onclick='del(this)'>del</a>");
+			  },
+			  function () {
+				$(this).find(".del").remove();
+			  }
+			);
 	});
+	function del(item){
+		$(item).parent().remove();
+	}
+
 	function verify(){
 		var result = document.getElementById("connect").innerHTML;
 		//alert(result);
