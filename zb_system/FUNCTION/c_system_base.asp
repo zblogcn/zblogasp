@@ -73,10 +73,11 @@ ReDim PluginActiveFunction(0)
 
 Dim TemplateDic
 Dim TemplateTagsDic
+Dim PublicObjAdo
 
 Set TemplateDic=CreateObject("Scripting.Dictionary")
 Set TemplateTagsDic=CreateObject("Scripting.Dictionary")
-
+Set PublicObjAdo=Server.CreateObject("ADODB.Stream")
 
 Dim ZC_BLOG_WEBEDIT
 ZC_BLOG_WEBEDIT="ueditor"
@@ -213,6 +214,7 @@ Sub System_Terminate()
 		If bAction_Plugin_System_Terminate=True Then Exit Sub
 	Next
 
+	Set PublicObjAdo=Nothing
 	Call CloseConnect()
 
 End Sub
