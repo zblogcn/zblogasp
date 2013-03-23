@@ -156,7 +156,7 @@ p{line-height:1.5em;padding:0.5em 0;}
 		$("#connect").sortable();
 		$("#connect").disableSelection();
 
-		$("#connect li a").hover(
+		$("#connect li").hover(
 			  function () {
 				$(this).append("<span class='del' onclick='del(this)'><img height='16' width='16' src='http://localhost/zb_users/plugin/appcentre/images/delete.png'></span>");
 			  },
