@@ -15,6 +15,15 @@
 
 
 
+Dim PublicObjAdo
+Dim PublicObjFSO
+
+Set PublicObjAdo=Server.CreateObject("ADODB.Stream")
+Set PublicObjFSO=Server.CreateObject("Scripting.FileSystemObject")
+
+
+
+
 '*********************************************************
 ' 目的：    显示错误页面
 ' 输入：    id

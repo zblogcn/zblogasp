@@ -73,13 +73,9 @@ ReDim PluginActiveFunction(0)
 
 Dim TemplateDic
 Dim TemplateTagsDic
-Dim PublicObjAdo
-Dim PublicObjFSO
 
 Set TemplateDic=CreateObject("Scripting.Dictionary")
 Set TemplateTagsDic=CreateObject("Scripting.Dictionary")
-Set PublicObjAdo=Server.CreateObject("ADODB.Stream")
-Set PublicObjFSO=Server.CreateObject("Scripting.FileSystemObject")
 
 Dim ZC_BLOG_WEBEDIT
 ZC_BLOG_WEBEDIT="ueditor"
@@ -3981,7 +3977,7 @@ Function RefreshOptionFormFileToDB()
 			Call Execute("Call BlogConfig.Write("""&a&""","&a&")")
 		End If
 	Next
-	Call BlogConfig.Write("ZC_BLOG_VERSION","2.1 Phoenix Build 130128")
+	Call BlogConfig.Write("ZC_BLOG_VERSION","2.2 Beta Build 130323")
 	Call BlogConfig.Write("ZC_BLOG_CLSID",ZC_BLOG_CLSID_ORIGINAL)
 
 	Call BlogConfig.Save()

@@ -18,7 +18,7 @@ Partial Public Class _Default
             System.Web.HttpContext.Current.Response.AppendHeader("Last-Modified", System.DateTime.Parse(My.Computer.FileSystem.GetFileInfo(System.Web.HttpContext.Current.Request.PhysicalApplicationPath & "zblog2\" & "Release.xml").LastWriteTime).ToUniversalTime.ToString("r", System.Globalization.DateTimeFormatInfo.InvariantInfo))
             Response.Write(s)
         ElseIf Request.RawUrl.Contains("?beta") = True Then
-            Dim s As String = System.Web.HttpContext.Current.Request.PhysicalApplicationPath & "zblog2\index.html"
+            Dim s As String = System.Web.HttpContext.Current.Request.PhysicalApplicationPath & "zblog2\beta.html"
             Response.ContentEncoding = System.Text.Encoding.UTF8
             Response.ContentType = "text/plain"
             Response.WriteFile(s)
