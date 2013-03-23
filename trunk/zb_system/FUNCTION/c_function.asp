@@ -1106,20 +1106,17 @@ Function SaveToFile(strFullName,strContent,strCharset,bolRemoveBOM)
 
 	On Error Resume Next
 
-	Dim objStream
-
-	Set objStream = Server.CreateObject("ADODB.Stream")
-	With objStream
+	If Not IsObject(PublicObjAdo) Then Set PublicObjAdo = Server.CreateObject("ADODB.Stream")
+	With PublicObjAdo
 	.Type = adTypeText
 	.Mode = adModeReadWrite
 	.Open
 	.Charset = strCharset
-	.Position = objStream.Size
+	.Position = .Size
 	.WriteText = strContent
 	.SaveToFile strFullName,adSaveCreateOverWrite
 	.Close
 	End With
-	Set objStream = Nothing
 
 	If bolRemoveBOM Then
 		If strContent<>"" And ZC_STATIC_TYPE="shtml" Then
@@ -1141,10 +1138,9 @@ End Function
 Function SaveBinary(BinaryData,FilePath)
 	On Error Resume Next
 
-	Dim objStream
+	If Not IsObject(PublicObjAdo) Then Set PublicObjAdo = Server.CreateObject("ADODB.Stream")
 
-	Set objStream = Server.CreateObject("ADODB.Stream")
-	With objStream
+	With PublicObjAdo
 		.Type = adTypeBinary
 		.Open
 		.Write BinaryData
@@ -1168,20 +1164,18 @@ Function LoadFromFile(strFullName,strCharset)
 
 	On Error Resume Next
 
-	Dim objStream
+	If Not IsObject(PublicObjAdo) Then Set PublicObjAdo = Server.CreateObject("ADODB.Stream")
 
-	Set objStream = Server.CreateObject("ADODB.Stream")
-	With objStream
+	With PublicObjAdo
 	.Type = adTypeText
 	.Mode = adModeReadWrite
 	.Open
 	.Charset = strCharset
-	.Position = objStream.Size
+	.Position = .Size
 	.LoadFromFile strFullName
 	LoadFromFile=.ReadText
 	.Close
 	End With
-	Set objStream = Nothing
 
 	Err.Clear
 
@@ -1198,33 +1192,30 @@ Function RemoveBOM(strFullName)
 
 	On Error Resume Next
 
-	Dim objStream
 	Dim strContent
+	
+	If Not IsObject(PublicObjAdo) Then Set PublicObjAdo = Server.CreateObject("ADODB.Stream")
 
-	Set objStream = Server.CreateObject("ADODB.Stream")
-	With objStream
+	With PublicObjAdo
 	.Type = adTypeBinary
 	.Mode = adModeReadWrite
 	.Open
-	.Position = objStream.Size
+	.Position = .Size
 	.LoadFromFile strFullName
 	.Position = 3
 	strContent=.Read
 	.Close
 	End With
-	Set objStream = NoThing
 
-	Set objStream = Server.CreateObject("ADODB.Stream")
-	With objStream
+	With PublicObjAdo
 	.Type = adTypeBinary
 	.Mode = adModeReadWrite
 	.Open
-	.Position = objStream.Size
+	.Position = .Size
 	.Write = strContent
 	.SaveToFile strFullName,adSaveCreateOverWrite
 	.Close
 	End With
-	Set objStream = Nothing
 
 	Err.Clear
 
