@@ -141,7 +141,7 @@ Function ExportAutoSaveJS()
 var autosave = {
     file: {
         name: "<%=ZC_AUTOSAVE_FILENAME%>",
-        modified: "<%=ZC_AUTOSAVE_FILEMODIFIED%>",
+        modified: "<%=ZC_AUTOSAVE_FILEMODIFIED%>"
 
     },
     time: {
