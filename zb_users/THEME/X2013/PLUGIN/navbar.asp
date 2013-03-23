@@ -158,7 +158,7 @@ p{line-height:1.5em;padding:0.5em 0;}
 
 		$("#connect li").hover(
 			  function () {
-				$(this).append("<span class='del icon-cancel' onclick='del(this)'></span>");
+				$(this).append("<span class='del icon-cancel' onclick='del(this)' title='删除'></span>");
 			  },
 			  function () {
 				$(this).find(".del").remove();

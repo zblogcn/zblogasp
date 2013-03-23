@@ -173,7 +173,7 @@ input[type=submit] {
   font-weight: 400;
   font-size: 11pt;
   letter-spacing: 0.01em;
-  line-height: 14pt;
+  line-height: 1.8;
   font-smooth: always;
 }
 .accordion  > li  > div {
