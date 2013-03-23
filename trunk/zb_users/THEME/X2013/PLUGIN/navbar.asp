@@ -158,7 +158,7 @@ p{line-height:1.5em;padding:0.5em 0;}
 
 		$("#connect li").hover(
 			  function () {
-				$(this).append("<span class='del' onclick='del(this)'><img height='16' width='16' src='http://localhost/zb_users/plugin/appcentre/images/delete.png'></span>");
+				$(this).append("<span class='del icon-cancel' onclick='del(this)'></span>");
 			  },
 			  function () {
 				$(this).find(".del").remove();
