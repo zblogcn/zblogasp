@@ -74,10 +74,12 @@ ReDim PluginActiveFunction(0)
 Dim TemplateDic
 Dim TemplateTagsDic
 Dim PublicObjAdo
+Dim PublicObjFSO
 
 Set TemplateDic=CreateObject("Scripting.Dictionary")
 Set TemplateTagsDic=CreateObject("Scripting.Dictionary")
 Set PublicObjAdo=Server.CreateObject("ADODB.Stream")
+Set PublicObjFSO=Server.CreateObject("Scripting.FileSystemObject")
 
 Dim ZC_BLOG_WEBEDIT
 ZC_BLOG_WEBEDIT="ueditor"
@@ -215,6 +217,7 @@ Sub System_Terminate()
 	Next
 
 	Set PublicObjAdo=Nothing
+	Set PublicObjFSO=Nothing
 	Call CloseConnect()
 
 End Sub
@@ -1197,15 +1200,16 @@ Function LoadIncludeFiles(strDir)
 	Dim aryFileList()
 	ReDim aryFileList(-1)
 
-	Dim fso, f, f1, fc, s, i
-	Set fso = CreateObject("Scripting.FileSystemObject")
+	Dim f, f1, fc, s, i
 
-	If fso.FolderExists(BlogPath & strDir)=False Then
+	If Not IsObject(PublicObjFSO) Then Set PublicObjFSO=Server.CreateObject("Scripting.FileSystemObject")
+	
+	If PublicObjFSO.FolderExists(BlogPath & strDir)=False Then
 		LoadIncludeFiles=Array()
 		Exit Function
 	End If
 
-	Set f = fso.GetFolder(BlogPath & strDir)
+	Set f = PublicObjFSO.GetFolder(BlogPath & strDir)
 	Set fc = f.Files
 
 	i=0
@@ -1217,8 +1221,6 @@ Function LoadIncludeFiles(strDir)
 	Next
 
 	LoadIncludeFiles=aryFileList
-
-	Set fso=nothing
 
 End Function
 '*********************************************************
@@ -1233,15 +1235,16 @@ Function LoadIncludeFilesOnlyType(strDir)
 	Dim aryFileList()
 	ReDim aryFileList(-1)
 
-	Dim fso, f, f1, fc, s, i
-	Set fso = CreateObject("Scripting.FileSystemObject")
+	Dim f, f1, fc, s, i
 
-	If fso.FolderExists(BlogPath & strDir)=False Then
+	If Not IsObject(PublicObjFSO) Then Set PublicObjFSO=Server.CreateObject("Scripting.FileSystemObject")
+
+	If PublicObjFSO.FolderExists(BlogPath & strDir)=False Then
 		LoadIncludeFilesOnlyType=Array()
 		Exit Function
 	End If
 
-	Set f = fso.GetFolder(BlogPath & strDir)
+	Set f = PublicObjFSO.GetFolder(BlogPath & strDir)
 	Set fc = f.Files
 
 	i=0
@@ -1255,8 +1258,6 @@ Function LoadIncludeFilesOnlyType(strDir)
 	Next
 
 	LoadIncludeFilesOnlyType=aryFileList
-
-	Set fso=nothing
 
 End Function
 '*********************************************************
@@ -1317,12 +1318,13 @@ End Function
 '*********************************************************
 Function CheckTemplateModified()
 
-	Dim fso, f, f1, fc, s
+	Dim f, f1, fc, s
 	Dim d,nd
 
-	Set fso = CreateObject("Scripting.FileSystemObject")
-	If fso.FolderExists(BlogPath & "zb_users\" & "theme" & "\" & ZC_BLOG_THEME & "\" & ZC_TEMPLATE_DIRECTORY)=False Then Exit Function
-	Set f = fso.GetFolder(BlogPath & "zb_users\" & "theme" & "\" & ZC_BLOG_THEME & "\" & ZC_TEMPLATE_DIRECTORY)
+	If Not IsObject(PublicObjFSO) Then Set PublicObjFSO=Server.CreateObject("Scripting.FileSystemObject")
+	
+	If PublicObjFSO.FolderExists(BlogPath & "zb_users\" & "theme" & "\" & ZC_BLOG_THEME & "\" & ZC_TEMPLATE_DIRECTORY)=False Then Exit Function
+	Set f = PublicObjFSO.GetFolder(BlogPath & "zb_users\" & "theme" & "\" & ZC_BLOG_THEME & "\" & ZC_TEMPLATE_DIRECTORY)
 	Set fc = f.Files
 
 	For Each f1 in fc
@@ -1833,31 +1835,31 @@ Function GetReallyDirectory()
 		Exit Function
 	End If
 
+	If Not IsObject(PublicObjFSO) Then Set PublicObjFSO=Server.CreateObject("Scripting.FileSystemObject")
+
 	Dim p	
 	p=Server.MapPath(".") & "\"
 
-	Dim fso
-	Set fso = CreateObject("Scripting.FileSystemObject")
-	If fso.FolderExists(p & "ZB_SYSTEM\") Then
+	If PublicObjFSO.FolderExists(p & "ZB_SYSTEM\") Then
 		p=p
-	ElseIf fso.FolderExists(p & "..\ZB_SYSTEM\") Then
+	ElseIf PublicObjFSO.FolderExists(p & "..\ZB_SYSTEM\") Then
 		p=p & "..\"
-	ElseIf fso.FolderExists(p & "..\..\ZB_SYSTEM\") Then
+	ElseIf PublicObjFSO.FolderExists(p & "..\..\ZB_SYSTEM\") Then
 		p=p & "..\..\"
-	ElseIf fso.FolderExists(p & "..\..\..\ZB_SYSTEM\") Then
+	ElseIf PublicObjFSO.FolderExists(p & "..\..\..\ZB_SYSTEM\") Then
 		p=p & "..\..\..\"
-	ElseIf fso.FolderExists(p & "..\..\..\..\ZB_SYSTEM\") Then
+	ElseIf PublicObjFSO.FolderExists(p & "..\..\..\..\ZB_SYSTEM\") Then
 		p=p & "..\..\..\..\"
-	ElseIf fso.FolderExists(p & "..\..\..\..\..\ZB_SYSTEM\") Then
+	ElseIf PublicObjFSO.FolderExists(p & "..\..\..\..\..\ZB_SYSTEM\") Then
 		p=p & "..\..\..\..\..\"
-	ElseIf fso.FolderExists(p & "..\..\..\..\..\..\ZB_SYSTEM\") Then
+	ElseIf PublicObjFSO.FolderExists(p & "..\..\..\..\..\..\ZB_SYSTEM\") Then
 		p=p & "..\..\..\..\..\..\"
-	ElseIf fso.FolderExists(p & "..\..\..\..\..\..\..\ZB_SYSTEM\") Then
+	ElseIf PublicObjFSO.FolderExists(p & "..\..\..\..\..\..\..\ZB_SYSTEM\") Then
 		p=p & "..\..\..\..\..\..\..\"
 	End If
 	Set fso=Nothing
 
-	GetReallyDirectory=CreateObject("Scripting.FileSystemObject").GetFolder(p).Path & "\"
+	GetReallyDirectory=PublicObjFSO.GetFolder(p).Path & "\"
 
 	'Err.Clear
 
@@ -2065,13 +2067,12 @@ Sub CreatDirectoryByCustomDirectoryWithFullBlogPath(ByVal strCustomDirectory)
 
 	On Error Resume Next
 
+	If Not IsObject(PublicObjFSO) Then Set PublicObjFSO=Server.CreateObject("Scripting.FileSystemObject")
+	
 	Dim s
 	Dim t
 	Dim i
 	Dim j
-
-	Dim fso
-	Set fso = CreateObject("Scripting.FileSystemObject")
 
 	s=BlogPath
 
@@ -2084,13 +2085,12 @@ Sub CreatDirectoryByCustomDirectoryWithFullBlogPath(ByVal strCustomDirectory)
 	For i=LBound(t) To UBound(t)-1
 		If (IsEmpty(t(i))=False) And (t(i)<>"") Then
 			s=s & t(i) & "\"
-			If (fso.FolderExists(s)=False) Then
-				Call fso.CreateFolder(s)
+			If (PublicObjFSO.FolderExists(s)=False) Then
+				Call PublicObjFSO.CreateFolder(s)
 			End If
 		End If
 	Next
 
-	Set fso = Nothing
 
 	Err.Clear
 
@@ -2109,13 +2109,12 @@ Sub CreatDirectoryByCustomDirectory(ByVal strCustomDirectory)
 
 	On Error Resume Next
 
+	If Not IsObject(PublicObjFSO) Then Set PublicObjFSO=Server.CreateObject("Scripting.FileSystemObject")
+	
 	Dim s
 	Dim t
 	Dim i
 	Dim j
-
-	Dim fso
-	Set fso = CreateObject("Scripting.FileSystemObject")
 
 	s=BlogPath
 
@@ -2127,14 +2126,14 @@ Sub CreatDirectoryByCustomDirectory(ByVal strCustomDirectory)
 	For i=LBound(t) To UBound(t)
 		If (IsEmpty(t(i))=False) And (t(i)<>"") Then
 			s=s & t(i) & "\"
-			If (fso.FolderExists(s)=False) Then
-				Call fso.CreateFolder(s)
+			If (PublicObjFSO.FolderExists(s)=False) Then
+				Call PublicObjFSO.CreateFolder(s)
 			End If
 			j=j+1
 		End If
 	Next
 
-	Set fso = Nothing
+	
 
 	Err.Clear
 

@@ -2761,9 +2761,8 @@ Class TUser
 	End Property
 
 	Private Function GetAvatar
-	  Dim fso
-	  Set fso = CreateObject("Scripting.FileSystemObject")
-	  If (fso.FileExists(BlogPath & "zb_users/avatar/"&ID&".png")) Then
+	  If Not IsObject(PublicObjFSO) Then Set PublicObjFSO=Server.CreateObject("Scripting.FileSystemObject")
+	  If (PublicObjFSO.FileExists(BlogPath & "zb_users/avatar/"&ID&".png")) Then
 		GetAvatar=BlogHost & "zb_users/avatar/"&ID&".png"
 	  Else
 		GetAvatar=BlogHost & "zb_users/avatar/0.png"
@@ -4177,9 +4176,6 @@ Class TUpLoadFile
 
 		If (Not objRS.bof) And (Not objRS.eof) Then
 
-
-			Dim fso
-			Set fso = CreateObject("Scripting.FileSystemObject")
 
 			strFilePath = BlogPath & ZC_UPLOAD_DIRECTORY &"/" & objRS("ul_FileName")
 			Call DelToFile(strFilePath)

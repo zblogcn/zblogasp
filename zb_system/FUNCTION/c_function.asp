@@ -1080,15 +1080,14 @@ Function DelToFile(strFullName)
 	On Error Resume Next
 	DelToFile=False
 
-	Dim fso, TxtFile
+	Dim TxtFile
+	If Not IsObject(PublicObjFSO) Then Set PublicObjFSO=Server.CreateObject("Scripting.FileSystemObject")
 
-	Set fso = CreateObject("Scripting.FileSystemObject")
-	If fso.FileExists(strFullName) Then
-		Set TxtFile = fso.GetFile(strFullName)
+	If PublicObjFSO.FileExists(strFullName) Then
+		Set TxtFile = PublicObjFSO.GetFile(strFullName)
 		TxtFile.Delete
 		If Err.Number=0 Then DelToFile=True
 	End If
-	Set fso=Nothing
 
 End Function
 '*********************************************************
@@ -1567,14 +1566,15 @@ End Function
 '*********************************************************
 Function GetFileModified(Path)
 	On Error Resume Next
-	Dim objFSO
-	Set objFSO=Server.CreateObject("scripting.filesystemobject")
-	If objFSO.FileExists(Path) Then
-		GetFileModified=objFSO.GetFile(Path).DateLastModified
+	
+	If Not IsObject(PublicObjFSO) Then Set PublicObjFSO=Server.CreateObject("Scripting.FileSystemObject")
+	
+	If PublicObjFSO.FileExists(Path) Then
+		GetFileModified=PublicObjFSO.GetFile(Path).DateLastModified
 	Else
 		GetFileModified=Now
 	End If
-	Set objFSO=Nothing
+
 End Function
 '*********************************************************
 
@@ -1630,28 +1630,28 @@ Function GetCurrentHost()
 
 	PhysicsPath=Server.MapPath(".") & "\"
 
-	Dim fso
-	Set fso = CreateObject("Scripting.FileSystemObject")
-	If fso.FolderExists(PhysicsPath & "ZB_SYSTEM\") Then
+	If Not IsObject(PublicObjFSO) Then Set PublicObjFSO=Server.CreateObject("Scripting.FileSystemObject")
+	
+	If PublicObjFSO.FolderExists(PhysicsPath & "ZB_SYSTEM\") Then
 		PhysicsPath=PhysicsPath
-	ElseIf fso.FolderExists(PhysicsPath & "..\ZB_SYSTEM\") Then
+	ElseIf PublicObjFSO.FolderExists(PhysicsPath & "..\ZB_SYSTEM\") Then
 		PhysicsPath=PhysicsPath & "..\"
-	ElseIf fso.FolderExists(PhysicsPath & "..\..\ZB_SYSTEM\") Then
+	ElseIf PublicObjFSO.FolderExists(PhysicsPath & "..\..\ZB_SYSTEM\") Then
 		PhysicsPath=PhysicsPath & "..\..\"
-	ElseIf fso.FolderExists(PhysicsPath & "..\..\..\ZB_SYSTEM\") Then
+	ElseIf PublicObjFSO.FolderExists(PhysicsPath & "..\..\..\ZB_SYSTEM\") Then
 		PhysicsPath=PhysicsPath & "..\..\..\"
-	ElseIf fso.FolderExists(PhysicsPath & "..\..\..\..\ZB_SYSTEM\") Then
+	ElseIf PublicObjFSO.FolderExists(PhysicsPath & "..\..\..\..\ZB_SYSTEM\") Then
 		PhysicsPath=PhysicsPath & "..\..\..\..\"
-	ElseIf fso.FolderExists(PhysicsPath & "..\..\..\..\..\ZB_SYSTEM\") Then
+	ElseIf PublicObjFSO.FolderExists(PhysicsPath & "..\..\..\..\..\ZB_SYSTEM\") Then
 		PhysicsPath=PhysicsPath & "..\..\..\..\..\"
-	ElseIf fso.FolderExists(PhysicsPath & "..\..\..\..\..\..\ZB_SYSTEM\") Then
+	ElseIf PublicObjFSO.FolderExists(PhysicsPath & "..\..\..\..\..\..\ZB_SYSTEM\") Then
 		PhysicsPath=PhysicsPath & "..\..\..\..\..\..\"
-	ElseIf fso.FolderExists(PhysicsPath & "..\..\..\..\..\..\..\ZB_SYSTEM\") Then
+	ElseIf PublicObjFSO.FolderExists(PhysicsPath & "..\..\..\..\..\..\..\ZB_SYSTEM\") Then
 		PhysicsPath=PhysicsPath & "..\..\..\..\..\..\..\"
 	End If
 	Set fso=Nothing
 
-	PhysicsPath=CreateObject("Scripting.FileSystemObject").GetFolder(PhysicsPath).Path
+	PhysicsPath=PublicObjFSO.GetFolder(PhysicsPath).Path
 	If Right(PhysicsPath,1)<>"\" Then PhysicsPath=PhysicsPath & "\"
 	CurrentReallyDirectory=PhysicsPath
 	

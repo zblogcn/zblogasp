@@ -928,8 +928,8 @@ Function ExportPluginMng()
 	ReDim aryPL_Enable(i)
 
 
-	Dim fso, f, f1, fc
-	Set fso = CreateObject("Scripting.FileSystemObject")
+	Dim f, f1, fc
+	If Not IsObject(PublicObjFSO) Then Set PublicObjFSO=Server.CreateObject("Scripting.FileSystemObject")
 
 	Response.Write "<div class=""divHeader"">" & ZC_MSG107 & "</div>"
 	Response.Write "<div class=""SubMenu"">" & Response_Plugin_PlugInMng_SubMenu & "</div>"
@@ -968,7 +968,7 @@ Function ExportPluginMng()
 					Response.Write "<td>"& objXmlFile.documentElement.selectSingleNode("modified").text &"</td>"
 					Response.Write "<td align='center'>"
 					If BlogUser.Level<=CLng(objXmlFile.documentElement.selectSingleNode("plugin/level").text) Then
-						If fso.FileExists(BlogPath & "zb_users/theme/" & ZC_BLOG_THEME & "/plugin/" & objXmlFile.documentElement.selectSingleNode("plugin/path").text) Then
+						If PublicObjFSO.FileExists(BlogPath & "zb_users/theme/" & ZC_BLOG_THEME & "/plugin/" & objXmlFile.documentElement.selectSingleNode("plugin/path").text) Then
 							Response.Write "<a href=""../../ZB_USERS/theme/" & ZC_BLOG_THEME & "/plugin/" & objXmlFile.documentElement.selectSingleNode("plugin/path").text &"""><img width='16' title='"&ZC_MSG022&"' alt='"&ZC_MSG022&"' src='../IMAGE/ADMIN/setting_tools.png'/></a>"
 						End If
 					End If
@@ -983,13 +983,13 @@ Function ExportPluginMng()
 	End If
 	Set objXmlFile=Nothing
 
-	Set f = fso.GetFolder(BlogPath & "zb_users/plugin/")
+	Set f = PublicObjFSO.GetFolder(BlogPath & "zb_users/plugin/")
 	Set fc = f.SubFolders
 	For Each f1 in fc
 
 		s=""
 
-		If fso.FileExists(BlogPath & "zb_users/plugin/" & f1.name & "/" & "plugin.xml") Then
+		If PublicObjFSO.FileExists(BlogPath & "zb_users/plugin/" & f1.name & "/" & "plugin.xml") Then
 
 			strXmlFile =BlogPath & "zb_users/plugin/" & f1.name & "/" & "plugin.xml"
 
@@ -1025,7 +1025,7 @@ Function ExportPluginMng()
 
 			If CheckPluginState(objXmlFile.documentElement.selectSingleNode("id").text) Then
 
-				If fso.FileExists(BlogPath & "zb_users/plugin/" & f1.name & "/" & "logo.png") Then
+				If PublicObjFSO.FileExists(BlogPath & "zb_users/plugin/" & f1.name & "/" & "logo.png") Then
 					s=s & "<img alt='' width='32' src='"&BlogHost & "zb_users/plugin/" & f1.name & "/" & "logo.png"&"'/ style='margin:2px;'>"
 				Else
 					s=s & "<img alt='' width='32' src='../IMAGE/ADMIN/app-logo.png'/ style='margin:2px;'>"
@@ -1060,7 +1060,7 @@ Function ExportPluginMng()
 
 			If CheckPluginState(objXmlFile.documentElement.selectSingleNode("id").text) Then
 				If BlogUser.Level<=CLng(objXmlFile.documentElement.selectSingleNode("level").text) Then
-					If fso.FileExists(BlogPath & "zb_users/plugin/" & f1.name & "/" & objXmlFile.documentElement.selectSingleNode("path").text) Then
+					If PublicObjFSO.FileExists(BlogPath & "zb_users/plugin/" & f1.name & "/" & objXmlFile.documentElement.selectSingleNode("path").text) Then
 						s=s & "&nbsp;&nbsp;&nbsp;&nbsp;<a href=""../../ZB_USERS/plugin/" & f1.name & "/" & objXmlFile.documentElement.selectSingleNode("path").text &"""><img width='16' title='"&ZC_MSG022&"' alt='"&ZC_MSG022&"' src='../IMAGE/ADMIN/setting_tools.png'/></a>"
 					End If
 				End If
@@ -1119,9 +1119,6 @@ Function ExportSiteInfo()
 
 	Dim s
 
-	Dim FoundFso
-	FoundFso = False
-	FoundFso = IsObjInstalled("Scripting.FileSystemObject")
 
 	Response.Write "<div class=""divHeader"">" & ZC_MSG159 & "</div>"
 	Response.Write "<div class=""SubMenu"">" & Response_Plugin_SiteInfo_SubMenu & "</div>"
@@ -1237,13 +1234,15 @@ Function ExportThemeMng()
 	Response.Write "<form id=""frmTheme"" method=""post"" action=""../cmd.asp?act=ThemeSav"">"
 
 	Dim objXmlFile,strXmlFile
-	Dim fso, f, f1, fc, s
-	Set fso = CreateObject("Scripting.FileSystemObject")
-	Set f = fso.GetFolder(BlogPath & "zb_users/theme" & "/")
+	Dim f, f1, fc, s
+	
+	If Not IsObject(PublicObjFSO) Then Set PublicObjFSO=Server.CreateObject("Scripting.FileSystemObject")
+	
+	Set f = PublicObjFSO.GetFolder(BlogPath & "zb_users/theme" & "/")
 	Set fc = f.SubFolders
 	For Each f1 in fc
 
-		If fso.FileExists(BlogPath & "zb_users/theme" & "/" & f1.name & "/" & "theme.xml") Then
+		If PublicObjFSO.FileExists(BlogPath & "zb_users/theme" & "/" & f1.name & "/" & "theme.xml") Then
 
 			strXmlFile =BlogPath & "zb_users/theme" & "/" & f1.name & "/" & "theme.xml"
 
@@ -1307,7 +1306,7 @@ Function ExportThemeMng()
 		Else
 			Response.Write "<div class=""theme-name""><img width='16' title='' alt='' src='../IMAGE/ADMIN/layout.png'/> <a  target=""_blank"" href="""&Theme_Url&"""  title="""">" & "<strong style='display:none;'>" & Server.URLEncode(Theme_Id) & "</strong><b>" & Theme_Name & "</b>" & "</a>"
 			If UCase(Theme_Id)=UCase(CurrentTheme) Then
-				If fso.FileExists(BlogPath & "zb_users/theme/" & ZC_BLOG_THEME & "/plugin/" & objXmlFile.documentElement.selectSingleNode("plugin/path").text) Then
+				If PublicObjFSO.FileExists(BlogPath & "zb_users/theme/" & ZC_BLOG_THEME & "/plugin/" & objXmlFile.documentElement.selectSingleNode("plugin/path").text) Then
 					Response.Write "<input type=""button"" class=""theme-config button"" value="""&ZC_MSG278&""" onclick=""location.href='"&BlogHost&"zb_users/theme/"&ZC_BLOG_THEME&"/plugin/"&objXmlFile.documentElement.selectSingleNode("plugin/path").text&"'"">"
 				End If
 			End If
@@ -1394,7 +1393,6 @@ Function ExportThemeMng()
 		End If
 
 	Next
-	Set fso = nothing
 
 		Response.Write "<input type=""hidden"" name=""edtZC_BLOG_CSS"" id=""edtZC_BLOG_CSS"" value="""" />"
 		Response.Write "<input type=""hidden"" name=""edtZC_BLOG_THEME"" id=""edtZC_BLOG_THEME"" value="""" />"
