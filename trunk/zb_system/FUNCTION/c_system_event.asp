@@ -1489,18 +1489,11 @@ End Function
 '*********************************************************
 Function DelSiteFile(tpath)
 
-	Dim Fso
-	Set Fso = Createobject("Scripting.Filesystemobject")
-	If Fso.FileExists(BlogPath & tpath) Then
-		Fso.Deletefile(BlogPath & tpath)
-		Set Fso = Nothing
-
+	If Not IsObject(PublicObjFSO) Then Set PublicObjFSO=Server.CreateObject("Scripting.FileSystemObject")
+	
+	If PublicObjFSO.FileExists(BlogPath & tpath) Then
+		PublicObjFSO.Deletefile(BlogPath & tpath)
 		DelSiteFile=True
-
-		Exit Function
-	Else
-		Set Fso = Nothing
-		Exit Function
 	End If
 
 End Function
@@ -1834,7 +1827,6 @@ Function SaveTheme()
 
 		Call GetFunction()
 		Dim fun
-		Dim Fso
 		For Each fun In Functions
 			If IsObject(fun)=True Then
 				If fun.Source="theme_"&ZC_BLOG_THEME Then
@@ -2152,14 +2144,16 @@ Function GetAllXmlPath(newZC_USING_PLUGIN_LIST)
 		Exit Function
 	End If
 
-	Dim fso, f, f1, fc
+	Dim f, f1, fc
 	Dim aryXmlFile()
 	Redim aryXmlFile(-1)
-	Set fso = CreateObject("Scripting.FileSystemObject")
-	Set f = fso.GetFolder(BlogPath & "zb_users/plugin/")
+	
+	If Not IsObject(PublicObjFSO) Then Set PublicObjFSO=Server.CreateObject("Scripting.FileSystemObject")
+	
+	Set f = PublicObjFSO.GetFolder(BlogPath & "zb_users/plugin/")
 	Set fc = f.SubFolders
 	For j=0 To i
-		If fso.FileExists(BlogPath & "zb_users/plugin/" & aryPL(j) & "/" & "plugin.xml") Then
+		If PublicObjFSO.FileExists(BlogPath & "zb_users/plugin/" & aryPL(j) & "/" & "plugin.xml") Then
 			If CheckPluginStateByNewValue(aryPL(j),newZC_USING_PLUGIN_LIST) Then
 				Redim Preserve aryXmlFile(Ubound(aryXmlFile)+1)
 				aryXmlFile(Ubound(aryXmlFile))=BlogPath & "zb_users/plugin/" & aryPL(j) & "/" & "plugin.xml"
@@ -2168,7 +2162,6 @@ Function GetAllXmlPath(newZC_USING_PLUGIN_LIST)
 	Next
 	GetAllXmlPath=aryXmlFile
 	Set f=Nothing
-	Set fso=Nothing
 End Function
 '*********************************************************
 
@@ -2354,15 +2347,14 @@ Function ScanPluginToThemeFile(newZC_BLOG_CSS,newZC_BLOG_THEME)
 		If objXmlFile.parseError.errorCode <> 0 Then
 		Else
 			If LCase(objXmlFile.documentElement.selectSingleNode("id").text)=LCase(newZC_BLOG_THEME) Then
-				Dim fso
-				Set fso = CreateObject("Scripting.FileSystemObject")
-				If fso.FileExists(BlogPath & "zb_users/theme/" & objXmlFile.documentElement.selectSingleNode("id").text &"/plugin/" & objXmlFile.documentElement.selectSingleNode("plugin/include").text) Then
+				If Not IsObject(PublicObjFSO) Then Set PublicObjFSO=Server.CreateObject("Scripting.FileSystemObject")
+				If PublicObjFSO.FileExists(BlogPath & "zb_users/theme/" & objXmlFile.documentElement.selectSingleNode("id").text &"/plugin/" & objXmlFile.documentElement.selectSingleNode("plugin/include").text) Then
 					If Trim(objXmlFile.documentElement.selectSingleNode("plugin/include").text)<>"" Then
 						t=LoadFromFile(BlogPath & "zb_users/theme/" & objXmlFile.documentElement.selectSingleNode("id").text &"/plugin/" & objXmlFile.documentElement.selectSingleNode("plugin/include").text,"utf-8")
 						If InStr(LCase(t),LCase("InstallPlugin_"))>0 Then
 							Call AddBatch(ZC_MSG202 & objXmlFile.documentElement.selectSingleNode("id").text,"Call InstallPlugin("""&objXmlFile.documentElement.selectSingleNode("id").text&""")")	
 						End If
-						s=s & "<!-- #include file=""../theme/"& objXmlFile.documentElement.selectSingleNode("id").text &"/plugin/"& objXmlFile.documentElement.selectSingleNode("plugin/include").text &""" -->" & vbCrLf
+						s=s & "<!-"&"- #include file=""../theme/"& objXmlFile.documentElement.selectSingleNode("id").text &"/plugin/"& objXmlFile.documentElement.selectSingleNode("plugin/include").text &""" -->" & vbCrLf
 					End If
 				End If
 			End If
