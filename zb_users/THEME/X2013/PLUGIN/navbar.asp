@@ -52,7 +52,7 @@ If strAct="SaveFct" Then
 	Call SetBlogHint(True,Empty,True)
 Else
 	Set objFunction=Functions(FunctionMetas.GetValue("x2013_showlink"))
-	FctContent=objFunction.Content
+	FctContent=Replace(objFunction.Content,"<#ZC_BLOG_HOST#>",BlogHost)
 End If
 
 %>
@@ -73,7 +73,7 @@ p{line-height:1.5em;padding:0.5em 0;}
 		<div class="widget-list ui-droppable" style="min-width: 830px;">
 		<div class="widget-list-header">添加导航链接</div>
 		<div class="widget-list-note">请选择您要添加的链接类型</div>
-<ul data-role="accordion" class="accordion span10">
+			<ul data-role="accordion" class="accordion span10">
                     <li>
                         <a href="#">文章</a>
                         <div>
@@ -122,8 +122,8 @@ p{line-height:1.5em;padding:0.5em 0;}
                         <a href="#">自定义链接</a>
                         <div>
                             <div class="input-control text">
-        <input type="url" id="addurl" placeholder="输入网址" style="width:50%"><input type="text"  id="addtitle" placeholder="输入标题" style="width:20%"><input type="button" value="添加" onclick="addurlpartent()">
-    </div>
+								<input type="url" id="addurl" placeholder="输入网址" style="width:50%"><input type="text"  id="addtitle" placeholder="输入标题" style="width:20%"><input type="button" value="添加" onclick="addurlpartent()">
+							 </div>
                         </div>
                     </li>
                 </ul>
@@ -156,9 +156,9 @@ p{line-height:1.5em;padding:0.5em 0;}
 		$("#connect").sortable();
 		$("#connect").disableSelection();
 
-		$("#connect li").hover(
+		$("#connect li a").hover(
 			  function () {
-				$(this).append("<a class='del' onclick='del(this)'>del</a>");
+				$(this).append("<span class='del' onclick='del(this)'><img height='16' width='16' src='http://localhost/zb_users/plugin/appcentre/images/delete.png'></span>");
 			  },
 			  function () {
 				$(this).find(".del").remove();
