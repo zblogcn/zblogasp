@@ -304,4 +304,9 @@ input[type=submit] {
   top: 3px;
 }
 
-.del{float:right;}
+.del{
+	position: absolute;
+	top: 2px;
+	right: 2px;
+	cursor: pointer;
+}
