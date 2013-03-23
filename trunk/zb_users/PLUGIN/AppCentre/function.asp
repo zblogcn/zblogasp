@@ -10,7 +10,7 @@ Dim appcentre_updatelist,appcentre_blog_last
 
 Dim app_config
 Dim login_un,login_pw,disableupdate_theme
-Dim enable_develop,disable_check
+Dim enable_develop,disable_check,check_beta
 Dim Pack_For,Pack_Type
 
 Dim app_id
@@ -251,7 +251,7 @@ Function AppCentre_CheckSystemLast()
 	Dim objPing
 	Set objPing = Server.CreateObject("MSXML2.ServerXMLHTTP")
 
-	objPing.open "GET", APPCENTRE_SYSTEM_UPDATE,False
+	objPing.open "GET", APPCENTRE_SYSTEM_UPDATE&IIf(check_beta,"&beta=true",""),False
 	objPing.send ""
 
 	If objPing.ReadyState=4 Then
@@ -376,9 +376,11 @@ Sub AppCentre_InitConfig
 	enable_develop=app_config.read("EnableDevelop")
 	disable_check=app_config.read("DisableCheck")
 	disableupdate_theme=app_config.read("DisableUpdateTheme")
+	check_beta=app_config.read("CheckBeta")
 
 	If enable_develop="" Then enable_develop=False
 	If disable_check="" Then disable_check=False
+	If check_beta="" Then check_beta=False
 End Sub
 
 Function AppCentre_GetLastModifiTime(dirpath)
