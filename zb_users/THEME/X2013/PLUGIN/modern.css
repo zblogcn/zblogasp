@@ -306,7 +306,81 @@ input[type=submit] {
 
 .del{
 	position: absolute;
-	top: 2px;
-	right: 2px;
+	top: 3px;
+	right: 7px;
 	cursor: pointer;
+}
+
+/*
+Icon Set:	Broccolidry -- http://dribbble.com/shots/587469-Free-16px-Broccolidryiconsaniconsetitisfullof-icons
+License:	Aribitrary -- http://licence.visualidiot.com/
+
+
+Icon Set:	Meteocons -- http://www.alessioatzeni.com/meteocons/
+License:	Arbitrary -- http://www.alessioatzeni.com/meteocons/#about
+
+
+Icon Set:	IcoMoon - Free -- http://keyamoon.com/icomoon/
+License:	CC BY-SA 3.0 -- http://creativecommons.org/licenses/by-sa/3.0/
+*/
+@font-face {
+  font-family: 'iconFont';
+  src: url('http://www.bootcss.com/p/metro-ui-css/fonts/iconFont.eot');
+  src: url('http://www.bootcss.com/p/metro-ui-css/fonts/iconFont.eot?#iefix') format('embedded-opentype'), url('http://www.bootcss.com/p/metro-ui-css/fonts/iconFont.svg#iconFont') format('svg'), url('http://www.bootcss.com/p/metro-ui-css/fonts/iconFont.woff') format('woff'), url('http://www.bootcss.com/p/metro-ui-css/fonts/iconFont.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+/* Use the following CSS code if you want to use data attributes for inserting your icons */
+[data-icon]:before {
+  font-family: 'iconFont';
+  content: attr(data-icon);
+  speak: none;
+  font-weight: normal;
+  font-style: normal;
+  display: inline-block;
+  text-decoration: inherit;
+  -webkit-font-smoothing: antialiased;
+  border: 1px transparent solid;
+}
+/* Use the following CSS code if you want to have a class per icon */
+[class^="icon-"]:before,
+[class*=" icon-"]:before {
+  font-family: 'iconFont';
+  font-style: normal;
+  speak: none;
+  font-weight: normal;
+  display: inline-block;
+  text-decoration: inherit;
+  margin: 0 2px;
+  -webkit-font-smoothing: antialiased;
+  border: 1px transparent solid;
+}
+.icon-large:before {
+  vertical-align: middle;
+  font-size: 1.3333333333333332em;
+  margin-top: -8px;
+}
+button.mini,
+.button.mini {
+  font-size: .9em !important;
+}
+a [class^="icon-"],
+a [class*=" icon-"] {
+  border: 1px transparent solid;
+}
+li [class^="icon-"],
+li [class*=" icon-"] {
+  display: inline-block;
+  width: 1.25em;
+  text-align: center;
+}
+li .icon-large:after,
+li .icon-large:before {
+  width: 1.875em;
+}
+.icon-cancel:before {
+  content: "\e088";
+}
+.icon-cancel-2:before {
+  content: "\e089";
 }
