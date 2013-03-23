@@ -1,0 +1,24 @@
+D:\My Documents\Visual Studio 2005\Projects\WebApplication3\WebApplication3\bin\zblogupdate.dll
+D:\My Documents\Visual Studio 2005\Projects\WebApplication3\WebApplication3\bin\zblogupdate.pdb
+D:\My Documents\Visual Studio 2005\Projects\WebApplication3\WebApplication3\bin\zblogupdate.xml
+D:\My Documents\Visual Studio 2005\Projects\WebApplication3\WebApplication3\obj\Release\ResolveAssemblyReference.cache
+D:\My Documents\Visual Studio 2005\Projects\WebApplication3\WebApplication3\obj\Release\zblogupdate.Resources.resources
+D:\My Documents\Visual Studio 2005\Projects\WebApplication3\WebApplication3\obj\Release\zblogupdate.vbproj.GenerateResource.Cache
+D:\My Documents\Visual Studio 2005\Projects\WebApplication3\WebApplication3\obj\Release\zblogupdate.dll
+D:\My Documents\Visual Studio 2005\Projects\WebApplication3\WebApplication3\obj\Release\zblogupdate.xml
+D:\My Documents\Visual Studio 2005\Projects\WebApplication3\WebApplication3\obj\Release\zblogupdate.pdb
+D:\inetpub\zblog-1-9\zblogupdate\zblogupdate\bin\zblogupdate.dll
+D:\inetpub\zblog-1-9\zblogupdate\zblogupdate\bin\zblogupdate.pdb
+D:\inetpub\zblog-1-9\zblogupdate\zblogupdate\bin\zblogupdate.xml
+D:\inetpub\zblog-1-9\zblogupdate\zblogupdate\obj\Release\ResolveAssemblyReference.cache
+D:\inetpub\zblog-1-9\zblogupdate\zblogupdate\obj\Release\zblogupdate.Resources.resources
+D:\inetpub\zblog-1-9\zblogupdate\zblogupdate\obj\Release\zblogupdate.vbproj.GenerateResource.Cache
+D:\inetpub\zblog-1-9\zblogupdate\zblogupdate\obj\Release\zblogupdate.dll
+D:\inetpub\zblog-1-9\zblogupdate\zblogupdate\obj\Release\zblogupdate.xml
+D:\inetpub\zblog-1-9\zblogupdate\zblogupdate\obj\Release\zblogupdate.pdb
+D:\inetpub\zblog-1-9\zblogupdate\zblogupdate\obj\Debug\ResolveAssemblyReference.cache
+D:\inetpub\zblog-1-9\zblogupdate\zblogupdate\obj\Debug\zblogupdate.Resources.resources
+D:\inetpub\zblog-1-9\zblogupdate\zblogupdate\obj\Debug\zblogupdate.vbproj.GenerateResource.Cache
+D:\inetpub\zblog-1-9\zblogupdate\zblogupdate\obj\Debug\zblogupdate.dll
+D:\inetpub\zblog-1-9\zblogupdate\zblogupdate\obj\Debug\zblogupdate.xml
+D:\inetpub\zblog-1-9\zblogupdate\zblogupdate\obj\Debug\zblogupdate.pdb
