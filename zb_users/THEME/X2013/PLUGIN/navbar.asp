@@ -156,15 +156,16 @@ p{line-height:1.5em;padding:0.5em 0;}
 		$("#connect").sortable();
 		$("#connect").disableSelection();
 
-		$("#connect li").hover(
-			  function () {
-				$(this).append("<span class='del icon-cancel' onclick='del(this)' title='删除'></span>");
-			  },
-			  function () {
-				$(this).find(".del").remove();
-			  }
-			);
+		$("#connect li").live('mouseenter mouseleave', function(event) {
+		  if (event.type == 'mouseenter') {
+			$(this).append("<span class='del icon-cancel' onclick='del(this)' title='删除'></span>");
+		  } else {
+			$(this).find(".del").remove();
+		  }
+		});
+
 	});
+
 	function del(item){
 		$(item).parent().remove();
 	}
