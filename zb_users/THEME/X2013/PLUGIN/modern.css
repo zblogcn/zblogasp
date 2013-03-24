@@ -384,3 +384,9 @@ li .icon-large:before {
 .icon-cancel-2:before {
   content: "\e089";
 }
+.del.icon-cancel{
+	color: #eee;
+}
+.del.icon-cancel:hover {
+	color: #444;
+}
