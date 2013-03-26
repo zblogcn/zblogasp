@@ -104,18 +104,18 @@ Function SaveWAPConfig2DB()
 
 	Dim c
 	Set c = New TConfig
-	c.Load("Wap")
+	c.Load "Wap"
 	Dim i
 	For Each i In Request.Form
 		If Not IsEmpty(Request.Form(i)) Then
 			c.Write i,Request.Form(i)
-		End If		
+		End If
 	Next
 	c.Write "WAP_DISPLAY_PAGEBAR_ALL","false"
 	c.Save
 	Call SaveWAPConfig2Option
 	Call SetBlogHint(True,Empty,Empty)
-	'Response.Redirect "main.asp"	
+	Response.Redirect "main.asp"	
 
 End Function
 
@@ -128,7 +128,7 @@ Function SaveWAPConfig2Option()
 
 	Dim c
 	Set c = New TConfig
-	c.Load("wap")
+	c.Load("Wap")
 	Dim i
 	For i=1 To c.Count
 		If Trim(c.Meta.GetValue(c.Meta.Names(i)))="" And InStr(strContent,""""& "<#"&c.Meta.Names(i)&"#>" &"""")=0 Then
@@ -138,7 +138,7 @@ Function SaveWAPConfig2Option()
 		End If
 	Next
 
-	Call c.Save()
+	'Call c.Save()
 	Set c=Nothing
 	Call SaveToFile(BlogPath & "zb_users\plugin\wap\option.asp",strContent,"utf-8",False)
 
