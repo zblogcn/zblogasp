@@ -21,20 +21,9 @@ BlogTitle="WAP插件配置"
 
 Dim c
 Set c = New TConfig
-c.Load("wap")
-Dim i
+c.Load("Wap")
 If Request.QueryString("act")="save" Then
-	For i=1 To c.Count
-		If Not IsEmpty(Request.Form(c.Meta.Names(i))) Then
-			c.Write c.Meta.Names(i),Request.Form(c.Meta.Names(i))
-		End If
-		
-	Next
-	c.Save
-	SaveWAPConfig2Option
-	Call SetBlogHint(True,Empty,Empty)
-	Response.Redirect "main.asp"
-	
+	Call SaveWAPConfig2DB	
 End If
 %>
 <!--#include file="..\..\..\zb_system\admin\admin_header.asp"-->
@@ -46,7 +35,7 @@ End If
           <div class="divHeader"><%=BlogTitle%></div>
           <div class="SubMenu"><%=Response_Plugin_SettingMng_SubMenu%></div>
           <div id="divMain2"> 
-			<form id="form1" name="form1" method="post" action="?act=save">
+			<form  method="post" action="?act=save">
             <table width="100%">
 			<tbody>
 				<tr height="40" class="color1"><th width="30%">配置项</th><th width="69%">配置</th></tr>
