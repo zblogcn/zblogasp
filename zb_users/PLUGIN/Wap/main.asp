@@ -17,7 +17,25 @@ Call CheckReference("")
 '检查权限
 If BlogUser.Level>1 Then Call ShowError(6)
 If CheckPluginState("Wap")=False Then Call ShowError(48)
-BlogTitle="Wap插件"
+BlogTitle="WAP插件配置"
+
+Dim c
+Set c = New TConfig
+c.Load("wap")
+Dim i
+If Request.QueryString("act")="save" Then
+	For i=1 To c.Count
+		If Not IsEmpty(Request.Form(c.Meta.Names(i))) Then
+			c.Write c.Meta.Names(i),Request.Form(c.Meta.Names(i))
+		End If
+		
+	Next
+	c.Save
+	SaveWAPConfig2Option
+	Call SetBlogHint(True,Empty,Empty)
+	Response.Redirect "main.asp"
+	
+End If
 %>
 <!--#include file="..\..\..\zb_system\admin\admin_header.asp"-->
 <!--#include file="..\..\..\zb_system\admin\admin_top.asp"-->
@@ -26,12 +44,35 @@ BlogTitle="Wap插件"
             <%Call GetBlogHint()%>
           </div>
           <div class="divHeader"><%=BlogTitle%></div>
-          <div class="SubMenu"><%=Wap_SubMenu(0)%></div>
+          <div class="SubMenu"><%=Response_Plugin_SettingMng_SubMenu%></div>
           <div id="divMain2"> 
-            <script type="text/javascript">ActiveTopMenu("aPlugInMng");</script> 
-            在这里写入后台管理页面代码
+			<form id="form1" name="form1" method="post" action="?act=save">
+            <table width="100%">
+			<tbody>
+				<tr height="40" class="color1"><th width="30%">配置项</th><th width="69%">配置</th></tr>
+				<tr><td><p align="left"><b> · WAP文章列表单页显示文章数量</b></p></td><td><input type="text" name="WAP_DISPLAY_COUNT" id="WAP_DISPLAY_COUNT" value="<%=c.Read("WAP_DISPLAY_COUNT")%>"></td></tr>
+				<tr><td><p align="left"><b> · WAP单页显示评论数量</b></p></td><td><input type="text" name="WAP_COMMENT_COUNT" id="WAP_COMMENT_COUNT" value="<%=c.Read("WAP_COMMENT_COUNT")%>"></td></tr>
+				<tr><td><p align="left"><b> · WAP评论分页条显示条数</b></p></td><td><input type="text" name="WAP_PAGEBAR_COUNT" id="WAP_PAGEBAR_COUNT" value="<%=c.Read("WAP_PAGEBAR_COUNT")%>"></td></tr>
+				<tr><td><p align="left"><b> · WAP相关文章数量</b></p></td><td><input type="text" name="WAP_MUTUALITY_LIMIT" id="WAP_MUTUALITY_LIMIT" value="<%=c.Read("WAP_MUTUALITY_LIMIT")%>"></td></tr>
+				<tr><td><p align="left"><b> · WAP文件地址</b></p></td><td><input type="text" name="WAP_FILENAME" id="WAP_FILENAME" value="<%=c.Read("WAP_FILENAME")%>"></td></tr>
+				 <tr><td><p align="left"><b> · 打开WAP评论</b></p></td><td><input type="text" name="WAP_COMMENT_ENABLE" id="WAP_COMMENT_ENABLE" value="<%=c.Read("WAP_COMMENT_ENABLE")%>" class="checkbox"></td></tr>
+				<tr><td><p align="left"><b> · WAP文章页全文显示模式</b></p></td><td><input type="text" name="WAP_DISPLAY_MODE_ALL" id="WAP_DISPLAY_MODE_ALL" value="<%=c.Read("WAP_DISPLAY_MODE_ALL")%>" class="checkbox"></td></tr>
+				<tr><td><p align="left"><b> · 分页查看文章时单页字数</b></p></td><td><input type="text" name="WAP_SINGLE_SIZE" id="WAP_SINGLE_SIZE" value="<%=c.Read("WAP_SINGLE_SIZE")%>"></td></tr>
+				<tr><td><p align="left"><b> · 显示分类导航</b></p></td><td><input type="text" name="WAP_DISPLAY_CATE_ALL" id="WAP_DISPLAY_CATE_ALL" value="<%=c.Read("WAP_DISPLAY_CATE_ALL")%>" class="checkbox"></td></tr>
+				<tr><td><p align="left"><b> · 数字分页条模式</b></p></td><td><input type="text" name="WAP_DISPLAY_PAGEBAR_ALL" id="WAP_DISPLAY_PAGEBAR_ALL" value="<%=c.Read("WAP_DISPLAY_PAGEBAR_ALL")%>" class="checkbox"></td></tr>
+
+			</tbody></table>
+			<p>
+                <input type="submit" value="提交">
+              </p>
+			  </form>
           </div>
         </div>
+		
+		<script type="text/javascript">
+			ActiveTopMenu("aPlugInMng");
+			$(".SubMenu a[href*='zb_users/plugin/wap/main.asp']").find("span").addClass("m-now")
+		</script> 
         <!--#include file="..\..\..\zb_system\admin\admin_footer.asp"-->
 
 <%Call System_Terminate()%>
