@@ -111,7 +111,6 @@ Function SaveWAPConfig2DB()
 			c.Write i,Request.Form(i)
 		End If
 	Next
-	c.Write "WAP_DISPLAY_PAGEBAR_ALL","false"
 	c.Save
 	Call SaveWAPConfig2Option
 	Call SetBlogHint(True,Empty,Empty)
