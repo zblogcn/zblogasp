@@ -8,8 +8,10 @@ Function ActivePlugin_Wap()
 	Call Add_Response_Plugin("Response_Plugin_SettingMng_SubMenu",MakeSubMenu("WAP设置",GetCurrentHost() & "zb_users/plugin/wap/main.asp","m-left",False))
 End Function
 
+'首页接口，判断类型并跳转
 Call Add_Action_Plugin("Action_Plugin_Default_WithOutConnect_Begin","Wap_Check()")
 
+'检查终端类型
 Dim Wap_Type
 Function Wap_Check()
 	Dim s
@@ -32,6 +34,7 @@ Function Wap_Check()
 End Function 
 
 
+'检查手机端类型
 Function Wap_CheckMobile()
 
 	Wap_CheckMobile=""
@@ -77,7 +80,7 @@ End Function
 Function WAPConfig_Initialize()
 	Dim c
 	Set c = New TConfig
-	c.Load("wap")
+	c.Load("Wap")
 	If c.Exists("wap_version")=False Then
 		c.Write "wap_version","1.0"
 		c.Write "WAP_DISPLAY_COUNT","5"
@@ -95,12 +98,29 @@ Function WAPConfig_Initialize()
 	End If
 	Set c=Nothing
 End Function
-'*********************************************************
+
+' Save Config to DB
+Function SaveWAPConfig2DB()
+
+	Dim c
+	Set c = New TConfig
+	c.Load("Wap")
+	Dim i
+	For Each i In Request.Form
+		If Not IsEmpty(Request.Form(i)) Then
+			c.Write i,Request.Form(i)
+		End If		
+	Next
+	c.Write "WAP_DISPLAY_PAGEBAR_ALL","false"
+	c.Save
+	Call SaveWAPConfig2Option
+	Call SetBlogHint(True,Empty,Empty)
+	'Response.Redirect "main.asp"	
+
+End Function
 
 
-'*********************************************************
-' 目的：    Save Config to option.asp
-'*********************************************************
+' Save Config to option.asp
 Function SaveWAPConfig2Option()
 
 	Dim strContent
