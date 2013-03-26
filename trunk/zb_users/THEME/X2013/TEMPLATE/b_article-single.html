@@ -9,7 +9,7 @@
 		</p>
 	</header>
 	<div class="db_post">
-		<#CACHE_INCLUDE_X2013_POSTADHEADER#>
+		<#ZC_TM_POSTADHEADER#>
 	</div>                
 	<div class="article-entry"><#article/content#></div>
 	
@@ -20,7 +20,7 @@
     <#template:article_tag:end#>          
 </article>
 <div class="db_post" style="margin:-15px 0 15px 0;">
-	<#CACHE_INCLUDE_X2013_POSTADFOOTER#>
+	<#ZC_TM_POSTADFOOTER#>
 </div>
 
 
@@ -30,8 +30,10 @@
 		<div id="ds-reset">
 			<div class="ds-toolbar"></div>
 			<a name="respond"></a>
+			<#template:article_comment:begin#>
 			<#template:article_comment#>
 			<#template:article_comment_pagebar#>
+			<#template:article_comment:end#>
 			<#template:article_commentpost#>
 		</div>
 	</div>

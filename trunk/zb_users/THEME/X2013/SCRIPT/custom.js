@@ -1,4 +1,3 @@
-var themeUrl = '/wp-content/themes/d-simple/';
 // jQuery.noConflict();
 jQuery(document).ready(function($) {
 	if($.browser.msie&&($.browser.version==6.0)&&!$.support.style){

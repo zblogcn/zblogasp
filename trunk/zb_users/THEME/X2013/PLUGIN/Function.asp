@@ -1,4 +1,18 @@
 <%
+'****************************************
+' 子菜单
+'****************************************
+Function X2013_SubMenu(id)
+	Dim aryName,aryPath,aryFloat,aryInNewWindow,i
+	aryName=Array("主题常规设置","导航管理","主题说明","广告设置")
+	aryPath=Array("main.asp","navbar.asp","about.asp","ad.asp")
+	aryFloat=Array("m-left","m-left","m-right","m-left")
+	aryInNewWindow=Array(False,False,False,False)
+	For i=0 To Ubound(aryName)
+		X2013_SubMenu=X2013_SubMenu & MakeSubMenu(aryName(i),aryPath(i),aryFloat(i)&IIf(i=id," m-now",""),aryInNewWindow(i))
+	Next
+End Function
+
 '检验数据是否存在------------------------------------
 Function CheckFields(ParameterName,FieldsName,TableName)
 dim cRs

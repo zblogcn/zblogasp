@@ -68,7 +68,7 @@ p{line-height:1.5em;padding:0.5em 0;}
 	<div id="ShowBlogHint"><%Call GetBlogHint()%></div>
 	<!--<div class="divHeader"><%=BlogTitle%></div>-->
 
-<div class="SubMenu"><a href="main.asp"><span class="m-left"><%=BlogTitle%></span></a><a href="navbar.asp"><span class="m-left m-now">导航管理</span></a><a href="about.asp"><span class="m-left">主题说明</span></a></div>
+<div class="SubMenu"><%=X2013_SubMenu(1)%></div>
 	<div id="divMain2">
 		<div class="widget-list ui-droppable" style="min-width: 830px;">
 		<div class="widget-list-header">添加导航链接</div>
