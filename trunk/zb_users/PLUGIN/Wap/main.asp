@@ -19,12 +19,13 @@ If BlogUser.Level>1 Then Call ShowError(6)
 If CheckPluginState("Wap")=False Then Call ShowError(48)
 BlogTitle="WAP插件配置"
 
+If Request.QueryString("act")="save" Then
+	Call SaveWAPConfig2DB
+End If
+
 Dim c
 Set c = New TConfig
-c.Load("Wap")
-If Request.QueryString("act")="save" Then
-	Call SaveWAPConfig2DB	
-End If
+c.Load "Wap"
 %>
 <!--#include file="..\..\..\zb_system\admin\admin_header.asp"-->
 <!--#include file="..\..\..\zb_system\admin\admin_top.asp"-->
