@@ -15,14 +15,7 @@
 			<a class="btn btn-arrow btn-headermenu" href="javascript:;">订阅关注</a>
             <div class="popup-layer">
               <div class="popup">
-                <ul class="popup-follow-weibo">
-                  <li>
-                    <a class="btn btn-mini" target="_blank" href="http://t.qq.com/involvements">腾讯微博</a>
-                  </li>
-                  <li>
-                    <a class="btn btn-mini" target="_blank" href="http://weibo.com/810888188">新浪微博</a>
-                  </li>
-                </ul>
+				<#ZC_TM_SetWeiBo#>
                 <div class="popup-follow-feed">
                 <h4>订阅到：</h4>
                 <a target="_blank" href="http://mail.qq.com/cgi-bin/feed?u=<#ZC_BLOG_HOST#>">QQ邮箱</a>
@@ -30,33 +23,7 @@
                 <a target="_blank" href="http://reader.yodao.com/#url=<#ZC_BLOG_HOST#>">有道</a>
                 <h4>订阅地址：</h4>
                 <input class="ipt" type="text" readonly="readonly" value="<#ZC_BLOG_HOST#>feed.asp" /></div>
-                <div class="popup-follow-mail">
-                  <h4>邮件订阅：</h4>
-                  <form action="http://list.qq.com/cgi-bin/qf_compose_send" target="_blank" method="post">
-                  <input type="hidden" name="t" value="qf_booked_feedback" /> 
-                  <input type="hidden" name="id" value="4e54e0008863773ff0f44e54eb9c1805cf165e63a0601789" /> 
-                  <input id="to" placeholder="输入邮箱 订阅本站" name="to" type="text" class="ipt" />
-                  <input class="btn btn-primary" type="submit" value="邮件订阅" /></form>
-                </div>
-              </div>
-            </div>
-          </li>
-          <li class="menu-profile">
-            <a class="btn btn-arrow btn-headermenu" href="javascript:;">登陆后台</a>
-            <div class="popup-layer">
-              <div class="popup">
-                <form class="popup-signin" name="loginform" action="http://lisizhang.com/wp-login.php" method="post">
-                <h4>用户名：</h4>
-                <input class="ipt" type="text" name="log" value="" size="20" />
-                <h4>密码：</h4>
-                <input class="ipt" type="password" name="pwd" value="" size="20" /> 
-                <input class="btn btn-primary" type="submit" name="submit" value="立即登录" />
-                <p>
-                  <a class="btn btn-mini" href="http://lisizhang.com/wp-login.php?action=register">注册会员</a>
-                  <a class="btn btn-mini" href="http://lisizhang.com/wp-login.php?action=lostpassword">找回密码</a>
-                </p>
-                <!-- <input type="hidden" name="redirect_to" value="/" /> -->
-                <input type="hidden" name="redirect_to" value="http://lisizhang.com/wp-admin/admin.php?page=ciphpdown/vip-items.php" /></form>
+				<#ZC_TM_SetFeedToMail#>
               </div>
             </div>
           </li>

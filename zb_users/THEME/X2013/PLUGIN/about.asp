@@ -27,7 +27,7 @@ p{line-height:1.5em;padding:0.5em 0;}
 <div id="divMain">
 	<div id="ShowBlogHint"><%Call GetBlogHint()%></div>
 	<!--<div class="divHeader"><%=BlogTitle%></div>-->
-  	<div class="SubMenu"><a href="main.asp"><span class="m-left"><%=BlogTitle%></span></a><a href="navbar.asp"><span class="m-left">导航管理</span></a><a href="about.asp"><span class="m-left m-now">主题说明</span></a></div>
+  	<div class="SubMenu"><%=X2013_SubMenu(2)%></div>
 	<div id="divMain2">
 	<script type="text/javascript">ActiveTopMenu("aX2013");</script> 
 	<!--SetCon Star.-->

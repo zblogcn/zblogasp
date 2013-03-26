@@ -1,29 +1,21 @@
-﻿<div class="postwrapper box wid700  wid1000">
-	<div class="block article">
-		<div class="postmain">
-			<div class="content">
-				<div class="text">
-					<h2><a href="<#article/url#>"><#article/title#></a></h2>
-					<#article/content#>
-				</div>
-			</div>
-			<div class="tag">
-				<#template:article_tag#>
-			</div>
-			<div class="link">
-				<script type="text/javascript">AddViewCount(<#article/id#>)</script>
-			</div>
-		</div>
-	</div> 
-	<div class="block">
-		<div class="postmain comment">
-		<div class="bcmt">
-			<div class="bcmtlst">
-			   <#template:article_comment#>
-			</div>
+﻿<article class="article">
+	<header class="article-header">
+		<h1 class="article-title"><#article/title#></h1>
+	</header> 
+	<div class="article-entry"><#article/content#></div>
+       
+</article>
+<div id="respond">
+	<a name="comments"></a>
+	<div class="ds-thread"  id="ds-thread">
+		<div id="ds-reset">
+			<div class="ds-toolbar"></div>
+			<a name="respond"></a>
+			<#template:article_comment:begin#>
+			<#template:article_comment#>
 			<#template:article_comment_pagebar#>
+			<#template:article_comment:end#>
 			<#template:article_commentpost#>
-		</div>
 		</div>
 	</div>
 </div>

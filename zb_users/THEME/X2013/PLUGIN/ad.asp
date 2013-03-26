@@ -33,51 +33,17 @@ If objConfig.Exists("Version")=False Then
 	objConfig.Save
 End If
 
-Dim strAct
+Dim strAct,PostAdHeader,PostAdFooter
 strAct=Request.QueryString("act")
 If strAct="Save" Then
-	ZC_MSG266=""
-	Dim SetWeiboSina
-	SetWeiboSina=Request.Form("SetWeiboSina")
-	If SetWeiboSina<>"" Then
-		If SetWeiboSina<>objConfig.Read("SetWeiboSina") Then
-			objConfig.Write "SetWeiboSina",SetWeiboSina
-			objConfig.Save
-			ZC_MSG266 = "新浪微博地址设置成功；"
-		Else
-			ZC_MSG266 = "新浪微博地址未更改；"
-		End If
-	Else
-		objConfig.Write "SetWeiboSina",SetWeiboSina
-		objConfig.Save
-		Call SetBlogHint_Custom("新浪微博地址为空，前台将不显示此图标.")
-	End If
+	PostAdHeader=Request.Form("PostAdHeader")
+	PostAdFooter=Request.Form("PostAdFooter")
 	
-	Dim SetWeiboQQ
-	SetWeiboQQ=Request.Form("SetWeiboQQ")
-	If SetWeiboQQ<>"" Then
-		If SetWeiboQQ<>objConfig.Read("SetWeiboQQ") Then
-			objConfig.Write "SetWeiboQQ",SetWeiboQQ
-			objConfig.Save
-			ZC_MSG266 = ZC_MSG266 + "腾讯微博地址设置成功；"
-		Else
-			ZC_MSG266 = ZC_MSG266 + "腾讯微博地址未更改；"
-		End If
-	Else
-		objConfig.Write "SetWeiboQQ",SetWeiboQQ
-		objConfig.Save
-		Call SetBlogHint_Custom("腾讯微博地址为空，前台将不显示此图标.")
-	End If
-	
-	Dim DisplayFeed,SetMailKey
-	DisplayFeed = Request.Form("DisplayFeed")
-	SetMailKey  = Request.Form("SetMailKey")
-	objConfig.Write "DisplayFeed",DisplayFeed
-	objConfig.Write "SetMailKey",SetMailKey
+	objConfig.Write "PostAdHeader",PostAdHeader
+	objConfig.Write "PostAdFooter",PostAdFooter
 	objConfig.Save
 	
 	Call SetBlogHint(True,Empty,True)
-	'ZC_MSG266=" 操作成功."
 End If
 
 %>
@@ -91,7 +57,7 @@ p{line-height:1.5em;padding:0.5em 0;}
 <div id="divMain">
 	<div id="ShowBlogHint"><%Call GetBlogHint()%></div>
 	<div class="divHeader"><%=BlogTitle%></div>
-  	<div class="SubMenu"><%=X2013_SubMenu(0)%></div>
+  	<div class="SubMenu"><%=X2013_SubMenu(3)%></div>
 	<div id="divMain2">
 	<script type="text/javascript">ActiveTopMenu("aX2013");</script> 
 	<!--SetCon Star.-->
@@ -99,31 +65,24 @@ p{line-height:1.5em;padding:0.5em 0;}
 	
     <table width="100%" style='padding:0px;margin:0px;' cellspacing='0' cellpadding='0' class="tableBorder">
   <tr>
-    <th width='20%'><p align="center">设置</p></th>
+    <th width='20%'><p align="center">广告位</p></th>
     <th width='70%'><p align="center">内容</p></th>
+  </tr>
+  <tr>
+    <td  rowspan="2" colspan="1"><b><label for="PostAdHeader"><p align="center">文章开始广告位(建议宽度880px)</p></label></b></td>
+    <td><p align="left"><textarea name="PostAdHeader" type="text" id="PostAdHeader" style="width: 80%;"><%=objConfig.Read("PostAdHeader")%></textarea></p></td>
     
   </tr>
+   <tr><td><%=objConfig.Read("PostAdHeader")%></td></tr>
   <tr>
-    <td><b><label for="SetWeiboSina"><p align="center">新浪微博</p></label></b></td>
-    <td><p align="left"><input name="SetWeiboSina" type="text" id="SetWeiboSina" size="100%" value="<%=objConfig.Read("SetWeiboSina")%>" /></p></td>
-    
+    <td rowspan="2" colspan="1"><b><label for="PostAdFooter"><p align="center">文章结束广告位(建议宽度880px)</p></label></b></td>
+    <td><p align="left"><textarea name="PostAdFooter" type="text" id="PostAdFooter" style="width: 80%;"><%=objConfig.Read("PostAdFooter")%></textarea></p></td>
   </tr>
-  <tr>
-    <td><b><label for="SetWeiboQQ"><p align="center">腾讯微博</p></label></b></td>
-    <td><p align="left"><input name="SetWeiboQQ" type="text" id="SetWeiboQQ" size="100%" value="<%=objConfig.Read("SetWeiboQQ")%>" /></p></td>
-  </tr>
-  <tr>
-    <td><b><label for="DisplayFeed"><p align="center">是否显示邮件订阅</p></label></b></td>
-    <td><p align="left"><input id="DisplayFeed" name="DisplayFeed" style="display: none; " type="text" value="<%=CBool(objConfig.Read("DisplayFeed"))%>" class="checkbox"></p></td>
-  </tr>
-  <tr>
-    <td><b><label for="SetMailKey"><p align="center">QQMail邮件订阅key</p></label></b></td>
-    <td><p align="left"><input name="SetMailKey" type="text" id="SetMailKey" size="100%" value="<%=objConfig.Read("SetMailKey")%>" /></p></td>
-  </tr>  
+   <tr><td><%=objConfig.Read("PostAdFooter")%></tr>
 </table>
  <br />
    <input name="" type="Submit" class="button" value="保存" onclick='document.getElementById("form1").action="?act=Save";'/>
-  
+
     </form>
     <!--SetCon End.-->
 <br />
