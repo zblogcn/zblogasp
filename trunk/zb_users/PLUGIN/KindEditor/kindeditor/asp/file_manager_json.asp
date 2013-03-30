@@ -5,7 +5,7 @@
 <!--#include file="JSON_2.0.4.asp"-->
 <!--#include file="ASPIncludeFile.asp"-->
 <%
-
+Call KEupload
 ' KindEditor ASP
 '
 ' 本ASP程序是演示程序，建议不要直接在实际项目中使用。
@@ -22,9 +22,9 @@ aspUrl = Request.ServerVariables("SCRIPT_NAME")
 aspUrl = left(aspUrl, InStrRev(aspUrl, "/"))
 
 '根目录路径，可以指定绝对路径，比如 /var/www/attached/
-rootPath = "../../../../../"' & ZC_UPLOAD_DIRECTORY & "/"
+rootPath = BlogPath & ZC_UPLOAD_DIRECTORY &"\"&Year(GetTime(Now()))&"\"&Month(GetTime(Now()))
 '根目录URL，可以指定绝对路径，比如 http://www.yoursite.com/attached/
-rootUrl = ZC_BLOG_HOST & ZC_UPLOAD_DIRECTORY & "/"
+rootUrl = BlogHost & ZC_UPLOAD_DIRECTORY &"/"&Year(GetTime(Now()))&"/"&Month(GetTime(Now()))&"/"
 '图片扩展名
 fileTypes = "gif,jpg,jpeg,png,bmp"
 
@@ -37,28 +37,28 @@ Set fso = Server.CreateObject("Scripting.FileSystemObject")
 
 '目录名
 'dirName = Request.QueryString("dir")
-dirName = "../../../../../" & ZC_UPLOAD_DIRECTORY & "/"  'ZC_UPLOAD_DIRECTORY	'上传根目录
+dirName = ZC_UPLOAD_DIRECTORY &"/"&Year(GetTime(Now()))&"/"&Month(GetTime(Now()))  'ZC_UPLOAD_DIRECTORY	'上传根目录
 If Not isEmpty(dirName) Then
 	' If instr(lcase("image,flash,media,file"), dirName) < 1 Then
 		' Response.Write "Invalid Directory name."
 		' Response.End
 	' End If
-	rootPath = rootPath & dirName & "/"
-	rootUrl = rootUrl & dirName & "/"
-	If Not fso.FolderExists(Server.mappath(rootPath)) Then
-		fso.CreateFolder(Server.mappath(rootPath))
+	'rootPath = rootPath & dirName & "/"
+	'rootUrl = rootUrl & dirName & "/"
+	If Not fso.FolderExists(rootPath) Then
+		fso.CreateFolder(rootPath)
 	End If
 End If
 
 '根据path参数，设置各路径和URL
 path = Request.QueryString("path")
 If path = "" Then
-	currentPath = Server.MapPath(rootPath) & "/"
+	currentPath = rootPath & "/"
 	currentUrl = rootUrl
 	currentDirPath = ""
 	moveupDirPath = ""
 Else
-	currentPath = Server.MapPath(rootPath & path) & "/"
+	currentPath = rootPath & path & "/"
 	currentUrl = rootUrl + path
 	currentDirPath = path
 	moveupDirPath = RegexReplace(currentDirPath, "(.*?)[^\/]+\/$", "$1")
