@@ -74,7 +74,7 @@ EditArticle.Title=TransferHTML(EditArticle.Title,"[html-format]")
 BlogTitle=IIf(IsPage,ZC_MSG161,ZC_MSG047)
 
 Response_Plugin_Edit_Article_Header="<script type=""text/javascript"" src=""ueditor/editor_config.asp""></script>"&vbCrlf&"<script type=""text/javascript""  src=""ueditor/editor_all.pack.js""></script>"
-Response_Plugin_Edit_Article_EditorInit="function editor_init(){editor_api.editor.content.obj=UE.getEditor('editor_ue');editor_api.editor.intro.obj=UE.getEditor('editor_ue2',EditorIntroOption);editor_api.editor.content.get=function(){return this.obj.getContent()};editor_api.editor.content.put=function(str){return this.obj.setContent(str)};editor_api.editor.content.focus=function(str){return this.obj.focus()};editor_api.editor.intro.get=function(){return this.obj.getContent()};editor_api.editor.intro.put=function(str){return this.obj.setContent(str)};editor_api.editor.intro.focus=function(str){return this.obj.focus()};editor_api.editor.content.obj.ready(function(){$('#contentready').hide();$('#editor_ue').prev().show();sContent=editor_api.editor.content.get();});editor_api.editor.intro.obj.ready(function(){$('#introready').hide();$('#editor_ue2').prev().show();sIntro=editor_api.editor.intro.get();});$(document).ready(function(){$('#edit').submit(function(){if(editor_api.editor.content.obj.queryCommandState('source')==1) editor_api.editor.content.obj.execCommand('source');if(editor_api.editor.intro.obj.queryCommandState('source')==1) editor_api.editor.intro.obj.execCommand('source');}) /*源码模式下保存时必须切换*/});}"
+Response_Plugin_Edit_Article_EditorInit="function editor_init(){editor_api.editor.content.obj=UE.getEditor('editor_txt');editor_api.editor.intro.obj=UE.getEditor('editor_txt2',EditorIntroOption);editor_api.editor.content.get=function(){return this.obj.getContent()};editor_api.editor.content.put=function(str){return this.obj.setContent(str)};editor_api.editor.content.focus=function(str){return this.obj.focus()};editor_api.editor.intro.get=function(){return this.obj.getContent()};editor_api.editor.intro.put=function(str){return this.obj.setContent(str)};editor_api.editor.intro.focus=function(str){return this.obj.focus()};editor_api.editor.content.obj.ready(function(){$('#contentready').hide();$('#editor_txt').prev().show();sContent=editor_api.editor.content.get();});editor_api.editor.intro.obj.ready(function(){$('#introready').hide();$('#editor_txt2').prev().show();sIntro=editor_api.editor.intro.get();});$(document).ready(function(){$('#edit').submit(function(){if(editor_api.editor.content.obj.queryCommandState('source')==1) editor_api.editor.content.obj.execCommand('source');if(editor_api.editor.intro.obj.queryCommandState('source')==1) editor_api.editor.intro.obj.execCommand('source');}) /*源码模式下保存时必须切换*/});}"
 '为1,2,3号输出输口准备的Action接口
 'plugin node
 For Each sAction_Plugin_Edit_Form in Action_Plugin_Edit_Form
@@ -84,99 +84,97 @@ Next
 %>
 <!--#include file="admin_header.asp"-->
 
-	<script type="text/javascript" src="../script/jquery.tagto.js"></script>
-	<script type="text/javascript" src="../script/jquery-ui-timepicker-addon.js"></script>
-	<%=Response_Plugin_Edit_Article_Header%>
+<script type="text/javascript" src="../script/jquery.tagto.js"></script>
+<script type="text/javascript" src="../script/jquery-ui-timepicker-addon.js"></script>
+<%=Response_Plugin_Edit_Article_Header%>
 <!--#include file="admin_top.asp"-->
-<%If IsPage=False Then%>
-<%If EditArticle.ID=0 Then%>
-<script type="text/javascript">ActiveLeftMenu("aArticleEdt");</script>
-<%Else%>
-<script type="text/javascript">ActiveLeftMenu("aArticleMng");</script>
-<%End If%>
-<%Else%>
-<script type="text/javascript">ActiveLeftMenu("aPageMng");</script>
-<%End If%>
-                <div id="divMain">
-<%	Call GetBlogHint()	%>
-<div class="divHeader2"><%=IIf(IsPage,ZC_MSG161,ZC_MSG047)%></div>
-<%
+        <%If IsPage=False Then%>
+        <%If EditArticle.ID=0 Then%>
+        <script type="text/javascript">ActiveLeftMenu("aArticleEdt");</script>
+        <%Else%>
+        <script type="text/javascript">ActiveLeftMenu("aArticleMng");</script>
+        <%End If%>
+        <%Else%>
+        <script type="text/javascript">ActiveLeftMenu("aPageMng");</script>
+        <%End If%>
+        <div id="divMain">
+          <%	Call GetBlogHint()	%>
+          <div class="divHeader2"><%=IIf(IsPage,ZC_MSG161,ZC_MSG047)%></div>
+          <%
 	Response.Write "<div class=""SubMenu"">" & Response_Plugin_ArticleEdt_SubMenu & "</div>"
 %>
-                  <div id="divMain2">
-                    <form id="edit" name="edit" method="post" action="">
-<div id="divEditLeft">
-
-<div id="divEditTitle">
-                      <input type="hidden" name="edtID" id="edtID" value="<%=EditArticle.ID%>" />
-                      <input type="hidden" name="edtFType" id="edtFType" value="<%=EditArticle.FType%>" />
-<!-- title( -->
-                      <p><span class='editinputname'><%=ZC_MSG060%>:</span>
-                        <input type="text" name="edtTitle" id="edtTitle" style="width:60%;max-width:520px" maxlength="100" onBlur="if(this.value=='') this.value='<%=ZC_MSG099%>'" onFocus="if(this.value=='<%=ZC_MSG099%>') this.value=''" value="<%=EditArticle.Title%>" /></p>
-<!-- )title -->
-
-<!-- alias( -->
-                        <p><span class='editinputname'><%=ZC_MSG147%>:</span>
-                        <input type="text" style="width:60%;max-width:520px" name="edtAlias" id="edtAlias" maxlength="250" value="<%=TransferHTML(EditArticle.Alias,"[html-format]")%>" />.<%=ZC_STATIC_TYPE%>
-                        </p>
-<!-- )alias -->
-
-<!-- tags( -->
-<% If Request.QueryString("type")<>"Page" Then %>
-                        <p><span class='editinputname' style='padding:0 0 0 0;'><%=ZC_MSG138%>:</span>
-                        <input type="text" style="width:60%;max-width:520px" name="edtTag" id="edtTag" value="<%=TransferHTML(EditArticle.TagToName,"[html-format]")%>" /> (<%=ZC_MSG208%>) <a href="#" id="showtags"><%=ZC_MSG139%></a></p>
-						<!-- Tags -->
-						<div id="ulTag" style="display:none;"><div id="ajaxtags"><%=ZC_MSG165%></div></div>
-
-<% End If %>
-<!-- )tags -->
-
-</div>
-
-<!-- 1号输出接口 -->
-<% If Response_Plugin_Edit_Form<>"" Then %>
-<div id="divEditForm1"><%=Response_Plugin_Edit_Form%></div>
-<% End If %>
-
-                      <div id="divContent" style="clear:both;">
-						<p style="text-align:left;"><span class='editinputname'><%=ZC_MSG055%>:</span>&nbsp;&nbsp;<span id="timemsg"></span><span id="msg2"></span><span id="msg"></span><span class='editinputname'></span><script type="text/javascript" src="c_autosaverjs.asp?act=edit"></script></p>
-                        
-                        <textarea id="editor_ue" name="txaContent" style="display:none"><%=TransferHTML(EditArticle.Content,"[textarea]")%></textarea><div id="contentready"><img id="statloading" src="../image/admin/loading.gif"/><%=ZC_MSG276%></div>
-						<p><span><%=ZC_MSG216%><a href="" onClick="try{AutoIntro();return false;}catch(e){}">[<%=ZC_MSG200%>]</a></span></p>
-                      </div>
-
-                      <div id="divIntro" style="display:<%If EditArticle.Intro="" Then Response.Write "none" Else Response.Write "block"%>;">
-                        <p><span class='editinputname'><%=ZC_MSG016%>:</span></p>
-                        <textarea id="editor_ue2" name="txaIntro" style="display:none"><%=TransferHTML(EditArticle.Intro,"[textarea]")%></textarea><div id="introready"><img id="statloading" src="../image/admin/loading.gif"/><%=ZC_MSG276%></div>
-                      </div>
-
-<!-- 2号输出接口 -->
-<% If Response_Plugin_Edit_Form2<>"" Then %>
-<div id="divEditForm2"><%=Response_Plugin_Edit_Form2%></div>
-<% End If %>
-
-</div><!-- divEditLeft -->
-
-
-<div id="divEditRight">
-
-
-<div id="divEditPost">
-<div id="divBox">
-<div id="divFloat">
-<p>
-  <input class="button" style="width:150px;height:30px;" type="submit" value="<%=ZC_MSG087%>" id="btnPost" onclick='return checkArticleInfo();' />
-</p>
-
-<!-- cate -->
-                  <p>
-<%
+          <div id="divMain2">
+            <form id="edit" name="edit" method="post" action="">
+              <div id="divEditLeft">
+                <div id="divEditTitle">
+                  <input type="hidden" name="edtID" id="edtID" value="<%=EditArticle.ID%>" />
+                  <input type="hidden" name="edtFType" id="edtFType" value="<%=EditArticle.FType%>" />
+                  <!-- title( -->
+                  <p><span class='editinputname'><%=ZC_MSG060%>:</span>
+                    <input type="text" name="edtTitle" id="edtTitle" style="width:60%;max-width:520px" maxlength="100" onBlur="if(this.value=='') this.value='<%=ZC_MSG099%>'" onFocus="if(this.value=='<%=ZC_MSG099%>') this.value=''" value="<%=EditArticle.Title%>" />
+                  </p>
+                  <!-- )title --> 
+                  
+                  <!-- alias( -->
+                  <p><span class='editinputname'><%=ZC_MSG147%>:</span>
+                    <input type="text" style="width:60%;max-width:520px" name="edtAlias" id="edtAlias" maxlength="250" value="<%=TransferHTML(EditArticle.Alias,"[html-format]")%>" />
+                    .<%=ZC_STATIC_TYPE%> </p>
+                  <!-- )alias --> 
+                  
+                  <!-- tags( -->
+                  <% If Request.QueryString("type")<>"Page" Then %>
+                  <p><span class='editinputname' style='padding:0 0 0 0;'><%=ZC_MSG138%>:</span>
+                    <input type="text" style="width:60%;max-width:520px" name="edtTag" id="edtTag" value="<%=TransferHTML(EditArticle.TagToName,"[html-format]")%>" />
+                    (<%=ZC_MSG208%>) <a href="#" id="showtags"><%=ZC_MSG139%></a></p>
+                  <!-- Tags -->
+                  <div id="ulTag" style="display:none;">
+                    <div id="ajaxtags"><%=ZC_MSG165%></div>
+                  </div>
+                  <% End If %>
+                  <!-- )tags --> 
+                  
+                </div>
+                
+                <!-- 1号输出接口 -->
+                <% If Response_Plugin_Edit_Form<>"" Then %>
+                <div id="divEditForm1"><%=Response_Plugin_Edit_Form%></div>
+                <% End If %>
+                <div id="divContent" style="clear:both;">
+                  <p style="text-align:left;"><span class='editinputname'><%=ZC_MSG055%>:</span>&nbsp;&nbsp;<span id="timemsg"></span><span id="msg2"></span><span id="msg"></span><span class='editinputname'></span><script type="text/javascript" src="c_autosaverjs.asp?act=edit"></script></p>
+                  <textarea id="editor_txt" name="txaContent" style="display:none"><%=TransferHTML(EditArticle.Content,"[textarea]")%></textarea>
+                  <div id="contentready"><img id="statloading" src="../image/admin/loading.gif"/><%=ZC_MSG276%></div>
+                  <p><span><%=ZC_MSG216%><a href="" onClick="try{AutoIntro();return false;}catch(e){}">[<%=ZC_MSG200%>]</a></span></p>
+                </div>
+                <div id="divIntro" style="display:<%If EditArticle.Intro="" Then Response.Write "none" Else Response.Write "block"%>;">
+                  <p><span class='editinputname'><%=ZC_MSG016%>:</span></p>
+                  <textarea id="editor_txt2" name="txaIntro" style="display:none"><%=TransferHTML(EditArticle.Intro,"[textarea]")%></textarea>
+                  <div id="introready"><img id="statloading" src="../image/admin/loading.gif"/><%=ZC_MSG276%></div>
+                </div>
+                
+                <!-- 2号输出接口 -->
+                <% If Response_Plugin_Edit_Form2<>"" Then %>
+                <div id="divEditForm2"><%=Response_Plugin_Edit_Form2%></div>
+                <% End If %>
+              </div>
+              <!-- divEditLeft -->
+              
+              <div id="divEditRight">
+                <div id="divEditPost">
+                  <div id="divBox">
+                    <div id="divFloat">
+                      <p>
+                        <input class="button" style="width:150px;height:30px;" type="submit" value="<%=ZC_MSG087%>" id="btnPost" onclick='return checkArticleInfo();' />
+                      </p>
+                      
+                      <!-- cate -->
+                      <p>
+                        <%
 If Request.QueryString("type")<>"Page" Then
 %>
-                      <span class='editinputname'><%=ZC_MSG012%>:</span>
+                        <span class='editinputname'><%=ZC_MSG012%>:</span>
                         <select style="width:150px;" class="edit" size="1" id="cmbCate" onChange="edtCateID.value=this.options[this.selectedIndex].value;selectlogtemplate(this.options[this.selectedIndex].value);">
-                        <option value="0"><%=Categorys(0).Name%></option>
-<%
+                          <option value="0"><%=Categorys(0).Name%></option>
+                          <%
 	Dim aryCateInOrder : aryCateInOrder=GetCategoryOrder()
 	Dim m,n
 	For m=LBound(aryCateInOrder)+1 To Ubound(aryCateInOrder)
@@ -197,21 +195,20 @@ If Request.QueryString("type")<>"Page" Then
 %>
                         </select>
                         <input type="hidden" name="edtCateID" id="edtCateID" value="<%=EditArticle.CateID%>" />
-<%
+                        <%
 Else
 %>
                         <input type="hidden" name="edtCateID" id="edtCateID" value="0" />
-<%
+                        <%
 End If
 %>
                       </p>
-<!-- cate -->
-
-<!-- template( -->
-                        <p>
-                          <span class='editinputname'><%=ZC_MSG188%>:</span>
-                          <select style="width:150px;" class="edit" size="1" id="cmbTemplate" onChange="edtTemplate.value=this.options[this.selectedIndex].value">
-<%
+                      <!-- cate --> 
+                      
+                      <!-- template( -->
+                      <p> <span class='editinputname'><%=ZC_MSG188%>:</span>
+                        <select style="width:150px;" class="edit" size="1" id="cmbTemplate" onChange="edtTemplate.value=this.options[this.selectedIndex].value">
+                          <%
 	Dim aryFileList
 
 	aryFileList=LoadIncludeFilesOnlyType("zb_users\theme" & "/" & ZC_BLOG_THEME & "/" & ZC_TEMPLATE_DIRECTORY)
@@ -232,15 +229,15 @@ End If
 	End If
 
 %>
-                          </select>
-                          <input type="hidden" name="edtTemplate" id="edtTemplate" value="<%=EditArticle.TemplateName%>" />
+                        </select>
+                        <input type="hidden" name="edtTemplate" id="edtTemplate" value="<%=EditArticle.TemplateName%>" />
                       </p>
-<!-- )template -->
-
-<!-- level -->
-                        <p>
-                          <span class='editinputname'><%=ZC_MSG061%>:</span><select class="edit" style="width:150px;" size="1" id="cmbArticleLevel" onChange="edtLevel.value=this.options[this.selectedIndex].value">
-                            <%
+                      <!-- )template --> 
+                      
+                      <!-- level -->
+                      <p> <span class='editinputname'><%=ZC_MSG061%>:</span>
+                        <select class="edit" style="width:150px;" size="1" id="cmbArticleLevel" onChange="edtLevel.value=this.options[this.selectedIndex].value">
+                          <%
 	Dim ArticleLevel
 	Dim i:i=0
 	For Each ArticleLevel in ZVA_Article_Level_Name
@@ -252,14 +249,14 @@ End If
 		i=i+1
 	Next
 %>
-                          </select>
-                          <input type="hidden" name="edtLevel" id="edtLevel" value="<%=EditArticle.Level%>" />
+                        </select>
+                        <input type="hidden" name="edtLevel" id="edtLevel" value="<%=EditArticle.Level%>" />
                       </p>
-<!-- )level -->
-
-<!-- user( -->
-                        <p>
-                        <span class='editinputname'><%=ZC_MSG003%>:</span><select style="width:150px;" size="1" id="cmbUser" onChange="edtAuthorID.value=this.options[this.selectedIndex].value">
+                      <!-- )level --> 
+                      
+                      <!-- user( -->
+                      <p> <span class='editinputname'><%=ZC_MSG003%>:</span>
+                        <select style="width:150px;" size="1" id="cmbUser" onChange="edtAuthorID.value=this.options[this.selectedIndex].value">
                           <%
 	GetUser()
 	Dim User
@@ -287,60 +284,58 @@ End If
                         </select>
                         <input type="hidden" name="edtAuthorID" id="edtAuthorID" value="<%=EditArticle.AuthorID%>" />
                       </p>
-<!-- )user -->
-
-<!-- newdatetime( -->
+                      <!-- )user --> 
+                      
+                      <!-- newdatetime( -->
+                      <p> <span class='editinputname'><%=ZC_MSG062%>:</span><span>
+                        <input type="text" name="edtDateTime" id="edtDateTime"  value="<%=EditArticle.PostTime%>" style="width:141px;"/>
+                        </span> </p>
+                      <!-- )newdatetime --> 
+                      
+                      <!-- Istop( -->
                       <p>
-                          <span class='editinputname'><%=ZC_MSG062%>:</span><span><input type="text" name="edtDateTime" id="edtDateTime"  value="<%=EditArticle.PostTime%>" style="width:141px;"/></span>
-                      </p>
-<!-- )newdatetime -->
-
-<!-- Istop( -->
-                        <p>
-<% If Request.QueryString("type")<>"Page" And BlogUser.Level=1 Then %>
-                          <label><span class='editinputname'><%=ZC_MSG051%>:
+                        <% If Request.QueryString("type")<>"Page" And BlogUser.Level=1 Then %>
+                        <label><span class='editinputname'><%=ZC_MSG051%>:
                           <%If EditArticle.Istop Then%>
                           <input type="checkbox" name="edtIstop" id="edtIstop" value="True" checked=""/>
                           <%Else%>
                           <input type="checkbox" name="edtIstop" id="edtIstop" value="True"/>
                           <%End If%>
-						  </span></label>
-<%Else%>
-                          <input type="hidden" name="edtIstop" id="edtIstop" value=""/>
-<% End If %>
+                          </span></label>
+                        <%Else%>
+                        <input type="hidden" name="edtIstop" id="edtIstop" value=""/>
+                        <% End If %>
                       </p>
-<!-- )Istop -->
-
-<!-- Navbar( -->
-<% If Request.QueryString("type")="Page" Then %>
-                        <p>
-                          <label><span class='editinputname'><%=ZC_MSG046%>:
+                      <!-- )Istop --> 
+                      
+                      <!-- Navbar( -->
+                      <% If Request.QueryString("type")="Page" Then %>
+                      <p>
+                        <label><span class='editinputname'><%=ZC_MSG046%>:
                           <%If EditArticle.ID=0 Then%>
                           <input type="checkbox" name="edtAddNavbar" id="edtAddNavbar" value="True" checked=""/>
                           <%Else%>
                           <input type="checkbox" name="edtAddNavbar" id="edtAddNavbar" value="True"/>
                           <%End If%>
-						  </span></label>
+                          </span></label>
                       </p>
-<% End If %>
-<!-- )Navbar -->
-
-<!-- 3号输出接口 -->
-<% If Response_Plugin_Edit_Form3<>"" Then %>
-<div id="divEditForm3"><%=Response_Plugin_Edit_Form3%></div>
-<% End If %>
-
-</div>
-</div>
-</div>
-
-</div><!-- divEditRight -->
-
-                    </form>
+                      <% End If %>
+                      <!-- )Navbar --> 
+                      
+                      <!-- 3号输出接口 -->
+                      <% If Response_Plugin_Edit_Form3<>"" Then %>
+                      <div id="divEditForm3"><%=Response_Plugin_Edit_Form3%></div>
+                      <% End If %>
+                    </div>
                   </div>
-</div>
-
-<script type="text/javascript">
+                </div>
+              </div>
+              <!-- divEditRight -->
+              
+            </form>
+          </div>
+        </div>
+        <script type="text/javascript">
 
 var tag_loaded=false; //是否已经ajax读取过TAGS
 var sContent="",sIntro="";//原内容与摘要
@@ -524,8 +519,8 @@ function selectlogtemplatesub(a){
 	$("#edtTemplate").val(a);
 }
 
-</script>
-<!--#include file="admin_footer.asp"-->
+</script> 
+        <!--#include file="admin_footer.asp"-->
 <%
 Call System_Terminate()
 
