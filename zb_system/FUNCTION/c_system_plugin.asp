@@ -397,14 +397,14 @@ Dim sAction_Plugin_Edit_Comment_Begin
 
 '**************************************************<
 '类型:action
-'名称:Action_Plugin_Edit_UEditor_Begin
+'名称:Action_Plugin_Edit_Article_Begin
 '参数:无
 '说明:
 '**************************************************>
-Dim Action_Plugin_Edit_UEditor_Begin()
-ReDim Action_Plugin_Edit_UEditor_Begin(0)
-Dim bAction_Plugin_Edit_UEditor_Begin
-Dim sAction_Plugin_Edit_UEditor_Begin
+Dim Action_Plugin_Edit_Article_Begin()
+ReDim Action_Plugin_Edit_Article_Begin(0)
+Dim bAction_Plugin_Edit_Article_Begin
+Dim sAction_Plugin_Edit_Article_Begin
 
 
 '**************************************************<
@@ -4247,8 +4247,23 @@ Dim Response_Plugin_Edit_Form3
 Response_Plugin_Edit_Form3=""
 
 
+'**************************************************<
+'类型:response
+'名称:Response_Plugin_Edit_Article_Header
+'参数:无
+'说明:文章编辑页面-头部JS
+'**************************************************>
+Dim Response_Plugin_Edit_Article_Header
+Response_Plugin_Edit_Article_Header=""
 
-
+'**************************************************<
+'类型:response
+'名称:Response_Plugin_Edit_Article_EditorInit
+'参数:无
+'说明:文章编辑页面-编辑器初始化代码
+'**************************************************>
+Dim Response_Plugin_Edit_Article_EditorInit
+Response_Plugin_Edit_Article_EditorInit=""
 
 
 '**************************************************<
@@ -4738,10 +4753,6 @@ ReDim Action_Plugin_UEditor_getcontent_End(0)
 Dim bAction_Plugin_UEditor_getcontent_End
 Dim sAction_Plugin_UEditor_getcontent_End
 
-Dim Action_Plugin_Edit_ueditor_getArticleInfo()
-ReDim Action_Plugin_Edit_ueditor_getArticleInfo(0)
-Dim bAction_Plugin_Edit_ueditor_getArticleInfo
-Dim sAction_Plugin_Edit_ueditor_getArticleInfo
 
 
 
