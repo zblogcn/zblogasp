@@ -49,7 +49,7 @@ KindEditor.plugin('emoticons', function (K) {
                                 <%For x=0 To i-1%><div id="tab<%=x%>"></div><%Next%>\
                             </div>\
                         </div>\
-                    <div id="tabIconReview"><img id="faceReview" class="review" src="' + emoticonspluginsPath + '0.gif" /></div></div>\
+                    <div id="tabIconReview"><img id="faceReview" class="review" src="<%=GetCurrentHost()%>zb_system/IMAGE/ADMIN/none.gif" /></div></div>\
                     </div>';
         menu.div.append(K(html));
         function removeEvent() {
@@ -84,7 +84,7 @@ KindEditor.plugin('emoticons', function (K) {
         }
         function over(td, srcPath, posFlag) {
             td.style.backgroundColor = "#ACCD3C";
-            $G('faceReview').style.backgroundImage = "url(" + srcPath + ")";
+            $G('faceReview').style.backgroundImage = "url('" + srcPath + "')";
             if (posFlag == 1) $G("tabIconReview").className = "show";
             $G("tabIconReview").style.display = 'block';
         }
@@ -198,7 +198,7 @@ KindEditor.plugin('emoticons', function (K) {
                         infor = inforBox[tabName][i];
                         textHTML.push('<td  class="' + tableCss + '" sUrl="' + sUrl + '" posflag="' + posflag + '" realUrl="' + realUrl.replace(/'/g, "\\'") + '" border="1" width="' + iColWidth + '%" style="border-collapse:collapse;" align="center"  bgcolor="#FFFFFF">');
                         textHTML.push('<span  style="display:block;">');
-                        textHTML.push('<img  style="background-position:left ' + offset + 'px;" title="' + infor + '" src="' + realUrl.replace(/'/g, "\\'") +'" width="' + iWidth + '" height="' + iHeight + '"></img>');
+                        textHTML.push('<img  style="background-position:left ' + offset + 'px;" title="' + infor + '" src="' + realUrl.replace(/'/g, "\\'") +'" width="' + iWidth + '"></img>');
                         textHTML.push('</span>');
                     } else {
                         textHTML.push('<td width="' + iColWidth + '%"   bgcolor="#FFFFFF">');
