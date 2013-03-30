@@ -25,9 +25,7 @@
 <!-- #include file="../function/c_system_plugin.asp" -->
 <!-- #include file="../../zb_users/plugin/p_config.asp" -->
 <% Response.Clear %>
-<% If ZC_SYNTAXHIGHLIGHTER_ENABLE Then%>
-document.writeln("<script src='<%=BlogHost%>zb_system/admin/ueditor/third-party/SyntaxHighlighter/shCore.pack.js' type='text/javascript'></script><link rel='stylesheet' type='text/css' href='<%=BlogHost%>zb_system/admin/ueditor/third-party/SyntaxHighlighter/shCoreDefault.pack.css'/>");
-<%End If%>
+<% If ZC_SYNTAXHIGHLIGHTER_ENABLE Then Response.Write Response_Plugin_Html_Js_Add_CodeHighLight_JS%>
 var bloghost="<%=BlogHost%>";
 var cookiespath="<%=CookiesPath()%>";
 var str00="<%=BlogHost%>";
@@ -49,18 +47,7 @@ $(document).ready(function(){
 		if(GetCookie("username")!=""&&GetCookie("password")!=""){$.getScript("<%=BlogHost%>zb_system/function/c_html_js.asp?act=autoinfo",function(){AutoinfoComplete();})}else{AutoinfoComplete();}
 	});
 	$.getScript("<%=BlogHost%>zb_system/function/c_html_js.asp?act=batch"+unescape("%26")+"view=" + escape(strBatchView)+unescape("%26")+"inculde=" + escape(strBatchInculde)+unescape("%26")+"count=" + escape(strBatchCount),function(){BatchComplete();});
-<%If ZC_SYNTAXHIGHLIGHTER_ENABLE Then%>
-		//为了在编辑器之外能展示高亮代码
-    	 SyntaxHighlighter.highlight();
-    	 //调整左右对齐
-    	 for(var i=0,di;di=SyntaxHighlighter.highlightContainers[i++];){
-         	   var tds = di.getElementsByTagName('td');
-            	for(var j=0,li,ri;li=tds[0].childNodes[j];j++){
-                	ri = tds[1].firstChild.childNodes[j];
-                	ri.style.height = li.style.height = ri.offsetHeight + 'px';
-            	}
-    	 }
-<%End If%>
+	<%If ZC_SYNTAXHIGHLIGHTER_ENABLE Then Response.Write Response_Plugin_Html_Js_Add_CodeHighLight_Action%>
 });
 
 <%=Response_Plugin_Html_Js_Add%>

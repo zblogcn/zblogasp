@@ -4266,6 +4266,7 @@ Dim Response_Plugin_Edit_Article_EditorInit
 Response_Plugin_Edit_Article_EditorInit=""
 
 
+
 '**************************************************<
 '类型:action
 '名称:Action_Plugin_BuildAllCache_Begin
@@ -4633,8 +4634,11 @@ Dim Response_Plugin_Html_Js_Add
 Response_Plugin_Html_Js_Add=""
 
 
+Dim Response_Plugin_Html_Js_Add_CodeHighLight_JS
+Response_Plugin_Html_Js_Add_CodeHighLight_JS="document.writeln(""<script src='"&BlogHost&"zb_system/admin/ueditor/third-party/SyntaxHighlighter/shCore.pack.js' type='text/javascript'></script><link rel='stylesheet' type='text/css' href='"&BlogHost&"zb_system/admin/ueditor/third-party/SyntaxHighlighter/shCoreDefault.pack.css'/>"");"
 
-
+Dim Response_Plugin_Html_Js_Add_CodeHighLight_Action
+Response_Plugin_Html_Js_Add_CodeHighLight_Action="SyntaxHighlighter.highlight();for(var i=0,di;di=SyntaxHighlighter.highlightContainers[i++];){var tds = di.getElementsByTagName('td');for(var j=0,li,ri;li=tds[0].childNodes[j];j++){ri = tds[1].firstChild.childNodes[j];ri.style.height = li.style.height = ri.offsetHeight + 'px';}}"
 
 
 '**************************************************<
