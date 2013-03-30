@@ -49,7 +49,7 @@ KindEditor.plugin('emoticons', function (K) {
                                 <%For x=0 To i-1%><div id="tab<%=x%>"></div><%Next%>\
                             </div>\
                         </div>\
-                    <div id="tabIconReview"></div></div>\
+                    <div id="tabIconReview"><img id="faceReview" class="review" src="' + emoticonspluginsPath + '0.gif" /></div></div>\
                     </div>';
         menu.div.append(K(html));
         function removeEvent() {
