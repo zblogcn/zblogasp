@@ -149,18 +149,6 @@ var autosave = {
         remain: 60
 
     },
-    api: {
-        "getContent": function() {
-            return editor.getContent()
-
-        }
-        ,
-        "setContent": function(data) {
-            return editor.setContent(data)
-
-        }
-
-    },
     elements: {
         msg: $("#msg"),
         time: $("#timemsg"),
@@ -168,7 +156,7 @@ var autosave = {
 
     },
     save: function() {
-        if (autosave.api.getContent() == "") {
+        if (editor_api.editor.content.get() == "") {
             autosave.elements.msg.html("<%=ZC_MSG256%>");
             return false
         }
@@ -177,7 +165,7 @@ var autosave = {
             alias: $("#edtAlias").val(),
             tag: $("#edtTag").val(),
             cate: $("#cmbCate").val(),
-            content: autosave.api.getContent()
+            content: editor_api.editor.content.get()
 
         },
         function(data) {
@@ -201,7 +189,7 @@ var autosave = {
                 $("#edtAlias").val(m.alias);
                 $("#edtTag").val(m.tag);
                 $("#cmbCate").val(m.cate);
-                autosave.api.setContent(m.content);
+                editor_api.editor.content.put(m.content);
 
             }
 
