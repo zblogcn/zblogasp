@@ -1,11 +1,11 @@
 /*******************************************************************************
 * KindEditor - WYSIWYG HTML Editor for Internet
-* Copyright (C) 2006-2012 kindsoft.net
+* Copyright (C) 2006-2013 kindsoft.net
 *
 * @author Roddy <luolonghao@gmail.com>
 * @website http://www.kindsoft.net/
 * @licence http://www.kindsoft.net/license.php
-* @version 4.1.4 (2012-11-11)
+* @version 4.1.6 (2013-03-24)
 *******************************************************************************/
 (function (window, undefined) {
 	if (window.KindEditor) {
@@ -17,7 +17,7 @@ if (!window.console) {
 if (!console.log) {
 	console.log = function () {};
 }
-var _VERSION = '4.1.4 (2012-11-11)',
+var _VERSION = '4.1.6 (2013-03-24)',
 	_ua = navigator.userAgent.toLowerCase(),
 	_IE = _ua.indexOf('msie') > -1 && _ua.indexOf('opera') == -1,
 	_GECKO = _ua.indexOf('gecko') > -1 && _ua.indexOf('khtml') == -1,
@@ -251,6 +251,7 @@ K.options = {
 	minWidth : 650,
 	minHeight : 100,
 	minChangeSize : 50,
+	zIndex : 811213,
 	items : [
 		'source', '|', 'undo', 'redo', '|', 'preview', 'print', 'template', 'code', 'cut', 'copy', 'paste',
 		'plainpaste', 'wordpaste', '|', 'justifyleft', 'justifycenter', 'justifyright',
@@ -2602,7 +2603,10 @@ function _getInnerNode(knode) {
 	return inner;
 }
 function _isEmptyNode(knode) {
-	return knode.type == 1 && knode.html().replace(/<[^>]+>/g, '') === '';
+	if (knode.type != 1 || knode.isSingle()) {
+		return false;
+	}
+	return knode.html().replace(/<[^>]+>/g, '') === '';
 }
 function _mergeWrapper(a, b) {
 	a = a.clone(true);
@@ -2732,6 +2736,10 @@ _extend(KCmd, {
 			rng = range.get(true);
 			sel.removeAllRanges();
 			sel.addRange(rng);
+			if (doc !== document) {
+				var pos = K(rng.endContainer).pos();
+				win.scrollTo(pos.x, pos.y);
+			}
 		}
 		win.focus();
 		return self;
@@ -3535,7 +3543,7 @@ function _getInitHtml(themesPath, bodyClass, cssPath, cssData) {
 		'	width:16px;',
 		'	height:16px;',
 		'}',
-		'.ke-script, .ke-noscript {',
+		'.ke-script, .ke-noscript, .ke-display-none {',
 		'	display:none;',
 		'	font-size:0;',
 		'	width:0;',
@@ -3632,6 +3640,14 @@ _extend(KEdit, KWidget, {
 				});
 			}
 			if (_IE) {
+				self._mousedownHandler = function() {
+					var newRange = cmd.range.cloneRange();
+					newRange.shrink();
+					if (newRange.isControl()) {
+						self.blur();
+					}
+				};
+				K(document).mousedown(self._mousedownHandler);
 				K(doc).keydown(function(e) {
 					if (e.which == 8) {
 						cmd.selection();
@@ -3692,6 +3708,9 @@ _extend(KEdit, KWidget, {
 		K(doc.body).unbind();
 		K(doc).unbind();
 		K(self.win).unbind();
+		if (self._mousedownHandler) {
+			K(document).unbind('mousedown', self._mousedownHandler);
+		}
 		_elementVal(self.srcElement, self.html());
 		self.srcElement.show();
 		doc.write('');
@@ -3719,6 +3738,9 @@ _extend(KEdit, KWidget, {
 			}
 			if (self.beforeSetHtml) {
 				val = self.beforeSetHtml(val);
+			}
+			if (_IE && _V >= 9) {
+				val = val.replace(/(<.*?checked=")checked(".*>)/ig, '$1$2');
 			}
 			K(body).html(val);
 			if (self.afterSetHtml) {
@@ -4139,6 +4161,7 @@ _extend(KUploadButton, {
 			} else {
 				str = doc.body.innerHTML;
 			}
+			str = _unescape(str);
 			iframe[0].src = 'javascript:false';
 			try {
 				data = K.json(str);
@@ -4598,7 +4621,7 @@ function _bindNewlineEvent() {
 		if (_GECKO) {
 			var root = self.cmd.commonAncestor('p');
 			var a = self.cmd.commonAncestor('a');
-			if (a.text() == '') {
+			if (a && a.text() == '') {
 				a.remove(true);
 				self.cmd.range.selectNodeContents(root[0]).collapse(true);
 				self.cmd.select();
@@ -4993,36 +5016,22 @@ KEditor.prototype = {
 		statusbar.removeClass('statusbar').addClass('ke-statusbar')
 			.append('<span class="ke-inline-block ke-statusbar-center-icon"></span>')
 			.append('<span class="ke-inline-block ke-statusbar-right-icon"></span>');
-		K(window).unbind('resize');
+		function fullscreenResizeHandler(e) {
+			if (self.isCreated) {
+				self.resize(_docElement().clientWidth, _docElement().clientHeight, false);
+			}
+		}
+		K(window).unbind('resize', fullscreenResizeHandler);
 		function initResize() {
 			if (statusbar.height() === 0) {
 				setTimeout(initResize, 100);
 				return;
 			}
-			self.resize(width, height);
+			self.resize(width, height, false);
 		}
 		initResize();
-		function newResize(width, height, updateProp) {
-			updateProp = _undef(updateProp, true);
-			if (width && width >= self.minWidth) {
-				self.resize(width, null);
-				if (updateProp) {
-					self.width = _addUnit(width);
-				}
-			}
-			if (height && height >= self.minHeight) {
-				self.resize(null, height);
-				if (updateProp) {
-					self.height = _addUnit(height);
-				}
-			}
-		}
 		if (fullscreenMode) {
-			K(window).bind('resize', function(e) {
-				if (self.isCreated) {
-					newResize(_docElement().clientWidth, _docElement().clientHeight, false);
-				}
-			});
+			K(window).bind('resize', fullscreenResizeHandler);
 			toolbar.select('fullscreen');
 			statusbar.first().css('visibility', 'hidden');
 			statusbar.last().css('visibility', 'hidden');
@@ -5038,7 +5047,7 @@ KEditor.prototype = {
 					clickEl : statusbar,
 					moveFn : function(x, y, width, height, diffX, diffY) {
 						height += diffY;
-						newResize(null, height);
+						self.resize(null, height);
 					}
 				});
 			} else {
@@ -5051,7 +5060,7 @@ KEditor.prototype = {
 					moveFn : function(x, y, width, height, diffX, diffY) {
 						width += diffX;
 						height += diffY;
-						newResize(width, height);
+						self.resize(width, height);
 					}
 				});
 			} else {
@@ -5084,17 +5093,29 @@ KEditor.prototype = {
 		self.isCreated = false;
 		return self;
 	},
-	resize : function(width, height) {
+	resize : function(width, height, updateProp) {
 		var self = this;
-		if (width !== null) {
-			if (_removeUnit(width) > self.minWidth) {
-				self.container.css('width', _addUnit(width));
+
+		updateProp = _undef(updateProp, true);
+		if (width) {
+			if (!/%/.test(width)) {
+				width = _removeUnit(width);
+				width = width < self.minWidth ? self.minWidth : width;
+			}
+			self.container.css('width', _addUnit(width));
+			if (updateProp) {
+				self.width = _addUnit(width);
 			}
 		}
-		if (height !== null && self.toolbar.div && self.statusbar) {
-			height = _removeUnit(height) - self.toolbar.div.height() - self.statusbar.height();
-			if (height > 0 && _removeUnit(height) > self.minHeight) {
-				self.edit.setHeight(height);
+
+		if (height) {
+			height = _removeUnit(height);
+			editHeight = _removeUnit(height) - self.toolbar.div.height() - self.statusbar.height();
+
+			editHeight = editHeight < self.minHeight ? self.minHeight : editHeight;
+			self.edit.setHeight(editHeight);
+			if (updateProp) {
+				self.height = _addUnit(height);
 			}
 		}
 		return self;
@@ -5109,6 +5130,9 @@ KEditor.prototype = {
 			return self.isCreated ? self.edit.html() : _elementVal(self.srcElement);
 		}
 		self.isCreated ? self.edit.html(val) : _elementVal(self.srcElement, val);
+		if (self.isCreated) {
+			self.cmd.selection();
+		}
 		return self;
 	},
 	fullHtml : function() {
@@ -5247,6 +5271,7 @@ KEditor.prototype = {
 			pos = knode.pos();
 		options.x = pos.x;
 		options.y = pos.y + knode.height();
+		options.z = self.options.zIndex;
 		options.shadowMode = _undef(options.shadowMode, self.shadowMode);
 		if (options.selectedColor !== undefined) {
 			options.cls = 'ke-colorpicker-' + self.themeType;
@@ -5271,6 +5296,7 @@ KEditor.prototype = {
 	},
 	createDialog : function(options) {
 		var self = this, name = options.name;
+		options.z = self.options.zIndex;
 		options.shadowMode = _undef(options.shadowMode, self.shadowMode);
 		options.closeBtn = _undef(options.closeBtn, {
 			name : self.lang('close'),
@@ -5582,7 +5608,7 @@ _plugin('core', function(K) {
 		});
 	});
 	self.clickToolbar('about', function() {
-		var html = '<div style="margin:20px;"><div>此插件由<a href="http://imzhou.com" target="_blank">未寒</a>制作，使用KindEditor 4.1.4替换了Z-Blog默认的UEditor编辑器。</div><div>Copyright &copy; <a href="http://www.kindsoft.net/" target="_blank">kindsoft.net</a> All rights reserved.</div></div>';
+		var html = '<div style="margin:20px;"><div>此插件由<a href="http://imzhou.com" target="_blank">未寒</a>制作，使用KindEditor 4.1.6替换了Z-Blog默认的UEditor编辑器。</div><div>Copyright &copy; <a href="http://www.kindsoft.net/" target="_blank">kindsoft.net</a> All rights reserved.</div></div>';
 		self.createDialog({
 			name : 'about',
 			width : 300,
@@ -5696,7 +5722,11 @@ _plugin('core', function(K) {
 			if (html === '') {
 				return;
 			}
+			if (_WEBKIT) {
+				html = html.replace(/(<br>)\1/ig, '$1');
+			}
 			if (self.pasteType === 2) {
+				html = html.replace(/(<(?:p|p\s[^>]*)>) *(<\/p>)/ig, '');
 				if (/schemas-microsoft-com|worddocument|mso-\w+/i.test(html)) {
 					html = _clearMsWord(html, self.filterMode ? self.htmlTags : K.options.htmlTags);
 				} else {
@@ -5705,15 +5735,15 @@ _plugin('core', function(K) {
 				}
 			}
 			if (self.pasteType === 1) {
+				html = html.replace(/&nbsp;/ig, ' ');
+				html = html.replace(/\n\s*\n/g, '\n');
 				html = html.replace(/<br[^>]*>/ig, '\n');
 				html = html.replace(/<\/p><p[^>]*>/ig, '\n');
 				html = html.replace(/<[^>]+>/g, '');
-				html = html.replace(/&nbsp;/ig, ' ');
-				html = html.replace(/\n\s*\n/g, '\n');
 				html = html.replace(/ {2}/g, ' &nbsp;');
 				if (self.newlineTag == 'p') {
 					if (/\n/.test(html)) {
-						html = html.replace(/^/, '<p>').replace(/$/, '</p>').replace(/\n/g, '</p><p>');
+						html = html.replace(/^/, '<p>').replace(/$/, '<br /></p>').replace(/\n/g, '<br /></p><p>');
 					}
 				} else {
 					html = html.replace(/\n/g, '<br />$&');
@@ -5760,6 +5790,11 @@ _plugin('core', function(K) {
 		});
 	});
 	self.beforeGetHtml(function(html) {
+		if (_IE && _V <= 8) {
+			html = html.replace(/<div\s+[^>]*data-ke-input-tag="([^"]*)"[^>]*>([\s\S]*?)<\/div>/ig, function(full, tag) {
+				return unescape(tag);
+			});
+		}
 		return html.replace(/(<(?:noscript|noscript\s[^>]*)>)([\s\S]*?)(<\/noscript>)/ig, function($0, $1, $2, $3) {
 			return $1 + _unescape($2).replace(/\s+/g, ' ') + $3;
 		})
@@ -5793,6 +5828,16 @@ _plugin('core', function(K) {
 		});
 	});
 	self.beforeSetHtml(function(html) {
+		if (_IE && _V <= 8) {
+			html = html.replace(/<input[^>]*>|<(select|button)[^>]*>[\s\S]*?<\/\1>/ig, function(full) {
+				var attrs = _getAttrList(full);
+				var styles = _getCssList(attrs.style || '');
+				if (styles.display == 'none') {
+					return '<div class="ke-display-none" data-ke-input-tag="' + escape(full) + '"></div>';
+				}
+				return full;
+			});
+		}
 		return html.replace(/<embed[^>]*type="([^"]+)"[^>]*>(?:<\/embed>)?/ig, function(full) {
 			var attrs = _getAttrList(full);
 			attrs.src = _undef(attrs.src, '');
