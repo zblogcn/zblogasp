@@ -18,7 +18,9 @@ Call CheckReference("")
 If BlogUser.Level>1 Then Call ShowError(6)
 If CheckPluginState("SuperZBCMS")=False Then Call ShowError(48)
 BlogTitle="超级Z-Blog"
-SetBlogHint_Custom "本插件所做任何修改均可通过<a href='javascript:alert(""不先玩会儿吗？放心这只对你的后台有影响，没修改任何数据\n\n如您真要停用，请尽您的最大努力打开插件管理停用本插件，嗯！"")'>停用插件</a>恢复，使用前请注意关闭其它的浏览器标签页，否则可能会出现意外情况！"
+SetBlogHint_Custom "本插件所做任何修改均可通过<a href='javascript:alert(""不先玩会儿吗？放心这只对你的后台有影响，没修改任何数据\n\n如您真要停用，请尽您的最大努力打开插件管理停用本插件，嗯！"")'>停用插件</a>恢复，如出错也请勿惊慌失措，停用插件也可解决。使用前请注意关闭其它的浏览器标签页，否则可能会出现意外情况！"
+SetBlogHint_Custom "请不要预先购买数据库和辅助语言环境，程序必须先检查环境确保您的主机支持！"
+
 %>
 <!--#include file="..\..\..\zb_system\admin\admin_header.asp"-->
 <style type="text/css">
