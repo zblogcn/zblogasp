@@ -12,7 +12,22 @@
 * @site http://www.xunwee.com/
 * @licence http://www.kindsoft.net/license.php
 *******************************************************************************/
+	<%	
+	Dim fso,f(),f1,fb,fc
+	Dim aryFileList,a,i,j,e,x,y,p
 
+	'f=Split(ZC_EMOTICONS_FILENAME,"|")
+	Set fso = CreateObject("Scripting.FileSystemObject")
+	Set fb = fso.GetFolder(BlogPath & "zb_users\emotion" & "\")
+	
+	Set fc = fb.SubFolders
+		i=0
+	For Each f1 in fc	
+		ReDim Preserve f(i)
+		f(i)=f1.name
+		i=i+1
+	Next
+	%>
 KindEditor.plugin('emoticons', function (K) {
     var self = this, name = 'emoticons',arrEmots=[],
 		path = (self.emoticonsPath || self.pluginsPath + 'emoticons/images/'),
@@ -28,15 +43,13 @@ KindEditor.plugin('emoticons', function (K) {
                         <link rel="stylesheet" type="text/css" href="' + emoticonspluginsPath + 'emoticon.css" />\
                         <div id="tabPanel" class="neweditor-tab">\
                             <div id="tabMenu" class="neweditor-tab-h">\
-                                <div>精选</div>\
-                                <div>兔斯基</div>\
+                                <%For x=0 To i-1%><div><%=f(x)%></div><%Next%>\
                             </div>\
                             <div id="tabContent" class="neweditor-tab-b">\
-                                <div id="tab0"></div>\
-                                <div id="tab1"></div>\
+                                <%For x=0 To i-1%><div id="tab<%=x%>"></div><%Next%>\
                             </div>\
                         </div>\
-                    <div id="tabIconReview"><img id="faceReview" class="review" src="' + emoticonspluginsPath + '0.gif" /></div></div>\
+                    <div id="tabIconReview"></div></div>\
                     </div>';
         menu.div.append(K(html));
         function removeEvent() {
@@ -102,23 +115,37 @@ KindEditor.plugin('emoticons', function (K) {
         }
         var emotion = {};
         emotion.SmileyPath = path;
-        emotion.SmileyBox = { tab0: [], tab1: [], tab2: [], tab3: [], tab4: [], tab5: [], tab6: [] };
-        emotion.SmileyInfor = { tab0: [], tab1: [], tab2: [], tab3: [], tab4: [], tab5: [], tab6: [] };
+        emotion.SmileyBox = {<%For x=0 To i-1%> tab<%=x%>: [<%
+		e=""
+		aryFileList=LoadIncludeFiles("zb_users\emotion\"&f(x)) 
+		If IsArray(aryFileList) Then
+			j=UBound(aryFileList)
+			For f1=1 to j
+				If InStr(ZC_EMOTICONS_FILETYPE,Right(aryFileList(f1),3))>0 Then 
+					e =e&"'"&Replace(Replace(Server.URLEncode(aryFileList(f1)),"+","%20"),"%2E",".")&"'" & IIf(f1=j,"",",")
+					p=i
+				End If 
+			Next
+			'e=Left(e,Len(e)-1)
+		End If 
+		Response.Write e
+		%>]<%=IIf(x=i-1,"",",")%><%Next%>};
+        emotion.SmileyInfor = emotion.SmileyBox;
         var faceBox = emotion.SmileyBox;
         var inforBox = emotion.SmileyInfor;
         var sBasePath = emotion.SmileyPath;
-        initImgBox(faceBox['tab0'], 'j_00', 84);
-        initImgBox(faceBox['tab1'], 't_00', 40);
+        initImgBox(faceBox['tab0'], '', 84);
+        initImgBox(faceBox['tab1'], '', 40);
    
         //大对象
         FaceHandler = {
-            imageFolders: { tab0: 'jx2/', tab1: 'tsj/', tab2: 'ldw/', tab3: 'bobo/', tab4: 'babycat/', tab5: 'face/', tab6: 'youa/' },
-            imageWidth: { tab0: 35, tab1: 35, tab2: 35, tab3: 35, tab4: 35, tab5: 35, tab6: 35 },
-            imageCols: { tab0: 11, tab1: 11, tab2: 11, tab3: 11, tab4: 11, tab5: 11, tab6: 11 },
-            imageColWidth: { tab0: 3, tab1: 3, tab2: 3, tab3: 3, tab4: 3, tab5: 3, tab6: 3 },
-            imageCss: { tab0: 'jd', tab1: 'tsj', tab2: 'ldw', tab3: 'bb', tab4: 'cat', tab5: 'pp', tab6: 'youa' },
-            imageCssOffset: { tab0: 35, tab1: 35, tab2: 35, tab3: 35, tab4: 35, tab5: 25, tab6: 35 },
-            tabExist: [0, 0, 0, 0, 0, 0, 0]
+            imageFolders: {<%For x=0 To i-1%> tab<%=x%>: '<%=f(x)%>/'<%=IIf(x=i-1,"",",")%><%Next%>},
+            imageWidth: {<%For x=0 To i-1%> tab<%=x%>: 35<%=IIf(x=i-1,"",",")%><%Next%>},
+            imageCols: {<%For x=0 To i-1%> tab<%=x%>: 11<%=IIf(x=i-1,"",",")%><%Next%> },
+            imageColWidth: {<%For x=0 To i-1%> tab<%=x%>: 3<%=IIf(x=i-1,"",",")%><%Next%>},
+            imageCss: {<%For x=0 To i-1%> tab<%=x%>: '<%=f(x)%>'<%=IIf(x=i-1,"",",")%><%Next%>},
+            imageCssOffset: {<%For x=0 To i-1%> tab<%=x%>: 35<%=IIf(x=i-1,"",",")%><%Next%>},
+            tabExist: [<%For x=0 To i-1%>0<%=IIf(x=i-1,"",",")%><%Next%>]
         };
         function switchTab(index) {
             if (FaceHandler.tabExist[index] == 0) {
@@ -171,7 +198,7 @@ KindEditor.plugin('emoticons', function (K) {
                         infor = inforBox[tabName][i];
                         textHTML.push('<td  class="' + tableCss + '" sUrl="' + sUrl + '" posflag="' + posflag + '" realUrl="' + realUrl.replace(/'/g, "\\'") + '" border="1" width="' + iColWidth + '%" style="border-collapse:collapse;" align="center"  bgcolor="#FFFFFF">');
                         textHTML.push('<span  style="display:block;">');
-                        textHTML.push('<img  style="background-position:left ' + offset + 'px;" title="' + infor + '" src="' + sBasePath + '0.gif" width="' + iWidth + '" height="' + iHeight + '"></img>');
+                        textHTML.push('<img  style="background-position:left ' + offset + 'px;" title="' + infor + '" src="' + realUrl.replace(/'/g, "\\'") +'" width="' + iWidth + '" height="' + iHeight + '"></img>');
                         textHTML.push('</span>');
                     } else {
                         textHTML.push('<td width="' + iColWidth + '%"   bgcolor="#FFFFFF">');
@@ -199,35 +226,4 @@ KindEditor.plugin('emoticons', function (K) {
 });
 
 
-<%Response.End(): Response.Clear %>{<%	
-	Dim fso,f(),f1,fb,fc
-	Dim aryFileList,a,i,j,e,x,y,p
-
-	'f=Split(ZC_EMOTICONS_FILENAME,"|")
-	Set fso = CreateObject("Scripting.FileSystemObject")
-	Set fb = fso.GetFolder(BlogPath & "zb_users/emotion" & "/")
-	Set fc = fb.SubFolders
-		i=0
-	For Each f1 in fc	
-		ReDim Preserve f(i)
-		f(i)=f1.name
-		i=i+1
-	Next
-	'f=LoadIncludeFiles("zb_users\emotion\")
-	y=UBound(f)
-	For x=0 To y
-		aryFileList=LoadIncludeFiles("zb_users\emotion\"&f(x)) 
-		If IsArray(aryFileList) Then
-			j=UBound(aryFileList)
-			For i=1 to j
-				If InStr(ZC_EMOTICONS_FILETYPE,Right(aryFileList(i),3))>0 Then 
-					e="'"&Replace(Server.URLEncode(aryFileList(i)),"+","%20")&"':'"&aryFileList(i)&"',"& e 
-					p=i
-				End If 
-			Next
-			e=Left(e,Len(e)-1)
-		End If 
-	%>'<%=f(x)%>':{name:'<%=f(x)%>',list:{<%=e%>},width:50,height:50,line:10}<% If x<y Then Response.Write "," 
-		e=""
-	Next
-	%>}
+<%Response.End(): Response.Clear %>
