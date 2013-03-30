@@ -26,7 +26,7 @@
 <!-- #include file="../../zb_users/plugin/p_config.asp" -->
 <%
 Call System_Initialize()
-BlogUser.Verify()
+
 '检查权限
 If Not CheckRights("SiteInfo") Then Response.End
 
@@ -39,13 +39,14 @@ Dim strContent
 Dim b,h
 b=False
 h=Now
-Dim fso,f
-Set fso = CreateObject("Scripting.FileSystemObject")
-If fso.FileExists(BlogPath & "zb_users\CACHE\statistic.asp")=True Then
-	If DateDiff("h",fso.GetFile(BlogPath & "zb_users\CACHE\statistic_"&ZC_BLOG_CLSID&".asp").DateLastModified,Now)>24 Then
+Dim f
+If Not IsObject(PublicObjFSO) Then Set PublicObjFSO=Server.CreateObject("Scripting.FileSystemObject")
+
+If PublicObjFSO.FileExists(BlogPath & "zb_users\CACHE\statistic.asp")=True Then
+	If DateDiff("h",PublicObjFSO.GetFile(BlogPath & "zb_users\CACHE\statistic_"&ZC_BLOG_CLSID&".asp").DateLastModified,Now)>24 Then
 		b=True
 	Else
-		h=fso.GetFile(BlogPath & "zb_users\CACHE\statistic_"&ZC_BLOG_CLSID&".asp").DateLastModified
+		h=PublicObjFSO.GetFile(BlogPath & "zb_users\CACHE\statistic_"&ZC_BLOG_CLSID&".asp").DateLastModified
 		strContent=LoadFromFile(BlogPath & "zb_users\CACHE\statistic_"&ZC_BLOG_CLSID&".asp","utf-8")
 	End If
 Else
@@ -66,7 +67,6 @@ strContent=Replace(strContent,"<"&"%=BlogHost",BlogHost)
 
 'Response.AddHeader "Last-Modified",ParseDateForRFC822GMT(h)
 Response.Write strContent
-Set Fso=Nothing
 Call System_Terminate()
 
 '*********************************************************

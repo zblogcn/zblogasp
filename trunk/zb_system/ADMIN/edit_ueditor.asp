@@ -27,8 +27,8 @@
 Call System_Initialize()
 
 'plugin node
-For Each sAction_Plugin_Edit_ueditor_Begin in Action_Plugin_Edit_ueditor_Begin
-	If Not IsEmpty(sAction_Plugin_Edit_ueditor_Begin) Then Call Execute(sAction_Plugin_Edit_ueditor_Begin)
+For Each sAction_Plugin_Edit_Article_Begin in Action_Plugin_Edit_Article_Begin
+	If Not IsEmpty(sAction_Plugin_Edit_Article_Begin) Then Call Execute(sAction_Plugin_Edit_Article_Begin)
 Next
 
 '检查非法链接
@@ -74,10 +74,7 @@ EditArticle.Title=TransferHTML(EditArticle.Title,"[html-format]")
 
 BlogTitle=IIf(IsPage,ZC_MSG161,ZC_MSG047)
 
-For Each sAction_Plugin_Edit_ueditor_getArticleInfo in Action_Plugin_Edit_ueditor_getArticleInfo
-	If Not IsEmpty(sAction_Plugin_Edit_ueditor_getArticleInfo) Then Call Execute(sAction_Plugin_Edit_ueditor_getArticleInfo)
-Next
-
+Response_Plugin_Edit_Article_Header="<script type=""text/javascript"" src=""ueditor/editor_config.asp""></script><script type=""text/javascript"" charset=""utf-8"" src=""ueditor/editor_all.pack.js""></script>"
 '为1,2,3号输出输口准备的Action接口
 'plugin node
 For Each sAction_Plugin_Edit_Form in Action_Plugin_Edit_Form
@@ -88,8 +85,7 @@ Next
 <!--#include file="admin_header.asp"-->
 	<script type="text/javascript" src="../script/jquery.tagto.js"></script>
 	<script type="text/javascript" src="../script/jquery-ui-timepicker-addon.js"></script>
-	<script type="text/javascript" charset="utf-8" src="ueditor/editor_config.asp"></script>
-	<script type="text/javascript" charset="utf-8" src="ueditor/editor_all.pack.js"></script>
+	<%=Response_Plugin_Edit_Article_Header%>
 <!--#include file="admin_top.asp"-->
 <%If IsPage=False Then%>
 <%If EditArticle.ID=0 Then%>
@@ -345,42 +341,74 @@ End If
 
 <script type="text/javascript">
 
-// <![CDATA[
-
-$(document).ready(function(){
-	
-	$("#edit").submit(function(){
-		if(editor.queryCommandState("source")==1) editor.execCommand("source");
-		if(editor2.queryCommandState("source")==1) editor2.execCommand("source");
-	}) //源码模式下保存时必须切换
-});
-
-var loaded=false;
-
+var tag_loaded=false; //是否已经ajax读取过TAGS
+var sContent="",sIntro="";//原内容与摘要
+var isSubmit=0;//是否提交保存
+var str10="<%=ZC_MSG115%>";
+var str11="<%=ZC_MSG116%>";
+var editor_api={
+	editor:	{
+		content:{
+			obj:{},
+			get:function(){return ""},
+			put:function(){return ""},
+			focus:function(){return ""}
+		},
+		intro:{
+			obj:{},
+			get:function(){return ""},
+			put:function(){return ""},
+			focus:function(){return ""}
+		}
+	}
+}
 var EditorIntroOption = {
 	toolbars:[['Source', 'bold', 'italic','link','insertimage','Undo', 'Redo']],
 	autoHeightEnabled:false,
 	minFrameHeight:200
 };
-var editor=UE.getEditor('editor_ue');
-var editor2=UE.getEditor('editor_ue2',EditorIntroOption);
 
-var sContent="",sIntro="";//原内容与摘要
-var isSubmit=0;//是否提交保存
 
-editor.ready(function(){
-	$("#contentready").hide();
-	$("#editor_ue").prev().show();
-	sContent=editor.getContent();
-});
-editor2.ready(function(){
-	$("#introready").hide();
-	$("#editor_ue2").prev().show();
-	sIntro=editor2.getContent();
-});
-
+$(document).click(function (event){$('#ulTag').slideUp("fast");});  
 //文章内容或摘要变动提示保存
-window.onbeforeunload = function(){if (!isSubmit && (sContent!=editor.getContent() || sIntro!=editor2.getContent())) return "您当前的编辑内容还未保存！";}
+window.onbeforeunload = function(){
+	if (!isSubmit && (sContent!=editor_api.editor.content.get() || sIntro!=editor_api.editor.intro.get())) return "您当前的编辑内容还未保存！";
+}
+
+function ueditor_init(){
+	editor_api.editor.content.obj=UE.getEditor('editor_ue');
+	editor_api.editor.intro.obj=UE.getEditor('editor_ue2',EditorIntroOption);
+	editor_api.editor.content.get=function(){return this.obj.getContent()};
+	editor_api.editor.content.put=function(str){return this.obj.setContent(str)};
+	editor_api.editor.content.focus=function(str){return this.obj.focus()};
+	editor_api.editor.intro.get=function(){return this.obj.getContent()};
+	editor_api.editor.intro.put=function(str){return this.obj.setContent(str)};
+	editor_api.editor.intro.focus=function(str){return this.obj.focus()};
+	
+	editor_api.editor.content.obj.ready(function(){
+		$("#contentready").hide();
+		$("#editor_ue").prev().show();
+		sContent=editor_api.editor.content.get();
+	});
+	editor_api.editor.intro.obj.ready(function(){
+		$("#introready").hide();
+		$("#editor_ue2").prev().show();
+		sIntro=editor_api.editor.intro.get();
+	});
+
+	$(document).ready(function(){
+		$("#edit").submit(function(){
+			if(editor_api.editor.content.obj.queryCommandState("source")==1) editor_api.editor.content.obj.execCommand("source");
+			if(editor_api.editor.intro.obj.queryCommandState("source")==1) editor_api.editor.intro.obj.execCommand("source");
+		}) //源码模式下保存时必须切换
+	});
+}
+ueditor_init();
+
+
+
+
+
 
 //日期时间控件
 $.datepicker.regional['zh-cn'] = {
@@ -420,13 +448,12 @@ $('#edtDateTime').datetimepicker({
 	//changeYear: true
 });
 
-var str10="<%=ZC_MSG115%>";
-var str11="<%=ZC_MSG116%>";
+
 
 function checkArticleInfo(){
 	document.getElementById("edit").action="../cmd.asp?act=ArticlePst&webedit=<%=ZC_BLOG_WEBEDIT & IIF(Request.QueryString("type")="Page","&type=Page","")%>";
 
-	if(!editor.getContent()){
+	if(!editor_api.editor.content.get()){
 		alert(str11);
 		return false
 	}
@@ -439,10 +466,10 @@ $('#showtags').click(function (event) {
 	var offset = $(event.target).offset();  
 	$('#ulTag').css({ top: offset.top + $(event.target).height()+20+ "px", left: offset.left});  
 	$('#ulTag').slideDown("fast"); 		
-	if(loaded==false){$.getScript('../function/c_admin_js.asp?act=tags');loaded=true;}
+	if(tag_loaded==false){$.getScript('../function/c_admin_js.asp?act=tags');tag_loaded=true;}
 });  
 
-$(document).click(function (event){$('#ulTag').slideUp("fast");});  
+
 
 function AddKey(i) {
 	var strKey=$('#edtTag').val();
@@ -466,22 +493,22 @@ function DelKey(i) {
 
 //提取摘要
 function AutoIntro() {
-	var s=editor.getContent();
-	editor2.setContent("");
+	var s=editor_api.editor.content.get();
+	editor_api.editor.intro.put("");
 	if(s.indexOf("<hr class=\"more\" />")>-1){
-		editor2.setContent(editor.getContent().split("<hr class=\"more\" />")[0]);
+		editor_api.editor.intro.put(editor_api.editor.content.get().split("<hr class=\"more\" />")[0]);
 	}else{
 		s="";
-		var ss=editor.getContent().split("</p>");
+		var ss=editor_api.editor.content.get().split("</p>");
 		for (var t in ss){
 			if(s.length<<%=ZC_TB_EXCERPT_MAX%>){
 				s+=ss[t].concat("</p>");
 			}
 		}
-		editor2.setContent(s);
+		editor_api.editor.intro.put(s);
 	}
 
-	$("#divIntro").show();editor2.focus();
+	$("#divIntro").show();editor_api.editor.intro.focus();
 	$('html,body').animate({scrollTop:$('#divIntro').offset().top},'fast');
 }
 
@@ -522,7 +549,6 @@ function selectlogtemplatesub(a){
 	$("#edtTemplate").val(a);
 }
 
-// ]]>
 </script>
 <!--#include file="admin_footer.asp"-->
 <%
