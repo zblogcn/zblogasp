@@ -151,7 +151,7 @@ var autosave = {
     },
     elements: {
         msg: $("#msg"),
-        time: $("#timemsg"),
+        time: $("#timemsg")
 
 
     },
@@ -180,7 +180,8 @@ var autosave = {
     },
     restore: function() {
         $.get("c_autosaverjs.asp", {
-            act: "restore"
+            act: "restore",
+            rnd: Math.random()
         },
         function(data) {
             var m = eval("(" + data + ")");
@@ -206,8 +207,9 @@ var autosave = {
 
         });
         $.get("c_autosaverjs.asp", {
-            act: "restore"
-        },
+            act: "restore",
+        	rnd: Math.random()
+       	},
         function(data) {
             var m = eval("(" + data + ")"),
             s = "";
@@ -262,7 +264,7 @@ var autosave = {
 }
 
 $(document).ready(function() {
-    document.getElementById("msg2").innerHTML = "&nbsp;&nbsp;<a href='javascript:try{autosave.view()}catch(e){};' style='cursor:hand;'>[查看]</a>&nbsp;&nbsp;<a href='javascript:try{if(confirm(\"这将覆盖你原有的内容！继续？\")){autosave.restore()}}catch(e){};' style='cursor:hand;'>[恢复]</a>&nbsp;&nbsp;<a href='javascript:try{autosave.save()}catch(e){};' style='cursor:hand;'>[保存]</a>&nbsp;&nbsp;<a href='javascript:try{autosave.del()}catch(e){};' style='cursor:hand;'>[删除]</a>";
+    document.getElementById("msg2").innerHTML = "&nbsp;&nbsp;<a href='javascript:;' onclick='autosave.view();return false' style='cursor:hand;'>[查看]</a>&nbsp;&nbsp;<a href='javascript:;' onclick='if(confirm(\"这将覆盖你原有的内容！继续？\")) autosave.restore();return false;' style='cursor:hand;'>[恢复]</a>&nbsp;&nbsp;<a href='javascript:;' onclick='autosave.save();return false' style='cursor:hand;'>[保存]</a>&nbsp;&nbsp;<a href='javascript:;' onclick='autosave.del();return false' style='cursor:hand;'>[删除]</a>";
     <%If ZC_AUTOSAVE_FILEMODIFIED <>Now Then Response.Write "document.getElementById('msg').innerHTML='检测到" & ZC_AUTOSAVE_FILEMODIFIED & "备份的数据还未使用！'" %>
     autosave.timer();
     $("#edit").submit(function() {
