@@ -202,6 +202,8 @@ BlogTitle=ZC_MSG247
 		ZC_MUTUALITY_COUNT=TransferHTML(ZC_MUTUALITY_COUNT,"[html-format]")
 		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG230) & "</td><td><p><input id=""edtZC_MUTUALITY_COUNT"" name=""edtZC_MUTUALITY_COUNT"" style=""width:600px;"" type=""text"" value=""" & ZC_MUTUALITY_COUNT & """ /></p></td></tr>"
 
+		ZC_SYNTAXHIGHLIGHTER_ENABLE=TransferHTML(ZC_SYNTAXHIGHLIGHTER_ENABLE,"[html-format]")
+		Response.Write "<tr><td>" & SplitNameAndNote(ZC_MSG301) & "</td><td><p><input id=""edtZC_USE_NAVIGATE_ARTICLE"" name=""edtZC_SYNTAXHIGHLIGHTER_ENABLE"" style="""" type=""text"" value=""" & ZC_SYNTAXHIGHLIGHTER_ENABLE & """ class=""checkbox""/></p></td></tr>"
 
 
 	Response.Write "</table>"
