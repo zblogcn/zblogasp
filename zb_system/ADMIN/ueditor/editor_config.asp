@@ -58,6 +58,8 @@ Next
 	oDic.Add "sourceEditor",""""&IIf(ZC_CODEMIRROR_ENABLE,"codemirror","textarea")&""""
 	oDic.Add "theme","'default'"
     oDic.Add "themePath","URL +'themes/'"
+	oDic.Add "lang",""""&ZC_EDITORLANG&""""
+	oDic.Add "langPath","URL+""../../../zb_users/language/ue-lang/"""
 	
 	Dim i,aryKeys,aryItems
 	aryKeys=oDic.Keys

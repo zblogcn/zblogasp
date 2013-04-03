@@ -1,8 +1,14 @@
 <%
-'<language>简体中文</language>
+'<language>简化字</language>
+'The second line of this file is the name of the language
 
-'自定义信息
 
+'The default language of uEditor
+'The language files will be loaded from ue-lang\ZC_EDITORLANG by editor.
+ZC_EDITORLANG="zh-cn"
+
+'Custom Information
+'Don't delete %s and ()
 ZC_MSG001="名称"
 ZC_MSG002="密码"
 ZC_MSG003="用户名"
@@ -21,7 +27,7 @@ ZC_MSG015="查看"
 ZC_MSG016="摘要"
 ZC_MSG017="显示"
 ZC_MSG018="来宾"
-ZC_MSG019="超级管理%s登录%s验证身份%s注销%s后台管理%s发表评论%s查看权限%s查看RSS输出%s批量操作%s索引重建%s文章重建%s管理文章%s编辑文章%s发布文章%s删除文章%s管理分类%s修改分类%s删除分类%s管理评论%s删除评论%s管理用户%s编辑用户%s创建用户%s修改用户%s删除用户%s附件管理%s附件上传%s附件删除%s站内搜索%sTag管理%sTag编辑%sTag保存%sTag删除%s网站设置%s网站设置保存%s插件管理%s侧栏模块管理%s所有文件管理%s所有评论管理%s所有附件管理%s"
+ZC_MSG019="超级管理%s登录%s验证身份%s注销%s后台管理%s发表评论%s查看权限%s查看RSS输出%s批量操作%s索引重建%s文章重建%s管理文章%s编辑文章%s发布文章%s删除文章%s管理分类%s修改分类%s删除分类%s管理评论%s删除评论%s管理用户%s编辑用户%s创建用户%s修改用户%s删除用户%s附件管理%s附件上传%s附件删除%s站内搜索%sTag管理%sTag编辑%sTag保存%sTag删除%s网站设置%s网站设置保存%s插件管理%s侧栏模块管理%s所有文件管理%s所有评论管理%s所有附件管理%s" 
 ZC_MSG020="退出登录"
 ZC_MSG021="查看权限"
 ZC_MSG022="管理"
@@ -302,8 +308,8 @@ ZC_MSG296="手动修改并锁定网站地址"
 ZC_MSG297="自动识别网站地址"
 ZC_MSG298="隐藏模块标题"
 ZC_MSG299="该模块在模版中的独立调用标签为:"
-ZC_MSG300="语言包(部分模板和插件可能不会生效)"
-ZC_MSG301="打开代码高亮(默认使用SyntaxHighLighter代码高亮库，使用其它编辑器可能不同)"
+ZC_MSG300="语言包(部分模板和插件可能依然显示其它的语言。)"
+ZC_MSG301="打开代码高亮(系统自带编辑器使用SyntaxHighLighter代码高亮库，使用其它编辑器可能不同)"
 
 
 
@@ -313,7 +319,7 @@ ZC_MSG301="打开代码高亮(默认使用SyntaxHighLighter代码高亮库，使
 
 
 
-
+'Article Level
 ZVA_Article_Level_Name(0)="无"
 ZVA_Article_Level_Name(1)="草稿"
 ZVA_Article_Level_Name(2)="私人浏览"
@@ -323,7 +329,7 @@ ZVA_Article_Level_Name(4)="普通"
 
 
 
-
+'User Level
 ZVA_User_Level_Name(1)="管理员"
 ZVA_User_Level_Name(2)="网站编辑"
 ZVA_User_Level_Name(3)="作者"
@@ -333,7 +339,7 @@ ZVA_User_Level_Name(5)="游客"
 
 
 
-
+'January, February...
 ZVA_Month(1) ="一月"
 ZVA_Month(2) ="二月"
 ZVA_Month(3) ="三月"
@@ -348,7 +354,7 @@ ZVA_Month(11)="十一月"
 ZVA_Month(12)="十二月"
 
 
-
+'Jan., Feb. ...
 ZVA_Month_Abbr(1) ="1月"
 ZVA_Month_Abbr(2) ="2月"
 ZVA_Month_Abbr(3) ="3月"
@@ -363,7 +369,7 @@ ZVA_Month_Abbr(11)="11月"
 ZVA_Month_Abbr(12)="12月"
 
 
-
+'Sunday, Monday..
 ZVA_Week(1)="星期日"
 ZVA_Week(2)="星期一"
 ZVA_Week(3)="星期二"
@@ -373,7 +379,7 @@ ZVA_Week(6)="星期五"
 ZVA_Week(7)="星期六"
 
 
-
+'Sun., Mon. ...
 ZVA_Week_Abbr(1)="日"
 ZVA_Week_Abbr(2)="一"
 ZVA_Week_Abbr(3)="二"
@@ -383,9 +389,7 @@ ZVA_Week_Abbr(6)="五"
 ZVA_Week_Abbr(7)="六"
 
 
-'自定义错误信息
-
-
+'Custom Error Information
 ZVA_ErrorMsg(0)="未知错误"
 ZVA_ErrorMsg(1)="未知命令"
 ZVA_ErrorMsg(2)="未查询到相关页面"
