@@ -366,6 +366,7 @@ var EditorIntroOption = {
 
 
 $(document).click(function (event){$('#ulTag').slideUp("fast");});  
+
 //文章内容或摘要变动提示保存
 window.onbeforeunload = function(){
 	if (!isSubmit && (sContent!=editor_api.editor.content.get() || sIntro!=editor_api.editor.intro.get())) return "您当前的编辑内容还未保存！";
@@ -421,12 +422,19 @@ $('#edtDateTime').datetimepicker({
 
 
 function checkArticleInfo(){
-	document.getElementById("edit").action="../cmd.asp?act=ArticlePst&webedit=<%=ZC_BLOG_WEBEDIT & IIF(Request.QueryString("type")="Page","&type=Page","")%>";
+	document.getElementById("edit").action="../cmd.asp?act=ArticlePst<%=IIF(Request.QueryString("type")="Page","&type=Page","")%>";
 
 	if(!editor_api.editor.content.get()){
 		alert(str11);
 		return false
 	}
+	
+	if(encodeURIComponent(editor_api.editor.content.get()).length>(1024*200)){
+		if(!confirm("您的文章内容可能过长，受到IIS的限制可能会出错。是否确认继续？")){
+			return false
+		}
+	}
+	
 	isSubmit=1;
 }
 
@@ -486,19 +494,18 @@ function AutoIntro() {
 
 %>
 //文章编辑提交区随动JS开始
- var oDiv=document.getElementById("divFloat");
- var H=0,iE6;
- var Y=oDiv;
- while(Y){H+=Y.offsetTop;Y=Y.offsetParent;};
- iE6=window.ActiveXObject&&!window.XMLHttpRequest;
- if(!iE6){
-	 window.onscroll=function()
-	 {
-		 var s=document.body.scrollTop||document.documentElement.scrollTop;
-		 if(s>H){oDiv.className="boxfloat";if(iE6){oDiv.style.top=(s-H)+"px";}}
-		 else{oDiv.className="";}   
-	};
- }
+var oDiv=document.getElementById("divFloat");
+var H=0;var Y=oDiv;
+while(Y){H+=Y.offsetTop;Y=Y.offsetParent;};
+$(document).scroll(function(){
+	var s=document.body.scrollTop||document.documentElement.scrollTop;
+	if(s>H){
+		$("#divFloat").addClass("boxfloat");
+	}
+	else{
+		$("#divFloat").removeClass("boxfloat");
+	}   
+});
 <% 
 
 %>
