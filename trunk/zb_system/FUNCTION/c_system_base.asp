@@ -112,9 +112,6 @@ ZC_PAGE_AND_ARTICLE_PRIVATE_REGEX="{%host%}/view.asp?id={%id%}"
 Dim ZC_PAGE_AND_ARTICLE_DRAFT_REGEX
 ZC_PAGE_AND_ARTICLE_DRAFT_REGEX="{%host%}/view.asp?id={%id%}"
 
-Dim ZC_EDITORLANG
-ZC_EDITORLANG="zh-cn"
-
 '如果连接数据库为MSSQL，则应为'，默认连接Access数据库则为#
 Dim ZC_SQL_POUND_KEY
 ZC_SQL_POUND_KEY="#"

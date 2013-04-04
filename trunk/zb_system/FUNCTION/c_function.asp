@@ -22,6 +22,9 @@ Set PublicObjAdo=Server.CreateObject("ADODB.Stream")
 Set PublicObjFSO=Server.CreateObject("Scripting.FileSystemObject")
 
 
+Dim ZC_EDITORLANG
+ZC_EDITORLANG="zh-cn"
+
 
 
 '*********************************************************
