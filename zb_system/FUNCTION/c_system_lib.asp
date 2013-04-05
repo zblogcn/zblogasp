@@ -1715,67 +1715,75 @@ Class TArticle
 		Call GetUsersbyUserIDList(AuthorID)
 
 		'重新统计分类及用户的文章数、评论数
-		Dim strSQL,ary1(2),ary2(2)
-		strSQL=""
+		Dim strSQL,ary1(2),ary2(2),ary3(2)
+		strSQL="SELECT"
 		ary1(0)=True
-		ary2(0)="SELECT COUNT([log_ID]) FROM [blog_Comment] WHERE [log_ID] =" & ID & "AND [comm_ParentID]=0 AND [comm_isCheck]=0"
+		ary2(0)="(SELECT COUNT([log_ID]) FROM [blog_Comment] WHERE [log_ID] =" & ID & " AND [comm_ParentID]=0 AND [comm_isCheck]=0) As [comm_count]"
 		ary1(1)=IIf(Categorys(CateID).ReCount=0,True,False)
-		ary2(1)="SELECT COUNT([log_ID]) FROM [blog_Article] WHERE [log_Level]>1 AND [log_Type]=0 AND [log_CateID]=" & CateID 
+		ary2(1)="(SELECT COUNT([log_ID]) FROM [blog_Article] WHERE [log_Level]>1 AND [log_Type]=0 AND [log_CateID]=" & CateID & ") As [cate_count]"
 		ary1(2)=IIf(Users(AuthorID).ReCount=0,True,False)
-		ary2(2)="SELECT COUNT([log_ID]) FROM [blog_Article] WHERE [log_Level]>1 AND [log_Type]=0 AND [log_AuthorID]=" & AuthorID 
+		ary2(2)="(SELECT COUNT([log_ID]) FROM [blog_Article] WHERE [log_Level]>1 AND [log_Type]=0 AND [log_AuthorID]=" & AuthorID &") As [author_count]"
 		strSQL=strSQL & IIf(ary1(0),ary2(0),"")
-		strSQL=strSQL & IIf(ary1(1),IIf(strSQL=""," "," UNION ALL ") & ary2(1),"")
-		strSQL=strSQL & IIf(ary1(2),IIf(strSQL=""," "," UNION ALL ") & ary2(2),"")
+		strSQL=strSQL & IIf(ary1(1),IIf(strSQL=""," ",",") & ary2(1),"")
+		strSQL=strSQL & IIf(ary1(2),IIf(strSQL=""," ",",") & ary2(2),"")
 		Dim objRS,i
+		i=0
 		Set objRS=objConn.Execute(strSQL)
 		If (Not objRS.bof) And (Not objRS.eof) Then
-			For i=0 to 2
-				If ary1(i)=True Then
-					Select Case i
-					Case 0
-						CommNums=objRS(0)
-						objConn.Execute("UPDATE [blog_Article] SET [log_CommNums]="& CommNums &" WHERE [log_ID] =" & ID)
-					Case 1
-						Call BlogConfig.Write("ZC_UNCATEGORIZED_COUNT",1)
-						Categorys(CateID).ReCount=objRs(0)
-						If CateID=0 Then
-							Call BlogConfig.Write("ZC_UNCATEGORIZED_COUNT",Categorys(CateID).ReCount)
-						Else
-							objConn.Execute("UPDATE [blog_Category] SET [cate_Count]="&Categorys(CateID).ReCount&" WHERE [cate_ID] =" & CateID)
-						End If
-						Categorys(CateID).Count=Categorys(CateID).ReCount
-						'原分类计数－1
-						Dim Cate_ExID:Cate_ExID=Categorys(CateID).ExID
-						If Cate_ExID<>-1 Then
-							Categorys(Cate_ExID).ReCount=Categorys(Cate_ExID).Count-1
-							If Cate_ExID=0 Then
-								Call BlogConfig.Write("ZC_UNCATEGORIZED_COUNT",Categorys(Cate_ExID).ReCount)
-							Else
-								objConn.Execute("UPDATE [blog_Category] SET [cate_Count]="&Categorys(Cate_ExID).ReCount&" WHERE [cate_ID] =" & Cate_ExID)
-							End If
-							Categorys(Cate_ExID).Count=Categorys(Cate_ExID).ReCount
-						End If 
-						BlogConfig.Save
-					Case 2
-						Users(AuthorID).ReCount=objRs(0)
-						objConn.Execute("UPDATE [blog_Member] SET [mem_PostLogs]="&Users(AuthorID).ReCount&" WHERE [mem_ID] =" & AuthorID)
-						Users(AuthorID).Count=Users(AuthorID).ReCount
-						'原用户计数－1
-						Dim User_ExID:User_ExID=Users(AuthorID).ExID
-						If User_ExID<>-1 Then
-							Users(User_ExID).ReCount=Users(User_ExID).Count-1
-							objConn.Execute("UPDATE [blog_Member] SET [mem_PostLogs]="&Users(User_ExID).ReCount&" WHERE [mem_ID] =" & User_ExID)
-							Users(User_ExID).Count=Users(User_ExID).ReCount
-						End If 
-					End Select
-					objRs.MoveNext
-				End If
+			
+			If ary1(0) Then 
+			
+				CommNums=objRs("comm_count")
+				objConn.Execute("UPDATE [blog_Article] SET [log_CommNums]="& CommNums &" WHERE [log_ID] =" & ID)
 				
-			Next
+			End If
+			
+			If ary1(1) Then
+			
+				Call BlogConfig.Write("ZC_UNCATEGORIZED_COUNT",1)
+				Categorys(CateID).ReCount=objRs("cate_count")
+				If CateID=0 Then
+					Call BlogConfig.Write("ZC_UNCATEGORIZED_COUNT",Categorys(CateID).ReCount)
+				Else
+					objConn.Execute("UPDATE [blog_Category] SET [cate_Count]="&Categorys(CateID).ReCount&" WHERE [cate_ID] =" & CateID)
+				End If
+				Categorys(CateID).Count=Categorys(CateID).ReCount
+				'原分类计数－1
+				Dim Cate_ExID:Cate_ExID=Categorys(CateID).ExID
+				If Cate_ExID<>-1 Then
+					Categorys(Cate_ExID).ReCount=Categorys(Cate_ExID).Count-1
+					If Cate_ExID=0 Then
+						Call BlogConfig.Write("ZC_UNCATEGORIZED_COUNT",Categorys(Cate_ExID).ReCount)
+					Else
+						objConn.Execute("UPDATE [blog_Category] SET [cate_Count]="&Categorys(Cate_ExID).ReCount&" WHERE [cate_ID] =" & Cate_ExID)
+					End If
+					Categorys(Cate_ExID).Count=Categorys(Cate_ExID).ReCount
+				End If 
+				BlogConfig.Save
+				
+			End If
+			
+			If ary1(2) Then
+			
+				Users(AuthorID).ReCount=objRs("author_count")
+				objConn.Execute("UPDATE [blog_Member] SET [mem_PostLogs]="&Users(AuthorID).ReCount&" WHERE [mem_ID] =" & AuthorID)
+				Users(AuthorID).Count=Users(AuthorID).ReCount
+				'原用户计数－1
+				Dim User_ExID:User_ExID=Users(AuthorID).ExID
+				If User_ExID<>-1 Then
+				
+					Users(User_ExID).ReCount=Users(User_ExID).Count-1
+					objConn.Execute("UPDATE [blog_Member] SET [mem_PostLogs]="&Users(User_ExID).ReCount&" WHERE [mem_ID] =" & User_ExID)
+					Users(User_ExID).Count=Users(User_ExID).ReCount
+					
+				End If 
+				
+			End If
 			
 		End If
-		
-		Set objRS=Nothing
+
+		objRs.Close
+		Set objRs=Nothing
 
 		'FullUrl=Replace(Url,BlogHost,"<#ZC_BLOG_HOST#>")
 		'objConn.Execute("UPDATE [blog_Article] SET [log_FullUrl]='"&FullUrl&"' WHERE [log_ID] =" & ID)
