@@ -1,32 +1,7 @@
-.jd img{
-	background:transparent url(jxface2.gif?v=1.1) no-repeat scroll left top;
-	cursor:pointer;width:35px;height:35px;display:block;
-	}
- .pp img{
-	background:transparent url(fface.gif?v=1.1) no-repeat scroll left top;
-	cursor:pointer;width:25px;height:25px;display:block;
-	}
- .ldw img{
-	background:transparent url(wface.gif?v=1.1) no-repeat scroll left top;
-	cursor:pointer;width:35px;height:35px;display:block;
-	}
- .tsj img{
-	background:transparent url(tface.gif?v=1.1) no-repeat scroll left top;
-	cursor:pointer;width:35px;height:35px;display:block;
-	}
- .cat img{
-	background:transparent url(cface.gif?v=1.1) no-repeat scroll left top;
-	cursor:pointer;width:35px;height:35px;display:block;
-	}
- .bb img{
-	background:transparent url(bface.gif?v=1.1) no-repeat scroll left top;
-	cursor:pointer;width:35px;height:35px;display:block;
-	}
- .youa img{
-	background:transparent url(yface.gif?v=1.1) no-repeat scroll left top;
-	cursor:pointer;width:35px;height:35px;display:block;
-	}
-
+#tabContent img{
+	background:transparent no-repeat scroll left top;
+	cursor:pointer;width:30px;display:block;
+}
 .smileytable td {
     height: 37px;
 }

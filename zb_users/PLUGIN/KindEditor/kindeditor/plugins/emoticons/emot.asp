@@ -140,11 +140,11 @@ KindEditor.plugin('emoticons', function (K) {
         //大对象
         FaceHandler = {
             imageFolders: {<%For x=0 To i-1%> tab<%=x%>: '<%=f(x)%>/'<%=IIf(x=i-1,"",",")%><%Next%>},
-            imageWidth: {<%For x=0 To i-1%> tab<%=x%>: 35<%=IIf(x=i-1,"",",")%><%Next%>},
+            imageWidth: {<%For x=0 To i-1%> tab<%=x%>: 30<%=IIf(x=i-1,"",",")%><%Next%>},
             imageCols: {<%For x=0 To i-1%> tab<%=x%>: 11<%=IIf(x=i-1,"",",")%><%Next%> },
             imageColWidth: {<%For x=0 To i-1%> tab<%=x%>: 3<%=IIf(x=i-1,"",",")%><%Next%>},
             imageCss: {<%For x=0 To i-1%> tab<%=x%>: '<%=f(x)%>'<%=IIf(x=i-1,"",",")%><%Next%>},
-            imageCssOffset: {<%For x=0 To i-1%> tab<%=x%>: 35<%=IIf(x=i-1,"",",")%><%Next%>},
+            imageCssOffset: {<%For x=0 To i-1%> tab<%=x%>: 30<%=IIf(x=i-1,"",",")%><%Next%>},
             tabExist: [<%For x=0 To i-1%>0<%=IIf(x=i-1,"",",")%><%Next%>]
         };
         function switchTab(index) {
