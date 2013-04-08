@@ -91,7 +91,7 @@ End Sub
 
 Sub Restore()
 	If ZC_AUTOSAVE_FILEMODIFIED=Now Then
-		Response.Write "{'title':'无','alias':'','tag':'','cate':0,'content':'没有备份数据','success':false}"
+		Response.Write "{'title':'"&ZC_MSG180&"','alias':'','tag':'','cate':0,'content':'"&ZC_MSG133&"','success':false}"
 	Else
 		Response.Write LoadFromFile(BlogPath & "ZB_USERS/CACHE/"&ZC_AUTOSAVE_FILENAME,"utf-8")
 	End If
@@ -199,10 +199,10 @@ var autosave = {
     },
     view: function() {
         var r = Math.floor(Math.random() * 100);
-        var o = "<div id='autosave_get" + r + "'><p>数据获取中</p></div>";
+        var o = "<div id='autosave_get" + r + "'><p><%=ZC_MSG117%></p></div>";
         $("#divMain2").append(o);
         var k = $("#autosave_get" + r).dialog({
-            title: "预览",
+            title: "<%=ZC_MSG017%>",
             modal: true
 
         });
@@ -213,11 +213,11 @@ var autosave = {
         function(data) {
             var m = eval("(" + data + ")"),
             s = "";
-            s += "<p><span style='font-weight:bold'>标题：</span>" + m.title + "</p>";
-            s += "<p><span style='font-weight:bold'>别名：</span>" + m.alias + "</p>";
-            s += "<p><span style='font-weight:bold'>Tags：</span>" + m.tag + "</p>";
-            s += "<p><span style='font-weight:bold'>分类ID：</span>" + m.cate + "</p>";
-            s += "<p><a href='javascript:;' onclick='autosave.runcode(" + r + ")'><span style='font-weight:bold'>内容：</span></a><div id='autosave_content" + r + "'>" + m.content + "</div></p>";
+            s += "<p><span style='font-weight:bold'><%=ZC_MSG060%>：</span>" + m.title + "</p>";
+            s += "<p><span style='font-weight:bold'><%=ZC_MSG147%>：</span>" + m.alias + "</p>";
+            s += "<p><span style='font-weight:bold'><%=ZC_MSG138%>：</span>" + m.tag + "</p>";
+            s += "<p><span style='font-weight:bold'><%=ZC_MSG012%>ID：</span>" + m.cate + "</p>";
+            s += "<p><a href='javascript:;' onclick='autosave.runcode(" + r + ")'><span style='font-weight:bold'><%=ZC_MSG090%>：</span></a><div id='autosave_content" + r + "'>" + m.content + "</div></p>";
             k.html(s)
 
         });
@@ -225,7 +225,7 @@ var autosave = {
     },
     timer: function() {
         autosave.time.remain--;
-        autosave.elements.time.html(autosave.time.remain + "秒后自动保存");
+        autosave.elements.time.html(autosave.time.remain + "<%=ZC_MSG251%>");
         if (autosave.time.remain >= 0) {
             window.setTimeout("autosave.timer()", 1000);
 
@@ -235,7 +235,7 @@ var autosave = {
                 autosave.timer();
 
             } else {
-                autosave.elements.time.html("正在保存...");
+                autosave.elements.time.html("<%=ZC_MSG250%>");
                 autosave.save();
                 autosave.time.remain = autosave.time.max;
                 autosave.timer();
@@ -257,7 +257,7 @@ var autosave = {
         $.get("c_autosaverjs.asp?act=del");
         autosave.file.name = "";
         autosave.file.modified = "";
-        autosave.elements.msg.html("删除完毕")
+        autosave.elements.msg.html("<%=ZC_MSG228%>")
 
     }
 
