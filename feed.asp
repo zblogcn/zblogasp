@@ -79,6 +79,7 @@ Function ExportRSSbyCate(CateID)
 		.TimeZone=ZC_TIME_ZONE
 
 		'Call GetCategory()	
+		Call GetUser
 		Dim Category
 		For Each Category In Categorys
 			If IsObject(Category) Then
