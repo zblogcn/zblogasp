@@ -1719,20 +1719,35 @@ Class TArticle
 		strSQL="SELECT"
 		ary1(0)=True
 		ary2(0)="(SELECT COUNT([log_ID]) FROM [blog_Comment] WHERE [log_ID] =" & ID & " AND [comm_ParentID]=0 AND [comm_isCheck]=0) As [comm_count]"
+		ary3(0)="SELECT COUNT([log_ID]) As [comm_count] FROM [blog_Comment] WHERE [log_ID] =" & ID & " AND [comm_ParentID]=0 AND [comm_isCheck]=0"
+
+
 		ary1(1)=IIf(Categorys(CateID).ReCount=0,True,False)
 		ary2(1)="(SELECT COUNT([log_ID]) FROM [blog_Article] WHERE [log_Level]>1 AND [log_Type]=0 AND [log_CateID]=" & CateID & ") As [cate_count]"
+		ary3(1)="SELECT COUNT([log_ID]) As [cate_count] FROM [blog_Article] WHERE [log_Level]>1 AND [log_Type]=0 AND [log_CateID]=" & CateID 
+
+
 		ary1(2)=IIf(Users(AuthorID).ReCount=0,True,False)
 		ary2(2)="(SELECT COUNT([log_ID]) FROM [blog_Article] WHERE [log_Level]>1 AND [log_Type]=0 AND [log_AuthorID]=" & AuthorID &") As [author_count]"
+		ary3(2)="SELECT COUNT([log_ID]) As [author_count] FROM [blog_Article] WHERE [log_Level]>1 AND [log_Type]=0 AND [log_AuthorID]=" & AuthorID 
+
 		strSQL=strSQL & IIf(ary1(0),ary2(0),"")
 		strSQL=strSQL & IIf(ary1(1),IIf(strSQL=""," ",",") & ary2(1),"")
 		strSQL=strSQL & IIf(ary1(2),IIf(strSQL=""," ",",") & ary2(2),"")
-		Dim objRS,i
+		Dim objRS,i,isBool
 		i=0
-		Set objRS=objConn.Execute(strSQL)
-		If (Not objRS.bof) And (Not objRS.eof) Then
-			
+		If ZC_MSSQL_ENABLE Then
+			Set objRS=objConn.Execute(strSQL)
+			isBool=(Not objRS.bof) And (Not objRS.eof)
+		Else
+			isBool=True
+		End If
+		
+		If isBool Then
+
 			If ary1(0) Then 
-			
+				
+				If Not ZC_MSSQL_ENABLE Then Set objRS=objConn.Execute(ary3(0))
 				CommNums=objRs("comm_count")
 				objConn.Execute("UPDATE [blog_Article] SET [log_CommNums]="& CommNums &" WHERE [log_ID] =" & ID)
 				
@@ -1740,6 +1755,7 @@ Class TArticle
 			
 			If ary1(1) Then
 			
+				If Not ZC_MSSQL_ENABLE Then Set objRS=objConn.Execute(ary3(1))
 				Call BlogConfig.Write("ZC_UNCATEGORIZED_COUNT",1)
 				Categorys(CateID).ReCount=objRs("cate_count")
 				If CateID=0 Then
@@ -1765,6 +1781,7 @@ Class TArticle
 			
 			If ary1(2) Then
 			
+				If Not ZC_MSSQL_ENABLE Then Set objRS=objConn.Execute(ary3(2))
 				Users(AuthorID).ReCount=objRs("author_count")
 				objConn.Execute("UPDATE [blog_Member] SET [mem_PostLogs]="&Users(AuthorID).ReCount&" WHERE [mem_ID] =" & AuthorID)
 				Users(AuthorID).Count=Users(AuthorID).ReCount
