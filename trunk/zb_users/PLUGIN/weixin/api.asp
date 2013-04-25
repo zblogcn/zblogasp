@@ -12,14 +12,17 @@
 <%
 Response.ContentType="application/x-javascript"
 Call System_Initialize()
-
+	Dim objConfig
+	Set objConfig=New TConfig
+	objConfig.Load("weixin")
+	
 If Request("echostr") Then
 	Dim echostr,signature,timestamp,nonce,token,tmpArray,tmpStr,i
 	signature = Request("signature")
 	timestamp = Request("timestamp")
 	nonce = Request("nonce")
 	echostr = Request("echostr")
-	tmpArr = Array(nonce,timestamp,"imzhou")
+	tmpArr = Array(nonce,timestamp,objConfig.Read("token"))
 	tmpArr = Sort(tmpArr)
 	tmpStr = ""
 	For i = 0 to 2
@@ -51,7 +54,7 @@ MsgType=xml_dom.getelementsbytagname("MsgType").item(0).text
 if MsgType="event" then
 	varEvent=xml_dom.getelementsbytagname("Event").item(0).text
 	if varEvent="subscribe" then
-		Content=Welcome()
+		Content=Welcome(ZC_BLOG_TITLE,objConfig.Read("LastPostNum"))
 		strresponse_text="<xml>" &_
 		"<ToUserName><![CDATA["&fromusername&"]]></ToUserName>" &_
 		"<FromUserName><![CDATA["&tousername&"]]></FromUserName>" &_
