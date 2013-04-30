@@ -58,19 +58,19 @@ BlogTitle="微信搜索"
 		  <tr>
 			<td><b><label for="WelcomeStr"><p align="center">欢迎语</p></label></b></td>
 			<td><p align="center"><textarea name="WelcomeStr" type="text" id="WelcomeStr"  style="width:218px;font-size:8px;" rows="3" cols="20" /><%=objConfig.Read("WelcomeStr")%></textarea></p></td>
-			<td><b><label for="WelcomeStr"><p align="left">&nbsp;&nbsp;设置被用户微信关注后发送的默认欢迎语</p></label></b></td>
+			<td><b><label for="WelcomeStr"><p align="left">&nbsp;&nbsp;设置被用户微信关注后发送的默认欢迎语，可以使用“&lt;br/&gt;”换行、“{%title%}”代替博客标题。</p></label></b></td>
 		  </tr>
 		  <tr>
 			<td><b><label for="SearchNum"><p align="center">搜索结果数量</p></label></b></td>
 			<td><p align="center"><input name="SearchNum" type="text" id="SearchNum"  style="width:80px;" value="<%=CInt(objConfig.Read("SearchNum"))%>" /></p></td>
-			<td><b><label for="SearchNum"><p align="left">&nbsp;&nbsp;设置微信关键词搜索返回的文章数量</p></label></b></td>
+			<td><b><label for="SearchNum"><p align="left">&nbsp;&nbsp;设置微信关键词搜索返回的文章数量，不建议设置过多，请尽量小于20条。</p></label></b></td>
 		  </tr>
 		  <tr>
 			<td><b><label for="ShowMeta"><p align="center">搜索结果查看方式</p></label></b></td>
 			<td><p align="center">
 				<select name="ShowMeta" id="ShowMeta" style="width:100px;">
 					<option value="1" <% If CInt(objConfig.Read("ShowMeta"))="1" Then Response.Write " selected='selected'"%>>微信版页面章</option>
-					<option value="2" <% If CInt(objConfig.Read("ShowMeta"))="2" Then Response.Write " selected='selected'"%>>文字版文章</option>					
+					<!--<option value="2" <% If CInt(objConfig.Read("ShowMeta"))="2" Then Response.Write " selected='selected'"%>>文字版文章</option>	-->				
 					<option value="3"<% If CInt(objConfig.Read("ShowMeta"))="3" Then Response.Write " selected='selected'"%>>博客主题模式</option>
 				</select>
 			</p></td>

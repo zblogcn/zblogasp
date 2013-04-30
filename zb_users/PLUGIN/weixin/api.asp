@@ -16,6 +16,8 @@ Call System_Initialize()
 	Set objConfig=New TConfig
 	objConfig.Load("weixin")
 	
+'If Request.QueryString = "" Then Response.End()
+
 If Request("echostr") Then
 	Dim echostr,signature,timestamp,nonce,token,tmpArray,tmpStr,i
 	signature = Request("signature")
@@ -32,9 +34,10 @@ If Request("echostr") Then
 	If(singsha1 = signature) Then
 		Response.Write echostr
 		Response.End()
+	else
+		Response.End()
 	End If
 End If
-
 
 Dim ToUserName	'开发者微信号
 Dim FromUserName'发送方帐号（一个OpenID）
@@ -54,7 +57,7 @@ MsgType=xml_dom.getelementsbytagname("MsgType").item(0).text
 if MsgType="event" then
 	varEvent=xml_dom.getelementsbytagname("Event").item(0).text
 	if varEvent="subscribe" then
-		Content=Welcome(ZC_BLOG_TITLE,objConfig.Read("LastPostNum"))
+		Content=Welcome(ZC_BLOG_TITLE,objConfig.Read("LastPostNum"),objConfig.Read("WelcomeStr"))
 		strresponse_text="<xml>" &_
 		"<ToUserName><![CDATA["&fromusername&"]]></ToUserName>" &_
 		"<FromUserName><![CDATA["&tousername&"]]></FromUserName>" &_
@@ -71,18 +74,35 @@ elseif MsgType="text" then
 end if
 set xml_dom=Nothing
 
-
-
 Dim strQuestion
-strQuestion=TransferHTML(Content,"[nohtml]")
-if strQuestion="最新文章" then
-	Content=LastPost()
+strQuestion=Trim(TransferHTML(Content,"[nohtml]"))
+strQuestion=Replace(strQuestion," ","")
+	strQuestion=Replace(strQuestion,"'","")
+	strQuestion=Replace(strQuestion,"“","")
+	strQuestion=Replace(strQuestion,"”","")
+	strQuestion=Replace(strQuestion,"‘","")
+	strQuestion=Replace(strQuestion,"’","")
+	strQuestion=Replace(strQuestion,"AND","")
+	strQuestion=Replace(strQuestion,"WHERE","")
+if strQuestion="help" then
+	Content = Help()
+	strresponse_text="<xml>" &_
+ 	"<ToUserName><![CDATA["&fromusername&"]]></ToUserName>" &_
+	"<FromUserName><![CDATA["&tousername&"]]></FromUserName>" &_
+	"<CreateTime>"&now&"</CreateTime>" &_
+	"<MsgType><![CDATA[text]]></MsgType>" &_
+	"<Content><![CDATA[" & Content & "]]></Content>" &_
+	"<FuncFlag>0<FuncFlag>" &_
+	"</xml>"
+	response.write strresponse_text
+elseif strQuestion="最新文章" then
+	Content=LastPost(CInt(objConfig.Read("LastPostNum")))
 	strresponse_news="<xml>"&_
 	"<ToUserName><![CDATA["&fromusername&"]]></ToUserName>"&_
 	"<FromUserName><![CDATA["&tousername&"]]></FromUserName>"&_
 	"<CreateTime>"&now&"</CreateTime>"&_
 	"<MsgType><![CDATA[news]]></MsgType>"&_
-	"<ArticleCount>5</ArticleCount>"&_
+	"<ArticleCount>"&CInt(objConfig.Read("LastPostNum"))&"</ArticleCount>"&_
 	"<Articles>"& Content &_	
 	"</Articles>"&_
 	"<FuncFlag>1</FuncFlag>"&_
@@ -90,7 +110,7 @@ if strQuestion="最新文章" then
 	response.write strresponse_news
 	Response.End()
 else
-	Content = Search(strQuestion)
+	Content = Search(strQuestion,CInt(objConfig.Read("SearchNum")),CInt(objConfig.Read("ShowMeta")))
 	strresponse_text="<xml>" &_
  	"<ToUserName><![CDATA["&fromusername&"]]></ToUserName>" &_
 	"<FromUserName><![CDATA["&tousername&"]]></FromUserName>" &_
