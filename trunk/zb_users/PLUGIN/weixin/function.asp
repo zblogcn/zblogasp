@@ -15,17 +15,28 @@ End Function
 '\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
 '首次关注
-Function Welcome(title,num)
-	Welcome = Content & "欢迎关注《"&title&"》！！！"& VBCrLf
-	Welcome = Welcome & "您可发送“最新文章”来查看博客最新的"&num&"篇文章，或者直接发送关键词来搜索博客中已发表的文章。更多使用帮助请输入英文“help”或者数字“0”来查看。"
+Function Welcome(blogtitle,num,welcomestr)
+	Welcome = Replace(welcomestr,"{%title%}",blogtitle)
+	Welcome = Replace(Welcome,"{%num%}",num)
+	Welcome = Replace(Welcome,"<br/>",vbCrLf)
 End Function
 
+'帮助
+Function Help()
+	Help="您可以输入“最新文章”来查看博客的最新图文文章；或者输入关键词来搜索博客中的文章并在微信中查看。"
+End Function
+
+
 '查询文章
-Function Search(Content)
+Function Search(strQuestion,show_num,shou_meta)
 	Dim LTRS,InserNewHtml:InserNewHtml = ""
-	Set LTRS=objConn.Execute("SELECT TOP 15  [log_ID],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_PostTime],[log_FullUrl] FROM [blog_Article] WHERE ([log_Type]=0) And ([log_ID]>0) AND( (InStr(1,LCase([log_Title]),LCase('"&strQuestion&"'),0)<>0) OR (InStr(1,LCase([log_Intro]),LCase('"&strQuestion&"'),0)<>0) OR (InStr(1,LCase([log_Content]),LCase('"&strQuestion&"'),0)<>0) )")
+	Set LTRS=objConn.Execute("SELECT TOP "&show_num&"  [log_ID],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_PostTime],[log_FullUrl] FROM [blog_Article] WHERE ([log_Type]=0) And ([log_ID]>0) AND( (InStr(1,LCase([log_Title]),LCase('"&strQuestion&"'),0)<>0) OR (InStr(1,LCase([log_Intro]),LCase('"&strQuestion&"'),0)<>0) OR (InStr(1,LCase([log_Content]),LCase('"&strQuestion&"'),0)<>0) )")
 	Do Until LTRS.Eof
-		InserNewHtml = InserNewHtml & "<a href=""" & ZC_BLOG_HOST & "ZB_USERS/plugin/weixin/view.asp?wid=" & LTRS("log_ID") & """>" & LTRS("log_ID") & "、" & LTRS("log_Title") & "</a>" & VBCrLf & VBCrLf 'LTRS("log_PostTime") & 
+		If shou_meta=1 Then
+			InserNewHtml = InserNewHtml & "<a href=""" & ZC_BLOG_HOST & "ZB_USERS/plugin/weixin/viewwx.asp?wid=" & LTRS("log_ID") & """>" & LTRS("log_ID") & "、" & LTRS("log_Title") & "</a>" & VBCrLf & VBCrLf
+		ElseIf shou_meta=3 Then
+			InserNewHtml = InserNewHtml & "<a href=""" & ZC_BLOG_HOST & "view.asp?nav=" & LTRS("log_ID") & """>" & LTRS("log_ID") & "、" & LTRS("log_Title") & "</a>" & VBCrLf & VBCrLf 
+		End If
 		'InserNewHtml = InserNewHtml & TransferHTML(LTRS("log_Content"),"[nohtml]")
 		'Exit Do
 		LTRS.MoveNext
@@ -35,24 +46,24 @@ Function Search(Content)
 	InserNewHtml = Replace(InserNewHtml,"&nbsp;"," ")
 	InserNewHtml = Replace(InserNewHtml,"<#ZC_BLOG_HOST#>",BlogHost)
 	
-	Content = "“" & Content & "”搜索结果：" & VBCrLf
-	Search = Content & InserNewHtml & VBCrLf & "  提示：请直接点击文章标题查看博客文章，或者回复标题前的编号直接在微信中查看文字版。"
+	Search = "“" & strQuestion & "”搜索结果：" & VBCrLf
+	Search = Search & InserNewHtml & "  提示：请直接点击文章标题查看博客文章。"
 End Function
 
 '最新文章
-Function LastPost()
+Function LastPost(number)
 	Dim LTRS,InserNewHtml:InserNewHtml = ""
-	Set LTRS=objConn.Execute("SELECT TOP 5 [log_ID], [log_Title], [log_Intro], [log_Content], [log_PostTime], [log_Type] FROM blog_Article WHERE ((([log_Type])=0)) ORDER BY [log_PostTime] DESC")
+	Set LTRS=objConn.Execute("SELECT TOP "&number&" [log_ID], [log_Title], [log_Intro], [log_Content], [log_PostTime], [log_Type] FROM blog_Article WHERE ((([log_Type])=0)) ORDER BY [log_PostTime] DESC")
 	Do Until LTRS.Eof
 		InserNewHtml = InserNewHtml & "<item><Title><![CDATA[" & LTRS("log_Title") & "]]></Title><Description><![CDATA[" & TransferHTML(LTRS("log_Intro"),"[nohtml]") & "]]></Description><PicUrl><![CDATA["
 
 		if GetFirstUrl(LTRS("log_Content"))="" then
-			InserNewHtml = InserNewHtml & "http://imzhou.com/zb_system/image/logo/zblog.gif"
+			InserNewHtml = InserNewHtml & "http://imzhou.com/ZB_USERS/plugin/weixin/defaultpic.jpg"
 		else
 			InserNewHtml = InserNewHtml & GetFirstUrl(LTRS("log_Content"))
 		End if
 
-		InserNewHtml = InserNewHtml & "]]></PicUrl><Url><![CDATA[" & ZC_BLOG_HOST & "ZB_USERS/plugin/weixin/view.asp?wid=" & LTRS("log_ID") & "]]></Url></item>"
+		InserNewHtml = InserNewHtml & "]]></PicUrl><Url><![CDATA[" & ZC_BLOG_HOST & "ZB_USERS/plugin/weixin/viewwx.asp?wid=" & LTRS("log_ID") & "]]></Url></item>"
 		LTRS.MoveNext
 	Loop
 	Set LTRS=Nothing
