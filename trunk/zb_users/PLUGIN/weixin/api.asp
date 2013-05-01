@@ -84,7 +84,7 @@ strQuestion=Replace(strQuestion," ","")
 	strQuestion=Replace(strQuestion,"’","")
 	strQuestion=Replace(strQuestion,"AND","")
 	strQuestion=Replace(strQuestion,"WHERE","")
-if strQuestion="help" then
+If (strQuestion="help") Then
 	Content = Help()
 	strresponse_text="<xml>" &_
  	"<ToUserName><![CDATA["&fromusername&"]]></ToUserName>" &_
@@ -95,7 +95,7 @@ if strQuestion="help" then
 	"<FuncFlag>0<FuncFlag>" &_
 	"</xml>"
 	response.write strresponse_text
-elseif strQuestion="最新文章" then
+ElseIf (strQuestion="最新文章") Then
 	Content=LastPost(CInt(objConfig.Read("LastPostNum")))
 	strresponse_news="<xml>"&_
 	"<ToUserName><![CDATA["&fromusername&"]]></ToUserName>"&_
@@ -109,7 +109,7 @@ elseif strQuestion="最新文章" then
 	"</xml>"
 	response.write strresponse_news
 	Response.End()
-else
+Else
 	Content = Search(strQuestion,CInt(objConfig.Read("SearchNum")),CInt(objConfig.Read("ShowMeta")))
 	strresponse_text="<xml>" &_
  	"<ToUserName><![CDATA["&fromusername&"]]></ToUserName>" &_
@@ -120,5 +120,5 @@ else
 	"<FuncFlag>0<FuncFlag>" &_
 	"</xml>"
 	response.write strresponse_text
-end if
+End If
 %>
