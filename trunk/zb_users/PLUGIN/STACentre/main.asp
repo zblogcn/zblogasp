@@ -108,20 +108,20 @@ filter: alpha(opacity=35);
         
         <div id="headWrap" style="display:none">
           <div class="headInside">
-            <h1><a title="快速插入" href="javascript:;">快速插入</a></h1>
+            <h1><a title="快速插入">快速插入</a></h1>
             <ul class="topNav navMenu">
-              <li class="topNavItem" _enable="{%host%}"><a href="javascript:;" onclick="InsertText(_focus,$(this).text(),false)"><u>{%host%}</u><i></i></a></li>
-              <li class="topNavItem" _enable="{%post%}"><a href="javascript:;" onclick="InsertText(_focus,$(this).text(),false)"><u>{%post%}</u><i></i></a></li>
-              <li class="topNavItem" _enable="{%category%}"><a href="javascript:;" onclick="InsertText(_focus,$(this).text(),false)"><u>{%category%}</u><i></i></a></li>
-              <li class="topNavItem" _enable="{%author%}"><a href="javascript:;" onclick="InsertText(_focus,$(this).text(),false)"><u>{%author%}</u><i></i></a></li>
-              <li class="topNavItem" _enable="{%year%}"><a href="javascript:;" onclick="InsertText(_focus,$(this).text(),false)"><u>{%year%}</u><i></i></a></li>
-              <li class="topNavItem" _enable="{%month%}"><a href="javascript:;" onclick="InsertText(_focus,$(this).text(),false)"><u>{%month%}</u><i></i></a></li>
-              <li class="topNavItem" _enable="{%day%}"><a href="javascript:;" onclick="InsertText(_focus,$(this).text(),false)"><u>{%day%}</u><i></i></a></li>
-              <li class="topNavItem" _enable="{%date%}"><a href="javascript:;" onclick="InsertText(_focus,$(this).text(),false)"><u>{%date%}</u><i></i></a></li>
-              <li class="topNavItem" _enable="{%id%}"><a href="javascript:;" onclick="InsertText(_focus,$(this).text(),false)"><u>{%id%}</u><i></i></a></li>
-              <li class="topNavItem" _enable="{%alias%}"><a href="javascript:;" onclick="InsertText(_focus,$(this).text(),false)"><u>{%alias%}</u><i></i></a></li>
-              <li class="topNavItem" _enable="POST_FOLTER"><a href="javascript:;" onclick="InsertText(_focus,$(this).text(),false)"><u>POST</u><i></i></a></li>
-			  <li class="topNavItem" _enable="POST_FOLTER"><a href="javascript:;" onclick="InsertText(_focus,$(this).text(),false)"><u>ARCHIVES</u><i></i></a></li>
+              <li class="topNavItem" _enable="{%host%}"><a title="博客地址"><u>{%host%}</u><i></i></a></li>
+              <li class="topNavItem" _enable="{%post%}"><a title="文章存放目录"><u>{%post%}</u><i></i></a></li>
+              <li class="topNavItem" _enable="{%category%}"><a title="文章分类"><u>{%category%}</u><i></i></a></li>
+              <li class="topNavItem" _enable="{%author%}"><a title="文章作者"><u>{%author%}</u><i></i></a></li>
+              <li class="topNavItem" _enable="{%year%}"><a title="文章发表年份"><u>{%year%}</u><i></i></a></li>
+              <li class="topNavItem" _enable="{%month%}"><a title="文章发表月份"><u>{%month%}</u><i></i></a></li>
+              <li class="topNavItem" _enable="{%day%}"><a title="文章发表日"><u>{%day%}</u><i></i></a></li>
+              <li class="topNavItem" _enable="{%date%}"><a title="日期"><u>{%date%}</u><i></i></a></li>
+              <li class="topNavItem" _enable="{%id%}"><a title="ID"><u>{%id%}</u><i></i></a></li>
+              <li class="topNavItem" _enable="{%alias%}"><a title="别名"><u>{%alias%}</u><i></i></a></li>
+              <li class="topNavItem" _enable="POST_FOLTER"><a><u>POST</u><i></i></a></li>
+			  <li class="topNavItem" _enable="POST_FOLTER"><a><u>ARCHIVES</u><i></i></a></li>
                
             </ul>
           </div>
@@ -131,7 +131,8 @@ filter: alpha(opacity=35);
 			var _h=$("#headWrap").html();
 			$("#headWrap").remove();
 			$("#header").before('<div id="headWrap" style="display:none">'+_h+'</div>');
-			$("#headWrap").show()
+			$("#headWrap").show();
+			$(".topNavItem a").attr("href","javascript:;").click(function(){InsertText(_focus,$(this).text(),false)})
 		}())
 		</script>
         <div id="divMain">
@@ -174,7 +175,7 @@ filter: alpha(opacity=35);
                       <span class='note'></span></p></td>
                   <td><p>
                       <input id='edtZC_ARTICLE_REGEXT' _enblist="{%category%}{%author%}{%year%}{%month%}{%day%}{%id%}{%alias%}" name='edtZC_ARTICLE_REGEX' style='width:500px;' type='text' value='<%=ZC_ARTICLE_REGEX%>'>
-                      &nbsp;&nbsp;<a href="javascript:;" onClick="$(this).hide().parents('tr').next('tr').show();bmx2table()">显示系统预设..</a></p></td>
+                      &nbsp;&nbsp;<a onClick="$(this).hide().parents('tr').next('tr').show();bmx2table()">显示系统预设..</a></p></td>
                 </tr>
                 <tr style="display:none">
                   <td width='30%'><p></p></td>
@@ -209,7 +210,7 @@ filter: alpha(opacity=35);
                       <span class='note'></span></p></td>
                   <td><p>
                       <input id='edtZC_PAGE_REGEX' _enblist="{%category%}{%author%}{%year%}{%month%}{%day%}{%id%}{%alias%}" name='edtZC_PAGE_REGEX' style='width:500px;' type='text' value='<%=ZC_PAGE_REGEX%>'>
-                      &nbsp;&nbsp;<a href="javascript:;" onClick="$(this).hide().parents('tr').next('tr').show();bmx2table()">显示系统预设..</a> </p></td>
+                      &nbsp;&nbsp;<a onClick="$(this).hide().parents('tr').next('tr').show();bmx2table()">显示系统预设..</a> </p></td>
                 </tr>
                 <tr style="display:none">
                   <td width='30%'><p></p></td>
@@ -229,7 +230,7 @@ filter: alpha(opacity=35);
                       <span class='note'></span></p></td>
                   <td><p>
                       <input id='edtZC_DEFAULT_REGEX' _enblist="" name='edtZC_DEFAULT_REGEX' style='width:500px;' type='text' value='<%=ZC_DEFAULT_REGEX%>'>
-                      &nbsp;&nbsp;<a href="javascript:;" onClick="$(this).hide().parents('tr').next('tr').show();bmx2table()">显示系统预设..</a></p></td>
+                      &nbsp;&nbsp;<a onClick="$(this).hide().parents('tr').next('tr').show();bmx2table()">显示系统预设..</a></p></td>
                 </tr>
                 <tr style="display:none">
                   <td width='30%'><p></p></td>
@@ -244,7 +245,7 @@ filter: alpha(opacity=35);
                       <span class='note'></span></p></td>
                   <td><p>
                       <input id='edtZC_CATEGORY_REGEX' _enblist="{%id%}{%alias%}"  name='edtZC_CATEGORY_REGEX' style='width:500px;' type='text' value='<%=ZC_CATEGORY_REGEX%>'>
-                      &nbsp;&nbsp;<a href="javascript:;" onClick="$(this).hide().parents('tr').next('tr').show();bmx2table()">显示系统预设..</a>
+                      &nbsp;&nbsp;<a onClick="$(this).hide().parents('tr').next('tr').show();bmx2table()">显示系统预设..</a>
                       </label>
                     </p></td>
                 </tr>
@@ -271,7 +272,7 @@ filter: alpha(opacity=35);
                       <span class='note'></span></p></td>
                   <td><p>
                       <input id='edtZC_USER_REGEX' _enblist="{%id%}{%alias%}"  name='edtZC_USER_REGEX' style='width:500px;' type='text' value='<%=ZC_USER_REGEX%>'>
-                      &nbsp;&nbsp;<a href="javascript:;" onClick="$(this).hide().parents('tr').next('tr').show();bmx2table()">显示系统预设..</a>
+                      &nbsp;&nbsp;<a onClick="$(this).hide().parents('tr').next('tr').show();bmx2table()">显示系统预设..</a>
                       </label>
                     </p></td>
                 </tr>
@@ -293,7 +294,7 @@ filter: alpha(opacity=35);
                       <span class='note'></span></p></td>
                   <td><p>
                       <input id='edtZC_TAGS_REGEX'  _enblist="{%id%}{%alias%}"  name='edtZC_TAGS_REGEX' style='width:500px;' type='text' value='<%=ZC_TAGS_REGEX%>'>
-                      &nbsp;&nbsp;<a href="javascript:;" onClick="$(this).hide().parents('tr').next('tr').show();bmx2table()">显示系统预设..</a>
+                      &nbsp;&nbsp;<a onClick="$(this).hide().parents('tr').next('tr').show();bmx2table()">显示系统预设..</a>
                       </label>
                     </p></td>
                 </tr>
@@ -315,7 +316,7 @@ filter: alpha(opacity=35);
                       <span class='note'></span></p></td>
                   <td><p>
                       <input id='edtZC_DATE_REGEX' _enblist="{%date%}"  name='edtZC_DATE_REGEX' style='width:500px;' type='text' value='<%=ZC_DATE_REGEX%>'>
-                      &nbsp;&nbsp;<a href="javascript:;" onClick="$(this).hide().parents('tr').next('tr').show();bmx2table()">显示系统预设..</a>
+                      &nbsp;&nbsp;<a onClick="$(this).hide().parents('tr').next('tr').show();bmx2table()">显示系统预设..</a>
                       </label>
                     </p></td>
                 </tr>
@@ -338,9 +339,6 @@ filter: alpha(opacity=35);
                     </p></td>
                 </tr>
               </table>
-              <p><span class="note">分类,作者,TAGS可用{%id%},{%name%}或{%alias%},分类的{%alias%}为空用name代替,作者的{%alias%}为空用name代替,TAGS的{%alias%}为URLEncode编码处理过的name,日期页可用{%date%}.</span></p>
-              <p><span class="note">您可以自定义静态配置,配置必须是{%host%}打头,".html"结尾,中间可以用{%post%},{%category%},{%author%},{%year%},{%month%},{%day%},{%id%},{%alias%}组合.</span></p>
-              <p><span class="note">{%post%}为文章发布目录,可以在网站设置里修改,{%category%}为文章的别名,{%user%}是用户别名,{%alias%}是文章别名,没有设置文章别名系统会自动采用ID填充.</span></p>
               <!--<p><span class="star">注意:开启文章及页面和分类页的Rewrite支持选项后,请查看"ReWrite规则"并应用在主机上方能生效.</span></p>-->
               <input type="hidden" name="edtZC_STATIC_MODE" id="edtZC_STATIC_MODE" value="<%=ZC_STATIC_MODE%>">
               <input name="" type="submit" class="button" value="保存">
