@@ -13,19 +13,6 @@ Function X2013_SubMenu(id)
 	Next
 End Function
 
-'检验数据是否存在------------------------------------
-Function CheckFields(ParameterName,FieldsName,TableName)
-dim cRs
-Set cRs=objConn.Execute("SELECT * FROM "&TableName&" Where "&ParameterName&" like '%" & FieldsName & "%'")
-if not cRs.eof then
-    CheckFields = cRs("fn_ID")
-	else
-	CheckFields = 0
-end if
-Set cRs = nothing
-End Function
-
-
 'Call RsFilter(数量,提取内容,表名,筛选特性,排列方式,输入框名)
 '数据库提取-------------------------------------
 Function RsFilter(LTamount,LTList,LType)
