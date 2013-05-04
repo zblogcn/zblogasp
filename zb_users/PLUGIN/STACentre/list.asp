@@ -454,17 +454,17 @@ function showmsg(int){
               
               <div class="content-box-header">
                 <ul class="content-box-tabs">
-                  <li><a href="#tab1" class="default-tab"><span>IIS6+ISAPI Rewrite 2.X</span></a></li>
+                  <li><a href="#tab1" <%=IIf(Not CheckRegExp(Request.ServerVariables("SERVER_SOFTWARE"),"Microsoft-IIS/[56]"),"","class=""default-tab""")%> ><span>IIS6+ISAPI Rewrite 2.X</span></a></li>
                   <li><a href="#tab2"><span>IIS6+ISAPI Rewrite 3.X</span></a></li>
-                  <li><a href="#tab3"><span>IIS7、7.5、8+Url Rewrite</span></a></li>
+                  <li><a href="#tab3" <%=IIf(CheckRegExp(Request.ServerVariables("SERVER_SOFTWARE"),"Microsoft-IIS/[56]"),"","class=""default-tab""")%> ><span>IIS7、7.5、8+Url Rewrite</span></a></li>
                 </ul>
                 <div class="clear"></div>
               </div>
               <!-- End .content-box-header -->
               
               <div class="content-box-content">
-                <div class="tab-content default-tab" style='border:none;padding:0px;margin:0;' id="tab1">
-                  <textarea style="width:80%;height:300px" readonly="readonly">
+                <div class="tab-content <%=IIf(Not CheckRegExp(Request.ServerVariables("SERVER_SOFTWARE"),"Microsoft-IIS/[56]"),"","default-tab")%> " style='border:none;padding:0px;margin:0;' id="tab1">
+                  <textarea style="width:80%;height:300px" readonly>
 <%=TransferHTML(MakeIIS6Rewrite2(),"[html-format]")%>
 </textarea>
                   <hr/>
@@ -477,7 +477,7 @@ function showmsg(int){
                     &nbsp;&nbsp;&nbsp;&nbsp;<span class="star">请在网站根目录创建httpd.ini文件并把相关内容复制进去,httpd.ini文件必须为ANSI编码,也可以点击按钮生成.</span></p>
                 </div>
                 <div class="tab-content" style='border:none;padding:0px;margin:0;' id="tab2">
-                  <textarea style="width:80%;height:300px" readonly="readonly">
+                  <textarea style="width:80%;height:300px" readonly>
 <%=TransferHTML(MakeIIS6Rewrite3(),"[html-format]")%>
 </textarea>
                   <hr/>
@@ -487,8 +487,8 @@ function showmsg(int){
                     <input type="button" onClick="if(showmsg(2)){window.location.href='?del=2'}" value="删除.htaccess" />
                     &nbsp;&nbsp;&nbsp;&nbsp;<span class="star">请在网站根目录创建.htaccess文件并把相关内容复制进去,也可以点击按钮生成..</span></p>
                 </div>
-                <div class="tab-content" style='border:none;padding:0px;margin:0;' id="tab3">
-                  <textarea style="width:80%;height:300px" readonly="readonly">
+                <div class="tab-content <%=IIf(CheckRegExp(Request.ServerVariables("SERVER_SOFTWARE"),"Microsoft-IIS/[56]"),"","default-tab")%> " style='border:none;padding:0px;margin:0;' id="tab3">
+                  <textarea style="width:80%;height:300px" readonly>
 <%=TransferHTML(MakeIIS7UrlRewrite(),"[html-format]")%>
 </textarea>
                   <hr/>
