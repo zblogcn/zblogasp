@@ -355,7 +355,39 @@ filter: alpha(opacity=35);
 				flashradio();
 				 
 			});
-		
+			$(":radio[name='POST_STATIC']").live("click",function(){
+				$("#edtZC_POST_STATIC_MODE").val($(this).val());
+				$("#edtZC_STATIC_MODE").val($(this).val());
+				if($(this).val()=="STATIC"){
+					$("#edtZC_ARTICLE_REGEXT").val("{%host%}/{%post%}/{%alias%}.html");
+					$("#edtZC_PAGE_REGEX").val("{%host%}/{%alias%}.html");
+					$("#edtZC_DEFAULT_REGEX").val("{%host%}/catalog.asp");
+					$("#edtZC_CATEGORY_REGEX").val("{%host%}/catalog.asp?cate={%id%}");
+					$("#edtZC_USER_REGEX").val("{%host%}/catalog.asp?auth={%id%}");
+					$("#edtZC_TAGS_REGEX").val("{%host%}/catalog.asp?tags={%alias%}");
+					$("#edtZC_DATE_REGEX").val("{%host%}/catalog.asp?date={%date%}");
+				};
+				if($(this).val()=="ACTIVE"){
+					$("#edtZC_ARTICLE_REGEXT").val("{%host%}/view.asp?id={%id%}");
+					$("#edtZC_PAGE_REGEX").val("{%host%}/view.asp?id={%id%}");
+					$("#edtZC_DEFAULT_REGEX").val("{%host%}/catalog.asp");
+					$("#edtZC_CATEGORY_REGEX").val("{%host%}/catalog.asp?cate={%id%}");
+					$("#edtZC_USER_REGEX").val("{%host%}/catalog.asp?auth={%id%}");
+					$("#edtZC_TAGS_REGEX").val("{%host%}/catalog.asp?tags={%alias%}");
+					$("#edtZC_DATE_REGEX").val("{%host%}/catalog.asp?date={%date%}");
+				};
+				if($(this).val()=="REWRITE"){
+					$("#edtZC_ARTICLE_REGEXT").val("{%host%}/{%post%}/{%alias%}.html");
+					$("#edtZC_PAGE_REGEX").val("{%host%}/{%alias%}.html");
+					$("#edtZC_DEFAULT_REGEX").val("{%host%}/default.html");
+					$("#edtZC_CATEGORY_REGEX").val("{%host%}/category-{%id%}.html");
+					$("#edtZC_USER_REGEX").val("{%host%}/author-{%id%}.html");
+					$("#edtZC_TAGS_REGEX").val("{%host%}/tags-{%id%}.html");
+					$("#edtZC_DATE_REGEX").val("{%host%}/date-{%date%}.html");
+				};
+				flashradio();
+			});
+					
 		
 		</script>
 
