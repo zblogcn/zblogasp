@@ -138,7 +138,7 @@ function bmx2table(){
 		$(this).find("tr:not(:has(th)):odd").removeClass(class_[1]).addClass(class_[0]);
 	})
 	$("tr:not(:has(th))").mouseover(function(){$(this).addClass(class_[2])}).mouseout(function(){$(this).removeClass(class_[2])}); 
-};
+}; 
 //*********************************************************
 
 
