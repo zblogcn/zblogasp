@@ -42,9 +42,10 @@ Next
 
 Call SaveConfig2Option()
 Call SetBlogHint(True,True,Empty)
-
-SetBlogHint_Custom("设置已保存！请选择你的伪静态组件以生成规则！")
-
-Response.Redirect "list.asp"'Request.ServerVariables("HTTP_REFERER")
-
+If d.Item("ZC_STATIC_MODE")="REWRITE" Then
+	SetBlogHint_Custom("设置已保存！请选择你的伪静态组件以生成规则！")
+	Response.Redirect "list.asp"'Request.ServerVariables("HTTP_REFERER")
+Else
+	Response.Redirect "main.asp"
+End If
 %>

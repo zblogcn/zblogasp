@@ -175,34 +175,34 @@ filter: alpha(opacity=35);
                       <span class='note'></span></p></td>
                   <td><p>
                       <input id='edtZC_ARTICLE_REGEXT' _enblist="{%category%}{%author%}{%year%}{%month%}{%day%}{%id%}{%alias%}" name='edtZC_ARTICLE_REGEX' style='width:500px;' type='text' value='<%=ZC_ARTICLE_REGEX%>'>
-                      &nbsp;&nbsp;<a onClick="$(this).hide().parents('tr').next('tr').show();bmx2table()">显示系统预设..</a></p></td>
+                      &nbsp;&nbsp;<a href="javascript:;" onClick="$(this).hide().parents('tr').next('tr').show();bmx2table()">显示系统预设..</a></p></td>
                 </tr>
                 <tr style="display:none">
                   <td width='30%'><p></p></td>
                   <td><p>
                       <label onclick="changeval(1,1)">
                         <input type="radio" name="radio">
-                        &nbsp;&nbsp;配置1:文章名型(默认) http://www.yourblog/post/articlename.html</label>
+                        &nbsp;&nbsp;配置1:文章名型(默认) <%=BlogHost%><%=ZC_STATIC_DIRECTORY%>/文章名.html</label>
                     </p>
                     <p>
                       <label onclick="changeval(1,2)">
                         <input type="radio" name="radio">
-                        &nbsp;&nbsp;配置2:日期+文章名型 http://www.yourblog/2012/08/articlename.html</label>
+                        &nbsp;&nbsp;配置2:日期+文章名型 <%=BlogHost%><%=Year(Now)%>/<%=Month(Now)%>/文章名.html</label>
                     </p>
                     <p>
                       <label onclick="changeval(1,3)">
                         <input type="radio" name="radio">
-                        &nbsp;&nbsp;配置3:分类别名+文章名型 http://www.yourblog/categroyname/articlename.html</label>
+                        &nbsp;&nbsp;配置3:分类别名+文章名型 <%=BlogHost%>分类/文章名.html</label>
                     </p>
                     <p>
                       <label onclick="changeval(1,4)">
                         <input type="radio" name="radio">
-                        &nbsp;&nbsp;配置4:文章名目录型 http://www.yourblog/post/articlename/</label>
+                        &nbsp;&nbsp;配置4:文章名目录型 <%=BlogHost%><%=ZC_STATIC_DIRECTORY%>/文章名/</label>
                     </p>
                     <p>
                       <label onclick="changeval(1,5)">
                         <input type="radio" name="radio">
-                        &nbsp;&nbsp;配置5:分类别名+文章ID目录型 http://www.yourblog/categroyname/123/</label>
+                        &nbsp;&nbsp;配置5:分类别名+文章ID目录型 <%=BlogHost%>分类/123/</label>
                     </p></td>
                 </tr>
                 <tr>
@@ -210,19 +210,19 @@ filter: alpha(opacity=35);
                       <span class='note'></span></p></td>
                   <td><p>
                       <input id='edtZC_PAGE_REGEX' _enblist="{%category%}{%author%}{%year%}{%month%}{%day%}{%id%}{%alias%}" name='edtZC_PAGE_REGEX' style='width:500px;' type='text' value='<%=ZC_PAGE_REGEX%>'>
-                      &nbsp;&nbsp;<a onClick="$(this).hide().parents('tr').next('tr').show();bmx2table()">显示系统预设..</a> </p></td>
+                      &nbsp;&nbsp;<a href="javascript:;" onClick="$(this).hide().parents('tr').next('tr').show();bmx2table()">显示系统预设..</a> </p></td>
                 </tr>
                 <tr style="display:none">
                   <td width='30%'><p></p></td>
                   <td><p>
                       <label onclick="changeval(2,1)">
                         <input type="radio" name="radio2">
-                        &nbsp;&nbsp;配置1:页面名型(默认) http://www.yourblog/pagename.html</label>
+                        &nbsp;&nbsp;配置1:页面名型(默认) <%=BlogHost%>页面名.html</label>
                     </p>
                     <p>
                       <label onclick="changeval(2,2)">
                         <input type="radio" name="radio2">
-                        &nbsp;&nbsp;配置2:页面名目录型 http://www.yourblog/pagename/</label>
+                        &nbsp;&nbsp;配置2:页面名目录型 <%=BlogHost%>页面名/</label>
                     </p></td>
                 </tr>
                 <tr>
@@ -230,14 +230,14 @@ filter: alpha(opacity=35);
                       <span class='note'></span></p></td>
                   <td><p>
                       <input id='edtZC_DEFAULT_REGEX' _enblist="" name='edtZC_DEFAULT_REGEX' style='width:500px;' type='text' value='<%=ZC_DEFAULT_REGEX%>'>
-                      &nbsp;&nbsp;<a onClick="$(this).hide().parents('tr').next('tr').show();bmx2table()">显示系统预设..</a></p></td>
+                      &nbsp;&nbsp;<a href="javascript:;" onClick="$(this).hide().parents('tr').next('tr').show();bmx2table()">显示系统预设..</a></p></td>
                 </tr>
                 <tr style="display:none">
                   <td width='30%'><p></p></td>
                   <td><p>
                       <label onclick="changeval(6,1)">
                         <input type="radio" name="radio6">
-                        &nbsp;&nbsp;配置1:首页分页(默认) http://www.yourblog/default_2.html</label>
+                        &nbsp;&nbsp;配置1:首页分页(默认) <%=BlogHost%>default_2.html</label>
                     </p></td>
                 </tr>
                 <tr>
@@ -245,7 +245,7 @@ filter: alpha(opacity=35);
                       <span class='note'></span></p></td>
                   <td><p>
                       <input id='edtZC_CATEGORY_REGEX' _enblist="{%id%}{%alias%}"  name='edtZC_CATEGORY_REGEX' style='width:500px;' type='text' value='<%=ZC_CATEGORY_REGEX%>'>
-                      &nbsp;&nbsp;<a onClick="$(this).hide().parents('tr').next('tr').show();bmx2table()">显示系统预设..</a>
+                      &nbsp;&nbsp;<a href="javascript:;" onClick="$(this).hide().parents('tr').next('tr').show();bmx2table()">显示系统预设..</a>
                       </label>
                     </p></td>
                 </tr>
@@ -254,17 +254,17 @@ filter: alpha(opacity=35);
                   <td><p>
                       <label onclick="changeval(3,1)">
                         <input type="radio" name="radio3">
-                        &nbsp;&nbsp;配置1:分类ID型(默认) http://www.yourblog/category-id.html</label>
+                        &nbsp;&nbsp;配置1:分类ID型(默认) <%=BlogHost%>category-id.html</label>
                     </p>
                     <p>
                       <label onclick="changeval(3,2)">
                         <input type="radio" name="radio3">
-                        &nbsp;&nbsp;配置2:分类ID目录型 http://www.yourblog/category/id/</label>
+                        &nbsp;&nbsp;配置2:分类ID目录型 <%=BlogHost%>category/id/</label>
                     </p>
                     <p>
                       <label onclick="changeval(3,3)">
                         <input type="radio" name="radio3">
-                        &nbsp;&nbsp;配置3:分类别名目录 http://www.yourblog/categroy/alias/</label>
+                        &nbsp;&nbsp;配置3:分类别名目录 <%=BlogHost%>categroy/alias/</label>
                     </p></td>
                 </tr>
                 <tr>
@@ -272,7 +272,7 @@ filter: alpha(opacity=35);
                       <span class='note'></span></p></td>
                   <td><p>
                       <input id='edtZC_USER_REGEX' _enblist="{%id%}{%alias%}"  name='edtZC_USER_REGEX' style='width:500px;' type='text' value='<%=ZC_USER_REGEX%>'>
-                      &nbsp;&nbsp;<a onClick="$(this).hide().parents('tr').next('tr').show();bmx2table()">显示系统预设..</a>
+                      &nbsp;&nbsp;<a href="javascript:;" onClick="$(this).hide().parents('tr').next('tr').show();bmx2table()">显示系统预设..</a>
                       </label>
                     </p></td>
                 </tr>
@@ -281,12 +281,12 @@ filter: alpha(opacity=35);
                   <td><p>
                       <label onclick="changeval(7,1)">
                         <input type="radio" name="radio7">
-                        &nbsp;&nbsp;配置1:作者ID型(默认) http://www.yourblog/author-1.html</label>
+                        &nbsp;&nbsp;配置1:作者ID型(默认) <%=BlogHost%>author-1.html</label>
                     </p>
                     <p>
                       <label onclick="changeval(7,2)">
                         <input type="radio" name="radio7">
-                        &nbsp;&nbsp;配置1:作者别名型 http://www.yourblog/author-alias.html</label>
+                        &nbsp;&nbsp;配置1:作者别名型 <%=BlogHost%>author-alias.html</label>
                     </p></td>
                 </tr>
                 <tr>
@@ -294,7 +294,7 @@ filter: alpha(opacity=35);
                       <span class='note'></span></p></td>
                   <td><p>
                       <input id='edtZC_TAGS_REGEX'  _enblist="{%id%}{%alias%}"  name='edtZC_TAGS_REGEX' style='width:500px;' type='text' value='<%=ZC_TAGS_REGEX%>'>
-                      &nbsp;&nbsp;<a onClick="$(this).hide().parents('tr').next('tr').show();bmx2table()">显示系统预设..</a>
+                      &nbsp;&nbsp;<a href="javascript:;" onClick="$(this).hide().parents('tr').next('tr').show();bmx2table()">显示系统预设..</a>
                       </label>
                     </p></td>
                 </tr>
@@ -303,12 +303,12 @@ filter: alpha(opacity=35);
                   <td><p>
                       <label onclick="changeval(4,1)">
                         <input type="radio" name="radio4">
-                        &nbsp;&nbsp;配置1:Tags ID型(默认) http://www.yourblog/tags-id.html</label>
+                        &nbsp;&nbsp;配置1:Tags ID型(默认) <%=BlogHost%>tags-id.html</label>
                     </p>
                     <p>
                       <label onclick="changeval(4,2)">
                         <input type="radio" name="radio4">
-                        &nbsp;&nbsp;配置2:Tags 名称型 http://www.yourblog/tags-name.html</label>
+                        &nbsp;&nbsp;配置2:Tags 名称型 <%=BlogHost%>tags-name.html</label>
                     </p></td>
                 </tr>
                 <tr>
@@ -316,7 +316,7 @@ filter: alpha(opacity=35);
                       <span class='note'></span></p></td>
                   <td><p>
                       <input id='edtZC_DATE_REGEX' _enblist="{%date%}"  name='edtZC_DATE_REGEX' style='width:500px;' type='text' value='<%=ZC_DATE_REGEX%>'>
-                      &nbsp;&nbsp;<a onClick="$(this).hide().parents('tr').next('tr').show();bmx2table()">显示系统预设..</a>
+                      &nbsp;&nbsp;<a href="javascript:;" onClick="$(this).hide().parents('tr').next('tr').show();bmx2table()">显示系统预设..</a>
                       </label>
                     </p></td>
                 </tr>
@@ -325,17 +325,17 @@ filter: alpha(opacity=35);
                   <td><p>
                       <label onclick="changeval(5,1)">
                         <input type="radio" name="radio5">
-                        &nbsp;&nbsp;配置1:日期型(默认) http://www.yourblog/date-2012-12.html</label>
+                        &nbsp;&nbsp;配置1:日期型(默认) <%=BlogHost%>date-<%=Year(Now)%>-<%=Month(Now)%>.html</label>
                     </p>
                     <p>
                       <label onclick="changeval(5,2)">
                         <input type="radio" name="radio5">
-                        &nbsp;&nbsp;配置2:日期型2 http://www.yourblog/archives/2012-12.html</label>
+                        &nbsp;&nbsp;配置2:日期型2 <%=BlogHost%><%=ZC_STATIC_DIRECTORY%>/<%=Year(Now)%>-<%=Month(Now)%>.html</label>
                     </p>
                     <p>
                       <label onclick="changeval(5,3)">
                         <input type="radio" name="radio5">
-                        &nbsp;&nbsp;配置3:日期目录型 http://www.yourblog/archives/2012-12/</label>
+                        &nbsp;&nbsp;配置3:日期目录型 <%=BlogHost%><%=ZC_STATIC_DIRECTORY%>/<%=Year(Now)%>-<%=Month(Now)%>/</label>
                     </p></td>
                 </tr>
               </table>
