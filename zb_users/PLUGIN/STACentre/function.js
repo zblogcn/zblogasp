@@ -26,8 +26,8 @@
 		if(a==5){
 			a="#edtZC_DATE_REGEX";
 			if(b==1){b="{%host%}/date-{%date%}.html"};
-			if(b==2){b="{%host%}/archives/{%date%}.html"};
-			if(b==3){b="{%host%}/archives/{%date%}/default.html"};
+			if(b==2){b="{%host%}/{%post%}/{%date%}.html"};
+			if(b==3){b="{%host%}/{%post%}/{%date%}/default.html"};
 		}
 		if(a==6){
 			a="#edtZC_DEFAULT_REGEX";
