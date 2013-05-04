@@ -1,21 +1,34 @@
-﻿<div class="ds-replybox" style="display: block;">
+﻿<div id="respond" class="no_webshot">
 	<form id="frmSumbit" target="_self" method="post" action="<#article/commentposturl#>">
-		<input type="hidden" name="inpId" id="inpId" value="<#article/id#>" />
-		<input type="hidden" name="inpArticle" id="inpArticle" value="" />
-		<input type="hidden" name="inpLocation" id="inpLocation" value="" />
+		<h3 class="base-tit">发表我的评论</h3>
+		<div class="comt">
+			<div class="comt-avatar">
+				<img class="avatar" src="<#ZC_BLOG_HOST#>zb_users/theme/X2013/style/images/default.png" width="36" height="36">
+			</div>
+			<div class="comt-box">
+				<textarea class="comt-area" name="txaArticle" id="txaArticle" cols="100%" rows="3" tabindex="5" onkeydown="if(event.ctrlKey&amp;&amp;event.keyCode==13){document.getElementById('submit').click();};"></textarea>
+				<div class="comt-ctrl">
+					<a class="comt-addcode">&nbsp;&nbsp;</a>
+					<input type="checkbox" name="chkRemember" checked="true" id="chkRemember" /><label for="chkRemember"><#ZC_MSG049#></label>
+					<script language="JavaScript" type="text/javascript">LoadRememberInfo();</script>
+					<#template:article_commentpost-verify#>
+					<input class="comt-submit" type="submit" name="submit" id="submit" tabindex="5"  onclick="JavaScript:return VerifyMessage()" value="发布评论" />
+					<div class="comt-tips">
+						<input type="hidden" name="inpId" id="inpId" value="<#article/id#>" />
+						<input type="hidden" name="inpArticle" id="inpArticle" value="" />
+						<input type="hidden" name="inpLocation" id="inpLocation" value="" />
+					</div>
+				</div>
+			</div>
 
-		<div class="ds-textarea-wrapper ds-rounded-top">
-			<textarea name="message" title="说点什么吧…" name="txaArticle" id="txaArticle" onchange="GetActiveText(this.id);" onclick="GetActiveText(this.id);" onfocus="GetActiveText(this.id);"  tabindex="5" placeholder="说点什么吧…"></textarea><pre class="ds-hidden-text"></pre>
+			<div class="comt-comterinfo" id="comment-author-info" >
+				<h4>Hi，您需要填写昵称和邮箱！</h4>
+				<ul>
+					<li><label for="author"><#ZC_MSG001#></label><input class="ipt" type="text" name="inpName" id="inpName" value="" size="28" tabindex="1"><span>必填项</span></li>
+					<li><label for="email"><#ZC_MSG053#></label><input class="ipt" type="mail" name="inpEmail" id="inpEmail" value="" size="28" tabindex="2"></li>
+					<li class="comt-comterinfo-url"><label for="url">链接</label><input class="ipt" type="url" name="inpHomePage" id="inpHomePage" value="" size="42" tabindex="3"></li>
+				</ul>
+			</div>
 		</div>
-		<div class="ds-post-toolbar">
-			<div class="ds-post-options ds-gradient-bg"></div>
-			<button class="ds-post-button" type="submit" name="btnSumbit" tabindex="6" onclick="JavaScript:return VerifyMessage()">发布</button>
-			<div class="ds-toolbar-buttons"><input type="checkbox" name="chkRemember" value="true" id="chkRemember" /><label for="chkRemember"><#ZC_MSG049#></label></div>
-		</div>
-		<div class="ds-input"><input type="text" name="inpName" id="inpName" value="" required=""  tabindex="1"><label for="ds-dialog-name"><#ZC_MSG001#>(必填)</label></div>
-		<div class="ds-input"><input type="text" name="inpEmail" id="inpEmail" value="" required=""  tabindex="2"><label for="ds-dialog-email"><#ZC_MSG053#>(可选)</label></div>
-		<div class="ds-input"><input type="text" name="inpHomePage" id="inpHomePage" value="" tabindex="3"><label for="ds-dialog-url"><#ZC_MSG054#></label></div>
-		<#template:article_commentpost-verify#>
 	</form>
-	<script language="JavaScript" type="text/javascript">LoadRememberInfo();</script>
 </div>

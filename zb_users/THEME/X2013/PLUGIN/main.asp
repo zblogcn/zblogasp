@@ -28,9 +28,17 @@ If objConfig.Exists("Version")=False Then
 	objConfig.Write "SetWeiboQQ","http://t.qq.com/involvements"
 	objConfig.Write "DisplayFeed","True"
 	objConfig.Write "SetMailKey","4e54e0008863773ff0f44e54eb9c1805cf165e63a0601789"
-	objConfig.Write "PostAdHeader",""
-	objConfig.Write "PostAdFooter",""
+	objConfig.Write "PostAdHeader","<embed src='http://www.xiami.com/widget/2600062_1770561920/singlePlayer.swf' type='application/x-shockwave-flash' width='257' height='33' wmode='transparent'></embed>"
+	objConfig.Write "PostAdFooter","<img src='http://www.baidu.com/img/shouye_b5486898c692066bd2cbaeda86d74448.gif'>"
+	objConfig.Write "firstinstall","True"
 	objConfig.Save
+	Response.Redirect("about.asp")
+End If
+
+If (CBool(objConfig.Read("firstinstall")))=True Then
+	objConfig.Write "firstinstall","False"
+	objConfig.Save
+	Response.Redirect("about.asp")
 End If
 
 Dim strAct

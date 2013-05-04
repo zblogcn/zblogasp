@@ -3,19 +3,13 @@
 		<h1 class="article-title"><#article/title#></h1>
 	</header> 
 	<div class="article-entry"><#article/content#></div>
-       
 </article>
-<div id="respond">
-	<a name="comments"></a>
-	<div class="ds-thread"  id="ds-thread">
-		<div id="ds-reset">
-			<div class="ds-toolbar"></div>
-			<a name="respond"></a>
-			<#template:article_comment:begin#>
-			<#template:article_comment#>
-			<#template:article_comment_pagebar#>
-			<#template:article_comment:end#>
-			<#template:article_commentpost#>
-		</div>
-	</div>
-</div>
+<#template:article_comment:begin#>
+<div id="postcomments">
+	<h3 class="base-tit" id="comments">网友评论<b><#article/commnums#></b>条</h3>
+	<#template:article_comment#>
+	<#template:article_comment_pagebar#>
+	<div class="pagenav"></div>
+</div>  
+<#template:article_commentpost#>
+<#template:article_comment:end#>

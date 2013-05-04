@@ -21,22 +21,21 @@ BlogTitle="X2013主题设置"
 
 Call GetFunction()
 
-'检查读者墙列表=============================================
 Function FunctionSav(FunctionContent)
-Set objConfig=New TConfig
-objConfig.Load("X2013")
-if FunctionMetas.GetValue("x2013_showlink")=Empty Then
-	Set objFunction=New TFunction
-	objFunction.ID=0
-	objFunction.Name="底部导航连接"
-	objFunction.FileName="x2013_showlink"
-	objFunction.HtmlID="x2013_ShowLink"
-	objFunction.Ftype="ul"
-	objFunction.MaxLi=6
-Else
-	Set objFunction=Functions(FunctionMetas.GetValue("x2013_showlink"))
-End if
-	objFunction.IsSystem=False
+	Set objConfig=New TConfig
+	objConfig.Load("X2013")
+	if FunctionMetas.GetValue("x2013_showlink")=Empty Then
+		Set objFunction=New TFunction
+		objFunction.ID=0
+		objFunction.Name="底部导航连接"
+		objFunction.FileName="x2013_showlink"
+		objFunction.HtmlID="x2013_ShowLink"
+		objFunction.Ftype="ul"
+		objFunction.MaxLi=6
+		objFunction.Source="theme_X2013"
+	Else
+		Set objFunction=Functions(FunctionMetas.GetValue("x2013_showlink"))
+	End if
 	objFunction.Content= FunctionContent
 	objFunction.save
 	Call SaveFunctionType()
@@ -54,7 +53,6 @@ Else
 	Set objFunction=Functions(FunctionMetas.GetValue("x2013_showlink"))
 	FctContent=Replace(objFunction.Content,"<#ZC_BLOG_HOST#>",BlogHost)
 End If
-
 %>
 <!--#include file="..\..\..\..\zb_system\admin\admin_header.asp"-->
 <style>
@@ -72,7 +70,7 @@ p{line-height:1.5em;padding:0.5em 0;}
 	<div id="divMain2">
 		<div class="widget-list ui-droppable" style="min-width: 830px;">
 		<div class="widget-list-header">添加导航链接</div>
-		<div class="widget-list-note">请选择您要添加的链接类型</div>
+		<div class="widget-list-note">请点击选择您要添加的链接类型</div>
 			<ul data-role="accordion" class="accordion span10">
                     <li>
                         <a href="#">文章</a>

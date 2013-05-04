@@ -17,24 +17,17 @@
 		<footer class="article-footer">
 			<div class="article-tags">标签: <#template:article_tag#></div>                    
 		</footer>
-    <#template:article_tag:end#>          
-</article>
-<div class="db_post" style="margin:-15px 0 15px 0;">
-	<#ZC_TM_POSTADFOOTER#>
-</div>
-
-
-<div id="respond">
-	<a name="comments"></a>
-	<div class="ds-thread"  id="ds-thread">
-		<div id="ds-reset">
-			<div class="ds-toolbar"></div>
-			<a name="respond"></a>
-			<#template:article_comment:begin#>
-			<#template:article_comment#>
-			<#template:article_comment_pagebar#>
-			<#template:article_comment:end#>
-			<#template:article_commentpost#>
-		</div>
+    <#template:article_tag:end#>
+	<div class="db_post" style="margin:-15px 0 15px 0;">
+		<#ZC_TM_POSTADFOOTER#>
 	</div>
-</div>
+</article>
+<#template:article_comment:begin#>
+<div id="postcomments">
+	<h3 class="base-tit" id="comments">网友评论<b><#article/commnums#></b>条</h3>
+	<#template:article_comment#>
+	<#template:article_comment_pagebar#>
+	<div class="pagenav"></div>
+</div>  
+<#template:article_commentpost#>
+<#template:article_comment:end#>
