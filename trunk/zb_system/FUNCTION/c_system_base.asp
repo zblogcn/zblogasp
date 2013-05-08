@@ -4261,6 +4261,12 @@ Function CheckUndefined()
 		Call ExecuteGlobal("ZC_BLOG_LANGUAGEPACK=""SimpChinese""")
 	End If
 
+
+	If InStr(a,"DIM ZC_COMMENT_EXCERPT_MAX")=0 Then
+		Call ExecuteGlobal("ZC_COMMENT_EXCERPT_MAX=20")
+	End If
+
+
 End Function
 '*********************************************************
 

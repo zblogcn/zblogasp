@@ -1259,6 +1259,9 @@ Function SaveSetting()
 	
 	If BlogConfig.Exists("ZC_BLOG_LANGUAGEPACK")=False Then Call BlogConfig.Write("ZC_BLOG_LANGUAGEPACK","SimpChinese")
 
+	If BlogConfig.Exists("ZC_COMMENT_EXCERPT_MAX")=False Then Call BlogConfig.Write("ZC_COMMENT_EXCERPT_MAX",20)
+
+
 	Dim a,b,c,d,e
 
 	Set d=CreateObject("Scripting.Dictionary")
