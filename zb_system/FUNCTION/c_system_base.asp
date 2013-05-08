@@ -2988,7 +2988,7 @@ Function BlogReBuild_Comments()
 
 			s=objRS("comm_Content")
 			s=Replace(s,vbCrlf,"")
-			s=Left(s,ZC_ARTICLE_EXCERPT_MAX)
+			s=Left(s,ZC_COMMENT_EXCERPT_MAX)
 			s=TransferHTML(s,"[nohtml]")
 			
 			strComments=strComments & "<li style=""text-overflow:ellipsis;""><a href="""& t & "#cmt" & objRS("comm_ID") & """ title=""" & objRS("comm_PostTime") & " post by " & IIf(Users(objRS("comm_AuthorID")).Level=5,objRS("comm_Author"),Users(objRS("comm_AuthorID")).FirstName) & """>"+s+"</a></li>"
