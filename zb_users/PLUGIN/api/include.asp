@@ -4,11 +4,16 @@
 Call RegisterPlugin("api","ActivePlugin_api")
 '挂口部分
 Function ActivePlugin_api()
-
-	'插件最主要在这里挂接口。
-	'Z-Blog可挂的接口有三类：Action、Filter、Response
-	'建议参考Z-Wiki进行开发
-	
+	Dim objConfig
+	Set objConfig=New TConfig
+	objConfig.Load("api")
+	If objConfig.Exists("version")=False Then
+		objConfig.Write "version","1"
+		objConfig.Write "id","0"
+		objConfig.Write "secret","0"
+		objConfig.Write "use_ver","1"
+		objConfig.Save
+	End If
 End Function
 
 
