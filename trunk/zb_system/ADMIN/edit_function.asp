@@ -115,7 +115,16 @@ End If
             </form>
           </div>
         </div>
-        <script type="text/javascript">ActiveLeftMenu("aFunctionMng");</script> 
+        <script type="text/javascript">
+        ActiveLeftMenu("aFunctionMng");
+        $("#inpContent").change(function(){
+        	if(new RegExp("<"+"script","ig").test($(this).val())){
+        		$("#viewtype3").click();
+        	}
+        })
+
+
+        </script> 
         <!--#include file="admin_footer.asp"-->
 <% 
 Call System_Terminate()
