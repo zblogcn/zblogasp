@@ -10,6 +10,12 @@
 <!-- #include file="../../p_config.asp" -->
 <!-- #include file="../JSON.asp" -->
 <%
+'*********************************************************
+' 作者: 未寒（im@imzhou.com）
+' 修改: 2013-05-10
+' 功能: 验证key和连接
+' 参数: ?keyid=0839609affdbb82c9884fc05a2dfcd18&keysecretmd5=a9b0772d4900afd67178b14579b008ca&post=111
+'*********************************************************
 	Call System_Initialize()
 	Response.ContentType="application/json"
 
@@ -43,5 +49,4 @@
 			body_array("4")=Array("blog_version",ZC_BLOG_VERSION)
 		End If
 	End Function
-		'?keyid=0839609affdbb82c9884fc05a2dfcd18&keysecretmd5=a9b0772d4900afd67178b14579b008ca&post=111
 %>
