@@ -14,6 +14,9 @@ Function ActivePlugin_api()
 		objConfig.Write "use_ver","1"
 		objConfig.Save
 	End If
+	
+	Call Add_Action_Plugin("Action_Plugin_SiteInfo_Begin",Add_Response_Plugin("Response_Plugin_Admin_SiteInfo","您的API地址为：" & BlogHost & "zb_users/plugin/api/v1/index.asp"))
+	 
 End Function
 
 
