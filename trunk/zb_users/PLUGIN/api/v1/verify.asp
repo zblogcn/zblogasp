@@ -19,17 +19,26 @@
 	Call System_Initialize()
 	Response.ContentType="application/json"
 
-	Dim objConfig,data_export,errcode,body_array(4),request_array(3),msg,ret:errcode="0":msg="true":ret=0
-	Set objConfig=New TConfig:Set data_export = jsObject()
+	Dim objConfig,data_export,errcode,body_array,request_array(3),msg,ret:errcode="0":msg="true":ret=0
+	Set objConfig=New TConfig:Set data_export = jsObject():Set body_array = jsObject()
 	objConfig.Load("api")
 
 	Verify()	'参数keyid，keysecret md5加密后的keysecretmd5，非空任意值post
 	
+	If errcode<>0 Then
+		ret=1
+	End If
+
 	data_export("errcode") = errcode
 	data_export("msg") = msg
-	If errcode<>0 Then ret=1 End If:data_export("ret") = ret
-	If ret=0 Then data_export("body") = body_array End If
+	data_export("ret") = ret
 	data_export("timestamp") = DateDiff("s", "01/01/1970 00:00:00", Now())
+
+	If ret=0 Then
+		Set data_export("body")=body_array
+	End If
+
+	
 	data_export.Flush
 	
 	Function Verify()
@@ -42,11 +51,11 @@
 		ElseIf request_array(1)<>md5(objConfig.Read("secret")) Then
 			errcode="002":msg="keysecret is wrong."
 		ElseIf request_array(2)<>"" Then
-			body_array("0")=Array("blog_title",ZC_BLOG_TITLE)
-			body_array("1")=Array("blog_subtitle",ZC_BLOG_SUBTITLE)
-			body_array("2")=Array("blog_url",ZC_BLOG_HOST)
-			body_array("3")=Array("blog_language",ZC_BLOG_LANGUAGE)
-			body_array("4")=Array("blog_version",ZC_BLOG_VERSION)
+			body_array("blog_title")=ZC_BLOG_TITLE
+			body_array("blog_subtitle")=ZC_BLOG_SUBTITLE
+			body_array("blog_url")=ZC_BLOG_HOST
+			body_array("blog_language")=ZC_BLOG_LANGUAGE
+			body_array("blog_version")=ZC_BLOG_VERSION
 		End If
 	End Function
 %>
