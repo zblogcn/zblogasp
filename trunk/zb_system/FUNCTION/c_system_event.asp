@@ -185,7 +185,12 @@ Function PostArticle()
 
 	objArticle.Content=Request.Form("txaContent")
 
+
+
 	If objArticle.FType=ZC_POST_TYPE_ARTICLE Then
+
+		'摘要生成
+
 		If InStr(objArticle.Content,"<hr class=""more"" />")>0 Then
 			s=objArticle.Content
 			i=InStr(s,"<hr class=""more"" />")
@@ -194,6 +199,8 @@ Function PostArticle()
 			objArticle.Content=Replace(objArticle.Content,"<hr class=""more"" />","<!--more-->",1,1)
 		End If
 
+
+		'根据</p>分割
 		If objArticle.Intro="" Then
 			s=objArticle.Content
 			Dim aryIntro
@@ -1818,7 +1825,11 @@ Function SaveTheme()
 	strZC_BLOG_CSS=Request.Form("edtZC_BLOG_CSS")
 	strZC_BLOG_THEME=Request.Form("edtZC_BLOG_THEME")
 
+
+
 	Call CheckXmlVersion(BlogPath & "zb_users\THEME\"&strZC_BLOG_THEME&"\theme.xml")
+	
+	If CheckDependency(ZC_USING_PLUGIN_LIST,strZC_BLOG_THEME,"theme")=False Then Exit Function
 
 	Call ScanPluginToThemeFile(strZC_BLOG_CSS,strZC_BLOG_THEME)
 
@@ -2004,7 +2015,7 @@ Function ActivePlugInByName(strPluginName)
 		'走起！	
 		'第1步：判断依赖	
 
-		If CheckDependency(ZC_USING_PLUGIN_LIST,strPluginName)=False Then Exit Function
+		If CheckDependency(ZC_USING_PLUGIN_LIST,strPluginName,"plugin")=False Then Exit Function
 		'第2步：得到所有插件XML文件绝对地址
 		
 		'第3步：读取所有XML文件
@@ -2062,15 +2073,21 @@ End Function
 '*********************************************************
 ' 目的：   验证依赖
 '*********************************************************
-Function CheckDependency(strPluginList,strName)
+Function CheckDependency(strPluginList,strName,strFolder)
 	CheckDependency=True
-	Dim strTemp,sptTemp
+	Dim strTemp,sptTemp,strFilePath
+	If strFolder="theme" Then
+		strFilePath=BlogPath & "zb_users\theme\" & strName & "\theme.xml"
+	Else
+		strFilePath=BlogPath & "zb_users\plugin\" & strName & "\plugin.xml"
+	End If
+
 	strTemp=UCase("|"&strPluginList&"|") '得到全部启用的插件列表以便InStr
 	Dim objXml
 	Set objXml=CreateObject("Microsoft.XMLDOM")	
 	objXml.async = False
 	objXml.ValidateOnParse=False
-	objXml.Load(BlogPath & "zb_users\plugin\" & strName & "\plugin.xml")
+	objXml.Load(strFilePath)
 	sptTemp=Split(UCase(TryToGetAdvanced(objXml,"dependency")),"|")
 	Dim i
 	Dim NotInstalledPlugin,bolNotInstall
