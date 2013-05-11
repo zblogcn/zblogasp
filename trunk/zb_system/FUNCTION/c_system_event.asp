@@ -2116,10 +2116,25 @@ Function CheckDependencyDisable(aryPluginList,strPluginName)
 	Dim j,i,k
 	bolDependency=False
 	
+
 	Set objXmlFile=Server.CreateObject("Microsoft.XMLDOM")
 	objXmlFile.async = False
 	objXmlFile.ValidateOnParse=False
-	
+	'首先先检查一下主题
+	objXmlFile.Load(BlogPath & "zb_users\THEME\"&ZC_BLOG_THEME&"\theme.xml")
+	If objXmlFile.readyState=4 Then
+		If objXmlFile.parseError.errorCode = 0 Then
+			strDependency="|"&UCase(TryToGetAdvanced(objXmlFile,"dependency"))&"|"
+			If InStr(strDependency,"|"&strPluginName&"|") Then
+				bolDependency=True
+				strReturnDependency=ZC_BLOG_THEME
+				SetBlogHint_Custom ZC_MSG283 & strReturnDependency
+				CheckDependencyDisable=False
+				Exit Function
+			End If
+		End If
+	End If
+
 	For j=0 To Ubound(aryPluginList)
 		strXmlFile =aryPluginList(j)
 		objXmlFile.load(strXmlFile)
