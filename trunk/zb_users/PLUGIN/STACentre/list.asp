@@ -24,356 +24,6 @@ If BlogUser.Level>1 Then Call ShowError(6)
 If CheckPluginState("STACentre")=False Then Call ShowError(48)
 BlogTitle="静态管理中心"
 RootPath=Replace(BlogPath,Replace(CookiesPath(),"/","\"),"\")
-Function AddRule1(s,regex,page)
-	Dim t,r
-	If regex="ZC_DEFAULT_REGEX" Then
-	r=Replace(ZC_DEFAULT_REGEX,".html","{%page%}\.html")
-t=t & "RewriteRule "& r &" {%host%}/catalog\.asp\?page=$1" & vbCrlf
-	End If
-
-
-	If regex="ZC_CATEGORY_REGEX" Then
-	r=ZC_CATEGORY_REGEX
-	r=Replace(r,"/default.html",IIF(page=True,"{%page%}","")&"/")
-	r=Replace(r,".html",IIF(page=True,"{%page%}","")&".html")
-t=t & "RewriteRule "& r &" {%host%}/catalog\.asp\?cate=$1"&IIF(page=True,"&page=$2","") & vbCrlf
-	End If
-
-	If regex="ZC_USER_REGEX" Then
-	r=ZC_USER_REGEX
-	r=Replace(r,"/default.html",IIF(page=True,"{%page%}","")&"/")
-	r=Replace(r,".html",IIF(page=True,"{%page%}","")&".html")
-t=t & "RewriteRule "& r &" {%host%}/catalog\.asp\?auth=$1"&IIF(page=True,"&page=$2","") & vbCrlf
-	End If
-
-
-	If regex="ZC_TAGS_REGEX" Then
-	r=ZC_TAGS_REGEX
-	r=Replace(r,"/default.html",IIF(page=True,"{%page%}","")&"/")
-	r=Replace(r,".html",IIF(page=True,"{%page%}","")&".html")
-t=t & "RewriteRule "& r &" {%host%}/catalog\.asp\?tags=$1"&IIF(page=True,"&page=$2","") & vbCrlf
-	End If
-
-	If regex="ZC_DATE_REGEX" Then
-	r=ZC_DATE_REGEX
-	r=Replace(r,"/default.html",IIF(page=True,"{%page%}","")&"/")
-	r=Replace(r,".html",IIF(page=True,"{%page%}","")&".html")
-t=t & "RewriteRule "& r &" {%host%}/catalog\.asp\?date=$1"&IIF(page=True,"&page=$2","") & vbCrlf
-	End If
-
-
-	If regex="ZC_ARTICLE_REGEX" Then
-	r=ZC_ARTICLE_REGEX
-	r=Replace(r,"/default.html",IIF(page=True,"{%page%}","")&"/")
-	r=Replace(r,".html",IIF(page=True,"{%page%}","")&".html")
-t=t & "RewriteRule "& r &" {%host%}/view\.asp\?id=$1" & vbCrlf
-	End If
-
-
-	If regex="ZC_PAGE_REGEX" Then
-	r=ZC_PAGE_REGEX
-	r=Replace(r,"{%name%}","{%alias%}")
-	r=Replace(r,"/default.html",IIF(page=True,"{%page%}","")&"/")
-	r=Replace(r,".html",IIF(page=True,"{%page%}","")&".html")
-t=t & "RewriteRule "& r &" {%host%}/view\.asp\?id=$1" & vbCrlf
-	End If
-
-
-	t=Replace(t,"{%host%}/",CookiesPath())
-	t=Replace(t,"{%name%}","(?!zb_)(.*)")
-	t=Replace(t,"{%alias%}","(?!zb_)(.*)")
-	t=Replace(t,"{%id%}","([0-9]+)")
-	t=Replace(t,"{%date%}","([0-9\-]+)")
-	t=Replace(t,"{%post%}",ZC_STATIC_DIRECTORY)
-	t=Replace(t,"{%category%}","(?!zb_).*")
-	t=Replace(t,"{%author%}","(?!zb_).*")
-	t=Replace(t,"{%year%}","[0-9\-]+")
-	t=Replace(t,"{%month%}","[0-9\-]+")
-	t=Replace(t,"{%day%}","[0-9\-]+")
-	t=Replace(t,"{%page%}","_([0-9]+)")
-
-
-
-	AddRule1=s & t
-
-End Function
-
-Function MakeIIS6Rewrite2()
-	Dim s
-
-s=s & "[ISAPI_Rewrite]" & vbCrlf
-
-s=s & "" & vbCrlf
-
-If ZC_STATIC_MODE="REWRITE" Then
-
-s= AddRule1(s,"ZC_DEFAULT_REGEX",True)
-s= AddRule1(s,"ZC_CATEGORY_REGEX",True)
-s= AddRule1(s,"ZC_CATEGORY_REGEX",False)
-s= AddRule1(s,"ZC_USER_REGEX",True)
-s= AddRule1(s,"ZC_USER_REGEX",False)
-s= AddRule1(s,"ZC_TAGS_REGEX",True)
-s= AddRule1(s,"ZC_TAGS_REGEX",False)
-s= AddRule1(s,"ZC_DATE_REGEX",True)
-s= AddRule1(s,"ZC_DATE_REGEX",False)
-
-End If
-
-
-If ZC_POST_STATIC_MODE="REWRITE" Then
-
-s= AddRule1(s,"ZC_ARTICLE_REGEX",False)
-s= AddRule1(s,"ZC_PAGE_REGEX",False)
-
-End If
-
-
-	MakeIIS6Rewrite2=s
-End Function
-
-Function AddRule2(s,regex,page)
-	Dim t,r
-	If regex="ZC_DEFAULT_REGEX" Then
-	r=Replace(ZC_DEFAULT_REGEX,".html","{%page%}\.html")
-t=t & "RewriteRule ^"& r &"$ /catalog.asp\?page=$1" & vbCrlf
-	End If
-
-
-	If regex="ZC_CATEGORY_REGEX" Then
-	r=ZC_CATEGORY_REGEX
-	r=Replace(r,"/default.html",IIF(page=True,"{%page%}","")&"/")
-	r=Replace(r,".html",IIF(page=True,"{%page%}","")&".html")
-t=t & "RewriteRule ^"& r &"$ /catalog.asp\?cate=$1"&IIF(page=True,"&page=$2","")&" [NU]" & vbCrlf
-	End If
-
-	If regex="ZC_USER_REGEX" Then
-	r=ZC_USER_REGEX
-	r=Replace(r,"/default.html",IIF(page=True,"{%page%}","")&"/")
-	r=Replace(r,".html",IIF(page=True,"{%page%}","")&".html")
-t=t & "RewriteRule ^"& r &"$ /catalog.asp\?auth=$1"&IIF(page=True,"&page=$2","")&" [NU]" & vbCrlf
-	End If
-
-
-	If regex="ZC_TAGS_REGEX" Then
-	r=ZC_TAGS_REGEX
-	r=Replace(r,"/default.html",IIF(page=True,"{%page%}","")&"/")
-	r=Replace(r,".html",IIF(page=True,"{%page%}","")&".html")
-t=t & "RewriteRule ^"& r &"$ /catalog.asp\?tags=$1"&IIF(page=True,"&page=$2","")&" [NU]" & vbCrlf
-	End If
-
-	If regex="ZC_DATE_REGEX" Then
-	r=ZC_DATE_REGEX
-	r=Replace(r,"/default.html",IIF(page=True,"{%page%}","")&"/")
-	r=Replace(r,".html",IIF(page=True,"{%page%}","")&".html")
-t=t & "RewriteRule ^"& r &"$ /catalog.asp\?date=$1"&IIF(page=True,"&page=$2","")&" [NU]" & vbCrlf
-	End If
-
-
-	If regex="ZC_ARTICLE_REGEX" Then
-	r=ZC_ARTICLE_REGEX
-	r=Replace(r,"/default.html",IIF(page=True,"{%page%}","")&"/")
-	r=Replace(r,".html",IIF(page=True,"{%page%}","")&".html")
-t=t & "RewriteRule ^"& r &"$ /view.asp\?id=$1 [NU]" & vbCrlf
-	End If
-
-
-	If regex="ZC_PAGE_REGEX" Then
-	r=ZC_PAGE_REGEX
-	r=Replace(r,"{%name%}","{%alias%}")
-	r=Replace(r,"/default.html",IIF(page=True,"{%page%}","")&"/")
-	r=Replace(r,".html",IIF(page=True,"{%page%}","")&".html")
-t=t & "RewriteRule ^"& r &"$ /view.asp\?id=$1 [NU]" & vbCrlf
-	End If
-
-
-	t=Replace(t,"{%host%}/","")
-	t=Replace(t,"{%name%}","(?!zb_)(.*)")
-	t=Replace(t,"{%alias%}","(?!zb_)(.*)")
-	t=Replace(t,"{%id%}","([0-9]+)")
-	t=Replace(t,"{%date%}","([0-9\-]+)")
-	t=Replace(t,"{%post%}",ZC_STATIC_DIRECTORY)
-	t=Replace(t,"{%category%}","(?!zb_).*")
-	t=Replace(t,"{%author%}","(?!zb_).*")
-	t=Replace(t,"{%year%}","[0-9\-]+")
-	t=Replace(t,"{%month%}","[0-9\-]+")
-	t=Replace(t,"{%day%}","[0-9\-]+")
-	t=Replace(t,"{%page%}","_([0-9]+)")
-
-
-
-	AddRule2=s & t
-
-End Function
-
-
-Function MakeIIS6Rewrite3()
-	Dim s
-
-s=s & "#ISAPI Rewrite 3" & vbCrlf
-
-s=s & "RewriteBase "& CookiesPath() & vbCrlf
-
-If ZC_STATIC_MODE="REWRITE" Then
-
-s= AddRule2(s,"ZC_DEFAULT_REGEX",True)
-s= AddRule2(s,"ZC_CATEGORY_REGEX",True)
-s= AddRule2(s,"ZC_CATEGORY_REGEX",False)
-s= AddRule2(s,"ZC_USER_REGEX",True)
-s= AddRule2(s,"ZC_USER_REGEX",False)
-s= AddRule2(s,"ZC_TAGS_REGEX",True)
-s= AddRule2(s,"ZC_TAGS_REGEX",False)
-s= AddRule2(s,"ZC_DATE_REGEX",True)
-s= AddRule2(s,"ZC_DATE_REGEX",False)
-
-End If
-
-
-If ZC_POST_STATIC_MODE="REWRITE" Then
-
-s= AddRule2(s,"ZC_ARTICLE_REGEX",False)
-s= AddRule2(s,"ZC_PAGE_REGEX",False)
-
-End If
-
-
-	MakeIIS6Rewrite3=s
-End Function
-
-
-Function AddRule3(s,regex,page)
-	Dim t,r
-	If regex="ZC_DEFAULT_REGEX" Then
-	r=Replace(ZC_DEFAULT_REGEX,".html","{%page%}\.html")
-t=t & "     <rule name=""Imported Rule Default"&IIF(page=True,"+Page","")&""" stopProcessing=""true"">" & vbCrlf
-t=t & "      <match url=""^"& r &"$"" ignoreCase=""false"" />" & vbCrlf
-t=t & "      <action type=""Rewrite"" url=""catalog.asp?page={R:1}"" />" & vbCrlf
-t=t & "     </rule>" & vbCrlf
-	End If
-
-
-	If regex="ZC_CATEGORY_REGEX" Then
-	r=ZC_CATEGORY_REGEX
-	r=Replace(r,"/default.html",IIF(page=True,"{%page%}","")&"/")
-	r=Replace(r,".html",IIF(page=True,"{%page%}","")&".html")
-t=t & "     <rule name=""Imported Rule Category"&IIF(page=True,"+Page","")&""" stopProcessing=""true"">" & vbCrlf
-t=t & "      <match url=""^"& r &"$"" ignoreCase=""false"" />" & vbCrlf
-t=t & "      <action type=""Rewrite"" url=""catalog.asp?cate={R:1}"&IIF(page=True,"&amp;page={R:2}","")&""" />" & vbCrlf
-t=t & "     </rule>" & vbCrlf
-	End If
-
-	If regex="ZC_USER_REGEX" Then
-	r=ZC_USER_REGEX
-	r=Replace(r,"/default.html",IIF(page=True,"{%page%}","")&"/")
-	r=Replace(r,".html",IIF(page=True,"{%page%}","")&".html")
-t=t & "     <rule name=""Imported Rule Author"&IIF(page=True,"+Page","")&""" stopProcessing=""true"">" & vbCrlf
-t=t & "      <match url=""^"& r &"$"" ignoreCase=""false"" />" & vbCrlf
-t=t & "      <action type=""Rewrite"" url=""catalog.asp?auth={R:1}"&IIF(page=True,"&amp;page={R:2}","")&""" />" & vbCrlf
-t=t & "     </rule>" & vbCrlf
-	End If
-
-
-	If regex="ZC_TAGS_REGEX" Then
-	r=ZC_TAGS_REGEX
-	r=Replace(r,"/default.html",IIF(page=True,"{%page%}","")&"/")
-	r=Replace(r,".html",IIF(page=True,"{%page%}","")&".html")
-t=t & "     <rule name=""Imported Rule Tags"&IIF(page=True,"+Page","")&""" stopProcessing=""true"">" & vbCrlf
-t=t & "      <match url=""^"& r &"$"" ignoreCase=""false"" />" & vbCrlf
-t=t & "      <action type=""Rewrite"" url=""catalog.asp?tags={R:1}"&IIF(page=True,"&amp;page={R:2}","")&""" />" & vbCrlf
-t=t & "     </rule>" & vbCrlf
-	End If
-
-	If regex="ZC_DATE_REGEX" Then
-	r=ZC_DATE_REGEX
-	r=Replace(r,"/default.html",IIF(page=True,"{%page%}","")&"/")
-	r=Replace(r,".html",IIF(page=True,"{%page%}","")&".html")
-t=t & "     <rule name=""Imported Rule Date"&IIF(page=True,"+Page","")&""" stopProcessing=""true"">" & vbCrlf
-t=t & "      <match url=""^"& r &"$"" ignoreCase=""false"" />" & vbCrlf
-t=t & "      <action type=""Rewrite"" url=""catalog.asp?date={R:1}"&IIF(page=True,"&amp;page={R:2}","")&""" />" & vbCrlf
-t=t & "     </rule>" & vbCrlf
-	End If
-
-
-	If regex="ZC_ARTICLE_REGEX" Then
-	r=ZC_ARTICLE_REGEX
-	r=Replace(r,"/default.html",IIF(page=True,"{%page%}","")&"/")
-	r=Replace(r,".html",IIF(page=True,"{%page%}","")&".html")
-t=t & "     <rule name=""Imported Rule Article"&IIF(page=True,"+Page","")&""" stopProcessing=""true"">" & vbCrlf
-t=t & "      <match url=""^"& r &"$"" ignoreCase=""false"" />" & vbCrlf
-t=t & "      <action type=""Rewrite"" url=""view.asp?id={R:1}"" />" & vbCrlf
-t=t & "     </rule>" & vbCrlf
-	End If
-
-
-	If regex="ZC_PAGE_REGEX" Then
-	r=ZC_PAGE_REGEX
-	r=Replace(r,"{%name%}","{%alias%}")
-	r=Replace(r,"/default.html",IIF(page=True,"{%page%}","")&"/")
-	r=Replace(r,".html",IIF(page=True,"{%page%}","")&".html")
-t=t & "     <rule name=""Imported Rule Page"&IIF(page=True,"+Page","")&""" stopProcessing=""true"">" & vbCrlf
-t=t & "      <match url=""^"& r &"$"" ignoreCase=""false"" />" & vbCrlf
-t=t & "      <action type=""Rewrite"" url=""view.asp?id={R:1}"" />" & vbCrlf
-t=t & "     </rule>" & vbCrlf
-	End If
-
-
-	t=Replace(t,"{%host%}/","")
-	t=Replace(t,"{%name%}","(?!zb_)(.*)")
-	t=Replace(t,"{%alias%}","(?!zb_)(.*)")
-	t=Replace(t,"{%id%}","([0-9]+)")
-	t=Replace(t,"{%date%}","([0-9\-]+)")
-	t=Replace(t,"{%post%}",ZC_STATIC_DIRECTORY)
-	t=Replace(t,"{%category%}","(?!zb_).*")
-	t=Replace(t,"{%author%}","(?!zb_).*")
-	t=Replace(t,"{%year%}","[0-9\-]+")
-	t=Replace(t,"{%month%}","[0-9\-]+")
-	t=Replace(t,"{%day%}","[0-9\-]+")
-	t=Replace(t,"{%page%}","_([0-9]+)")
-
-
-
-	AddRule3=s & t
-
-End Function
-
-Function MakeIIS7UrlRewrite()
-	Dim s
-
-s=s & "<?xml version=""1.0"" encoding=""UTF-8""?>" & vbCrlf
-s=s & "<configuration>" & vbCrlf
-s=s & " <system.webServer>" & vbCrlf
-s=s & "  <rewrite>" & vbCrlf
-s=s & "   <rules>" & vbCrlf
-
-If ZC_STATIC_MODE="REWRITE" Then
-
-s= AddRule3(s,"ZC_DEFAULT_REGEX",True)
-s= AddRule3(s,"ZC_CATEGORY_REGEX",True)
-s= AddRule3(s,"ZC_CATEGORY_REGEX",False)
-s= AddRule3(s,"ZC_USER_REGEX",True)
-s= AddRule3(s,"ZC_USER_REGEX",False)
-s= AddRule3(s,"ZC_TAGS_REGEX",True)
-s= AddRule3(s,"ZC_TAGS_REGEX",False)
-s= AddRule3(s,"ZC_DATE_REGEX",True)
-s= AddRule3(s,"ZC_DATE_REGEX",False)
-
-End If
-
-
-If ZC_POST_STATIC_MODE="REWRITE" Then
-
-s= AddRule3(s,"ZC_ARTICLE_REGEX",False)
-s= AddRule3(s,"ZC_PAGE_REGEX",False)
-
-End If
-
-s=s & "   </rules>" & vbCrlf
-s=s & "  </rewrite>" & vbCrlf
-s=s & " </system.webServer>" & vbCrlf
-s=s & "</configuration>" & vbCrlf
-
-
-	MakeIIS7UrlRewrite=s
-End Function
 
 Dim tempString
 If Request("mak")="1" Then
@@ -512,3 +162,362 @@ function showmsg(int){
           </div>
         </div>
         <!--#include file="..\..\..\zb_system\admin\admin_footer.asp"-->
+
+
+
+
+<%
+
+
+Function AddRule1(s,regex,page)
+	Dim t,r
+	If regex="ZC_DEFAULT_REGEX" Then
+		r=Replace(ZC_DEFAULT_REGEX,".html","{%page%}\.html")
+		t=t & "RewriteRule "& r &" {%host%}/catalog\.asp\?page=$1" & vbCrlf
+	End If
+
+
+	If regex="ZC_CATEGORY_REGEX" Then
+		r=ZC_CATEGORY_REGEX
+		r=Replace(r,"/default.html",IIF(page=True,"{%page%}","")&"/")
+		r=Replace(r,".html",IIF(page=True,"{%page%}","")&".html")
+		t=t & "RewriteRule "& r &" {%host%}/catalog\.asp\?cate=$1"&IIF(page=True,"&page=$2","") & vbCrlf
+	End If
+
+	If regex="ZC_USER_REGEX" Then
+		r=ZC_USER_REGEX
+		r=Replace(r,"/default.html",IIF(page=True,"{%page%}","")&"/")
+		r=Replace(r,".html",IIF(page=True,"{%page%}","")&".html")
+		t=t & "RewriteRule "& r &" {%host%}/catalog\.asp\?auth=$1"&IIF(page=True,"&page=$2","") & vbCrlf
+	End If
+
+
+	If regex="ZC_TAGS_REGEX" Then
+		r=ZC_TAGS_REGEX
+		r=Replace(r,"/default.html",IIF(page=True,"{%page%}","")&"/")
+		r=Replace(r,".html",IIF(page=True,"{%page%}","")&".html")
+		t=t & "RewriteRule "& r &" {%host%}/catalog\.asp\?tags=$1"&IIF(page=True,"&page=$2","") & vbCrlf
+	End If
+
+	If regex="ZC_DATE_REGEX" Then
+		r=ZC_DATE_REGEX
+		r=Replace(r,"/default.html",IIF(page=True,"{%page%}","")&"/")
+		r=Replace(r,".html",IIF(page=True,"{%page%}","")&".html")
+		t=t & "RewriteRule "& r &" {%host%}/catalog\.asp\?date=$1"&IIF(page=True,"&page=$2","") & vbCrlf
+	End If
+
+
+	If regex="ZC_ARTICLE_REGEX" Then
+		r=ZC_ARTICLE_REGEX
+		r=Replace(r,"/default.html",IIF(page=True,"{%page%}","")&"/")
+		r=Replace(r,".html",IIF(page=True,"{%page%}","")&".html")
+		t=t & "RewriteRule "& r &" {%host%}/view\.asp\?id=$1" & vbCrlf
+	End If
+
+
+	If regex="ZC_PAGE_REGEX" Then
+		r=ZC_PAGE_REGEX
+		r=Replace(r,"{%name%}","{%alias%}")
+		r=Replace(r,"/default.html",IIF(page=True,"{%page%}","")&"/")
+		r=Replace(r,".html",IIF(page=True,"{%page%}","")&".html")
+		t=t & "RewriteRule "& r &" {%host%}/view\.asp\?id=$1" & vbCrlf
+	End If
+
+
+	t=Replace(t,"{%host%}/",CookiesPath())
+	t=Replace(t,"{%name%}","(?!zb_)(.*)")
+	t=Replace(t,"{%alias%}","(?!zb_)(.*)")
+	t=Replace(t,"{%id%}","([0-9]+)")
+	t=Replace(t,"{%date%}","([0-9\-]+)")
+	t=Replace(t,"{%post%}",ZC_STATIC_DIRECTORY)
+	t=Replace(t,"{%category%}","(?!zb_).*")
+	t=Replace(t,"{%author%}","(?!zb_).*")
+	t=Replace(t,"{%year%}","[0-9\-]+")
+	t=Replace(t,"{%month%}","[0-9\-]+")
+	t=Replace(t,"{%day%}","[0-9\-]+")
+	t=Replace(t,"{%page%}","_([0-9]+)")
+
+
+
+	AddRule1=s & t
+
+End Function
+
+Function MakeIIS6Rewrite2()
+		Dim s
+
+	s=s & "[ISAPI_Rewrite]" & vbCrlf
+
+	s=s & "" & vbCrlf
+
+	If ZC_STATIC_MODE="REWRITE" Then
+
+		s = AddRule1(s,"ZC_DEFAULT_REGEX",True)
+		s = AddRule1(s,"ZC_CATEGORY_REGEX",True)
+		s = AddRule1(s,"ZC_CATEGORY_REGEX",False)
+		s = AddRule1(s,"ZC_USER_REGEX",True)
+		s = AddRule1(s,"ZC_USER_REGEX",False)
+		s = AddRule1(s,"ZC_TAGS_REGEX",True)
+		s = AddRule1(s,"ZC_TAGS_REGEX",False)
+		s = AddRule1(s,"ZC_DATE_REGEX",True)
+		s = AddRule1(s,"ZC_DATE_REGEX",False)
+
+	End If
+
+
+	If ZC_POST_STATIC_MODE="REWRITE" Then
+
+		s = AddRule1(s,"ZC_ARTICLE_REGEX",False)
+		s = AddRule1(s,"ZC_PAGE_REGEX",False)
+
+	End If
+
+
+		MakeIIS6Rewrite2=s
+End Function
+
+Function AddRule2(s,regex,page)
+	Dim t,r
+	If regex="ZC_DEFAULT_REGEX" Then
+		r=Replace(ZC_DEFAULT_REGEX,".html","{%page%}\.html")
+		t=t & "RewriteRule ^"& r &"$ /catalog.asp\?page=$1" & vbCrlf
+	End If
+
+
+	If regex="ZC_CATEGORY_REGEX" Then
+		r=ZC_CATEGORY_REGEX
+		r=Replace(r,"/default.html",IIF(page=True,"{%page%}","")&"/")
+		r=Replace(r,".html",IIF(page=True,"{%page%}","")&".html")
+		t=t & "RewriteRule ^"& r &"$ /catalog.asp\?cate=$1"&IIF(page=True,"&page=$2","")&" [NU]" & vbCrlf
+	End If
+
+	If regex="ZC_USER_REGEX" Then
+		r=ZC_USER_REGEX
+		r=Replace(r,"/default.html",IIF(page=True,"{%page%}","")&"/")
+		r=Replace(r,".html",IIF(page=True,"{%page%}","")&".html")
+		t=t & "RewriteRule ^"& r &"$ /catalog.asp\?auth=$1"&IIF(page=True,"&page=$2","")&" [NU]" & vbCrlf
+	End If
+
+
+	If regex="ZC_TAGS_REGEX" Then
+		r=ZC_TAGS_REGEX
+		r=Replace(r,"/default.html",IIF(page=True,"{%page%}","")&"/")
+		r=Replace(r,".html",IIF(page=True,"{%page%}","")&".html")
+		t=t & "RewriteRule ^"& r &"$ /catalog.asp\?tags=$1"&IIF(page=True,"&page=$2","")&" [NU]" & vbCrlf
+	End If
+
+	If regex="ZC_DATE_REGEX" Then
+		r=ZC_DATE_REGEX
+		r=Replace(r,"/default.html",IIF(page=True,"{%page%}","")&"/")
+		r=Replace(r,".html",IIF(page=True,"{%page%}","")&".html")
+		t=t & "RewriteRule ^"& r &"$ /catalog.asp\?date=$1"&IIF(page=True,"&page=$2","")&" [NU]" & vbCrlf
+	End If
+
+
+	If regex="ZC_ARTICLE_REGEX" Then
+		r=ZC_ARTICLE_REGEX
+		r=Replace(r,"/default.html",IIF(page=True,"{%page%}","")&"/")
+		r=Replace(r,".html",IIF(page=True,"{%page%}","")&".html")
+		t=t & "RewriteRule ^"& r &"$ /view.asp\?id=$1 [NU]" & vbCrlf
+	End If
+
+
+	If regex="ZC_PAGE_REGEX" Then
+		r=ZC_PAGE_REGEX
+		r=Replace(r,"{%name%}","{%alias%}")
+		r=Replace(r,"/default.html",IIF(page=True,"{%page%}","")&"/")
+		r=Replace(r,".html",IIF(page=True,"{%page%}","")&".html")
+		t=t & "RewriteRule ^"& r &"$ /view.asp\?id=$1 [NU]" & vbCrlf
+	End If
+
+
+	t=Replace(t,"{%host%}/","")
+	t=Replace(t,"{%name%}","(?!zb_)(.*)")
+	t=Replace(t,"{%alias%}","(?!zb_)(.*)")
+	t=Replace(t,"{%id%}","([0-9]+)")
+	t=Replace(t,"{%date%}","([0-9\-]+)")
+	t=Replace(t,"{%post%}",ZC_STATIC_DIRECTORY)
+	t=Replace(t,"{%category%}","(?!zb_).*")
+	t=Replace(t,"{%author%}","(?!zb_).*")
+	t=Replace(t,"{%year%}","[0-9\-]+")
+	t=Replace(t,"{%month%}","[0-9\-]+")
+	t=Replace(t,"{%day%}","[0-9\-]+")
+	t=Replace(t,"{%page%}","_([0-9]+)")
+
+
+
+	AddRule2=s & t
+
+End Function
+
+
+Function MakeIIS6Rewrite3()
+	Dim s
+
+	s=s & "#ISAPI Rewrite 3" & vbCrlf
+
+	s=s & "RewriteBase "& CookiesPath() & vbCrlf
+
+	If ZC_STATIC_MODE="REWRITE" Then
+
+		s= AddRule2(s,"ZC_DEFAULT_REGEX",True)
+		s= AddRule2(s,"ZC_CATEGORY_REGEX",True)
+		s= AddRule2(s,"ZC_CATEGORY_REGEX",False)
+		s= AddRule2(s,"ZC_USER_REGEX",True)
+		s= AddRule2(s,"ZC_USER_REGEX",False)
+		s= AddRule2(s,"ZC_TAGS_REGEX",True)
+		s= AddRule2(s,"ZC_TAGS_REGEX",False)
+		s= AddRule2(s,"ZC_DATE_REGEX",True)
+		s= AddRule2(s,"ZC_DATE_REGEX",False)
+
+	End If
+
+
+	If ZC_POST_STATIC_MODE="REWRITE" Then
+
+		s= AddRule2(s,"ZC_ARTICLE_REGEX",False)
+		s= AddRule2(s,"ZC_PAGE_REGEX",False)
+
+	End If
+
+
+	MakeIIS6Rewrite3=s
+End Function
+
+
+Function AddRule3(s,regex,page)
+	Dim t,r
+	If regex="ZC_DEFAULT_REGEX" Then
+		r=Replace(ZC_DEFAULT_REGEX,".html","{%page%}\.html")
+		t=t & "     <rule name=""Imported Rule Default"&IIF(page=True,"+Page","")&""" stopProcessing=""true"">" & vbCrlf
+		t=t & "      <match url=""^"& r &"$"" ignoreCase=""false"" />" & vbCrlf
+		t=t & "      <action type=""Rewrite"" url=""catalog.asp?page={R:1}"" />" & vbCrlf
+		t=t & "     </rule>" & vbCrlf
+	End If
+
+
+	If regex="ZC_CATEGORY_REGEX" Then
+		r=ZC_CATEGORY_REGEX
+		r=Replace(r,"/default.html",IIF(page=True,"{%page%}","")&"/")
+		r=Replace(r,".html",IIF(page=True,"{%page%}","")&".html")
+		t=t & "     <rule name=""Imported Rule Category"&IIF(page=True,"+Page","")&""" stopProcessing=""true"">" & vbCrlf
+		t=t & "      <match url=""^"& r &"$"" ignoreCase=""false"" />" & vbCrlf
+		t=t & "      <action type=""Rewrite"" url=""catalog.asp?cate={R:1}"&IIF(page=True,"&amp;page={R:2}","")&""" />" & vbCrlf
+		t=t & "     </rule>" & vbCrlf
+	End If
+
+	If regex="ZC_USER_REGEX" Then
+		r=ZC_USER_REGEX
+		r=Replace(r,"/default.html",IIF(page=True,"{%page%}","")&"/")
+		r=Replace(r,".html",IIF(page=True,"{%page%}","")&".html")
+		t=t & "     <rule name=""Imported Rule Author"&IIF(page=True,"+Page","")&""" stopProcessing=""true"">" & vbCrlf
+		t=t & "      <match url=""^"& r &"$"" ignoreCase=""false"" />" & vbCrlf
+		t=t & "      <action type=""Rewrite"" url=""catalog.asp?auth={R:1}"&IIF(page=True,"&amp;page={R:2}","")&""" />" & vbCrlf
+		t=t & "     </rule>" & vbCrlf
+	End If
+
+
+	If regex="ZC_TAGS_REGEX" Then
+		r=ZC_TAGS_REGEX
+		r=Replace(r,"/default.html",IIF(page=True,"{%page%}","")&"/")
+		r=Replace(r,".html",IIF(page=True,"{%page%}","")&".html")
+		t=t & "     <rule name=""Imported Rule Tags"&IIF(page=True,"+Page","")&""" stopProcessing=""true"">" & vbCrlf
+		t=t & "      <match url=""^"& r &"$"" ignoreCase=""false"" />" & vbCrlf
+		t=t & "      <action type=""Rewrite"" url=""catalog.asp?tags={R:1}"&IIF(page=True,"&amp;page={R:2}","")&""" />" & vbCrlf
+		t=t & "     </rule>" & vbCrlf
+	End If
+
+	If regex="ZC_DATE_REGEX" Then
+		r=ZC_DATE_REGEX
+		r=Replace(r,"/default.html",IIF(page=True,"{%page%}","")&"/")
+		r=Replace(r,".html",IIF(page=True,"{%page%}","")&".html")
+		t=t & "     <rule name=""Imported Rule Date"&IIF(page=True,"+Page","")&""" stopProcessing=""true"">" & vbCrlf
+		t=t & "      <match url=""^"& r &"$"" ignoreCase=""false"" />" & vbCrlf
+		t=t & "      <action type=""Rewrite"" url=""catalog.asp?date={R:1}"&IIF(page=True,"&amp;page={R:2}","")&""" />" & vbCrlf
+		t=t & "     </rule>" & vbCrlf
+	End If
+
+
+	If regex="ZC_ARTICLE_REGEX" Then
+		r=ZC_ARTICLE_REGEX
+		r=Replace(r,"/default.html",IIF(page=True,"{%page%}","")&"/")
+		r=Replace(r,".html",IIF(page=True,"{%page%}","")&".html")
+		t=t & "     <rule name=""Imported Rule Article"&IIF(page=True,"+Page","")&""" stopProcessing=""true"">" & vbCrlf
+		t=t & "      <match url=""^"& r &"$"" ignoreCase=""false"" />" & vbCrlf
+		t=t & "      <action type=""Rewrite"" url=""view.asp?id={R:1}"" />" & vbCrlf
+		t=t & "     </rule>" & vbCrlf
+	End If
+
+
+	If regex="ZC_PAGE_REGEX" Then
+		r=ZC_PAGE_REGEX
+		r=Replace(r,"{%name%}","{%alias%}")
+		r=Replace(r,"/default.html",IIF(page=True,"{%page%}","")&"/")
+		r=Replace(r,".html",IIF(page=True,"{%page%}","")&".html")
+		t=t & "     <rule name=""Imported Rule Page"&IIF(page=True,"+Page","")&""" stopProcessing=""true"">" & vbCrlf
+		t=t & "      <match url=""^"& r &"$"" ignoreCase=""false"" />" & vbCrlf
+		t=t & "      <action type=""Rewrite"" url=""view.asp?id={R:1}"" />" & vbCrlf
+		t=t & "     </rule>" & vbCrlf
+	End If
+
+
+	t=Replace(t,"{%host%}/","")
+	t=Replace(t,"{%name%}","(?!zb_)(.*)")
+	t=Replace(t,"{%alias%}","(?!zb_)(.*)")
+	t=Replace(t,"{%id%}","([0-9]+)")
+	t=Replace(t,"{%date%}","([0-9\-]+)")
+	t=Replace(t,"{%post%}",ZC_STATIC_DIRECTORY)
+	t=Replace(t,"{%category%}","(?!zb_).*")
+	t=Replace(t,"{%author%}","(?!zb_).*")
+	t=Replace(t,"{%year%}","[0-9\-]+")
+	t=Replace(t,"{%month%}","[0-9\-]+")
+	t=Replace(t,"{%day%}","[0-9\-]+")
+	t=Replace(t,"{%page%}","_([0-9]+)")
+
+
+
+	AddRule3=s & t
+
+End Function
+
+Function MakeIIS7UrlRewrite()
+	Dim s
+
+	s=s & "<?xml version=""1.0"" encoding=""UTF-8""?>" & vbCrlf
+	s=s & "<configuration>" & vbCrlf
+	s=s & " <system.webServer>" & vbCrlf
+	s=s & "  <rewrite>" & vbCrlf
+	s=s & "   <rules>" & vbCrlf
+
+	If ZC_STATIC_MODE="REWRITE" Then
+
+		s= AddRule3(s,"ZC_DEFAULT_REGEX",True)
+		s= AddRule3(s,"ZC_CATEGORY_REGEX",True)
+		s= AddRule3(s,"ZC_CATEGORY_REGEX",False)
+		s= AddRule3(s,"ZC_USER_REGEX",True)
+		s= AddRule3(s,"ZC_USER_REGEX",False)
+		s= AddRule3(s,"ZC_TAGS_REGEX",True)
+		s= AddRule3(s,"ZC_TAGS_REGEX",False)
+		s= AddRule3(s,"ZC_DATE_REGEX",True)
+		s= AddRule3(s,"ZC_DATE_REGEX",False)
+
+	End If
+
+
+	If ZC_POST_STATIC_MODE="REWRITE" Then
+
+		s= AddRule3(s,"ZC_ARTICLE_REGEX",False)
+		s= AddRule3(s,"ZC_PAGE_REGEX",False)
+
+	End If
+
+	s=s & "   </rules>" & vbCrlf
+	s=s & "  </rewrite>" & vbCrlf
+	s=s & " </system.webServer>" & vbCrlf
+	s=s & "</configuration>" & vbCrlf
+
+
+	MakeIIS7UrlRewrite=s
+End Function
+
+%>
