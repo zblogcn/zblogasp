@@ -14,7 +14,7 @@
 '///////////////////////////////////////////////////////////////////////////////
 %>
 <% Option Explicit %>
-<% On Error Resume Next %>
+<% 'On Error Resume Next %>
 <% Response.Charset="UTF-8" %>
 <% Response.Buffer=True %>
 <!-- #include file="../zb_users/c_option.asp" -->
@@ -424,9 +424,9 @@ Function ArticleEdt
 
 	If Request.QueryString("webedit")<>"" Then
 		If IsEmpty(Request.QueryString("id"))=False Then
-			Response.Redirect "admin/edit_"& ZC_BLOG_WEBEDIT &".asp?id="& Request.QueryString("id") & IIf(Request.QueryString("type")="Page","&type=Page","")
+			Response.Redirect "admin/edit_article.asp?id="& Request.QueryString("id") & IIf(Request.QueryString("type")="Page","&type=Page","")
 		Else
-			Response.Redirect "admin/edit_"& ZC_BLOG_WEBEDIT &".asp" & IIf(Request.QueryString("type")="Page","?type=Page","")
+			Response.Redirect "admin/edit_article.asp" & IIf(Request.QueryString("type")="Page","?type=Page","")
 		End If
 	End If
 
@@ -1224,10 +1224,12 @@ Function ThemeSav()
 			If bAction_Plugin_ThemeSav_Succeed=True Then Exit Function
 		Next
 
-		Response.Redirect "cmd.asp?act=ThemeMng&installed=" & Server.URLEncode(Request.Form("edtZC_BLOG_THEME"))
+		
 	Else
-		Call ShowError(25)
+		'Call ShowError(25)
 	End If
+	
+	Response.Redirect "cmd.asp?act=ThemeMng&installed=" & Server.URLEncode(Request.Form("edtZC_BLOG_THEME"))
 
 End Function
 
@@ -1288,6 +1290,7 @@ Function PlugInActive()
 		If Not IsEmpty(sAction_Plugin_PlugInActive_Begin) Then Call Execute(sAction_Plugin_PlugInActive_Begin)
 		If bAction_Plugin_PlugInActive_Begin=True Then Exit Function
 	Next
+	
 
 	If ActivePlugInByName(Request.QueryString("name"))=True Then
 
