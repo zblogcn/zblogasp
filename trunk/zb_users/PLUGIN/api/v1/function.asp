@@ -1,9 +1,20 @@
 <%
 Function Public_date
+	If errcode<>"0" Then ret=1
 	data_export("errcode") = errcode
 	data_export("msg") = msg
 	data_export("ret") = ret
 	data_export("timestamp") = DateDiff("s", "1970/01/01 00:00:00", Now())
+End Function
+
+Function ErrorCheck
+	Call Public_date()
+	If ret=1 Then
+		data_export.Flush
+		ErrorCheck = True
+	Else
+		ErrorCheck = False
+	End If	
 End Function
 
 Function VerifyApiKey
