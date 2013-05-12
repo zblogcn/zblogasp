@@ -112,8 +112,8 @@ Select Case strApi
 	Case "user_edit"
 		Call api_user_edit()
 
-	Case "user_info"
-		Call api_user_info()
+	Case "user_list"
+		Call api_user_list()
 End Select
 
 
@@ -213,7 +213,34 @@ End Function
 ' 参数: 
 '*********************************************************
 Function api_cate_del
+	Call VerifyApiKey()
+	If ErrorCheck() Then Exit Function
+	
+	If Request.Form("id")<>""Then
+		If Request.Form("id")=0 Then
+			errcode="111":msg="cate 0 could't not be del."
+		Else
+			Dim objCategory
+			Set objCategory=New TCategory
 
+			If objCategory.LoadInfobyID(Request.Form("id")) Then
+				If objCategory.Del Then 
+					body_array("del_type")=0
+				Else
+					errcode="111":msg="cate del wrong."
+				End If 
+			End If
+			Set objCategory=Nothing
+		End If
+	Else
+		errcode="111":msg="post id is empty."
+	End If
+	
+	If ErrorCheck() Then Exit Function
+	
+	Set data_export("body")=body_array
+
+	data_export.Flush
 End Function
 
 '*********************************************************
@@ -293,31 +320,7 @@ End Function
 ' 参数: 
 '*********************************************************
 Function api_file_add
-	Call VerifyApiKey()
-	If ErrorCheck() Then Exit Function
-	
-	request_array(0)=Request.Form("UserID")
-	request_array(1)=Request.Form("autoname")
-	
-	Dim objUpLoadFile
-	Set objUpLoadFile=New TUpLoadFile
 
-	objUpLoadFile.AuthorID=request_array(0)
-	objUpLoadFile.AutoName=request_array(1)
-	
-	If objUpLoadFile.UpLoad() Then
-		UploadFile=True
-		body_array("add_type")=0
-	Else
-		ret=1:errcode="002":msg="file upload wrong."
-	End If
-	Set objUpLoadFile=Nothing
-	
-	If ErrorCheck() Then Exit Function
-	
-	Set data_export("body")=body_array
-
-	data_export.Flush
 End Function
 
 '*********************************************************
@@ -359,18 +362,18 @@ Function api_file_list
 	Call VerifyApiKey()
 	If ErrorCheck() Then Exit Function
 	
-	Dim objRS,info_array,bodyID
+	Dim objRS,info_array,Doi:Doi=0
 	Set objRS=objConn.Execute("SELECT * FROM [blog_UpLoad] ORDER BY [ul_PostTime] DESC")
 	Do Until objRS.Eof
 		Set info_array = jsObject()
-		info_array("upload_AuthorID")=objRS("ul_AuthorID")
-		info_array("upload_FileSize")=objRS("ul_FileSize")
-		info_array("upload_FileName")=objRS("ul_FileName")
-		info_array("upload_PostTime")=objRS("ul_PostTime")
-		info_array("upload_Meta")=objRS("ul_Meta")
-		bodyID=objRS("ul_Id")
-		Set body_array(bodyID) = info_array
-		'Set info_array = Nothing
+		info_array("ID")=objRS("ul_Id")
+		info_array("AuthorID")=objRS("ul_AuthorID")
+		info_array("FileSize")=objRS("ul_FileSize")
+		info_array("FileName")=objRS("ul_FileName")
+		info_array("PostTime")=objRS("ul_PostTime")
+		info_array("Meta")=objRS("ul_Meta")
+		Set body_array(Doi) = info_array
+		Doi=Doi+1
 		objRS.MoveNext
 	Loop
 	
@@ -410,7 +413,44 @@ End Function
 ' 参数: 
 '*********************************************************
 Function api_post_del
+	Call VerifyApiKey()
+	If ErrorCheck() Then Exit Function
+	
+	Dim strTag
+	If Request.Form("id")<>""Then
+		Dim objTestArticle
+		Set objTestArticle=New TArticle
+		If objTestArticle.LoadInfobyID(Request.Form("id")) Then
+			strTag=objTestArticle.Tag
+		Else
+			errcode="111":msg="post id is wrong."
+		End If
+		Set objTestArticle=Nothing
+	Else
+		errcode="111":msg="post id is empty."
+		If ErrorCheck() Then Exit Function
+	End If
+	
+	Dim objArticle
+	Set objArticle=New TArticle
+	If objArticle.LoadInfoByID(Request.Form("ID")) Then
+		If objArticle.Del Then 
+			body_array("del_type")=0
+			objArticle.Statistic
+		Else
+			errcode="111":msg="post del wrong."
+		End If 
+		'Call ScanTagCount(strTag)
+		Call BlogReBuild_Comments
+		Call BlogReBuild_Default
+	End If
+	Set objArticle=Nothing
 
+	If ErrorCheck() Then Exit Function
+	
+	Set data_export("body")=body_array
+
+	data_export.Flush
 End Function
 
 '*********************************************************
@@ -453,15 +493,15 @@ Function api_sidebar_list
 	Call VerifyApiKey()
 	If ErrorCheck() Then Exit Function
 	
-	Dim objRS,info_array,bodyID
+	Dim objRS,info_array,Doi:Doi=0
 	Set objRS=objConn.Execute("SELECT [fn_ID],[fn_Name],[fn_FileName] FROM [blog_Function] ORDER BY [fn_ID] ASC")
 	Do Until objRS.Eof
 		Set info_array = jsObject()
+		info_array("ID")=objRS("fn_ID")
 		info_array("Name")=objRS("fn_Name")
 		info_array("FileName")=objRS("fn_FileName")
-		bodyID=objRS("fn_ID")
-		Set body_array(bodyID) = info_array
-		'Set info_array = Nothing
+		Set body_array(Doi) = info_array
+		Doi=Doi+1
 		objRS.MoveNext
 	Loop
 	
@@ -620,7 +660,7 @@ Function api_tag_list
 	Call VerifyApiKey()
 	If ErrorCheck() Then Exit Function
 	
-	Dim objRS,info_array,bodyID,Doi:Doi=0
+	Dim objRS,info_array,Doi:Doi=0
 	Set objRS=objConn.Execute("SELECT [tag_ID],[tag_Name],[tag_Intro],[tag_Order],[tag_Count],[tag_ParentID],[tag_URL] FROM [blog_Tag] ORDER BY [tag_ID] ASC")
 	Do Until objRS.Eof
 		Set info_array = jsObject()
@@ -632,7 +672,6 @@ Function api_tag_list
 		Doi=Doi+1
 		objRS.MoveNext
 	Loop
-	
 	Set objRS=Nothing
 	
 	If ErrorCheck() Then Exit Function
@@ -649,7 +688,41 @@ End Function
 ' 参数: 
 '*********************************************************
 Function api_user_edit
+	Call VerifyApiKey()
+	If ErrorCheck() Then Exit Function
 
+	If (Request.Form("id"))="" Then
+		errcode="888":msg="user id is empty"
+	ElseIf Request.Form("id")<1 Then
+		errcode="888":msg="user id is wrong"
+	Else
+		Dim objUser
+		Set objUser=New TUser
+		objUser.ID=Request.Form("ID")
+		If (Request.Form("Level"))="" OR (Request.Form("Name"))="" OR (Request.Form("Email"))="" Then
+			errcode="888":msg="Level、Name or Email is empty."
+			If ErrorCheck() Then Exit Function
+		End If
+		objUser.Level=Request.Form("Level")
+		objUser.Name=Request.Form("Name")
+		objUser.Email=Request.Form("Email")
+		objUser.HomePage=Request.Form("HomePage")
+		objUser.Alias=Request.Form("Alias")
+		objUser.Intro=Request.Form("Intro")
+	End If
+	
+	If ErrorCheck() Then Exit Function
+	
+	If objUser.Edit(objUser) Then
+		body_array("edit_type")=0
+	End IF
+	Set objUser=Nothing
+	
+	If ErrorCheck() Then Exit Function
+	
+	Set data_export("body")=body_array
+
+	data_export.Flush
 End Function
 
 '*********************************************************
@@ -658,8 +731,33 @@ End Function
 ' 功能: 获取用户信息
 ' 参数: 
 '*********************************************************
-Function api_user_info
+Function api_user_list
+	Call VerifyApiKey()
+	If ErrorCheck() Then Exit Function
+	
+	Dim objRS,info_array,Doi:Doi=0
+	Set objRS=objConn.Execute("SELECT [mem_ID],[mem_Name],[mem_Level],[mem_Email],[mem_HomePage],[mem_PostLogs],[mem_Url],[mem_Intro],[mem_Meta] FROM [blog_Member]")
+	Do Until objRS.Eof
+		Set info_array = jsObject()
+		info_array("ID")=objRS("mem_ID")
+		info_array("Name")=objRS("mem_Name")
+		info_array("Level")=objRS("mem_Level")
+		info_array("Email")=objRS("mem_Email")
+		info_array("HomePage")=objRS("mem_HomePage")
+		info_array("PostLogs")=objRS("mem_PostLogs")
+		info_array("Url")=objRS("mem_Url")
+		info_array("Intro")=objRS("mem_Intro")
+		info_array("Meta")=objRS("mem_Meta")
+		Set body_array(Doi) = info_array
+		Doi=Doi+1
+		objRS.MoveNext
+	Loop
+	Set objRS=Nothing
+	
+	If ErrorCheck() Then Exit Function
+	
+	Set data_export("body")=body_array
 
+	data_export.Flush
 End Function
-
 %>
