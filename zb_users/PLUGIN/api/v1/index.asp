@@ -24,7 +24,7 @@ Dim strApi
 strApi = Request("api")
 
 'api检查
-'If (strAct<>"tb") And (strAct<>"search") Then Call CheckReference("")
+'If (strApi<>"tb") And (strApi<>"search") Then Call CheckReference("")
 
 Select Case strApi
 	'命令列表
@@ -143,15 +143,9 @@ End Function
 Function api_Verify
 	Verify()
 	
-	If errcode<>0 Then
-		ret=1
-	End If
-
-	Call Public_date()
-
-	If ret=0 Then
-		Set data_export("body")=body_array
-	End If
+	If ErrorCheck() Then Exit Function
+	
+	Set data_export("body")=body_array
 
 	data_export.Flush
 End Function
@@ -164,7 +158,7 @@ End Function
 '*********************************************************
 Function api_blog_info
 	Call VerifyApiKey()
-	If errcode<>"0" Then Exit Function
+	If ErrorCheck() Then Exit Function
 	
 	body_array("blog_title")=ZC_BLOG_TITLE
 	body_array("blog_subtitle")=ZC_BLOG_SUBTITLE
@@ -176,11 +170,9 @@ Function api_blog_info
 	body_array("blog_theme")=ZC_BLOG_THEME
 	body_array("blog_copyright")=ZC_BLOG_COPYRIGHT
 
-	Call Public_date()
-
-	If ret=0 Then
-		Set data_export("body")=body_array
-	End If
+	If ErrorCheck() Then Exit Function
+	
+	Set data_export("body")=body_array
 
 	data_export.Flush
 End Function
@@ -193,15 +185,13 @@ End Function
 '*********************************************************
 Function api_blog_set
 	Call VerifyApiKey()
-	If errcode<>"0" Then Exit Function
+	If ErrorCheck() Then Exit Function
 
 	GetBlogSet()
 	
-	Call Public_date()
-
-	If ret=0 Then
-		Set data_export("body")=body_array
-	End If
+	If ErrorCheck() Then Exit Function
+	
+	Set data_export("body")=body_array
 
 	data_export.Flush
 End Function
@@ -303,7 +293,31 @@ End Function
 ' 参数: 
 '*********************************************************
 Function api_file_add
+	Call VerifyApiKey()
+	If ErrorCheck() Then Exit Function
+	
+	request_array(0)=Request.Form("UserID")
+	request_array(1)=Request.Form("autoname")
+	
+	Dim objUpLoadFile
+	Set objUpLoadFile=New TUpLoadFile
 
+	objUpLoadFile.AuthorID=request_array(0)
+	objUpLoadFile.AutoName=request_array(1)
+	
+	If objUpLoadFile.UpLoad() Then
+		UploadFile=True
+		body_array("add_type")=0
+	Else
+		ret=1:errcode="002":msg="file upload wrong."
+	End If
+	Set objUpLoadFile=Nothing
+	
+	If ErrorCheck() Then Exit Function
+	
+	Set data_export("body")=body_array
+
+	data_export.Flush
 End Function
 
 '*********************************************************
@@ -313,7 +327,26 @@ End Function
 ' 参数: 
 '*********************************************************
 Function api_file_del
+	Call VerifyApiKey()
+	If ErrorCheck() Then Exit Function
+	
+	request_array(0)=Request.Form("fileid")
+	
+	Dim objUpLoadFile
+	Set objUpLoadFile=New TUpLoadFile
 
+	If objUpLoadFile.LoadInfoByID(request_array(0)) Then
+		If objUpLoadFile.Del Then body_array("del_type")=0
+	Else
+		errcode="002":msg="file is not exist."
+	End If
+	Set objUpLoadFile=Nothing
+	
+	If ErrorCheck() Then Exit Function
+	
+	Set data_export("body")=body_array
+
+	data_export.Flush
 End Function
 
 '*********************************************************
@@ -324,7 +357,7 @@ End Function
 '*********************************************************
 Function api_file_list
 	Call VerifyApiKey()
-	If errcode<>"0" Then Exit Function
+	If ErrorCheck() Then Exit Function
 	
 	Dim objRS,info_array,bodyID
 	Set objRS=objConn.Execute("SELECT * FROM [blog_UpLoad] ORDER BY [ul_PostTime] DESC")
@@ -343,11 +376,9 @@ Function api_file_list
 	
 	Set objRS=Nothing
 	
-	Call Public_date()
-
-	If ret=0 Then
-		Set data_export("body")=body_array
-	End If
+	If ErrorCheck() Then Exit Function
+	
+	Set data_export("body")=body_array
 
 	data_export.Flush
 End Function
@@ -419,7 +450,28 @@ End Function
 ' 参数: 
 '*********************************************************
 Function api_sidebar_list
+	Call VerifyApiKey()
+	If ErrorCheck() Then Exit Function
+	
+	Dim objRS,info_array,bodyID
+	Set objRS=objConn.Execute("SELECT [fn_ID],[fn_Name],[fn_FileName] FROM [blog_Function] ORDER BY [fn_ID] ASC")
+	Do Until objRS.Eof
+		Set info_array = jsObject()
+		info_array("Name")=objRS("fn_Name")
+		info_array("FileName")=objRS("fn_FileName")
+		bodyID=objRS("fn_ID")
+		Set body_array(bodyID) = info_array
+		'Set info_array = Nothing
+		objRS.MoveNext
+	Loop
+	
+	Set objRS=Nothing
+	
+	If ErrorCheck() Then Exit Function
+	
+	Set data_export("body")=body_array
 
+	data_export.Flush
 End Function
 
 '*********************************************************
@@ -429,7 +481,37 @@ End Function
 ' 参数: 
 '*********************************************************
 Function api_sidebar_get
+	Call VerifyApiKey()
+	If ErrorCheck() Then Exit Function
+	
+	request_array(0)=Request.Form("filename")
+	
+	Call GetFunction()
+	
+	Dim fnfilename,objFunction
+	
+	fnfilename=request_array(0)
+	
+	Set objFunction=New TFunction
+	Set objFunction=Functions(FunctionMetas.GetValue(fnfilename))
+	
+	body_array("ID")=objFunction.ID
+	body_array("Name")=objFunction.Name
+	body_array("Order")=objFunction.Order
+	body_array("Content")=objFunction.Content
+	body_array("IsHidden")=objFunction.IsHidden
+	body_array("SidebarID")=objFunction.SidebarID
+	body_array("HtmlID")=objFunction.HtmlID
+	body_array("Ftype")=objFunction.Ftype
+	body_array("MaxLi")=objFunction.MaxLi
+	body_array("Source")=objFunction.Source
+	body_array("ViewType")=objFunction.ViewType
 
+	If ErrorCheck() Then Exit Function
+	
+	Set data_export("body")=body_array
+
+	data_export.Flush
 End Function
 
 '*********************************************************
@@ -439,7 +521,29 @@ End Function
 ' 参数: 
 '*********************************************************
 Function api_tag_add
+	Call VerifyApiKey()
+	If ErrorCheck() Then Exit Function
+	
+	Dim objTag
+	Set objTag=New TTag
+	objTag.ID=Request.Form("ID")
+	objTag.Name=Request.Form("Name")
+	objTag.Intro=Request.Form("Intro")
+	
+	If CLng(objTag.ID)>0 Then 
+		errcode="111":msg="tag add wrong."
+	Else
+		If objTag.Post Then
+			Call GetTagsbyTagIDList("{"&objTag.ID&"}")
+			body_array("add_type")=0
+		End If
+	End If
+	
+	If ErrorCheck() Then Exit Function
+	
+	Set data_export("body")=body_array
 
+	data_export.Flush
 End Function
 
 '*********************************************************
@@ -449,7 +553,27 @@ End Function
 ' 参数: 
 '*********************************************************
 Function api_tag_del
+	Call VerifyApiKey()
+	If ErrorCheck() Then Exit Function
+	
+	Dim objTag
+	Set objTag=New TTag
+	objTag.ID=Request.Form("ID")
 
+	Call GetTagsbyTagIDList("{"&objTag.ID&"}")
+
+	If objTag.Del Then 
+		body_array("del_type")=0
+	Else
+		errcode="111":msg="tag del wrong."
+	End If
+	Set objTag=Nothing
+
+	If ErrorCheck() Then Exit Function
+	
+	Set data_export("body")=body_array
+
+	data_export.Flush
 End Function
 
 '*********************************************************
@@ -459,7 +583,31 @@ End Function
 ' 参数: 
 '*********************************************************
 Function api_tag_edit
+	Call VerifyApiKey()
+	If ErrorCheck() Then Exit Function
+	
+	Dim objTag
+	Set objTag=New TTag
+	objTag.ID=Request.Form("ID")
+	objTag.Name=Request.Form("Name")
+	objTag.Intro=Request.Form("Intro")
 
+	If CLng(objTag.ID)>0 Then 
+		objTag.MetaString=objConn.Execute("SELECT [tag_Meta] FROM [blog_Tag] WHERE [tag_ID]="&CLng(objTag.ID))(0)
+
+		If objTag.Post Then
+			Call GetTagsbyTagIDList("{"&objTag.ID&"}")
+			body_array("edit_type")=0
+		End If
+	Else
+		errcode="111":msg="tag edit wrong."
+	End If
+	
+	If ErrorCheck() Then Exit Function
+	
+	Set data_export("body")=body_array
+
+	data_export.Flush
 End Function
 
 '*********************************************************
@@ -469,7 +617,29 @@ End Function
 ' 参数: 
 '*********************************************************
 Function api_tag_list
+	Call VerifyApiKey()
+	If ErrorCheck() Then Exit Function
+	
+	Dim objRS,info_array,bodyID,Doi:Doi=0
+	Set objRS=objConn.Execute("SELECT [tag_ID],[tag_Name],[tag_Intro],[tag_Order],[tag_Count],[tag_ParentID],[tag_URL] FROM [blog_Tag] ORDER BY [tag_ID] ASC")
+	Do Until objRS.Eof
+		Set info_array = jsObject()
+		info_array("ID")=objRS("tag_ID")
+		info_array("Name")=objRS("tag_Name")
+		info_array("Count")=objRS("tag_Count")
+		info_array("Intro")=objRS("tag_Intro")
+		Set body_array(Doi) = info_array
+		Doi=Doi+1
+		objRS.MoveNext
+	Loop
+	
+	Set objRS=Nothing
+	
+	If ErrorCheck() Then Exit Function
+	
+	Set data_export("body")=body_array
 
+	data_export.Flush
 End Function
 
 '*********************************************************
