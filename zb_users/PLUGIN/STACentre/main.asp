@@ -26,41 +26,48 @@ BlogTitle="静态管理中心"
 <!--#include file="..\..\..\zb_system\admin\admin_header.asp"-->
 <style type="text/css">
 #headWrap {
-	width: 100%;
-	height: 35px;
-	position: fixed;
+	height: 25px;
+	position: absolute;
 	left: 0;
 	z-index: 299;
-	-moz-box-shadow: 0 2px 3px rgba(0,0,0,.12);
-	-webkit-box-shadow: 0 2px 3px rgba(0,0,0,.12);
-	box-shadow: 0 2px 3px rgba(0,0,0,.12);
-	background: #333;
+/*	-moz-box-shadow: 0 2px 3px rgba(0,0,0,.12);*/
+/*	-webkit-box-shadow: 0 2px 3px rgba(0,0,0,.12);*/
+/*	box-shadow: 0 2px 3px rgba(0,0,0,.12);*/
+/*	background: #333;*/
 	opacity: 0.8;
 	filter: alpha(opacity=80);
 	color: white
 }
 .headInside {
-	width: 1024px;
+	width: 890px;
 	margin: 0 auto;
 	position: relative;
 	z-index: 104;
-	height: 35px;
+	height: 25px;
+	-moz-box-shadow: 0 2px 3px rgba(0,0,0,.12);
+	-webkit-box-shadow: 0 2px 3px rgba(0,0,0,.12);
+	box-shadow: 0 2px 3px rgba(0,0,0,.12);
+	background: #333;
 }
 .headInside h1 {
-	position: absolute;
+/*	position: absolute;*/
 	left: 0;
 	top: 0;
 	color: white;
-	margin: .20em 0;
+	margin: .20em .50em;
+	font-size: 1em;
+	width: 80px;
+	float: left;
 }
 .headInside h1 a {
 	color: white
 }
 .topNav {
-	position: absolute;
+/*	position: absolute;*/
 	left: 130px;
 	top: 0;
-	height: 35px;
+	height: 25px;
+	float: left;
 }
 .topNav .topNavItem {
 	float: left;
@@ -75,15 +82,15 @@ BlogTitle="静态管理中心"
 	line-height: 10px;
 	line-height: 13px\9;
 	overflow: hidden;
-	padding: 11px 0 12px 0;
-	_float: left;
+	padding: 7px 0 8px 0;
 	_cursor: pointer;
+	_float: left;
 	_position: relative;
 }
 .topNav .topNavItem a i {
 	position: absolute;
 	display: block;
-	height: 35px;
+	height: 25px;
 	width: 100%;
 	top: 0;
 	left: 0;
@@ -120,9 +127,8 @@ filter: alpha(opacity=35);
               <li class="topNavItem" _enable="{%date%}"><a title="日期"><u>{%date%}</u><i></i></a></li>
               <li class="topNavItem" _enable="{%id%}"><a title="ID"><u>{%id%}</u><i></i></a></li>
               <li class="topNavItem" _enable="{%alias%}"><a title="别名"><u>{%alias%}</u><i></i></a></li>
-              <li class="topNavItem" _enable="POST_FOLTER"><a><u>POST</u><i></i></a></li>
-			  <li class="topNavItem" _enable="POST_FOLTER"><a><u>ARCHIVES</u><i></i></a></li>
-               
+              <li class="topNavItem" _enable="POST_FOLTER"><a><u>post</u><i></i></a></li>
+			  <li class="topNavItem" _enable="POST_FOLTER"><a><u>archives</u><i></i></a></li>
             </ul>
           </div>
         </div>
@@ -131,8 +137,8 @@ filter: alpha(opacity=35);
 			var _h=$("#headWrap").html();
 			$("#headWrap").remove();
 			$("#header").before('<div id="headWrap" style="display:none">'+_h+'</div>');
-			$("#headWrap").show();
-			$(".topNavItem a").attr("href","javascript:;").click(function(){InsertText(_focus,$(this).text(),false)})
+			//$("#headWrap").show();
+			$(".topNavItem a").attr("href","javascript:;").click(function(event){event.stopPropagation(); InsertText(_focus,$(this).text(),false)})
 		}())
 		</script>
         <div id="divMain">
@@ -347,11 +353,19 @@ filter: alpha(opacity=35);
         </div>
         <script type="text/javascript">
 			var _focus=document;
+			$(document).not($("#headWrap")).click(function (event){$('#headWrap').slideUp("fast");});  
 			$(document).ready(function(){ 
 				enable("none");
-				$("input[type='text']").focus(function(){_focus=this.id;enable($(this).attr("_enblist"))})
+				$("input[type='text']").click(function(event){
+					w=$(document).outerWidth();
+					l=$(this).offset().left-100;
+					m=w-890>l?l:w-890;
+					_focus=this.id;enable($(this).attr("_enblist"));
+					$("#headWrap").css({'top':$(this).offset().top-25,'left':m});
+					$('#headWrap').slideDown("fast"); 	
+					event.stopPropagation();  
+					})
 				flashradio();
-				 
 			});
 			$(":radio[name='POST_STATIC']").live("click",function(){
 				$("#edtZC_POST_STATIC_MODE").val($(this).val());
