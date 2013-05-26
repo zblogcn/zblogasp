@@ -13,6 +13,13 @@ $(document).ready(function(){
 	if($("p.hint_green:visible").length>0){
 		$("p.hint_green:visible").eq(0).delay(1500).hide(1500,function(){});
 	}
+
+	$("input[type='file']").click(function(){
+
+		if(/IEMobile|WPDesktop/g.test(navigator.userAgent)&&$(this).val()==""){
+			alert('<%=ZVA_ErrorMsg(65)%>')
+		}
+	})
 });
 // ]]>
 </script>

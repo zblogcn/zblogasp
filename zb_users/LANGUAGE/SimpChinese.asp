@@ -455,4 +455,5 @@ ZVA_ErrorMsg(61)="该记录不存在"
 ZVA_ErrorMsg(62)="同名用户已存在,请修改用户名."
 ZVA_ErrorMsg(63)="草稿禁止浏览"
 ZVA_ErrorMsg(64)="启用失败,该应用的xml配置信息不是Z-Blog 2.X版本的."
+ZVA_ErrorMsg(65)="Windows Phone手机自带IE可能无法正常上传，建议您使用第三方浏览器。"
 %>
