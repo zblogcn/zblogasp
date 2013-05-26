@@ -89,7 +89,9 @@ table {
 	background:#ffffff;
 	line-height:120%;
 }
-
+table label{
+	-ms-text-size-adjust: 100%; /*用于解决IE10 for WP8字体过大的问题*/
+}
 td,th{
 	border:1px solid #E1E1E1;
 	margin:0;
@@ -253,6 +255,7 @@ display:none;
 	line-height:1.8em;
 	margin-bottom:0.8em;
 	margin-top:0.2em;
+	-ms-text-size-adjust: 100%; /*用于解决IE10 for WP8字体过大的问题*/
 }
 
 .tableBorder th{
@@ -366,6 +369,7 @@ div.hint p.hint_teal{
 form.search {
 background:#f0f0f0;
 padding:0.5em;
+-ms-text-size-adjust: 100%; /*用于解决IE10 for WP8字体过大的问题*/
 /*
 background:#ffcc66;
 */
