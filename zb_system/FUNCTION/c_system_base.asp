@@ -180,8 +180,10 @@ Sub System_Initialize()
 		End If
 	End If
 
+
 	'将激活插件后移
-	
+	If sFilter_Plugin_ValidCode_Check="" Then Call Add_Filter_Plugin("Filter_Plugin_ValidCode_Check","CheckVerifyNumber")
+
 
 	'plugin node
 	bAction_Plugin_System_Initialize_Succeed=False
@@ -4343,4 +4345,18 @@ Function AddPluginFunction(PluginID,FunctionName,FunctionFileName,FunctionHtmlID
 
 End Function
 '*********************************************************
+
+
+
+
+Function CreateValidCode(strVerifyNumber)
+	Call Filter_Plugin_ValidCode_Create(strVerifyNumber)
+End Function
+
+
+Function CheckValidCode(strInputNumber)
+	CheckValidCode=Filter_Plugin_ValidCode_Check(strInputNumber)
+End Function
+
+
 %>
