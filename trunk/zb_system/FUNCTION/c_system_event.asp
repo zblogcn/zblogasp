@@ -22,7 +22,7 @@
 '*********************************************************
 Public Function Login()
 
-	'If CheckVerifyNumber(Request.Form("edtCheckOut"))=False Then Call ShowError(38)
+	'If CheckValidCode(Request.Form("edtCheckOut"))=False Then Call ShowError(38)
 
 	BlogUser.LoginType="Self"
 	BlogUser.Name=Request.Form("username")
@@ -381,7 +381,7 @@ Function PostComment(strKey)
 	End If
 
 	If ZC_COMMENT_VERIFY_ENABLE Then
-		If CheckVerifyNumber(Request.Form("inpVerify"))=False Then Call ShowError(38)
+		If CheckValidCode(Request.Form("inpVerify"))=False Then Call ShowError(38)
 	End If
 
 	Dim inpID,inpName,inpArticle,inpEmail,inpHomePage,inpParentID
@@ -786,7 +786,7 @@ Function PostTrackBack(intID,strKey)
 
 	If Len(strKey)=5 Then
 
-		If CheckVerifyNumber(strKey)=False Then Call ShowError(43)
+		If CheckValidCode(strKey)=False Then Call ShowError(43)
 
 	ElseIf Len(strKey)=8 Then
 

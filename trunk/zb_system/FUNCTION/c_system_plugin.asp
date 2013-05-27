@@ -4775,4 +4775,42 @@ Function Filter_Plugin_UEditor_Config(ByRef strJSContent)
 
 End Function
 
+
+
+
+
+Dim sFilter_Plugin_ValidCode_Create
+Function Filter_Plugin_ValidCode_Create(ByRef strVerifyNumber)
+
+	Dim s,i
+
+	If sFilter_Plugin_ValidCode_Create="" Then Exit Function
+
+	s=Split(sFilter_Plugin_ValidCode_Create,"|")
+
+	For i=0 To UBound(s)-1
+		Call Execute(s(i) & " " & "strVerifyNumber")
+	Next
+
+End Function
+
+
+
+Dim sFilter_Plugin_ValidCode_Check
+Function Filter_Plugin_ValidCode_Check(ByRef strInputNumber)
+
+	Dim s,i
+
+	If sFilter_Plugin_ValidCode_Check="" Then Exit Function
+
+	s=Split(sFilter_Plugin_ValidCode_Check,"|")
+
+	For i=0 To UBound(s)-1
+		Call Execute("Filter_Plugin_ValidCode_Check="& s(i) & "(" & "strInputNumber)")
+	Next
+
+End Function
+
+
+
 %>

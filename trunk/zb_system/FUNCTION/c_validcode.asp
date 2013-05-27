@@ -15,8 +15,13 @@
 %>
 <% Option Explicit %>
 <% On Error Resume Next %>
+<!-- #include file="../../zb_users/c_option.asp" -->
+<!-- #include file="../function/c_function.asp" -->
+<!-- #include file="../function/c_system_lib.asp" -->
+<!-- #include file="../function/c_system_base.asp" -->
+<!-- #include file="../function/c_system_plugin.asp" -->
+<!-- #include file="../../zb_users/plugin/p_config.asp" -->
 <%
-
 
 Sub Com_CreatValidCode(pSN)
 
@@ -119,20 +124,11 @@ Next
 
 End Sub
 
-%>
-<!-- #include file="../../zb_users/c_option.asp" -->
-<!-- #include file="../function/c_function.asp" -->
-<!-- #include file="../function/c_system_lib.asp" -->
-<!-- #include file="../function/c_system_base.asp" -->
-<!-- #include file="../function/c_system_plugin.asp" -->
-<!-- #include file="../../zb_users/plugin/p_config.asp" -->
-<%
 
 'Width = ZC_VERIFYCODE_WIDTH	    ' 图片宽度
 'Height = ZC_VERIFYCODE_HEIGHT		' 图片高度
 
+If sFilter_Plugin_ValidCode_Create="" Then Call Add_Filter_Plugin("Filter_Plugin_ValidCode_Create","Com_CreatValidCode")
 
-
-
-Call Com_CreatValidCode(GetVerifyNumber)
+Call CreateValidCode(GetVerifyNumber)
 %>
