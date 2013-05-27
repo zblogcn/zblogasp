@@ -15,21 +15,8 @@
 %>
 <% Option Explicit %>
 <% On Error Resume Next %>
-<!-- #include file="../../zb_users/c_option.asp" -->
-<!-- #include file="../function/c_function.asp" -->
-<!-- #include file="../function/c_system_lib.asp" -->
-<!-- #include file="../function/c_system_base.asp" -->
-<!-- #include file="../function/c_system_plugin.asp" -->
-<!-- #include file="../../zb_users/plugin/p_config.asp" -->
 <%
 
-'Width = ZC_VERIFYCODE_WIDTH	    ' 图片宽度
-'Height = ZC_VERIFYCODE_HEIGHT		' 图片高度
-
-
-
-
-Call Com_CreatValidCode(GetVerifyNumber)
 
 Sub Com_CreatValidCode(pSN)
 
@@ -41,7 +28,7 @@ Sub Com_CreatValidCode(pSN)
 Response.Expires = -9999 
 Response.AddHeader "Pragma","no-cache"
 Response.AddHeader "cache-ctrol","no-cache"
-Response.ContentType = "Image/BMP"
+Response.ContentType = "image/bmp"
 
 Randomize
 
@@ -132,4 +119,20 @@ Next
 
 End Sub
 
+%>
+<!-- #include file="../../zb_users/c_option.asp" -->
+<!-- #include file="../function/c_function.asp" -->
+<!-- #include file="../function/c_system_lib.asp" -->
+<!-- #include file="../function/c_system_base.asp" -->
+<!-- #include file="../function/c_system_plugin.asp" -->
+<!-- #include file="../../zb_users/plugin/p_config.asp" -->
+<%
+
+'Width = ZC_VERIFYCODE_WIDTH	    ' 图片宽度
+'Height = ZC_VERIFYCODE_HEIGHT		' 图片高度
+
+
+
+
+Call Com_CreatValidCode(GetVerifyNumber)
 %>
