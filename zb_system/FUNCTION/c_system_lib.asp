@@ -1207,11 +1207,26 @@ Class TArticle
 
 		Template_Article_Commentpost=GetTemplate("TEMPLATE_B_ARTICLE_COMMENTPOST")
 
-		If ZC_COMMENT_VERIFY_ENABLE=True Then
-			Template_Article_Commentpost_Verify=GetTemplate("TEMPLATE_B_ARTICLE_COMMENTPOST-VERIFY")
+		Dim RE
+		Set RE = New RegExp 
+		RE.IgnoreCase = True 
+		RE.Global = True 
+
+		If InStr(Template_Article_Commentpost,"template:article_commentpost-verify:")>0  Then'2.2新增条件判断
+			If ZC_COMMENT_VERIFY_ENABLE=True Then
+				Template_Article_Commentpost=Replace(Template_Article_Commentpost,"template:article_commentpost-verify:begin","")
+				Template_Article_Commentpost=Replace(Template_Article_Commentpost,"template:article_commentpost-verify:end","")
+			Else
+				RE.Pattern = "<#template:article_commentpost-verify:begin#>(.|\n)*<#template:article_commentpost-verify:end#>"
+				Template_Article_Commentpost = RE.Replace(Template_Article_Commentpost, "")
+			End If
+		Else
+			If ZC_COMMENT_VERIFY_ENABLE=True Then
+				Template_Article_Commentpost_Verify=GetTemplate("TEMPLATE_B_ARTICLE_COMMENTPOST-VERIFY")
+			End If
+			Template_Article_Commentpost=Replace(Template_Article_Commentpost,"<#template:article_commentpost-verify#>",Template_Article_Commentpost_Verify)
 		End If
 
-		Template_Article_Commentpost=Replace(Template_Article_Commentpost,"<#template:article_commentpost-verify#>",Template_Article_Commentpost_Verify)
 
 	End Function
 
