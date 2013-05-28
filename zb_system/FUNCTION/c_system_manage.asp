@@ -1547,7 +1547,7 @@ Call Add_Response_Plugin("Response_Plugin_FunctionMng_SubMenu",MakeSubMenu(ZC_MS
 	Response.Write "<input type=""hidden"" id=""edtSidebar5"" name=""edtSidebar5"" value="""&ZC_SIDEBAR_ORDER5&"""/>"
 
 	Response.Write "</form>" & vbCrlf
-	Response.Write "</div>"
+	Response.Write "<div class=""clear""></div></div>"
 	Response.Write "</div>"
 	'widget-list end
 
@@ -1679,7 +1679,7 @@ Call Add_Response_Plugin("Response_Plugin_FunctionMng_SubMenu",MakeSubMenu(ZC_MS
 	Response.Write "</div></div>"
 
 	Response.Write "<div class=""clear""></div></div>"
-	'siderbar-list begin
+	'siderbar-list end
 
 	Response.Write "<div class=""clear""></div>"
 
