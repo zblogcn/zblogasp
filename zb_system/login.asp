@@ -78,6 +78,9 @@ $("#btnPost").click(function(){
 		return false;
 	}
 
+	$("#edtUserName").remove();
+	$("#edtPassWord").remove();
+
 	strUserName=strUserName;
 	strPassWord=MD5(strPassWord);
 
