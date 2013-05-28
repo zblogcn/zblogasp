@@ -1433,21 +1433,20 @@ Call Add_Response_Plugin("Response_Plugin_FunctionMng_SubMenu",MakeSubMenu(ZC_MS
 	Response.Write "<div class=""divHeader"">" & ZC_MSG007 & "</div>"
 	Response.Write "<div class=""SubMenu"">" & Response_Plugin_FunctionMng_SubMenu & "</div>"
 	Response.Write "<div id=""divMain2"">"
-
+	'widget-list begin
+	Response.Write "<div class=""widget-left"">"
 	Response.Write "<div class=""widget-list"">"
 
-
-
-Response.Write "<script type=""text/javascript"">"
-Response.Write "var functions = {"
-	For i=LBound(Functions)+1 To Ubound(Functions)
-		If IsObject(Functions(i)) Then
-			Response.Write "'"&Functions(i).FileName&"' : '"&Functions(i).SourceType&"'"
-			If i<>Ubound(Functions) Then Response.Write ","
-		End If
-	Next
-Response.Write "};"
-Response.Write "</script>"
+	Response.Write "<script type=""text/javascript"">"
+	Response.Write "var functions = {"
+		For i=LBound(Functions)+1 To Ubound(Functions)
+			If IsObject(Functions(i)) Then
+				Response.Write "'"&Functions(i).FileName&"' : '"&Functions(i).SourceType&"'"
+				If i<>Ubound(Functions) Then Response.Write ","
+			End If
+		Next
+	Response.Write "};"
+	Response.Write "</script>"
 
 	Response.Write "<div class=""widget-list-header"">" & ZC_MSG277 & "</div>"
 	Response.Write "<div class=""widget-list-note"">"&ZC_MSG145&"</div>" & vbCrlf
@@ -1549,7 +1548,10 @@ Response.Write "</script>"
 
 	Response.Write "</form>" & vbCrlf
 	Response.Write "</div>"
+	Response.Write "</div>"
+	'widget-list end
 
+	'siderbar-list begin
 	Response.Write "<div class=""siderbar-list"">"
 	Response.Write "<div class=""siderbar-drop"" id=""siderbar""><div class=""siderbar-header"">"&ZC_MSG290&"&nbsp;<img class=""roll"" src=""../image/admin/loading.gif"" width=""16"" alt="""" /><span class=""ui-icon ui-icon-triangle-1-s""></span></div><div  class=""siderbar-sort-list"" >"
 	t=Split(ZC_SIDEBAR_ORDER,":")	
@@ -1677,6 +1679,7 @@ Response.Write "</script>"
 	Response.Write "</div></div>"
 
 	Response.Write "<div class=""clear""></div></div>"
+	'siderbar-list begin
 
 	Response.Write "<div class=""clear""></div>"
 
