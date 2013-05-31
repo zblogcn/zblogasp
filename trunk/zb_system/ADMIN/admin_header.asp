@@ -5,7 +5,7 @@
 <meta http-equiv="Content-Language" content="<%=ZC_BLOG_LANGUAGE%>" />
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 <meta name="generator" content="Z-Blog <%=ZC_BLOG_VERSION%>" />
-<meta name="robots" content="nofollow" />
+<meta name="robots" content="none" />
 <title><%=ZC_BLOG_TITLE & ZC_MSG044 & BlogTitle%></title>
 <link href="<%=BlogHost%>ZB_SYSTEM/CSS/admin2.css" rel="stylesheet" type="text/css" />
 <script src="<%=BlogHost%>ZB_SYSTEM/script/common.js" type="text/javascript"></script>
