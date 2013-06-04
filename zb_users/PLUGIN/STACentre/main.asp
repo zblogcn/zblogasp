@@ -346,6 +346,7 @@ filter: alpha(opacity=35);
                 </tr>
               </table>
               <!--<p><span class="star">注意:开启文章及页面和分类页的Rewrite支持选项后,请查看"ReWrite规则"并应用在主机上方能生效.</span></p>-->
+			  <hr/>
               <input type="hidden" name="edtZC_STATIC_MODE" id="edtZC_STATIC_MODE" value="<%=ZC_STATIC_MODE%>">
               <input name="" type="submit" class="button" value="保存">
             </form>
