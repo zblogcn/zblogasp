@@ -369,7 +369,8 @@ filter: alpha(opacity=35);
 			});
 			$(":radio[name='POST_STATIC']").live("click",function(){
 				$("#edtZC_POST_STATIC_MODE").val($(this).val());
-				$("#edtZC_STATIC_MODE").val($(this).val());
+
+				$("#edtZC_STATIC_MODE").val($(this).val()=="STATIC"?"ACTIVE":$(this).val());
 				if($(this).val()=="STATIC"){
 					$("#edtZC_ARTICLE_REGEXT").val("{%host%}/{%post%}/{%alias%}.html");
 					$("#edtZC_PAGE_REGEX").val("{%host%}/{%alias%}.html");
