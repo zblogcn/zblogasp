@@ -203,7 +203,15 @@ End Function
 ' 参数: 
 '*********************************************************
 Function api_cate_add
+	Call VerifyApiKey()
+	If ErrorCheck() Then Exit Function
+	
+	
+	If ErrorCheck() Then Exit Function
+	
+	Set data_export("body")=body_array
 
+	data_export.Flush
 End Function
 
 '*********************************************************
@@ -250,7 +258,11 @@ End Function
 ' 参数: 
 '*********************************************************
 Function api_cate_edit
-
+	Call VerifyApiKey()
+	If ErrorCheck() Then Exit Function
+	
+	
+	
 End Function
 
 '*********************************************************
@@ -260,7 +272,11 @@ End Function
 ' 参数: 
 '*********************************************************
 Function api_cate_list
-
+	Call VerifyApiKey()
+	If ErrorCheck() Then Exit Function
+	
+	
+	
 End Function
 
 '*********************************************************
@@ -270,7 +286,11 @@ End Function
 ' 参数: 
 '*********************************************************
 Function api_comment_add
-
+	Call VerifyApiKey()
+	If ErrorCheck() Then Exit Function
+	
+	
+	
 End Function
 
 '*********************************************************
@@ -280,7 +300,11 @@ End Function
 ' 参数: 
 '*********************************************************
 Function api_comment_del
-
+	Call VerifyApiKey()
+	If ErrorCheck() Then Exit Function
+	
+	
+	
 End Function
 
 '*********************************************************
@@ -290,7 +314,11 @@ End Function
 ' 参数: 
 '*********************************************************
 Function api_comment_edit
-
+	Call VerifyApiKey()
+	If ErrorCheck() Then Exit Function
+	
+	
+	
 End Function
 
 '*********************************************************
@@ -300,7 +328,11 @@ End Function
 ' 参数: 
 '*********************************************************
 Function api_comment_get
-
+	Call VerifyApiKey()
+	If ErrorCheck() Then Exit Function
+	
+	
+	
 End Function
 
 '*********************************************************
@@ -310,7 +342,11 @@ End Function
 ' 参数: 
 '*********************************************************
 Function api_comment_list
-
+	Call VerifyApiKey()
+	If ErrorCheck() Then Exit Function
+	
+	
+	
 End Function
 
 '*********************************************************
@@ -320,7 +356,11 @@ End Function
 ' 参数: 
 '*********************************************************
 Function api_file_add
-
+	Call VerifyApiKey()
+	If ErrorCheck() Then Exit Function
+	
+	
+	
 End Function
 
 '*********************************************************
@@ -393,7 +433,31 @@ End Function
 ' 参数: 
 '*********************************************************
 Function api_page_list
+	Call VerifyApiKey()
+	If ErrorCheck() Then Exit Function
+	
+	Dim objRS,info_array,Doi:Doi=0
+	Set objRS=objConn.Execute("SELECT * FROM [blog_Article] WHERE ([log_Type]=1) AND ([log_Level]>0) AND (1=1)  ORDER BY [log_PostTime] DESC")
+	Do Until objRS.Eof
+		Set info_array = jsObject()
+		info_array("ID")=objRS("log_ID")
+		info_array("AuthorID")=objRS("log_AuthorID")
+		info_array("Title")=objRS("log_Title")
+		info_array("PostTime")=objRS("log_PostTime")
+		info_array("CommNums")=objRS("log_CommNums")
+		info_array("Level")=objRS("log_Level")
+		Set body_array(Doi) = info_array
+		Doi=Doi+1
+		objRS.MoveNext
+	Loop
+	
+	Set objRS=Nothing
 
+	If ErrorCheck() Then Exit Function
+	
+	Set data_export("body")=body_array
+
+	data_export.Flush
 End Function
 
 '*********************************************************
@@ -403,7 +467,11 @@ End Function
 ' 参数: 
 '*********************************************************
 Function api_post_add
-
+	Call VerifyApiKey()
+	If ErrorCheck() Then Exit Function
+	
+	
+	
 End Function
 
 '*********************************************************
@@ -428,7 +496,6 @@ Function api_post_del
 		Set objTestArticle=Nothing
 	Else
 		errcode="111":msg="post id is empty."
-		If ErrorCheck() Then Exit Function
 	End If
 	
 	Dim objArticle
@@ -460,6 +527,14 @@ End Function
 ' 参数: 
 '*********************************************************
 Function api_post_edit
+	Call VerifyApiKey()
+	If ErrorCheck() Then Exit Function
+	
+	
+	
+
+
+
 
 End Function
 
@@ -470,7 +545,45 @@ End Function
 ' 参数: 
 '*********************************************************
 Function api_post_get
+	Call VerifyApiKey()
+	If ErrorCheck() Then Exit Function
+	
+	Dim objArticle
+	Set objArticle=New TArticle
+	
+	request_array(0)=Request.Form("id")
+	If request_array(0)<>"" Then
+		request_array(0)=CInt(request_array(0))
+		If request_array(0)=0 Then errcode="111":msg="post id is wrong."
+	Else
+		errcode="111":msg="post id is wrong."
+	End If
+	If ErrorCheck() Then Exit Function
+	
+	If objArticle.LoadInfoByID(request_array(0)) Then
+		body_array("postid")=objArticle.ID
+		body_array("title")=objArticle.Title
+		body_array("cateid")=objArticle.CateID
+		body_array("tag")=objArticle.Tag
+		body_array("content")=objArticle.Content
+		body_array("level")=objArticle.Level
+		body_array("authorid")=objArticle.AuthorID
+		body_array("posttime")=objArticle.PostTime
+		body_array("postcommnums")=objArticle.CommNums
+		body_array("viewnums")=objArticle.ViewNums
+		body_array("alias")=objArticle.Alias
+		body_array("istop")=objArticle.Istop
+		body_array("fullurl")=Replace(objArticle.FullUrl,"<#ZC_BLOG_HOST#>",BlogHost)
+		body_array("type")=objArticle.FType
+	Else
+		errcode="111":msg="post id is wrong."
+	End If
+	
+	If ErrorCheck() Then Exit Function
+	
+	Set data_export("body")=body_array
 
+	data_export.Flush
 End Function
 
 '*********************************************************
@@ -480,7 +593,55 @@ End Function
 ' 参数: 
 '*********************************************************
 Function api_post_list
+	Call VerifyApiKey()
+	
+	request_array(0)=Request.Form("PageSize")
+	request_array(1)=Request.Form("Page")
+	
+	If (NOT IsNumeric(request_array(0))) OR (NOT IsNumeric(request_array(1))) Then errcode="111":msg="post id is wrong."
+	
+	If ErrorCheck() Then Exit Function
 
+	Dim objRS,info_array,intPageAll,i
+	Set objRS=Server.CreateObject("ADODB.Recordset")
+	objRS.CursorType = adOpenKeyset
+	objRS.LockType = adLockReadOnly
+	objRS.ActiveConnection=objConn
+	objRS.Source=""
+	objRS.Open("SELECT * FROM [blog_Article] WHERE ([log_Type]=0) AND ([log_Level]>0) AND (1=1)  ORDER BY [log_PostTime] DESC")
+	
+	objRS.PageSize = request_array(0)
+	If objRS.PageCount>0 Then objRS.AbsolutePage = request_array(1)
+	intPageAll=objRS.PageCount
+	
+	If (Not objRS.bof) And (Not objRS.eof) Then
+		For i=1 to objRS.PageSize
+			Set info_array = jsObject()
+			info_array("ID")=objRS("log_ID")
+			info_array("CateID")=objRS("log_CateID")
+			info_array("AuthorID")=objRS("log_AuthorID")
+			info_array("Title")=objRS("log_Title")
+			info_array("PostTime")=objRS("log_PostTime")
+			info_array("CommNums")=objRS("log_CommNums")
+			info_array("Level")=objRS("log_Level")
+			Set body_array((i-1)) = info_array
+			objRS.MoveNext
+			If objRS.eof Then Exit For
+		Next
+	End If
+	
+	If  intPageAll>1 Then 
+		data_export("pageall")=intPageAll
+	End If 
+	
+	objRS.Close
+	Set objRS=Nothing
+
+	If ErrorCheck() Then Exit Function
+	
+	Set data_export("body")=body_array
+
+	data_export.Flush
 End Function
 
 '*********************************************************
@@ -701,7 +862,6 @@ Function api_user_edit
 		objUser.ID=Request.Form("ID")
 		If (Request.Form("Level"))="" OR (Request.Form("Name"))="" OR (Request.Form("Email"))="" Then
 			errcode="888":msg="Level、Name or Email is empty."
-			If ErrorCheck() Then Exit Function
 		End If
 		objUser.Level=Request.Form("Level")
 		objUser.Name=Request.Form("Name")
@@ -711,10 +871,10 @@ Function api_user_edit
 		objUser.Intro=Request.Form("Intro")
 	End If
 	
-	If ErrorCheck() Then Exit Function
-	
 	If objUser.Edit(objUser) Then
 		body_array("edit_type")=0
+	Else
+		errcode="888":msg="Level、Name or Email is empty."
 	End IF
 	Set objUser=Nothing
 	
