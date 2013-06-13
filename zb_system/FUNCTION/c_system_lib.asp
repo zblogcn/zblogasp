@@ -1460,8 +1460,8 @@ Class TArticle
 		Dim aryTemplateTagsName()
 		Dim aryTemplateTagsValue()
 		Dim i,j
-		ReDim aryTemplateTagsName(58)
-		ReDim aryTemplateTagsValue(58)
+		ReDim aryTemplateTagsName(64)
+		ReDim aryTemplateTagsValue(64)
 
 		aryTemplateTagsName(1)="article/id"
 		aryTemplateTagsValue(1)=ID
@@ -1601,6 +1601,25 @@ Class TArticle
 		aryTemplateTagsValue(57)="<span id=""spn"&ID&"""></span><script type=""text/javascript"">LoadViewCount("&ID&")</script>"
 		aryTemplateTagsName(58)="article/addviewcount"
 		aryTemplateTagsValue(58)="<span id=""spn"&ID&"""></span><script type=""text/javascript"">AddViewCount("&ID&")</script>"
+
+
+		aryTemplateTagsName(59)="article/category/parent/id"
+		aryTemplateTagsName(60)="article/category/parent/name"
+		aryTemplateTagsName(61)="article/category/parent/order"
+		aryTemplateTagsName(62)="article/category/parent/count"
+		aryTemplateTagsName(63)="article/category/parent/url"
+		aryTemplateTagsName(64)="article/category/parent/staticname"
+
+		If Categorys(CateID).ParentID<>0 Then
+		aryTemplateTagsValue(59)=Categorys(Categorys(CateID).ParentID).ID
+		aryTemplateTagsValue(60)=Categorys(Categorys(CateID).ParentID).HtmlName
+		aryTemplateTagsValue(61)=Categorys(Categorys(CateID).ParentID).Order
+		aryTemplateTagsValue(62)=Categorys(Categorys(CateID).ParentID).Count
+		aryTemplateTagsValue(63)=TransferHTML(Categorys(Categorys(CateID).ParentID).HtmlUrl,"[anti-zc_blog_host]")
+		aryTemplateTagsValue(64)=Categorys(Categorys(CateID).ParentID).StaticName
+		End If
+
+
 
 		Call Filter_Plugin_TArticle_Export_TemplateTags(aryTemplateTagsName,aryTemplateTagsValue)
 
@@ -2298,8 +2317,8 @@ Class TArticleList
 		Dim aryTemplateSubValue()
 
 
-		ReDim aryTemplateSubName( 39)
-		ReDim aryTemplateSubValue(39)
+		ReDim aryTemplateSubName( 45)
+		ReDim aryTemplateSubValue(45)
 
 		aryTemplateSubName(  1)=subhtml_TemplateName
 		aryTemplateSubValue( 1)=subhtml
@@ -2334,6 +2353,13 @@ Class TArticleList
 			aryTemplateSubName( 18)="articlelist/category/url"
 			aryTemplateSubName( 19)="articlelist/category/staticname"
 
+			aryTemplateSubName( 20)="articlelist/category/parent/id"
+			aryTemplateSubName( 21)="articlelist/category/parent/name"
+			aryTemplateSubName( 22)="articlelist/category/parent/order"
+			aryTemplateSubName( 23)="articlelist/category/parent/count"
+			aryTemplateSubName( 24)="articlelist/category/parent/url"
+			aryTemplateSubName( 25)="articlelist/category/parent/staticname"
+
 
 		If ListType="CATEGORY" Then
 			aryTemplateSubValue(14)=Categorys(intCate).ID
@@ -2342,57 +2368,66 @@ Class TArticleList
 			aryTemplateSubValue(17)=Categorys(intCate).Count
 			aryTemplateSubValue(18)=TransferHTML(Categorys(intCate).HtmlUrl,"[anti-zc_blog_host]")
 			aryTemplateSubValue(19)=Categorys(intCate).StaticName
+
+			If Categorys(intCate).ParentID<>0 Then
+			aryTemplateSubValue(20)=Categorys(Categorys(intCate).ParentID).ID
+			aryTemplateSubValue(21)=Categorys(Categorys(intCate).ParentID).HtmlName
+			aryTemplateSubValue(22)=Categorys(Categorys(intCate).ParentID).Order
+			aryTemplateSubValue(23)=Categorys(Categorys(intCate).ParentID).Count
+			aryTemplateSubValue(24)=TransferHTML(Categorys(Categorys(intCate).ParentID).HtmlUrl,"[anti-zc_blog_host]")
+			aryTemplateSubValue(25)=Categorys(Categorys(intCate).ParentID).StaticName
+			End If
 		End If
 
-			aryTemplateSubName( 20)="articlelist/author/id"
-			aryTemplateSubName( 21)="articlelist/author/name"
-			aryTemplateSubName( 22)="articlelist/author/level"
-			aryTemplateSubName( 23)="articlelist/author/email"
-			aryTemplateSubName( 24)="articlelist/author/homepage"
-			aryTemplateSubName( 25)="articlelist/author/count"
-			aryTemplateSubName( 26)="articlelist/author/url"
-			aryTemplateSubName( 27)="articlelist/author/staticname"
-			aryTemplateSubName( 28)="articlelist/author/intro"
+			aryTemplateSubName( 26)="articlelist/author/id"
+			aryTemplateSubName( 27)="articlelist/author/name"
+			aryTemplateSubName( 28)="articlelist/author/level"
+			aryTemplateSubName( 29)="articlelist/author/email"
+			aryTemplateSubName( 30)="articlelist/author/homepage"
+			aryTemplateSubName( 31)="articlelist/author/count"
+			aryTemplateSubName( 32)="articlelist/author/url"
+			aryTemplateSubName( 33)="articlelist/author/staticname"
+			aryTemplateSubName( 34)="articlelist/author/intro"
 
 
 		If ListType="USER" Then
-			aryTemplateSubValue(20)=Users(intAuthor).ID
-			aryTemplateSubValue(21)=Users(intAuthor).FirstName
-			aryTemplateSubValue(22)=ZVA_User_Level_Name(Users(intAuthor).Level)
-			aryTemplateSubValue(23)=Users(intAuthor).Email
-			aryTemplateSubValue(24)=Users(intAuthor).HomePage
-			aryTemplateSubValue(25)=Users(intAuthor).Count
-			aryTemplateSubValue(26)=TransferHTML(Users(intAuthor).HtmlUrl,"[anti-zc_blog_host]")
-			aryTemplateSubValue(27)=Users(intAuthor).StaticName
-			aryTemplateSubValue(28)=Users(intAuthor).Intro
+			aryTemplateSubValue(26)=Users(intAuthor).ID
+			aryTemplateSubValue(27)=Users(intAuthor).FirstName
+			aryTemplateSubValue(28)=ZVA_User_Level_Name(Users(intAuthor).Level)
+			aryTemplateSubValue(29)=Users(intAuthor).Email
+			aryTemplateSubValue(30)=Users(intAuthor).HomePage
+			aryTemplateSubValue(31)=Users(intAuthor).Count
+			aryTemplateSubValue(32)=TransferHTML(Users(intAuthor).HtmlUrl,"[anti-zc_blog_host]")
+			aryTemplateSubValue(33)=Users(intAuthor).StaticName
+			aryTemplateSubValue(34)=Users(intAuthor).Intro
 		End If
 
-			aryTemplateSubName( 29)="articlelist/tag/id"
-			aryTemplateSubName( 30)="articlelist/tag/name"
-			aryTemplateSubName( 31)="articlelist/tag/intro"
-			aryTemplateSubName( 32)="articlelist/tag/count"
-			aryTemplateSubName( 33)="articlelist/tag/url"
-			aryTemplateSubName( 34)="articlelist/tag/encodename"
+			aryTemplateSubName( 35)="articlelist/tag/id"
+			aryTemplateSubName( 36)="articlelist/tag/name"
+			aryTemplateSubName( 37)="articlelist/tag/intro"
+			aryTemplateSubName( 38)="articlelist/tag/count"
+			aryTemplateSubName( 39)="articlelist/tag/url"
+			aryTemplateSubName( 40)="articlelist/tag/encodename"
 
 		If ListType="TAGS" Then
-			aryTemplateSubValue(29)=Tags(intTag).ID
-			aryTemplateSubValue(30)=Tags(intTag).HtmlName
-			aryTemplateSubValue(31)=Tags(intTag).HtmlIntro
-			aryTemplateSubValue(32)=Tags(intTag).Count
-			aryTemplateSubValue(33)=Tags(intTag).HtmlUrl
-			aryTemplateSubValue(34)=Tags(intTag).EncodeName
+			aryTemplateSubValue(35)=Tags(intTag).ID
+			aryTemplateSubValue(36)=Tags(intTag).HtmlName
+			aryTemplateSubValue(37)=Tags(intTag).HtmlIntro
+			aryTemplateSubValue(38)=Tags(intTag).Count
+			aryTemplateSubValue(39)=Tags(intTag).HtmlUrl
+			aryTemplateSubValue(40)=Tags(intTag).EncodeName
 		End If
 
-		aryTemplateSubName( 35)="template:sidebar"
-		aryTemplateSubValue(35)=GetTemplate("CACHE_SIDEBAR")
-		aryTemplateSubName( 36)="template:sidebar2"
-		aryTemplateSubValue(36)=GetTemplate("CACHE_SIDEBAR2")
-		aryTemplateSubName( 37)="template:sidebar3"
-		aryTemplateSubValue(37)=GetTemplate("CACHE_SIDEBAR3")
-		aryTemplateSubName( 38)="template:sidebar4"
-		aryTemplateSubValue(38)=GetTemplate("CACHE_SIDEBAR4")
-		aryTemplateSubName( 39)="template:sidebar5"
-		aryTemplateSubValue(39)=GetTemplate("CACHE_SIDEBAR5")
+		aryTemplateSubName( 41)="template:sidebar"
+		aryTemplateSubValue(41)=GetTemplate("CACHE_SIDEBAR")
+		aryTemplateSubName( 42)="template:sidebar2"
+		aryTemplateSubValue(42)=GetTemplate("CACHE_SIDEBAR2")
+		aryTemplateSubName( 43)="template:sidebar3"
+		aryTemplateSubValue(43)=GetTemplate("CACHE_SIDEBAR3")
+		aryTemplateSubName( 44)="template:sidebar4"
+		aryTemplateSubValue(44)=GetTemplate("CACHE_SIDEBAR4")
+		aryTemplateSubName( 45)="template:sidebar5"
+		aryTemplateSubValue(45)=GetTemplate("CACHE_SIDEBAR5")
 
 
 		'plugin node
