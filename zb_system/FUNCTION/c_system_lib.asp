@@ -2080,6 +2080,36 @@ Class TArticleList
 
 		objRS.Source="SELECT [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_Type],[log_Meta] FROM [blog_Article] WHERE ([log_Type]=0) AND ([log_Level]>1)"
 
+		If anyAuthor<>"" Then
+
+			ListType="USER"
+
+			If InStr(ZC_USER_REGEX,"{%alias%}")>0 Then
+				i=GetAuthorByAlias(anyAuthor)
+				If i=-1 Then
+					i=GetAuthorByName(anyAuthor)
+				End If
+			ElseIf InStr(ZC_USER_REGEX,"{%name%}")>0 Then
+				i=GetAuthorByName(Author)
+			Else
+				i=anyAuthor
+			End If
+
+			Call CheckParameter(i,"int",Empty)
+
+			intAuthor=i
+
+			objRS.Source=objRS.Source & "AND([log_AuthorID]="&i&")"
+
+			If CheckAuthorByID(i) Then
+				Call GetUsersbyUserIDList(i)
+				Title=Users(i).Name
+				TemplateTags_ArticleList_Author_ID=Users(i).ID
+				If IsEmpty(html)=True Then html=Users(i).Template
+				Url =ParseCustomDirectoryForUrl(Users(i).FullRegex,ZC_STATIC_DIRECTORY,"","","","","",Users(i).ID,Users(i).Name,Users(i).StaticName)
+				MixUrl=ParseCustomDirectoryForUrl("{%host%}/catalog.asp?auth={%id%}",ZC_STATIC_DIRECTORY,"","","","","",Users(i).ID,Users(i).Name,Users(i).StaticName)
+			End If
+		End if
 		If anyCate<>"" Then
 
 			ListType="CATEGORY"
@@ -2113,36 +2143,6 @@ Class TArticleList
 				If IsEmpty(html)=True Then html=Categorys(i).Template
 				Url =ParseCustomDirectoryForUrl(Categorys(i).FullRegex,ZC_STATIC_DIRECTORY,"","","","","",Categorys(i).ID,Categorys(i).Name,Categorys(i).StaticName)
 				MixUrl =ParseCustomDirectoryForUrl("{%host%}/catalog.asp?cate={%id%}",ZC_STATIC_DIRECTORY,"","","","","",Categorys(i).ID,Categorys(i).Name,Categorys(i).StaticName)
-			End If
-		End if
-		If anyAuthor<>"" Then
-
-			ListType="USER"
-
-			If InStr(ZC_USER_REGEX,"{%alias%}")>0 Then
-				i=GetAuthorByAlias(anyAuthor)
-				If i=-1 Then
-					i=GetAuthorByName(anyAuthor)
-				End If
-			ElseIf InStr(ZC_USER_REGEX,"{%name%}")>0 Then
-				i=GetAuthorByName(Author)
-			Else
-				i=anyAuthor
-			End If
-
-			Call CheckParameter(i,"int",Empty)
-
-			intAuthor=i
-
-			objRS.Source=objRS.Source & "AND([log_AuthorID]="&i&")"
-
-			If CheckAuthorByID(i) Then
-				Call GetUsersbyUserIDList(i)
-				Title=Users(i).Name
-				TemplateTags_ArticleList_Author_ID=Users(i).ID
-				If IsEmpty(html)=True Then html=Users(i).Template
-				Url =ParseCustomDirectoryForUrl(Users(i).FullRegex,ZC_STATIC_DIRECTORY,"","","","","",Users(i).ID,Users(i).Name,Users(i).StaticName)
-				MixUrl=ParseCustomDirectoryForUrl("{%host%}/catalog.asp?auth={%id%}",ZC_STATIC_DIRECTORY,"","","","","",Users(i).ID,Users(i).Name,Users(i).StaticName)
 			End If
 		End if
 		If IsDate(dtmDate) Then
