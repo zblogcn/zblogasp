@@ -58,7 +58,7 @@ If CheckPluginState("BetterPagebar")=False Then Call ShowError(48)
 		c.Write "BetterPagebar_LastPage_Tip",strPagebar_LastPage_Tip
 		c.Write "BetterPagebar_PrvePage_Tip",strPagebar_PrvePage_Tip
 		c.Write "BetterPagebar_NextPage_Tip",strPagebar_NextPage_Tip
-		c.Write "strPagebar_Extend",strPagebar_Extend
+		c.Write "BetterPagebar_Extend",strPagebar_Extend
 		c.Save
 	Set c=Nothing	
 
