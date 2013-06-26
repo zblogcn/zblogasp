@@ -657,7 +657,11 @@ Call InsertOptions()
 Call InsertArticleAndPage()
 %><p>用户信息导入成功!</p><p>Hell World文章导入成功!</p><p>留言本页面导入成功!</p><%
 Call SaveConfigs()
-%><p>配置文件c_option.asp保存成功!</p><%
+%><p>配置文件c_option.asp保存成功!</p><%	
+Call Deleteinstallfile()
+%>
+<p>删除安装文件成功!</p>
+<%
 
 Response.Cookies("password")=""
 Response.Cookies("username")=""
@@ -1228,5 +1232,17 @@ Function SaveConfigs()
 
 End Function
 
+
+
+Function Deleteinstallfile()
+
+	On Error Resume Next
+	Dim fso
+	Set fso = CreateObject("Scripting.FileSystemObject")
+	fso.DeleteFolder(BlogPath & "\zb_update18to20") 
+	fso.Deletefile(BlogPath & "\zb_install\zblog.mdb") 
+	fso.Deletefile(Server.MapPath(Request.ServerVariables("PATH_INFO"))) 
+
+End Function
 
 %>

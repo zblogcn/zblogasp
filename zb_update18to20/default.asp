@@ -211,9 +211,9 @@ Application.Contents.RemoveAll
 <%Call RevToComment():Response.Flush%><p>将1.8版的回复转换2.0版评论成功!</p><script language=javascript>$( "#setup2" ).progressbar({value: 80});</script>
 <%Call SaveConfigs():Response.Flush%><p>配置文件c_option.asp保存成功!</p><script language=javascript>$( "#setup2" ).progressbar({value: 90});</script>
 <%
-
+Call Deleteupdatefile():Response.Flush
 %>
-<p>Z-Blog 2.0升级成功了,现在您可以点击"完成"进入网站首页.</p><script language=javascript>$( "#setup2" ).progressbar({value: 100});</script>
+<p>Z-Blog 2.0升级成功了,升级程序已删除,现在您可以点击"完成"进入网站首页!</p><script language=javascript>$( "#setup2" ).progressbar({value: 100});</script>
 
 </div>
 <div id='bottom'>
@@ -957,6 +957,16 @@ Function RevToComment()
 	End If
 	objRS2.Close
 	Set objRS2=Nothing
+
+End Function
+
+Function Deleteupdatefile()
+
+	On Error Resume Next
+	Dim fso
+	Set fso = CreateObject("Scripting.FileSystemObject")
+	fso.DeleteFolder(BlogPath & "\zb_install") 
+	fso.Deletefile(Server.MapPath(Request.ServerVariables("PATH_INFO"))) 
 
 End Function
 %>
