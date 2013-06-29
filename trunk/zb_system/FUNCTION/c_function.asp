@@ -1275,9 +1275,9 @@ Function SaveValueForSetting(ByRef strContent,bolConst,strTypeVar,strItem,strVal
 		Else
 			strValue="False"
 		End If
-
+		
+		objRegExp.Pattern="(^|\r\n|\n)(( *)" & strConst & "( *)" & strItem & "( *)=( *))([a-z]+)( *)(\r\n|\n|$)"
 		If objRegExp.Test(strContent)=True Then
-			objRegExp.Pattern="(^|\r\n|\n)(( *)" & strConst & "( *)" & strItem & "( *)=( *))([a-z]+)( *)(\r\n|\n|$)"
 			strContent=objRegExp.Replace(strContent,"$1$2"& strValue &"$9")
 			SaveValueForSetting=True
 			Exit Function
