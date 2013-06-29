@@ -3977,7 +3977,7 @@ Function RefreshOptionFormFileToDB()
 			Call Execute("Call BlogConfig.Write("""&a&""","&a&")")
 		End If
 	Next
-	Call BlogConfig.Write("ZC_BLOG_VERSION","2.2 Beta Build 130323")
+	Call BlogConfig.Write("ZC_BLOG_VERSION","2.2 Prism Build 130722")
 	Call BlogConfig.Write("ZC_BLOG_CLSID",ZC_BLOG_CLSID_ORIGINAL)
 
 	Call BlogConfig.Save()
@@ -4010,6 +4010,8 @@ Function GetVersionByBuild(b)
 	s="Z-Blog 2.0 Doomsday Build 121221"
 	Case "130128"
 	s="Z-Blog 2.1 Phoenix Build 130128"
+	Case "130722"
+	s="Z-Blog 2.2 Prism Build 130722"
 	Case Else
 	s="Z-Blog 2.X Other Build " & s
 	End Select

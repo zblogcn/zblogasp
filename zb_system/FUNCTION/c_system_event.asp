@@ -222,7 +222,7 @@ Function PostArticle()
 
 	'接口
 	Call Filter_Plugin_PostArticle_Core(objArticle)
-
+	
 	If objArticle.Post Then
 		Call ScanTagCount(strTag & objArticle.Tag)
 		Call BuildArticle(objArticle.ID,True,True)
