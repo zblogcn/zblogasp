@@ -54,6 +54,12 @@
                 </div>
                 <div id="local" class="panel">
                     <div id="flashContainer"></div>
+                    <div id="inputUpload" style="display:none">
+	                    <form method="POST" enctype="multipart/form-data" id="uploadForm">
+        	            	<input type="file" name="" id="uploadFile" />
+                            <input type="submit" value="" id="submitButton"/>
+    	                </form>
+                    </div>
                     <div><div id="upload" style="display: none" ></div><div id="duiqi"></div><div id="localFloat"></div></div>
 
                     <div class="saveDir" style="display:none">
@@ -197,8 +203,17 @@
                 this.style.display = "none";
                 $G("savePath").parentNode.style.display = "none";
             };
-
+			if(typeof(baidu.swf.version)=="undefined"){
+				$G("uploadFile").name=editor.options.imageFieldName;
+				$G("uploadForm").action=editor.options.imageUrl;
+				$G("inputUpload").style.display = "block" ; 
+				$G("submitButton").value = lang.submitButton;
+				$G("duiqi").style.display = "none";
+				$G("localFloat").style.display = "none";
+				$G("upload").style.display = "none";
+			}
         });
+		
     </script>
 </body>
 </html>
