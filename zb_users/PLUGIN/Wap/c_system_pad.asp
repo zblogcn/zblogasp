@@ -515,7 +515,7 @@ End Function
 		If TemplateDic.Exists("TEMPLATE_PAD")=False Then Call TemplateDic.add("TEMPLATE_PAD","")
 		TemplateDic.Item("TEMPLATE_PAD")=Replace(s,"<#PAD_MAIN#>","<#PAD_MAIN#>")
 
-		TemplateDic.Item("TEMPLATE_DEFAULT")=Replace(s,"<#PAD_MAIN#>","<#template:article-multi#><section class=""pagebar""><#template:pagebar#></section>")
+		TemplateDic.Item("TEMPLATE_DEFAULT")=Replace(s,"<#PAD_MAIN#>","<#template:article-multi#><nav><#template:pagebar#></nav>")
 		TemplateDic.Item("TEMPLATE_SINGLE")=Replace(s,"<#PAD_MAIN#>","<#template:article-single#>")
 		TemplateDic.Item("TEMPLATE_PAGE")=Replace(s,"<#PAD_MAIN#>","<#template:article-page#>")
 
