@@ -7,8 +7,6 @@ Dim HTML5CSS3_theme(1)
 HTML5CSS3_theme(0)=Array("浏览器不支持HTML5时的提示")
 HTML5CSS3_theme(1)=Array("html5_warn.html")
 
-ZC_DISPLAY_COUNT_WAP=0
-
 Call RegisterPlugin("HTML5CSS3","ActivePlugin_HTML5CSS3")
 
 Function ActivePlugin_HTML5CSS3()
