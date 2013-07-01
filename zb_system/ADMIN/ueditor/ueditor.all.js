@@ -8091,7 +8091,11 @@ UE.plugins['horizontal'] = function(){
         execCommand : function( cmdName ) {
             var me = this;
             if(me.queryCommandState(cmdName)!==-1){
-                me.execCommand('insertHtml','<hr>');
+                if (me.document.getElementsByTagName("hr").length != 0) {
+                    me.execCommand("insertHtml", "<hr>");
+                } else {
+                    me.execCommand("insertHtml", '<hr class="more"/>');
+                }
                 var range = me.selection.getRange(),
                     start = range.startContainer;
                 if(start.nodeType == 1 && !start.childNodes[range.startOffset] ){
