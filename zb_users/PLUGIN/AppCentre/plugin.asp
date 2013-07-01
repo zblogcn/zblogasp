@@ -25,28 +25,29 @@ BlogTitle="应用中心"
 
 %>
 <!--#include file="..\..\..\zb_system\admin\admin_header.asp"-->
-	<link rel="stylesheet" rev="stylesheet" href="images/style.css" type="text/css" media="screen" />
+<link rel="stylesheet" rev="stylesheet" href="images/style.css" type="text/css" media="screen" />
 <!--#include file="..\..\..\zb_system\admin\admin_top.asp"-->
-
-<div id="divMain"> <div id="ShowBlogHint">
-      <%Call GetBlogHint()%>
-    </div>
-  <div class="divHeader"><%=BlogTitle%></div>
-  <div class="SubMenu"> 
-	<%Call AppCentre_SubMenu(2)%>
-  </div>
-  <div id="divMain2">
-   <script type="text/javascript">ActiveLeftMenu("aPlugInMng");</script>
-   <%
+        
+        <div id="divMain">
+          <div id="ShowBlogHint">
+            <%Call GetBlogHint()%>
+          </div>
+          <div class="divHeader"><%=BlogTitle%></div>
+          <div class="SubMenu">
+            <%Call AppCentre_SubMenu(2)%>
+          </div>
+          <div id="divMain2"> 
+            <script type="text/javascript">ActiveLeftMenu("aPlugInMng");</script>
+            <%
    Select Case Request.QueryString("act")
 		Case "list","":ExportPluginList
 '		Case "install":ExportPluginInstall
 		Case "detail":ExportPluginDetail
    End Select
    %>
-  </div>
-</div>
-<SCRIPT type="text/javascript">
+          </div>
+        </div>
+        <SCRIPT type="text/javascript">
 function showhidediv(id){
 	try{
 		if(document.getElementById(id)){
@@ -58,8 +59,5 @@ function showhidediv(id){
 		}
 	}catch(e){}
 } 
-</SCRIPT>
-<!--#include file="..\..\..\zb_system\admin\admin_footer.asp"-->
-
-
-
+</SCRIPT> 
+        <!--#include file="..\..\..\zb_system\admin\admin_footer.asp"-->
