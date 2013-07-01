@@ -43,7 +43,7 @@ Next
     oDic.Add "snapscreenPath",""""&Path&""""
 '技术原因，截图无法实现。该EXE太奇葩。
     oDic.Add "getMovieUrl","URL+""asp/getMovie.asp"""
-	oDic.Add "toolbars","[ [ 'source', '|', 'undo', 'redo', '|', 'bold', 'italic', 'underline', 'strikethrough', 'superscript', 'subscript','forecolor', 'backcolor', '|', 'insertorderedlist', 'insertunorderedlist','indent', 'justifyleft', 'justifycenter', 'justifyright','|', 'removeformat','formatmatch','autotypeset', 'searchreplace'],[ 'fontfamily', 'fontsize','|', 'emotion','link','music','insertimage','scrawl','insertvideo', 'attachment','spechars','|', 'map', 'gmap','|', "&IIf(ZC_SYNTAXHIGHLIGHTER_ENABLE,"'highlightcode',","")&"'blockquote', 'pasteplain','wordimage','inserttable', 'horizontal','fullscreen']]"
+	oDic.Add "toolbars","[ [ 'source', '|', 'undo', 'redo', '|', 'bold', 'italic', 'underline', 'strikethrough', 'superscript', 'subscript','forecolor', 'backcolor', '|', 'insertorderedlist', 'insertunorderedlist','indent', 'justifyleft', 'justifycenter', 'justifyright','|', 'removeformat','formatmatch','autotypeset', 'searchreplace'],[ 'fontfamily', 'fontsize','|', 'emotion','link','music','insertimage','scrawl','insertvideo', 'attachment','spechars','|', 'map', 'gmap','|', "&IIf(ZC_SYNTAXHIGHLIGHTER_ENABLE,"'insertcode',","")&"'blockquote', 'pasteplain','wordimage','inserttable', 'horizontal','fullscreen']]"
 	oDic.Add "maximumWords",1000000000
 	oDic.Add "wordCountMsg","'当前已输入 {#count} 个字符 '"
 	oDic.Add "initialContent","'<p></p>'"
@@ -60,6 +60,8 @@ Next
     oDic.Add "themePath","URL +'themes/'"
 	oDic.Add "lang",""""&ZC_EDITORLANG&""""
 	oDic.Add "langPath","URL+""../../../zb_users/language/ue-lang/"""
+	oDic.Add "codeMirrorJsUrl","URL+ ""third-party/codemirror/codemirror.js"""
+	oDic.Add "codeMirrorCssUrl","URL+ ""third-party/codemirror/codemirror.css"""
 	
 	Dim i,aryKeys,aryItems
 	aryKeys=oDic.Keys
