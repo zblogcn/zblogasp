@@ -1157,6 +1157,7 @@ Call BlogConfig.Write("ZC_TAGS_REGEX","{%host%}/catalog.asp?tags={%alias%}")
 Call BlogConfig.Write("ZC_DATE_REGEX","{%host%}/catalog.asp?date={%date%}")
 Call BlogConfig.Write("ZC_DEFAULT_REGEX","{%host%}/catalog.asp")
 
+Call BlogConfig.Write("ZC_DISPLAY_COUNT_WAP","0")
 
 BlogConfig.Save
 
