@@ -37,6 +37,7 @@ Dim app_modified
 Dim app_description
 Dim app_price
 
+Dim app_wap
 Dim app_dependency
 Dim app_rewritefunctions
 Dim app_conflict
@@ -639,6 +640,9 @@ Function LoadThemeXmlInfo(id)
 
 				app_sidebars=objXmlFile.documentElement.selectSingleNode("sidebars").xml
 
+				'新配置项
+				app_wap=TryToGetAdvanced(objXmlFile,"wap")
+				
 				Dim objXmlitems,item,c
 				Set objXmlitems=objXmlFile.documentElement.SelectNodes("functions/function")
 				For Each item in objXmlitems
@@ -718,6 +722,7 @@ On Error Resume Next
 				Theme_dependency=""
 				Theme_conflict=""
 				Theme_rewritefunctions=""
+				Theme_wap=""
 
 				'Theme_Source_Name=objXmlFile.documentElement.selectSingleNode("source/name").text
 				'Theme_Source_Url=objXmlFile.documentElement.selectSingleNode("source/url").text
@@ -748,6 +753,7 @@ On Error Resume Next
 				Theme_dependency=objXmlFile.documentElement.selectSingleNode("advanced/dependency").text
 				Theme_rewritefunctions=objXmlFile.documentElement.selectSingleNode("advanced/rewritefunctions").text
 				Theme_conflict=objXmlFile.documentElement.selectSingleNode("advanced/conflict").text
+				Theme_wap=TryToGetAdvanced(objXmlFile,"wap")
 
 				app_modified=objXmlFile.documentElement.selectSingleNode("modified").text
 			End If
@@ -851,6 +857,7 @@ On Error Resume Next
 				Advanced_conflict.Text = Theme_conflict
 			Set Advanced_conflict=Nothing
 
+
 		Set Advanced=Nothing
 
 		XmlDoc.Save(FilePath)
@@ -926,6 +933,7 @@ On Error Resume Next
 				Theme_dependency=""
 				Theme_conflict=""
 				Theme_rewritefunctions=""
+				Theme_wap=""
 
 				Theme_Source_Name=objXmlFile.documentElement.selectSingleNode("source/name").text
 				Theme_Source_Url=objXmlFile.documentElement.selectSingleNode("source/url").text
@@ -957,6 +965,7 @@ On Error Resume Next
 				Theme_dependency=objXmlFile.documentElement.selectSingleNode("advanced/dependency").text
 				Theme_rewritefunctions=objXmlFile.documentElement.selectSingleNode("advanced/rewritefunctions").text
 				Theme_conflict=objXmlFile.documentElement.selectSingleNode("advanced/conflict").text
+				Theme_wap=TryToGetAdvanced(objXmlFile,"wap")
 
 				app_modified=objXmlFile.documentElement.selectSingleNode("modified").text
 			End If
@@ -1378,6 +1387,7 @@ app_price=Request.Form("app_price")
 app_dependency=Request.Form("app_dependency")
 app_rewritefunctions=Request.Form("app_rewritefunctions")
 app_conflict=Request.Form("app_conflict")
+app_wap=Request.Form("app_wap")
 
 app_sidebars=Request.Form("app_sidebars")
 
@@ -1502,7 +1512,12 @@ app_sidebars=Request.Form("app_sidebars")
 	objXMLauthor.AppendChild(objXMLitem)
 	objXMLrss.AppendChild(objXMLauthor)
 	
-	
+	Set objXMLitem = objXMLdoc.createElement("wap")
+	objXMLitem.text=app_wap
+	objXMLauthor.AppendChild(objXMLitem)
+	objXMLrss.AppendChild(objXMLauthor)
+
+
 	Set objXMLitem = objXMLdoc.createElement("price")
 	objXMLitem.text=app_price
 	objXMLrss.AppendChild(objXMLitem)

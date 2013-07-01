@@ -201,6 +201,12 @@ End If
             </p></td>
         </tr>
         <tr>
+          <td><p><b>· 【高级】启用后统一电脑与手机版主题</b>(可选)</p></td>
+          <td><p>&nbsp;
+              <input id="app_wap" name="app_wap" class="checkbox" type="text" value="<%=app_wap%>" />
+            </p></td>
+        </tr>
+        <tr>
           <td><p><b>· 【高级】内置插件重写系统函数列表（以|分隔）</b>(可选)</p></td>
           <td><p>&nbsp;
               <input id="app_rewritefunctions" name="app_rewritefunctions" style="width:550px;"  type="text" value="<%=app_rewritefunctions%>" />
