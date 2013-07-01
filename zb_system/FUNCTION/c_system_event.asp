@@ -1854,6 +1854,7 @@ Function SaveTheme()
 	Call BlogConfig.Write("ZC_BLOG_CSS",strZC_BLOG_CSS)
 
 	Call BlogConfig.Write("ZC_BLOG_THEME",strZC_BLOG_THEME)
+	
 
 	Call SaveConfig2Option()
 
@@ -1962,6 +1963,10 @@ Function ScanFunctionAndSidebarToThemeFile(newZC_BLOG_THEME)
 
 		End If
 	End If
+	
+	'加入WAP
+	Call BlogConfig.Write("ZC_DISPLAY_COUNT_WAP",IIf(TryToGetAdvanced(objXmlFile,"wap")="True",1,0))
+	
 	Set objXmlFile=Nothing
 
 	Err.Clear
