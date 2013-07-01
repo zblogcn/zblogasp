@@ -14,8 +14,10 @@ Call Add_Action_Plugin("Action_Plugin_Default_WithOutConnect_Begin","Wap_Check()
 '检查终端类型
 Dim Wap_Type
 Function Wap_Check()
+
 	Dim s
-	If Request.QueryString("mod")="pc" Then
+	Response.Write ZC_DISPLAY_COUNT_WAP
+	If Request.QueryString("mod")="pc" Or ZC_DISPLAY_COUNT_WAP="1" Then
 		Exit Function
 	End If
 

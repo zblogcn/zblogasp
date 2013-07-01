@@ -100,9 +100,6 @@ Const ZC_POST_TYPE_PAGE=1
 
 Const ZC_DEFAULT_SIDEBAR="calendar:controlpanel:catalog:searchpanel:comments:archives:favorite:link:misc"
 
-Dim ZC_DISPLAY_COUNT_WAP
-ZC_DISPLAY_COUNT_WAP=0
-
 Dim ZC_NAVBAR_MENU_ITEM
 ZC_NAVBAR_MENU_ITEM="<li id=""menu-%type-%id""><a href=""%url"">%name</a></li>"
 
