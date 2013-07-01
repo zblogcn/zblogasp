@@ -16,7 +16,7 @@ Dim Wap_Type
 Function Wap_Check()
 
 	Dim s
-	Response.Write ZC_DISPLAY_COUNT_WAP
+	'Response.Write ZC_DISPLAY_COUNT_WAP
 	If Request.QueryString("mod")="pc" Or ZC_DISPLAY_COUNT_WAP="1" Then
 		Exit Function
 	End If

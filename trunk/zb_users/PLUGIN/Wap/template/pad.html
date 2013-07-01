@@ -11,26 +11,30 @@
 </head>
 <body>
 <header>
-<h1><#ZC_BLOG_NAME#></h1>
+<h2><a href="<#ZC_BLOG_HOST#>"><#ZC_BLOG_NAME#></a> <sup><#ZC_BLOG_SUB_NAME#></sup></h2>
 <nav>
 <ul><#PAD_NAV#></ul>
 </nav>
 </header>
-<div>
 
-<#PAD_MAIN#>
 
-</div>
-<aside>
-<dl class="function" id="modarrow">
-<dt><a href="#" onclick="sidetoggle()"><img src="<#ZC_BLOG_HOST#>zb_system/image/admin/none.gif" width="16" alt="收起" /></a></dt>
-</dl>
-<#PAD_SIDE#>
-</aside>
+<section>
+  <section id="main">
+    <section>
+      <#PAD_MAIN#>
+    </section>
+    <aside>
+      <#PAD_SIDE#>
+    </aside>
+  </section>
+</section>
+
+
+
 <footer>
   <h5>Powered By Z-Blog&nbsp;&nbsp;&nbsp;&nbsp;<a href="<#ZC_BLOG_HOST#>?mod=pad">触屏版</a>&nbsp;|&nbsp;<a href="<#ZC_BLOG_HOST#>?mod=wap">WAP版</a>&nbsp;|&nbsp;<a href="<#ZC_BLOG_HOST#>?mod=pc">电脑版</a></h5>
   <h4><#ZC_BLOG_COPYRIGHT#></h4>
 </footer>
-<script type="text/javascript"><#PAD_AUTOSCREEN#></script>
+
 </body>
 </html>
