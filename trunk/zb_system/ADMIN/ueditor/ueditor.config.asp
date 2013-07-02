@@ -27,6 +27,7 @@ Next
 	Set oDic = Server.CreateObject("Scripting.Dictionary")
 	oDic.Add "UEDITOR_HOME_URL","URL"
     oDic.Add "imageUrl"," URL+""asp/imageUp.asp"""
+    oDic.Add "imageNoFlashUrl"," URL+""asp/uploadWithoutFlash.asp"""
     oDic.Add "imagePath",""""&Path&""""
     oDic.Add "imageFieldName"," ""edtFileLoad"""
     oDic.Add "fileUrl"," URL+""asp/fileUp.asp"""

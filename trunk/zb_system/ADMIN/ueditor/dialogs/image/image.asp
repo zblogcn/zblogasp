@@ -205,7 +205,7 @@
             };
 			if(typeof(baidu.swf.version)=="undefined"){
 				$G("uploadFile").name=editor.options.imageFieldName;
-				$G("uploadForm").action=editor.options.imageUrl;
+				$G("uploadForm").action=editor.options.imageNoFlashUrl;
 				$G("inputUpload").style.display = "block" ; 
 				$G("submitButton").value = lang.submitButton;
 				$G("duiqi").style.display = "none";
