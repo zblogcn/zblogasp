@@ -1460,8 +1460,8 @@ Class TArticle
 		Dim aryTemplateTagsName()
 		Dim aryTemplateTagsValue()
 		Dim i,j
-		ReDim aryTemplateTagsName(65)
-		ReDim aryTemplateTagsValue(65)
+		ReDim aryTemplateTagsName(66)
+		ReDim aryTemplateTagsValue(66)
 
 		aryTemplateTagsName(1)="article/id"
 		aryTemplateTagsValue(1)=ID
@@ -1518,7 +1518,7 @@ Class TArticle
 		aryTemplateTagsName(19)="article/author/name"
 		aryTemplateTagsValue(19)=Users(AuthorID).FirstName
 		aryTemplateTagsName(20)="article/author/level"
-		aryTemplateTagsValue(20)=ZVA_User_Level_Name(Users(AuthorID).Level)
+		aryTemplateTagsValue(20)=Users(AuthorID).Level
 		aryTemplateTagsName(21)="article/author/email"
 		aryTemplateTagsValue(21)=Users(AuthorID).Email
 		aryTemplateTagsName(22)="article/author/homepage"
@@ -1621,6 +1621,9 @@ Class TArticle
 
 		aryTemplateTagsName(65)="article/author/avatar"
 		aryTemplateTagsValue(65)=Users(AuthorID).Avatar
+		aryTemplateTagsName(66)="article/author/levelname"
+		aryTemplateTagsValue(66)=Users(AuthorID).LevelName
+
 
 		Call Filter_Plugin_TArticle_Export_TemplateTags(aryTemplateTagsName,aryTemplateTagsValue)
 
@@ -2318,8 +2321,8 @@ Class TArticleList
 		Dim aryTemplateSubValue()
 
 
-		ReDim aryTemplateSubName( 46)
-		ReDim aryTemplateSubValue(46)
+		ReDim aryTemplateSubName( 47)
+		ReDim aryTemplateSubValue(47)
 
 		aryTemplateSubName(  1)=subhtml_TemplateName
 		aryTemplateSubValue( 1)=subhtml
@@ -2390,12 +2393,12 @@ Class TArticleList
 			aryTemplateSubName( 33)="articlelist/author/staticname"
 			aryTemplateSubName( 34)="articlelist/author/intro"
 			aryTemplateSubName( 35)="articlelist/author/avatar"
-
+			aryTemplateSubName( 36)="articlelist/author/levelname"
 
 		If ListType="USER" Then
 			aryTemplateSubValue(26)=Users(intAuthor).ID
 			aryTemplateSubValue(27)=Users(intAuthor).FirstName
-			aryTemplateSubValue(28)=ZVA_User_Level_Name(Users(intAuthor).Level)
+			aryTemplateSubValue(28)=Users(intAuthor).Level
 			aryTemplateSubValue(29)=Users(intAuthor).Email
 			aryTemplateSubValue(30)=Users(intAuthor).HomePage
 			aryTemplateSubValue(31)=Users(intAuthor).Count
@@ -2403,34 +2406,35 @@ Class TArticleList
 			aryTemplateSubValue(33)=Users(intAuthor).StaticName
 			aryTemplateSubValue(34)=Users(intAuthor).Intro
 			aryTemplateSubValue(35)=Users(intAuthor).Avatar
+			aryTemplateSubValue(36)=Users(intAuthor).LevelName
 		End If
 
-			aryTemplateSubName( 36)="articlelist/tag/id"
-			aryTemplateSubName( 37)="articlelist/tag/name"
-			aryTemplateSubName( 38)="articlelist/tag/intro"
-			aryTemplateSubName( 39)="articlelist/tag/count"
-			aryTemplateSubName( 40)="articlelist/tag/url"
-			aryTemplateSubName( 41)="articlelist/tag/encodename"
+			aryTemplateSubName( 37)="articlelist/tag/id"
+			aryTemplateSubName( 38)="articlelist/tag/name"
+			aryTemplateSubName( 39)="articlelist/tag/intro"
+			aryTemplateSubName( 40)="articlelist/tag/count"
+			aryTemplateSubName( 41)="articlelist/tag/url"
+			aryTemplateSubName( 42)="articlelist/tag/encodename"
 
 		If ListType="TAGS" Then
-			aryTemplateSubValue(36)=Tags(intTag).ID
-			aryTemplateSubValue(37)=Tags(intTag).HtmlName
-			aryTemplateSubValue(38)=Tags(intTag).HtmlIntro
-			aryTemplateSubValue(39)=Tags(intTag).Count
-			aryTemplateSubValue(40)=Tags(intTag).HtmlUrl
-			aryTemplateSubValue(41)=Tags(intTag).EncodeName
+			aryTemplateSubValue(37)=Tags(intTag).ID
+			aryTemplateSubValue(38)=Tags(intTag).HtmlName
+			aryTemplateSubValue(39)=Tags(intTag).HtmlIntro
+			aryTemplateSubValue(40)=Tags(intTag).Count
+			aryTemplateSubValue(41)=Tags(intTag).HtmlUrl
+			aryTemplateSubValue(42)=Tags(intTag).EncodeName
 		End If
 
-		aryTemplateSubName( 42)="template:sidebar"
-		aryTemplateSubValue(42)=GetTemplate("CACHE_SIDEBAR")
-		aryTemplateSubName( 43)="template:sidebar2"
-		aryTemplateSubValue(43)=GetTemplate("CACHE_SIDEBAR2")
-		aryTemplateSubName( 44)="template:sidebar3"
-		aryTemplateSubValue(44)=GetTemplate("CACHE_SIDEBAR3")
-		aryTemplateSubName( 45)="template:sidebar4"
-		aryTemplateSubValue(45)=GetTemplate("CACHE_SIDEBAR4")
-		aryTemplateSubName( 46)="template:sidebar5"
-		aryTemplateSubValue(46)=GetTemplate("CACHE_SIDEBAR5")
+		aryTemplateSubName( 43)="template:sidebar"
+		aryTemplateSubValue(43)=GetTemplate("CACHE_SIDEBAR")
+		aryTemplateSubName( 44)="template:sidebar2"
+		aryTemplateSubValue(44)=GetTemplate("CACHE_SIDEBAR2")
+		aryTemplateSubName( 45)="template:sidebar3"
+		aryTemplateSubValue(45)=GetTemplate("CACHE_SIDEBAR3")
+		aryTemplateSubName( 46)="template:sidebar4"
+		aryTemplateSubValue(46)=GetTemplate("CACHE_SIDEBAR4")
+		aryTemplateSubName( 47)="template:sidebar5"
+		aryTemplateSubValue(47)=GetTemplate("CACHE_SIDEBAR5")
 
 
 		'plugin node
@@ -2762,6 +2766,10 @@ Class TUser
 
 	Public html
 
+	Public Property Get LevelName
+		LevelName=ZVA_User_Level_Name(Level)
+	End Property
+
 	Private Ffullregex
 	Public Property Let FullRegex(s)
 		Ffullregex=s
@@ -2859,7 +2867,7 @@ Class TUser
 	End Property
 
 	Public Property Get RssUrl
-		RssUrl = BlogHost & "feed.asp?user=" & ID
+		RssUrl = BlogHost & "feed.asp?auth=" & ID
 	End Property
 
 
