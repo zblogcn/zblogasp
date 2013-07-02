@@ -50,7 +50,8 @@ Next
 	oDic.Add "initialStyle","'body{font-size:14px;font-family:微软雅黑,宋体,Arial,Helvetica,sans-serif;}'"
 	oDic.Add "wordCount","true"
 	oDic.Add "elementPathEnabled","true"
-	oDic.Add "minFrameHeight","300"
+	oDic.Add "initialFrameHeight","300"
+	oDic.Add  "toolbarTopOffset","200"
     oDic.Add "scrawlUrl"," URL+""asp/scrawlUp.asp"""
     oDic.Add "scrawlPath",""""&Path&""""
 	oDic.Add "scrawlFieldName","""edtFileLoad"""
@@ -62,6 +63,7 @@ Next
 	oDic.Add "langPath","URL+""../../../zb_users/language/ue-lang/"""
 	oDic.Add "codeMirrorJsUrl","URL+ ""third-party/codemirror/codemirror.js"""
 	oDic.Add "codeMirrorCssUrl","URL+ ""third-party/codemirror/codemirror.css"""
+	oDic.Add "maxUpFileSize",""""&ZC_UPLOAD_FILESIZE/(1024*1024)&""""'Byte转成Mb
 	
 	Dim i,aryKeys,aryItems
 	aryKeys=oDic.Keys
