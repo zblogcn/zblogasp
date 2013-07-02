@@ -361,7 +361,7 @@ var editor_api={
 var EditorIntroOption = {
 	toolbars:[['Source', 'bold', 'italic','link','insertimage','Undo', 'Redo']],
 	autoHeightEnabled:false,
-	minFrameHeight:200
+	initialFrameHeight:200
 };
 
 

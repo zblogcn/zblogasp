@@ -105,7 +105,7 @@
 
         editor.setOpt({
             imageFieldName:"upfile",
-            compressSide:0,
+            compressSide:1,
             maxImageSideLength:900
         });
         utils.domReady(function(){
@@ -123,7 +123,7 @@
                 picHeight:100,     // 单张预览图片的高度
                 uploadDataFieldName:editor.options.imageFieldName,    // POST请求中图片数据的key
                 picDescFieldName:'pictitle',      // POST请求中图片描述的key
-                maxSize:4,                         // 文件的最大体积,单位M
+                maxSize:editor.options.maxUpFileSize,  // 文件的最大体积,单位M
                 compressSize:2,                   // 上传前如果图片体积超过该值，会先压缩,单位M
                 maxNum:32,                         // 单次最大可上传多少个文件
                 compressSide:editor.options.compressSide,                 //等比压缩的基准，0为按照最长边，1为按照宽度，2为按照高度
