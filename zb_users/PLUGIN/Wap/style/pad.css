@@ -66,7 +66,7 @@ section>nav,
 article~dl,
 aside>dl{padding:20px 0;margin:0 20px;line-height:2;}
 /*=main*/
-#main{padding:0 260px 0 0;float:left;}
+#main{padding:0 260px 0 0;}
 #main::after{display:inline-block;content:"--------";font-size:20em}
 #main>section{float:left;position:relative;width:100%;margin:0 0 -14px}
 #main>section>nav{border:none}
