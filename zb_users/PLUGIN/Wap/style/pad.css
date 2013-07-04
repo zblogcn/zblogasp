@@ -26,6 +26,7 @@ select{padding:5px 5px 5px 1px;}
 button,
 input[type='submit'],
 .btn{outline:none;border:1px solid #069;box-shadow:0 -10px 10px rgba(0,0,0,.2) inset, 0 0 1px #fff inset;background:#3A6EA5;color:#fff;border-radius:6px;text-shadow:0 -1px rgba(0,0,0,.5);cursor:pointer;height:34px;padding:0 15px;font:bold 14px "微软雅黑",Arial;margin:0 10px 0 0;}
+input[name='q']{width:120px;}
 
 /*=nohtml5*/
 #nohtml5{position:fixed;z-index:99999;top:0;left:0;padding:0 1%;width:98%;color:#F30;background:#FFC;line-height:2;text-align:center;font-size:1em;margin:0;}
@@ -65,11 +66,13 @@ section>article,
 section>nav,
 article~dl,
 aside>dl{padding:20px 0;margin:0 20px;line-height:2;}
+
 /*=main*/
 #main{padding:0 260px 0 0;}
 #main::after{display:inline-block;content:"--------";font-size:20em}
 #main>section{float:left;position:relative;width:100%;margin:0 0 -14px}
 #main>section>nav{border:none}
+
 /*=nav*/
 #main nav{text-align:center;}
 #main nav>span,
@@ -77,6 +80,7 @@ aside>dl{padding:20px 0;margin:0 20px;line-height:2;}
 #main nav span,
 #comment nav a{display:inline-block;height:24px;line-height:24px;padding:0 8px;border:1px solid #eee;border-radius:3px}
 #main nav>span{background:#def;box-shadow:0 0 2px rgba(0,0,0,.2) inset;border-color:#abc;}
+
 /*=article*/
 article{border-bottom:1px solid #eee;border-top:1px solid #fff;overflow:hidden}
 article>header h1,
@@ -140,23 +144,11 @@ article~dl dd a,
 aside dd a{color:#456}
 article~dl dd a:hover,
 aside dd a:hover{color:#39C}
-#extra>dl:first-child figure{float:left;margin:0 10px 0 0;}
-/*=search*/
-#divSearchPanel form{padding:0 67px 0 0;position:relative;}
-#edtSearch{width:100%;height:25px;margin:0 5px 0 0;line-height:25px;}
-#btnPost{width:50px;height:27px;font-size:12px;margin:0;line-height:27px;padding:0;position:absolute;right:0;top:0;}
-/*=canledar*/
-table[id$='Calendar']{width:100%;table-layout:fixed;text-align:center;border:none}
-table[id$='Calendar'] small{font-size:12px;}
-table[id$='Calendar'] td a{display:block;background:#def;}
-table[id$='Calendar'] td b{display:block;background:#3A6EA5;color:#fff;text-shadow:none;}
-/*=catalog*/
-#divCatalog ul ul{margin:0 0 0 10px}
-#divCatalog ul ul li:before{content:"└ ";color:#ddd;margin:0 0 5px}
+
+
 /*=footer*/
 body>footer{color:#3A6EA5;text-align:center;clear:both;}
 body>footer *{font-size:1em;font-weight:100;}
-body>footer h5{font-size:.8em;margin:10px 0 0}
 body>footer a{color:#3A6EA5}
 
 /*for mobile user*/
@@ -268,6 +260,7 @@ body>header nav:after,
 article>header time{float:none;margin:0;line-height:1}
 #main>aside li{float:none;width:auto}
 body>footer h5{margin:0 0 5px;}
+input[name='q']{width:70%;}
 }
 @media only screen and (max-width: 400px) {
 #postcmt dd{margin-left:0;margin-top:30px;}
@@ -278,4 +271,5 @@ body>footer h5{margin:0 0 5px;}
 #comment blockquote cite{line-height:1.5;margin:0 0 5px 40px}
 #comment blockquote cite b{float:none}
 #comment blockquote time{float:none;display:block;font-size:10px}
+input[name='q']{width:70%;}
 }
