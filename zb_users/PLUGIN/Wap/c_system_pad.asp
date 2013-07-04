@@ -206,7 +206,7 @@ Class TPad
 		End If
 
 		Title=objArticle.Title
-		Call SetVar("PAD_SIDE","")
+		'Call SetVar("PAD_SIDE","")
 		Call SetVar("PAD_AUTOSCREEN","")
 	End Function
 
@@ -215,7 +215,7 @@ Class TPad
 
 		Call SetVar("PAD_NAV",FunNav())
 
-		Call SetVar("PAD_SIDE",FunCatalogs & FunSearch() & FunAdmin())
+		Call SetVar("PAD_SIDE",FunAdmin() & FunCatalogs & FunSearch())
 
 		Call SetVar("COOKIESPATH",CookiesPath())
 
@@ -269,12 +269,13 @@ Public Function Errors(id)
 		ID=0
 	End If
 	Dim s
+	s=s&"<div>"
 	s=s&"<p>错误:"&ZVA_ErrorMsg(ID)&"</p>"
 	s=s&"<p><span class=""stamp""><a href=""javascript:history.go(-1)"">"&ZC_MSG065&"</a></span></p>"
-
+	s=s&"</div>"
 	Template="PAD"
 	html=Template
-	Call SetVar("PAD_SIDE","")
+	'Call SetVar("PAD_SIDE","")
 	Call SetVar("PAD_AUTOSCREEN","")
 	Call SetVar("PAD_MAIN",s)
 	Title="错误"
@@ -286,12 +287,12 @@ Function Login()
 
 	Template="PAD"
 	html=Template
-	Call SetVar("PAD_SIDE","")
+	'Call SetVar("PAD_SIDE","")
 	Call SetVar("PAD_AUTOSCREEN","")
 
 	Dim s
 
-	s="<form id=""login"" method=""post"" action=""<#ZC_BLOG_HOST#>?mod=pad&amp;act=logging""><dl><dt>用户登录</dt><dd>用户:<input type=""text"" name=""username"" id=""username"" value="""" /></dd><dd>密码:<input type=""password"" name=""password"" id=""password"" value="""" /></dd><dd><input type=""submit"" value=""登录"" /></dd></dl></form>"
+	s="<div><form id=""login"" method=""post"" action=""<#ZC_BLOG_HOST#>?mod=pad&amp;act=logging""><dl><dt>用户登录</dt><dd>用户:&nbsp;<input type=""text"" name=""username"" id=""username"" value="""" /></dd><dd>密码:&nbsp;<input type=""password"" name=""password"" id=""password"" value="""" /></dd><dd><input type=""submit"" value=""登录"" /></dd></dl></form></div>"
 
 	Call SetVar("PAD_MAIN",s)
 	Title="用户登录"
@@ -357,7 +358,9 @@ Function FunAdmin()
 	Set f = New TFunction
 	f.Name=BlogUser.FirstName & "您好"
 	f.Ftype="ul"
-	s="<li><a href=""<#ZC_BLOG_HOST#>?mod=pad&amp;act=logout"">退出登录</a></li>"
+
+	s=s&"<li><a href=""<#ZC_BLOG_HOST#>?mod=pad&amp;act=editarticle"">编辑文章</a></li>"
+	s=s&"<li><a href=""<#ZC_BLOG_HOST#>?mod=pad&amp;act=logout"">退出登录</a></li>"
 
 	FunAdmin=Replace(f.MakeTemplate(GetTemplate("TEMPLATE_B_FUNCTION")),"<#CACHE_INCLUDE_#>",s)
 
@@ -455,20 +458,6 @@ End Function
 				Exit Function
 			Case "err"
 				Call Errors(Request.QueryString("id"))
-			Case "AddCom"		
-				Call WapAddCom(0)
-			Case "PostCom"
-				Call WapPostCom()
-			Case "DelCom"
-				Call WapDelCom()
-			Case "AddArt"
-				Call WapEdtArt()
-			Case "EdtArt"
-				Call WapEdtArt()		
-			Case "PostArt"
-				Call WapPostArt()
-			Case "DelArt"
-				Call WapDelArt()
 			Case "search"
 				Call Search(Request("q"))
 			Case "cmt"
@@ -479,6 +468,8 @@ End Function
 				Call Logout()
 			Case "logging"
 				Call Logging()
+			Case "editarticle"
+				Call EditArticle()
 			Case Else
 				Call Export(Request("page"),Request("cate"),Request("auth"),Request("date"),Request("tags"),ZC_DISPLAY_MODE_ALL)		
 		End Select
@@ -492,6 +483,30 @@ End Function
 
 	Function CommentGet()
 		Call GetComment(Request.QueryString("logid"),CLng(Request.QueryString("page")))
+	End Function
+
+
+	Function EditArticle()
+
+		Template="PAD"
+		html=Template
+		'Call SetVar("PAD_SIDE","")
+		Call SetVar("PAD_AUTOSCREEN","")
+
+		Dim s
+
+		s=s&"<div><form>"
+		s=s&"<dl>"
+		s=s&"<dt>文章编辑</dt>"
+		s=s&"<dd>标题:&nbsp;&nbsp;<input type='text' name='title' id='title' value='' style='width:80%;' /></dd>"
+		s=s&"<dd>正文:&nbsp;&nbsp;<textarea style='width:80%;height:400px;'></textarea></dd>"
+		s=s&"<dd><input type=""submit"" value=""发布"" /></dd>"
+		s=s&"<dl>"
+		s=s&"</form></div>"
+
+		Call SetVar("PAD_MAIN",s)
+		Title="文章编辑"
+
 	End Function
 
 
