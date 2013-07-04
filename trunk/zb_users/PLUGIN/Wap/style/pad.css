@@ -2,7 +2,7 @@
  Theme Name: Html5CSS3
  Author: jgpy.cn
  Pub Date: 2013-1-16
- Last Modified: 2013-1-29
+ Last Modified: 
 ----------------------*/
 
 /*=global*/
@@ -27,6 +27,7 @@ button,
 input[type='submit'],
 .btn{outline:none;border:1px solid #069;box-shadow:0 -10px 10px rgba(0,0,0,.2) inset, 0 0 1px #fff inset;background:#3A6EA5;color:#fff;border-radius:6px;text-shadow:0 -1px rgba(0,0,0,.5);cursor:pointer;height:34px;padding:0 15px;font:bold 14px "微软雅黑",Arial;margin:0 10px 0 0;}
 input[name='q']{width:120px;}
+dd{-webkit-margin-start:0px;}
 
 /*=nohtml5*/
 #nohtml5{position:fixed;z-index:99999;top:0;left:0;padding:0 1%;width:98%;color:#F30;background:#FFC;line-height:2;text-align:center;font-size:1em;margin:0;}
@@ -65,7 +66,9 @@ aside{background:#fefefe;-webkit-box-shadow:0 0 2px rgba(0,0,0,.2);box-shadow:0 
 section>article,
 section>nav,
 article~dl,
-aside>dl{padding:20px 0;margin:0 20px;line-height:2;}
+aside>dl{margin:0 20px;line-height:2;}
+
+article~dl,aside>dl,section>nav{padding:15px 0;}
 
 /*=main*/
 #main{padding:0 260px 0 0;}
@@ -107,6 +110,7 @@ article>footer h5 em:first-child{border:none;padding:0}
 article>nav{margin:20px 0 0;}
 article>nav p{margin:0;text-align:left}
 article>section .tag-name{margin:0 10px 0 0}
+article.istop{padding:0;}
 /*=hilitecode*/
 article .syntaxhighlighter{width:100%!important}
 /*=main dl*/
@@ -273,3 +277,10 @@ input[name='q']{width:70%;}
 #comment blockquote time{float:none;display:block;font-size:10px}
 input[name='q']{width:70%;}
 }
+
+/*add*/
+#main>section>div{padding:10px 20px;}
+#main>section>div dt{text-align:center;font-size:1.5em;}
+#main>section>div dd{text-align:left;padding-bottom:10px;}
+#login input[type='text'],#login input[type='password']{width:50%;}
+#login dt,#login dd{padding-bottom:10px;text-align:center !important;}
