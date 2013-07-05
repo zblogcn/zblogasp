@@ -497,7 +497,7 @@ function AutoIntro() {
 var oDiv=document.getElementById("divFloat");
 var H=0;var Y=oDiv;
 while(Y){H+=Y.offsetTop;Y=Y.offsetParent;};
-$(document).scroll(function(){
+$(window).bind("scroll resize",function(){
 	var s=document.body.scrollTop||document.documentElement.scrollTop;
 	if(s>H){
 		$("#divFloat").addClass("boxfloat");

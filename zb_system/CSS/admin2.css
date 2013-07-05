@@ -661,7 +661,7 @@ span.note{
 
 /*文章编辑提交区随动*/
 #divBox { width:220px; position:relative;}
-#divFloat { width:220px; right:12px;}
+#divFloat { width:220px;}
 .boxfloat{position: fixed;_position: absolute;top: 0px;z-index: 295;}
 
 a.button{
