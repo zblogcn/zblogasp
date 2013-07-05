@@ -495,14 +495,20 @@ End Function
 
 		Dim s
 
+		s=s&"<script type=""text/javascript""  src="""&BlogHost&"zb_system/admin/ueditor/ueditor.config.asp""></script>"
+		s=s&"<script type=""text/javascript"">window.UEDITOR_CONFIG.theme=""modern"";window.UEDITOR_CONFIG.themePath="""&BlogHost&"zb_users/PLUGIN/Wap/ueskin/"";</script>"
+		s=s&"<script type=""text/javascript""  src="""&BlogHost&"zb_system/admin/ueditor/ueditor.all.min.js""></script>"
+
+
 		s=s&"<div><form>"
 		s=s&"<dl>"
 		s=s&"<dt>文章编辑</dt>"
 		s=s&"<dd>标题:&nbsp;&nbsp;<input type='text' name='title' id='title' value='' style='width:80%;' /></dd>"
-		s=s&"<dd>正文:&nbsp;&nbsp;<textarea style='width:80%;height:400px;'></textarea></dd>"
+		s=s&"<dd>正文:&nbsp;&nbsp;<textarea style='width:80%;height:400px;' id=""editor_txt"" name=""txaContent"" ></textarea></dd>"
 		s=s&"<dd><input type=""submit"" value=""发布"" /></dd>"
 		s=s&"<dl>"
 		s=s&"</form></div>"
+		s=s&"<script type=""text/javascript"">UE.getEditor('editor_txt')</script>"
 
 		Call SetVar("PAD_MAIN",s)
 		Title="文章编辑"
