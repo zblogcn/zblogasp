@@ -470,6 +470,8 @@ End Function
 				Call Logging()
 			Case "editarticle"
 				Call EditArticle()
+			Case "savearticle"
+				Call SaveArticle()
 			Case Else
 				Call Export(Request("page"),Request("cate"),Request("auth"),Request("date"),Request("tags"),ZC_DISPLAY_MODE_ALL)		
 		End Select
@@ -500,15 +502,87 @@ End Function
 		s=s&"<script type=""text/javascript""  src="""&BlogHost&"zb_system/admin/ueditor/ueditor.all.min.js""></script>"
 
 
+		Dim objArticle
+		Set objArticle=New TArticle
+
+		If Not IsEmpty(Request.QueryString("id")) Then
+			If objArticle.LoadInfobyID(Request.QueryString("id")) Then
+				If objArticle.AuthorID<>BlogUser.ID Then
+					If CheckRights("Root")=False And CheckRights("ArticleAll")=False Then
+						Call ShowError(6)
+					End If
+				End If
+				If objArticle.FType=ZC_POST_TYPE_PAGE Then IsPage=True
+				If InStr(objArticle.Intro,"<!--autointro-->")>0 Then objArticle.Intro=""
+			Else
+				Call ShowError(9)
+			End If
+		Else
+			objArticle.AuthorID=BlogUser.ID
+			'If IsPage=True THen objArticle.FType=ZC_POST_TYPE_PAGE
+		End If
+
+
+		objArticle.Content=UBBCode(objArticle.Content,"[link][email][font][code][face][image][flash][typeset][media][autolink]")
+		objArticle.Title=UBBCode(objArticle.Title,"[link][email][font][code][face][image][flash][typeset][media][autolink]")
+		objArticle.Content=TransferHTML(Replace(objArticle.Content,"<!--more-->","<hr class=""more"" />"),"[html-japan]")
+		objArticle.Title=TransferHTML(objArticle.Title,"[html-format]")
+
+
 		s=s&"<div><form>"
 		s=s&"<dl>"
 		s=s&"<dt>文章编辑</dt>"
-		s=s&"<dd>标题:&nbsp;&nbsp;<input type='text' name='title' id='title' value='' style='width:80%;' /></dd>"
-		s=s&"<dd>正文:&nbsp;&nbsp;<textarea style='width:80%;height:400px;' id=""editor_txt"" name=""txaContent"" ></textarea></dd>"
+		s=s&"<dd>标题：&nbsp;&nbsp;<input type='text' name='edtTitle' id='edtTitle' value="""&objArticle.Title&""" style='width:80%;' /></dd>"
+		s=s&"<dd>别名：&nbsp;&nbsp;<input type=""text"" style=""width:60%;max-width:520px"" name=""edtAlias"" id=""edtAlias"" maxlength=""250"" value="""&TransferHTML(objArticle.Alias,"[html-format]")&""" /></dd>"
+		s=s&"<dd>分类：&nbsp;&nbsp;<input type=""hidden"" name=""edtCateID"" id=""edtCateID"" value="""&objArticle.CateID&""" />"
+		s=s&"<select style=""width:150px;"" class=""edit"" size=""1"" id=""cmbCate"" onChange=""edtCateID.value=this.options[this.selectedIndex].value;selectlogtemplate(this.options[this.selectedIndex].value);"">"
+        s=s&"<option value=""0"">"&Categorys(0).Name&"</option>"
+		Dim aryCateInOrder : aryCateInOrder=GetCategoryOrder()
+		Dim m,n
+		For m=LBound(aryCateInOrder)+1 To Ubound(aryCateInOrder)
+			If Categorys(aryCateInOrder(m)).ParentID=0 Then
+				s=s & "<option value="""&Categorys(aryCateInOrder(m)).ID&""""
+				If objArticle.CateID=Categorys(aryCateInOrder(m)).ID Then s=s&"selected=""selected"""
+				s=s& ">" &TransferHTML( Categorys(aryCateInOrder(m)).Name,"[html-format]")&"</option>"
+
+				For n=0 To UBound(aryCateInOrder)
+					If Categorys(aryCateInOrder(n)).ParentID=Categorys(aryCateInOrder(m)).ID Then
+						s=s&"<option value="""&Categorys(aryCateInOrder(n)).ID&""""
+						If objArticle.CateID=Categorys(aryCateInOrder(n)).ID Then 
+							s=s&"selected=""selected"""
+						End If
+						s=s& ">&nbsp;└ "&TransferHTML( Categorys(aryCateInOrder(n)).Name,"[html-format]")&"</option>"	
+					End If
+				Next
+			End If
+		Next
+
+		s=s&"</select> 类型："
+		s=s&"<select class=""edit"" style=""width:150px;"" size=""1"" id=""cmbArticleLevel"" onChange=""edtLevel.value=this.options[this.selectedIndex].value"">"
+		Dim ArticleLevel
+		Dim i:i=0
+		For Each ArticleLevel in ZVA_Article_Level_Name
+			If i>0 Then
+				s=s&"<option value="""& i &""" "
+				If objArticle.Level=i Then s=s&"selected=""selected"""
+				s=s&">"& ZVA_Article_Level_Name(i) &"</option>"
+			End If
+			i=i+1
+		Next
+        s=s&"</select>"
+        s=s&"<input type=""hidden"" name=""edtLevel"" id=""edtLevel"" value="""&objArticle.Level&""" />"
+		s=s&"</dd>"
+		s=s&"<dd>"&ZC_MSG138
+		s=s&"<input type=""text"" style=""width:60%;max-width:520px"" name=""edtTag"" id=""edtTag"" value=""" &TransferHTML(objArticle.TagToName,"[html-format]") & """ />("&ZC_MSG208&") <a href=""#"" id=""showtags"">"&ZC_MSG139&"</a>"
+		s=s&"<div id=""ulTag"" style=""display:none;""><div id=""ajaxtags"">"&ZC_MSG165&"</div></dd>"
+
+
+		s=s&"<dd>正文：&nbsp;&nbsp;<textarea style='width:80%;height:400px;' id=""editor_txt"" name=""txaContent"" ></textarea></dd>"
 		s=s&"<dd><input type=""submit"" value=""发布"" /></dd>"
 		s=s&"<dl>"
 		s=s&"</form></div>"
-		s=s&"<script type=""text/javascript"">UE.getEditor('editor_txt')</script>"
+		s=s&"<script type=""text/javascript"">var tag_loaded=false;UE.getEditor('editor_txt');"
+		s=s&"$('#showtags').click(function (event) {event.stopPropagation(); var offset = $(event.target).offset();  $('#ulTag').css({ top: offset.top + $(event.target).height()+20+ 'px', left: offset.left}); 	$('#ulTag').slideDown('fast'); 	if(tag_loaded==false){$.getScript(bloghost+'zb_system/function/c_admin_js.asp?act=tags');tag_loaded=true;}}); </script>"
 
 		Call SetVar("PAD_MAIN",s)
 		Title="文章编辑"
