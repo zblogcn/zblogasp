@@ -34,7 +34,7 @@ c.Load "Wap"
             <%Call GetBlogHint()%>
           </div>
           <div class="divHeader"><%=BlogTitle%></div>
-          <div class="SubMenu"><%=Response_Plugin_SettingMng_SubMenu%></div>
+          <div class="SubMenu"></div>
           <div id="divMain2"> 
 			<form  method="post" action="?act=save">
             <table width="100%">
@@ -52,6 +52,7 @@ c.Load "Wap"
 				<tr><td><p align="left"><b> · 数字分页条模式</b></p></td><td><input type="text" name="WAP_DISPLAY_PAGEBAR_ALL" id="WAP_DISPLAY_PAGEBAR_ALL" value="<%=c.Read("WAP_DISPLAY_PAGEBAR_ALL")%>" class="checkbox"></td></tr>
 
 			</tbody></table>
+			<hr/>
 			<p>
                 <input type="submit" value="提交">
               </p>
@@ -60,7 +61,7 @@ c.Load "Wap"
         </div>
 		
 		<script type="text/javascript">
-			ActiveTopMenu("aPlugInMng");
+			ActiveLeftMenu("aPlugInMng");
 			$(".SubMenu a[href*='zb_users/plugin/wap/main.asp']").find("span").addClass("m-now")
 		</script> 
         <!--#include file="..\..\..\zb_system\admin\admin_footer.asp"-->
