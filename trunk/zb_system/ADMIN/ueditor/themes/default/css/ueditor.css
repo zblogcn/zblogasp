@@ -177,13 +177,15 @@ div.edui-box {
 .edui-default .edui-editor-iframeholder {
     position: relative;
     /*for fix ie6 toolbarmsg under iframe bug. relative -> static */
-    /*_position: static !important;*
+    /*_position: static !important;*/
+	width:auto !important;
 }
 
 .edui-default .edui-editor-iframeholder textarea {
     font-family: consolas, "Courier New", "lucida console", monospace;
     font-size: 12px;
     line-height: 18px;
+	width:auto !important;
 }
 
 .edui-default .edui-editor-bottombar {
