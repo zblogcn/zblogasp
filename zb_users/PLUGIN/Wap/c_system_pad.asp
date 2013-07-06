@@ -207,7 +207,7 @@ Class TPad
 
 		Title=objArticle.Title
 		'Call SetVar("PAD_SIDE","")
-		Call SetVar("PAD_AUTOSCREEN","")
+		'Call SetVar("PAD_AUTOSCREEN","")
 	End Function
 
 
@@ -219,7 +219,7 @@ Class TPad
 
 		Call SetVar("COOKIESPATH",CookiesPath())
 
-		Call SetVar("PAD_AUTOSCREEN","autoscreen();")
+		'Call SetVar("PAD_AUTOSCREEN","autoscreen();")
 
 		Call SetVar("PAD_FIRSTNAME",BlogUser.FirstName)
 		Call SetVar("PAD_NAME",BlogUser.Name)
@@ -276,7 +276,7 @@ Public Function Errors(id)
 	Template="PAD"
 	html=Template
 	'Call SetVar("PAD_SIDE","")
-	Call SetVar("PAD_AUTOSCREEN","")
+	'Call SetVar("PAD_AUTOSCREEN","")
 	Call SetVar("PAD_MAIN",s)
 	Title="错误"
 
@@ -288,7 +288,7 @@ Function Login()
 	Template="PAD"
 	html=Template
 	'Call SetVar("PAD_SIDE","")
-	Call SetVar("PAD_AUTOSCREEN","")
+	'Call SetVar("PAD_AUTOSCREEN","")
 
 	Dim s
 
@@ -492,7 +492,7 @@ End Function
 
 		Template="PAD"
 		html=Template
-		Call SetVar("PAD_AUTOSCREEN","")
+		'Call SetVar("PAD_AUTOSCREEN","")
 		
 		Dim s
 		s=s&"<div>"
@@ -518,7 +518,7 @@ End Function
 		Template="PAD"
 		html=Template
 		'Call SetVar("PAD_SIDE","")
-		Call SetVar("PAD_AUTOSCREEN","")
+		'Call SetVar("PAD_AUTOSCREEN","")
 
 		Dim s
 
@@ -552,11 +552,11 @@ End Function
 		objArticle.Title=TransferHTML(objArticle.Title,"[html-format]")
 
 
-		s=s&"<div><form action=""?act=PstArticle&mod=pad"" method=""post"">"
+		s=s&"<div class='editarticle'><form action=""?act=PstArticle&mod=pad"" method=""post"">"
 		s=s&"<dl>"
 		s=s&"<dt>文章编辑</dt>"
-		s=s&"<dd>标题：&nbsp;&nbsp;<input type='text' name='edtTitle' id='edtTitle' value="""&objArticle.Title&""" style='width:80%;' onclick=""if(this.value=='未命名文章'){this.value=''}""/></dd>"
-		s=s&"<dd>别名：&nbsp;&nbsp;<input type=""text"" style=""width:80%;"" name=""edtAlias"" id=""edtAlias"" maxlength=""250"" value="""&TransferHTML(objArticle.Alias,"[html-format]")&""" /></dd>"
+		s=s&"<dd>标题：&nbsp;&nbsp;<input class='edit' type='text' name='edtTitle' id='edtTitle' value="""&objArticle.Title&""" style='width:80%;' onclick=""if(this.value=='未命名文章'){this.value=''}""/></dd>"
+		s=s&"<dd>别名：&nbsp;&nbsp;<input class='edit' type=""text"" style=""width:80%;"" name=""edtAlias"" id=""edtAlias"" maxlength=""250"" value="""&TransferHTML(objArticle.Alias,"[html-format]")&""" /></dd>"
 		s=s&"<dd>分类：&nbsp;&nbsp;<input type=""hidden"" name=""edtCateID"" id=""edtCateID"" value="""&objArticle.CateID&""" />"
 		s=s&"<select style=""width:37%;"" class=""edit"" size=""1"" id=""cmbCate"" onChange=""edtCateID.value=this.options[this.selectedIndex].value;selectlogtemplate(this.options[this.selectedIndex].value);"">"
         s=s&"<option value=""0"">"&Categorys(0).Name&"</option>"
@@ -580,7 +580,7 @@ End Function
 			End If
 		Next
 
-		s=s&"</select> 类型："
+		s=s&"</select><br class='newline' /> 类型：&nbsp;&nbsp;"
 		s=s&"<select class=""edit"" style=""width:37%;"" size=""1"" id=""cmbArticleLevel"" onChange=""edtLevel.value=this.options[this.selectedIndex].value"">"
 		Dim ArticleLevel
 		Dim i:i=0
@@ -595,7 +595,7 @@ End Function
         s=s&"</select>"
         s=s&"<input type=""hidden"" name=""edtLevel"" id=""edtLevel"" value="""&objArticle.Level&""" />"
 		s=s&"</dd>"
-		s=s&"<dd>正文：&nbsp;&nbsp;&nbsp;&nbsp;<span id=""timemsg""></span><span id=""msg2""></span><span id=""msg""></span><span class='editinputname'></span><script type=""text/javascript"" src="""&BlogHost & "zb_system/admin/c_autosaverjs.asp?act=edit""></script><textarea style='width:100%;height:400px;' id=""editor_txt"" name=""txaContent"" >"
+		s=s&"<dd>正文：&nbsp;&nbsp;&nbsp;&nbsp;<span id=""timemsg""></span><span id=""msg2""></span><span id=""msg""></span><span class='editinputname'></span><script type=""text/javascript"" src="""&BlogHost & "zb_system/admin/c_autosaverjs.asp?act=edit""></script><textarea style='width:100%;height:400px;padding-top:8px;' id=""editor_txt"" name=""txaContent"" >"
 		s=s&TransferHTML(objArticle.Content,"[textarea]")
 		s=s&"</textarea>"
 		s=s&"<textarea name=""txaIntro"" style=""display:none"" id=""editor_txt2"">"
@@ -603,7 +603,7 @@ End Function
 		s=s&"</textarea>"
 		s=s&"</dd>"
 		s=s&"<dd>Tags：&nbsp;"
-		s=s&"<input type=""text"" style=""width:80%;"" name=""edtTag"" id=""edtTag"" value=""" &TransferHTML(objArticle.TagToName,"[html-format]") & """ />"'" <a href=""#"" id=""showtags"">"&ZC_MSG139&"</a>"
+		s=s&"<input class='edit' type=""text"" style=""width:80%;"" name=""edtTag"" id=""edtTag"" value=""" &TransferHTML(objArticle.TagToName,"[html-format]") & """ />"'" <a href=""#"" id=""showtags"">"&ZC_MSG139&"</a>"
 		's=s&"<div id=""ulTag"" style=""display:none;""><div id=""ajaxtags"">"&ZC_MSG165&"</div>"
 		s=s&"</dd>"
 		s=s&"<dd><input type=""submit"" value=""发布"" /></dd>"

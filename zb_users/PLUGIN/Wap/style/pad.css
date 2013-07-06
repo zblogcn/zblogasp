@@ -257,6 +257,9 @@ article>header time{float:none;margin:0;line-height:1}
 #main>aside li{float:none;width:auto}
 body>footer h5{margin:0 0 5px;}
 input[name='q']{width:70%;}
+br.newline{display:block !important;}
+select.edit{width:75% !important;}
+input.edit{width:70% !important;}
 }
 @media only screen and (max-width: 400px) {
 #postcmt dd{margin-left:0;margin-top:30px;}
@@ -276,3 +279,4 @@ input[name='q']{width:70%;}
 #main>section>div dd{text-align:left;padding-bottom:10px;}
 #login input[type='text'],#login input[type='password']{width:50%;}
 #login dt,#login dd{padding-bottom:10px;text-align:center !important;}
+br.newline{display:none;}
