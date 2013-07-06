@@ -470,8 +470,8 @@ End Function
 				Call Logging()
 			Case "editarticle"
 				Call EditArticle()
-			Case "savearticle"
-				Call SaveArticle()
+			Case "PstArticle"
+				Call PstArticle()
 			Case Else
 				Call Export(Request("page"),Request("cate"),Request("auth"),Request("date"),Request("tags"),ZC_DISPLAY_MODE_ALL)		
 		End Select
@@ -487,6 +487,31 @@ End Function
 		Call GetComment(Request.QueryString("logid"),CLng(Request.QueryString("page")))
 	End Function
 
+
+	Function PstArticle()
+
+		Template="PAD"
+		html=Template
+		Call SetVar("PAD_AUTOSCREEN","")
+		
+		Dim s
+		s=s&"<div>"
+		s=s&"<dl>"
+		s=s&"<dt>文章提交</dt>"
+		s=s&"<dd>"
+		
+		If PostArticle() Then
+			s=s&"恭喜，文章提交成功。"
+		Else
+			s=s&"抱歉，文章提交失败。"
+		End If
+
+		s=s&"</dd><dd><a href='?mod=pad'>点击这里回到首页</a></dd>"
+
+		Call SetVar("PAD_MAIN",s)
+		Title="文章提交"
+
+	End Function
 
 	Function EditArticle()
 
@@ -529,10 +554,10 @@ End Function
 		objArticle.Title=TransferHTML(objArticle.Title,"[html-format]")
 
 
-		s=s&"<div><form>"
+		s=s&"<div><form action=""?act=PstArticle&mod=pad"" method=""post"">"
 		s=s&"<dl>"
 		s=s&"<dt>文章编辑</dt>"
-		s=s&"<dd>标题：&nbsp;&nbsp;<input type='text' name='edtTitle' id='edtTitle' value="""&objArticle.Title&""" style='width:80%;' /></dd>"
+		s=s&"<dd>标题：&nbsp;&nbsp;<input type='text' name='edtTitle' id='edtTitle' value="""&objArticle.Title&""" style='width:80%;' onclick=""if(this.value=='未命名文章'){this.value=''}""/></dd>"
 		s=s&"<dd>别名：&nbsp;&nbsp;<input type=""text"" style=""width:60%;max-width:520px"" name=""edtAlias"" id=""edtAlias"" maxlength=""250"" value="""&TransferHTML(objArticle.Alias,"[html-format]")&""" /></dd>"
 		s=s&"<dd>分类：&nbsp;&nbsp;<input type=""hidden"" name=""edtCateID"" id=""edtCateID"" value="""&objArticle.CateID&""" />"
 		s=s&"<select style=""width:150px;"" class=""edit"" size=""1"" id=""cmbCate"" onChange=""edtCateID.value=this.options[this.selectedIndex].value;selectlogtemplate(this.options[this.selectedIndex].value);"">"
@@ -573,13 +598,23 @@ End Function
         s=s&"<input type=""hidden"" name=""edtLevel"" id=""edtLevel"" value="""&objArticle.Level&""" />"
 		s=s&"</dd>"
 		s=s&"<dd>"&ZC_MSG138
-		s=s&"<input type=""text"" style=""width:60%;max-width:520px"" name=""edtTag"" id=""edtTag"" value=""" &TransferHTML(objArticle.TagToName,"[html-format]") & """ />("&ZC_MSG208&") <a href=""#"" id=""showtags"">"&ZC_MSG139&"</a>"
-		s=s&"<div id=""ulTag"" style=""display:none;""><div id=""ajaxtags"">"&ZC_MSG165&"</div></dd>"
+		s=s&"<input type=""text"" style=""width:60%;max-width:520px"" name=""edtTag"" id=""edtTag"" value=""" &TransferHTML(objArticle.TagToName,"[html-format]") & """ />("&ZC_MSG208&")"'" <a href=""#"" id=""showtags"">"&ZC_MSG139&"</a>"
+		's=s&"<div id=""ulTag"" style=""display:none;""><div id=""ajaxtags"">"&ZC_MSG165&"</div></dd>"
+
+
 
 
 		s=s&"<dd>正文：&nbsp;&nbsp;<textarea style='width:80%;height:400px;' id=""editor_txt"" name=""txaContent"" ></textarea></dd>"
 		s=s&"<dd><input type=""submit"" value=""发布"" /></dd>"
-		s=s&"<dl>"
+		s=s&"</dl>"
+		s=s&"<input type=""hidden"" name=""edtAuthorID"" id=""edtAuthorID"" value="""&objArticle.AuthorID&""" />"
+		s=s&"<input type=""hidden"" name=""edtDateTime"" id=""edtDateTime"" value="""&objArticle.PostTime&""" style=""width:141px;""/>"
+       	s=s&"<input type=""hidden"" name=""edtIstop"" id=""edtIstop"" value="""&objArticle.IsTop&"""/>"
+       	s=s&"<input type=""hidden"" name=""edtTemplate"" id=""edtTemplate"" value="""&objArticle.TemplateName&""" />"
+       	s=s&"<input type=""hidden"" name=""edtID""    id=""edtID""    value="""&objArticle.ID&""" />"
+        s=s&"<input type=""hidden"" name=""edtFType"" id=""edtFType"" value="""&objArticle.FType&""" />"
+
+
 		s=s&"</form></div>"
 		s=s&"<script type=""text/javascript"">var tag_loaded=false;UE.getEditor('editor_txt');"
 		s=s&"$('#showtags').click(function (event) {event.stopPropagation(); var offset = $(event.target).offset();  $('#ulTag').css({ top: offset.top + $(event.target).height()+20+ 'px', left: offset.left}); 	$('#ulTag').slideDown('fast'); 	if(tag_loaded==false){$.getScript(bloghost+'zb_system/function/c_admin_js.asp?act=tags');tag_loaded=true;}}); </script>"
