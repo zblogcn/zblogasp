@@ -506,7 +506,7 @@ End Function
 			s=s&"抱歉，文章提交失败。"
 		End If
 
-		s=s&"</dd><dd><a href='?mod=pad'>点击这里回到首页</a></dd>"
+		s=s&"</dd><dd><a href='?mod=pad'>点击这里回到首页</a></dd></dl>"
 
 		Call SetVar("PAD_MAIN",s)
 		Title="文章提交"
