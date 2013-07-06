@@ -69,6 +69,8 @@ function VerifyMessage() {
 	var strArticle=$("#inpArticle").val();
 	var strFormAction=$("#frmSumbit").attr("action");
 	var intRevID=$("#inpRevID").val()==""?0:$("#inpRevID").val();
+	$("#inpRevID").val(intRevID);
+
 
 	if(strName==""){
 		alert("请输入正确信息");
