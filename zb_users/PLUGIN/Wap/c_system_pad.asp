@@ -253,7 +253,7 @@ Class TPad
 		Dim objArticle
 		Set objArticle=New TArticle
 		If objArticle.LoadInfoByID(Request.Form("inpID")) Then
-			Call PostComment(objArticle.CommentKey,CLng(Request.Form("inpRevID")))
+			Call PostComment(CLng(Request.Form("inpRevID")))
 		Else
 
 		End If
@@ -666,10 +666,9 @@ End Function
 
 		ShowError_Custom="Call Pad.ShowError(id)"
 
-		If WAP_DISPLAY_COUNT=0 Then WAP_DISPLAY_COUNT=5
+		ZC_COMMENT_VERIFY_ENABLE_INTERNAL=False
 
-		ZC_PAGEBAR_COUNT=5
-		ZC_COMMENT_VERIFY_ENABLE=False
+		If WAP_DISPLAY_COUNT=0 Then WAP_DISPLAY_COUNT=5
 
 		Dim s
 		s=LoadFromFile(BlogPath &"zb_users\plugin\wap\template\pad.html","utf-8")
@@ -697,26 +696,17 @@ End Function
 		TemplateDic.Item("TEMPLATE_B_ARTICLE_COMMENT_PAGEBAR_R")=LoadFromFile(BlogPath &"zb_users\plugin\wap\template\pad_article_comment_pagebar_r.html","utf-8")
 		TemplateDic.Item("TEMPLATE_B_FUNCTION")=LoadFromFile(BlogPath &"zb_users\plugin\wap\template\pad_function.html","utf-8")
 
+		ZC_PAGEBAR_COUNT=5
 		ZC_POST_STATIC_MODE="ACTIVE"
-
 		ZC_STATIC_MODE="ACTIVE"
-
 		ZC_ARTICLE_REGEX="{%host%}/?mod=pad&act=view&id={%id%}"
-
 		ZC_PAGE_REGEX="{%host%}/?mod=pad&act=view&id={%id%}"
-
 		ZC_PAGE_AND_ARTICLE_PRIVATE_REGEX="{%host%}/?mod=pad&act=view&id={%id%}"
-
 		ZC_PAGE_AND_ARTICLE_DRAFT_REGEX="{%host%}/?mod=pad&act=view&id={%id%}"
-
 		ZC_CATEGORY_REGEX="{%host%}/?mod=pad&cate={%id%}"
-
 		ZC_USER_REGEX="{%host%}/?mod=pad&user={%id%}"
-
 		ZC_TAGS_REGEX="{%host%}/?mod=pad&tags={%alias%}"
-
 		ZC_DATE_REGEX="{%host%}/?mod=pad&date={%date%}"
-
 		ZC_DEFAULT_REGEX="{%host%}/?mod=pad"
 
 	End Sub

@@ -380,7 +380,7 @@ Function PostComment(strKey)
 		Call ShowError(40)
 	End If
 
-	If ZC_COMMENT_VERIFY_ENABLE Then
+	If ZC_COMMENT_VERIFY_ENABLE And ZC_COMMENT_VERIFY_ENABLE_INTERNAL Then
 		If CheckValidCode(Request.Form("inpVerify"))=False Then Call ShowError(38)
 	End If
 
