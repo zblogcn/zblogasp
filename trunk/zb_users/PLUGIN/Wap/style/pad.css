@@ -198,6 +198,7 @@ body>header nav{position:absolute;right:10px;top:20px;line-height:2;}
 #extra>dl:first-child>dd{margin:0}
 #extra>dl:first-child li{float:left;width:33%;}
 #extra>dl:first-child p{display:inline}
+select.edit{width:31% !important;}
 }
 @media only screen and (max-width: 600px) {
 body{padding:10px 10px 20px}
