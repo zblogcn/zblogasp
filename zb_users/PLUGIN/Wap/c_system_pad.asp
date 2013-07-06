@@ -253,217 +253,6 @@ Class TPad
 	End Function
 
 
-	Function Comment()
-
-		Dim objArticle
-		Set objArticle=New TArticle
-		If objArticle.LoadInfoByID(Request.Form("inpID")) Then
-			Call RestorePad()
-			If PostComment(CStr(Left(MD5(ZC_BLOG_CLSID & CStr(objArticle.ID)),8))) Then
-				Call LoadPad()
-
-			Else
-				Call LoadPad()
-				Call Errors(14)
-			End if
-		Else
-			Call Errors(9)
-		End If
-
-	End Function
-
-
-
-Public Function Errors(id)
-	If Not IsNumeric(ID) Then
-		ID=0
-	ElseIf CLng(ID)>Ubound(ZVA_ErrorMsg) Or CLng(ID)<0 Then
-		ID=0
-	End If
-	Dim s
-	s=s&"<div>"
-	s=s&"<p>错误:"&ZVA_ErrorMsg(ID)&"</p>"
-	s=s&"<p><span class=""stamp""><a href=""javascript:history.go(-1)"">"&ZC_MSG065&"</a></span></p>"
-	s=s&"</div>"
-	Template="PAD"
-	html=Template
-	'Call SetVar("PAD_SIDE","")
-	'Call SetVar("PAD_AUTOSCREEN","")
-	Call SetVar("PAD_MAIN",s)
-	Title="错误"
-
-End Function
-
-
-Function Login()
-
-	Template="PAD"
-	html=Template
-	'Call SetVar("PAD_SIDE","")
-	'Call SetVar("PAD_AUTOSCREEN","")
-
-	Dim s
-
-	s="<div><form id=""login"" method=""post"" action=""<#ZC_BLOG_HOST#>?mod=pad&amp;act=logging""><dl><dt>用户登录</dt><dd>用户:&nbsp;<input type=""text"" name=""username"" id=""username"" value="""" /></dd><dd>密码:&nbsp;<input type=""password"" name=""password"" id=""password"" value="""" /></dd><dd><input type=""submit"" value=""登录"" /></dd></dl></form></div>"
-
-	Call SetVar("PAD_MAIN",s)
-	Title="用户登录"
-
-End Function
-
-
-Function Logging()
-
-	BlogUser.LoginType="Self"
-	BlogUser.Name=Request.Form("username")
-	BlogUser.PassWord=BlogUser.GetPasswordByOriginal(Request.Form("password"))
-
-	If BlogUser.Verify=True Then
-
-		Response.Cookies("password")=BlogUser.PassWord
-		If Request.Form("savedate")<>0 Then
-			Response.Cookies("password").Expires = DateAdd("d", 30, now)
-		End If
-		Response.Cookies("password").Path = CookiesPath()
-
-	End If
-
-	Response.Cookies("username")=escape(Request.Form("username"))
-	If Request.Form("savedate")<>0 Then
-		Response.Cookies("username").Expires = DateAdd("d", 30, now)
-	End If
-	Response.Cookies("username").Path = CookiesPath()
-
-	Response.Redirect BlogHost & "?mod=pad"
-
-End Function
-
-
-Function Logout()
-
-	Response.Cookies("username")=""
-	Response.Cookies("password")=""
-	Response.Cookies("username").Path = CookiesPath()
-	Response.Cookies("password").Path = CookiesPath()
-
-	Response.Redirect BlogHost & "?mod=pad"
-
-End Function
-
-
-Function FunNav()
-
-	'If BlogUser.ID>0 Then
-		FunNav="<li><a href=""<#ZC_BLOG_HOST#>?mod=pad"">首页</a></li>"
-	'Else
-	'	FunNav="<li><a href=""<#ZC_BLOG_HOST#>?mod=pad"">首页</a></li><li><a href=""<#ZC_BLOG_HOST#>?mod=pad&act=login"">登录</a></li>"
-	'End If
-
-End Function
-
-
-Function FunAdmin()
-
-	Dim f,s
-
-	If BlogUser.ID=0 Then
-
-		Set f = New TFunction
-		f.Name="控制面板"
-		f.Ftype="ul"
-
-		s=s&"<li><a href=""<#ZC_BLOG_HOST#>?mod=pad&act=login"">登录</a></li>"
-
-
-		FunAdmin=Replace(f.MakeTemplate(GetTemplate("TEMPLATE_B_FUNCTION")),"<#CACHE_INCLUDE_#>",s)
-
-		Exit Function
-	End If
-
-
-	Set f = New TFunction
-	f.Name="控制面板"
-	f.Ftype="ul"
-
-	s=s&"<li><a href=""<#ZC_BLOG_HOST#>?mod=pad&amp;act=editarticle"">新建文章</a></li>"
-	s=s&"<li><a href=""<#ZC_BLOG_HOST#>?mod=pad&amp;act=logout"">退出登录</a></li>"
-
-	FunAdmin=Replace(f.MakeTemplate(GetTemplate("TEMPLATE_B_FUNCTION")),"<#CACHE_INCLUDE_#>",s)
-
-End Function
-
-Function FunSearch()
-
-	Dim f,s
-	Set f = New TFunction
-	f.Name="搜索"
-	f.Ftype="div"
-	s="<form method=""get"" id=""search"" action=""<#ZC_BLOG_HOST#>""><input type=""hidden"" name=""mod"" value=""pad"" /><input type=""hidden"" name=""act"" value=""search"" /><input type=""text"" name=""q"" size=""9"" />&nbsp;<input type=""submit"" value=""搜"" /></form>"
-
-	FunSearch=Replace(f.MakeTemplate(GetTemplate("TEMPLATE_B_FUNCTION")),"<#CACHE_INCLUDE_#>",s)
-
-End Function
-
-Function FunCatalogs()
-
-
-	Call GetCategory()
-	
-	Dim objRS
-	Dim objStream
-
-	Dim ArtList
-
-	'Catalogs
-	Dim strCatalog,bolHasSubCate
-
-	Dim aryCateInOrder 
-	aryCateInOrder=GetCategoryOrder()
-
-
-	Categorys(0).Count=CLng(objConn.Execute("SELECT COUNT([log_ID]) FROM [blog_Article] WHERE [log_Level]>1 AND [log_Type]=0 AND [log_CateID]=0")(0))
-	If Categorys(0).Count>0 Then
-		strCatalog=strCatalog & "<li class=""li-cate cate-"& Categorys(0).id &"""><a href="""& Categorys(0).HtmlUrl & """>"+Categorys(0).Name + "<span class=""article-nums""> (" & Categorys(0).Count & ")</span>" +"</a></li>"
-	End If
-
-	Dim i,j,c
-	Dim strPrecata,strSubcate
-	For i=Lbound(aryCateInOrder)+1 To Ubound(aryCateInOrder)
-		strPrecata="":strSubcate=""
-		If Categorys(aryCateInOrder(i)).ParentID=0 Then
-			c=Categorys(aryCateInOrder(i)).Count
-
-			bolHasSubCate=False
-			For j=Lbound(aryCateInOrder)+1 To UBound(aryCateInOrder)
-				If Categorys(aryCateInOrder(j)).ParentID=Categorys(aryCateInOrder(i)).ID Then bolHasSubCate=True
-			Next
-			'If bolHasSubCate Then strSubcate = "<ul class=""ul-subcates"">"
-			For j=Lbound(aryCateInOrder)+1 To UBound(aryCateInOrder)
-				If Categorys(aryCateInOrder(j)).ParentID=Categorys(aryCateInOrder(i)).ID And Categorys(aryCateInOrder(j)).Count>0 Then
-					strSubcate=strSubcate & "<li class=""li-subcate cate-"& Categorys(aryCateInOrder(j)).ID &"""><a href="""& Categorys(aryCateInOrder(j)).Url & """>"+Categorys(aryCateInOrder(j)).Name + "<span class=""article-nums""> (" & Categorys(aryCateInOrder(j)).Count & ")</span>" +"</a></li>"
-					c=c+Categorys(aryCateInOrder(j)).Count
-				End If
-			Next
-			If bolHasSubCate And strSubcate<>"" Then strSubcate="<ul class=""ul-subcates"">" & strSubcate & "</ul>"
-
-			If c>0 Then strPrecata="<li class=""li-cate cate-"& Categorys(aryCateInOrder(i)).ID &"""><a href="""& Categorys(aryCateInOrder(i)).Url & """>"+Categorys(aryCateInOrder(i)).Name + "<span class=""article-nums""> (" & c & ")</span>" +"</a>"& strSubcate &"</li>"
-
-			strCatalog=strCatalog & strPrecata
-		End If
-
-	Next
-
-	strCatalog=TransferHTML(strCatalog,"[no-asp]")
-
-	Dim f
-	Set f = New TFunction
-	f.Name="所有分类"
-	f.Ftype="ul"
-
-	FunCatalogs=Replace(f.MakeTemplate(GetTemplate("TEMPLATE_B_FUNCTION")),"<#CACHE_INCLUDE_#>",strCatalog)
-
-End Function
-
 	Function SetVar(TemplateTag,TemplateValue)
 
 		If IsEmpty(html) Then html=Template
@@ -471,6 +260,205 @@ End Function
 		html=Replace(html,"<#" & TemplateTag & "#>",TemplateValue)
 
 	End Function
+
+
+	Public Function Message(title,content,content2)
+		Dim s
+		s=s&"<div><dl>"
+		s=s&"<dt>"&title&"</dt>"
+		s=s&"<dd>"&content&"</dd>"
+		s=s&"<dd>"&content2&"</dd>"
+		s=s&"</dl></div>"
+		Template="PAD"
+		html=Template
+		Call SetVar("PAD_MAIN",s)
+		Title=title
+	End Function
+
+
+	Public Function Errors(id)
+		If Not IsNumeric(ID) Then
+			ID=0
+		ElseIf CLng(ID)>Ubound(ZVA_ErrorMsg) Or CLng(ID)<0 Then
+			ID=0
+		End If
+		Dim s
+		Call Message("错误","错误:"&ZVA_ErrorMsg(ID),"<span><a href=""javascript:history.go(-1)"">"&ZC_MSG065&"</a></span>")
+
+	End Function
+
+
+	Function Login()
+
+		Template="PAD"
+		html=Template
+		'Call SetVar("PAD_SIDE","")
+		'Call SetVar("PAD_AUTOSCREEN","")
+
+		Dim s
+
+		s="<div><form id=""login"" method=""post"" action=""<#ZC_BLOG_HOST#>?mod=pad&amp;act=logging""><dl><dt>用户登录</dt><dd>用户:&nbsp;<input type=""text"" name=""username"" id=""username"" value="""" /></dd><dd>密码:&nbsp;<input type=""password"" name=""password"" id=""password"" value="""" /></dd><dd><input type=""submit"" value=""登录"" /></dd></dl></form></div>"
+
+		Call SetVar("PAD_MAIN",s)
+		Title="用户登录"
+
+	End Function
+
+
+	Function Logging()
+
+		BlogUser.LoginType="Self"
+		BlogUser.Name=Request.Form("username")
+		BlogUser.PassWord=BlogUser.GetPasswordByOriginal(Request.Form("password"))
+
+		If BlogUser.Verify=True Then
+
+			Response.Cookies("password")=BlogUser.PassWord
+			If Request.Form("savedate")<>0 Then
+				Response.Cookies("password").Expires = DateAdd("d", 30, now)
+			End If
+			Response.Cookies("password").Path = CookiesPath()
+		Else
+			Call ShowError(8)
+		End If
+
+		Response.Cookies("username")=escape(Request.Form("username"))
+		If Request.Form("savedate")<>0 Then
+			Response.Cookies("username").Expires = DateAdd("d", 30, now)
+		End If
+		Response.Cookies("username").Path = CookiesPath()
+
+		Response.Redirect BlogHost & "?mod=pad"
+
+	End Function
+
+
+	Function Logout()
+
+		Response.Cookies("username")=""
+		Response.Cookies("password")=""
+		Response.Cookies("username").Path = CookiesPath()
+		Response.Cookies("password").Path = CookiesPath()
+
+		Response.Redirect BlogHost & "?mod=pad"
+
+	End Function
+
+
+	Function FunNav()
+
+		'If BlogUser.ID>0 Then
+			FunNav="<li><a href=""<#ZC_BLOG_HOST#>?mod=pad"">首页</a></li>"
+		'Else
+		'	FunNav="<li><a href=""<#ZC_BLOG_HOST#>?mod=pad"">首页</a></li><li><a href=""<#ZC_BLOG_HOST#>?mod=pad&act=login"">登录</a></li>"
+		'End If
+
+	End Function
+
+
+	Function FunAdmin()
+
+		Dim f,s
+
+		If BlogUser.ID=0 Then
+
+			Set f = New TFunction
+			f.Name="控制面板"
+			f.Ftype="ul"
+
+			s=s&"<li><a href=""<#ZC_BLOG_HOST#>?mod=pad&act=login"">登录管理</a></li>"
+
+
+			FunAdmin=Replace(f.MakeTemplate(GetTemplate("TEMPLATE_B_FUNCTION")),"<#CACHE_INCLUDE_#>",s)
+
+			Exit Function
+		End If
+
+
+		Set f = New TFunction
+		f.Name="控制面板"
+		f.Ftype="ul"
+
+		s=s&"<li><a href=""<#ZC_BLOG_HOST#>?mod=pad&amp;act=editarticle"">新建文章</a></li>"
+		s=s&"<li><a href=""<#ZC_BLOG_HOST#>?mod=pad&amp;act=logout"">退出登录</a></li>"
+
+		FunAdmin=Replace(f.MakeTemplate(GetTemplate("TEMPLATE_B_FUNCTION")),"<#CACHE_INCLUDE_#>",s)
+
+	End Function
+
+	Function FunSearch()
+
+		Dim f,s
+		Set f = New TFunction
+		f.Name="搜索"
+		f.Ftype="div"
+		s="<form method=""get"" id=""search"" action=""<#ZC_BLOG_HOST#>""><input type=""hidden"" name=""mod"" value=""pad"" /><input type=""hidden"" name=""act"" value=""search"" /><input type=""text"" name=""q"" size=""9"" />&nbsp;<input type=""submit"" value=""搜"" /></form>"
+
+		FunSearch=Replace(f.MakeTemplate(GetTemplate("TEMPLATE_B_FUNCTION")),"<#CACHE_INCLUDE_#>",s)
+
+	End Function
+
+	Function FunCatalogs()
+
+
+		Call GetCategory()
+		
+		Dim objRS
+		Dim objStream
+
+		Dim ArtList
+
+		'Catalogs
+		Dim strCatalog,bolHasSubCate
+
+		Dim aryCateInOrder 
+		aryCateInOrder=GetCategoryOrder()
+
+
+		Categorys(0).Count=CLng(objConn.Execute("SELECT COUNT([log_ID]) FROM [blog_Article] WHERE [log_Level]>1 AND [log_Type]=0 AND [log_CateID]=0")(0))
+		If Categorys(0).Count>0 Then
+			strCatalog=strCatalog & "<li class=""li-cate cate-"& Categorys(0).id &"""><a href="""& Categorys(0).HtmlUrl & """>"+Categorys(0).Name + "<span class=""article-nums""> (" & Categorys(0).Count & ")</span>" +"</a></li>"
+		End If
+
+		Dim i,j,c
+		Dim strPrecata,strSubcate
+		For i=Lbound(aryCateInOrder)+1 To Ubound(aryCateInOrder)
+			strPrecata="":strSubcate=""
+			If Categorys(aryCateInOrder(i)).ParentID=0 Then
+				c=Categorys(aryCateInOrder(i)).Count
+
+				bolHasSubCate=False
+				For j=Lbound(aryCateInOrder)+1 To UBound(aryCateInOrder)
+					If Categorys(aryCateInOrder(j)).ParentID=Categorys(aryCateInOrder(i)).ID Then bolHasSubCate=True
+				Next
+				'If bolHasSubCate Then strSubcate = "<ul class=""ul-subcates"">"
+				For j=Lbound(aryCateInOrder)+1 To UBound(aryCateInOrder)
+					If Categorys(aryCateInOrder(j)).ParentID=Categorys(aryCateInOrder(i)).ID And Categorys(aryCateInOrder(j)).Count>0 Then
+						strSubcate=strSubcate & "<li class=""li-subcate cate-"& Categorys(aryCateInOrder(j)).ID &"""><a href="""& Categorys(aryCateInOrder(j)).Url & """>"+Categorys(aryCateInOrder(j)).Name + "<span class=""article-nums""> (" & Categorys(aryCateInOrder(j)).Count & ")</span>" +"</a></li>"
+						c=c+Categorys(aryCateInOrder(j)).Count
+					End If
+				Next
+				If bolHasSubCate And strSubcate<>"" Then strSubcate="<ul class=""ul-subcates"">" & strSubcate & "</ul>"
+
+				If c>0 Then strPrecata="<li class=""li-cate cate-"& Categorys(aryCateInOrder(i)).ID &"""><a href="""& Categorys(aryCateInOrder(i)).Url & """>"+Categorys(aryCateInOrder(i)).Name + "<span class=""article-nums""> (" & c & ")</span>" +"</a>"& strSubcate &"</li>"
+
+				strCatalog=strCatalog & strPrecata
+			End If
+
+		Next
+
+		strCatalog=TransferHTML(strCatalog,"[no-asp]")
+
+		Dim f
+		Set f = New TFunction
+		f.Name="所有分类"
+		f.Ftype="ul"
+
+		FunCatalogs=Replace(f.MakeTemplate(GetTemplate("TEMPLATE_B_FUNCTION")),"<#CACHE_INCLUDE_#>",strCatalog)
+
+	End Function
+
+
 
 
 
@@ -485,18 +473,25 @@ End Function
 			Case "err"
 				Call Errors(Request.QueryString("id"))
 			Case "search"
+				If BlogUser.Level>GetRights("Search") Then Call ShowError(6)
 				Call Search(Request("q"))
 			Case "cmt"
+				If BlogUser.Level>GetRights("cmt") Then Call ShowError(6)
 				Call Comment()
 			Case "login"
+				If BlogUser.Level>GetRights("login") Then Call ShowError(6)
 				Call Login()
 			Case "logout"
+				If BlogUser.Level>GetRights("login") Then Call ShowError(6)
 				Call Logout()
 			Case "logging"
+				If BlogUser.Level>GetRights("login") Then Call ShowError(6)
 				Call Logging()
 			Case "editarticle"
+				If BlogUser.Level>GetRights("ArticleEdt") Then Call ShowError(6)
 				Call EditArticle()
 			Case "PstArticle"
+				If BlogUser.Level>GetRights("ArticlePst") Then Call ShowError(6)
 				Call PstArticle()
 			Case Else
 				Call Export(Request("page"),Request("cate"),Request("auth"),Request("date"),Request("tags"),ZC_DISPLAY_MODE_ALL)		
@@ -514,37 +509,47 @@ End Function
 	End Function
 
 
-	Function PstArticle()
+	Function Comment()
 
-		Template="PAD"
-		html=Template
-		'Call SetVar("PAD_AUTOSCREEN","")
-		
-		Dim s
-		s=s&"<div>"
-		s=s&"<dl>"
-		s=s&"<dt>文章提交</dt>"
-		s=s&"<dd>"
-		
-		If PostArticle() Then
-			s=s&"恭喜，文章提交成功。"
+		Dim objArticle
+		Set objArticle=New TArticle
+		If objArticle.LoadInfoByID(Request.Form("inpID")) Then
+			Call RestorePad()
+			If PostComment(CStr(Left(MD5(ZC_BLOG_CLSID & CStr(objArticle.ID)),8))) Then
+				Call MakeBlogReBuild_Core()
+				Call LoadPad()
+				Call Message("评论提交","恭喜，评论提交成功。","<span><a href='?mod=pad'>点击这里回到首页</a></span>")
+			Else
+				Call LoadPad()
+				Call Errors(14)
+			End if
 		Else
-			s=s&"抱歉，文章提交失败。"
+			Call Errors(9)
 		End If
 
-		s=s&"</dd><dd><a href='?mod=pad'>点击这里回到首页</a></dd></dl>"
+	End Function
 
-		Call SetVar("PAD_MAIN",s)
-		Title="文章提交"
+
+	Function PstArticle()
+
+		Call RestorePad()
+		If PostArticle() Then
+			Call MakeBlogReBuild_Core()
+			Call LoadPad()
+			Call Message("文章提交","恭喜，文章提交成功。","<span><a href='?mod=pad'>点击这里回到首页</a></span>")
+		Else
+			Call LoadPad()
+			Call ShowError(11)
+		End If
 
 	End Function
+
+
 
 	Function EditArticle()
 
 		Template="PAD"
 		html=Template
-		'Call SetVar("PAD_SIDE","")
-		'Call SetVar("PAD_AUTOSCREEN","")
 
 		Dim s
 
