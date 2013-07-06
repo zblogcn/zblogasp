@@ -4254,8 +4254,7 @@ Response_Plugin_Edit_Form3=""
 '说明:文章编辑页面-头部JS
 '**************************************************>
 Dim Response_Plugin_Edit_Article_Header
-Response_Plugin_Edit_Article_Header=""
-
+Response_Plugin_Edit_Article_Header="<script type=""text/javascript"" src=""ueditor/ueditor.config.asp""></script>"&vbCrlf&"<script type=""text/javascript""  src=""ueditor/ueditor.all.min.js""></script>"
 '**************************************************<
 '类型:response
 '名称:Response_Plugin_Edit_Article_EditorInit
@@ -4263,7 +4262,7 @@ Response_Plugin_Edit_Article_Header=""
 '说明:文章编辑页面-编辑器初始化代码
 '**************************************************>
 Dim Response_Plugin_Edit_Article_EditorInit
-Response_Plugin_Edit_Article_EditorInit=""
+Response_Plugin_Edit_Article_EditorInit="function editor_init(){editor_api.editor.content.obj=UE.getEditor('editor_txt');editor_api.editor.intro.obj=UE.getEditor('editor_txt2',EditorIntroOption);editor_api.editor.content.get=function(){return this.obj.getContent()};editor_api.editor.content.put=function(str){return this.obj.setContent(str)};editor_api.editor.content.focus=function(str){return this.obj.focus()};editor_api.editor.intro.get=function(){return this.obj.getContent()};editor_api.editor.intro.put=function(str){return this.obj.setContent(str)};editor_api.editor.intro.focus=function(str){return this.obj.focus()};editor_api.editor.content.obj.ready(function(){$('#contentready').hide();$('#editor_txt').prev().show();sContent=editor_api.editor.content.get();});editor_api.editor.intro.obj.ready(function(){$('#introready').hide();$('#editor_txt2').prev().show();sIntro=editor_api.editor.intro.get();});$(document).ready(function(){$('#edit').submit(function(){if(editor_api.editor.content.obj.queryCommandState('source')==1) editor_api.editor.content.obj.execCommand('source');if(editor_api.editor.intro.obj.queryCommandState('source')==1) editor_api.editor.intro.obj.execCommand('source');}) /*源码模式下保存时必须切换*/});}"
 
 
 
