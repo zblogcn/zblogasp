@@ -2667,6 +2667,7 @@ Class TArticleList
 				Template_PageBar_Next=""
 			Else
 				s=Replace(t,"%n",intNowPage+1)
+				If ZC_STATIC_MODE="REWRITE" Then s=Replace(s,"/default.html","/")
 				Template_PageBar_Next="<span class=""pagebar-next""><a href="""& s &"""><span>"&ZC_MSG155&"</span></a></span>"
 			End If
 
