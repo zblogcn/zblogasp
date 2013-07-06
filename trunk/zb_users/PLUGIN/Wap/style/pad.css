@@ -28,7 +28,7 @@ input[type='submit'],
 .btn{outline:none;border:1px solid #069;box-shadow:0 -10px 10px rgba(0,0,0,.2) inset, 0 0 1px #fff inset;background:#3A6EA5;color:#fff;border-radius:6px;text-shadow:0 -1px rgba(0,0,0,.5);cursor:pointer;height:34px;padding:0 15px;font:bold 14px "微软雅黑",Arial;margin:0 10px 0 0;}
 input[name='q']{width:120px;}
 dd{-webkit-margin-start:0px;margin:0;padding:0;}
-dt{margin:0;padding:0;}
+dt{margin:0;padding:0 0 10px 0;}
 input[type='text'],input[type='password']{padding:5px;line-height:1em;}
 
 /*=nohtml5*/
