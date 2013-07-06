@@ -523,7 +523,13 @@ End Function
 		Dim s
 
 		s=Response_Plugin_Edit_Article_Header
-		s=s&"<script type=""text/javascript"">window.UEDITOR_CONFIG.theme=""modern"";window.UEDITOR_CONFIG.themePath="""&BlogHost&"zb_users/PLUGIN/Wap/ueskin/"";</script>"
+		s=s&"<script type=""text/javascript"">if(typeof(UEDITOR_CONFIG)!='undefined'){"&_
+			"	window.UEDITOR_CONFIG.theme=""modern"";"&_
+			"	window.UEDITOR_CONFIG.themePath="""&BlogHost&"zb_users/PLUGIN/Wap/ueskin/"";"&_
+			"	window.UEDITOR_CONFIG.toolbars=[ [ 'undo', 'redo', 'bold', 'italic', 'underline', 'strikethrough', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', ,'fontsize','emotion','link','insertimage',($.flash?'music':''),($.flash?'insertvideo':''), ($.flash?'attachment':''), 'map', 'horizontal',(!$.windowsphone?'fullscreen':'')]];"&_
+			"	"&_
+			"if($.windowsphone){window.UEDITOR_CONFIG.autoFloatEnabled=false};" &_
+			"}</script>"
 
 		Dim objArticle
 		Set objArticle=New TArticle
@@ -550,6 +556,7 @@ End Function
 		objArticle.Title=UBBCode(objArticle.Title,"[link][email][font][code][face][image][flash][typeset][media][autolink]")
 		objArticle.Content=TransferHTML(Replace(objArticle.Content,"<!--more-->","<hr class=""more"" />"),"[html-japan]")
 		objArticle.Title=TransferHTML(objArticle.Title,"[html-format]")
+
 
 
 		s=s&"<div class='editarticle'><form action=""?act=PstArticle&mod=pad"" method=""post"">"
@@ -621,14 +628,13 @@ End Function
 		s=s&"<script type=""text/javascript"">"&_
 			"var editor_api={editor:{content:{obj:{},get:function(){return """"},put:function(){return """"},focus:function(){return """"}},intro:{obj:{},get:function(){return """"},put:function(){return """"},focus:function(){return """"}}}};var EditorIntroOption={isShow:false};"&_
 			"editor_init();"& Response_Plugin_Edit_Article_EditorInit &_
-			"var tag_loaded=false;UE.getEditor('editor_txt');"&_
+			"var tag_loaded=false;"&_
 			"$('#showtags').click(function (event) {event.stopPropagation(); var offset = $(event.target).offset();  $('#ulTag').css({ top: offset.top + $(event.target).height()+20+ 'px', left: offset.left}); 	$('#ulTag').slideDown('fast'); 	if(tag_loaded==false){$.getScript(bloghost+'zb_system/function/c_admin_js.asp?act=tags');tag_loaded=true;}});"&_
 			"autosave.view=function(){"&_
 			"	$.get(bloghost+""zb_system/admin/c_autosaverjs.asp"", {act: ""restore"",rnd: Math.random()},function(data) {alert(eval('('+data+')').content)});"&_
 			"}"&_
-
 			"</script>"
-
+	
 
 
 		Call SetVar("PAD_MAIN",s)

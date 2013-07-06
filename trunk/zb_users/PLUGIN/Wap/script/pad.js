@@ -113,3 +113,52 @@ function VerifyMessage() {
 
 }
 //*********************************************************
+
+
+(function(){
+	
+	$.android=false;
+	$.windowsphone=false;
+	$.ios=false;
+	$.blackberry=false;
+	$.ffos=false;
+	$.symbian=false;
+	$.webos=false;
+
+	$.flash=false;
+
+	$.pad=false;
+	$.mobile=false;
+
+	//只有安卓支持Flash，但是倒霉的安卓平板有个iPad的UA作为浏览器默认UA。。
+
+	try{
+		if(navigator.plugins["Shockwave Flash"]!=null){
+			$.flash=true;
+		}
+	}
+	catch(e){}
+	
+	var ua=navigator.userAgent.toLowerCase();
+	if(/android|adr|blink/.test(ua)){
+		$.android=true;
+
+
+	}
+	else if(/ipad|iphone|ipod|ios/.test(ua)){
+		$.ios=true;
+	}
+	else if(/windows phone|iemobile|wpdesktop/.test(ua)){
+		$.windowsphone=true;
+	}
+	else if(/blackberry|bb10|playbook/.test(ua)){
+		$.blackberry=true;
+	}
+
+	if(window.screen.width>=1024||window.screen.height>=1024){
+		$.pad=true;
+		$.mobile=false;
+	}
+
+
+}())
