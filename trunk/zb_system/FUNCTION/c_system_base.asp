@@ -115,6 +115,8 @@ ZC_PAGE_AND_ARTICLE_DRAFT_REGEX="{%host%}/view.asp?id={%id%}"
 Dim ZC_SQL_POUND_KEY
 ZC_SQL_POUND_KEY="#"
 
+Dim ZC_COMMENT_VERIFY_ENABLE_INTERNAL
+ZC_COMMENT_VERIFY_ENABLE_INTERNAL=True
 
 '*********************************************************
 ' 目的：    System 初始化

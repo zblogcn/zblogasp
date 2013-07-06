@@ -90,6 +90,6 @@ If Err.Number<>0 then
 End If
 
 %>
-<div id="ft">Powered By <a href="http://www.rainbowsoft.org/">Z-Blog</a>&nbsp;&nbsp;<a href="<%=BlogHost%>?mod=pad">触屏版</a>&nbsp;|&nbsp;<a href="<%=BlogHost%>?mod=wap">WAP版</a>&nbsp;|&nbsp;<a href="<%=BlogHost%>?mod=pc">电脑版</a></div>
+<div id="ft">Powered By <a href="http://www.rainbowsoft.org/">Z-Blog</a>&nbsp;&nbsp;<a href="<%=BlogHost%>?mod=pad">触屏版</a>&nbsp;|&nbsp;<a href="<%=BlogHost%>?mod=wap" style="text-decoration:underline">WAP版</a>&nbsp;|&nbsp;<a href="<%=BlogHost%>?mod=pc">电脑版</a></div>
 </body>
 </html>
