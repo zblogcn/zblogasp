@@ -522,10 +522,8 @@ End Function
 
 		Dim s
 
-		s=s&"<script type=""text/javascript""  src="""&BlogHost&"zb_system/admin/ueditor/ueditor.config.asp""></script>"
+		s=Response_Plugin_Edit_Article_Header
 		s=s&"<script type=""text/javascript"">window.UEDITOR_CONFIG.theme=""modern"";window.UEDITOR_CONFIG.themePath="""&BlogHost&"zb_users/PLUGIN/Wap/ueskin/"";</script>"
-		s=s&"<script type=""text/javascript""  src="""&BlogHost&"zb_system/admin/ueditor/ueditor.all.min.js""></script>"
-
 
 		Dim objArticle
 		Set objArticle=New TArticle
@@ -604,7 +602,13 @@ End Function
 
 
 
-		s=s&"<dd>正文：&nbsp;&nbsp;<textarea style='width:80%;height:400px;' id=""editor_txt"" name=""txaContent"" ></textarea></dd>"
+		s=s&"<dd>正文：&nbsp;&nbsp;<textarea style='width:80%;height:400px;' id=""editor_txt"" name=""txaContent"" >"
+		s=s&TransferHTML(objArticle.Content,"[textarea]")
+		s=s&"</textarea>"
+		s=s&"<textarea name=""txaIntro"" style=""display:none"" id=""editor_txt2"">"
+		s=s&TransferHTML(objArticle.Intro,"[textarea]")
+		s=s&"</textarea>"
+		s=s&"</dd>"
 		s=s&"<dd><input type=""submit"" value=""发布"" /></dd>"
 		s=s&"</dl>"
 		s=s&"<input type=""hidden"" name=""edtAuthorID"" id=""edtAuthorID"" value="""&objArticle.AuthorID&""" />"
@@ -616,8 +620,16 @@ End Function
 
 
 		s=s&"</form></div>"
-		s=s&"<script type=""text/javascript"">var tag_loaded=false;UE.getEditor('editor_txt');"
-		s=s&"$('#showtags').click(function (event) {event.stopPropagation(); var offset = $(event.target).offset();  $('#ulTag').css({ top: offset.top + $(event.target).height()+20+ 'px', left: offset.left}); 	$('#ulTag').slideDown('fast'); 	if(tag_loaded==false){$.getScript(bloghost+'zb_system/function/c_admin_js.asp?act=tags');tag_loaded=true;}}); </script>"
+		
+		s=s&"<script type=""text/javascript"">"&_
+			"var editor_api={editor:{content:{obj:{},get:function(){return """"},put:function(){return """"},focus:function(){return """"}},intro:{obj:{},get:function(){return """"},put:function(){return """"},focus:function(){return """"}}}};var EditorIntroOption={isShow:false};"&_
+			"editor_init();"& Response_Plugin_Edit_Article_EditorInit &_
+			"var tag_loaded=false;UE.getEditor('editor_txt');"&_
+			"$('#showtags').click(function (event) {event.stopPropagation(); var offset = $(event.target).offset();  $('#ulTag').css({ top: offset.top + $(event.target).height()+20+ 'px', left: offset.left}); 	$('#ulTag').slideDown('fast'); 	if(tag_loaded==false){$.getScript(bloghost+'zb_system/function/c_admin_js.asp?act=tags');tag_loaded=true;}});"&_
+
+			"</script>"
+
+
 
 		Call SetVar("PAD_MAIN",s)
 		Title="文章编辑"
