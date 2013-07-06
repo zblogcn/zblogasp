@@ -100,6 +100,11 @@ Class TPad
 
 			If Article.Export(ZC_DISPLAY_MODE_ALL)= True Then
 				html=Article.html
+				If BlogUser.Level<3 Then
+					html=Replace(html,"<#PAD_EDITARTICLE#>","&nbsp;|&nbsp;<a href='<#ZC_BLOG_HOST#>?mod=pad&amp;act=editarticle&amp;id="&intId&"'>[编辑]</a>")
+				Else
+					html=Replace(html,"<#PAD_EDITARTICLE#>","")
+				End If
 				Title=Article.Title
 			End If
 		Else
@@ -254,10 +259,15 @@ Class TPad
 		Set objArticle=New TArticle
 		If objArticle.LoadInfoByID(Request.Form("inpID")) Then
 			Call RestorePad()
-			Call PostComment(CStr(Left(MD5(ZC_BLOG_CLSID & CStr(objArticle.ID)),8)))
-			Call LoadPad()
-		Else
+			If PostComment(CStr(Left(MD5(ZC_BLOG_CLSID & CStr(objArticle.ID)),8))) Then
+				Call LoadPad()
 
+			Else
+				Call LoadPad()
+				Call Errors(14)
+			End if
+		Else
+			Call Errors(9)
 		End If
 
 	End Function
