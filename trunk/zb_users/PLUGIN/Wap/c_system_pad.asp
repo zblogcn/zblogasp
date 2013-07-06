@@ -602,7 +602,7 @@ End Function
 
 
 
-		s=s&"<dd>正文：&nbsp;&nbsp;<textarea style='width:80%;height:400px;' id=""editor_txt"" name=""txaContent"" >"
+		s=s&"<dd>正文：&nbsp;&nbsp;&nbsp;&nbsp;<span id=""timemsg""></span><span id=""msg2""></span><span id=""msg""></span><span class='editinputname'></span><script type=""text/javascript"" src="""&BlogHost & "zb_system/admin/c_autosaverjs.asp?act=edit""></script><textarea style='width:80%;height:400px;' id=""editor_txt"" name=""txaContent"" >"
 		s=s&TransferHTML(objArticle.Content,"[textarea]")
 		s=s&"</textarea>"
 		s=s&"<textarea name=""txaIntro"" style=""display:none"" id=""editor_txt2"">"
@@ -626,6 +626,9 @@ End Function
 			"editor_init();"& Response_Plugin_Edit_Article_EditorInit &_
 			"var tag_loaded=false;UE.getEditor('editor_txt');"&_
 			"$('#showtags').click(function (event) {event.stopPropagation(); var offset = $(event.target).offset();  $('#ulTag').css({ top: offset.top + $(event.target).height()+20+ 'px', left: offset.left}); 	$('#ulTag').slideDown('fast'); 	if(tag_loaded==false){$.getScript(bloghost+'zb_system/function/c_admin_js.asp?act=tags');tag_loaded=true;}});"&_
+			"autosave.view=function(){"&_
+			"	$.get(bloghost+""zb_system/admin/c_autosaverjs.asp"", {act: ""restore"",rnd: Math.random()},function(data) {alert(eval('('+data+')').content)});"&_
+			"}"&_
 
 			"</script>"
 

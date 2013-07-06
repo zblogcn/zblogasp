@@ -160,7 +160,7 @@ var autosave = {
             autosave.elements.msg.html("<%=ZC_MSG256%>");
             return false
         }
-        $.post("c_autosaverjs.asp?act=save", {
+        $.post(bloghost+"zb_system/admin/c_autosaverjs.asp?act=save", {
             title: $("#edtTitle").val(),
             alias: $("#edtAlias").val(),
             tag: $("#edtTag").val(),
@@ -179,7 +179,7 @@ var autosave = {
 
     },
     restore: function() {
-        $.get("c_autosaverjs.asp", {
+        $.get(bloghost+"zb_system/admin/c_autosaverjs.asp", {
             act: "restore",
             rnd: Math.random()
         },
@@ -206,7 +206,7 @@ var autosave = {
             modal: true
 
         });
-        $.get("c_autosaverjs.asp", {
+        $.get(bloghost+"zb_system/admin/c_autosaverjs.asp", {
             act: "restore",
         	rnd: Math.random()
        	},
@@ -254,7 +254,7 @@ var autosave = {
 
     },
     del: function() {
-        $.get("c_autosaverjs.asp?act=del");
+        $.get(bloghost+"zb_system/admin/c_autosaverjs.asp?act=del");
         autosave.file.name = "";
         autosave.file.modified = "";
         autosave.elements.msg.html("<%=ZC_MSG228%>")
