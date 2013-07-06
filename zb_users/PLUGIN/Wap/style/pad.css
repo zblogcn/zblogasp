@@ -226,14 +226,6 @@ article>footer h5{word-spacing:0;font-size:.8em}
 #extra>dl:first-child{border:none}
 #btnPost{top:2px;}
 }
-@media only screen and (max-width: 550px) {
-#comment blockquote blockquote{padding:5px}
-#postreply{padding:60px 17px 5px 5px}
-#postreply textarea{top:-67px}
-#comment blockquote blockquote figure img{width:32px;height:32px} 
-#comment blockquote blockquote cite{margin:0 0 5px 40px;line-height:1.5}
-#comment blockquote blockquote cite time{display:block;font-size:11px}
-}
 @media only screen and (max-width: 480px) {
 body{padding:5px}
 body>header{padding:10px 40px 10px 10px;}
