@@ -101,7 +101,7 @@ Class TPad
 			If Article.Export(ZC_DISPLAY_MODE_ALL)= True Then
 				html=Article.html
 				If BlogUser.Level<3 Then
-					html=Replace(html,"<#PAD_EDITARTICLE#>","&nbsp;|&nbsp;<a href='<#ZC_BLOG_HOST#>?mod=pad&amp;act=editarticle&amp;id="&intId&"'>[编辑]</a>")
+					html=Replace(html,"<#PAD_EDITARTICLE#>","&nbsp;|&nbsp;<span class='btn'><a href='<#ZC_BLOG_HOST#>?mod=pad&amp;act=editarticle&amp;id="&intId&"'>编辑</a></span>")
 				Else
 					html=Replace(html,"<#PAD_EDITARTICLE#>","")
 				End If
