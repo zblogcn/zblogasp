@@ -29,6 +29,7 @@ input[type='submit'],
 input[name='q']{width:120px;}
 dd{-webkit-margin-start:0px;margin:0;padding:0;}
 dt{margin:0;padding:0;}
+input[type='text'],input[type='password']{padding:5px;line-height:1em;}
 
 /*=nohtml5*/
 #nohtml5{position:fixed;z-index:99999;top:0;left:0;padding:0 1%;width:98%;color:#F30;background:#FFC;line-height:2;text-align:center;font-size:1em;margin:0;}
@@ -240,7 +241,7 @@ article>footer h5{word-spacing:0;font-size:.8em}
 @media only screen and (max-width: 480px) {
 body{padding:5px}
 body>header{padding:10px 40px 10px 10px;}
-body>header h2{font-size:1.5em;letter-spacing:0;line-height:2em;height:36px;overflow:hidden}
+body>header h2{font-size:1.5em;line-height:2em;height:36px;overflow:hidden}
 body>header h2 sup{display:none}
 body>header nav{position:absolute;right:10px;top:15px;margin:0;text-align:center;}
 body>section{margin:0}
@@ -256,6 +257,7 @@ body>header nav:after,
 #extra:before,
 #extra:after{display:none}
 article>header time{float:none;margin:0;line-height:1}
+article>h2 {font-size:1.2em;}
 #main>aside li{float:none;width:auto}
 body>footer h5{margin:0 0 5px;}
 input[name='q']{width:70%;}
