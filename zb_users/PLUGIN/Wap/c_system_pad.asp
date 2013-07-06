@@ -341,25 +341,39 @@ End Function
 
 Function FunNav()
 
-	If BlogUser.ID>0 Then
+	'If BlogUser.ID>0 Then
 		FunNav="<li><a href=""<#ZC_BLOG_HOST#>?mod=pad"">首页</a></li>"
-	Else
-		FunNav="<li><a href=""<#ZC_BLOG_HOST#>?mod=pad"">首页</a></li><li><a href=""<#ZC_BLOG_HOST#>?mod=pad&act=login"">登录</a></li>"
-	End If
+	'Else
+	'	FunNav="<li><a href=""<#ZC_BLOG_HOST#>?mod=pad"">首页</a></li><li><a href=""<#ZC_BLOG_HOST#>?mod=pad&act=login"">登录</a></li>"
+	'End If
 
 End Function
 
 
 Function FunAdmin()
 
-	If BlogUser.ID=0 Then Exit Function
-
 	Dim f,s
+
+	If BlogUser.ID=0 Then
+
+		Set f = New TFunction
+		f.Name="控制面板"
+		f.Ftype="ul"
+
+		s=s&"<li><a href=""<#ZC_BLOG_HOST#>?mod=pad&act=login"">登录</a></li>"
+
+
+		FunAdmin=Replace(f.MakeTemplate(GetTemplate("TEMPLATE_B_FUNCTION")),"<#CACHE_INCLUDE_#>",s)
+
+		Exit Function
+	End If
+
+
 	Set f = New TFunction
-	f.Name=BlogUser.FirstName & "您好"
+	f.Name="控制面板"
 	f.Ftype="ul"
 
-	s=s&"<li><a href=""<#ZC_BLOG_HOST#>?mod=pad&amp;act=editarticle"">编辑文章</a></li>"
+	s=s&"<li><a href=""<#ZC_BLOG_HOST#>?mod=pad&amp;act=editarticle"">新建文章</a></li>"
 	s=s&"<li><a href=""<#ZC_BLOG_HOST#>?mod=pad&amp;act=logout"">退出登录</a></li>"
 
 	FunAdmin=Replace(f.MakeTemplate(GetTemplate("TEMPLATE_B_FUNCTION")),"<#CACHE_INCLUDE_#>",s)
