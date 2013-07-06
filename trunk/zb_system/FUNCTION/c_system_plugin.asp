@@ -4254,7 +4254,7 @@ Response_Plugin_Edit_Form3=""
 '说明:文章编辑页面-头部JS
 '**************************************************>
 Dim Response_Plugin_Edit_Article_Header
-Response_Plugin_Edit_Article_Header="<script type=""text/javascript"" src=""ueditor/ueditor.config.asp""></script>"&vbCrlf&"<script type=""text/javascript""  src=""ueditor/ueditor.all.min.js""></script>"
+Response_Plugin_Edit_Article_Header="<script type=""text/javascript"" src="""&ZC_BLOG_HOST&"zb_system/admin/ueditor/ueditor.config.asp""></script>"&vbCrlf&"<script type=""text/javascript""  src="""&ZC_BLOG_HOST&"zb_system/admin/ueditor/ueditor.all.min.js""></script>"
 '**************************************************<
 '类型:response
 '名称:Response_Plugin_Edit_Article_EditorInit
