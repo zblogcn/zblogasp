@@ -27,7 +27,8 @@ button,
 input[type='submit'],
 .btn{outline:none;border:1px solid #069;box-shadow:0 -10px 10px rgba(0,0,0,.2) inset, 0 0 1px #fff inset;background:#3A6EA5;color:#fff;border-radius:6px;text-shadow:0 -1px rgba(0,0,0,.5);cursor:pointer;height:34px;padding:0 15px;font:bold 14px "微软雅黑",Arial;margin:0 10px 0 0;}
 input[name='q']{width:120px;}
-dd{-webkit-margin-start:0px;}
+dd{-webkit-margin-start:0px;margin:0;padding:0;}
+dt{margin:0;padding:0;}
 
 /*=nohtml5*/
 #nohtml5{position:fixed;z-index:99999;top:0;left:0;padding:0 1%;width:98%;color:#F30;background:#FFC;line-height:2;text-align:center;font-size:1em;margin:0;}
@@ -155,6 +156,16 @@ body>footer{color:#3A6EA5;text-align:center;clear:both;}
 body>footer *{font-size:1em;font-weight:100;}
 body>footer a{color:#3A6EA5}
 
+
+/*add*/
+#main>section>div{padding:10px 20px;}
+#main>section>div dt{text-align:center;font-size:1.5em;}
+#main>section>div dd{text-align:left;padding-bottom:10px;}
+#login input[type='text'],#login input[type='password']{width:50%;}
+#login dt,#login dd{padding-bottom:10px;text-align:center !important;}
+br.newline{display:none;}
+input.edit{width:80%;}
+
 /*for mobile user*/
 @media only screen and (max-width: 1024px) {
 body>section{padding:0;}
@@ -272,11 +283,3 @@ input.edit{width:70% !important;}
 #comment blockquote time{float:none;display:block;font-size:10px}
 input[name='q']{width:70%;}
 }
-
-/*add*/
-#main>section>div{padding:10px 20px;}
-#main>section>div dt{text-align:center;font-size:1.5em;}
-#main>section>div dd{text-align:left;padding-bottom:10px;}
-#login input[type='text'],#login input[type='password']{width:50%;}
-#login dt,#login dd{padding-bottom:10px;text-align:center !important;}
-br.newline{display:none;}
