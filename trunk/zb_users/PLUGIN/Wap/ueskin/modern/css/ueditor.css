@@ -1,6 +1,9 @@
 /*基础UI构建
 */
 /* common layer */
+.edui-modern{
+    text-shadow:none;
+}
 .edui-modern .edui-box {
     border: none;
     padding: 0;
@@ -234,7 +237,7 @@ div.edui-box {
 }
 
 .edui-modern .edui-bubble .edui-popup-content {
-    border: 1px solid #7E8396;
+    border: 1px solid #DDEEFF;
     background-color: #70768C;
     padding: 5px;
     font-size: 10pt;
@@ -303,15 +306,15 @@ div.edui-box {
 
 .edui-modern .edui-list .edui-state-hover {
     position: relative;
-    background-color: #70768C;
-    border: 1px solid #7E8396;
+    background-color: #3a6ea5;
+    border: 1px solid #DDEEFF;
     padding: 0;
 
-    background-image: -webkit-gradient(linear, left top, left bottom, from(#72788E), to(#1F2949));
-    background-image: -webkit-linear-gradient(top, #72788E, #1F2949);
-    background-image: -moz-linear-gradient(top, #72788E, #1F2949);
-    background-image: -o-linear-gradient(top, #72788E, #1F2949);
-    background-image: linear-gradient(to bottom, #72788E, #1F2949);
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#DDEEFF), to(#3a6ea5));
+    background-image: -webkit-linear-gradient(top, #DDEEFF, #3a6ea5);
+    background-image: -moz-linear-gradient(top, #DDEEFF, #3a6ea5);
+    background-image: -o-linear-gradient(top, #DDEEFF, #3a6ea5);
+    background-image: linear-gradient(to bottom, #DDEEFF, #3a6ea5);
     border-radius: 3px;
 }
 
@@ -447,14 +450,14 @@ div.edui-box {
 }
 
 .edui-modern .edui-toolbar .edui-state-hover .edui-combox-body {
-    background-color: #70768C;
-    border: 1px solid #6A7085;
+    background-color: #3A6EA5;
+    border: 1px solid #DDEEFF;
 
-    background-image: -webkit-gradient(linear, left top, left bottom, from(#72788E), to(#1F2949));
-    background-image: -webkit-linear-gradient(top, #72788E, #1F2949);
-    background-image: -moz-linear-gradient(top, #72788E, #1F2949);
-    background-image: -o-linear-gradient(top, #72788E, #1F2949);
-    background-image: linear-gradient(to bottom, #72788E, #1F2949);
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#DDEEFF), to(#3A6EA5));
+    background-image: -webkit-linear-gradient(top, #DDEEFF, #3A6EA5);
+    background-image: -moz-linear-gradient(top, #DDEEFF, #3A6EA5);
+    background-image: -o-linear-gradient(top, #DDEEFF, #3A6EA5);
+    background-image: linear-gradient(to bottom, #DDEEFF, #3A6EA5);
     border-radius: 3px;
 }
 
@@ -465,7 +468,7 @@ div.edui-box {
     background-image: none;
 }
 .edui-modern .edui-toolbar .edui-state-hover .edui-combox-body .edui-arrow {
-    border-left: 1px solid #6A7085;
+    border-left: 1px solid #DDEEFF;
 }
 
 .edui-modern .edui-toolbar .edui-state-checked .edui-combox-body {
@@ -533,28 +536,27 @@ div.edui-box {
 
 .edui-modern  .edui-toolbar .edui-button .edui-state-hover .edui-button-wrap {
     padding: 0;
-    border: 1px solid #7E8396;
-    background-color: #70768C;
+    border: 1px solid #DDEEFF;
+    background-color: #3a6ea5;
 
-    background-image: -webkit-gradient(linear, left top, left bottom, from(#72788E), to(#1F2949));
-    background-image: -webkit-linear-gradient(top, #72788E, #1F2949);
-    background-image: -moz-linear-gradient(top, #72788E, #1F2949);
-    background-image: -o-linear-gradient(top, #72788E, #1F2949);
-    background-image: linear-gradient(to bottom, #72788E, #1F2949);
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#DDEEFF), to(#3a6ea5));
+    background-image: -webkit-linear-gradient(top, #DDEEFF, #3a6ea5);
+    background-image: -moz-linear-gradient(top, #DDEEFF, #3a6ea5);
+    background-image: -o-linear-gradient(top, #DDEEFF, #3a6ea5);
+    background-image: linear-gradient(to bottom, #DDEEFF, #3a6ea5);
     border-radius: 3px;
 }
 
 .edui-modern  .edui-toolbar .edui-button .edui-state-checked .edui-button-wrap {
     padding: 0;
-    border: 1px solid #6A7085;
-    background-color: #202949;
-
-    background-image: -webkit-gradient(linear, left top, left bottom, from(#72788E), to(#1F2949));
-    background-image: -webkit-linear-gradient(top, #72788E, #1F2949);
-    background-image: -moz-linear-gradient(top, #72788E, #1F2949);
-    background-image: -o-linear-gradient(top, #72788E, #1F2949);
-    background-image: linear-gradient(to bottom, #72788E, #1F2949);
     border-radius: 3px;
+    outline: none;
+    border: 1px solid #069;
+    box-shadow: 0 -10px 10px rgba(0,0,0,.2) inset, 0 0 1px #fff inset;
+    background: #3A6EA5;
+    color: #fff;
+    border-radius: 6px;
+    text-shadow: 0 -1px rgba(0,0,0,.5);
 }
 
 .edui-modern  .edui-toolbar .edui-button .edui-state-active .edui-button-wrap {
@@ -1113,7 +1115,7 @@ div.edui-box {
 
 .edui-modern .edui-toolbar .edui-state-hover .edui-splitborder {
     width: 1px;
-    border-left: 0 solid #7E8396;
+    border-left: 0 solid #DDEEFF;
 }
 
 .edui-modern .edui-toolbar .edui-state-active .edui-splitborder {
@@ -1128,27 +1130,27 @@ div.edui-box {
 
 .edui-modern .edui-toolbar .edui-splitbutton .edui-state-hover .edui-splitbutton-body,
 .edui-modern .edui-toolbar .edui-menubutton .edui-state-hover .edui-menubutton-body {
-    background-color: #70768C;
-    border: 1px solid #6a7186;
+    background-color: #3A6EA5;
+    border: 1px solid #DDEEFF;
     padding: 0;
 
-    background-image: -webkit-gradient(linear, left top, left bottom, from(#72788E), to(#1F2949));
-    background-image: -webkit-linear-gradient(top, #72788E, #1F2949);
-    background-image: -moz-linear-gradient(top, #72788E, #1F2949);
-    background-image: -o-linear-gradient(top, #72788E, #1F2949);
-    background-image: linear-gradient(to bottom, #72788E, #1F2949);
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#DDEEFF), to(#3A6EA5));
+    background-image: -webkit-linear-gradient(top, #DDEEFF, #3A6EA5);
+    background-image: -moz-linear-gradient(top, #DDEEFF, #3A6EA5);
+    background-image: -o-linear-gradient(top, #DDEEFF, #3A6EA5);
+    background-image: linear-gradient(to bottom, #DDEEFF, #3A6EA5);
     border-radius: 3px;
 }
 
 .edui-modern .edui-toolbar .edui-splitbutton .edui-state-checked .edui-splitbutton-body,
 .edui-modern .edui-toolbar .edui-menubutton .edui-state-checked .edui-menubutton-body {
-    background-color: #202949;
-    background-image: -webkit-gradient(linear, left top, left bottom, from(#72788E), to(#1F2949));
-    background-image: -webkit-linear-gradient(top, #72788E, #1F2949);
-    background-image: -moz-linear-gradient(top, #72788E, #1F2949);
-    background-image: -o-linear-gradient(top, #72788E, #1F2949);
-    background-image: linear-gradient(to bottom, #72788E, #1F2949);
-    border: 1px solid #6A7085;
+    background-color: #3A6EA5;
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#DDEEFF), to(#3A6EA5));
+    background-image: -webkit-linear-gradient(top, #DDEEFF, #3A6EA5);
+    background-image: -moz-linear-gradient(top, #DDEEFF, #3A6EA5);
+    background-image: -o-linear-gradient(top, #DDEEFF, #3A6EA5);
+    background-image: linear-gradient(to bottom, #DDEEFF, #3A6EA5);
+    border: 1px solid #DDEEFF;
     border-radius: 3px;
     padding: 0;
 }
@@ -1169,7 +1171,7 @@ div.edui-box {
 
 .edui-modern .edui-toolbar .edui-splitbutton .edui-state-opened .edui-splitbutton-body,
 .edui-modern .edui-toolbar .edui-menubutton .edui-state-opened .edui-menubutton-body {
-    background-color: #1D2749;
+    background-color: #3A6EA5;
     background-image: none;
     border: 1px solid #fff;
     border-top-right-radius: 3px;
@@ -1229,24 +1231,24 @@ div.edui-box {
     border-bottom-right-radius: 5px;
     border-top-right-radius: 5px;
     border-top-left-radius: 0;
-    background-color: #1D2749;
+    background-color: #3A6EA5;
     padding: 5px;
     color: white;
 }
 .edui-modern .edui-popup-content {
     border: 1px solid white;
     border-radius: 5px;
-    background-color: #1D2749;
+    background-color: #3A6EA5;
     padding: 5px;
     color: white;
 }
 .edui-modern .edui-popup .edui-bordereraser {
-    background-color: #1D2749;
+    background-color: #3A6EA5;
     height: 3px;
 }
 
 .edui-modern .edui-menu .edui-bordereraser {
-    background-color: #1D2749;
+    background-color: #3A6EA5;
     height: 3px;
 }
 
@@ -1702,6 +1704,7 @@ div.edui-box {
     margin-left: 1px;
     width: 128px;
     float: left;
+    background-color: white;
 }
 
 .edui-modern .edui-colorpicker-nocolor {
@@ -1822,13 +1825,13 @@ div.edui-box {
 
 .edui-modern .edui-menu-body .edui-state-hover {
     padding: 0 !important;
-    background-color: #70768C;
-    border: 1px solid #7E8396;
+    background-color: #3A6EA5;
+    border: 1px solid #DDEEFF;
 
-    background-image: -webkit-gradient(linear, left top, left bottom, from(#72788E), to(#1F2949));
-    background-image: -webkit-linear-gradient(top, #72788E, #1F2949);
-    background-image: -moz-linear-gradient(top, #72788E, #1F2949);
-    background-image: -o-linear-gradient(top, #72788E, #1F2949);
-    background-image: linear-gradient(to bottom, #72788E, #1F2949);
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#DDEEFF), to(#3A6EA5));
+    background-image: -webkit-linear-gradient(top, #DDEEFF, #3A6EA5);
+    background-image: -moz-linear-gradient(top, #DDEEFF, #3A6EA5);
+    background-image: -o-linear-gradient(top, #DDEEFF, #3A6EA5);
+    background-image: linear-gradient(to bottom, #DDEEFF, #3A6EA5);
     border-radius: 3px;
 }
