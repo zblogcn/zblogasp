@@ -10,6 +10,11 @@ End Function
 
 '首页接口，判断类型并跳转
 Call Add_Action_Plugin("Action_Plugin_Default_WithOutConnect_Begin","Wap_Check()")
+Call Add_Response_Plugin("Response_Plugin_HTML_JS_Add",Wap_AddControl)
+
+Function Wap_AddControl()
+	Wap_AddControl="$(document).ready(function(){if(/Android|iOS|Windows Phone|IEMobile|BB10|ADR|iPhone|iPad|iPod|Symbian|BlackBerry/i.test(navigator.userAgent)){$('.cp-vrs').after(""&nbsp;&nbsp;<span class='cp-pad'><a href='""+bloghost+""?mod=pad&act=editarticle'>[新建文章(PAD)]</a></span>"")}});"
+End Function 
 
 '检查终端类型
 Dim Wap_Type
@@ -17,9 +22,7 @@ Function Wap_Check()
 
 	Dim s
 	'Response.Write ZC_DISPLAY_COUNT_WAP
-	If Request.QueryString("mod")="pc" Or ZC_DISPLAY_COUNT_WAP="1" Then
-		Exit Function
-	End If
+	If Request.QueryString("mod")="pc" Then Exit Function
 
 	If Request.QueryString("mod")="pad" Then
 		Server.Transfer "zb_users\plugin\wap\pad.asp":Response.End
@@ -30,7 +33,12 @@ Function Wap_Check()
 	End If
 
 	Wap_Type=Wap_CheckMobile()
-	If Wap_Type="pad" Then Server.Transfer "zb_users\plugin\wap\pad.asp":Response.End
+	If Wap_Type="pad" Then
+		If ZC_DISPLAY_COUNT_WAP="1" Then
+			Exit Function
+		End If
+		Server.Transfer "zb_users\plugin\wap\pad.asp":Response.End
+	End If
 	If Wap_Type="wap" Then Server.Transfer "zb_users\plugin\wap\wap.asp":Response.End
 
 End Function 
