@@ -329,8 +329,6 @@ Function Setup2()
 <div id="bottom">
 
 <script type="text/javascript">bmx2table();</script>
-
-</div>
 <%
 If Not bolError Then
 %>
@@ -338,6 +336,7 @@ If Not bolError Then
 <%
 End If
 %>
+</div>
 </dd>
 </dl>
 
@@ -553,7 +552,7 @@ Function Setup3()
 <p><b>用户密码:</b>&nbsp;&nbsp;<input type="text" name="dbpassword" id="dbpassword" value="" style="width:350px;" /></p>
 </div>
 <p class="title">网站设置</p>
-<p><b>网站名称:</b>&nbsp;&nbsp;<input type="text" name="blogtitle" id="blogtitle" value="" style="width:350px;" /></p>
+<p><b>网站名称:</b>&nbsp;&nbsp;<input type="text" name="blogtitle" id="blogtitle" value="" style="width:250px;" /></p>
 <p><b>用&nbsp;户&nbsp;名:</b>&nbsp;&nbsp;<input type="text" name="username" id="username" value="" style="width:250px;" />&nbsp;(英文,数字,汉字和._的组合)</p>
 <p><b>密&nbsp;&nbsp;&nbsp;&nbsp;码:</b>&nbsp;&nbsp;<input type="password" name="password" id="password" value="" style="width:250px;" />&nbsp;(8位或更长的数字和字母,字符组合)</p>
 <p><b>确认密码:</b>&nbsp;&nbsp;<input type="password" name="repassword" id="repassword" value="" style="width:250px;" /></p>
@@ -1005,7 +1004,7 @@ Call BlogConfig.Write("ZC_MSSQL_SERVER","(local)")
 
 
 '---------------------------------插件----------------------------------------
-Call BlogConfig.Write("ZC_USING_PLUGIN_LIST","AppCentre|FileManage|GuestBook|Totoro")
+Call BlogConfig.Write("ZC_USING_PLUGIN_LIST","AppCentre|FileManage|GuestBook|Totoro|Wap")
 
 
 
@@ -1049,7 +1048,7 @@ Call BlogConfig.Write("ZC_USE_NAVIGATE_ARTICLE",True)
 Call BlogConfig.Write("ZC_RSS_EXPORT_WHOLE",False)
 Call BlogConfig.Write("ZC_DEFAULT_PAGES_TEMPLATE","")
 Call BlogConfig.Write("ZC_ARCHIVES_OLD_LISTTYPE","")
-
+Call BlogConfig.Write("ZC_COMMENT_EXCERPT_MAX","20")
 
 
 
@@ -1108,7 +1107,7 @@ Call BlogConfig.Write("ZC_UPLOAD_DIRECTORY","zb_users\upload")
 
 
 '当前 Z-Blog 版本
-Call BlogConfig.Write("ZC_BLOG_VERSION","2.0 Doomsday Build 121221")
+Call BlogConfig.Write("ZC_BLOG_VERSION","2.2 Prism Build 130722")
 
 
 

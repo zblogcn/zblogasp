@@ -1,6 +1,6 @@
-﻿Z-Blog 2.1安装说明
+﻿Z-Blog 2.X安装说明
 
-1.上传Z-Blog 2.1
+1.上传Z-Blog 2.X
 2.打开http://你的网站/zb_install/default.asp
 3.同意Z-Blog许可协议。
 4.建立数据库

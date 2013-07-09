@@ -634,7 +634,7 @@ Call BlogConfig.Write("ZC_MSSQL_SERVER","(local)")
 
 
 '---------------------------------插件----------------------------------------
-Call BlogConfig.Write("ZC_USING_PLUGIN_LIST","AppCentre|FileManage|GuestBook|Totoro")
+Call BlogConfig.Write("ZC_USING_PLUGIN_LIST","AppCentre|FileManage|GuestBook|Totoro|Wap")
 
 
 
@@ -681,6 +681,7 @@ Call BlogConfig.Write("ZC_USE_NAVIGATE_ARTICLE",True)
 Call BlogConfig.Write("ZC_RSS_EXPORT_WHOLE",False)
 Call BlogConfig.Write("ZC_DEFAULT_PAGES_TEMPLATE","")
 Call BlogConfig.Write("ZC_ARCHIVES_OLD_LISTTYPE","")
+Call BlogConfig.Write("ZC_COMMENT_EXCERPT_MAX","20")
 
 
 
@@ -735,7 +736,7 @@ Call BlogConfig.Write("ZC_UPLOAD_DIRECTORY","zb_users\upload")
 
 
 '当前 Z-Blog 版本
-Call BlogConfig.Write("ZC_BLOG_VERSION","2.0 Doomsday Build 121221")
+Call BlogConfig.Write("ZC_BLOG_VERSION","2.2 Prism Build 130722")
 
 
 
