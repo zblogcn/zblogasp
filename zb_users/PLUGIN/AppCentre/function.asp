@@ -251,8 +251,7 @@ Function AppCentre_CheckSystemLast()
 
 	Dim objPing
 	Set objPing = Server.CreateObject("MSXML2.ServerXMLHTTP")
-
-	objPing.open "GET", APPCENTRE_SYSTEM_UPDATE&IIf(check_beta,"&beta=true",""),False
+	objPing.open "GET", APPCENTRE_SYSTEM_UPDATE&IIf(CBool(check_beta),"?beta=true",""),False
 	objPing.send ""
 
 	If objPing.ReadyState=4 Then
