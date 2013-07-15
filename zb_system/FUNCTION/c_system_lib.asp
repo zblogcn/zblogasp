@@ -1663,6 +1663,15 @@ Class TArticle
 
 		Set RE = Nothing
 
+		If Categorys(CateID).ParentID=0 Then
+			RE.Pattern = "<#template:article_category_parent:begin#>(.|\n)*<#template:article_category_parent:end#>"
+			subhtml = RE.Replace(subhtml, "")
+		Else
+			subhtml=Replace(subhtml,"<#template:article_category_parent:begin#>","")
+			subhtml=Replace(subhtml,"<#template:article_category_parent:end#>","")
+		End If
+		Set RE = Nothing
+
 
 		html=Replace(html,"<#"&subhtml_TemplateName&"#>",subhtml)
 
@@ -2277,7 +2286,7 @@ Class TArticleList
 		Template_Article_Istop=Join(aryArticleList)
 
 
-
+		Dim RE ,Match,Matches
 		ReDim aryArticleList(-1)
 		If dd.Count>0 THen
 			For i=0 To dd.Count-1
@@ -2291,7 +2300,6 @@ Class TArticleList
 				subhtml_TemplateName=objArticle.subhtml_TemplateName
 			Next
 		Else
-			Dim RE ,Match,Matches
 			Set RE = New RegExp 
 				RE.Pattern = "\<\#template\:(article\-([a-z0-9]*)([\-a-z0-9]*))\#\>"
 				RE.IgnoreCase = True 
@@ -2451,15 +2459,29 @@ Class TArticleList
 		Set da=CreateObject("Scripting.Dictionary")
 
 		Set RE = New RegExp 
-			RE.Pattern = "<#articlelist/((category/meta|author/meta)/([a-z0-9_]{1,}))#>"
-			RE.IgnoreCase = True 
-			RE.Global = True 
-			Set Matches = RE.Execute(html) 
-			For Each Match in Matches
-				s=Match.SubMatches(0)
-				If da.Exists(s)=False Then da.add s,s
-			Next
-			Set Matches = Nothing
+		RE.IgnoreCase = True 
+		RE.Global = True 
+
+		If Categorys(intCate).ParentID=0 Then
+			RE.Pattern = "<#template:articlelist_category_parent:begin#>(.|\n)*<#template:articlelist_category_parent:end#>"
+			html = RE.Replace(html, "")
+		Else
+			html=Replace(html,"<#template:articlelist_category_parent:begin#>","")
+			html=Replace(html,"<#template:articlelist_category_parent:end#>","")
+		End If
+		Set RE = Nothing
+
+
+		Set RE = New RegExp 
+		RE.Pattern = "<#articlelist/((category/meta|author/meta)/([a-z0-9_]{1,}))#>"
+		RE.IgnoreCase = True 
+		RE.Global = True 
+		Set Matches = RE.Execute(html) 
+		For Each Match in Matches
+			s=Match.SubMatches(0)
+			If da.Exists(s)=False Then da.add s,s
+		Next
+		Set Matches = Nothing
 		Set RE = Nothing
 
 		s=da.Items
