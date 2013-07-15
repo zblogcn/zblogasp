@@ -118,6 +118,15 @@ ZC_SQL_POUND_KEY="#"
 Dim ZC_COMMENT_VERIFY_ENABLE_INTERNAL
 ZC_COMMENT_VERIFY_ENABLE_INTERNAL=True
 
+Dim ZC_BLOG_PRODUCT
+ZC_BLOG_PRODUCT="Z-Blog"
+
+Dim ZC_BLOG_PRODUCT_FULL
+ZC_BLOG_PRODUCT_FULL=""
+
+Dim ZC_BLOG_PRODUCT_FULLHTML
+ZC_BLOG_PRODUCT_FULLHTML=""
+
 '*********************************************************
 ' 目的：    System 初始化
 '*********************************************************
@@ -141,6 +150,10 @@ Sub System_Initialize()
 	'Call GetFunction()
 
 	ZC_BLOG_VERSION=BlogConfig.Read("ZC_BLOG_VERSION")
+
+	ZC_BLOG_PRODUCT_FULL=ZC_BLOG_PRODUCT & " " & ZC_BLOG_VERSION
+	
+	ZC_BLOG_PRODUCT_FULLHTML="<a href=""http://www.rainbowsoft.org/"" title=""RainbowSoft Z-Blog"">" & ZC_BLOG_PRODUCT_FULL & "</a>"
 
 	ZC_BLOG_HOST=BlogHost
 
@@ -1474,7 +1487,7 @@ Function LoadGlobeCache()
 	Dim s()
 
 	a=0
-	b=21
+	b=24
 	c=1
 	d=350
 	e=0
@@ -1643,9 +1656,11 @@ Function LoadGlobeCache()
 	t(19)="ZC_VERIFYCODE_WIDTH"
 	t(20)="ZC_VERIFYCODE_HEIGHT"
 	t(21)="ZC_BLOG_HOST"
+	t(22)="ZC_BLOG_PRODUCT"
+	t(23)="ZC_BLOG_PRODUCT_FULL"
+	t(24)="ZC_BLOG_PRODUCT_FULLHTML"
 
-
-
+	
 	ReDim Preserve aryTemplateTagsName(a+a2+a3+e+d+b)
 	ReDim Preserve aryTemplateTagsValue(a+a2+a3+e+d+b)
 	For j=1 to b
