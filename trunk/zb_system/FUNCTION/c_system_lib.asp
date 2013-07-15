@@ -1661,8 +1661,6 @@ Class TArticle
 			subhtml=Replace(subhtml,"<#template:article_mutuality:end#>","")
 		End If
 
-		Set RE = Nothing
-
 		If Categorys(CateID).ParentID=0 Then
 			RE.Pattern = "<#template:article_category_parent:begin#>(.|\n)*<#template:article_category_parent:end#>"
 			subhtml = RE.Replace(subhtml, "")
