@@ -518,7 +518,7 @@ Class TPad
 			If PostComment(CStr(Left(MD5(ZC_BLOG_CLSID & CStr(objArticle.ID)),8))) Then
 				Call MakeBlogReBuild_Core()
 				Call LoadPad()
-				Call Message("评论提交","恭喜，评论提交成功。","<span><a href='?mod=pad'>点击这里回到首页</a></span>")
+				Call Message("评论提交","恭喜，评论提交成功。","<span><a href='"&objArticle.Url&"'>回文章</a>&nbsp;<a href='?mod=pad'>回首页</a></span>")
 			Else
 				Call LoadPad()
 				Call Errors(14)
