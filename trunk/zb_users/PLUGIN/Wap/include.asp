@@ -29,17 +29,18 @@ Function Wap_Check()
 	End If
 
 	If Request.QueryString("mod")="wap" Then
+		If WAP_DISABLE=True Then Server.Transfer "zb_users\plugin\wap\pad.asp":Response.End
 		Server.Transfer "zb_users\plugin\wap\wap.asp":Response.End
 	End If
 
 	Wap_Type=Wap_CheckMobile()
 	If Wap_Type="pad" Then
-		If ZC_DISPLAY_COUNT_WAP="1" Then
-			Exit Function
-		End If
 		Server.Transfer "zb_users\plugin\wap\pad.asp":Response.End
 	End If
-	If Wap_Type="wap" Then Server.Transfer "zb_users\plugin\wap\wap.asp":Response.End
+	If Wap_Type="wap" Then
+		If WAP_DISABLE=True Then Server.Transfer "zb_users\plugin\wap\pad.asp":Response.End
+		Server.Transfer "zb_users\plugin\wap\wap.asp":Response.End
+	End If
 
 End Function 
 
@@ -98,11 +99,11 @@ Function WAPConfig_Initialize()
 		c.Write "WAP_PAGEBAR_COUNT","5"
 		c.Write "WAP_SINGLE_SIZE","2000"
 		c.Write "WAP_MUTUALITY_LIMIT","5"
-		c.Write "WAP_FILENAME","wap.asp"
 		c.Write "WAP_COMMENT_ENABLE","True"
 		c.Write "WAP_DISPLAY_MODE_ALL","True"
 		c.Write "WAP_DISPLAY_CATE_ALL","True"
 		c.Write "WAP_DISPLAY_PAGEBAR_ALL","True"
+		c.Write "WAP_DISABLE","True"		
 		c.Save
 		Call SetBlogHint_Custom("第一次安装WAP插件，已经为您导入初始配置。")
 	End If
@@ -135,6 +136,10 @@ Function SaveWAPConfig2Option()
 	Dim strContent
 	strContent=LoadFromFile(BlogPath & "zb_users\plugin\wap\option_init.html","utf-8")
 
+	Set ConfigMetas=New TMeta
+	IsRunConfigs=False
+	Call GetConfigs()
+	
 	Dim c
 	Set c = New TConfig
 	c.Load("Wap")
