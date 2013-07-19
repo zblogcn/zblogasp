@@ -218,6 +218,7 @@ Class TPad
 
 	Public Function Build()
 
+
 		Call SetVar("PAD_NAV",FunNav())
 
 		Call SetVar("PAD_SIDE",FunAdmin() & FunCatalogs & FunSearch())
@@ -229,7 +230,11 @@ Class TPad
 		Call SetVar("PAD_FIRSTNAME",BlogUser.FirstName)
 		Call SetVar("PAD_NAME",BlogUser.Name)
 		Call SetVar("PAD_EMAIL",BlogUser.EMail)
-		Call SetVar("PAD_HOMEPAGE",BlogUser.HomePage)	
+		Call SetVar("PAD_HOMEPAGE",BlogUser.HomePage)
+		
+		If WAP_DISABLE=True Then
+			html=Replace(html,"|&nbsp;<a href=""<#ZC_BLOG_HOST#>?mod=wap"">WAP版</a>","")
+		End If	
 		
 		Dim i,j
 
@@ -247,6 +252,7 @@ Class TPad
 			html=Replace(html,"<#" & aryTemplateTagsName(i) & "#>",aryTemplateTagsValue(i))
 		Next
 		html=Replace(html,"<#" & aryTemplateTagsName(0) & "#>",aryTemplateTagsValue(0))
+		
 
 		Build=True
 
