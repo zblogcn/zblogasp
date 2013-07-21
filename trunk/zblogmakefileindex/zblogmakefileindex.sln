@@ -1,7 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio Express 2012 for Windows Desktop
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "zblogmakefileindex", "zblogmakefileindex\zblogmakefileindex.vbproj", "{E8EF2C86-99B8-44EF-B5A8-0634B2A11525}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
