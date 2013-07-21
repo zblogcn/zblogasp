@@ -7,7 +7,7 @@
 
 %>
 <% Option Explicit %>
-<% 'On Error Resume Next %>
+<% On Error Resume Next %>
 <% Response.Charset="UTF-8" %>
 <%Response.Buffer=True %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -15,7 +15,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta http-equiv="Content-Language" content="zh-cn" />
-	<title>Z-Blog2在线安装程序</title>
+	<title>Z-Blog2 在线安装程序</title>
 <style type="text/css">
 <!--
 *{
@@ -27,21 +27,24 @@ body{
 	padding:0;
 	color: #000000;
 	background:#fff;
-	font-family:"宋体","黑体";
+	font-family:"微软雅黑","宋体";
 }
 h1,h2,h3,h4,h5,h6{
 	font-size:18px;
 	padding:0;
 	margin:0;
 }
+h1{
+font-size:28px;
+}
 div{
 	position:absolute;
 	left: 50%;
 	top: 50%;
-	margin: -120px 0px 0px -100px;
+	margin: -150px 0px 0px -150px;
 	padding:0;
 	overflow:hidden;
-	width:200px;
+	width:300px;
 	background-color:white;
 	text-align:center;
 }
@@ -50,7 +53,7 @@ div{
 </head>
 <body>
 <div>
-<h3>Z-Blog 2 在线安装</h3>
+<h1>Z-Blog2 在线安装</h1>
 <p><img src="http://update.rainbowsoft.org/zblog2/loading.gif" alt=""></p>
 
 <%
