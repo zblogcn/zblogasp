@@ -57,19 +57,19 @@ Public Class Form1
             f(i) = New Collections.Generic.Dictionary(Of String, String)
             x.Load(My.Application.Info.DirectoryPath + "\" + Me.ComboBox1.Items(i - 1) + ".xml")
             For Each y As Xml.XmlNode In x.DocumentElement.SelectNodes("file")
-                If y.Attributes("name").InnerText.Contains("zb_users\") = False Then
+                'If y.Attributes("name").InnerText.Contains("zb_users\") = False Then
 
-                    f(i).Add(y.Attributes("name").InnerText, y.Attributes("crc32").InnerText)
-                Else
-                    If y.Attributes("name").InnerText.Contains("zb_users\LANGUAGE\SimpChinese.asp") = True Then
-                        f(i).Add(y.Attributes("name").InnerText, y.Attributes("crc32").InnerText)
-                    End If
+                f(i).Add(y.Attributes("name").InnerText, y.Attributes("crc32").InnerText)
+                'Else
+                '    If y.Attributes("name").InnerText.Contains("zb_users\LANGUAGE\SimpChinese.asp") = True Then
+                '        f(i).Add(y.Attributes("name").InnerText, y.Attributes("crc32").InnerText)
+                '    End If
 
-                    If y.Attributes("name").InnerText.Contains("zb_users\EMOTION\") = True Then
-                        f(i).Add(y.Attributes("name").InnerText, y.Attributes("crc32").InnerText)
-                    End If
+                '    If y.Attributes("name").InnerText.Contains("zb_users\EMOTION\") = True Then
+                '        f(i).Add(y.Attributes("name").InnerText, y.Attributes("crc32").InnerText)
+                '    End If
 
-                End If
+                'End If
 
             Next
             'MsgBox(f(i).Count)
