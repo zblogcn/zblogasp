@@ -13,10 +13,10 @@
 	<file name='zb_system\ADMIN\admin_header.asp' crc32='4AE7846A'/>
 	<file name='zb_system\ADMIN\admin_left.asp' crc32='BC664832'/>
 	<file name='zb_system\ADMIN\admin_top.asp' crc32='AD45175A'/>
-	<file name='zb_system\ADMIN\c_autosaverjs.asp' crc32='8A3AAADD'/>
+	<file name='zb_system\ADMIN\c_autosaverjs.asp' crc32='AE6A54AB'/>
 	<file name='zb_system\ADMIN\c_statistic.asp' crc32='14B857BC'/>
 	<file name='zb_system\ADMIN\c_updateinfo.asp' crc32='5E46F989'/>
-	<file name='zb_system\ADMIN\edit_article.asp' crc32='33264BFA'/>
+	<file name='zb_system\ADMIN\edit_article.asp' crc32='C8A29526'/>
 	<file name='zb_system\ADMIN\edit_catalog.asp' crc32='AFCEBA2B'/>
 	<file name='zb_system\ADMIN\edit_comment.asp' crc32='507B3A71'/>
 	<file name='zb_system\ADMIN\edit_function.asp' crc32='A2F6343F'/>
@@ -149,7 +149,7 @@
 	<file name='zb_system\CSS\jquery-ui.custom.css' crc32='18708206'/>
 	<file name='zb_system\CSS\jquery.bettertip.css' crc32='DDF8486F'/>
 	<file name='zb_system\DEFEND\c_option.asp.html' crc32='9CAC521C'/>
-	<file name='zb_system\DEFEND\thanks.html' crc32='2738B175'/>
+	<file name='zb_system\DEFEND\thanks.html' crc32='CAA805A1'/>
 	<file name='zb_system\DEFEND\default\b_article-istop.html' crc32='CE03125'/>
 	<file name='zb_system\DEFEND\default\b_article-multi.html' crc32='39B683BC'/>
 	<file name='zb_system\DEFEND\default\b_article-page.html' crc32='8BF2CF8E'/>
@@ -176,12 +176,12 @@
 	<file name='zb_system\FUNCTION\c_admin_js_add.asp' crc32='452438F2'/>
 	<file name='zb_system\FUNCTION\c_error.asp' crc32='BAF8E88C'/>
 	<file name='zb_system\FUNCTION\c_function.asp' crc32='B7E3E92E'/>
-	<file name='zb_system\FUNCTION\c_html_js.asp' crc32='9DD5835'/>
+	<file name='zb_system\FUNCTION\c_html_js.asp' crc32='11A3DF15'/>
 	<file name='zb_system\FUNCTION\c_html_js_add.asp' crc32='AF969D27'/>
-	<file name='zb_system\FUNCTION\c_system_base.asp' crc32='F36E4C35'/>
+	<file name='zb_system\FUNCTION\c_system_base.asp' crc32='90431660'/>
 	<file name='zb_system\FUNCTION\c_system_event.asp' crc32='CEE61A32'/>
-	<file name='zb_system\FUNCTION\c_system_lib.asp' crc32='15DD8E4D'/>
-	<file name='zb_system\FUNCTION\c_system_manage.asp' crc32='28094463'/>
+	<file name='zb_system\FUNCTION\c_system_lib.asp' crc32='69551483'/>
+	<file name='zb_system\FUNCTION\c_system_manage.asp' crc32='C47F1A12'/>
 	<file name='zb_system\FUNCTION\c_system_plugin.asp' crc32='3CC5646E'/>
 	<file name='zb_system\FUNCTION\c_urlredirect.asp' crc32='777F6B5E'/>
 	<file name='zb_system\FUNCTION\c_validcode.asp' crc32='7B8815E2'/>
@@ -306,7 +306,7 @@
 	<file name='zb_system\SCRIPT\jscroller.0.3.js' crc32='71CF0E84'/>
 	<file name='zb_system\SCRIPT\md5.js' crc32='4945A867'/>
 	<file name='zb_system\XML-RPC\index.asp' crc32='4EB5A10A'/>
-	<file name='zb_users\LANGUAGE\SimpChinese.asp' crc32='51E25E79'/>
+	<file name='zb_users\LANGUAGE\SimpChinese.asp' crc32='C380468D'/>
 	<file name='zb_users\LANGUAGE\ue-lang\zh-cn\zh-cn.js' crc32='BCBE9E39'/>
 	<file name='zb_users\LANGUAGE\ue-lang\zh-cn\images\copy.png' crc32='B27CEF5F'/>
 	<file name='zb_users\LANGUAGE\ue-lang\zh-cn\images\imglabel.png' crc32='D19EA9A3'/>
