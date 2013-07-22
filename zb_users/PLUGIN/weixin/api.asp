@@ -57,7 +57,7 @@ MsgType=xml_dom.getelementsbytagname("MsgType").item(0).text
 if MsgType="event" then
 	varEvent=xml_dom.getelementsbytagname("Event").item(0).text
 	if varEvent="subscribe" then
-		Content=Welcome(ZC_BLOG_TITLE,objConfig.Read("LastPostNum"),objConfig.Read("WelcomeStr"))
+		Content=wx_Welcome(ZC_BLOG_TITLE,objConfig.Read("LastPostNum"),objConfig.Read("WelcomeStr"))
 		strresponse_text="<xml>" &_
 		"<ToUserName><![CDATA["&fromusername&"]]></ToUserName>" &_
 		"<FromUserName><![CDATA["&tousername&"]]></FromUserName>" &_
@@ -85,7 +85,7 @@ strQuestion=Replace(strQuestion," ","")
 	strQuestion=Replace(strQuestion,"AND","")
 	strQuestion=Replace(strQuestion,"WHERE","")
 If (strQuestion="help") Then
-	Content = Help()
+	Content = wx_Help()
 	strresponse_text="<xml>" &_
  	"<ToUserName><![CDATA["&fromusername&"]]></ToUserName>" &_
 	"<FromUserName><![CDATA["&tousername&"]]></FromUserName>" &_

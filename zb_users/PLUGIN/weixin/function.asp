@@ -15,15 +15,15 @@ End Function
 '\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
 '首次关注
-Function Welcome(blogtitle,num,welcomestr)
-	Welcome = Replace(welcomestr,"{%title%}",blogtitle)
-	Welcome = Replace(Welcome,"{%num%}",num)
-	Welcome = Replace(Welcome,"<br/>",vbCrLf)
+Function wx_Welcome(blogtitle,num,welcomestr)
+	wx_Welcome = Replace(welcomestr,"{%title%}",blogtitle)
+	wx_Welcome = Replace(wx_Welcome,"{%num%}",num)
+	wx_Welcome = Replace(wx_Welcome,"<br/>",vbCrLf)
 End Function
 
 '帮助
-Function Help()
-	Help="您可以输入“最新文章”来查看博客的最新图文文章；或者输入关键词来搜索博客中的文章并在微信中查看。"
+Function wx_Help()
+	wx_Help="您可以输入“最新文章”来查看博客的最新图文文章；或者输入关键词来搜索博客中的文章并在微信中查看。"
 End Function
 
 
