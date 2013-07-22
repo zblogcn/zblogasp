@@ -22,11 +22,6 @@ Set PublicObjAdo=Server.CreateObject("ADODB.Stream")
 Set PublicObjFSO=Server.CreateObject("Scripting.FileSystemObject")
 
 
-Dim ZC_EDITORLANG
-ZC_EDITORLANG="zh-cn"
-
-
-
 '*********************************************************
 ' 目的：    显示错误页面
 ' 输入：    id
