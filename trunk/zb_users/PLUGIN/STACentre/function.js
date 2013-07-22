@@ -22,6 +22,7 @@
 			a="#edtZC_TAGS_REGEX";
 			if(b==1){b="{%host%}/tags-{%id%}.html"};
 			if(b==2){b="{%host%}/tags-{%name%}.html"};
+			if(b==3){b="{%host%}/tags-{%alias%}.html"};
 		}
 		if(a==5){
 			a="#edtZC_DATE_REGEX";
