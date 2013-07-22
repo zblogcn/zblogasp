@@ -264,7 +264,7 @@ var autosave = {
 }
 
 $(document).ready(function() {
-    document.getElementById("msg2").innerHTML = "&nbsp;&nbsp;<a href='javascript:;' onclick='autosave.view();return false' style='cursor:hand;'>[<%=ZC_MSG015%>]</a>&nbsp;&nbsp;<a href='javascript:;' onclick='if(confirm(\"这将覆盖你原有的内容！继续？\")) autosave.restore();return false;' style='cursor:hand;'>[<%=ZC_MSG252%>]</a>&nbsp;&nbsp;<a href='javascript:;' onclick='autosave.save();return false' style='cursor:hand;'>[<%=ZC_MSG004%>]</a>&nbsp;&nbsp;<a href='javascript:;' onclick='autosave.del();return false' style='cursor:hand;'>[<%=ZC_MSG063%>]</a>";
+    document.getElementById("msg2").innerHTML = "&nbsp;&nbsp;<a href='javascript:;' onclick='autosave.view();return false' style='cursor:hand;'>[<%=ZC_MSG015%>]</a>&nbsp;&nbsp;<a href='javascript:;' onclick='if(confirm(\"<%=ZC_MSG254%>\")) autosave.restore();return false;' style='cursor:hand;'>[<%=ZC_MSG252%>]</a>&nbsp;&nbsp;<a href='javascript:;' onclick='autosave.save();return false' style='cursor:hand;'>[<%=ZC_MSG004%>]</a>&nbsp;&nbsp;<a href='javascript:;' onclick='autosave.del();return false' style='cursor:hand;'>[<%=ZC_MSG063%>]</a>";
     <%If ZC_AUTOSAVE_FILEMODIFIED <>Now Then Response.Write "document.getElementById('msg').innerHTML='" & Replace(ZC_MSG102,"%s",ZC_AUTOSAVE_FILEMODIFIED) & "';"%>
     autosave.timer();
     $("#edit").submit(function() {
