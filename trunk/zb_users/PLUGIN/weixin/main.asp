@@ -19,21 +19,34 @@ If BlogUser.Level>1 Then Call ShowError(6)
 If CheckPluginState("weixin")=False Then Call ShowError(48)
 BlogTitle="微信搜索"
 
+	Dim objUpload
+	Set objUpload=New UpLoadClass
+	objUpload.AutoSave=2
+	objUpload.Charset="utf-8"
+	objUpload.FileType=Replace(ZC_UPLOAD_FILETYPE,"|","/")
+	objUpload.savepath=BlogPath & "zb_users\plugin\weixin\"
+	objUpload.maxsize=ZC_UPLOAD_FILESIZE
+	objUpload.open
+
+	Call SaveToFile(BlogPath & "zb_users/theme/ReadLite/include/default.jpg",objUpload.Form("defaultpic"),"utf-8",False)
+
+	call objUpload.Save("defaultpic","default.jpg")
+
 	Dim objConfig
 	Set objConfig=New TConfig
 	objConfig.Load("weixin")
 	
-	'Dim WelcomeStr,SearchNum,LastPostNum,ShowMeta
-	'WelcomeStr=objConfig.Read("WelcomeStr")
-	'SearchNum=CInt(objConfig.Read("SearchNum"))
-	'LastPostNum=CInt(objConfig.Read("LastPostNum"))
-	'ShowMeta=CInt(objConfig.Read("ShowMeta"))
+	Dim WelcomeStr,SearchNum,LastPostNum,ShowMeta
+	WelcomeStr=objConfig.Read("WelcomeStr")
+	SearchNum=CInt(objConfig.Read("SearchNum"))
+	LastPostNum=CInt(objConfig.Read("LastPostNum"))
+	ShowMeta=CInt(objConfig.Read("ShowMeta"))
 	
 	If Request.QueryString("act")="Save" Then
-		objConfig.Write "WelcomeStr",Request.Form("WelcomeStr")
-		objConfig.Write "SearchNum",CInt(Request.Form("SearchNum"))
-		objConfig.Write "LastPostNum",CInt(Request.Form("LastPostNum"))
-		objConfig.Write "ShowMeta",CInt(Request.Form("ShowMeta"))
+		objConfig.Write "WelcomeStr",objUpload.Form("WelcomeStr")
+		objConfig.Write "SearchNum",CInt(objUpload.Form("SearchNum"))
+		objConfig.Write "LastPostNum",CInt(objUpload.Form("LastPostNum"))
+		objConfig.Write "ShowMeta",CInt(objUpload.Form("ShowMeta"))
 		objConfig.Save
 	End If
 %>
@@ -46,7 +59,7 @@ BlogTitle="微信搜索"
           <div class="divHeader"><%=BlogTitle%></div>
           <div class="SubMenu"><%=weixin_SubMenu(0)%></div>
           <div id="divMain2"> 
-			<form id="form1" name="form1" method="post" >
+			<form id="form1" name="form1" method="post" enctype="multipart/form-data">
 			
 			<table width="100%" style='padding:0px;margin:0px;' cellspacing='0' cellpadding='0' class="tableBorder">
 		  <tr>
@@ -83,7 +96,7 @@ BlogTitle="微信搜索"
 		  </tr>
 		  <tr>
 			<td><b><label for="LastPostNum"><p align="center">图文列表默认图片</p></label></b></td>
-			<td><p align="center"><img src="<%=ZC_BLOG_HOST%>ZB_USERS/plugin/weixin/default.jpg">
+			<td><p align="center"><img src="<%=ZC_BLOG_HOST%>zb_users/plugin/weixin/default.jpg">
 			<input name="defaultpic" type="file"/></p></td>
 			<td><b><label for="LastPostNum"><p align="left">&nbsp;&nbsp;设置最新文章图文列表默认图片。</p></label></b></td>
 		  </tr>

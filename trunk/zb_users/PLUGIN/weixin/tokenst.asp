@@ -37,7 +37,7 @@ BlogTitle="微信搜索"
           <div class="divHeader"><%=BlogTitle%></div>
           <div class="SubMenu"><%=weixin_SubMenu(1)%></div>
           <div id="divMain2"> 
-		  您的微信接口URL为：<a target="_blank" href="<%=ZC_BLOG_HOST%>ZB_USERS/plugin/weixin/api.asp"><%=ZC_BLOG_HOST%>ZB_USERS/plugin/weixin/api.asp</a>
+		  您的微信接口URL为：<a target="_blank" href="<%=ZC_BLOG_HOST%>zb_users/plugin/weixin/api.asp"><%=ZC_BLOG_HOST%>zb_users/plugin/weixin/api.asp</a>
 			<form id="form1" name="form1" method="post" >
 			<table width="100%" style='padding:0px;margin:0px;' cellspacing='0' cellpadding='0' class="tableBorder">
 		  <tr>

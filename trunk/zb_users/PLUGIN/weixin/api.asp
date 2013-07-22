@@ -10,33 +10,33 @@
 <!-- #include file="../../../zb_system/function/c_system_plugin.asp" -->
 <!-- #include file="../p_config.asp" -->
 <%
-Response.ContentType="application/x-javascript"
 Call System_Initialize()
-	Dim objConfig
-	Set objConfig=New TConfig
-	objConfig.Load("weixin")
-	
-'If Request.QueryString = "" Then Response.End()
+If CheckPluginState("weixin")=False Then Response.Write "插件未启用":Response.End()
+'Response.ContentType="application/xml"
+
+Dim objConfig
+Set objConfig=New TConfig
+objConfig.Load("weixin")
 
 If Request("echostr") Then
-	Dim echostr,signature,timestamp,nonce,token,tmpArray,tmpStr,i
-	signature = Request("signature")
-	timestamp = Request("timestamp")
-	nonce = Request("nonce")
+	'Dim echostr,signature,timestamp,nonce,token,tmpArray,tmpStr,i,singsha1
+	'signature = Request("signature")
+	'timestamp = Request("timestamp")
+	'nonce = Request("nonce")
 	echostr = Request("echostr")
-	tmpArr = Array(nonce,timestamp,objConfig.Read("token"))
-	tmpArr = Sort(tmpArr)
-	tmpStr = ""
-	For i = 0 to 2
-      tmpStr=tmpStr & tmpArr(i)
-	Next
-	singsha1 = hex_sha1(tmpStr)
-	If(singsha1 = signature) Then
+	'tmpArr = Array(nonce,timestamp,objConfig.Read("token"))
+	'tmpArr = Sort(tmpArr)
+	'tmpStr = ""
+	'For i = 0 to 2
+    '  tmpStr=tmpStr & tmpArr(i)
+	'Next
+	'singsha1 = hex_sha1(tmpStr)
+	'If(singsha1 = signature) Then
 		Response.Write echostr
 		Response.End()
-	else
-		Response.End()
-	End If
+	'else
+	'	Response.End()
+	'End If
 End If
 
 Dim ToUserName	'开发者微信号
@@ -110,7 +110,7 @@ ElseIf (strQuestion="最新文章") Then
 	response.write strresponse_news
 	Response.End()
 Else
-	Content = Search(strQuestion,CInt(objConfig.Read("SearchNum")),CInt(objConfig.Read("ShowMeta")))
+	Content = wx_Search(strQuestion,CInt(objConfig.Read("SearchNum")),CInt(objConfig.Read("ShowMeta")))
 	strresponse_text="<xml>" &_
  	"<ToUserName><![CDATA["&fromusername&"]]></ToUserName>" &_
 	"<FromUserName><![CDATA["&tousername&"]]></FromUserName>" &_
@@ -121,4 +121,6 @@ Else
 	"</xml>"
 	response.write strresponse_text
 End If
+
+'If FromUserName = "" Then Response.End()
 %>
