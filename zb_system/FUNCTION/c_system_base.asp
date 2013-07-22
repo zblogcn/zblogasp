@@ -918,7 +918,13 @@ End Function
 '*********************************************************
 Function CheckTagByIntro(strName)
 
-	CheckTagByIntro=Not objConn.Execute("SELECT [tag_ID] FROM [blog_Tag] WHERE [tag_Intro]='" & FilterSQL(strName) &"'" ).BOF
+	Dim strSQL
+	If ZC_MSSQL_ENABLE Then
+		strSQL="SELECT [tag_ID] FROM [blog_Tag] WHERE CONVERT(NVARCHAR(255),[tag_Intro])='" & FilterSQL(strName) &"'"
+	Else
+		strSQL="SELECT [tag_ID] FROM [blog_Tag] WHERE [tag_Intro]='" & FilterSQL(strName) &"'"
+	End If
+	CheckTagByIntro=Not objConn.Execute(strSQL).BOF
 
 End Function
 
