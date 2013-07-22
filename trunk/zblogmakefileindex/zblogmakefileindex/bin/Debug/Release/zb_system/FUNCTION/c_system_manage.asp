@@ -1117,7 +1117,7 @@ End Function
 '*********************************************************
 Function ExportSiteInfo()
 
-	Dim s
+	Dim s,k
 
 
 	Response.Write "<div class=""divHeader"">" & ZC_MSG159 & "</div>"
@@ -1131,7 +1131,14 @@ Function ExportSiteInfo()
 	If Len(ZC_UPDATE_INFO_URL)>0 Then
 		s=s & "<table border=""0"" cellspacing=""0"" cellpadding=""0"" align=""center"" width=""100%"" class=""tableBorder""><tr><th height=""32"" colspan=""4"" align=""center"">&nbsp;"&ZC_MSG164&"&nbsp;<a href=""javascript:updateinfo('?reload');"">["&ZC_MSG225&"]</a> <img id=""infoloading"" style=""display:none"" src=""../image/admin/loading.gif""></th></tr><tr><td height=""25"" colspan=""4"" id=""tdUpdateInfo"">&nbsp;</td></tr></table>"
 	End If
-	s=s & LoadFromFile(BlogPath & "zb_system\defend\thanks.html","utf-8")
+	k = LoadFromFile(BlogPath & "zb_system\defend\thanks.html","utf-8")
+	k = Replace(k,"{%ZC_MSG303%}",ZC_MSG303)
+	k = Replace(k,"{%ZC_MSG304%}",ZC_MSG304)
+	k = Replace(k,"{%ZC_MSG305%}",ZC_MSG305)
+	k = Replace(k,"{%ZC_MSG306%}",ZC_MSG306)
+	k = Replace(k,"{%ZC_MSG307%}",ZC_MSG307)
+	k = Replace(k,"{%ZC_MSG308%}",ZC_MSG308)
+	s = s & k
 	Response.Write s
 	Response.Write Response_Plugin_Admin_SiteInfo
 	Response.Write "</div>"

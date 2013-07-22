@@ -914,6 +914,40 @@ Function CheckTagByName(strName)
 End Function
 
 '*********************************************************
+' 目的：    检查TAG是否存在
+'*********************************************************
+Function CheckTagByIntro(strName)
+
+	Dim strSQL
+	If ZC_MSSQL_ENABLE Then
+		strSQL="SELECT [tag_ID] FROM [blog_Tag] WHERE CONVERT(NVARCHAR(255),[tag_Intro])='" & FilterSQL(strName) &"'"
+	Else
+		strSQL="SELECT [tag_ID] FROM [blog_Tag] WHERE [tag_Intro]='" & FilterSQL(strName) &"'"
+	End If
+	CheckTagByIntro=Not objConn.Execute(strSQL).BOF
+
+End Function
+
+'*********************************************************
+' 目的：   根据TAG别名得到TAG ID
+'*********************************************************
+Function GetTagByIntro(strName)
+	Dim objRS,strSQL
+	If ZC_MSSQL_ENABLE Then
+		strSQL="SELECT [tag_ID] FROM [blog_Tag] WHERE CONVERT(NVARCHAR(255),[tag_Intro])='" & FilterSQL(strName) &"'"
+	Else
+		strSQL="SELECT [tag_ID] FROM [blog_Tag] WHERE [tag_Intro]='" & FilterSQL(strName) &"'"
+	End If
+	Set objRS=objConn.Execute(strSQL)
+	If (Not objRS.bof) And (Not objRS.eof) Then
+		GetTagByIntro=objRS(0)
+	Else
+		GetTagByIntro=0
+	End If
+End Function
+'*********************************************************
+
+'*********************************************************
 ' 目的：   根据TAG名得到TAG ID
 '*********************************************************
 Function GetTagByName(strName)

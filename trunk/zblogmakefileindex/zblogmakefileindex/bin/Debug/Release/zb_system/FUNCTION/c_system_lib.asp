@@ -766,6 +766,7 @@ Class TArticle
 			Set objRSsub=Nothing
 		End If
 
+
 		If Len(Title)=0 Then Post=False:Exit Function
 		If Len(Content)=0 Then Post=False:Exit Function
 		'If Len(Intro)=0 Then Intro=Left(Content,ZC_ARTICLE_EXCERPT_MAX) & "..."
@@ -2202,11 +2203,19 @@ Class TArticleList
 
 			ListType="TAGS"
 
-			If InStr(ZC_TAGS_REGEX,"{%id%}")>0 Then
+
+			If InStr(ZC_TAGS_REGEX,"{%alias%}")>0 Then
+				If CheckTagByIntro(anyTag) Then
+					i=GetTagByIntro(anyTag)
+				Else
+					If CheckTagByName(anyTag) Then i=GetTagByName(anyTag)
+				End If
+			ElseIf InStr(ZC_TAGS_REGEX,"{%id%}")>0 Then
 				i=CLng(anyTag)
 			Else
 				If CheckTagByName(anyTag) Then i=GetTagByName(anyTag)
 			End If
+
 			objRS.Source=objRS.Source & "AND([log_Tag] LIKE '%{" & i & "}%')"
 
 			intTag=i
@@ -4364,6 +4373,9 @@ Class TTag
 	Public Property Get EncodeName
 		EncodeName = Server.URLEncode(Name)
 	End Property
+	Public Property Get EncodeIntro
+		EncodeIntro = Server.URLEncode(Intro)
+	End Property
 
 	Private Ftemplate
 	Public Property Let Template(strFileName)
@@ -4400,7 +4412,7 @@ Class TTag
 
 
 	Public Property Get FullPath
-		FullPath=ParseCustomDirectoryForPath(FullRegex,ZC_STATIC_DIRECTORY,"","","","","",ID,Name,EncodeName)
+		FullPath=ParseCustomDirectoryForPath(FullRegex,ZC_STATIC_DIRECTORY,"","","","","",ID,Name,StaticName)
 	End Property
 
 	Public Property Get Url
@@ -4412,7 +4424,7 @@ Class TTag
 			If bAction_Plugin_TTag_Url=True Then Exit Property
 		Next
 
-		Url =ParseCustomDirectoryForUrl(FullRegex,ZC_STATIC_DIRECTORY,"","","","","",ID,Name,EncodeName)
+		Url =ParseCustomDirectoryForUrl(FullRegex,ZC_STATIC_DIRECTORY,"","","","","",ID,EncodeName,StaticEncodeName)
 		If Right(Url,12)="default.html" Then Url=Left(Url,Len(Url)-12)
 
 		Url=Replace(Replace(Url,"//","/"),":/","://",1,1)
@@ -4423,12 +4435,19 @@ Class TTag
 
 
 	Public Property Get StaticName
-		StaticName =EncodeName
-		'If IsNull(Alias) Or IsEmpty(Alias) Or Alias="" Then
-		'	StaticName = ID
-		'Else
-		'	StaticName = Alias
-		'End If
+		If IsNull(Intro) Or IsEmpty(Intro) Or Intro="" Then
+			StaticName = Name
+		Else
+			StaticName = Intro
+		End If
+	End Property
+
+	Public Property Get StaticEncodeName
+		If IsNull(Intro) Or IsEmpty(Intro) Or Intro="" Then
+			StaticEncodeName = EncodeName
+		Else
+			StaticEncodeName = EncodeIntro
+		End If
 	End Property
 
 

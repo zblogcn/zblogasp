@@ -430,7 +430,7 @@ Function FileManage_ExportSiteFileEdit(tpath,OpenFolderPath,chars)
 	
 		
 	If Not IsNull(tpath) Then
-		Response.Write "<form id=""edit"" name=""edit"" method=""post"" action=""main.asp?act=SiteFilePst&path="&Server.URLEncode(tpath)&"&OpenFolderPath="&Server.URLEncode(OpenFolderPath)&""">" & vbCrlf
+		Response.Write "<form id=""editdata"" name=""edit"" method=""post"" action=""main.asp?act=SiteFilePst&path="&Server.URLEncode(tpath)&"&OpenFolderPath="&Server.URLEncode(OpenFolderPath)&""">" & vbCrlf
 		Response.Write "<p>文件路径及文件名: <!--<a href=""javascript:void(0)"" onclick=""path.readOnly='';this.style.display='none';path.focus()"">修改文件名</a>--><INPUT TYPE=""text"" Value="""&unEscape(tpath)&""" style=""width:100%"" name=""path"" id=""path"" ></p>"
 		Response.Write "<p><textarea class=""resizable"" style=""height:300px;width:100%"" name=""txaContent"" id=""txaContent"">"
 		Response.Write ct
@@ -474,6 +474,11 @@ Function FileManage_ExportSiteFileEdit(tpath,OpenFolderPath,chars)
 			End If
 			Response.Write """,matchBrackets: true,lineNumbers: true,theme:""monokai"",lineWrapping :true}); </scr"&"ipt>"
 		End If
+	End If
+
+	If Not FileManage_Return2List___ Then 
+		Response.Write "<script type='text/javascript'>$('#editdata').submit(function(){"
+		Response.Write "$.post('main.asp?act=SiteFilePst&path="&Server.URLEncode(tpath)&"&OpenFolderPath="&Server.URLEncode(OpenFolderPath)&"',$('#editdata').serialize(),function(data){alert('ok')});return false})</script>"
 	End If
 
 

@@ -367,7 +367,7 @@ $(document).click(function (event){$('#ulTag').slideUp("fast");});
 
 //文章内容或摘要变动提示保存
 window.onbeforeunload = function(){
-	if (!isSubmit && (sContent!=editor_api.editor.content.get() || sIntro!=editor_api.editor.intro.get())) return "您当前的编辑内容还未保存！";
+	if (!isSubmit && (sContent!=editor_api.editor.content.get() || sIntro!=editor_api.editor.intro.get())) return "<%=ZC_MSG302%>";
 }
 
 editor_init();

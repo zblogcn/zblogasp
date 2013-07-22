@@ -127,6 +127,7 @@ filter: alpha(opacity=35);
               <li class="topNavItem" _enable="{%date%}"><a title="日期"><u>{%date%}</u><i></i></a></li>
               <li class="topNavItem" _enable="{%id%}"><a title="ID"><u>{%id%}</u><i></i></a></li>
               <li class="topNavItem" _enable="{%alias%}"><a title="别名"><u>{%alias%}</u><i></i></a></li>
+              <li class="topNavItem" _enable="{%name%}"><a title="名称"><u>{%name%}</u><i></i></a></li>
               <li class="topNavItem" _enable="POST_FOLTER"><a><u>post</u><i></i></a></li>
 			  <li class="topNavItem" _enable="POST_FOLTER"><a><u>archives</u><i></i></a></li>
             </ul>
@@ -299,7 +300,7 @@ filter: alpha(opacity=35);
                   <td width='30%'><p align='left'><b>·TAGS页的URL配置</b><br>
                       <span class='note'></span></p></td>
                   <td><p>
-                      <input id='edtZC_TAGS_REGEX'  _enblist="{%id%}{%alias%}"  name='edtZC_TAGS_REGEX' style='width:500px;' type='text' value='<%=ZC_TAGS_REGEX%>'>
+                      <input id='edtZC_TAGS_REGEX'  _enblist="{%id%}{%alias%}{%name%}"  name='edtZC_TAGS_REGEX' style='width:500px;' type='text' value='<%=ZC_TAGS_REGEX%>'>
                       &nbsp;&nbsp;<a href="javascript:;" onClick="$(this).hide().parents('tr').next('tr').show();bmx2table()">显示系统预设..</a>
                       </label>
                     </p></td>
@@ -315,7 +316,13 @@ filter: alpha(opacity=35);
                       <label onclick="changeval(4,2)">
                         <input type="radio" name="radio4">
                         &nbsp;&nbsp;配置2:Tags 名称型 <%=BlogHost%>tags-name.html</label>
-                    </p></td>
+                    </p>
+                    <p>
+                      <label onclick="changeval(4,3)">
+                        <input type="radio" name="radio4">
+                        &nbsp;&nbsp;配置3:Tags 摘要型 <%=BlogHost%>tags-intro.html</label>
+                    </p>
+                  </td>
                 </tr>
                 <tr>
                   <td width='30%'><p align='left'><b>·日期页的URL配置</b><br>

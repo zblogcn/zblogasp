@@ -107,7 +107,7 @@ If f<>"" Then
 			Response.Write "try{$('.cp-hello').html('"&Replace(ZC_MSG023,"%s",BlogUser.FirstName) & " (" & ZVA_User_Level_Name(BlogUser.Level)&")');"
 			Response.Write "$('.cp-login').find('a').html('["&ZC_MSG248&"]');"
 			If CheckRights("ArticleEdt")=True Then
-				Response.Write "$('.cp-vrs').find('a').html('["&ZC_MSG168&"]');$('.cp-vrs').find('a').attr('href','"&BlogHost&"zb_system/cmd.asp?act=ArticleEdt&webedit=ueditor');"
+				Response.Write "$('.cp-vrs').find('a').html('["&ZC_MSG168&"]');$('.cp-vrs').find('a').attr('href','"&BlogHost&"zb_system/cmd.asp?act=ArticleEdt');"
 			End IF
 			Response.Write "}catch(e){}"
 		End If
