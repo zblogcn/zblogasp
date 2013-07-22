@@ -2205,7 +2205,11 @@ Class TArticleList
 
 
 			If InStr(ZC_TAGS_REGEX,"{%alias%}")>0 Then
-				If CheckTagByIntro(anyTag) Then i=GetTagByIntro(anyTag)
+				If CheckTagByIntro(anyTag) Then
+					i=GetTagByIntro(anyTag)
+				Else
+					If CheckTagByName(anyTag) Then i=GetTagByName(anyTag)
+				End If
 			ElseIf InStr(ZC_TAGS_REGEX,"{%id%}")>0 Then
 				i=CLng(anyTag)
 			Else
