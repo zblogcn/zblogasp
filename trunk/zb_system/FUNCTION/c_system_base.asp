@@ -914,6 +914,29 @@ Function CheckTagByName(strName)
 End Function
 
 '*********************************************************
+' 目的：    检查TAG是否存在
+'*********************************************************
+Function CheckTagByIntro(strName)
+
+	CheckTagByIntro=Not objConn.Execute("SELECT [tag_ID] FROM [blog_Tag] WHERE [tag_Intro]='" & FilterSQL(strName) &"'" ).BOF
+
+End Function
+
+'*********************************************************
+' 目的：   根据TAG别名得到TAG ID
+'*********************************************************
+Function GetTagByIntro(strName)
+	Dim objRS
+	Set objRS=objConn.Execute("SELECT [tag_ID] FROM [blog_Tag] WHERE [tag_Intro]='"&FilterSQL(strName)&"'" )
+	If (Not objRS.bof) And (Not objRS.eof) Then
+		GetTagByIntro=objRS(0)
+	Else
+		GetTagByIntro=0
+	End If
+End Function
+'*********************************************************
+
+'*********************************************************
 ' 目的：   根据TAG名得到TAG ID
 '*********************************************************
 Function GetTagByName(strName)

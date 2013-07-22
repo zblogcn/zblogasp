@@ -766,6 +766,7 @@ Class TArticle
 			Set objRSsub=Nothing
 		End If
 
+
 		If Len(Title)=0 Then Post=False:Exit Function
 		If Len(Content)=0 Then Post=False:Exit Function
 		'If Len(Intro)=0 Then Intro=Left(Content,ZC_ARTICLE_EXCERPT_MAX) & "..."
@@ -2202,11 +2203,15 @@ Class TArticleList
 
 			ListType="TAGS"
 
-			If InStr(ZC_TAGS_REGEX,"{%id%}")>0 Then
+
+			If InStr(ZC_TAGS_REGEX,"{%alias%}")>0 Then
+				If CheckTagByIntro(anyTag) Then i=GetTagByIntro(anyTag)
+			ElseIf InStr(ZC_TAGS_REGEX,"{%id%}")>0 Then
 				i=CLng(anyTag)
 			Else
 				If CheckTagByName(anyTag) Then i=GetTagByName(anyTag)
 			End If
+
 			objRS.Source=objRS.Source & "AND([log_Tag] LIKE '%{" & i & "}%')"
 
 			intTag=i
@@ -4400,7 +4405,7 @@ Class TTag
 
 
 	Public Property Get FullPath
-		FullPath=ParseCustomDirectoryForPath(FullRegex,ZC_STATIC_DIRECTORY,"","","","","",ID,Name,EncodeName)
+		FullPath=ParseCustomDirectoryForPath(FullRegex,ZC_STATIC_DIRECTORY,"","","","","",ID,Name,Intro)
 	End Property
 
 	Public Property Get Url
@@ -4412,7 +4417,7 @@ Class TTag
 			If bAction_Plugin_TTag_Url=True Then Exit Property
 		Next
 
-		Url =ParseCustomDirectoryForUrl(FullRegex,ZC_STATIC_DIRECTORY,"","","","","",ID,Name,EncodeName)
+		Url =ParseCustomDirectoryForUrl(FullRegex,ZC_STATIC_DIRECTORY,"","","","","",ID,Name,Intro)
 		If Right(Url,12)="default.html" Then Url=Left(Url,Len(Url)-12)
 
 		Url=Replace(Replace(Url,"//","/"),":/","://",1,1)
