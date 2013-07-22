@@ -28,7 +28,7 @@ End Function
 
 
 '查询文章
-Function Search(strQuestion,show_num,shou_meta)
+Function wx_Search(strQuestion,show_num,shou_meta)
 	Dim LTRS,InserNewHtml:InserNewHtml = ""
 	Set LTRS=objConn.Execute("SELECT TOP "&show_num&"  [log_ID],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_PostTime],[log_FullUrl] FROM [blog_Article] WHERE ([log_Type]=0) And ([log_ID]>0) AND( (InStr(1,LCase([log_Title]),LCase('"&strQuestion&"'),0)<>0) OR (InStr(1,LCase([log_Intro]),LCase('"&strQuestion&"'),0)<>0) OR (InStr(1,LCase([log_Content]),LCase('"&strQuestion&"'),0)<>0) )")
 	Do Until LTRS.Eof
@@ -46,8 +46,8 @@ Function Search(strQuestion,show_num,shou_meta)
 	InserNewHtml = Replace(InserNewHtml,"&nbsp;"," ")
 	InserNewHtml = Replace(InserNewHtml,"<#ZC_BLOG_HOST#>",BlogHost)
 	
-	Search = "“" & strQuestion & "”搜索结果：" & VBCrLf
-	Search = Search & InserNewHtml & "  提示：请直接点击文章标题查看博客文章。"
+	wx_Search = "“" & strQuestion & "”搜索结果：" & VBCrLf
+	wx_Search = wx_Search & InserNewHtml & "  提示：请直接点击文章标题查看博客文章。"
 End Function
 
 '最新文章
@@ -58,7 +58,7 @@ Function LastPost(number)
 		InserNewHtml = InserNewHtml & "<item><Title><![CDATA[" & LTRS("log_Title") & "]]></Title><Description><![CDATA[" & TransferHTML(LTRS("log_Intro"),"[nohtml]") & "]]></Description><PicUrl><![CDATA["
 
 		if GetFirstUrl(LTRS("log_Content"))="" then
-			InserNewHtml = InserNewHtml & "http://imzhou.com/ZB_USERS/plugin/weixin/defaultpic.jpg"
+			InserNewHtml = InserNewHtml & BlogHost &"ZB_USERS/plugin/weixin/defaultpic.jpg"
 		else
 			InserNewHtml = InserNewHtml & GetFirstUrl(LTRS("log_Content"))
 		End if
