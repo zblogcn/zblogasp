@@ -66,7 +66,7 @@ ZC_MSG047="Edit Article"
 ZC_MSG048="Article"
 ZC_MSG049="Remember me"
 ZC_MSG050="Calendar"'Calendar
-ZC_MSG051="Keep on top"
+ZC_MSG051="Top"
 ZC_MSG052="Navigation"'Navigation
 ZC_MSG053="Email"
 ZC_MSG054="Website"
@@ -266,7 +266,7 @@ ZC_MSG247="Website Settings"
 ZC_MSG248="Dashboard"
 ZC_MSG249="Level"
 ZC_MSG250="Saving"
-ZC_MSG251="seconds to save"
+ZC_MSG251=" seconds to save"
 ZC_MSG252="Restore"
 ZC_MSG253="Restored"
 ZC_MSG254="Doing this will override existing content, are you sure?"
@@ -317,8 +317,13 @@ ZC_MSG298="Hide model title"
 ZC_MSG299="In the template, this model is labelled as:"
 ZC_MSG300="Language Pack"
 ZC_MSG301="Enable code highlighting (the default editor uses SyntaxHighLighter)"
-
-
+ZC_MSG302="Unsaved article!"
+ZC_MSG303="Thanks"
+ZC_MSG304="Develop"
+ZC_MSG305="Design"
+ZC_MSG306="Support"
+ZC_MSG307="Thanks"
+ZC_MSG308="and other friends"
 
 
 
