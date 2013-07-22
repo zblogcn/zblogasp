@@ -4369,6 +4369,9 @@ Class TTag
 	Public Property Get EncodeName
 		EncodeName = Server.URLEncode(Name)
 	End Property
+	Public Property Get EncodeIntro
+		EncodeIntro = Server.URLEncode(Intro)
+	End Property
 
 	Private Ftemplate
 	Public Property Let Template(strFileName)
@@ -4405,7 +4408,7 @@ Class TTag
 
 
 	Public Property Get FullPath
-		FullPath=ParseCustomDirectoryForPath(FullRegex,ZC_STATIC_DIRECTORY,"","","","","",ID,Name,Intro)
+		FullPath=ParseCustomDirectoryForPath(FullRegex,ZC_STATIC_DIRECTORY,"","","","","",ID,Name,StaticName)
 	End Property
 
 	Public Property Get Url
@@ -4417,7 +4420,7 @@ Class TTag
 			If bAction_Plugin_TTag_Url=True Then Exit Property
 		Next
 
-		Url =ParseCustomDirectoryForUrl(FullRegex,ZC_STATIC_DIRECTORY,"","","","","",ID,Name,Intro)
+		Url =ParseCustomDirectoryForUrl(FullRegex,ZC_STATIC_DIRECTORY,"","","","","",ID,Name,StaticName)
 		If Right(Url,12)="default.html" Then Url=Left(Url,Len(Url)-12)
 
 		Url=Replace(Replace(Url,"//","/"),":/","://",1,1)
@@ -4428,12 +4431,11 @@ Class TTag
 
 
 	Public Property Get StaticName
-		StaticName =EncodeName
-		'If IsNull(Alias) Or IsEmpty(Alias) Or Alias="" Then
-		'	StaticName = ID
-		'Else
-		'	StaticName = Alias
-		'End If
+		If IsNull(Intro) Or IsEmpty(Intro) Or Intro="" Then
+			StaticName = Name
+		Else
+			StaticName = Intro
+		End If
 	End Property
 
 
