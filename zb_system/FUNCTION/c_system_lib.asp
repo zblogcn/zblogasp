@@ -4420,7 +4420,7 @@ Class TTag
 			If bAction_Plugin_TTag_Url=True Then Exit Property
 		Next
 
-		Url =ParseCustomDirectoryForUrl(FullRegex,ZC_STATIC_DIRECTORY,"","","","","",ID,Name,StaticName)
+		Url =ParseCustomDirectoryForUrl(FullRegex,ZC_STATIC_DIRECTORY,"","","","","",ID,EncodeName,StaticEncodeName)
 		If Right(Url,12)="default.html" Then Url=Left(Url,Len(Url)-12)
 
 		Url=Replace(Replace(Url,"//","/"),":/","://",1,1)
@@ -4435,6 +4435,14 @@ Class TTag
 			StaticName = Name
 		Else
 			StaticName = Intro
+		End If
+	End Property
+
+	Public Property Get StaticEncodeName
+		If IsNull(Intro) Or IsEmpty(Intro) Or Intro="" Then
+			StaticEncodeName = EncodeName
+		Else
+			StaticEncodeName = EncodeIntro
 		End If
 	End Property
 
