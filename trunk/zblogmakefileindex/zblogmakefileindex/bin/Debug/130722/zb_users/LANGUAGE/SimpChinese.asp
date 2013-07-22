@@ -5,6 +5,7 @@
 
 'The default language of uEditor
 'The language files will be loaded from ue-lang\ZC_EDITORLANG by editor.
+Dim ZC_EDITORLANG
 ZC_EDITORLANG="zh-cn"
 
 'Custom Information
