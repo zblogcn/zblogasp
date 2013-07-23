@@ -76,6 +76,7 @@ set xml_dom=Nothing
 
 Dim strQuestion
 strQuestion=Trim(TransferHTML(Content,"[nohtml]"))
+'strQuestion=FilterSQL(strQuestion)
 strQuestion=Replace(strQuestion," ","")
 	strQuestion=Replace(strQuestion,"'","")
 	strQuestion=Replace(strQuestion,"“","")

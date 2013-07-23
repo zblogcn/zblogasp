@@ -30,7 +30,13 @@ End Function
 '查询文章
 Function wx_Search(strQuestion,show_num,shou_meta)
 	Dim LTRS,InserNewHtml:InserNewHtml = ""
-	Set LTRS=objConn.Execute("SELECT TOP "&show_num&"  [log_ID],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_PostTime],[log_FullUrl] FROM [blog_Article] WHERE ([log_Type]=0) And ([log_ID]>0) AND( (InStr(1,LCase([log_Title]),LCase('"&strQuestion&"'),0)<>0) OR (InStr(1,LCase([log_Intro]),LCase('"&strQuestion&"'),0)<>0) OR (InStr(1,LCase([log_Content]),LCase('"&strQuestion&"'),0)<>0) )")
+	
+	If ZC_MSSQL_ENABLE=False Then
+		Set LTRS=objConn.Execute("SELECT TOP "&show_num&"  [log_ID],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_PostTime],[log_FullUrl] FROM [blog_Article] WHERE ([log_Type]=0) And ([log_ID]>0) AND( (InStr(1,LCase([log_Title]),LCase('"&strQuestion&"'),0)<>0) OR (InStr(1,LCase([log_Intro]),LCase('"&strQuestion&"'),0)<>0) OR (InStr(1,LCase([log_Content]),LCase('"&strQuestion&"'),0)<>0) )")
+	Else
+		Set LTRS=objConn.Execute("SELECT TOP "&show_num&"  [log_ID],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_PostTime],[log_FullUrl] FROM [blog_Article] WHERE ([log_Type]=0) And ([log_ID]>0) AND( (CHARINDEX('"&strQuestion&"',[log_Title])<>0) OR (CHARINDEX('"&strQuestion&"',[log_Intro])<>0) OR (CHARINDEX('"&strQuestion&"',[log_Content])<>0) )")
+	End If	
+	
 	Do Until LTRS.Eof
 		If shou_meta=1 Then
 			InserNewHtml = InserNewHtml & "<a href=""" & ZC_BLOG_HOST & "ZB_USERS/plugin/weixin/viewwx.asp?wid=" & LTRS("log_ID") & """>" & LTRS("log_ID") & "、" & LTRS("log_Title") & "</a>" & VBCrLf & VBCrLf
@@ -101,5 +107,4 @@ Function GetFirstUrl(ByVal strContent)
 
 	'Err.Clear
 End Function
-
 %>
