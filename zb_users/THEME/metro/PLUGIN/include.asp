@@ -7,10 +7,10 @@ Function ActivePlugin_metro()
 	Set c = New TConfig
 	c.Load("metro")
 	If c.Exists("vesion")=False Then
-		c.Write "vesion","1.1"
+		c.Write "vesion","1.3"
 		c.Write "custom_layout","r"
 		c.Write "custom_bodybg","#EEEEEE|zb_users/theme/metro/images/bg.jpg|repeat|2|top|"
-		c.Write "custom_hdbg","|zb_users/theme/metro/images/headbg.jpg|repeat  fixed|1|top|100|"
+		c.Write "custom_hdbg","|zb_users/theme/metro/images/headbg.jpg|repeat  fixed|1|top|120|"
 		c.Write "custom_color","#5EAAE4| #A3D0F2| #222222| #333333| #FFFFFF"
 		c.Save
 	End If 

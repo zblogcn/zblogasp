@@ -23,9 +23,9 @@ Call CheckReference("")
 If BlogUser.Level>1 Then Call ShowError(6)
 '检查过滤
 Dim s
-For Each s In Request.Form
+'For Each s In Request.Form
 	'FilterSQL(Request.Form(s))
-Next 
+'Next 
 
 Dim strb,strc,strh,strl
 
