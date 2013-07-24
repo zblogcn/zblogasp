@@ -471,8 +471,9 @@ function DelKey(i) {
 function AutoIntro() {
 	var s=editor_api.editor.content.get();
 	editor_api.editor.intro.put("");
-	if(s.indexOf("<hr class=\"more\" />")>-1){
+	if(s.indexOf("<hr class=\"more\" />")>-1||s.indexOf("<hr class=\"more\"/>")>-1){
 		editor_api.editor.intro.put(editor_api.editor.content.get().split("<hr class=\"more\" />")[0]);
+		editor_api.editor.intro.put(editor_api.editor.content.get().split("<hr class=\"more\"/>")[0]);
 	}else{
 		s="";
 		var ss=editor_api.editor.content.get().split("</p>");

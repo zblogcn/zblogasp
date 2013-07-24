@@ -16,7 +16,7 @@
 	<file name='zb_system\ADMIN\c_autosaverjs.asp' crc32='AE6A54AB'/>
 	<file name='zb_system\ADMIN\c_statistic.asp' crc32='14B857BC'/>
 	<file name='zb_system\ADMIN\c_updateinfo.asp' crc32='5E46F989'/>
-	<file name='zb_system\ADMIN\edit_article.asp' crc32='C8A29526'/>
+	<file name='zb_system\ADMIN\edit_article.asp' crc32='568B04FB'/>
 	<file name='zb_system\ADMIN\edit_catalog.asp' crc32='AFCEBA2B'/>
 	<file name='zb_system\ADMIN\edit_comment.asp' crc32='507B3A71'/>
 	<file name='zb_system\ADMIN\edit_function.asp' crc32='A2F6343F'/>
@@ -179,7 +179,7 @@
 	<file name='zb_system\FUNCTION\c_html_js.asp' crc32='11A3DF15'/>
 	<file name='zb_system\FUNCTION\c_html_js_add.asp' crc32='AF969D27'/>
 	<file name='zb_system\FUNCTION\c_system_base.asp' crc32='90431660'/>
-	<file name='zb_system\FUNCTION\c_system_event.asp' crc32='CEE61A32'/>
+	<file name='zb_system\FUNCTION\c_system_event.asp' crc32='E2411104'/>
 	<file name='zb_system\FUNCTION\c_system_lib.asp' crc32='69551483'/>
 	<file name='zb_system\FUNCTION\c_system_manage.asp' crc32='C47F1A12'/>
 	<file name='zb_system\FUNCTION\c_system_plugin.asp' crc32='3CC5646E'/>
@@ -305,7 +305,7 @@
 	<file name='zb_system\SCRIPT\jquery.tagto.js' crc32='71FB68F3'/>
 	<file name='zb_system\SCRIPT\jscroller.0.3.js' crc32='71CF0E84'/>
 	<file name='zb_system\SCRIPT\md5.js' crc32='4945A867'/>
-	<file name='zb_system\XML-RPC\index.asp' crc32='4EB5A10A'/>
+	<file name='zb_system\XML-RPC\index.asp' crc32='8DBD3103'/>
 	<file name='zb_users\LANGUAGE\SimpChinese.asp' crc32='ABBCB29D'/>
 	<file name='zb_users\LANGUAGE\ue-lang\zh-cn\zh-cn.js' crc32='BCBE9E39'/>
 	<file name='zb_users\LANGUAGE\ue-lang\zh-cn\images\copy.png' crc32='B27CEF5F'/>
@@ -313,4 +313,63 @@
 	<file name='zb_users\LANGUAGE\ue-lang\zh-cn\images\localimage.png' crc32='50FE7E67'/>
 	<file name='zb_users\LANGUAGE\ue-lang\zh-cn\images\music.png' crc32='37B3362B'/>
 	<file name='zb_users\LANGUAGE\ue-lang\zh-cn\images\upload.png' crc32='F5104635'/>
+	<file name='zb_users\PLUGIN\Wap\c_system_pad.asp' crc32='E9FF85B'/>
+	<file name='zb_users\PLUGIN\Wap\c_system_wap.asp' crc32='2E244B9E'/>
+	<file name='zb_users\PLUGIN\Wap\include.asp' crc32='6E634889'/>
+	<file name='zb_users\PLUGIN\Wap\Logo.png' crc32='46670CB3'/>
+	<file name='zb_users\PLUGIN\Wap\main.asp' crc32='442F2C8F'/>
+	<file name='zb_users\PLUGIN\Wap\option.asp' crc32='CD7B3729'/>
+	<file name='zb_users\PLUGIN\Wap\option_init.html' crc32='77DDD7EB'/>
+	<file name='zb_users\PLUGIN\Wap\pad.asp' crc32='80623B6B'/>
+	<file name='zb_users\PLUGIN\Wap\plugin.xml' crc32='4C2B34A8'/>
+	<file name='zb_users\PLUGIN\Wap\wap.asp' crc32='A3F088D5'/>
+	<file name='zb_users\PLUGIN\Wap\script\pad.js' crc32='411E460B'/>
+	<file name='zb_users\PLUGIN\Wap\style\favicon.ico' crc32='1CE5AAE8'/>
+	<file name='zb_users\PLUGIN\Wap\style\larrow.png' crc32='2993C736'/>
+	<file name='zb_users\PLUGIN\Wap\style\pad.css' crc32='26D25511'/>
+	<file name='zb_users\PLUGIN\Wap\style\pad1.css' crc32='4BF116FF'/>
+	<file name='zb_users\PLUGIN\Wap\style\rarrow.png' crc32='81B4D9B7'/>
+	<file name='zb_users\PLUGIN\Wap\style\wap.css' crc32='4883134A'/>
+	<file name='zb_users\PLUGIN\Wap\template\pad.html' crc32='DA11AA27'/>
+	<file name='zb_users\PLUGIN\Wap\template\pad_article-istop.html' crc32='6C142779'/>
+	<file name='zb_users\PLUGIN\Wap\template\pad_article-multi.html' crc32='DD8B8578'/>
+	<file name='zb_users\PLUGIN\Wap\template\pad_article-page.html' crc32='3E513092'/>
+	<file name='zb_users\PLUGIN\Wap\template\pad_article-single.html' crc32='5D88E893'/>
+	<file name='zb_users\PLUGIN\Wap\template\pad_article_comment.html' crc32='55AFF2FC'/>
+	<file name='zb_users\PLUGIN\Wap\template\pad_article_commentpost-verify.html' crc32='11097E1'/>
+	<file name='zb_users\PLUGIN\Wap\template\pad_article_commentpost.html' crc32='719802AF'/>
+	<file name='zb_users\PLUGIN\Wap\template\pad_article_commentpost2.html' crc32='3BCFC853'/>
+	<file name='zb_users\PLUGIN\Wap\template\pad_article_comment_pagebar.html' crc32='74D62362'/>
+	<file name='zb_users\PLUGIN\Wap\template\pad_article_comment_pagebar_l.html' crc32='2946FFD1'/>
+	<file name='zb_users\PLUGIN\Wap\template\pad_article_comment_pagebar_r.html' crc32='E263D98D'/>
+	<file name='zb_users\PLUGIN\Wap\template\pad_function.html' crc32='41643558'/>
+	<file name='zb_users\PLUGIN\Wap\template\wap_article-multi-istop.html' crc32='E0A82E55'/>
+	<file name='zb_users\PLUGIN\Wap\template\wap_article-multi.html' crc32='74285953'/>
+	<file name='zb_users\PLUGIN\Wap\template\wap_article_comment.html' crc32='9365AC8D'/>
+	<file name='zb_users\PLUGIN\Wap\template\wap_article_mutuality.html' crc32='4222E110'/>
+	<file name='zb_users\PLUGIN\Wap\template\wap_single.html' crc32='FF8C2A2F'/>
+	<file name='zb_users\PLUGIN\Wap\ueskin\modern\dialogbase.css' crc32='89D972CE'/>
+	<file name='zb_users\PLUGIN\Wap\ueskin\modern\css\ueditor.css' crc32='E4E78777'/>
+	<file name='zb_users\PLUGIN\Wap\ueskin\modern\images\anchor.gif' crc32='679F7416'/>
+	<file name='zb_users\PLUGIN\Wap\ueskin\modern\images\arrow.png' crc32='4863B4E1'/>
+	<file name='zb_users\PLUGIN\Wap\ueskin\modern\images\button-bg.gif' crc32='E7574EE'/>
+	<file name='zb_users\PLUGIN\Wap\ueskin\modern\images\cancelbutton.gif' crc32='3E173C66'/>
+	<file name='zb_users\PLUGIN\Wap\ueskin\modern\images\cursor_h.gif' crc32='470547'/>
+	<file name='zb_users\PLUGIN\Wap\ueskin\modern\images\cursor_v.gif' crc32='BA20944F'/>
+	<file name='zb_users\PLUGIN\Wap\ueskin\modern\images\dialog-title-bg.png' crc32='EE45ED7E'/>
+	<file name='zb_users\PLUGIN\Wap\ueskin\modern\images\dialog_title.png' crc32='C417B8ED'/>
+	<file name='zb_users\PLUGIN\Wap\ueskin\modern\images\filescan.png' crc32='F6C471C4'/>
+	<file name='zb_users\PLUGIN\Wap\ueskin\modern\images\highlighted.gif' crc32='7D14BB58'/>
+	<file name='zb_users\PLUGIN\Wap\ueskin\modern\images\icons-all.gif' crc32='54B97155'/>
+	<file name='zb_users\PLUGIN\Wap\ueskin\modern\images\icons-all.png' crc32='D5596C5B'/>
+	<file name='zb_users\PLUGIN\Wap\ueskin\modern\images\icons-hover.png' crc32='3E859372'/>
+	<file name='zb_users\PLUGIN\Wap\ueskin\modern\images\icons.png' crc32='8C0691AF'/>
+	<file name='zb_users\PLUGIN\Wap\ueskin\modern\images\lock.gif' crc32='17523711'/>
+	<file name='zb_users\PLUGIN\Wap\ueskin\modern\images\neweditor-tab-bg.png' crc32='FCDE8AF4'/>
+	<file name='zb_users\PLUGIN\Wap\ueskin\modern\images\scale.png' crc32='332F434B'/>
+	<file name='zb_users\PLUGIN\Wap\ueskin\modern\images\spacer.gif' crc32='AB68BD76'/>
+	<file name='zb_users\PLUGIN\Wap\ueskin\modern\images\sparator_v.png' crc32='B88E084D'/>
+	<file name='zb_users\PLUGIN\Wap\ueskin\modern\images\unhighlighted.gif' crc32='E1AB0D96'/>
+	<file name='zb_users\PLUGIN\Wap\ueskin\modern\images\upload.png' crc32='86B50C83'/>
+	<file name='zb_users\PLUGIN\Wap\ueskin\modern\images\videologo.gif' crc32='11FB1C96'/>
 </files>

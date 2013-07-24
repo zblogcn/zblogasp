@@ -41,8 +41,8 @@ Randomize
 r="?"&Rnd()
 %>
 <!--#include file="..\..\..\..\zb_system\admin\admin_header.asp"-->
-<script type="text/javascript" charset="utf-8" src="../../../../zb_system/admin/ueditor/editor_config.asp"></script>
-<script type="text/javascript" charset="utf-8" src="../../../../zb_system/admin/ueditor/editor_all.pack.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../../../zb_system/admin/ueditor/ueditor.config.asp"></script>
+<script type="text/javascript" charset="utf-8" src="../../../../zb_system/admin/ueditor/ueditor.all.min.js"></script>
 <link href="evol.colorpicker.css" rel="stylesheet" /> 
 <script src="evol.colorpicker.min.js" type="text/javascript"></script>
 <script src="custom.js" type="text/javascript"></script>
@@ -172,6 +172,7 @@ table .button{padding: 2px 12px 5px 12px; margin: 0.25em 0;}
 			</table>
 			<input name="ok" type="submit" class="button" value="保存配置"/>
 		</form>
+		<textarea name="ueimg" id="ueimg" style="display:none"></textarea>
 	</div>
 </div>
 <!--#include file="..\..\..\..\zb_system\admin\admin_footer.asp"-->
