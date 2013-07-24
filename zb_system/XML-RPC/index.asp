@@ -264,6 +264,12 @@ Function this_newPost(structPost,bolPublish)
 			s=Left(s,i-1)
 			objArticle.Intro=s
 			objArticle.Content=Replace(objArticle.Content,"<hr class=""more"" />","<!--more-->",1,1)
+		ElseIf InStr(objArticle.Content,"<hr class=""more""/>")>0 Then
+			s=objArticle.Content
+			i=InStr(s,"<hr class=""more""/>")
+			s=Left(s,i-1)
+			objArticle.Intro=s
+			objArticle.Content=Replace(objArticle.Content,"<hr class=""more""/>","<!--more-->",1,1)
 		End If
 
 		objArticle.Intro=""
@@ -362,6 +368,12 @@ Function this_editPost(intPostID,structPost,bolPublish)
 			s=Left(s,i-1)
 			objArticle.Intro=s
 			objArticle.Content=Replace(objArticle.Content,"<hr class=""more"" />","<!--more-->",1,1)
+		ElseIf InStr(objArticle.Content,"<hr class=""more""/>")>0 Then
+			s=objArticle.Content
+			i=InStr(s,"<hr class=""more""/>")
+			s=Left(s,i-1)
+			objArticle.Intro=s
+			objArticle.Content=Replace(objArticle.Content,"<hr class=""more""/>","<!--more-->",1,1)
 		End If
 
 		objArticle.Intro=""

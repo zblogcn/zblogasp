@@ -17,7 +17,7 @@ li { list-style-type: none;}
 img { border: none;}
 .clear { clear: both;}
 /*主要框架*/
-#headerbg { height:100px; background:#5EAAE4;} 
+#headerbg { height:120px; background:#5EAAE4;} 
 #content { width:980px; padding:20px 0; margin:0 auto; background: url(images/sidebar.png) repeat-y right top;}
 #main { float:left; width:720px;}
 #sidebar { float:right; width:240px; background:#E0E1E2; overflow:hidden;margin-left: 20px;}
@@ -106,7 +106,7 @@ img { border: none;}
 #divTags .function_t { background: url(images/icon/Tags.png) no-repeat 10px 5px;} /*标签云集*/
 #divSearchPanel .function_t { background: url(images/icon/Search.png) no-repeat 10px 5px;} /*搜索*/
 /*旧版日历*/
-#divCalendar { width:235px; padding:0 0 15px 5px; text-align:center;}
+#divCalendar { width:235px; padding:0 0 15px 0px; text-align:center;}
 #divCalendar .function_t { display:none;}
 #divCalendar .function_c { width:240px; padding:0 0 0 0;}
 p.y { text-align:center; height:24px; margin:0; padding:0; font-size:12px; font-weight:bold;}
@@ -156,7 +156,7 @@ p.w { background:#A9B8C5; padding:3px 0 2px 0; height:1.7em; color:#FFFFFF; text
 
 /*发布评论*/
 .commentpost { padding:15px; background:#FFFFFF; margin-bottom:10px;}
-.commentpost p { margin-bottom:10px;}
+.commentpost p { margin-bottom:10px;}.commentpost img{ margin-bottom: -6px;}
 li.msgarticle div.quote{ margin:10px 0 0 0; padding:10px; background:#FFFFFF; border:1px solid #F4F4F4;}
 li.msgarticle div.quote-title{ margin:0; padding:0; font-size:1em; color:#CC0000;}
 #inpName, #inpEmail, #inpHomePage, #inpVerify { width:200px; padding:6px 10px; border:1px solid #CCCCCC;}
