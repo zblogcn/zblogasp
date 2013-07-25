@@ -11,6 +11,17 @@ Sub ActivePlugin_YT_CMS()
 	Call Add_Action_Plugin("Action_Plugin_TArticle_Export_End","Call YT_CMS_Action_Plugin_TArticle_Export_End(html,subhtml,aryTemplateTagsName,aryTemplateTagsValue)")
 	Call Add_Response_Plugin("Response_Plugin_Edit_Form",YT_Model_Analysis)
 	Call Add_Response_Plugin("Response_Plugin_Admin_Top",MakeTopMenu(1,"Content Manage System",BlogHost&"zb_users/plugin/YTCMS/YT.Panel.asp","","_top"))
+	
+	'130722版本一个BUG临时解决方案
+	If BlogVersion=130722 Then
+		Call Add_Action_Plugin("Action_Plugin_TArticle_Url","Call GetUsersbyUserIDList(AuthorID):" & _
+			"FUrl =ParseCustomDirectoryForUrl(FullRegex,ZC_STATIC_DIRECTORY,Categorys(CateID).StaticName,Users(AuthorID).StaticName,Year(PostTime),Month(PostTime),Day(PostTime),ID,StaticName,StaticName):" & _
+			"If Right(FUrl,12)=""default.html"" Then:FUrl=Left(FUrl,Len(FUrl)-12):End If:"  & _
+			"FUrl=Replace(Replace(FUrl,""//"",""/""),"":/"",""://"",1,1):" &_
+			"Call Filter_Plugin_TArticle_Url(FUrl):" &_ 
+			"Url=FUrl:FUrl="""":bAction_Plugin_TArticle_Url=True")
+	End If
+	
 End Sub
 Function UnInstallPlugin_YTCMS()
 	'卸载模型
