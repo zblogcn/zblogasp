@@ -500,10 +500,8 @@ Class TArticle
 			bAction_Plugin_TArticle_Url=False
 			For Each sAction_Plugin_TArticle_Url in Action_Plugin_TArticle_Url
 				If Not IsEmpty(sAction_Plugin_TArticle_Url) Then Call Execute(sAction_Plugin_TArticle_Url)
-				Response.Write sAction_Plugin_TArticle_Url
 				If bAction_Plugin_TArticle_Url=True Then Exit Property
 			Next
-			
 
 			Call GetUsersbyUserIDList(AuthorID)
 			FUrl =ParseCustomDirectoryForUrl(FullRegex,ZC_STATIC_DIRECTORY,Categorys(CateID).StaticName,Users(AuthorID).StaticName,Year(PostTime),Month(PostTime),Day(PostTime),ID,StaticName,StaticName)
@@ -667,6 +665,8 @@ Class TArticle
 		objRS.Close
 		Set objRS=Nothing
 
+		FUrl=""
+
 		LoadInfobyID=True
 
 		Call Filter_Plugin_TArticle_LoadInfobyID(ID,Tag,CateID,Title,Intro,Content,Level,AuthorID,PostTime,CommNums,ViewNums,TrackBackNums,Alias,Istop,TemplateName,FullUrl,FType,MetaString)
@@ -709,6 +709,8 @@ Class TArticle
 
 		End If
 
+		FUrl=""
+		
 		LoadInfoByArray=True
 
 		Call Filter_Plugin_TArticle_LoadInfoByArray(ID,Tag,CateID,Title,Intro,Content,Level,AuthorID,PostTime,CommNums,ViewNums,TrackBackNums,Alias,Istop,TemplateName,FullUrl,FType,MetaString)
