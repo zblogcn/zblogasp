@@ -197,14 +197,9 @@ Function PostArticle()
 			s=Left(s,i-1)
 			objArticle.Intro=closeHTML(s) & "<!--autointro-->"
 			objArticle.Content=Replace(objArticle.Content,"<hr class=""more"" />","<!--more-->",1,1)
-		ElseIf InStr(objArticle.Content,"<hr class=""more""/>")>0 Then
-			s=objArticle.Content
-			i=InStr(s,"<hr class=""more""/>")
-			s=Left(s,i-1)
-			objArticle.Intro=closeHTML(s) & "<!--autointro-->"
-			objArticle.Content=Replace(objArticle.Content,"<hr class=""more""/>","<!--more-->",1,1)
 		End If
-		
+
+
 		'根据</p>分割
 		If objArticle.Intro="" Then
 			s=objArticle.Content

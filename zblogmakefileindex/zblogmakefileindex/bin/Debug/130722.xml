@@ -6,7 +6,7 @@
 	<file name='tags.asp' crc32='7EF87D78'/>
 	<file name='view.asp' crc32='5A24051D'/>
 	<file name='wap.asp' crc32='DAA5C019'/>
-	<file name='zb_system\cmd.asp' crc32='A208C3A4'/>
+	<file name='zb_system\cmd.asp' crc32='64529B7A'/>
 	<file name='zb_system\login.asp' crc32='E137C746'/>
 	<file name='zb_system\ADMIN\admin.asp' crc32='88B03C1'/>
 	<file name='zb_system\ADMIN\admin_footer.asp' crc32='BFEAE369'/>
@@ -16,7 +16,7 @@
 	<file name='zb_system\ADMIN\c_autosaverjs.asp' crc32='AE6A54AB'/>
 	<file name='zb_system\ADMIN\c_statistic.asp' crc32='14B857BC'/>
 	<file name='zb_system\ADMIN\c_updateinfo.asp' crc32='5E46F989'/>
-	<file name='zb_system\ADMIN\edit_article.asp' crc32='568B04FB'/>
+	<file name='zb_system\ADMIN\edit_article.asp' crc32='C8A29526'/>
 	<file name='zb_system\ADMIN\edit_catalog.asp' crc32='AFCEBA2B'/>
 	<file name='zb_system\ADMIN\edit_comment.asp' crc32='507B3A71'/>
 	<file name='zb_system\ADMIN\edit_function.asp' crc32='A2F6343F'/>
@@ -175,11 +175,11 @@
 	<file name='zb_system\FUNCTION\c_admin_js.asp' crc32='441E3752'/>
 	<file name='zb_system\FUNCTION\c_admin_js_add.asp' crc32='452438F2'/>
 	<file name='zb_system\FUNCTION\c_error.asp' crc32='BAF8E88C'/>
-	<file name='zb_system\FUNCTION\c_function.asp' crc32='37DD08D1'/>
+	<file name='zb_system\FUNCTION\c_function.asp' crc32='B7E3E92E'/>
 	<file name='zb_system\FUNCTION\c_html_js.asp' crc32='11A3DF15'/>
 	<file name='zb_system\FUNCTION\c_html_js_add.asp' crc32='AF969D27'/>
-	<file name='zb_system\FUNCTION\c_system_base.asp' crc32='64F80409'/>
-	<file name='zb_system\FUNCTION\c_system_event.asp' crc32='E2411104'/>
+	<file name='zb_system\FUNCTION\c_system_base.asp' crc32='90431660'/>
+	<file name='zb_system\FUNCTION\c_system_event.asp' crc32='CEE61A32'/>
 	<file name='zb_system\FUNCTION\c_system_lib.asp' crc32='69551483'/>
 	<file name='zb_system\FUNCTION\c_system_manage.asp' crc32='C47F1A12'/>
 	<file name='zb_system\FUNCTION\c_system_plugin.asp' crc32='3CC5646E'/>
@@ -305,8 +305,8 @@
 	<file name='zb_system\SCRIPT\jquery.tagto.js' crc32='71FB68F3'/>
 	<file name='zb_system\SCRIPT\jscroller.0.3.js' crc32='71CF0E84'/>
 	<file name='zb_system\SCRIPT\md5.js' crc32='4945A867'/>
-	<file name='zb_system\XML-RPC\index.asp' crc32='8DBD3103'/>
-	<file name='zb_users\LANGUAGE\SimpChinese.asp' crc32='ABBCB29D'/>
+	<file name='zb_system\XML-RPC\index.asp' crc32='4EB5A10A'/>
+	<file name='zb_users\LANGUAGE\SimpChinese.asp' crc32='C380468D'/>
 	<file name='zb_users\LANGUAGE\ue-lang\zh-cn\zh-cn.js' crc32='BCBE9E39'/>
 	<file name='zb_users\LANGUAGE\ue-lang\zh-cn\images\copy.png' crc32='B27CEF5F'/>
 	<file name='zb_users\LANGUAGE\ue-lang\zh-cn\images\imglabel.png' crc32='D19EA9A3'/>
