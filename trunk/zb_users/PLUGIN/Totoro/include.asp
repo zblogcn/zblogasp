@@ -361,7 +361,7 @@ Function Totoro_checkBadWord(ByVal content)
 	If Totoro_SV+TOTORO_BADWORD_VALUE=0 Then Exit Function
 	Dim o
 	Set o=New RegExp
-	o.Pattern=TOTORO_BADWORD_LIST
+	o.Pattern=vbsunescape(TOTORO_BADWORD_LIST)
 	o.Global=True
 	o.IgnoreCase=True
 	dim matches
