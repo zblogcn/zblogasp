@@ -169,8 +169,10 @@ End Sub
 
 Function FilterSQL(strSQL)
 	Dim s,t
-	Set t = New YT_TPL
 	s = strSQL
+	s = Trim(s)
+	if len(s)=0 or isEmpty(s) or s = "" then exit function
+	Set t = New YT_TPL
 	s = CStr(Replace(s,chr(39),chr(39)&chr(39)))
 	s = t.reg_replace("\<\!\-\-\{(.+?)\}\-\-\>","&lt;!--&#123;$1&#125;--&gt;",s)
 	s = t.reg_replace("\{\$(.+?)\}", "&#123;&#36;$1&#125;",s)
