@@ -1,0 +1,186 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="../../../zb_system/admin/ueditor/dialogs/attachment/attachment.css"/>
+    <style type="text/css">
+		#local,.wrapper {
+			position:relative;
+		}
+		.wrapper #ok {
+			position:absolute;
+			bottom: 5px;
+			left: 10px;
+		}
+		#ok,.but {
+			background-image: url(../../../zb_system/admin/ueditor/themes/default/images/fileScan.png);
+			background-position: 0 100px;
+			width:100px;
+			height:25px;
+			text-align:center;
+			font-size:14px;
+			line-height:25px;
+			cursor:pointer;
+			display:block;
+		}
+		#ok:hover,.but:hover {
+			background-position: 0 75px;
+		}
+		#startUpload {
+			background-image: url(../../../zb_system/admin/ueditor/lang/zh-cn/images/upload.png);
+			background-position: initial initial;
+			background-repeat: initial initial;
+		}
+		html  {  
+			overflow:hidden;  
+		}  
+    </style>
+</head>
+<body>
+<div class="wrapper">
+    <div class="controller">
+        <!--<span id="divStatus"></span>-->
+        <span id="spanButtonPlaceHolder"></span>
+    </div>
+    <div class="fieldset flash" id="fsUploadProgress"></div>
+    <span id="ok" style="display:none">确定</span>
+    <span id="startUpload" style="display: none;"></span>
+
+</div>
+<script type="text/javascript" src="../../../zb_system/admin/ueditor/third-party/swfupload/swfupload.js"></script>
+<script type="text/javascript" src="../../../zb_system/admin/ueditor/third-party/swfupload/swfupload.queue.js"></script>
+<script type="text/javascript" src="../../../zb_system/admin/ueditor/third-party/swfupload/fileprogress.js"></script>
+<script type="text/javascript" src="../../../zb_system/admin/ueditor/dialogs/attachment/callbacks.js"></script>
+<script type="text/javascript" src="../../../zb_system/admin/ueditor/dialogs/attachment/fileTypeMaps.js"></script>
+<script type="text/javascript">
+	var lang = {
+		'static':{
+			'lang_input_fileStatus':' 当前未上传文件',
+			'startUpload':{style:"background:url(upload.png) no-repeat;"}
+		},
+		'browseFiles':'文件浏览…',
+		'uploadSuccess':'上传成功!',
+		'delSuccessFile':'从成功队列中移除',
+		'delFailSaveFile':'移除保存失败文件',
+		'statusPrompt':' 个文件已上传！ ',
+		'flashVersionError':'当前Flash版本过低，请更新FlashPlayer后重试！',
+		'flashLoadingError':'Flash加载失败!请检查路径或网络状态',
+		'fileUploadReady':'等待上传……',
+		'delUploadQueue':'从上传队列中移除',
+		'limitPrompt1':'单次不能选择超过',
+		'limitPrompt2':'个文件！请重新选择！',
+		'delFailFile':'移除失败文件',
+		'fileSizeLimit':'文件大小超出限制！',
+		'emptyFile':'空文件无法上传！',
+		'fileTypeError':'文件类型错误！',
+		'unknownError':'未知错误！',
+		'fileUploading':'上传中，请等待……',
+		'cancelUpload':'取消上传',
+		'netError':'网络错误',
+		'failUpload':'上传失败!',
+		'serverIOError':'服务器IO错误！',
+		'noAuthority':'无权限！',
+		'fileNumLimit':'上传个数限制',
+		'failCheck':'验证失败，本次上传被跳过！',
+		'fileCanceling':'取消中，请等待……',
+		'stopUploading':'上传已停止……'
+	};
+	function GetCookie(sName) {
+	
+		var arr = document.cookie.match(new RegExp("(^| )"+sName+"=([^;]*)(;|$)"));
+		if(arr !=null){return unescape(arr[2])};
+		return null;
+	
+	}
+    var swfupload,
+        filesList=[];
+        fileFieldName:"upfile"
+    window.onload = function () {
+        var settings = {
+            upload_url:'../../../zb_system/admin/ueditor/asp/fileUp.asp',           //附件上传服务器地址
+            file_post_name:'edtFileLoad',      //向后台提交的表单名
+            flash_url:"../../../zb_system/admin/ueditor/third-party/swfupload/swfupload.swf",
+            flash9_url:"../../../zb_system/admin/ueditor/third-party/swfupload/swfupload_fp9.swf",
+            post_params:{'username':GetCookie("username"),'password':GetCookie("password")},
+            file_size_limit:"100 MB",                                 //文件大小限制，此处仅是前端flash选择时候的限制，具体还需要和后端结合判断
+            file_types:"*.*",                                         //允许的扩展名，多个扩展名之间用分号隔开，支持*通配符
+            file_types_description:"All Files",                      //扩展名描述
+            file_upload_limit:100,                                   //单次可同时上传的文件数目
+            file_queue_limit:10,                                      //队列中可同时上传的文件数目
+            custom_settings:{                                         //自定义设置，用户可在此向服务器传递自定义变量
+                progressTarget:"fsUploadProgress",
+                startUploadId:"startUpload"
+            },
+            debug:false,
+
+            // 按钮设置
+            button_image_url:"../../../zb_system/admin/ueditor/themes/default/images/filescan.png",
+            button_width:"100",
+            button_height:"25",
+            button_placeholder_id:"spanButtonPlaceHolder",
+            button_text:'<span class="theFont">'+lang.browseFiles+'</span>',
+            button_text_style:".theFont { font-size:14px;}",
+            button_text_left_padding:10,
+            button_text_top_padding:4,
+
+            // 所有回调函数 in handlers.js
+            swfupload_preload_handler:preLoad,
+            swfupload_load_failed_handler:loadFailed,
+            file_queued_handler:fileQueued,
+            file_queue_error_handler:fileQueueError,
+            //选择文件完成回调
+            file_dialog_complete_handler:function(numFilesSelected, numFilesQueued) {
+                var me = this;        //此处的this是swfupload对象
+                if (numFilesQueued > 0) {
+                    var start = document.getElementById(this.customSettings.startUploadId);
+                    start.style.display = "";
+                    start.onclick = function(){
+                        me.startUpload();
+                        start.style.display = "none";
+                    }
+                }
+            },
+            upload_start_handler:uploadStart,
+            upload_progress_handler:uploadProgress,
+            upload_error_handler:uploadError,
+            upload_success_handler:function (file, serverData) {
+                try{
+                    var info = eval("("+serverData+")");
+                }catch(e){}
+                var progress = new FileProgress(file, this.customSettings.progressTarget);
+                if(info.state=="SUCCESS"){
+                    progress.setComplete();
+                    progress.setStatus("<span style='color: #0b0;font-weight: bold'>"+lang.uploadSuccess+"</span>");
+                    filesList.push({url:info.url,type:info.fileType,original:info.original});
+                    progress.toggleCancel(true,this,lang.delSuccessFile);
+                }else{
+                    progress.setError();
+                    progress.setStatus(info.state);
+                    progress.toggleCancel(true,this,lang.delFailSaveFile);
+                }
+
+            },
+            //上传完成回调
+            upload_complete_handler:uploadComplete,
+            //队列完成回调
+            queue_complete_handler:function(numFilesUploaded){
+            	document.getElementById('ok').style.display = 'block';
+//                var status = $G("divStatus");
+//                var num = status.innerHTML.match(/\d+/g);
+//                status.innerHTML = ((num && num[0] ?parseInt(num[0]):0) + numFilesUploaded) +lang.statusPrompt;
+            }
+        };
+        swfupload = new SWFUpload( settings );
+		swfupload.addPostParam("username",GetCookie("username"));
+		swfupload.addPostParam("password",GetCookie("password"));
+        //点击OK按钮
+        document.getElementById('ok').onclick = function(){
+            window.dialogArguments.callbacks(filesList,window);
+            swfupload.destroy();
+        };
+    };
+</script>
+
+</body>
+</html>

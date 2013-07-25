@@ -104,16 +104,20 @@ Class YT_TPL
 	End Function
 	Private Function crlf(t)
 		crlf = False
-		t = Trim(Replace(t,vbTab,Empty))
-		If t = "{::vblf}" Or t = "{::vbcrlf}" Or t = "{::vbcr}" Then
-			crlf = True
-		End If
+		dim s
+		s = t
+		s = replace(s,"{::vbcrlf}","")
+		s = replace(s,"{::vblf}","")
+		s = replace(s,"{::vbcr}","")
+		s = trim(replace(s,vbTab,""))
+		If len(s)=0 Then crlf = True
 	End Function
 	Public Function display()
 		On Error Resume Next
 		Dim d,e,h,j,k,l,m,n,p
 		Dim s,r,t,u,v,w,x
 		w = template
+		template = TransferHTML(template,"[japan-html]")
 		template = html_replace(template)
 		d = reg_match("\{YT\:([a-z]+)([^\}]+)\}",template)
 		For Each e In d
@@ -155,14 +159,15 @@ Class YT_TPL
 		Execute(k)
 		If Err.Number<>0 then
 			s = "<fieldset><legend>$1</legend>$2</fieldset>"
-			s = Replace(s,"$1",Err.Source)
-			s = Replace(s,"$2",Err.Number&vbTab&Err.Description)
+			s = Replace(s,"$1","Content Manage System")
+			s = Replace(s,"$2",Err.Source&vbTab&Err.Number&vbTab&Err.Description)
 			Err.Clear
 			display = s
 		Else
 			htm = replace(htm,"{::vbcrlf}",vbcrlf)
 			htm = replace(htm,"{::vblf}",vblf)
 			htm = replace(htm,"{::vbcr}",vbcr)
+			htm = TransferHTML(htm,"[html-japan]")
 			display = htm
 		End If
 	End Function
