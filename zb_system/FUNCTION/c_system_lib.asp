@@ -259,8 +259,6 @@ Class TCategory
 		objRS.Close
 		Set objRS=Nothing
 		
-		FUrl=""	
-
 		Call Filter_Plugin_TCategory_LoadInfoByID(ID,Name,Intro,Order,Count,ParentID,Alias,TemplateName,LogTemplate,FullUrl,MetaString)
 
 	End Function
@@ -284,8 +282,6 @@ Class TCategory
 
 		LoadInfoByArray=True
 		
-		FUrl=""		
-
 		Call Filter_Plugin_TCategory_LoadInfoByArray(ID,Name,Intro,Order,Count,ParentID,Alias,TemplateName,LogTemplate,FullUrl,MetaString)
 
 	End Function
