@@ -422,13 +422,12 @@ Function ArticleEdt
 		If bAction_Plugin_ArticleEdt_Begin=True Then Exit Function
 	Next
 
-	If Request.QueryString("webedit")<>"" Then
-		If IsEmpty(Request.QueryString("id"))=False Then
-			Response.Redirect "admin/edit_article.asp?id="& Request.QueryString("id") & IIf(Request.QueryString("type")="Page","&type=Page","")
-		Else
-			Response.Redirect "admin/edit_article.asp" & IIf(Request.QueryString("type")="Page","?type=Page","")
-		End If
+	If IsEmpty(Request.QueryString("id"))=False Then
+		Response.Redirect "admin/edit_article.asp?id="& Request.QueryString("id") & IIf(Request.QueryString("type")="Page","&type=Page","")
+	Else
+		Response.Redirect "admin/edit_article.asp" & IIf(Request.QueryString("type")="Page","?type=Page","")
 	End If
+
 
 End Function
 
