@@ -7,6 +7,13 @@ D:\My Documents\Visual Studio 2005\Projects\zblogmakefileindex\zblogmakefileinde
 D:\My Documents\Visual Studio 2005\Projects\zblogmakefileindex\zblogmakefileindex\obj\Debug\zblogmakefileindex.Form1.resources
 D:\My Documents\Visual Studio 2005\Projects\zblogmakefileindex\zblogmakefileindex\obj\Debug\zblogmakefileindex.Resources.resources
 D:\My Documents\Visual Studio 2005\Projects\zblogmakefileindex\zblogmakefileindex\obj\Debug\zblogmakefileindex.vbproj.GenerateResource.Cache
+D:\inetpub\zblog-1-9\zblogmakefileindex\zblogmakefileindex\bin\Debug\zblogmakefileindex.exe.config
+D:\inetpub\zblog-1-9\zblogmakefileindex\zblogmakefileindex\bin\Debug\zblogmakefileindex.exe
+D:\inetpub\zblog-1-9\zblogmakefileindex\zblogmakefileindex\bin\Debug\zblogmakefileindex.pdb
+D:\inetpub\zblog-1-9\zblogmakefileindex\zblogmakefileindex\bin\Debug\zblogmakefileindex.xml
+D:\inetpub\zblog-1-9\zblogmakefileindex\zblogmakefileindex\obj\Debug\zblogmakefileindex.Form1.resources
+D:\inetpub\zblog-1-9\zblogmakefileindex\zblogmakefileindex\obj\Debug\zblogmakefileindex.Resources.resources
+D:\inetpub\zblog-1-9\zblogmakefileindex\zblogmakefileindex\obj\Debug\zblogmakefileindex.vbproj.GenerateResource.Cache
 D:\inetpub\zblog-1-9\zblogmakefileindex\zblogmakefileindex\obj\Debug\zblogmakefileindex.exe
 D:\inetpub\zblog-1-9\zblogmakefileindex\zblogmakefileindex\obj\Debug\zblogmakefileindex.xml
 D:\inetpub\zblog-1-9\zblogmakefileindex\zblogmakefileindex\obj\Debug\zblogmakefileindex.pdb

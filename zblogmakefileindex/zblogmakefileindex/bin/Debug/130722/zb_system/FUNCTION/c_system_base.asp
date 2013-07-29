@@ -1161,7 +1161,7 @@ Function MakeCalendar(dtmYearMonth)
 			k=k+1
 		End If
 			
-		if j=b-1 then strCalendar=strCalendar & "<td class=""pad"" colspan="""& (7-lasw) &"""> </td>"		
+		if j=b-1 AND lasw<>7 then strCalendar=strCalendar & "<td class=""pad"" colspan="""& (7-lasw) &"""> </td>"		
 
 		If (j Mod 7)=6 Then strCalendar=strCalendar & "</tr>"
 
