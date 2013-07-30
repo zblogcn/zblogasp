@@ -128,6 +128,8 @@ ZC_BLOG_PRODUCT_FULL=""
 Dim ZC_BLOG_PRODUCT_FULLHTML
 ZC_BLOG_PRODUCT_FULLHTML=""
 
+Response.AddHeader "Product","Z-Blog " & ZC_BLOG_VERSION
+
 '*********************************************************
 ' 目的：    System 初始化
 '*********************************************************
