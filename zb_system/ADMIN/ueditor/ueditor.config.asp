@@ -44,15 +44,16 @@ Next
     oDic.Add "snapscreenPath",""""&Path&""""
 '技术原因，截图无法实现。该EXE太奇葩。
     oDic.Add "getMovieUrl","URL+""asp/getMovie.asp"""
-	oDic.Add "toolbars","[ [ 'source', '|', 'undo', 'redo', '|', 'bold', 'italic', 'underline', 'strikethrough', 'superscript', 'subscript','forecolor', 'backcolor', '|', 'insertorderedlist', 'insertunorderedlist','indent', 'justifyleft', 'justifycenter', 'justifyright','|', 'removeformat','formatmatch','autotypeset', 'searchreplace'],[ 'fontfamily', 'fontsize','|', 'emotion','link','music','insertimage','scrawl','insertvideo', 'attachment','spechars','|', 'map', 'gmap','|', "&IIf(ZC_SYNTAXHIGHLIGHTER_ENABLE,"'insertcode',","")&"'blockquote', 'pasteplain','wordimage','inserttable', 'horizontal','fullscreen']]"
+	oDic.Add "toolbars","[ [ 'source', '|', 'undo', 'redo', '|', 'bold', 'italic', 'underline', 'strikethrough', 'superscript', 'subscript','forecolor', 'backcolor', '|', 'insertorderedlist', 'insertunorderedlist','indent', 'justifyleft', 'justifycenter', 'justifyright','|', 'removeformat','formatmatch','autotypeset', 'searchreplace','pasteplain'],[ 'fontfamily', 'fontsize','|', 'emotion','link','music','insertimage','scrawl','insertvideo', 'attachment','spechars','|', 'map', 'gmap','|', "&IIf(ZC_SYNTAXHIGHLIGHTER_ENABLE,"'insertcode',","")&"'blockquote', 'wordimage','inserttable', 'horizontal','fullscreen']]"
+	oDic.Add "shortcutMenu","['fontfamily', 'fontsize', 'bold', 'italic', 'underline', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist']"
 	oDic.Add "maximumWords",1000000000
-	oDic.Add "wordCountMsg","'当前已输入 {#count} 个字符 '"
+	'oDic.Add "wordCountMsg","'当前已输入 {#count} 个字符 '"
 	oDic.Add "initialContent","'<p></p>'"
 	oDic.Add "initialStyle","'body{font-size:14px;font-family:微软雅黑,宋体,Arial,Helvetica,sans-serif;}'"
 	oDic.Add "wordCount","true"
 	oDic.Add "elementPathEnabled","true"
 	oDic.Add "initialFrameHeight","300"
-	oDic.Add  "toolbarTopOffset","200"
+	oDic.Add "toolbarTopOffset","200"
     oDic.Add "scrawlUrl"," URL+""asp/scrawlUp.asp"""
     oDic.Add "scrawlPath",""""&Path&""""
 	oDic.Add "scrawlFieldName","""edtFileLoad"""
@@ -65,6 +66,7 @@ Next
 	oDic.Add "codeMirrorJsUrl","URL+ ""third-party/codemirror/codemirror.js"""
 	oDic.Add "codeMirrorCssUrl","URL+ ""third-party/codemirror/codemirror.css"""
 	oDic.Add "maxUpFileSize",""""&ZC_UPLOAD_FILESIZE/(1024*1024)&""""'Byte转成Mb
+	oDic.Add "allowDivTransToP","false"
 	
 	Dim i,aryKeys,aryItems
 	aryKeys=oDic.Keys
