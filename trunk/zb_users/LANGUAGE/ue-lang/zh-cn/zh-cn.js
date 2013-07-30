@@ -260,6 +260,7 @@ UE.I18N['zh-cn'] = {
         'floatLeft':"左浮动",
         'floatRight':"右浮动",
         'floatCenter':"居中",
+        'submitButton':'提交',
         'flashI18n':{} //留空默认中文
     },
     'webapp':{
