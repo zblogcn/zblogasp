@@ -11,8 +11,8 @@
     <div class="wrapper">
         <div id="imageTab">
             <div id="tabHeads" class="tabhead">
-                <span tabSrc="remote"  class="focus"><var id="lang_tab_remote"></var></span>
-                <span tabSrc="local"><var id="lang_tab_local"></var></span>
+                <span tabSrc="remote"><var id="lang_tab_remote"></var></span>
+                <span tabSrc="local" class="focus"><var id="lang_tab_local"></var></span>
                 <span tabSrc="imgManager"><var id="lang_tab_imgManager"></var></span>
                 <span tabSrc="imgSearch"><var id="lang_tab_imgSearch"></var></span>
             </div>
@@ -203,6 +203,8 @@
                 this.style.display = "none";
                 $G("savePath").parentNode.style.display = "none";
             };
+
+
             if(typeof(baidu.swf.version)=="undefined"){
                 $G("uploadFile").name=editor.options.imageFieldName;
                 $G("uploadForm").action=editor.options.imageNoFlashUrl;
