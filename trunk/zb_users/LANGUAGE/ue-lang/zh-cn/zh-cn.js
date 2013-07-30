@@ -135,7 +135,7 @@ UE.I18N['zh-cn'] = {
         'insertcol':"左插入列",
         'insertrownext':'后插入行',
         'insertcolnext':'右插入列',
-        insertcaption:'插入表格名称',
+        'insertcaption':'插入表格名称',
         'deletecaption':'删除表格名称',
         'inserttitle':'插入表格标题行',
         'deletetitle':'删除表格标题行',
@@ -260,7 +260,6 @@ UE.I18N['zh-cn'] = {
         'floatLeft':"左浮动",
         'floatRight':"右浮动",
         'floatCenter':"居中",
-        'submitButton':'提交',
         'flashI18n':{} //留空默认中文
     },
     'webapp':{
@@ -425,6 +424,8 @@ UE.I18N['zh-cn'] = {
             lang_search1:"查找",
             lang_search2:"查找",
             lang_replace:"替换",
+            lang_searchReg:'支持正则表达式，添加前后斜杠标示为正则表达式，例如“/表达式/”',
+            lang_searchReg1:'支持正则表达式，添加前后斜杠标示为正则表达式，例如“/表达式/”',
             lang_case_sensitive1:"区分大小写",
             lang_case_sensitive2:"区分大小写",
             nextFindBtn:{value:"下一个"},
