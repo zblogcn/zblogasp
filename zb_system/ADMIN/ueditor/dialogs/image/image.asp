@@ -54,9 +54,15 @@
                 </div>
                 <div id="local" class="panel">
                     <div id="flashContainer"></div>
+                    <div id="inputUpload" style="display:none">
+                         <form method="POST" enctype="multipart/form-data" id="uploadForm">
+                             <input type="file" name="" id="uploadFile" />
+                            <input type="submit" value="" id="submitButton"/>
+                         </form>
+                    </div>
                     <div><div id="upload" style="display: none" ></div><div id="duiqi"></div><div id="localFloat"></div></div>
 
-                    <div class="saveDir">
+                    <div class="saveDir" style="display:none">
                         <var id="lang_savePath" ></var>：<select id="savePath">
                             <option value="1">upload</option>
                             <option value="2">upload1</option>
@@ -99,7 +105,7 @@
 
         editor.setOpt({
             imageFieldName:"upfile",
-            compressSide:0,
+            compressSide:1,
             maxImageSideLength:900
         });
         utils.domReady(function(){
@@ -117,7 +123,7 @@
                 picHeight:100,     // 单张预览图片的高度
                 uploadDataFieldName:editor.options.imageFieldName,    // POST请求中图片数据的key
                 picDescFieldName:'pictitle',      // POST请求中图片描述的key
-                maxSize:4,                         // 文件的最大体积,单位M
+                maxSize:editor.options.maxUpFileSize,                         // 文件的最大体积,单位M
                 compressSize:2,                   // 上传前如果图片体积超过该值，会先压缩,单位M
                 maxNum:32,                         // 单次最大可上传多少个文件
                 compressSide:editor.options.compressSide,                 //等比压缩的基准，0为按照最长边，1为按照宽度，2为按照高度
@@ -197,7 +203,15 @@
                 this.style.display = "none";
                 $G("savePath").parentNode.style.display = "none";
             };
-
+            if(typeof(baidu.swf.version)=="undefined"){
+                $G("uploadFile").name=editor.options.imageFieldName;
+                $G("uploadForm").action=editor.options.imageNoFlashUrl;
+                $G("inputUpload").style.display = "block" ;
+                $G("submitButton").value = lang.submitButton;
+                $G("duiqi").style.display = "none";
+                $G("localFloat").style.display = "none";
+                $G("upload").style.display = "none";
+            }
         });
     </script>
 </body>
