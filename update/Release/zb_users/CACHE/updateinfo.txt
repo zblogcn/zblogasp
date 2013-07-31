@@ -1,8 +1,6 @@
-﻿<p><a href="http://bbs.rainbowsoft.org/thread-79819-1-1.html" target="_blank"><font color="Red">Z-Blog 2.1 Phoenix Build 130128 发布——末日后的涅磐重生 (2013-01-28)</font></a></p>
+﻿<p><a href="http://blog.rainbowsoft.org/2013/07/22/67/" target="_blank"><span style="color:red">Z-Blog 2.2 Prism Build 130722 '棱镜'发布了 (2013-07-22)</span></a></p>
 
 <p><a href="http://bbs.rainbowsoft.org/thread-77001-1-1.html" target="_blank">Z-Blog 2.0的应用中心正式上线了!欢迎开发者进驻. (2013-01-01)</a></p>
-
-<p><a href="http://bbs.rainbowsoft.org/thread-78976-1-1.html" target="_blank">Z-Blog 2.0 Doomsday Build 121221发布！世界末日没来,Z-Blog 2.0来了! (2012-12-21)</a></p>
 
 <p><a href="http://t.qq.com/zblogcn" target="_blank">Z-Blog官方微博正式上线,并通过腾讯机构认证http://t.qq.com/zblogcn (2012-7-16)</a></p>
 

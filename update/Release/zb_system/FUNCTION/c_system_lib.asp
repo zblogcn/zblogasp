@@ -258,7 +258,7 @@ Class TCategory
 
 		objRS.Close
 		Set objRS=Nothing
-
+		
 		Call Filter_Plugin_TCategory_LoadInfoByID(ID,Name,Intro,Order,Count,ParentID,Alias,TemplateName,LogTemplate,FullUrl,MetaString)
 
 	End Function
@@ -281,7 +281,7 @@ Class TCategory
 		End If
 
 		LoadInfoByArray=True
-
+		
 		Call Filter_Plugin_TCategory_LoadInfoByArray(ID,Name,Intro,Order,Count,ParentID,Alias,TemplateName,LogTemplate,FullUrl,MetaString)
 
 	End Function
@@ -665,6 +665,8 @@ Class TArticle
 		objRS.Close
 		Set objRS=Nothing
 
+		FUrl=""
+
 		LoadInfobyID=True
 
 		Call Filter_Plugin_TArticle_LoadInfobyID(ID,Tag,CateID,Title,Intro,Content,Level,AuthorID,PostTime,CommNums,ViewNums,TrackBackNums,Alias,Istop,TemplateName,FullUrl,FType,MetaString)
@@ -707,6 +709,8 @@ Class TArticle
 
 		End If
 
+		FUrl=""
+		
 		LoadInfoByArray=True
 
 		Call Filter_Plugin_TArticle_LoadInfoByArray(ID,Tag,CateID,Title,Intro,Content,Level,AuthorID,PostTime,CommNums,ViewNums,TrackBackNums,Alias,Istop,TemplateName,FullUrl,FType,MetaString)

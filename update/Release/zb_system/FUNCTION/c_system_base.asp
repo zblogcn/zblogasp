@@ -128,6 +128,8 @@ ZC_BLOG_PRODUCT_FULL=""
 Dim ZC_BLOG_PRODUCT_FULLHTML
 ZC_BLOG_PRODUCT_FULLHTML=""
 
+Response.AddHeader "Product","Z-Blog " & ZC_BLOG_VERSION
+
 '*********************************************************
 ' 目的：    System 初始化
 '*********************************************************
@@ -4026,7 +4028,7 @@ Function RefreshOptionFormFileToDB()
 			Call Execute("Call BlogConfig.Write("""&a&""","&a&")")
 		End If
 	Next
-	Call BlogConfig.Write("ZC_BLOG_VERSION","2.2 Prism Build 130722")
+	Call BlogConfig.Write("ZC_BLOG_VERSION","2.2 Prism Build 130801")
 	Call BlogConfig.Write("ZC_BLOG_CLSID",ZC_BLOG_CLSID_ORIGINAL)
 
 	Call BlogConfig.Save()
@@ -4061,6 +4063,8 @@ Function GetVersionByBuild(b)
 	s="Z-Blog 2.1 Phoenix Build 130128"
 	Case "130722"
 	s="Z-Blog 2.2 Prism Build 130722"
+	Case "1300801"
+	s="Z-Blog 2.2 Prism Build 130801"	
 	Case Else
 	s="Z-Blog 2.X Other Build " & s
 	End Select
