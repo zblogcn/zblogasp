@@ -10,8 +10,9 @@ Z-Blog 1.8-->2.X升级向导
 4.将Z-Blog 1.8目录中 DATA 目录下的文件转移至Z-Blog 2.X的 zb_users\DATA 目录下。
 5.将Z-Blog 1.8目录中 UPLOAD 目录下的文件转移至Z-Blog 2.X的 zb_users\UPLOAD 目录下。
 6.将Z-Blog 1.8目录中 INCLUDE 目录下的文件转移至Z-Blog 2.X的 zb_users\INCLUDE 目录下。
-7.运行http://你的网站/zb_update18to20/default.asp进入升级程序。
-8.升级完成后请进入后台进行文件重建，并请务必要删除zb_install和zb_update18to20文件夹。
+7.在官方论坛的主程序下载页面下载升级包并解在Z-Blog 2.X的目录下。
+8.运行http://你的网站/zb_update18to20/default.asp进入升级程序。
+9.升级完成后请进入后台进行文件重建，并请删除zb_install和zb_update18to20文件夹。
 
 *若熟悉IIS自建网站，推荐在本地升级成功后再将更新后程序文件提交站点。
 *1.8版本的主题与插件将不再适用于2.X，请关注Z-Blog官方论坛[Z-Blog 2.X应用发布]版块，查看相关主题或插件是否有更新版本。

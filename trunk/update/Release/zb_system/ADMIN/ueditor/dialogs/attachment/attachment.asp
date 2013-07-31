@@ -4,8 +4,9 @@
 <head>
     <title></title>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
-    <script type="text/javascript" src="../internal.js"></script>
     <link rel="stylesheet" type="text/css" href="attachment.css"/>
+    <script type="text/javascript" src="../internal.js"></script>
+
 </head>
 <body>
 <div class="wrapper">
@@ -115,7 +116,7 @@
                 var str="";
             for(var i=0,ci;ci=filesList[i++];){
                 var src = top.bloghost + getIco(ci.type);
-                str += "<p style='line-height: 16px;'><img src='"+ src + "' _src='"+src+"' />" +
+                str += "<p style='line-height: 16px;'><img src='"+ src + "' data_ue_src='"+src+"' />" +
                        "<a href='"+editor.options.filePath + ci.url+"'>" + ci.original + "</a></p>";
             }
             editor.execCommand("insertHTML",str);
