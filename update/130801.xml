@@ -24,8 +24,8 @@
 	<file name='zb_system\ADMIN\edit_tag.asp' crc32='B714CF04'/>
 	<file name='zb_system\ADMIN\edit_ueditor.asp' crc32='5385F135'/>
 	<file name='zb_system\ADMIN\edit_user.asp' crc32='F0958CDF'/>
-	<file name='zb_system\ADMIN\ueditor\ueditor.all.min.js' crc32='DB5FFDF'/>
-	<file name='zb_system\ADMIN\ueditor\ueditor.config.asp' crc32='778278A5'/>
+	<file name='zb_system\ADMIN\ueditor\ueditor.all.min.js' crc32='DF3A519B'/>
+	<file name='zb_system\ADMIN\ueditor\ueditor.config.asp' crc32='52B7F734'/>
 	<file name='zb_system\ADMIN\ueditor\asp\ASPIncludeFile.asp' crc32='BC318761'/>
 	<file name='zb_system\ADMIN\ueditor\asp\fileUp.asp' crc32='552C4A68'/>
 	<file name='zb_system\ADMIN\ueditor\asp\getmovie.asp' crc32='F839C442'/>
@@ -37,16 +37,16 @@
 	<file name='zb_system\ADMIN\ueditor\dialogs\internal.js' crc32='AC295EC4'/>
 	<file name='zb_system\ADMIN\ueditor\dialogs\tangram.js' crc32='C2E4EEBA'/>
 	<file name='zb_system\ADMIN\ueditor\dialogs\anchor\anchor.asp' crc32='A78CAC54'/>
-	<file name='zb_system\ADMIN\ueditor\dialogs\attachment\attachment.asp' crc32='CA8AFE27'/>
+	<file name='zb_system\ADMIN\ueditor\dialogs\attachment\attachment.asp' crc32='4D486E67'/>
 	<file name='zb_system\ADMIN\ueditor\dialogs\attachment\attachment.css' crc32='F037E99B'/>
 	<file name='zb_system\ADMIN\ueditor\dialogs\attachment\callbacks.js' crc32='3FA82C44'/>
 	<file name='zb_system\ADMIN\ueditor\dialogs\attachment\fileTypeMaps.js' crc32='305718AF'/>
 	<file name='zb_system\ADMIN\ueditor\dialogs\emotion\emotion.asp' crc32='57DE0BAD'/>
 	<file name='zb_system\ADMIN\ueditor\dialogs\emotion\emotion.css' crc32='D57397EB'/>
-	<file name='zb_system\ADMIN\ueditor\dialogs\emotion\emotion.js.asp' crc32='E8B03F29'/>
+	<file name='zb_system\ADMIN\ueditor\dialogs\emotion\emotion.js.asp' crc32='17FCF5D9'/>
 	<file name='zb_system\ADMIN\ueditor\dialogs\gmap\gmap.asp' crc32='775EEDDA'/>
 	<file name='zb_system\ADMIN\ueditor\dialogs\highlightcode\highlightcode.asp' crc32='592C8395'/>
-	<file name='zb_system\ADMIN\ueditor\dialogs\image\image.asp' crc32='B25C277D'/>
+	<file name='zb_system\ADMIN\ueditor\dialogs\image\image.asp' crc32='29EA4DEC'/>
 	<file name='zb_system\ADMIN\ueditor\dialogs\image\image.css' crc32='FF213B22'/>
 	<file name='zb_system\ADMIN\ueditor\dialogs\image\image.js' crc32='2AF4E178'/>
 	<file name='zb_system\ADMIN\ueditor\dialogs\image\imageUploader.swf' crc32='C2F2D492'/>
@@ -59,7 +59,7 @@
 	<file name='zb_system\ADMIN\ueditor\dialogs\map\map.asp' crc32='34CF144'/>
 	<file name='zb_system\ADMIN\ueditor\dialogs\music\music.asp' crc32='A82B32DA'/>
 	<file name='zb_system\ADMIN\ueditor\dialogs\music\music.css' crc32='A3E9170E'/>
-	<file name='zb_system\ADMIN\ueditor\dialogs\music\music.js' crc32='6C1059DC'/>
+	<file name='zb_system\ADMIN\ueditor\dialogs\music\music.js' crc32='7627AAD5'/>
 	<file name='zb_system\ADMIN\ueditor\dialogs\scrawl\scrawl.asp' crc32='B07E6A1B'/>
 	<file name='zb_system\ADMIN\ueditor\dialogs\scrawl\scrawl.css' crc32='28E5920C'/>
 	<file name='zb_system\ADMIN\ueditor\dialogs\scrawl\scrawl.js' crc32='5AAEC4BD'/>
@@ -100,7 +100,7 @@
 	<file name='zb_system\ADMIN\ueditor\dialogs\wordimage\wordimage.js' crc32='9CFF5FA3'/>
 	<file name='zb_system\ADMIN\ueditor\themes\iframe.css' crc32='3CE9347C'/>
 	<file name='zb_system\ADMIN\ueditor\themes\default\dialogbase.css' crc32='C1710B9A'/>
-	<file name='zb_system\ADMIN\ueditor\themes\default\css\ueditor.css' crc32='1ADB71F8'/>
+	<file name='zb_system\ADMIN\ueditor\themes\default\css\ueditor.css' crc32='1DB18371'/>
 	<file name='zb_system\ADMIN\ueditor\themes\default\images\anchor.gif' crc32='679F7416'/>
 	<file name='zb_system\ADMIN\ueditor\themes\default\images\arrow.png' crc32='3E78815C'/>
 	<file name='zb_system\ADMIN\ueditor\themes\default\images\arrow_down.png' crc32='E09C8229'/>
@@ -139,12 +139,12 @@
 	<file name='zb_system\ADMIN\ueditor\third-party\swfupload\swfupload.proxy.js' crc32='276938E7'/>
 	<file name='zb_system\ADMIN\ueditor\third-party\swfupload\swfupload.queue.js' crc32='314D39BB'/>
 	<file name='zb_system\ADMIN\ueditor\third-party\swfupload\swfupload.speed.js' crc32='5617769C'/>
-	<file name='zb_system\ADMIN\ueditor\third-party\swfupload\swfupload.swf' crc32='367D97A6'/>
-	<file name='zb_system\ADMIN\ueditor\third-party\swfupload\swfupload_fp9.swf' crc32='FC7077BB'/>
+	<file name='zb_system\ADMIN\ueditor\third-party\swfupload\swfupload.swf' crc32='6726D731'/>
+	<file name='zb_system\ADMIN\ueditor\third-party\swfupload\swfupload_fp9.swf' crc32='D902BCD7'/>
 	<file name='zb_system\ADMIN\ueditor\third-party\SyntaxHighlighter\shCore.pack.js' crc32='97A8320C'/>
 	<file name='zb_system\ADMIN\ueditor\third-party\SyntaxHighlighter\shCoreDefault.pack.css' crc32='2A35A169'/>
 	<file name='zb_system\CSS\admin.css' crc32='817F3A26'/>
-	<file name='zb_system\CSS\admin2.css' crc32='3CBB92C4'/>
+	<file name='zb_system\CSS\admin2.css' crc32='5414C4BC'/>
 	<file name='zb_system\CSS\admin3.css' crc32='14AA93EC'/>
 	<file name='zb_system\CSS\jquery-ui.custom.css' crc32='18708206'/>
 	<file name='zb_system\CSS\jquery.bettertip.css' crc32='DDF8486F'/>
@@ -178,7 +178,7 @@
 	<file name='zb_system\FUNCTION\c_function.asp' crc32='37DD08D1'/>
 	<file name='zb_system\FUNCTION\c_html_js.asp' crc32='11A3DF15'/>
 	<file name='zb_system\FUNCTION\c_html_js_add.asp' crc32='AF969D27'/>
-	<file name='zb_system\FUNCTION\c_system_base.asp' crc32='E1BF2BA2'/>
+	<file name='zb_system\FUNCTION\c_system_base.asp' crc32='B8664F3D'/>
 	<file name='zb_system\FUNCTION\c_system_event.asp' crc32='E2411104'/>
 	<file name='zb_system\FUNCTION\c_system_lib.asp' crc32='FF34747D'/>
 	<file name='zb_system\FUNCTION\c_system_manage.asp' crc32='C47F1A12'/>
@@ -307,7 +307,7 @@
 	<file name='zb_system\SCRIPT\md5.js' crc32='4945A867'/>
 	<file name='zb_system\XML-RPC\index.asp' crc32='8DBD3103'/>
 	<file name='zb_users\LANGUAGE\SimpChinese.asp' crc32='ABBCB29D'/>
-	<file name='zb_users\LANGUAGE\ue-lang\zh-cn\zh-cn.js' crc32='BCBE9E39'/>
+	<file name='zb_users\LANGUAGE\ue-lang\zh-cn\zh-cn.js' crc32='F62112F6'/>
 	<file name='zb_users\LANGUAGE\ue-lang\zh-cn\images\copy.png' crc32='B27CEF5F'/>
 	<file name='zb_users\LANGUAGE\ue-lang\zh-cn\images\imglabel.png' crc32='D19EA9A3'/>
 	<file name='zb_users\LANGUAGE\ue-lang\zh-cn\images\localimage.png' crc32='50FE7E67'/>

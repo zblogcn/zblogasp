@@ -219,9 +219,9 @@ function Music() {
 
 
     /**
-     * tabåˆ‡æ¢
+     * tabÇĞ»»
      * @param tabParentId
-     * @param keepFocus   å½“æ­¤å€¼ä¸ºçœŸæ—¶ï¼Œåˆ‡æ¢æŒ‰é’®ä¸Šä¼šä¿ç•™focusçš„æ ·å¼
+     * @param keepFocus   µ±´ËÖµÎªÕæÊ±£¬ÇĞ»»°´Å¥ÉÏ»á±£ÁôfocusµÄÑùÊ½
      */
     function switchTab( tabParentId,keepFocus ) {
         var tabElements = $G( tabParentId ).children,
@@ -230,12 +230,12 @@ function Music() {
         for ( var i = 0, length = tabHeads.length; i < length; i++ ) {
             var head = tabHeads[i];
             domUtils.on( head, "click", function () {
-                //headæ ·å¼æ›´æ”¹
+                //headÑùÊ½¸ü¸Ä
                 for ( var k = 0, len = tabHeads.length; k < len; k++ ) {
                     if(!keepFocus)tabHeads[k].className = "";
                 }
                 this.className = "focus";
-                //bodyæ˜¾éš
+                //bodyÏÔÒş
                 var tabSrc = this.getAttribute( "tabSrc" );
                 for ( var j = 0, length = tabBodys.length; j < length; j++ ) {
                     var body = tabBodys[j],

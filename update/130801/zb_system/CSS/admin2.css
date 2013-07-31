@@ -710,3 +710,8 @@ a.button:hover{
 .widget_source_other .widget-title{background: #ded9c0;}
 /*.custom-state-active{background: #B5DCF0;}*/
 .siderbar-list .roll {display:none;}
+
+
+.edui-default .edui-editor {
+	width:100%!important;
+}
