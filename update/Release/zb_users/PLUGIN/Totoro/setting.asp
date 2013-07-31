@@ -285,7 +285,7 @@ BlogTitle="TotoroⅢ（基于TotoroⅡ的Z-Blog的评论管理审核系统增强
 			$("form").submit(function(){
 				$("#escape_badword").text(escape($("#unescape_badword").val()));
 				$("#escape_replace").text(escape($("#unescape_replace").val()));
-			})
+			});
 		})</script> 
       </div>
     </div>
