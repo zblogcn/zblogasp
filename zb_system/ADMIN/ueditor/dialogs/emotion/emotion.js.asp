@@ -35,7 +35,7 @@ window.onload = function () {
 		If IsArray(aryFileList) Then
 			j=UBound(aryFileList)
 			For i=1 to j
-				If InStr(ZC_EMOTICONS_FILETYPE,Right(aryFileList(i),3))>0 Then 
+				If InStr("jpg|png|gif",Right(aryFileList(i),3))>0 Then 
 					e="'"&Replace(Server.URLEncode(aryFileList(i)),"+","%20")&"',"& e 
 					p=i
 				End If 
