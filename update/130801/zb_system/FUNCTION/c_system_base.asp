@@ -3036,7 +3036,7 @@ Function BlogReBuild_Comments()
 			Set objArticle=New TArticle
 
 			If objArticle.LoadInfoByID(objRS("log_ID")) Then
-				t=objArticle.FullUrl
+				t=objArticle.Url
 			End If
 
 			s=objRS("comm_Content")
