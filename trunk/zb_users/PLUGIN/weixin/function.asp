@@ -57,16 +57,16 @@ Function wx_Search(strQuestion,show_num,shou_meta)
 End Function
 
 '最新文章
-Function LastPost(number)
+Function wx_LastPost(number)
 	Dim LTRS,InserNewHtml:InserNewHtml = ""
 	Set LTRS=objConn.Execute("SELECT TOP "&number&" [log_ID], [log_Title], [log_Intro], [log_Content], [log_PostTime], [log_Type] FROM blog_Article WHERE ((([log_Type])=0)) ORDER BY [log_PostTime] DESC")
 	Do Until LTRS.Eof
 		InserNewHtml = InserNewHtml & "<item><Title><![CDATA[" & LTRS("log_Title") & "]]></Title><Description><![CDATA[" & TransferHTML(LTRS("log_Intro"),"[nohtml]") & "]]></Description><PicUrl><![CDATA["
 
-		if GetFirstUrl(LTRS("log_Content"))="" then
+		if wx_GetFirstUrl(LTRS("log_Content"))="" then
 			InserNewHtml = InserNewHtml & BlogHost &"ZB_USERS/plugin/weixin/defaultpic.jpg"
 		else
-			InserNewHtml = InserNewHtml & GetFirstUrl(LTRS("log_Content"))
+			InserNewHtml = InserNewHtml & wx_GetFirstUrl(LTRS("log_Content"))
 		End if
 
 		InserNewHtml = InserNewHtml & "]]></PicUrl><Url><![CDATA[" & ZC_BLOG_HOST & "ZB_USERS/plugin/weixin/viewwx.asp?wid=" & LTRS("log_ID") & "]]></Url></item>"
@@ -77,7 +77,7 @@ Function LastPost(number)
 	InserNewHtml = Replace(InserNewHtml,"&nbsp;"," ")
 	InserNewHtml = Replace(InserNewHtml,"<#ZC_BLOG_HOST#>",BlogHost)
 
-	LastPost = InserNewHtml
+	wx_LastPost = InserNewHtml
 End Function
 
 '=======================================================
@@ -85,7 +85,7 @@ End Function
 '输入: 文章全文.
 '返回: 有图则返回图片路径, 无图返回空.
 '=======================================================
-Function GetFirstUrl(ByVal strContent)
+Function wx_GetFirstUrl(ByVal strContent)
 	'On Error Resume Next
 	Dim objRegExp
 	Set objRegExp=new RegExp
@@ -103,7 +103,7 @@ Function GetFirstUrl(ByVal strContent)
 
 	Set objRegExp=Nothing
 
-	GetFirstUrl=Value
+	wx_GetFirstUrl=Value
 
 	'Err.Clear
 End Function

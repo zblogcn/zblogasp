@@ -97,7 +97,7 @@ If (strQuestion="help") Then
 	"</xml>"
 	response.write strresponse_text
 ElseIf (strQuestion="最新文章") Then
-	Content=LastPost(CInt(objConfig.Read("LastPostNum")))
+	Content = wx_LastPost(CInt(objConfig.Read("LastPostNum")))
 	strresponse_news="<xml>"&_
 	"<ToUserName><![CDATA["&fromusername&"]]></ToUserName>"&_
 	"<FromUserName><![CDATA["&tousername&"]]></FromUserName>"&_
