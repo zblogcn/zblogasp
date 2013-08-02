@@ -27,7 +27,12 @@ Public Class Form1
 
 
                 Dim g As New Crc32
-                f = Convert.ToString(g.CalculateBlock(My.Computer.FileSystem.ReadAllBytes(a)), 16).ToUpper
+                If (My.Computer.FileSystem.ReadAllBytes(a).Length = 0) Then
+                    f = ""
+                Else
+                    f = Convert.ToString(g.CalculateBlock(My.Computer.FileSystem.ReadAllBytes(a)), 16).ToUpper
+                End If
+
 
                 b += " crc32='" + f + "'"
 
@@ -141,7 +146,14 @@ Public Class Form1
                     d = System.Convert.ToBase64String(My.Computer.FileSystem.ReadAllBytes(My.Application.Info.DirectoryPath + "\" + b + "\" + j))
 
                     Dim g As New Crc32
-                    Dim m As String = Convert.ToString(g.CalculateBlock(My.Computer.FileSystem.ReadAllBytes(My.Application.Info.DirectoryPath + "\" + b + "\" + j)), 16).ToUpper
+                    Dim m As String = Nothing
+                    If My.Computer.FileSystem.ReadAllBytes(My.Application.Info.DirectoryPath + "\" + b + "\" + j).Length = 0 Then
+                        m = Nothing
+                    Else
+                        m = Convert.ToString(g.CalculateBlock(My.Computer.FileSystem.ReadAllBytes(My.Application.Info.DirectoryPath + "\" + b + "\" + j)), 16).ToUpper()
+
+                    End If
+
 
                     t += vbTab + "<file name='" + j + "' crc32='" + m + "'  dt:dt='bin.base64'>" + d + "</file>" + vbCrLf
                 End If
@@ -216,7 +228,13 @@ Public Class Form1
 
 
                     Dim g As New Crc32
-                    f = Convert.ToString(g.CalculateBlock(My.Computer.FileSystem.ReadAllBytes(a)), 16).ToUpper
+                    If My.Computer.FileSystem.ReadAllBytes(a).Length = 0 Then
+                        f = Nothing
+                    Else
+
+                        f = Convert.ToString(g.CalculateBlock(My.Computer.FileSystem.ReadAllBytes(a)), 16).ToUpper
+                    End If
+
 
                     b += " crc32='" + f + "'"
 
