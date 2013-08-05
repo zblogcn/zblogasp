@@ -4,8 +4,8 @@
  */
 
 CKEDITOR.editorConfig = function( config ) {
-	// Define changes to default configuration here. For example:
-	// config.language = 'fr';
-	// config.uiColor = '#AADC6E';
 	//config.height = 600;
+	config.filebrowserUploadUrl="../../zb_users/PLUGIN/CKEditor/ckeditor/asp/upload.asp";
+	//config.smiley_columns = 4;
+	config.smiley_path = "../../zb_users/EMOTION/";
 };
