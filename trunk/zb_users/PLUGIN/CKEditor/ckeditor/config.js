@@ -8,4 +8,5 @@ CKEDITOR.editorConfig = function( config ) {
 	config.filebrowserUploadUrl="../../zb_users/PLUGIN/CKEditor/ckeditor/asp/upload.asp";
 	//config.smiley_columns = 4;
 	config.smiley_path = "../../zb_users/EMOTION/";
+	config.extraPlugins = 'insertpre';
 };
