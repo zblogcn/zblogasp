@@ -20,7 +20,7 @@ Function ActivePlugin_AppCentre()
 	'检查更新
 	If BlogUser.Level=1 Then
 		Randomize
-		Call Add_Response_Plugin("Response_Plugin_SiteInfo_SubMenu","<script type='text/javascript'>$(document).ready(function(){  $.get(bloghost+'zb_users/plugin/appcentre/server.asp?action=update&silent=true&rnd="&Rnd()&"',function(data){eval(data);}); });</script>")
+		Call Add_Response_Plugin("Response_Plugin_SiteInfo_SubMenu","<script type='text/javascript'>$(document).ready(function(){  $.getScript('"&BlogHost&"zb_users/plugin/appcentre/server.asp?method=checksilent&rnd="&Rnd()&"'); });</script>")
 	End If
 
 	Call Add_Response_Plugin("Response_Plugin_SettingMng_SubMenu",MakeSubMenu("应用中心设置",GetCurrentHost() & "zb_users/plugin/appcentre/setting.asp","m-left",False))

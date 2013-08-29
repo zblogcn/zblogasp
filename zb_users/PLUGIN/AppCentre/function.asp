@@ -1,8 +1,15 @@
 ﻿<%
-Const APPCENTRE_URL="http://app.rainbowsoft.org/"
-Const APPCENTRE_UPDATE_URL="http://app.rainbowsoft.org/appcentre.asp?act=checkupdate"
-Const APPCENTRE_SUBMIT_URL="http://app.rainbowsoft.org/appcentre.asp?act=save&client=true&id="
-Const APPCENTRE_SUBMITBEFORE_URL="http://app.rainbowsoft.org/appcentre.asp?act=submitbefore&id="
+'Const APPCENTRE_URL="http://app.rainbowsoft.org/"
+'Const APPCENTRE_UPDATE_URL="http://app.rainbowsoft.org/appcentre.asp?act=checkupdate"
+'Const APPCENTRE_SUBMIT_URL="http://app.rainbowsoft.org/appcentre.asp?act=save&client=true&id="
+'Const APPCENTRE_SUBMITBEFORE_URL="http://app.rainbowsoft.org/appcentre.asp?act=submitbefore&id="
+
+Const APPCENTRE_URL="http://192.168.1.54/client/"
+Const APPCENTRE_UPDATE_URL="http://192.168.1.54/appcentre.asp?act=checkupdate"
+Const APPCENTRE_SUBMIT_URL="http://192.168.1.54/appcentre.asp?act=save&client=true&id="
+Const APPCENTRE_SUBMITBEFORE_URL="http://192.168.1.54/appcentre.asp?act=submitbefore&id="
+
+
 
 Const APPCENTRE_SYSTEM_UPDATE="http://update.rainbowsoft.org/zblog2/"
 
@@ -54,6 +61,178 @@ Dim aryDownload(),aryName()
 
 Redim aryDownload(0)
 Redim aryName(0)
+
+
+Dim objXmlHttp
+Dim strResponse,strURL,strPost
+
+
+Function Server_Open(method)
+
+	Select Case method
+		Case "down"
+			strURL="?down=" & Request.QueryString("id")
+			Call Server_SendRequest("GET")
+			Call Server_FormatResponse(false)
+			Call SaveToFile(BlogPath & "zb_users/cache/"&MD5(ZC_BLOG_CLSID & Request.QueryString("id"))&".zba",strResponse,"utf-8",False)
+			Response.ContentType="application/x-javascript"
+			Response.Clear
+			Call InstallApp(BlogPath & "zb_users/cache/"&MD5(ZC_BLOG_CLSID & Request.QueryString("id"))&".zba")
+			Response.End
+		Case "view"
+			strURL="?" & Request.QueryString
+			Call Server_SendRequest("GET")
+			Call Server_FormatResponse(true)
+			Response.Write strResponse
+		Case "check"
+			strURL="?check=" & Server.URLEncode(AppCentre_GetCheckQueryString())
+			Call Server_SendRequest("GET")
+			Call Server_FormatResponse(true)
+			Response.Write strResponse
+		Case "checksilent"
+			strURL="?check=" & Server.URLEncode(AppCentre_GetCheckQueryString()) & "&silent=1"
+			Call Server_SendRequest("GET")
+			Call Server_FormatResponse(true)
+			Response.ContentType="application/x-javascript"
+			Response.Clear
+			If strResponse<>"0" Then
+				Response.Write "$(""#divMain"").prepend(""<div class='hint'><p class='hint hint_blue'><font color='blue'>提示:有"&strResponse&"个应用需要更新,请在应用中心更新.</font></p></div>"")"
+			End If
+			Response.End
+		Case "search"
+			strURL="?search=" & Server.URLEncode(Request.QueryString("q"))
+			Call Server_SendRequest("GET")
+			Call Server_FormatResponse(true)
+			Response.Write strResponse
+		Case "vaild"
+			strURL="?vaild"
+			strPost="username="&Server.URLEncode(Request.Form("app_username"))&"&password="&Server.URLEncode(MD5(Request.Form("app_password")))
+			Call Server_SendRequest("POST")
+			Call Server_FormatResponse(false)
+		Case "submitpre"
+			strURL="?submitpre=" & Server.URLEncode(Request.QueryString("id"))
+			Call Server_SendRequest("GET")
+			Call Server_FormatResponse(false)
+		Case "submit"
+			strURL="?submit=" & Server.URLEncode(Request.QueryString("id"))
+			strPost="zba="&	Server.URLEncode(LoadFromFile(ZipPathFile,"utf-8"))
+			Call Server_SendRequest("POST")
+			Call Server_FormatResponse(false)			
+	End Select
+
+End Function 
+
+
+Sub Server_SendRequest(requestmethod)
+
+	Set objXmlHttp=Server.CreateObject("MSXML2.ServerXMLHTTP")
+
+	'On Error Resume Next
+	Randomize
+	strURL=APPCENTRE_URL & strURL
+	objXmlHttp.Open requestmethod,strURL
+	If requestmethod="POST" Then objXmlhttp.SetRequestHeader "Content-Type","application/x-www-form-urlencoded"
+	objXmlhttp.SetRequestHeader "User-Agent","AppCentre/"&app_version & " ZBlog/"&BlogVersion&" "&Request.ServerVariables("HTTP_USER_AGENT") &""
+	objXmlhttp.SetRequestHeader "Cookie","username="&vbsescape(login_un)&"; password="&vbsescape(login_pw)
+	'为一些有趣的活动的防作弊
+	objXmlhttp.SetRequestHeader "Website",ZC_BLOG_HOST
+	'objXmlhttp.SetRequestHeader "AppCentre",app_version
+	objXmlhttp.SetRequestHeader "ZBlog",BlogVersion
+	objXmlhttp.SetRequestHeader "ClientIP",GetReallyIP()
+	
+	objXmlHttp.Send strPost
+	
+End Sub
+
+
+Sub Server_FormatResponse(replaceHost)
+	If objXmlHttp.ReadyState=4 Then
+		If objXmlhttp.Status=200 Then
+			strResponse=objXmlhttp.ResponseText
+			If replaceHost=True Then
+				strResponse=Replace(strResponse,"%bloghost%","")
+			End If
+			'If bolIsBinary=False Then
+				
+				
+			'Else
+				'Response.BinaryWrite objXmlHttp.ResponseBody
+				'Response.End
+			'End If
+		Else
+
+		End If
+	Else
+
+	End If
+
+End Sub
+
+
+'for 2.0 users
+Function GetReallyIP()
+
+	Dim strIP
+	strIP=Request.ServerVariables("HTTP_X_FORWARDED_FOR")
+	If strIP="" Or InStr(strIP,"unknown") Then
+		strIP=Request.ServerVariables("REMOTE_ADDR")
+	ElseIf InStr(strIP,",") Then
+		strIP=Split(strIP,",")(0)
+	ElseIf InStr(strIP,";") Then
+		strIP=Split(strIP,";")(0)
+	End If
+	
+	GetReallyIP=Trim(strIP)
+
+End Function
+
+
+Function AppCentre_GetCheckQueryString()
+
+	dim s,strXmlFile,objXmlFile,f,fc,f1
+
+	strXmlFile =BlogPath & "zb_users/theme/" & ZC_BLOG_THEME & "/" & "theme.xml"
+
+	Set objXmlFile=Server.CreateObject("Microsoft.XMLDOM")
+	objXmlFile.async = False
+	objXmlFile.ValidateOnParse=False
+	objXmlFile.load(strXmlFile)
+	If objXmlFile.readyState=4 Then
+		If objXmlFile.parseError.errorCode <> 0 Then
+		Else
+			s=s & objXmlFile.documentElement.selectSingleNode("id").text & ":" &objXmlFile.documentElement.selectSingleNode("modified").text & ";"
+		End If
+	End If
+	Set objXmlFile=Nothing
+
+	Set f = PublicObjFSO.GetFolder(BlogPath & "zb_users/plugin/")
+	Set fc = f.SubFolders
+	For Each f1 in fc
+		If PublicObjFSO.FileExists(BlogPath & "zb_users/plugin/" & f1.name & "/" & "plugin.xml") Then
+
+			strXmlFile =BlogPath & "zb_users/plugin/" & f1.name & "/" & "plugin.xml"
+
+			Set objXmlFile=Server.CreateObject("Microsoft.XMLDOM")
+			objXmlFile.async = False
+			objXmlFile.ValidateOnParse=False
+			objXmlFile.load(strXmlFile)
+			If objXmlFile.readyState=4 Then
+				If objXmlFile.parseError.errorCode <> 0 Then
+				Else
+
+					If CheckPluginState(objXmlFile.documentElement.selectSingleNode("id").text) Then
+						s=s & objXmlFile.documentElement.selectSingleNode("id").text & ":" &objXmlFile.documentElement.selectSingleNode("modified").text & ";"
+					End If
+
+				End If
+			End If
+			Set objXmlFile=Nothing
+		End If
+	Next
+
+	AppCentre_GetCheckQueryString=s
+
+End Function
 
 
 Function AppCentre_GetVersionByBuild(b)
@@ -354,9 +533,9 @@ End Function
 
 Sub AppCentre_SubMenu(id)
 	Dim aryName,aryValue,aryPos
-	aryName=Array("浏览在线应用","设置","主题列表","插件列表","检查应用更新","系统更新与校验","新建插件","新建主题")
-	aryValue=Array("server.asp","setting.asp","server.asp?action=catalog&cate=2","server.asp?action=catalog&cate=1","server.asp?action=update","update.asp","plugin_edit.asp","theme_edit.asp")
-	aryPos=Array("m-left","m-right","m-left","m-left","m-left","m-left","m-right","m-right")
+	aryName=Array("浏览在线应用","设置","检查应用更新","系统更新与校验","新建插件","新建主题")
+	aryValue=Array("server.asp","setting.asp","server.asp?method=check","update.asp","plugin_edit.asp","theme_edit.asp")
+	aryPos=Array("m-left","m-right","m-left","m-left","m-right","m-right")
 	If enable_develop<>"True" Then
 		ReDim Preserve aryName(5)
 		ReDim Preserve aryValue(5)
@@ -2025,5 +2204,7 @@ Class Upload2Server
 		Post=objXmlHttp.ResponseText
 	End Function
 End Class
+
+
 
 %>
