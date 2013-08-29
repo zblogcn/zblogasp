@@ -10,7 +10,6 @@
 <!-- #include file="../../../ZB_SYSTEM/function/c_system_event.asp" -->
 <!-- #include file="../../plugin/p_config.asp" -->
 <!-- #include file="function.asp"-->
-<!-- #include file="server_include.asp"-->
 <%
 Call System_Initialize()
 '检查非法链接
