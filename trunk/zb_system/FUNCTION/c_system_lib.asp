@@ -735,6 +735,10 @@ Class TArticle
 		If (AuthorID=0) Then Post=False:Exit Function
 		If IsEmpty(PostTime) Then Post=False:Exit Function
 
+		Dim sTitle,sIntro,sContent
+		sTitle=Title
+		sIntro=Content
+		sContent=Content
 		Title=FilterSQL(Title)
 		Intro=FilterSQL(Intro)
 		Content=FilterSQL(Content)
@@ -814,6 +818,10 @@ Class TArticle
 
 			objConn.Execute("UPDATE [blog_Article] SET [log_CateID]="&CateID&",[log_AuthorID]="&AuthorID&",[log_Level]="&Level&",[log_Title]='"&Title&"',[log_Intro]='"&Intro&"',[log_Content]='"&Content&"',[log_PostTime]='"&PostTime&"',[log_IP]='"&IP&"',[log_Tag]='"&Tag&"',[log_Url]='"&Alias&"',[log_Istop]="&CLng(Istop)&",[log_Template]='"&TemplateName&"',[log_FullUrl]='"&FullUrl&"',[log_Type]="&CLng(FType)&",[log_Meta]='"&MetaString&"' WHERE [log_ID] =" & ID)
 		End If
+
+		Title=sTitle
+		Content=sIntro
+		Content=sContent
 
 		Post=True
 
@@ -5490,6 +5498,8 @@ Class TFunction
 
 		If Ftype<>"div" And Ftype<>"ul" Then Ftype="div"
 
+		Dim sContent
+		sContent=Content
 		Content=FilterSQL(Content)
 		Content=TransferHTML(Content,"[anti-zc_blog_host]")
 
@@ -5509,6 +5519,8 @@ Class TFunction
 				objConn.Execute("UPDATE [blog_Function] SET [fn_Name]='"&Name&"',[fn_FileName]='"&FileName&"',[fn_Order]="&Order&",[fn_Content]='"&Content&"',[fn_IsHidden]="&CLng(IsHidden)&",[fn_SidebarID]="&SidebarID&",[fn_HtmlID]='"&HtmlID&"',[fn_Ftype]='"&Ftype&"',[fn_MaxLi]="&MaxLi&",[fn_Source]='"&Source&"',[fn_ViewType]='"&ViewType&"',[fn_IsHideTitle]="&CLng(IsHideTitle)&",[fn_Meta]='"&MetaString&"' WHERE [fn_ID] =" & ID)
 			End If		
 		End If
+
+		Content=sContent
 
 		Post=True
 

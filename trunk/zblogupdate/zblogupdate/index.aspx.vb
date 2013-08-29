@@ -8,12 +8,12 @@ Partial Public Class _Default
         Response.Clear()
         If Request.RawUrl.Contains("?install") = True Then
             Dim s As String = ""
-            If Application("Release") = Nothing Then
-                s = My.Computer.FileSystem.ReadAllText(System.Web.HttpContext.Current.Request.PhysicalApplicationPath & dirname & "\" & "Release.xml")
-                Application("Release") = s
-            Else
-                s = Application("Release")
-            End If
+            'If Application(dirname + "Release") = Nothing Then
+            s = My.Computer.FileSystem.ReadAllText(System.Web.HttpContext.Current.Request.PhysicalApplicationPath & dirname & "\" & "Release.xml")
+            '    Application(dirname + "Release") = s
+            'Else
+            '    s = Application(dirname + "Release")
+            'End If
             System.Web.HttpContext.Current.Response.Filter = New IO.Compression.GZipStream(System.Web.HttpContext.Current.Response.Filter, IO.Compression.CompressionMode.Compress)
             System.Web.HttpContext.Current.Response.AppendHeader("Content-Encoding", "gzip")
             System.Web.HttpContext.Current.Response.ContentType = "text/xml"

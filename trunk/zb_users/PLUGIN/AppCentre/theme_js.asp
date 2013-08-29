@@ -59,11 +59,11 @@ $(".theme").each(function(){
 
 	s=s+"&nbsp;&nbsp;&nbsp;&nbsp;<a href='"+bloghost+"zb_users/plugin/appcentre/theme_pack.asp?id="+t+"' title='导出该主题' target='_blank'><img height='16' width='16' src='"+bloghost+"zb_users/plugin/appcentre/images/download.png'/></a>";
 
-	if(disableupdatetheme.search(t + ":")==-1){
-		s=s+"&nbsp;&nbsp;&nbsp;&nbsp;<a href='"+bloghost+"zb_users/plugin/appcentre/checkupdate.asp?act=dut&id="+t+"' title='禁止应用中心更新该主题'><img height='16' width='16' src='"+bloghost+"zb_users/plugin/appcentre/images/refresh.png'/></a>";
-	}else{
-		s=s+"&nbsp;&nbsp;&nbsp;&nbsp;<a href='"+bloghost+"zb_users/plugin/appcentre/checkupdate.asp?act=eut&id="+t+"' title='允许应用中心更新该主题'><img height='16' width='16' src='"+bloghost+"zb_users/plugin/appcentre/images/refresh2.png'/></a>";
-	}
+	//if(disableupdatetheme.search(t + ":")==-1){
+	//	s=s+"&nbsp;&nbsp;&nbsp;&nbsp;<a href='"+bloghost+"zb_users/plugin/appcentre/checkupdate.asp?act=dut&id="+t+"' title='禁止应用中心更新该主题'><img height='16' width='16' src='"+bloghost+"zb_users/plugin/appcentre/images/refresh.png'/></a>";
+	//}else{
+	//	s=s+"&nbsp;&nbsp;&nbsp;&nbsp;<a href='"+bloghost+"zb_users/plugin/appcentre/checkupdate.asp?act=eut&id="+t+"' title='允许应用中心更新该主题'><img height='16' width='16' src='"+bloghost+"zb_users/plugin/appcentre/images/refresh2.png'/></a>";
+	//}
 
 <%End If%>
 	if($(this).hasClass("theme-other")){

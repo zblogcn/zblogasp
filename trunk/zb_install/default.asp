@@ -885,7 +885,7 @@ t.IsHidden=False
 t.Source="system"
 t.SidebarID=1
 t.Order=9
-t.Content="<li><a href=""http://bbs.rainbowsoft.org/"" target=""_blank"">ZBlogger社区</a></li><li><a href=""http://download.rainbowsoft.org/"" target=""_blank"">菠萝的海</a></li><li><a href=""http://t.qq.com/zblogcn"" target=""_blank"">Z-Blog微博</a></li>"
+t.Content="<li><a href=""http://bbs.rainbowsoft.org/"" target=""_blank"">ZBlogger社区</a></li><li><a href=""http://app.rainbowsoft.org/"" target=""_blank"">应用中心</a></li><li><a href=""http://t.qq.com/zblogcn"" target=""_blank"">Z-Blog微博</a></li>"
 t.HtmlID="divFavorites"
 t.Ftype="ul"
 t.post
@@ -900,7 +900,7 @@ t.IsHidden=False
 t.Source="system"
 t.SidebarID=1
 t.Order=10
-t.Content="<li><a href=""http://www.dbshost.cn/"" target=""_blank"" title=""独立博客服务 Z-Blog官方主机"">DBS主机</a></li><li><a href=""http://www.dutory.com/blog/"" target=""_blank"">Dutory官方博客</a></li>"
+t.Content="<li><a href=""http://www.dbshost.cn/"" target=""_blank"" title=""独立博客服务 Z-Blog官方主机"">DBS主机</a></li></li>"
 t.HtmlID="divLinkage"
 t.Ftype="ul"
 t.post
