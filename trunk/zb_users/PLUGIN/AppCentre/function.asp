@@ -235,27 +235,6 @@ Function AppCentre_GetCheckQueryString()
 End Function
 
 
-Function AppCentre_GetVersionByBuild(b)
-
-	Dim s
-	b=CStr(b)
-	Select Case b
-	Case "121028"
-	s="Z-Blog 2.0 Beta2 Build 121028"
-	Case "121001"
-	s="Z-Blog 2.0 Beta1 Build 121001"
-	Case "121221"
-	s="Z-Blog 2.0 Doomsday Build 121221"
-	Case "130128"
-	s="Z-Blog 2.1 Phoenix Build 130128"
-	Case Else
-	s="Z-Blog 2.X Other Build " & s
-	End Select
-	AppCentre_GetVersionByBuild=s
-
-End Function
-
-
 Function AppCentre_Update_Restore(build,file,crc32_)
 
 	'On Error Resume Next
@@ -631,7 +610,7 @@ Function InstallApp(FilePath)
 
 			If IsNumeric(app_adapted) Then
 				If CLng(app_adapted)>CLng(BlogVersion) Then
-					SetBlogHint_Custom "您的Z-Blog版本太低，无法安装该应用！" & "<br/>" & "该应用需求Z-Blog版本：" & AppCentre_GetVersionByBuild(app_adapted) & "<br/>" & "您的Z-Blog版本：" & AppCentre_GetVersionByBuild(BlogVersion)
+					SetBlogHint_Custom "您的Z-Blog版本太低，无法安装该应用！" & "<br/>" & "该应用需求Z-Blog版本：" & app_adapted & "<br/>" & "您的Z-Blog版本：" & BlogVersion
 					Response.Redirect Request.ServerVariables("HTTP_REFERER")
 					Exit Function
 				End If
