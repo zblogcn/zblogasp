@@ -608,6 +608,11 @@ Function InstallApp(FilePath)
 			Pack_For = objXmlFile.documentElement.selectSingleNode("//app").getAttributeNode("for").value
 			app_adapted = objXmlFile.documentElement.selectSingleNode("//app").selectSingleNode("adapted").text
 
+			If Pack_ver<>"2.0" Then
+					SetBlogHint_Custom "该zba文件不是Z-Blog 2系列的应用,安装中止."
+					Response.Redirect Request.ServerVariables("HTTP_REFERER")
+			End If
+
 			If IsNumeric(app_adapted) Then
 				If CLng(app_adapted)>CLng(BlogVersion) Then
 					SetBlogHint_Custom "您的Z-Blog版本太低，无法安装该应用！" & "<br/>" & "该应用需求Z-Blog版本：" & app_adapted & "<br/>" & "您的Z-Blog版本：" & BlogVersion
@@ -619,17 +624,6 @@ Function InstallApp(FilePath)
 			End If
 			Pack_ID = objXmlFile.documentElement.selectSingleNode("id").text
 			Pack_Name = objXmlFile.documentElement.selectSingleNode("name").text
-
-			'If (CDbl(Pack_Ver) > CDbl(XML_Pack_Ver)) Then
-			'	Response.Write "<p><font color=""red""> × ZPI 文件的 XML 版本为 "& Pack_Ver &", 而你的解包器版本为 "& XML_Pack_Ver &", 请升级您的 PluginSapper, 安装被中止.</font></p>"
-			'	Exit Sub
-			'ElseIf (LCase(Pack_Type) <> LCase(XML_Pack_Type)) Then
-			'	Response.Write "<p><font color=""red""> × 不是 ZPI 文件, 而可能是 "& Pack_Type &", 安装被中止.</font></p>"
-			'	Exit Sub
-			'ElseIf (LCase(Pack_For) <> LCase(XML_Pack_Version)) Then
-			'	Response.Write "<p><font color=""red""> × ZPI 文件版本不符合, 该版本可能是 "& Pack_For &", 安装被中止.</font></p>"
-			'	Exit Sub
-			'Else
 
 			Install_Path=BlogPath & "zb_users\" & Pack_Type & "\"
 
