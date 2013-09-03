@@ -32,21 +32,22 @@ function(f) {
 	var e = f.config,
 	a = f.lang.smiley,
 //	h = e.smiley_images,
-	h,emotion = [<%For x=0 To i-1%>"<%
+	h,emotion = [<%For x=0 To i-1%>[<%
 		e=""
 		aryFileList=LoadIncludeFiles("zb_users\emotion\"&f(x)) 
 		If IsArray(aryFileList) Then
 			j=UBound(aryFileList)
 			For f1=1 to j
 				If InStr("gif|jpg|png",Right(aryFileList(f1),3))>0 Then 
-					e =e&Replace(Replace(Server.URLEncode(aryFileList(f1)),"+","%20"),"%2E",".")& IIf(f1=j,""," ")
+					'e =e&""""&Replace(Replace(Server.URLEncode(aryFileList(f1)),"+","%20"),"%2E",".")& IIf(f1=j,"","""")
+					e =e&"'"&Replace(Replace(Server.URLEncode(aryFileList(f1)),"+","%20"),"%2E",".")& IIf(f1=j,"'","',")
 					p=i
 				End If 
 			Next
 			'e=Left(e,Len(e)-1)
 		End If 
 		Response.Write e
-		%>"<%=IIf(x=i-1,"",",")%><%Next%>],
+		%>]<%=IIf(x=i-1,"",",")%><%Next%>],
 	g = e.smiley_columns || 8,
 	i, k = function(j) {
 		var c = j.data.getTarget(),
@@ -110,12 +111,13 @@ function(f) {
 	var d<%=x%>,e<%=x%>,p<%=x%> ='<%=GetCurrentHost()%>'+'zb_users/emotion/'+'<%=f(x)%>/';
 	d<%=x%> = CKEDITOR.tools.getNextId() + "_smiley_emtions_label";
 	d<%=x%> = ['<div><span id="' + d<%=x%> + '" class="cke_voice_label">' + a.options + "</span>", '<table role="listbox" aria-labelledby="' + d<%=x%> + '" style="width:100%;height:100%;border-collapse:separate;" cellspacing="2" cellpadding="2"', CKEDITOR.env.ie && CKEDITOR.env.quirks ? ' style="position:absolute;"': "", "><tbody>"];
-	h = emotion[<%=x%>].split(" ");
+	//h = emotion[<%=x%>].split(" ");
+	h = emotion[<%=x%>]
 	l = h.length; 
 	for (a = 0; a < l; a++) {
 		0 === a % g && d<%=x%>.push('<tr role="presentation">');
 		var m = "cke_smile_label_" + a + "_" + CKEDITOR.tools.getNextNumber();
-		d<%=x%>.push('<td class="cke_dark_background cke_centered" style="vertical-align: middle;" role="presentation"><a href="javascript:void(0)" role="option"', ' aria-posinset="' + (a + 1) + '"', ' aria-setsize="' + l + '"', ' aria-labelledby="' + m + '"', ' class="cke_smile cke_hand" tabindex="-1" onkeydown="CKEDITOR.tools.callFunction( ', n, ', event, this );">', '<img class="cke_hand" title="', e.smiley_descriptions[a], '" cke_src="', p<%=x%> + h[a], '" alt="', e.smiley_descriptions[a], '"', ' src="', p<%=x%> + h[a], '"', CKEDITOR.env.ie ? " onload=\"this.setAttribute('width', 2); this.removeAttribute('width');\" ": "", '><span id="' + m + '" class="cke_voice_label">' + e.smiley_descriptions[a] + "</span></a>", "</td>");
+		d<%=x%>.push('<td class="cke_dark_background cke_centered" style="vertical-align: middle;" role="presentation"><a href="javascript:void(0)" role="option"', ' aria-posinset="' + (a + 1) + '"', ' aria-setsize="' + l + '"', ' aria-labelledby="' + m + '"', ' class="cke_smile cke_hand" tabindex="-1" onkeydown="CKEDITOR.tools.callFunction( ', n, ', event, this );">', '<img class="cke_hand" title="', decodeURI(h[a].substr(0,h[a].length-4)), '" cke_src="', p<%=x%> + h[a], '" alt="', decodeURI(h[a].substr(0,h[a].length-4)) , '"', ' src="', p<%=x%> + h[a], '"', CKEDITOR.env.ie ? " onload=\"this.setAttribute('width', 2); this.removeAttribute('width');\" ": "", '><span id="' + m + '" class="cke_voice_label">' + e.smiley_descriptions[a] + "</span></a>", "</td>");
 		a % g == g - 1 && d<%=x%>.push("</tr>")
 	}
 	if (a < g - 1) {
