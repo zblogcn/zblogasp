@@ -1,8 +1,5 @@
 ﻿<%
 Const APPCENTRE_URL="http://app.rainbowsoft.org/client/"
-Const APPCENTRE_UPDATE_URL="http://app.rainbowsoft.org/appcentre.asp?act=checkupdate"
-Const APPCENTRE_SUBMIT_URL="http://app.rainbowsoft.org/appcentre.asp?act=save&client=true&id="
-Const APPCENTRE_SUBMITBEFORE_URL="http://app.rainbowsoft.org/appcentre.asp?act=submitbefore&id="
 
 Const APPCENTRE_SYSTEM_UPDATE="http://update.rainbowsoft.org/zblog2/"
 
@@ -83,13 +80,22 @@ Function Server_Open(method)
 			Call Server_FormatResponse(true)
 			Response.Write strResponse
 		Case "checksilent"
-			strURL="?check=" & Server.URLEncode(AppCentre_GetCheckQueryString()) & "&silent=1"
+			strURL="?check=" & Server.URLEncode(AppCentre_GetCheckQueryString()) & "&blogsilent=1"
 			Call Server_SendRequest("GET")
 			Call Server_FormatResponse(true)
 			Response.ContentType="application/x-javascript"
 			Response.Clear
+			If InStr(strResponse,";")>0 Then
+				Dim strNewVersion
+				strNewVersion=Left(strResponse,6)
+				strResponse=Replace(strResponse,strNewVersion & ";","")
+				Dim i,j
+				If CLng(strNewVersion) > CLng(BlogVersion) Then
+					Response.Write "$(""#divMain"").prepend(""<div class='hint'><p class='hint hint_blue'><font color='blue'>提示:Z-Blog有更新,请用应用中心的‘系统更新与校验’升级到"&BlogVersion&"版.</font></p></div>"");"
+				End If
+			End If
 			If strResponse<>"0" Then
-				Response.Write "$(""#divMain"").prepend(""<div class='hint'><p class='hint hint_blue'><font color='blue'>提示:有"&strResponse&"个应用需要更新,请在应用中心更新.</font></p></div>"")"
+				Response.Write "$(""#divMain"").prepend(""<div class='hint'><p class='hint hint_blue'><font color='blue'>提示:有"&strResponse&"个应用需要更新,请在应用中心更新.</font></p></div>"");"
 			End If
 			Response.End
 		Case "search"
@@ -126,7 +132,7 @@ Sub Server_SendRequest(requestmethod)
 	objXmlHttp.Open requestmethod,strURL
 	If requestmethod="POST" Then objXmlhttp.SetRequestHeader "Content-Type","application/x-www-form-urlencoded"
 	objXmlhttp.SetRequestHeader "User-Agent","AppCentre/"&app_version & " ZBlog/"&BlogVersion&" "&Request.ServerVariables("HTTP_USER_AGENT") &""
-	objXmlhttp.SetRequestHeader "Cookie","username="&vbsescape(login_un)&"; password="&vbsescape(login_pw)
+	objXmlhttp.SetRequestHeader "Cookie","username="&Server.URLEncode(login_un)&"; password="&Server.URLEncode(login_pw)
 	'为一些有趣的活动的防作弊
 	objXmlhttp.SetRequestHeader "Website",ZC_BLOG_HOST
 	'objXmlhttp.SetRequestHeader "AppCentre",app_version
@@ -412,30 +418,6 @@ Function AppCentre_CheckSystemLast()
 	End If
 
 	Set objPing = Nothing
-End Function
-
-
-Function ReCheck()
-	Dim objXmlHttp,strURL,bolPost,str,bolIsBinary
-	Set objXmlHttp=Server.CreateObject("MSXML2.ServerXMLHTTP")
-
-	strUrl=APPCENTRE_UPDATE_URL&"&tname="&Server.URLEncode(Join(GetAllThemeName,","))&"&pname="&Server.URLEncode(Replace(ZC_USING_PLUGIN_LIST,"|",","))&"&rnd="&Rnd
-	objXmlHttp.Open "GET",strURL
-	objXmlHttp.Send 
-
-	If objXmlHttp.ReadyState=4 Then
-		If objXmlhttp.Status=200 Then
-		Else
-			Call ShowErr(True,"")
-		End If
-		
-		
-	Else
-		ShowErr
-	End If
-	If Err.Number<>0 Then Call ShowErr(True,"")
-	
-	Call SaveToFile(BlogPath&"zb_users\cache\appcentre_plugin.xml",objXmlHttp.ResponseText,"utf-8",False)
 End Function
 
 

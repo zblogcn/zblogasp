@@ -1181,9 +1181,9 @@ Set a = New TArticle
 a.AuthorID=1
 a.CateID=0
 a.id=0
-a.Title="Hello, world!"
+a.Title="欢迎使用Z-Blog！"
 a.FType=0
-a.Content="<p>欢迎使用Z-Blog,这是程序自动生成的文章.您可以删除或是编辑它,在没有进行&quot;文件重建&quot;前,无法打开该文章页面的,这不是故障:)</p><p>系统总共生成了一个&quot;留言本&quot;页面,和一个&quot;Hello, world!&quot;文章,祝您使用愉快!</p>"'<p>默认管理员账号和密码为:zblogger.</p>"
+a.Content="<p>欢迎使用Z-Blog,这是程序自动生成的文章.您可以删除或是编辑它,在没有进行&quot;文件重建&quot;前,无法打开该文章页面的,这不是故障:)</p><p>系统总共生成了一个&quot;留言本&quot;页面,和一个&quot;欢迎使用Z-Blog！&quot;文章,祝您使用愉快!</p>"'<p>默认管理员账号和密码为:zblogger.</p>"
 a.Intro=a.Content
 a.Level=4
 a.post

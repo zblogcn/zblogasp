@@ -3,12 +3,16 @@
 <!--#include file="../LIB/XML/YT.Model.asp" -->
 <!--#include file="../LIB/XML/YT.Block.asp" -->
 <%
+Dim GLOBE_MODEL
+
 Function YT_CMS_Filter_Plugin_TArticle_Build_Template_Succeed(ByRef html)
-	If Not IsEmpty(html) Then Call YT_TPL_display(html)
+	If Not IsEmpty(html) Then html = YT_TPL_display(html)
 End Function
+
 Function YT_CMS_Filter_Plugin_TArticleList_Build_Template_Succeed(ByRef html)
-	If Not IsEmpty(html) Then Call YT_TPL_display(html)
+	If Not IsEmpty(html) Then html = YT_TPL_display(array(html,GLOBE_MODEL))
 End Function
+
 Function YT_CMS_Filter_Plugin_TArticle_Del(ByRef ID,ByRef Tag,ByRef CateID,ByRef Title,ByRef Intro,ByRef Content,ByRef Level,ByRef AuthorID,ByRef PostTime,ByRef CommNums,ByRef ViewNums,ByRef TrackBackNums,ByRef Alias,ByRef Istop,ByRef TemplateName,ByRef FullUrl,ByRef FType,ByRef MetaString)
 	Dim YTModelXML,Node,Sql
 	Set YTModelXML = new YT_Model_XML
@@ -20,38 +24,60 @@ Function YT_CMS_Filter_Plugin_TArticle_Del(ByRef ID,ByRef Tag,ByRef CateID,ByRef
 	Set Node = Nothing
 	Set YTModelXML = Nothing
 End Function
-Function YT_CMS_Action_Plugin_TArticle_Export_End(byref html,byref subhtml,byref aryTemplateTagsName,byref aryTemplateTagsValue)
-	Dim j,mx,Node,Object,Field,os
-		Set mx = new YT_Model_XML
-		Set Node = mx.GetModel(aryTemplateTagsValue(12))
-			If Not Node Is Nothing Then
-				Dim Json,YTARRAY
-					Json = YT_Data_GetRow(Node.selectSingleNode("Table/Name").Text,aryTemplateTagsValue(1))
-					If IsEmpty(Json) Then Exit Function
-					Set Object = YT.eval(Json)
-					Execute("YTARRAY=Object.YTARRAY")
-					For Each Field In Split(YTARRAY,",")
-						Execute(Field&" = YT.unescape(Object."&Field&")")
-					Next
-					os = subhtml
-					Call YT_TPL_display(subhtml)
-					html = Replace(html,os,subhtml)
-					For Each Field In Split(YTARRAY,",")
-						Execute(Field&" = Empty")
-					Next
-					Set Object = Nothing
-			End If
-		Set Node = Nothing
-		Set mx = Nothing
+
+function YT_CMS_Action_Plugin_TArticleList_Export_Begin(byref intPage,byref anyCate,byref anyAuthor,byref dtmDate,byref anyTag)
+	dim s
+	s = array(intPage,anyCate,anyAuthor,dtmDate,anyTag)
+	if len(join(s,"")) > 0 then
+		if len(s(1)) > 0 then GLOBE_MODEL = "CATEGORY-"&s(0)&"-"&s(1)
+		if len(s(2)) > 0 then GLOBE_MODEL = "USER-"&s(0)&"-"&s(2)
+		if len(s(3)) > 0 then GLOBE_MODEL = "DATE-"&s(0)&"-"&s(3)
+		if len(s(4)) > 0 then GLOBE_MODEL = "TAGS-"&s(0)&"-"&s(4)
+	else
+		GLOBE_MODEL = "DEFAULT"
+	end if
+end function
+
+Function YT_CMS_Action_Plugin_TArticle_Export_End(byref html,byref subhtml,byref aryTemplateTagsName,byref aryTemplateTagsValue,byref subhtml_TemplateName)
+	if GLOBE_MODEL<>"DEFAULT" then
+		Dim j,mx,Node,Object,Field,os
+			Execute("aryName = aryTemplateTagsName")
+			Execute("aryValue = aryTemplateTagsValue")
+			Set mx = new YT_Model_XML
+			Set Node = mx.GetModel(aryTemplateTagsValue(12))
+				If Not Node Is Nothing Then
+					Dim Json,YTARRAY
+						Json = YT_Data_GetRow(Node.selectSingleNode("Table/Name").Text,aryTemplateTagsValue(1))
+						Json = Trim(Json)
+						If Len(Json) = 0 Then Exit Function
+						Set Object = YT.eval(Json)
+						Execute("YTARRAY=Object.YTARRAY")
+						For Each Field In Split(YTARRAY,",")
+							Execute(Field&" = YT.unescape(Object."&Field&")")
+						Next
+						os = subhtml
+						subhtml = YT_TPL_display(subhtml)
+						html = Replace(html,os,subhtml)
+						For Each Field In Split(YTARRAY,",")
+							Execute(Field&" = Empty")
+						Next
+						Set Object = Nothing
+				End If
+			Set Node = Nothing
+			Set mx = Nothing
+	end if
 End Function
+
 Function YT_CMS_Filter_Plugin_PostArticle_Succeed(ByRef objArticle)
 	Dim Sql:Sql = YT_Data_GetSql(objArticle.CateID,objArticle.ID)
 	If objArticle.CateID > 0 And Not IsEmpty(Sql) Then objConn.Execute(Sql)
 	Call BuildArticle(objArticle.ID,True,True)
 End Function
+
 Function YT_CMS_Action_Plugin_MakeBlogReBuild_Core_Begin()
 	Call new YT_Block_XML.Build()
 End Function
+
 Function YT_Model_Analysis()
 	Dim Script
 		Script = Script & "<p id=""model"">"
@@ -62,6 +88,7 @@ Function YT_Model_Analysis()
 		Script = Script & "</p>"
 		YT_Model_Analysis = Script
 End Function
+
 Function YT_Data_GetRow(TableName,ID)
 	If Not new YT_Table.Exist(TableName) Then Exit Function
 	Dim R(),F(),Rs,j,Field
@@ -79,6 +106,7 @@ Function YT_Data_GetRow(TableName,ID)
 		End If
 	Set Rs = Nothing
 End Function
+
 Function YT_Data_GetSql(CateID,ID)
 	Dim YTModelXML,Node,Sql,Field
 	Dim FieldName(),FieldValue(),j
@@ -116,6 +144,7 @@ Function YT_Data_GetSql(CateID,ID)
 	Set Node = Nothing
 	Set YTModelXML = Nothing
 End Function
+
 Function YT_FileJsonList()
 	Dim aryFileList,themesDir
 	themesDir="ZB_USERS/THEME"&"/"&ZC_BLOG_THEME&"/"&ZC_TEMPLATE_DIRECTORY
@@ -133,11 +162,13 @@ Function YT_FileJsonList()
 	jsonText=jsonText&"]"
 	YT_FileJsonList = jsonText
 End Function
+
 Function YT_GetFile(Byval fileName)
 	Dim themesDir
 	themesDir="ZB_USERS/THEME"&"/"&ZC_BLOG_THEME&"/"&ZC_TEMPLATE_DIRECTORY
 	YT_GetFile=LoadFromFile(BlogPath&themesDir&"/"&fileName,"utf-8")
 End Function
+
 Function YT_SaveFile(Byval fileName,Byval fileContent)
 	Call ClearGlobeCache()
 	Dim themesDir
@@ -146,6 +177,7 @@ Function YT_SaveFile(Byval fileName,Byval fileContent)
 	Call LoadGlobeCache()
 	YT_SaveFile = True
 End Function
+
 Function YT_DelFile(Byval fileName)
 	Call ClearGlobeCache()
 	Dim themesDir
@@ -159,13 +191,35 @@ Function YT_DelFile(Byval fileName)
 	Set fso=Nothing
 	Call LoadGlobeCache()
 End Function
-Sub YT_TPL_display(Byref block)
+
+Function YT_TPL_display(block)
 	Dim t
 	Set t = New YT_TPL
-		t.template = block
-		block = t.display()
+		if isArray(block) then
+			if UBound(block) > 0 then
+				t.cache = block(1)
+				t.template = block(0)
+			end if
+		else
+			t.template = block
+		end if
+		YT_TPL_display = t.display()
 	Set t = Nothing
-End Sub
+End Function
+
+Function getModel(CateID,ID)
+	Dim x,n,s:s = Empty
+	If isNumeric(CateID) And isNumeric(ID) Then
+		Set x = new YT_Model_XML
+		Set n = x.GetModel(CateID)
+			If Not n Is Nothing Then
+				s = YT_Data_GetRow(n.selectSingleNode("Table/Name").Text,ID)
+			End If
+		Set n = Nothing
+		Set x = Nothing
+	End If
+	getModel = s
+End Function
 
 Function FilterSQL(strSQL)
 	Dim s,t
@@ -194,5 +248,20 @@ Function FilterSQL(strSQL)
 	s = t.reg_replace("\{echo\s+(.+?)\}","&#123;echo&nbsp;$1&#125;",s)
 	FilterSQL = s
 	Set t = Nothing
+End Function
+
+'重写ZBLOG系统函数
+Function BlogReBuild_Default()
+	Call ClearGlobeCache()
+	Call LoadGlobeCache()
+	Call DelToFile(BlogPath & "zb_users/CACHE/default.asp")
+	Dim l,dir,i
+	dir = "ZB_USERS/CACHE/"
+	l = LoadIncludeFiles(dir)
+	for each i in l
+		if right(i,4) = ".TPL" then
+			Call DelToFile(BlogPath & "zb_users/CACHE/" & i)
+		end if
+	next
 End Function
 %>

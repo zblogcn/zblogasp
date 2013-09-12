@@ -4,11 +4,16 @@ Class YT_Model_XML
 	Private RootNode
 	Private Sub Class_Initialize()
 		Set XmlDom = CreateObject("Msxml2.DOMDocument")
-		If Not XmlDom.load(BlogPath&"ZB_USERS/THEME/"&ZC_BLOG_THEME&"/"&YTConfig.Model) Then
-			Call Create()
+		Dim fso
+		Set fso = CreateObject("Scripting.FileSystemObject")
+		If fso.FileExists(BlogPath&"ZB_USERS/THEME/"&ZC_BLOG_THEME&"/"&YTConfig.Model) Then
+			If XmlDom.load(BlogPath&"ZB_USERS/THEME/"&ZC_BLOG_THEME&"/"&YTConfig.Model) Then
+				Set RootNode = XmlDom.SelectSingleNode("//Root")
+			End If
 		Else
-			Set RootNode = XmlDom.SelectSingleNode("//Root")
+			Call Create()
 		End If
+		Set fso=Nothing
 	End Sub
 	Private Sub Class_Terminate()
 		Set XmlDom = Nothing

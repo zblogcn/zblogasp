@@ -355,7 +355,7 @@ body.sidebars {
 body.sidebar-left, body{
   min-width: 780px;
 }
-
+.node .content img{max-width:800px;}
 .node .content blockquote, .node .content .quote{
 background-color:#FFF6EF;
 border:1px dashed #EFD2C2;
