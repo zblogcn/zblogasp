@@ -31,7 +31,7 @@ var YT = {
 											_b.options.add(new Option('「模块」','-1'));
 										$('Block', xml).each(function(i) {
 											var Block = $('Block', xml).get(i);
-											_b.options.add(new Option($('Name',Block).text(),'<#CACHE_INCLUDE_'+$('Name',Block).text().toUpperCase()+'#>'));
+											_b.options.add(new Option($('Name',Block).text(),'{cache:'+$('Name',Block).text().toUpperCase()+'}'));
 										});
 										_b.onchange = function(){
 											YT.InsertText(nav.parent().find('textarea')[0],this.value,true);
@@ -185,7 +185,7 @@ var YT = {
 																_b.options.add(new Option('「模块」','-1'));
 															$('Block', xml).each(function(i) {
 																var Block = $('Block', xml).get(i);
-																_b.options.add(new Option($('Name',Block).text(),'<#CACHE_INCLUDE_'+$('Name',Block).text().toUpperCase()+'#>'));
+																_b.options.add(new Option($('Name',Block).text(),'{cache:'+$('Name',Block).text().toUpperCase()+'}'));
 															});
 															_b.onchange = function(){
 																YT.InsertText(nav.parent().find('textarea')[0],this.value,true);
@@ -981,8 +981,10 @@ var YT = {
 			dataType: 'xml',
 			data: { t:Math.random() },
 			success: function(xml) {
-				$('#version').text($('version',xml).text()+' '+$('modified',xml).text().replace(/^\d{2}|-/g,''));
+				$('#version').text($('version',xml).text()+' '+$('pubdate',xml).text().replace(/^\d{2}|-/g,''));
 				$('#author').attr('href',$('author>url',xml).text()).text($('author>name',xml).text());
+				$('#email').text($('author>email',xml).eq(0).text());
+				$('#give').attr('href',$('author>url',xml).eq(0).text());		
 				$('#bug').attr('href',$('url',xml).eq(0).text());	
 			}
 		});
@@ -992,7 +994,7 @@ var YT = {
 		$('#demo').find('div').last().append('<span class="loading">loading...</span>');
 		$.get('YT.Ajax.asp', { Action: 'Demo',t:Math.random() },function(txt){
 			$('#demo').find('li').first().next().html(txt);
-			$('#demo').find('div').last().find('span').remove();
+			$('#demo .loading').remove();
 		});	
 	},
 	InsertText:function(obj,str,bool){  

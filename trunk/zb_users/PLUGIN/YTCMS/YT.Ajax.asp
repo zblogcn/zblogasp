@@ -88,14 +88,11 @@ Dim Action,code
 			Response.Write(LCase(new YT_Table.Import(Request("Name"))))
 		Case "Demo":
 			Call Response.AddHeader("Content-Type","text/html")
-			code = LoadFromFile(Server.MapPath(".")&"\demo.html","utf-8")
-			If Len(code) > 0 Then
-				Call YT_TPL_display(code)
-				Response.Write(code)
-			End If
+			code = LoadFromFile(Server.MapPath(".")&"\DEMO.TPL","utf-8")
+			If Len(code) > 0 Then Response.Write(YT_TPL_display(array(code,"DEMO")))
 	End Select
 Call System_Terminate()
-If Err.Number<>0 then
-  Call ShowError(0)
-End If
+'If Err.Number<>0 then
+''  Call ShowError(0)
+'End If
 %>

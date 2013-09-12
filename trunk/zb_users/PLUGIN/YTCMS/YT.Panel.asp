@@ -52,7 +52,7 @@ If CheckPluginState("YTCMS") = False Then Call ShowError(48)
 <div class="wrap d_wrap">
 	<div class="wrapHeader">
 	<h2>Content Manage System
-		<span class="d_themedesc">当前版本：<span id="version"></span> &nbsp;&nbsp; 作者：<a target="_blank" href="" id="author"></a> &nbsp;&nbsp; <a target="_blank" href="" id="bug">更新说明及问题提交</a></span>
+		<span class="d_themedesc">当前版本：<span id="version"></span> &nbsp;&nbsp; 作者：<a target="_blank" href="" id="author"></a> &nbsp;&nbsp;E-Mail：<a href="#" id="email"></a> &nbsp;&nbsp;<a target="_blank" href="" id="bug">问题反馈</a>&nbsp;&nbsp;<a target="_blank" href="" id="give">愛心赞助</a></span>
 	</h2>
     </div>
 	
@@ -70,7 +70,7 @@ If CheckPluginState("YTCMS") = False Then Call ShowError(48)
 			</div>
 			
 					<div id="model" class="d_mainbox" style="display: none;">
-				<div class="d_desc"><input type="button" value="新建模型" class="button-primary">创建表及字段,如不绑定栏目则显示为系统表,绑定多个栏目请按SHIFT+左键;CTRL+左键</div>
+				<div class="d_desc"><input type="button" value="新建模型" class="button-primary">创建表及字段,如不绑定栏目则显示为系统表,绑定多个栏目请按SHIFT+左键;CTRL+左键,<font color=red>注意:字段首字母不能為h字母</font></div>
 				<ul class="d_inner">
 					<li class="d_li">		
 			</li>
