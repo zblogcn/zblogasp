@@ -39,13 +39,17 @@ If IsEmpty(strTemplateModified)=False Then
 	End If
 End If
 
+Dim act
+act=Request.QueryString("act")
+if act="" Then act="SiteInfo"
+
 'plugin node
 For Each sAction_Plugin_Admin_Begin in Action_Plugin_Admin_Begin
 	If Not IsEmpty(sAction_Plugin_Admin_Begin) Then Call Execute(sAction_Plugin_Admin_Begin)
 Next
 
 '检查权限
-If Not CheckRights(Request.QueryString("act")) Then Call ShowError(6)
+If Not CheckRights(act) Then Call ShowError(6)
 
 BlogTitle=ZC_MSG022
 
@@ -55,7 +59,7 @@ BlogTitle=ZC_MSG022
     <div id="divMain">
 <%	Call GetBlogHint()	%>
       <%
-	Select Case Request.QueryString("act")
+	Select Case act
 		Case "ArticleMng"
 			If Request.QueryString("type")="Page" Then
 			Call ExportPageList(Request.QueryString("page"),Request("cate"),Request("level"),Escape(Request("title")))
@@ -75,9 +79,6 @@ BlogTitle=ZC_MSG022
 		Case "FunctionMng" Call ExportFunctionList()
 		Case Else Call ExportSiteInfo()
 	End Select
-
-	'Call ()
-
 %>
     </div>
 <!--#include file="admin_footer.asp"-->
