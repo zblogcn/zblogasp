@@ -3931,6 +3931,11 @@ Function SaveConfig2Option()
 
 	Next
 
+	If Instr(strContent,"<#ZC_BLOG_LANGUAGEPACK#>")>0 Then
+		strContent=Replace(strContent,"<#ZC_BLOG_LANGUAGEPACK#>","SimpChinese")
+		Call BlogConfig.Write("ZC_BLOG_LANGUAGEPACK","SimpChinese")
+	End If
+	
 	Call BlogConfig.Save()
 
 	Call SaveToFile(BlogPath & "zb_users\c_option.asp",strContent,"utf-8",False)
