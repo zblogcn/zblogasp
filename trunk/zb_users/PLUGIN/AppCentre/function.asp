@@ -9,6 +9,7 @@ Dim app_config
 Dim login_un,login_pw,disableupdate_theme
 Dim enable_develop,disable_check,check_beta
 Dim Pack_For,Pack_Type
+Dim shop_un,shop_pw
 
 Dim app_id
 Dim app_name
@@ -116,7 +117,17 @@ Function Server_Open(method)
 			strURL="?submit=" & Server.URLEncode(Request.QueryString("id"))
 			strPost="zba="&	Server.URLEncode(LoadFromFile(ZipPathFile,"utf-8"))
 			Call Server_SendRequest("POST")
-			Call Server_FormatResponse(false)			
+			Call Server_FormatResponse(false)
+		Case "shopvaild"
+			strURL="?shopvaild"
+			strPost="shop_username="&Server.URLEncode(Request.Form("shop_username"))&"&shop_password="&Server.URLEncode(MD5(Request.Form("shop_password")))
+			Call Server_SendRequest("POST")
+			Call Server_FormatResponse(false)
+		Case "shoplist"
+			strURL="?shoplist"
+			Call Server_SendRequest("GET")
+			Call Server_FormatResponse(true)
+			Response.Write strResponse
 	End Select
 
 End Function 
@@ -132,7 +143,7 @@ Sub Server_SendRequest(requestmethod)
 	objXmlHttp.Open requestmethod,strURL
 	If requestmethod="POST" Then objXmlhttp.SetRequestHeader "Content-Type","application/x-www-form-urlencoded"
 	objXmlhttp.SetRequestHeader "User-Agent","AppCentre/"&app_version & " ZBlog/"&BlogVersion&" "&Request.ServerVariables("HTTP_USER_AGENT") &""
-	objXmlhttp.SetRequestHeader "Cookie","username="&Server.URLEncode(login_un)&"; password="&Server.URLEncode(login_pw)
+	objXmlhttp.SetRequestHeader "Cookie","username="&Server.URLEncode(login_un)&"; password="&Server.URLEncode(login_pw)&"; shop_username="&Server.URLEncode(shop_un)&"; shop_password="&Server.URLEncode(shop_pw)
 	'为一些有趣的活动的防作弊
 	objXmlhttp.SetRequestHeader "Website",ZC_BLOG_HOST
 	'objXmlhttp.SetRequestHeader "AppCentre",app_version
@@ -149,7 +160,7 @@ Sub Server_FormatResponse(replaceHost)
 		If objXmlhttp.Status=200 Then
 			strResponse=objXmlhttp.ResponseText
 			If replaceHost=True Then
-				strResponse=Replace(strResponse,"%bloghost%","")
+				strResponse=Replace(strResponse,"%bloghost%","server.asp")
 			End If
 			'If bolIsBinary=False Then
 				
@@ -487,13 +498,19 @@ End Function
 
 Sub AppCentre_SubMenu(id)
 	Dim aryName,aryValue,aryPos
-	aryName=Array("浏览在线应用","设置","检查应用更新","系统更新与校验","新建插件","新建主题")
-	aryValue=Array("server.asp","setting.asp","server.asp?method=check","update.asp","plugin_edit.asp","theme_edit.asp")
-	aryPos=Array("m-left","m-right","m-left","m-left","m-right","m-right")
+	Dim s
+	If shop_un="" Or shop_pw="" Then
+		s="登录应用商城"
+	Else
+		s="我的应用仓库"
+	End If
+	aryName=Array("浏览在线应用","设置","检查应用更新","系统更新与校验","新建插件","新建主题",s)
+	aryValue=Array("server.asp","setting.asp","server.asp?method=check","update.asp","plugin_edit.asp","theme_edit.asp","client.asp")
+	aryPos=Array("m-left","m-right","m-left","m-left","m-right","m-right","m-left")
 	If enable_develop<>"True" Then
-		ReDim Preserve aryName(5)
-		ReDim Preserve aryValue(5)
-		ReDim Preserve aryPos(5)
+		ReDim Preserve aryName(6)
+		ReDim Preserve aryValue(6)
+		ReDim Preserve aryPos(6)
 	End If
 	Dim i 
 	For i=0 To Ubound(aryName)
@@ -506,6 +523,8 @@ Sub AppCentre_InitConfig
 	app_config.Load "AppCentre"
 	login_un=app_config.read("DevelopUserName")
 	login_pw=app_config.read("DevelopPassWord")
+	shop_un=app_config.read("ShopUserName")
+	shop_pw=app_config.read("ShopPassWord")
 	enable_develop=app_config.read("EnableDevelop")
 	disable_check=app_config.read("DisableCheck")
 	disableupdate_theme=app_config.read("DisableUpdateTheme")
