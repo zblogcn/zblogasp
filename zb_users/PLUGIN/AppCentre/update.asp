@@ -121,7 +121,7 @@ If CLng(Request.QueryString("crc32"))>0 Then
 End If
 
 
-BlogTitle="应用中心-系统更新检查"
+BlogTitle="应用中心-系统更新与校验"
 %>
 <!--#include file="..\..\..\zb_system\admin\admin_header.asp"-->
 <!--#include file="..\..\..\zb_system\admin\admin_top.asp"-->
