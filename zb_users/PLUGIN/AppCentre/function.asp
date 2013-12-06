@@ -58,6 +58,35 @@ Dim objXmlHttp
 Dim strResponse,strURL,strPost
 
 
+Function CreateOptoinsOfVersion(default)
+
+	Dim b
+	b=UCase(LoadFromFile(BlogPath &"zb_users\c_option.asp","utf-8"))
+
+	If InStr(b,"Dim BlogVersions")=0 Then
+		Dim BlogVersions
+		Set BlogVersions = New TMeta
+		BlogVersions.SetValue "130801","Z-Blog 2.2 Prism Build 130801"
+		BlogVersions.SetValue "130722","Z-Blog 2.2 Prism Build 130722"
+		BlogVersions.SetValue "130128","Z-Blog 2.1 Phoenix Build 130128"
+		BlogVersions.SetValue "121221","Z-Blog 2.0 Doomsday Build 121221"
+		BlogVersions.SetValue "121028","Z-Blog 2.0 Beta2 Build 121028"
+		BlogVersions.SetValue "121001","Z-Blog 2.0 Beta Build 121001"
+	End If
+
+	Dim s,a
+
+	For Each a in BlogVersions.Names
+		If a<>"" Then
+		s = s & "<option value=""" & a &  """ "& IIF(default=a,"selected='selected'","") &" >"  & BlogVersions.GetValue(a) & "</option>"
+		End If
+	Next
+
+	CreateOptoinsOfVersion=s
+	
+End Function
+
+
 Function Server_Open(method)
 
 	Select Case method
@@ -2171,7 +2200,4 @@ Class Upload2Server
 		Post=objXmlHttp.ResponseText
 	End Function
 End Class
-
-
-
 %>

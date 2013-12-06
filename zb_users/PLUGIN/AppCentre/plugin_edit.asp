@@ -103,9 +103,7 @@ End If
                   <td><p><b>· 适用的最低要求 Z-Blog 版本</b></p></td>
                   <td><p>&nbsp;
                       <select name="app_adapted" id="app_adapted" style="width:400px;">
-                        <option value="130722" selected="selected">Z-Blog 2.2 Prism Build 130722</option>
-                        <option value="130128">Z-Blog 2.1 Phoenix Build 130128</option>
-                        <option value="121221">Z-Blog 2.0 Doomsday Build 121221</option>
+<%=CreateOptoinsOfVersion(app_adapted)%>
                       </select>
                     </p></td>
                 </tr>
