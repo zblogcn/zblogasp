@@ -274,7 +274,7 @@ Next
 %></td>
         </tr>
       </table>
-      <p> 提示:主题的缩略图是名为screenshot.png的<b>300x240px</b>大小的png文件,放在插件的目录下.</p>
+      <p> 提示:主题的缩略图是名为<u>screenshot.png</u>的<b>300x240px</b>大小的png文件,放在插件的目录下.</p>
       <p><br/>
         <input type="submit" class="button" value="提交" id="btnPost" onclick='' />
       </p>
