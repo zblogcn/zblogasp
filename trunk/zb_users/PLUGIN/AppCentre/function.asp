@@ -61,10 +61,10 @@ Dim strResponse,strURL,strPost
 Function CreateOptoinsOfVersion(default)
 
 	Dim b
-	b=UCase(LoadFromFile(BlogPath &"zb_users\c_option.asp","utf-8"))
+	b=LoadFromFile(BlogPath &"zb_system\FUNCTION\c_system_base.asp","utf-8")
 
 	If InStr(b,"Dim BlogVersions")=0 Then
-		Dim BlogVersions
+		Execute("Dim BlogVersions")
 		Set BlogVersions = New TMeta
 		BlogVersions.SetValue "130801","Z-Blog 2.2 Prism Build 130801"
 		BlogVersions.SetValue "130722","Z-Blog 2.2 Prism Build 130722"

@@ -202,7 +202,7 @@ End If
                     </p></td>
                 </tr>
               </table>
-              <p> 提示:插件的图标是名为logo.png的<b>128x128px</b>大小的png文件,推荐使用<a href="http://www.syncfusion.com/downloads/metrostudio" target="_blank">Metro Studio</a>软件创建logo,插件的缩略图(可选)是名为ScreenShot.png的<b>300x240px</b>大小的png文件,放在插件的目录下.</p>
+              <p> 提示:插件的图标是名为<u>logo.png</u>的<b>128x128px</b>大小的png文件,推荐使用<a href="http://www.syncfusion.com/downloads/metrostudio" target="_blank">Metro Studio</a>软件创建logo,插件的缩略图(可选)是名为<u>screenshot.png</u>的<b>300x240px</b>大小的png文件,放在插件的目录下.</p>
               <p><br/>
                 <input type="submit" class="button" value="提交" id="btnPost" onclick='' />
               </p>
