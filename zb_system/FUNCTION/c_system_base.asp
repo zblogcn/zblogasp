@@ -130,7 +130,7 @@ ZC_BLOG_PRODUCT_FULLHTML=""
 
 Dim BlogVersions
 Set BlogVersions = New TMeta
-BlogVersions.SetValue "131221","Z-Blog 2.2 Prism Build 131221"
+BlogVersions.SetValue "140101","Z-Blog 2.2 Prism Build 140101"
 BlogVersions.SetValue "130801","Z-Blog 2.2 Prism Build 130801"
 BlogVersions.SetValue "130722","Z-Blog 2.2 Prism Build 130722"
 BlogVersions.SetValue "130128","Z-Blog 2.1 Phoenix Build 130128"
