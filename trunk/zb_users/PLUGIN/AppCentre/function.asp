@@ -111,6 +111,7 @@ Function Server_Open(method)
 			Response.Write strResponse
 		Case "checksilent"
 			strURL="?check=" & Server.URLEncode(AppCentre_GetCheckQueryString()) & "&blogsilent=1"
+			strURL=strURL & IIf(CBool(check_beta),"&betablog=1","")
 			Call Server_SendRequest("GET")
 			Call Server_FormatResponse(true)
 			Response.ContentType="application/x-javascript"
@@ -121,11 +122,11 @@ Function Server_Open(method)
 				strResponse=Replace(strResponse,strNewVersion & ";","")
 				Dim i,j
 				If CLng(strNewVersion) > CLng(BlogVersion) Then
-					Response.Write "$(""#divMain"").prepend(""<div class='hint'><p class='hint hint_blue'><font color='blue'>提示:Z-Blog有更新,请用应用中心的‘系统更新与校验’升级到"&BlogVersion&"版.</font></p></div>"");"
+					Response.Write "$(""#divMain"").prepend(""<div class='hint'><p class='hint hint_blue'><font color='blue'>提示:Z-Blog有更新,请用应用中心的<a href='../../zb_users/plugin/appcentre/update.asp'>‘系统更新与校验’</a>升级到"&strNewVersion&"版"& IIf(CBool(check_beta),"(Beta)","")&".</font></p></div>"");"
 				End If
 			End If
 			If strResponse<>"0" Then
-				Response.Write "$(""#divMain"").prepend(""<div class='hint'><p class='hint hint_blue'><font color='blue'>提示:有"&strResponse&"个应用需要更新,请在应用中心更新.</font></p></div>"");"
+				Response.Write "$(""#divMain"").prepend(""<div class='hint'><p class='hint hint_blue'><font color='blue'>提示:有"&strResponse&"个应用需要更新,请在应用中心的<a href='../../zb_users/plugin/appcentre/server.asp?method=check'>‘检查应用更新’</a>页升级.</font></p></div>"");"
 			End If
 			Response.End
 		Case "search"
