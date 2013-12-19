@@ -130,13 +130,15 @@ ZC_BLOG_PRODUCT_FULLHTML=""
 
 Dim BlogVersions
 Set BlogVersions = New TMeta
-BlogVersions.SetValue "131221","Z-Blog 2.2 Prism Build 131221"
+BlogVersions.SetValue "140101","Z-Blog 2.2 Prism Build 140101"
 BlogVersions.SetValue "130801","Z-Blog 2.2 Prism Build 130801"
 BlogVersions.SetValue "130722","Z-Blog 2.2 Prism Build 130722"
 BlogVersions.SetValue "130128","Z-Blog 2.1 Phoenix Build 130128"
 BlogVersions.SetValue "121221","Z-Blog 2.0 Doomsday Build 121221"
 BlogVersions.SetValue "121028","Z-Blog 2.0 Beta2 Build 121028"
 BlogVersions.SetValue "121001","Z-Blog 2.0 Beta Build 121001"
+
+ZC_BLOG_VERSION=Replace(BlogVersions.GetValue(BlogVersions.Names(1)),"Z-Blog ","")
 
 Response.AddHeader "Product","Z-Blog " & ZC_BLOG_VERSION
 
@@ -161,8 +163,6 @@ Sub System_Initialize()
 	'Call GetTags()
 	'Call GetKeyWords()
 	'Call GetFunction()
-
-	ZC_BLOG_VERSION=BlogConfig.Read("ZC_BLOG_VERSION")
 
 	ZC_BLOG_PRODUCT_FULL=ZC_BLOG_PRODUCT & " " & ZC_BLOG_VERSION
 	
