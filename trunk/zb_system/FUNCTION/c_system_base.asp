@@ -138,6 +138,8 @@ BlogVersions.SetValue "121221","Z-Blog 2.0 Doomsday Build 121221"
 BlogVersions.SetValue "121028","Z-Blog 2.0 Beta2 Build 121028"
 BlogVersions.SetValue "121001","Z-Blog 2.0 Beta Build 121001"
 
+ZC_BLOG_VERSION=Replace(BlogVersions.GetValue(BlogVersions.Names(1)),"Z-Blog ","")
+
 Response.AddHeader "Product","Z-Blog " & ZC_BLOG_VERSION
 
 '*********************************************************
@@ -161,8 +163,6 @@ Sub System_Initialize()
 	'Call GetTags()
 	'Call GetKeyWords()
 	'Call GetFunction()
-
-	ZC_BLOG_VERSION=BlogConfig.Read("ZC_BLOG_VERSION")
 
 	ZC_BLOG_PRODUCT_FULL=ZC_BLOG_PRODUCT & " " & ZC_BLOG_VERSION
 	
