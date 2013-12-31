@@ -2853,7 +2853,7 @@ Function BlogReBuild_Authors()
 	For Each User in Users
 		If IsObject(User) Then''''''
 			If User.ID>0 And User.Level<4 And User.Count>0 Then
-				strAuthor=strAuthor & "<li><a href="""& User.Url & """>"+User.FirstName + " (" & User.Count & ")" +"</a></li>"
+				strAuthor=strAuthor & "<li><a href="""& User.Url & """>"+User.FirstName + "<span class=""article-nums""> (" & User.Count & ")" +"</span></a></li>"
 			End If
 		End If
 	Next
