@@ -63,8 +63,8 @@ Next
     oDic.Add "themePath","URL +'themes/'"
 	oDic.Add "lang",""""&ZC_EDITORLANG&""""
 	oDic.Add "langPath","URL+""../../../zb_users/language/ue-lang/"""
-	oDic.Add "codeMirrorJsUrl","URL+ ""third-party/codemirror/codemirror.js"""
-	oDic.Add "codeMirrorCssUrl","URL+ ""third-party/codemirror/codemirror.css"""
+	oDic.Add "codeMirrorJsUrl","URL+ ""third-party/codemirror/codemirror.min.js"""
+	oDic.Add "codeMirrorCssUrl","URL+ ""third-party/codemirror/codemirror.min.css"""
 	oDic.Add "maxUpFileSize",""""&ZC_UPLOAD_FILESIZE/(1024*1024)&""""'Byte转成Mb
 	oDic.Add "allowDivTransToP","false"
 	
