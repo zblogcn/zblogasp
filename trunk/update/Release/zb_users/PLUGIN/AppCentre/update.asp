@@ -121,7 +121,7 @@ If CLng(Request.QueryString("crc32"))>0 Then
 End If
 
 
-BlogTitle="应用中心-系统更新检查"
+BlogTitle="应用中心-系统更新与校验"
 %>
 <!--#include file="..\..\..\zb_system\admin\admin_header.asp"-->
 <!--#include file="..\..\..\zb_system\admin\admin_top.asp"-->
@@ -131,7 +131,7 @@ BlogTitle="应用中心-系统更新检查"
           </div>
           <div class="divHeader"><%=BlogTitle%></div>
           <div class="SubMenu">
-            <% AppCentre_SubMenu(5)%>
+            <% AppCentre_SubMenu(3)%>
           </div>
           <div id="divMain2">
             <form method="post" action="">

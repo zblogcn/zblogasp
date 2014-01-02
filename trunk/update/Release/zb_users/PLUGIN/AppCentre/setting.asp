@@ -34,25 +34,17 @@ If Request.QueryString("act")="save" Then
 
 ElseIf Request.QueryString("act")="login" Then
 
-	Dim strSendTB,s
+	Dim s
 
-	Dim objPing
-	Set objPing = Server.CreateObject("MSXML2.ServerXMLHTTP")
-
-	objPing.open "POST",APPCENTRE_URL & "zb_users/plugin/appcentre_server/vaild.asp",False
-
-	objPing.setRequestHeader "Content-Type", "application/x-www-form-urlencoded"
-	objPing.SetRequestHeader "Cookie","username="&vbsescape(Request.Form("app_username"))&"; password="&vbsescape(MD5(Request.Form("app_password")))
-	objPing.send ""
-
-	s=objPing.responseText
-
-	Set objPing = Nothing
+	Call Server_Open("vaild")
+	
+	s=strResponse
 
 	app_config.Write "DevelopUserName",Request.Form("app_username")
 	app_config.Write "DevelopPassWord",s
 	app_config.Save
 
+	
 	If s<>"" Then
 		SetBlogHint_Custom("开发者您好,欢迎登陆到APP应用中心!")
 		Response.Redirect "server.asp"

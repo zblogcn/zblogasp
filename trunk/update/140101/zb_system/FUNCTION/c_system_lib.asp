@@ -4508,6 +4508,9 @@ Class TTag
 		Intro=FilterSQL(Intro)
 		Alias=FilterSQL(Alias)
 		'Intro=TransferHTML(Intro,"[html-format]")
+		If Intro="" Then
+			Intro=Replace(Name," ","_")
+		End If
 
 		TemplateName=UCase(FilterSQL(TemplateName))
 		If TemplateName="CATALOG" Then TemplateName=""

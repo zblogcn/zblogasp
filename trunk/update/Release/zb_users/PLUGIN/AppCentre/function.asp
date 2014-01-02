@@ -1,8 +1,5 @@
 ﻿<%
-Const APPCENTRE_URL="http://app.rainbowsoft.org/"
-Const APPCENTRE_UPDATE_URL="http://app.rainbowsoft.org/appcentre.asp?act=checkupdate"
-Const APPCENTRE_SUBMIT_URL="http://app.rainbowsoft.org/appcentre.asp?act=save&client=true&id="
-Const APPCENTRE_SUBMITBEFORE_URL="http://app.rainbowsoft.org/appcentre.asp?act=submitbefore&id="
+Const APPCENTRE_URL="http://app.rainbowsoft.org/client/"
 
 Const APPCENTRE_SYSTEM_UPDATE="http://update.rainbowsoft.org/zblog2/"
 
@@ -12,6 +9,7 @@ Dim app_config
 Dim login_un,login_pw,disableupdate_theme
 Dim enable_develop,disable_check,check_beta
 Dim Pack_For,Pack_Type
+Dim shop_un,shop_pw
 
 Dim app_id
 Dim app_name
@@ -56,23 +54,223 @@ Redim aryDownload(0)
 Redim aryName(0)
 
 
-Function AppCentre_GetVersionByBuild(b)
+Dim objXmlHttp
+Dim strResponse,strURL,strPost
 
-	Dim s
-	b=CStr(b)
-	Select Case b
-	Case "121028"
-	s="Z-Blog 2.0 Beta2 Build 121028"
-	Case "121001"
-	s="Z-Blog 2.0 Beta1 Build 121001"
-	Case "121221"
-	s="Z-Blog 2.0 Doomsday Build 121221"
-	Case "130128"
-	s="Z-Blog 2.1 Phoenix Build 130128"
-	Case Else
-	s="Z-Blog 2.X Other Build " & s
+
+Function CreateOptoinsOfVersion(default)
+
+	Dim b
+	b=LoadFromFile(BlogPath &"zb_system\FUNCTION\c_system_base.asp","utf-8")
+
+	If InStr(b,"Dim BlogVersions")=0 Then
+		Execute("Dim BlogVersions")
+		Set BlogVersions = New TMeta
+		BlogVersions.SetValue "130801","Z-Blog 2.2 Prism Build 130801"
+		BlogVersions.SetValue "130722","Z-Blog 2.2 Prism Build 130722"
+		BlogVersions.SetValue "130128","Z-Blog 2.1 Phoenix Build 130128"
+		BlogVersions.SetValue "121221","Z-Blog 2.0 Doomsday Build 121221"
+		BlogVersions.SetValue "121028","Z-Blog 2.0 Beta2 Build 121028"
+		BlogVersions.SetValue "121001","Z-Blog 2.0 Beta Build 121001"
+	End If
+
+	Dim s,a
+
+	For Each a in BlogVersions.Names
+		If a<>"" Then
+		s = s & "<option value=""" & a &  """ "& IIF(default=a,"selected='selected'","") &" >"  & BlogVersions.GetValue(a) & "</option>"
+		End If
+	Next
+
+	CreateOptoinsOfVersion=s
+	
+End Function
+
+
+Function Server_Open(method)
+
+	Select Case method
+		Case "down"
+			strURL="?down=" & Request.QueryString("id")
+			Call Server_SendRequest("GET")
+			Call Server_FormatResponse(false)
+			Call SaveToFile(BlogPath & "zb_users/cache/"&MD5(ZC_BLOG_CLSID & Request.QueryString("id"))&".zba",strResponse,"utf-8",False)
+			Response.ContentType="application/x-javascript"
+			Response.Clear
+			Call InstallApp(BlogPath & "zb_users/cache/"&MD5(ZC_BLOG_CLSID & Request.QueryString("id"))&".zba")
+			Response.End
+		Case "view"
+			strURL="?" & Request.QueryString
+			Call Server_SendRequest("GET")
+			Call Server_FormatResponse(true)
+			Response.Write strResponse
+		Case "check"
+			strURL="?check=" & Server.URLEncode(AppCentre_GetCheckQueryString())
+			Call Server_SendRequest("GET")
+			Call Server_FormatResponse(true)
+			Response.Write strResponse
+		Case "checksilent"
+			strURL="?check=" & Server.URLEncode(AppCentre_GetCheckQueryString()) & "&blogsilent=1"
+			strURL=strURL & IIf(CBool(check_beta),"&betablog=1","")
+			Call Server_SendRequest("GET")
+			Call Server_FormatResponse(true)
+			Response.ContentType="application/x-javascript"
+			Response.Clear
+			If InStr(strResponse,";")>0 Then
+				Dim strNewVersion
+				strNewVersion=Left(strResponse,6)
+				strResponse=Replace(strResponse,strNewVersion & ";","")
+				Dim i,j
+				If CLng(strNewVersion) > CLng(BlogVersion) Then
+					Response.Write "$(""#divMain"").prepend(""<div class='hint'><p class='hint hint_blue'><font color='blue'>提示:Z-Blog有更新,请用应用中心的<a href='../../zb_users/plugin/appcentre/update.asp'>‘系统更新与校验’</a>升级到"&strNewVersion&"版"& IIf(CBool(check_beta),"(Beta)","")&".</font></p></div>"");"
+				End If
+			End If
+			If strResponse<>"0" Then
+				Response.Write "$(""#divMain"").prepend(""<div class='hint'><p class='hint hint_blue'><font color='blue'>提示:有"&strResponse&"个应用需要更新,请在应用中心的<a href='../../zb_users/plugin/appcentre/server.asp?method=check'>‘检查应用更新’</a>页升级.</font></p></div>"");"
+			End If
+			Response.End
+		Case "search"
+			strURL="?search=" & Server.URLEncode(Request.QueryString("q"))
+			Call Server_SendRequest("GET")
+			Call Server_FormatResponse(true)
+			Response.Write strResponse
+		Case "vaild"
+			strURL="?vaild"
+			strPost="username="&Server.URLEncode(Request.Form("app_username"))&"&password="&Server.URLEncode(MD5(Request.Form("app_password")))
+			Call Server_SendRequest("POST")
+			Call Server_FormatResponse(false)
+		Case "submitpre"
+			strURL="?submitpre=" & Server.URLEncode(Request.QueryString("id"))
+			Call Server_SendRequest("GET")
+			Call Server_FormatResponse(false)
+		Case "submit"
+			strURL="?submit=" & Server.URLEncode(Request.QueryString("id"))
+			strPost="zba="&	Server.URLEncode(LoadFromFile(ZipPathFile,"utf-8"))
+			Call Server_SendRequest("POST")
+			Call Server_FormatResponse(false)
+		Case "shopvaild"
+			strURL="?shopvaild"
+			strPost="shop_username="&Server.URLEncode(Request.Form("shop_username"))&"&shop_password="&Server.URLEncode(MD5(Request.Form("shop_password")))
+			Call Server_SendRequest("POST")
+			Call Server_FormatResponse(false)
+		Case "shoplist"
+			strURL="?shoplist"
+			Call Server_SendRequest("GET")
+			Call Server_FormatResponse(true)
+			Response.Write strResponse
 	End Select
-	AppCentre_GetVersionByBuild=s
+
+End Function 
+
+
+Sub Server_SendRequest(requestmethod)
+
+	Set objXmlHttp=Server.CreateObject("MSXML2.ServerXMLHTTP")
+
+	'On Error Resume Next
+	Randomize
+	strURL=APPCENTRE_URL & strURL
+	objXmlHttp.Open requestmethod,strURL
+	If requestmethod="POST" Then objXmlhttp.SetRequestHeader "Content-Type","application/x-www-form-urlencoded"
+	objXmlhttp.SetRequestHeader "User-Agent","AppCentre/"&app_version & " ZBlog/"&BlogVersion&" "&Request.ServerVariables("HTTP_USER_AGENT") &""
+	objXmlhttp.SetRequestHeader "Cookie","username="&Server.URLEncode(login_un)&"; password="&Server.URLEncode(login_pw)&"; shop_username="&Server.URLEncode(shop_un)&"; shop_password="&Server.URLEncode(shop_pw)
+	'为一些有趣的活动的防作弊
+	objXmlhttp.SetRequestHeader "Website",ZC_BLOG_HOST
+	'objXmlhttp.SetRequestHeader "AppCentre",app_version
+	objXmlhttp.SetRequestHeader "ZBlog",BlogVersion
+	objXmlhttp.SetRequestHeader "ClientIP",GetReallyIP()
+	
+	objXmlHttp.Send strPost
+	
+End Sub
+
+
+Sub Server_FormatResponse(replaceHost)
+	If objXmlHttp.ReadyState=4 Then
+		If objXmlhttp.Status=200 Then
+			strResponse=objXmlhttp.ResponseText
+			If replaceHost=True Then
+				strResponse=Replace(strResponse,"%bloghost%","server.asp")
+			End If
+			'If bolIsBinary=False Then
+				
+				
+			'Else
+				'Response.BinaryWrite objXmlHttp.ResponseBody
+				'Response.End
+			'End If
+		Else
+
+		End If
+	Else
+
+	End If
+
+End Sub
+
+
+'for 2.0 users
+Function GetReallyIP()
+
+	Dim strIP
+	strIP=Request.ServerVariables("HTTP_X_FORWARDED_FOR")
+	If strIP="" Or InStr(strIP,"unknown") Then
+		strIP=Request.ServerVariables("REMOTE_ADDR")
+	ElseIf InStr(strIP,",") Then
+		strIP=Split(strIP,",")(0)
+	ElseIf InStr(strIP,";") Then
+		strIP=Split(strIP,";")(0)
+	End If
+	
+	GetReallyIP=Trim(strIP)
+
+End Function
+
+
+Function AppCentre_GetCheckQueryString()
+
+	dim s,strXmlFile,objXmlFile,f,fc,f1
+
+	strXmlFile =BlogPath & "zb_users/theme/" & ZC_BLOG_THEME & "/" & "theme.xml"
+
+	Set objXmlFile=Server.CreateObject("Microsoft.XMLDOM")
+	objXmlFile.async = False
+	objXmlFile.ValidateOnParse=False
+	objXmlFile.load(strXmlFile)
+	If objXmlFile.readyState=4 Then
+		If objXmlFile.parseError.errorCode <> 0 Then
+		Else
+			s=s & objXmlFile.documentElement.selectSingleNode("id").text & ":" &objXmlFile.documentElement.selectSingleNode("modified").text & ";"
+		End If
+	End If
+	Set objXmlFile=Nothing
+
+	Set f = PublicObjFSO.GetFolder(BlogPath & "zb_users/plugin/")
+	Set fc = f.SubFolders
+	For Each f1 in fc
+		If PublicObjFSO.FileExists(BlogPath & "zb_users/plugin/" & f1.name & "/" & "plugin.xml") Then
+
+			strXmlFile =BlogPath & "zb_users/plugin/" & f1.name & "/" & "plugin.xml"
+
+			Set objXmlFile=Server.CreateObject("Microsoft.XMLDOM")
+			objXmlFile.async = False
+			objXmlFile.ValidateOnParse=False
+			objXmlFile.load(strXmlFile)
+			If objXmlFile.readyState=4 Then
+				If objXmlFile.parseError.errorCode <> 0 Then
+				Else
+
+					If CheckPluginState(objXmlFile.documentElement.selectSingleNode("id").text) Then
+						s=s & objXmlFile.documentElement.selectSingleNode("id").text & ":" &objXmlFile.documentElement.selectSingleNode("modified").text & ";"
+					End If
+
+				End If
+			End If
+			Set objXmlFile=Nothing
+		End If
+	Next
+
+	AppCentre_GetCheckQueryString=s
 
 End Function
 
@@ -264,30 +462,6 @@ Function AppCentre_CheckSystemLast()
 End Function
 
 
-Function ReCheck()
-	Dim objXmlHttp,strURL,bolPost,str,bolIsBinary
-	Set objXmlHttp=Server.CreateObject("MSXML2.ServerXMLHTTP")
-
-	strUrl=APPCENTRE_UPDATE_URL&"&tname="&Server.URLEncode(Join(GetAllThemeName,","))&"&pname="&Server.URLEncode(Replace(ZC_USING_PLUGIN_LIST,"|",","))&"&rnd="&Rnd
-	objXmlHttp.Open "GET",strURL
-	objXmlHttp.Send 
-
-	If objXmlHttp.ReadyState=4 Then
-		If objXmlhttp.Status=200 Then
-		Else
-			Call ShowErr(True,"")
-		End If
-		
-		
-	Else
-		ShowErr
-	End If
-	If Err.Number<>0 Then Call ShowErr(True,"")
-	
-	Call SaveToFile(BlogPath&"zb_users\cache\appcentre_plugin.xml",objXmlHttp.ResponseText,"utf-8",False)
-End Function
-
-
 Function CheckXml()
 	Dim strTemp,strName,strType,dtmModified,dtmLocalModified
 	Dim objXml,objXml2,objChildXml,objAppXml,i,objFso,j
@@ -354,13 +528,19 @@ End Function
 
 Sub AppCentre_SubMenu(id)
 	Dim aryName,aryValue,aryPos
-	aryName=Array("浏览在线应用","设置","主题列表","插件列表","检查应用更新","系统更新与校验","新建插件","新建主题")
-	aryValue=Array("server.asp","setting.asp","server.asp?action=catalog&cate=2","server.asp?action=catalog&cate=1","server.asp?action=update","update.asp","plugin_edit.asp","theme_edit.asp")
-	aryPos=Array("m-left","m-right","m-left","m-left","m-left","m-left","m-right","m-right")
+	Dim s
+	If shop_un="" Or shop_pw="" Then
+		s="登录应用商城"
+	Else
+		s="我的应用仓库"
+	End If
+	aryName=Array("浏览在线应用","设置","检查应用更新","系统更新与校验","新建插件","新建主题",s)
+	aryValue=Array("server.asp","setting.asp","server.asp?method=check","update.asp","plugin_edit.asp","theme_edit.asp","client.asp")
+	aryPos=Array("m-left","m-right","m-left","m-left","m-right","m-right","m-left")
 	If enable_develop<>"True" Then
-		ReDim Preserve aryName(5)
-		ReDim Preserve aryValue(5)
-		ReDim Preserve aryPos(5)
+		ReDim Preserve aryName(6)
+		ReDim Preserve aryValue(6)
+		ReDim Preserve aryPos(6)
 	End If
 	Dim i 
 	For i=0 To Ubound(aryName)
@@ -373,6 +553,8 @@ Sub AppCentre_InitConfig
 	app_config.Load "AppCentre"
 	login_un=app_config.read("DevelopUserName")
 	login_pw=app_config.read("DevelopPassWord")
+	shop_un=app_config.read("ShopUserName")
+	shop_pw=app_config.read("ShopPassWord")
 	enable_develop=app_config.read("EnableDevelop")
 	disable_check=app_config.read("DisableCheck")
 	disableupdate_theme=app_config.read("DisableUpdateTheme")
@@ -450,9 +632,14 @@ Function InstallApp(FilePath)
 			Pack_For = objXmlFile.documentElement.selectSingleNode("//app").getAttributeNode("for").value
 			app_adapted = objXmlFile.documentElement.selectSingleNode("//app").selectSingleNode("adapted").text
 
+			If Pack_ver<>"2.0" Then
+					SetBlogHint_Custom "该zba文件不是Z-Blog 2系列的应用,安装中止."
+					Response.Redirect Request.ServerVariables("HTTP_REFERER")
+			End If
+
 			If IsNumeric(app_adapted) Then
 				If CLng(app_adapted)>CLng(BlogVersion) Then
-					SetBlogHint_Custom "您的Z-Blog版本太低，无法安装该应用！" & "<br/>" & "该应用需求Z-Blog版本：" & AppCentre_GetVersionByBuild(app_adapted) & "<br/>" & "您的Z-Blog版本：" & AppCentre_GetVersionByBuild(BlogVersion)
+					SetBlogHint_Custom "您的Z-Blog版本太低，无法安装该应用！" & "<br/>" & "该应用需求Z-Blog版本：" & app_adapted & "<br/>" & "您的Z-Blog版本：" & BlogVersion
 					Response.Redirect Request.ServerVariables("HTTP_REFERER")
 					Exit Function
 				End If
@@ -461,17 +648,6 @@ Function InstallApp(FilePath)
 			End If
 			Pack_ID = objXmlFile.documentElement.selectSingleNode("id").text
 			Pack_Name = objXmlFile.documentElement.selectSingleNode("name").text
-
-			'If (CDbl(Pack_Ver) > CDbl(XML_Pack_Ver)) Then
-			'	Response.Write "<p><font color=""red""> × ZPI 文件的 XML 版本为 "& Pack_Ver &", 而你的解包器版本为 "& XML_Pack_Ver &", 请升级您的 PluginSapper, 安装被中止.</font></p>"
-			'	Exit Sub
-			'ElseIf (LCase(Pack_Type) <> LCase(XML_Pack_Type)) Then
-			'	Response.Write "<p><font color=""red""> × 不是 ZPI 文件, 而可能是 "& Pack_Type &", 安装被中止.</font></p>"
-			'	Exit Sub
-			'ElseIf (LCase(Pack_For) <> LCase(XML_Pack_Version)) Then
-			'	Response.Write "<p><font color=""red""> × ZPI 文件版本不符合, 该版本可能是 "& Pack_For &", 安装被中止.</font></p>"
-			'	Exit Sub
-			'Else
 
 			Install_Path=BlogPath & "zb_users\" & Pack_Type & "\"
 
@@ -2025,5 +2201,4 @@ Class Upload2Server
 		Post=objXmlHttp.ResponseText
 	End Function
 End Class
-
 %>

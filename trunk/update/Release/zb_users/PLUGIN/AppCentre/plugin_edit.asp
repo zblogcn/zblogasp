@@ -65,7 +65,7 @@ End If
           </div>
           <div class="divHeader"><%=BlogTitle%></div>
           <div class="SubMenu">
-            <%If ID="" Then Call AppCentre_SubMenu(6) Else Call AppCentre_SubMenu(-1):Response.Write "<a href=""plugin_pack.asp?id="&ID&""" target=""_blank""><span class=""m-right"">导出当前插件</span></a>" End If%>
+            <%If ID="" Then Call AppCentre_SubMenu(4) Else Call AppCentre_SubMenu(-1):Response.Write "<a href=""plugin_pack.asp?id="&ID&""" target=""_blank""><span class=""m-right"">导出当前插件</span></a>" End If%>
           </div>
           <div id="divMain2">
             <form method="post" action="">
@@ -103,9 +103,7 @@ End If
                   <td><p><b>· 适用的最低要求 Z-Blog 版本</b></p></td>
                   <td><p>&nbsp;
                       <select name="app_adapted" id="app_adapted" style="width:400px;">
-                        <option value="130722" selected="selected">Z-Blog 2.2 Prism Build 130722</option>
-                        <option value="130128">Z-Blog 2.1 Phoenix Build 130128</option>
-                        <option value="121221">Z-Blog 2.0 Doomsday Build 121221</option>
+<%=CreateOptoinsOfVersion(app_adapted)%>
                       </select>
                     </p></td>
                 </tr>
@@ -204,7 +202,7 @@ End If
                     </p></td>
                 </tr>
               </table>
-              <p> 提示:插件的图标是名为Logo.png的<b>128x128px</b>大小的png文件,推荐使用<a href="http://www.syncfusion.com/downloads/metrostudio" target="_blank">Metro Studio</a>软件创建logo,插件的缩略图(可选)是名为ScreenShot.png的<b>300x240px</b>大小的png文件,放在插件的目录下.</p>
+              <p> 提示:插件的图标是名为<u>logo.png</u>的<b>128x128px</b>大小的png文件,推荐使用<a href="http://www.syncfusion.com/downloads/metrostudio" target="_blank">Metro Studio</a>软件创建logo,插件的缩略图(可选)是名为<u>screenshot.png</u>的<b>300x240px</b>大小的png文件,放在插件的目录下.</p>
               <p><br/>
                 <input type="submit" class="button" value="提交" id="btnPost" onclick='' />
               </p>

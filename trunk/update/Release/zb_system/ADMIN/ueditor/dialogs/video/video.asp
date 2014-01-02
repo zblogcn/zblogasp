@@ -11,9 +11,9 @@
 <div class="wrapper">
     <div id="videoTab">
         <div id="tabHeads" class="tabhead">
-            <span tabSrc="video" class="focus"><var id="lang_tab_insertV"></var></span>
-            
+            <span tabSrc="video" class="focus" data-content-id="video"><var id="lang_tab_insertV"></var></span>
         </div>
+        <!--<span tabSrc="video" data-content-id="videoSearch"><var id="lang_tab_searchV"></var></span>-->
         <div id="tabBodys" class="tabbody">
             <div id="video" class="panel">
                <table><tr><td><label for="videoUrl" class="url"><var id="lang_video_url"></var></label></td><td><input id="videoUrl" type="text"></td></tr></table>
@@ -32,27 +32,6 @@
                   </fieldset>
                </div>
             </div>
-            <!--<div id="videoSearch" class="panel" style="display: none">-->
-                <!--<table style="margin-top: 5px;">-->
-                    <!--<tr>-->
-                        <!--<td><input id="videoSearchTxt"  type="text" /></td>-->
-                        <!--<td>-->
-                            <!--<select id="videoType">-->
-                                <!--<option value="0"></option>-->
-                                <!--<option value="29"></option>-->
-                                <!--<option value="1"></option>-->
-                                <!--<option value="5"></option>-->
-                                <!--<option value="15"></option>-->
-                                <!--<option value="21"></option>-->
-                                <!--<option value="31"></option>-->
-                            <!--</select>-->
-                        <!--</td>-->
-                        <!--<td><input id="videoSearchBtn" type="button"/></td>-->
-                        <!--<td><input id="videoSearchReset" type="button" /></td>-->
-                    <!--</tr>-->
-                <!--</table>-->
-                <!--<div id="searchList"></div>-->
-            <!--</div>-->
         </div>
     </div>
 </div>
