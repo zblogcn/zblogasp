@@ -23,9 +23,9 @@
 	<file name='zb_system\ADMIN\edit_tag.asp' crc32='B714CF04'/>
 	<file name='zb_system\ADMIN\edit_ueditor.asp' crc32='5385F135'/>
 	<file name='zb_system\ADMIN\edit_user.asp' crc32='F0958CDF'/>
-	<file name='zb_system\ADMIN\ueditor\ueditor.all.js' crc32='2DB2987B'/>
-	<file name='zb_system\ADMIN\ueditor\ueditor.all.min.js' crc32='DF3A519B'/>
-	<file name='zb_system\ADMIN\ueditor\ueditor.config.asp' crc32='52B7F734'/>
+	<file name='zb_system\ADMIN\ueditor\ueditor.all.js' crc32='646372EF'/>
+	<file name='zb_system\ADMIN\ueditor\ueditor.all.min.js' crc32='8E392627'/>
+	<file name='zb_system\ADMIN\ueditor\ueditor.config.asp' crc32='34EC1EE6'/>
 	<file name='zb_system\ADMIN\ueditor\asp\ASPIncludeFile.asp' crc32='BC318761'/>
 	<file name='zb_system\ADMIN\ueditor\asp\fileUp.asp' crc32='552C4A68'/>
 	<file name='zb_system\ADMIN\ueditor\asp\getmovie.asp' crc32='F839C442'/>
@@ -34,8 +34,8 @@
 	<file name='zb_system\ADMIN\ueditor\asp\imageUp.asp' crc32='34CB3B0A'/>
 	<file name='zb_system\ADMIN\ueditor\asp\scrawlUp.asp' crc32='141E0676'/>
 	<file name='zb_system\ADMIN\ueditor\asp\uploadWithoutFlash.asp' crc32='B4322810'/>
-	<file name='zb_system\ADMIN\ueditor\dialogs\internal.js' crc32='AC295EC4'/>
-	<file name='zb_system\ADMIN\ueditor\dialogs\tangram.js' crc32='C2E4EEBA'/>
+	<file name='zb_system\ADMIN\ueditor\dialogs\internal.js' crc32='BE137101'/>
+	<file name='zb_system\ADMIN\ueditor\dialogs\tangram.js' crc32='17A26D66'/>
 	<file name='zb_system\ADMIN\ueditor\dialogs\anchor\anchor.asp' crc32='A78CAC54'/>
 	<file name='zb_system\ADMIN\ueditor\dialogs\attachment\attachment.asp' crc32='4D486E67'/>
 	<file name='zb_system\ADMIN\ueditor\dialogs\attachment\attachment.css' crc32='F037E99B'/>
@@ -43,23 +43,24 @@
 	<file name='zb_system\ADMIN\ueditor\dialogs\attachment\fileTypeMaps.js' crc32='305718AF'/>
 	<file name='zb_system\ADMIN\ueditor\dialogs\emotion\emotion.asp' crc32='57DE0BAD'/>
 	<file name='zb_system\ADMIN\ueditor\dialogs\emotion\emotion.css' crc32='D57397EB'/>
-	<file name='zb_system\ADMIN\ueditor\dialogs\emotion\emotion.js.asp' crc32='17FCF5D9'/>
+	<file name='zb_system\ADMIN\ueditor\dialogs\emotion\emotion.js.asp' crc32='1F81FD0'/>
 	<file name='zb_system\ADMIN\ueditor\dialogs\gmap\gmap.asp' crc32='775EEDDA'/>
 	<file name='zb_system\ADMIN\ueditor\dialogs\highlightcode\highlightcode.asp' crc32='592C8395'/>
 	<file name='zb_system\ADMIN\ueditor\dialogs\image\image.asp' crc32='29EA4DEC'/>
 	<file name='zb_system\ADMIN\ueditor\dialogs\image\image.css' crc32='FF213B22'/>
-	<file name='zb_system\ADMIN\ueditor\dialogs\image\image.js' crc32='2AF4E178'/>
+	<file name='zb_system\ADMIN\ueditor\dialogs\image\image.js' crc32='7159688'/>
 	<file name='zb_system\ADMIN\ueditor\dialogs\image\imageUploader.swf' crc32='C2F2D492'/>
 	<file name='zb_system\ADMIN\ueditor\dialogs\image\images\center_focus.jpg' crc32='F3F6E633'/>
 	<file name='zb_system\ADMIN\ueditor\dialogs\image\images\left_focus.jpg' crc32='DD3E1937'/>
 	<file name='zb_system\ADMIN\ueditor\dialogs\image\images\none_focus.jpg' crc32='7B92BF34'/>
 	<file name='zb_system\ADMIN\ueditor\dialogs\image\images\right_focus.jpg' crc32='1B4E270B'/>
 	<file name='zb_system\ADMIN\ueditor\dialogs\insertframe\insertframe.asp' crc32='6E243CCA'/>
-	<file name='zb_system\ADMIN\ueditor\dialogs\link\link.asp' crc32='9D7200C8'/>
-	<file name='zb_system\ADMIN\ueditor\dialogs\map\map.asp' crc32='34CF144'/>
+	<file name='zb_system\ADMIN\ueditor\dialogs\link\link.asp' crc32='3129F1D7'/>
+	<file name='zb_system\ADMIN\ueditor\dialogs\map\map.asp' crc32='B83A4864'/>
+	<file name='zb_system\ADMIN\ueditor\dialogs\map\show.asp' crc32='BEE2FB73'/>
 	<file name='zb_system\ADMIN\ueditor\dialogs\music\music.asp' crc32='A82B32DA'/>
 	<file name='zb_system\ADMIN\ueditor\dialogs\music\music.css' crc32='A3E9170E'/>
-	<file name='zb_system\ADMIN\ueditor\dialogs\music\music.js' crc32='7627AAD5'/>
+	<file name='zb_system\ADMIN\ueditor\dialogs\music\music.js' crc32='84B8A373'/>
 	<file name='zb_system\ADMIN\ueditor\dialogs\scrawl\scrawl.asp' crc32='B07E6A1B'/>
 	<file name='zb_system\ADMIN\ueditor\dialogs\scrawl\scrawl.css' crc32='28E5920C'/>
 	<file name='zb_system\ADMIN\ueditor\dialogs\scrawl\scrawl.js' crc32='5AAEC4BD'/>
@@ -77,27 +78,27 @@
 	<file name='zb_system\ADMIN\ueditor\dialogs\scrawl\images\size.png' crc32='618E26DB'/>
 	<file name='zb_system\ADMIN\ueditor\dialogs\scrawl\images\undo.png' crc32='DD55B902'/>
 	<file name='zb_system\ADMIN\ueditor\dialogs\scrawl\images\undoH.png' crc32='54A5D63F'/>
-	<file name='zb_system\ADMIN\ueditor\dialogs\searchreplace\searchreplace.asp' crc32='1190F200'/>
-	<file name='zb_system\ADMIN\ueditor\dialogs\searchreplace\searchreplace.js' crc32='264322CD'/>
+	<file name='zb_system\ADMIN\ueditor\dialogs\searchreplace\searchreplace.asp' crc32='28816C15'/>
+	<file name='zb_system\ADMIN\ueditor\dialogs\searchreplace\searchreplace.js' crc32='D8F16880'/>
 	<file name='zb_system\ADMIN\ueditor\dialogs\spechars\spechars.asp' crc32='E0100D5D'/>
-	<file name='zb_system\ADMIN\ueditor\dialogs\spechars\spechars.js' crc32='E518CE08'/>
+	<file name='zb_system\ADMIN\ueditor\dialogs\spechars\spechars.js' crc32='8A88C346'/>
 	<file name='zb_system\ADMIN\ueditor\dialogs\table\dragicon.png' crc32='20B715F'/>
-	<file name='zb_system\ADMIN\ueditor\dialogs\table\edittable.asp' crc32='6EF53BB4'/>
-	<file name='zb_system\ADMIN\ueditor\dialogs\table\edittable.css' crc32='AEBA1135'/>
-	<file name='zb_system\ADMIN\ueditor\dialogs\table\edittable.js' crc32='71C5269E'/>
+	<file name='zb_system\ADMIN\ueditor\dialogs\table\edittable.asp' crc32='AAB91E8B'/>
+	<file name='zb_system\ADMIN\ueditor\dialogs\table\edittable.css' crc32='93F79463'/>
+	<file name='zb_system\ADMIN\ueditor\dialogs\table\edittable.js' crc32='1DD84AFA'/>
 	<file name='zb_system\ADMIN\ueditor\dialogs\table\edittd.asp' crc32='EFF1DF75'/>
 	<file name='zb_system\ADMIN\ueditor\dialogs\table\edittip.asp' crc32='ACF7A454'/>
-	<file name='zb_system\ADMIN\ueditor\dialogs\video\video.asp' crc32='F27E1E77'/>
-	<file name='zb_system\ADMIN\ueditor\dialogs\video\video.css' crc32='BE1DDEB'/>
-	<file name='zb_system\ADMIN\ueditor\dialogs\video\video.js' crc32='C81AC1EC'/>
+	<file name='zb_system\ADMIN\ueditor\dialogs\video\video.asp' crc32='FB505075'/>
+	<file name='zb_system\ADMIN\ueditor\dialogs\video\video.css' crc32='3CA96CB3'/>
+	<file name='zb_system\ADMIN\ueditor\dialogs\video\video.js' crc32='CF899B5E'/>
 	<file name='zb_system\ADMIN\ueditor\dialogs\video\images\center_focus.jpg' crc32='F3F6E633'/>
 	<file name='zb_system\ADMIN\ueditor\dialogs\video\images\left_focus.jpg' crc32='DD3E1937'/>
 	<file name='zb_system\ADMIN\ueditor\dialogs\video\images\none_focus.jpg' crc32='7B92BF34'/>
 	<file name='zb_system\ADMIN\ueditor\dialogs\video\images\right_focus.jpg' crc32='1B4E270B'/>
 	<file name='zb_system\ADMIN\ueditor\dialogs\wordimage\fClipboard_ueditor.swf' crc32='9FF13970'/>
 	<file name='zb_system\ADMIN\ueditor\dialogs\wordimage\imageUploader.swf' crc32='DFE92D02'/>
-	<file name='zb_system\ADMIN\ueditor\dialogs\wordimage\wordimage.asp' crc32='D1F8F51E'/>
-	<file name='zb_system\ADMIN\ueditor\dialogs\wordimage\wordimage.js' crc32='9CFF5FA3'/>
+	<file name='zb_system\ADMIN\ueditor\dialogs\wordimage\wordimage.asp' crc32='C520F12E'/>
+	<file name='zb_system\ADMIN\ueditor\dialogs\wordimage\wordimage.js' crc32='F2EBC74'/>
 	<file name='zb_system\ADMIN\ueditor\themes\iframe.css' crc32='3CE9347C'/>
 	<file name='zb_system\ADMIN\ueditor\themes\default\dialogbase.css' crc32='C1710B9A'/>
 	<file name='zb_system\ADMIN\ueditor\themes\default\css\ueditor.css' crc32='1DB18371'/>
@@ -141,8 +142,8 @@
 	<file name='zb_system\ADMIN\ueditor\third-party\swfupload\swfupload.speed.js' crc32='5617769C'/>
 	<file name='zb_system\ADMIN\ueditor\third-party\swfupload\swfupload.swf' crc32='6726D731'/>
 	<file name='zb_system\ADMIN\ueditor\third-party\swfupload\swfupload_fp9.swf' crc32='D902BCD7'/>
-	<file name='zb_system\ADMIN\ueditor\third-party\SyntaxHighlighter\shCore.pack.js' crc32='97A8320C'/>
-	<file name='zb_system\ADMIN\ueditor\third-party\SyntaxHighlighter\shCoreDefault.pack.css' crc32='2A35A169'/>
+	<file name='zb_system\ADMIN\ueditor\third-party\SyntaxHighlighter\shCore.pack.js' crc32='B7ECD0AD'/>
+	<file name='zb_system\ADMIN\ueditor\third-party\SyntaxHighlighter\shCoreDefault.pack.css' crc32='DCDCF7CF'/>
 	<file name='zb_system\CSS\admin.css' crc32='817F3A26'/>
 	<file name='zb_system\CSS\admin2.css' crc32='DD1FF108'/>
 	<file name='zb_system\CSS\admin3.css' crc32='14AA93EC'/>
@@ -180,7 +181,7 @@
 	<file name='zb_system\FUNCTION\c_html_js_add.asp' crc32='AF969D27'/>
 	<file name='zb_system\FUNCTION\c_system_base.asp' crc32='A7D2545C'/>
 	<file name='zb_system\FUNCTION\c_system_event.asp' crc32='9C8ECA98'/>
-	<file name='zb_system\FUNCTION\c_system_lib.asp' crc32='25683CE5'/>
+	<file name='zb_system\FUNCTION\c_system_lib.asp' crc32='E23126F1'/>
 	<file name='zb_system\FUNCTION\c_system_manage.asp' crc32='7BACA643'/>
 	<file name='zb_system\FUNCTION\c_system_plugin.asp' crc32='3CC5646E'/>
 	<file name='zb_system\FUNCTION\c_urlredirect.asp' crc32='777F6B5E'/>
@@ -320,7 +321,7 @@
 	<file name='zb_system\SCRIPT\md5.js' crc32='4945A867'/>
 	<file name='zb_system\XML-RPC\index.asp' crc32='8DBD3103'/>
 	<file name='zb_users\LANGUAGE\SimpChinese.asp' crc32='E649180E'/>
-	<file name='zb_users\LANGUAGE\ue-lang\zh-cn\zh-cn.js' crc32='F62112F6'/>
+	<file name='zb_users\LANGUAGE\ue-lang\zh-cn\zh-cn.js' crc32='EF0BB360'/>
 	<file name='zb_users\LANGUAGE\ue-lang\zh-cn\images\copy.png' crc32='B27CEF5F'/>
 	<file name='zb_users\LANGUAGE\ue-lang\zh-cn\images\imglabel.png' crc32='D19EA9A3'/>
 	<file name='zb_users\LANGUAGE\ue-lang\zh-cn\images\localimage.png' crc32='50FE7E67'/>

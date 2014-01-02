@@ -31,19 +31,8 @@ ID=Request.QueryString("id")
 
 If Request.Form.Count=0 Then
 
-	Dim objPing
-	Set objPing = Server.CreateObject("MSXML2.ServerXMLHTTP")
-
-	objPing.open "GET", APPCENTRE_SUBMITBEFORE_URL & Server.URLEncode(id),False
-	objPing.send ""
-
-	If objPing.ReadyState=4 Then
-		If objPing.Status=200 Then
-			s=objPing.responseText
-		End If
-	End If
-
-	Set objPing = Nothing
+	Call Server_Open("submitpre")
+	s=strResponse
 
 	If Request.QueryString("type")="plugin" Then Call LoadPluginXmlInfo(ID) Else Call LoadThemeXmlInfo(ID) 
 
@@ -74,16 +63,12 @@ Else
 
 	End If
 
-	Dim objXmlHttp
-	Set objXmlHttp=New Upload2Server
-	objXmlHttp.AddFile "upload",PackFile,"application/zblogapp",ZipPathFile
-	objXmlHttp.strCookies="username="&vbsescape(login_un)&"; password="&vbsescape(login_pw)
-	
-
-	Response.Write objXmlHttp.Post(APPCENTRE_SUBMIT_URL&Request.Form("zblog_app_id"))
-	Response.End
-
-	Set objXmlHttp = Nothing
+	Call Server_Open("submit")
+	If left(strResponse,4)="http" Then
+		Response.Redirect strResponse
+	Else
+		Response.Write "<script type=""text/javascript"">alert('" & strResponse & "')</script>"
+	End If
 	
 	Call DelToFile(ZipPathFile)
 
@@ -113,7 +98,7 @@ End If
 
 <%If s<>"" Then%>
 <table border="1" width="100%" cellspacing="0" cellpadding="0" class="tableBorder tableBorder-thcenter">
-<tr><th colspan="2" width='28%'>&nbsp;应用中心目标应用的相关信息</th></tr>
+<tr><th colspan="2" width='28%'>&nbsp;“Z-Blog应用中心”目标应用的相关信息</th></tr>
 <tr><td><p><b>· 应用发布ID</b></p></td><td><p>&nbsp;<input id="zblog_app_id" name="zblog_app_id" style="width:550px;"  type="text" value="" readonly /></p></td></tr>
 <tr><td><p><b>· 应用提交用户</b></p></td><td><p>&nbsp;<input id="zblog_app_user" name="zblog_app_user" style="width:550px;"  type="text" value="" readonly /></p></td></tr>
 <tr><td><p><b>· 最后更新日期</b></p></td><td><p>&nbsp;<input id="zblog_app_name" name="zblog_app_name" style="width:550px;"  type="text" value="" readonly /></p></td></tr>
@@ -121,8 +106,8 @@ End If
 <script type="text/javascript">
 var jsoninfo=eval(<%=s%>);
 $("#zblog_app_id").val(jsoninfo.id);
-$("#zblog_app_user").val(jsoninfo.username=="null"?"未提交":jsoninfo.username);
-$("#zblog_app_name").val(jsoninfo.lastmodified=="null"?"未提交":jsoninfo.lastmodified);
+$("#zblog_app_user").val(jsoninfo.author=="null"?"未提交":jsoninfo.author);
+$("#zblog_app_name").val(jsoninfo.modified=="null"?"未提交":jsoninfo.modified);
 </script>
 <%End If%>
 
@@ -130,7 +115,7 @@ $("#zblog_app_name").val(jsoninfo.lastmodified=="null"?"未提交":jsoninfo.last
 <script type="text/javascript">alert('<%=t%>')</script>
 <%End If%>
 
-<p> 提示:金牌开发者和银牌开发者和铜牌开发者只能更新和提交自己的应用,管理员可以更新和提交所有应用.</p>
+<p> 提示:金牌开发者、银牌开发者、铜牌开发者和铁牌开发者只能更新和提交自己的应用,白金开发者可以更新和提交所有应用.</p>
 <p><br/><input type="submit" class="button" value="提交" id="btnPost" onclick='return confirm("您确定要提交吗？")' /></p><p>&nbsp;</p>
 
 

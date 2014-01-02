@@ -55,16 +55,13 @@ If Len(ZC_UPDATE_INFO_URL)>0 Then
 
 
 	If b=True Then
-		Dim strSendTB
-		strSendTB = "inpHost=" & Server.URLEncode(BlogHost) & "&inpTimezone=" & Server.URLEncode(ZC_TIME_ZONE) & "&inpVersion=" & Server.URLEncode(ZC_BLOG_VERSION) & "&inpLanguage=" & Server.URLEncode(ZC_BLOG_LANGUAGE) & "&inpIP=" & Server.URLEncode(Request.ServerVariables("LOCAL_ADDR"))
 
 		Dim objPing
 		Set objPing = Server.CreateObject("MSXML2.ServerXMLHTTP")
 
-		objPing.open "POST",ZC_UPDATE_INFO_URL,False
+		objPing.open "GET",ZC_UPDATE_INFO_URL,False
 
-		objPing.setRequestHeader "Content-Type", "application/x-www-form-urlencoded"
-		objPing.send strSendTB
+		objPing.send
 
 		If objPing.ReadyState=4 Then
 			If objPing.Status=200 Then

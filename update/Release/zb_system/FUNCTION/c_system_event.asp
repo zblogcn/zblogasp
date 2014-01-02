@@ -2103,12 +2103,16 @@ Function CheckDependency(strPluginList,strName,strFolder)
 	Dim NotInstalledPlugin,bolNotInstall
 	For i=0 To Ubound(sptTemp)
 		If InStr(strTemp,"|"&sptTemp(i)&"|")<=0 Then
-			NotInstalledPlugin=NotInstalledPlugin & sptTemp(i) & " "
+			If InStr(ZC_USING_PLUGIN_LIST,"AppCentre") Then
+				NotInstalledPlugin=NotInstalledPlugin & "<a target='_blank' href='"& ZC_BLOG_HOST &"zb_users/plugin/appcentre/server.asp?method=search&q="& Server.HtmlEncode(sptTemp(i)) &"'>" & sptTemp(i) & "</a>" & " "
+			Else
+				NotInstalledPlugin=NotInstalledPlugin & sptTemp(i) & " "
+			End If
 			bolNotInstall=True
 		End If
 	Next
 	If bolNotInstall Then
-		SetBlogHint_Custom ZC_MSG282 & NotInstalledPlugin
+		SetBlogHint_Custom NotInstalledPlugin & ZC_MSG282
 		CheckDependency=False
 	End If
 	Set objXml=Nothing

@@ -128,6 +128,18 @@ ZC_BLOG_PRODUCT_FULL=""
 Dim ZC_BLOG_PRODUCT_FULLHTML
 ZC_BLOG_PRODUCT_FULLHTML=""
 
+Dim BlogVersions
+Set BlogVersions = New TMeta
+BlogVersions.SetValue "140101","Z-Blog 2.2 Prism Build 140101"
+BlogVersions.SetValue "130801","Z-Blog 2.2 Prism Build 130801"
+BlogVersions.SetValue "130722","Z-Blog 2.2 Prism Build 130722"
+BlogVersions.SetValue "130128","Z-Blog 2.1 Phoenix Build 130128"
+BlogVersions.SetValue "121221","Z-Blog 2.0 Doomsday Build 121221"
+BlogVersions.SetValue "121028","Z-Blog 2.0 Beta2 Build 121028"
+BlogVersions.SetValue "121001","Z-Blog 2.0 Beta Build 121001"
+
+ZC_BLOG_VERSION=Replace(BlogVersions.GetValue(BlogVersions.Names(1)),"Z-Blog ","")
+
 Response.AddHeader "Product","Z-Blog " & ZC_BLOG_VERSION
 
 '*********************************************************
@@ -151,8 +163,6 @@ Sub System_Initialize()
 	'Call GetTags()
 	'Call GetKeyWords()
 	'Call GetFunction()
-
-	ZC_BLOG_VERSION=BlogConfig.Read("ZC_BLOG_VERSION")
 
 	ZC_BLOG_PRODUCT_FULL=ZC_BLOG_PRODUCT & " " & ZC_BLOG_VERSION
 	
@@ -2843,7 +2853,7 @@ Function BlogReBuild_Authors()
 	For Each User in Users
 		If IsObject(User) Then''''''
 			If User.ID>0 And User.Level<4 And User.Count>0 Then
-				strAuthor=strAuthor & "<li><a href="""& User.Url & """>"+User.FirstName + " (" & User.Count & ")" +"</a></li>"
+				strAuthor=strAuthor & "<li><a href="""& User.Url & """>"+User.FirstName + "<span class=""article-nums""> (" & User.Count & ")" +"</span></a></li>"
 			End If
 		End If
 	Next
@@ -3800,8 +3810,8 @@ Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("Us
 Call Add_Response_Plugin("Response_Plugin_Admin_Left","<li class='split'><hr/></li>")
 
 Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("ThemeMng"),ZC_MSG223,BlogHost&"zb_system/cmd.asp?act=ThemeMng","nav_themes","aThemeMng",""))
-Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("PlugInMng"),ZC_MSG107,BlogHost&"zb_system/cmd.asp?act=PlugInMng","nav_plugin","aPlugInMng",""))
 Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("FunctionMng"),ZC_MSG007,BlogHost&"zb_system/cmd.asp?act=FunctionMng","nav_function","aFunctionMng",""))
+Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("PlugInMng"),ZC_MSG107,BlogHost&"zb_system/cmd.asp?act=PlugInMng","nav_plugin","aPlugInMng",""))
 
 
 End Function
@@ -3931,6 +3941,11 @@ Function SaveConfig2Option()
 
 	Next
 
+	If Instr(strContent,"<#ZC_BLOG_LANGUAGEPACK#>")>0 Then
+		strContent=Replace(strContent,"<#ZC_BLOG_LANGUAGEPACK#>","SimpChinese")
+		Call BlogConfig.Write("ZC_BLOG_LANGUAGEPACK","SimpChinese")
+	End If
+	
 	Call BlogConfig.Save()
 
 	Call SaveToFile(BlogPath & "zb_users\c_option.asp",strContent,"utf-8",False)
@@ -4028,7 +4043,7 @@ Function RefreshOptionFormFileToDB()
 			Call Execute("Call BlogConfig.Write("""&a&""","&a&")")
 		End If
 	Next
-	Call BlogConfig.Write("ZC_BLOG_VERSION","2.2 Prism Build 130801")
+	Call BlogConfig.Write("ZC_BLOG_VERSION",Replace(BlogVersions.GetValue(BlogVersions.Names(1)),"Z-Blog ",""))
 	Call BlogConfig.Write("ZC_BLOG_CLSID",ZC_BLOG_CLSID_ORIGINAL)
 
 	Call BlogConfig.Save()
@@ -4052,22 +4067,13 @@ Function GetVersionByBuild(b)
 
 	Dim s
 	b=CStr(b)
-	Select Case b
-	Case "121028"
-	s="Z-Blog 2.0 Beta2 Build 121028"
-	Case "121001"
-	s="Z-Blog 2.0 Beta1 Build 121001"
-	Case "121221"
-	s="Z-Blog 2.0 Doomsday Build 121221"
-	Case "130128"
-	s="Z-Blog 2.1 Phoenix Build 130128"
-	Case "130722"
-	s="Z-Blog 2.2 Prism Build 130722"
-	Case "1300801"
-	s="Z-Blog 2.2 Prism Build 130801"	
-	Case Else
-	s="Z-Blog 2.X Other Build " & s
-	End Select
+
+	If BlogVersions.Exists(b)=True Then
+		s=BlogVersions.GetValue(b)
+	Else
+		s="Z-Blog 2.X Other Build " & b
+	End If
+
 	GetVersionByBuild=s
 
 End Function

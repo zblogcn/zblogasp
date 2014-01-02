@@ -68,7 +68,7 @@ End If
   </div>
   <div class="divHeader"><%=BlogTitle%></div>
   <div class="SubMenu">
-    <%If ID="" Then Call AppCentre_SubMenu(7) Else Call AppCentre_SubMenu(-1):Response.Write "<a href=""theme_pack.asp?id="&ID&""" target=""_blank""><span class=""m-right"">导出当前主题</span></a>" End If%>
+    <%If ID="" Then Call AppCentre_SubMenu(5) Else Call AppCentre_SubMenu(-1):Response.Write "<a href=""theme_pack.asp?id="&ID&""" target=""_blank""><span class=""m-right"">导出当前主题</span></a>" End If%>
   </div>
   <div id="divMain2">
     <form method="post" action="">
@@ -106,9 +106,7 @@ End If
           <td><p><b>· 适用的最低要求 Z-Blog 版本</b></p></td>
           <td><p>&nbsp;
               <select name="app_adapted" id="app_adapted" style="width:400px;">
-                <option value="130722" selected="selected">Z-Blog 2.2 Prism Build 130722</option>
-                <option value="130128">Z-Blog 2.1 Phoenix Build 130128</option>
-                <option value="121221">Z-Blog 2.0 Doomsday Build 121221</option>
+<%=CreateOptoinsOfVersion(app_adapted)%>
               </select>
             </p></td>
         </tr>
@@ -276,7 +274,7 @@ Next
 %></td>
         </tr>
       </table>
-      <p> 提示:主题的缩略图是名为ScreenShot.png的<b>300x240px</b>大小的png文件,放在插件的目录下.</p>
+      <p> 提示:主题的缩略图是名为<u>screenshot.png</u>的<b>300x240px</b>大小的png文件,放在插件的目录下.</p>
       <p><br/>
         <input type="submit" class="button" value="提交" id="btnPost" onclick='' />
       </p>

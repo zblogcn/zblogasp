@@ -1031,7 +1031,11 @@ Function ExportPluginMng()
 					s=s & "<img alt='' width='32' src='../IMAGE/ADMIN/app-logo.png'/ style='margin:2px;'>"
 				End If
 			Else
-				's=s & "<img alt='' width='32' src='../IMAGE/ADMIN/none.gif'/ style='margin:2px;visibility:hidden;'>"
+				If PublicObjFSO.FileExists(BlogPath & "zb_users/plugin/" & f1.name & "/" & "logo.png") Then
+					s=s & "<img style=""opacity:0.2"" alt='' width='32' src='"&BlogHost & "zb_users/plugin/" & f1.name & "/" & "logo.png"&"'/ style='margin:2px;'>"
+				Else
+					s=s & "<img style=""opacity:0.2"" alt='' width='32' src='../IMAGE/ADMIN/app-logo.png'/ style='margin:2px;'>"
+				End If
 			End If
 
 			s=s & "<strong style='display:none;'>"& Server.URLEncode(objXmlFile.documentElement.selectSingleNode("id").text) &"</strong>"
@@ -1047,13 +1051,13 @@ Function ExportPluginMng()
 				s=s & "<td align='center'>"
 			If CheckPluginState(objXmlFile.documentElement.selectSingleNode("id").text) Then
 				If CheckRights("PlugInDisable")=True Then
-					s=s & "<a href=""../cmd.asp?act=PlugInDisable&amp;name="& Server.URLEncode(objXmlFile.documentElement.selectSingleNode("id").text) &"""><img width='16' title='"&ZC_MSG203&"' alt='"&ZC_MSG203&"' src='../IMAGE/ADMIN/control-power-off.png'/></a>"
+					s=s & "<a href=""../cmd.asp?act=PlugInDisable&amp;name="& Server.URLEncode(objXmlFile.documentElement.selectSingleNode("id").text) &"""><img width='16' title='"&ZC_MSG203&"' alt='"&ZC_MSG203&"' src='../IMAGE/ADMIN/control-power.png'/></a>"
 				Else
 
 				End If
 			Else
 				If CheckRights("PlugInActive")=True Then
-					s=s & "<a href=""../cmd.asp?act=PlugInActive&amp;name="& Server.URLEncode(objXmlFile.documentElement.selectSingleNode("id").text) &"""><img width='16' title='"&ZC_MSG202&"' alt='"&ZC_MSG202&"' src='../IMAGE/ADMIN/control-power.png'/></a>"
+					s=s & "<a href=""../cmd.asp?act=PlugInActive&amp;name="& Server.URLEncode(objXmlFile.documentElement.selectSingleNode("id").text) &"""><img width='16' title='"&ZC_MSG202&"' alt='"&ZC_MSG202&"' src='../IMAGE/ADMIN/control-power-off.png'/></a>"
 				Else
 				End If
 			End If
