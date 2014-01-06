@@ -5257,6 +5257,8 @@ Class TConfig
 		End If
 		Set objRS=Nothing
 
+		Call ConfigMetas.SetValue(n,s)
+
 	End Function
 
 	Public Function Delete
