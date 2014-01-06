@@ -5265,6 +5265,8 @@ Class TConfig
 
 		objConn.Execute("DELETE FROM [blog_Config] WHERE [conf_Name]='"&Name&"'")
 
+		Call ConfigMetas.Remove(Name)
+
 	End Function
 
 	Public Function Load(configname)
