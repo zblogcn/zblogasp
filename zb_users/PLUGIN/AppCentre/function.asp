@@ -103,6 +103,13 @@ Function Server_Open(method)
 			strURL="?" & Request.QueryString
 			Call Server_SendRequest("GET")
 			Call Server_FormatResponse(true)
+			If InStr(strResponse,"<!--developer-nologin-->")>0 Then
+				If Len(app_config.read("DevelopUserName"))>0 Then
+					app_config.Write "DevelopUserName",""
+					app_config.Write "DevelopPassWord",""
+					app_config.Save
+				End If
+			End If
 			Response.Write strResponse
 		Case "check"
 			strURL="?check=" & Server.URLEncode(AppCentre_GetCheckQueryString())
