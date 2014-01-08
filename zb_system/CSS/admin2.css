@@ -638,11 +638,11 @@ span.note{
 	font-size:1.0em;
 }
 
+/*文章编辑提交区随动*/
 #divFloat input.button{
 	margin:0.2em 0;
 }
 
-/*文章编辑提交区随动*/
 #divBox { width:220px; position:relative;}
 #divFloat { width:220px;}
 .boxfloat{position: fixed;_position: absolute;top: 0px;z-index: 295;}
