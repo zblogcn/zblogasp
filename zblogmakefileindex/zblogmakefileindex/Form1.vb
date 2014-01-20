@@ -23,7 +23,7 @@ Public Class Form1
 
                 d = BitConverter.ToString(bytMD5).Replace("-", String.Empty).ToUpper
 
-                'b += " md5='" + d + "'"
+                b += " md5='" + d + "'"
 
 
                 Dim g As New Crc32
