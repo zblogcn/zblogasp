@@ -10,7 +10,7 @@
 '未寒
 KEupload
 
-Dim aspUrl, savePath, saveUrl, maxSize, fileName, fileExt, newFileName, filePath, fileUrl, dirName
+Dim aspUrl, savePath, savePathY, saveUrl, maxSize, fileName, fileExt, newFileName, filePath, fileUrl, dirName
 Dim extStr, imageExtStr, flashExtStr, mediaExtStr, fileExtStr
 Dim upload, file, fso, ranNum, hash, ymd, mm, dd, result
 
@@ -64,18 +64,23 @@ end if
 	' fso.CreateFolder(Server.mappath(savePath))
 ' End If
 
-mm = month(now)
+'mm = month(now)
 ' If mm < 10 Then
 	' mm = "0" & mm
 ' End If
-dd = day(now)
-If dd < 10 Then
-	dd = "0" & dd
-End If
-ymd = year(now) & mm & dd
+'dd = day(now)
+'If dd < 10 Then
+''	dd = "0" & dd
+'End If
+'ymd = year(now) & mm & dd
 
-savePath = savePath & year(now) & "/" & mm & "/"
-saveUrl = saveUrl & year(now) & "/" & mm & "/"
+savePathY = savePath & year(now) & "/"
+If Not fso.FolderExists(Server.mappath(savePathY)) Then
+	fso.CreateFolder(Server.mappath(savePathY))
+End If
+
+savePath = savePath & year(now) & "/" & month(now) & "/"
+saveUrl = saveUrl & year(now) & "/" & month(now) & "/"
 
 If Not fso.FolderExists(Server.mappath(savePath)) Then
 	fso.CreateFolder(Server.mappath(savePath))

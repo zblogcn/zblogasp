@@ -9,7 +9,7 @@
 '未寒
 CKEupload
 
-Dim aspUrl, savePath, saveUrl, maxSize, fileName, fileExt, newFileName, filePath, fileUrl, dirName
+Dim aspUrl, savePath, savePathY, saveUrl, maxSize, fileName, fileExt, newFileName, filePath, fileUrl, dirName
 Dim extStr, imageExtStr, flashExtStr, mediaExtStr, fileExtStr
 Dim upload, file, fso, ranNum, hash, ymd, mm, dd, result, CKEditorFuncNum
 
@@ -46,9 +46,13 @@ if upload.ErrorID>0 then
 	showError(upload.Description)
 end if
 
-mm = month(now)
-savePath = savePath & year(now) & "/" & mm & "/"
-saveUrl = saveUrl & year(now) & "/" & mm & "/"
+savePathY = savePath & year(now) & "/"
+If Not fso.FolderExists(Server.mappath(savePathY)) Then
+	fso.CreateFolder(Server.mappath(savePathY))
+End If
+
+savePath = savePath & year(now) & "/" & month(now) & "/"
+saveUrl = saveUrl & year(now) & "/" & month(now) & "/"
 
 If Not fso.FolderExists(Server.mappath(savePath)) Then
 	fso.CreateFolder(Server.mappath(savePath))
