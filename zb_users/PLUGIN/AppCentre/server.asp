@@ -57,5 +57,9 @@ End If
 
   </div>
 </div>
+	<script type="text/javascript">
+		window.plug_list = "<%=ZC_USING_PLUGIN_LIST & "|" & ZC_BLOG_THEME %>";
+		window.signkey = "<%=ZC_BLOG_CLSID%>";
+	</script>
 <script type="text/javascript">ActiveLeftMenu("aAppcentre");</script>
 <!--#include file="..\..\..\zb_system\admin\admin_footer.asp"-->
