@@ -2075,7 +2075,7 @@ Class TArticleList
 		'//////////////////////////
 		'ontop
 		objRS.Source="SELECT [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_Type],[log_Meta] FROM [blog_Article] WHERE ([log_Type]=0) AND ([log_Level]>1) AND ([log_Istop]<>0)"
-		objRS.Source=objRS.Source & "ORDER BY [log_PostTime] DESC,[log_ID] DESC"
+		objRS.Source=objRS.Source & "ORDER BY [log_PostTime] DESC"
 		objRS.Open()
 		If (Not objRS.bof) And (Not objRS.eof) Then
 			objRS.PageSize = ZC_DISPLAY_COUNT

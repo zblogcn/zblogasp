@@ -1310,6 +1310,7 @@ Function SaveSetting()
 			If Right(d.Item("ZC_BLOG_HOST"),1)<>"/" Then
 				d.Item("ZC_BLOG_HOST")=d.Item("ZC_BLOG_HOST") & "/"
 			End If
+			d.Item("ZC_BLOG_HOST")=Replace(d.Item("ZC_BLOG_HOST")," ","")
 			If d.Item("ZC_PERMANENT_DOMAIN_ENABLE")="True" Then Call SetBlogHint(Empty,Empty,True)
 		End If
 	End If
