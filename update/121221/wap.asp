@@ -89,6 +89,6 @@ If Err.Number<>0 then
 	Call ShowError(0)
 End If
 %>
-<div id="ft">Powered By <a href="http://bbs.rainbowsoft.org">Z-Blog</a></div>
+<div id="ft">Powered By <a href="http://bbs.zblogcn.com">Z-Blog</a></div>
 </body>
 </html>

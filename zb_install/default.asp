@@ -144,7 +144,7 @@ Z-Blog  最终用户授权协议
 
 感谢您选择Z-Blog。 Z-Blog基于 ASP 的技术开发，采用Microsoft Access 和 Microsoft SQL Server作为数据库，全部源码开放。希望我们的努力能为您提供一个高效快速、强大的站点解决方案。
 
-Z-Blog官方网址：http://www.rainbowsoft.org
+Z-Blog官方网址：http://www.zblogcn.com
 
 为了使您正确并合法的使用本软件，请您在使用前务必阅读清楚下面的协议条款： 
 
@@ -160,7 +160,7 @@ Z-Blog官方网址：http://www.rainbowsoft.org
 
 三、协议规定的约束和限制
 
-1. 无论如何，即无论用途如何、是否经过修改或美化、修改程度如何，只要使用Z-Blog 的整体或任何部分，未经书面许可，页面页脚处的版权标识（Powered by Z-Blog） 和Z-Blog官方网站（http://www.rainbowsoft.org）的链接都必须保留，而不能清除或修改。
+1. 无论如何，即无论用途如何、是否经过修改或美化、修改程度如何，只要使用Z-Blog 的整体或任何部分，未经书面许可，页面页脚处的版权标识（Powered by Z-Blog） 和Z-Blog官方网站（http://www.zblogcn.com）的链接都必须保留，而不能清除或修改。
 2.您从应用中心下载的应用程序，未经应用程序开发者/所有者的书面许可，不得对其进行反向工程、反向汇编、反向编译等，不得擅自复制、修改、链接、转载、汇编、发表、出版、发展与之有关的衍生产品、作品等。
 3.如果您未能遵守本协议的条款，您的授权将被终止，所被许可的权利将被收回，并承担相应法律责任。
 
@@ -171,8 +171,8 @@ Z-Blog官方网址：http://www.rainbowsoft.org
 3.电子文本形式的授权协议如同双方书面签署的协议一样，具有完全的和等同的法律效力。您一旦开始确认本协议并安装Z-Blog，即被视为完全理解并接受本协议的各项条款，在享有上述条款授予的权力的同时，受到相关的约束和限制。协议许可范围以外的行为，将直接违反本授权协议并构成侵权，我们有权随时终止授权，责令停止损害，并保留追究相关责任的权力。
 4.如果本软件带有其它软件的整合API示范例子包，这些文件版权不属于本软件官方，并且这些文件是没经过授权发布的，请参考相关软件的使用许可合法的使用。
 
-版权所有 ©2005-2012，rainbowsoft.org 保留所有权利。 
-协议发布时间：2012年10月1 日 版本最新更新：2012年10月1日 By rainbowsoft.org
+版权所有 ©2005-2012，RainbowSoft Studio 保留所有权利。 
+协议发布时间：2012年10月1 日 版本最新更新：2012年10月1日 By RainbowSoft Studio
 
 
   </textarea>
@@ -634,9 +634,9 @@ End If
 
 If OpenConnect()=False Then
 	If ZC_MSSQL_ENABLE Then
-		Response.Write("<p>抱歉，连接数据库失败！</p><p>您提供的数据库用户名和密码可能不正确，或者无法连接到 "&ZC_MSSQL_SERVER&" 上的数据库服务器，这意味着您的主机数据库服务器已停止工作。</p><p><ul><li>您确认您提供的用户名和密码正确么？</li><li>您确认您提供的主机名正确么？</li><li>您确认数据库服务器运行正常么？</li><li>您确认您购买的数据库是MSSQL而不是MYSQL么？</li></ul></p><p>请您联系您的空间商，或者到<a href='http://bbs.rainbowsoft.org' target='_blank'>Z-Blogger BBS</a>寻求帮助</p><div id='bottom'><input type=""button"" name=""next"" onClick=""history.go(-1)"" id=""netx"" value=""返回"" /></div>")
+		Response.Write("<p>抱歉，连接数据库失败！</p><p>您提供的数据库用户名和密码可能不正确，或者无法连接到 "&ZC_MSSQL_SERVER&" 上的数据库服务器，这意味着您的主机数据库服务器已停止工作。</p><p><ul><li>您确认您提供的用户名和密码正确么？</li><li>您确认您提供的主机名正确么？</li><li>您确认数据库服务器运行正常么？</li><li>您确认您购买的数据库是MSSQL而不是MYSQL么？</li></ul></p><p>请您联系您的空间商，或者到<a href='http://bbs.zblogcn.com' target='_blank'>Z-Blogger BBS</a>寻求帮助</p><div id='bottom'><input type=""button"" name=""next"" onClick=""history.go(-1)"" id=""netx"" value=""返回"" /></div>")
 	Else
-		Response.Write("<p>抱歉，连接数据库失败！</p><ul><li>您确定您的IIS运行在32位模式下吗？（<a href='http://www.baidu.com/s?wd=64%E4%BD%8D+ACCESS+asp' target='_blank'>相关帮助</a>）</li><li>您确定您有权限操作该文件夹和临时文件夹吗？</li><li>您确定你的网站空间足够吗？</li></ul><p>请您联系您的空间商，或者到<a href='http://bbs.rainbowsoft.org' target='_blank'>Z-Blogger BBS</a>寻求帮助</p><div id='bottom'><input type=""button"" name=""next"" onClick=""history.go(-1)"" id=""netx"" value=""返回"" /></div>")
+		Response.Write("<p>抱歉，连接数据库失败！</p><ul><li>您确定您的IIS运行在32位模式下吗？（<a href='http://www.baidu.com/s?wd=64%E4%BD%8D+ACCESS+asp' target='_blank'>相关帮助</a>）</li><li>您确定您有权限操作该文件夹和临时文件夹吗？</li><li>您确定你的网站空间足够吗？</li></ul><p>请您联系您的空间商，或者到<a href='http://bbs.zblogcn.com' target='_blank'>Z-Blogger BBS</a>寻求帮助</p><div id='bottom'><input type=""button"" name=""next"" onClick=""history.go(-1)"" id=""netx"" value=""返回"" /></div>")
 	End If
 	Response.End
 
@@ -885,7 +885,7 @@ t.IsHidden=False
 t.Source="system"
 t.SidebarID=1
 t.Order=9
-t.Content="<li><a href=""http://bbs.rainbowsoft.org/"" target=""_blank"">ZBlogger社区</a></li><li><a href=""http://app.rainbowsoft.org/"" target=""_blank"">应用中心</a></li><li><a href=""http://t.qq.com/zblogcn"" target=""_blank"">Z-Blog微博</a></li>"
+t.Content="<li><a href=""http://bbs.zblogcn.com/"" target=""_blank"">ZBlogger社区</a></li><li><a href=""http://app.rainbowsoft.org/"" target=""_blank"">应用中心</a></li><li><a href=""http://t.qq.com/zblogcn"" target=""_blank"">Z-Blog微博</a></li>"
 t.HtmlID="divFavorites"
 t.Ftype="ul"
 t.post
@@ -900,7 +900,7 @@ t.IsHidden=False
 t.Source="system"
 t.SidebarID=1
 t.Order=10
-t.Content="<li><a href=""http://www.dbshost.cn/"" target=""_blank"" title=""独立博客服务 Z-Blog官方主机"">DBS主机</a></li></li>"
+t.Content="<li><a href=""http://www.dbshost.cn/"" target=""_blank"" title=""独立博客服务 Z-Blog官方主机"">DBS主机</a></li><li><a href=""http://www.dutory.com/blog/"" target=""_blank"">Dutory官方博客</a></li>"
 t.HtmlID="divLinkage"
 t.Ftype="ul"
 t.post
@@ -914,7 +914,7 @@ t.IsHidden=False
 t.Source="system"
 t.SidebarID=1
 t.Order=11
-t.Content="<li><a href=""http://www.rainbowsoft.org/"" target=""_blank""><img src=""<#ZC_BLOG_HOST#>zb_system/image/logo/zblog.gif"" height=""31"" width=""88"" alt=""RainbowSoft Studio Z-Blog"" /></a></li><li><a href=""<#ZC_BLOG_HOST#>feed.asp"" target=""_blank""><img src=""<#ZC_BLOG_HOST#>zb_system/image/logo/rss.png"" height=""31"" width=""88"" alt=""订阅本站的 RSS 2.0 新闻聚合"" /></a></li>"
+t.Content="<li><a href=""http://www.zblogcn.com/"" target=""_blank""><img src=""<#ZC_BLOG_HOST#>zb_system/image/logo/zblog.gif"" height=""31"" width=""88"" alt=""RainbowSoft Studio Z-Blog"" /></a></li><li><a href=""<#ZC_BLOG_HOST#>feed.asp"" target=""_blank""><img src=""<#ZC_BLOG_HOST#>zb_system/image/logo/rss.png"" height=""31"" width=""88"" alt=""订阅本站的 RSS 2.0 新闻聚合"" /></a></li>"
 t.HtmlID="divMisc"
 t.Ftype="ul"
 t.post
@@ -1183,7 +1183,7 @@ a.CateID=0
 a.id=0
 a.Title="欢迎使用Z-Blog！"
 a.FType=0
-a.Content="<p>欢迎使用Z-Blog,这是程序自动生成的文章.您可以删除或是编辑它,在没有进行&quot;文件重建&quot;前,无法打开该文章页面的,这不是故障:)</p><p>系统总共生成了一个&quot;留言本&quot;页面,和一个&quot;欢迎使用Z-Blog！&quot;文章,祝您使用愉快!</p>"'<p>默认管理员账号和密码为:zblogger.</p>"
+a.Content="<p>欢迎使用Z-Blog,这是程序自动生成的文章.您可以删除或是编辑它,在没有进行&quot;文件重建&quot;前,无法打开该文章页面的,这不是故障:)</p><p>系统总共生成了一个&quot;留言本&quot;页面,和一个&quot;Hello, world!&quot;文章,祝您使用愉快!</p>"'<p>默认管理员账号和密码为:zblogger.</p>"
 a.Intro=a.Content
 a.Level=4
 a.post

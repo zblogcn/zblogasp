@@ -14,7 +14,7 @@ End Sub
 '********************************************************
 '   uEditor ASP Include File
 '   By ZSX(http://www.zsxsoft.com)
-'   Z-Blog (http://www.rainbowsoft.org)
+'   Z-Blog (http://www.zblogcn.com/)
 '********************************************************
 Dim uEditor_ASPCharset
 uEditor_ASPCharset="UTF-8"  '设置编码

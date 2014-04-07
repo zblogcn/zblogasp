@@ -156,7 +156,7 @@ Sub System_Initialize()
 
 	ZC_BLOG_PRODUCT_FULL=ZC_BLOG_PRODUCT & " " & ZC_BLOG_VERSION
 	
-	ZC_BLOG_PRODUCT_FULLHTML="<a href=""http://www.rainbowsoft.org/"" title=""RainbowSoft Z-Blog"">" & ZC_BLOG_PRODUCT_FULL & "</a>"
+	ZC_BLOG_PRODUCT_FULLHTML="<a href=""http://www.zblogcn.com/"" title=""RainbowSoft Z-Blog"">" & ZC_BLOG_PRODUCT_FULL & "</a>"
 
 	TemplateTagsDic.Item("ZC_BLOG_HOST")=BlogHost
 

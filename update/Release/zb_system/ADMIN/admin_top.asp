@@ -2,7 +2,7 @@
 <body>
 <div id="header">
   <div class="top">
-    <div class="logo"><a href="http://www.rainbowsoft.org/" title="Z-Blog" target="_blank"><img src="<%=BlogHost%>zb_system/image/admin/logo.png" alt="Z-Blog"/></a></div>
+    <div class="logo"><a href="http://www.zblogcn.com/" title="Z-Blog" target="_blank"><img src="<%=BlogHost%>zb_system/image/admin/logo.png" alt="Z-Blog"/></a></div>
     <div class="user"> <a href="<%=BlogHost%>zb_system/cmd.asp?act=UserEdt&amp;id=<%=BlogUser.ID%>" title="<%=ZC_MSG078%>"><img src="<%=BlogHost%>zb_system/image/admin/avatar.png" width="40" height="40" id="avatar" alt="Avatar" /></a>
       <div class="username"><%=ZVA_User_Level_Name(BlogUser.Level)%>：<%=BlogUser.FirstName%></div>
       <div class="userbtn"><a class="profile" href="<%=BlogHost%>" title="" target="_blank"><%=ZC_MSG065%></a>&nbsp;&nbsp;<a class="logout" href="<%=BlogHost%>ZB_SYSTEM/cmd.asp?act=logout" title=""><%=ZC_MSG020%></a></div>
@@ -10,7 +10,7 @@
     <div class="menu">
       <ul id="topmenu">
 <%
-Call Add_Response_Plugin("Response_Plugin_Admin_Top",MakeTopMenu(GetRights("vrs"),ZC_MSG006,"http://www.rainbowsoft.org/","","_blank"))
+Call Add_Response_Plugin("Response_Plugin_Admin_Top",MakeTopMenu(GetRights("vrs"),ZC_MSG006,"http://www.zblogcn.com/","","_blank"))
 %>
         <%=ResponseAdminTopMenu(Response_Plugin_Admin_Top)%>
       </ul>
