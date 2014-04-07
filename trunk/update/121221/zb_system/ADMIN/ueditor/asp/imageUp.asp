@@ -4,7 +4,7 @@
 '********************************************************
 '   uEditor ASP图片上传
 '   By ZSX(http://www.zsxsoft.com)
-'   Z-Blog (http://www.rainbowsoft.org)
+'   Z-Blog (http://www.zblogcn.com)
 '********************************************************
 uEditor_i
 For Each sAction_Plugin_UEditor_FileUpload_Begin in Action_Plugin_UEditor_FileUpload_Begin

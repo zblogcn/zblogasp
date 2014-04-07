@@ -252,7 +252,7 @@ BlogTitle="TotoroⅢ（基于TotoroⅡ的Z-Blog的评论管理审核系统增强
               </div>
               <div class="tab-content" style='border:none;padding:0px;margin:0;' id="tab3">
                 <dl class="totoro">
-                  <dd>Totoro是个采用评分机制的防止垃圾留言的插件，原作<a href="http://www.rainbowsoft.org/" target="_blank">zx.asd</a>。<br/>
+                  <dd>Totoro是个采用评分机制的防止垃圾留言的插件，原作<a href="http://www.zblogcn.com/" target="_blank">zx.asd</a>。<br/>
                     TotoroⅡ是<a href="http://ZxMYS.COM" target="_blank">Zx.MYS</a>在Totoro的基础上修改而成的增强版，加入了诸多新特性，同时修正一些问题。<br/>
                     TotoroⅢ是由<a href="http://www.zsxsoft.com" target="_blank">zsx</a>将TotoroII升级到2.0版本后增添新特性的版本。</dd>
                   <dd>Spam Value(SV)初始值为0，经过相关运算后的SV分值越高Spam嫌疑越大，超过设定的阈值这条评论就进入审核状态或直接被删除。</dd>

@@ -12,7 +12,7 @@
 	<file name='zb_system\ADMIN\admin_footer.asp' md5='AD6A0C3754399FBE0AD6BC5B11FEEB11' crc32='BFEAE369'/>
 	<file name='zb_system\ADMIN\admin_header.asp' md5='C74AE47D9EE8CA007BB9BED52772479E' crc32='4AE7846A'/>
 	<file name='zb_system\ADMIN\admin_left.asp' md5='F4D1B7FEE124239E7F5F4ADCC352A8AE' crc32='BC664832'/>
-	<file name='zb_system\ADMIN\admin_top.asp' md5='599AD0C5E6D68B558B6DF03C7B989A23' crc32='AD45175A'/>
+	<file name='zb_system\ADMIN\admin_top.asp' md5='9FFCC197B07F1539D9F21F1F5C63D6DB' crc32='3195E171'/>
 	<file name='zb_system\ADMIN\c_autosaverjs.asp' md5='4B10DCB729922C90622C67A41B86B8D7' crc32='AE6A54AB'/>
 	<file name='zb_system\ADMIN\c_statistic.asp' md5='6BFEAF1C215D09BEEA20FFB5F09C7E5D' crc32='14B857BC'/>
 	<file name='zb_system\ADMIN\c_updateinfo.asp' md5='95A619E4C7D5E422D47D5D4D17D65189' crc32='5E46F989'/>
@@ -26,13 +26,13 @@
 	<file name='zb_system\ADMIN\edit_user.asp' md5='85A35D159CCC3AA3DFD67510BCF18D03' crc32='F0958CDF'/>
 	<file name='zb_system\ADMIN\ueditor\ueditor.all.min.js' md5='929643053E49AA7660E0CFFCB1F6FA0E' crc32='DB5FFDF'/>
 	<file name='zb_system\ADMIN\ueditor\ueditor.config.asp' md5='A52F941A12DF4EA01827DAB433B01E38' crc32='778278A5'/>
-	<file name='zb_system\ADMIN\ueditor\asp\ASPIncludeFile.asp' md5='DF4E5C15B3C6E130D8373A5ACFD410CC' crc32='BC318761'/>
+	<file name='zb_system\ADMIN\ueditor\asp\ASPIncludeFile.asp' md5='6B600E0D0AEC8E422E892709C45A28CB' crc32='79D1700A'/>
 	<file name='zb_system\ADMIN\ueditor\asp\fileUp.asp' md5='9B3CF1A9B2EF84AD9B3DAB831D7CC680' crc32='552C4A68'/>
 	<file name='zb_system\ADMIN\ueditor\asp\getmovie.asp' md5='893B77F6128AAD4C262FE6905FAFE912' crc32='F839C442'/>
 	<file name='zb_system\ADMIN\ueditor\asp\getRemoteImage.asp' md5='FA8179B0879C95C6273BBC81B40E0030' crc32='C0BB0543'/>
 	<file name='zb_system\ADMIN\ueditor\asp\imageManager.asp' md5='8216852961AAA8778E3D274B13145A5F' crc32='953281E1'/>
-	<file name='zb_system\ADMIN\ueditor\asp\imageUp.asp' md5='1CC2EBCCA1B79AC6D9518D4695413BE0' crc32='34CB3B0A'/>
-	<file name='zb_system\ADMIN\ueditor\asp\scrawlUp.asp' md5='B61843F3FDC3B6777568BE1CB4FF610F' crc32='141E0676'/>
+	<file name='zb_system\ADMIN\ueditor\asp\imageUp.asp' md5='0BC0402EF2498B6A18130326D5467CFF' crc32='F721BB27'/>
+	<file name='zb_system\ADMIN\ueditor\asp\scrawlUp.asp' md5='2CA647C3342FCF17BCDE9703910F2F3A' crc32='D6D49BFC'/>
 	<file name='zb_system\ADMIN\ueditor\asp\uploadWithoutFlash.asp' md5='E5E9CDF5784DAB61A241ED42E66BF72A' crc32='B4322810'/>
 	<file name='zb_system\ADMIN\ueditor\dialogs\internal.js' md5='6E1E6F04D12549D87919B9623401E773' crc32='AC295EC4'/>
 	<file name='zb_system\ADMIN\ueditor\dialogs\tangram.js' md5='F4E6F90F1972A202F247D3D632269A31' crc32='C2E4EEBA'/>
@@ -178,7 +178,7 @@
 	<file name='zb_system\FUNCTION\c_function.asp' md5='22173018DBA4E69E497C185276A4C76B' crc32='37DD08D1'/>
 	<file name='zb_system\FUNCTION\c_html_js.asp' md5='92154E9ABFED577614F5CD73C8B6BCD5' crc32='11A3DF15'/>
 	<file name='zb_system\FUNCTION\c_html_js_add.asp' md5='E7DB4ABB375796ED8F3ED800DA05EBC8' crc32='AF969D27'/>
-	<file name='zb_system\FUNCTION\c_system_base.asp' md5='FE0B5FBFC5AA45F38BA98F4DD6C314EE' crc32='64F80409'/>
+	<file name='zb_system\FUNCTION\c_system_base.asp' md5='5C37084859105C3D18825F4CD1D4F361' crc32='ED58F9D'/>
 	<file name='zb_system\FUNCTION\c_system_event.asp' md5='603AFE813947F1A6F78E44B899CE265C' crc32='E2411104'/>
 	<file name='zb_system\FUNCTION\c_system_lib.asp' md5='EA3AF9E02C1F4C96EE38A019C72B91EF' crc32='69551483'/>
 	<file name='zb_system\FUNCTION\c_system_manage.asp' md5='B2F4994CFBF3FE4FBBF728F2CA54DF82' crc32='C47F1A12'/>
