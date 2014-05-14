@@ -33,7 +33,60 @@ Sub ShowError(id)
 		Execute(ShowError_Custom)
 		Exit Sub
 	End If
-	Response.Redirect GetCurrentHost() & "zb_system/function/c_error.asp?errorid=" & id & "&number=" & Err.Number & "&description=" & Server.URLEncode(Err.Description) & "&source=" & Server.URLEncode(Err.Source) & "&sourceurl="  &Server.URLEncode(Request.ServerVariables("Http_Referer")) 
+	'Response.Redirect GetCurrentHost() & "zb_system/function/c_error.asp?errorid=" & id & "&number=" & Err.Number & "&description=" & Server.URLEncode(Err.Description) & "&source=" & Server.URLEncode(Err.Source) & "&sourceurl="  &Server.URLEncode(Request.ServerVariables("Http_Referer"))
+	Response.Clear
+	
+	If id=2 Then
+		Response.Status="404 Not Found"
+	Else
+		Response.Status="500 Internal Server Error"
+	End If
+	%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<%=ZC_BLOG_LANGUAGE%>" lang="<%=ZC_BLOG_LANGUAGE%>">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="Content-Language" content="<%=ZC_BLOG_LANGUAGE%>" />
+	<link rel="stylesheet" rev="stylesheet" href="<%=ZC_BLOG_HOST%>zb_system/css/admin.css" type="text/css" media="screen" />
+	<title><%=ZC_BLOG_TITLE & ZC_MSG044 & ZC_MSG045%></title>
+</head>
+<body class="short">
+
+<div class="bg">
+<div id="wrapper">
+  <div class="logo"><img src="<%=ZC_BLOG_HOST%>zb_system/image/admin/none.gif" title="Z-Blog" alt="Z-Blog"/></div>
+  <div class="login">
+	<form id="frmLogin" method="post" action="">
+	  <div class="divHeader"><%=ZC_MSG045%></div>
+
+<%
+	Response.Write "<p>" & ZC_MSG098 & ":" & ZVA_ErrorMsg(id) & "</p>"
+
+	If Err.Number<>0 Then
+		Response.Write "<p>" & ZC_MSG076 & ":" & "" & Err.Number & "</p>"
+		Response.Write "<p>" & ZC_MSG016 & ":" & "<br/>" & TransferHTML(Err.Description,"[html-format]") & "</p>"
+		Response.Write "<p>" & TransferHTML(Err.Source,"[html-format]") & "</p>"
+	End If
+		Response.Write "<p><br/></p>"
+	If CheckRegExp(Request.ServerVariables("Http_Referer"),"[homepage]")=True Then
+		Response.Write "<p style='text-align:right;'><a href=""" & TransferHTML(Request.ServerVariables("Http_Referer"),"[html-format]") & """>" & ZC_MSG207 & "</a></p>"
+	Else
+		Response.Write "<p style='text-align:right;'><a href=""" & GetCurrentHost() & """>" & ZC_MSG207 & "</a></p>"
+	End If
+
+	If id=6 Then
+		Response.Write "<p style='text-align:right;'><a href=""../cmd.asp?act=login"" target=""_top"">"& ZC_MSG009 & "</a></p>"
+	End If
+%>
+
+    </form>
+  </div>
+</div>
+</div>
+</body>
+</html>
+	<%
+	Response.End
 End Sub
 '*********************************************************
 
