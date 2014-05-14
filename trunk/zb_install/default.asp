@@ -900,7 +900,7 @@ t.IsHidden=False
 t.Source="system"
 t.SidebarID=1
 t.Order=10
-t.Content="<li><a href=""http://www.dbshost.cn/"" target=""_blank"" title=""独立博客服务 Z-Blog官方主机"">DBS主机</a></li><li><a href=""http://www.dutory.com/blog/"" target=""_blank"">Dutory官方博客</a></li>"
+t.Content="<li><a href=""http://www.dbshost.cn/"" target=""_blank"" title=""DBSHOST主机 独立博客服务 Z-Blog官方主机"">DBS主机</a></li><li><a href=""http://blog.zblogcn.com/"" target=""_blank"">Z-Blog官方博客</a></li>"
 t.HtmlID="divLinkage"
 t.Ftype="ul"
 t.post

@@ -14,9 +14,9 @@
 '///////////////////////////////////////////////////////////////////////////////
 %>
 <% Option Explicit %>
-<% 'On Error Resume Next %>
+<% On Error Resume Next %>
 <% Response.Charset="UTF-8" %>
-<%Response.Buffer=True %>
+<% Response.Buffer=True %>
 <!-- #include file="zb_users/c_option.asp" -->
 <!-- #include file="zb_system/function/c_function.asp" -->
 <!-- #include file="zb_system/function/c_system_lib.asp" -->
@@ -187,7 +187,6 @@ input.button{
 <div id="divMain">
 <input type="hidden" name="userid" id="userid" value="0" />
 <%
-
 	Call System_Initialize()
 
 	Call GetUser()
@@ -229,10 +228,14 @@ End If
 
 
 	Call System_Terminate()
-
 %>
 </div>
 <div id="divFooter"><b><font color="blue">[使用必看]</font>&nbsp;<font color="red">注意:此工具非常危险,使用后请立刻通过<u>FTP</u>删除或改名.</font></b></div>
 </form>
 </body>
 </html>
+<%
+If Err.Number<>0 then
+	Call ShowError(0)
+End If
+%>
