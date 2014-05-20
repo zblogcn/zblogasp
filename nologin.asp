@@ -41,10 +41,10 @@
 body{
 	margin:0;
 	padding:0;
-	color: #000000;
+	color: #FFFFFF;
 	font-size:12px;
-	background:#f8f8f8;
-	font-family:"宋体","黑体";
+	background:#FFFFFF;
+	font-family:"微软雅黑","黑体","宋体";
 }
 h1,h2,h3,h4,h5,h6{
 	font-size:18px;
@@ -55,19 +55,19 @@ a{
 	text-decoration: none;
 }
 a:link {
-	color:#0066CC;
+	color:#FFFFFF;
 	text-decoration: none;
 }
 a:visited {
-	color:#0066CC;
+	color:#FFFFFF;
 	text-decoration: none;
 }
 a:hover {
-	color:#FF7F50;
+	color:yellow;
 	text-decoration: underline;
 }
 a:active {
-	color:#FF7F50;
+	color:yellow;
 	text-decoration: underline;
 }
 p{
@@ -104,23 +104,7 @@ form{
 	margin:0;
 	padding:0;
 }
-input{
-	background:#eeeeee;
-}
-select{
-	background:#eeeeee;
-}
-textarea{
-	background:#eeeeee;
-}
-input.button{
-	background:#eeeeee url("../image/edit/fade-butt.png");
-	border: 3px double #909090;
-	border-left-color: #c0c0c0;
-	border-top-color: #c0c0c0;
-	color: #333;
-	padding: 0.05em 0.25em 0.05em 0.25em;
-}
+
 
 #frmLogin{
 	position:absolute;
@@ -131,8 +115,9 @@ input.button{
 	overflow:hidden;
 	width:600px;
 	height:400px;
-	background-color:white;
+	background-color:#3a6ea5;
 	border:0px solid #B3C3CD;
+	box-shadow: 0px 0px 15px black;
 }
 
 #frmLogin h3{
@@ -140,21 +125,18 @@ input.button{
 	margin:0;
 	text-align:center;
 	color:white;
-	background:#3399cc;
 	font-size:24px;
 	height:30px;
 }
 
 #divHeader{
-	background:#b0cdee;
 	margin:0 0;
 	padding:8px;
 }
 #divMain{
-	height:290px;
+	height:280px;
 }
 #divFooter{
-	border-top:0px solid #A1B0B9;
 	margin:5px 0px 0 0px;
 	text-align:center;
 	padding:2px;
@@ -162,7 +144,7 @@ input.button{
 
 #divMain_Top{
 	padding:8px;
-	padding-bottom:0;	
+	padding-bottom:0;
 }
 #divMain_Center{
 	padding:5px;
@@ -183,7 +165,7 @@ input.button{
 
 <form id="frmLogin" method="post">
 <h3>Z-Blog免输入密码登陆工具</h3>
-<div id="divHeader"><a href="http://www.rainbowsoft.org/" target="_blank">Z-Blog主页</a> | <a href="http://bbs.rainbowsoft.org" class="here" target="_blank">Zblogger社区</a> | <a href="http://wiki.rainbowsoft.org/" target="_blank">Z-Wiki</a> | <a href="http://blog.rainbowsoft.org/" target="_blank">菠萝阁</a> | <a href="http://show.rainbowsoft.org/" target="_blank">菠萝秀</a> | <a href="http://download.rainbowsoft.org/" target="_blank">菠萝的海</a> | <a href="http://www.dbshost.cn/" target="_blank">DBS主机</a></div>
+<div id="divHeader">&nbsp;&nbsp;<a href="http://www.zblogcn.com/" target="_blank">Z-Blog主页</a>&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://bbs.zblogcn.com" class="here" target="_blank">Zblogger社区</a>&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://wiki.zblogcn.com/" target="_blank">Z-Wiki</a>&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://blog.zblogcn.com/" target="_blank">菠萝阁</a>&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://www.dbshost.cn/" target="_blank">DBS主机</a></div>
 <div id="divMain">
 <input type="hidden" name="userid" id="userid" value="0" />
 <%
@@ -200,7 +182,7 @@ objRS.ActiveConnection=objConn
 
 If CInt(Request.Form("userid"))>0 Then
 
-	Response.Cookies("username") = Users(CInt(Request.Form("userid"))).Name
+	Response.Cookies("username") = vbsescape(Users(CInt(Request.Form("userid"))).Name)
 	Response.Cookies("username").Expires = DateAdd("y", 1, now)
 	Response.Cookies("username").Path = "/"
 
@@ -230,7 +212,7 @@ End If
 	Call System_Terminate()
 %>
 </div>
-<div id="divFooter"><b><font color="blue">[使用必看]</font>&nbsp;<font color="red">注意:此工具非常危险,使用后请立刻通过<u>FTP</u>删除或改名.</font></b></div>
+<div id="divFooter"><b><font color="red">[使用必看]</font>&nbsp;<font color="yellow">注意:此工具非常危险,使用后请立刻通过<u>FTP</u>删除或改名.</font></b></div>
 </form>
 </body>
 </html>

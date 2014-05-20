@@ -1,4 +1,10 @@
 ﻿<files build='121221'>
+	<file name='zb_system\FUNCTION\c_function.asp' md5='4DDFDBB385136B4585C4E5D6766B016A' crc32='2770E7E5'/>
+	<file name='zb_system\FUNCTION\c_system_plugin.asp' md5='82D0E1559158A24E56B186E288B8C8F9' crc32='5AEF9095'/>
+	<file name='zb_system\FUNCTION\c_system_lib.asp' md5='2D66B96207442FAD20CBF38E4A980506' crc32='ACEEDF38'/>
+	<file name='zb_system\FUNCTION\c_system_base.asp' md5='598DE06E0013CCB35B44AFCBE395F813' crc32='4CEE5AC8'/>
+	<file name='zb_system\FUNCTION\c_system_manage.asp' md5='33619C27620A29A46619D1C2167C3BC1' crc32='68B3CF34'/>
+	<file name='zb_system\FUNCTION\c_system_event.asp' md5='0C9D44723D3DC22064E18D57E1913541' crc32='D322AF05'/>
 	<file name='catalog.asp' md5='BFC8B646DDA070BFB1296308AC3E2F38' crc32='FD5A8F81'/>
 	<file name='default.asp' md5='E047C71530AAD57F379E4B89227B7F28' crc32='CA02A6A4'/>
 	<file name='feed.asp' md5='5077BF1F4BB062C79490D03A5F3EEB53' crc32='29D3328D'/>
@@ -170,14 +176,8 @@
 	<file name='zb_system\FUNCTION\c_admin_js.asp' md5='B2A8DC41218540B8C43D4644B35525A9' crc32='F5E3BCDF'/>
 	<file name='zb_system\FUNCTION\c_admin_js_add.asp' md5='304E029D51797A69E8804F8E5D8BAE35' crc32='9FE76A90'/>
 	<file name='zb_system\FUNCTION\c_error.asp' md5='C058B9E04FF7C7BC23C886271C69BF6B' crc32='BAF8E88C'/>
-	<file name='zb_system\FUNCTION\c_function.asp' md5='4DDFDBB385136B4585C4E5D6766B016A' crc32='2770E7E5'/>
 	<file name='zb_system\FUNCTION\c_html_js.asp' md5='93371CA1021BCEAC6904EE713271CF7A' crc32='63EA1587'/>
 	<file name='zb_system\FUNCTION\c_html_js_add.asp' md5='847A247098CDD859CE96A807CDA3EFCD' crc32='D24BBA09'/>
-	<file name='zb_system\FUNCTION\c_system_base.asp' md5='598DE06E0013CCB35B44AFCBE395F813' crc32='4CEE5AC8'/>
-	<file name='zb_system\FUNCTION\c_system_event.asp' md5='0C9D44723D3DC22064E18D57E1913541' crc32='D322AF05'/>
-	<file name='zb_system\FUNCTION\c_system_lib.asp' md5='2D66B96207442FAD20CBF38E4A980506' crc32='ACEEDF38'/>
-	<file name='zb_system\FUNCTION\c_system_manage.asp' md5='33619C27620A29A46619D1C2167C3BC1' crc32='68B3CF34'/>
-	<file name='zb_system\FUNCTION\c_system_plugin.asp' md5='82D0E1559158A24E56B186E288B8C8F9' crc32='5AEF9095'/>
 	<file name='zb_system\FUNCTION\c_urlredirect.asp' md5='672BA551F50C7AEE3549370C8FF0DFD4' crc32='777F6B5E'/>
 	<file name='zb_system\FUNCTION\c_validcode.asp' md5='8D351BB4778C115A4406FF1F8DAE093B' crc32='7B8815E2'/>
 	<file name='zb_system\IMAGE\ADMIN\arrow-3-right.png' md5='BA3545574C07C5146A7CA472B37191DB' crc32='9613739F'/>

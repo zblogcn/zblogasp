@@ -41,7 +41,7 @@ Public Function Login()
 
 	End If
 
-	Response.Cookies("username")=escape(Request.Form("username"))
+	Response.Cookies("username")=vbsescape(Request.Form("username"))
 	If Request.Form("savedate")<>0 Then
 		Response.Cookies("username").Expires = DateAdd("d", Request.Form("savedate"), now)
 	End If
