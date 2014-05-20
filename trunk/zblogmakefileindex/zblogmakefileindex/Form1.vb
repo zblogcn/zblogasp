@@ -10,11 +10,18 @@ Public Class Form1
 
             If My.Computer.FileSystem.GetDirectoryInfo(c).Name.Length <> 6 Then Exit For
 
-            Dim b As String = ""
+            Dim b2 As String = ""
             Dim d As String = ""
             Dim f As String = ""
-            b += ("<files build='" + My.Computer.FileSystem.GetDirectoryInfo(c).Name + "'>" + vbCrLf)
+            b2 += ("<files build='" + My.Computer.FileSystem.GetDirectoryInfo(c).Name + "'>" + vbCrLf)
+
+            Dim l As New System.Collections.Generic.Dictionary(Of String, String)
+            Dim m As New System.Collections.Generic.Dictionary(Of String, String)
+
             For Each a As String In My.Computer.FileSystem.GetFiles(c, FileIO.SearchOption.SearchAllSubDirectories)
+
+                Dim b As String = ""
+
                 b += vbTab + "<file"
 
                 b += " name='" + a.Replace(c + "\", "") + "'"
@@ -33,13 +40,88 @@ Public Class Form1
                     f = Convert.ToString(g.CalculateBlock(My.Computer.FileSystem.ReadAllBytes(a)), 16).ToUpper
                 End If
 
-
                 b += " crc32='" + f + "'"
 
                 b += "/>" + vbCrLf
+
+                l.Add(a.Replace(c + "\", ""), b)
+                'b2 += b
             Next
-            b += "</files>"
-            My.Computer.FileSystem.WriteAllText(My.Computer.FileSystem.GetDirectoryInfo(c).Name + ".xml", b, False)
+
+            ' Iterate through a dictionary
+            For Each x As String In l.Keys
+                If x = "zb_system\function\c_system_plugin.php" Then m.Add(x, l(x))
+            Next
+            For Each x As String In l.Keys
+                If x = "zb_system\function\c_system_debug.php" Then m.Add(x, l(x))
+            Next
+            For Each x As String In l.Keys
+                If x = "zb_system\function\c_system_common.php" Then m.Add(x, l(x))
+            Next
+            For Each x As String In l.Keys
+                If x = "zb_system\function\c_system_event.php" Then m.Add(x, l(x))
+            Next
+            For Each x As String In l.Keys
+                If x = "zb_system\function\c_system_base.php" Then m.Add(x, l(x))
+            Next
+            For Each x As String In l.Keys
+                If x = "zb_system\function\c_system_admin.php" Then m.Add(x, l(x))
+            Next
+            For Each x As String In l.Keys
+                If x = "zb_system\function\lib\base.php" Then m.Add(x, l(x))
+            Next
+            For Each x As String In l.Keys
+                If x = "zb_system\function\lib\dbsql.php" Then m.Add(x, l(x))
+            Next
+            For Each x As String In l.Keys
+                If x = "zb_system\function\lib\metas.php" Then m.Add(x, l(x))
+            Next
+            For Each x As String In l.Keys
+                If x = "zb_system\function\lib\template.php" Then m.Add(x, l(x))
+            Next
+            For Each x As String In l.Keys
+                If x = "zb_system\function\lib\network.php" Then m.Add(x, l(x))
+            Next
+            For Each x As String In l.Keys
+                If x = "zb_system\function\lib\zblogphp.php" Then m.Add(x, l(x))
+            Next
+
+
+            For Each x As String In l.Keys
+                If x = "zb_system\FUNCTION\c_function.asp" Then m.Add(x, l(x))
+            Next
+            For Each x As String In l.Keys
+                If x = "zb_system\FUNCTION\c_system_plugin.asp" Then m.Add(x, l(x))
+            Next
+            For Each x As String In l.Keys
+                If x = "zb_system\FUNCTION\c_system_lib.asp" Then m.Add(x, l(x))
+            Next
+            For Each x As String In l.Keys
+                If x = "zb_system\FUNCTION\c_system_base.asp" Then m.Add(x, l(x))
+            Next
+            For Each x As String In l.Keys
+                If x = "zb_system\FUNCTION\c_system_manage.asp" Then m.Add(x, l(x))
+            Next
+            For Each x As String In l.Keys
+                If x = "zb_system\FUNCTION\c_system_event.asp" Then m.Add(x, l(x))
+            Next
+
+
+
+
+            For Each x As String In l.Keys
+                If m.ContainsKey(x) Then Continue For
+                m.Add(x, l(x))
+            Next
+
+            For Each x As String In m.Values
+                b2 += x
+            Next
+
+
+
+            b2 += "</files>"
+            My.Computer.FileSystem.WriteAllText(My.Computer.FileSystem.GetDirectoryInfo(c).Name + ".xml", b2, False)
             Me.TextBox2.AppendText("生成文件:" + My.Computer.FileSystem.GetDirectoryInfo(c).Name + ".xml" + vbCrLf)
         Next
 

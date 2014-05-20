@@ -252,10 +252,6 @@ function LoadRememberInfo() {
 
 	}
 
-	if(GetCookie("username")){
-		document.getElementById("inpName").value=unescape(GetCookie("username"));
-	}
-
 }
 //*********************************************************
 
