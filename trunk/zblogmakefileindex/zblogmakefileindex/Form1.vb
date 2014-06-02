@@ -68,6 +68,9 @@ Public Class Form1
                 If x = "zb_system\function\c_system_admin.php" Then m.Add(x, l(x))
             Next
             For Each x As String In l.Keys
+                If x = "zb_system\defend\option.php" Then m.Add(x, l(x))
+            Next
+            For Each x As String In l.Keys
                 If x = "zb_system\function\lib\base.php" Then m.Add(x, l(x))
             Next
             For Each x As String In l.Keys

@@ -15,68 +15,61 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta http-equiv="Content-Language" content="zh-cn" />
-	<title>Z-Blog2 在线安装程序</title>
-<style type="text/css">
-<!--
-*{
-	font-size:14px;
-	border:none;
-}
-body{
-	margin:0;
-	padding:0;
-	color: #000000;
-	background:#fff;
-	font-family:"微软雅黑","宋体";
-}
-h1,h2,h3,h4,h5,h6{
-	font-size:18px;
-	padding:0;
-	margin:0;
-}
-h1{
-font-size:28px;
-}
-div{
-	position:absolute;
-	left: 50%;
-	top: 50%;
-	margin: -150px 0px 0px -150px;
-	padding:0;
-	overflow:hidden;
-	width:300px;
-	background-color:white;
-	text-align:center;
-}
--->
-</style>
+	<title>Z-Blog在线安装程序</title>
+<style type="text/css"><!--
+*{font-size:14px;font-family:'Microsoft YaHei', 'Hiragino Sans GB', 'WenQuanYi Micro Hei', 'Heiti SC', STHeiti, SimSun, sans-serif , Verdana, Arial;}
+body{margin:0;padding:0;color: #000000;background:#fff;}
+h1,h2,h3,h4,h5,h6{font-size:18px;padding:0;color:#3a6ea5;}
+h1{font-size:28px;}
+input{padding:15px 82px;}
+div{position:absolute;left: 50%;top: 50%;margin: -190px 0px 0px -150px;padding:0;overflow:hidden;width:300px;background-color:white;text-align:center;}
+--></style>
 </head>
 <body>
 <div>
-<h1>Z-Blog2 在线安装</h1>
-<p><img src="http://update.rainbowsoft.org/zblog2/loading.gif" alt=""></p>
+<h1>Z-Blog 在线安装</h1>
 
+<form method="post" action="#">
 <%
-Const InstallerVersion="1.0"
+Const InstallerVersion="2.0"
+Dim go
 Dim fso
-Set fso = CreateObject("Scripting.FileSystemObject")
-If fso.FileExists(Server.MapPath(".") & "\" & "Release.log")=True Then
-	Response.Write "<p>已运行过安装程序，将删除安装程序......</p>"
-	fso.Deletefile(Server.MapPath(".") & "\" & "Release.log") 
-	fso.Deletefile(Server.MapPath(".") & "\" & "Release.xml") 
-		fso.Deletefile(Server.MapPath(Request.ServerVariables("PATH_INFO"))) 
-Else
+go=Request.ServerVariables("REQUEST_METHOD")
 
-	If fso.FileExists(Server.MapPath(".") & "\" & "Release.xml")=True Then
-		Install2
-	Else
-		Install1
-		Install2
+If go="GET" Then
+%>
+<p><%=GetNewVersion()%></p>
+<p><img src="http://update.zblogcn.com/zblog2/loading.png" alt="Z-Blog在线安装" title="Z-Blog在线安装"/></p>
+<p><input type="submit" value="开始安装" onclick="this.style.display='none';" /></p>
+<%
+	Set fso = CreateObject("Scripting.FileSystemObject")
+	If fso.FileExists(Server.MapPath(".") & "\" & "Release.log")=True Then
+		Response.Write "<p>已运行过安装程序，将删除安装程序......</p>"
+		fso.Deletefile(Server.MapPath(".") & "\" & "Release.log") 
+		fso.Deletefile(Server.MapPath(".") & "\" & "Release.xml") 
+		fso.Deletefile(Server.MapPath(Request.ServerVariables("PATH_INFO"))) 
 	End If
 
 End If
 
 
+
+If go="POST" Then
+%>
+<p><img src="http://update.zblogcn.com/zblog2/loading.gif" alt="Z-Blog在线安装" title="Z-Blog在线安装"/></p>
+<%
+	Set fso = CreateObject("Scripting.FileSystemObject")
+	If fso.FileExists(Server.MapPath(".") & "\" & "Release.log")=True Then
+	Else
+		If fso.FileExists(Server.MapPath(".") & "\" & "Release.xml")=True Then
+			Install2
+		Else
+			Install1
+			Install2
+		End If
+
+	End If
+End If
 
 
 
@@ -92,7 +85,7 @@ Function Install1
 	Set objPing = Server.CreateObject("MSXML2.ServerXMLHTTP")
 
 	Randomize 
-	objPing.open "HEAD", "http://update.rainbowsoft.org/zblog2/Release.xml"&"?rnd="&Rnd,False
+	objPing.open "HEAD", "http://update.zblogcn.com/zblog2/Release.xml"&"?rnd="&Rnd,False
 	objPing.setRequestHeader "User-Agent","Z-BlogInstaller/"&InstallerVersion&"(Host:"&Request.ServerVariables("HTTP_HOST")&") "
 	objPing.send 
 	strMax=CDBl(objPing.getResponseHeader("Content-Length"))
@@ -111,7 +104,7 @@ Function Install1
 
 	For i=-1 To strMax Step 1000000
 		s=IIf(i+1000000>strMax,strMax,i+1000000)
-		objPing.open "GET", "http://update.rainbowsoft.org/zblog2/Release.xml"&"?rnd="&Rnd,False
+		objPing.open "GET", "http://update.zblogcn.com/zblog2/Release.xml"&"?rnd="&Rnd,False
 		objPing.setRequestHeader "User-Agent","Z-BlogInstaller/"&InstallerVersion&"(Host:"&Request.ServerVariables("HTTP_HOST")&") "
 		objPing.setRequestHeader "Range","bytes="&i+1&"-"&s
 		objPing.send 
@@ -178,7 +171,6 @@ Function Install2
 		End If
 	End If
 
-
 	Call fso.CreateTextFile(Server.MapPath(".") & "\" & "Release.log", True)
 	fso.Deletefile(Server.MapPath(".") & "\" & "Release.xml") 
 	fso.Deletefile(Server.MapPath(Request.ServerVariables("PATH_INFO"))) 
@@ -228,8 +220,25 @@ Sub CreatDirectoryByCustomDirectory(ByVal strCustomDirectory)
 End Sub
 '*********************************************************
 
+Function GetNewVersion()
+	GetNewVersion="不能联网获取Z-Blog ASP版！"
 
+	Dim objPing
+	Set objPing = Server.CreateObject("MSXML2.ServerXMLHTTP")
+
+	objPing.open "GET","http://update.zblogcn.com/zblog2/",False
+
+	objPing.send
+
+	If objPing.ReadyState=4 Then
+		If objPing.Status=200 Then
+			GetNewVersion="最新版本：" & objPing.responseText
+		End If
+	End If
+
+End Function
 %>
+</form>
 </div>
 </body>
 </html>
