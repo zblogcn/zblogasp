@@ -1,7 +1,13 @@
 ﻿<%
-Const APPCENTRE_URL="http://app.rainbowsoft.org/client/"
+Const APPCENTRE_URL="http://app.zblogcn.com/client/"
 
-Const APPCENTRE_SYSTEM_UPDATE="http://update.rainbowsoft.org/zblog2/"
+Const APPCENTRE_SYSTEM_UPDATE="http://update.zblogcn.com/zblog2/"
+
+Const APPCENTRE_API_URL="http://app.zblogcn.com/api/index.php?api="
+Const APPCENTRE_API_APP_ISBUY="isbuy"
+Const APPCENTRE_API_USER_INFO="userinfo"
+Const APPCENTRE_API_ORDER_LIST="orderlist"
+Const APPCENTRE_API_ORDER_DETAIL="orderdetail"
 
 Dim appcentre_updatelist,appcentre_blog_last
 
