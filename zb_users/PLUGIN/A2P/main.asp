@@ -65,7 +65,7 @@ Sub ExportPage
 </div>
 <div id="div-input">
   <p>点击按钮，即开始转换所有的文章。</p>
-  <p>转换完成后，请手动下载FTP内zb_users/A2P/output全部数据并上传到Z-BlogPHP的zb_users/A2P/output文件夹内</p>
+  <p>转换完成后，请手动下载FTP内<b>zb_users/plugin/A2P/output</b>全部数据并上传到Z-BlogPHP的<b>zb_users/plugin/PDC/input</b>文件夹内</p>
   <form method="post" action="">
     <p>
       <input name="" id="button-submit" type="submit" class="button" value="开始转换" />
@@ -98,8 +98,8 @@ Sub ExportPage
 		run: function() {
 			if (this.pos >= this.queue.length) {
 				clearInterval(this.time_second);
-				this.log("转换完成！请手动下载FTP内zb_users\/A2P\/output全部文件并上传到Z-BlogPHP的zb_users\/A2P\/output文件夹内");
-				alert("转换完成！请手动下载FTP内zb_users\/A2P\/output全部文件并上传到Z-BlogPHP的zb_users\/A2P\/output文件夹内");
+				this.log("转换完成！请手动下载FTP内zb_users\/plugin\/A2P\/output全部文件并上传到Z-BlogPHP的zb_users\/plugin\/PDC\/intput文件夹内");
+				alert("转换完成！请手动下载FTP内zb_users\/plugin\/A2P\/output全部文件并上传到Z-BlogPHP的zb_users\/plugin\/PDC\/input文件夹内");
 				return;
 			} else {
 				var that = this;
