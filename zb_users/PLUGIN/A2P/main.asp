@@ -20,10 +20,11 @@ BlogTitle = "转换工具"
 
 Dim aryTable, aryTables
 Set aryTable = A2P_jsObject()
-aryTables = Array("category", "article", "comment", "upload", "member")
+aryTables = Array("category", "article", "comment", "tag", "upload", "member")
 aryTable("category") = "cate_ID"
 aryTable("article")  = "log_ID"
 aryTable("comment")  = "comm_ID"
+aryTable("tag")      = "tag_ID"
 aryTable("upload")   = "ul_ID"
 aryTable("member")   = "mem_ID"
 
