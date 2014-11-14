@@ -1,3 +1,6 @@
 /zb_users/INCLUDE/*
 /zb_users/CACHE/*
 /zb_users/DATA/*
+/zb_users/PLUGIN/p_include.asp
+/zb_users/PLUGIN/p_theme.asp
+/zb_users/c_option.asp
