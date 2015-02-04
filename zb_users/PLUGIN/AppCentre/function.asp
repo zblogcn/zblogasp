@@ -15,7 +15,7 @@ Dim app_config
 Dim login_un,login_pw,disableupdate_theme
 Dim enable_develop,disable_check,check_beta
 Dim Pack_For,Pack_Type
-Dim shop_un,shop_pw
+Dim shop_un,shop_pw,apptype
 
 Dim app_id
 Dim app_name
@@ -171,6 +171,10 @@ Function Server_Open(method)
 			Call Server_SendRequest("GET")
 			Call Server_FormatResponse(true)
 			Response.Write strResponse
+		Case "apptype"
+			app_config.Write "AppType",Request.QueryString("type")
+			app_config.Save
+			Response.Redirect "server.asp"
 	End Select
 
 End Function 
@@ -186,7 +190,7 @@ Sub Server_SendRequest(requestmethod)
 	objXmlHttp.Open requestmethod,strURL
 	If requestmethod="POST" Then objXmlhttp.SetRequestHeader "Content-Type","application/x-www-form-urlencoded"
 	objXmlhttp.SetRequestHeader "User-Agent","AppCentre/"&app_version & " ZBlog/"&BlogVersion&" "&Request.ServerVariables("HTTP_USER_AGENT") &""
-	objXmlhttp.SetRequestHeader "Cookie","username="&Server.URLEncode(login_un)&"; password="&Server.URLEncode(login_pw)&"; shop_username="&Server.URLEncode(shop_un)&"; shop_password="&Server.URLEncode(shop_pw)
+	objXmlhttp.SetRequestHeader "Cookie","username="&Server.URLEncode(login_un)&"; password="&Server.URLEncode(login_pw)&"; shop_username="&Server.URLEncode(shop_un)&"; shop_password="&Server.URLEncode(shop_pw)&"; apptype="&Server.URLEncode(apptype)
 	'为一些有趣的活动的防作弊
 	objXmlhttp.SetRequestHeader "Website",ZC_BLOG_HOST
 	'objXmlhttp.SetRequestHeader "AppCentre",app_version
@@ -572,6 +576,7 @@ Sub AppCentre_InitConfig
 	disable_check=app_config.read("DisableCheck")
 	disableupdate_theme=app_config.read("DisableUpdateTheme")
 	check_beta=app_config.read("CheckBeta")
+	apptype=app_config.read("AppType")
 
 	If enable_develop="" Then enable_develop=False
 	If disable_check="" Then disable_check=False
@@ -1301,7 +1306,7 @@ Function LoadAppFiles(DirPath,FilePath,ShortDir)
 
 		Set objFiles=objFolder.Files
 			For Each objFile in objFiles
-				If lcase(DirPath & objFile.name) <> lcase(Request.ServerVariables("PATH_TRANSLATED")) Then
+				'If lcase(DirPath & objFile.name) <> lcase(Request.ServerVariables("PATH_TRANSLATED")) Then
 					PathNameStr = DirPath & "" & objFile.name
 					'================================================
 					'写入文件的路径及文件内容
@@ -1326,7 +1331,7 @@ Function LoadAppFiles(DirPath,FilePath,ShortDir)
 				   Set Xstream = Nothing
 				   Set Xfile = Nothing
 				  '================================================
-				end if
+				'end if
 			next
 	XmlDoc.Save(FilePath)
 	Set Xfpath = Nothing
