@@ -567,11 +567,19 @@ Class TArticle
 	End Property
 
 	Public Property Get WAPUrl
-		WAPUrl = BlogHost & "wap.asp?act=View&id=" & ID
+		WAPUrl = BlogHost & "?mod=wap&act=View&id=" & ID
 	End Property
 
 	Public Property Get HtmlWAPUrl
 		HtmlWAPUrl=TransferHTML(WAPUrl,"[html-format]")
+	End Property
+
+	Public Property Get PadUrl
+		PadUrl = BlogHost & "?mod=pad&act=View&id=" & ID
+	End Property
+
+	Public Property Get HtmlPadUrl
+		HtmlPadUrl=TransferHTML(PadUrl,"[html-format]")
 	End Property
 
 	Public Property Get CommentPostUrl
