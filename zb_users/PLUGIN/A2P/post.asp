@@ -96,10 +96,18 @@ Function QueryToJSON(dbc, sql)
 	While Not (rs.EOF Or rs.BOF)
 		Set jsa(Null) = A2P_jsObject()
 			For Each col In rs.Fields
-				jsa(Null)(col.Name) = col.Value
+				If InStr(col.Name, "PostTime") > 0 Then 
+					jsa(Null)(col.Name) = GetTimeForOut(col.Value)
+				Else 
+					jsa(Null)(col.Name) = col.Value
+				End If
 		Next
 	rs.MoveNext
 	Wend
 	Set QueryToJSON = jsa
+End Function
+
+Function GetTimeForOut(val)
+	GetTimeForOut = Year(val) & "/" & Month(val) & "/" & Day(val) & " " & Hour(val) & ":" & Minute(val) & ":" & Second(val)
 End Function
 %>

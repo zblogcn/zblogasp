@@ -3,3 +3,4 @@
 <!-- #include file="STACentre/include.asp" -->
 <!-- #include file="Gravatar/include.asp" -->
 <!-- #include file="Wap/include.asp" -->
+<!-- #include file="A2P/include.asp" -->
