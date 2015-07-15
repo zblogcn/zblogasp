@@ -110,9 +110,16 @@ Function Server_Open(method)
 			Call Server_SendRequest("GET")
 			Call Server_FormatResponse(true)
 			If InStr(strResponse,"<!--developer-nologin-->")>0 Then
-				If Len(app_config.read("DevelopUserName"))>0 Then
+				If Len(app_config.read("DevelopUserName"))>0 Or Len(app_config.read("DevelopPassWord"))>0 Then
 					app_config.Write "DevelopUserName",""
 					app_config.Write "DevelopPassWord",""
+					app_config.Save
+				End If
+			End If
+			If InStr(strResponse,"<!--shop-nologin-->")>0 Then
+				If Len(app_config.read("ShopUserName"))>0 Or Len(app_config.read("ShopPassWord"))>0 Then
+					app_config.Write "ShopUserName",""
+					app_config.Write "ShopPassWord",""
 					app_config.Save
 				End If
 			End If
