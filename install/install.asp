@@ -39,7 +39,7 @@ go=Request.ServerVariables("REQUEST_METHOD")
 If go="GET" Then
 %>
 <p><%=GetNewVersion()%></p>
-<p><img src="http://update.zblogcn.com/zblog2/loading.png" alt="Z-Blog在线安装" title="Z-Blog在线安装"/></p>
+<p><img src="http://zblogcn.com/zblog2/loading.png" alt="Z-Blog在线安装" title="Z-Blog在线安装"/></p>
 <p><input type="submit" value="开始安装" onclick="this.style.display='none';" /></p>
 <%
 	Set fso = CreateObject("Scripting.FileSystemObject")
@@ -56,7 +56,7 @@ End If
 
 If go="POST" Then
 %>
-<p><img src="http://update.zblogcn.com/zblog2/loading.gif" alt="Z-Blog在线安装" title="Z-Blog在线安装"/></p>
+<p><img src="http://zblogcn.com/zblog2/loading.gif" alt="Z-Blog在线安装" title="Z-Blog在线安装"/></p>
 <%
 	Set fso = CreateObject("Scripting.FileSystemObject")
 	If fso.FileExists(Server.MapPath(".") & "\" & "Release.log")=True Then
@@ -85,7 +85,7 @@ Function Install1
 	Set objPing = Server.CreateObject("MSXML2.ServerXMLHTTP")
 
 	Randomize 
-	objPing.open "HEAD", "http://update.zblogcn.com/zblog2/Release.xml"&"?rnd="&Rnd,False
+	objPing.open "HEAD", "http://zblogcn.com/zblog2/Release.xml"&"?rnd="&Rnd,False
 	objPing.setRequestHeader "User-Agent","Z-BlogInstaller/"&InstallerVersion&"(Host:"&Request.ServerVariables("HTTP_HOST")&") "
 	objPing.send 
 	strMax=CDBl(objPing.getResponseHeader("Content-Length"))
@@ -104,7 +104,7 @@ Function Install1
 
 	For i=-1 To strMax Step 1000000
 		s=IIf(i+1000000>strMax,strMax,i+1000000)
-		objPing.open "GET", "http://update.zblogcn.com/zblog2/Release.xml"&"?rnd="&Rnd,False
+		objPing.open "GET", "http://zblogcn.com/zblog2/Release.xml"&"?rnd="&Rnd,False
 		objPing.setRequestHeader "User-Agent","Z-BlogInstaller/"&InstallerVersion&"(Host:"&Request.ServerVariables("HTTP_HOST")&") "
 		objPing.setRequestHeader "Range","bytes="&i+1&"-"&s
 		objPing.send 
@@ -226,7 +226,7 @@ Function GetNewVersion()
 	Dim objPing
 	Set objPing = Server.CreateObject("MSXML2.ServerXMLHTTP")
 
-	objPing.open "GET","http://update.zblogcn.com/zblog2/",False
+	objPing.open "GET","http://zblogcn.com/zblog2/",False
 
 	objPing.send
 

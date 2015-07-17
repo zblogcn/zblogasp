@@ -86,7 +86,7 @@ Dim ZC_HOST_TIME_ZONE
 ZC_HOST_TIME_ZONE="+0800"
 
 Dim ZC_UPDATE_INFO_URL
-ZC_UPDATE_INFO_URL="http://update.rainbowsoft.org/info/"
+ZC_UPDATE_INFO_URL="http://update.zblogcn.com/info/"
 
 
 

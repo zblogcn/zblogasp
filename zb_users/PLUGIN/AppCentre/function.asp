@@ -1,7 +1,7 @@
 ﻿<%
 Const APPCENTRE_URL="http://app.zblogcn.com/client/"
 
-Const APPCENTRE_SYSTEM_UPDATE="http://update.zblogcn.com/zblog2/"
+Const APPCENTRE_SYSTEM_UPDATE="http://zblogcn.com/zblog2/"
 
 Const APPCENTRE_API_URL="http://app.zblogcn.com/api/index.php?api="
 Const APPCENTRE_API_APP_ISBUY="isbuy"
