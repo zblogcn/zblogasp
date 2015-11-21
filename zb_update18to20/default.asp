@@ -647,7 +647,7 @@ Call BlogConfig.Write("ZC_USING_PLUGIN_LIST","AppCentre|FileManage|GuestBook|Tot
 Call BlogConfig.Write("ZC_BLOG_CLSID","BB1C5669-6E37-460C-F415-D287D7BBB59E")
 Call BlogConfig.Write("ZC_TIME_ZONE","+0800")
 Call BlogConfig.Write("ZC_HOST_TIME_ZONE","+0800")
-Call BlogConfig.Write("ZC_UPDATE_INFO_URL","http://update.rainbowsoft.org/info/")
+Call BlogConfig.Write("ZC_UPDATE_INFO_URL","http://update.zblogcn.com/info/")
 Call BlogConfig.Write("ZC_MULTI_DOMAIN_SUPPORT",False)
 Call BlogConfig.Write("ZC_PERMANENT_DOMAIN_ENABLE",False)
 

@@ -80,8 +80,8 @@ aside>dl{padding:20px 0;margin:0 20px;line-height:2;}
 /*=article*/
 article{border-bottom:1px solid #eee;border-top:1px solid #fff;overflow:hidden}
 article>header h1,
-article>header h3{font-size:2em;color:#3A6EA5;font-weight:100;line-height:1.5;margin:0}
-article>header h4{font-size:1.5em;margin:0;font-weight:100;}
+article>header h3{font-size:1.5em;color:#3A6EA5;font-weight:100;line-height:1.5;margin:0}
+article>header h4{font-size:1.4em;margin:0;font-weight:100;}
 article>header h5{margin:0 0 -10px;font-weight:100;color:#39C}
 article>header time{color:#abc;float:right;line-height:3;margin:0 0 0 20px}
 article>section{margin:10px 0}
@@ -164,6 +164,8 @@ article~dl li,
 aside li{border-bottom:1px dotted #def;padding:5px 0;margin:0 0 -1px}
 article~dl dd,
 aside dd{font-size:.9em;margin:0}
+#divFunction15 dd ul li{font-size:1.2em;margin:0;width:49%;float:left;border:1px solid #eee;text-align:center;}
+#divFunction15{}
 article~dl p,
 aside p{margin:0;}
 article~dl dd a,

@@ -1,9 +1,0 @@
-﻿<p><a href="http://blog.rainbowsoft.org/2013/07/22/67/" target="_blank"><span style="color:red">Z-Blog 2.2 Prism Build 130722 '棱镜'发布了 (2013-07-22)</span></a></p>
-
-<p><a href="http://bbs.rainbowsoft.org/thread-77001-1-1.html" target="_blank">Z-Blog 2.0的应用中心正式上线了!欢迎开发者进驻. (2013-01-01)</a></p>
-
-<p><a href="http://t.qq.com/zblogcn" target="_blank">Z-Blog官方微博正式上线,并通过腾讯机构认证http://t.qq.com/zblogcn (2012-7-16)</a></p>
-
-<p><a href="http://blog.rainbowsoft.org/2010/04/27/63/" target="_blank">Z-Blog 1.8 Walle Build 100427 发布 (2010-4-27)</a></p>
-
-<p><a href="http://www.dutory.com/blog/archives/9.aspx" target="_blank">由RainbowSoft Studio开发的 Dutory 0.3 Gromit (build 3498.15822) 发布 (2009-7-30)</a></p> 
