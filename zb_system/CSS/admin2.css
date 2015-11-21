@@ -311,17 +311,21 @@ input.button:hover {background: #3399cc;}
 
 input.button2 { width:auto;}
 
-input[disabled],input[disabled]:hover{
-	background:#eee;
-	border:1px solid #ccc;
+input[disabled],
+input[disabled]:hover {
+	background: #eee;
+	border: 1px solid #ccc;
+	cursor: not-allowed;
+	color: black;
 }
 
-input[readonly],input[readonly]:hover{
-	background:#eee;
-	border:1px solid #ccc;
+input[readonly],
+input[readonly]:hover {
+	background: #eee;
+	border: 1px solid #ccc;
+	cursor: not-allowed;
+	color: #808080;
 }
-
-
 /*提示DIV*/
 div.hint{
 	width:100%;
