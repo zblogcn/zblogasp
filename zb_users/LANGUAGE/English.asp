@@ -319,7 +319,14 @@ ZC_MSG299="In the template, this model is labelled as:"
 ZC_MSG300="Language Pack"
 ZC_MSG301="Enable code highlighting (the default editor uses SyntaxHighLighter)"
 ZC_MSG302="You "
-
+ZC_MSG303="The developers of Z-Blog"
+ZC_MSG304="Programmers"
+ZC_MSG305="Designers"
+ZC_MSG306="Supporters"
+ZC_MSG307="Thanks to"
+ZC_MSG308="and so on..."
+ZC_MSG309="Links"
+ZC_MSG310="Error when loading JavaScript"
 
 
 

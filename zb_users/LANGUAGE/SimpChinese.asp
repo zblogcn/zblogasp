@@ -318,6 +318,8 @@ ZC_MSG305="设计"
 ZC_MSG306="支持"
 ZC_MSG307="感谢"
 ZC_MSG308="等朋友"
+ZC_MSG309="相关链接"
+ZC_MSG310="JavaScript加载失败，可能被服务器拦截"
 
 
 
