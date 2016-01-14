@@ -321,6 +321,8 @@ ZC_MSG305="設計"
 ZC_MSG306="支援"
 ZC_MSG307="感謝"
 ZC_MSG308="等朋友"
+ZC_MSG309="相關鏈接"
+ZC_MSG310="JavaScript加載失敗，可能被服務器拦截"
 
 
 

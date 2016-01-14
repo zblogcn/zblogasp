@@ -1142,6 +1142,7 @@ Function ExportSiteInfo()
 	k = Replace(k,"{%ZC_MSG306%}",ZC_MSG306)
 	k = Replace(k,"{%ZC_MSG307%}",ZC_MSG307)
 	k = Replace(k,"{%ZC_MSG308%}",ZC_MSG308)
+	k = Replace(k,"{%ZC_MSG309%}",ZC_MSG309)
 	s = s & k
 	Response.Write s
 	Response.Write Response_Plugin_Admin_SiteInfo
