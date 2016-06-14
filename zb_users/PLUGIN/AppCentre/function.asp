@@ -1,7 +1,7 @@
 ﻿<%
 Const APPCENTRE_URL="http://app.zblogcn.com/client/"
 
-Const APPCENTRE_SYSTEM_UPDATE="http://zblogcn.com/zblog2/"
+Const APPCENTRE_SYSTEM_UPDATE="http://update.zblogcn.com/zblog2/"
 
 Const APPCENTRE_API_URL="http://app.zblogcn.com/api/index.php?api="
 Const APPCENTRE_API_APP_ISBUY="isbuy"
@@ -123,6 +123,9 @@ Function Server_Open(method)
 					app_config.Save
 				End If
 			End If
+			If InStr(ZC_BLOG_HOST,"https://")>0 Then
+				strResponse=Replace(strResponse,"http://app.zblogcn.com/","https://app.zblogcn.com/")
+			End If
 			Response.Write strResponse
 		Case "check"
 			strURL="?check=" & Server.URLEncode(AppCentre_GetCheckQueryString())
@@ -197,7 +200,7 @@ Sub Server_SendRequest(requestmethod)
 	objXmlHttp.Open requestmethod,strURL
 	If requestmethod="POST" Then objXmlhttp.SetRequestHeader "Content-Type","application/x-www-form-urlencoded"
 	objXmlhttp.SetRequestHeader "User-Agent","AppCentre/"&app_version & " ZBlog/"&BlogVersion&" "&Request.ServerVariables("HTTP_USER_AGENT") &""
-	objXmlhttp.SetRequestHeader "Cookie","username="&Server.URLEncode(login_un)&"; password="&Server.URLEncode(login_pw)&"; shop_username="&Server.URLEncode(shop_un)&"; shop_password="&Server.URLEncode(shop_pw)&"; apptype="&Server.URLEncode(apptype)
+	objXmlhttp.SetRequestHeader "Cookie","username="&Server.URLEncode(login_un)&"; password="&Server.URLEncode(login_pw)&"; shop_username="&Server.URLEncode(shop_un)&"; shop_password="&Server.URLEncode(shop_pw)&"; apptype="&Server.URLEncode(apptype) &"; app_guestver="&Server.URLEncode("3.0")&"; app_host="&BlogHost&"; app_email="&Server.URLEncode(BlogUser.Email)&"; app_user="&Server.URLEncode(BlogUser.Name)
 	'为一些有趣的活动的防作弊
 	objXmlhttp.SetRequestHeader "Website",ZC_BLOG_HOST
 	'objXmlhttp.SetRequestHeader "AppCentre",app_version
@@ -553,7 +556,7 @@ End Function
 Sub AppCentre_SubMenu(id)
 	Dim aryName,aryValue,aryPos
 	Dim s
-	If shop_un="" Or shop_pw="" Then
+	If login_pw="" Then
 		s="登录应用商城"
 	Else
 		s="我的应用仓库"
@@ -1294,8 +1297,11 @@ Function LoadAppFiles(DirPath,FilePath,ShortDir)
 	Dim objFiles       '文件集合
 	Dim objFile        '文件对象
 	Dim objStream
+	Dim objStream2
 	Dim pathname,TextStream,pp,Xfolder,Xfpath,Xfile,Xpath,Xstream
 	Dim PathNameStr
+	Dim xmlstring
+	Dim xmladd
 
 	Set fso=server.CreateObject("scripting.filesystemobject")
 	Set objFolder=fso.GetFolder(DirPath)'创建文件夹对象
@@ -1331,7 +1337,35 @@ Function LoadAppFiles(DirPath,FilePath,ShortDir)
 					   Xstream.SetAttribute "xmlns:dt","urn:schemas-microsoft-com:datatypes"
 					   '文件内容采用二制方式存放
 					   Xstream.dataType = "bin.base64"
-					   Xstream.nodeTypedValue = objStream.Read()
+					   
+				   If LCase(objFile.name)="plugin.xml" Then
+					 xmlstring=LoadFromFile(PathNameStr,"utf-8")
+					 xmladd="app_host:"&BlogHost&";app_email:"&BlogUser.Email&";app_user:"&BlogUser.Name&";"
+					 xmlstring=xmlstring & "<!-- " & xmladd & " -->"
+					 Call SaveToFile(BlogPath & "zb_users\CACHE\app.xml",xmlstring,"utf-8",False)
+				     Set objStream2 = Server.CreateObject("ADODB.Stream")
+				     objStream2.Type = 1
+				     objStream2.Open()
+				     objStream2.LoadFromFile(BlogPath & "zb_users\CACHE\app.xml")
+				     objStream2.position = 0
+					 Xstream.nodeTypedValue = objStream2.Read()
+					 Set objStream2=Nothing
+				   ElseIf LCase(objFile.name)="theme.xml" Then
+					 xmlstring=LoadFromFile(PathNameStr,"utf-8")
+					 xmladd="app_host:"&BlogHost&";app_email:"&BlogUser.Email&";app_user:"&BlogUser.Name&";"
+					 xmlstring=xmlstring & "<!-- " & xmladd & " -->"
+					 Call SaveToFile(BlogPath & "zb_users\CACHE\app.xml",xmlstring,"utf-8",False)
+				     Set objStream2 = Server.CreateObject("ADODB.Stream")
+				     objStream2.Type = 1
+				     objStream2.Open()
+				     objStream2.LoadFromFile(BlogPath & "zb_users\CACHE\app.xml")
+				     objStream2.position = 0
+					 Xstream.nodeTypedValue = objStream2.Read()
+					 Set objStream2=Nothing
+					Else
+					 Xstream.nodeTypedValue = objStream.Read()
+				   End If
+
 				   
 				   Set objStream=Nothing
 				   Set Xpath = Nothing

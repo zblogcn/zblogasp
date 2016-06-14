@@ -21,10 +21,10 @@ Dim ZC_BLOG_SUB_NAME
 ZC_BLOG_SUB_NAME="Hello, world!"
 
 Dim ZC_BLOG_THEME
-ZC_BLOG_THEME="HTML5CSS3"
+ZC_BLOG_THEME="default"
 
 Dim ZC_BLOG_CSS
-ZC_BLOG_CSS="html5css3"
+ZC_BLOG_CSS="default"
 
 Dim ZC_BLOG_COPYRIGHT
 ZC_BLOG_COPYRIGHT="Copyright Your WebSite. Some Rights Reserved."
@@ -86,7 +86,7 @@ Dim ZC_HOST_TIME_ZONE
 ZC_HOST_TIME_ZONE="+0800"
 
 Dim ZC_UPDATE_INFO_URL
-ZC_UPDATE_INFO_URL="http://update.zblogcn.com/info/"
+ZC_UPDATE_INFO_URL="http://update.rainbowsoft.org/info/"
 
 
 
@@ -350,10 +350,10 @@ Dim ZC_DEFAULT_PAGES_TEMPLATE
 ZC_DEFAULT_PAGES_TEMPLATE=""
 
 Dim ZC_SIDEBAR_ORDER
-ZC_SIDEBAR_ORDER="calendar:catalog:previous:archives:link"
+ZC_SIDEBAR_ORDER="calendar:controlpanel:catalog:searchpanel:comments:archives:favorite:link:misc"
 
 Dim ZC_SIDEBAR_ORDER2
-ZC_SIDEBAR_ORDER2="searchpanel:controlpanel:comments:favorite:misc"
+ZC_SIDEBAR_ORDER2=""
 
 Dim ZC_SIDEBAR_ORDER3
 ZC_SIDEBAR_ORDER3=""

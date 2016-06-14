@@ -29,32 +29,32 @@ End If
 intHighlight=0
 
 
-If Request.QueryString("act")="shoplogin" Then
+If Request.QueryString("act")="login" Then
 
 	Dim s
 
-	Call Server_Open("shopvaild")
+	Call Server_Open("vaild")
 	
 	s=strResponse
 
-	app_config.Write "ShopUserName",Request.Form("shop_username")
-	app_config.Write "ShopPassWord",s
+	app_config.Write "DevelopUserName",Request.Form("app_username")
+	app_config.Write "DevelopPassWord",s
 	app_config.Save
 
 	
 	If s<>"" Then
-		SetBlogHint_Custom("您已成功登录""应用中心""商城.")
-		Response.Redirect "client.asp"
+		SetBlogHint_Custom("您好,欢迎登陆到APP应用中心!")
+		Response.Redirect "server.asp"
 	Else
-		SetBlogHint_Custom("购买者账户名或密码错误.")
-		Response.Redirect "client.asp"
+		SetBlogHint_Custom("用户名或密码输入错误!")
+		Response.Redirect "setting.asp"
 	End If
-ElseIf Request.QueryString("act")="shoplogout" Then
+ElseIf Request.QueryString("act")="logout" Then
 
-	app_config.Write "ShopUserName",""
-	app_config.Write "ShopPassWord",""
+	app_config.Write "DevelopUserName",""
+	app_config.Write "DevelopPassWord",""
 	app_config.Save
-	Response.Redirect "server.asp"
+	Response.Redirect "client.asp"
 
 End If
 
@@ -82,21 +82,22 @@ AppCentre_SubMenu(intHighlight)
 </div>
 <div id="divMain2">
 <%
-If app_config.read("ShopUserName")="" Or app_config.read("ShopPassWord")="" Then
+	If login_pw="" Then
 %>
-            <form action="?act=shoplogin" method="post">
+			<div class="divHeader2">应用中心账户登录</div>
+            <form action="?act=login" method="post">
               <table style="line-height:3em;" width="100%" border="0">
                 <tr height="32">
-                  <th  align="center">请填写您在"<a href="http://app.rainbowsoft.org/?shop&type=account" target="_blank">应用中心</a>"的购买者账号(Email)和密码
-                    </th>
+                  <th  align="center">账户登录
+                    </td>
                 </tr>
                 <tr height="32">
-                  <td  align="center">&nbsp;&nbsp;账号:
-                    <input type="text" name="shop_username" value="" style="width:40%"/></td>
+                  <td  align="center">用户名:
+                    <input type="text" name="app_username" value="" style="width:40%"/></td>
                 </tr>
                 <tr height="32">
-                  <td  align="center">&nbsp;&nbsp;密码:
-                    <input type="password" name="shop_password" value="" style="width:40%" /></td>
+                  <td  align="center">密&nbsp;&nbsp;&nbsp;&nbsp;码:
+                    <input type="password" name="app_password" value="" style="width:40%" /></td>
                 </tr>
                 <tr height="32" align="center">
                   <td align="center"><input type="submit" value="登陆" class="button" /></td>

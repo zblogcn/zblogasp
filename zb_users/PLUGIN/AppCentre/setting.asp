@@ -32,33 +32,6 @@ If Request.QueryString("act")="save" Then
 
 	Call SetBlogHint_Custom("设置成功.")
 
-ElseIf Request.QueryString("act")="login" Then
-
-	Dim s
-
-	Call Server_Open("vaild")
-	
-	s=strResponse
-
-	app_config.Write "DevelopUserName",Request.Form("app_username")
-	app_config.Write "DevelopPassWord",s
-	app_config.Save
-
-	
-	If s<>"" Then
-		SetBlogHint_Custom("开发者您好,欢迎登陆到APP应用中心!")
-		Response.Redirect "server.asp"
-	Else
-		SetBlogHint_Custom("用户名或密码输入错误!")
-		Response.Redirect "setting.asp"
-	End If
-ElseIf Request.QueryString("act")="logout" Then
-
-	app_config.Write "DevelopUserName",""
-	app_config.Write "DevelopPassWord",""
-	app_config.Save
-	Response.Redirect "setting.asp"
-
 End If
 %>
 <%
@@ -103,42 +76,6 @@ BlogTitle="应用中心-设置与开发者登录"
               </p>
               <hr/>
             </form>
-            <div class="divHeader2">开发者登录</div>
-            <%
-	If login_pw<>"" Then
-%>
-            <form action="?act=logout" method="post">
-              <p>开发者 <b><%=login_un%></b> 您好,您已经在当前客户端登录Z-Blog官方网站-APP应用中心.</p>
-              <p>
-                <input type="submit" value="退出登录" class="button" />
-              </p>
-            </form>
-            <%
-	Else
-%>
-            <form action="?act=login" method="post">
-              <table style="line-height:3em;" width="100%" border="0">
-                <tr height="32">
-                  <th  align="center">开发者请填写您在"APP应用中心"的用户名和密码并点登陆
-                    </td>
-                </tr>
-                <tr height="32">
-                  <td  align="center">用户名:
-                    <input type="text" name="app_username" value="" style="width:40%"/></td>
-                </tr>
-                <tr height="32">
-                  <td  align="center">密&nbsp;&nbsp;&nbsp;&nbsp;码:
-                    <input type="password" name="app_password" value="" style="width:40%" /></td>
-                </tr>
-                <tr height="32" align="center">
-                  <td align="center"><input type="submit" value="登陆" class="button" /></td>
-                </tr>
-              </table>
-            </form>
-            <%
-	End If
-%>
-          </div>
         </div>
         <script type="text/javascript">ActiveLeftMenu("aAppcentre");</script> 
         <!--#include file="..\..\..\zb_system\admin\admin_footer.asp"-->
