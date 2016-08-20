@@ -95,7 +95,7 @@ Function InstallPlugin_Gravatar
 	c.Load "Gravatar"
 	c.Write "v","1.0"
 	c.Write "e","True"
-	c.Write "c","http://cn.gravatar.com/avatar/{%emailmd5%}?s=40&d={%source%}"
+	c.Write "c","https://cdn.v2ex.com/gravatar/{%emailmd5%}.png?s=60&d=mm&r=G"
 	c.Save
 End Function
 

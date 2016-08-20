@@ -64,14 +64,30 @@ EnD iF
 
 
 <tr><td width='30%'><p align='left'><b>·Gravatar URL</b><br/><span class='note'>推荐设置一般无需改动</span></p></td><td><p><input id='Gravatar_EmailMD5' name='Gravatar_EmailMD5' style='width:90%;' type='text' value='<%=Gravatar_EmailMD5%>' /></p></td></tr>
-<tr><td><p  align='left'>默认值</p></td><td><p>http://cn.gravatar.com/avatar/{%emailmd5%}?s=40&d={%source%}</p></td></tr>
+<tr>
+<td><span class='note'>可选值: </span></td>
+<td>
+	<p><b>V2EX</b>：<a href="javascript:void(0)" class="enterGravatar">https://cdn.v2ex.com/gravatar/{%emailmd5%}.png?s=60&d=mm&r=G</a></p>
+	<p><b>MoeNet公共库</b>：<a href="javascript:void(0)" class="enterGravatar">https://gravatar.moefont.com/avatar/{%emailmd5%}?s=60&amp;d=mm&amp;r=G</a></p>
+	<p><b>多说CDN</b>：<a href="javascript:void(0)" class="enterGravatar">http://gravatar.duoshuo.com/avatar/{%emailmd5%}?s=60&amp;d=mm&amp;r=G</a></p>
+	<p><b>官方加密</b>：<a href="javascript:void(0)" class="enterGravatar">https://secure.gravatar.com/avatar/{%emailmd5%}?s=60&amp;d=mm&amp;r=G</a></p>
+	<p><b>官方</b>：<a href="javascript:void(0)" class="enterGravatar">http://cn.gravatar.com/avatar/{%emailmd5%}?s=60&amp;d=mm&amp;r=G</a></p>
+	</td>
+</tr>
 <tr><td width='30%'><p align='left'><b>·刷新注册用户Gravatar头像的缓存</b><br/><span class='note'>如果用户数多会比较耗费时间和占用AVATAR目录空间</span></p></td><td><p><input id="Gravatar_Refresh" name="Gravatar_Refresh" style="" type="text" value="<%=Gravatar_Refresh%>" class="checkbox"/></p></td></tr>
 </table>
 
 <br/>
 <input name="" type="submit" class="button" value="保存"/>
 </form>
-
+<script>
+$(function() {
+	$(".enterGravatar").click(function() {
+		var $this = $(this);
+		$("#Gravatar_EmailMD5").val($this.text());
+	});
+});
+</script>
 </div>
 </div>
 <!--#include file="..\..\..\zb_system\admin\admin_footer.asp"-->
