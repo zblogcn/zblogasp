@@ -12,7 +12,10 @@ Public Class Form1
 
             Dim b2 As String = ""
             Dim d As String = ""
+            Dim d_r As String = ""
+            Dim d_n As String = ""
             Dim f As String = ""
+
             b2 += ("<files build='" + My.Computer.FileSystem.GetDirectoryInfo(c).Name + "'>" + vbCrLf)
 
             Dim l As New System.Collections.Generic.Dictionary(Of String, String)
@@ -27,11 +30,19 @@ Public Class Form1
                 b += " name='" + a.Replace(c + "\", "") + "'"
 
                 Dim bytMD5 As Byte() = New System.Security.Cryptography.MD5CryptoServiceProvider().ComputeHash(My.Computer.FileSystem.ReadAllBytes(a))
+                Dim tems As String = My.Computer.FileSystem.ReadAllText(a, System.Text.ASCIIEncoding.UTF8)
+                tems = Replace(tems, vbCrLf, vbCr)
+                tems = Replace(tems, vbLf, vbCr)
 
+                Dim bytMD5_r As Byte() = New System.Security.Cryptography.MD5CryptoServiceProvider().ComputeHash(System.Text.ASCIIEncoding.UTF8.GetBytes(tems))
                 d = BitConverter.ToString(bytMD5).Replace("-", String.Empty).ToUpper
-
+                d_r = BitConverter.ToString(bytMD5_r).Replace("-", String.Empty).ToUpper
+                tems = Replace(tems, vbCr, vbLf)
+                Dim bytMD5_n As Byte() = New System.Security.Cryptography.MD5CryptoServiceProvider().ComputeHash(System.Text.ASCIIEncoding.UTF8.GetBytes(tems))
+                d_n = BitConverter.ToString(bytMD5_n).Replace("-", String.Empty).ToUpper
                 b += " md5='" + d + "'"
-
+                b += " md5_r='" + d_r + "'"
+                b += " md5_n='" + d_n + "'"
 
                 Dim g As New Crc32
                 If (My.Computer.FileSystem.ReadAllBytes(a).Length = 0) Then
@@ -41,7 +52,6 @@ Public Class Form1
                 End If
 
                 b += " crc32='" + f + "'"
-
                 b += "/>" + vbCrLf
 
                 l.Add(a.Replace(c + "\", ""), b)
