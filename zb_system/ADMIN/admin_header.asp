@@ -14,4 +14,5 @@
 <script src="<%=BlogHost%>ZB_SYSTEM/script/jquery.bettertip.pack.js" type="text/javascript"></script>
 <script src="<%=BlogHost%>ZB_SYSTEM/script/jquery-ui.custom.min.js" type="text/javascript"></script>
 <link rel="stylesheet" type="text/css" href="<%=BlogHost%>ZB_SYSTEM/CSS/jquery-ui.custom.css"/>
+<script>if (!window.bloghost) alert("<%=ZC_MSG310%>");</script>
 <%=Response_Plugin_Admin_Header%>

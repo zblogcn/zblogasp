@@ -300,7 +300,7 @@ Function LoadFileInfo(name)
 
 	strContent= Replace(strContent,"\","\\")
 	strContent= Replace(strContent,"/","\/")
-	strContent= Replace(strContent,"""","\\\""")
+	strContent= Replace(strContent,"""","\""")
 	strContent= Replace(strContent,vbCrLf,"")
 	strContent= Replace(strContent,vbLf,"")
 

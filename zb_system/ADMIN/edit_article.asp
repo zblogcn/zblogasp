@@ -212,13 +212,15 @@ End If
 	aryFileList=LoadIncludeFilesOnlyType("zb_users\theme" & "/" & ZC_BLOG_THEME & "/" & ZC_TEMPLATE_DIRECTORY)
 
 	If IsArray(aryFileList) Then
-		Dim j,t
+		Dim j,t,b
+		b=False
 		j=UBound(aryFileList)
 		For i=1 to j
 			t=UCase(Left(aryFileList(i),InStr(aryFileList(i),".")-1))
 			If Left(t,2)<>"B_" AND t<>"FOOTER" And t<>"HEADER" And t<>"DEFAULT" And t<>"CATALOG" Then
-				If EditArticle.GetDefaultTemplateName=t Then
+				If EditArticle.GetDefaultTemplateName=t And b=False Then
 					Response.Write "<option value="""&t&""" selected=""selected"">"&t&IIF(EditArticle.TemplateName="","("&ZC_MSG187&")","")&"</option>"
+					b=True
 				Else
 					Response.Write "<option value="""&t&""">"&t&"</option>"
 				End If

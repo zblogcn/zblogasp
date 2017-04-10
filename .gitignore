@@ -5,13 +5,14 @@ zb_users/CACHE/*
 zb_users/DATA/*
 zb_users/plugin/p_include.asp
 zb_users/plugin/p_theme.asp
+zb_users/UPLOAD/*
 
 # Unoffical plugin
 zb_users/plugin/*
 !zb_users/plugin/A2P
 zb_users/plugin/A2P/output/*
 !zb_users/plugin/AdminColor
-!zb_users/plugin/AppCentre
+zb_users/plugin/AppCentre
 !zb_users/plugin/AuditRecords
 !zb_users/plugin/AutoPublisher
 !zb_users/plugin/CustomMeta

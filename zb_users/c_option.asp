@@ -6,7 +6,7 @@
 
 '---------------------------------网站基本设置-----------------------------------
 Dim ZC_BLOG_HOST
-ZC_BLOG_HOST="http://test.zsxsoft.com/zb/"
+ZC_BLOG_HOST="http://localhost/"
 
 Dim ZC_BLOG_TITLE
 ZC_BLOG_TITLE="zsx"
@@ -43,7 +43,7 @@ ZC_BLOG_LANGUAGEPACK="SimpChinese"
 
 '----------------------------数据库配置---------------------------------------
 Dim ZC_DATABASE_PATH
-ZC_DATABASE_PATH="zb_users\data\#%205392fd45c89a64658db0dff43c3b47c5.mdb"
+ZC_DATABASE_PATH="zb_users\data\#%20768d53283c63b13403f0.mdb"
 
 Dim ZC_MSSQL_ENABLE
 ZC_MSSQL_ENABLE=False
@@ -295,11 +295,11 @@ ZC_STATIC_DIRECTORY="post"
 
 '文章,页面类的静态模式ACTIVE or STATIC or REWRITE
 Dim ZC_POST_STATIC_MODE
-ZC_POST_STATIC_MODE="STATIC"
+ZC_POST_STATIC_MODE="REWRITE"
 
 '列表页的静态模式ACTIVE or MIX or REWRITE
 Dim ZC_STATIC_MODE
-ZC_STATIC_MODE="ACTIVE"
+ZC_STATIC_MODE="REWRITE"
 
 Dim ZC_ARTICLE_REGEX
 ZC_ARTICLE_REGEX="{%host%}/{%post%}/{%alias%}.html"
@@ -308,19 +308,19 @@ Dim ZC_PAGE_REGEX
 ZC_PAGE_REGEX="{%host%}/{%alias%}.html"
 
 Dim ZC_CATEGORY_REGEX
-ZC_CATEGORY_REGEX="{%host%}/catalog.asp?cate={%id%}"
+ZC_CATEGORY_REGEX="{%host%}/category-{%id%}.html"
 
 Dim ZC_USER_REGEX
-ZC_USER_REGEX="{%host%}/catalog.asp?user={%id%}"
+ZC_USER_REGEX="{%host%}/author-{%id%}.html"
 
 Dim ZC_TAGS_REGEX
-ZC_TAGS_REGEX="{%host%}/catalog.asp?tags={%alias%}"
+ZC_TAGS_REGEX="{%host%}/tags-{%id%}.html"
 
 Dim ZC_DATE_REGEX
-ZC_DATE_REGEX="{%host%}/catalog.asp?date={%date%}"
+ZC_DATE_REGEX="{%host%}/date-{%date%}.html"
 
 Dim ZC_DEFAULT_REGEX
-ZC_DEFAULT_REGEX="{%host%}/catalog.asp"
+ZC_DEFAULT_REGEX="{%host%}/default.html"
 
 
 
@@ -365,7 +365,7 @@ Dim ZC_SIDEBAR_ORDER5
 ZC_SIDEBAR_ORDER5=""
 
 Dim ZC_DISPLAY_COUNT_WAP
-ZC_DISPLAY_COUNT_WAP="5"
+ZC_DISPLAY_COUNT_WAP="0"
 
 '------------------------------ASP系统------------------------------------
 Const adOpenForwardOnly=0

@@ -17,3 +17,13 @@ D:\inetpub\zblog-1-9\zblogmakefileindex\zblogmakefileindex\obj\Debug\zblogmakefi
 D:\inetpub\zblog-1-9\zblogmakefileindex\zblogmakefileindex\obj\Debug\zblogmakefileindex.exe
 D:\inetpub\zblog-1-9\zblogmakefileindex\zblogmakefileindex\obj\Debug\zblogmakefileindex.xml
 D:\inetpub\zblog-1-9\zblogmakefileindex\zblogmakefileindex\obj\Debug\zblogmakefileindex.pdb
+C:\inetpub\zblogasp\zblogmakefileindex\zblogmakefileindex\obj\Debug\zblogmakefileindex.exe
+C:\inetpub\zblogasp\zblogmakefileindex\zblogmakefileindex\obj\Debug\zblogmakefileindex.xml
+C:\inetpub\zblogasp\zblogmakefileindex\zblogmakefileindex\obj\Debug\zblogmakefileindex.pdb
+C:\inetpub\zblogasp\zblogmakefileindex\zblogmakefileindex\bin\Debug\zblogmakefileindex.exe
+C:\inetpub\zblogasp\zblogmakefileindex\zblogmakefileindex\bin\Debug\zblogmakefileindex.pdb
+C:\inetpub\zblogasp\zblogmakefileindex\zblogmakefileindex\bin\Debug\zblogmakefileindex.xml
+C:\inetpub\zblogasp\zblogmakefileindex\zblogmakefileindex\obj\Debug\zblogmakefileindex.vbprojResolveAssemblyReference.cache
+C:\inetpub\zblogasp\zblogmakefileindex\zblogmakefileindex\obj\Debug\zblogmakefileindex.Form1.resources
+C:\inetpub\zblogasp\zblogmakefileindex\zblogmakefileindex\obj\Debug\zblogmakefileindex.Resources.resources
+C:\inetpub\zblogasp\zblogmakefileindex\zblogmakefileindex\obj\Debug\zblogmakefileindex.vbproj.GenerateResource.Cache

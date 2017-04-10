@@ -3,6 +3,33 @@
 '///////////////////////////////////////////////////////////////////////////////
 '//              Z-Blog
 '///////////////////////////////////////////////////////////////////////////////
+
+' ***********************************************************************************
+'    如果您看到了这个提示，那么我们很遗憾地通知您，您的空间不支持 ASP 。
+'    If you see this notice, we regret to inform you that 
+'    your web hosting service doesn't support ASP so Z-Blog can't run on it.
+
+'    也就是说，您的空间可能是静态空间或 PHP 空间，或未在 IIS 内安装 ASP 组件。
+'    It means that you may have a web hosting service supporting only static resources or installed PHP.
+'    If you're using IIS, maybe you don’t have ASP Extension installed.
+
+'    推荐您：
+'    Recommend you:
+
+'            > 下载并安装Z-BlogPHP  > http://www.zblogcn.com/zblogphp/
+'            > Try Z-BlogPHP > http://www.zblogcn.com/zblogphp/
+
+'    如果您仍然需要使用Z-BlogASP：
+'    Still need Z-BlogASP?
+
+'            > 联系空间商，更换空间为支持ASP的空间
+'            > Contact your provider, and let them provice a new hosting which supports ASP.
+
+'            > 打开 IIS 的 ASP 组件
+'            > Install ASP Extension on IIS
+'
+' ***********************************************************************************
+
 %>
 <% Option Explicit %>
 <% On Error Resume Next %>
@@ -1017,7 +1044,7 @@ Call BlogConfig.Write("ZC_USING_PLUGIN_LIST","AppCentre|FileManage|GuestBook|Tot
 Call BlogConfig.Write("ZC_BLOG_CLSID","BB1C5669-6E37-460C-F415-D287D7BBB59E")
 Call BlogConfig.Write("ZC_TIME_ZONE","+0800")
 Call BlogConfig.Write("ZC_HOST_TIME_ZONE","+0800")
-Call BlogConfig.Write("ZC_UPDATE_INFO_URL","http://update.rainbowsoft.org/info/")
+Call BlogConfig.Write("ZC_UPDATE_INFO_URL","http://update.zblogcn.com/info/")
 Call BlogConfig.Write("ZC_MULTI_DOMAIN_SUPPORT",False)
 Call BlogConfig.Write("ZC_PERMANENT_DOMAIN_ENABLE",False)
 
