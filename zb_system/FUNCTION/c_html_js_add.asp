@@ -52,6 +52,9 @@ $(document).ready(function(){
 	$(".AddView").each(function(){
 		AddViewCount($(this).data("id"));
 	});
+	$(".LoadMod").each(function(){
+		LoadFunction($(this).data("mod"));
+	});
 	$.getScript("<%=BlogHost%>zb_system/function/c_html_js.asp?act=batch"+unescape("%26")+"view=" + escape(strBatchView)+unescape("%26")+"inculde=" + escape(strBatchInculde)+unescape("%26")+"count=" + escape(strBatchCount),function(){BatchComplete();});
 	<%If ZC_SYNTAXHIGHLIGHTER_ENABLE Then Response.Write Response_Plugin_Html_Js_Add_CodeHighLight_Action%>
 });
