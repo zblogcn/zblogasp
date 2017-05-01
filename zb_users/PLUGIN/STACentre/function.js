@@ -20,24 +20,31 @@
 		}
 		if(a==4){
 			a="#edtZC_TAGS_REGEX";
-			if(b==1){b="{%host%}/tags-{%id%}.html"};
-			if(b==2){b="{%host%}/tags-{%name%}.html"};
-			if(b==3){b="{%host%}/tags-{%alias%}.html"};
+			if(b==1){b="{%host%}/tags/{%name%}/default.html"};
+			if(b==2){b="{%host%}/tags/{%alias%}/default.html"};
+			if(b==3){b="{%host%}/tags/{%id%}/default.html"};
+			if(b==4){b="{%host%}/tags-{%name%}.html"};
+			if(b==5){b="{%host%}/tags-{%alias%}.html"};
+			if(b==6){b="{%host%}/tags-{%id%}.html"};
 		}
 		if(a==5){
 			a="#edtZC_DATE_REGEX";
-			if(b==1){b="{%host%}/date-{%date%}.html"};
-			if(b==2){b="{%host%}/{%post%}/{%date%}.html"};
-			if(b==3){b="{%host%}/{%post%}/{%date%}/default.html"};
+			if(b==1){b="{%host%}/date/{%date%}/default.html"};
+			if(b==2){b="{%host%}/{%post%}/{%date%}/default.html"};
+			if(b==3){b="{%host%}/date-{%date%}.html"};
+			if(b==4){b="{%host%}/{%post%}/{%date%}.html"};
 		}
 		if(a==6){
 			a="#edtZC_DEFAULT_REGEX";
-			if(b==1){b="{%host%}/default.html"};
+			if(b==1){b="{%host%}/page/{%page%}/default.html"};
+			if(b==2){b="{%host%}/default.html"};
 		}
 		if(a==7){
 			a="#edtZC_USER_REGEX";
-			if(b==1){b="{%host%}/author-{%id%}.html"};
-			if(b==2){b="{%host%}/author-{%alias%}.html"};
+			if(b==1){b="{%host%}/author/{%alias%}/default.html"};
+			if(b==2){b="{%host%}/author/{%id%}/default.html"};
+			if(b==3){b="{%host%}/author-{%alias%}.html"};
+			if(b==4){b="{%host%}/author-{%id%}.html"};
 		}
 
 		$(a).val(b);
