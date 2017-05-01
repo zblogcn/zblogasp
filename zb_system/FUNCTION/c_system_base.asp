@@ -1648,9 +1648,11 @@ Function LoadGlobeCache()
 				
 				
 				If functionstype.GetValue(modname)="div" Then
-					aryTemplateTagsValue(e+i+a)="<div id=""mod_"+modname+""" style=""display:none;""><script type=""text/javascript"">LoadFunction('"&modname&"');</script></div>"
+					' aryTemplateTagsValue(e+i+a)="<div id=""mod_"+modname+""" style=""display:none;""><script type=""text/javascript"">LoadFunction('"&modname&"');</script></div>"
+					aryTemplateTagsValue(e+i+a)="<div class=""LoadMod"" data-mod=""" & modname & """ id=""mod_" & modname & """ style=""display:none;""></div>"
 				Else
-					aryTemplateTagsValue(e+i+a)="<li id=""mod_"+modname+""" style=""display:none;""><script type=""text/javascript"">LoadFunction('"&modname&"');</script></li>"
+					' aryTemplateTagsValue(e+i+a)="<li id=""mod_"+modname+""" style=""display:none;""><script type=""text/javascript"">LoadFunction('"&modname&"');</script></li>"
+					aryTemplateTagsValue(e+i+a)="<li class=""LoadMod"" data-mod=""" & modname & """ id=""mod_" & modname & """ style=""display:none;""></li>"
 				End If
 
 			Next
