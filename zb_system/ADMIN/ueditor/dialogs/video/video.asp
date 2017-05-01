@@ -36,11 +36,5 @@
     </div>
 </div>
 <script type="text/javascript" src="video.js"></script>
-<script type="text/javascript">
-    window.onload = function(){
-        video.init();
-        $focus($G("videoUrl"));
-    };
-</script>
 </body>
 </html>

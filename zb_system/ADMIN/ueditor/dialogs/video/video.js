@@ -12,15 +12,14 @@
         videoFieldName:"upfile"
     });
 
-    var video = {},
-        uploadVideoList = [],
+    var uploadVideoList = [],
         isModifyUploadVideo = false;
 
     window.onload = function(){
         $focus($G("videoUrl"));
         initTabs();
         initVideo();
-        initUpload();
+        //initUpload();
     };
 
     /* 初始化tab标签 */
@@ -43,7 +42,8 @@
     }
 
     function initVideo(){
-        createAlignButton( ["videoFloat", "upload_alignment"] );
+        // createAlignButton( ["videoFloat", "upload_alignment"] );
+        createAlignButton( ["videoFloat"] );
         addUrlChangeListener($G("videoUrl"));
         addOkListener();
 
