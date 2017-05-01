@@ -1,4 +1,4 @@
-﻿<%
+<%
 '///////////////////////////////////////////////////////////////////////////////
 '//              Z-Blog
 '// 作    者:    朱煊(zx.asd)
@@ -1619,9 +1619,11 @@ Class TArticle
 		aryTemplateTagsName(56)="article/alias"
 		aryTemplateTagsValue(56)=Alias
 		aryTemplateTagsName(57)="article/loadviewcount"
-		aryTemplateTagsValue(57)="<span id=""spn"&ID&"""></span><script type=""text/javascript"">LoadViewCount("&ID&")</script>"
+		' aryTemplateTagsValue(57)="<span id=""spn"&ID&"""></span><script type=""text/javascript"">LoadViewCount("&ID&")</script>"
+		aryTemplateTagsValue(57)="<span class=""LoadView"" id=""spn"&ID&""" data-id="""&ID&"""></span>"
 		aryTemplateTagsName(58)="article/addviewcount"
-		aryTemplateTagsValue(58)="<span id=""spn"&ID&"""></span><script type=""text/javascript"">AddViewCount("&ID&")</script>"
+		' aryTemplateTagsValue(58)="<span id=""spn"&ID&"""></span><script type=""text/javascript"">AddViewCount("&ID&")</script>"
+		aryTemplateTagsValue(58)="<span class=""AddView"" id=""spn"&ID&""" data-id="""&ID&"""></span>"
 
 
 		aryTemplateTagsName(59)="article/category/parent/id"
@@ -2083,7 +2085,7 @@ Class TArticleList
 		'//////////////////////////
 		'ontop
 		objRS.Source="SELECT [log_ID],[log_Tag],[log_CateID],[log_Title],[log_Intro],[log_Content],[log_Level],[log_AuthorID],[log_PostTime],[log_CommNums],[log_ViewNums],[log_TrackBackNums],[log_Url],[log_Istop],[log_Template],[log_FullUrl],[log_Type],[log_Meta] FROM [blog_Article] WHERE ([log_Type]=0) AND ([log_Level]>1) AND ([log_Istop]<>0)"
-		objRS.Source=objRS.Source & "ORDER BY [log_PostTime] DESC"
+		objRS.Source=objRS.Source & "ORDER BY [log_PostTime] DESC,[log_ID] DESC"
 		objRS.Open()
 		If (Not objRS.bof) And (Not objRS.eof) Then
 			objRS.PageSize = ZC_DISPLAY_COUNT
@@ -2255,7 +2257,7 @@ Class TArticleList
 		If ListType="DEFAULT" Then objRS.Source=objRS.Source & " AND ([log_Istop]=0) "
 
 
-		objRS.Source=objRS.Source & "ORDER BY [log_PostTime] DESC"
+		objRS.Source=objRS.Source & "ORDER BY [log_PostTime] DESC,[log_ID] DESC"
 		objRS.Open()
 
 		If (Not objRS.bof) And (Not objRS.eof) Then
@@ -2477,7 +2479,6 @@ Class TArticleList
 
 		j=UBound(aryTemplateSubName)
 		For i=0 to j
-			If IsNull(aryTemplateSubValue(i))=True Then aryTemplateSubValue(i)=""
 			html=Replace(html,"<#" & aryTemplateSubName(i) & "#>",aryTemplateSubValue(i))
 		Next
 
@@ -2635,8 +2636,13 @@ Class TArticleList
 				t=t & QuerySplit & "page=%n"
 			End If
 			If ZC_STATIC_MODE="REWRITE" Then
-				If InStr(t,"/default.html")>0 Then
-					If ListType="DEFAULT" Then 
+        If InStr(t,"{%page%}")>0 Then
+          t=Replace(t,"default.html","")
+          t=Replace(t,"{%page%}","%n")
+        ElseIf InStr(t,"/default.html")>0 Then
+          If InStr(ZC_DEFAULT_REGEX,"{%page%}")>0 Then
+            t=Replace(t,"/default.html","/%n/default.html")
+					ElseIf ListType="DEFAULT" Then 
 						t=Replace(t,"/default.html","/default_%n.html")
 					Else 
 						t=Replace(t,"/default.html","_%n/default.html")
@@ -3763,7 +3769,6 @@ Class TComment
 
 		j=UBound(aryTemplateTagsName)
 		For i=1 to j
-			If IsNull(aryTemplateTagsValue(i))=True Then aryTemplateTagsValue(i)=""
 			html=Replace(html,"<#" & aryTemplateTagsName(i) & "#>",aryTemplateTagsValue(i))
 		Next
 
@@ -5267,15 +5272,11 @@ Class TConfig
 		End If
 		Set objRS=Nothing
 
-		Call ConfigMetas.SetValue(n,s)
-
 	End Function
 
 	Public Function Delete
 
 		objConn.Execute("DELETE FROM [blog_Config] WHERE [conf_Name]='"&Name&"'")
-
-		Call ConfigMetas.Remove(Name)
 
 	End Function
 

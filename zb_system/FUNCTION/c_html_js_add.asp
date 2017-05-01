@@ -1,4 +1,4 @@
-﻿<%@ CODEPAGE=65001 %>
+<%@ CODEPAGE=65001 %>
 <%
 '///////////////////////////////////////////////////////////////////////////////
 '//              Z-Blog
@@ -46,6 +46,12 @@ $(document).ready(function(){
 	sidebarloaded.add(function(){
 		if(GetCookie("username")!=""&&GetCookie("password")!=""){$.getScript("<%=BlogHost%>zb_system/function/c_html_js.asp?act=autoinfo",function(){AutoinfoComplete();})}else{AutoinfoComplete();}
 	});
+  $(".LoadView").each(function(){
+    LoadViewCount($(this).data("id"));
+  });
+  $(".AddView").each(function(){
+    AddViewCount($(this).data("id"));
+  });
 	$.getScript("<%=BlogHost%>zb_system/function/c_html_js.asp?act=batch"+unescape("%26")+"view=" + escape(strBatchView)+unescape("%26")+"inculde=" + escape(strBatchInculde)+unescape("%26")+"count=" + escape(strBatchCount),function(){BatchComplete();});
 	<%If ZC_SYNTAXHIGHLIGHTER_ENABLE Then Response.Write Response_Plugin_Html_Js_Add_CodeHighLight_Action%>
 });
