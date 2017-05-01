@@ -1,15 +1,15 @@
-﻿<%@ CODEPAGE=65001 %>
+<%@ CODEPAGE=65001 %>
 <%
 '///////////////////////////////////////////////////////////////////////////////
 '//              Z-Blog
 '// 作    者:    朱煊(zx.asd)
 '// 版权所有:    RainbowSoft Studio
 '// 技术支持:    rainbowsoft@163.com
-'// 程序名称:    
-'// 程序版本:    
+'// 程序名称:
+'// 程序版本:
 '// 单元名称:    c_html_js_add.asp
 '// 开始时间:    2009.12.01
-'// 最后修改:    
+'// 最后修改:
 '// 备    注:    html模板脚本辅助 ADD
 '///////////////////////////////////////////////////////////////////////////////
 %>
@@ -41,10 +41,16 @@ var strBatchView="";
 var strBatchInculde="";
 var strBatchCount="";
 
-$(document).ready(function(){ 
+$(document).ready(function(){
 	$("img[src*='zb_system/function/c_validcode.asp?name=commentvalid']").css("cursor","pointer").click( function(){$(this).attr("src","<%=BlogHost%>zb_system/function/c_validcode.asp?name=commentvalid"+"&amp;random="+Math.random());});
 	sidebarloaded.add(function(){
 		if(GetCookie("username")!=""&&GetCookie("password")!=""){$.getScript("<%=BlogHost%>zb_system/function/c_html_js.asp?act=autoinfo",function(){AutoinfoComplete();})}else{AutoinfoComplete();}
+	});
+	$(".LoadView").each(function(){
+		LoadViewCount($(this).data("id"));
+	});
+	$(".AddView").each(function(){
+		AddViewCount($(this).data("id"));
 	});
 	$.getScript("<%=BlogHost%>zb_system/function/c_html_js.asp?act=batch"+unescape("%26")+"view=" + escape(strBatchView)+unescape("%26")+"inculde=" + escape(strBatchInculde)+unescape("%26")+"count=" + escape(strBatchCount),function(){BatchComplete();});
 	<%If ZC_SYNTAXHIGHLIGHTER_ENABLE Then Response.Write Response_Plugin_Html_Js_Add_CodeHighLight_Action%>
