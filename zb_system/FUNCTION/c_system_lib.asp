@@ -2636,8 +2636,13 @@ Class TArticleList
 				t=t & QuerySplit & "page=%n"
 			End If
 			If ZC_STATIC_MODE="REWRITE" Then
-				If InStr(t,"/default.html")>0 Then
-					If ListType="DEFAULT" Then 
+        If InStr(t,"{%page%}")>0 Then
+          t=Replace(t,"default.html","")
+          t=Replace(t,"{%page%}","%n")
+        ElseIf InStr(t,"/default.html")>0 Then
+          If InStr(ZC_DEFAULT_REGEX,"{%page%}")>0 Then
+            t=Replace(t,"/default.html","/%n/default.html")
+					ElseIf ListType="DEFAULT" Then 
 						t=Replace(t,"/default.html","/default_%n.html")
 					Else 
 						t=Replace(t,"/default.html","_%n/default.html")
