@@ -4927,6 +4927,7 @@ Class TNewRss2Export
 		'Response.ContentType = "text/html"
 		Response.ContentType = "text/xml"
 		Response.Clear
+		Call Filter_Plugin_TNewRss2Export_PreExeOrSave(Me,"Execute")
 		Response.Write xml
 
 		Execute=True
@@ -4935,6 +4936,7 @@ Class TNewRss2Export
 
 	Public Function SaveToFile(strFileName)
 		On Error Resume Next
+		Call Filter_Plugin_TNewRss2Export_PreExeOrSave(Me,"SaveToFile")
 		objXMLdoc.save(strFileName)
 
 		SaveToFile=True
