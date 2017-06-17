@@ -16,9 +16,10 @@
 		}
 		if(a==3){
 			a="#edtZC_CATEGORY_REGEX";
-			if(b==1){b="{%host%}/category-{%id%}.html"};
+			if(b==1){b="{%host%}/category/{%alias%}/default.html"};
 			if(b==2){b="{%host%}/category/{%id%}/default.html"};
-			if(b==3){b="{%host%}/category/{%alias%}/default.html"};
+			if(b==3){b="{%host%}/category-{%alias%}.html"};
+			if(b==4){b="{%host%}/category-{%id%}.html"};
 		}
 		if(a==4){
 			a="#edtZC_TAGS_REGEX";
