@@ -27,6 +27,7 @@
 <% Response.Clear %>
 <% If ZC_SYNTAXHIGHLIGHTER_ENABLE Then Response.Write Response_Plugin_Html_Js_Add_CodeHighLight_JS%>
 var bloghost="<%=BlogHost%>";
+var blogversion="<%=BlogVersion%>";
 var cookiespath="<%=CookiesPath()%>";
 var str00="<%=BlogHost%>";
 var str01="<%=ZC_MSG033%>";
