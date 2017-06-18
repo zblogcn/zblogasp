@@ -190,27 +190,27 @@ filter: alpha(opacity=35);
                   <td><p>
                       <label onclick="changeval(1,1)">
                         <input type="radio" name="radio">
-                        &nbsp;&nbsp;配置1:文章名型 <%=BlogHost%><%=ZC_STATIC_DIRECTORY%>/文章名.html</label>
+                        &nbsp;&nbsp;<%=BlogHost%><%=ZC_STATIC_DIRECTORY%>/alias.html</label>
                     </p>
                     <p>
                       <label onclick="changeval(1,2)">
                         <input type="radio" name="radio">
-                        &nbsp;&nbsp;配置2:日期+文章名型 <%=BlogHost%><%=Year(Now)%>/<%=Month(Now)%>/文章名.html</label>
+                        &nbsp;&nbsp;<%=BlogHost%><%=Year(Now)%>/<%=Month(Now)%>/alias.html</label>
                     </p>
                     <p>
                       <label onclick="changeval(1,3)">
                         <input type="radio" name="radio">
-                        &nbsp;&nbsp;配置3:分类别名+文章名型 <%=BlogHost%>分类/文章名.html</label>
+                        &nbsp;&nbsp;<%=BlogHost%>分类/alias.html</label>
                     </p>
                     <p>
                       <label onclick="changeval(1,4)">
                         <input type="radio" name="radio">
-                        &nbsp;&nbsp;配置4:文章名目录型 <%=BlogHost%><%=ZC_STATIC_DIRECTORY%>/文章名/</label>
+                        &nbsp;&nbsp;<%=BlogHost%><%=ZC_STATIC_DIRECTORY%>/alias/</label>
                     </p>
                     <p>
                       <label onclick="changeval(1,5)">
                         <input type="radio" name="radio">
-                        &nbsp;&nbsp;配置5:分类别名+文章ID目录型 <%=BlogHost%>分类/123/</label>
+                        &nbsp;&nbsp;<%=BlogHost%>分类/123/</label>
                     </p></td>
                 </tr>
                 <tr>
@@ -226,22 +226,22 @@ filter: alpha(opacity=35);
 					<p>
                       <label onclick="changeval(2,1)">
                         <input type="radio" name="radio2">
-                        &nbsp;&nbsp;配置1:页面名型 <%=BlogHost%>alias.html</label>
+                        &nbsp;&nbsp;<%=BlogHost%>alias.html</label>
                     </p>
                     <p>
                       <label onclick="changeval(2,2)">
                         <input type="radio" name="radio2">
-                        &nbsp;&nbsp;配置2:页面名目录型 <%=BlogHost%>alias/</label>
+                        &nbsp;&nbsp;<%=BlogHost%>alias/</label>
                     </p>
 					<p>
                       <label onclick="changeval(2,3)">
                         <input type="radio" name="radio2">
-                        &nbsp;&nbsp;配置3:页面ID <%=BlogHost%>3.html</label>
+                        &nbsp;&nbsp;<%=BlogHost%>3.html</label>
                     </p>
                     <p>
                       <label onclick="changeval(2,4)">
                         <input type="radio" name="radio2">
-                        &nbsp;&nbsp;配置4:页面ID目录型 <%=BlogHost%>3/</label>
+                        &nbsp;&nbsp;<%=BlogHost%>3/</label>
                     </p>
 				  </td>
                 </tr>
@@ -254,15 +254,20 @@ filter: alpha(opacity=35);
                 </tr>
                 <tr style="display:none">
                   <td width="30%"><p></p></td>
-                  <td><p>
+                  <td>
+                    <%If BlogVersion >= 140808 Then%>
+                    <p>
                       <label onclick="changeval(6,1)">
-                        <input type="radio" name="radio6">
-                        &nbsp;&nbsp;配置1: <%=BlogHost%>page/2/</label></p>
-<p>
+                      <input type="radio" name="radio6">
+                      &nbsp;&nbsp;新版分页：<%=BlogHost%>page/2/</label>
+                    </p>
+                    <%End If%>
+                    <p>
                       <label onclick="changeval(6,2)">
-                        <input type="radio" name="radio6">
-                        &nbsp;&nbsp;配置2: <%=BlogHost%>default_2.html</label>
-                    </p></td>
+                      <input type="radio" name="radio6">
+                      &nbsp;&nbsp;旧版分页：<%=BlogHost%>default_2.html</label>
+                    </p>
+                  </td>
                 </tr>
                 <tr>
                   <td width="30%"><p align="left"><b>·分类页的URL配置</b><br>
@@ -274,20 +279,28 @@ filter: alpha(opacity=35);
                 </tr>
                 <tr style="display:none">
                   <td width="30%"><p></p></td>
-                  <td><p>
-                      <label onclick="changeval(3,3)">
-                        <input type="radio" name="radio3">
-                        &nbsp;&nbsp;配置1:分类别名目录 <%=BlogHost%>categroy/alias/</label>
-                    </p><p>
-                      <label onclick="changeval(3,2)">
-                        <input type="radio" name="radio3">
-                        &nbsp;&nbsp;配置2:分类ID目录 <%=BlogHost%>category/id/</label>
-                    </p><p>
+                  <td>
+                    <p>
                       <label onclick="changeval(3,1)">
-                        <input type="radio" name="radio3">
-                        &nbsp;&nbsp;配置3:分类ID型 <%=BlogHost%>category-id.html</label>
+                      <input type="radio" name="radio3">
+                      &nbsp;&nbsp;<%=BlogHost%>categroy/alias/</label>
                     </p>
-                    </td>
+                    <p>
+                      <label onclick="changeval(3,2)">
+                      <input type="radio" name="radio3">
+                      &nbsp;&nbsp;<%=BlogHost%>category/2/</label>
+                    </p>
+                    <p>
+                      <label onclick="changeval(3,3)">
+                      <input type="radio" name="radio3">
+                      &nbsp;&nbsp;<%=BlogHost%>category-alias.html</label>
+                    </p>
+                    <p>
+                      <label onclick="changeval(3,3)">
+                      <input type="radio" name="radio3">
+                      &nbsp;&nbsp;<%=BlogHost%>category-2.html</label>
+                    </p>
+                  </td>
                 </tr>
                 <tr>
                   <td width="30%"><p align="left"><b>·作者页的URL配置</b><br>
@@ -304,22 +317,22 @@ filter: alpha(opacity=35);
                   <p>
                       <label onclick="changeval(7,1)">
                         <input type="radio" name="radio7">
-                        &nbsp;&nbsp;配置1:作者别名目录 <%=BlogHost%>author/<%=BlogUser.FirstName%>/</label>
+                        &nbsp;&nbsp;<%=BlogHost%>author/<%=BlogUser.FirstName%>/</label>
                     </p>
                     <p>
                       <label onclick="changeval(7,2)">
                         <input type="radio" name="radio7">
-                        &nbsp;&nbsp;配置2:作者ID目录 <%=BlogHost%>author/1/</label>
+                        &nbsp;&nbsp;<%=BlogHost%>author/1/</label>
                     </p>
                     <p>
                       <label onclick="changeval(7,3)">
                         <input type="radio" name="radio7">
-                        &nbsp;&nbsp;配置3:作者别名型 <%=BlogHost%>author-alias.html</label>
+                        &nbsp;&nbsp;<%=BlogHost%>author-alias.html</label>
                     </p>
                     <p>
                       <label onclick="changeval(7,4)">
                         <input type="radio" name="radio7">
-                        &nbsp;&nbsp;配置4:作者别名型 <%=BlogHost%>author-alias.html</label>
+                        &nbsp;&nbsp;<%=BlogHost%>author-1.html</label>
                     </p>
                     </td>
                 </tr>
@@ -339,32 +352,32 @@ filter: alpha(opacity=35);
                     <p>
                       <label onclick="changeval(4,1)">
                         <input type="radio" name="radio4">
-                        &nbsp;&nbsp;配置1: <%=BlogHost%>tags/name/</label>
+                        &nbsp;&nbsp;<%=BlogHost%>tags/name/</label>
                     </p>
                     <p>
                       <label onclick="changeval(4,2)">
                         <input type="radio" name="radio4">
-                        &nbsp;&nbsp;配置2: <%=BlogHost%>tags/intro/</label>
+                        &nbsp;&nbsp;<%=BlogHost%>tags/intro/</label>
                     </p>
                     <p>
                       <label onclick="changeval(4,3)">
                         <input type="radio" name="radio4">
-                        &nbsp;&nbsp;配置3: <%=BlogHost%>tags/id/</label>
+                        &nbsp;&nbsp;<%=BlogHost%>tags/id/</label>
                     </p>
                     <p>
                       <label onclick="changeval(4,4)">
                         <input type="radio" name="radio4">
-                        &nbsp;&nbsp;配置4: <%=BlogHost%>tags-name.html</label>
+                        &nbsp;&nbsp;<%=BlogHost%>tags-name.html</label>
                     </p>
                     <p>
                       <label onclick="changeval(4,5)">
                         <input type="radio" name="radio4">
-                        &nbsp;&nbsp;配置5: <%=BlogHost%>tags-intro.html</label>
+                        &nbsp;&nbsp;<%=BlogHost%>tags-intro.html</label>
                     </p>
                     <p>
                       <label onclick="changeval(4,6)">
                         <input type="radio" name="radio4">
-                        &nbsp;&nbsp;配置6: <%=BlogHost%>tags-id.html</label>
+                        &nbsp;&nbsp;<%=BlogHost%>tags-id.html</label>
                     </p>
                   </td>
                 </tr>
@@ -384,12 +397,12 @@ filter: alpha(opacity=35);
                     <p>
                       <label onclick="changeval(5,1)">
                         <input type="radio" name="radio5">
-                        &nbsp;&nbsp;配置1: <%=BlogHost%>date/<%=Year(Now)%>-<%=Month(Now)%>/</label>
+                        &nbsp;&nbsp;<%=BlogHost%>date/<%=Year(Now)%>-<%=Month(Now)%>/</label>
                     </p>
                     <p>
                       <label onclick="changeval(5,2)">
                         <input type="radio" name="radio5">
-                        &nbsp;&nbsp;配置3: <%=BlogHost%>date-<%=Year(Now)%>-<%=Month(Now)%>.html</label>
+                        &nbsp;&nbsp;<%=BlogHost%>date-<%=Year(Now)%>-<%=Month(Now)%>.html</label>
                     </p>
                   </td>
                 </tr>
@@ -440,13 +453,16 @@ filter: alpha(opacity=35);
 					$("#edtZC_DATE_REGEX").val("{%host%}/catalog.asp?date={%date%}");
 				};
 				if($(this).val()=="REWRITE"){
-					$("#edtZC_ARTICLE_REGEXT").val("{%host%}/{%post%}/{%alias%}.html");
-					$("#edtZC_PAGE_REGEX").val("{%host%}/{%alias%}.html");
-					$("#edtZC_DEFAULT_REGEX").val("{%host%}/page/{%page%}/default.html");
-					$("#edtZC_CATEGORY_REGEX").val("{%host%}/category/{%alias%}/default.html");
-					$("#edtZC_USER_REGEX").val("{%host%}/author/{%alias%}/default.html");
-					$("#edtZC_TAGS_REGEX").val("{%host%}/tags/{%name%}/default.html");
-					$("#edtZC_DATE_REGEX").val("{%host%}/date/{%date%}/default.html");
+					changeval(1,1);
+					changeval(2,1);
+					changeval(3,1);
+					changeval(4,1);
+					changeval(5,1);
+					if (blogversion>=140808)
+						changeval(6,1);
+					else
+						changeval(6,2);
+					changeval(7,1);
 				};
 				flashradio();
 			});
