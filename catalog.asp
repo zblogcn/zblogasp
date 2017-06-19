@@ -41,6 +41,9 @@ If ArtList.Export(Request.QueryString("page"),Request.QueryString("cate"),IIF(No
 	ArtList.Build
 	html=ArtList.html
 	Response.Write html
+Else
+  Response.Status="404 Not Found"
+  Response.End
 End If
 
 'plugin node
