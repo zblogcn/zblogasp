@@ -579,7 +579,7 @@ Function ExportCommentList(intPage,intContent,isCheck)
 	
 	Response.Write IIf(CheckRights("Root"),"<form id=""frmBatch2"" style=""float:left;"" method=""post"" action=""../cmd.asp?act=CommentAudit""><input type=""hidden"" id=""edtBatch2"" name=""edtBatch"" value=""""/><input class=""button"" type=""submit"" onclick='BatchDeleteAll(""edtBatch2"");if(document.getElementById(""edtBatch2"").value){return window.confirm("""& ZC_MSG058 &""");}else{return false}' value="""&IIf(isCheck,ZC_MSG174,ZC_MSG177)&""" id=""btnPost2""/>&nbsp;&nbsp;&nbsp;&nbsp;"&IIf(isCheck,"<input class=""button"" type=""submit"" onclick='if(window.confirm("""& ZC_MSG058 &""")){document.getElementById(""edtBatch2"").value=""delall""}else{return false}' value="""&ZC_MSG222&""" id=""btnPost3""/>","") &"</form>","") &vbCrlf
 
-	Response.Write "<hr/><div class=""clear""></div>"
+	Response.Write "<div class=""clear""></div>"
 
 	If  intPageAll>1 Then 
 		strPage=ExportPageBar(intPage,intPageAll,ZC_PAGEBAR_COUNT,"admin.asp?act=CommentMng&amp;isCheck="&isCheck&"&amp;page=")
