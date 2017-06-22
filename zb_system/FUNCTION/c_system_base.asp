@@ -2109,8 +2109,8 @@ Function ParseCustomDirectory(strRegex,strPost,strCategory,strUser,strYear,strMo
 	s=Replace(s,"{%alias%}",strAlias)
 	s=Replace(s,"{%name%}",strName)
 	s=Replace(s,"{%date%}",d)
-	s=Replace(s,"{%page%}",Request.QueryString("page"))
-	s=Replace(s,"//default.html","/default.html")
+	' s=Replace(s,"{%page%}",Request.QueryString("page"))
+	' s=Replace(s,"//default.html","/default.html")
 
 	ParseCustomDirectory=s
 
