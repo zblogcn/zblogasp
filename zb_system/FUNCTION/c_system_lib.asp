@@ -2354,6 +2354,10 @@ Class TArticleList
       Export = False
       Exit Function
     End If
+    If ListType <> "DEFAULT" And dd.Count = 0 Then
+      Export = False
+      Exit Function
+    End If
     If intPageCount<intPage Then
       Export = False
       Exit Function
