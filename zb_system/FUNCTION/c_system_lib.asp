@@ -1,4 +1,4 @@
-﻿<%
+<%
 '///////////////////////////////////////////////////////////////////////////////
 '//              Z-Blog
 '// 作    者:    朱煊(zx.asd)
@@ -87,7 +87,7 @@ Class TCategory
 		Ffullregex=s
 	End Property
 	Public Property Get FullRegex
-		If Ffullregex<>"" Then 
+		If Ffullregex<>"" Then
 			FullRegex=Ffullregex
 		Else
 			FullRegex=ZC_CATEGORY_REGEX
@@ -108,7 +108,7 @@ Class TCategory
 			If Not IsEmpty(sAction_Plugin_TCategory_Url) Then Call Execute(sAction_Plugin_TCategory_Url)
 			If bAction_Plugin_TCategory_Url=True Then Exit Property
 		Next
-		
+
 		Url =ParseCustomDirectoryForUrl(FullRegex,ZC_STATIC_DIRECTORY,"","","","","",ID,Name,StaticName)
 		If Right(Url,12)="default.html" Then Url=Left(Url,Len(Url)-12)
 
@@ -129,7 +129,7 @@ Class TCategory
 	Public Property Get HtmlUrl
 		HtmlUrl=TransferHTML(Url,"[html-format]")
 	End Property
-	
+
 
 	Public Property Get StaticName
 		If IsNull(Alias) Or IsEmpty(Alias) Or Alias="" Then
@@ -226,12 +226,12 @@ Class TCategory
 		If cate_ID=0 Then
 			If BlogConfig.Exists("ZC_UNCATEGORIZED_NAME")=True Then Name=BlogConfig.Read("ZC_UNCATEGORIZED_NAME")
 			If BlogConfig.Exists("ZC_UNCATEGORIZED_ALIAS")=True Then Alias=BlogConfig.Read("ZC_UNCATEGORIZED_ALIAS")
-			If BlogConfig.Exists("ZC_UNCATEGORIZED_COUNT")=True Then 
+			If BlogConfig.Exists("ZC_UNCATEGORIZED_COUNT")=True Then
 				Dim intUnCateCount
 				intUnCateCount=BlogConfig.Read("ZC_UNCATEGORIZED_COUNT")
 				Call CheckParameter(intUnCateCount,"int",0)
 				Count=intUnCateCount
-			End if 
+			End if
 			LoadInfoByID=True
 			Exit Function
 		End If
@@ -258,7 +258,7 @@ Class TCategory
 
 		objRS.Close
 		Set objRS=Nothing
-		
+
 		Call Filter_Plugin_TCategory_LoadInfoByID(ID,Name,Intro,Order,Count,ParentID,Alias,TemplateName,LogTemplate,FullUrl,MetaString)
 
 	End Function
@@ -281,7 +281,7 @@ Class TCategory
 		End If
 
 		LoadInfoByArray=True
-		
+
 		Call Filter_Plugin_TCategory_LoadInfoByArray(ID,Name,Intro,Order,Count,ParentID,Alias,TemplateName,LogTemplate,FullUrl,MetaString)
 
 	End Function
@@ -396,7 +396,7 @@ Class TArticle
 	Public Property Get IsPage
 		If FType=1 Then
 			IsPage=True
-		Else 
+		Else
 			IsPage=False
 		End If
 	End Property
@@ -459,14 +459,14 @@ Class TArticle
 		Ffullregex=s
 	End Property
 	Public Property Get FullRegex
-		If Ffullregex<>"" Then 
+		If Ffullregex<>"" Then
 			FullRegex=Ffullregex
 		Else
 			If IsPage=True Then
 				If Level>2 Then
 					FullRegex=ZC_PAGE_REGEX
 				ElseIf Level>1 Then
-					FullRegex=ZC_PAGE_AND_ARTICLE_PRIVATE_REGEX	
+					FullRegex=ZC_PAGE_AND_ARTICLE_PRIVATE_REGEX
 				Else
 					FullRegex=ZC_PAGE_AND_ARTICLE_DRAFT_REGEX
 				End If
@@ -474,7 +474,7 @@ Class TArticle
 				If Level>2 Then
 					FullRegex=ZC_ARTICLE_REGEX
 				ElseIf Level>1 Then
-					FullRegex=ZC_PAGE_AND_ARTICLE_PRIVATE_REGEX	
+					FullRegex=ZC_PAGE_AND_ARTICLE_PRIVATE_REGEX
 				Else
 					FullRegex=ZC_PAGE_AND_ARTICLE_DRAFT_REGEX
 				End If
@@ -492,7 +492,7 @@ Class TArticle
 	Private FUrl
 	Public Property Get Url
 
-		If FUrl<>"" Then 
+		If FUrl<>"" Then
 			Url=FUrl
 		Else
 
@@ -718,7 +718,7 @@ Class TArticle
 		End If
 
 		FUrl=""
-		
+
 		LoadInfoByArray=True
 
 		Call Filter_Plugin_TArticle_LoadInfoByArray(ID,Tag,CateID,Title,Intro,Content,Level,AuthorID,PostTime,CommNums,ViewNums,TrackBackNums,Alias,Istop,TemplateName,FullUrl,FType,MetaString)
@@ -815,10 +815,10 @@ Class TArticle
 			If (Not objRS.bof) And (Not objRS.eof) Then
 				If objRS(0)<>CateID Then
 					Categorys(CateID).ExID=objRS(0)
-				End If 
+				End If
 				If objRS(1)<>AuthorID Then
 					Users(AuthorID).ExID=objRS(1)
-				End If 
+				End If
 			End If
 			Set objRS=Nothing
 
@@ -885,7 +885,7 @@ Class TArticle
 
 		If Disable_Export_CMTandTB=True Then Exit Function
 
-		If ZC_COMMENT_TURNOFF=True Then 
+		If ZC_COMMENT_TURNOFF=True Then
 			Template_Article_Comment=""
 			Exit Function
 		End If
@@ -898,7 +898,7 @@ Class TArticle
 			If Not IsEmpty(sAction_Plugin_TArticle_Export_CMTandTB_Begin) Then Call Execute(sAction_Plugin_TArticle_Export_CMTandTB_Begin)
 			If bAction_Plugin_TArticle_Export_CMTandTB_Begin=True Then Exit Function
 		Next
-		
+
 		Dim intCommnums
 		intCommnums=objConn.Execute("SELECT COUNT([log_ID]) FROM [blog_Comment] WHERE [log_ID] =" & ID & " AND [comm_isCheck]=0 AND [comm_ParentID]=0")(0)
 		If intCommnums > 0 Then
@@ -933,7 +933,7 @@ Class TArticle
 			Dim objRS
 
 			Dim order
-			order=IIf(ZC_COMMENT_REVERSE_ORDER_EXPORT,"DESC","ASC") 
+			order=IIf(ZC_COMMENT_REVERSE_ORDER_EXPORT,"DESC","ASC")
 
 			strC_Count=0
 			Set objRS=Server.CreateObject("ADODB.Recordset")
@@ -954,14 +954,14 @@ Class TArticle
 				End If
 			End If
 			j=PageSize2
-			
+
 			objRS.Source="SELECT * FROM (SELECT TOP "&PageSize2&" *  FROM (SELECT TOP "&(PageSize3*intPage)&" * FROM [blog_Comment]  WHERE ([log_ID]="&id&" AND [comm_isCheck]=0 AND [comm_ParentID]=0) ORDER BY [comm_id] "&order&") As [Test] ORDER BY [comm_id] "&IIf(ZC_COMMENT_REVERSE_ORDER_EXPORT,"ASC","DESC")&" ) As [test] order by [comm_posttime] "&order
 			objRS.Open()
 			j=PageSize2
 			Dim intPageAll
-			If (intCommnums Mod PageSize3)=0 Then 
+			If (intCommnums Mod PageSize3)=0 Then
 				intPageAll=Int(intCommnums/PageSize3)
-			Else 
+			Else
 				intPageAll=Int(intCommnums/PageSize3)+1
 			End If
 
@@ -983,11 +983,11 @@ Class TArticle
 
 					tree.add objComment.ID, objComment.MakeTemplate(strC)'objComment
 
-					If ZC_COMMENT_REVERSE_ORDER_EXPORT Then 
+					If ZC_COMMENT_REVERSE_ORDER_EXPORT Then
 						t=objRS("comm_ID")
-					ElseIf i=1 Then 
+					ElseIf i=1 Then
 						t=objRS("comm_ID")
-					End If 
+					End If
 
 					Set objComment=Nothing
 
@@ -1087,7 +1087,7 @@ Class TArticle
 			If intPage=intPageAll Then
 				r=""
 			End If
-			
+
 			s=GetTemplate("TEMPLATE_B_ARTICLE_COMMENT_PAGEBAR")
 			s=Replace(s,"<#template:pagebar#>",l&r&"")
 		End If
@@ -1219,7 +1219,7 @@ Class TArticle
 			If bAction_Plugin_TArticle_Export_CommentPost_Begin=True Then Exit Function
 		Next
 
-		If ZC_COMMENT_TURNOFF=True Then 
+		If ZC_COMMENT_TURNOFF=True Then
 			Template_Article_Commentpost=""
 			Exit Function
 		End If
@@ -1229,9 +1229,9 @@ Class TArticle
 		Template_Article_Commentpost=GetTemplate("TEMPLATE_B_ARTICLE_COMMENTPOST")
 
 		Dim RE
-		Set RE = New RegExp 
-		RE.IgnoreCase = True 
-		RE.Global = True 
+		Set RE = New RegExp
+		RE.IgnoreCase = True
+		RE.Global = True
 
 		If InStr(Template_Article_Commentpost,"template:article_commentpost-verify:")>0  Then'2.2新增条件判断
 			If ZC_COMMENT_VERIFY_ENABLE=True Then
@@ -1264,7 +1264,7 @@ Class TArticle
 			If bAction_Plugin_TArticle_Export_Mutuality_Begin=True Then Exit Function
 		Next
 
-		If ZC_MUTUALITY_COUNT=0 Then 
+		If ZC_MUTUALITY_COUNT=0 Then
 			Export_Mutuality=True
 			Exit Function
 		End If
@@ -1403,11 +1403,11 @@ Class TArticle
 		Call Export_NavBar
 
 		Dim RE ,Match,Matches
-		Set RE = New RegExp 
+		Set RE = New RegExp
 			RE.Pattern = "\<\#template\:(article\-([a-z0-9]*)([\-a-z0-9]*))\#\>"
-			RE.IgnoreCase = True 
-			RE.Global = True 
-			Set Matches = RE.Execute(html) 
+			RE.IgnoreCase = True
+			RE.Global = True
+			Set Matches = RE.Execute(html)
 			For Each Match in Matches
 				If IsEmpty(subhtml_TemplateName) Then subhtml_TemplateName="template:"&Match.SubMatches(0)&""
 				If IsEmpty(subhtml) Then subhtml=GetTemplate("TEMPLATE_B_"& UCase(Match.SubMatches(0)))
@@ -1442,11 +1442,11 @@ Class TArticle
 		Dim s,t
 		Set da=CreateObject("Scripting.Dictionary")
 
-		Set RE = New RegExp 
+		Set RE = New RegExp
 			RE.Pattern = "<#article/((category/meta|author/meta|meta)/([a-z0-9_]{1,}))#>"
-			RE.IgnoreCase = True 
-			RE.Global = True 
-			Set Matches = RE.Execute(html&subhtml) 
+			RE.IgnoreCase = True
+			RE.Global = True
+			Set Matches = RE.Execute(html&subhtml)
 			For Each Match in Matches
 				s=Match.SubMatches(0)
 				If da.Exists(s)=False Then da.add s,s
@@ -1460,7 +1460,7 @@ Class TArticle
 				s(t)=Replace(s(t),"category/meta/","")
 				subhtml=Replace(subhtml,"<#article/category/meta/" & s(t) & "#>",Categorys(CateID).Meta.GetValue(s(t)) )
 				html = Replace(html,"<#article/category/meta/" & s(t) & "#>",Categorys(CateID).Meta.GetValue(s(t)) )
-			ElseIf InStr(s(t),"author/meta/")>0 Then 
+			ElseIf InStr(s(t),"author/meta/")>0 Then
 				s(t)=Replace(s(t),"author/meta/","")
 				subhtml=Replace(subhtml,"<#article/author/meta/" & s(t) & "#>",Users(AuthorID).Meta.GetValue(s(t)) )
 				html = Replace(html,"<#article/author/meta/" & s(t) & "#>",Users(AuthorID).Meta.GetValue(s(t)) )
@@ -1619,9 +1619,11 @@ Class TArticle
 		aryTemplateTagsName(56)="article/alias"
 		aryTemplateTagsValue(56)=Alias
 		aryTemplateTagsName(57)="article/loadviewcount"
-		aryTemplateTagsValue(57)="<span id=""spn"&ID&"""></span><script type=""text/javascript"">LoadViewCount("&ID&")</script>"
+		' aryTemplateTagsValue(57)="<span id=""spn"&ID&"""></span><script type=""text/javascript"">LoadViewCount("&ID&")</script>"
+		aryTemplateTagsValue(57)="<span class=""LoadView"" id=""spn"&ID&""" data-id="""&ID&"""></span>"
 		aryTemplateTagsName(58)="article/addviewcount"
-		aryTemplateTagsValue(58)="<span id=""spn"&ID&"""></span><script type=""text/javascript"">AddViewCount("&ID&")</script>"
+		' aryTemplateTagsValue(58)="<span id=""spn"&ID&"""></span><script type=""text/javascript"">AddViewCount("&ID&")</script>"
+		aryTemplateTagsValue(58)="<span class=""AddView"" id=""spn"&ID&""" data-id="""&ID&"""></span>"
 
 
 		aryTemplateTagsName(59)="article/category/parent/id"
@@ -1656,9 +1658,9 @@ Class TArticle
 			End If
 		Next
 
-		Set RE = New RegExp 
-		RE.IgnoreCase = True 
-		RE.Global = True 
+		Set RE = New RegExp
+		RE.IgnoreCase = True
+		RE.Global = True
 
 		If HasTag=False Then
 			RE.Pattern = "<#template:article_tag:begin#>(.|\n)*<#template:article_tag:end#>"
@@ -1669,14 +1671,14 @@ Class TArticle
 		End If
 		If HasCMTandTB=False Then
 			RE.Pattern = "<#template:article_comment:begin#>(.|\n)*<#template:article_comment:end#>"
-			subhtml = RE.Replace(subhtml, "<ins style=""display:none;"" id=""AjaxCommentEnd""></ins><ins style=""display:none;"" id=""AjaxCommentBegin""></ins>") 
+			subhtml = RE.Replace(subhtml, "<ins style=""display:none;"" id=""AjaxCommentEnd""></ins><ins style=""display:none;"" id=""AjaxCommentBegin""></ins>")
 		Else
 			subhtml=Replace(subhtml,"<#template:article_comment:begin#>","")
 			subhtml=Replace(subhtml,"<#template:article_comment:end#>","")
 		End IF
 		If HasMutuality=False Then
 			RE.Pattern = "<#template:article_mutuality:begin#>(.|\n)*<#template:article_mutuality:end#>"
-			subhtml = RE.Replace(subhtml, "") 
+			subhtml = RE.Replace(subhtml, "")
 		Else
 			subhtml=Replace(subhtml,"<#template:article_mutuality:begin#>","")
 			subhtml=Replace(subhtml,"<#template:article_mutuality:end#>","")
@@ -1790,12 +1792,12 @@ Class TArticle
 
 		ary1(1)=IIf(Categorys(CateID).ReCount=0,True,False)
 		ary2(1)="(SELECT COUNT([log_ID]) FROM [blog_Article] WHERE [log_Level]>1 AND [log_Type]=0 AND [log_CateID]=" & CateID & ") As [cate_count]"
-		ary3(1)="SELECT COUNT([log_ID]) As [cate_count] FROM [blog_Article] WHERE [log_Level]>1 AND [log_Type]=0 AND [log_CateID]=" & CateID 
+		ary3(1)="SELECT COUNT([log_ID]) As [cate_count] FROM [blog_Article] WHERE [log_Level]>1 AND [log_Type]=0 AND [log_CateID]=" & CateID
 
 
 		ary1(2)=IIf(Users(AuthorID).ReCount=0,True,False)
 		ary2(2)="(SELECT COUNT([log_ID]) FROM [blog_Article] WHERE [log_Level]>1 AND [log_Type]=0 AND [log_AuthorID]=" & AuthorID &") As [author_count]"
-		ary3(2)="SELECT COUNT([log_ID]) As [author_count] FROM [blog_Article] WHERE [log_Level]>1 AND [log_Type]=0 AND [log_AuthorID]=" & AuthorID 
+		ary3(2)="SELECT COUNT([log_ID]) As [author_count] FROM [blog_Article] WHERE [log_Level]>1 AND [log_Type]=0 AND [log_AuthorID]=" & AuthorID
 
 		strSQL=strSQL & IIf(ary1(0),ary2(0),"")
 		strSQL=strSQL & IIf(ary1(1),IIf(strSQL=""," ",",") & ary2(1),"")
@@ -1808,19 +1810,19 @@ Class TArticle
 		Else
 			isBool=True
 		End If
-		
+
 		If isBool Then
 
-			If ary1(0) Then 
-				
+			If ary1(0) Then
+
 				If Not ZC_MSSQL_ENABLE Then Set objRS=objConn.Execute(ary3(0))
 				CommNums=objRs("comm_count")
 				objConn.Execute("UPDATE [blog_Article] SET [log_CommNums]="& CommNums &" WHERE [log_ID] =" & ID)
-				
+
 			End If
-			
+
 			If ary1(1) Then
-			
+
 				If Not ZC_MSSQL_ENABLE Then Set objRS=objConn.Execute(ary3(1))
 				Call BlogConfig.Write("ZC_UNCATEGORIZED_COUNT",1)
 				Categorys(CateID).ReCount=objRs("cate_count")
@@ -1840,13 +1842,13 @@ Class TArticle
 						objConn.Execute("UPDATE [blog_Category] SET [cate_Count]="&Categorys(Cate_ExID).ReCount&" WHERE [cate_ID] =" & Cate_ExID)
 					End If
 					Categorys(Cate_ExID).Count=Categorys(Cate_ExID).ReCount
-				End If 
+				End If
 				BlogConfig.Save
-				
+
 			End If
-			
+
 			If ary1(2) Then
-			
+
 				If Not ZC_MSSQL_ENABLE Then Set objRS=objConn.Execute(ary3(2))
 				Users(AuthorID).ReCount=objRs("author_count")
 				objConn.Execute("UPDATE [blog_Member] SET [mem_PostLogs]="&Users(AuthorID).ReCount&" WHERE [mem_ID] =" & AuthorID)
@@ -1854,15 +1856,15 @@ Class TArticle
 				'原用户计数－1
 				Dim User_ExID:User_ExID=Users(AuthorID).ExID
 				If User_ExID<>-1 Then
-				
+
 					Users(User_ExID).ReCount=Users(User_ExID).Count-1
 					objConn.Execute("UPDATE [blog_Member] SET [mem_PostLogs]="&Users(User_ExID).ReCount&" WHERE [mem_ID] =" & User_ExID)
 					Users(User_ExID).Count=Users(User_ExID).ReCount
-					
-				End If 
-				
+
+				End If
+
 			End If
-			
+
 		End If
 
 		objRs.Close
@@ -2024,7 +2026,7 @@ Class TArticleList
 		Ffullregex=s
 	End Property
 	Public Property Get FullRegex
-		If Ffullregex<>"" Then 
+		If Ffullregex<>"" Then
 			FullRegex=Ffullregex
 		Else
 			FullRegex=ZC_DEFAULT_REGEX
@@ -2060,7 +2062,7 @@ Class TArticleList
 		Dim aryArticleList()
 		Dim  Template_Article_Istop
 
-		
+
 		'plugin node
 		Dim i,j,k,l,s,t
 		Dim objRS
@@ -2151,7 +2153,7 @@ Class TArticleList
 				If i=-1 Then
 					i=GetCateByName(anyCate)
 				End If
-			ElseIf InStr(ZC_CATEGORY_REGEX,"{%name%}")>0 Then 
+			ElseIf InStr(ZC_CATEGORY_REGEX,"{%name%}")>0 Then
 				i=GetCateByName(anyCate)
 			Else
 				i=anyCate
@@ -2327,11 +2329,11 @@ Class TArticleList
 				subhtml_TemplateName=objArticle.subhtml_TemplateName
 			Next
 		Else
-			Set RE = New RegExp 
+			Set RE = New RegExp
 				RE.Pattern = "\<\#template\:(article\-([a-z0-9]*)([\-a-z0-9]*))\#\>"
-				RE.IgnoreCase = True 
-				RE.Global = True 
-				Set Matches = RE.Execute(html) 
+				RE.IgnoreCase = True
+				RE.Global = True
+				Set Matches = RE.Execute(html)
 				For Each Match in Matches
 					If IsEmpty(subhtml_TemplateName) Then subhtml_TemplateName="template:"&Match.SubMatches(0)&""
 					Exit For
@@ -2348,6 +2350,18 @@ Class TArticleList
 		TemplateTags_ArticleList_Page_Now=intPage
 		TemplateTags_ArticleList_Page_All=intPageCount
 
+    If dt.Count=0 And dd.Count = 0 Then
+      Export = False
+      Exit Function
+    End If
+    If ListType <> "DEFAULT" And dd.Count = 0 Then
+      Export = False
+      Exit Function
+    End If
+    If intPageCount<intPage Then
+      Export = False
+      Exit Function
+    End If
 
 		Call ExportBar(intPage,intPageCount)
 
@@ -2486,9 +2500,9 @@ Class TArticleList
 		Dim da
 		Set da=CreateObject("Scripting.Dictionary")
 
-		Set RE = New RegExp 
-		RE.IgnoreCase = True 
-		RE.Global = True 
+		Set RE = New RegExp
+		RE.IgnoreCase = True
+		RE.Global = True
 
 		If Categorys(intCate).ParentID=0 Then
 			RE.Pattern = "<#template:articlelist_category_parent:begin#>(.|\n)*<#template:articlelist_category_parent:end#>"
@@ -2500,11 +2514,11 @@ Class TArticleList
 		Set RE = Nothing
 
 
-		Set RE = New RegExp 
+		Set RE = New RegExp
 		RE.Pattern = "<#articlelist/((category/meta|author/meta)/([a-z0-9_]{1,}))#>"
-		RE.IgnoreCase = True 
-		RE.Global = True 
-		Set Matches = RE.Execute(html) 
+		RE.IgnoreCase = True
+		RE.Global = True
+		Set Matches = RE.Execute(html)
 		For Each Match in Matches
 			s=Match.SubMatches(0)
 			If da.Exists(s)=False Then da.add s,s
@@ -2521,7 +2535,7 @@ Class TArticleList
 				Else
 					html = Replace(html,"<#articlelist/category/meta/" & s(t) & "#>","")
 				End If
-			ElseIf InStr(s(t),"author/meta/")>0 Then 
+			ElseIf InStr(s(t),"author/meta/")>0 Then
 				s(t)=Replace(s(t),"author/meta/","")
 				If ListType="USER" Then
 					html = Replace(html,"<#articlelist/author/meta/" & s(t) & "#>",Users(intAuthor).Meta.GetValue(s(t)) )
@@ -2635,12 +2649,17 @@ Class TArticleList
 				t=t & QuerySplit & "page=%n"
 			End If
 			If ZC_STATIC_MODE="REWRITE" Then
-				If InStr(t,"/default.html")>0 Then
-					If ListType="DEFAULT" Then 
+				If InStr(t,"{%page%}")>0 Then
+					t=Replace(t,"default.html","")
+					t=Replace(t,"{%page%}","%n")
+				ElseIf InStr(t,"/default.html")>0 Then
+					If InStr(ZC_DEFAULT_REGEX,"{%page%}")>0 Then
+						t=Replace(t,"/default.html","/%n/default.html")
+					ElseIf ListType="DEFAULT" Then
 						t=Replace(t,"/default.html","/default_%n.html")
-					Else 
+					Else
 						t=Replace(t,"/default.html","_%n/default.html")
-					End If 
+					End If
 				Else
 					t=Replace(t,".html","_%n.html")
 				End If
@@ -2826,7 +2845,7 @@ Class TUser
 		Ffullregex=s
 	End Property
 	Public Property Get FullRegex
-		If Ffullregex<>"" Then 
+		If Ffullregex<>"" Then
 			FullRegex=Ffullregex
 		Else
 			FullRegex=ZC_USER_REGEX
@@ -2910,7 +2929,7 @@ Class TUser
 	Public Property Get Avatar
 
 		Avatar=GetAvatar
-		
+
 	End Property
 
 	Public Property Get HtmlUrl
@@ -3131,7 +3150,7 @@ Class TUser
 			If IsNull(Alias) Then Alias=""
 			If IsNull(TemplateName) Then TemplateName=""
 
-			LoadInfoByArray=True		
+			LoadInfoByArray=True
 
 		End If
 
@@ -3190,7 +3209,7 @@ Class TUser
 			Set objRS2=Nothing
 
 			objConn.Execute("INSERT INTO [blog_Member]([mem_Level],[mem_Name],[mem_PassWord],[mem_Email],[mem_HomePage],[mem_Url],[mem_Guid],[mem_Intro],[mem_Template],[mem_Meta]) VALUES ("&Level&",'"&Name&"','"&PassWord&"','"&Email&"','"&HomePage&"','"&Alias&"','"&Guid&"','"&Intro&"','"&TemplateName&"','"&MetaString&"')")
-			
+
 			Dim objRS
 			Set objRS=objConn.Execute("SELECT MAX([mem_ID]) FROM [blog_Member]")
 			If (Not objRS.bof) And (Not objRS.eof) Then
@@ -3233,7 +3252,7 @@ Class TUser
 				End If
 
 			End If
-			
+
 			Dim tmpClsID
 			tmpClsID=MD5(BlogPath & ZC_BLOG_CLSID_ORIGINAL)
 			Application.Lock
@@ -3413,7 +3432,7 @@ Class TComment
 	Public ID
 	Public log_ID
 	Public ParentID
-	
+
 	Public AuthorID
 	Public Author
 	Public Content
@@ -3508,7 +3527,7 @@ Class TComment
 			IP=GetReallyIP()
 			Agent=Request.ServerVariables("HTTP_USER_AGENT")
 		End If
-		
+
 		If Len(HomePage)>0 Then
 			If InStr(HomePage,"http://")=0 Then HomePage="http://" & HomePage
 		End If
@@ -3692,7 +3711,7 @@ Class TComment
 		If ParentID="" Then ParentID=0
 
 		Dim s
-		If AuthorID>0 Then 
+		If AuthorID>0 Then
 			Call GetUsersbyUserIDList(AuthorID)
 			If Users(AuthorID).Alias="" Then
 				s=Users(AuthorID).Name
@@ -4354,7 +4373,7 @@ Class TUpLoadFile
 		Set Meta=New TMeta
 		AutoName=False
 		IsManual=False
-		
+
 
 	End Sub
 
@@ -4478,7 +4497,7 @@ Class TTag
 		Ffullregex=s
 	End Property
 	Public Property Get FullRegex
-		If Ffullregex<>"" Then 
+		If Ffullregex<>"" Then
 			FullRegex=Ffullregex
 		Else
 			FullRegex=ZC_TAGS_REGEX
@@ -4920,6 +4939,7 @@ Class TNewRss2Export
 		'Response.ContentType = "text/html"
 		Response.ContentType = "text/xml"
 		Response.Clear
+		Call Filter_Plugin_TNewRss2Export_PreExeOrSave(Me,"Execute")
 		Response.Write xml
 
 		Execute=True
@@ -4928,6 +4948,7 @@ Class TNewRss2Export
 
 	Public Function SaveToFile(strFileName)
 		On Error Resume Next
+		Call Filter_Plugin_TNewRss2Export_PreExeOrSave(Me,"SaveToFile")
 		objXMLdoc.save(strFileName)
 
 		SaveToFile=True
@@ -5402,7 +5423,7 @@ Class TFunction
 	Public Property Let IsPlugin(s)
 		Source="plugin_"&s
 	End Property
-	
+
 
 	Public Property Get IsTheme
 		If InStr(Source,"theme_")>0 Then
@@ -5494,7 +5515,7 @@ Class TFunction
 		End If
 
 		If HtmlID="" Then
-			If ID=0 Then 
+			If ID=0 Then
 				HtmlID="divFunction" & GetNewID
 			Else
 				HtmlID="divFunction" & ID
@@ -5520,7 +5541,7 @@ Class TFunction
 		Content=FilterSQL(Content)
 		Content=TransferHTML(Content,"[anti-zc_blog_host]")
 
-		
+
 		If ID=0 Or (InDataBase=False And Source<>"other") Then
 			objConn.Execute("INSERT INTO [blog_Function]([fn_Name],[fn_FileName],[fn_Order],[fn_Content],[fn_IsHidden],[fn_SidebarID],[fn_HtmlID],[fn_Ftype],[fn_MaxLi],[fn_Source],[fn_ViewType],[fn_IsHideTitle],[fn_Meta]) VALUES ('"&Name&"','"&FileName&"',"&Order&",'"&Content&"',"&CLng(IsHidden)&","&SidebarID&",'"&HtmlID&"','"&Ftype&"',"&MaxLi&",'"&Source&"','"&ViewType&"',"&CLng(IsHideTitle)&",'"&MetaString&"')")
 
@@ -5534,7 +5555,7 @@ Class TFunction
 		Else
 			If InDataBase Then
 				objConn.Execute("UPDATE [blog_Function] SET [fn_Name]='"&Name&"',[fn_FileName]='"&FileName&"',[fn_Order]="&Order&",[fn_Content]='"&Content&"',[fn_IsHidden]="&CLng(IsHidden)&",[fn_SidebarID]="&SidebarID&",[fn_HtmlID]='"&HtmlID&"',[fn_Ftype]='"&Ftype&"',[fn_MaxLi]="&MaxLi&",[fn_Source]='"&Source&"',[fn_ViewType]='"&ViewType&"',[fn_IsHideTitle]="&CLng(IsHideTitle)&",[fn_Meta]='"&MetaString&"' WHERE [fn_ID] =" & ID)
-			End If		
+			End If
 		End If
 
 		Content=sContent
@@ -5664,11 +5685,11 @@ Class TFunction
 		Dim html,i,j,s,RE
 		html=strFunction
 
-		Set RE = New RegExp 
-		RE.IgnoreCase = True 
-		RE.Global = True 
+		Set RE = New RegExp
+		RE.IgnoreCase = True
+		RE.Global = True
 
-		If IsHideTitle=True Then 
+		If IsHideTitle=True Then
 			RE.Pattern = "<#template:function_title:begin#>(.|\n)*<#template:function_title:end#>"
 			html = RE.Replace(html, "")
 		Else
@@ -5779,7 +5800,7 @@ Class TFunction
 		If (ID=0) Then Del=False:Exit Function
 
 		objConn.Execute("DELETE FROM [blog_Function] WHERE [fn_ID] =" & ID)
-		
+
 		InDataBase=False
 
 		Call DelFile()
@@ -5854,7 +5875,7 @@ Class TCounter
 			LoadInfoById=True
 		End If
 	End Function
-	
+
 	Public Function LoadInfoByArray(objRs)
 
 		If IsArray(objRs)=True Then
@@ -5902,17 +5923,17 @@ Class TCounter
 		m=m&"'"&vbsescape(j(i))&"'"
 		m=m&")"
 		objConn.Execute m
-		
+
 		ID=objConn.Execute("SELECT MAX([coun_ID]) FROM [blog_Counter]")(0)
 	End Function
-	
+
 	Public Function GetUrl
 		GetUrl=Request.ServerVariables("HTTP_METHOD")&": "
 		GetUrl=GetUrl&IIf(LCase(Request.ServerVariables("HTTPS"))="off","http://","https://")
-		GetUrl=GetUrl & Request.ServerVariables("SERVER_NAME") 
+		GetUrl=GetUrl & Request.ServerVariables("SERVER_NAME")
 		GetUrl=IIf(Request.ServerVariables("SERVER_PORT")<>80,GetUrl&":"&Request.ServerVariables("SERVER_PORT"),GetUrl)
-		GetUrl=GetUrl&Request.ServerVariables("URL") 
-		GetUrl=IIf(Trim(Request.QueryString)<>"",GetUrl&"?"&Trim(Request.QueryString),GetUrl) 
+		GetUrl=GetUrl&Request.ServerVariables("URL")
+		GetUrl=IIf(Trim(Request.QueryString)<>"",GetUrl&"?"&Trim(Request.QueryString),GetUrl)
 	End Function
 
 	Function DelOld(interval, old)
@@ -6042,7 +6063,7 @@ Class UpLoadClass
 			m_binForm.Write Request.BinaryRead(lngChunkByte)
 			lngReadSize=lngReadSize+lngChunkByte
 			if  lngReadSize >= lngRequestSize then exit do
-		loop		
+		loop
 		m_binForm.Position=0
 		Dim binRequestData : binRequestData=m_binForm.Read()
 
@@ -6186,7 +6207,7 @@ Class UpLoadClass
 		loop Until p_start+3>lngRequestSize
 		FormItem=Split(strFormItem,strSplit)
 		FileItem=Split(strFileItem,strSplit)
-		
+
 		Open = lngRequestSize
 	End Function
 
@@ -6293,7 +6314,7 @@ Class UpLoadClass
 
 	Private Function Str2Num(str, base)
 		Dim ret, i
-		ret = 0 
+		ret = 0
 		for i = 1 to Len(str)
 			ret = ret * base + Cint(Mid(str, i, 1))
 	Next

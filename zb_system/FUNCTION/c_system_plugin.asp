@@ -3920,9 +3920,27 @@ Function Filter_Plugin_TFunction_LoadInfoByID(ByRef ID,ByRef Name,ByRef FileName
 End Function
 
 
+'**************************************************<
+'类型:filter
+'名称:Filter_Plugin_TNewRss2Export_PreExeOrSave
+'参数:objRSS,flag
+'说明:"Execute" Or "SaveToFile"
+'调用:
+'**************************************************>
+Dim sFilter_Plugin_TNewRss2Export_PreExeOrSave
+Function Filter_Plugin_TNewRss2Export_PreExeOrSave(ByRef objRSS,flag)
 
+	Dim s,i
 
+	If sFilter_Plugin_TNewRss2Export_PreExeOrSave="" Then Exit Function
 
+	s=Split(sFilter_Plugin_TNewRss2Export_PreExeOrSave,"|")
+
+	For i=0 To UBound(s)-1
+		Call Execute(s(i) & " " & "objRSS,flag")
+	Next
+
+End Function
 
 
 
