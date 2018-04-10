@@ -395,9 +395,12 @@ Const adSaveCreateOverWrite=2
 
 '-------------------------------语言包系统------------------------------
 Dim MsgCount
+Dim MsgString
+MsgString = ""
 For MsgCount=1 To 350
-	Call Execute("Dim ZC_MSG" & Right("000"&MsgCount,3))
+	MsgString = MsgString & vbCrLf & "Dim ZC_MSG" & Right("000"&MsgCount,3)
 Next
+Call Execute(MsgString)
 Dim ZVA_Article_Level_Name(4)
 Dim ZVA_User_Level_Name(5)
 Dim ZVA_Month(12)
