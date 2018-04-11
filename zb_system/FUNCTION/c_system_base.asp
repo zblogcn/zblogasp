@@ -2443,7 +2443,26 @@ End Function
 '*********************************************************
 
 
+'*********************************************************
+' 目的：挂上Response接口
+' 参数：'plugname:接口名称
+		'parameter:要写入的内容
+'*********************************************************
+Dim String_Response_Plugin_ByOnce
+String_Response_Plugin_ByOnce = ""
+Function DelayAdd_Response_Plugin(plugname,parameter)
+	On Error Resume Next
+	String_Response_Plugin_ByOnce = String_Response_Plugin_ByOnce & vbCrLf & plugname & "=" & plugname & "&""" & Replace(Replace(Replace(Replace(parameter,"""",""""""),vbCrlf,"""&vbCrlf&"""),vbLf,"""&vbLf&"""),vbCr,"""&vbCr&""") & """"
+	Err.Clear
+End Function
+'*********************************************************
 
+Function Execute_Response_Plugin()
+	On Error Resume Next
+	Call Execute(String_Response_Plugin_ByOnce)
+	String_Response_Plugin_ByOnce = ""
+	Err.Clear
+End Function
 
 '*********************************************************
 ' 目的：GetSettingFormName
@@ -3811,25 +3830,26 @@ Function CreateAdminLeftMenu()
 '强制清空Menu,防止某些插件提前插入造成排在系统菜单之前,插件插入菜单要在系统初始化完成后
 Response_Plugin_Admin_Left=""
 
-Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("ArticleEdt"),ZC_MSG168,BlogHost&"zb_system/cmd.asp?act=ArticleEdt&amp;webedit="&ZC_BLOG_WEBEDIT,"nav_new","aArticleEdt",""))
-Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("ArticleMng"),ZC_MSG067,BlogHost&"zb_system/cmd.asp?act=ArticleMng","nav_article","aArticleMng",""))
-Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("ArticleAll"),ZC_MSG111,BlogHost&"zb_system/cmd.asp?act=ArticleMng&amp;type=Page","nav_page","aPageMng",""))
+Call DelayAdd_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("ArticleEdt"),ZC_MSG168,BlogHost&"zb_system/cmd.asp?act=ArticleEdt&amp;webedit="&ZC_BLOG_WEBEDIT,"nav_new","aArticleEdt",""))
+Call DelayAdd_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("ArticleMng"),ZC_MSG067,BlogHost&"zb_system/cmd.asp?act=ArticleMng","nav_article","aArticleMng",""))
+Call DelayAdd_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("ArticleAll"),ZC_MSG111,BlogHost&"zb_system/cmd.asp?act=ArticleMng&amp;type=Page","nav_page","aPageMng",""))
 
-Call Add_Response_Plugin("Response_Plugin_Admin_Left","<li class='split'><hr/></li>")
+Call DelayAdd_Response_Plugin("Response_Plugin_Admin_Left","<li class='split'><hr/></li>")
 
 
-Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("CategoryMng"),ZC_MSG066,BlogHost&"zb_system/cmd.asp?act=CategoryMng","nav_category","aCategoryMng",""))
-Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("TagMng"),ZC_MSG141,BlogHost&"zb_system/cmd.asp?act=TagMng","nav_tags","aTagMng",""))
-Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("CommentMng"),ZC_MSG068,BlogHost&"zb_system/cmd.asp?act=CommentMng","nav_comments","aCommentMng",""))
-Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("FileMng"),ZC_MSG071,BlogHost&"zb_system/cmd.asp?act=FileMng","nav_accessories","aFileMng",""))
-Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("UserMng"),ZC_MSG070,BlogHost&"zb_system/cmd.asp?act=UserMng","nav_user","aUserMng",""))
+Call DelayAdd_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("CategoryMng"),ZC_MSG066,BlogHost&"zb_system/cmd.asp?act=CategoryMng","nav_category","aCategoryMng",""))
+Call DelayAdd_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("TagMng"),ZC_MSG141,BlogHost&"zb_system/cmd.asp?act=TagMng","nav_tags","aTagMng",""))
+Call DelayAdd_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("CommentMng"),ZC_MSG068,BlogHost&"zb_system/cmd.asp?act=CommentMng","nav_comments","aCommentMng",""))
+Call DelayAdd_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("FileMng"),ZC_MSG071,BlogHost&"zb_system/cmd.asp?act=FileMng","nav_accessories","aFileMng",""))
+Call DelayAdd_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("UserMng"),ZC_MSG070,BlogHost&"zb_system/cmd.asp?act=UserMng","nav_user","aUserMng",""))
 
-Call Add_Response_Plugin("Response_Plugin_Admin_Left","<li class='split'><hr/></li>")
+Call DelayAdd_Response_Plugin("Response_Plugin_Admin_Left","<li class='split'><hr/></li>")
 
-Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("ThemeMng"),ZC_MSG223,BlogHost&"zb_system/cmd.asp?act=ThemeMng","nav_themes","aThemeMng",""))
-Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("FunctionMng"),ZC_MSG007,BlogHost&"zb_system/cmd.asp?act=FunctionMng","nav_function","aFunctionMng",""))
-Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("PlugInMng"),ZC_MSG107,BlogHost&"zb_system/cmd.asp?act=PlugInMng","nav_plugin","aPlugInMng",""))
+Call DelayAdd_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("ThemeMng"),ZC_MSG223,BlogHost&"zb_system/cmd.asp?act=ThemeMng","nav_themes","aThemeMng",""))
+Call DelayAdd_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("FunctionMng"),ZC_MSG007,BlogHost&"zb_system/cmd.asp?act=FunctionMng","nav_function","aFunctionMng",""))
+Call DelayAdd_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("PlugInMng"),ZC_MSG107,BlogHost&"zb_system/cmd.asp?act=PlugInMng","nav_plugin","aPlugInMng",""))
 
+Call Execute_Response_Plugin()
 
 End Function
 '*********************************************************
@@ -3844,12 +3864,13 @@ Function CreateAdminTopMenu()
 
 Response_Plugin_Admin_Top=""
 
-Call Add_Response_Plugin("Response_Plugin_Admin_Top",MakeTopMenu(GetRights("admin"),ZC_MSG245,BlogHost&"zb_system/cmd.asp?act=admin","",""))
-Call Add_Response_Plugin("Response_Plugin_Admin_Top",MakeTopMenu(GetRights("SettingMng"),ZC_MSG247,BlogHost&"zb_system/cmd.asp?act=SettingMng","",""))
+Call DelayAdd_Response_Plugin("Response_Plugin_Admin_Top",MakeTopMenu(GetRights("admin"),ZC_MSG245,BlogHost&"zb_system/cmd.asp?act=admin","",""))
+Call DelayAdd_Response_Plugin("Response_Plugin_Admin_Top",MakeTopMenu(GetRights("SettingMng"),ZC_MSG247,BlogHost&"zb_system/cmd.asp?act=SettingMng","",""))
 If Not ZC_POST_STATIC_MODE<>"STATIC" Then
-	Call Add_Response_Plugin("Response_Plugin_Admin_Top",MakeTopMenu(GetRights("AskFileReBuild"),ZC_MSG073,BlogHost&"zb_system/cmd.asp?act=AskFileReBuild","",""))
+	Call DelayAdd_Response_Plugin("Response_Plugin_Admin_Top",MakeTopMenu(GetRights("AskFileReBuild"),ZC_MSG073,BlogHost&"zb_system/cmd.asp?act=AskFileReBuild","",""))
 End If
 
+Call Execute_Response_Plugin()
 
 End Function
 '*********************************************************
