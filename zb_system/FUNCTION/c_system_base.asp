@@ -176,10 +176,14 @@ Sub System_Initialize()
 
 	TemplateTagsDic.Item("ZC_BLOG_HOST")=BlogHost
 
+	Boolean_Delay_Plugin_Signal = True
+
 	Call LoadGlobeCache()
 	Call CreateAdminLeftMenu()
 	Call CreateAdminTopMenu()
 	Call ActivePlugin()
+
+	Boolean_Delay_Plugin_Signal = False
 
 	Call Execute_Action_Plugin()
 	Call Execute_Filter_Plugin()
@@ -3892,8 +3896,6 @@ End Function
 '*********************************************************
 Function CreateAdminLeftMenu()
 
-Boolean_Delay_Plugin_Signal = True
-
 '强制清空Menu,防止某些插件提前插入造成排在系统菜单之前,插件插入菜单要在系统初始化完成后
 Response_Plugin_Admin_Left=""
 
@@ -3916,8 +3918,6 @@ Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("Th
 Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("FunctionMng"),ZC_MSG007,BlogHost&"zb_system/cmd.asp?act=FunctionMng","nav_function","aFunctionMng",""))
 Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("PlugInMng"),ZC_MSG107,BlogHost&"zb_system/cmd.asp?act=PlugInMng","nav_plugin","aPlugInMng",""))
 
-Boolean_Delay_Plugin_Signal = False
-
 End Function
 '*********************************************************
 
@@ -3929,8 +3929,6 @@ End Function
 '*********************************************************
 Function CreateAdminTopMenu()
 
-Boolean_Delay_Plugin_Signal = True
-
 Response_Plugin_Admin_Top=""
 
 Call Add_Response_Plugin("Response_Plugin_Admin_Top",MakeTopMenu(GetRights("admin"),ZC_MSG245,BlogHost&"zb_system/cmd.asp?act=admin","",""))
@@ -3938,8 +3936,6 @@ Call Add_Response_Plugin("Response_Plugin_Admin_Top",MakeTopMenu(GetRights("Sett
 If Not ZC_POST_STATIC_MODE<>"STATIC" Then
 	Call Add_Response_Plugin("Response_Plugin_Admin_Top",MakeTopMenu(GetRights("AskFileReBuild"),ZC_MSG073,BlogHost&"zb_system/cmd.asp?act=AskFileReBuild","",""))
 End If
-
-Boolean_Delay_Plugin_Signal = False
 
 End Function
 '*********************************************************
