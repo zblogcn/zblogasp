@@ -144,13 +144,17 @@ ZC_BLOG_VERSION=Replace(BlogVersions.GetValue(BlogVersions.Names(1)),"Z-Blog ","
 
 Response.AddHeader "Product","Z-Blog " & ZC_BLOG_VERSION
 
+
+'定义了一个布尔信号，为了解决Server 2016下的Execute问题，真是日了狗了
+Dim Boolean_Delay_Plugin_Signal
+Boolean_Delay_Plugin_Signal = False
+
 '*********************************************************
 ' 目的：    System 初始化
 '*********************************************************
 Sub System_Initialize()
 
 	'Call ActivePlugin()
-
 	If OpenConnect()=False Then
 		Call ShowError(4)
 	End If
@@ -176,6 +180,11 @@ Sub System_Initialize()
 	Call CreateAdminLeftMenu()
 	Call CreateAdminTopMenu()
 	Call ActivePlugin()
+
+	Call Execute_Action_Plugin()
+	Call Execute_Filter_Plugin()
+	Call Execute_Response_Plugin()
+
 	'plugin node
 	bAction_Plugin_System_Initialize=False
 	For Each sAction_Plugin_System_Initialize in Action_Plugin_System_Initialize
@@ -2403,6 +2412,10 @@ End Function
 		'actioncode:要执行的语句，要转义为Execute可执行语句
 '*********************************************************
 Function Add_Action_Plugin(plugname,actioncode)
+	If Boolean_Delay_Plugin_Signal = True Then
+		Call DelayAdd_Action_Plugin(plugname,actioncode)
+		Exit Function
+	End If
 	On Error Resume Next
 	actioncode=Replace(actioncode,"Exit Function","b" & plugname & "=True")
 	actioncode=Replace(actioncode,"Exit Sub","b" & plugname & "=True")
@@ -2417,13 +2430,61 @@ End Function
 
 
 '*********************************************************
+Dim String_Action_Plugin_ByOnce
+String_Action_Plugin_ByOnce = ""
+Function DelayAdd_Action_Plugin(plugname,actioncode)
+	On Error Resume Next
+	String_Action_Plugin_ByOnce = String_Action_Plugin_ByOnce & vbCrLf & "ReDim Preserve " & plugname & "(UBound("& plugname &")+1)"
+	actioncode=Replace(actioncode,"Exit Function","b" & plugname & "=True")
+	actioncode=Replace(actioncode,"Exit Sub","b" & plugname & "=True")
+	actioncode=Replace(actioncode,"Exit Property","b" & plugname & "=True")
+	String_Action_Plugin_ByOnce = String_Action_Plugin_ByOnce & vbCrLf & plugname & "(UBound("& plugname &"))=" & plugname & "(UBound("& plugname &"))&""" & Replace(actioncode,"""","""""") & """" & ":"
+	Err.Clear
+End Function
+Function Execute_Action_Plugin()
+	On Error Resume Next
+	If String_Action_Plugin_ByOnce ="" Then Exit Function
+	Call Execute(String_Action_Plugin_ByOnce)
+	String_Action_Plugin_ByOnce = ""
+	Err.Clear
+End Function
+'*********************************************************
+
+
+
+
+'*********************************************************
 ' 目的：挂上Filter接口
 ' 参数：'plugname:接口名称
 		'functionname:要挂接的函数名
 '*********************************************************
 Function Add_Filter_Plugin(plugname,functionname)
+	If Boolean_Delay_Plugin_Signal = True Then
+		Call DelayAdd_Filter_Plugin(plugname,functionname)
+		Exit Function
+	End If
 	On Error Resume Next
 	Call Execute("s" & plugname & "=" & "s" & plugname & "&""" & functionname & """" & "& ""|""")
+	Err.Clear
+End Function
+'*********************************************************
+
+
+
+
+'*********************************************************
+Dim String_Filter_Plugin_ByOnce
+String_Filter_Plugin_ByOnce = ""
+Function DelayAdd_Filter_Plugin(plugname,functionname)
+	On Error Resume Next
+	String_Filter_Plugin_ByOnce = String_Filter_Plugin_ByOnce & vbCrLf & "s" & plugname & "=" & "s" & plugname & "&""" & functionname & """" & "& ""|"""
+	Err.Clear
+End Function
+Function Execute_Filter_Plugin()
+	On Error Resume Next
+	If String_Filter_Plugin_ByOnce ="" Then Exit Function
+	Call Execute(String_Filter_Plugin_ByOnce)
+	String_Filter_Plugin_ByOnce = ""
 	Err.Clear
 End Function
 '*********************************************************
@@ -2437,6 +2498,10 @@ End Function
 		'parameter:要写入的内容
 '*********************************************************
 Function Add_Response_Plugin(plugname,parameter)
+	If Boolean_Delay_Plugin_Signal = True Then
+		Call DelayAdd_Response_Plugin(plugname,parameter)
+		Exit Function
+	End If
 	On Error Resume Next
 	Call Execute(plugname & "=" & plugname & "&""" & Replace(Replace(Replace(Replace(parameter,"""",""""""),vbCrlf,"""&vbCrlf&"""),vbLf,"""&vbLf&"""),vbCr,"""&vbCr&""") & """")
 	Err.Clear
@@ -2444,10 +2509,7 @@ End Function
 '*********************************************************
 
 
-'*********************************************************
-' 目的：挂上Response接口
-' 参数：'plugname:接口名称
-		'parameter:要写入的内容
+
 '*********************************************************
 Dim String_Response_Plugin_ByOnce
 String_Response_Plugin_ByOnce = ""
@@ -2456,14 +2518,16 @@ Function DelayAdd_Response_Plugin(plugname,parameter)
 	String_Response_Plugin_ByOnce = String_Response_Plugin_ByOnce & vbCrLf & plugname & "=" & plugname & "&""" & Replace(Replace(Replace(Replace(parameter,"""",""""""),vbCrlf,"""&vbCrlf&"""),vbLf,"""&vbLf&"""),vbCr,"""&vbCr&""") & """"
 	Err.Clear
 End Function
-'*********************************************************
-
 Function Execute_Response_Plugin()
 	On Error Resume Next
+	If String_Response_Plugin_ByOnce ="" Then Exit Function
 	Call Execute(String_Response_Plugin_ByOnce)
 	String_Response_Plugin_ByOnce = ""
 	Err.Clear
 End Function
+'*********************************************************
+
+
 
 '*********************************************************
 ' 目的：GetSettingFormName
@@ -3828,29 +3892,31 @@ End Function
 '*********************************************************
 Function CreateAdminLeftMenu()
 
+Boolean_Delay_Plugin_Signal = True
+
 '强制清空Menu,防止某些插件提前插入造成排在系统菜单之前,插件插入菜单要在系统初始化完成后
 Response_Plugin_Admin_Left=""
 
-Call DelayAdd_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("ArticleEdt"),ZC_MSG168,BlogHost&"zb_system/cmd.asp?act=ArticleEdt&amp;webedit="&ZC_BLOG_WEBEDIT,"nav_new","aArticleEdt",""))
-Call DelayAdd_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("ArticleMng"),ZC_MSG067,BlogHost&"zb_system/cmd.asp?act=ArticleMng","nav_article","aArticleMng",""))
-Call DelayAdd_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("ArticleAll"),ZC_MSG111,BlogHost&"zb_system/cmd.asp?act=ArticleMng&amp;type=Page","nav_page","aPageMng",""))
+Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("ArticleEdt"),ZC_MSG168,BlogHost&"zb_system/cmd.asp?act=ArticleEdt&amp;webedit="&ZC_BLOG_WEBEDIT,"nav_new","aArticleEdt",""))
+Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("ArticleMng"),ZC_MSG067,BlogHost&"zb_system/cmd.asp?act=ArticleMng","nav_article","aArticleMng",""))
+Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("ArticleAll"),ZC_MSG111,BlogHost&"zb_system/cmd.asp?act=ArticleMng&amp;type=Page","nav_page","aPageMng",""))
 
-Call DelayAdd_Response_Plugin("Response_Plugin_Admin_Left","<li class='split'><hr/></li>")
+Call Add_Response_Plugin("Response_Plugin_Admin_Left","<li class='split'><hr/></li>")
 
 
-Call DelayAdd_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("CategoryMng"),ZC_MSG066,BlogHost&"zb_system/cmd.asp?act=CategoryMng","nav_category","aCategoryMng",""))
-Call DelayAdd_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("TagMng"),ZC_MSG141,BlogHost&"zb_system/cmd.asp?act=TagMng","nav_tags","aTagMng",""))
-Call DelayAdd_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("CommentMng"),ZC_MSG068,BlogHost&"zb_system/cmd.asp?act=CommentMng","nav_comments","aCommentMng",""))
-Call DelayAdd_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("FileMng"),ZC_MSG071,BlogHost&"zb_system/cmd.asp?act=FileMng","nav_accessories","aFileMng",""))
-Call DelayAdd_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("UserMng"),ZC_MSG070,BlogHost&"zb_system/cmd.asp?act=UserMng","nav_user","aUserMng",""))
+Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("CategoryMng"),ZC_MSG066,BlogHost&"zb_system/cmd.asp?act=CategoryMng","nav_category","aCategoryMng",""))
+Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("TagMng"),ZC_MSG141,BlogHost&"zb_system/cmd.asp?act=TagMng","nav_tags","aTagMng",""))
+Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("CommentMng"),ZC_MSG068,BlogHost&"zb_system/cmd.asp?act=CommentMng","nav_comments","aCommentMng",""))
+Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("FileMng"),ZC_MSG071,BlogHost&"zb_system/cmd.asp?act=FileMng","nav_accessories","aFileMng",""))
+Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("UserMng"),ZC_MSG070,BlogHost&"zb_system/cmd.asp?act=UserMng","nav_user","aUserMng",""))
 
-Call DelayAdd_Response_Plugin("Response_Plugin_Admin_Left","<li class='split'><hr/></li>")
+Call Add_Response_Plugin("Response_Plugin_Admin_Left","<li class='split'><hr/></li>")
 
-Call DelayAdd_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("ThemeMng"),ZC_MSG223,BlogHost&"zb_system/cmd.asp?act=ThemeMng","nav_themes","aThemeMng",""))
-Call DelayAdd_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("FunctionMng"),ZC_MSG007,BlogHost&"zb_system/cmd.asp?act=FunctionMng","nav_function","aFunctionMng",""))
-Call DelayAdd_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("PlugInMng"),ZC_MSG107,BlogHost&"zb_system/cmd.asp?act=PlugInMng","nav_plugin","aPlugInMng",""))
+Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("ThemeMng"),ZC_MSG223,BlogHost&"zb_system/cmd.asp?act=ThemeMng","nav_themes","aThemeMng",""))
+Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("FunctionMng"),ZC_MSG007,BlogHost&"zb_system/cmd.asp?act=FunctionMng","nav_function","aFunctionMng",""))
+Call Add_Response_Plugin("Response_Plugin_Admin_Left",MakeLeftMenu(GetRights("PlugInMng"),ZC_MSG107,BlogHost&"zb_system/cmd.asp?act=PlugInMng","nav_plugin","aPlugInMng",""))
 
-Call Execute_Response_Plugin()
+Boolean_Delay_Plugin_Signal = False
 
 End Function
 '*********************************************************
@@ -3863,15 +3929,17 @@ End Function
 '*********************************************************
 Function CreateAdminTopMenu()
 
+Boolean_Delay_Plugin_Signal = True
+
 Response_Plugin_Admin_Top=""
 
-Call DelayAdd_Response_Plugin("Response_Plugin_Admin_Top",MakeTopMenu(GetRights("admin"),ZC_MSG245,BlogHost&"zb_system/cmd.asp?act=admin","",""))
-Call DelayAdd_Response_Plugin("Response_Plugin_Admin_Top",MakeTopMenu(GetRights("SettingMng"),ZC_MSG247,BlogHost&"zb_system/cmd.asp?act=SettingMng","",""))
+Call Add_Response_Plugin("Response_Plugin_Admin_Top",MakeTopMenu(GetRights("admin"),ZC_MSG245,BlogHost&"zb_system/cmd.asp?act=admin","",""))
+Call Add_Response_Plugin("Response_Plugin_Admin_Top",MakeTopMenu(GetRights("SettingMng"),ZC_MSG247,BlogHost&"zb_system/cmd.asp?act=SettingMng","",""))
 If Not ZC_POST_STATIC_MODE<>"STATIC" Then
-	Call DelayAdd_Response_Plugin("Response_Plugin_Admin_Top",MakeTopMenu(GetRights("AskFileReBuild"),ZC_MSG073,BlogHost&"zb_system/cmd.asp?act=AskFileReBuild","",""))
+	Call Add_Response_Plugin("Response_Plugin_Admin_Top",MakeTopMenu(GetRights("AskFileReBuild"),ZC_MSG073,BlogHost&"zb_system/cmd.asp?act=AskFileReBuild","",""))
 End If
 
-Call Execute_Response_Plugin()
+Boolean_Delay_Plugin_Signal = False
 
 End Function
 '*********************************************************
