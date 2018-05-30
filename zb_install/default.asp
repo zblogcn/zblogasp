@@ -175,7 +175,7 @@ Z-Blog官方网址：http://www.zblogcn.com
 
 为了使您正确并合法的使用本软件，请您在使用前务必阅读清楚下面的协议条款： 
 
-一、本授权协议适用且仅适用于 Z-Blog 2.2 版本，Rainbow Studio官方对本授权协议拥有最终解释权。
+一、本授权协议适用且仅适用于 Z-Blog 2.3 版本，Rainbow Studio官方对本授权协议拥有最终解释权。
 
 二、协议许可的权利
 
@@ -568,21 +568,21 @@ Function Setup3()
 <div id="title">数据库建立与设置</div>
 <div id="content">
 <input type="hidden" name="dbtype" id="dbtype" value="access" />
-<p><b>类型选择</b>:&nbsp;&nbsp;<label onClick="$('#mssql').hide();$('#access').show();$('#dbtype').val('access');"><input type="radio" name="db" checked="checked" />Access</label>&nbsp;&nbsp;&nbsp;&nbsp;<label onClick="$('#access').hide();$('#mssql').show();$('#dbtype').val('mssql');"><input type="radio" name="db" />MSSQL</label></p>
+<p><b>类型选择</b>:&nbsp;<label onClick="$('#mssql').hide();$('#access').show();$('#dbtype').val('access');"><input type="radio" name="db" checked="checked" />Access</label>&nbsp;&nbsp;&nbsp;&nbsp;<label onClick="$('#access').hide();$('#mssql').show();$('#dbtype').val('mssql');"><input type="radio" name="db" />MSSQL</label></p>
 <div id="access">
-<p><b>数&nbsp;据&nbsp;库:</b>&nbsp;&nbsp;<input type="text" name="dbpath" id="dbpath" value="#%20<%=LCase(Replace(RndGuid(),"-",""))%>.mdb" readonly style="width:350px;" /></p>
+<p><b style="width:150px;">数据库:</b>&nbsp;&nbsp;<input type="text" name="dbpath" id="dbpath" value="#%20<%=LCase(Replace(RndGuid(),"-",""))%>.mdb" readonly style="width:350px;" /></p>
 </div>
 <div id="mssql" style="display:none;">
 <p><b>数据库主机:</b><input type="text" name="dbserver" id="dbserver" value="(local)" style="width:350px;" /></p>
 <p><b>数据库名称:</b><input type="text" name="dbname" id="dbname" value="" style="width:350px;" /></p>
-<p><b>用户名称:</b>&nbsp;&nbsp;<input type="text" name="dbusername" id="dbusername" value="" style="width:350px;" /></p>
-<p><b>用户密码:</b>&nbsp;&nbsp;<input type="text" name="dbpassword" id="dbpassword" value="" style="width:350px;" /></p>
+<p><b>用户名称:</b>&nbsp;<input type="text" name="dbusername" id="dbusername" value="" style="width:350px;" /></p>
+<p><b>用户密码:</b>&nbsp;<input type="text" name="dbpassword" id="dbpassword" value="" style="width:350px;" /></p>
 </div>
 <p class="title">网站设置</p>
-<p><b>网站名称:</b>&nbsp;&nbsp;<input type="text" name="blogtitle" id="blogtitle" value="" style="width:250px;" /></p>
-<p><b>用&nbsp;户&nbsp;名:</b>&nbsp;&nbsp;<input type="text" name="username" id="username" value="" style="width:250px;" />&nbsp;(英文,数字,汉字和._的组合)</p>
-<p><b>密&nbsp;&nbsp;&nbsp;&nbsp;码:</b>&nbsp;&nbsp;<input type="password" name="password" id="password" value="" style="width:250px;" />&nbsp;(8位或更长的数字和字母,字符组合)</p>
-<p><b>确认密码:</b>&nbsp;&nbsp;<input type="password" name="repassword" id="repassword" value="" style="width:250px;" /></p>
+<p><b>网站名称:</b>&nbsp;<input type="text" name="blogtitle" id="blogtitle" value="" style="width:250px;" /></p>
+<p><b>用户名:</b>&nbsp;&nbsp;<input type="text" name="username" id="username" value="" style="width:250px;" />&nbsp;(英文,数字,汉字和._的组合)</p>
+<p><b>密码:</b>&nbsp;&nbsp;&nbsp;<input type="password" name="password" id="password" value="" style="width:250px;" />&nbsp;(8位或更长的数字和字母,字符组合)</p>
+<p><b>确认密码:</b>&nbsp;<input type="password" name="repassword" id="repassword" value="" style="width:250px;" /></p>
 </div>
 <div id="bottom">
 <input type="submit" name="next" id="netx" onClick="return Setup3()" value="下一步" />
@@ -912,7 +912,7 @@ t.IsHidden=False
 t.Source="system"
 t.SidebarID=1
 t.Order=9
-t.Content="<li><a href=""http://bbs.zblogcn.com/"" target=""_blank"">ZBlogger社区</a></li><li><a href=""http://app.rainbowsoft.org/"" target=""_blank"">应用中心</a></li><li><a href=""http://t.qq.com/zblogcn"" target=""_blank"">Z-Blog微博</a></li>"
+t.Content="<li><a href=""https://bbs.zblogcn.com/"" target=""_blank"">ZBlogger社区</a></li><li><a href=""https://app.zblogcn.com/"" target=""_blank"">应用中心</a></li>"
 t.HtmlID="divFavorites"
 t.Ftype="ul"
 t.post
@@ -927,7 +927,7 @@ t.IsHidden=False
 t.Source="system"
 t.SidebarID=1
 t.Order=10
-t.Content="<li><a href=""https://zbloghost.cn/"" target=""_blank"" title=""Z-Blog官方主机"">ZBlog官方主机</a></li><li><a href=""http://blog.zblogcn.com/"" target=""_blank"">Z-Blog官方博客</a></li>"
+t.Content="<li><a href=""https://zbloghost.cn/"" target=""_blank"" title=""Z-Blog官方主机"">ZBlog官方主机</a></li><li><a href=""https://blog.zblogcn.com/"" target=""_blank"">Z-Blog官方博客</a></li>"
 t.HtmlID="divLinkage"
 t.Ftype="ul"
 t.post
@@ -1134,7 +1134,7 @@ Call BlogConfig.Write("ZC_UPLOAD_DIRECTORY","zb_users\upload")
 
 
 '当前 Z-Blog 版本
-Call BlogConfig.Write("ZC_BLOG_VERSION","2.2 Prism Build 130722")
+Call BlogConfig.Write("ZC_BLOG_VERSION","2.3 Avengers Build 180518")
 
 
 
